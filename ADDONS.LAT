@@ -1,0 +1,1201 @@
+--  This file lists, in human readable and editable form, a set of 
+--  "ADDONS" for the LATIN program.  ADDONS are prefixes, suffixes
+--  and enclitic type fragments used in latin word formation.
+--
+--  While this "word formation" ability is, in principle, very powerful,
+--  in practice, most of the common constructed words are in the dictionary
+--  by themselves, so the number of prefix hits are smaller than might be 
+--  anticipated.  When there is a hit, that is, the full word was not found
+--  in the dictionary but the base stem was found after removing the ADDON,
+--  the resulting word/meaning is correct and fairly clear about 75% of
+--  the time.  In many of the remaining cases, the construction is true,
+--  but the usage of the word has strayed a bit and it may be a stretch to
+--  make the association.  In about 10% of the cases, the construction is 
+--  just wrong, the word was simply derived from a different root.
+--
+--  The present algorithms can handle one prefix, one suffix, and one tackon
+--  in the same word, i.e., a two suffix situation (if such exists) will fail.
+--  {Need to make an exception for the formation of COMP, SUPER, ADV from ADJ}
+--
+--  The question remains as to whether there are too many, especially suffixes,
+--  so that excessive aritficial words are created - are we too imaginative?
+--  We will do a number of experiments when there is a sufficient data base.
+--
+--  This list can be modified by the user.  It is read in each time
+--  the latin program is initiated, so is always current.
+--
+--
+--  PREFIX is a fragment added to the beginning of a stem to modify or 
+--  reinforce the meaning.  "ante" added to a verb gives the meaning 
+--  "before" (ante-cedo = before-move => precede).  This does not
+--  impact the addition of inflections on the end of the word.
+--
+--  Each PREFIX entry leads off with the identifier "PREFIX".
+--
+--  This is followed (separated by a space) by the prefix itself.
+--
+--  In the formulation used by this program, there may be a connecting
+--  character associated with the prefix.  For example, the prefix "ad",
+--  meaning "to", when applied to a word beginning with "c" changes to "ac".
+--  Thus with curro (run) we get ac-curro, "run to".  The CONNECT character,
+--  if any, is placed after the prefix, on the same line.
+--
+--  Prefixes may be thought of as not changing the base part of
+--  speech.  "ante" is applied to a verb stem and converts it to 
+--  another verb stem.  The same prefix may have different meanings 
+--  when applied to different parts.  "sub" applied to an adjective
+--  adds the meaning "somewhat", when applied to a verb it means "under".
+--  The parts of speech (from and to) are listed on the second line,
+--  but are always the same.  The redundency is the result of a generality
+--  built into the data structure initially and never changed.
+--  
+--  The third line gives the meaning, using 78 characters or less.
+--
+--  There is provision for AGE, AREA, GEO, FREQ, or SOURCE flags.
+--
+--  The order of this list is important.  The program checks in order.
+--  One should check to see if "extra" is possible before trying "ex".
+--  The longer prefix should be placed earlier in the list.
+--  Otherwise prefixes are listed in alphabetical order.
+--
+--  Most prefixes transform V to V in this system.
+--  The same prefixes can usually be applied to N and ADJ, especially those 
+--  suffix derived from verbs.  The word formation algorithm will usually
+--  make the two steps necessary.  In almost all cases the ADJ ADJ prefixes
+--  apply to those ADV derived from the adjective, but are not so listed here.
+--  
+--  X X prefixes are interpreted by the program as applying to N, ADJ, ADV, abd V.
+--  The program will not attempt to apply them to PRON, NUM, INTERJ or CONJ.
+--
+--  One could make all prefixes X X.  This would asure that no case was missed,
+--  and generally that is the philosophy of the program.  However, that might
+--  also produce excessive nonsense interpretations.  Probably the way to 
+--  proceed is to check the master dictionary (when it is sufficiently large)
+--  to see if there are proper formations with that prefix of other parts of
+--  speach, and to target in a similar manner.  If that prefix is never seen
+--  in classical Latin in a particular formation, the ADDONS table should
+--  probably ignore it.  This is yet to be done, which is one of the reasons
+--  that ADDONS are not coded but left text for easy change.
+--
+--
+--  TICKONS
+--  These are applied to a class of PRON which in the code are designated as PACKons.
+--
+PREFIX ec   
+PACK PACK
+is there any...that? does any? (w/qui, sometimes w/nam) (passionate interrogation);
+PREFIX ne    
+PACK PACK
+not (introducing negative clause, w/qui); verily, truely  (affirmative particle);
+PREFIX nescio
+PACK PACK
+(w/qui/quis) nescioquis=> some (unknown/unspecified), one/someone or other;
+PREFIX neu   
+PACK PACK
+nor, and..not, neither..nor (adding a alternative or prohibition, w/qui);
+PREFIX seu  
+PACK PACK
+or if (w/qui); 
+PREFIX si   
+PACK PACK
+if, when, in so much, even if (assumed fact/wish/unfinished, w/qui); 
+--
+--  Pure PREFIXES
+--
+PREFIX abs
+X X 
+- away, off; - aside;
+PREFIX ab
+V V 
+- away, off; - aside;
+PREFIX ac c
+X X
+- to, towards, near, for, together (adeo => go to);
+PREFIX ac q
+X X 
+- to, towards, near, for, together (adeo => go to);
+PREFIX ad
+X X
+- to, towards, near, for, together (adeo => go to);
+PREFIX aedi
+X X 
+having to do with buildings/temples;
+PREFIX aequi
+X X 
+equi-, equal; 
+PREFIX af f
+X X 
+- to, towards, near, for, together (adeo => go to);
+PREFIX ag g
+X X 
+- to, towards, near, for, together (adeo => go to);
+PREFIX alti
+X X 
+high, lofty;
+PREFIX ambi
+X X 
+around, round about; having two;          
+PREFIX amb 
+X X 
+around, round about; having two;          
+PREFIX amphi
+X X 
+having two/double, (on) both/opposite (sides), front and back;
+PREFIX am    
+X X 
+around, round about; having two;
+PREFIX ante
+X X 
+ante-, - before;
+PREFIX anti
+X X 
+anti-, counter-, against, contrary, opposite/opposed to; for ante-/before;
+PREFIX an   
+X X 
+around, round about; having two;
+PREFIX ap p
+X X 
+- to, towards, near, for, together (adeo => go to);
+PREFIX archi
+X X 
+arch-, chief-, first, master; great; extremely, very;
+PREFIX as s
+X X 
+- to, towards, near, for, together (adeo => go to);
+PREFIX at t
+X X 
+- to, towards, near, for, together (adeo => go to);
+PREFIX auri
+X X 
+golden, gold-; of gold, gold-colored;
+PREFIX au f
+X X 
+- away, off (aufero => make off with, carry away); - aside;
+PREFIX a
+V V 
+- away, off; - aside;
+PREFIX bene
+V V
+well, good
+PREFIX beni
+V V
+well, good;
+PREFIX bis
+X X
+two, twice; double; having two;
+PREFIX bi 
+X X
+two, twice; double; having two;
+PREFIX blandi
+X X 
+sweet-, soothing-, smooth-, charming, flattering;
+PREFIX cardio
+X X 
+cardio-, pertaining to the heart;
+PREFIX  centi
+X X 
+hundred (numerical prefix);
+PREFIX  centu
+X X 
+hundred (numerical prefix);
+PREFIX circum
+X X 
+- around, about, near;
+PREFIX col  l
+X X 
+- together, completely, forcibly, strongly; 
+PREFIX com
+X X 
+- together, completely, forcibly, strongly; 
+PREFIX conn  e
+X X 
+- together, completely, forcibly, strongly; 
+PREFIX conn  i
+X X 
+- together, completely, forcibly, strongly; 
+PREFIX contra
+X X 
+- against;
+PREFIX con
+X X  
+- together; completely, strongly, forcibly, violently;
+PREFIX co 
+X X 
+- together; completely, strongly, forcibly, violently;
+PREFIX  decem
+X X 
+ten (numerical prefix);
+PREFIX  decu
+X X 
+ten (numerical prefix);
+PREFIX de
+V V 
+- down, off, away, from; not; removal, reversal; utterly/completely (intensive);
+PREFIX dif f
+V V 
+- apart/asunder, in different directions; separation/dispersal/process reversal;
+PREFIX dir
+V V 
+- apart/asunder, in different directions; separation/dispersal/process reversal;
+PREFIX dis
+V V 
+- apart/asunder, in different directions; separation/dispersal/process reversal;
+PREFIX di
+N N  
+two-;
+PREFIX di
+V V 
+- apart/asunder, in different directions; separation/dispersal/process reversal;
+PREFIX duode
+NUM NUM
+- less two/two less than (numerical prefix); (duodeviginti => 20 less 2 = 18);
+PREFIX  duoet
+NUM NUM
+two more than (numerical prefix); (duoetviginti => two more than twenty = 22);
+PREFIX  du
+X X 
+two (numerical prefix);
+PREFIX ef f
+V V 
+- out, away from; beyond; completely;
+PREFIX electro
+X X  
+electro-; electrical; electronic;         
+PREFIX extra
+V V 
+- outside;         
+PREFIX ex
+V V 
+- out, away from; beyond; completely;
+PREFIX e
+V V 
+- out, away from; beyond; completely;
+PREFIX inaequi
+X X 
+umequal; 
+PREFIX inter
+V V    
+between, within; at intervals, to pieces;
+PREFIX inter
+N N    
+between, within; at intervals, to pieces;
+PREFIX intra
+V V    
+within, inside; - between, at intervals, to pieces;
+PREFIX intro
+V V    
+within, inside; - between, at intervals, to pieces;
+PREFIX ig n
+V V    
+- in, - on, - against; not -, un-;  
+PREFIX II
+N N    
+two-; second; (Roman numeral for 2); [IIviri/duoviri => 2 man board];  
+PREFIX il l
+V V    
+- in, - on, - against; not -, un-;  
+PREFIX im b
+V V     
+- in, - on, - against; not -, un-;  
+PREFIX im m
+V V     
+- in, - on, - against; not -, un-;  
+PREFIX im p
+V V     
+- in, - on, - against; not -, un-;  
+PREFIX in  
+V V     
+- in, - on, - against; not -, un-;  
+PREFIX in
+ADJ ADJ
+not -, un-, -less;
+PREFIX ir r
+V V      
+- in, - on, - against; not -, un-;  
+PREFIX male
+V V
+ill, bad;
+PREFIX multi
+N N
+much, many;
+PREFIX ne 
+ADV ADV
+not;
+PREFIX non
+V V
+not;
+PREFIX ob
+V V 
+- towards, to meet, in opposition;
+PREFIX  octu
+X X 
+eight (numerical prefix);
+PREFIX of f
+V V 
+- towards, to meet, in opposition;
+PREFIX omni
+ADJ ADJ
+all-, - everywhere;
+PREFIX op p 
+V V 
+- towards, to meet, in opposition;
+PREFIX os t
+V V 
+- towards, to meet, in opposition;
+PREFIX per
+ADJ ADJ
+very -, - completely, - thoroughly;
+PREFIX per
+V V 
+- through, thoroughly, completely, very; adds to the force of the verb;  
+PREFIX por
+V V
+- forward;
+PREFIX praeter
+X X 
+past or by; (drive past, drive by, flow past, flow by);
+PREFIX prae
+X X 
+pre-, before -, in front of -; forth; very -, - completely, - thorughly;
+PREFIX pro
+N N
+before -, in front of -;
+PREFIX pro
+V V
+- forward; before; in front of; forth [pro-cedo => go forth, proceed, continue];
+PREFIX pseudo
+X X    
+pseudo-, false; fallacious, deceitful; sperious; imitation of;
+PREFIX  quadri
+X X 
+four (numerical prefix);
+PREFIX  quadru
+X X 
+four (numerical prefix);
+PREFIX  quincu
+X X 
+five (numerical prefix);
+PREFIX  quinqu
+X X 
+five (numerical prefix);
+PREFIX  quinti
+X X 
+five (numerical prefix);
+PREFIX red
+V V
+- back, - again;
+PREFIX re
+X X
+- back, - again;
+PREFIX sed
+V V 
+- apart, apart from; away;
+PREFIX semi
+X X 
+semi-, half, partly;
+PREFIX  septem
+X X 
+seven (numerical prefix);
+PREFIX  septu
+X X 
+seven (numerical prefix);
+PREFIX  sesque
+X X 
+one and half (numerical); one plus aliquot fraction; (sesqui-septimus = 8/7);
+PREFIX  sesqui
+X X 
+one and half (numerical); one plus aliquot fraction; (sesqui-septimus = 8/7);
+PREFIX  sexqui
+X X 
+one and half (numerical); one plus aliquot fraction; (sesqui-septimus = 8/7);
+PREFIX ses
+X X     
+six-;                     
+PREFIX  sexti
+X X 
+six (numerical prefix);
+PREFIX  sextu
+X X 
+six (numerical prefix);
+PREFIX sex
+X X     
+six-;                     
+--PREFIX se      --  conflict with semet
+--V V 
+--- apart, apart from; away (se-cedo = go away, withdraw, secede);
+PREFIX  sim 
+X X 
+one (numerical prefix), single, simple;
+PREFIX sub
+V V 
+sub-; - up to, - under, up from under; to the aid;
+PREFIX sub
+N N     
+sub-; somewhat -/-ish/rather -; under, from under/below; lesser/assistant/vice;
+PREFIX sub
+ADJ ADJ
+sub-; somewhat -/-ish/rather -; under, from under/below; lesser/assistant/vice;
+PREFIX suc  c
+V V 
+- up to, - under, up from under; to the aid;
+PREFIX suc c
+N N     
+sub-; somewhat -/-ish/rather -; under, from under/below; lesser/assistant/vice;
+PREFIX suc c
+ADJ ADJ
+sub-; somewhat -/-ish/rather -; under, from under/below; lesser/assistant/vice;
+PREFIX super
+X X
+super-, over, above, upon; from above; over and above; 
+PREFIX supra
+X X
+supra-, over, above, upon, on top of; earlier than; beyond; superior to;
+PREFIX superquadri
+X X 
+number plus 4/5; one plus aliquot fraction; (superquadripartiens = 9/5);
+PREFIX sur
+V V
+super-, over, above;
+PREFIX sus s 
+V V 
+- up to, - under, up from under; to the aid;
+PREFIX trans
+V V 
+- across, - over;
+PREFIX tra
+V V 
+- across, - over;
+PREFIX tre i
+V V 
+- across, - over;
+PREFIX  tri
+X X 
+three; (also used to represent many times, persistant, extreme, gross); 
+PREFIX ultra
+N N
+beyond; exceeding; over; more than;
+PREFIX ultra
+ADJ ADJ
+extremely; more; overly; more than;
+PREFIX unde
+NUM NUM
+- less one, one less than; (undetriginta => thirty less one = 29);
+PREFIX uni
+ADJ ADJ 
+one-; having (only/but) one ~; (being) of one ~; 
+PREFIX ve
+ADJ ADJ
+not- (vegrandis => small), without; very (vepallidus => very pale);
+PREFIX V
+N N    
+five-; fifth; (Roman numeral for 5);  
+PREFIX X
+N N    
+ten-; tenth; (Roman numeral for 10);  
+--
+--
+--  SUFFIX is a fragment added to the end of a stem to modify or 
+--  reinforce the meaning.  "tor" added to a verb gives the meaning 
+--  "doer of the action" (vincere = conquer, vic-tor = conqueror).  This 
+--  does not impact the addition of inflections on the end of the word.
+--
+--  Each SUFFIX entry leads off with the identifier "SUFFIX".
+--
+--  This is followed (separated by a space) by the suffix itself.
+--
+--  In the formulation used by this program, there may be a connecting
+--  character associated with the suffix.  For example, the prefix "itudo",
+--  givs a noun adding the meaning "-ness", when applied to an adjective
+--  stem.  If the adjective stem ends in "i", then the suffix is "ietudo".
+--  The CONNECT character, if any, is placed after the suffix, on the same 
+--  line.
+--
+--  Suffixes may be thought of as associated with a certain parts of
+--  speech.  In many cases application of the suffix converts a stem 
+--  from one part of speech to a stem for another part of speech.
+--  Further, the resulting verb, noun or adjective is of a particular
+--  conjugation or declension.  This information is included on the 
+--  second line of the suffix record.
+--  
+--  The third line gives the meaning, using 78 characters or less.
+--
+--  The order of this list is important.  The program checks in order.
+--  The longer suffix should be placed earlier in the list.
+--  This list is ordered on last character of suffix, but that is not significant.
+--
+--  TO DO
+--  ADJ derived from N could also be derived from ADJ (try to include N roots)
+--  V can be formed from N stem, no suffix (Denominatives - to do/make _)
+--  null suffixes Sinkovich p246
+--
+SUFFIX atic
+N 2 ADJ 1 1 POS 0
+-ic; -en; --ery; -al; made of; belonging to; has property of; is like;
+SUFFIX ific
+N 2 N 3 1 M P   2
+denotes one who makes (the source noun), master of, professional in;
+SUFFIX tic 
+N 2 ADJ 1 1 POS 0
+-ic; -en; --ery; -al; made of; belonging to; has property of; is like;
+SUFFIX ric 
+V 4 N 3 1 F p  2
+-or; -er; indicates the doer; one who preforms the action of the verb (act.or);
+SUFFIX esc
+V 2 V 3 1 X  1
+begin to -, grow - (Inceptive or Inchoative) (esp. on 2nd declension verbs);
+SUFFIX esc
+V 2 V 3 1 X  2
+begin to -, grow - (Inceptive or Inchoative) (esp. on 2nd declension verbs);
+SUFFIX ac
+X 2 ADJ 3 1 POS 2
+-ing; having a tendency;
+SUFFIX ic
+N 2 ADJ 1 1 POS 0
+-ic; of, pertaining/belonging to; connected with; derived/coming from (place);
+SUFFIX sc
+V 2 V 3 1 X  1
+begin to -, grow - (Inceptive or Inchoative);
+SUFFIX sc
+V 2 V 3 1 X  2
+begin to -, grow - (Inceptive or Inchoative);
+SUFFIX c i
+N 2 ADJ 1 1 POS 0
+-ic; of, pertaining/belonging to; connected with; derived/coming from (place);
+SUFFIX abund
+V 2 ADJ 1 1 POS 0 
+-bund; -ent; -ful; -ing; characteristic of; verbal ADJ of active force w/object;
+SUFFIX ebund
+V 2 ADJ 1 1 POS 0 
+-bund; -ent; -ful; -ing; characteristic of; verbal ADJ of active force w/object;
+SUFFIX ibund
+V 2 ADJ 1 1 POS 0 
+-bund; -ent; -ful; -ing; characteristic of; verbal ADJ of active force w/object;
+SUFFIX cund
+V 2 ADJ 1 1 POS 0 
+-ent; -ful; -ing; characteristic of; capacity or inclination;
+SUFFIX id
+V 2 ADJ 1 1 POS 0
+-ous; tending to, in a condition of, in a state of;
+SUFFIX issime    
+ADJ 2 ADV SUPER 0
+-estily; -estly; most -ly, much -ly, very -ly;
+SUFFIX ace   
+N 2 ADJ 1 1 POS 0
+of/made of (material); resembling (material); similar to, -like;
+SUFFIX ose   
+N 2 ADV POS 1
+-fully, -ily, -ly; -tiously; 
+SUFFIX me    
+ADJ 4 ADV SUPER 0
+-estily; -estly; most -ly, much -ly, very -ly;
+SUFFIX e    
+N 2 ADJ 1 1 POS 0
+make of; 
+SUFFIX e    
+ADJ 2 ADV POS 1
+-ily; -ly;
+SUFFIX antissi 
+V 1 ADJ 0 0 SUPER 0
+most -ing, much -ing, makes ADJ SUPER of verb, ('a' stem is for V 1 0);
+SUFFIX entissi 
+V 1 ADJ 0 0 SUPER 0
+most -ing, much -ing, makes ADJ of verb, ('e' stem is for V 2/3);
+SUFFIX cini
+N 1 N 2 2 N t 0  
+-ing, -age; forms activity/profession of person (latro.cinium => brigandage);
+SUFFIX issi 
+ADJ 2 ADJ 0 0 SUPER 4
+-est, most ~, much ~, makes SUPER;
+SUFFIX issi 
+V   4 ADJ 0 0 SUPER 4
+makes a verb PERF PPL into an adjective SUPER (amat.issimus => most/much loved);
+SUFFIX boni
+N 2 ADJ 1 1 POS 0  
+of good;
+SUFFIX moni
+V 2 N 1 1 F t 0  
+-monia; act of; means of; result of;
+SUFFIX moni
+V 2 N 2 2 N t 0  
+-monia; act of; means of; result of;
+SUFFIX anti
+V 1 N 1 1 F t 0  
+-ance; state of; quality of; act of; (with 1st conj verbs);
+SUFFIX anti         --  Conflicts with another -anti-
+V 1 ADJ 0 0 COMP 0
+more -ing, makes ADJ COMP of verb, ('a' stem is for V 1 0);
+SUFFIX enti
+V 1 N 1 1 F t 0  
+-ence; state of; quality of; act of; (with other than 1st conj verbs);
+SUFFIX enti
+V 1 ADJ 0 0 COMP 0
+more -ing, makes ADJ COMP of verb, ('e' stem is for V 2/3);
+SUFFIX ari
+N 2 N 1 1 F t  0 
+place where (argent.aria = money place, bank); female agent (rare);
+SUFFIX ari
+N 2 N 2 2 N t  0 
+-arium, -ary; place where;
+SUFFIX ari
+N 2 N 2 1 M p  0 
+-er; -ist; dealer in thing, maker/artisan (argent.arius = money/silver changer);
+SUFFIX ari
+N 2 ADJ 1 1 POS 0
+of, pertaining/belonging to; connected with; derived from; made of; -like;
+SUFFIX ari
+NUM 3 ADJ 1 1 POS 0
+consisting of/containing X things; X each; (with number X); of X; digits wide;
+SUFFIX ori
+N 2 N 2 2 N t  0 
+-orium, -ory, -or; place where;
+SUFFIX ori
+V 4 ADJ 1 1 POS 0
+-orous, -ory; having to do with, pretaining to; tending to;
+SUFFIX iti
+ADJ 2 N 1 1 F t  0
+-ity, -ship, -ance, ility, ness; makes abstract noun of the adjective;
+SUFFIX iti
+ADJ 2 N 5 1 F t  0
+-ity, -ship, -ance, ility, ness; makes abstract noun of the adjective;
+SUFFIX iti
+V   2 N 2 2 N t  0
+-ity, -ship, -ance, ility, ness; makes abstract noun of the verb;
+SUFFIX li  l 
+ADJ 2 ADJ 0 0 SUPER 4
+-est, most ~, much ~, makes ADJ with stem ending in 'l' SUPER;
+SUFFIX ri  r 
+ADJ 1 ADJ 0 0 SUPER 4
+-est, most ~, much ~, makes ADJ with stem ending in 'r' SUPER;
+SUFFIX ti 
+ADJ 2 N 1 1 F t  0
+-ness, makes abstract noun;
+SUFFIX i                      --  ?????????????
+V 4 ADV POS 1
+-ly; (use imagination! run -> hastily; strive -> eagerly; stand -> immediately);
+SUFFIX i 
+ADJ 2 N 1 1 F t  0
+-ness, -es, makes abstract noun;
+SUFFIX i 
+N 2 N 1 1 F t  0
+art or craft done by the person (abstract noun of person); office of, -ship; 
+SUFFIX i 
+V 2 N 2 2 N t  0
+makes abstract noun of the verb; place/instrument/result of verb action; 
+SUFFIX i  
+ADJ 2 ADJ 0 0 COMP 3
+-er, makes adjective comparative;
+SUFFIX i  
+V   4 ADJ 0 0 COMP 3
+makes a verb PERF PPL into an adjective COMP (amat.ior => more loved);
+SUFFIX abil
+X 2 ADJ 3 2 POS  0
+-able, -ble; having the passive quality, able to, able to be; 
+SUFFIX atil
+N 2 ADJ 3 2 POS 0
+-il; of a, pertaining to a, in a condition of, in a state of;
+SUFFIX ibil
+V 2 ADJ 3 2 POS  0
+-able, -ble; having the passive quality, able to, able to be; -ful; 
+SUFFIX icul
+N 2 N 1 1 F x 0   
+little, small, -let (Diminutive) target is of gender of root => decl;
+SUFFIX icul
+N 2 N 2 1 M x 0   
+little, small, -let (Diminutive) target is of gender of root => decl;
+SUFFIX icul
+N 2 N 2 2 N x 0   
+little, small, -let (Diminutive) target is of gender of root => decl;
+SUFFIX bil
+V 2 ADJ 3 2 POS  0
+-able, -ble; having the passive quality, able to, able to be; having ability;
+SUFFIX bul
+X 2 N 1 1 F t 0   
+forms noun of means, instrument; place;
+SUFFIX bul
+X 2 N 2 2 N t 0   
+forms noun of means, instrument; place;
+SUFFIX col
+N 2 N 1 1 M p 0   
+denotes one who inhabits/tills/worships;
+SUFFIX cul
+V 2 N 2 2 N t 0   
+denotes means or instrument or place for special purpose for action of V;
+SUFFIX ell
+N 2 N 1 1 F x 0   
+little, small, -let (Diminutive) target is of gender of root => decl; !!!!!!!!
+SUFFIX ell
+N 2 N 2 1 M x 0   
+little, small, -let (Diminutive) target is of gender of root => decl;
+SUFFIX ell
+N 2 N 2 2 N x 0   
+little, small, -let (Diminutive) target is of gender of root => decl;
+SUFFIX ill
+N 2 N 1 1 F x 0   
+little, small, -let (Diminutive) target is of gender of root => decl; 
+SUFFIX ill
+N 2 N 2 1 M x 0   
+little, small, -let (Diminutive) target is of gender of root => decl; 
+SUFFIX ill
+N 2 N 2 2 N x 0   
+little, small, -let (Diminutive) target is of gender of root => decl; 
+SUFFIX al
+N 2 ADJ 3 2 POS 0
+-al; of a ~, pertaining to a ~, in a condition of ~, in a state of ~;
+SUFFIX il
+V 2 ADJ 3 2 POS 0 
+-able, -ble; having the passive quality, able to, able to be; 
+SUFFIX il
+N 2 ADJ 3 2 POS 0
+-il; of a ~, pertaining to a ~, in a condition of ~, in a state of ~;
+SUFFIX ol 
+N 2 N 1 1 F x 0   
+little, small, -let (Diminutive) target is of gender of root => decl;
+SUFFIX ol 
+N 2 N 2 1 M x 0   
+little, small, -let (Diminutive) target is of gender of root => decl;
+SUFFIX ol 
+N 2 N 2 2 N x 0   
+little, small, -let (Diminutive) target is of gender of root => decl;
+SUFFIX ul
+N 2 N 1 1 F x 0   
+little, small, -let (Diminutive) target is of gender of root => decl;
+SUFFIX ul
+N 2 N 2 1 M x 0   
+little, small, -let (Diminutive) target is of gender of root => decl;
+SUFFIX ul
+N 2 N 2 2 N x 0   
+little, small, -let (Diminutive) target is of gender of root => decl;
+SUFFIX ul
+N 2 ADJ 1 1 POS 0
+-ulus; of a, pertaining to a, in a condition of, in a state of;
+SUFFIX itim
+N 2 ADJ 1 1 POS 0
+-itime, -tine, -tane; of, belonging to (esp. of place and time);
+SUFFIX atim
+X 2 ADV POS 1
+_ by _; eg. step by step; little by little; 
+SUFFIX itim
+X 2 ADV POS 1
+_ by _; eg. vir.itim => man by man;
+SUFFIX tim
+N 2 ADJ 1 1 POS 0
+-itime, -tine, -tane; of, belonging to  (esp. of place and time);
+SUFFIX ism
+X 2 N 2 1 M T   0
+-ism; makes noun of action/ideology/association/fellowship;
+SUFFIX um
+ADJ 1 ADV POS 1
+-ly; 
+SUFFIX udin  t
+ADJ 2 N 3 1 F t  2
+-ness; makes abstract noun;
+SUFFIX sion 
+V 4 N 3 1 F t  2
+-ing, -ion, -ery; the action or result of the action of the verb;
+SUFFIX sion 
+V 2 N 3 1 F t  2
+-ing, -ion, -ery; the action or result of the action of the verb;
+SUFFIX tion 
+V 4 N 3 1 F t  2
+-ing, -ion, -ery; the action or result of the action of the verb;
+SUFFIX tion 
+V 2 N 3 1 F t  2
+-ing, -ion, -ery; the action or result of the action of the verb;
+SUFFIX ian 
+N 2 N 2 1 M p 0  
+of/belonging to  [N -> ADJ] (Cicero -> Ciceronianus);
+SUFFIX men 
+V 2 N 3 2 N t 1  
+act of; means of; result of;
+SUFFIX ten 
+NUM 3 NUM 1 4 DIST 0 3  
+each/apiece/times/fold; (NUM DIST to a late Latin form, Xceni -> Xcenteni);
+SUFFIX min 
+V 2 N 3 2 N t 2  
+act of; means of; result of;
+SUFFIX don 
+V 2 N 3 1 F t  1
+act of or result of the action of the verb;
+SUFFIX gon 
+V 2 N 3 1 F t  1
+act of or result of the action of the verb;
+SUFFIX ion 
+V 4 N 3 1 F t  2
+-ing, -ion, -ery; indicates the action or result of the action of the verb;
+SUFFIX ion 
+V 2 N 3 1 F t  2
+-ing, -ion, -ery; the action or result of the action of the verb;
+SUFFIX urn
+N 2 ADJ 1 1 POS 0
+-urnal, -ily, -y, -ing; of, belonging to  (esp. of place and time);
+SUFFIX an
+NUM 2 N 2 1 M p 0
+soldiers of the Nth Legion;
+SUFFIX an
+ADJ 2 ADJ 1 1 POS 0
+-anus; (indicates former gens when adopted into another, Sejus -> Sejanus);
+SUFFIX an
+N 2 ADJ 1 1 POS 0
+-an, -ain; of, pertaining/belonging to; connected with; derived/coming from;
+SUFFIX en
+N 2 ADJ 1 1 POS 0
+-en, -ene; of, pertaining/belonging to; connected with; derived/coming from;
+SUFFIX in
+N 2 ADJ 1 1 POS 0
+-ine; -in; of, pertaining/belonging to; connected with; derived/coming from;
+SUFFIX in
+N 2 N 1 1 F t 0
+-ing; art or craft (medic.ina = art of doctoring);
+SUFFIX udo  t
+ADJ 2 N 3 1 F t  1
+-ness; makes abstract noun;
+SUFFIX sio  
+V 2 N 3 1 F t  1
+-ing, -ion, -ery; the action or result of the action of the verb;
+SUFFIX sio  
+V 4 N 3 1 F t  1
+-ing, -ion, -ery; the action or result of the action of the verb;
+SUFFIX tio  
+V 2 N 3 1 F t  1
+-ing, -ion, -ery; the action or result of the action of the verb;
+SUFFIX tio  
+V 4 N 3 1 F t  1
+-ing, -ion, -ery; the action or result of the action of the verb;
+SUFFIX do  
+V 2 N 3 1 F t  1
+act of or result of the action of the verb;
+SUFFIX go  
+V 2 N 3 1 F t  1
+act of or result of the action of the verb;
+SUFFIX io  
+V 2 N 3 1 F t  1
+-ing, -ion, -ery; the action or result of the action of the verb;
+SUFFIX io  
+V 4 N 3 1 F t  1
+-ing, -ion, -ery; indicates the action or result of the action of the verb;
+SUFFIX abiliter
+V 2 ADV POS 1
+-abaly;
+SUFFIX ibiliter
+V 2 ADV POS 1
+-ibaly;
+SUFFIX aliter
+N 2 ADV POS 1
+-ality, -ally; 
+SUFFIX anter
+V 1 ADV POS 1
+-ingly;
+SUFFIX enter
+V 1 ADV POS 1
+-ingly;
+SUFFIX ester
+N 2 ADJ 1 1 POS 1
+-urnal, -ily, -y, -ing; of, belonging to  (esp. of place and time);
+SUFFIX estr
+N 2 ADJ 1 1 POS 2
+-y; of the, of, belonging to  (esp. of place and time);
+SUFFIX iter 
+ADJ 2 ADV POS 1
+-ily; -ly;
+SUFFIX ior  
+ADJ 2 ADJ 0 0 COMP  3
+-er, more ~; makes ADJ POS into ADJ COMP;
+SUFFIX por
+N 2 N 3 1 M P 0   
+-'s boy; (slave's name adding -por for -puer to anme of master);
+SUFFIX ar 
+X 2 N 3 4 N t 0   
+means/instrument/place for special purpose of N/V (calco/calcar - tread/spur);
+SUFFIX ar
+N 2 ADJ 3 2 POS 0
+-ary; of a, pertaining to a; (-like?);
+SUFFIX br 
+V 2 N 2 2 N t 0   
+denotes means or instrument;
+SUFFIX cr 
+V 2 N 2 2 N t 0   
+denotes means or instrument or place for special purpose for action of V;
+SUFFIX er  t
+ADJ 2 ADV POS 1
+-ly;
+SUFFIX or  
+V 4 N 3 1 M p  0
+-or; -er; indicates the doer; one who performs the action of the verb (act.or);
+SUFFIX or  
+V 2 N 3 1 M p  0
+the thing of the verb; result of; (abstract noun) amor = love, timor = fear;
+SUFFIX tr 
+V 2 N 2 2 N t 0   
+means, instrument; place;
+SUFFIX ur
+N 2 N 1 1 F t  0 
+-ure, pertaining to, use of;
+SUFFIX ur
+N 4 N 1 1 F t  0 
+-ure, pertaining to, use of;
+SUFFIX etas i
+ADJ 2 N 3 1 F t  1
+-ness, makes abstract noun;
+SUFFIX itas
+ADJ 2 N 3 1 F t  1
+-ity; -ness, makes abstract noun of quality or condition;
+SUFFIX itas
+N 2 N 3 1 F t  1
+-ness, condition of being; makes abstract noun (civ.itas = citizenship);
+SUFFIX itus
+X 2 ADV POS 1
+of _; from the _; -ing;
+SUFFIX tas
+N 2 N 3 1 F t  1
+-ness, condition of being; makes abstract noun; 
+SUFFIX tus
+N 2 N 3 1 F t  1
+-liness, makes abstract noun;
+SUFFIX ans
+V 1 ADJ 3 1 POS  1
+-ing, makes ADJ of verb, equivalent to PRES ACTIVE PPL ('a' stem is for V 1 0);
+SUFFIX ens
+V 1 ADJ 3 1 POS  1
+-ing, makes ADJ of verb, equivalent to PRES ACTIVE PPL ('e' stem is for V 2/3);
+SUFFIX iss
+N 2 N 1 1 F p 0   
+female (whatever the noun base was);
+SUFFIX ius
+ADJ 2 ADV COMP 0
+more -ly; -ier;
+SUFFIX tus
+X 2 ADV POS 1
+of _; from the _;
+SUFFIX es
+N 2 N 3 1 F t 1
+result of; place of; (abstract noun);
+SUFFIX is    
+N 2 N 3 1 F t 2
+result of; place of; (abstract noun);
+SUFFIX os
+N 2 ADJ 1 1 POS 0
+-ous, -ose; -some, full of; prone to; rich in; abounding in; 
+SUFFIX us
+ADJ 2 ADV POS  1
+-ly;
+SUFFIX us
+ADJ 3 ADV COMP 0
+more -ly; -lier;
+SUFFIX olent
+N 2 ADJ 1 1 POS 0
+-olent; full of; prone to; rich in; abounding in; 
+SUFFIX ulent
+N 2 ADJ 1 1 POS 0
+-ulent; full of; prone to; rich in; abounding in; 
+SUFFIX ament
+V 2 N 2 2 N t 0  
+-ment; -ion; act of; instrument/equipment/means for ~ing; result of ~ing;
+SUFFIX ment
+V 2 N 2 2 N t 0  
+-ment; -ion; act of; instrument/equipment/means for ~ing; result of ~ing;
+SUFFIX etat i
+V 4 N 3 1 F t  2
+-ness, makes abstract noun;
+SUFFIX itat
+ADJ 2 N 3 1 F t  2
+-ity; -ness, makes abstract noun of quality or condition;
+SUFFIX itat
+N 2 N 3 1 F t  1
+-ness, condition of being; makes abstract noun (civ.itas = citizenship);
+SUFFIX tat
+N 2 N 3 1 F t  1
+-ness, condition of being; makes abstract noun; 
+SUFFIX tat
+ADJ 2 N 3 1 F t  2
+-ness, makes abstract noun;
+SUFFIX tat
+V 2 V 1 1 X 4
+try to do -, keep doing -;
+SUFFIX tut
+N 2 N 3 1 F t  2
+-liness, makes abstract noun;
+SUFFIX ant
+V 1 ADJ 3 1 POS  2
+-ing, makes ADJ of verb, equivalent to PRES ACTIVE PPL ('a' stem is for V 1 0);
+SUFFIX ent
+V 1 ADJ 3 1 POS  2
+-ing, makes ADJ of verb, equivalent to PRES ACTIVE PPL ('e' stem is for V 2/3);
+SUFFIX at
+N 2 N 4 1 M t  0    
+-ate, -ship, the office of; official body (consul.atus = consulate, consulship);
+SUFFIX at
+N 2 ADJ 1 1 POS 0
+-ed, having, having a, provided with; -able;              
+SUFFIX it
+N 2 ADJ 1 1 POS 0
+-ed, having, having a, provided with; -able;              
+SUFFIX ut
+N 2 ADJ 1 1 POS 0
+-ed, having, having a, provided with; -able;              
+SUFFIX it
+V 4 V 1 1 X 1
+try to do -, keep doing - (Intensive/Iterative - forcible or iterative action);
+SUFFIX it
+V 2 V 1 1 X 1
+try to do -, keep doing - (Intensive/Iterative - forcible or iterative action);
+SUFFIX t
+V 2 V 1 1 X 1
+try to do -, keep doing - (Intensive/Iterative - forcible or iterative action);
+SUFFIX t
+N 2 ADJ 1 1 POS 0
+-ed, having, having a, provided with; -able;              
+SUFFIX ativ
+N 2 ADJ 1 1 POS 0
+-ative; capable/worthy of;         
+SUFFIX tav
+V 2 V 1 1 X 3  
+try to do -, keep doing -;
+SUFFIX iv
+V 2 ADJ 1 1 POS 0
+-ive, -ed; tending to, pretaining to;
+SUFFIX iv
+V 4 ADJ 1 1 POS 0
+-ive, -ed; having the passive tendency; having been ...-ed;
+SUFFIX ifex
+N 2 N 3 1 M P   1
+denotes one who makes (the source noun), master of, professional in;
+SUFFIX rix 
+V 4 N 3 1 F p  1
+-ess, -or; -er; indicates the doer; one who performs action of verb (act.ess);
+SUFFIX ax
+X 2 ADJ 3 1 POS 1
+-ing; having a tendency/ability;
+--
+--
+--  TACKON is a fragment added to the end of a word, after inflection
+--  has been applied.  Just removing the tackon will give a reasonable word.
+--  This does not impact the addition of inflections,
+--  as opposed to SUFFIX, which is applied before the inflection.
+--
+--  Each TACKON entry leads off with the identifier "TACKON".
+--
+--  This is followed (separated by a space) by the tackon itself.
+--  
+--  The second line gives a PART_ENTRY, information on where this is tacked.
+--  A TACKON does not change the part of speech or case from its base.
+--
+--  The third line gives the meaning, using 78 characters or less.
+--
+--  The order of this list is significant.  The program checks in order.
+--  The longer or less frequent tackon should be placed earlier in the list.
+--
+--  ENCLITICS
+--
+TACKON que
+X
+-que = and (enclitic, translated before attached word); completes plerus/uter;
+TACKON ne 
+X
+-ne = is it not that (enclitic); or ...(introduces a question or alternative);
+TACKON ve  
+X
+-ve = or if you will (enclitic); or as you please; or;             rare
+TACKON est 
+PRON 4 1 X
+-est = is, in a contraction; (idest = it/that is);                 rare      
+--
+--  TACKONS  --  that are not PACKONS -- not w/qu PRONS
+--
+TACKON cumque   
+ADJ 0 0 POS         
+-ever/-soever; (for generalized/indefinite force); (what/how -> what/however);
+TACKON cunque   
+ADJ 0 0 POS         
+-ever/-soever; (for generalized/indefinite force); (what/how -> what/however);
+TACKON cine          
+PRON 3 1 ADJECT
+TACKON w/hic this?   (hic + ce + ne (enclitic));
+TACKON pte           
+ADJ 1 0 POS    
+TACKON ! (emphatic particle w/personal ADJ); (usually with ABL, suapte);
+TACKON pte           
+PRON 4 0 PERS  
+TACKON ! (emphatic particle w/personal PRON); (usually with ABL, mepte);
+TACKON pte           
+PRON 5 0 PERS  
+TACKON ! (emphatic particle w/personal PRON); (usually with ABL, mepte);
+TACKON ce            
+PRON 3 1 ADJECT
+TACKON w/hic this;
+TACKON modi          
+PRON 3 1 ADJECT
+TACKON w/GEN of ~ kind, sort, nature; (w/hic); [huiusmodi => of this sort];
+TACKON modi          
+PRON 4 1 PERS
+TACKON w/GEN of ~ kind/sort/nature; w/his/our/your [eiusmodi => of his sort];
+TACKON dem           
+PRON 4 2 DEMONS
+TACKON w/i-ea-id   idem => same;
+TACKON cum           
+PRON 5 0 PERS 
+TACKON with (enclitic with PRON 5 0); [w/ABL  mecum => at my house/with me]; 
+TACKON vis           
+ADJ  1 1 POS 
+TACKON (what)-ever (w/quantus) [quantusvis => of whatever size you like]; 
+TACKON met           
+PRON 5 0 PERS   
+TACKON w/personal self, own; on subst PERS [meamet/egomet => my own/myself];
+TACKON familias           
+N  3 0 C P   
+TACKON of the family/household; (archaic GEN); [pater~ => head of household];
+--
+--  PACKONS
+--  A special class of TACKONS, applied to qu- pronouns called PACKons
+--
+TACKON cumque            
+PACK    1  0 REL 
+PACKON w/qui => whoever; whatever; everyone who, all that, anything that;
+TACKON cunque            
+PACK    1  0 REL 
+PACKON w/qui => whoever; whatever; everyone who, all that, anything that;
+TACKON que               
+PACK    1  0 INDEF    
+PACKON w/qui => whoever it be; whatever; each, each one; everyone, everything;
+--TACKON que               
+--PACK    1  0 ADJECT   
+--PACKON w/qui => whoever it be; whatever; each, each one; everyone, everything;
+TACKON piam              
+PACK    1  0 INDEF    
+PACKON w/qui =>  any/somebody, any, some, any/something;                
+TACKON quam              
+PACK    1  0 INDEF    
+PACKON w/quis =>  any; any man/person, anybody/anyone, any whatever, anything;
+--TACKON quam              
+--PACK    1  0 ADJECT   
+--PACKON w/quis =>  any, anyone;
+--TACKON dam               
+--PACK    1  0 ADJECT   
+--PACKON w/qui => certain;                                                
+TACKON dam               
+PACK    1  0 INDEF    
+PACKON w/qui => certain; a certain (one); a certain thing;                       
+TACKON nam               
+PACK    1  0 INTERR   
+PACKON w/qui => who then/in the world; which, I insist/meant; why/what pray;   
+--TACKON nam               
+--PACK    1  0 ADJECT   
+--PACKON w/qui => who then; what a thing; which I meant; why, pray;   
+TACKON cum               
+PACK    1  0 INTERR   
+PACKON w/qui pron with ABL => with what, with whom;
+TACKON vis               
+PACK    1  0 INDEF    
+PACKON w/qui whoever it be, whomever you please; any/anything whatever;
+--TACKON vis               
+--PACK    1  0 ADJECT   
+--PACKON w/qui whoever it be, whomever you please; any whateve/whatsoever;
+TACKON libet             
+PACK    1  0 INDEF    
+PACKON w/qui-anyone; -whatever; what you will; no matter which;
+--TACKON libet             
+--PACK    1  0 ADJECT   
+--PACKON w/qui-whatever, without distinction; whichever you will; no matter;
+TACKON lubet             
+PACK    1  0 INDEF    
+PACKON w/qui -anyone; -whatever; what you will; no matter which;
+

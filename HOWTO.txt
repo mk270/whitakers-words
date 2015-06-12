@@ -1,0 +1,753 @@
+--  DOCUMENT IN DEVELOPMENT  --
+
+PROCESSES TO
+    DO INFLECTIONS
+    PREPARE DICTIONARY ADDITIONS
+    UPGRADE LATIN DICTLINE
+    CHECK LATIN DICTLINE
+    MAINTAIN LATIN DICTLINE
+    CHECK DICTLINE FOR ENGLISH SPELLING
+GENERATE WORDS SYSTEM
+        PREPARE LATIN DICTIONARY PHASE
+        PREPARE ENGLISH DICTIONARY PHASE
+    
+OTHER FORMS OF DICTIONARY
+    DICTPAGE
+        Like a paper dictionary
+    LISTALL
+        All words that DICTLINE and INFLECTS can generate
+          For spellcheckers
+          Will not catch ADDONS and TRICKS words
+
+TOOLS
+
+CHECK.ADB
+DUPS.ADB
+
+DICTORD.ADB
+FIXORD.ADB
+LINEDICT.ADB
+LISTORD.ADB
+
+DICTPAGE.ADB
+
+DICTFLAG.ADB
+
+INVERT.ADB
+INVSTEMS.ADB
+
+ONERS.ADB
+
+CCC.ADB
+
+SLASH.ADB
+PATCH.ADB
+
+SORTER.ADB
+    
+-------------------  DO INFLECTIONS  ----------------------
+
+INFLECTS.LAT contains the inflections in human-readable form
+with comments, and in  useful order.
+This is the input for MAKEINFL, which produces INFLECTS.SEC.
+
+
+(LINE_INF uses INFLECTS.LAT input to produce INFLECTS.LIN,
+clean and ordered, but still readable.
+
+Run            
+
+        LINE_INF
+
+
+which produces
+    INFLECTS.LIN
+and INFLECTS.SEC)
+
+
+----------------------------------------------------------
+------------PREPARE  DICTIONARY  ADDITIONS----------------
+----------------------------------------------------------
+
+This process is to prepare a submission of new dictionary entries
+for inclusion in DICTLINE.  The normal starting point is a text file
+in DICTLINE (LIN) form, the full entry on one line, spaced appropriately.
+
+
+The other likely form is an edit file (ED) in which the entry is broken
+into three lines
+
+STEMS
+PART and TRAN
+MEAN
+
+For this form, spacing is not important, as long as there are spaces
+seperating individual elements.  
+
+This is transformed into LIN form by the program LINEDICT
+LINEDICT.IN (ED form) -> LINEDICT.OUT (LIN form)
+
+
+The inverse of this, LIN to ED, is useful to produce a more easily
+editable file (3 lines per entry so it is all on one screen)
+LISTDICT.IN (LIN DICTLINE form) -> LISTDICT.OUT (ED form)
+
+Having a LIN form, one can create a DICTLINE.SPE and do checking on that.
+
+Besides running CHECK to validate syntax, one can run DICTORD and create
+a file in which leading words are in dictionary entry form.  One can then
+run this against the existing WORDS and DICTLINE to check for overlap. 
+
+DICTORD makes # file in long format 
+DICTORD.IN -> DICTORD.OUT  
+Takes DICTLINE form, puts # and dictionary form at begining.
+
+This file can be sorted to produce word order of paper dictionary.
+
+SORTER on (1 300) (with or without U for I/J U/V conversion)
+
+One can then run WORDS against this file using DEV (!) parameters
+DO_ONLY_INITIAL_WORD and FOR_WORD_LIST_CHECK, 
+and (#) parameters 
+HAVE_OUTPUT_FILE, WRITE_OUTPUT_TO_FILE, WRITE_UNKNOWNS_TO_FILE
+The output provides for a check whether the new submissions 
+are duplucated in the existing dictionary, and even if the forms are
+are the meanings the same.
+
+After editorial review in light of the WORDS run, the new submission
+is ready for inclusion by the usual process with CHECK and SPELLCHECK.
+
+
+
+----------------------------------------------------------
+----------------UPGRADE  DICTIONARY ----------------------
+----------------------------------------------------------
+
+This is a variation of the additions process.
+
+This process is to prepare a section of DICTLINE for upgrade.
+A section (aboout 100 entries) is extracted and ordered alphabetically
+It is then put in a form for convenient editing and compared to
+the OLD and L+S.  Entries are checked and additions are made.
+The edit form is returned to DICTLINE form and inserted in
+place of the extracted section.
+
+Much the same process is involved in preparing an independent submission
+of new entries.
+
+
+
+DICTORD makes # file in long format
+DICTORD.IN -> DICTORD.OUT  
+Takes DICTLINE form, puts # and dictionary form at begining,
+a file that can be sorted to produce word order of paper dictionary
+
+SORTER on (1 300) 
+
+LISTORD    Takes # (DICTORD) long format to ED file
+(3 lines per entry so it is all on one screen)
+LISTORD.IN -> LISTORD.OUT
+
+Edit 
+
+
+FIXORD produces clean ED file
+
+LINEDICT makes long format (LINE_DIC/IN/OUT)
+
+----------------------------------------------------------
+-------ADDING A BLOCK OF NEW ENTRIES TO DICTIONARY -------
+----------------------------------------------------------
+
+This may be in association with the upgrade process or from
+a block of new entries submitted by a developer or user.
+
+The format may be strange.  It is usually easiest to reduce/edit
+it down ro the 3 line ED form, because that has no column restrictions.
+
+From there one does the usual, making LINEICT format and preparing the addition.
+
+One quirk is that there may be entries duplicate of the current DICTLINE.
+This is so even if the supplier was working from and checking his current DICTLINE,
+because there may have been later additions to the master.  
+
+While DUPS will catch these, that is a big effort for a full DICTLINE.
+One would rather check just the new input.
+
+Take the input and DICTORD.  This gives a format with the dictionary entry
+word first.  Run the current WORDS aginst that with NO FIXES/TRICKS and 
+FIRST_WORD and FOR_WORDLIST parameters.  And not UNKNOWN in the output 
+should be examined.
+
+Then run CHECK and spellcheck the English.
+
+ 
+----------------------------------------------------------
+------------PREPARE  DICTIONARY (DICTLINE) WITH ADDITIONS-----------
+----------------------------------------------------------
+Save present copies of DICTLINE.GEN, DICTLINE.SPE, DICT.LOC,
+and whateverelse, in case you foul up and have to redo.
+
+Add DICT.LOC to DICTLINE.GEN
+
+        Copy DICT.LOC   LINEDICT.IN
+        Run LINEDICT
+      
+        Copy LINEDICT.OUT+DICTLINE.GEN   DICTLINE.NEW
+
+Or if there is a SPE that you want to integrate
+
+         COPY DICTLINE.GEN+DICTLINE.SPE  DICTLINE.NEW
+
+Or any other and combiination.
+
+
+Sort DICTLINE.NEW in the normal fashion (to check for duplicates)
+
+      SORTER
+        DICTLINE.NEW   --  Or whatever you call it
+            1 75         --  STEMS  
+           77 24   P     --  PART  
+          111 80         --  MEAN  --  To order |'s
+          101 10         --  TRAN
+         DICTLINE.SOR    --  Where to put result
+
+Check the sort for oddities and any blank lines.
+(Look for long/run-on lines.)
+
+Then run CHECK and examine CHECK.OUT
+
+Run
+
+        CHECK
+
+to produce 
+   CHECK.OUT
+
+Examine CHECK.OUT and make any corrections required
+(The easiest way is to edit CHECK.IN and rerun as necessary.
+Then copy the final CHECK.IN to DICTLINE.)
+Errors are cites by line number in CHECK.IN.
+Edit examining CHECK.OUT from the bottom, so that changes do not
+affect the numbering of the rest of CHECK.IN
+CHECK is very fussy.  The hits are primarily warnings to look for
+the possiblity of error.  Most will not be wrong.  In fact, over 
+one percent of correct lines will trigger some warning, more false
+positives than real errors.
+This make a full run and edit of DICTLINE a considerable burden.
+
+
+Sort the fixed CHECK.IN again if there have been any changes in order.
+
+Check for duplicates in columns 1..100
+(DUPS checks for '|' in column 111 so that it does not give
+hits on lines known to be continuations, provided the sort is in order.)
+
+   COPY CHECK.IN DUPS.IN
+   Run DUPS
+          1 100
+
+Examine DUPS.OUT and fix DUPS.IN (again from the bottom).
+Resort if necessary.
+
+Copy the final product to DICTLINE.GEN
+    
+This only checks DICTLINE for syntax,
+
+----------------------------------------------------------
+----------CHECK DICTLINE FOR ENGLISH SPELLING-------------
+----------------------------------------------------------
+To check DICTLINE further, one can check the spelling of MEAN.
+
+The fixed format of DICTLINE facilitates this process.
+Just running DICTLINE through a spellchecker is impossible,
+since all lines contain Latin stems, which will fail not only
+an English spellchecker, but a Latin spellchecker as well 
+(since they are just stems, not proper words).
+
+The process is to extract the MEAN portion, spellcheck this,
+and reassemble, making sure to preserve the exact line order.
+I use two personal tools, SLASH and PATCH.
+
+Run SLASH on DICTLINE
+SLASH takes a file and cuts it into two, lines or columns.
+In this case we want to separate the first 110 columns from the rest.
+
+   SLASH
+      c          --  Rows or columns
+      110        --  How many in first 
+      LEFT.      --  Name of left file
+      RIGHT.     --  Name of right file
+                 --  Or whatever you want to call them
+
+Save LEFT for later and work on RIGHT, which is only MEANs.
+
+There is one additional complication.  
+Some MEANs have a translation example element [... => ...]
+This will contain some Latin (the left half) as well as English.
+
+The rest I do with editors, but I suppose I should make tools.
+
+Introduce 80 blanks in front of any [
+SLASH out the first 80 columns, giving the MEAN omitting the []
+Spellcheck that
+In the [] file, left justify and add 80 blanks before the =
+SLASH out the first 80 columns and spellcheck 
+Reassemble the three parts of MEAN 
+Eliminate blanks, leaving a simple MEAN/RIGHT.
+PATCH LEFT. and RIGHT together to give DICTLINE. 
+
+
+
+
+
+___________________________________________
+
+ To Prepare English Dictionary
+__________________________________________
+
+The first part of the following procedure is only for those 
+starting from scratch.  If porting with a full package,
+EWDSLIST.GEN will be provided and you can skip down.
+
+---------------------------------------------------------
+
+Preparing the dictionary for the English mode also 
+involves checks on the syntax of MEAN.
+
+Run MAKEEWDS against DICTLINE.GEN
+(There may be some errors cited.  Correct as appropriate.)
+
+This extracts the English words from DICTLINE MEAN (G or S)
+Makes EWDSLIST.GEN (or .SPE)
+
+Make sure that if running from DICTLINE.GEN that the extra ESSE line
+is added.  If we start from DICTFILE.GEN, it is already in.
+
+ type EWDS_RECORD is 
+        record
+          W    : EWORD;                       1
+          AUX  : AUXWORD;                    40
+          N    : INTEGER;                    50
+          POFS : PART_OF_SPEECH_TYPE := X;   62
+        end record;
+
+Ah                                                         1 INTERJ
+Aulus                                                      2 N     
+Roman                                                      2 N     
+praenomen                                                  2 N     
+abbreviated                                                2 N     
+
+
+
+__________________________________________________
+
+
+Sort EWDSLIST making a revised version (same name)
+
+1    24   A
+1    24   C
+51    6   R
+75    2   N  D
+
+
+
+
+(Run ONERS on ONERS.IN if you want to see FREQ)
+(Sort ONERS.OUT  1 11 D; 13 99)
+
+_____________________________________________________
+
+If you are supplied with EWDSLIST.GEN as part of a port package,
+the above process is not done.
+
+_____________________________________________________
+
+
+Run MAKE_EWDSFILE against EWDSLIST.GEN
+(This also removes some duplicates, entries in which the 
+key word appears more than once.)
+
+producing EWDSFILE.GEN
+
+(At present these will act to produce a EWDSFILE.SPE, but
+WORDS is not yet setup to use that - only English on GEN for now.)
+
+----------------------------------------------------------
+------------PREPARE  WORDS SYSTEM-------------------------
+----------------------------------------------------------
+
+If using GNAT, otherwise compile with your favorite compiler      
+
+gnatmake -O3 words
+gnatmake -O3 makedict
+gnatmake -O3 makestem
+gnatmake -O3 makeewds
+gnatmake -O3 makeefil
+gnatmake -O3 makeinfl
+
+
+This produces executables (.EXE files) for 
+WORDS
+MAKEDICT
+MAKESTEM
+MAKEEWDS
+MAKEEFIL
+MAKEINFL 
+
+(You may also need my SORTER to prepare the data if you are modifing data.
+gnatmake -O3 sorter)
+
+(If you have modified DICTLINE, SORTER sort 
+            1 75         --  STEMS  
+           77 24   P     --  PART
+          111 80         --  MEAN
+          101 10         --  TRAN
+Actually the order of DICTLINE is not important for the programs; 
+it is only a convenience for the human user.)
+
+
+Run MAKEDICT against the DICTLINE.GEN  -  When it asks for dictionary, reply G for GENERAL
+This produces DICTFILE.GEN
+("against" means that the data file and the program are in the same folder/subdirectory.)
+
+(This assumes that you are using the presorted STEMFILE.GEN 
+which comes with distribution and matches that DICTLINE.GEN.
+Otherwise make and run WAKEDICT (Identical to MAKEDICT with
+PORTING parameter set in source).  This produces DICTFILE.GEN 
+and a STEMLIST.GEN, which has to be sorter by SORTER.
+MAKE ABSOLUTELY SURE YOU ARE USING THE RIGHT MAKEDICT/WAKEDICT!
+
+Invoke SORTER to sort the stems with I/J and U/V equivalence
+and replace initial STEMLIST with the sorted one.
+
+       SORTER
+         STEMLIST.GEN    --  Input  
+           1    18   U
+           20   24   P
+           1    18   C
+           1    56   A
+           58    1   D      
+         STEMLIST.GEN    --  Output  
+
+The output file is also STEMLIST.GEN - Enter/CR for the name works.)
+(All SORTER parameters are based on the layout of WORDS 1.97E.
+Later versions may have further/expanded fields.)
+
+Run MAKESTEM against STEMLIST.GEN (with dictionary "G") produces STEMFILE.GEN and INDXFILE.GEN
+
+The same procedures can generate DICTFILE.SPE and STEMFILE.SPE (input S) 
+if there is a SPECIAL dictionary, DICTLINE.SPE
+
+
+For the English part, if you use the presorted EWDSLIST.GEN 
+run MAKEEFIL aginst it.
+
+(This assumes that you are using the presorted EWDSLIST.GEN 
+which comes with distribution and matches that DICTLINE.GEN.
+Otherwise make and run MAKEEWDS against DICTLINE.GEN 
+This produces EWSDLIST.GEN which has to be sorted by SORTER.
+Check the begining of EWDSLIST with an editor.  
+If there are any strange lines, remove them.
+Invoke SORTER.  The input file is EWSDLIST.GEN.  
+The sort fields are
+
+SORTER
+    EWDSLIST.GEN
+       1   24   A         --  Main word
+       1   24   C         --  Main word for CAPS
+      51    6   R         --  Part of Speech  
+      72    5   N    D    --  RANK
+      58    1   D         --  FREQ
+    EWSDLIST.GEN     --  Store 
+
+The output file is also EWDSLIST.GEN - Enter/CR for the name works.)
+(For this distribution, there is no facility for English from a SPECIAL dictionary -
+there is no D_K field yet)
+
+Run MAKEEFIL against the sorted EWDSLIST.GEN producing EWDSFILE.GEN
+
+
+Run MAKEINFL against INFLECTS.LAT producing INFLECTS.SEC
+
+Along with ADDONS.LAT and UNIQUES.LAT, 
+this is the entire set of data for WORDS.
+
+WORDS.EXE
+INFLECTS.SEC
+ADDONS.LAT
+UNIQUES.LAT
+DICTFILE.GEN
+STEMFILE.GEN
+INDXFILE.GEN
+EWDSFILE.GEN
+--  And whatever .SPE as appropriate
+
+
+
+(If you go through the process and have a working WORDS but it 
+gives the wrong output, the most likely source of error is 
+a missing or improper sort.)
+
+
+--------------------------------------------------------------
+Viewing WORD.STA
+
+
+A view to see what ADDONS and TRICKS were used
+
+
+Sort WORD.STA on
+1    12      --  The STAT name
+55   25      --  STAT details
+32   20      --  Word in question
+16   10      --  Line number
+
+
+------------------------------------------------------------------
+------------------PREPARING DICTPAGE------------------------------
+------------------------------------------------------------------
+
+Preparing DICTPAGE, the listing as of a paper dictionary.
+
+IMPORTANT NOTE
+
+During the process, you may find it useful to edit some entries.  Feel free to do so.
+But remember that you have to keep the separate files (.TXT) and reassemble at the end
+into a new DICTLINE.
+
+
+For a release, ideally DICTPAGE is done before the final DICTLINE,
+because in the process there may be some editing of entries.
+To first order, this is accomplished by running DICTPAGE 
+against DICTLINE, producing a listing of DICTLINE with each
+entry preceeded by # and the DICTIONARY_FORM.  
+DICTPAGE is a simple modification of DICTORD to produce a
+more readable output.
+
+Some polishing of this process gives a better product.
+Extracting a few groups of entries for special handling
+will simplify the process.
+
+
+1) Use the regular DICTLINE sort.
+Those entries with first stem zzz may give an output
+which sorts to #-.  But it is likely the second term which 
+you want to represent this entry.  For this and other reasons
+these entries will require some hand editing, so extract them
+from their place at the end of the regular DICTLINE, run DICTPAGE 
+on them, sort output on full line, and process seperately.  
+(About 30 entries, but half handled completely by DICTPAGE)
+It is likely that this set has not changed much since the last run,
+so check to see if you have to do it over.
+
+2)Sort remaining DICTLINE on (77, 8), (110, 80), (1, 75).  Extract ADJ 2 X.
+Many Greek adjectives are handled in DICTLINE in two or three parts
+(ADJ 2, X by gender.  The full declension is the 
+sum of these partials.  (The Greek adjective form 3 6 is handled in the
+regular process and does not have to be extracted.) Extract these ADJ declensions 
+from a sort of DICTLINE by PART.  Sort this output on stem and meaning to group
+the constituent parts, run DICTPAGE and polish by hand edit to make 
+a single paper entry from the parts.  (About 150 entries, half that 
+after editing, not too hard, but a program could do the modification.)  
+It is very likely that this has not changed.
+
+3)The qu-/aliqu- PRONOUN/PACKON (PRON/PACK 1) are yet more complicated 
+than the Greek adjectives, and are handled in the same manner.  
+Extract them, sort on meaning, DICTPAGE, and polish output by hand.  
+Also PRON 5 (only 8 of these).  Both of these are sufficiently
+unchanging that one could archive the final edit and reuse on a later run.
+
+4)The rest are automatically done by DICTPAGE.
+
+5)UNIQUES are a special case, handled by UNIQPAGE.  This processes UNIQUES.LAT
+(as UNIQPAGE.IN) into a raw form compatible with the regular PAGE material
+(UNIQPAGE.OUT which is copied into UNIQPAGE.pg), added to, and sorted with.
+
+
+The various phases are assembled into a whole and sorted on the lead,
+producing DICTPAGE.RAW
+
+DICTPAGE.RAW is ZIPped to provide a source for others to process for their purposes.
+
+DICTPAGE.RAW is processes herein by PAGE2HTM to give (withthe addition of PREAMBLE.txt
+and an end BODY) to give the presentation form DICTPAGE.HTM
+
+
+
+
+The process:
+
+First do a SORT of DICTLINE on STEM to find zzz stems
+
+      SORTER
+        DICTLINE.GEN   --  Or whatever
+           1 75         --  STEMS  
+          77 24   P     --  PART  
+         111 80         --  MEAN  --  To order |'s
+        DICTLINE.TXT    --  Where to put result
+
+Extract the zzz stems from the end of the file into ZZZ.TXT leaving DICTLINE.NOZ
+
+Sort these 
+
+     SORTER
+        ZZZ.TXT
+           77 24   P     --  PART  
+            1 75         --  STEMS  
+          111 80         --  MEAN  --  To order |'s
+          101 10         --  TRAN
+        ZZZ.TXT             --  Where to put result
+
+Extract the PRON 5 to a PRON5.TXT  --  More to come
+
+
+
+Now sort the rest
+
+      SORTER
+        DICTLINE.NOZ       
+           77 24   P     --  PART  
+            1 75         --  STEMS  
+          111 80         --  MEAN  --  To order |'s
+          101 10         --  TRAN
+        DICTLINE.NOZ    --  Where to put result
+
+
+Now extract from DICTLINE.NOZ the remaining PRON 5, the Greek adjectives, 
+and the qui/alqui PRON/PACK 1, giving
+
+ZZZ.TXT
+GKADJ.TXT
+PRON1.TXT
+PRON5.TXT
+
+After those are removed, the remaining is REST.TXT.
+
+
+Run DICTPAGE on each of these 5 files 
+(Copy them to DICTPAGE.IN, run DICTPAGE, copy DICTPAGE.OUT to the appropriate file .PG)
+
+
+----------------ZZZ
+
+Process the remaining (less PRON 5) ZZZ.TXT with DICTPAGE
+(Copy ZZZ.TXT to DICTPAGE.IN, run DICTPAGE, copy DICTPAGE.OUT to ZZZ.PG)
+Most of them will be handled.  Hand edit the rest.
+
+Some should be expanded (archaic forms in one stem need to be filled out).
+Some should be modified (e.g., the plurals).
+Some should be trimmed (adjectives with no positive).
+There are some kludges (artificial entries which generate irregular forms)
+here.  Some may just be excluded from the .PG .
+
+----------------GKADJ
+
+Sort GKADJ to get the various parts together for a multiple entry
+
+
+      SORTER
+        GKDAJ.TXT       
+            1 75         --  STEMS  
+          111 80         --  MEAN  --  To order |'s
+          101 10         --  TRAN
+           77 24   P     --  PART  
+        GKADJ.TXT            --  Where to put result
+
+Run DICTPAGE and edit.  This edit is straightforward but tedious.
+I should prepare a procedure to do this automatically, but have not yet.
+It is likely that there are few or no changes
+from the previous run and those results can be used/modified.
+
+
+The product is GKADJ.PG
+
+----------------PRON1
+
+This must be hand edited.  However it may not change much between versions.
+
+----------------PRON5
+
+Very small.
+
+----------------UNIQUES
+
+UNIQUES are treated by UNIQPAGE.EXE, giving UNIQPAGE.PG
+
+----------------
+
+----------------
+
+The resulting files (with extensions appropriate to the phase of the operation,
+ending in .PG) are 
+
+GKADJ
+PRON1
+PRON5
+REST
+UNIQPAGE
+ZZZ
+
+----------------FINISH
+
+Assemble the 6 .PG files to DICTPAGE.PG and sort to produce DICTPAGE.RAW
+
+
+  SORTER
+        DICTPAGE.PG   
+           1 300  C      --  Everything  
+           1 300  A      --  For Caps  
+        DICTPAGE.RAW    --  Where to put result
+
+
+Then process with PAGE2HTM ans add PREAMBLE.TXT at begining and end BODY at end 
+to get DICTPAGE.HTM
+
+---------------------------------------------------------------------
+
+
+ 
+
+------------------------------------------------------------------
+----------------------THE SHORT FORM------------------------------
+------------------------------------------------------------------
+
+------  SORT DICTLINE
+
+      SORTER
+        DICTLINE.GEN
+            1 75         --  STEMS  
+           77 24   P     --  PART  
+          111 80         --  MEAN  --  To order |'s
+          101 10         --  TRAN
+         DICTLINE.GEN    --  Where to put result
+
+
+WAKEDICT/MAKEDICT
+
+------  SORT STEMLIST IF NOT PROVIDED
+
+       SORTER
+         STEMLIST.GEN    --  Input  
+           1    18   U
+           20   24   P
+           1    18   A
+           1    56   C
+         STEMLIST.GEN    --  Output  
+
+MAKESTEM
+
+MAKEEWDS
+
+------  SORT EWDSLIST
+
+       SORTER
+         EWDSLIST.GEN   
+           1   24   A         --  Main word
+           1   24   C         --  Main word for CAPS
+          51    6   R         --  Part of Speech  
+          72    5   N    D    --  RANK
+          58    1   D         --  FREQ
+         EWSDLIST.GEN        --  Output 
+
+MAKEEFIL

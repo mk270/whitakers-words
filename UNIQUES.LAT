@@ -1,0 +1,222 @@
+agantur   
+V      3 1 PRES PASSIVE SUB 3 P  IMPERS             F  X  X  E  E         
+let them be treated; let it be a matter or question of;
+agatur
+V      3 1 PRES PASSIVE SUB 3 S  IMPERS             F  X  X  E  E         
+let it be treated; let it be a matter or question of;
+necessest
+V     5 1 PRES  ACTIVE  IND  3 S IMPERS             X  X  X  C  X         
+it is necessary/essential/unavoidable/true; it is inevitable/by natural law;
+aforem 
+V     5 1 IMPF  ACTIVE  SUB  1 S TO_BEING           X  X  X  C  X         
+be away/absent/distant/missing; be free/removed from; be lacking; be distinct;
+afores 
+V     5 1 IMPF  ACTIVE  SUB  2 S TO_BEING           X  X  X  C  X         
+be away/absent/distant/missing; be free/removed from; be lacking; be distinct;
+aforet 
+V     5 1 IMPF  ACTIVE  SUB  3 S TO_BEING           X  X  X  C  X         
+be away/absent/distant/missing; be free/removed from; be lacking; be distinct;
+aforemus 
+V     5 1 IMPF  ACTIVE  SUB  1 P TO_BEING           X  X  X  C  X         
+be away/absent/distant/missing; be free/removed from; be lacking; be distinct;
+aforetis 
+V     5 1 IMPF  ACTIVE  SUB  2 P TO_BEING           X  X  X  C  X         
+be away/absent/distant/missing; be free/removed from; be lacking; be distinct;
+aforent
+V     5 1 IMPF  ACTIVE  SUB  3 P TO_BEING           X  X  X  C  X         
+be away/absent/distant/missing; be free/removed from; be lacking; be distinct;
+afore                        
+V    5 1 FUT  ACTIVE INF  0 X TO_BEING              X  X  X  C  X
+be away/absent/distant/missing; be free/removed from; be lacking; be distinct;
+viden                      
+V  2 1   PRES ACTIVE IND  2 S TRANS                 X  X  X  C  S
+do you not see; or consider; (vides-ne);
+memento                      
+V  0 0   PRES ACTIVE IMP  2 S TRANS                 X  X  X  C  O
+remember; be mindful of;
+mementote                    
+V  0 0   PRES ACTIVE IMP  2 P TRANS                 X  X  X  C  O
+remember; be mindful of;
+cette                        
+V    3 1 PRES ACTIVE IMP  2 P TRANS                 X  X  X  B  O
+give/bring here!/hand over, come (now/here); tell/show us, out with it! behold!
+cedo                         
+V    3 1 PRES ACTIVE IMP  2 S TRANS                 X  X  X  B  O
+give/bring here!/hand over, come (now/here); tell/show us, out with it! behold!
+adesdum                      
+V    5 1 PRES ACTIVE IMP  2 S TO_BEING              X  X  X  C  X
+come hither; (ades dum);
+chely                        
+N 9 9 VOC S F T                                     X  X  X  C  S
+lyre, harp; tortoise shell (from which lyres were made); tortoise;
+chelyn                         
+N 9 9 ACC S F T                                     X  X  X  C  O
+lyre, harp; tortoise shell (from which lyres were made); tortoise;
+exspes                                                                      
+ADJ    3 1 NOM S X POS                              X  X  X  C  X 
+hopeless; (only NOM S);
+iusiurandum                     
+N 2 1 NOM S N t                                     X  X  X  C  X
+an oath (ius iurandum);                                                  
+iurisiurandi                     
+N 2 1 GEN S N t                                     X  X  X  C  X
+an oath (ius iurandum);                                                  
+iusiurandum                     
+N 2 1 ACC S N t                                     X  X  X  C  X
+an oath (ius iurandum);                                                  
+iureiurando                     
+N 2 1 ABL S N t                                     X  X  X  C  X
+an oath (ius iurandum);                                                  
+ec                              
+PRON 3 1 NOM S F ADJECT                             E  X  X  E  W
+this; person/thing present/just mentioned/in this place; ((h)(a)ec); +DEMONS;
+ec                              
+PRON 3 1 NOM P N ADJECT                             E  X  X  E  W
+these (pl.); persons/things/conditions present/here/just mentioned; +DEMONS;
+ec                              
+PRON 3 1 ACC P N ADJECT                             E  X  X  E  W
+these (pl.); persons/things/conditions present/here/just mentioned; +DEMONS;
+eadem                           
+PRON 4 2 NOM S F DEMONS                             X  X  X  B  X
+same, the same, the very same; also; (idem, eadem, idem);
+eadem                           
+PRON 4 2 NOM P N DEMONS                             X  X  X  B  X
+same, the same, the very same; also; (idem, eadem, idem);
+eadem                           
+PRON 4 2 ACC P N DEMONS                             X  X  X  B  X
+same, the same, the very same; also; (idem, eadem, idem);
+eundem                           
+PRON 4 2 ACC S M DEMONS                             X  X  X  B  X
+same, the same, the very same; also; (idem, eadem, idem);
+eodem                           
+PRON 4 2 ABL S X DEMONS                             X  X  X  B  X
+same, the same, the very same; also; (idem, eadem, idem);
+quisquis                        
+PRON 1 2 NOM S C ADJECT                             X  X  X  B  X
+whoever; every one who; whoever it be; everyone; each;
+quidquid                        
+PRON 1 6 NOM S N INDEF                              X  X  X  B  X
+whatever, whatsoever; everything which; each one; each; everything; anything;
+quicquid                        
+PRON 1 6 NOM S N INDEF                              X  X  X  B  X
+whatever, whatsoever; everything which; each one; each; everything; anything;
+quodquod                        
+PRON 1 7 NOM S N ADJECT                             X  X  X  B  X
+whatever, whatsoever; everything which; each one; each; everything; anything;
+quemquem                        
+PRON 1 0 ACC S M ADJECT                             X  X  X  C  X
+whomever; every one who; whomever it be; everyone; each;
+quidquid                        
+PRON 1 6 ACC S N ADJECT                             X  X  X  C  X
+whatever, whatsoever; everything which; each one; each; everything; anything;
+quicquid                        
+PRON 1 6 ACC S N ADJECT                             X  X  X  C  X
+whatever, whatsoever; everything which; each one; each; everything; anything;
+quodquod                        
+PRON 1 7 ACC S N ADJECT                             X  X  X  C  X
+whatever, whatsoever; everything which; each one; each; everything; anything;
+chodchod                        
+PRON 1 7 ACC S N ADJECT                             E  X  X  F  W
+whatever; everything/anything (which); valuable merchandise (Souter);
+quoquo                          
+PRON 1 0 ABL S X ADJECT                             X  X  X  C  X
+whoever; whatever, whatsoever; every one who; everything which; each one; each;
+quicquam                        
+PRON 1 6 NOM S N ADJECT                             X  X  X  C  X
+any; anything; anything whatsoever;
+quicquam                        
+PRON 1 6 ACC S N ADJECT                             X  X  X  C  X
+any; anything; anything whatsoever;
+quippiam                        
+PRON 1 0 NOM S N INDEF                              X  X  X  B  O
+some/any one/thing; unspecified thing/person; certain quanity, a bit; at all;
+quippiam                        
+PRON 1 0 ACC S N INDEF                              X  X  X  B  O
+some/any one/thing; unspecified thing/person; certain quanity, a bit; at all;
+unusquisque                     
+PRON 1 0 NOM S M INDEF                              X  X  X  D  W
+each one;
+uniuscuiusque                     
+PRON 1 0 GEN S X INDEF                              X  X  X  D  W
+each one;
+unicuique                     
+PRON 1 0 DAT S X INDEF                              X  X  X  D  W
+each one;
+unumquodque                     
+PRON 1 0 ACC S M INDEF                              X  X  X  D  W
+each one;
+quantumcumque                   
+N 2 2 NOM S N T                                     X  X  X  D  O
+however much/little; as much as; whatever;  
+quantumcumque                   
+N 2 2 ACC S N T                                     X  X  X  D  O
+however much/little; as much as; whatever; 
+mi                              
+ADJ 1 1 VOC S M POS                                 X  X  X  B  X
+my, mine;
+mare                     
+ADJ 3 1 NOM S N POS                                 X  X  X  F  O
+male; masculine, of the male sex; manly, virile, brave, noble; G:masculine;
+di                                     
+N 2 1 NOM P M p                                     X  E  X  C  X
+god;                                                                     
+dii                                    
+N 2 1 NOM P M p                                     X  E  X  C  X
+god;                                                                     
+deus                                   
+N 2 1 VOC S M p                                     X  E  X  C  X
+god; God!: Oh God;                                                        
+di                                     
+N 2 1 VOC P M p                                     X  E  X  C  X
+god;                                                                     
+dii                                    
+N 2 1 VOC P M p                                     X  E  X  C  X
+god;                                                                     
+dis                                    
+N 2 1 ABL P M p                                     X  E  X  C  X
+god;                                                                     
+diis                                   
+N 2 1 DAT P M p                                     X  E  X  C  X
+god;                                                                     
+dis                                    
+N 2 1 DAT P M p                                     X  E  X  C  X
+god;                                                                     
+diis                                   
+N 2 1 ABL P M p                                     X  E  X  C  X
+god;                                                                     
+boum                                   
+N 3 1 GEN P C t                                     X  A  X  E  O
+ox; bull; cow; cattle (pl.); (odd form of bos or bus);
+bobus                                  
+N 3 1 DAT P C t                                     X  A  X  D  O
+ox; bull; cow; cattle (pl.); (odd form of bos or bus);
+bobus                                  
+N 3 1 ABL P C t                                     X  A  X  D  O
+ox; bull; cow; cattle (pl.); (odd form of bos or bus);
+mensuum                                
+N 3 3 GEN P M t                                     X  X  X  C  O
+month;                      
+republicae                      
+N 5 1 GEN S F t                                     X  X  X  B  X
+of the state/republic; (res publica => the state);       
+rusi                            
+N 3 1 LOC S N w                                     X  X  X  B  X
+country; ( = in the country); (ancient form carried on); 
+mavis                           
+V     6 2 PRES  ACTIVE  IND  2 S X                  X  X  X  B  X
+prefer;
+mavult                          
+V     6 2 PRES  ACTIVE  IND  3 S X                  X  X  X  B  X
+prefer;
+mavultis                        
+V     6 2 PRES  ACTIVE  IND  2 P X                  X  X  X  B  X
+prefer;
+vis                             
+V     6 2 PRES  ACTIVE  IND  2 S X                  X  X  X  A  X
+be willing; wish;
+vult                            
+V     6 2 PRES  ACTIVE  IND  3 S X                  X  X  X  A  X
+be willing; wish;
+vultis                          
+V     6 2 PRES  ACTIVE  IND  2 P X                  X  X  X  A  X
+be willing; wish;
