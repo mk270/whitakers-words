@@ -1,12 +1,12 @@
-with text_io; 
-with strings_package; use strings_package;  
+with text_io;
+with strings_package; use strings_package;
 with latin_file_names; use latin_file_names;
 with inflections_package; use inflections_package;
 with dictionary_package; use dictionary_package;
 with line_stuff; use line_stuff;
 with dictionary_form;
-procedure dictord is 
-   --  DICTORD.IN -> DICTORD.OUT  
+procedure dictord is
+   --  DICTORD.IN -> DICTORD.OUT
    --  Takes DICTLINE form, puts # and dictionary form at begining,
    --  a file that can be sorted to produce word order of paper dictionary
    package integer_io is new text_io.integer_io(integer);
@@ -17,24 +17,22 @@ procedure dictord is
    use translation_record_io;
    use age_type_io;
    use area_type_io;
-   
-   
+
    start_stem_1  : constant := 1;
    start_stem_2  : constant := start_stem_1 + max_stem_size + 1;
    start_stem_3  : constant := start_stem_2 + max_stem_size + 1;
    start_stem_4  : constant := start_stem_3 + max_stem_size + 1;
    start_part    : constant := start_stem_4 + max_stem_size + 1;
-   start_tran    : constant integer := 
-	 start_part + 
+   start_tran    : constant integer :=
+	 start_part +
 	 integer(part_entry_io.default_width + 1);
-   finish_line   : constant integer := 
+   finish_line   : constant integer :=
 	 start_tran +
 	 translation_record_io.default_width - 1;
-   
-   
+
    input, output : text_io.file_type;
    de : dictionary_entry;
-   
+
    s, line, blank_line : string(1..400) := (others => ' ');
    l, ll, last : integer := 0;
    j : integer := 1;
@@ -43,26 +41,23 @@ procedure dictord is
    begin
 	  return head(trim(stem) & trim(infl), 20);
    end add;
-   
-   
-   
+
 begin
-   put_line("DICTORD.IN -> DICTORD.OUT     For dictionary updates.");  
+   put_line("DICTORD.IN -> DICTORD.OUT     For dictionary updates.");
    put_line("Takes DICTLINE form, puts # and dictionary form at begining,");
    put_line("a file for sorting to produce word order of paper dictionary");
    create(output, out_file, "DICTORD.OUT");
    open(input, in_file, "DICTORD.IN");
-   
-   
+
 over_lines:
 	while not end_of_file(input) loop
 	   s := blank_line;
 	   get_line(input, s, last);
 	   if trim(s(1..last)) /= ""  then   --  Rejecting blank lines
-		  
+
 	  form_de:
 		  begin
-			 
+
 			 de.stems(1) := s(start_stem_1..max_stem_size);
 			 de.stems(2) := s(start_stem_2..start_stem_2+max_stem_size-1);
 			 de.stems(3) := s(start_stem_3..start_stem_3+max_stem_size-1);
@@ -74,7 +69,7 @@ over_lines:
 			 de.mean := head(s(l+2..last), max_meaning_size);
 			 --  Note that this allows initial blanks
 			 --  L+2 skips over the SPACER, required because this is STRING, not ENUM
-			 
+
 		  exception
 			 when others =>
 				put_line("Exception");
@@ -82,14 +77,13 @@ over_lines:
 				integer_io.put(integer(j)); new_line;
 				put(de); new_line;
 		  end form_de;
-		  
-		  
-		  put(output, "#" & dictionary_form(de)); 
-		  set_col(output, 81); put_line(output, s(1..last)); 
-		  
+
+		  put(output, "#" & dictionary_form(de));
+		  set_col(output, 81); put_line(output, s(1..last));
+
 	   end if;  --  Rejecting blank lines
 	end loop over_lines;
-	
+
 	close(output);
 exception
    when text_io.data_error  =>
@@ -98,5 +92,5 @@ exception
 	  put_line(s(1..last));
 	  integer_io.put(integer(j)); new_line;
 	  close(output);
-	  
+
 end dictord;

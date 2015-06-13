@@ -6,14 +6,14 @@ procedure invstems is
    subtype stem is string (1..18);
    blank_stem : constant stem := (others => ' ');
    sts : array (1..4) of stem;
-   
+
    input, output : file_type;
-   
+
    function invert(s : string) return string is
 	  t : string(s'first..s'last);
    begin
-	  if s(1) = ' '  then 
-		 return blank_stem;  
+	  if s(1) = ' '  then
+		 return blank_stem;
 	  else
 		 for i in s'range  loop
 			t(i) := s(s'last-i+1);
@@ -21,13 +21,13 @@ procedure invstems is
 		 return head(trim(t), 18);
 	  end if;
    end invert;
-   
+
 begin
    put_line("Inverts the 4 stems of a DICTLINE form file INVERT_S.IN -> INVERT_S.OUT");
-   
+
    create(output, out_file, "INVERT_S.OUT");
    open(input, in_file, "INVERT_S.IN");
-   
+
    while not end_of_file(input)  loop
 	  get_line(input, line, ll);
 	  sts(1) := line(1..18);
@@ -42,9 +42,9 @@ begin
 	  line(39..56) := sts(3);
 	  line(58..75) := sts(4);
 	  put_line(output, line(1..ll));
-      
+
    end loop;
-   
+
    close(output);
-   
+
 end invstems;
