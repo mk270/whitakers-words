@@ -19,19 +19,19 @@ bin/makestem:
 	gprbuild -Pmakestem
 
 DICTFILE.GEN: DICTLINE.GEN bin/makedict
-	bin/makedict $<
+	echo g | bin/makedict $< > /dev/null
 
 EWDSFILE.GEN:
 	bin/makeefil
 
 EWDSLIST.GEN: DICTLINE.GEN bin/makeewds
-	bin/makeewds $<
+	echo g | bin/makeewds $< > /dev/null
 
 INFLECTS.SEC: INFLECTS.LAT bin/makeinfl
 	bin/makeinfl $<
 
 STEMFILE.GEN: STEMLIST.GEN bin/makestem
-	bin/makestem $<
+	echo g | bin/makestem $< > /dev/null
 
 data: DICTFILE.GEN STEMFILE.GEN INDXFILE.GEN EWDSLIST.GEN INFLECTS.SEC
 
