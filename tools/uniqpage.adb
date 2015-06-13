@@ -1,119 +1,119 @@
-   with TEXT_IO; 
-   with STRINGS_PACKAGE; use STRINGS_PACKAGE;  
-   with LATIN_FILE_NAMES; use LATIN_FILE_NAMES;
-   with INFLECTIONS_PACKAGE; use INFLECTIONS_PACKAGE;
-   with DICTIONARY_PACKAGE; use DICTIONARY_PACKAGE;
-   with LINE_STUFF; use LINE_STUFF;
-   with DICTIONARY_FORM;
-   procedure UNIQPAGE is 
+with text_io; 
+with strings_package; use strings_package;  
+with latin_file_names; use latin_file_names;
+with inflections_package; use inflections_package;
+with dictionary_package; use dictionary_package;
+with line_stuff; use line_stuff;
+with dictionary_form;
+procedure uniqpage is 
    
-     package INTEGER_IO is new TEXT_IO.INTEGER_IO(INTEGER);
-      use TEXT_IO;
-      use DICTIONARY_ENTRY_IO;
-      use PART_ENTRY_IO;
-      use KIND_ENTRY_IO;
-      use TRANSLATION_RECORD_IO;
-      use AGE_TYPE_IO;
-      use AREA_TYPE_IO;
-      use GEO_TYPE_IO;
-      use FREQUENCY_TYPE_IO;
-      use SOURCE_TYPE_IO;
+   package integer_io is new text_io.integer_io(integer);
+   use text_io;
+   use dictionary_entry_io;
+   use part_entry_io;
+   use kind_entry_io;
+   use translation_record_io;
+   use age_type_io;
+   use area_type_io;
+   use geo_type_io;
+   use frequency_type_io;
+   use source_type_io;
    
-      
-      UNIQUES_FILE, UNIQPAGE : TEXT_IO.FILE_TYPE;
    
-      S, LINE, BLANK_LINE, BLANKS : STRING(1..400) := (others => ' ');
-      L, LL, LAST : INTEGER := 0;
+   uniques_file, uniqpage : text_io.file_type;
+   
+   s, line, blank_line, blanks : string(1..400) := (others => ' ');
+   l, ll, last : integer := 0;
 
-      STEM : STEM_TYPE := NULL_STEM_TYPE;
-      QUAL : QUALITY_RECORD;
-      KIND : KIND_ENTRY;
-      TRAN : TRANSLATION_RECORD;
-      MEAN : MEANING_TYPE;
-      
-              
-    
-      procedure GET_LINE_UNIQUE(INPUT : in TEXT_IO.FILE_TYPE; S : out STRING; LAST : out NATURAL) is
-      begin
-        LAST := 0;
-        TEXT_IO.GET_LINE(INPUT, S, LAST);
-        if TRIM(S(1..LAST)) /= ""  then   --  Rejecting blank lines
-          null; 
-        end if;   
-      end GET_LINE_UNIQUE;
-
+   stem : stem_type := null_stem_type;
+   qual : quality_record;
+   kind : kind_entry;
+   tran : translation_record;
+   mean : meaning_type;
+   
+   
+   
+   procedure get_line_unique(input : in text_io.file_type; s : out string; last : out natural) is
    begin
-     PUT_LINE("UNIQUES.LAT -> UNIQPAGE.PG");  
-     PUT_LINE("Takes UNIQUES form, single lines it, puts # at begining,");
-     PUT_LINE("producing a .PG file for sorting to produce paper dictionary");
-      CREATE(UNIQPAGE, OUT_FILE, "UNIQPAGE.PG");
-      OPEN(UNIQUES_FILE, IN_FILE, "UNIQUES.LAT");
-   
-   
-    OVER_LINES:       
-    while not END_OF_FILE(UNIQUES_FILE)  loop
-      LINE := BLANKS;
-      GET_LINE_UNIQUE(UNIQUES_FILE, LINE, LAST);      --  STEM 
-      STEM := HEAD(TRIM(LINE(1..LAST)), MAX_STEM_SIZE);
+	  last := 0;
+	  text_io.get_line(input, s, last);
+	  if trim(s(1..last)) /= ""  then   --  Rejecting blank lines
+		 null; 
+	  end if;   
+   end get_line_unique;
 
-      LINE := BLANKS;
-      GET_LINE_UNIQUE(UNIQUES_FILE, LINE, LAST);    --  QUAL, KIND, TRAN       
-      QUALITY_RECORD_IO.GET(LINE(1..LAST), QUAL, L);
-      GET(LINE(L+1..LAST), QUAL.POFS, KIND, L);
-      AGE_TYPE_IO.GET(LINE(L+1..LAST), TRAN.AGE, L);
-      AREA_TYPE_IO.GET(LINE(L+1..LAST), TRAN.AREA, L);
-      GEO_TYPE_IO.GET(LINE(L+1..LAST), TRAN.GEO, L);
-      FREQUENCY_TYPE_IO.GET(LINE(L+1..LAST), TRAN.FREQ, L);
-      SOURCE_TYPE_IO.GET(LINE(L+1..LAST), TRAN.SOURCE, L);
+begin
+   put_line("UNIQUES.LAT -> UNIQPAGE.PG");  
+   put_line("Takes UNIQUES form, single lines it, puts # at begining,");
+   put_line("producing a .PG file for sorting to produce paper dictionary");
+   create(uniqpage, out_file, "UNIQPAGE.PG");
+   open(uniques_file, in_file, "UNIQUES.LAT");
+   
+   
+over_lines:       
+    while not end_of_file(uniques_file)  loop
+	   line := blanks;
+	   get_line_unique(uniques_file, line, last);      --  STEM 
+	   stem := head(trim(line(1..last)), max_stem_size);
+
+	   line := blanks;
+	   get_line_unique(uniques_file, line, last);    --  QUAL, KIND, TRAN       
+	   quality_record_io.get(line(1..last), qual, l);
+	   get(line(l+1..last), qual.pofs, kind, l);
+	   age_type_io.get(line(l+1..last), tran.age, l);
+	   area_type_io.get(line(l+1..last), tran.area, l);
+	   geo_type_io.get(line(l+1..last), tran.geo, l);
+	   frequency_type_io.get(line(l+1..last), tran.freq, l);
+	   source_type_io.get(line(l+1..last), tran.source, l);
 
 
-      LINE := BLANKS;
-      GET_LINE_UNIQUE(UNIQUES_FILE, LINE, L);         --  MEAN
-      MEAN := HEAD(TRIM(LINE(1..L)), MAX_MEANING_SIZE);    
-    
-    
-    
-     
---      while not END_OF_FILE(UNIQUES_FILE) loop
---         S := BLANK_LINE;
---         GET_LINE(INPUT, S, LAST);
---         if TRIM(S(1..LAST)) /= ""  then   --  Rejecting blank lines
---         
---                  
-         
-            TEXT_IO.PUT(UNIQPAGE, "#" & STEM); 
-            
-            QUALITY_RECORD_IO.PUT(UNIQPAGE, QUAL);
-            
-            
-           -- PART := (V, (QUAL.V.CON, KIND.V_KIND));
-            
-            if (QUAL.POFS = V)  and then  (KIND.V_KIND in GEN..PERFDEF)  then
-              TEXT_IO.PUT(UNIQPAGE, "  " & VERB_KIND_TYPE'IMAGE(KIND.V_KIND) & "  ");
-            end if;                                              
-            
-                        
-                 TEXT_IO.PUT(UNIQPAGE, " [");
-                 AGE_TYPE_IO.PUT(UNIQPAGE, TRAN.AGE);
-                 AREA_TYPE_IO.PUT(UNIQPAGE, TRAN.AREA);
-                 GEO_TYPE_IO.PUT(UNIQPAGE, TRAN.GEO);
-                 FREQUENCY_TYPE_IO.PUT(UNIQPAGE, TRAN.FREQ);
-                 SOURCE_TYPE_IO.PUT(UNIQPAGE, TRAN.SOURCE);
-                 TEXT_IO.PUT(UNIQPAGE, "]");
-             
-        
-            PUT(UNIQPAGE, " :: ");
-            PUT_LINE(UNIQPAGE, MEAN); 
-         
-         --end if;  --  Rejecting blank lines
-      end loop OVER_LINES;
-   
-      CLOSE(UNIQPAGE);
-      exception
-         when TEXT_IO.DATA_ERROR  =>
-            null;
-         when others =>
-            PUT_LINE(S(1..LAST));
-            CLOSE(UNIQPAGE);
-   
-   end UNIQPAGE;
+	   line := blanks;
+	   get_line_unique(uniques_file, line, l);         --  MEAN
+	   mean := head(trim(line(1..l)), max_meaning_size);    
+	   
+	   
+	   
+	   
+	   --      while not END_OF_FILE(UNIQUES_FILE) loop
+	   --         S := BLANK_LINE;
+	   --         GET_LINE(INPUT, S, LAST);
+	   --         if TRIM(S(1..LAST)) /= ""  then   --  Rejecting blank lines
+	   --         
+	   --                  
+	   
+	   text_io.put(uniqpage, "#" & stem); 
+	   
+	   quality_record_io.put(uniqpage, qual);
+	   
+	   
+	   -- PART := (V, (QUAL.V.CON, KIND.V_KIND));
+	   
+	   if (qual.pofs = v)  and then  (kind.v_kind in gen..perfdef)  then
+		  text_io.put(uniqpage, "  " & verb_kind_type'image(kind.v_kind) & "  ");
+	   end if;                                              
+	   
+	   
+	   text_io.put(uniqpage, " [");
+	   age_type_io.put(uniqpage, tran.age);
+	   area_type_io.put(uniqpage, tran.area);
+	   geo_type_io.put(uniqpage, tran.geo);
+	   frequency_type_io.put(uniqpage, tran.freq);
+	   source_type_io.put(uniqpage, tran.source);
+	   text_io.put(uniqpage, "]");
+	   
+	   
+	   put(uniqpage, " :: ");
+	   put_line(uniqpage, mean); 
+	   
+	   --end if;  --  Rejecting blank lines
+	end loop over_lines;
+	
+	close(uniqpage);
+exception
+   when text_io.data_error  =>
+	  null;
+   when others =>
+	  put_line(s(1..last));
+	  close(uniqpage);
+	  
+end uniqpage;

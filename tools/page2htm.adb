@@ -1,36 +1,36 @@
-with TEXT_IO; use TEXT_IO;
-with STRINGS_PACKAGE; use STRINGS_PACKAGE;
-procedure PAGE2HTM is
-  LINE, LINE_OUT, BLANK_LINE : STRING(1..300) := (others => ' ');
-  LAST, COLONS : INTEGER := 0;
-  
-  INPUT, OUTPUT : FILE_TYPE;
-  
+with text_io; use text_io;
+with strings_package; use strings_package;
+procedure page2htm is
+   line, line_out, blank_line : string(1..300) := (others => ' ');
+   last, colons : integer := 0;
+   
+   input, output : file_type;
+   
 begin 
-  PUT_LINE("DICTPAGE.RAW (sorted) -> DICTPAGE.HTM");
-  PUT_LINE("For use in preparing a DICTPAGE.HTM after running DICTPAGE and sorting.");
-  
-  OPEN(INPUT, IN_FILE, "DICTPAGE.RAW");
-  CREATE(OUTPUT, OUT_FILE, "DICTPAGE.HTM");
-  
-  while not END_OF_FILE(INPUT)  loop
-    GET_LINE(INPUT, LINE, LAST);
-    if LINE(1) /= '#'  then
-        PUT_LINE("BAD LINE   >" & LINE(1..LAST));
-    end if;
-    for I in 1..LAST  loop
-      if LINE(I) = '['  then
-        PUT(OUTPUT, "<B>" & LINE(2..I-1) & "</B>  ");
-        PUT_LINE(OUTPUT, TRIM(LINE(I..I+6) & "<BR>"));
-      end if;
-    if LINE(I..I+1) = "::"  then
-        PUT_LINE(OUTPUT, TRIM(LINE(I+2..LAST)) & "<BR>");
-        exit;
-      end if;
-    end loop;  --  On LINE
-    
-  end loop;  --  On file
-  
-end PAGE2HTM;
+   put_line("DICTPAGE.RAW (sorted) -> DICTPAGE.HTM");
+   put_line("For use in preparing a DICTPAGE.HTM after running DICTPAGE and sorting.");
+   
+   open(input, in_file, "DICTPAGE.RAW");
+   create(output, out_file, "DICTPAGE.HTM");
+   
+   while not end_of_file(input)  loop
+	  get_line(input, line, last);
+	  if line(1) /= '#'  then
+		 put_line("BAD LINE   >" & line(1..last));
+	  end if;
+	  for i in 1..last  loop
+		 if line(i) = '['  then
+			put(output, "<B>" & line(2..i-1) & "</B>  ");
+			put_line(output, trim(line(i..i+6) & "<BR>"));
+		 end if;
+		 if line(i..i+1) = "::"  then
+			put_line(output, trim(line(i+2..last)) & "<BR>");
+			exit;
+		 end if;
+	  end loop;  --  On LINE
+	  
+   end loop;  --  On file
+   
+end page2htm;
 
- 
+

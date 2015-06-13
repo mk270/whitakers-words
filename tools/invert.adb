@@ -1,48 +1,48 @@
-   with TEXT_IO; use TEXT_IO;
-   with STRINGS_PACKAGE; use STRINGS_PACKAGE;
-   procedure INVERT is
-      LINE, PARM : STRING(1..250);
-      L, LAST : INTEGER;
-      N1, N2 : INTEGER;
+with text_io; use text_io;
+with strings_package; use strings_package;
+procedure invert is
+   line, parm : string(1..250);
+   l, last : integer;
+   n1, n2 : integer;
    
-      INPUT, OUTPUT : FILE_TYPE;
-      package INTEGER_IO is new TEXT_IO.INTEGER_IO(INTEGER);
+   input, output : file_type;
+   package integer_io is new text_io.integer_io(integer);
    
-      function INVERT(S : STRING) return STRING is
-         T : STRING(1..S'LENGTH);
-      begin
-         for I in 1..T'LENGTH  loop
-            T(I) := S(S'LAST-I+1);
-         end loop;
-         return HEAD(TRIM(T), S'LENGTH);
-      
-      end INVERT;
-   
+   function invert(s : string) return string is
+	  t : string(1..s'length);
    begin
-      PUT_LINE("Inverts/reverses the order of columns N1..N2 of INVERT.IN -> INVERT.OUT");
-      PUT("Give an N1 and N2 => ");
-      GET_LINE(PARM, LAST);
-   
-      INTEGER_IO.GET(PARM(1..LAST), N1, L);
-      INTEGER_IO.GET(PARM(L+1..LAST), N2, L);
-   
-      CREATE(OUTPUT, OUT_FILE, "INVERT.OUT");
-      OPEN(INPUT, IN_FILE, "INVERT.IN");
-   
-   
-      while not END_OF_FILE(INPUT)  loop
-         GET_LINE(INPUT, LINE, LAST);
+	  for i in 1..t'length  loop
+		 t(i) := s(s'last-i+1);
+	  end loop;
+	  return head(trim(t), s'length);
       
-         LINE(N1..N2)  := INVERT(LINE(N1..N2));
-         PUT('.');
-         PUT_LINE(OUTPUT, LINE(1..LAST));
+   end invert;
+   
+begin
+   put_line("Inverts/reverses the order of columns N1..N2 of INVERT.IN -> INVERT.OUT");
+   put("Give an N1 and N2 => ");
+   get_line(parm, last);
+   
+   integer_io.get(parm(1..last), n1, l);
+   integer_io.get(parm(l+1..last), n2, l);
+   
+   create(output, out_file, "INVERT.OUT");
+   open(input, in_file, "INVERT.IN");
+   
+   
+   while not end_of_file(input)  loop
+	  get_line(input, line, last);
       
-      end loop;
+	  line(n1..n2)  := invert(line(n1..n2));
+	  put('.');
+	  put_line(output, line(1..last));
+      
+   end loop;
    
-      CLOSE(OUTPUT);
+   close(output);
    
-      exception
-         when others  =>
-            CLOSE(OUTPUT);
-   
-   end INVERT;
+exception
+   when others  =>
+	  close(output);
+	  
+end invert;

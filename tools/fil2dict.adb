@@ -1,67 +1,67 @@
-   with TEXT_IO; 
-   with STRINGS_PACKAGE; use STRINGS_PACKAGE;  
-   with LATIN_FILE_NAMES; use LATIN_FILE_NAMES;
-   with INFLECTIONS_PACKAGE; use INFLECTIONS_PACKAGE;
-   with DICTIONARY_PACKAGE; use DICTIONARY_PACKAGE;
-   with LINE_STUFF; use LINE_STUFF;
-   procedure FIL2DICT is 
-      package INTEGER_IO is new TEXT_IO.INTEGER_IO(INTEGER);
-      use TEXT_IO;
-      use STEM_KEY_TYPE_IO;
-      use DICTIONARY_ENTRY_IO;
-      use PART_ENTRY_IO;
-      use KIND_ENTRY_IO;
-      use TRANSLATION_RECORD_IO;
-      use AGE_TYPE_IO;
-      use AREA_TYPE_IO;
-      use GEO_TYPE_IO;
-      use FREQUENCY_TYPE_IO;
-      use SOURCE_TYPE_IO;
-      use DICT_IO;
+with text_io; 
+with strings_package; use strings_package;  
+with latin_file_names; use latin_file_names;
+with inflections_package; use inflections_package;
+with dictionary_package; use dictionary_package;
+with line_stuff; use line_stuff;
+procedure fil2dict is 
+   package integer_io is new text_io.integer_io(integer);
+   use text_io;
+   use stem_key_type_io;
+   use dictionary_entry_io;
+   use part_entry_io;
+   use kind_entry_io;
+   use translation_record_io;
+   use age_type_io;
+   use area_type_io;
+   use geo_type_io;
+   use frequency_type_io;
+   use source_type_io;
+   use dict_io;
    
    
-      D_K : DICTIONARY_KIND := XXX;       
-      DE: DICTIONARY_ENTRY := NULL_DICTIONARY_ENTRY;
- 
-      LINE : STRING(1..200) := (others => ' ');
-      LAST : INTEGER := 0;
-      
-      DICTFILE : DICT_IO.FILE_TYPE;
-      DICTLINE : TEXT_IO.FILE_TYPE;
+   d_k : dictionary_kind := xxx;       
+   de: dictionary_entry := null_dictionary_entry;
    
-   begin
-      PUT_LINE(
-        "Takes a DICTFILE.D_K and reconstructs the DICTLINE.D_K it came from");
-        
-      PUT("What dictionary to list, GENERAL or SPECIAL  (Reply G or S) =>");
-      TEXT_IO.GET_LINE(LINE, LAST);
-      if LAST > 0  then
-         if TRIM(LINE(1..LAST))(1) = 'G'  or else
-         TRIM(LINE(1..LAST))(1) = 'g'     then
-            D_K := GENERAL;
-         elsif TRIM(LINE(1..LAST))(1) = 'S'  or else
-         TRIM(LINE(1..LAST))(1) = 's'     then
-            D_K := SPECIAL;
-         else
-            PUT_LINE("No such dictionary");
-            raise TEXT_IO.DATA_ERROR;
-         end if; 
-      end if;
+   line : string(1..200) := (others => ' ');
+   last : integer := 0;
+   
+   dictfile : dict_io.file_type;
+   dictline : text_io.file_type;
+   
+begin
+   put_line(
+	 "Takes a DICTFILE.D_K and reconstructs the DICTLINE.D_K it came from");
+   
+   put("What dictionary to list, GENERAL or SPECIAL  (Reply G or S) =>");
+   text_io.get_line(line, last);
+   if last > 0  then
+	  if trim(line(1..last))(1) = 'G'  or else
+		trim(line(1..last))(1) = 'g'     then
+		 d_k := general;
+	  elsif trim(line(1..last))(1) = 'S'  or else
+		trim(line(1..last))(1) = 's'     then
+		 d_k := special;
+	  else
+		 put_line("No such dictionary");
+		 raise text_io.data_error;
+	  end if; 
+   end if;
    
    
-      DICT_IO.OPEN(DICTFILE, IN_FILE, ADD_FILE_NAME_EXTENSION(DICT_FILE_NAME, 
-                                                DICTIONARY_KIND'IMAGE(D_K))); 
+   dict_io.open(dictfile, in_file, add_file_name_extension(dict_file_name, 
+	 dictionary_kind'image(d_k))); 
    
-     
-      
-      CREATE(DICTLINE, OUT_FILE, ADD_FILE_NAME_EXTENSION(DICT_LINE_NAME, 
-                                                 "NEW"));
-                                                 --DICTIONARY_KIND'IMAGE(D_K)));
-      
    
-      while not END_OF_FILE(DICTFILE)  loop
-        READ(DICTFILE, DE);
-        PUT(DICTLINE, DE);
-      end loop;
-    
-   end FIL2DICT;
+   
+   create(dictline, out_file, add_file_name_extension(dict_line_name, 
+	 "NEW"));
+   --DICTIONARY_KIND'IMAGE(D_K)));
+   
+   
+   while not end_of_file(dictfile)  loop
+	  read(dictfile, de);
+	  put(dictline, de);
+   end loop;
+   
+end fil2dict;

@@ -1,76 +1,76 @@
-   with TEXT_IO; 
-   with STRINGS_PACKAGE; use STRINGS_PACKAGE;  
-   procedure DUPS is 
-      package INTEGER_TEXT_IO is new TEXT_IO.INTEGER_IO(INTEGER);
-      use INTEGER_TEXT_IO;
-      use TEXT_IO;
+with text_io; 
+with strings_package; use strings_package;  
+procedure dups is 
+   package integer_text_io is new text_io.integer_io(integer);
+   use integer_text_io;
+   use text_io;
    
    
    
-      INPUT, OUTPUT : FILE_TYPE;
-      S, LINE, OLDLINE, BLANK_LINE : STRING(1..400) := (others => ' ');
-      J, L, LL, LAST : INTEGER := 0;
-      MX, NX : NATURAL := 0;
+   input, output : file_type;
+   s, line, oldline, blank_line : string(1..400) := (others => ' ');
+   j, l, ll, last : integer := 0;
+   mx, nx : natural := 0;
    
-      LINE_NUMBER : INTEGER := 0;
-      NUMBER : INTEGER := 0;
+   line_number : integer := 0;
+   number : integer := 0;
    
    
-      procedure GET_ENTRY (MX, NX  : out NATURAL) is
-         Z : NATURAL := 0;
-         LS : INTEGER := 0;
-         ENTER_LINE : STRING(1..20);
+   procedure get_entry (mx, nx  : out natural) is
+	  z : natural := 0;
+	  ls : integer := 0;
+	  enter_line : string(1..20);
       
-         procedure PROMPT_FOR_ENTRY(ENTRY_NUMBER : STRING) is
-         begin
-            PUT("Give starting and ending column ");
-         end PROMPT_FOR_ENTRY;
+	  procedure prompt_for_entry(entry_number : string) is
+	  begin
+		 put("Give starting and ending column ");
+	  end prompt_for_entry;
       
       
-      begin
-      
-         GET_LINE(ENTER_LINE, LS);
-         GET(ENTER_LINE(1..LS), MX, LAST);
-         GET(ENTER_LINE(LAST+1..LS), NX, LAST);
-      
-      end GET_ENTRY;
-   
    begin
-      PUT_LINE("DUPS.IN -> DUPS.OUT    For sorted files");
-      PUT_LINE("DUPS  checks for columns MX..NX being duplicates");
-      GET_ENTRY(MX, NX);
+      
+	  get_line(enter_line, ls);
+	  get(enter_line(1..ls), mx, last);
+	  get(enter_line(last+1..ls), nx, last);
+      
+   end get_entry;
    
-      CREATE(OUTPUT, OUT_FILE, "DUPS.OUT");
-      OPEN(INPUT, IN_FILE, "DUPS.IN");
+begin
+   put_line("DUPS.IN -> DUPS.OUT    For sorted files");
+   put_line("DUPS  checks for columns MX..NX being duplicates");
+   get_entry(mx, nx);
    
-      while not END_OF_FILE(INPUT) loop
-         OLDLINE := LINE;
-         LINE := BLANK_LINE;
-         GET_LINE(INPUT, LINE, LAST);
-         LINE_NUMBER := LINE_NUMBER + 1;
-         if LINE(MX..NX) = OLDLINE(MX..NX)  and then 
-            (LINE(111) /= '|') then
-            NUMBER := NUMBER + 1 ;
-            PUT(OUTPUT, LINE_NUMBER); PUT(OUTPUT, "  ");
-            PUT_LINE(OUTPUT, LINE(1..NX));
-         end if;
-      end loop;
+   create(output, out_file, "DUPS.OUT");
+   open(input, in_file, "DUPS.IN");
    
-      CLOSE(OUTPUT);
+   while not end_of_file(input) loop
+	  oldline := line;
+	  line := blank_line;
+	  get_line(input, line, last);
+	  line_number := line_number + 1;
+	  if line(mx..nx) = oldline(mx..nx)  and then 
+		(line(111) /= '|') then
+		 number := number + 1 ;
+		 put(output, line_number); put(output, "  ");
+		 put_line(output, line(1..nx));
+	  end if;
+   end loop;
    
-      NEW_LINE;
-      PUT("Number of entries = "); PUT(LINE_NUMBER); NEW_LINE;
-      PUT("Number of DUPS    = "); PUT(NUMBER); NEW_LINE;
-      PUT("Ratio             = 1 :"); PUT(LINE_NUMBER/NUMBER); NEW_LINE;
+   close(output);
    
-      exception
-         when NAME_ERROR  => 
-            PUT_LINE("No file to process");
-            CLOSE(OUTPUT);
-         
-         when others =>
-            PUT("Exception on LINE"); PUT(LINE_NUMBER); NEW_LINE;
-            PUT_LINE(S(1..LAST));
-            CLOSE(OUTPUT);
+   new_line;
+   put("Number of entries = "); put(line_number); new_line;
+   put("Number of DUPS    = "); put(number); new_line;
+   put("Ratio             = 1 :"); put(line_number/number); new_line;
    
-   end DUPS;
+exception
+   when name_error  => 
+	  put_line("No file to process");
+	  close(output);
+	  
+   when others =>
+	  put("Exception on LINE"); put(line_number); new_line;
+	  put_line(s(1..last));
+	  close(output);
+	  
+end dups;

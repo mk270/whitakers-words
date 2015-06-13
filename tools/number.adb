@@ -1,53 +1,53 @@
-   with TEXT_IO; 
-   with STRINGS_PACKAGE; use STRINGS_PACKAGE;  
-   with LATIN_FILE_NAMES; use LATIN_FILE_NAMES;
-   with INFLECTIONS_PACKAGE; use INFLECTIONS_PACKAGE;
-   with DICTIONARY_PACKAGE; use DICTIONARY_PACKAGE;
-   with LINE_STUFF; use LINE_STUFF;
-   procedure NUMBER is 
-      package INTEGER_IO is new TEXT_IO.INTEGER_IO(INTEGER);
-      use TEXT_IO;
-      
+with text_io; 
+with strings_package; use strings_package;  
+with latin_file_names; use latin_file_names;
+with inflections_package; use inflections_package;
+with dictionary_package; use dictionary_package;
+with line_stuff; use line_stuff;
+procedure number is 
+   package integer_io is new text_io.integer_io(integer);
+   use text_io;
    
    
    
-      INPUT : TEXT_IO.FILE_TYPE;
-      NUMBERED : TEXT_IO.FILE_TYPE;
-      
-      LINE : STRING(1..300) := (others => ' ');
-      LAST, N : INTEGER := 0;
-      NUMBER_LINES : BOOLEAN := FALSE;
-      
-    begin
-        
    
-      PUT_LINE(
-              "Takes a text file and produces a NUMBERED. file with line numbers");
-              
-       PUT_LINE("What file to NUMBER?");
-       TEXT_IO.GET_LINE(LINE, LAST);
-      
-       
+   input : text_io.file_type;
+   numbered : text_io.file_type;
    
-      OPEN(INPUT, IN_FILE, LINE(1..LAST)); 
+   line : string(1..300) := (others => ' ');
+   last, n : integer := 0;
+   number_lines : boolean := false;
    
-     
-      CREATE(NUMBERED, OUT_FILE, "NUMBERED.");   
+begin
    
-        
-                                          
-      while not END_OF_FILE(INPUT) loop
-        N := N + 1;
-         
-        GET_LINE(INPUT, LINE, LAST);
-        
-          TEXT_IO.PUT(NUMBERED, INTEGER'IMAGE(N));
-          SET_COL(NUMBERED, 10);
-        TEXT_IO.PUT_LINE(NUMBERED, LINE(1..LAST));
-        
-      end loop;
-      
-     CLOSE(NUMBERED);
-      
-      
-   end NUMBER;
+   
+   put_line(
+	 "Takes a text file and produces a NUMBERED. file with line numbers");
+   
+   put_line("What file to NUMBER?");
+   text_io.get_line(line, last);
+   
+   
+   
+   open(input, in_file, line(1..last)); 
+   
+   
+   create(numbered, out_file, "NUMBERED.");   
+   
+   
+   
+   while not end_of_file(input) loop
+	  n := n + 1;
+	  
+	  get_line(input, line, last);
+	  
+	  text_io.put(numbered, integer'image(n));
+	  set_col(numbered, 10);
+	  text_io.put_line(numbered, line(1..last));
+	  
+   end loop;
+   
+   close(numbered);
+   
+   
+end number;

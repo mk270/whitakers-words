@@ -1,35 +1,35 @@
-   with TEXT_IO; use TEXT_IO;
-   procedure ONERS is
-      package INTEGER_IO is new TEXT_IO.INTEGER_IO(INTEGER);
-      use INTEGER_IO;
+with text_io; use text_io;
+procedure oners is
+   package integer_io is new text_io.integer_io(integer);
+   use integer_io;
    
-      LINE, OLD_LINE : STRING(1..250) := (others => ' ');
-      LAST, OLD_LAST : INTEGER := 0;
-      N : INTEGER := 0;
+   line, old_line : string(1..250) := (others => ' ');
+   last, old_last : integer := 0;
+   n : integer := 0;
    
-      INPUT, OUTPUT : FILE_TYPE;
+   input, output : file_type;
    
-   begin
-      PUT_LINE("ONERS.IN -> ONERS.OUT");
-      PUT_LINE("Takes a sorted file to produce a file having just one of each identical line.");
-      PUT_LINE("Puts a count of how many identical lines at the begining of each."); 
-      
-      OPEN(INPUT, IN_FILE, "ONERS.IN");
-      CREATE(OUTPUT, OUT_FILE, "ONERS.OUT");
+begin
+   put_line("ONERS.IN -> ONERS.OUT");
+   put_line("Takes a sorted file to produce a file having just one of each identical line.");
+   put_line("Puts a count of how many identical lines at the begining of each."); 
    
-      GET_LINE(INPUT, OLD_LINE, OLD_LAST);
+   open(input, in_file, "ONERS.IN");
+   create(output, out_file, "ONERS.OUT");
    
-      while not END_OF_FILE(INPUT)  loop
-         GET_LINE(INPUT, LINE, LAST);
-         N := N + 1;
-         if LINE(1..LAST) /= OLD_LINE(1..OLD_LAST)  then
-            PUT(OUTPUT, N); 
-            PUT_LINE(OUTPUT, "  " & OLD_LINE(1..OLD_LAST));
-            N := 0;
-            OLD_LAST := LAST;
-            OLD_LINE(1..OLD_LAST) := LINE(1..LAST);
-         end if;
-      end loop;
+   get_line(input, old_line, old_last);
    
-      CLOSE(OUTPUT);
-   end ONERS;
+   while not end_of_file(input)  loop
+	  get_line(input, line, last);
+	  n := n + 1;
+	  if line(1..last) /= old_line(1..old_last)  then
+		 put(output, n); 
+		 put_line(output, "  " & old_line(1..old_last));
+		 n := 0;
+		 old_last := last;
+		 old_line(1..old_last) := line(1..last);
+	  end if;
+   end loop;
+   
+   close(output);
+end oners;

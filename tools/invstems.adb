@@ -1,50 +1,50 @@
-   with TEXT_IO; use TEXT_IO;
-   with STRINGS_PACKAGE; use STRINGS_PACKAGE;
-   procedure INVSTEMS is
-      LINE : STRING(1..250);
-      LL : INTEGER;
-      subtype STEM is STRING (1..18);
-      BLANK_STEM : constant STEM := (others => ' ');
-      STS : array (1..4) of STEM;
+with text_io; use text_io;
+with strings_package; use strings_package;
+procedure invstems is
+   line : string(1..250);
+   ll : integer;
+   subtype stem is string (1..18);
+   blank_stem : constant stem := (others => ' ');
+   sts : array (1..4) of stem;
    
-      INPUT, OUTPUT : FILE_TYPE;
+   input, output : file_type;
    
-      function INVERT(S : STRING) return STRING is
-         T : STRING(S'FIRST..S'LAST);
-      begin
-         if S(1) = ' '  then 
-            return BLANK_STEM;  
-         else
-            for I in S'RANGE  loop
-               T(I) := S(S'LAST-I+1);
-            end loop;
-            return HEAD(TRIM(T), 18);
-         end if;
-      end INVERT;
-   
+   function invert(s : string) return string is
+	  t : string(s'first..s'last);
    begin
-      PUT_LINE("Inverts the 4 stems of a DICTLINE form file INVERT_S.IN -> INVERT_S.OUT");
+	  if s(1) = ' '  then 
+		 return blank_stem;  
+	  else
+		 for i in s'range  loop
+			t(i) := s(s'last-i+1);
+		 end loop;
+		 return head(trim(t), 18);
+	  end if;
+   end invert;
+   
+begin
+   put_line("Inverts the 4 stems of a DICTLINE form file INVERT_S.IN -> INVERT_S.OUT");
+   
+   create(output, out_file, "INVERT_S.OUT");
+   open(input, in_file, "INVERT_S.IN");
+   
+   while not end_of_file(input)  loop
+	  get_line(input, line, ll);
+	  sts(1) := line(1..18);
+	  sts(2) := line(20..37);
+	  sts(3) := line(39..56);
+	  sts(4) := line(58..75);
+	  for i in 1..4  loop
+		 sts(i) := invert(sts(i));
+	  end loop;
+	  line(1..18)  := sts(1) ;
+	  line(20..37) := sts(2);
+	  line(39..56) := sts(3);
+	  line(58..75) := sts(4);
+	  put_line(output, line(1..ll));
       
-      CREATE(OUTPUT, OUT_FILE, "INVERT_S.OUT");
-      OPEN(INPUT, IN_FILE, "INVERT_S.IN");
+   end loop;
    
-      while not END_OF_FILE(INPUT)  loop
-         GET_LINE(INPUT, LINE, LL);
-         STS(1) := LINE(1..18);
-         STS(2) := LINE(20..37);
-         STS(3) := LINE(39..56);
-         STS(4) := LINE(58..75);
-         for I in 1..4  loop
-            STS(I) := INVERT(STS(I));
-         end loop;
-         LINE(1..18)  := STS(1) ;
-         LINE(20..37) := STS(2);
-         LINE(39..56) := STS(3);
-         LINE(58..75) := STS(4);
-         PUT_LINE(OUTPUT, LINE(1..LL));
-      
-      end loop;
+   close(output);
    
-      CLOSE(OUTPUT);
-   
-   end INVSTEMS;
+end invstems;

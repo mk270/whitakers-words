@@ -1,53 +1,53 @@
-   with TEXT_IO; 
-   with STRINGS_PACKAGE; use STRINGS_PACKAGE;  
-   with LATIN_FILE_NAMES; use LATIN_FILE_NAMES;
-   with INFLECTIONS_PACKAGE; use INFLECTIONS_PACKAGE;
-   with DICTIONARY_PACKAGE; use DICTIONARY_PACKAGE;
-   with LINE_STUFF; use LINE_STUFF;
-   procedure LINEFILE is 
-      package INTEGER_IO is new TEXT_IO.INTEGER_IO(INTEGER);
-      use TEXT_IO;
-      use DICTIONARY_ENTRY_IO;
-      use DICT_IO;
+with text_io; 
+with strings_package; use strings_package;  
+with latin_file_names; use latin_file_names;
+with inflections_package; use inflections_package;
+with dictionary_package; use dictionary_package;
+with line_stuff; use line_stuff;
+procedure linefile is 
+   package integer_io is new text_io.integer_io(integer);
+   use text_io;
+   use dictionary_entry_io;
+   use dict_io;
    
-      DICTFILE : DICT_IO.FILE_TYPE;
-      OUTPUT : TEXT_IO.FILE_TYPE;
-      DE : DICTIONARY_ENTRY;
-      D_K : DICTIONARY_KIND := GENERAL;
-      LINE : STRING(1..40) := (others => ' ');
-      LAST : INTEGER := 0;
-      
-   begin
-      PUT_LINE("Takes a DICTFILE.D_K and produces a DICTLINE.D_K");
-      PUT("What dictionary to convert, GENERAL or SPECIAL  (Reply G or S) =>");
-      GET_LINE(LINE, LAST);
-      if LAST > 0  then
-         if TRIM(LINE(1..LAST))(1) = 'G'  or else
-         TRIM(LINE(1..LAST))(1) = 'g'     then
-            D_K := GENERAL;
-         elsif TRIM(LINE(1..LAST))(1) = 'S'  or else
-         TRIM(LINE(1..LAST))(1) = 's'     then
-            D_K := SPECIAL;
-         else
-            PUT_LINE("No such dictionary");
-            raise TEXT_IO.DATA_ERROR;
-         end if; 
-      end if;
+   dictfile : dict_io.file_type;
+   output : text_io.file_type;
+   de : dictionary_entry;
+   d_k : dictionary_kind := general;
+   line : string(1..40) := (others => ' ');
+   last : integer := 0;
+   
+begin
+   put_line("Takes a DICTFILE.D_K and produces a DICTLINE.D_K");
+   put("What dictionary to convert, GENERAL or SPECIAL  (Reply G or S) =>");
+   get_line(line, last);
+   if last > 0  then
+	  if trim(line(1..last))(1) = 'G'  or else
+		trim(line(1..last))(1) = 'g'     then
+		 d_k := general;
+	  elsif trim(line(1..last))(1) = 'S'  or else
+		trim(line(1..last))(1) = 's'     then
+		 d_k := special;
+	  else
+		 put_line("No such dictionary");
+		 raise text_io.data_error;
+	  end if; 
+   end if;
    
    
-      OPEN(DICTFILE, IN_FILE, ADD_FILE_NAME_EXTENSION(DICT_FILE_NAME, 
-                                                DICTIONARY_KIND'IMAGE(D_K))); 
-      
+   open(dictfile, in_file, add_file_name_extension(dict_file_name, 
+	 dictionary_kind'image(d_k))); 
    
-      CREATE(OUTPUT, OUT_FILE, ADD_FILE_NAME_EXTENSION("DICT_NEW", 
-                                                 DICTIONARY_KIND'IMAGE(D_K)));
+   
+   create(output, out_file, add_file_name_extension("DICT_NEW", 
+	 dictionary_kind'image(d_k)));
    
 
-     while not END_OF_FILE(DICTFILE)  loop
-       READ(DICTFILE, DE);
-       PUT(OUTPUT, DE); 
-       TEXT_IO.NEW_LINE(OUTPUT);
-     end loop;
-     
+   while not end_of_file(dictfile)  loop
+	  read(dictfile, de);
+	  put(output, de); 
+	  text_io.new_line(output);
+   end loop;
    
-   end LINEFILE;
+   
+end linefile;

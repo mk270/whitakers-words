@@ -1,41 +1,41 @@
-   with TEXT_IO; 
-   with STRINGS_PACKAGE; use STRINGS_PACKAGE;  
-   with LATIN_FILE_NAMES; use LATIN_FILE_NAMES;
-   with INFLECTIONS_PACKAGE; use INFLECTIONS_PACKAGE;
-   with DICTIONARY_PACKAGE; use DICTIONARY_PACKAGE;
-   with LINE_STUFF; use LINE_STUFF;
-   procedure FIXORD is 
-      use TEXT_IO;
+with text_io; 
+with strings_package; use strings_package;  
+with latin_file_names; use latin_file_names;
+with inflections_package; use inflections_package;
+with dictionary_package; use dictionary_package;
+with line_stuff; use line_stuff;
+procedure fixord is 
+   use text_io;
    
-      INPUT, OUTPUT : TEXT_IO.FILE_TYPE;
+   input, output : text_io.file_type;
    
-      S, LINE, BLANK_LINE : STRING(1..400) := (others => ' ');
-      L, LL, LAST : INTEGER := 0;
+   s, line, blank_line : string(1..400) := (others => ' ');
+   l, ll, last : integer := 0;
    
-   begin
-      PUT_LINE("FIXORD.IN -> FIXORD.OUT");
-      PUT_LINE("Makes a clean (no #) 3 line ED format from LISTORD output");
-      
-      CREATE(OUTPUT, OUT_FILE, "FIXORD.OUT");
-      OPEN(INPUT, IN_FILE, "FIXORD.IN");
+begin
+   put_line("FIXORD.IN -> FIXORD.OUT");
+   put_line("Makes a clean (no #) 3 line ED format from LISTORD output");
+   
+   create(output, out_file, "FIXORD.OUT");
+   open(input, in_file, "FIXORD.IN");
    
    
-   OVER_LINES:
-      while not END_OF_FILE(INPUT) loop
-         S := BLANK_LINE;
-         GET_LINE(INPUT, S, LAST);
-         if TRIM(S(1..LAST)) /= ""  then   --  Rejecting blank lines
-         
-            if S(1) /= '#'  then
-               PUT_LINE(OUTPUT, S(1..LAST)); 
-            end if;
-         
-         end if;  --  Rejecting blank lines
-      end loop OVER_LINES;
-   
-      CLOSE(OUTPUT);
-      exception
-         when TEXT_IO.DATA_ERROR  =>
-            CLOSE(OUTPUT);
-   
-   end FIXORD;
+over_lines:
+	while not end_of_file(input) loop
+	   s := blank_line;
+	   get_line(input, s, last);
+	   if trim(s(1..last)) /= ""  then   --  Rejecting blank lines
+		  
+		  if s(1) /= '#'  then
+			 put_line(output, s(1..last)); 
+		  end if;
+		  
+	   end if;  --  Rejecting blank lines
+	end loop over_lines;
+	
+	close(output);
+exception
+   when text_io.data_error  =>
+	  close(output);
+	  
+end fixord;
