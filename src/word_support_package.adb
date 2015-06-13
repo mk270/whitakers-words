@@ -95,35 +95,6 @@ package body word_support_package is
 	  end if;
    end  last_index;
 
-   --procedure PUT_INDICES(CH : STRING;
-   --                        D_K : DICTIONARY_KIND) is
-   --    WD : STRING(1..2) := CH(1..2);
-   --  begin
-   --    if CH = "  "  then
-   --      if BBLL(CH(1), CH(2), D_K) >= BBLF(CH(1), CH(2), D_K)  then
-   --        PUT("CH = ("); PUT(CH); PUT(") index is of range  ");
-   --        PUT(BBLF(CH(1), CH(2), D_K)); PUT(".."); PUT(BBLL(CH(1), CH(2), D_K));
-   --        PUT("    number ");
-   --        PUT(BBLL(CH(1), CH(2), D_K) - BBLF(CH(1), CH(2), D_K) + 1);
-   --      end if;
-   --    elsif CH(2) = ' '  then
-   --      if BDLL(CH(1), CH(2), D_K) >= BDLF(CH(1), CH(2), D_K)  then
-   --        PUT("CH = ("); PUT(CH); PUT(") index is of range  ");
-   --        PUT(BDLF(CH(1), CH(2), D_K)); PUT(".."); PUT(BDLL(CH(1), CH(2), D_K));
-   --        PUT("    number ");
-   --        PUT(BDLL(CH(1), CH(2), D_K) - BDLF(CH(1), CH(2), D_K) + 1);
-   --      end if;
-   --    else
-   --      if LAST_INDEX(WD, D_K) >= FIRST_INDEX(WD, D_K)  then
-   --        PUT("CH = ("); PUT(WD); PUT(") index is of range  ");
-   --        PUT(FIRST_INDEX(WD, D_K)); PUT(".."); PUT(LAST_INDEX(WD, D_K));
-   --        PUT("    number ");
-   --        PUT(LAST_INDEX(WD, D_K) - FIRST_INDEX(WD, D_K) + 1);
-   --      end if;
-   --    end if;
-   --    NEW_LINE;
-   --  end PUT_INDICES;
-
    procedure load_bdl_from_disk is
 	  use stem_io;
 	  ds : dictionary_stem;

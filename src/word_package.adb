@@ -337,18 +337,10 @@ package body word_package is
 
 		 end if;
 	  end loop;
-      --TEXT_IO.PUT_LINE("RUN_INF FOUND STEMS = " & INTEGER'IMAGE(M-1));
-      --exception
-      --when others =>
-      --TEXT_IO.PUT_LINE("exception RUN_INF FOUND STEMS = " & INTEGER'IMAGE(M-1));
-      --raise;
    end run_inflections;
 
    procedure try_to_load_dictionary(d_k : dictionary_kind) is
    begin
-      --    PUT_LINE("Trying to load " & DICTIONARY_KIND'IMAGE(D_K) &
-      --             " dictionary from STEMFILE ");
-
 	  stem_io.open(stem_file(d_k), stem_io.in_file,
 				   add_file_name_extension(stem_file_name,
 										   dictionary_kind'image(d_k)));
@@ -358,13 +350,9 @@ package body word_package is
 	  load_indices_from_indx_file(add_file_name_extension(indx_file_name,
 														  dictionary_kind'image(d_k)), d_k);
 	  dictionary_available(d_k) := true;
-      --    PUT_LINE("Successfully loaded " & DICTIONARY_KIND'IMAGE(D_K) &
-      --             " dictionary from STEMFILE ");
 
    exception
 	  when others  =>
-		 --PUT_LINE("Failed to load " & DICTIONARY_KIND'IMAGE(D_K) &
-		 --             " dictionary from STEMFILE ");
 		 dictionary_available(d_k) := false;
    end try_to_load_dictionary;
 
@@ -453,7 +441,6 @@ package body word_package is
    begin
       --  Now go through the dictionary list DL for the first letters
       --  and make a reduced dictionary list PDL
-      --TEXT_IO.PUT_LINE("Entering DICTIONARY_SEARCH PDL_INDEX = " & INTEGER'IMAGE(PDL_INDEX));
 
 	  if d_k = local  then
 		 index_first := first_index((first_two(index_on)(1), 'a'), d_k);
@@ -472,8 +459,6 @@ package body word_package is
 		 for k in ssa'range  loop
 			if trim(ssa(k))'length > 1  then
                --  This may be checking for 0 and 1 letter SSAs which are done elsewhere
-               --TEXT_IO.PUT(INTEGER'IMAGE(K) & "  SSA(K) =>" );
-               --TEXT_IO.PUT_LINE(SSA(K));
 
 			   if d_k = local  then    --  Special processing for unordered DICT.LOC
 				  for j in j1..j2  loop       --  Sweep exaustively through the scope
@@ -499,15 +484,12 @@ package body word_package is
 
 					 if (j1 = j2-1) or (j1 = j2) then
 						if first_try  then
-                           --TEXT_IO.PUT_LINE("FIRST_TRY");
 						   j := j1;
 						   first_try := false;
 						elsif second_try  then
-                           --TEXT_IO.PUT_LINE("SECOND_TRY");
 						   j := j2;
 						   second_try := false;
 						else
-                           --TEXT_IO.PUT_LINE("THIRD_TRY   exit BINARY_SEARCH");
 						   jj := j;
 						   exit binary_search;
 						end if;
@@ -529,8 +511,6 @@ package body word_package is
 
 						   if equ(lower_case(ds.stem), ssa(k))  then
 							  jj := i;
-							  --TEXT_IO.PUT_LINE("PDL STEM   " & DS.STEM & "  " & INTEGER'IMAGE(INTEGER(DS.MNPC)));
-
 							  load_pdl;
 
 						   else
@@ -544,8 +524,6 @@ package body word_package is
 
 						   if equ(lower_case(ds.stem), ssa(k))  then
 							  jj := i;
-							  --TEXT_IO.PUT_LINE("PDL STEM   " & DS.STEM & "  " & INTEGER'IMAGE(INTEGER(DS.MNPC)));
-
 							  load_pdl;
 
 						   else
@@ -563,11 +541,6 @@ package body word_package is
 			end if;               --  On LENGTH > 1
 		 end loop stem_array_loop;
 	  end if;
-	  --TEXT_IO.PUT_LINE("Leaving DICTIONARY_SEARCH PDL_INDEX = " & INTEGER'IMAGE(PDL_INDEX));
-      --    exception
-      --      when others  =>
-      --TEXT_IO.PUT_LINE("exception DICTIONARY_SEARCH PDL_INDEX = " & INTEGER'IMAGE(PDL_INDEX));
-      --        raise;
    end dictionary_search;
 
    procedure search_dictionaries(ssa : in stem_array_type;
@@ -716,13 +689,10 @@ package body word_package is
 							 sl(i+1).ir.ending.size = sl(i).ir.ending.size  and then
 							 sl(i+1).ir.qual = sl(i).ir.qual   and then
 							 sl(i+1).d_k  < sl(i).d_k)   then
-						   --PUT(SL(I+1).IR.QUAL); PUT("   <    "); PUT(SL(I).IR.QUAL); NEW_LINE;
                            sm := sl(i);
                            sl(i) := sl(i+1);                                                                            sl(i+1) := sm;
                            sl(i+1) := sm;
                            hits := hits + 1;
-						   --else
-						   --PUT(SL(I+1).IR.QUAL); PUT("   >=   "); PUT(SL(I).IR.QUAL); NEW_LINE;
                         end if;
                      else
                         exit inner_loop;
@@ -730,13 +700,6 @@ package body word_package is
                   end loop inner_loop;
 
                end switch;
-			   --NEW_LINE;
-			   --PUT_LINE("In ORDER  HITS    = " & INTEGER'IMAGE(HITS   ));
-			   --NEW_LINE;
-			   --for I in 1..SL_LAST  loop
-			   --PUT(SL(I)); NEW_LINE;
-			   --end loop;
-			   --PUT_LINE("--------------------------------------------------------");
 
                exit when hits = 0;
             end loop hit_loop;
@@ -778,8 +741,6 @@ package body word_package is
 						null;
 					 else
 						pa_last := pa_last + 1;
-                        --PUT('+'); PUT(SL(I)); NEW_LINE;
-                        --PUT("SAL  PR /= OPR and PA_LAST incremented to "); PUT(PA_LAST); NEW_LINE;
 						pa(pa_last) := sl(i);
 						opr := sl(i);
 					 end if;
@@ -791,12 +752,6 @@ package body word_package is
 			end loop;
 
 		 end if;
-
-		 --TEXT_IO.PUT_LINE("At the end of ARRAY_STEMS");
-         --for I in 1..PA_LAST  loop
-         --PUT(PA(I).STEM); PUT("  "); PUT(PA(I).IR); NEW_LINE;
-         --PUT(PA(I).D_K); PUT("> "); PUT(PA(I).AAMNPC.MNPC); NEW_LINE;
-         --end loop;
 
 	  end array_stems;
 
@@ -851,29 +806,6 @@ package body word_package is
 
 	  begin
 		 sxx := (others => null_parse_record);  --  Essentially initializing
-												--for J in 1..PDL_INDEX  loop
-												--NUMBER_IN_PDL := NUMBER_IN_PDL + 1;
-												--TEXT_IO.PUT(INTEGER'IMAGE(NUMBER_IN_PDL));
-												--TEXT_IO.PUT("    PDL    "); TEXT_IO.PUT(PDL(J).DS.STEM);
-												--PART_ENTRY_IO.PUT(PDL(J).DS.PART);
-												--TEXT_IO.PUT(INTEGER'IMAGE(PDL(J).DS.KEY)); TEXT_IO.NEW_LINE;
-												--end loop;
-												--TEXT_IO.PUT_LINE("****************************");
-
-         --if WORDS_MODE(WRITE_STATISTICS_FILE)  then
-         --declare
-         --  PSTAT : PRUNED_DICTIONARY_LIST := PDL;
-         --begin
-         --  TEXT_IO.PUT(STATS, "Number of PDL DICT hits");
-         --  TEXT_IO.SET_COL(STATS, 30);
-         --  INTEGER_IO.PUT(STATS, NUMBER_IN_PDL);
-         --  TEXT_IO.SET_COL(STATS, 40);
-         --  TEXT_IO.PUT(STATS, INPUT_WORD);
-         --  TEXT_IO.NEW_LINE(STATS);
-         --end;
-         --end if;
-         -------------------------------------------------------------
-
          --  For the reduced dictionary list PDL
 		 m := 0;
 	 on_pdl:
@@ -938,51 +870,26 @@ package body word_package is
 			  (pdl_p = interj  or pdl_p = conj) then  --  or INTERJ or CONJ
 													  --PUT_LINE("In REDUCE_STEM_LIST   no prefix on abbreviationi, interj, conj");
 			   goto end_of_pdl_loop;
-			else                                           --  Check if PREFIX agrees
-														   --PUT("PREFIX in REDUCE  ");
-														   --PUT(PDL_P); PUT(" <= "); PUT(PREFIX.ENTR.ROOT); PUT("       OR"); NEW_LINE;
-														   --PUT("                  "); PUT(PDL_PART); PUT(" <= ");
-														   --PUT(PREFIX.ENTR.ROOT); NEW_LINE;
+			else
 			   if (pdl_p = prefix.entr.root)  or    --  = ROOT
 				 (pdl_part.pofs = prefix.entr.root)  then  --  or part mod by suf
-														   --PUT_LINE("PREFIX in REDUCE  PART HIT");
 				  null;
 			   elsif (prefix.entr.root = x)  then  --   or ROOT = X
 				  if pdl_p = n or pdl_p = pron or
 					pdl_p = adj or pdl_p = adv or pdl_p = v  then
 					 --  Dont prefix PREP, CONJ, ...
-                     -- PUT_LINE("PREFIX in REDUCE  X    HIT");
 					 null;
 				  end if;
 			   else
 				  goto end_of_pdl_loop;
-                  --PUT_LINE("In REDUCE_STEM_LIST   There is no legal prefix");
-                  --              exit;
 			   end if;
 			end if;
 
             --  SUFFIX and PREFIX either agree or don't exist (agrees with everything)
-            --PUT("ON_PDL:+   "); PUT(PDL(J).DS.STEM); PUT(PDL(J).DS.PART);
-            --PUT(PDL(J).DS.KEY); NEW_LINE;
-            --PUT_LINE(ADD_PREFIX(PDL(J).DS.STEM, PREFIX) & "|");
-            --PUT_LINE(ADD_SUFFIX(ADD_PREFIX(PDL(J).DS.STEM, PREFIX), SUFFIX) & "|");
-
 			ls := len(add_suffix(add_prefix(pdl(j).ds.stem, prefix), suffix));
-            --PUT("LS = LEN of "); PUT(ADD_SUFFIX(ADD_PREFIX(PDL(J).DS.STEM, PREFIX), SUFFIX
-            --PUT("    = "); PUT(LS); NEW_LINE;
-
-            --TEXT_IO.PUT_LINE("Entering ON_SL loop");
-
 		on_sl:
 			for i in sl'range loop
 			   exit when sl(i) = null_parse_record;
-
-               --TEXT_IO.PUT("SL(I)  "); PARSE_RECORD_IO.PUT(SL(I)); TEXT_IO.NEW_LINE;
-               --TEXT_IO.PUT("    PDL    "); TEXT_IO.PUT(PDL(J).DS.STEM);
-               --PART_ENTRY_IO.PUT(PDL(J).DS.PART);
-               --TEXT_IO.PUT(INTEGER'IMAGE(PDL(J).DS.KEY)); TEXT_IO.NEW_LINE;
-               --TEXT_IO.PUT("LS  "); TEXT_IO.PUT(INTEGER'IMAGE(LS));
-               --TEXT_IO.PUT("  LEN SL(I).STEM   "); TEXT_IO.PUT_LINE(INTEGER'IMAGE(LEN(SL(I).STEM)));
 
 			   if ls  = len(sl(i).stem)  then
 
@@ -1001,13 +908,10 @@ package body word_package is
 					 )  and then   --  and KEY
 					( pdl_part.pofs  = eff_part(sl(i).ir.qual.pofs) )  then
 
-                     --TEXT_IO.PUT_LINE("#######################   PDL - SL  MATCH   ############");
-
 					 if
 					   (pdl_part.pofs = n                                and then
 						  pdl_part.n.decl <= sl(i).ir.qual.n.decl            and then
 						  pdl_part.n.gender <= sl(i).ir.qual.n.gender)             then
-                        --TEXT_IO.PUT_LINE(" HIT  N     ");
                         --  Need to transfer the gender of the noun dictionary item
 						m := m + 1;
 						sxx(m) := (stem => subtract_prefix(sl(i).stem, prefix),
@@ -1229,15 +1133,9 @@ package body word_package is
 			   end if;
 		   <<end_of_sl_loop>> null;
 			end loop on_sl;
-            --TEXT_IO.PUT("In RED_ST_L   after loop ON_SL  M = ");
-            --TEXT_IO.PUT(INTEGER'IMAGE(M)); TEXT_IO.NEW_LINE;
 
 		<<end_of_pdl_loop>> null;
 		 end loop on_pdl;
-         --for I in 1..M  loop
-         --TEXT_IO.PUT(INTEGER'IMAGE(I)); TEXT_IO.PUT("  ");
-         --PARSE_RECORD_IO.PUT(SXX(I)); TEXT_IO.NEW_LINE;
-         --end loop;
 	  end reduce_stem_list;
 
 	  procedure apply_prefix(sa : in stem_array_type; suffix : in suffix_item;
@@ -1248,8 +1146,6 @@ package body word_package is
          --  The prefixes should be ordered with the longest/most likely first
 		 ssa : stem_array;
 		 l : integer :=  0;
-		 --use TEXT_IO;
-		 --use INFLECTIONS_PACKAGE.INTEGER_IO;
 
 	  begin
          --PUT_LINE("Entering APPLY_PREFIX");
@@ -1265,9 +1161,6 @@ package body word_package is
                   if (sa(j)(1) = prefixes(i).fix(1))  then  --  Cuts down a little -- do better
 					 if subtract_prefix(sa(j), prefixes(i)) /=
 					   head(sa(j), max_stem_size)  then
-						--PUT_LINE("Hit on prefix  " & PREFIXES(I).FIX);
-						--PUT("I = "); PUT(I); PUT("  "); PUT(PREFIXES(I).FIX); PUT("  ");
-						--PUT("J = "); PUT(J); PUT("  "); PUT(SA(J)); NEW_LINE;
 						l := l + 1;            --  We have a hit, make new stem array item
 						ssa(l) := head(subtract_prefix(sa(j), prefixes(i)),
 									   max_stem_size);  --  And that has prefix subtracted to match dict
@@ -1313,22 +1206,15 @@ package body word_package is
 		 --            use INFLECTIONS_PACKAGE.INTEGER_IO;
 
 	  begin
-         --PUT_LINE("Entering APPLY_SUFFIX");
-         --PUT(NUMBER_OF_SUFFIXES); PUT(INTEGER(SA'LENGTH)); PUT(SA'LAST); NEW_LINE;
 		 for i in 1..number_of_suffixes  loop       --  Loop through SUFFIXES
 			l :=  0;                                 --  Take as many as fit
 
 			for j in sa'range  loop                  --  Loop through stem array
 			   if subtract_suffix(sa(j), suffixes(i)) /=
 				 head(sa(j), max_stem_size)  then
-                  --PUT("Hit on suffix  " & SUFFIXES(I).FIX & "    " & SUFFIXES(I).CONNECT & "  ");
-                  --PUT(SUFFIXES(I).ENTR); NEW_LINE;
-                  --PUT("I = "); PUT(I); PUT("  "); PUT(SUFFIXES(I).FIX); PUT("  ");
-                  --PUT("J = "); PUT(J); PUT("  "); PUT(SA(J)); NEW_LINE;
 				  l := l + 1;            --  We have a hit, make new stem array item
 				  ssa(l) := head(subtract_suffix(sa(j), suffixes(i)),
 								 max_stem_size);  --  And that has prefix subtracted to match dict
-												  --PUT("L = "); PUT(L); PUT("   "); PUT_LINE(SUBTRACT_SUFFIX(SA(J), SUFFIXES(I)));
 			   end if;
 			end loop;    --  Loop on J through SA
 
@@ -1340,7 +1226,6 @@ package body word_package is
 			   if  pdl_index /= 0     then                  --  Dict search was successful
 															--PUT_LINE("IN APPLY_SUFFIX -  PDL_INDEX not 0     after suffix  " & SUFFIXES(I).FIX);
 
-                  --PUT_LINE("REDUCE_STEM_LIST called from APPLY_SUFFIX");
 				  suffix_hit := i;
 
 				  reduce_stem_list(sx, sxx, null_prefix_item, suffixes(i));
@@ -1367,11 +1252,7 @@ package body word_package is
 
 			   else   --  there is suffix (L /= 0) but no dictionary hit
 				  suffix_hit := i;
-                  --PUT_LINE("   --  there is suffix (L /= 0) but no dictionary hit");
-                  --PUT("L = "); PUT(L); PUT("    ");
-                  --PUT("SUFFIX_HIT = "); PUT(SUFFIXES(I).FIX); NEW_LINE;
 				  apply_prefix(ssa(1..l), suffixes(i), sx, sxx, pa, pa_last);
-                  --PUT_LINE("PREFIXES applied from APPLY_SUFFIXES");
 				  if sxx(1) /= null_parse_record  then    --  There is reduced stem result
 					 pa_last := pa_last + 1;        --  So add suffix line to parse array
 													--PUT_LINE("REDUCE_STEM_LIST is not null so add suffix to parse array");
@@ -1380,7 +1261,6 @@ package body word_package is
 					 pa(pa_last).stem := head(
 											  suffixes(suffix_hit).fix, max_stem_size);
 					 pa(pa_last).mnpc := dict_io.count(suffixes(suffix_hit).mnpc);
-                     --PUT("SUFFIX MNPC  "); PUT(SUFFIXES(SUFFIX_HIT).MNPC); NEW_LINE;
 					 pa(pa_last).d_k  := addons;
 
 					 for i in sxx'range  loop    --  Set this set of results
@@ -1402,8 +1282,6 @@ package body word_package is
          --SXX : SAL;
 
 	  begin
-		 --TEXT_IO.PUT_LINE("Entering PRUNE_STEMS    INPUT_WORD = " & INPUT_WORD );
-		 --TEXT_IO.PUT_LINE("In PRUNE   PA_LAST = " & INTEGER'IMAGE(PA_LAST));
 		 if sx(1) = null_parse_record  then
 			return; end if;
 
@@ -1411,8 +1289,6 @@ package body word_package is
 
 		generate_reduced_stem_array:
             begin
-			   --PUT_LINE("List of stems by size");
-			   --NEW_LINE;
                j := 1;
                for z in 0..min(max_stem_size, len(input_word))  loop
                   if sa(z) /= not_a_stem  then
@@ -1422,22 +1298,13 @@ package body word_package is
                      j := j + 1;
                   end if;
                end loop;
-			   --PUT_LINE("SSA_MAX = " & INTEGER'IMAGE(SSA_MAX));
-			   --NEW_LINE(2);
             end generate_reduced_stem_array;
 
-			--TEXT_IO.PUT_LINE("PRUNE_STEMS   checking (not)    DO_ONLY_FIXES   = " & BOOLEAN'IMAGE(WORDS_MDEV(DO_ONLY_FIXES)));
             if not words_mdev(do_only_fixes)  then   --  Just bypass main dictionary search
-													 --TEXT_IO.PUT_LINE("Calling SEARCH_DICTIONARIES from PRUNE_STEMS   ---  General case");
 
                search_dictionaries(ssa(1..ssa_max), null_prefix_item, null_suffix_item);
-			   --TEXT_IO.PUT_LINE("Finished SEARCH_DICTIONARIES from PRUNE_STEMS   ---  General case");
-            end if;
-			--TEXT_IO.PUT_LINE("PRUNE_STEMS   passing over because of NOT DO_ONLY_FIXES");
 
-			--              ---------------------------------------------------------------
-			--TEXT_IO.PUT_LINE("PRUNE_STEMS   below  NOT DO_ONLY_FIXES  PA_LAST = "
-			--& INTEGER'IMAGE(PA_LAST));
+            end if;
 
             if (((pa_last = 0)  and            --  No Uniques or Syncope
 				   (pdl_index = 0))  --)   and then    --  No dictionary match
@@ -1445,7 +1312,6 @@ package body word_package is
 			  words_mode(do_fixes)  then
 
 			   ----So try prefixes and suffixes, Generate a new SAA array, search again
-			   --TEXT_IO.PUT_LINE(" PDL_INDEX = 0     after straight search   ------  So APPLY_SUFFIX  PA_LAST = " & INTEGER'IMAGE(PA_LAST));
 
                if sxx(1) = null_parse_record  then        --  We could not find a match with suffix
                   apply_prefix(ssa(1..ssa_max), null_suffix_item, sx, sxx, pa, pa_last);
@@ -1455,7 +1321,6 @@ package body word_package is
                   apply_suffix(ssa(1..ssa_max), sx, sxx, pa, pa_last);
                   if sxx(1) = null_parse_record  then        --  We could not find a match with suffix
 															 ----So try prefixes, Generate a new SAA array, search again
-															 --TEXT_IO.PUT_LINE(" PDL_INDEX = 0     after suffix search  -----  So APPLY_PREFIX by itself  PA_LAST = " & INTEGER'IMAGE(PA_LAST));
 															 ----Need to use the new SSA, modified to include suffixes
                      apply_prefix(ssa(1..ssa_max), null_suffix_item, sx, sxx, pa, pa_last);
 					 --TEXT_IO.PUT_LINE("PREFIXES applied  PA_LAST = " & INTEGER'IMAGE(PA_LAST));
@@ -1463,28 +1328,20 @@ package body word_package is
                   end if;       --  Suffix failed
                end if;       --  Suffix failed
             else
-			   --TEXT_IO.PUT_LINE(" PDL_INDEX not 0     after straight search   ------  So REDUCE_STEMS  PA_LAST = " & INTEGER'IMAGE(PA_LAST));
                reduce_stem_list(sx, sxx, null_prefix_item, null_suffix_item);
                if pa_last = 0  and then  sxx(1) = null_parse_record  then
-				  --TEXT_IO.PUT_LINE("Although  PDL_INDEX not 0     after straight search , SXX fails  PA_LAST = " & INTEGER'IMAGE(PA_LAST));
 				  --------------
                   if words_mode(do_fixes)  then
                      apply_suffix(ssa(1..ssa_max), sx, sxx, pa, pa_last);
-					 --TEXT_IO.PUT_LINE("SUFFIXES applied  PA_LAST = " & INTEGER'IMAGE(PA_LAST));
                      if sxx(1) = null_parse_record  then        --  We could not find a match with suffix
 																----So try prefixes, Generate a new SAA array, search again
-																--TEXT_IO.PUT_LINE(" PDL_INDEX = 0     after suffix search  -----  So APPLY_PREFIX by itself  PA_LAST = " & INTEGER'IMAGE(PA_LAST));
 																----Need to use the new SSA, modified to include suffixes
                         apply_prefix(ssa(1..ssa_max), null_suffix_item,
                                      sx, sxx, pa, pa_last);
-						--TEXT_IO.PUT_LINE("PREFIXES applied  PA_LAST = " & INTEGER'IMAGE(PA_LAST));
-						--------------
                      end if;   --  Suffix failed
                   end if;     --  If DO_FIXES then do
                end if;       --  First search passed but SXX null
             end if;         --  First search failed
-
-			--TEXT_IO.PUT_LINE("End of PRUNE_STEMS   PA_LAST = " & INTEGER'IMAGE(PA_LAST));
 
 	  end prune_stems;
 
@@ -1526,12 +1383,8 @@ package body word_package is
 			   last_of_word : character := word(word'last);
 			   length_of_word   : constant integer := word'length;
 			begin
-               --PUT_LINE("FOR_EACH_PACKON   WORD = |"& WORD & "|");
-               --PUT_LINE("FOR_EACH_PACKON   PACKON_LENGTH = "& INTEGER'IMAGE(PACKON_LENGTH));
-               --PUT_LINE("FOR_EACH_PACKON   LENGTH_OF_WORD = "& INTEGER'IMAGE(LENGTH_OF_WORD));
 			   sl := sl_nulls;      --  Initialize SL to nulls
 			   if word  /= input_word  then
-                  --PUT_LINE("PROCESS_PACKONS Hit on PACKON    " & PACKONS(K).TACK);
 				  packon_first_hit := true;
 
 				  if packons(k).tack(1..3) = "dam" and  last_of_word = 'n'  then
@@ -1549,8 +1402,6 @@ package body word_package is
 																	 --PUT("ON_INFLECTS  Z = "); PUT(Z); PUT("  "); PUT(WORD(1..Z)); NEW_LINE;
 					 if pell(z, last_of_word) > 0  then   --  Any possible inflections at all
 						for i in pelf(z, last_of_word)..pell(z, last_of_word) loop
-                           --PUT("+");PUT(LEL(I)); PUT(WORD'LAST); PUT(WORD(WORD'LAST-Z+1..WORD'LAST));
-                           --PUT("  "); PUT((LEL(I).ENDING.SUF(1..Z))); NEW_LINE;
 
 						   if (z <= length_of_word)  and then
 							 ((equ(lel(i).ending.suf(1..z),
@@ -1597,28 +1448,7 @@ package body word_package is
 
 						if (trim(mean)(1..4) = "(w/-"  and then  --  Does attached PACKON agree
 							  trim(mean)(5..4+packon_length) = trim(packons(k).tack))   then
-                           --PUT_LINE("Mean = PACK Hit Hit ");
-                           --PUT("MEAN|" & MEAN(1..4) & '|');
-                           --PUT_LINE("PACK|" & TRIM(PACKONS(K).TACK) & '|');
-
-                           --PUT("DECL    PDL_INDEX "); PUT(PDL(J).DS.PART.PACK.DECL);
-                           --PUT(" <= ?  SL   ");
-                           --PUT(SL(M).IR.QUAL.PRON.DECL);
-                           --PUT(" <= ?  PACKON  ");
-                           --PUT(PACKONS(K).ENTR.BASE.PACK.DECL); NEW_LINE;
 						   if (pdl(j).ds.part.pack.decl = sl(m).ir.qual.pron.decl)   then  --  or
-
-                              --PUT_LINE("DECL    Hit Hit Hit Hit Hit Hit Hit Hit ");
-                              --PUT("KINDS  PACKON   ");
-                              --PUT(PACKONS(K).ENTR.BASE.PACK.KIND);
-                              --PUT(" <= ?   PDL_KIND    ");
-                              --PUT(PDL(J).DS.PART.PACK.KIND);
-                              --NEW_LINE;
-							  --if (PACKONS(K).ENTR.BASE.PACK.KIND   <=
-							  --    PDL(J).DS.PART.PACK.KIND)   then
-							  --  Then we have a hit and make a PA
-							  --PUT_LINE("KIND    Hit Hit Hit Hit Hit Hit Hit Hit Hit Hit Hit Hit Hit Hit Hit ");
-
 							  if packon_first_hit then
 								 pa_last := pa_last + 1;
 								 pa(pa_last) := (packons(k).tack,
@@ -1630,10 +1460,6 @@ package body word_package is
 
 							  end if;
 							  pa_last := pa_last + 1;
-							  --PUT_LINE("PACKON  PDL HIT    PA_LAST = " & INTEGER'IMAGE(PA_LAST));
-							  --PUT(PDL(J).DS.STEM); PUT(PDL(J).DS.PART); NEW_LINE;
-							  --PUT_LINE(MEAN);
-							  --PUT(PA(PA_LAST)); NEW_LINE;
 							  pa(pa_last) := (stem => sl(m).stem,
 											  ir => (
 													 qual => (
@@ -1695,15 +1521,12 @@ package body word_package is
 					equ(lel(i).ending.suf(1..z),
 						word(word'last-z+1..word'last))    then
                      --  Have found an ending that is a possible match
-                     --PUT_LINE("INFLECTS HIT --------------------------------------------");
-
                      --  Add to list of possible ending records
 					 stem_length := word'length - z;
 					 pr := (head(word(word'first..stem_length), max_stem_size),
 							lel(i), default_dictionary_kind, null_mnpc);
 					 m := m + 1;
 					 sl(m) := pr;
-                     --PUT("M = "); PUT(M); PUT("    "); PUT(SL(M)); NEW_LINE;
 					 ssa(1) := head(word(word'first.. word'first+stem_length-1),
 									max_stem_size);
                      --  may get set several times
@@ -1723,18 +1546,8 @@ package body word_package is
 			m := 1;
 		sl_loop:
 			while sl(m) /= null_parse_record  loop  --  Over all inflection hits
-													--PUT("SL_LOOP  M = "); PUT(M); PUT("  SL => "); PUT(SL(M)); NEW_LINE; NEW_LINE;
-
-               --PUT("DECL    PDL "); PUT(PDL(J).DS.PART.PRON.DECL);
-               --PUT(" <= ?  SL   ");
-               --PUT(SL(M).IR.QUAL.PRON.DECL);
-               --NEW_LINE;
 			   if (pdl(j).ds.part.pron.decl = sl(m).ir.qual.pron.decl)   then
-                  --PUT_LINE("DECL    Hit Hit Hit Hit Hit Hit Hit Hit ");
 				  pa_last := pa_last + 1;
-                  --PUT_LINE("QU_PRON  PDL HIT    PA_LAST = " & INTEGER'IMAGE(PA_LAST));
-                  --PUT(PDL(J).DS.STEM); PUT(PDL(J).DS.PART); NEW_LINE;
-                  --PUT(PA(PA_LAST)); NEW_LINE;
 				  pa(pa_last) := (stem => sl(m).stem,
 								  ir => (
 										 qual => (
@@ -1770,12 +1583,9 @@ package body word_package is
 		 start_of_loop : integer := 5;    --  4 enclitics     --  Hard number  !!!!!!!!!!!!!!!
 		 end_of_loop : integer := number_of_tackons;
 	  begin
-		 --TEXT_IO.PUT_LINE("TRYing TACKONS   ***************  INPUT_WORD = " & INPUT_WORD);
 
 	 loop_over_tackons:
 		 for i in start_of_loop..end_of_loop  loop
-            --PUT_LINE("TACKON #" & INTEGER'IMAGE(I) & "    "  &
-            --SUBTRACT_TACKON(INPUT_WORD, TACKONS(I)) & "  +  " & TACKONS(I).TACK);
 
 		remove_a_tackon:
 			declare
@@ -1785,16 +1595,6 @@ package body word_package is
 			   --TEXT_IO.PUT_LINE("LESS = " & LESS);
 			   if less  /= input_word  then       --  LESS is less
 
-                  --==========================================================
-                  --RUN_UNIQUES(INPUT_WORD, UNIQUE_FOUND, PA, PA_LAST);
-                  --RUN_INFLECTIONS(LESS, SS);
-                  --PRUNE_STEMS(LESS, SS, SSS);
-                  --if SSS(1) /= NULL_PARSE_RECORD   then
-                  --ORDER_STEMS(SSS);
-                  --ARRAY_STEMS(SSS, PA, PA_LAST);
-                  --SSS(1) := NULL_PARSE_RECORD;
-                  --end if;
-                  --==========================================================
 				  word(less, pa, pa_last);
 
 				  --                  TEXT_IO.PUT("In TRY_TACKONS  Left WORD    ");
@@ -1906,8 +1706,6 @@ package body word_package is
 
                      -----------------------------------------
 					 if tackon_hit  then
-                        --PUT("Where it counts TACKON_HIT  = "); PUT(TACKON_HIT); NEW_LINE;
-                        --  Put on TACKON
 
 						pa_last := pa_last + 1;
 						pa(entering_pa_last+2..pa_last) :=
@@ -1917,18 +1715,10 @@ package body word_package is
 													null_ending_record, x, x),
 												   addons,
 												   dict_io.count((tackons(i).mnpc)));
-                        --PUT("PA_LAST = "); PUT(PA_LAST); PUT("  ");
-                        --PUT("I = "); PUT(I); PUT("  TACKONS(I).TACK = "); PUT(TACKONS(I).TACK);
-                        --PUT_LINE("TACKON added");
-                        --PUT_LINE("Now list the PA array after adding the found TACKON");
-                        --for K in 1..PA_LAST  loop
-                        --PUT("K = "); PUT(K); PUT("  PA(K)  "); PUT(PA(K).D_K); PUT(PA(K).IR); NEW_LINE;
-                        --end loop;
 						return;                 --  Be happy with one ???????
 					 else
 						null;
-                        --PUT("No TACKON_HIT, so no punitive TACKON   PA_LAST is  ");
-                        --PUT(PA_LAST); NEW_LINE;
+
 					 end if;   --  TACKON_HIT
 
 				  end if;                             --  we have a possible word
@@ -1946,15 +1736,6 @@ package body word_package is
 	  end if;
 
 	  run_uniques(input_word, unique_found, pa, pa_last);
-
-      --if INPUT_WORD(INPUT_WORD'FIRST) in 'a'..'z'  then
-      --      CONSTRUCT_STEMS(INPUT_WORD,
-      --      SEARCH_DICTIONARIES();
-      --      TRY_STEMS_AGAINST_INFLECTIONS;
-      --    end if;
-
-      --if INPUT_WORD(INPUT_WORD'FIRST) in 'a'..'z'  then
-	  --TEXT_IO.PUT_LINE("After UNIQUES  INPUT = " & INPUT_WORD & "   PA_LAST = " & INTEGER'IMAGE(PA_LAST));
 
   qu:
 	  declare
@@ -2039,22 +1820,16 @@ package body word_package is
       --==========================================================
 	  run_inflections(input_word, ss);
 	  prune_stems(input_word, ss, sss);
-	  --TEXT_IO.PUT_LINE("After PRUNE  INPUT = " & INPUT_WORD & "   PA_LAST = " & INTEGER'IMAGE(PA_LAST));
 	  if sss(1) /= null_parse_record   then
 		 order_stems(sss);
 		 array_stems(sss, pa, pa_last);
 		 sss(1) := null_parse_record;
 	  end if;
-	  --TEXT_IO.PUT_LINE("After ARRAY  INPUT = " & INPUT_WORD & "   PA_LAST = " & INTEGER'IMAGE(PA_LAST));
       --==========================================================
 
 	  if pa_last = pa_save  then
 		 try_tackons(input_word);
 	  end if;
-
-	  --TEXT_IO.PUT_LINE("Out WORD  INPUT = " & INPUT_WORD & "   PA_LAST = " & INTEGER'IMAGE(PA_LAST));
-
-	  --TEXT_IO.SET_OUTPUT(TEXT_IO.STANDARD_OUTPUT);
 
    exception
 	  when storage_error =>
@@ -2117,9 +1892,9 @@ package body word_package is
 	  load_uniques(unq, uniques_full_name);
 
 	  load_addons(addons_full_name);
-	  --TEXT_IO.PUT_LINE("Loaded ADDONS");
+
 	  load_bdl_from_disk;
-	  --TEXT_IO.PUT_LINE("BDL loaded");
+
 	  if not (dictionary_available(general)  or
 				dictionary_available(special)  or
 				dictionary_available(local))  then
@@ -2127,8 +1902,6 @@ package body word_package is
 		 preface.put_line("Check that there are dictionary files in this subdirectory");
 		 preface.put_line("Except DICT.LOC that means DICTFILE, INDXFILE, STEMFILE");
 	  end if;
-
-	  --TEXT_IO.PUT_LINE("Ready to load English");
 
   try_to_load_english_words:
 	  begin
@@ -2143,7 +1916,6 @@ package body word_package is
 			english_dictionary_available(general) := false;
 	  end try_to_load_english_words;
 
-	  --put_line("WORD_PACKAGE INITIALIZED");
    end initialize_word_package;
 
 end word_package;
