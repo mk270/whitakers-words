@@ -1,75 +1,75 @@
-with TEXT_IO;
-with STRINGS_PACKAGE; use STRINGS_PACKAGE;
-with LATIN_FILE_NAMES; use LATIN_FILE_NAMES;   --  Omit when put name here
-with WORD_PARAMETERS; use WORD_PARAMETERS;
-with DICTIONARY_PACKAGE; use DICTIONARY_PACKAGE;
-with PREFACE;
-with LINE_STUFF; use LINE_STUFF;
-pragma Elaborate(PREFACE);
-package body DEVELOPER_PARAMETERS is
+with text_io;
+with strings_package; use strings_package;
+with latin_file_names; use latin_file_names;   --  Omit when put name here
+with word_parameters; use word_parameters;
+with dictionary_package; use dictionary_package;
+with preface;
+with line_stuff; use line_stuff;
+pragma elaborate(preface);
+package body developer_parameters is
 
-   use TEXT_IO;
-
-
-   type HELP_TYPE is array (NATURAL range <>) of STRING(1..70);
-   BLANK_HELP_LINE : constant STRING(1..70) := (others => ' ');
-   NO_HELP : constant HELP_TYPE := (2..1 => BLANK_HELP_LINE);
+   use text_io;
 
 
-   type REPLY_TYPE is (N, Y);
-   package REPLY_TYPE_IO is new TEXT_IO.ENUMERATION_IO(REPLY_TYPE);
-   REPLY : array (BOOLEAN) of REPLY_TYPE := (N, Y);
-   MDEV_OF_REPLY : array (REPLY_TYPE) of BOOLEAN := (FALSE, TRUE);
+   type help_type is array (natural range <>) of string(1..70);
+   blank_help_line : constant string(1..70) := (others => ' ');
+   no_help : constant help_type := (2..1 => blank_help_line);
 
-   BLANK_INPUT : exception;
+
+   type reply_type is (n, y);
+   package reply_type_io is new text_io.enumeration_io(reply_type);
+   reply : array (boolean) of reply_type := (n, y);
+   mdev_of_reply : array (reply_type) of boolean := (false, true);
+
+   blank_input : exception;
    
    --  The default MDEVs are set in the body so that they can be changed
    --  with only this being recompiled, not the rest of the with'ing system
-   DEFAULT_MDEV_ARRAY : constant MDEV_ARRAY := (
+   default_mdev_array : constant mdev_array := (
 
 	 --               HAVE_DEBUG_FILE             => FALSE,
 	 --               WRITE_DEBUG_FILE            => FALSE,
 
-	 HAVE_STATISTICS_FILE        => FALSE,
-	 WRITE_STATISTICS_FILE       => FALSE,
+	 have_statistics_file        => false,
+	 write_statistics_file       => false,
 
-	 SHOW_DICTIONARY             => FALSE,
-	 SHOW_DICTIONARY_LINE        => FALSE,
-	 SHOW_DICTIONARY_CODES       => TRUE,   
-	 DO_PEARSE_CODES             => FALSE,
+	 show_dictionary             => false,
+	 show_dictionary_line        => false,
+	 show_dictionary_codes       => true,   
+	 do_pearse_codes             => false,
 
-	 DO_ONLY_INITIAL_WORD        => FALSE,
-	 FOR_WORD_LIST_CHECK         => FALSE,
+	 do_only_initial_word        => false,
+	 for_word_list_check         => false,
 
-	 DO_ONLY_FIXES               => FALSE,
-	 DO_FIXES_ANYWAY             => FALSE,
-	 USE_PREFIXES                => TRUE, 
-	 USE_SUFFIXES                => TRUE, 
-	 USE_TACKONS                 => TRUE, 
+	 do_only_fixes               => false,
+	 do_fixes_anyway             => false,
+	 use_prefixes                => true, 
+	 use_suffixes                => true, 
+	 use_tackons                 => true, 
 	 
-	 DO_MEDIEVAL_TRICKS          => TRUE,
+	 do_medieval_tricks          => true,
 	 
-	 DO_SYNCOPE                  => TRUE,
-	 DO_TWO_WORDS                => TRUE,
-	 INCLUDE_UNKNOWN_CONTEXT     => TRUE,
-	 NO_MEANINGS                 => FALSE,
+	 do_syncope                  => true,
+	 do_two_words                => true,
+	 include_unknown_context     => true,
+	 no_meanings                 => false,
 
-	 OMIT_ARCHAIC                => TRUE,
-	 OMIT_MEDIEVAL               => FALSE,
-	 OMIT_UNCOMMON               => TRUE,
+	 omit_archaic                => true,
+	 omit_medieval               => false,
+	 omit_uncommon               => true,
 
-	 DO_I_FOR_J                  => FALSE,
-	 DO_U_FOR_V                  => FALSE,
+	 do_i_for_j                  => false,
+	 do_u_for_v                  => false,
 
-	 PAUSE_IN_SCREEN_OUTPUT      => TRUE,
-	 NO_SCREEN_ACTIVITY          => FALSE,
+	 pause_in_screen_output      => true,
+	 no_screen_activity          => false,
 	 
-	 UPDATE_LOCAL_DICTIONARY     => FALSE,
-	 UPDATE_MEANINGS             => FALSE,
+	 update_local_dictionary     => false,
+	 update_meanings             => false,
 
-	 MINIMIZE_OUTPUT             => TRUE    );
+	 minimize_output             => true    );
 
-   BAD_MDEV_FILE : exception;
+   bad_mdev_file : exception;
 
 
 
@@ -96,19 +96,19 @@ package body DEVELOPER_PARAMETERS is
    --   "chance to turn this one on.                  Default is N(o).         " );
    --
 
-   HAVE_STATISTICS_FILE_HELP : constant HELP_TYPE :=  (
+   have_statistics_file_help : constant help_type :=  (
 	 "This option instructs the program to create a file which can hold     ",
 	 "certain statistical information about the process.  The file is       ",
 	 "overwritten for new invocation of the program, so old data must be    ",
 	 "explicitly saved if it is to be retained.  The statistics are in TEXT ",
-	 "format.     The statistics file is named " & STATS_FULL_NAME
-	 & (42+STATS_FULL_NAME'LENGTH..70 => ' '),
+	 "format.     The statistics file is named " & stats_full_name
+	 & (42+stats_full_name'length..70 => ' '),
 	 "This information is only of development use, so the default is N(o).  " );
 
-   WRITE_STATISTICS_FILE_HELP : constant HELP_TYPE :=  (
+   write_statistics_file_help : constant help_type :=  (
 	 "This option instructs the program, with HAVE_STATISTICS_FILE, to put  ",
-	 "derived statistics in a file named " & STATS_FULL_NAME
-	 & (36+STATS_FULL_NAME'LENGTH..70 => ' '),
+	 "derived statistics in a file named " & stats_full_name
+	 & (36+stats_full_name'length..70 => ' '),
 	 "This option may be turned on and off while running of the program,    ",
 	 "thereby capturing only certain desired results.  The file is reset at ",
 	 "each invocation of the program, if the HAVE_STATISTICS_FILE is set.   ",
@@ -116,43 +116,43 @@ package body DEVELOPER_PARAMETERS is
 	 "a chance to turn this one on.                Default is N(o).         " );
 
 
-   SHOW_DICTIONARY_HELP : constant HELP_TYPE :=  (
+   show_dictionary_help : constant help_type :=  (
 	 "This option causes a flag, like 'GEN>' to be put before the meaning   ",
 	 "in the output.  While this is useful for certain development purposes,",
 	 "it forces off a few characters from the meaning, and is really of no  ",
 	 "interest to most users.                                               ",
 	 "The default choice is N(o), but it can be turned on with a Y(es).     " );
 
-   SHOW_DICTIONARY_LINE_HELP : constant HELP_TYPE :=  (
+   show_dictionary_line_help : constant help_type :=  (
 	 "This option causes the number of the dictionary line for the current  ",
 	 "meaning to be output.  This is of use to no one but the dictionary    ",
 	 "maintainer.  The default choice is N(o).  It is activated by Y(es).   ");
 
-   SHOW_DICTIONARY_CODES_HELP : constant HELP_TYPE :=  (
+   show_dictionary_codes_help : constant help_type :=  (
 	 "This option causes the codes for the dictionary entry for the current ",
 	 "meaning to be output.  This may not be useful to any but the most     ",
 	 "involved user.  The default choice is N(o).  It is activated by Y(es).");
 
-   DO_PEARSE_CODES_HELP : constant HELP_TYPE :=  (
+   do_pearse_codes_help : constant help_type :=  (
 	 "This option causes special codes to be output flagging the different  ",
 	 "kinds of output lines.  01 for forms, 02 for dictionary forms, and    ",
 	 "03 for meaning. The default choice is N(o).  It is activated by Y(es).",
 	 "There are no Pearse codes in English mode.                            ");
 
-   DO_ONLY_INITIAL_WORD_HELP : constant HELP_TYPE :=  (
+   do_only_initial_word_help : constant help_type :=  (
 	 "This option instructs the program to only analyze the initial word on ",
 	 "each line submitted.  This is a tool for checking and integrating new ",
 	 "dictionary input, and will be of no interest to the general user.     ",
 	 "The default choice is N(o), but it can be turned on with a Y(es).     " );
 
-   FOR_WORD_LIST_CHECK_HELP : constant HELP_TYPE :=  (
+   for_word_list_check_help : constant help_type :=  (
 	 "This option works in conjunction with DO_ONLY_INITIAL_WORD to allow   ",
 	 "the processing of scanned dictionarys or text word lists.  It accepts ",
 	 "only the forms common in dictionary entries, like NOM S for N or ADJ, ",
 	 "or PRES ACTIVE IND 1 S for V.  It is be used only with DO_INITIAL_WORD",
 	 "The default choice is N(o), but it can be turned on with a Y(es).     " );
 
-   DO_ONLY_FIXES_HELP : constant HELP_TYPE :=  (
+   do_only_fixes_help : constant help_type :=  (
 	 "This option instructs the program to ignore the normal dictionary     ",
 	 "search and to go direct to attach various prefixes and suffixes before",
 	 "processing. This is a pure research tool.  It allows one to examine   ",
@@ -163,7 +163,7 @@ package body DEVELOPER_PARAMETERS is
 	 "This processing can be turned on with the choice of Y(es).            " );
 
 
-   DO_FIXES_ANYWAY_HELP : constant HELP_TYPE :=  (
+   do_fixes_anyway_help : constant help_type :=  (
 	 "This option instructs the program to do both the normal dictionary    ",
 	 "search and then process for the various prefixes and suffixes too.    ",
 	 "This is a pure research tool allowing one to consider the possibility ",
@@ -176,7 +176,7 @@ package body DEVELOPER_PARAMETERS is
 	 "This processing can be turned on with the choice of Y(es).            ",
 	 "      ------    PRESENTLY NOT IMPLEMENTED    ------                   " );
 
-   USE_PREFIXES_HELP : constant HELP_TYPE :=  (
+   use_prefixes_help : constant help_type :=  (
 	 "This option instructs the program to implement prefixes from ADDONS   ",
 	 "whenever and wherever FIXES are called for.  The purpose of this      ",
 	 "option is to allow some flexibility while the program in running to   ",
@@ -187,7 +187,7 @@ package body DEVELOPER_PARAMETERS is
 	 "This is primarily a development tool, so the conventional user should ",
 	 "probably maintain the default  choice of Y(es).                       " );
 
-   USE_SUFFIXES_HELP : constant HELP_TYPE :=  (
+   use_suffixes_help : constant help_type :=  (
 	 "This option instructs the program to implement suffixes from ADDONS   ",
 	 "whenever and wherever FIXES are called for.  The purpose of this      ",
 	 "option is to allow some flexibility while the program in running to   ",
@@ -198,7 +198,7 @@ package body DEVELOPER_PARAMETERS is
 	 "This is primarily a development tool, so the conventional user should ",
 	 "probably maintain the default  choice of Y(es).                       " );
 
-   USE_TACKONS_HELP : constant HELP_TYPE :=  (
+   use_tackons_help : constant help_type :=  (
 	 "This option instructs the program to implement TACKONS from ADDONS    ",
 	 "whenever and wherever FIXES are called for.  The purpose of this      ",
 	 "option is to allow some flexibility while the program in running to   ",
@@ -210,7 +210,7 @@ package body DEVELOPER_PARAMETERS is
 	 "probably maintain the default  choice of Y(es).                       " );
 
 
-   DO_MEDIEVAL_TRICKS_HELP : constant HELP_TYPE :=  (
+   do_medieval_tricks_help : constant help_type :=  (
 	 "This option instructs the program, when it is unable to find a proper ",
 	 "match in the dictionary, and after various prefixes and suffixes, and ",
 	 "tring every Classical Latin trick it can think of, to go to a few that",
@@ -226,7 +226,7 @@ package body DEVELOPER_PARAMETERS is
 	 "and expensive.  This processing is turned on with the choice of Y(es)." );
    
 
-   DO_SYNCOPE_HELP : constant HELP_TYPE :=  (
+   do_syncope_help : constant help_type :=  (
 	 "This option instructs the program to postulate that syncope of        ",
 	 "perfect stem verbs may have occured (e.g, aver -> ar in the perfect), ",
 	 "and to try various possibilities for the insertion of a removed 'v'.  ",
@@ -236,7 +236,7 @@ package body DEVELOPER_PARAMETERS is
 	 "very common in Latin (first year texts excepted).  Default is Y(es).  ",
 	 "This processing is turned off with the choice of N(o).                " );
 
-   DO_TWO_WORDS_HELP : constant HELP_TYPE :=  (
+   do_two_words_help : constant help_type :=  (
 	 "There are some few common Lain expressions that combine two inflected ",
 	 "words (e.g. respublica, paterfamilias).  There are numerous examples  ",
 	 "of numbers composed of two words combined together.                   ",
@@ -250,7 +250,7 @@ package body DEVELOPER_PARAMETERS is
 	 "This processing is turned off with the choice of N(o).                " );
    
 
-   INCLUDE_UNKNOWN_CONTEXT_HELP : constant HELP_TYPE :=  (
+   include_unknown_context_help : constant help_type :=  (
 	 "This option instructs the program, when writing to an UNKNOWNS file,  ",
 	 "to put out the whole context of the UNKNOWN (the whole input line on  ",
 	 "which the UNKNOWN was found).  This is appropriate for processing     ",
@@ -258,14 +258,14 @@ package body DEVELOPER_PARAMETERS is
 	 "few UNKNOWNS.    The main use at the moment is to provide display     ",
 	 "of the input line on the output file in the case of UNKNOWNS_ONLY.    ");
 
-   NO_MEANINGS_HELP : constant HELP_TYPE :=  (  
+   no_meanings_help : constant help_type :=  (  
 	 "This option instructs the program to omit putting out meanings.       ", 
 	 "This is only useful for certain dictionary maintenance procedures.    ",
 	 "The combination not DO_DICTIONARY_FORMS, MEANINGS_ONLY, NO_MEANINGS   ",
 	 "results in no visible output, except spacing lines.    Default is N)o.");
    
 
-   OMIT_ARCHAIC_HELP : constant HELP_TYPE :=  (
+   omit_archaic_help : constant help_type :=  (
 	 "THIS OPTION IS CAN ONLY BE ACTIVE IF WORDS_MODE(TRIM_OUTPUT) IS SET!  ",
 	 "This option instructs the program to omit inflections and dictionary  ",
 	 "entries with an AGE code of A (Archaic).  Archaic results are rarely  ",
@@ -273,7 +273,7 @@ package body DEVELOPER_PARAMETERS is
 	 "the Archaic (roughly defined) will be reported.  The default is Y(es)." );
 
 
-   OMIT_MEDIEVAL_HELP : constant HELP_TYPE :=  (
+   omit_medieval_help : constant help_type :=  (
 	 "THIS OPTION IS CAN ONLY BE ACTIVE IF WORDS_MODE(TRIM_OUTPUT) IS SET!  ",
 	 "This option instructs the program to omit inflections and dictionary  ",
 	 "entries with AGE codes of E or later, those not in use in Roman times.",
@@ -281,7 +281,7 @@ package body DEVELOPER_PARAMETERS is
 	 "will not want them.  If there is no other possible form, then the     ",
 	 "Medieval (roughly defined) will be reported.   The default is Y(es).  " );
 
-   OMIT_UNCOMMON_HELP : constant HELP_TYPE :=  (
+   omit_uncommon_help : constant help_type :=  (
 	 "THIS OPTION IS CAN ONLY BE ACTIVE IF WORDS_MODE(TRIM_OUTPUT) IS SET!  ",
 	 "This option instructs the program to omit inflections and dictionary  ",
 	 "entries with FREQ codes indicating that the selection is uncommon.    ",
@@ -289,7 +289,7 @@ package body DEVELOPER_PARAMETERS is
 	 "will not want them.  If there is no other possible form, then the     ",
 	 "uncommon (roughly defined) will be reported.   The default is Y(es).  " );
 
-   DO_I_FOR_J_HELP : constant HELP_TYPE :=  (
+   do_i_for_j_help : constant help_type :=  (
 	 "This option instructs the program to modify the output so that the j/J",
 	 "is represented as i/I.  The consonant i was writen as j in cursive in ",
 	 "Imperial times and called i longa, and often rendered as j in medieval",
@@ -298,7 +298,7 @@ package body DEVELOPER_PARAMETERS is
 	 "The program default, and the dictionary convention is to retain the j.",
 	 "Reset if this ia unsuitable for your application. The default is N(o)." );
 
-   DO_U_FOR_V_HELP : constant HELP_TYPE :=  (
+   do_u_for_v_help : constant help_type :=  (
 	 "This option instructs the program to modify the output so that the u  ",
 	 "is represented as v.  The consonant u was writen sometimes as uu.     ",
 	 "The pronounciation was as current w, and important for poetic meter.  ",
@@ -313,7 +313,7 @@ package body DEVELOPER_PARAMETERS is
 
 
 
-   PAUSE_IN_SCREEN_OUTPUT_HELP : constant HELP_TYPE :=  (
+   pause_in_screen_output_help : constant help_type :=  (
 	 "This option instructs the program to pause in output on the screen    ",
 	 "after about 16 lines so that the user can read the output, otherwise  ",
 	 "it would just scroll off the top.  A RETURN/ENTER gives another page. ",
@@ -323,7 +323,7 @@ package body DEVELOPER_PARAMETERS is
 	 "input or brief output.                 The default is Y(es).          " );
 
 
-   NO_SCREEN_ACTIVITY_HELP : constant HELP_TYPE :=  (
+   no_screen_activity_help : constant help_type :=  (
 	 "This option instructs the program not to keep a running screen of the ",
 	 "input.  This is probably only to be used by the developer to calibrate",
 	 "run times for large text file input, removing the time necessary to   ",
@@ -331,7 +331,7 @@ package body DEVELOPER_PARAMETERS is
    
    
 
-   UPDATE_LOCAL_DICTIONARY_HELP : constant HELP_TYPE :=  (
+   update_local_dictionary_help : constant help_type :=  (
 	 "This option instructs the program to invite the user to input a new   ",
 	 "word to the local dictionary on the fly.  This is only active if the  ",
 	 "program is not using an (@) input file!  If an UNKNOWN is discovered, ",
@@ -350,7 +350,7 @@ package body DEVELOPER_PARAMETERS is
 	 "                                          The default is N(o).        ",
 	 "      ------    NOT AVAILABLE IN THIS VERSION   -------               " );
 
-   UPDATE_MEANINGS_HELP : constant HELP_TYPE :=  (
+   update_meanings_help : constant help_type :=  (
 	 "This option instructs the program to invite the user to modify the    ",
 	 "meaning displayed on a word translation.  This is only active if the  ",
 	 "program is not using an (@) input file!  These changes are put into   ",
@@ -364,13 +364,13 @@ package body DEVELOPER_PARAMETERS is
 	 "      ------    NOT AVAILABLE IN THIS VERSION   -------               " );
    
 
-   MINIMIZE_OUTPUT_HELP : constant HELP_TYPE :=  (
+   minimize_output_help : constant help_type :=  (
 	 "This option instructs the program to minimize the output.  This is a  ",
 	 "somewhat flexible term, but the use of this option will probably lead ",
 	 "to less output.                        The default is Y(es).          " );
 
 
-   SAVE_PARAMETERS_HELP : constant HELP_TYPE :=  (
+   save_parameters_help : constant help_type :=  (
 	 "This option instructs the program, to save the current parameters, as ",
 	 "just established by the user, in a file WORD.MDV.  If such a file     ",
 	 "exists, the program will load those parameters at the start.  If no   ",
@@ -383,238 +383,238 @@ package body DEVELOPER_PARAMETERS is
 	 "the program.  Since one may want to make temporary changes during a   ",
 	 "run, but revert to the usual set, the default is N(o).                " );
 
-   procedure PUT(HELP : HELP_TYPE) is
+   procedure put(help : help_type) is
    begin
-	  NEW_LINE;
-	  for I in HELP'FIRST..HELP'LAST  loop
-		 PUT_LINE(HELP(I));
+	  new_line;
+	  for i in help'first..help'last  loop
+		 put_line(help(i));
 	  end loop;
-	  NEW_LINE;
-   end PUT;
+	  new_line;
+   end put;
 
 
-   procedure UPDATE_LOCAL_DICTIONARY_FILE is
-	  use TEXT_IO;
-	  BLANK_LINE : STRING(1..80) := (others => ' ');
-	  LINE, STEM_LINE, PART_LINE, MEAN_LINE : STRING(1..80) := BLANK_LINE;
-	  L, SL, PL, ML : INTEGER := 0;    --  SL BAD NAME !!!!!!!!!!!
+   procedure update_local_dictionary_file is
+	  use text_io;
+	  blank_line : string(1..80) := (others => ' ');
+	  line, stem_line, part_line, mean_line : string(1..80) := blank_line;
+	  l, sl, pl, ml : integer := 0;    --  SL BAD NAME !!!!!!!!!!!
 									   --DICT_LOC : DICTIONARY;   --  Def in LINE_STUFF
-	  DICT_LOC_FILE : FILE_TYPE;
-	  DUMMY : FILE_TYPE;
+	  dict_loc_file : file_type;
+	  dummy : file_type;
 	  --  Omit when put name here
-	  DICT_LOC_NAME : constant STRING :=
-		ADD_FILE_NAME_EXTENSION(DICTIONARY_FILE_NAME, "LOCAL");
+	  dict_loc_name : constant string :=
+		add_file_name_extension(dictionary_file_name, "LOCAL");
 
-	  procedure READY_DICT_LOC_FILE is
+	  procedure ready_dict_loc_file is
 		 --  Effectively goes to the end of DICT_LOC to ready for appending
 		 --  Does this by making a new file and writing the old DICT_LOC into it
 		 --  If there is not already a DICT_LOC, it creates one
 	  begin
-		 OPEN(DICT_LOC_FILE, IN_FILE, DICT_LOC_NAME);
-		 CREATE(DUMMY, OUT_FILE);
-		 while not END_OF_FILE(DICT_LOC_FILE)  loop
-			GET_LINE(DICT_LOC_FILE, LINE, L);
-			PUT_LINE(DUMMY, LINE(1..L));
+		 open(dict_loc_file, in_file, dict_loc_name);
+		 create(dummy, out_file);
+		 while not end_of_file(dict_loc_file)  loop
+			get_line(dict_loc_file, line, l);
+			put_line(dummy, line(1..l));
 		 end loop;
-		 RESET(DUMMY, IN_FILE);
-		 DELETE(DICT_LOC_FILE);     --  Might RESET, but environment might not support
-		 CREATE(DICT_LOC_FILE, OUT_FILE, DICT_LOC_NAME);
-		 while not END_OF_FILE(DUMMY)  loop
-			GET_LINE(DUMMY, LINE, L);
-			PUT_LINE(DICT_LOC_FILE, LINE(1..L));
+		 reset(dummy, in_file);
+		 delete(dict_loc_file);     --  Might RESET, but environment might not support
+		 create(dict_loc_file, out_file, dict_loc_name);
+		 while not end_of_file(dummy)  loop
+			get_line(dummy, line, l);
+			put_line(dict_loc_file, line(1..l));
 		 end loop;
-		 DELETE(DUMMY);
+		 delete(dummy);
 	  exception
-		 when NAME_ERROR  =>
-			CREATE(DICT_LOC_FILE, OUT_FILE, DICT_LOC_NAME);
-	  end READY_DICT_LOC_FILE;
+		 when name_error  =>
+			create(dict_loc_file, out_file, dict_loc_name);
+	  end ready_dict_loc_file;
 
-	  procedure APPEND_TO_DICT_LOC_FILE is
+	  procedure append_to_dict_loc_file is
 		 --  This just appends the 3 lines of a dictionary entry to DICT_LOC
 		 --  It prepares the file to write at the end, writes, then closes it
 	  begin
-		 READY_DICT_LOC_FILE;
-		 PUT_LINE(DICT_LOC_FILE, STEM_LINE(1..SL));   --  SL bad name
-		 PUT(DICT_LOC_FILE, PART_LINE(1..PL));
-		 PUT_LINE(DICT_LOC_FILE, " X X X X X ");
-		 PUT_LINE(DICT_LOC_FILE, MEAN_LINE(1..ML));
+		 ready_dict_loc_file;
+		 put_line(dict_loc_file, stem_line(1..sl));   --  SL bad name
+		 put(dict_loc_file, part_line(1..pl));
+		 put_line(dict_loc_file, " X X X X X ");
+		 put_line(dict_loc_file, mean_line(1..ml));
 
-		 CLOSE(DICT_LOC_FILE);
+		 close(dict_loc_file);
 
-	  end APPEND_TO_DICT_LOC_FILE;
+	  end append_to_dict_loc_file;
 
    begin
 	  loop
 
-		 TEXT_IO.PUT("STEMS =>");
-		 GET_LINE(STEM_LINE, SL);
-		 if SL > 0  then  --  if no input for stems, then just skip the entry
-			TEXT_IO.PUT("PART  =>");
-			GET_LINE(PART_LINE, PL);
-			TEXT_IO.PUT("MEAN =>");
-			GET_LINE(MEAN_LINE, ML);
+		 text_io.put("STEMS =>");
+		 get_line(stem_line, sl);
+		 if sl > 0  then  --  if no input for stems, then just skip the entry
+			text_io.put("PART  =>");
+			get_line(part_line, pl);
+			text_io.put("MEAN =>");
+			get_line(mean_line, ml);
 		 else
 			exit;       --  on no entry, just CR
 		 end if;
 
 		 begin
-			APPEND_TO_DICT_LOC_FILE;
+			append_to_dict_loc_file;
 
 
 
-			DICT_LOC := NULL_DICTIONARY;
-			LOAD_DICTIONARY(DICT_LOC,
-			  ADD_FILE_NAME_EXTENSION(DICTIONARY_FILE_NAME, "LOCAL"));
+			dict_loc := null_dictionary;
+			load_dictionary(dict_loc,
+			  add_file_name_extension(dictionary_file_name, "LOCAL"));
 			--  Need to carry LOC through consistently on LOAD_D and LOAD_D_FILE
-			LOAD_STEM_FILE(LOCAL);
-			DICTIONARY_AVAILABLE(LOCAL) := TRUE;
+			load_stem_file(local);
+			dictionary_available(local) := true;
 			exit;       --  If everything OK, otherwise loop back and try again
 		 end;
 
 	  end loop;
 
-   end UPDATE_LOCAL_DICTIONARY_FILE;
+   end update_local_dictionary_file;
 
 
 
 
 
-   procedure PUT_MDEVS is
-	  use MDEV_TYPE_IO;
-	  use REPLY_TYPE_IO;
+   procedure put_mdevs is
+	  use mdev_type_io;
+	  use reply_type_io;
    begin
-	  if IS_OPEN(MDEV_FILE)  then
-		 CLOSE(MDEV_FILE);
+	  if is_open(mdev_file)  then
+		 close(mdev_file);
 	  end if;
-	  CREATE(MDEV_FILE, OUT_FILE, MDEV_FULL_NAME);
-	  for I in WORDS_MDEV'RANGE  loop
-		 PUT(MDEV_FILE, I);
-		 SET_COL(MDEV_FILE, 35);
-		 PUT(MDEV_FILE, REPLY(WORDS_MDEV(I)));
-		 NEW_LINE(MDEV_FILE);
+	  create(mdev_file, out_file, mdev_full_name);
+	  for i in words_mdev'range  loop
+		 put(mdev_file, i);
+		 set_col(mdev_file, 35);
+		 put(mdev_file, reply(words_mdev(i)));
+		 new_line(mdev_file);
 	  end loop;
-	  PUT(MDEV_FILE, "START_FILE_CHARACTER             '" &
-		START_FILE_CHARACTER &"'"); NEW_LINE(MDEV_FILE);
-		PUT(MDEV_FILE, "CHANGE_PARAMETERS_CHARACTER      '" &
-		  CHANGE_PARAMETERS_CHARACTER &"'"); NEW_LINE(MDEV_FILE);
-		  PUT(MDEV_FILE, "CHANGE_DEVELOPER_MODES_CHARACTER '" &
-			CHANGE_DEVELOPER_MODES_CHARACTER &"'"); NEW_LINE(MDEV_FILE);
-			CLOSE(MDEV_FILE);
-   end PUT_MDEVS;
+	  put(mdev_file, "START_FILE_CHARACTER             '" &
+		start_file_character &"'"); new_line(mdev_file);
+		put(mdev_file, "CHANGE_PARAMETERS_CHARACTER      '" &
+		  change_parameters_character &"'"); new_line(mdev_file);
+		  put(mdev_file, "CHANGE_DEVELOPER_MODES_CHARACTER '" &
+			change_developer_modes_character &"'"); new_line(mdev_file);
+			close(mdev_file);
+   end put_mdevs;
 
-   procedure GET_MDEVS is
-	  use MDEV_TYPE_IO;
-	  use REPLY_TYPE_IO;
-	  MO : MDEV_TYPE;
-	  REP : REPLY_TYPE;
-	  LINE : STRING(1..100) := (others => ' ');
-	  LAST : INTEGER := 0;
+   procedure get_mdevs is
+	  use mdev_type_io;
+	  use reply_type_io;
+	  mo : mdev_type;
+	  rep : reply_type;
+	  line : string(1..100) := (others => ' ');
+	  last : integer := 0;
    begin
-	  OPEN(MDEV_FILE, IN_FILE, MDEV_FULL_NAME);
-	  for I in WORDS_MDEV'RANGE  loop
-		 GET(MDEV_FILE, MO);
-		 GET(MDEV_FILE, REP);
-		 WORDS_MDEV(MO) := MDEV_OF_REPLY(REP);
+	  open(mdev_file, in_file, mdev_full_name);
+	  for i in words_mdev'range  loop
+		 get(mdev_file, mo);
+		 get(mdev_file, rep);
+		 words_mdev(mo) := mdev_of_reply(rep);
 	  end loop;
-	  SKIP_LINE(MDEV_FILE);
+	  skip_line(mdev_file);
 
-	  GET_LINE(MDEV_FILE, LINE, LAST);
-	  if LINE(1..20) = "START_FILE_CHARACTER"  then
-		 if ((LINE(35) in '!'..'/')  or
-		   (LINE(35) in ':'..'@')  or
-		   (LINE(35) in '['..'`')  or
-		   (LINE(35) in '{'..'~'))  and
-		   (LINE(35) /= CHANGE_PARAMETERS_CHARACTER)  and
-		   (LINE(35) /= CHANGE_DEVELOPER_MODES_CHARACTER)  then
-			START_FILE_CHARACTER := LINE(35);
+	  get_line(mdev_file, line, last);
+	  if line(1..20) = "START_FILE_CHARACTER"  then
+		 if ((line(35) in '!'..'/')  or
+		   (line(35) in ':'..'@')  or
+		   (line(35) in '['..'`')  or
+		   (line(35) in '{'..'~'))  and
+		   (line(35) /= change_parameters_character)  and
+		   (line(35) /= change_developer_modes_character)  then
+			start_file_character := line(35);
 		 else
-			PUT_LINE("Not an acceptable START_FILE_CHARACTER, may conflict");
-			PUT_LINE("NO CHANGE  !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+			put_line("Not an acceptable START_FILE_CHARACTER, may conflict");
+			put_line("NO CHANGE  !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
 		 end if;
 	  else
-		 raise BAD_MDEV_FILE;
+		 raise bad_mdev_file;
 	  end if;
 
-	  GET_LINE(MDEV_FILE, LINE, LAST);
-	  if LINE(1..27) = "CHANGE_PARAMETERS_CHARACTER"  then
-		 if ((LINE(35) in '!'..'/')  or
-		   (LINE(35) in ':'..'@')  or
-		   (LINE(35) in '['..'`')  or
-		   (LINE(35) in '{'..'~'))  and
-		   (LINE(35) /= START_FILE_CHARACTER)  and
-		   (LINE(35) /= CHANGE_DEVELOPER_MODES_CHARACTER)  then
-			CHANGE_PARAMETERS_CHARACTER := LINE(35);
+	  get_line(mdev_file, line, last);
+	  if line(1..27) = "CHANGE_PARAMETERS_CHARACTER"  then
+		 if ((line(35) in '!'..'/')  or
+		   (line(35) in ':'..'@')  or
+		   (line(35) in '['..'`')  or
+		   (line(35) in '{'..'~'))  and
+		   (line(35) /= start_file_character)  and
+		   (line(35) /= change_developer_modes_character)  then
+			change_parameters_character := line(35);
 		 else
-			PUT_LINE("Not an acceptable CHANGE_PARAMETERS_CHARACTER, may conflict");
-			PUT_LINE("NO CHANGE  !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+			put_line("Not an acceptable CHANGE_PARAMETERS_CHARACTER, may conflict");
+			put_line("NO CHANGE  !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
 		 end if;
 	  else
-		 raise BAD_MDEV_FILE;
+		 raise bad_mdev_file;
 	  end if;
 
-	  GET_LINE(MDEV_FILE, LINE, LAST);
-	  if LINE(1..32) = "CHANGE_DEVELOPER_MODES_CHARACTER"  then
-		 if ((LINE(35) in '!'..'/')  or
-		   (LINE(35) in ':'..'@')  or
-		   (LINE(35) in '['..'`')  or
-		   (LINE(35) in '{'..'~'))  and
-		   (LINE(35) /= START_FILE_CHARACTER)  and
-		   (LINE(35) /= CHANGE_PARAMETERS_CHARACTER)  then
-			CHANGE_DEVELOPER_MODES_CHARACTER := LINE(35);
+	  get_line(mdev_file, line, last);
+	  if line(1..32) = "CHANGE_DEVELOPER_MODES_CHARACTER"  then
+		 if ((line(35) in '!'..'/')  or
+		   (line(35) in ':'..'@')  or
+		   (line(35) in '['..'`')  or
+		   (line(35) in '{'..'~'))  and
+		   (line(35) /= start_file_character)  and
+		   (line(35) /= change_parameters_character)  then
+			change_developer_modes_character := line(35);
 		 else
-			PUT_LINE("Not an acceptable CHANGE_DEVELOPER_MODES_CHARACTER, may conflict");
-			PUT_LINE("NO CHANGE  !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+			put_line("Not an acceptable CHANGE_DEVELOPER_MODES_CHARACTER, may conflict");
+			put_line("NO CHANGE  !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
 		 end if;
 	  else
-		 raise BAD_MDEV_FILE;
+		 raise bad_mdev_file;
 	  end if;
-	  CLOSE(MDEV_FILE);
+	  close(mdev_file);
 
    exception
-	  when NAME_ERROR  =>
+	  when name_error  =>
 		 raise;
 	  when others =>
-		 raise BAD_MDEV_FILE;
-   end GET_MDEVS;
+		 raise bad_mdev_file;
+   end get_mdevs;
 
-   procedure INQUIRE(MO : MDEV_TYPE; HELP : in HELP_TYPE := NO_HELP) is
-	  use MDEV_TYPE_IO;
-	  use REPLY_TYPE_IO;
-	  L1 : STRING(1..100);
-	  LL : NATURAL;
-	  R  : REPLY_TYPE;
+   procedure inquire(mo : mdev_type; help : in help_type := no_help) is
+	  use mdev_type_io;
+	  use reply_type_io;
+	  l1 : string(1..100);
+	  ll : natural;
+	  r  : reply_type;
    begin
-	  PUT(MO);
-	  PUT(" ?  "); SET_COL(45); PUT("(Currently  ");
-	  PUT(REPLY(WORDS_MDEV(MO))); PUT(" =>");
-	  GET_LINE(L1, LL);
-	  if LL /= 0  then
-		 if TRIM(L1(1..LL)) = ""  then
-			PUT_LINE("Blank input, skipping the rest of CHANGE_DEVELOPER_MODES");
-			raise BLANK_INPUT;
-		 elsif L1(1) = '?'  then
-			PUT(HELP);
-			INQUIRE(MO, HELP);
+	  put(mo);
+	  put(" ?  "); set_col(45); put("(Currently  ");
+	  put(reply(words_mdev(mo))); put(" =>");
+	  get_line(l1, ll);
+	  if ll /= 0  then
+		 if trim(l1(1..ll)) = ""  then
+			put_line("Blank input, skipping the rest of CHANGE_DEVELOPER_MODES");
+			raise blank_input;
+		 elsif l1(1) = '?'  then
+			put(help);
+			inquire(mo, help);
 		 else
-			GET(L1(1..LL), R, LL);
-			WORDS_MDEV(MO) := MDEV_OF_REPLY(R);
+			get(l1(1..ll), r, ll);
+			words_mdev(mo) := mdev_of_reply(r);
 		 end if;
 	  end if;
-	  NEW_LINE;
-   end INQUIRE;
+	  new_line;
+   end inquire;
 
 
-   procedure CHANGE_DEVELOPER_MODES is
-	  L1 : STRING(1..100);
-	  LL : NATURAL;
-	  R  : REPLY_TYPE;
+   procedure change_developer_modes is
+	  l1 : string(1..100);
+	  ll : natural;
+	  r  : reply_type;
 
    begin
 	  
-	  PUT_LINE("To set developer modes reply Y/y or N/n.  Return accepts current value.");
-	  PUT_LINE("A '?' reply gives infomation/help on that parameter.  A space skips the rest.");
-	  PUT_LINE("Developer modes are only for special requirements and may not all be operable.");
-	  NEW_LINE;
+	  put_line("To set developer modes reply Y/y or N/n.  Return accepts current value.");
+	  put_line("A '?' reply gives infomation/help on that parameter.  A space skips the rest.");
+	  put_line("Developer modes are only for special requirements and may not all be operable.");
+	  new_line;
 	  
 	  --  Interactive MDEV - lets you do things on unknown words
 
@@ -663,216 +663,216 @@ package body DEVELOPER_PARAMETERS is
 	  --      INQUIRE(WRITE_DEBUG_FILE, WRITE_DEBUG_FILE_HELP);
 	  --    end if;
 
-	  INQUIRE(HAVE_STATISTICS_FILE, HAVE_STATISTICS_FILE_HELP);
-	  if IS_OPEN(STATS)  and then not WORDS_MDEV(HAVE_STATISTICS_FILE)  then
-		 DELETE(STATS);
-		 WORDS_MDEV(WRITE_STATISTICS_FILE) := FALSE;
+	  inquire(have_statistics_file, have_statistics_file_help);
+	  if is_open(stats)  and then not words_mdev(have_statistics_file)  then
+		 delete(stats);
+		 words_mdev(write_statistics_file) := false;
 	  end if;
-	  if not IS_OPEN(STATS) and then WORDS_MDEV(HAVE_STATISTICS_FILE)  then
+	  if not is_open(stats) and then words_mdev(have_statistics_file)  then
 		 begin
-			CREATE(STATS, OUT_FILE, STATS_FULL_NAME);
+			create(stats, out_file, stats_full_name);
 		 exception
 			when others =>
-			   PUT_LINE("Cannot CREATE WORD.STA - Check if it is in use elsewhere");
+			   put_line("Cannot CREATE WORD.STA - Check if it is in use elsewhere");
 		 end;
 	  end if;
 
-	  if WORDS_MDEV(HAVE_STATISTICS_FILE)  then
-		 INQUIRE(WRITE_STATISTICS_FILE, WRITE_STATISTICS_FILE_HELP);
+	  if words_mdev(have_statistics_file)  then
+		 inquire(write_statistics_file, write_statistics_file_help);
 	  end if;
 
-	  INQUIRE(DO_ONLY_INITIAL_WORD, DO_ONLY_INITIAL_WORD_HELP);
-	  if WORDS_MDEV(DO_ONLY_INITIAL_WORD)  then
-		 INQUIRE(FOR_WORD_LIST_CHECK, FOR_WORD_LIST_CHECK_HELP);
+	  inquire(do_only_initial_word, do_only_initial_word_help);
+	  if words_mdev(do_only_initial_word)  then
+		 inquire(for_word_list_check, for_word_list_check_help);
 	  else
-		 WORDS_MDEV(FOR_WORD_LIST_CHECK) := FALSE;
+		 words_mdev(for_word_list_check) := false;
 	  end if;
 
 
 
-	  INQUIRE(SHOW_DICTIONARY, SHOW_DICTIONARY_HELP);
+	  inquire(show_dictionary, show_dictionary_help);
 
-	  INQUIRE(SHOW_DICTIONARY_LINE, SHOW_DICTIONARY_LINE_HELP);
+	  inquire(show_dictionary_line, show_dictionary_line_help);
 
-	  INQUIRE(SHOW_DICTIONARY_CODES, SHOW_DICTIONARY_CODES_HELP);
+	  inquire(show_dictionary_codes, show_dictionary_codes_help);
 
-	  INQUIRE(DO_PEARSE_CODES, DO_PEARSE_CODES_HELP);
+	  inquire(do_pearse_codes, do_pearse_codes_help);
 
 
-	  if WORDS_MODE(DO_FIXES) then
-		 INQUIRE(DO_ONLY_FIXES, DO_ONLY_FIXES_HELP);
-		 INQUIRE(DO_FIXES_ANYWAY, DO_FIXES_ANYWAY_HELP);
+	  if words_mode(do_fixes) then
+		 inquire(do_only_fixes, do_only_fixes_help);
+		 inquire(do_fixes_anyway, do_fixes_anyway_help);
 	  end if;
 
-	  INQUIRE(USE_PREFIXES, USE_PREFIXES_HELP);
+	  inquire(use_prefixes, use_prefixes_help);
 	  
-	  INQUIRE(USE_SUFFIXES, USE_SUFFIXES_HELP);
+	  inquire(use_suffixes, use_suffixes_help);
 	  
-	  INQUIRE(USE_TACKONS, USE_TACKONS_HELP);
+	  inquire(use_tackons, use_tackons_help);
 	  
 	  
-	  if WORDS_MODE(DO_TRICKS) then
-		 INQUIRE(DO_MEDIEVAL_TRICKS, DO_MEDIEVAL_TRICKS_HELP);
+	  if words_mode(do_tricks) then
+		 inquire(do_medieval_tricks, do_medieval_tricks_help);
 	  end if;
 
 
-	  INQUIRE(DO_SYNCOPE, DO_SYNCOPE_HELP);
+	  inquire(do_syncope, do_syncope_help);
 
-	  INQUIRE(DO_TWO_WORDS, DO_TWO_WORDS_HELP);
+	  inquire(do_two_words, do_two_words_help);
 
-	  INQUIRE(INCLUDE_UNKNOWN_CONTEXT, INCLUDE_UNKNOWN_CONTEXT_HELP);
+	  inquire(include_unknown_context, include_unknown_context_help);
 
-	  INQUIRE(NO_MEANINGS, NO_MEANINGS_HELP);
-
-
-	  INQUIRE(OMIT_ARCHAIC, OMIT_ARCHAIC_HELP);
-
-	  INQUIRE(OMIT_MEDIEVAL, OMIT_MEDIEVAL_HELP);
-
-	  INQUIRE(OMIT_UNCOMMON, OMIT_UNCOMMON_HELP);
+	  inquire(no_meanings, no_meanings_help);
 
 
-	  INQUIRE(DO_I_FOR_J, DO_I_FOR_J_HELP);
+	  inquire(omit_archaic, omit_archaic_help);
 
-	  INQUIRE(DO_U_FOR_V, DO_U_FOR_V_HELP);
+	  inquire(omit_medieval, omit_medieval_help);
+
+	  inquire(omit_uncommon, omit_uncommon_help);
 
 
-	  INQUIRE(PAUSE_IN_SCREEN_OUTPUT, PAUSE_IN_SCREEN_OUTPUT_HELP);
+	  inquire(do_i_for_j, do_i_for_j_help);
+
+	  inquire(do_u_for_v, do_u_for_v_help);
+
+
+	  inquire(pause_in_screen_output, pause_in_screen_output_help);
 	  
-	  INQUIRE(NO_SCREEN_ACTIVITY, NO_SCREEN_ACTIVITY_HELP);        
+	  inquire(no_screen_activity, no_screen_activity_help);        
 
 	  
 	  
-	  INQUIRE(UPDATE_LOCAL_DICTIONARY, UPDATE_LOCAL_DICTIONARY_HELP);
+	  inquire(update_local_dictionary, update_local_dictionary_help);
 
-	  INQUIRE(UPDATE_MEANINGS, UPDATE_MEANINGS_HELP);
-
-
-	  INQUIRE(MINIMIZE_OUTPUT, MINIMIZE_OUTPUT_HELP);
+	  inquire(update_meanings, update_meanings_help);
 
 
+	  inquire(minimize_output, minimize_output_help);
 
-	  PUT("START_FILE_CHARACTER ?  "); SET_COL(45); PUT("(Currently  '");
-	  PUT(START_FILE_CHARACTER); PUT("'");
-	  PUT(" =>");
-	  GET_LINE(L1, LL);
-	  if LL /= 0  then
-		 if ((L1(1) in '!'..'/')  or
-		   (L1(1) in ':'..'@')  or
-		   (L1(1) in '['..'`')  or
-		   (L1(1) in '{'..'~'))  and
-		   (L1(1) /= CHANGE_PARAMETERS_CHARACTER)  and
-		   (L1(1) /= CHANGE_DEVELOPER_MODES_CHARACTER)  then
-			START_FILE_CHARACTER := L1(1);
+
+
+	  put("START_FILE_CHARACTER ?  "); set_col(45); put("(Currently  '");
+	  put(start_file_character); put("'");
+	  put(" =>");
+	  get_line(l1, ll);
+	  if ll /= 0  then
+		 if ((l1(1) in '!'..'/')  or
+		   (l1(1) in ':'..'@')  or
+		   (l1(1) in '['..'`')  or
+		   (l1(1) in '{'..'~'))  and
+		   (l1(1) /= change_parameters_character)  and
+		   (l1(1) /= change_developer_modes_character)  then
+			start_file_character := l1(1);
 		 else
-			PUT_LINE("Not an acceptable character, may conflict with other input");
-			PUT_LINE("NO CHANGE  !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+			put_line("Not an acceptable character, may conflict with other input");
+			put_line("NO CHANGE  !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
 		 end if;
 	  end if;
-	  NEW_LINE;
+	  new_line;
 
-	  PUT("CHANGE_PARAMETERS_CHARACTER ?  "); SET_COL(45); PUT("(Currently  '");
-	  PUT(CHANGE_PARAMETERS_CHARACTER); PUT("'");
-	  PUT(" =>");
-	  GET_LINE(L1, LL);
-	  if LL /= 0  then
-		 if ((L1(1) in '!'..'/')  or
-		   (L1(1) in ':'..'@')  or
-		   (L1(1) in '['..'`')  or
-		   (L1(1) in '{'..'~'))  and
-		   (L1(1) /= START_FILE_CHARACTER)  and
-		   (L1(1) /= CHANGE_DEVELOPER_MODES_CHARACTER)  then
-			CHANGE_PARAMETERS_CHARACTER := L1(1);
+	  put("CHANGE_PARAMETERS_CHARACTER ?  "); set_col(45); put("(Currently  '");
+	  put(change_parameters_character); put("'");
+	  put(" =>");
+	  get_line(l1, ll);
+	  if ll /= 0  then
+		 if ((l1(1) in '!'..'/')  or
+		   (l1(1) in ':'..'@')  or
+		   (l1(1) in '['..'`')  or
+		   (l1(1) in '{'..'~'))  and
+		   (l1(1) /= start_file_character)  and
+		   (l1(1) /= change_developer_modes_character)  then
+			change_parameters_character := l1(1);
 		 else
-			PUT_LINE("Not an acceptable character, may conflict with other input");
-			PUT_LINE("NO CHANGE  !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+			put_line("Not an acceptable character, may conflict with other input");
+			put_line("NO CHANGE  !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
 		 end if;
 	  end if;
-	  NEW_LINE;
+	  new_line;
 
 
-	  PUT("CHANGE_DEVELOPER_MODES_CHARACTER ?  ");
-	  SET_COL(45); PUT("(Currently  '");
-	  PUT(CHANGE_DEVELOPER_MODES_CHARACTER); PUT("'");
-	  PUT(" =>");
-	  GET_LINE(L1, LL);
-	  if LL /= 0  then
-		 if ((L1(1) in '!'..'/')  or
-		   (L1(1) in ':'..'@')  or
-		   (L1(1) in '['..'`')  or
-		   (L1(1) in '{'..'~'))  and
-		   (L1(1) /= START_FILE_CHARACTER)  and
-		   (L1(1) /= CHANGE_LANGUAGE_CHARACTER)  and
-		   (L1(1) /= CHANGE_PARAMETERS_CHARACTER)  then
-			CHANGE_DEVELOPER_MODES_CHARACTER := L1(1);
+	  put("CHANGE_DEVELOPER_MODES_CHARACTER ?  ");
+	  set_col(45); put("(Currently  '");
+	  put(change_developer_modes_character); put("'");
+	  put(" =>");
+	  get_line(l1, ll);
+	  if ll /= 0  then
+		 if ((l1(1) in '!'..'/')  or
+		   (l1(1) in ':'..'@')  or
+		   (l1(1) in '['..'`')  or
+		   (l1(1) in '{'..'~'))  and
+		   (l1(1) /= start_file_character)  and
+		   (l1(1) /= change_language_character)  and
+		   (l1(1) /= change_parameters_character)  then
+			change_developer_modes_character := l1(1);
 		 else
-			PUT_LINE("Not an acceptable character, may conflict with other input");
-			PUT_LINE("NO CHANGE  !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+			put_line("Not an acceptable character, may conflict with other input");
+			put_line("NO CHANGE  !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
 		 end if;
 	  end if;
-	  NEW_LINE;
+	  new_line;
 
-	  PUT("Do you wish to save this set of parameters? Y or N (Default) ");
-	  PUT(" =>");
-	  GET_LINE(L1, LL);
-	  if LL /= 0  then
-		 if L1(1) = '?'  then
-			PUT(SAVE_PARAMETERS_HELP);
-			PUT("Do you wish to save this set of parameters? Y or N (Default) ");
-			PUT(" =>");
-			GET_LINE(L1, LL);
+	  put("Do you wish to save this set of parameters? Y or N (Default) ");
+	  put(" =>");
+	  get_line(l1, ll);
+	  if ll /= 0  then
+		 if l1(1) = '?'  then
+			put(save_parameters_help);
+			put("Do you wish to save this set of parameters? Y or N (Default) ");
+			put(" =>");
+			get_line(l1, ll);
 		 end if;
-		 REPLY_TYPE_IO.GET(L1(1..LL), R, LL);
-		 if MDEV_OF_REPLY(R)  then
-			PUT_MDEVS;
-			PUT_LINE("MDEV_ARRAY saved in file " & MDEV_FULL_NAME);
+		 reply_type_io.get(l1(1..ll), r, ll);
+		 if mdev_of_reply(r)  then
+			put_mdevs;
+			put_line("MDEV_ARRAY saved in file " & mdev_full_name);
 		 end if;
 	  end if;
-	  NEW_LINE;
+	  new_line;
 
    exception
-	  when BLANK_INPUT  =>
+	  when blank_input  =>
 		 null;
 	  when others =>
-		 PUT_LINE("Bad input - terminating CHANGE_DEVELOPER_PARAMETERS");
+		 put_line("Bad input - terminating CHANGE_DEVELOPER_PARAMETERS");
 
-   end CHANGE_DEVELOPER_MODES;
+   end change_developer_modes;
 
 
-   procedure INITIALIZE_DEVELOPER_PARAMETERS is
+   procedure initialize_developer_parameters is
    begin
 
 
-  DO_MDEV_FILE:
+  do_mdev_file:
 	  begin
 		 --  Read the MDEV file
-		 GET_MDEVS;
-		 PREFACE.PUT_LINE("MDEV_FILE found - Using those MDEVs and parameters");
+		 get_mdevs;
+		 preface.put_line("MDEV_FILE found - Using those MDEVs and parameters");
 	  exception
 		 --  If there is any problem
 		 --  Put that the MDEV file is corrupted and the options are:
 		 --  to proceed with default parameters
 		 --  to set parameters with a CHANGE (SET) PARAMETERS and save
 		 --  to examine the MDEV file with a text editor and try to repair it
-		 when NAME_ERROR  =>
-			WORDS_MDEV := DEFAULT_MDEV_ARRAY;
-		 when BAD_MDEV_FILE  =>
-			PREFACE.PUT_LINE("MDEV_FILE exists, but empty or corupted - Default MDEVs used");
-			PREFACE.PUT_LINE("You can set new parameters with CHANGE PARAMETERS and save.");
-			WORDS_MDEV := DEFAULT_MDEV_ARRAY;
-	  end DO_MDEV_FILE;
+		 when name_error  =>
+			words_mdev := default_mdev_array;
+		 when bad_mdev_file  =>
+			preface.put_line("MDEV_FILE exists, but empty or corupted - Default MDEVs used");
+			preface.put_line("You can set new parameters with CHANGE PARAMETERS and save.");
+			words_mdev := default_mdev_array;
+	  end do_mdev_file;
 
 
 	  --  if not IS_OPEN(DBG) and then WORDS_MDEV(HAVE_DEBUG_FILE)  then
 	  --    CREATE(DBG, OUT_FILE, DEBUG_FULL_NAME);
 	  --    PREFACE.PUT_LINE("WORD.DBG Created at Initialization");
 	  --  end if;
-	  if not IS_OPEN(STATS) and then WORDS_MDEV(HAVE_STATISTICS_FILE)  then
-		 CREATE(STATS, OUT_FILE, STATS_FULL_NAME);
-		 PREFACE.PUT_LINE("WORD.STA Created at Initialization");
+	  if not is_open(stats) and then words_mdev(have_statistics_file)  then
+		 create(stats, out_file, stats_full_name);
+		 preface.put_line("WORD.STA Created at Initialization");
 	  end if;
 
-   end INITIALIZE_DEVELOPER_PARAMETERS;
+   end initialize_developer_parameters;
 
 
-end DEVELOPER_PARAMETERS;
+end developer_parameters;

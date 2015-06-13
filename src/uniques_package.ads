@@ -1,25 +1,25 @@
-with INFLECTIONS_PACKAGE; use INFLECTIONS_PACKAGE;
-with DICTIONARY_PACKAGE; use DICTIONARY_PACKAGE;
-package UNIQUES_PACKAGE is
+with inflections_package; use inflections_package;
+with dictionary_package; use dictionary_package;
+package uniques_package is
    
-   type UNIQUE_ITEM;
-   type UNIQUE_LIST is access UNIQUE_ITEM;
+   type unique_item;
+   type unique_list is access unique_item;
 
-   type UNIQUE_ITEM is
+   type unique_item is
 	  record
-		 STEM : STEM_TYPE      := NULL_STEM_TYPE;
-		 QUAL : QUALITY_RECORD := NULL_QUALITY_RECORD;
-		 KIND : KIND_ENTRY     := NULL_KIND_ENTRY;
-		 MNPC : DICT_IO.COUNT  := NULL_MNPC;
-		 SUCC : UNIQUE_LIST;
+		 stem : stem_type      := null_stem_type;
+		 qual : quality_record := null_quality_record;
+		 kind : kind_entry     := null_kind_entry;
+		 mnpc : dict_io.count  := null_mnpc;
+		 succ : unique_list;
 	  end record;
 
-   type LATIN_UNIQUES is array (CHARACTER range 'a'..'z') of UNIQUE_LIST;
-   NULL_LATIN_UNIQUES : LATIN_UNIQUES := (others => null);
+   type latin_uniques is array (character range 'a'..'z') of unique_list;
+   null_latin_uniques : latin_uniques := (others => null);
 
-   UNQ : LATIN_UNIQUES := NULL_LATIN_UNIQUES;
+   unq : latin_uniques := null_latin_uniques;
 
-   type UNIQUES_DE_ARRAY is array (DICT_IO.POSITIVE_COUNT range <>) of DICTIONARY_ENTRY;
-   UNIQUES_DE : UNIQUES_DE_ARRAY(1..100) := (others => NULL_DICTIONARY_ENTRY);
+   type uniques_de_array is array (dict_io.positive_count range <>) of dictionary_entry;
+   uniques_de : uniques_de_array(1..100) := (others => null_dictionary_entry);
 
-end UNIQUES_PACKAGE;
+end uniques_package;

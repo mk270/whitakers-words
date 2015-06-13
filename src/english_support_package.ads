@@ -1,62 +1,62 @@
-with Text_IO;   
-with Direct_IO; 
-with Strings_Package; use Strings_Package;  
-with LATIN_FILE_NAMES; use LATIN_FILE_NAMES;
-with Inflections_Package; use Inflections_Package;
-with Dictionary_Package; use Dictionary_Package;
-with WORD_SUPPORT_PACKAGE; use WORD_SUPPORT_PACKAGE;
-package ENGLISH_SUPPORT_PACKAGE is 
+with text_io;   
+with direct_io; 
+with strings_package; use strings_package;  
+with latin_file_names; use latin_file_names;
+with inflections_package; use inflections_package;
+with dictionary_package; use dictionary_package;
+with word_support_package; use word_support_package;
+package english_support_package is 
    
-   EWORD_SIZE    : constant := 24;
-   AUX_WORD_SIZE : constant := 12;
-   LINE_NUMBER_WIDTH : constant := 10;
-   PRIORITY_WIDTH : constant := 3;
+   eword_size    : constant := 24;
+   aux_word_size : constant := 12;
+   line_number_width : constant := 10;
+   priority_width : constant := 3;
    
-   subtype EWORD is STRING(1..EWORD_SIZE);
-   NULL_EWORD : EWORD := (others => ' ');
-   subtype AUXWORD is STRING(1..AUX_WORD_SIZE);
-   NULL_AUXWORD : AUXWORD := (others => ' ');
-   subtype PRIORITY_TYPE is INTEGER range 0..99;
+   subtype eword is string(1..eword_size);
+   null_eword : eword := (others => ' ');
+   subtype auxword is string(1..aux_word_size);
+   null_auxword : auxword := (others => ' ');
+   subtype priority_type is integer range 0..99;
    
-   NUMBER_OF_EWORDS : INTEGER := 0;
+   number_of_ewords : integer := 0;
    
-   type EWDS_RECORD is 
+   type ewds_record is 
 	  record
-		 W    : EWORD := NULL_EWORD;
-		 AUX  : AUXWORD := NULL_AUXWORD;
-		 N    : INTEGER := 0;
-		 POFS : PART_OF_SPEECH_TYPE := X;
-		 FREQ : FREQUENCY_TYPE := X;
-		 SEMI : INTEGER := 0;
-		 KIND : INTEGER := 0;
-		 RANK : INTEGER := 0;
+		 w    : eword := null_eword;
+		 aux  : auxword := null_auxword;
+		 n    : integer := 0;
+		 pofs : part_of_speech_type := x;
+		 freq : frequency_type := x;
+		 semi : integer := 0;
+		 kind : integer := 0;
+		 rank : integer := 0;
 	  end record;
    
-   NULL_EWDS_RECORD : EWDS_RECORD := ((others => ' '), 
-									  (others => ' '), 0, X, X, 0, 0, 0);
+   null_ewds_record : ewds_record := ((others => ' '), 
+									  (others => ' '), 0, x, x, 0, 0, 0);
    
-   type EWDS_ARRAY is array (POSITIVE range <>) of EWDS_RECORD;
+   type ewds_array is array (positive range <>) of ewds_record;
    
-   package EWDS_DIRECT_IO is new DIRECT_IO(EWDS_RECORD);
+   package ewds_direct_io is new direct_io(ewds_record);
    
-   package EWDS_RECORD_IO is 
-	  DEFAULT_WIDTH : NATURAL;
-	  procedure GET(F : in TEXT_IO.FILE_TYPE; P : out EWDS_RECORD);
-	  procedure GET(P : out EWDS_RECORD);
-	  procedure PUT(F : in TEXT_IO.FILE_TYPE; P : in EWDS_RECORD);
-	  procedure PUT(P : in EWDS_RECORD);
-	  procedure GET(S : in STRING; P : out EWDS_RECORD; 
-								   LAST : out INTEGER);
-	  procedure PUT(S : out STRING; P : in EWDS_RECORD);  
-   end EWDS_RECORD_IO; 
+   package ewds_record_io is 
+	  default_width : natural;
+	  procedure get(f : in text_io.file_type; p : out ewds_record);
+	  procedure get(p : out ewds_record);
+	  procedure put(f : in text_io.file_type; p : in ewds_record);
+	  procedure put(p : in ewds_record);
+	  procedure get(s : in string; p : out ewds_record; 
+								   last : out integer);
+	  procedure put(s : out string; p : in ewds_record);  
+   end ewds_record_io; 
    
-   ENGLISH_DICTIONARY_AVAILABLE : array (DICTIONARY_KIND) of BOOLEAN := (FALSE,
-																		 FALSE, FALSE, FALSE, FALSE, FALSE, FALSE,  --  don't SEARCH
-																		 FALSE, FALSE, FALSE, FALSE);  
+   english_dictionary_available : array (dictionary_kind) of boolean := (false,
+																		 false, false, false, false, false, false,  --  don't SEARCH
+																		 false, false, false, false);  
 
-   EWDS_FILE : EWDS_DIRECT_IO.FILE_TYPE;
+   ewds_file : ewds_direct_io.file_type;
    
    
 
-end ENGLISH_SUPPORT_PACKAGE;
+end english_support_package;
 

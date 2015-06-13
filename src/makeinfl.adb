@@ -1,362 +1,362 @@
-with TEXT_IO;
-with STRINGS_PACKAGE; use STRINGS_PACKAGE;
-with LATIN_FILE_NAMES; use LATIN_FILE_NAMES;
-with INFLECTIONS_PACKAGE; use INFLECTIONS_PACKAGE;
-with IO_EXCEPTIONS;
-procedure MAKEINFL is
-   package INTEGER_IO is new TEXT_IO.INTEGER_IO(INTEGER);
-   use TEXT_IO;
-   use INTEGER_IO;
-   use STEM_KEY_TYPE_IO;
-   use INFLECTION_RECORD_IO;
-   use QUALITY_RECORD_IO;
-   use ENDING_RECORD_IO;
-   use AGE_TYPE_IO;
-   use FREQUENCY_TYPE_IO;
-   use LEL_SECTION_IO;
+with text_io;
+with strings_package; use strings_package;
+with latin_file_names; use latin_file_names;
+with inflections_package; use inflections_package;
+with io_exceptions;
+procedure makeinfl is
+   package integer_io is new text_io.integer_io(integer);
+   use text_io;
+   use integer_io;
+   use stem_key_type_io;
+   use inflection_record_io;
+   use quality_record_io;
+   use ending_record_io;
+   use age_type_io;
+   use frequency_type_io;
+   use lel_section_io;
    
-   PORTING : constant BOOLEAN := TRUE;    --FALSE for WAKEINFL;
+   porting : constant boolean := true;    --FALSE for WAKEINFL;
 
-   M, N   : INTEGER := 0;
-   N1, N2, N3, N4, N5 : INTEGER := 0;
+   m, n   : integer := 0;
+   n1, n2, n3, n4, n5 : integer := 0;
    
-   OUTPUT : TEXT_IO.FILE_TYPE;
-   INFLECTIONS_SECTIONS_FILE : LEL_SECTION_IO.FILE_TYPE;
+   output : text_io.file_type;
+   inflections_sections_file : lel_section_io.file_type;
 
-   procedure FILE_INFLECTIONS_SECTIONS is
+   procedure file_inflections_sections is
 	  --  Reads the INFLECTS. file and prepares an inflections list
 	  --  Then it writes that list into an array
 	  --  Loads the inflection array into a file for later retrieval
-	  use TEXT_IO;
-	  use INFLECTION_RECORD_IO;
-	  use INTEGER_IO;
+	  use text_io;
+	  use inflection_record_io;
+	  use integer_io;
 
-	  INFLECTIONS_FILE : TEXT_IO.FILE_TYPE;
-	  INFLECTIONS_SECTIONS_FILE : LEL_SECTION_IO.FILE_TYPE;
-	  IR : INFLECTION_RECORD;
-	  LINE, BLANKS : STRING(1..100) := (others => ' ');
-	  LAST, L : INTEGER := 0;
-	  SN : ENDING_SIZE_TYPE := ENDING_SIZE_TYPE'FIRST;
-	  SX : CHARACTER := ' ';
+	  inflections_file : text_io.file_type;
+	  inflections_sections_file : lel_section_io.file_type;
+	  ir : inflection_record;
+	  line, blanks : string(1..100) := (others => ' ');
+	  last, l : integer := 0;
+	  sn : ending_size_type := ending_size_type'first;
+	  sx : character := ' ';
 
-	  type INFLECTION_ITEM;
-	  type INFLECTION_LIST is access INFLECTION_ITEM;
+	  type inflection_item;
+	  type inflection_list is access inflection_item;
 
-	  type INFLECTION_ITEM is
+	  type inflection_item is
 		 record
-			IR   : INFLECTION_RECORD;
-			SUCC : INFLECTION_LIST;
+			ir   : inflection_record;
+			succ : inflection_list;
 		 end record;
 
-	  type LATIN_INFLECTIONS is array (INTEGER range 0..MAX_ENDING_SIZE,
-									   CHARACTER  range ' '..'z') of INFLECTION_LIST;
-	  NULL_LATIN_INFLECTIONS : LATIN_INFLECTIONS := (others => (others => null));
+	  type latin_inflections is array (integer range 0..max_ending_size,
+									   character  range ' '..'z') of inflection_list;
+	  null_latin_inflections : latin_inflections := (others => (others => null));
 
-	  L_I : LATIN_INFLECTIONS := NULL_LATIN_INFLECTIONS;
+	  l_i : latin_inflections := null_latin_inflections;
 
-	  LEL : LEL_SECTION := (others => NULL_INFLECTION_RECORD);
-	  J1, J2, J3, J4, J5 : INTEGER := 0;
+	  lel : lel_section := (others => null_inflection_record);
+	  j1, j2, j3, j4, j5 : integer := 0;
 
-	  procedure NULL_LEL is
+	  procedure null_lel is
 	  begin
-		 for I in LEL'RANGE  loop
-			LEL(I) := NULL_INFLECTION_RECORD;
+		 for i in lel'range  loop
+			lel(i) := null_inflection_record;
 		 end loop;
-	  end NULL_LEL;
+	  end null_lel;
 
-	  procedure LOAD_INFLECTIONS_LIST is
+	  procedure load_inflections_list is
 		 --  Takes the INFLECT. file and populates the L_I list of inflections
 		 --  indexed on ending size and last letter of ending
 	  begin
-		 PUT_LINE("Begin  LOAD_INFLECTIONS_LIST");
-		 NUMBER_OF_INFLECTIONS := 0;
+		 put_line("Begin  LOAD_INFLECTIONS_LIST");
+		 number_of_inflections := 0;
 
-		 L_I := NULL_LATIN_INFLECTIONS;
-		 OPEN(INFLECTIONS_FILE, IN_FILE, INFLECTIONS_FULL_NAME);
-		 TEXT_IO.PUT("INFLECTIONS file loading");
-		 while not END_OF_FILE(INFLECTIONS_FILE)  loop
+		 l_i := null_latin_inflections;
+		 open(inflections_file, in_file, inflections_full_name);
+		 text_io.put("INFLECTIONS file loading");
+		 while not end_of_file(inflections_file)  loop
 
-		READ_A_LINE:
+		read_a_line:
 			begin
-			   GET_NON_COMMENT_LINE(INFLECTIONS_FILE, LINE, LAST);
+			   get_non_comment_line(inflections_file, line, last);
 
-			   if LAST > 0  then
-				  GET(LINE(1..LAST), IR, L);
-				  SN := IR.ENDING.SIZE;
-				  if SN = 0  then
-					 SX := ' ';
+			   if last > 0  then
+				  get(line(1..last), ir, l);
+				  sn := ir.ending.size;
+				  if sn = 0  then
+					 sx := ' ';
 				  else
-					 SX := IR.ENDING.SUF(SN);
+					 sx := ir.ending.suf(sn);
 				  end if;
-				  L_I(SN, SX) := new INFLECTION_ITEM'(IR, L_I(SN, SX));
-				  NUMBER_OF_INFLECTIONS := NUMBER_OF_INFLECTIONS + 1;
+				  l_i(sn, sx) := new inflection_item'(ir, l_i(sn, sx));
+				  number_of_inflections := number_of_inflections + 1;
 				  --TEXT_IO.PUT(INTEGER'IMAGE(NUMBER_OF_INFLECTIONS) & "  "); INFLECTION_RECORD_IO.PUT(IR); NEW_LINE;
 			   end if;
 			exception
-			   when CONSTRAINT_ERROR | IO_EXCEPTIONS.DATA_ERROR  =>
-				  PUT_LINE("****" & LINE(1..LAST));
-			end READ_A_LINE;
+			   when constraint_error | io_exceptions.data_error  =>
+				  put_line("****" & line(1..last));
+			end read_a_line;
 
 		 end loop;
-		 CLOSE(INFLECTIONS_FILE);
-		 PUT_LINE("INFLECTIONS_LIST LOADED   " & INTEGER'IMAGE(NUMBER_OF_INFLECTIONS));
+		 close(inflections_file);
+		 put_line("INFLECTIONS_LIST LOADED   " & integer'image(number_of_inflections));
 
-	  end LOAD_INFLECTIONS_LIST;
+	  end load_inflections_list;
 
 
-	  procedure LIST_TO_LEL_FILE  is
+	  procedure list_to_lel_file  is
 		 --  From ILC (=L_I) list of inflections, prepares the LEL inflections array
-		 use LEL_SECTION_IO;
-		 I : INTEGER := 0;
-		 ILC : LATIN_INFLECTIONS := L_I;
+		 use lel_section_io;
+		 i : integer := 0;
+		 ilc : latin_inflections := l_i;
 	  begin
 
-		 CREATE(INFLECTIONS_SECTIONS_FILE, OUT_FILE, INFLECTIONS_SECTIONS_NAME);
+		 create(inflections_sections_file, out_file, inflections_sections_name);
 
-		 NULL_LEL;
-		 ILC := L_I;                              --  Resetting the list to start over
-		 while ILC(0, ' ') /= null  loop
-			J5 := J5 + 1;
-			LEL(J5) := ILC(0, ' ').IR;
-			ILC(0, ' ') := ILC(0, ' ').SUCC;
+		 null_lel;
+		 ilc := l_i;                              --  Resetting the list to start over
+		 while ilc(0, ' ') /= null  loop
+			j5 := j5 + 1;
+			lel(j5) := ilc(0, ' ').ir;
+			ilc(0, ' ') := ilc(0, ' ').succ;
 		 end loop;
-		 WRITE(INFLECTIONS_SECTIONS_FILE, LEL, 5);
-		 N5 := J5;
+		 write(inflections_sections_file, lel, 5);
+		 n5 := j5;
 
-		 NULL_LEL;
-		 ILC := L_I;                              --  Resetting the list to start over
-		 for CH in CHARACTER range 'a'..'z'  loop
-			for N in reverse 1..MAX_ENDING_SIZE  loop
-			   while ILC(N, CH) /= null  loop
+		 null_lel;
+		 ilc := l_i;                              --  Resetting the list to start over
+		 for ch in character range 'a'..'z'  loop
+			for n in reverse 1..max_ending_size  loop
+			   while ilc(n, ch) /= null  loop
 				  if   not
-					(ILC(N, CH).IR.QUAL.POFS = PRON  and then
-					   (ILC(N, CH).IR.QUAL.PRON.DECL.WHICH = 1  or
-						  ILC(N, CH).IR.QUAL.PRON.DECL.WHICH = 2))  then
+					(ilc(n, ch).ir.qual.pofs = pron  and then
+					   (ilc(n, ch).ir.qual.pron.decl.which = 1  or
+						  ilc(n, ch).ir.qual.pron.decl.which = 2))  then
 
-					 if CH in INFLECTIONS_SECTION_1  then
-						J1 := J1 + 1;
-						LEL(J1) := ILC(N, CH).IR;
+					 if ch in inflections_section_1  then
+						j1 := j1 + 1;
+						lel(j1) := ilc(n, ch).ir;
 
 					 end if;
 				  end if;
-				  ILC(N, CH) := ILC(N, CH).SUCC;
+				  ilc(n, ch) := ilc(n, ch).succ;
 			   end loop;
 			end loop;
 		 end loop;
-		 WRITE(INFLECTIONS_SECTIONS_FILE, LEL, 1);
-		 N1 := J1;
+		 write(inflections_sections_file, lel, 1);
+		 n1 := j1;
 
-		 NULL_LEL;
-		 ILC := L_I;                              --  Resetting the list to start over
-		 for CH in CHARACTER range 'a'..'z'  loop
-			for N in reverse 1..MAX_ENDING_SIZE  loop
-			   while ILC(N, CH) /= null  loop
+		 null_lel;
+		 ilc := l_i;                              --  Resetting the list to start over
+		 for ch in character range 'a'..'z'  loop
+			for n in reverse 1..max_ending_size  loop
+			   while ilc(n, ch) /= null  loop
 				  if   not
-					(ILC(N, CH).IR.QUAL.POFS = PRON  and then
-					   (ILC(N, CH).IR.QUAL.PRON.DECL.WHICH = 1  or
-						  ILC(N, CH).IR.QUAL.PRON.DECL.WHICH = 2))  then
+					(ilc(n, ch).ir.qual.pofs = pron  and then
+					   (ilc(n, ch).ir.qual.pron.decl.which = 1  or
+						  ilc(n, ch).ir.qual.pron.decl.which = 2))  then
 
-					 if CH in INFLECTIONS_SECTION_2  then
-						J2 := J2 + 1;
-						LEL(J2) := ILC(N, CH).IR;
+					 if ch in inflections_section_2  then
+						j2 := j2 + 1;
+						lel(j2) := ilc(n, ch).ir;
 
 					 end if;
 				  end if;
-				  ILC(N, CH) := ILC(N, CH).SUCC;
+				  ilc(n, ch) := ilc(n, ch).succ;
 			   end loop;
 			end loop;
 		 end loop;
-		 WRITE(INFLECTIONS_SECTIONS_FILE, LEL, 2);
-		 N2 := J2;
+		 write(inflections_sections_file, lel, 2);
+		 n2 := j2;
 
 
-		 NULL_LEL;
-		 ILC := L_I;                              --  Resetting the list to start over
-		 for CH in CHARACTER range 'a'..'z'  loop
-			for N in reverse 1..MAX_ENDING_SIZE  loop
-			   while ILC(N, CH) /= null  loop
+		 null_lel;
+		 ilc := l_i;                              --  Resetting the list to start over
+		 for ch in character range 'a'..'z'  loop
+			for n in reverse 1..max_ending_size  loop
+			   while ilc(n, ch) /= null  loop
 				  if   not
-					(ILC(N, CH).IR.QUAL.POFS = PRON  and then
-					   (ILC(N, CH).IR.QUAL.PRON.DECL.WHICH = 1  or
-						  ILC(N, CH).IR.QUAL.PRON.DECL.WHICH = 2))  then
+					(ilc(n, ch).ir.qual.pofs = pron  and then
+					   (ilc(n, ch).ir.qual.pron.decl.which = 1  or
+						  ilc(n, ch).ir.qual.pron.decl.which = 2))  then
 
-					 if CH in INFLECTIONS_SECTION_3  then
-						J3 := J3 + 1;
-						LEL(J3) := ILC(N, CH).IR;
+					 if ch in inflections_section_3  then
+						j3 := j3 + 1;
+						lel(j3) := ilc(n, ch).ir;
 
 					 end if;
 				  end if;
-				  ILC(N, CH) := ILC(N, CH).SUCC;
+				  ilc(n, ch) := ilc(n, ch).succ;
 			   end loop;
 			end loop;
 		 end loop;
-		 WRITE(INFLECTIONS_SECTIONS_FILE, LEL, 3);
-		 N3 := J3;
+		 write(inflections_sections_file, lel, 3);
+		 n3 := j3;
 
 
-		 NULL_LEL;
-		 ILC := L_I;                              --  Resetting the list to start over
-		 for CH in CHARACTER range 'a'..'z'  loop
-			for N in reverse 1..MAX_ENDING_SIZE  loop
-			   while ILC(N, CH) /= null  loop
+		 null_lel;
+		 ilc := l_i;                              --  Resetting the list to start over
+		 for ch in character range 'a'..'z'  loop
+			for n in reverse 1..max_ending_size  loop
+			   while ilc(n, ch) /= null  loop
 				  if   not
-					(ILC(N, CH).IR.QUAL.POFS = PRON  and then
-					   (ILC(N, CH).IR.QUAL.PRON.DECL.WHICH = 1  or
-						  ILC(N, CH).IR.QUAL.PRON.DECL.WHICH = 2))  then
+					(ilc(n, ch).ir.qual.pofs = pron  and then
+					   (ilc(n, ch).ir.qual.pron.decl.which = 1  or
+						  ilc(n, ch).ir.qual.pron.decl.which = 2))  then
 
-					 if (CH in INFLECTIONS_SECTION_4)  then
-						J4 := J4 + 1;
-						LEL(J4) := ILC(N, CH).IR;
+					 if (ch in inflections_section_4)  then
+						j4 := j4 + 1;
+						lel(j4) := ilc(n, ch).ir;
 
 					 end if;
 				  end if;
-				  ILC(N, CH) := ILC(N, CH).SUCC;
+				  ilc(n, ch) := ilc(n, ch).succ;
 			   end loop;
 			end loop;
 		 end loop;
 		 
 		 --  Now put the PACK in 4            --  Maybe it should be in 5 ????
-		 ILC := L_I;                              --  Resetting the list to start over
-		 for CH in CHARACTER range 'a'..'z'  loop
-			for N in reverse 1..MAX_ENDING_SIZE  loop
-			   while ILC(N, CH) /= null  loop
-				  if (ILC(N, CH).IR.QUAL.POFS = PRON  and then
-						(ILC(N, CH).IR.QUAL.PRON.DECL.WHICH = 1  or
-						   ILC(N, CH).IR.QUAL.PRON.DECL.WHICH = 2))  then  --  2 no longer PACK
+		 ilc := l_i;                              --  Resetting the list to start over
+		 for ch in character range 'a'..'z'  loop
+			for n in reverse 1..max_ending_size  loop
+			   while ilc(n, ch) /= null  loop
+				  if (ilc(n, ch).ir.qual.pofs = pron  and then
+						(ilc(n, ch).ir.qual.pron.decl.which = 1  or
+						   ilc(n, ch).ir.qual.pron.decl.which = 2))  then  --  2 no longer PACK
 
-					 J4 := J4 + 1;
-					 LEL(J4) := ILC(N, CH).IR;
+					 j4 := j4 + 1;
+					 lel(j4) := ilc(n, ch).ir;
 
 				  end if;
-				  ILC(N, CH) := ILC(N, CH).SUCC;
+				  ilc(n, ch) := ilc(n, ch).succ;
 			   end loop;
 			end loop;
 		 end loop;
-		 WRITE(INFLECTIONS_SECTIONS_FILE, LEL, 4);
-		 N4 := J4;
+		 write(inflections_sections_file, lel, 4);
+		 n4 := j4;
 
-		 CLOSE(INFLECTIONS_SECTIONS_FILE);
+		 close(inflections_sections_file);
 
-	  end LIST_TO_LEL_FILE;
+	  end list_to_lel_file;
 
 
    begin
 
-	  LOAD_INFLECTIONS_LIST;
+	  load_inflections_list;
 
-	  TEXT_IO.SET_COL(33);
-	  TEXT_IO.PUT("--  ");
-	  INTEGER_IO.PUT(NUMBER_OF_INFLECTIONS);
-	  TEXT_IO.PUT_LINE(" entries    --  Loaded correctly");
+	  text_io.set_col(33);
+	  text_io.put("--  ");
+	  integer_io.put(number_of_inflections);
+	  text_io.put_line(" entries    --  Loaded correctly");
 
-	  LIST_TO_LEL_FILE;                     --  Load arrays to file 
-	  TEXT_IO.PUT_LINE("File INFLECTS.SEC  --  Loaded");
+	  list_to_lel_file;                     --  Load arrays to file 
+	  text_io.put_line("File INFLECTS.SEC  --  Loaded");
 
    exception
 	  when others =>
-		 TEXT_IO.PUT_LINE("Exception in FILE_INFLECTIONS_SECTIONS");
-   end FILE_INFLECTIONS_SECTIONS;
+		 text_io.put_line("Exception in FILE_INFLECTIONS_SECTIONS");
+   end file_inflections_sections;
 
-   use INFLECTIONS_PACKAGE;
+   use inflections_package;
 begin
 
-   PUT_LINE("Produces INFLECTS.SEC file from INFLECTS.");
+   put_line("Produces INFLECTS.SEC file from INFLECTS.");
 
-   FILE_INFLECTIONS_SECTIONS;
+   file_inflections_sections;
 
-   if not PORTING  then
-	  PUT_LINE("using FILE_INFLECTIONS_SECTIONS, also produces INFLECTS.LIN file");
+   if not porting  then
+	  put_line("using FILE_INFLECTIONS_SECTIONS, also produces INFLECTS.LIN file");
 
-	  CREATE(OUTPUT, OUT_FILE, "INFLECTS.LIN");
+	  create(output, out_file, "INFLECTS.LIN");
    end if;
 
-   ESTABLISH_INFLECTIONS_SECTION;
+   establish_inflections_section;
 
-   LEL_SECTION_IO.OPEN(INFLECTIONS_SECTIONS_FILE, IN_FILE,
-					   INFLECTIONS_SECTIONS_NAME);
+   lel_section_io.open(inflections_sections_file, in_file,
+					   inflections_sections_name);
 
-   if not PORTING  then
-	  for I in BEL'RANGE    loop                     --  Blank endings
-		 if  BEL(I) /= NULL_INFLECTION_RECORD  then
-			M := M + 1;
-			PUT(OUTPUT, BEL(I).QUAL); 
-			SET_COL(OUTPUT, 50);
-			PUT(OUTPUT, BEL(I).KEY, 1); 
-			SET_COL(OUTPUT, 52);
-			PUT(OUTPUT, BEL(I).ENDING); 
-			SET_COL(OUTPUT, 62);
-			PUT(OUTPUT, BEL(I).AGE); 
-			SET_COL(OUTPUT, 64);
-			PUT(OUTPUT, BEL(I).FREQ); 
-			NEW_LINE(OUTPUT);
+   if not porting  then
+	  for i in bel'range    loop                     --  Blank endings
+		 if  bel(i) /= null_inflection_record  then
+			m := m + 1;
+			put(output, bel(i).qual); 
+			set_col(output, 50);
+			put(output, bel(i).key, 1); 
+			set_col(output, 52);
+			put(output, bel(i).ending); 
+			set_col(output, 62);
+			put(output, bel(i).age); 
+			set_col(output, 64);
+			put(output, bel(i).freq); 
+			new_line(output);
 		 end if;
 	  end loop;
    end if;
 
-   for N in 1..4  loop
-	  READ(INFLECTIONS_SECTIONS_FILE, LEL, LEL_SECTION_IO.POSITIVE_COUNT(N));
+   for n in 1..4  loop
+	  read(inflections_sections_file, lel, lel_section_io.positive_count(n));
 
-	  if not PORTING  then
-		 for I in LEL'RANGE    loop                     --  Non-blank endings
-			if  LEL(I) /= NULL_INFLECTION_RECORD  then
-			   M := M + 1;
-			   PUT(OUTPUT, LEL(I).QUAL); 
-			   SET_COL(OUTPUT, 50);
-			   PUT(OUTPUT, LEL(I).KEY, 1); 
-			   SET_COL(OUTPUT, 52);
-			   PUT(OUTPUT, LEL(I).ENDING); 
-			   SET_COL(OUTPUT, 62);
-			   PUT(OUTPUT, LEL(I).AGE); 
-			   SET_COL(OUTPUT, 64);
-			   PUT(OUTPUT, LEL(I).FREQ); 
-			   NEW_LINE(OUTPUT);
+	  if not porting  then
+		 for i in lel'range    loop                     --  Non-blank endings
+			if  lel(i) /= null_inflection_record  then
+			   m := m + 1;
+			   put(output, lel(i).qual); 
+			   set_col(output, 50);
+			   put(output, lel(i).key, 1); 
+			   set_col(output, 52);
+			   put(output, lel(i).ending); 
+			   set_col(output, 62);
+			   put(output, lel(i).age); 
+			   set_col(output, 64);
+			   put(output, lel(i).freq); 
+			   new_line(output);
 			end if;
 		 end loop;
 	  end if;
 
    end loop;
 
-   NEW_LINE;
-   PUT("LINE_INFLECTIONS finds "); PUT(M); PUT_LINE(" inflections"); NEW_LINE;
+   new_line;
+   put("LINE_INFLECTIONS finds "); put(m); put_line(" inflections"); new_line;
 
 
-   for I in Character range ' '..' '  loop
-	  INTEGER_IO.PUT(0); PUT("    "); PUT(I); PUT("    "); PUT(BELF(0, I));
-	  PUT("  ");   PUT(BELL(0, I));
-	  PUT("    "); PUT(BELL(0, I) - BELF(0, I) + 1); NEW_LINE;
+   for i in character range ' '..' '  loop
+	  integer_io.put(0); put("    "); put(i); put("    "); put(belf(0, i));
+	  put("  ");   put(bell(0, i));
+	  put("    "); put(bell(0, i) - belf(0, i) + 1); new_line;
    end loop;
-   NEW_LINE;
+   new_line;
 
-   for I in Character range 'a'..'z'  loop
-	  for N in reverse 1..MAX_ENDING_SIZE  loop
-		 if (LELL(N, I) > 0)  and then (LELF(N, I) <= LELL(N, I))  then
-			PUT(N); PUT("    "); PUT(I); PUT("    "); PUT(LELF(N, I));
-			PUT("  ");   PUT(LELL(N, I));
-			PUT("    "); PUT(LELL(N, I) - LELF(N, I) + 1); NEW_LINE;
+   for i in character range 'a'..'z'  loop
+	  for n in reverse 1..max_ending_size  loop
+		 if (lell(n, i) > 0)  and then (lelf(n, i) <= lell(n, i))  then
+			put(n); put("    "); put(i); put("    "); put(lelf(n, i));
+			put("  ");   put(lell(n, i));
+			put("    "); put(lell(n, i) - lelf(n, i) + 1); new_line;
 		 end if;
 	  end loop;
    end loop;
-   NEW_LINE;
+   new_line;
 
-   for I in Character range 'a'..'z'  loop
-	  for N in reverse 1..MAX_ENDING_SIZE  loop
-		 if (PELL(N, I) > 0)  and then (PELF(N, I) <= PELL(N, I))  then
-			PUT(N); PUT("    "); PUT(I); PUT("    "); PUT(PELF(N, I));
-			PUT("  ");   PUT(PELL(N, I));
-			PUT("    "); PUT(PELL(N, I) - PELF(N, I) + 1); NEW_LINE;
+   for i in character range 'a'..'z'  loop
+	  for n in reverse 1..max_ending_size  loop
+		 if (pell(n, i) > 0)  and then (pelf(n, i) <= pell(n, i))  then
+			put(n); put("    "); put(i); put("    "); put(pelf(n, i));
+			put("  ");   put(pell(n, i));
+			put("    "); put(pell(n, i) - pelf(n, i) + 1); new_line;
 		 end if;
 	  end loop;
    end loop;
-   NEW_LINE;
+   new_line;
 
 
-   NEW_LINE;
-   PUT(N5);  PUT("    ");
-   PUT(N1);  PUT("    ");
-   PUT(N2);  PUT("    ");
-   PUT(N3);  PUT("    ");
-   PUT(N4);  PUT("    ");
-   NEW_LINE;
+   new_line;
+   put(n5);  put("    ");
+   put(n1);  put("    ");
+   put(n2);  put("    ");
+   put(n3);  put("    ");
+   put(n4);  put("    ");
+   new_line;
 
 
-end MAKEINFL;
+end makeinfl;

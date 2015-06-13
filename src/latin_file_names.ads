@@ -1,4 +1,4 @@
-package LATIN_FILE_NAMES is
+package latin_file_names is
    --  In order to port the program LATIN to another system, the file names
    --  must be made consistent with that system.
    --  This package is withed into all units that declare external file names
@@ -23,17 +23,17 @@ package LATIN_FILE_NAMES is
    --  These files are input files and may have any name legal in your system
    --  and contain the ASCII information copied from the porting system
 
-   INFLECTIONS_FULL_NAME     : constant STRING := "INFLECTS.LAT";
-   INFLECTIONS_SECTIONS_NAME : constant STRING := "INFLECTS.SEC";
+   inflections_full_name     : constant string := "INFLECTS.LAT";
+   inflections_sections_name : constant string := "INFLECTS.SEC";
 
-   UNIQUES_FULL_NAME      : constant STRING := "UNIQUES.LAT";
-   ADDONS_FULL_NAME       : constant STRING := "ADDONS.LAT";
+   uniques_full_name      : constant string := "UNIQUES.LAT";
+   addons_full_name       : constant string := "ADDONS.LAT";
 
    --  These files may be created and used by the program
-   MODE_FULL_NAME         : constant STRING := "WORD.MOD";
-   OUTPUT_FULL_NAME       : constant STRING := "WORD.OUT";
-   UNKNOWNS_FULL_NAME     : constant STRING := "WORD.UNK";
-   PARSE_FULL_NAME        : constant STRING := "WORD.PRS";
+   mode_full_name         : constant string := "WORD.MOD";
+   output_full_name       : constant string := "WORD.OUT";
+   unknowns_full_name     : constant string := "WORD.UNK";
+   parse_full_name        : constant string := "WORD.PRS";
 
    --  These file names are used with extensions (e.g., GEN, SPE, LOC) 
    --  for the various dictionaries
@@ -42,16 +42,16 @@ package LATIN_FILE_NAMES is
    --  Note that for DOS they are not complete names (no '.')
    --  but DOS is forgiving and will give it a pass
 
-   DICTIONARY_FILE_NAME  : constant STRING := "DICT";
-   DICT_FILE_NAME        : constant STRING := "DICTFILE";
-   DICT_LINE_NAME        : constant STRING := "DICTLINE";
-   STEM_LIST_NAME        : constant STRING := "STEMLIST";
-   STEM_FILE_NAME        : constant STRING := "STEMFILE";
-   INDX_FILE_NAME        : constant STRING := "INDXFILE";
+   dictionary_file_name  : constant string := "DICT";
+   dict_file_name        : constant string := "DICTFILE";
+   dict_line_name        : constant string := "DICTLINE";
+   stem_list_name        : constant string := "STEMLIST";
+   stem_file_name        : constant string := "STEMFILE";
+   indx_file_name        : constant string := "INDXFILE";
 
 
-   function ADD_FILE_NAME_EXTENSION(NAME, EXTENSION : STRING) return STRING;
+   function add_file_name_extension(name, extension : string) return string;
    --  This is the function that creates a file name legal for your system
    --  with a FILE_NAME defined above and a program specified extension
 
-end LATIN_FILE_NAMES;   
+end latin_file_names;   

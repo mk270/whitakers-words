@@ -1,634 +1,634 @@
-with TEXT_IO; 
-with DIRECT_IO;
-package INFLECTIONS_PACKAGE is
-   package INTEGER_IO is new TEXT_IO.INTEGER_IO(INTEGER);
-   use TEXT_IO;
+with text_io; 
+with direct_io;
+package inflections_package is
+   package integer_io is new text_io.integer_io(integer);
+   use text_io;
 
    --  Generally simple/enumeration types have names ending in _TYPE
    --            complex/record     types have names ending in _RECORD
    --            array              types have names ending in _ARRAY
    
-   MAX_STEM_SIZE    : constant := 18;
-   MAX_MEANING_SIZE : constant := 80;
+   max_stem_size    : constant := 18;
+   max_meaning_size : constant := 80;
 
-   subtype STEM_TYPE is STRING(1..MAX_STEM_SIZE);
-   NULL_STEM_TYPE : constant STEM_TYPE := (others => ' ');
+   subtype stem_type is string(1..max_stem_size);
+   null_stem_type : constant stem_type := (others => ' ');
 
-   package STEM_TYPE_IO is
-	  DEFAULT_WIDTH : NATURAL := MAX_STEM_SIZE;
-	  procedure GET(F : in FILE_TYPE; D : out STEM_TYPE);
-	  procedure GET(D : out STEM_TYPE);
-	  procedure PUT(F : in FILE_TYPE; D : in STEM_TYPE);
-	  procedure PUT(D : in STEM_TYPE);
-	  procedure GET(S : in STRING; D : out STEM_TYPE; 
-								   LAST : out INTEGER);
-	  procedure PUT(S : out STRING; D : in STEM_TYPE);  
-   end STEM_TYPE_IO;  
+   package stem_type_io is
+	  default_width : natural := max_stem_size;
+	  procedure get(f : in file_type; d : out stem_type);
+	  procedure get(d : out stem_type);
+	  procedure put(f : in file_type; d : in stem_type);
+	  procedure put(d : in stem_type);
+	  procedure get(s : in string; d : out stem_type; 
+								   last : out integer);
+	  procedure put(s : out string; d : in stem_type);  
+   end stem_type_io;  
    
    
-   subtype MEANING_TYPE is STRING(1..MAX_MEANING_SIZE);
-   NULL_MEANING_TYPE : constant MEANING_TYPE := (others => ' ');
+   subtype meaning_type is string(1..max_meaning_size);
+   null_meaning_type : constant meaning_type := (others => ' ');
 
-   type PART_OF_SPEECH_TYPE is (
-								X,         --  all, none, or unknown
-								N,         --  Noun
-								PRON,      --  PRONoun
-								PACK,      --  PACKON -- artificial for code
-								ADJ,       --  ADJective
-								NUM,       --  NUMeral
-								ADV,       --  ADVerb
-								V,         --  Verb
-								VPAR,      --  Verb PARticiple
-								SUPINE,    --  SUPINE
-								PREP,      --  PREPosition
-								CONJ,      --  CONJunction
-								INTERJ,    --  INTERJection
-								TACKON,    --  TACKON --  artificial for code
-								PREFIX,    --  PREFIX --  here artificial for code
-								SUFFIX     --  SUFFIX --  here artificial for code
+   type part_of_speech_type is (
+								x,         --  all, none, or unknown
+								n,         --  Noun
+								pron,      --  PRONoun
+								pack,      --  PACKON -- artificial for code
+								adj,       --  ADJective
+								num,       --  NUMeral
+								adv,       --  ADVerb
+								v,         --  Verb
+								vpar,      --  Verb PARticiple
+								supine,    --  SUPINE
+								prep,      --  PREPosition
+								conj,      --  CONJunction
+								interj,    --  INTERJection
+								tackon,    --  TACKON --  artificial for code
+								prefix,    --  PREFIX --  here artificial for code
+								suffix     --  SUFFIX --  here artificial for code
 							   );                                   
 
-   package PART_OF_SPEECH_TYPE_IO is 
-      new TEXT_IO.ENUMERATION_IO(PART_OF_SPEECH_TYPE);
+   package part_of_speech_type_io is 
+      new text_io.enumeration_io(part_of_speech_type);
 
 
-   subtype WHICH_TYPE is NATURAL range 0..9;
+   subtype which_type is natural range 0..9;
 
-   subtype VARIANT_TYPE is NATURAL range 0..9;
+   subtype variant_type is natural range 0..9;
 
-   WHICH_TYPE_IO_DEFAULT_WIDTH : INTEGER := 1;
-   VARIANT_TYPE_IO_DEFAULT_WIDTH : INTEGER := 1;
+   which_type_io_default_width : integer := 1;
+   variant_type_io_default_width : integer := 1;
    
-   type DECN_RECORD is
+   type decn_record is
 	  record
-		 WHICH        : WHICH_TYPE := 0;
-		 VAR          : VARIANT_TYPE := 0;
+		 which        : which_type := 0;
+		 var          : variant_type := 0;
 	  end record;
 
-   function "<" (LEFT, RIGHT : DECN_RECORD) return BOOLEAN;
+   function "<" (left, right : decn_record) return boolean;
    
-   package DECN_RECORD_IO is
-	  DEFAULT_WIDTH : NATURAL;
-	  procedure GET(F : in FILE_TYPE; D : out DECN_RECORD);
-	  procedure GET(D : out DECN_RECORD);
-	  procedure PUT(F : in FILE_TYPE; D : in DECN_RECORD);
-	  procedure PUT(D : in DECN_RECORD);
-	  procedure GET(S : in STRING; D : out DECN_RECORD; 
-								   LAST : out INTEGER);
-	  procedure PUT(S : out STRING; D : in DECN_RECORD);  
-   end DECN_RECORD_IO;  
+   package decn_record_io is
+	  default_width : natural;
+	  procedure get(f : in file_type; d : out decn_record);
+	  procedure get(d : out decn_record);
+	  procedure put(f : in file_type; d : in decn_record);
+	  procedure put(d : in decn_record);
+	  procedure get(s : in string; d : out decn_record; 
+								   last : out integer);
+	  procedure put(s : out string; d : in decn_record);  
+   end decn_record_io;  
 
 
-   type GENDER_TYPE is (
-						X,         --  all, none, or unknown
-						M,         --  Masculine
-						F,         --  Feminine
-						N,         --  Neuter
-						C          --  Common (masculine and/or feminine)
+   type gender_type is (
+						x,         --  all, none, or unknown
+						m,         --  Masculine
+						f,         --  Feminine
+						n,         --  Neuter
+						c          --  Common (masculine and/or feminine)
                        );
 
-   package GENDER_TYPE_IO is new TEXT_IO.ENUMERATION_IO(GENDER_TYPE);
+   package gender_type_io is new text_io.enumeration_io(gender_type);
 
-   type CASE_TYPE is (
-					  X,         --  all, none, or unknown
-					  NOM,       --  NOMinative
-					  VOC,       --  VOCative
-					  GEN,       --  GENitive
-					  LOC,       --  LOCative
-					  DAT,       --  DATive
-					  ABL,       --  ABLative
-					  ACC        --  ACCusitive
+   type case_type is (
+					  x,         --  all, none, or unknown
+					  nom,       --  NOMinative
+					  voc,       --  VOCative
+					  gen,       --  GENitive
+					  loc,       --  LOCative
+					  dat,       --  DATive
+					  abl,       --  ABLative
+					  acc        --  ACCusitive
                      );
 
-   package CASE_TYPE_IO is new TEXT_IO.ENUMERATION_IO(CASE_TYPE);
+   package case_type_io is new text_io.enumeration_io(case_type);
    
-   type NUMBER_TYPE is (
-						X,         --  all, none, or unknown
-						S,         --  Singular
-						P          --  Plural
+   type number_type is (
+						x,         --  all, none, or unknown
+						s,         --  Singular
+						p          --  Plural
                        );
 
-   package NUMBER_TYPE_IO is new TEXT_IO.ENUMERATION_IO(NUMBER_TYPE);
+   package number_type_io is new text_io.enumeration_io(number_type);
    
-   type PERSON_TYPE is range 0..3;
-   package PERSON_TYPE_IO is new TEXT_IO.INTEGER_IO(PERSON_TYPE);
+   type person_type is range 0..3;
+   package person_type_io is new text_io.integer_io(person_type);
    
-   type COMPARISON_TYPE is (
-							X,         --  all, none, or unknown
-							POS,       --  POSitive
-							COMP,      --  COMParative
-							SUPER      --  SUPERlative
+   type comparison_type is (
+							x,         --  all, none, or unknown
+							pos,       --  POSitive
+							comp,      --  COMParative
+							super      --  SUPERlative
                            );   
 
-   package COMPARISON_TYPE_IO is new TEXT_IO.ENUMERATION_IO(COMPARISON_TYPE);
+   package comparison_type_io is new text_io.enumeration_io(comparison_type);
 
-   type STEM_KEY_TYPE is new NATURAL range 0..9;
+   type stem_key_type is new natural range 0..9;
    
-   package STEM_KEY_TYPE_IO is new TEXT_IO.INTEGER_IO(STEM_KEY_TYPE);
-   STEM_KEY_TYPE_IO_DEFAULT_WIDTH : INTEGER := 1;
+   package stem_key_type_io is new text_io.integer_io(stem_key_type);
+   stem_key_type_io_default_width : integer := 1;
    
    
    
-   type NUMERAL_SORT_TYPE is (
-							  X,          --  all, none, or unknown
-							  CARD,       --  CARDinal
-							  ORD,        --  ORDinal
-							  DIST,       --  DISTributive
-							  ADVERB      --  numeral ADVERB
+   type numeral_sort_type is (
+							  x,          --  all, none, or unknown
+							  card,       --  CARDinal
+							  ord,        --  ORDinal
+							  dist,       --  DISTributive
+							  adverb      --  numeral ADVERB
 							 );
 
 
-   package NUMERAL_SORT_TYPE_IO is 
-	  new TEXT_IO.ENUMERATION_IO(NUMERAL_SORT_TYPE);
+   package numeral_sort_type_io is 
+	  new text_io.enumeration_io(numeral_sort_type);
    
    
    
-   type TENSE_TYPE is (
-					   X,         --  all, none, or unknown
-					   PRES,      --  PRESent
-					   IMPF,      --  IMPerFect
-					   FUT,       --  FUTure
-					   PERF,      --  PERFect
-					   PLUP,      --  PLUPerfect
-					   FUTP       --  FUTure Perfect
+   type tense_type is (
+					   x,         --  all, none, or unknown
+					   pres,      --  PRESent
+					   impf,      --  IMPerFect
+					   fut,       --  FUTure
+					   perf,      --  PERFect
+					   plup,      --  PLUPerfect
+					   futp       --  FUTure Perfect
                       );                        
 
-   package TENSE_TYPE_IO is new TEXT_IO.ENUMERATION_IO(TENSE_TYPE);
+   package tense_type_io is new text_io.enumeration_io(tense_type);
    
-   type VOICE_TYPE is (
-					   X,         --  all, none, or unknown
-					   ACTIVE,    --  ACTIVE
-					   PASSIVE    --  PASSIVE
+   type voice_type is (
+					   x,         --  all, none, or unknown
+					   active,    --  ACTIVE
+					   passive    --  PASSIVE
                       );       
    
-   package VOICE_TYPE_IO is new TEXT_IO.ENUMERATION_IO(VOICE_TYPE);
+   package voice_type_io is new text_io.enumeration_io(voice_type);
    
-   type MOOD_TYPE is (
-					  X,         --  all, none, or unknown
-					  IND,       --  INDicative
-					  SUB,       --  SUBjunctive
-					  IMP,       --  IMPerative
-					  INF,       --  INFinative
-					  PPL        --  ParticiPLe
+   type mood_type is (
+					  x,         --  all, none, or unknown
+					  ind,       --  INDicative
+					  sub,       --  SUBjunctive
+					  imp,       --  IMPerative
+					  inf,       --  INFinative
+					  ppl        --  ParticiPLe
                      );                    
    
-   package MOOD_TYPE_IO is new TEXT_IO.ENUMERATION_IO(MOOD_TYPE);
+   package mood_type_io is new text_io.enumeration_io(mood_type);
    
-   type TENSE_VOICE_MOOD_RECORD is 
+   type tense_voice_mood_record is 
 	  record
-		 TENSE : TENSE_TYPE := X;
-		 VOICE : VOICE_TYPE := X;
-		 MOOD  : MOOD_TYPE  := X;
+		 tense : tense_type := x;
+		 voice : voice_type := x;
+		 mood  : mood_type  := x;
 	  end record;
    
-   package TENSE_VOICE_MOOD_RECORD_IO is
-	  DEFAULT_WIDTH : NATURAL;
-	  procedure GET(F : in FILE_TYPE; T : out TENSE_VOICE_MOOD_RECORD);
-	  procedure GET(T : out TENSE_VOICE_MOOD_RECORD);
-	  procedure PUT(F : in FILE_TYPE; T : in TENSE_VOICE_MOOD_RECORD);
-	  procedure PUT(T : in TENSE_VOICE_MOOD_RECORD);
-	  procedure GET(S : in STRING; T : out TENSE_VOICE_MOOD_RECORD;
-								   LAST : out INTEGER);
-	  procedure PUT(S : out STRING; T : in TENSE_VOICE_MOOD_RECORD);  
-   end TENSE_VOICE_MOOD_RECORD_IO;  
+   package tense_voice_mood_record_io is
+	  default_width : natural;
+	  procedure get(f : in file_type; t : out tense_voice_mood_record);
+	  procedure get(t : out tense_voice_mood_record);
+	  procedure put(f : in file_type; t : in tense_voice_mood_record);
+	  procedure put(t : in tense_voice_mood_record);
+	  procedure get(s : in string; t : out tense_voice_mood_record;
+								   last : out integer);
+	  procedure put(s : out string; t : in tense_voice_mood_record);  
+   end tense_voice_mood_record_io;  
 
 
-   type NOUN_KIND_TYPE is (
-						   X,            --  unknown, nondescript
-						   S,            --  Singular "only"           --  not really used
-						   M,            --  plural or Multiple "only" --  not really used
-						   A,            --  Abstract idea
-						   G,            --  Group/collective Name -- Roman(s)
-						   N,            --  proper Name
-						   P,            --  a Person
-						   T,            --  a Thing
-						   L,            --  Locale, name of country/city
-						   W             --  a place Where
+   type noun_kind_type is (
+						   x,            --  unknown, nondescript
+						   s,            --  Singular "only"           --  not really used
+						   m,            --  plural or Multiple "only" --  not really used
+						   a,            --  Abstract idea
+						   g,            --  Group/collective Name -- Roman(s)
+						   n,            --  proper Name
+						   p,            --  a Person
+						   t,            --  a Thing
+						   l,            --  Locale, name of country/city
+						   w             --  a place Where
 						  ); 
    
-   package NOUN_KIND_TYPE_IO is new TEXT_IO.ENUMERATION_IO(NOUN_KIND_TYPE);
+   package noun_kind_type_io is new text_io.enumeration_io(noun_kind_type);
 
-   type PRONOUN_KIND_TYPE is (
-							  X,            --  unknown, nondescript
-							  PERS,         --  PERSonal
-							  REL,          --  RELative
-							  REFLEX,       --  REFLEXive
-							  DEMONS,       --  DEMONStrative
-							  INTERR,       --  INTERRogative
-							  INDEF,        --  INDEFinite
-							  ADJECT        --  ADJECTival
+   type pronoun_kind_type is (
+							  x,            --  unknown, nondescript
+							  pers,         --  PERSonal
+							  rel,          --  RELative
+							  reflex,       --  REFLEXive
+							  demons,       --  DEMONStrative
+							  interr,       --  INTERRogative
+							  indef,        --  INDEFinite
+							  adject        --  ADJECTival
                              ); 
 
-   package PRONOUN_KIND_TYPE_IO is 
-      new TEXT_IO.ENUMERATION_IO(PRONOUN_KIND_TYPE);
+   package pronoun_kind_type_io is 
+      new text_io.enumeration_io(pronoun_kind_type);
    
-   subtype NUMERAL_VALUE_TYPE is NATURAL range 0..1000;
+   subtype numeral_value_type is natural range 0..1000;
 
-   NUMERAL_VALUE_TYPE_IO_DEFAULT_WIDTH : INTEGER := 5;
+   numeral_value_type_io_default_width : integer := 5;
    
    
-   type VERB_KIND_TYPE is (
-						   X,         --  all, none, or unknown
-						   TO_BE,     --  only the verb TO BE (esse)
-						   TO_BEING,  --  compounds of the verb to be (esse)
-						   GEN,       --  verb taking the GENitive
-						   DAT,       --  verb taking the DATive  
-						   ABL,       --  verb taking the ABLative
-						   TRANS,     --  TRANSitive verb
-						   INTRANS,   --  INTRANSitive verb
-						   IMPERS,    --  IMPERSonal verb (implied subject 'it', 'they', 'God')
+   type verb_kind_type is (
+						   x,         --  all, none, or unknown
+						   to_be,     --  only the verb TO BE (esse)
+						   to_being,  --  compounds of the verb to be (esse)
+						   gen,       --  verb taking the GENitive
+						   dat,       --  verb taking the DATive  
+						   abl,       --  verb taking the ABLative
+						   trans,     --  TRANSitive verb
+						   intrans,   --  INTRANSitive verb
+						   impers,    --  IMPERSonal verb (implied subject 'it', 'they', 'God')
 						   --  agent implied in action, subject in predicate
-						   DEP,       --  DEPonent verb
+						   dep,       --  DEPonent verb
 						   --  only passive form but with active meaning 
-						   SEMIDEP,   --  SEMIDEPonent verb (forms perfect as deponent) 
+						   semidep,   --  SEMIDEPonent verb (forms perfect as deponent) 
 						   --  (perfect passive has active force)
-						   PERFDEF    --  PERFect DEFinite verb  
+						   perfdef    --  PERFect DEFinite verb  
 							 --  having only perfect stem, but with present force
                           );             
 
-   package VERB_KIND_TYPE_IO is 
-      new TEXT_IO.ENUMERATION_IO(VERB_KIND_TYPE);
+   package verb_kind_type_io is 
+      new text_io.enumeration_io(verb_kind_type);
 
    
-   type NOUN_RECORD is
+   type noun_record is
 	  record
-		 DECL        : DECN_RECORD;
-		 CS          : CASE_TYPE := X;
-		 NUMBER      : NUMBER_TYPE := X;
-		 GENDER      : GENDER_TYPE := X;
+		 decl        : decn_record;
+		 cs          : case_type := x;
+		 number      : number_type := x;
+		 gender      : gender_type := x;
 	  end record;
    
-   package NOUN_RECORD_IO is
-	  DEFAULT_WIDTH : NATURAL;
-	  procedure GET(F : in FILE_TYPE; N : out NOUN_RECORD);
-	  procedure GET(N : out NOUN_RECORD);
-	  procedure PUT(F : in FILE_TYPE; N : in NOUN_RECORD);
-	  procedure PUT(N : in NOUN_RECORD);
-	  procedure GET(S : in STRING; N : out NOUN_RECORD; LAST : out INTEGER);
-	  procedure PUT(S : out STRING; N : in NOUN_RECORD);  
-   end NOUN_RECORD_IO;  
+   package noun_record_io is
+	  default_width : natural;
+	  procedure get(f : in file_type; n : out noun_record);
+	  procedure get(n : out noun_record);
+	  procedure put(f : in file_type; n : in noun_record);
+	  procedure put(n : in noun_record);
+	  procedure get(s : in string; n : out noun_record; last : out integer);
+	  procedure put(s : out string; n : in noun_record);  
+   end noun_record_io;  
 
 
-   type PRONOUN_RECORD is
+   type pronoun_record is
 	  record
-		 DECL        : DECN_RECORD;
-		 CS          : CASE_TYPE := X;
-		 NUMBER      : NUMBER_TYPE := X;
-		 GENDER      : GENDER_TYPE := X;
+		 decl        : decn_record;
+		 cs          : case_type := x;
+		 number      : number_type := x;
+		 gender      : gender_type := x;
 	  end record;
 
-   package PRONOUN_RECORD_IO is
-	  DEFAULT_WIDTH : NATURAL;
-	  procedure GET(F : in FILE_TYPE; P : out PRONOUN_RECORD);
-	  procedure GET(P : out PRONOUN_RECORD);
-	  procedure PUT(F : in FILE_TYPE; P : in PRONOUN_RECORD);
-	  procedure PUT(P : in PRONOUN_RECORD);
-	  procedure GET(S : in STRING; P : out PRONOUN_RECORD; LAST : out INTEGER);
-	  procedure PUT(S : out STRING; P : in PRONOUN_RECORD);  
-   end PRONOUN_RECORD_IO;  
+   package pronoun_record_io is
+	  default_width : natural;
+	  procedure get(f : in file_type; p : out pronoun_record);
+	  procedure get(p : out pronoun_record);
+	  procedure put(f : in file_type; p : in pronoun_record);
+	  procedure put(p : in pronoun_record);
+	  procedure get(s : in string; p : out pronoun_record; last : out integer);
+	  procedure put(s : out string; p : in pronoun_record);  
+   end pronoun_record_io;  
 
 
-   type PROPACK_RECORD is
+   type propack_record is
 	  record
-		 DECL        : DECN_RECORD;
-		 CS          : CASE_TYPE := X;
-		 NUMBER      : NUMBER_TYPE := X;
-		 GENDER      : GENDER_TYPE := X;
+		 decl        : decn_record;
+		 cs          : case_type := x;
+		 number      : number_type := x;
+		 gender      : gender_type := x;
 	  end record;
 
-   package PROPACK_RECORD_IO is
-	  DEFAULT_WIDTH : NATURAL;
-	  procedure GET(F : in FILE_TYPE; P : out PROPACK_RECORD);
-	  procedure GET(P : out PROPACK_RECORD);
-	  procedure PUT(F : in FILE_TYPE; P : in PROPACK_RECORD);
-	  procedure PUT(P : in PROPACK_RECORD);
-	  procedure GET(S : in STRING; P : out PROPACK_RECORD; LAST : out INTEGER);
-	  procedure PUT(S : out STRING; P : in PROPACK_RECORD);  
-   end PROPACK_RECORD_IO;  
+   package propack_record_io is
+	  default_width : natural;
+	  procedure get(f : in file_type; p : out propack_record);
+	  procedure get(p : out propack_record);
+	  procedure put(f : in file_type; p : in propack_record);
+	  procedure put(p : in propack_record);
+	  procedure get(s : in string; p : out propack_record; last : out integer);
+	  procedure put(s : out string; p : in propack_record);  
+   end propack_record_io;  
 
 
-   type ADJECTIVE_RECORD is
+   type adjective_record is
 	  record
-		 DECL        : DECN_RECORD;
-		 CS          : CASE_TYPE := X;
-		 NUMBER      : NUMBER_TYPE := X;
-		 GENDER      : GENDER_TYPE := X;
-		 CO          : COMPARISON_TYPE := X;
+		 decl        : decn_record;
+		 cs          : case_type := x;
+		 number      : number_type := x;
+		 gender      : gender_type := x;
+		 co          : comparison_type := x;
 	  end record;
 
-   package ADJECTIVE_RECORD_IO is
-	  DEFAULT_WIDTH : NATURAL;
-	  procedure GET(F : in FILE_TYPE; A : out ADJECTIVE_RECORD);
-	  procedure GET(A : out ADJECTIVE_RECORD);
-	  procedure PUT(F : in FILE_TYPE; A : in ADJECTIVE_RECORD);
-	  procedure PUT(A : in ADJECTIVE_RECORD);
-	  procedure GET(S : in STRING; A : out ADJECTIVE_RECORD; LAST : out INTEGER);
-	  procedure PUT(S : out STRING; A : in ADJECTIVE_RECORD);  
-   end ADJECTIVE_RECORD_IO;  
+   package adjective_record_io is
+	  default_width : natural;
+	  procedure get(f : in file_type; a : out adjective_record);
+	  procedure get(a : out adjective_record);
+	  procedure put(f : in file_type; a : in adjective_record);
+	  procedure put(a : in adjective_record);
+	  procedure get(s : in string; a : out adjective_record; last : out integer);
+	  procedure put(s : out string; a : in adjective_record);  
+   end adjective_record_io;  
 
 
-   type NUMERAL_RECORD is
+   type numeral_record is
 	  record
-		 DECL        : DECN_RECORD;
-		 CS          : CASE_TYPE := X;
-		 NUMBER      : NUMBER_TYPE := X;
-		 GENDER      : GENDER_TYPE := X;
-		 SORT        : NUMERAL_SORT_TYPE := X;
+		 decl        : decn_record;
+		 cs          : case_type := x;
+		 number      : number_type := x;
+		 gender      : gender_type := x;
+		 sort        : numeral_sort_type := x;
 	  end record;
    
    
-   package NUMERAL_RECORD_IO is
-	  DEFAULT_WIDTH : NATURAL;
-	  procedure GET(F : in FILE_TYPE; NUM : out NUMERAL_RECORD);
-	  procedure GET(NUM : out NUMERAL_RECORD);
-	  procedure PUT(F : in FILE_TYPE; NUM : in NUMERAL_RECORD);
-	  procedure PUT(NUM : in NUMERAL_RECORD);
-	  procedure GET(S : in STRING; NUM : out NUMERAL_RECORD; LAST : out INTEGER);
-	  procedure PUT(S : out STRING; NUM : in NUMERAL_RECORD);  
-   end NUMERAL_RECORD_IO;  
+   package numeral_record_io is
+	  default_width : natural;
+	  procedure get(f : in file_type; num : out numeral_record);
+	  procedure get(num : out numeral_record);
+	  procedure put(f : in file_type; num : in numeral_record);
+	  procedure put(num : in numeral_record);
+	  procedure get(s : in string; num : out numeral_record; last : out integer);
+	  procedure put(s : out string; num : in numeral_record);  
+   end numeral_record_io;  
    
-   type ADVERB_RECORD is
+   type adverb_record is
 	  record
-		 CO   : COMPARISON_TYPE := X;
+		 co   : comparison_type := x;
 	  end record;
 
-   package ADVERB_RECORD_IO is
-	  DEFAULT_WIDTH : NATURAL;
-	  procedure GET(F : in FILE_TYPE; A : out ADVERB_RECORD);
-	  procedure GET(A : out ADVERB_RECORD);
-	  procedure PUT(F : in FILE_TYPE; A : in ADVERB_RECORD);
-	  procedure PUT(A : in ADVERB_RECORD);
-	  procedure GET(S : in STRING; A : out ADVERB_RECORD; LAST : out INTEGER);
-	  procedure PUT(S : out STRING; A : in ADVERB_RECORD);  
-   end ADVERB_RECORD_IO;  
+   package adverb_record_io is
+	  default_width : natural;
+	  procedure get(f : in file_type; a : out adverb_record);
+	  procedure get(a : out adverb_record);
+	  procedure put(f : in file_type; a : in adverb_record);
+	  procedure put(a : in adverb_record);
+	  procedure get(s : in string; a : out adverb_record; last : out integer);
+	  procedure put(s : out string; a : in adverb_record);  
+   end adverb_record_io;  
 
 
-   type VERB_RECORD is
+   type verb_record is
 	  record
-		 CON         : DECN_RECORD;
-		 TENSE_VOICE_MOOD  : TENSE_VOICE_MOOD_RECORD;    
-		 PERSON      : PERSON_TYPE := 0;
-		 NUMBER      : NUMBER_TYPE := X;
+		 con         : decn_record;
+		 tense_voice_mood  : tense_voice_mood_record;    
+		 person      : person_type := 0;
+		 number      : number_type := x;
 	  end record;
 
-   package VERB_RECORD_IO is
-	  DEFAULT_WIDTH : NATURAL;
-	  procedure GET(F : in FILE_TYPE; V : out VERB_RECORD);
-	  procedure GET(V : out VERB_RECORD);
-	  procedure PUT(F : in FILE_TYPE; V : in VERB_RECORD);
-	  procedure PUT(V : in VERB_RECORD);
-	  procedure GET(S : in STRING; V : out VERB_RECORD; LAST : out INTEGER);
-	  procedure PUT(S : out STRING; V : in VERB_RECORD);  
-   end VERB_RECORD_IO;  
+   package verb_record_io is
+	  default_width : natural;
+	  procedure get(f : in file_type; v : out verb_record);
+	  procedure get(v : out verb_record);
+	  procedure put(f : in file_type; v : in verb_record);
+	  procedure put(v : in verb_record);
+	  procedure get(s : in string; v : out verb_record; last : out integer);
+	  procedure put(s : out string; v : in verb_record);  
+   end verb_record_io;  
 
 
-   type VPAR_RECORD is
+   type vpar_record is
 	  record
-		 CON         : DECN_RECORD;
-		 CS          : CASE_TYPE := X;
-		 NUMBER      : NUMBER_TYPE := X;
-		 GENDER      : GENDER_TYPE := X;
-		 TENSE_VOICE_MOOD  : TENSE_VOICE_MOOD_RECORD;    
+		 con         : decn_record;
+		 cs          : case_type := x;
+		 number      : number_type := x;
+		 gender      : gender_type := x;
+		 tense_voice_mood  : tense_voice_mood_record;    
 	  end record;
 
-   package VPAR_RECORD_IO is
-	  DEFAULT_WIDTH : NATURAL;
-	  procedure GET(F : in FILE_TYPE; VP : out VPAR_RECORD);
-	  procedure GET(VP : out VPAR_RECORD);
-	  procedure PUT(F : in FILE_TYPE; VP : in VPAR_RECORD);
-	  procedure PUT(VP : in VPAR_RECORD);
-	  procedure GET(S : in STRING; VP : out VPAR_RECORD; LAST : out INTEGER);
-	  procedure PUT(S : out STRING; VP : in VPAR_RECORD);  
-   end VPAR_RECORD_IO;  
+   package vpar_record_io is
+	  default_width : natural;
+	  procedure get(f : in file_type; vp : out vpar_record);
+	  procedure get(vp : out vpar_record);
+	  procedure put(f : in file_type; vp : in vpar_record);
+	  procedure put(vp : in vpar_record);
+	  procedure get(s : in string; vp : out vpar_record; last : out integer);
+	  procedure put(s : out string; vp : in vpar_record);  
+   end vpar_record_io;  
 
 
-   type SUPINE_RECORD is
+   type supine_record is
 	  record
-		 CON         : DECN_RECORD;
-		 CS          : CASE_TYPE := X;
-		 NUMBER      : NUMBER_TYPE := X;
-		 GENDER      : GENDER_TYPE := X;
+		 con         : decn_record;
+		 cs          : case_type := x;
+		 number      : number_type := x;
+		 gender      : gender_type := x;
 	  end record;
 
-   package SUPINE_RECORD_IO is
-	  DEFAULT_WIDTH : NATURAL;
-	  procedure GET(F : in FILE_TYPE; VP : out SUPINE_RECORD);
-	  procedure GET(VP : out SUPINE_RECORD);
-	  procedure PUT(F : in FILE_TYPE; VP : in SUPINE_RECORD);
-	  procedure PUT(VP : in SUPINE_RECORD);
-	  procedure GET(S : in STRING; VP : out SUPINE_RECORD; LAST : out INTEGER);
-	  procedure PUT(S : out STRING; VP : in SUPINE_RECORD);  
-   end SUPINE_RECORD_IO;  
+   package supine_record_io is
+	  default_width : natural;
+	  procedure get(f : in file_type; vp : out supine_record);
+	  procedure get(vp : out supine_record);
+	  procedure put(f : in file_type; vp : in supine_record);
+	  procedure put(vp : in supine_record);
+	  procedure get(s : in string; vp : out supine_record; last : out integer);
+	  procedure put(s : out string; vp : in supine_record);  
+   end supine_record_io;  
 
 
-   type PREPOSITION_RECORD is
+   type preposition_record is
 	  record
-		 OBJ : CASE_TYPE := X;
+		 obj : case_type := x;
 	  end record;
 
-   package PREPOSITION_RECORD_IO is
-	  DEFAULT_WIDTH : NATURAL;
-	  procedure GET(F : in FILE_TYPE; P : out PREPOSITION_RECORD);
-	  procedure GET(P : out PREPOSITION_RECORD);
-	  procedure PUT(F : in FILE_TYPE; P : in PREPOSITION_RECORD);
-	  procedure PUT(P : in PREPOSITION_RECORD);
-	  procedure GET(S : in STRING; P : out PREPOSITION_RECORD; LAST : out INTEGER);
-	  procedure PUT(S : out STRING; P : in PREPOSITION_RECORD);  
-   end PREPOSITION_RECORD_IO;  
+   package preposition_record_io is
+	  default_width : natural;
+	  procedure get(f : in file_type; p : out preposition_record);
+	  procedure get(p : out preposition_record);
+	  procedure put(f : in file_type; p : in preposition_record);
+	  procedure put(p : in preposition_record);
+	  procedure get(s : in string; p : out preposition_record; last : out integer);
+	  procedure put(s : out string; p : in preposition_record);  
+   end preposition_record_io;  
 
 
-   type CONJUNCTION_RECORD is
+   type conjunction_record is
 	  record
 		 null;
 	  end record;
 
-   package CONJUNCTION_RECORD_IO is
-	  DEFAULT_WIDTH : NATURAL;
-	  procedure GET(F : in FILE_TYPE; C : out CONJUNCTION_RECORD);
-	  procedure GET(C : out CONJUNCTION_RECORD);
-	  procedure PUT(F : in FILE_TYPE; C : in CONJUNCTION_RECORD);
-	  procedure PUT(C : in CONJUNCTION_RECORD);
-	  procedure GET(S : in STRING; C : out CONJUNCTION_RECORD; LAST : out INTEGER);
-	  procedure PUT(S : out STRING; C : in CONJUNCTION_RECORD);  
-   end CONJUNCTION_RECORD_IO;  
+   package conjunction_record_io is
+	  default_width : natural;
+	  procedure get(f : in file_type; c : out conjunction_record);
+	  procedure get(c : out conjunction_record);
+	  procedure put(f : in file_type; c : in conjunction_record);
+	  procedure put(c : in conjunction_record);
+	  procedure get(s : in string; c : out conjunction_record; last : out integer);
+	  procedure put(s : out string; c : in conjunction_record);  
+   end conjunction_record_io;  
 
 
-   type INTERJECTION_RECORD is
+   type interjection_record is
 	  record
 		 null;
 	  end record;
    
-   package INTERJECTION_RECORD_IO is
-	  DEFAULT_WIDTH : NATURAL;
-	  procedure GET(F : in FILE_TYPE; I : out INTERJECTION_RECORD);
-	  procedure GET(I : out INTERJECTION_RECORD);
-	  procedure PUT(F : in FILE_TYPE; I : in INTERJECTION_RECORD);
-	  procedure PUT(I : in INTERJECTION_RECORD);
-	  procedure GET(S : in STRING; I : out INTERJECTION_RECORD; LAST : out INTEGER);
-	  procedure PUT(S : out STRING; I : in INTERJECTION_RECORD);  
-   end INTERJECTION_RECORD_IO;  
+   package interjection_record_io is
+	  default_width : natural;
+	  procedure get(f : in file_type; i : out interjection_record);
+	  procedure get(i : out interjection_record);
+	  procedure put(f : in file_type; i : in interjection_record);
+	  procedure put(i : in interjection_record);
+	  procedure get(s : in string; i : out interjection_record; last : out integer);
+	  procedure put(s : out string; i : in interjection_record);  
+   end interjection_record_io;  
 
 
    --  TACKON, PREFIX, SUFFIX are nulls put in to allow easy printing later
 
-   type TACKON_RECORD is
+   type tackon_record is
 	  record
 		 null;
 	  end record;
    
-   NULL_TACKON_RECORD : TACKON_RECORD;
+   null_tackon_record : tackon_record;
 
-   package TACKON_RECORD_IO is
-	  DEFAULT_WIDTH : NATURAL;
-	  procedure GET(F : in FILE_TYPE; I : out TACKON_RECORD);
-	  procedure GET(I : out TACKON_RECORD);
-	  procedure PUT(F : in FILE_TYPE; I : in TACKON_RECORD);
-	  procedure PUT(I : in TACKON_RECORD);
-	  procedure GET(S : in STRING; I : out TACKON_RECORD; LAST : out INTEGER);
-	  procedure PUT(S : out STRING; I : in TACKON_RECORD);  
-   end TACKON_RECORD_IO;  
+   package tackon_record_io is
+	  default_width : natural;
+	  procedure get(f : in file_type; i : out tackon_record);
+	  procedure get(i : out tackon_record);
+	  procedure put(f : in file_type; i : in tackon_record);
+	  procedure put(i : in tackon_record);
+	  procedure get(s : in string; i : out tackon_record; last : out integer);
+	  procedure put(s : out string; i : in tackon_record);  
+   end tackon_record_io;  
    
    
-   type PREFIX_RECORD is 
+   type prefix_record is 
 	  record
 		 null;
 	  end record;
 
-   NULL_PREFIX_RECORD : PREFIX_RECORD;
+   null_prefix_record : prefix_record;
 
-   package PREFIX_RECORD_IO is
-	  DEFAULT_WIDTH : NATURAL;
-	  procedure GET(F : in FILE_TYPE; P : out PREFIX_RECORD);
-	  procedure GET(P : out PREFIX_RECORD);
-	  procedure PUT(F : in FILE_TYPE; P : in PREFIX_RECORD);
-	  procedure PUT(P : in PREFIX_RECORD);
-	  procedure GET(S : in STRING; P : out PREFIX_RECORD; LAST : out INTEGER);
-	  procedure PUT(S : out STRING; P : in PREFIX_RECORD);  
-   end PREFIX_RECORD_IO;  
+   package prefix_record_io is
+	  default_width : natural;
+	  procedure get(f : in file_type; p : out prefix_record);
+	  procedure get(p : out prefix_record);
+	  procedure put(f : in file_type; p : in prefix_record);
+	  procedure put(p : in prefix_record);
+	  procedure get(s : in string; p : out prefix_record; last : out integer);
+	  procedure put(s : out string; p : in prefix_record);  
+   end prefix_record_io;  
 
-   type SUFFIX_RECORD is 
+   type suffix_record is 
 	  record
 		 null;
 	  end record;
 
-   NULL_SUFFIX_RECORD : SUFFIX_RECORD;
+   null_suffix_record : suffix_record;
    
-   package SUFFIX_RECORD_IO is
-	  DEFAULT_WIDTH : NATURAL;
-	  procedure GET(F : in FILE_TYPE; P : out SUFFIX_RECORD);
-	  procedure GET(P : out SUFFIX_RECORD);
-	  procedure PUT(F : in FILE_TYPE; P : in SUFFIX_RECORD);
-	  procedure PUT(P : in SUFFIX_RECORD);
-	  procedure GET(S : in STRING; P : out SUFFIX_RECORD; LAST : out INTEGER);
-	  procedure PUT(S : out STRING; P : in SUFFIX_RECORD);  
-   end SUFFIX_RECORD_IO;  
+   package suffix_record_io is
+	  default_width : natural;
+	  procedure get(f : in file_type; p : out suffix_record);
+	  procedure get(p : out suffix_record);
+	  procedure put(f : in file_type; p : in suffix_record);
+	  procedure put(p : in suffix_record);
+	  procedure get(s : in string; p : out suffix_record; last : out integer);
+	  procedure put(s : out string; p : in suffix_record);  
+   end suffix_record_io;  
    
 
-   type QUALITY_RECORD(POFS : PART_OF_SPEECH_TYPE := X) is
+   type quality_record(pofs : part_of_speech_type := x) is
 	  record
-		 case POFS is
-			when N =>
-			   N : NOUN_RECORD;
-			when PRON =>
-			   PRON : PRONOUN_RECORD;
-			when PACK =>
-			   PACK : PROPACK_RECORD;
-			when ADJ =>
-			   ADJ : ADJECTIVE_RECORD;
-			when NUM =>
-			   NUM : NUMERAL_RECORD;
-			when ADV =>
-			   ADV : ADVERB_RECORD;
-			when V =>
-			   V : VERB_RECORD;
-			when VPAR =>
-			   VPAR : VPAR_RECORD;
-			when SUPINE =>
-			   SUPINE : SUPINE_RECORD;
-			when PREP =>
-			   PREP : PREPOSITION_RECORD;
-			when CONJ =>
-			   CONJ : CONJUNCTION_RECORD;
-			when INTERJ =>
-			   INTERJ : INTERJECTION_RECORD;
-			when TACKON =>
-			   TACKON : TACKON_RECORD;
-			when PREFIX =>
-			   PREFIX : PREFIX_RECORD;
-			when SUFFIX =>
-			   SUFFIX : SUFFIX_RECORD;
+		 case pofs is
+			when n =>
+			   n : noun_record;
+			when pron =>
+			   pron : pronoun_record;
+			when pack =>
+			   pack : propack_record;
+			when adj =>
+			   adj : adjective_record;
+			when num =>
+			   num : numeral_record;
+			when adv =>
+			   adv : adverb_record;
+			when v =>
+			   v : verb_record;
+			when vpar =>
+			   vpar : vpar_record;
+			when supine =>
+			   supine : supine_record;
+			when prep =>
+			   prep : preposition_record;
+			when conj =>
+			   conj : conjunction_record;
+			when interj =>
+			   interj : interjection_record;
+			when tackon =>
+			   tackon : tackon_record;
+			when prefix =>
+			   prefix : prefix_record;
+			when suffix =>
+			   suffix : suffix_record;
 			when others =>
 			   null;
 		 end case;
 	  end record;
 
-   NULL_QUALITY_RECORD : QUALITY_RECORD;
+   null_quality_record : quality_record;
 
-   function "<" (LEFT, RIGHT : QUALITY_RECORD) return BOOLEAN;
+   function "<" (left, right : quality_record) return boolean;
 
-   package QUALITY_RECORD_IO is
-	  DEFAULT_WIDTH : NATURAL;
-	  procedure GET(F : in FILE_TYPE; P : out QUALITY_RECORD);
-	  procedure GET(P : out QUALITY_RECORD);
-	  procedure PUT(F : in FILE_TYPE; P : in QUALITY_RECORD);
-	  procedure PUT(P : in QUALITY_RECORD);
-	  procedure GET(S : in STRING; P : out QUALITY_RECORD; LAST : out INTEGER);
-	  procedure PUT(S : out STRING; P : in QUALITY_RECORD);  
-   end QUALITY_RECORD_IO;  
+   package quality_record_io is
+	  default_width : natural;
+	  procedure get(f : in file_type; p : out quality_record);
+	  procedure get(p : out quality_record);
+	  procedure put(f : in file_type; p : in quality_record);
+	  procedure put(p : in quality_record);
+	  procedure get(s : in string; p : out quality_record; last : out integer);
+	  procedure put(s : out string; p : in quality_record);  
+   end quality_record_io;  
 
-   type QUALITY_ARRAY is array (INTEGER range <>) of QUALITY_RECORD;
+   type quality_array is array (integer range <>) of quality_record;
 
-   MAX_ENDING_SIZE : constant := 7;     
-   subtype ENDING_SIZE_TYPE is INTEGER range 0..MAX_ENDING_SIZE;
+   max_ending_size : constant := 7;     
+   subtype ending_size_type is integer range 0..max_ending_size;
 
-   ENDING_SIZE_TYPE_IO_DEFAULT_WIDTH : INTEGER := 3;
+   ending_size_type_io_default_width : integer := 3;
 
-   subtype ENDING is STRING(1..MAX_ENDING_SIZE);
+   subtype ending is string(1..max_ending_size);
 
-   type ENDING_RECORD is
+   type ending_record is
 	  record
-		 SIZE : ENDING_SIZE_TYPE := 0;
-		 SUF  : ENDING := (others => ' ');
+		 size : ending_size_type := 0;
+		 suf  : ending := (others => ' ');
 	  end record;
 
-   package ENDING_RECORD_IO is
-	  DEFAULT_WIDTH : NATURAL;
-	  procedure GET(F : in FILE_TYPE; X : out ENDING_RECORD);
-	  procedure GET(X : out ENDING_RECORD);
-	  procedure PUT(F : in FILE_TYPE; X : in ENDING_RECORD);
-	  procedure PUT(X : in ENDING_RECORD);
-	  procedure GET(S : in STRING; X : out ENDING_RECORD; LAST : out INTEGER);
-	  procedure PUT(S : out STRING; X : in ENDING_RECORD);  
-   end ENDING_RECORD_IO;  
+   package ending_record_io is
+	  default_width : natural;
+	  procedure get(f : in file_type; x : out ending_record);
+	  procedure get(x : out ending_record);
+	  procedure put(f : in file_type; x : in ending_record);
+	  procedure put(x : in ending_record);
+	  procedure get(s : in string; x : out ending_record; last : out integer);
+	  procedure put(s : out string; x : in ending_record);  
+   end ending_record_io;  
    
-   NULL_ENDING_RECORD : ENDING_RECORD;
+   null_ending_record : ending_record;
    
    
-   type AGE_TYPE is (
-					 X,   --              --  In use throughout the ages/unknown -- the default
-					 A,   --  archaic     --  Very early forms, obsolete by classical times
-					 B,   --  early       --  Early Latin, pre-classical, used for effect/poetry
-					 C,   --  classical   --  Limited to classical (~150 BC - 200 AD)
-					 D,   --  late        --  Late, post-classical (3rd-5th centuries)
-					 E,   --  later       --  Latin not in use in Classical times (6-10), Christian
-					 F,   --  medieval    --  Medieval (11th-15th centuries)
-					 G,   --  scholar     --  Latin post 15th - Scholarly/Scientific   (16-18)
-					 H    --  modern      --  Coined recently, words for new things (19-20)
+   type age_type is (
+					 x,   --              --  In use throughout the ages/unknown -- the default
+					 a,   --  archaic     --  Very early forms, obsolete by classical times
+					 b,   --  early       --  Early Latin, pre-classical, used for effect/poetry
+					 c,   --  classical   --  Limited to classical (~150 BC - 200 AD)
+					 d,   --  late        --  Late, post-classical (3rd-5th centuries)
+					 e,   --  later       --  Latin not in use in Classical times (6-10), Christian
+					 f,   --  medieval    --  Medieval (11th-15th centuries)
+					 g,   --  scholar     --  Latin post 15th - Scholarly/Scientific   (16-18)
+					 h    --  modern      --  Coined recently, words for new things (19-20)
 					);
-   package AGE_TYPE_IO is new TEXT_IO.ENUMERATION_IO(AGE_TYPE);
+   package age_type_io is new text_io.enumeration_io(age_type);
    
 
-   type FREQUENCY_TYPE is (     --  For dictionary entries
-								X,    --              --  Unknown or unspecified
-								A,    --  very freq   --  Very frequent, in all Elementry Latin books
-								B,    --  frequent    --  Frequent, in top 10 percent           
-								C,    --  common      --  For Dictionary, in top 10,000 words
-								D,    --  lesser      --  For Dictionary, in top 20,000 words
-								E,    --  uncommon    --  2 or 3 citations
-								F,    --  very rare   --  Having only single citation in OLD or L+S
-								I,    --  inscription --  Only citation is inscription
-								M,    --  graffiti    --  Presently not much used
-								N     --  Pliny       --  Things that appear (almost) only in Pliny Natural History
+   type frequency_type is (     --  For dictionary entries
+								x,    --              --  Unknown or unspecified
+								a,    --  very freq   --  Very frequent, in all Elementry Latin books
+								b,    --  frequent    --  Frequent, in top 10 percent           
+								c,    --  common      --  For Dictionary, in top 10,000 words
+								d,    --  lesser      --  For Dictionary, in top 20,000 words
+								e,    --  uncommon    --  2 or 3 citations
+								f,    --  very rare   --  Having only single citation in OLD or L+S
+								i,    --  inscription --  Only citation is inscription
+								m,    --  graffiti    --  Presently not much used
+								n     --  Pliny       --  Things that appear (almost) only in Pliny Natural History
 						  );
    
    --  For inflections, the same type is used with different weights
@@ -644,86 +644,86 @@ package INFLECTIONS_PACKAGE is
    --  N     --              --  Presently not used
 
 
-   package FREQUENCY_TYPE_IO is new TEXT_IO.ENUMERATION_IO(FREQUENCY_TYPE);
+   package frequency_type_io is new text_io.enumeration_io(frequency_type);
    
 
 
-   type INFLECTION_RECORD is
+   type inflection_record is
 	  record
-		 QUAL   : QUALITY_RECORD   := NULL_QUALITY_RECORD;
-		 KEY    : STEM_KEY_TYPE := 0;               
-		 ENDING : ENDING_RECORD := NULL_ENDING_RECORD;
-		 AGE    : AGE_TYPE      := X;
-		 FREQ   : FREQUENCY_TYPE      := X;
+		 qual   : quality_record   := null_quality_record;
+		 key    : stem_key_type := 0;               
+		 ending : ending_record := null_ending_record;
+		 age    : age_type      := x;
+		 freq   : frequency_type      := x;
 	  end record;
 
-   NULL_INFLECTION_RECORD : INFLECTION_RECORD;
+   null_inflection_record : inflection_record;
 
-   package INFLECTION_RECORD_IO is
-	  DEFAULT_WIDTH : NATURAL;
-	  procedure GET(F : in FILE_TYPE; P : out INFLECTION_RECORD);
-	  procedure GET(P : out INFLECTION_RECORD);
-	  procedure PUT(F : in FILE_TYPE; P : in INFLECTION_RECORD);
-	  procedure PUT(P : in INFLECTION_RECORD);
-	  procedure GET(S : in STRING; P : out INFLECTION_RECORD; LAST : out INTEGER);
-	  procedure PUT(S : out STRING; P : in INFLECTION_RECORD);  
-   end INFLECTION_RECORD_IO;  
+   package inflection_record_io is
+	  default_width : natural;
+	  procedure get(f : in file_type; p : out inflection_record);
+	  procedure get(p : out inflection_record);
+	  procedure put(f : in file_type; p : in inflection_record);
+	  procedure put(p : in inflection_record);
+	  procedure get(s : in string; p : out inflection_record; last : out integer);
+	  procedure put(s : out string; p : in inflection_record);  
+   end inflection_record_io;  
    
    --  This implies a knowledge of the inflections last character
-   subtype INFLECTIONS_SECTION_1 is CHARACTER range 'a'..'i';
-   subtype INFLECTIONS_SECTION_2 is CHARACTER range 'm'..'r';
-   subtype INFLECTIONS_SECTION_3 is CHARACTER range 's'..'s';
-   subtype INFLECTIONS_SECTION_4 is CHARACTER range 't'..'u';
+   subtype inflections_section_1 is character range 'a'..'i';
+   subtype inflections_section_2 is character range 'm'..'r';
+   subtype inflections_section_3 is character range 's'..'s';
+   subtype inflections_section_4 is character range 't'..'u';
 
-   SIZE_OF_BLANK_INFLECTIONS   : constant INTEGER :=  80;    --  ############
-   SIZE_OF_INFLECTIONS_SECTION : constant INTEGER := 570;    --  ############
+   size_of_blank_inflections   : constant integer :=  80;    --  ############
+   size_of_inflections_section : constant integer := 570;    --  ############
 
-   type INFLECTION_ARRAY is array (POSITIVE range <>) of INFLECTION_RECORD;
-   subtype LEL_SECTION is INFLECTION_ARRAY(1..SIZE_OF_INFLECTIONS_SECTION);
-   package LEL_SECTION_IO is new DIRECT_IO(LEL_SECTION);
+   type inflection_array is array (positive range <>) of inflection_record;
+   subtype lel_section is inflection_array(1..size_of_inflections_section);
+   package lel_section_io is new direct_io(lel_section);
    
-   BEL : INFLECTION_ARRAY(1..SIZE_OF_BLANK_INFLECTIONS);
+   bel : inflection_array(1..size_of_blank_inflections);
 
-   LEL : LEL_SECTION;
+   lel : lel_section;
 
-   type INFLECTION_ARRAY_INDEX is array (INTEGER range <>, 
-										 CHARACTER range <>) of INTEGER;
+   type inflection_array_index is array (integer range <>, 
+										 character range <>) of integer;
 
-   BELF, BELL : INFLECTION_ARRAY_INDEX(0..0, ' '..' ') := (0 => (others => 0));
-   LELF, LELL : INFLECTION_ARRAY_INDEX(1..MAX_ENDING_SIZE, 
+   belf, bell : inflection_array_index(0..0, ' '..' ') := (0 => (others => 0));
+   lelf, lell : inflection_array_index(1..max_ending_size, 
 									   'a'..'z') := (others => (others => 0));
-   PELF, PELL : INFLECTION_ARRAY_INDEX(1..MAX_ENDING_SIZE, 
+   pelf, pell : inflection_array_index(1..max_ending_size, 
 									   'a'..'z') := (others => (others => 0));
    
-   NUMBER_OF_INFLECTIONS : INTEGER := 0;
+   number_of_inflections : integer := 0;
    
    
-   procedure ESTABLISH_INFLECTIONS_SECTION;    
+   procedure establish_inflections_section;    
 
 
 
 
    --  <=   means for this purpose "contained in"
 
-   function "<=" (LEFT, RIGHT : PART_OF_SPEECH_TYPE) return BOOLEAN;  
-   function "<=" (LEFT, RIGHT : DECN_RECORD) return BOOLEAN;  
-   function "<=" (LEFT, RIGHT : GENDER_TYPE) return BOOLEAN;  
-   function "<=" (LEFT, RIGHT : CASE_TYPE)   return BOOLEAN;  
-   function "<=" (LEFT, RIGHT : NUMBER_TYPE) return BOOLEAN;  
-   function "<=" (LEFT, RIGHT : PERSON_TYPE) return BOOLEAN;  
-   function "<=" (LEFT, RIGHT : COMPARISON_TYPE) return BOOLEAN;  
-   function "<=" (LEFT, RIGHT : TENSE_VOICE_MOOD_RECORD)  return BOOLEAN;  
-   function "<=" (LEFT, RIGHT : NOUN_KIND_TYPE)   return BOOLEAN;  
-   function "<=" (LEFT, RIGHT : PRONOUN_KIND_TYPE)   return BOOLEAN;  
-   function "<=" (LEFT, RIGHT : STEM_KEY_TYPE)   return BOOLEAN;  -- not verbs  
-   function "<=" (LEFT, RIGHT : AGE_TYPE)   return BOOLEAN;  
-   function "<=" (LEFT, RIGHT : FREQUENCY_TYPE)   return BOOLEAN;  
+   function "<=" (left, right : part_of_speech_type) return boolean;  
+   function "<=" (left, right : decn_record) return boolean;  
+   function "<=" (left, right : gender_type) return boolean;  
+   function "<=" (left, right : case_type)   return boolean;  
+   function "<=" (left, right : number_type) return boolean;  
+   function "<=" (left, right : person_type) return boolean;  
+   function "<=" (left, right : comparison_type) return boolean;  
+   function "<=" (left, right : tense_voice_mood_record)  return boolean;  
+   function "<=" (left, right : noun_kind_type)   return boolean;  
+   function "<=" (left, right : pronoun_kind_type)   return boolean;  
+   function "<=" (left, right : stem_key_type)   return boolean;  -- not verbs  
+   function "<=" (left, right : age_type)   return boolean;  
+   function "<=" (left, right : frequency_type)   return boolean;  
 
    
-   GIVE_UP : exception;
+   give_up : exception;
    
 
-end INFLECTIONS_PACKAGE;  
+end inflections_package;  
 
 
 

@@ -1,191 +1,191 @@
-with TEXT_IO; use TEXT_IO;
-with Strings_Package; use Strings_Package;  
-with LATIN_FILE_NAMES; use LATIN_FILE_NAMES;
-with CONFIG;
-with WORD_PARAMETERS; use WORD_PARAMETERS;
-with Inflections_Package; use Inflections_Package;
-with Dictionary_Package; use Dictionary_Package;
-with DEVELOPER_PARAMETERS; use DEVELOPER_PARAMETERS;
-with WORD_PACKAGE; use WORD_PACKAGE;
-with ENGLISH_SUPPORT_PACKAGE; use ENGLISH_SUPPORT_PACKAGE;
-with DICTIONARY_FORM;
+with text_io; use text_io;
+with strings_package; use strings_package;  
+with latin_file_names; use latin_file_names;
+with config;
+with word_parameters; use word_parameters;
+with inflections_package; use inflections_package;
+with dictionary_package; use dictionary_package;
+with developer_parameters; use developer_parameters;
+with word_package; use word_package;
+with english_support_package; use english_support_package;
+with dictionary_form;
 
-procedure SEARCH_ENGLISH(INPUT_ENGLISH_WORD : STRING; POFS : PART_OF_SPEECH_TYPE := X) is
-   use EWDS_DIRECT_IO;
-   INPUT_WORD : EWORD := LOWER_CASE(HEAD(INPUT_ENGLISH_WORD, EWORD_SIZE));
-   INPUT_POFS : PART_OF_SPEECH_TYPE := POFS; 
+procedure search_english(input_english_word : string; pofs : part_of_speech_type := x) is
+   use ewds_direct_io;
+   input_word : eword := lower_case(head(input_english_word, eword_size));
+   input_pofs : part_of_speech_type := pofs; 
    
-   OUTPUT_ARRAY : EWDS_ARRAY(1..500) := (others => NULL_EWDS_RECORD);
-   NUMBER_OF_HITS : INTEGER := 0;
-   J1, J2, J, JJ : EWDS_DIRECT_IO.COUNT := 0;
+   output_array : ewds_array(1..500) := (others => null_ewds_record);
+   number_of_hits : integer := 0;
+   j1, j2, j, jj : ewds_direct_io.count := 0;
    
-   D_K : DICTIONARY_KIND := GENERAL;    --  For the moment
+   d_k : dictionary_kind := general;    --  For the moment
    
-   EWDS : EWDS_RECORD := NULL_EWDS_RECORD;
+   ewds : ewds_record := null_ewds_record;
    
-   FIRST_TRY, SECOND_TRY : BOOLEAN := TRUE;
+   first_try, second_try : boolean := true;
    
-   procedure LOAD_OUTPUT_ARRAY(EWDS : in EWDS_RECORD) is
+   procedure load_output_array(ewds : in ewds_record) is
    begin
 	  --PUT("LOAD a  " & PART_OF_SPEECH_TYPE'IMAGE(INPUT_POFS));
 	  --PUT("LOAD b  " & PART_OF_SPEECH_TYPE'IMAGE(INPUT_POFS));
-	  if EWDS.POFS <= INPUT_POFS  then
-         NUMBER_OF_HITS := NUMBER_OF_HITS + 1;
-         OUTPUT_ARRAY(NUMBER_OF_HITS) := EWDS;
+	  if ewds.pofs <= input_pofs  then
+         number_of_hits := number_of_hits + 1;
+         output_array(number_of_hits) := ewds;
 		 --  PUT("$  " & INTEGER'IMAGE(NUMBER_OF_HITS));
 		 --         EWDS_RECORD_IO.PUT(OUTPUT_ARRAY(NUMBER_OF_HITS));
 		 --         TEXT_IO.NEW_LINE;
 	  end if;
-   end LOAD_OUTPUT_ARRAY;
+   end load_output_array;
    
    --procedure TRIM_OUTPUT_ARRAY is
-   procedure SORT_OUTPUT_ARRAY is
-	  HITS : INTEGER := 0;
+   procedure sort_output_array is
+	  hits : integer := 0;
    begin
 	  
 	  --  Bubble sort     
-  HIT_LOOP:
+  hit_loop:
 	  loop
-		 HITS := 0;
+		 hits := 0;
 
-	 SWITCH:
+	 switch:
 		 declare
-			DW, EW : EWDS_RECORD := NULL_EWDS_RECORD;
+			dw, ew : ewds_record := null_ewds_record;
 			
 		 begin
-		INNER_LOOP:    --  Order by RANK, FREQ, SEMI
-			for I in 1..NUMBER_OF_HITS-1  loop
-			   if OUTPUT_ARRAY(I+1).RANK  >  OUTPUT_ARRAY(I).RANK     or else  
+		inner_loop:    --  Order by RANK, FREQ, SEMI
+			for i in 1..number_of_hits-1  loop
+			   if output_array(i+1).rank  >  output_array(i).rank     or else  
 
-				 (OUTPUT_ARRAY(I+1).RANK  =  OUTPUT_ARRAY(I).RANK     and then
-					OUTPUT_ARRAY(I+1).FREQ  <  OUTPUT_ARRAY(I).FREQ)  or else  
+				 (output_array(i+1).rank  =  output_array(i).rank     and then
+					output_array(i+1).freq  <  output_array(i).freq)  or else  
 				 
-				 (OUTPUT_ARRAY(I+1).RANK  =  OUTPUT_ARRAY(I).RANK     and then
-					OUTPUT_ARRAY(I+1).FREQ  =  OUTPUT_ARRAY(I).FREQ   and then
-					OUTPUT_ARRAY(I+1).SEMI  <  OUTPUT_ARRAY(I).SEMI)          then
+				 (output_array(i+1).rank  =  output_array(i).rank     and then
+					output_array(i+1).freq  =  output_array(i).freq   and then
+					output_array(i+1).semi  <  output_array(i).semi)          then
                   
-				  DW := OUTPUT_ARRAY(I);
-				  OUTPUT_ARRAY(I) := OUTPUT_ARRAY(I+1);
-				  OUTPUT_ARRAY(I+1) := DW;
-				  HITS := HITS + 1;
+				  dw := output_array(i);
+				  output_array(i) := output_array(i+1);
+				  output_array(i+1) := dw;
+				  hits := hits + 1;
 				  --PUT_LINE("HITS    " & INTEGER'IMAGE(HITS));
 			   end if;
-			end loop INNER_LOOP;
+			end loop inner_loop;
 
-		 end SWITCH;
-		 exit when HITS = 0;
-      end loop HIT_LOOP;
+		 end switch;
+		 exit when hits = 0;
+      end loop hit_loop;
 	  
-   end SORT_OUTPUT_ARRAY;
+   end sort_output_array;
    
    --     begin
    --       SORT_OUTPUT_ARRAY;
    --      end TRIM_OUTPUT_ARRAY;
    
-   procedure DUMP_OUTPUT_ARRAY(OUTPUT : in TEXT_IO.FILE_TYPE) is
-	  DE : DICTIONARY_ENTRY := NULL_DICTIONARY_ENTRY;
-	  NUMBER_TO_SHOW : INTEGER := NUMBER_OF_HITS;
-	  ONE_SCREEN : INTEGER := 6;
+   procedure dump_output_array(output : in text_io.file_type) is
+	  de : dictionary_entry := null_dictionary_entry;
+	  number_to_show : integer := number_of_hits;
+	  one_screen : integer := 6;
    begin
 	  --TEXT_IO.PUT_LINE("DUMP_OUTPUT");             
-      if NUMBER_OF_HITS = 0  then
-         TEXT_IO.PUT_LINE(OUTPUT, "No Match");             
+      if number_of_hits = 0  then
+         text_io.put_line(output, "No Match");             
 	  else
 		 --PUT_LINE("Unsorted EWDS");
 		 --for I in 1..NUMBER_TO_SHOW  loop
 		 --  PUT(INTEGER'IMAGE(I)); PUT("*"); EWDS_RECORD_IO.PUT(OUTPUT_ARRAY(I)); NEW_LINE;
 		 --end loop;
 		 
-		 SORT_OUTPUT_ARRAY;
+		 sort_output_array;
 
 		 --TEXT_IO.PUT_LINE("DUMP_OUTPUT SORTED");             
 		 
-         TRIMMED := FALSE;
-         if WORDS_MODE(TRIM_OUTPUT)  then
-			if NUMBER_OF_HITS > ONE_SCREEN  then
-			   NUMBER_TO_SHOW := ONE_SCREEN;    
-			   TRIMMED := TRUE;
+         trimmed := false;
+         if words_mode(trim_output)  then
+			if number_of_hits > one_screen  then
+			   number_to_show := one_screen;    
+			   trimmed := true;
 			else 
-			   NUMBER_TO_SHOW := NUMBER_OF_HITS;
+			   number_to_show := number_of_hits;
 			end if;
          end if;   
          
-         for I in 1..NUMBER_TO_SHOW  loop
-			TEXT_IO.NEW_LINE(OUTPUT);
+         for i in 1..number_to_show  loop
+			text_io.new_line(output);
 			
-		DO_PAUSE:
+		do_pause:
 			begin
 			   --PUT(INTEGER'IMAGE(INTEGER(TEXT_IO.LINE(OUTPUT))) & " ");
 			   --PUT(INTEGER'IMAGE(INTEGER(SCROLL_LINE_NUMBER)) & " ");
 			   --PUT(INTEGER'IMAGE(INTEGER(CONFIG.OUTPUT_SCREEN_SIZE)) & " ");
-			   if (INTEGER(TEXT_IO.LINE(OUTPUT)) >
-					 SCROLL_LINE_NUMBER + CONFIG.OUTPUT_SCREEN_SIZE)  then
-				  PAUSE(OUTPUT);
-				  SCROLL_LINE_NUMBER := INTEGER(TEXT_IO.LINE(OUTPUT));
+			   if (integer(text_io.line(output)) >
+					 scroll_line_number + config.output_screen_size)  then
+				  pause(output);
+				  scroll_line_number := integer(text_io.line(output));
 			   end if;
-			end DO_PAUSE;                                                                                     
+			end do_pause;                                                                                     
 
 			
 			
 			--         EWDS_RECORD_IO.PUT(OUTPUT_ARRAY(I));
 			--         TEXT_IO.NEW_LINE;
-			DICT_IO.READ(DICT_FILE(GENERAL), DE, DICT_IO.COUNT(OUTPUT_ARRAY(I).N));
+			dict_io.read(dict_file(general), de, dict_io.count(output_array(i).n));
 
 			--TEXT_IO.PUT_LINE("DUMP_OUTPUT READ");             
 			--  DICTIONARY_ENTRY_IO.PUT(DE); TEXT_IO.NEW_LINE;
 
-            PUT(OUTPUT, DICTIONARY_FORM(DE));
-            TEXT_IO.PUT(OUTPUT, "   ");
+            put(output, dictionary_form(de));
+            text_io.put(output, "   ");
             --PART_ENTRY_IO.PUT(OUTPUT, DE.PART);
 			--TEXT_IO.PUT_LINE("DUMP_OUTPUT PART");             
-            if DE.PART.POFS = N  then
-               TEXT_IO.PUT(OUTPUT, "  ");  DECN_RECORD_IO.PUT(OUTPUT, DE.PART.N.DECL);
-               TEXT_IO.PUT(OUTPUT, "  " & GENDER_TYPE'IMAGE(DE.PART.N.GENDER) & "  ");
+            if de.part.pofs = n  then
+               text_io.put(output, "  ");  decn_record_io.put(output, de.part.n.decl);
+               text_io.put(output, "  " & gender_type'image(de.part.n.gender) & "  ");
 			end if;
-			if (DE.PART.POFS = V)   then
-               TEXT_IO.PUT(OUTPUT, "  ");  DECN_RECORD_IO.PUT(OUTPUT, DE.PART.V.CON);
+			if (de.part.pofs = v)   then
+               text_io.put(output, "  ");  decn_record_io.put(output, de.part.v.con);
 			end if;
-			if (DE.PART.POFS = V)  and then  (DE.PART.V.KIND in GEN..PERFDEF)  then
-               TEXT_IO.PUT(OUTPUT, "  " & VERB_KIND_TYPE'IMAGE(DE.PART.V.KIND) & "  ");
+			if (de.part.pofs = v)  and then  (de.part.v.kind in gen..perfdef)  then
+               text_io.put(output, "  " & verb_kind_type'image(de.part.v.kind) & "  ");
 			end if;
 			
 			--TEXT_IO.PUT_LINE("DUMP_OUTPUT CODE");             
 
 			
-			if WORDS_MDEV(SHOW_DICTIONARY_CODES)    then
-			   TEXT_IO.PUT(OUTPUT, " [");
-			   AGE_TYPE_IO.PUT(OUTPUT, DE.TRAN.AGE);
-			   AREA_TYPE_IO.PUT(OUTPUT, DE.TRAN.AREA);
-			   GEO_TYPE_IO.PUT(OUTPUT, DE.TRAN.GEO);
-			   FREQUENCY_TYPE_IO.PUT(OUTPUT, DE.TRAN.FREQ);
-			   SOURCE_TYPE_IO.PUT(OUTPUT, DE.TRAN.SOURCE);
-			   TEXT_IO.PUT(OUTPUT, "]  ");
+			if words_mdev(show_dictionary_codes)    then
+			   text_io.put(output, " [");
+			   age_type_io.put(output, de.tran.age);
+			   area_type_io.put(output, de.tran.area);
+			   geo_type_io.put(output, de.tran.geo);
+			   frequency_type_io.put(output, de.tran.freq);
+			   source_type_io.put(output, de.tran.source);
+			   text_io.put(output, "]  ");
 			end if;
 			
-            if WORDS_MDEV(SHOW_DICTIONARY) then
-			   TEXT_IO.PUT(OUTPUT, EXT(D_K) & ">");
+            if words_mdev(show_dictionary) then
+			   text_io.put(output, ext(d_k) & ">");
 			end if;
 			--TEXT_IO.PUT_LINE("DUMP_OUTPUT SHOW");             
             
-            if WORDS_MDEV(SHOW_DICTIONARY_LINE)  then
-			   TEXT_IO.PUT(OUTPUT, "(" 
-							 & TRIM(INTEGER'IMAGE(OUTPUT_ARRAY(I).N)) & ")");
+            if words_mdev(show_dictionary_line)  then
+			   text_io.put(output, "(" 
+							 & trim(integer'image(output_array(i).n)) & ")");
 			end if;
 			
-			TEXT_IO.NEW_LINE(OUTPUT);
+			text_io.new_line(output);
 			
 			--TEXT_IO.PUT_LINE("DUMP_OUTPUT MEAN");      
 			
-			TEXT_IO.PUT(OUTPUT, TRIM(DE.MEAN));
-			TEXT_IO.NEW_LINE(OUTPUT);
+			text_io.put(output, trim(de.mean));
+			text_io.new_line(output);
 			
 			
 			
 		 end loop;
 		 --TEXT_IO.PUT_LINE("DUMP_OUTPUT TRIMMED"); 
 		 
-		 if TRIMMED  then
-			PUT_LINE(OUTPUT, "*");
+		 if trimmed  then
+			put_line(output, "*");
 		 end if;
 		 
 	  end if;    --  On HITS = 0
@@ -193,42 +193,42 @@ procedure SEARCH_ENGLISH(INPUT_ENGLISH_WORD : STRING; POFS : PART_OF_SPEECH_TYPE
    exception
 	  when others =>
 		 null;   --  If N not in DICT_FILE
-   end DUMP_OUTPUT_ARRAY;
+   end dump_output_array;
    
 begin
    
-   J1 := 1;
-   J2 := SIZE(EWDS_FILE);
+   j1 := 1;
+   j2 := size(ewds_file);
    
-   FIRST_TRY := TRUE;
+   first_try := true;
 
-   SECOND_TRY := TRUE;
+   second_try := true;
 
-   J := (J1 + J2) / 2;
+   j := (j1 + j2) / 2;
 
-BINARY_SEARCH:
+binary_search:
 	loop
 	   --   TEXT_IO.PUT_LINE("J = " & INTEGER'IMAGE(INTEGER(J)));
 	   
-	   if (J1 = J2-1) or (J1 = J2) then
-		  if FIRST_TRY  then
+	   if (j1 = j2-1) or (j1 = j2) then
+		  if first_try  then
 			 --   TEXT_IO.PUT_LINE("FIRST_TRY");
-			 J := J1;
-			 FIRST_TRY := FALSE;
-		  elsif SECOND_TRY  then
+			 j := j1;
+			 first_try := false;
+		  elsif second_try  then
 			 --   TEXT_IO.PUT_LINE("SECOND_TRY");
-			 J := J2;
-			 SECOND_TRY := FALSE;
+			 j := j2;
+			 second_try := false;
 		  else
 			 --   TEXT_IO.PUT_LINE("THIRD_TRY   exit BINARY_SEARCH");
-			 JJ := J;
-			 exit BINARY_SEARCH;
+			 jj := j;
+			 exit binary_search;
 		  end if;
 	   end if;
 	   
 	   --  Should D_K
-	   SET_INDEX(EWDS_FILE, EWDS_DIRECT_IO.COUNT(J));
-	   READ(EWDS_FILE, EWDS);
+	   set_index(ewds_file, ewds_direct_io.count(j));
+	   read(ewds_file, ewds);
 	   --   EWDS_RECORD_IO.PUT(EWDS);
 	   --   TEXT_IO.NEW_LINE;
 	   --   PUT_LINE(LOWER_CASE(EWDS.W));
@@ -237,52 +237,52 @@ BINARY_SEARCH:
 	   --                  "   J1 = " & INTEGER'IMAGE(INTEGER(J1)) &
 	   --                 "   J2 = " & INTEGER'IMAGE(INTEGER(J2)));
 	   --                  
-	   if  "<"(LOWER_CASE(EWDS.W), INPUT_WORD)  then  --  Not LTU, not u=v
-		  J1 := J;
-		  J := (J1 + J2) / 2;
-	   elsif  ">"(LOWER_CASE(EWDS.W), INPUT_WORD)  then
-		  J2 := J;
-		  J := (J1 + J2) / 2;
+	   if  "<"(lower_case(ewds.w), input_word)  then  --  Not LTU, not u=v
+		  j1 := j;
+		  j := (j1 + j2) / 2;
+	   elsif  ">"(lower_case(ewds.w), input_word)  then
+		  j2 := j;
+		  j := (j1 + j2) / 2;
 	   else
-		  for I in reverse J1..J  loop
-			 SET_INDEX(EWDS_FILE, EWDS_DIRECT_IO.COUNT(I));
-			 READ(EWDS_FILE, EWDS);    --  Reads and advances index!!
+		  for i in reverse j1..j  loop
+			 set_index(ewds_file, ewds_direct_io.count(i));
+			 read(ewds_file, ewds);    --  Reads and advances index!!
 			 
-			 if "="(LOWER_CASE(EWDS.W), INPUT_WORD)  then
-				JJ := I;
+			 if "="(lower_case(ewds.w), input_word)  then
+				jj := i;
 				--      PUT(INTEGER'IMAGE(INTEGER(I))); PUT("-"); EWDS_RECORD_IO.PUT(EWDS); NEW_LINE;
-				LOAD_OUTPUT_ARRAY(EWDS);
+				load_output_array(ewds);
 
 			 else
 				exit;
 			 end if;
 		  end loop;
 
-		  for I in J+1..J2  loop
-			 SET_INDEX(EWDS_FILE, EWDS_DIRECT_IO.COUNT(I));
-			 READ(EWDS_FILE, EWDS);
+		  for i in j+1..j2  loop
+			 set_index(ewds_file, ewds_direct_io.count(i));
+			 read(ewds_file, ewds);
 			 
-			 if "="(LOWER_CASE(EWDS.W), INPUT_WORD)  then
-				JJ := I;
+			 if "="(lower_case(ewds.w), input_word)  then
+				jj := i;
 
 				--        PUT(INTEGER'IMAGE(INTEGER(I))); PUT("+"); EWDS_RECORD_IO.PUT(EWDS);  NEW_LINE;
-				LOAD_OUTPUT_ARRAY(EWDS);
+				load_output_array(ewds);
 
 			 else
-				exit BINARY_SEARCH;
+				exit binary_search;
 			 end if;
 		  end loop;
-		  exit BINARY_SEARCH;
+		  exit binary_search;
 
 	   end if;
-	end loop BINARY_SEARCH;
+	end loop binary_search;
 	
 	
 	
-	if  WORDS_MODE(WRITE_OUTPUT_TO_FILE)      then
-	   DUMP_OUTPUT_ARRAY(OUTPUT);
+	if  words_mode(write_output_to_file)      then
+	   dump_output_array(output);
 	else
-	   DUMP_OUTPUT_ARRAY(CURRENT_OUTPUT);
+	   dump_output_array(current_output);
 	end if;
 
 	
@@ -292,10 +292,10 @@ BINARY_SEARCH:
 	--        INTEGER'IMAGE(NUMBER_OF_HITS));
 exception
    when others  =>
-      TEXT_IO.PUT_LINE("exception SEARCH NUMBER_OF_HITS = " & 
-						 INTEGER'IMAGE(NUMBER_OF_HITS));
+      text_io.put_line("exception SEARCH NUMBER_OF_HITS = " & 
+						 integer'image(number_of_hits));
 	  raise;       
-end SEARCH_ENGLISH;
+end search_english;
 
 
 

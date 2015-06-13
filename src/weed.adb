@@ -1,7 +1,7 @@
-with TEXT_IO; use TEXT_IO;
-with INFLECTIONS_PACKAGE; use INFLECTIONS_PACKAGE;
-procedure WEED(W : in out STRING; 
-			   POFS : in PART_OF_SPEECH_TYPE) is
+with text_io; use text_io;
+with inflections_package; use inflections_package;
+procedure weed(w : in out string; 
+			   pofs : in part_of_speech_type) is
    
    --  In contrast to the Latin phase where the prioritization takes is at runtime
    --  for the English most of the work is done beforehand
@@ -12,7 +12,7 @@ procedure WEED(W : in out STRING;
    --  If there are a hundred "the", does it matter.  No one should input "the"
    --  But it is a matter of logic and secondary effects (special on "the")
    
-   KILL : BOOLEAN := FALSE;
+   kill : boolean := false;
 begin     
 
    --PUT_LINE("WEED    "  & W & '|');         
@@ -52,98 +52,98 @@ begin
    
    
    --  Conjunctions
-   if (POFS /= CONJ) and then    
-	 (W = "and"   or
-		W = "or"    or
-		W = "but"   or
-		W = "if"  )  
+   if (pofs /= conj) and then    
+	 (w = "and"   or
+		w = "or"    or
+		w = "but"   or
+		w = "if"  )  
    then
 	  
-	  KILL := TRUE;
+	  kill := true;
    end if;
    
    --  Prepositions
-   if (POFS /= PREP) and then    
-	 (W = "of"    or
-		W = "to"    or
-		W = "in"    or
-		W = "into"   or
-		W = "with"  or
-		W = "w"   or
-		W = "without"   or
-		W = "for"   or
-		W = "per"   or
-		W = "on"    or
-		W = "upon"   or
-		W = "by"    or
-		W = "from"  or
-		W = "between"   or
-		W = "at"    or
-		W = "towards"   or
-		W = "under"   or
-		W = "before"   or
-		W = "against"   or
-		W = "around"   or
-		W = "through"  or 
-		W = "after"   or
-		W = "like"   or
-		W = "similar"   or
-		W = "than"   or
-		W = "as"   )
+   if (pofs /= prep) and then    
+	 (w = "of"    or
+		w = "to"    or
+		w = "in"    or
+		w = "into"   or
+		w = "with"  or
+		w = "w"   or
+		w = "without"   or
+		w = "for"   or
+		w = "per"   or
+		w = "on"    or
+		w = "upon"   or
+		w = "by"    or
+		w = "from"  or
+		w = "between"   or
+		w = "at"    or
+		w = "towards"   or
+		w = "under"   or
+		w = "before"   or
+		w = "against"   or
+		w = "around"   or
+		w = "through"  or 
+		w = "after"   or
+		w = "like"   or
+		w = "similar"   or
+		w = "than"   or
+		w = "as"   )
 
    then
 	  
-	  KILL := TRUE;
+	  kill := true;
    end if;
    
    
    
    
    if  
-	 (POFS /= N) and then    
+	 (pofs /= n) and then    
 	 (--  General nouns
-	  W = "person"   or
-		W = "man"      or
-		W = "men"   or
-		W = "woman"   or
-		W = "member"   or
-		W = "species"   or
-		W = "instrument"   or
-		W = "word"   or
-		W = "words"   or
+	  w = "person"   or
+		w = "man"      or
+		w = "men"   or
+		w = "woman"   or
+		w = "member"   or
+		w = "species"   or
+		w = "instrument"   or
+		w = "word"   or
+		w = "words"   or
 		--W = "shape"   or
-		W = "parts"   or
-		W = "title"   or
-		W = "office"   or
-		W = "thing"   or
-		W = "day"   or
-		W = "land"   or
-		W = "plant"   or
-		W = "plants"   or
-		W = "tree"   or
-		W = "fish"   or
-		W = "stone"   or
-		W = "stones"   or
-		W = "gem"     or
-		W = "vessel"   or
-		W = "pieces"   or
-		W = "animal"   or
-		W = "bird"   or
-		W = "measure" or 
-		W = "inhabitant"   or
-		W = "place"   or
-		W = "tribe"   or
-		W = "group"   or
-		W = "official"   or
-		W = "thing"   or
-		W = "things"   or
-		W = "something"   or
+		w = "parts"   or
+		w = "title"   or
+		w = "office"   or
+		w = "thing"   or
+		w = "day"   or
+		w = "land"   or
+		w = "plant"   or
+		w = "plants"   or
+		w = "tree"   or
+		w = "fish"   or
+		w = "stone"   or
+		w = "stones"   or
+		w = "gem"     or
+		w = "vessel"   or
+		w = "pieces"   or
+		w = "animal"   or
+		w = "bird"   or
+		w = "measure" or 
+		w = "inhabitant"   or
+		w = "place"   or
+		w = "tribe"   or
+		w = "group"   or
+		w = "official"   or
+		w = "thing"   or
+		w = "things"   or
+		w = "something"   or
 		--W = "matter"   or
-		W = "law"         )
+		w = "law"         )
 	 
 	 
    then
-	  KILL := TRUE;
+	  kill := true;
 	  
    end if;  
    
@@ -151,53 +151,53 @@ begin
    
    if
 	 
-	 W = "something"   or
-	 W = "quality"   or
-	 W = "heap"   or
-	 W = "amount"   or
-	 W = "money"   or
-	 W = "part"   or
-	 W = "front"   or
-	 W = "preparation"   or
-	 W = "purpose"   or
-	 W = "bit"   or
-	 W = "way"   or
-	 W = "maker"   or
-	 W = "material"  or
-	 W = "action"   or
-	 W = "act"   or
-	 W = "form"   or
-	 W = "point"   or
-	 W = "right"   or
-	 W = "order"   or
-	 W = "area"   or
-	 W = "rest"   or
-	 W = "cover"   or
+	 w = "something"   or
+	 w = "quality"   or
+	 w = "heap"   or
+	 w = "amount"   or
+	 w = "money"   or
+	 w = "part"   or
+	 w = "front"   or
+	 w = "preparation"   or
+	 w = "purpose"   or
+	 w = "bit"   or
+	 w = "way"   or
+	 w = "maker"   or
+	 w = "material"  or
+	 w = "action"   or
+	 w = "act"   or
+	 w = "form"   or
+	 w = "point"   or
+	 w = "right"   or
+	 w = "order"   or
+	 w = "area"   or
+	 w = "rest"   or
+	 w = "cover"   or
 	 
 	 
 	 --  Common nouns
 	 
-	 W = "Rome"   or
-	 W = "rome"   or
-	 W = "praenomen"   or
-	 W = "gens"   or
-	 W = "offering"   or
-	 W = "note"   or
-	 W = "water"   or
-	 W = "ear"   or
-	 W = "end"   or
-	 W = "ritual"   or
-	 W = "rite"   or
-	 W = "hair"   or
-	 W = "time"   or
-	 W = "charactistic"   or
-	 W = "building"   or
-	 W = "sea"   or
-	 W = "ship"         
+	 w = "Rome"   or
+	 w = "rome"   or
+	 w = "praenomen"   or
+	 w = "gens"   or
+	 w = "offering"   or
+	 w = "note"   or
+	 w = "water"   or
+	 w = "ear"   or
+	 w = "end"   or
+	 w = "ritual"   or
+	 w = "rite"   or
+	 w = "hair"   or
+	 w = "time"   or
+	 w = "charactistic"   or
+	 w = "building"   or
+	 w = "sea"   or
+	 w = "ship"         
 	 
 	 
    then
-	  KILL := TRUE;
+	  kill := true;
 	  
    end if; 
    
@@ -212,66 +212,66 @@ begin
    if     
 	 
 	 
-	 (POFS /= ADJ) and then    
+	 (pofs /= adj) and then    
 	 (--Adjectives   
 
-	  W = "some"   or
-		W = "several" or  
-		W = "another"   or
-		W = "male"   or
-		W = "legal"   or
-		W = "female"   or
-		W = "official"   or
-		W = "no"   or
-		W = "wild"   or
-		W = "dark"   or
-		W = "sacred"   or
-		W = "Roman"   or
-		W = "roman"   or
-		W = "precious"   or
-		W = "short"   or
-		W = "long"   or
-		W = "low"   or
-		W = "young"   or
-		W = "old"   or
-		W = "large"   or
-		W = "light"   or
-		W = "round"   or
-		W = "high"   or
-		W = "near"   or
-		W = "little"   or
-		W = "small"         )
+	  w = "some"   or
+		w = "several" or  
+		w = "another"   or
+		w = "male"   or
+		w = "legal"   or
+		w = "female"   or
+		w = "official"   or
+		w = "no"   or
+		w = "wild"   or
+		w = "dark"   or
+		w = "sacred"   or
+		w = "Roman"   or
+		w = "roman"   or
+		w = "precious"   or
+		w = "short"   or
+		w = "long"   or
+		w = "low"   or
+		w = "young"   or
+		w = "old"   or
+		w = "large"   or
+		w = "light"   or
+		w = "round"   or
+		w = "high"   or
+		w = "near"   or
+		w = "little"   or
+		w = "small"         )
    then
-	  KILL := TRUE;
+	  kill := true;
 	  
    end if;  
    
    if     
 	 
 	 
-	 (POFS /= ADJ) and then    
+	 (pofs /= adj) and then    
 	 (--More Adjectives   
-	  W = "more"   or
-		W = "military"  or
-		W = "many"   or
-		W = "suitable"   or
-		W = "hot"   or
-		W = "used"   or
-		W = "joint"   or
-		W = "proper"   or
-		W = "great"   or  --  great-great uncle
-		W = "full"   or
-		W = "sexual"   or
-		W = "public"   or
-		W = "white"   or
-		W = "secret"   or
-		W = "hard"   or
-		W = "good"   or
-		W = "fine"   or
-		W = "common"   
+	  w = "more"   or
+		w = "military"  or
+		w = "many"   or
+		w = "suitable"   or
+		w = "hot"   or
+		w = "used"   or
+		w = "joint"   or
+		w = "proper"   or
+		w = "great"   or  --  great-great uncle
+		w = "full"   or
+		w = "sexual"   or
+		w = "public"   or
+		w = "white"   or
+		w = "secret"   or
+		w = "hard"   or
+		w = "good"   or
+		w = "fine"   or
+		w = "common"   
 	 )
    then
-	  KILL := TRUE;
+	  kill := true;
 	  
    end if;  
    
@@ -279,37 +279,37 @@ begin
    
    if
 	 
-	 (POFS /= ADV) and then    
+	 (pofs /= adv) and then    
 	 (
-	  W = "up"    or
-		W = "out"   or
+	  w = "up"    or
+		w = "out"   or
 		--W = "away"   or
-		W = "over"   or
-		W = "down"   or
-		W = "back"   or
-		W = "forth"   or
-		W = "foward"   or
-		W = "about"   or
-		W = "together"   or
-		W = "off"     or
+		w = "over"   or
+		w = "down"   or
+		w = "back"   or
+		w = "forth"   or
+		w = "foward"   or
+		w = "about"   or
+		w = "together"   or
+		w = "off"     or
 		
 		--Adverbs (pure)
-		W = "much"   or
-		W = "throughly"   or
-		W = "closly"   or
-		W = "well"   or
-		W = "very"   or
-		W = "not"   or
-		W = "too"   or
-		W = "also"   or
-		W = "when"   or
-		W = "where"   or
-		W = "then"   or
-		W = "there"   or
-		W = "so"          )
+		w = "much"   or
+		w = "throughly"   or
+		w = "closly"   or
+		w = "well"   or
+		w = "very"   or
+		w = "not"   or
+		w = "too"   or
+		w = "also"   or
+		w = "when"   or
+		w = "where"   or
+		w = "then"   or
+		w = "there"   or
+		w = "so"          )
 	 
    then
-	  KILL := TRUE;
+	  kill := true;
 	  
    end if;  
    
@@ -318,68 +318,68 @@ begin
    
    
    if     
-	 (POFS /= PRON) and then    
-	 (POFS /= PACK) and then    
+	 (pofs /= pron) and then    
+	 (pofs /= pack) and then    
 	 (
 	  
 	  
 	  --  Pronouns and indefinites 
-	  W = "one"   or
-		W = "ones"   or
-		W = "he"   or
-		W = "any"   or
-		W = "anyone"   or
-		W = "anything"   or
-		W = "each"   or
-		W = "every"   or
-		W = "other"   or
-		W = "you"   or
-		W = "who"   or
-		W = "whatever"   or
-		W = "oneself"   or
-		W = "self"   or
-		W = "all"   or
-		W = "it"   or
-		W = "this"   or
-		W = "she"   or
-		W = "such"   or
-		W = "what"   or
-		W = "which"   or
-		W = "that"   or
-		W = "same"    )  then
-	  KILL := TRUE;
+	  w = "one"   or
+		w = "ones"   or
+		w = "he"   or
+		w = "any"   or
+		w = "anyone"   or
+		w = "anything"   or
+		w = "each"   or
+		w = "every"   or
+		w = "other"   or
+		w = "you"   or
+		w = "who"   or
+		w = "whatever"   or
+		w = "oneself"   or
+		w = "self"   or
+		w = "all"   or
+		w = "it"   or
+		w = "this"   or
+		w = "she"   or
+		w = "such"   or
+		w = "what"   or
+		w = "which"   or
+		w = "that"   or
+		w = "same"    )  then
+	  kill := true;
 	  
    end if;  
    
    if (      
-			 W = "kind"   or
-			   W = "manner"   or
-			   W = "variety"   or
+			 w = "kind"   or
+			   w = "manner"   or
+			   w = "variety"   or
 			   
 			   
 			   --  Posessives
-			   W = "its"   or
-			   W = "own"   or
-			   W = "his"   or
-			   W = "ones"  or
-			   W = "one's" or
+			   w = "its"   or
+			   w = "own"   or
+			   w = "his"   or
+			   w = "ones"  or
+			   w = "one's" or
 
 			   
-			   W = "pertaining"   or
-			   W = "belonging"   or
-			   W = "containing"   or
-			   W = "consisting"   or
-			   W = "relating"   or
-			   W = "resembling"   or
-			   W = "abounding"   or
-			   W = "concerned"   or
-			   W = "producing"   or
-			   W = "connected"   or
-			   W = "made"   or
-			   W = "used"   or
-			   W = "having"   
+			   w = "pertaining"   or
+			   w = "belonging"   or
+			   w = "containing"   or
+			   w = "consisting"   or
+			   w = "relating"   or
+			   w = "resembling"   or
+			   w = "abounding"   or
+			   w = "concerned"   or
+			   w = "producing"   or
+			   w = "connected"   or
+			   w = "made"   or
+			   w = "used"   or
+			   w = "having"   
 	  ) then
-	  KILL := TRUE;
+	  kill := true;
 	  
    end if;  
    
@@ -388,37 +388,37 @@ begin
    
    
    if      
-	 (POFS /= V) and then    
+	 (pofs /= v) and then    
 	 (--  Verbs
-	  W = "take"   or
-		W = "make"  or
-		W = "go"   or --      !!
-		W = "bring"   or
-		W = "cut"   or
-		W = "put"   or
-		W = "set"   or
-		W = "grow"   or
-		W = "give"   or
-		W = "cause"   or
-		W = "turn"   or
-		W = "fall"   or
-		W = "hold"   or
-		W = "keep"   or
-		W = "construct"   or
-		W = "throw"   or
-		W = "lay"   or
-		W = "remove"   or
-		W = "produce"   or
-		W = "use"   or
-		W = "order"   or
-		W = "provide"   or
+	  w = "take"   or
+		w = "make"  or
+		w = "go"   or --      !!
+		w = "bring"   or
+		w = "cut"   or
+		w = "put"   or
+		w = "set"   or
+		w = "grow"   or
+		w = "give"   or
+		w = "cause"   or
+		w = "turn"   or
+		w = "fall"   or
+		w = "hold"   or
+		w = "keep"   or
+		w = "construct"   or
+		w = "throw"   or
+		w = "lay"   or
+		w = "remove"   or
+		w = "produce"   or
+		w = "use"   or
+		w = "order"   or
+		w = "provide"   or
 		
-		W = "being"   or
-		W = "making"   or
-		W = "lacking"     )
+		w = "being"   or
+		w = "making"   or
+		w = "lacking"     )
 
    then
-	  KILL := TRUE;
+	  kill := true;
 	  
    end if;                  
    
@@ -446,27 +446,27 @@ begin
 	 
 	 
 	 --  Compounding verbs  
-	 W = "have"  or
-	 W = "has"   or
-	 W = "had"   or
-	 W = "was"   or
-	 W = "be"    or
-	 W = "become"   or
-	 W = "can"   or
-	 W = "do"   or
-	 W = "may"   or
-	 W = "must"   or
-	 W = "let"   or
+	 w = "have"  or
+	 w = "has"   or
+	 w = "had"   or
+	 w = "was"   or
+	 w = "be"    or
+	 w = "become"   or
+	 w = "can"   or
+	 w = "do"   or
+	 w = "may"   or
+	 w = "must"   or
+	 w = "let"   or
 	 
 	 
 	 --  Supporting verbs
-	 W = "is"   or
-	 W = "been"   or
+	 w = "is"   or
+	 w = "been"   or
 	 --W = "attempt"   or
-	 W = "begin"                    --or
+	 w = "begin"                    --or
 	 
    then
-	  KILL := TRUE;
+	  kill := true;
 	  
    end if;
    
@@ -490,13 +490,13 @@ begin
    
    
    
-   if KILL then
-	  for I in W'RANGE  loop
-		 W(I) := '\';
+   if kill then
+	  for i in w'range  loop
+		 w(i) := '\';
 	  end loop;
    end if;
    
    --PUT_LINE("WEEDed  "  & W & '|' & BOOLEAN'IMAGE(KILL));         
    
-end WEED;
+end weed;
 

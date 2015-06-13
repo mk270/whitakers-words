@@ -1,85 +1,85 @@
-with LATIN_FILE_NAMES; use LATIN_FILE_NAMES;
-with STRINGS_PACKAGE; use STRINGS_PACKAGE;
-with CONFIG;
-with PREFACE;
-package body WORD_SUPPORT_PACKAGE is
+with latin_file_names; use latin_file_names;
+with strings_package; use strings_package;
+with config;
+with preface;
+package body word_support_package is
 
 
-   function LEN(S : STRING) return INTEGER is
+   function len(s : string) return integer is
    begin
-      return TRIM(S)'LENGTH;
-   end LEN;
+      return trim(s)'length;
+   end len;
 
-   function EFF_PART(PART : PART_OF_SPEECH_TYPE) return PART_OF_SPEECH_TYPE is
+   function eff_part(part : part_of_speech_type) return part_of_speech_type is
    begin
-	  if PART = VPAR   then
-		 return V;
-	  elsif PART = SUPINE  then
-		 return V;
+	  if part = vpar   then
+		 return v;
+	  elsif part = supine  then
+		 return v;
 	  else
-		 return PART;
+		 return part;
 	  end if;
-   end EFF_PART;
+   end eff_part;
 
-   function ADJ_COMP_FROM_KEY(KEY : STEM_KEY_TYPE) return COMPARISON_TYPE is
+   function adj_comp_from_key(key : stem_key_type) return comparison_type is
    begin
-      case KEY is
-		 when 0 | 1 | 2  => return POS;
-		 when 3          => return COMP;
-		 when 4          => return SUPER;
-		 when others     => return X;
+      case key is
+		 when 0 | 1 | 2  => return pos;
+		 when 3          => return comp;
+		 when 4          => return super;
+		 when others     => return x;
       end case;
-   end ADJ_COMP_FROM_KEY;
+   end adj_comp_from_key;
 
-   function ADV_COMP_FROM_KEY(KEY : STEM_KEY_TYPE) return COMPARISON_TYPE is
+   function adv_comp_from_key(key : stem_key_type) return comparison_type is
    begin
-      case KEY is
-		 when 1  => return POS;
-		 when 2  => return COMP;
-		 when 3  => return SUPER;
-		 when others  => return X;
+      case key is
+		 when 1  => return pos;
+		 when 2  => return comp;
+		 when 3  => return super;
+		 when others  => return x;
       end case;
-   end ADV_COMP_FROM_KEY;
+   end adv_comp_from_key;
 
-   function NUM_SORT_FROM_KEY(KEY : STEM_KEY_TYPE) return NUMERAL_SORT_TYPE is
+   function num_sort_from_key(key : stem_key_type) return numeral_sort_type is
    begin
-      case KEY is
-		 when 1  => return CARD;
-		 when 2  => return ORD;
-		 when 3  => return DIST;
-		 when 4  => return ADVERB;
-		 when others  => return X;
+      case key is
+		 when 1  => return card;
+		 when 2  => return ord;
+		 when 3  => return dist;
+		 when 4  => return adverb;
+		 when others  => return x;
       end case;
-   end NUM_SORT_FROM_KEY;
+   end num_sort_from_key;
 
 
-   function FIRST_INDEX(INPUT_WORD : STRING;
-						D_K : DICTIONARY_FILE_KIND := DEFAULT_DICTIONARY_FILE_KIND)
-                       return STEM_IO.COUNT is
-	  WD : constant STRING := TRIM(INPUT_WORD);  --  string may not start at 1
+   function first_index(input_word : string;
+						d_k : dictionary_file_kind := default_dictionary_file_kind)
+                       return stem_io.count is
+	  wd : constant string := trim(input_word);  --  string may not start at 1
    begin
-	  if D_K = LOCAL  then
-		 return DDLF(WD(WD'FIRST), 'a', D_K);
-	  elsif WD'LENGTH < 2 then
+	  if d_k = local  then
+		 return ddlf(wd(wd'first), 'a', d_k);
+	  elsif wd'length < 2 then
 		 return   0; --  BDLF(WD(WD'FIRST), ' ', D_K);
 	  else
-		 return DDLF(WD(WD'FIRST), WD(WD'FIRST+1), D_K);
+		 return ddlf(wd(wd'first), wd(wd'first+1), d_k);
 	  end if;
-   end FIRST_INDEX;
+   end first_index;
 
-   function  LAST_INDEX(INPUT_WORD : STRING;
-						D_K : DICTIONARY_FILE_KIND := DEFAULT_DICTIONARY_FILE_KIND)
-                       return STEM_IO.COUNT is
-	  WD : constant STRING := TRIM(INPUT_WORD);
+   function  last_index(input_word : string;
+						d_k : dictionary_file_kind := default_dictionary_file_kind)
+                       return stem_io.count is
+	  wd : constant string := trim(input_word);
    begin        --  remember the string may not start at 1
-	  if D_K = LOCAL  then
-		 return DDLL(WD(WD'FIRST), 'a', D_K);
-	  elsif WD'LENGTH < 2 then
+	  if d_k = local  then
+		 return ddll(wd(wd'first), 'a', d_k);
+	  elsif wd'length < 2 then
 		 return   0; --  BDLL(WD(WD'FIRST), ' ', D_K);
 	  else
-		 return DDLL(WD(WD'FIRST), WD(WD'FIRST+1), D_K);
+		 return ddll(wd(wd'first), wd(wd'first+1), d_k);
 	  end if;
-   end  LAST_INDEX;
+   end  last_index;
 
    --procedure PUT_INDICES(CH : STRING; 
    --                        D_K : DICTIONARY_KIND) is
@@ -111,163 +111,163 @@ package body WORD_SUPPORT_PACKAGE is
    --  end PUT_INDICES;
 
 
-   procedure LOAD_BDL_FROM_DISK is
-	  use STEM_IO;
-	  DS : DICTIONARY_STEM;
-	  INDEX_FIRST,
-	  INDEX_LAST  : STEM_IO.COUNT := 0;
-	  K : INTEGER := 0;
+   procedure load_bdl_from_disk is
+	  use stem_io;
+	  ds : dictionary_stem;
+	  index_first,
+	  index_last  : stem_io.count := 0;
+	  k : integer := 0;
    begin
 
 	  --PUT_LINE("LOADING BDL FROM DISK");
-	  if DICTIONARY_AVAILABLE(GENERAL)  then
+	  if dictionary_available(general)  then
 		 --  The blanks are on the GENERAL dictionary
-	 LOADING_BDL_FROM_DISK:
+	 loading_bdl_from_disk:
 		 declare
-			D_K : DICTIONARY_KIND := GENERAL;
+			d_k : dictionary_kind := general;
 		 begin
-			if not IS_OPEN(STEM_FILE(D_K))  then
+			if not is_open(stem_file(d_k))  then
 			   --TEXT_IO.PUT_LINE("LOADING_BDL is going to OPEN " &  
 			   --ADD_FILE_NAME_EXTENSION(STEM_FILE_NAME, 
 			   --DICTIONARY_KIND'IMAGE(D_K)));
-			   OPEN(STEM_FILE(D_K), STEM_IO.IN_FILE,
-					ADD_FILE_NAME_EXTENSION(STEM_FILE_NAME,
-											DICTIONARY_KIND'IMAGE(D_K)));
+			   open(stem_file(d_k), stem_io.in_file,
+					add_file_name_extension(stem_file_name,
+											dictionary_kind'image(d_k)));
 			   --TEXT_IO.PUT_LINE("OPENing was successful");
 			end if;
 			--TEXT_IO.PUT_LINE("BDL OPEN");
-			INDEX_FIRST := BBLF(' ', ' ', DICTIONARY_KIND(D_K));
-			INDEX_LAST  := BBLL(' ', ' ', DICTIONARY_KIND(D_K));
+			index_first := bblf(' ', ' ', dictionary_kind(d_k));
+			index_last  := bbll(' ', ' ', dictionary_kind(d_k));
 
-			SET_INDEX(STEM_FILE(D_K), STEM_IO.POSITIVE_COUNT(INDEX_FIRST));
-			for J in INDEX_FIRST..INDEX_LAST  loop
-			   READ(STEM_FILE(D_K), DS);
-			   K := K + 1;
-			   BDL(K) := DS;
+			set_index(stem_file(d_k), stem_io.positive_count(index_first));
+			for j in index_first..index_last  loop
+			   read(stem_file(d_k), ds);
+			   k := k + 1;
+			   bdl(k) := ds;
 			end loop;
-			CLOSE(STEM_FILE(D_K));
+			close(stem_file(d_k));
 			--TEXT_IO.PUT_LINE("BDL LOADED FROM DISK   K = " & INTEGER'IMAGE(K));
 		 exception
-			when NAME_ERROR =>
-			   TEXT_IO.PUT_LINE("LOADING BDL FROM DISK had NAME_ERROR on " &
-								  ADD_FILE_NAME_EXTENSION(STEM_FILE_NAME,
-														  DICTIONARY_KIND'IMAGE(D_K)));
-			   TEXT_IO.PUT_LINE("The will be no blank stems loaded");
-			when USE_ERROR =>
-			   TEXT_IO.PUT_LINE("LOADING BDL FROM DISK had USE_ERROR on " &
-								  ADD_FILE_NAME_EXTENSION(STEM_FILE_NAME,
-														  DICTIONARY_KIND'IMAGE(D_K)));
-			   TEXT_IO.PUT_LINE("There will be no blank stems loaded");
-		 end LOADING_BDL_FROM_DISK;
+			when name_error =>
+			   text_io.put_line("LOADING BDL FROM DISK had NAME_ERROR on " &
+								  add_file_name_extension(stem_file_name,
+														  dictionary_kind'image(d_k)));
+			   text_io.put_line("The will be no blank stems loaded");
+			when use_error =>
+			   text_io.put_line("LOADING BDL FROM DISK had USE_ERROR on " &
+								  add_file_name_extension(stem_file_name,
+														  dictionary_kind'image(d_k)));
+			   text_io.put_line("There will be no blank stems loaded");
+		 end loading_bdl_from_disk;
 	  end if;
 
 	  --  Now load the stems of just one letter
-	  for D_K in GENERAL..DICTIONARY_KIND'LAST loop
-		 if DICTIONARY_AVAILABLE(D_K)  then
-			exit when D_K = LOCAL;
+	  for d_k in general..dictionary_kind'last loop
+		 if dictionary_available(d_k)  then
+			exit when d_k = local;
 			--TEXT_IO.PUT_LINE("OPENING BDL STEMFILE " & EXT(D_K));
-			if not IS_OPEN(STEM_FILE(D_K))  then
+			if not is_open(stem_file(d_k))  then
 			   --PUT_LINE("LOADING_BDL is going to OPEN " &  
 			   --ADD_FILE_NAME_EXTENSION(STEM_FILE_NAME, 
 			   --DICTIONARY_KIND'IMAGE(D_K)));
-			   OPEN(STEM_FILE(D_K), STEM_IO.IN_FILE,
-					ADD_FILE_NAME_EXTENSION(STEM_FILE_NAME,
-											DICTIONARY_KIND'IMAGE(D_K)));
+			   open(stem_file(d_k), stem_io.in_file,
+					add_file_name_extension(stem_file_name,
+											dictionary_kind'image(d_k)));
 			   --STEMFILE." & EXT(D_K));
 			   --PUT_LINE("OPENing was successful");
 			end if;
-			for I in CHARACTER range 'a'..'z'  loop
-			   INDEX_FIRST := BDLF(I, ' ', D_K);
-			   INDEX_LAST  := BDLL(I, ' ', D_K);
-			   if INDEX_FIRST > 0  then
-				  SET_INDEX(STEM_FILE(D_K), STEM_IO.POSITIVE_COUNT(INDEX_FIRST));
-				  for J in INDEX_FIRST..INDEX_LAST  loop
-					 READ(STEM_FILE(D_K), DS);
-					 K := K + 1;
-					 BDL(K) := DS;
+			for i in character range 'a'..'z'  loop
+			   index_first := bdlf(i, ' ', d_k);
+			   index_last  := bdll(i, ' ', d_k);
+			   if index_first > 0  then
+				  set_index(stem_file(d_k), stem_io.positive_count(index_first));
+				  for j in index_first..index_last  loop
+					 read(stem_file(d_k), ds);
+					 k := k + 1;
+					 bdl(k) := ds;
 				  end loop;
 			   end if;
 			end loop;
 			--TEXT_IO.PUT_LINE("Single letters LOADED FROM DISK   K = " & INTEGER'IMAGE(K));
-			CLOSE(STEM_FILE(D_K));
+			close(stem_file(d_k));
 		 end if;
 
 	  end loop;
-	  BDL_LAST := K;
+	  bdl_last := k;
 
 	  --TEXT_IO.PUT("FINISHED LOADING BDL FROM DISK     BDL_LAST = ");
 	  --TEXT_IO.PUT(INTEGER'IMAGE(BDL_LAST));
 	  --TEXT_IO.NEW_LINE;
 
-   end LOAD_BDL_FROM_DISK;
+   end load_bdl_from_disk;
 
 
 
 
-   procedure LOAD_INDICES_FROM_INDX_FILE(INDXFILE_NAME : STRING;
-										 D_K : DICTIONARY_KIND) is
-	  use TEXT_IO;
-	  use INFLECTIONS_PACKAGE.INTEGER_IO;
-	  use STEM_IO;
-	  use COUNT_IO;
-	  CH : STRING(1..2);
-	  M, N : STEM_IO.COUNT;
-	  NUMBER_OF_BLANK_STEMS,
-	  NUMBER_OF_NON_BLANK_STEMS : STEM_IO.COUNT := 0;
-	  S : STRING(1..100) := (others => ' ');
-	  LAST, L : INTEGER := 0;
+   procedure load_indices_from_indx_file(indxfile_name : string;
+										 d_k : dictionary_kind) is
+	  use text_io;
+	  use inflections_package.integer_io;
+	  use stem_io;
+	  use count_io;
+	  ch : string(1..2);
+	  m, n : stem_io.count;
+	  number_of_blank_stems,
+	  number_of_non_blank_stems : stem_io.count := 0;
+	  s : string(1..100) := (others => ' ');
+	  last, l : integer := 0;
 
-	  function MAX(A, B : STEM_IO.COUNT) return STEM_IO.COUNT is
+	  function max(a, b : stem_io.count) return stem_io.count is
 	  begin
-		 if A >= B then  return A; end if; return B;
-	  end MAX;
+		 if a >= b then  return a; end if; return b;
+	  end max;
 
    begin
-	  OPEN(INDX_FILE(D_K), TEXT_IO.IN_FILE,
-		   ADD_FILE_NAME_EXTENSION(INDX_FILE_NAME,
-								   DICTIONARY_KIND'IMAGE(D_K)));
+	  open(indx_file(d_k), text_io.in_file,
+		   add_file_name_extension(indx_file_name,
+								   dictionary_kind'image(d_k)));
 	  --"INDXFILE." & EXT(D_K)); --  $$$$$$$$$$$$
 
-	  PREFACE.PUT(DICTIONARY_KIND'IMAGE(D_K));
-	  PREFACE.PUT(" Dictionary loading");
+	  preface.put(dictionary_kind'image(d_k));
+	  preface.put(" Dictionary loading");
 
-	  if D_K = GENERAL  then
-		 GET_LINE(INDX_FILE(D_K), S, LAST);
-		 CH := S(1..2);
-		 GET(S(4..LAST), M, L);
-		 BBLF(CH(1), CH(2), D_K) := M;
-		 GET(S(L+1..LAST), N, L);
-		 BBLL(CH(1), CH(2), D_K) := N;
-		 NUMBER_OF_BLANK_STEMS := MAX(NUMBER_OF_BLANK_STEMS, N);
+	  if d_k = general  then
+		 get_line(indx_file(d_k), s, last);
+		 ch := s(1..2);
+		 get(s(4..last), m, l);
+		 bblf(ch(1), ch(2), d_k) := m;
+		 get(s(l+1..last), n, l);
+		 bbll(ch(1), ch(2), d_k) := n;
+		 number_of_blank_stems := max(number_of_blank_stems, n);
 	  end if;
 
-	  while not END_OF_FILE(INDX_FILE(D_K))  loop
-		 GET_LINE(INDX_FILE(D_K), S, LAST);
-		 exit when LAST = 0;
-		 CH := S(1..2);
-		 GET(S(4..LAST), M, L);
-		 if CH(2) = ' '  then
-			BDLF(CH(1), CH(2), D_K) := M;
+	  while not end_of_file(indx_file(d_k))  loop
+		 get_line(indx_file(d_k), s, last);
+		 exit when last = 0;
+		 ch := s(1..2);
+		 get(s(4..last), m, l);
+		 if ch(2) = ' '  then
+			bdlf(ch(1), ch(2), d_k) := m;
 		 else
-			DDLF(CH(1), CH(2), D_K) := M;
+			ddlf(ch(1), ch(2), d_k) := m;
 		 end if;
-		 GET(S(L+1..LAST), N, L);
-		 if CH(2) = ' '  then
-			BDLL(CH(1), CH(2), D_K) := N;
-			NUMBER_OF_BLANK_STEMS := MAX(NUMBER_OF_BLANK_STEMS, N);
+		 get(s(l+1..last), n, l);
+		 if ch(2) = ' '  then
+			bdll(ch(1), ch(2), d_k) := n;
+			number_of_blank_stems := max(number_of_blank_stems, n);
 		 else
-			DDLL(CH(1), CH(2), D_K) := N;
-			NUMBER_OF_NON_BLANK_STEMS := MAX(NUMBER_OF_NON_BLANK_STEMS, N);
+			ddll(ch(1), ch(2), d_k) := n;
+			number_of_non_blank_stems := max(number_of_non_blank_stems, n);
 		 end if;
 	  end loop;
-	  CLOSE(INDX_FILE(D_K));
-	  PREFACE.SET_COL(33); PREFACE.PUT("--  ");
-	  if not CONFIG.SUPPRESS_PREFACE  then
-		 PUT(STEM_IO.COUNT((NUMBER_OF_NON_BLANK_STEMS)), 6);
+	  close(indx_file(d_k));
+	  preface.set_col(33); preface.put("--  ");
+	  if not config.suppress_preface  then
+		 put(stem_io.count((number_of_non_blank_stems)), 6);
 	  end if;   --  Kludge for when TEXT_IO.COUNT too small
-	  PREFACE.PUT(" stems");
-	  PREFACE.SET_COL(55); PREFACE.PUT_LINE("--  Loaded correctly");
-   end LOAD_INDICES_FROM_INDX_FILE;
+	  preface.put(" stems");
+	  preface.set_col(55); preface.put_line("--  Loaded correctly");
+   end load_indices_from_indx_file;
 
 
-end WORD_SUPPORT_PACKAGE;
+end word_support_package;

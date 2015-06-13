@@ -1,89 +1,89 @@
-with TEXT_IO;
-with DIRECT_IO;
-with STRINGS_PACKAGE; use STRINGS_PACKAGE;
-with INFLECTIONS_PACKAGE; use INFLECTIONS_PACKAGE;
-with DICTIONARY_PACKAGE; use DICTIONARY_PACKAGE;
-procedure SORTER is   
+with text_io;
+with direct_io;
+with strings_package; use strings_package;
+with inflections_package; use inflections_package;
+with dictionary_package; use dictionary_package;
+procedure sorter is   
    --  This program sorts a file of lines (strings) on 5 substrings Mx..Nx
    --  Sort by stringwise (different cases), numeric, or POS enumeration
    
-   package BOOLEAN_IO is new TEXT_IO.ENUMERATION_IO(BOOLEAN);
-   use BOOLEAN_IO;
-   package INTEGER_IO is new TEXT_IO.INTEGER_IO(INTEGER);
-   use INTEGER_IO;
-   package FLOAT_IO is new TEXT_IO.FLOAT_IO(FLOAT);
-   use FLOAT_IO;
-   use TEXT_IO;
+   package boolean_io is new text_io.enumeration_io(boolean);
+   use boolean_io;
+   package integer_io is new text_io.integer_io(integer);
+   use integer_io;
+   package float_io is new text_io.float_io(float);
+   use float_io;
+   use text_io;
    
-   NAME_LENGTH : constant := 80; 
-   ST, ENTER_LINE : STRING(1..NAME_LENGTH) := (others => ' ');
-   LS, LAST : INTEGER := 0;
-   INPUT_NAME : STRING(1..80) := (others => ' ');
+   name_length : constant := 80; 
+   st, enter_line : string(1..name_length) := (others => ' ');
+   ls, last : integer := 0;
+   input_name : string(1..80) := (others => ' ');
    
-   LINE_LENGTH : constant := 300;        --  ##################################
+   line_length : constant := 300;        --  ##################################
 										 --  Max line length on input file
 										 --  Shorter => less disk space to sort
-   CURRENT_LENGTH : INTEGER := 0;
-   subtype TEXT_TYPE is STRING(1..LINE_LENGTH);
+   current_length : integer := 0;
+   subtype text_type is string(1..line_length);
    --type LINE_TYPE is 
    -- record
    --   CURRENT_LENGTH : CURRENT_LINE_LENGTH_TYPE := 0;
    --   TEXT : TEXT_TYPE;
    -- end record;
-   package LINE_IO is new DIRECT_IO(TEXT_TYPE);
-   use LINE_IO;
-   BLANK_TEXT : TEXT_TYPE := (others => ' ');
+   package line_io is new direct_io(text_type);
+   use line_io;
+   blank_text : text_type := (others => ' ');
    
-   LINE_TEXT : TEXT_TYPE := BLANK_TEXT;
-   OLD_LINE : TEXT_TYPE := BLANK_TEXT;
-   P_LINE : TEXT_TYPE := BLANK_TEXT;
+   line_text : text_type := blank_text;
+   old_line : text_type := blank_text;
+   p_line : text_type := blank_text;
    
-   type SORT_TYPE is (A, C, G, U, N, F, P, R, S);
-   package SORT_TYPE_IO is new TEXT_IO.ENUMERATION_IO(SORT_TYPE);
-   use SORT_TYPE_IO;
+   type sort_type is (a, c, g, u, n, f, p, r, s);
+   package sort_type_io is new text_io.enumeration_io(sort_type);
+   use sort_type_io;
    
-   type WAY_TYPE is (I, D);
-   package WAY_TYPE_IO is new TEXT_IO.ENUMERATION_IO(WAY_TYPE);
-   use WAY_TYPE_IO;
+   type way_type is (i, d);
+   package way_type_io is new text_io.enumeration_io(way_type);
+   use way_type_io;
    
    
-   INPUT  : TEXT_IO.FILE_TYPE;
-   OUTPUT : TEXT_IO.FILE_TYPE;
-   WORK   : LINE_IO.FILE_TYPE;
+   input  : text_io.file_type;
+   output : text_io.file_type;
+   work   : line_io.file_type;
    
-   M1, M2, M3, M4, M5 : NATURAL := 1;
-   N1, N2, N3, N4, N5 : NATURAL := LINE_LENGTH;
-   Z1, Z2, Z3, Z4, Z5 : NATURAL := 0;           
+   m1, m2, m3, m4, m5 : natural := 1;
+   n1, n2, n3, n4, n5 : natural := line_length;
+   z1, z2, z3, z4, z5 : natural := 0;           
    
-   S1, S2, S3, S4, S5 : SORT_TYPE := A;
-   W1, W2, W3, W4, W5 : WAY_TYPE := I;
+   s1, s2, s3, s4, s5 : sort_type := a;
+   w1, w2, w3, w4, w5 : way_type := i;
    
-   ENTRY_FINISHED : exception;
+   entry_finished : exception;
    
    
    --  For section numbering of large documents and standards
-   type SECTION_TYPE is 
+   type section_type is 
 	  record
-		 FIRST_LEVEL   : INTEGER := 0;
-		 SECOND_LEVEL  : INTEGER := 0;
-		 THIRD_LEVEL   : INTEGER := 0;
-		 FOURTH_LEVEL  : INTEGER := 0;
-		 FIFTH_LEVEL   : INTEGER := 0;
+		 first_level   : integer := 0;
+		 second_level  : integer := 0;
+		 third_level   : integer := 0;
+		 fourth_level  : integer := 0;
+		 fifth_level   : integer := 0;
 	  end record;
    
-   NO_SECTION : constant SECTION_TYPE := (0, 0, 0, 0, 0);
+   no_section : constant section_type := (0, 0, 0, 0, 0);
    
-   type APPENDIX_TYPE is (NONE, A, B, C, D, E, F, G, H, I, J, K, L, M,
-						  N, O, P, Q, R, S, T, U, V, W, X, Y, Z);
-   package APPENDIX_IO is new TEXT_IO.ENUMERATION_IO(APPENDIX_TYPE);
+   type appendix_type is (none, a, b, c, d, e, f, g, h, i, j, k, l, m,
+						  n, o, p, q, r, s, t, u, v, w, x, y, z);
+   package appendix_io is new text_io.enumeration_io(appendix_type);
    
-   type APPENDIX_SECTION_TYPE is    record
-	  APPENDIX : APPENDIX_TYPE := NONE;     
-	  SECTION  : SECTION_TYPE  := NO_SECTION;
+   type appendix_section_type is    record
+	  appendix : appendix_type := none;     
+	  section  : section_type  := no_section;
    end record;
    
-   NO_APPENDIX_SECTION : constant APPENDIX_SECTION_TYPE := 
-	 (NONE, (0, 0, 0, 0, 0));
+   no_appendix_section : constant appendix_section_type := 
+	 (none, (0, 0, 0, 0, 0));
    
    --  procedure PUT(OUTPUT : TEXT_IO.FILE_TYPE; S : SECTION_TYPE);
    --  procedure PUT(S : SECTION_TYPE);  
@@ -99,267 +99,267 @@ procedure SORTER is
    -- 
    
    
-   procedure PUT(OUTPUT : TEXT_IO.FILE_TYPE; S : SECTION_TYPE) is
-	  LEVEL : INTEGER := 0;
+   procedure put(output : text_io.file_type; s : section_type) is
+	  level : integer := 0;
       
-	  procedure PUT_LEVEL(OUTPUT : TEXT_IO.FILE_TYPE; L : INTEGER) is
+	  procedure put_level(output : text_io.file_type; l : integer) is
 	  begin
-		 if L > 9999  then
-			PUT(OUTPUT, "****");
-		 elsif L > 999  then
-			PUT(OUTPUT, L, 4);
-		 elsif L > 99  then
-			PUT(OUTPUT, L, 3);
-		 elsif L > 9  then
-			PUT(OUTPUT, L, 2);
-		 elsif L >= 0  then
-			PUT(OUTPUT, L, 1);
+		 if l > 9999  then
+			put(output, "****");
+		 elsif l > 999  then
+			put(output, l, 4);
+		 elsif l > 99  then
+			put(output, l, 3);
+		 elsif l > 9  then
+			put(output, l, 2);
+		 elsif l >= 0  then
+			put(output, l, 1);
 		 else  
-			PUT(OUTPUT, "**");
+			put(output, "**");
 		 end if;
-	  end PUT_LEVEL;
+	  end put_level;
       
    begin
-	  if S.FIFTH_LEVEL <= 0  then
-		 if S.FOURTH_LEVEL <= 0  then
-			if S.THIRD_LEVEL <= 0  then
-			   if S.SECOND_LEVEL <= 0  then
-				  LEVEL := 1;
+	  if s.fifth_level <= 0  then
+		 if s.fourth_level <= 0  then
+			if s.third_level <= 0  then
+			   if s.second_level <= 0  then
+				  level := 1;
 			   else
-				  LEVEL := 2;
+				  level := 2;
 			   end if;
 			else
-			   LEVEL := 3;
+			   level := 3;
 			end if;
 		 else
-			LEVEL := 4;
+			level := 4;
 		 end if;
 	  else
-		 LEVEL := 5;
+		 level := 5;
 	  end if;
       
-	  if S.FIRST_LEVEL <= 9  then
-		 PUT(OUTPUT, ' ');
+	  if s.first_level <= 9  then
+		 put(output, ' ');
 	  end if;
-	  PUT_LEVEL(OUTPUT, S.FIRST_LEVEL);
-	  if LEVEL = 1  then
-		 PUT(OUTPUT, '.');
-		 PUT(OUTPUT, '0');           --  To match the ATLAS index convention
+	  put_level(output, s.first_level);
+	  if level = 1  then
+		 put(output, '.');
+		 put(output, '0');           --  To match the ATLAS index convention
 	  end if;
-	  if LEVEL >= 2  then
-		 PUT(OUTPUT, '.');
-		 PUT_LEVEL(OUTPUT, S.SECOND_LEVEL);
+	  if level >= 2  then
+		 put(output, '.');
+		 put_level(output, s.second_level);
 	  end if;
-	  if LEVEL >= 3  then
-		 PUT(OUTPUT, '.');
-		 PUT_LEVEL(OUTPUT, S.THIRD_LEVEL);
+	  if level >= 3  then
+		 put(output, '.');
+		 put_level(output, s.third_level);
 	  end if;
-	  if LEVEL >= 4  then
-		 PUT(OUTPUT, '.');
-		 PUT_LEVEL(OUTPUT, S.FOURTH_LEVEL);
+	  if level >= 4  then
+		 put(output, '.');
+		 put_level(output, s.fourth_level);
 	  end if;
-	  if LEVEL >= 5  then
-		 PUT(OUTPUT, '.');
-		 PUT_LEVEL(OUTPUT, S.FIFTH_LEVEL);
+	  if level >= 5  then
+		 put(output, '.');
+		 put_level(output, s.fifth_level);
 	  end if;
-   end PUT;
+   end put;
    
-   procedure PUT(S : SECTION_TYPE) is
-	  LEVEL : INTEGER := 0;
+   procedure put(s : section_type) is
+	  level : integer := 0;
       
-	  procedure PUT_LEVEL(L : INTEGER) is
+	  procedure put_level(l : integer) is
 	  begin
-		 if L > 9999  then
-			PUT("****");
-		 elsif L > 999  then
-			PUT(L, 4);
-		 elsif L > 99  then
-			PUT(L, 3);
-		 elsif L > 9  then
-			PUT(L, 2);
-		 elsif L >= 0  then
-			PUT(L, 1);
+		 if l > 9999  then
+			put("****");
+		 elsif l > 999  then
+			put(l, 4);
+		 elsif l > 99  then
+			put(l, 3);
+		 elsif l > 9  then
+			put(l, 2);
+		 elsif l >= 0  then
+			put(l, 1);
 		 else  
-			PUT("**");
+			put("**");
 		 end if;
-	  end PUT_LEVEL;
+	  end put_level;
       
    begin
-	  if S.FIFTH_LEVEL = 0  then
-		 if S.FOURTH_LEVEL = 0  then
-			if S.THIRD_LEVEL = 0  then
-			   if S.SECOND_LEVEL = 0  then
-				  LEVEL := 1;
+	  if s.fifth_level = 0  then
+		 if s.fourth_level = 0  then
+			if s.third_level = 0  then
+			   if s.second_level = 0  then
+				  level := 1;
 			   else
-				  LEVEL := 2;
+				  level := 2;
 			   end if;
 			else
-			   LEVEL := 3;
+			   level := 3;
 			end if;
 		 else
-			LEVEL := 4;
+			level := 4;
 		 end if;
 	  else
-		 LEVEL := 5;
+		 level := 5;
 	  end if;
       
-	  if S.FIRST_LEVEL <= 9  then
-		 PUT(' ');
+	  if s.first_level <= 9  then
+		 put(' ');
 	  end if;
-	  PUT_LEVEL(S.FIRST_LEVEL);
-	  PUT('.');
-	  if LEVEL = 1  then
-		 PUT('0');           --  To match the ATLAS index convention
+	  put_level(s.first_level);
+	  put('.');
+	  if level = 1  then
+		 put('0');           --  To match the ATLAS index convention
 	  end if;
-	  if LEVEL >= 2  then
-		 PUT_LEVEL(S.SECOND_LEVEL);
+	  if level >= 2  then
+		 put_level(s.second_level);
 	  end if;
-	  if LEVEL >= 3  then
-		 PUT('.');
-		 PUT_LEVEL(S.THIRD_LEVEL);
+	  if level >= 3  then
+		 put('.');
+		 put_level(s.third_level);
 	  end if;
-	  if LEVEL >= 4  then
-		 PUT('.');
-		 PUT_LEVEL(S.FOURTH_LEVEL);
+	  if level >= 4  then
+		 put('.');
+		 put_level(s.fourth_level);
 	  end if;
-	  if LEVEL >= 5  then
-		 PUT('.');
-		 PUT_LEVEL(S.FIFTH_LEVEL);
+	  if level >= 5  then
+		 put('.');
+		 put_level(s.fifth_level);
 	  end if;
-   end PUT;
+   end put;
    
-   procedure GET(FROM : in STRING; 
-				 S : out SECTION_TYPE; LAST : out INTEGER) is
-	  L  : INTEGER := 0;
-	  FT : INTEGER := FROM'FIRST;
-	  LT : INTEGER := FROM'LAST;
+   procedure get(from : in string; 
+				 s : out section_type; last : out integer) is
+	  l  : integer := 0;
+	  ft : integer := from'first;
+	  lt : integer := from'last;
    begin
-	  S := NO_SECTION;
-	  if TRIM(FROM)'LAST < FROM'FIRST   then   
+	  s := no_section;
+	  if trim(from)'last < from'first   then   
 		 return;   --  Empty string, no data         --  Return default
 	  end if;
       
-	  GET(FROM, S.FIRST_LEVEL, L);
-	  if L+1 >= LT  then
-		 LAST := L;
+	  get(from, s.first_level, l);
+	  if l+1 >= lt  then
+		 last := l;
 		 return;
 	  end if;
-	  GET(FROM(L+2..LT), S.SECOND_LEVEL, L);
-	  if L+1 >= LT  then
-		 LAST := L;
+	  get(from(l+2..lt), s.second_level, l);
+	  if l+1 >= lt  then
+		 last := l;
 		 return;
 	  end if;
-	  GET(FROM(L+2..LT), S.THIRD_LEVEL, L);
-	  if L+1 >= LT  then
-		 LAST := L;
+	  get(from(l+2..lt), s.third_level, l);
+	  if l+1 >= lt  then
+		 last := l;
 		 return;
 	  end if;
-	  GET(FROM(L+2..LT), S.FOURTH_LEVEL, L);
-	  if L+1 >= LT  then
-		 LAST := L;
+	  get(from(l+2..lt), s.fourth_level, l);
+	  if l+1 >= lt  then
+		 last := l;
 		 return;
 	  end if;
-	  GET(FROM(L+2..LT), S.FIFTH_LEVEL, L);
-	  LAST := L;
+	  get(from(l+2..lt), s.fifth_level, l);
+	  last := l;
 	  return;
    exception
-	  when TEXT_IO.END_ERROR =>
-		 LAST := L;
+	  when text_io.end_error =>
+		 last := l;
 		 return;
-	  when TEXT_IO.DATA_ERROR =>
-		 LAST := L;
+	  when text_io.data_error =>
+		 last := l;
 		 return;
 	  when others =>
-		 PUT(" Unexpected exception in GET(FROM; SECTION_TYPE) with input =>");
-		 PUT(FROM);
-		 NEW_LINE;
-		 LAST := L;
+		 put(" Unexpected exception in GET(FROM; SECTION_TYPE) with input =>");
+		 put(from);
+		 new_line;
+		 last := l;
 		 raise; 
-   end GET;
+   end get;
    
-   function "<"(A, B : SECTION_TYPE) return BOOLEAN is
+   function "<"(a, b : section_type) return boolean is
    begin
       
-	  if A.FIRST_LEVEL > B.FIRST_LEVEL  then
-		 return FALSE;
-	  elsif A.FIRST_LEVEL < B.FIRST_LEVEL  then
-		 return TRUE; 
+	  if a.first_level > b.first_level  then
+		 return false;
+	  elsif a.first_level < b.first_level  then
+		 return true; 
 	  else
-		 if A.SECOND_LEVEL > B.SECOND_LEVEL  then
-			return FALSE;
-		 elsif A.SECOND_LEVEL < B.SECOND_LEVEL  then
-			return TRUE;
+		 if a.second_level > b.second_level  then
+			return false;
+		 elsif a.second_level < b.second_level  then
+			return true;
 		 else
-			if A.THIRD_LEVEL > B.THIRD_LEVEL  then
-			   return FALSE;
-			elsif A.THIRD_LEVEL < B.THIRD_LEVEL  then
-			   return TRUE;
+			if a.third_level > b.third_level  then
+			   return false;
+			elsif a.third_level < b.third_level  then
+			   return true;
 			else
-			   if A.FOURTH_LEVEL > B.FOURTH_LEVEL  then
-				  return FALSE;
-			   elsif A.FOURTH_LEVEL < B.FOURTH_LEVEL  then
-				  return TRUE;
+			   if a.fourth_level > b.fourth_level  then
+				  return false;
+			   elsif a.fourth_level < b.fourth_level  then
+				  return true;
 			   else
-				  if A.FIFTH_LEVEL > B.FIFTH_LEVEL  then
-					 return FALSE;
-				  elsif A.FIFTH_LEVEL < B.FIFTH_LEVEL  then
-					 return TRUE;
+				  if a.fifth_level > b.fifth_level  then
+					 return false;
+				  elsif a.fifth_level < b.fifth_level  then
+					 return true;
 				  else
-					 return FALSE;
+					 return false;
 				  end if;
 			   end if;
 			end if;
 		 end if;
 	  end if;
       
-	  return FALSE;
+	  return false;
       
    end "<";
    
-   procedure PUT(OUTPUT : TEXT_IO.FILE_TYPE; S : APPENDIX_SECTION_TYPE) is
-	  use APPENDIX_IO;
+   procedure put(output : text_io.file_type; s : appendix_section_type) is
+	  use appendix_io;
    begin
-	  PUT(OUTPUT, S.APPENDIX);
-	  PUT(OUTPUT, ' ');
-	  PUT(OUTPUT, S.SECTION);
-   end PUT;
+	  put(output, s.appendix);
+	  put(output, ' ');
+	  put(output, s.section);
+   end put;
    
-   procedure PUT(S : APPENDIX_SECTION_TYPE) is
-	  use APPENDIX_IO;
+   procedure put(s : appendix_section_type) is
+	  use appendix_io;
    begin
-	  PUT(S.APPENDIX);
-	  PUT(' ');
-	  PUT(S.SECTION);
-   end PUT;
+	  put(s.appendix);
+	  put(' ');
+	  put(s.section);
+   end put;
    
-   procedure GET(FROM : in STRING; 
-				 S : out APPENDIX_SECTION_TYPE; LAST : out INTEGER) is
-	  use APPENDIX_IO;
-	  L  : INTEGER := 0;
-	  FT : INTEGER := FROM'FIRST;
-	  LT : INTEGER := FROM'LAST;
+   procedure get(from : in string; 
+				 s : out appendix_section_type; last : out integer) is
+	  use appendix_io;
+	  l  : integer := 0;
+	  ft : integer := from'first;
+	  lt : integer := from'last;
    begin
       
-	  S := NO_APPENDIX_SECTION;
-	  if (FT = LT)  or else
-		(TRIM(FROM)'LENGTH = 0)  then   --  Empty/blank string, no data
-		 PUT("@");
+	  s := no_appendix_section;
+	  if (ft = lt)  or else
+		(trim(from)'length = 0)  then   --  Empty/blank string, no data
+		 put("@");
 		 return;                      --  Return default
 	  end if;
       
       --PUT_LINE("In GET =>" & FROM & '|');
       
 	  begin
-		 GET(FROM, S.APPENDIX, L);
+		 get(from, s.appendix, l);
          --PUT("A");
-		 if L+1 >= LT  then
-			LAST := L;
+		 if l+1 >= lt  then
+			last := l;
 			return;
 		 end if;
 	  exception
 		 when others  =>
-			S.APPENDIX := NONE;
-			L := FT - 2;
+			s.appendix := none;
+			l := ft - 2;
 	  end;
       
       --    PUT("B");
@@ -392,59 +392,59 @@ procedure SORTER is
       --PUT("G");
       
       
-	  GET(FROM(L+2..LT), S.SECTION, L);
+	  get(from(l+2..lt), s.section, l);
       --PUT("F");
 	  return;
    exception
-	  when TEXT_IO.END_ERROR =>
-		 LAST := L;
+	  when text_io.end_error =>
+		 last := l;
 		 return;
-	  when TEXT_IO.DATA_ERROR =>
-		 LAST := L;
+	  when text_io.data_error =>
+		 last := l;
 		 return;
 	  when others =>
-		 PUT
+		 put
 		   (" Unexpected exception in GET(FROM; APPENDIX_SECTION_TYPE) with input =>");
-		 PUT(FROM);
-		 NEW_LINE;
-		 LAST := L;
+		 put(from);
+		 new_line;
+		 last := l;
 		 return;
-   end GET;
+   end get;
    
-   function "<"(A, B : APPENDIX_SECTION_TYPE) return BOOLEAN is
+   function "<"(a, b : appendix_section_type) return boolean is
    begin
       
-	  if A.APPENDIX > B.APPENDIX  then
-		 return FALSE;
-	  elsif A.APPENDIX < B.APPENDIX  then
-		 return TRUE; 
+	  if a.appendix > b.appendix  then
+		 return false;
+	  elsif a.appendix < b.appendix  then
+		 return true; 
 	  else
-		 if A.SECTION.FIRST_LEVEL > B.SECTION.FIRST_LEVEL  then
-			return FALSE;
-		 elsif A.SECTION.FIRST_LEVEL < B.SECTION.FIRST_LEVEL  then
-			return TRUE; 
+		 if a.section.first_level > b.section.first_level  then
+			return false;
+		 elsif a.section.first_level < b.section.first_level  then
+			return true; 
 		 else
-			if A.SECTION.SECOND_LEVEL > B.SECTION.SECOND_LEVEL  then
-			   return FALSE;
-			elsif A.SECTION.SECOND_LEVEL < B.SECTION.SECOND_LEVEL  then
-			   return TRUE;
+			if a.section.second_level > b.section.second_level  then
+			   return false;
+			elsif a.section.second_level < b.section.second_level  then
+			   return true;
 			else
-			   if A.SECTION.THIRD_LEVEL > B.SECTION.THIRD_LEVEL  then
-				  return FALSE;
-			   elsif A.SECTION.THIRD_LEVEL < B.SECTION.THIRD_LEVEL  then
-				  return TRUE;
+			   if a.section.third_level > b.section.third_level  then
+				  return false;
+			   elsif a.section.third_level < b.section.third_level  then
+				  return true;
 			   else
-				  if A.SECTION.FOURTH_LEVEL > B.SECTION.FOURTH_LEVEL  then
-					 return FALSE;
-				  elsif A.SECTION.FOURTH_LEVEL < B.SECTION.FOURTH_LEVEL  then
-					 return TRUE;
+				  if a.section.fourth_level > b.section.fourth_level  then
+					 return false;
+				  elsif a.section.fourth_level < b.section.fourth_level  then
+					 return true;
 				  else
-					 if A.SECTION.FIFTH_LEVEL > B.SECTION.FIFTH_LEVEL  then
-						return FALSE;
-					 elsif A.SECTION.FIFTH_LEVEL < B.SECTION.FIFTH_LEVEL  then
-						return TRUE;
+					 if a.section.fifth_level > b.section.fifth_level  then
+						return false;
+					 elsif a.section.fifth_level < b.section.fifth_level  then
+						return true;
 					 else
-						return FALSE;
+						return false;
 					 end if;
 				  end if;
 			   end if;
@@ -453,524 +453,524 @@ procedure SORTER is
 	  end if;  
    end "<";
    
-   procedure PROMPT_FOR_ENTRY(ENTRY_NUMBER : STRING) is
+   procedure prompt_for_entry(entry_number : string) is
    begin
-	  PUT("Give starting column and size of ");
-	  PUT(ENTRY_NUMBER);
-	  PUT_LINE(" significant sort field ");
-	  PUT("  with optional sort type and way  => ");
-   end PROMPT_FOR_ENTRY;
+	  put("Give starting column and size of ");
+	  put(entry_number);
+	  put_line(" significant sort field ");
+	  put("  with optional sort type and way  => ");
+   end prompt_for_entry;
    
    
-   procedure GET_ENTRY (MX, NX  : out NATURAL;
-						SX  : out SORT_TYPE;
-						WX  : out WAY_TYPE ) is
-	  M : NATURAL := 1;
-	  N : NATURAL := LINE_LENGTH;
-	  S : SORT_TYPE := A;
-	  W : WAY_TYPE := I;
-	  Z : NATURAL := 0;
+   procedure get_entry (mx, nx  : out natural;
+						sx  : out sort_type;
+						wx  : out way_type ) is
+	  m : natural := 1;
+	  n : natural := line_length;
+	  s : sort_type := a;
+	  w : way_type := i;
+	  z : natural := 0;
       
-	  procedure ECHO_ENTRY is
+	  procedure echo_entry is
 	  begin
-		 PUT("                    Sorting on LINE("); PUT(M,3); 
-		 PUT(".."); PUT(N, 3); PUT(")");
-		 PUT("  with S = "); PUT(S); PUT(" and W = "); PUT(W); 
-		 NEW_LINE(2);
-	  end ECHO_ENTRY;
+		 put("                    Sorting on LINE("); put(m,3); 
+		 put(".."); put(n, 3); put(")");
+		 put("  with S = "); put(s); put(" and W = "); put(w); 
+		 new_line(2);
+	  end echo_entry;
       
    begin
       
-	  M := 0;
-	  N := LINE_LENGTH;
-	  S := A;
-	  W := I;
+	  m := 0;
+	  n := line_length;
+	  s := a;
+	  w := i;
       
       
-	  GET_LINE(ENTER_LINE, LS);
-	  if LS = 0  then
-		 raise ENTRY_FINISHED;
+	  get_line(enter_line, ls);
+	  if ls = 0  then
+		 raise entry_finished;
 	  end if;
-	  INTEGER_IO.GET(ENTER_LINE(1..LS), M, LAST);
+	  integer_io.get(enter_line(1..ls), m, last);
 	  begin
-		 INTEGER_IO.GET(ENTER_LINE(LAST+1..LS), Z, LAST);
-		 if  M = 0 or Z = 0  then
-			PUT_LINE("Start or size of zero, you must be kidding, aborting");
-			raise PROGRAM_ERROR;
-		 elsif M + Z > LINE_LENGTH  then
-			PUT_LINE("Size too large, going to end of line");
-			N := LINE_LENGTH;
+		 integer_io.get(enter_line(last+1..ls), z, last);
+		 if  m = 0 or z = 0  then
+			put_line("Start or size of zero, you must be kidding, aborting");
+			raise program_error;
+		 elsif m + z > line_length  then
+			put_line("Size too large, going to end of line");
+			n := line_length;
 		 else
-			N := M + Z - 1;
+			n := m + z - 1;
 		 end if;
-		 SORT_TYPE_IO.GET(ENTER_LINE(LAST+1..LS), S, LAST);
-		 WAY_TYPE_IO.GET(ENTER_LINE(LAST+1..LS), W, LAST);
-		 MX := M; NX := N;  SX := S; WX := W;
-		 ECHO_ENTRY;
+		 sort_type_io.get(enter_line(last+1..ls), s, last);
+		 way_type_io.get(enter_line(last+1..ls), w, last);
+		 mx := m; nx := n;  sx := s; wx := w;
+		 echo_entry;
 		 return;
 	  exception
-		 when PROGRAM_ERROR  =>
-			PUT_LINE("PROGRAM_ERROR raised in GET_ENTRY");
+		 when program_error  =>
+			put_line("PROGRAM_ERROR raised in GET_ENTRY");
 			raise;
 		 when others =>
-			MX := M; NX := N; SX := S; WX := W;
-			ECHO_ENTRY;
+			mx := m; nx := n; sx := s; wx := w;
+			echo_entry;
 			return;
 	  end;
-   end GET_ENTRY;
+   end get_entry;
    
-   function IGNORE_SEPARATORS(S : STRING) return STRING is
-	  T : STRING(S'FIRST..S'LAST) := LOWER_CASE(S);
+   function ignore_separators(s : string) return string is
+	  t : string(s'first..s'last) := lower_case(s);
    begin
-	  for I in S'FIRST+1..S'LAST-1  loop
-		 if (S(I-1) /= '-'  and then S(I-1) /= '_')  and then
-		   (S(I) = '-'  or else S(I) = '_')  and then
-		   (S(I+1) /= '-'  and then S(I+1) /= '_')  then
-			T(I) := ' ';
+	  for i in s'first+1..s'last-1  loop
+		 if (s(i-1) /= '-'  and then s(i-1) /= '_')  and then
+		   (s(i) = '-'  or else s(i) = '_')  and then
+		   (s(i+1) /= '-'  and then s(i+1) /= '_')  then
+			t(i) := ' ';
 		 end if;
 	  end loop;
-	  return T;
-   end IGNORE_SEPARATORS;
+	  return t;
+   end ignore_separators;
    
-   function LTU(C, D : CHARACTER) return BOOLEAN is
+   function ltu(c, d : character) return boolean is
    begin
-	  if (D = 'v')  then
-		 if (C < 'u')  then
-			return TRUE;
+	  if (d = 'v')  then
+		 if (c < 'u')  then
+			return true;
 		 else
-			return FALSE;
+			return false;
 		 end if;
-	  elsif (D = 'j')  then
-		 if (C < 'i')  then
-			return TRUE;
+	  elsif (d = 'j')  then
+		 if (c < 'i')  then
+			return true;
 		 else
-			return FALSE;
+			return false;
 		 end if;
-	  elsif (D = 'V')  then
-		 if (C < 'U')  then
-			return TRUE;
+	  elsif (d = 'V')  then
+		 if (c < 'U')  then
+			return true;
 		 else
-			return FALSE;
+			return false;
 		 end if;
-	  elsif (D = 'J')  then
-		 if (C < 'I')  then
-			return TRUE;
+	  elsif (d = 'J')  then
+		 if (c < 'I')  then
+			return true;
 		 else
-			return FALSE;
+			return false;
 		 end if;
 	  else
-		 return C < D; 
+		 return c < d; 
 	  end if;
-   end LTU; 
+   end ltu; 
    
-   function EQU(C, D : CHARACTER) return BOOLEAN is
+   function equ(c, d : character) return boolean is
    begin
-	  if (D = 'u') or (D = 'v')  then
-		 if (C = 'u') or (C = 'v')  then
-			return TRUE;
+	  if (d = 'u') or (d = 'v')  then
+		 if (c = 'u') or (c = 'v')  then
+			return true;
 		 else
-			return FALSE;
+			return false;
 		 end if;
-	  elsif (D = 'i') or (D = 'j')  then
-		 if (C = 'i') or (C = 'j')  then
-			return TRUE;
+	  elsif (d = 'i') or (d = 'j')  then
+		 if (c = 'i') or (c = 'j')  then
+			return true;
 		 else
-			return FALSE;
+			return false;
 		 end if;
-	  elsif (D = 'U') or (D = 'V')  then
-		 if (C = 'U') or (C = 'V')  then
-			return TRUE;
+	  elsif (d = 'U') or (d = 'V')  then
+		 if (c = 'U') or (c = 'V')  then
+			return true;
 		 else
-			return FALSE;
+			return false;
 		 end if;
-	  elsif (D = 'I') or (D = 'J')  then
-		 if (C = 'I') or (C = 'J')  then
-			return TRUE;
+	  elsif (d = 'I') or (d = 'J')  then
+		 if (c = 'I') or (c = 'J')  then
+			return true;
 		 else
-			return FALSE;
+			return false;
 		 end if;
 	  else
-		 return C = D; 
+		 return c = d; 
 	  end if;
-   end EQU; 
+   end equ; 
    
-   function GTU(C, D : CHARACTER) return BOOLEAN is
+   function gtu(c, d : character) return boolean is
    begin
-	  if D = 'u'  then
-		 if (C > 'v')  then
-			return TRUE;
+	  if d = 'u'  then
+		 if (c > 'v')  then
+			return true;
 		 else
-			return FALSE;
+			return false;
 		 end if;
-	  elsif D = 'i'  then
-		 if (C > 'j')  then
-			return TRUE;
+	  elsif d = 'i'  then
+		 if (c > 'j')  then
+			return true;
 		 else
-			return FALSE;
+			return false;
 		 end if;
-	  elsif D = 'U'  then
-		 if (C > 'V')  then
-			return TRUE;
+	  elsif d = 'U'  then
+		 if (c > 'V')  then
+			return true;
 		 else
-			return FALSE;
+			return false;
 		 end if;
-	  elsif D = 'I'  then
-		 if (C > 'J')  then
-			return TRUE;
+	  elsif d = 'I'  then
+		 if (c > 'J')  then
+			return true;
 		 else
-			return FALSE;
+			return false;
 		 end if;
 	  else
-		 return C > D; 
+		 return c > d; 
 	  end if;
-   end GTU; 
+   end gtu; 
    
    
-   function LTU(S, T : STRING) return BOOLEAN is
+   function ltu(s, t : string) return boolean is
    begin
-	  for I in 1..S'LENGTH  loop   --  Not TRIMed, so same length
-		 if EQU(S(S'FIRST+I-1), T(T'FIRST+I-1))  then
+	  for i in 1..s'length  loop   --  Not TRIMed, so same length
+		 if equ(s(s'first+i-1), t(t'first+i-1))  then
 			null;
-		 elsif GTU(S(S'FIRST+I-1), T(T'FIRST+I-1))  then
-			return FALSE;
-		 elsif LTU(S(S'FIRST+I-1), T(T'FIRST+I-1))  then
-			return TRUE;
+		 elsif gtu(s(s'first+i-1), t(t'first+i-1))  then
+			return false;
+		 elsif ltu(s(s'first+i-1), t(t'first+i-1))  then
+			return true;
 		 end if;
 	  end loop;
-	  return FALSE;
-   end LTU;
+	  return false;
+   end ltu;
    
-   function GTU(S, T : STRING) return BOOLEAN is
+   function gtu(s, t : string) return boolean is
    begin
-	  for I in 1..S'LENGTH  loop   
-		 if EQU(S(S'FIRST+I-1), T(T'FIRST+I-1))  then
+	  for i in 1..s'length  loop   
+		 if equ(s(s'first+i-1), t(t'first+i-1))  then
 			null;
-		 elsif LTU(S(S'FIRST+I-1), T(T'FIRST+I-1))  then
-			return FALSE;
-		 elsif GTU(S(S'FIRST+I-1), T(T'FIRST+I-1))  then
-			return TRUE;
+		 elsif ltu(s(s'first+i-1), t(t'first+i-1))  then
+			return false;
+		 elsif gtu(s(s'first+i-1), t(t'first+i-1))  then
+			return true;
 		 end if;
 	  end loop;
-	  return FALSE;
-   end GTU;
+	  return false;
+   end gtu;
    
    
-   function EQU(S, T : STRING) return BOOLEAN is
+   function equ(s, t : string) return boolean is
    begin
-	  if S'LENGTH /= T'LENGTH  then
-		 return FALSE;
+	  if s'length /= t'length  then
+		 return false;
 	  end if;
       
-	  for I in 1..S'LENGTH  loop     
-		 if not EQU(S(S'FIRST+I-1), T(T'FIRST+I-1))  then
-			return FALSE;
+	  for i in 1..s'length  loop     
+		 if not equ(s(s'first+i-1), t(t'first+i-1))  then
+			return false;
 		 end if;
 	  end loop;
       
-	  return TRUE;
-   end EQU;
+	  return true;
+   end equ;
    
    
    
    
-   function SLT (X, Y : STRING;         --  Make LEFT and RIGHT
-				 ST : SORT_TYPE := A; 
-				 WT : WAY_TYPE := I) return BOOLEAN is
-	  AS : STRING(X'RANGE) := X;
-	  BS : STRING(Y'RANGE) := Y;
-	  MN, NN : INTEGER := 0;
-	  FN, GN : FLOAT := 0.0;
+   function slt (x, y : string;         --  Make LEFT and RIGHT
+				 st : sort_type := a; 
+				 wt : way_type := i) return boolean is
+	  as : string(x'range) := x;
+	  bs : string(y'range) := y;
+	  mn, nn : integer := 0;
+	  fn, gn : float := 0.0;
       --FS, GS : SECTION_TYPE := NO_SECTION;
-	  FS, GS : APPENDIX_SECTION_TYPE := NO_APPENDIX_SECTION;
-	  PX, PY : PART_ENTRY;       --  So I can X here
-	  RX, RY : PART_OF_SPEECH_TYPE;   --  So I can X here
+	  fs, gs : appendix_section_type := no_appendix_section;
+	  px, py : part_entry;       --  So I can X here
+	  rx, ry : part_of_speech_type;   --  So I can X here
    begin
-	  if ST = A  then
-		 AS := LOWER_CASE(AS);
-		 BS := LOWER_CASE(BS);
-		 if WT = I  then 
-			return AS < BS;
+	  if st = a  then
+		 as := lower_case(as);
+		 bs := lower_case(bs);
+		 if wt = i  then 
+			return as < bs;
 		 else
-			return AS > BS;
+			return as > bs;
 		 end if;
          
-	  elsif ST = C  then
-		 if WT = I  then 
-			return AS < BS;
+	  elsif st = c  then
+		 if wt = i  then 
+			return as < bs;
 		 else
-			return AS > BS;
+			return as > bs;
 		 end if;
          
-	  elsif ST = G  then
-		 AS := IGNORE_SEPARATORS(AS);
-		 BS := IGNORE_SEPARATORS(BS);
-		 if WT = I  then 
-			return AS < BS;
+	  elsif st = g  then
+		 as := ignore_separators(as);
+		 bs := ignore_separators(bs);
+		 if wt = i  then 
+			return as < bs;
 		 else
-			return AS > BS;
+			return as > bs;
 		 end if;
          
-	  elsif ST = U  then
-		 AS := LOWER_CASE(AS);
-		 BS := LOWER_CASE(BS);
-		 if WT = I  then 
-			return LTU(AS, BS);
+	  elsif st = u  then
+		 as := lower_case(as);
+		 bs := lower_case(bs);
+		 if wt = i  then 
+			return ltu(as, bs);
 		 else
-			return GTU(AS, BS);
+			return gtu(as, bs);
 		 end if;
          
-	  elsif ST = N  then
-		 INTEGER_IO.GET(AS, MN, LAST);
-		 INTEGER_IO.GET(BS, NN, LAST);
-		 if WT = I  then 
-			return MN < NN;
+	  elsif st = n  then
+		 integer_io.get(as, mn, last);
+		 integer_io.get(bs, nn, last);
+		 if wt = i  then 
+			return mn < nn;
 		 else
-			return MN > NN;
+			return mn > nn;
 		 end if;
          
-	  elsif ST = F  then
-		 FLOAT_IO.GET(AS, FN, LAST);
-		 FLOAT_IO.GET(BS, GN, LAST);
-		 if WT = I  then 
-			return FN < GN;
+	  elsif st = f  then
+		 float_io.get(as, fn, last);
+		 float_io.get(bs, gn, last);
+		 if wt = i  then 
+			return fn < gn;
 		 else
-			return FN > GN;
+			return fn > gn;
 		 end if;
          
-	  elsif ST = P  then
-		 PART_ENTRY_IO.GET(AS, PX, LAST);
-		 PART_ENTRY_IO.GET(BS, PY, LAST);
-		 if WT = I  then 
-			return PX < PY;
+	  elsif st = p  then
+		 part_entry_io.get(as, px, last);
+		 part_entry_io.get(bs, py, last);
+		 if wt = i  then 
+			return px < py;
 		 else
-			return (not (PX < PY)) and (not (PX = PY));
+			return (not (px < py)) and (not (px = py));
 		 end if;
          
-	  elsif ST = R  then
-		 PART_OF_SPEECH_TYPE_IO.GET(AS, RX, LAST);
-		 PART_OF_SPEECH_TYPE_IO.GET(BS, RY, LAST);
-		 if WT = I  then 
-			return RX < RY;
+	  elsif st = r  then
+		 part_of_speech_type_io.get(as, rx, last);
+		 part_of_speech_type_io.get(bs, ry, last);
+		 if wt = i  then 
+			return rx < ry;
 		 else
-			return (not (RX < RY)) and (not (RX = RY));
+			return (not (rx < ry)) and (not (rx = ry));
 		 end if;
          
-	  elsif ST = S  then
+	  elsif st = s  then
          --PUT_LINE("AS =>" & AS & '|');
-		 GET(AS, FS, LAST);
+		 get(as, fs, last);
          --PUT_LINE("BS =>" & BS & '|');
-		 GET(BS, GS, LAST);
+		 get(bs, gs, last);
          --PUT_LINE("GOT AS & BS");
-		 if WT = I  then 
-			return FS < GS;
+		 if wt = i  then 
+			return fs < gs;
 		 else
-			return (not (FS < GS)) and (not (FS = GS));
+			return (not (fs < gs)) and (not (fs = gs));
 		 end if;
          
 	  else
-		 return FALSE;
+		 return false;
 	  end if;
       
    exception  
 	  when others  =>
-		 TEXT_IO.PUT_LINE("exception in SLT    showing LEFT and RIGHT");
-		 TEXT_IO.PUT_LINE(X & "&");
-		 TEXT_IO.PUT_LINE(Y & "|");
+		 text_io.put_line("exception in SLT    showing LEFT and RIGHT");
+		 text_io.put_line(x & "&");
+		 text_io.put_line(y & "|");
 		 raise;
 		 
-   end SLT;
+   end slt;
    
-   function SORT_EQUAL (X, Y : STRING; 
-						ST : SORT_TYPE := A; 
-						WT : WAY_TYPE := I) return BOOLEAN is
-	  AS : STRING(X'RANGE) := X;
-	  BS : STRING(Y'RANGE) := Y;
-	  MN, NN : INTEGER := 0;
-	  FN, GN : FLOAT := 0.0;
-	  FS, GS : APPENDIX_SECTION_TYPE := NO_APPENDIX_SECTION;
-	  PX, PY : PART_ENTRY;
-	  RX, RY : PART_OF_SPEECH_TYPE;
+   function sort_equal (x, y : string; 
+						st : sort_type := a; 
+						wt : way_type := i) return boolean is
+	  as : string(x'range) := x;
+	  bs : string(y'range) := y;
+	  mn, nn : integer := 0;
+	  fn, gn : float := 0.0;
+	  fs, gs : appendix_section_type := no_appendix_section;
+	  px, py : part_entry;
+	  rx, ry : part_of_speech_type;
    begin
-	  if ST = A  then
-		 AS := LOWER_CASE(AS);
-		 BS := LOWER_CASE(BS);
-		 return AS = BS;
+	  if st = a  then
+		 as := lower_case(as);
+		 bs := lower_case(bs);
+		 return as = bs;
          
-	  elsif ST = C  then
-		 return AS = BS;
+	  elsif st = c  then
+		 return as = bs;
          
-	  elsif ST = G  then
-		 AS := IGNORE_SEPARATORS(AS);
-		 BS := IGNORE_SEPARATORS(BS);
-		 return AS = BS;
+	  elsif st = g  then
+		 as := ignore_separators(as);
+		 bs := ignore_separators(bs);
+		 return as = bs;
          
-	  elsif ST = U  then
-		 AS := LOWER_CASE(AS);
-		 BS := LOWER_CASE(BS);
-		 return EQU(AS,  BS);
+	  elsif st = u  then
+		 as := lower_case(as);
+		 bs := lower_case(bs);
+		 return equ(as,  bs);
          
-	  elsif ST = N  then
-		 INTEGER_IO.GET(AS, MN, LAST);
-		 INTEGER_IO.GET(BS, NN, LAST);
-		 return MN = NN;
+	  elsif st = n  then
+		 integer_io.get(as, mn, last);
+		 integer_io.get(bs, nn, last);
+		 return mn = nn;
          
-	  elsif ST = F  then
-		 FLOAT_IO.GET(AS, FN, LAST);
-		 FLOAT_IO.GET(BS, GN, LAST);
-		 return FN = GN;
+	  elsif st = f  then
+		 float_io.get(as, fn, last);
+		 float_io.get(bs, gn, last);
+		 return fn = gn;
          
-	  elsif ST = P  then
-		 PART_ENTRY_IO.GET(AS, PX, LAST);
-		 PART_ENTRY_IO.GET(BS, PY, LAST);
-		 return PX = PY;
+	  elsif st = p  then
+		 part_entry_io.get(as, px, last);
+		 part_entry_io.get(bs, py, last);
+		 return px = py;
          
-	  elsif ST = R  then
-		 PART_OF_SPEECH_TYPE_IO.GET(AS, RX, LAST);
-		 PART_OF_SPEECH_TYPE_IO.GET(BS, RY, LAST);
-		 return RX = RY;
+	  elsif st = r  then
+		 part_of_speech_type_io.get(as, rx, last);
+		 part_of_speech_type_io.get(bs, ry, last);
+		 return rx = ry;
          
-	  elsif ST = S  then
-		 GET(AS, FS, LAST);
-		 GET(BS, GS, LAST);
-		 return FS = GS;
+	  elsif st = s  then
+		 get(as, fs, last);
+		 get(bs, gs, last);
+		 return fs = gs;
          
          
 	  else
-		 return FALSE;
+		 return false;
 	  end if;
       
    exception
 	  when others  =>
-		 TEXT_IO.PUT_LINE("exception in LT    showing LEFT and RIGHT");
-		 TEXT_IO.PUT_LINE(X & "|");
-		 TEXT_IO.PUT_LINE(Y & "|");
+		 text_io.put_line("exception in LT    showing LEFT and RIGHT");
+		 text_io.put_line(x & "|");
+		 text_io.put_line(y & "|");
 		 raise;
 		 
-   end SORT_EQUAL;
+   end sort_equal;
    
    
-   function LT  (LEFT, RIGHT : TEXT_TYPE) return BOOLEAN is
+   function lt  (left, right : text_type) return boolean is
    begin
       
-	  if SLT(LEFT(M1..N1),  RIGHT(M1..N1), S1, W1)  then
-		 return TRUE;
+	  if slt(left(m1..n1),  right(m1..n1), s1, w1)  then
+		 return true;
 		 
-	  elsif SORT_EQUAL(LEFT(M1..N1),  RIGHT(M1..N1), S1, W1) then
-		 if ((N2 > 0) and then 
-			   SLT(LEFT(M2..N2),  RIGHT(M2..N2), S2, W2) ) then
-			return TRUE;
+	  elsif sort_equal(left(m1..n1),  right(m1..n1), s1, w1) then
+		 if ((n2 > 0) and then 
+			   slt(left(m2..n2),  right(m2..n2), s2, w2) ) then
+			return true;
 			
-		 elsif ((N2 > 0) and then 
-				  SORT_EQUAL(LEFT(M2..N2),  RIGHT(M2..N2), S2, W2)) then
-			if ((N3 > 0) and then 
-				  SLT(LEFT(M3..N3),  RIGHT(M3..N3), S3, W3 ))  then
-			   return TRUE;
+		 elsif ((n2 > 0) and then 
+				  sort_equal(left(m2..n2),  right(m2..n2), s2, w2)) then
+			if ((n3 > 0) and then 
+				  slt(left(m3..n3),  right(m3..n3), s3, w3 ))  then
+			   return true;
 			   
-			elsif ((N3 > 0) and then 
-					 SORT_EQUAL(LEFT(M3..N3),  RIGHT(M3..N3), S3, W3))  then
-			   if ((N4 > 0) and then 
-					 SLT(LEFT(M4..N4),  RIGHT(M4..N4), S4, W4) )  then
-				  return TRUE;
+			elsif ((n3 > 0) and then 
+					 sort_equal(left(m3..n3),  right(m3..n3), s3, w3))  then
+			   if ((n4 > 0) and then 
+					 slt(left(m4..n4),  right(m4..n4), s4, w4) )  then
+				  return true;
 				  
-			   elsif ((N4 > 0) and then 
-                        SORT_EQUAL(LEFT(M4..N4),  RIGHT(M4..N4), S4, W4))  then
-				  if ((N5 > 0) and then                
-                        SLT(LEFT(M5..N5),  RIGHT(M5..N5), S5, W5) )  then
-					 return TRUE;
+			   elsif ((n4 > 0) and then 
+                        sort_equal(left(m4..n4),  right(m4..n4), s4, w4))  then
+				  if ((n5 > 0) and then                
+                        slt(left(m5..n5),  right(m5..n5), s5, w5) )  then
+					 return true;
 					 
 				  end if; 
 			   end if;
 			end if;
 		 end if;
 	  end if;
-	  return FALSE;
+	  return false;
    exception 
 	  when others =>
-		 TEXT_IO.PUT_LINE("exception in LT    showing LEFT and RIGHT");
-		 TEXT_IO.PUT_LINE(LEFT & "|");
-		 TEXT_IO.PUT_LINE(RIGHT & "|");
+		 text_io.put_line("exception in LT    showing LEFT and RIGHT");
+		 text_io.put_line(left & "|");
+		 text_io.put_line(right & "|");
 		 raise;
-   end LT; 
+   end lt; 
    
-   procedure OPEN_FILE_FOR_INPUT(INPUT : in out TEXT_IO.FILE_TYPE;
-								 PROMPT : STRING := "File for input => ") is
-	  LAST : NATURAL := 0;
+   procedure open_file_for_input(input : in out text_io.file_type;
+								 prompt : string := "File for input => ") is
+	  last : natural := 0;
    begin
-  GET_INPUT_FILE:
+  get_input_file:
 	  loop
-	 CHECK_INPUT:
+	 check_input:
 		 begin
-			NEW_LINE;
+			new_line;
             
-			PUT(PROMPT);
-			GET_LINE(INPUT_NAME, LAST);
-			OPEN(INPUT, IN_FILE, INPUT_NAME(1..LAST));
+			put(prompt);
+			get_line(input_name, last);
+			open(input, in_file, input_name(1..last));
 			exit;
 		 exception
 			when others  =>
-			   PUT_LINE("   !!!!!!!!!  Try Again  !!!!!!!!");
-		 end CHECK_INPUT;
-	  end loop GET_INPUT_FILE;
+			   put_line("   !!!!!!!!!  Try Again  !!!!!!!!");
+		 end check_input;
+	  end loop get_input_file;
       
-   end OPEN_FILE_FOR_INPUT;
+   end open_file_for_input;
    
    
-   procedure CREATE_FILE_FOR_OUTPUT(OUTPUT : in out TEXT_IO.FILE_TYPE;
-									PROMPT : STRING := "File for output => ") is
-	  NAME : STRING(1..80) := (others => ' ');
-	  LAST : NATURAL := 0;
+   procedure create_file_for_output(output : in out text_io.file_type;
+									prompt : string := "File for output => ") is
+	  name : string(1..80) := (others => ' ');
+	  last : natural := 0;
    begin
       
-  GET_OUTPUT_FILE:
+  get_output_file:
 	  loop
-	 CHECK_OUTPUT:
+	 check_output:
 		 begin
-			NEW_LINE;
+			new_line;
             
-			PUT(PROMPT);
-			GET_LINE(NAME, LAST);
-			if TRIM(NAME(1..LAST))'LENGTH /= 0  then
-			   CREATE(OUTPUT, OUT_FILE, NAME(1..LAST));
+			put(prompt);
+			get_line(name, last);
+			if trim(name(1..last))'length /= 0  then
+			   create(output, out_file, name(1..last));
 			else
-			   CREATE(OUTPUT, OUT_FILE, TRIM(INPUT_NAME));
+			   create(output, out_file, trim(input_name));
 			end if;                                    
 			exit;
 		 exception
 			when others  =>
-			   PUT_LINE("   !!!!!!!!!  Try Again  !!!!!!!!");
-		 end CHECK_OUTPUT;
-	  end loop GET_OUTPUT_FILE;
+			   put_line("   !!!!!!!!!  Try Again  !!!!!!!!");
+		 end check_output;
+	  end loop get_output_file;
       
-   end CREATE_FILE_FOR_OUTPUT;
+   end create_file_for_output;
    
-   function GRAPHIC(S : STRING) return STRING is
-	  T : STRING(1..S'LENGTH) := S;
+   function graphic(s : string) return string is
+	  t : string(1..s'length) := s;
    begin
-	  for I in S'RANGE  loop
-		 if CHARACTER'POS(S(I)) < 32  then
-			T(I) := ' ';
+	  for i in s'range  loop
+		 if character'pos(s(i)) < 32  then
+			t(i) := ' ';
 		 end if;
 	  end loop;
-	  return T;
-   end GRAPHIC;
+	  return t;
+   end graphic;
    
 begin
    
-   NEW_LINE;
-   PUT_LINE("Sorts a text file of lines four times on substrings M..N");
-   PUT_LINE("A)lphabetic (all case) C)ase sensitive, iG)nore seperators, U)i_is_vj,");
-   PUT_LINE("    iN)teger, F)loating point, S)ection, P)art entry, or paR)t of speech");
-   PUT_LINE("         I)ncreasing or D)ecreasing");
-   NEW_LINE;
+   new_line;
+   put_line("Sorts a text file of lines four times on substrings M..N");
+   put_line("A)lphabetic (all case) C)ase sensitive, iG)nore seperators, U)i_is_vj,");
+   put_line("    iN)teger, F)loating point, S)ection, P)art entry, or paR)t of speech");
+   put_line("         I)ncreasing or D)ecreasing");
+   new_line;
    
-   OPEN_FILE_FOR_INPUT(INPUT, "What file to sort from => ");
-   NEW_LINE;
+   open_file_for_input(input, "What file to sort from => ");
+   new_line;
    
-   PROMPT_FOR_ENTRY("first");
+   prompt_for_entry("first");
    begin
-	  GET_ENTRY(M1, N1, S1, W1);
+	  get_entry(m1, n1, s1, w1);
    exception
-	  when PROGRAM_ERROR  =>
+	  when program_error  =>
 		 raise;
 	  when others => 
 		 null;
@@ -978,148 +978,148 @@ begin
    
    
    begin
-	  PROMPT_FOR_ENTRY("second");
-	  GET_ENTRY(M2, N2, S2, W2);
-	  PROMPT_FOR_ENTRY("third");
-	  GET_ENTRY(M3, N3, S3, W3);
-	  PROMPT_FOR_ENTRY("fourth");
-	  GET_ENTRY(M4, N4, S4, W4);
-	  PROMPT_FOR_ENTRY("fifth");
-	  GET_ENTRY(M5, N5, S5, W5);
+	  prompt_for_entry("second");
+	  get_entry(m2, n2, s2, w2);
+	  prompt_for_entry("third");
+	  get_entry(m3, n3, s3, w3);
+	  prompt_for_entry("fourth");
+	  get_entry(m4, n4, s4, w4);
+	  prompt_for_entry("fifth");
+	  get_entry(m5, n5, s5, w5);
    exception
-	  when PROGRAM_ERROR  =>
+	  when program_error  =>
 		 raise;
-	  when ENTRY_FINISHED =>
+	  when entry_finished =>
 		 null;  
-	  when TEXT_IO.DATA_ERROR  | TEXT_IO.END_ERROR  => 
+	  when text_io.data_error  | text_io.end_error  => 
 		 null;
    end;
    
    --PUT_LINE("CREATING WORK FILE");
-   NEW_LINE;
-   CREATE (WORK, INOUT_FILE, "WORK."); 
-   PUT_LINE("CREATED  WORK FILE");
+   new_line;
+   create (work, inout_file, "WORK."); 
+   put_line("CREATED  WORK FILE");
    
-   while not END_OF_FILE(INPUT)  loop
+   while not end_of_file(input)  loop
       --begin
-	  GET_LINE(INPUT, LINE_TEXT, CURRENT_LENGTH);
+	  get_line(input, line_text, current_length);
       --exception when others  =>
       --TEXT_IO.PUT_LINE("INPUT GET exception");
       --TEXT_IO.PUT_LINE(LINE_TEXT(1..CURRENT_LENGTH) & "|");
       --end;
       --PUT_LINE(LINE_TEXT(1..CURRENT_LENGTH));
       --PUT_LINE("=>" & HEAD(LINE_TEXT(1..CURRENT_LENGTH), LINE_LENGTH) & "|");
-	  if TRIM(LINE_TEXT(1..CURRENT_LENGTH)) /= ""  then
+	  if trim(line_text(1..current_length)) /= ""  then
          --begin
-		 WRITE(WORK, HEAD(LINE_TEXT(1..CURRENT_LENGTH), LINE_LENGTH)  );
+		 write(work, head(line_text(1..current_length), line_length)  );
          --exception when others  =>
          --TEXT_IO.PUT_LINE("WORK WRITE exception");
          --TEXT_IO.PUT_LINE(LINE_TEXT(1..CURRENT_LENGTH) & "|");
          --end;
 	  end if;
    end loop;
-   CLOSE(INPUT);
+   close(input);
    
-   PUT_LINE("Begin sorting");
+   put_line("Begin sorting");
    
    
-LINE_HEAPSORT:  
+line_heapsort:  
 	declare
 	   
-	   L    : LINE_IO.POSITIVE_COUNT := SIZE(WORK) / 2 + 1; 
-	   IR   : LINE_IO.POSITIVE_COUNT := SIZE(WORK);
-	   I, J : LINE_IO.POSITIVE_COUNT;
+	   l    : line_io.positive_count := size(work) / 2 + 1; 
+	   ir   : line_io.positive_count := size(work);
+	   i, j : line_io.positive_count;
 	   
 	begin
-	   TEXT_IO.PUT_LINE("SIZE OF WORK = " & INTEGER'IMAGE(INTEGER(SIZE(WORK))));
-   MAIN:
+	   text_io.put_line("SIZE OF WORK = " & integer'image(integer(size(work))));
+   main:
 	   loop
 		  
-		  if L > 1  then
-			 L := L - 1;
-			 READ(WORK, LINE_TEXT, L);
-			 OLD_LINE := LINE_TEXT;
+		  if l > 1  then
+			 l := l - 1;
+			 read(work, line_text, l);
+			 old_line := line_text;
 		  else
-			 READ(WORK, LINE_TEXT, IR);
-			 OLD_LINE := LINE_TEXT;
-			 READ(WORK, LINE_TEXT, 1);
-			 WRITE(WORK, LINE_TEXT, IR);
-			 IR := IR - 1;
-			 if IR = 1 THEN
-				WRITE(WORK, OLD_LINE, 1);
-				exit MAIN;  
+			 read(work, line_text, ir);
+			 old_line := line_text;
+			 read(work, line_text, 1);
+			 write(work, line_text, ir);
+			 ir := ir - 1;
+			 if ir = 1 then
+				write(work, old_line, 1);
+				exit main;  
 			 end if;
 		  end if;
-		  I := L;
-		  J := L + L;
+		  i := l;
+		  j := l + l;
 		  
-		  while J <= IR   loop
-			 if J < IR  then
-				READ(WORK, LINE_TEXT, J);
-				READ(WORK, P_LINE, J+1);
+		  while j <= ir   loop
+			 if j < ir  then
+				read(work, line_text, j);
+				read(work, p_line, j+1);
 				--if LT (LINE.TEXT, P_LINE.TEXT)  then
-				if LT (LINE_TEXT, P_LINE)  then
-				   J := J + 1;
+				if lt (line_text, p_line)  then
+				   j := j + 1;
 				end if;
 			 end if;
-			 READ(WORK, LINE_TEXT, J);
+			 read(work, line_text, j);
 			 --if OLD_LINE.TEXT < LINE.TEXT  then
-			 if LT (OLD_LINE , LINE_TEXT)  then
-				WRITE(WORK, LINE_TEXT, I);
-				I := J;
-				J := J + J;
+			 if lt (old_line , line_text)  then
+				write(work, line_text, i);
+				i := j;
+				j := j + j;
 			 else
-				J := IR + 1;
+				j := ir + 1;
 			 end if;
 		  end loop;
-		  WRITE(WORK, OLD_LINE, I);
+		  write(work, old_line, i);
 		  
-	   end loop MAIN;
+	   end loop main;
 	   
 	exception
-	   when CONSTRAINT_ERROR => PUT_LINE("HEAP CONSTRAINT_ERROR"); 
-	   when others           => PUT_LINE("HEAP other_ERROR"); 
-	end LINE_HEAPSORT;
+	   when constraint_error => put_line("HEAP CONSTRAINT_ERROR"); 
+	   when others           => put_line("HEAP other_ERROR"); 
+	end line_heapsort;
 	
-	PUT_LINE("Finished sorting in WORK");
+	put_line("Finished sorting in WORK");
 	
-	CREATE_FILE_FOR_OUTPUT(OUTPUT, "Where to put the output => ");
+	create_file_for_output(output, "Where to put the output => ");
 	
 	
 	--RESET(WORK);
-	Set_Index(WORK, 1);
-	while not END_OF_FILE(WORK)  loop
-	   READ(WORK, LINE_TEXT);
-	   if TRIM(GRAPHIC(LINE_TEXT))'LENGTH > 0  then
+	set_index(work, 1);
+	while not end_of_file(work)  loop
+	   read(work, line_text);
+	   if trim(graphic(line_text))'length > 0  then
 		  --PUT_LINE(TRIM(LINE_TEXT, RIGHT));
-		  PUT_LINE(OUTPUT, TRIM(LINE_TEXT, RIGHT));
+		  put_line(output, trim(line_text, right));
 	   end if;
 	end loop;
 	
-	CLOSE(WORK);
-	CLOSE(OUTPUT);
-	PUT_LINE("Done!");
-	NEW_LINE;
+	close(work);
+	close(output);
+	put_line("Done!");
+	new_line;
 	
 exception
-   when PROGRAM_ERROR  =>
-	  PUT_LINE("SORT terminated on a PROGRAM_ERROR");
-	  CLOSE(OUTPUT);
-   when TEXT_IO.DATA_ERROR =>     --Terminate on primary start or size = 0
-	  PUT_LINE("SORT terminated on a DATA_ERROR");
-	  PUT_LINE(LINE_TEXT);
-	  CLOSE(OUTPUT);
-   when CONSTRAINT_ERROR =>       --Terminate on blank line for file name
-	  PUT_LINE("SORT terminated on a CONSTRAINT_ERROR");
-	  CLOSE(OUTPUT);
-   when TEXT_IO.DEVICE_ERROR  =>     --Ran out of space to write output file
-	  PUT_LINE("SORT terminated on a DEVICE_ERROR");
-	  DELETE(OUTPUT);
-	  CREATE_FILE_FOR_OUTPUT(OUTPUT, "Wherelse to put the output => ");
-	  RESET(WORK);
-	  while not END_OF_FILE(WORK)  loop
-		 READ(WORK, LINE_TEXT);
-		 PUT_LINE(OUTPUT, LINE_TEXT);    --(1..LINE.CURRENT_LENGTH));
+   when program_error  =>
+	  put_line("SORT terminated on a PROGRAM_ERROR");
+	  close(output);
+   when text_io.data_error =>     --Terminate on primary start or size = 0
+	  put_line("SORT terminated on a DATA_ERROR");
+	  put_line(line_text);
+	  close(output);
+   when constraint_error =>       --Terminate on blank line for file name
+	  put_line("SORT terminated on a CONSTRAINT_ERROR");
+	  close(output);
+   when text_io.device_error  =>     --Ran out of space to write output file
+	  put_line("SORT terminated on a DEVICE_ERROR");
+	  delete(output);
+	  create_file_for_output(output, "Wherelse to put the output => ");
+	  reset(work);
+	  while not end_of_file(work)  loop
+		 read(work, line_text);
+		 put_line(output, line_text);    --(1..LINE.CURRENT_LENGTH));
 	  end loop;
-	  CLOSE(OUTPUT);
-end SORTER;
+	  close(output);
+end sorter;

@@ -1,78 +1,78 @@
-with TEXT_IO;
-with INFLECTIONS_PACKAGE; use INFLECTIONS_PACKAGE;
-with DICTIONARY_PACKAGE; use DICTIONARY_PACKAGE;
-with ADDONS_PACKAGE; use ADDONS_PACKAGE;
-with WORD_SUPPORT_PACKAGE; use WORD_SUPPORT_PACKAGE;
-package WORD_PACKAGE is
+with text_io;
+with inflections_package; use inflections_package;
+with dictionary_package; use dictionary_package;
+with addons_package; use addons_package;
+with word_support_package; use word_support_package;
+package word_package is
    
-   LINE_NUMBER, WORD_NUMBER : INTEGER := 0;
+   line_number, word_number : integer := 0;
 
-   type STEM_ARRAY_TYPE is array (INTEGER range <>) of STEM_TYPE;
-   subtype STEM_ARRAY is STEM_ARRAY_TYPE(0..MAX_STEM_SIZE);
+   type stem_array_type is array (integer range <>) of stem_type;
+   subtype stem_array is stem_array_type(0..max_stem_size);
 
-   NOT_A_STEM : constant STEM_TYPE := (others => 'x');
-   NOT_A_STEM_ARRAY : STEM_ARRAY  := (others => NOT_A_STEM);
+   not_a_stem : constant stem_type := (others => 'x');
+   not_a_stem_array : stem_array  := (others => not_a_stem);
 
-   SA, SSA : STEM_ARRAY := NOT_A_STEM_ARRAY;
-   SSA_MAX : INTEGER := 0;
+   sa, ssa : stem_array := not_a_stem_array;
+   ssa_max : integer := 0;
 
 
-   type PRUNED_DICTIONARY_ITEM is
+   type pruned_dictionary_item is
 	  record
-		 DS   : DICTIONARY_STEM;
-		 D_K  : DICTIONARY_KIND := DEFAULT_DICTIONARY_KIND;
+		 ds   : dictionary_stem;
+		 d_k  : dictionary_kind := default_dictionary_kind;
 	  end record;
-   NULL_PRUNED_DICTIONARY_ITEM : PRUNED_DICTIONARY_ITEM;
-   type PRUNED_DICTIONARY_LIST is array (1..80) of PRUNED_DICTIONARY_ITEM;
+   null_pruned_dictionary_item : pruned_dictionary_item;
+   type pruned_dictionary_list is array (1..80) of pruned_dictionary_item;
    --  Aug 96   QU_PRON max 42, PACK max 54
    --  Jan 97   QU_PRON max 42, PACK max 74  --  Might reduce
    
-   PDL : PRUNED_DICTIONARY_LIST := (others => NULL_PRUNED_DICTIONARY_ITEM);
-   PDL_INDEX : INTEGER := 0;
+   pdl : pruned_dictionary_list := (others => null_pruned_dictionary_item);
+   pdl_index : integer := 0;
 
-   subtype SAL is PARSE_ARRAY(1..250);
+   subtype sal is parse_array(1..250);
 
 
-   type DICT_RESTRICTION is (X, REGULAR, QU_PRON_ONLY, PACK_ONLY);
+   type dict_restriction is (x, regular, qu_pron_only, pack_only);
 
-   XXX_MEANING : MEANING_TYPE := NULL_MEANING_TYPE;  --  For TRICKS
-   YYY_MEANING : MEANING_TYPE := NULL_MEANING_TYPE;  --  For SYNCOPE
-   NNN_MEANING : MEANING_TYPE := NULL_MEANING_TYPE;  --  For Names
-   RRR_MEANING : MEANING_TYPE := NULL_MEANING_TYPE;  --  For Roman Numerals
-   PPP_MEANING : MEANING_TYPE := NULL_MEANING_TYPE;  --  For COMPOUNDED
+   xxx_meaning : meaning_type := null_meaning_type;  --  For TRICKS
+   yyy_meaning : meaning_type := null_meaning_type;  --  For SYNCOPE
+   nnn_meaning : meaning_type := null_meaning_type;  --  For Names
+   rrr_meaning : meaning_type := null_meaning_type;  --  For Roman Numerals
+   ppp_meaning : meaning_type := null_meaning_type;  --  For COMPOUNDED
 
-   SCROLL_LINE_NUMBER : INTEGER := 0;
-   OUTPUT_SCROLL_COUNT : INTEGER := 0;
+   scroll_line_number : integer := 0;
+   output_scroll_count : integer := 0;
 
-   procedure PAUSE(OUTPUT : TEXT_IO.FILE_TYPE);
+   procedure pause(output : text_io.file_type);
    
-   function MIN(A, B : INTEGER) return INTEGER;  
+   function min(a, b : integer) return integer;  
    
-   function LTU(C, D : CHARACTER) return BOOLEAN;  
+   function ltu(c, d : character) return boolean;  
    
-   function EQU(C, D : CHARACTER) return BOOLEAN;   
+   function equ(c, d : character) return boolean;   
    
-   function GTU(C, D : CHARACTER) return BOOLEAN;  
+   function gtu(c, d : character) return boolean;  
    
-   function LTU(S, T : STRING) return BOOLEAN;  
+   function ltu(s, t : string) return boolean;  
    
-   function GTU(S, T : STRING) return BOOLEAN;  
+   function gtu(s, t : string) return boolean;  
    
-   function EQU(S, T : STRING) return BOOLEAN;  
+   function equ(s, t : string) return boolean;  
    
    
-   procedure RUN_INFLECTIONS(S : in STRING; SL : in out SAL;
-											RESTRICTION : DICT_RESTRICTION := REGULAR);
+   procedure run_inflections(s : in string; sl : in out sal;
+											restriction : dict_restriction := regular);
 
-   procedure SEARCH_DICTIONARIES(SSA : in STEM_ARRAY_TYPE;
-								 PREFIX : PREFIX_ITEM; SUFFIX : SUFFIX_ITEM;
-													   RESTRICTION : DICT_RESTRICTION := REGULAR);
+   procedure search_dictionaries(ssa : in stem_array_type;
+								 prefix : prefix_item; suffix : suffix_item;
+													   restriction : dict_restriction := regular);
 
-   procedure WORD(RAW_WORD : in STRING;
-				  PA : in out PARSE_ARRAY; PA_LAST : in out INTEGER);
+   procedure word(raw_word : in string;
+				  pa : in out parse_array; pa_last : in out integer);
 
-   procedure CHANGE_LANGUAGE(C : CHARACTER);  
+   procedure change_language(c : character);  
    
-   procedure INITIALIZE_WORD_PACKAGE;
+   procedure initialize_word_package;
 
-end WORD_PACKAGE;
+end word_package;

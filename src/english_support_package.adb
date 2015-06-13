@@ -1,151 +1,151 @@
-package body ENGLISH_SUPPORT_PACKAGE is
+package body english_support_package is
    --use EWDS_DIRECT_IO;
-   use TEXT_IO;    
+   use text_io;    
    
-   package body EWDS_RECORD_IO is
-	  package INTEGER_IO is new TEXT_IO.INTEGER_IO(INTEGER);
-	  use PART_OF_SPEECH_TYPE_IO;
-	  use FREQUENCY_TYPE_IO;
-	  use TEXT_IO;
-	  use INTEGER_IO;
-	  SPACER : CHARACTER := ' ';
-	  NWIDTH : constant := 5;
+   package body ewds_record_io is
+	  package integer_io is new text_io.integer_io(integer);
+	  use part_of_speech_type_io;
+	  use frequency_type_io;
+	  use text_io;
+	  use integer_io;
+	  spacer : character := ' ';
+	  nwidth : constant := 5;
 	  
-	  procedure GET(F : in TEXT_IO.FILE_TYPE; P : out EWDS_RECORD) is
+	  procedure get(f : in text_io.file_type; p : out ewds_record) is
 	  begin
-		 GET(F, P.W);
-		 GET(F, SPACER);
-		 GET(F, P.AUX);
-		 GET(F, SPACER);
-		 GET(F, P.N);
-		 GET(F, SPACER);
-		 GET(F, P.POFS);
-		 GET(F, SPACER);
-		 GET(F, P.FREQ);
-		 GET(F, SPACER);
-		 GET(F, P.SEMI);
-		 GET(F, SPACER);
-		 GET(F, P.KIND);
-		 GET(F, SPACER);
-		 GET(F, P.RANK);
-	  end GET;
+		 get(f, p.w);
+		 get(f, spacer);
+		 get(f, p.aux);
+		 get(f, spacer);
+		 get(f, p.n);
+		 get(f, spacer);
+		 get(f, p.pofs);
+		 get(f, spacer);
+		 get(f, p.freq);
+		 get(f, spacer);
+		 get(f, p.semi);
+		 get(f, spacer);
+		 get(f, p.kind);
+		 get(f, spacer);
+		 get(f, p.rank);
+	  end get;
 
-	  procedure GET(P : out EWDS_RECORD) is
+	  procedure get(p : out ewds_record) is
 	  begin
-		 GET(P.W);
-		 GET(SPACER);
-		 GET(P.AUX);
-		 GET(SPACER);
-		 GET(P.N);
-		 GET(SPACER);
-		 GET(P.POFS);
-		 GET(SPACER);
-		 GET(P.FREQ);
-		 GET(SPACER);
-		 GET(P.SEMI);
-		 GET(SPACER);
-		 GET(P.KIND);
-		 GET(SPACER);
-		 GET(P.RANK);
-	  end GET;
+		 get(p.w);
+		 get(spacer);
+		 get(p.aux);
+		 get(spacer);
+		 get(p.n);
+		 get(spacer);
+		 get(p.pofs);
+		 get(spacer);
+		 get(p.freq);
+		 get(spacer);
+		 get(p.semi);
+		 get(spacer);
+		 get(p.kind);
+		 get(spacer);
+		 get(p.rank);
+	  end get;
 
-	  procedure PUT(F : in TEXT_IO.FILE_TYPE; P : in EWDS_RECORD) is
+	  procedure put(f : in text_io.file_type; p : in ewds_record) is
 	  begin
-		 PUT(F, P.W);
-		 PUT(F, ' ');
-		 PUT(F, P.AUX);
-		 PUT(F, ' ');
-		 PUT(F, P.N);
-		 PUT(F, ' ');
-		 PUT(F, P.POFS);
-		 PUT(F, ' ');
-		 PUT(F, P.FREQ);
-		 PUT(F, ' ');
-		 PUT(F, P.SEMI, NWIDTH);
-		 PUT(F, ' ');
-		 PUT(F, P.KIND, NWIDTH);
-		 PUT(F, ' ');
-		 PUT(F, P.RANK, NWIDTH);
-	  end PUT;
+		 put(f, p.w);
+		 put(f, ' ');
+		 put(f, p.aux);
+		 put(f, ' ');
+		 put(f, p.n);
+		 put(f, ' ');
+		 put(f, p.pofs);
+		 put(f, ' ');
+		 put(f, p.freq);
+		 put(f, ' ');
+		 put(f, p.semi, nwidth);
+		 put(f, ' ');
+		 put(f, p.kind, nwidth);
+		 put(f, ' ');
+		 put(f, p.rank, nwidth);
+	  end put;
 
-	  procedure PUT(P : in EWDS_RECORD) is
+	  procedure put(p : in ewds_record) is
 	  begin
-		 PUT(P.W);
-		 PUT(' ');
-		 PUT(P.AUX);
-		 PUT(' ');
-		 PUT(P.N);
-		 PUT(' ');
-		 PUT(P.POFS);
-		 PUT(' ');
-		 PUT(P.FREQ);
-		 PUT(' ');
-		 PUT(P.SEMI, NWIDTH);
-		 PUT(' ');
-		 PUT(P.KIND, NWIDTH);
-		 PUT(' ');
-		 PUT(P.RANK, NWIDTH);
-	  end PUT;
+		 put(p.w);
+		 put(' ');
+		 put(p.aux);
+		 put(' ');
+		 put(p.n);
+		 put(' ');
+		 put(p.pofs);
+		 put(' ');
+		 put(p.freq);
+		 put(' ');
+		 put(p.semi, nwidth);
+		 put(' ');
+		 put(p.kind, nwidth);
+		 put(' ');
+		 put(p.rank, nwidth);
+	  end put;
 
-	  procedure GET(S : in STRING; P : out EWDS_RECORD; LAST : out INTEGER) is
-		 L : INTEGER := S'FIRST - 1;
+	  procedure get(s : in string; p : out ewds_record; last : out integer) is
+		 l : integer := s'first - 1;
 	  begin
-		 P.W := S(L+1..L+EWORD_SIZE);
-		 L := L + EWORD_SIZE + 1;
-		 P.AUX := S(L+1..L+AUX_WORD_SIZE);
-		 L := L + AUX_WORD_SIZE + 1;
-		 GET(S(L+1..S'LAST), P.N, L);
-		 L := L + 1;           
-		 GET(S(L+1..S'LAST), P.POFS, L);
-		 L := L + 1;           
-		 GET(S(L+1..S'LAST), P.FREQ, L);
-		 L := L + 1;           
-		 GET(S(L+1..S'LAST), P.SEMI, L);
-		 L := L + 1;           
-		 GET(S(L+1..S'LAST), P.KIND, L);
-		 L := L + 1;           
-		 GET(S(L+1..S'LAST), P.RANK, LAST);
-	  end GET;
+		 p.w := s(l+1..l+eword_size);
+		 l := l + eword_size + 1;
+		 p.aux := s(l+1..l+aux_word_size);
+		 l := l + aux_word_size + 1;
+		 get(s(l+1..s'last), p.n, l);
+		 l := l + 1;           
+		 get(s(l+1..s'last), p.pofs, l);
+		 l := l + 1;           
+		 get(s(l+1..s'last), p.freq, l);
+		 l := l + 1;           
+		 get(s(l+1..s'last), p.semi, l);
+		 l := l + 1;           
+		 get(s(l+1..s'last), p.kind, l);
+		 l := l + 1;           
+		 get(s(l+1..s'last), p.rank, last);
+	  end get;
 
 	  
-	  procedure PUT(S : out STRING; P : in EWDS_RECORD) is
-		 L : INTEGER := S'FIRST - 1;
-		 M : INTEGER := 0;
+	  procedure put(s : out string; p : in ewds_record) is
+		 l : integer := s'first - 1;
+		 m : integer := 0;
 	  begin
-		 M := L + EWORD_SIZE;
-		 S(L+1..M) :=  P.W;
-		 L := M + 1;
-		 S(L) :=  ' ';
-		 M := L + AUX_WORD_SIZE;
-		 S(L+1..M) := P.AUX;
-		 L := M + 1;
-		 S(L) :=  ' ';
-		 M := L + LINE_NUMBER_WIDTH;
-		 PUT(S(L+1..M), P.N);
-		 S(L) :=  ' ';
-		 M := L + PART_OF_SPEECH_TYPE_IO.DEFAULT_WIDTH;
-		 PUT(S(L+1..M), P.POFS);
-		 S(L) :=  ' ';
-		 M := L + FREQUENCY_TYPE_IO.DEFAULT_WIDTH;
-		 PUT(S(L+1..M), P.FREQ);
-		 S(L) :=  ' ';
-		 M := L + PRIORITY_WIDTH;
-		 PUT(S(L+1..M), P.SEMI, NWIDTH);
-		 S(L) :=  ' ';
-		 M := L + PRIORITY_WIDTH;
-		 PUT(S(L+1..M), P.KIND, NWIDTH);
-		 S(L) :=  ' ';
-		 M := L + PRIORITY_WIDTH;
-		 PUT(S(L+1..M), P.RANK, NWIDTH);
+		 m := l + eword_size;
+		 s(l+1..m) :=  p.w;
+		 l := m + 1;
+		 s(l) :=  ' ';
+		 m := l + aux_word_size;
+		 s(l+1..m) := p.aux;
+		 l := m + 1;
+		 s(l) :=  ' ';
+		 m := l + line_number_width;
+		 put(s(l+1..m), p.n);
+		 s(l) :=  ' ';
+		 m := l + part_of_speech_type_io.default_width;
+		 put(s(l+1..m), p.pofs);
+		 s(l) :=  ' ';
+		 m := l + frequency_type_io.default_width;
+		 put(s(l+1..m), p.freq);
+		 s(l) :=  ' ';
+		 m := l + priority_width;
+		 put(s(l+1..m), p.semi, nwidth);
+		 s(l) :=  ' ';
+		 m := l + priority_width;
+		 put(s(l+1..m), p.kind, nwidth);
+		 s(l) :=  ' ';
+		 m := l + priority_width;
+		 put(s(l+1..m), p.rank, nwidth);
 
 		 
 		 
-		 S(M+1..S'LAST) := (others => ' ');
-	  end PUT;
+		 s(m+1..s'last) := (others => ' ');
+	  end put;
 
 
-   end EWDS_RECORD_IO;
+   end ewds_record_io;
 
 
-end ENGLISH_SUPPORT_PACKAGE;
+end english_support_package;
 

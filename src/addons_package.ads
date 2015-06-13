@@ -1,179 +1,179 @@
-with TEXT_IO; 
-with INFLECTIONS_PACKAGE; use INFLECTIONS_PACKAGE;
-with DICTIONARY_PACKAGE; use DICTIONARY_PACKAGE;
-package ADDONS_PACKAGE is
-   use TEXT_IO;
+with text_io; 
+with inflections_package; use inflections_package;
+with dictionary_package; use dictionary_package;
+package addons_package is
+   use text_io;
 
-   subtype FIX_TYPE is STEM_TYPE;
-   NULL_FIX_TYPE : constant FIX_TYPE := NULL_STEM_TYPE;
-   MAX_FIX_SIZE : constant := MAX_STEM_SIZE;
+   subtype fix_type is stem_type;
+   null_fix_type : constant fix_type := null_stem_type;
+   max_fix_size : constant := max_stem_size;
 
-   subtype TARGET_POFS_TYPE is PART_OF_SPEECH_TYPE range X..V;  
+   subtype target_pofs_type is part_of_speech_type range x..v;  
 
 
-   type TARGET_ENTRY(POFS: TARGET_POFS_TYPE := X) is
+   type target_entry(pofs: target_pofs_type := x) is
 	  record
-		 case POFS is
-			when N  => 
-			   N : NOUN_ENTRY;
+		 case pofs is
+			when n  => 
+			   n : noun_entry;
 			   --NOUN_KIND : NOUN_KIND_TYPE;
-			when PRON  =>
-			   PRON : PRONOUN_ENTRY;
+			when pron  =>
+			   pron : pronoun_entry;
 			   --PRONOUN_KIND : PRONOUN_KIND_TYPE;
-			when PACK  =>
-			   PACK : PROPACK_ENTRY;
+			when pack  =>
+			   pack : propack_entry;
 			   --PROPACK_KIND : PRONOUN_KIND_TYPE;
-			when ADJ  => 
-			   ADJ : ADJECTIVE_ENTRY;
-			when NUM  => 
-			   NUM : NUMERAL_ENTRY;
+			when adj  => 
+			   adj : adjective_entry;
+			when num  => 
+			   num : numeral_entry;
 			   --NUMERAL_VALUE : NUMERAL_VALUE_TYPE;
-			when ADV  => 
-			   ADV : ADVERB_ENTRY;
-			when V  => 
-			   V : VERB_ENTRY;
+			when adv  => 
+			   adv : adverb_entry;
+			when v  => 
+			   v : verb_entry;
 			   --VERB_KIND : VERB_KIND_TYPE;
 			when others  =>
 			   null;
 		 end case;
 	  end record;                                        
 
-   NULL_TARGET_ENTRY : TARGET_ENTRY;
+   null_target_entry : target_entry;
 
-   package TARGET_ENTRY_IO is
-	  DEFAULT_WIDTH : NATURAL;
-	  procedure GET(F : in FILE_TYPE; P : out TARGET_ENTRY);
-	  procedure GET(P : out TARGET_ENTRY);
-	  procedure PUT(F : in FILE_TYPE; P : in TARGET_ENTRY);
-	  procedure PUT(P : in TARGET_ENTRY);
-	  procedure GET(S : in STRING; P : out TARGET_ENTRY; LAST : out INTEGER);
-	  procedure PUT(S : out STRING; P : in TARGET_ENTRY);  
-   end TARGET_ENTRY_IO;  
+   package target_entry_io is
+	  default_width : natural;
+	  procedure get(f : in file_type; p : out target_entry);
+	  procedure get(p : out target_entry);
+	  procedure put(f : in file_type; p : in target_entry);
+	  procedure put(p : in target_entry);
+	  procedure get(s : in string; p : out target_entry; last : out integer);
+	  procedure put(s : out string; p : in target_entry);  
+   end target_entry_io;  
 
-   type TACKON_ENTRY is
+   type tackon_entry is
 	  record
-		 BASE : TARGET_ENTRY;
+		 base : target_entry;
 	  end record;
 
-   NULL_TACKON_ENTRY : TACKON_ENTRY; 
+   null_tackon_entry : tackon_entry; 
    
-   package TACKON_ENTRY_IO is
-	  DEFAULT_WIDTH : NATURAL;
-	  procedure GET(F : in FILE_TYPE; I : out TACKON_ENTRY);
-	  procedure GET(I : out TACKON_ENTRY);
-	  procedure PUT(F : in FILE_TYPE; I : in TACKON_ENTRY);
-	  procedure PUT(I : in TACKON_ENTRY);
-	  procedure GET(S : in STRING; I : out TACKON_ENTRY; LAST : out INTEGER);
-	  procedure PUT(S : out STRING; I : in TACKON_ENTRY);  
-   end TACKON_ENTRY_IO;  
+   package tackon_entry_io is
+	  default_width : natural;
+	  procedure get(f : in file_type; i : out tackon_entry);
+	  procedure get(i : out tackon_entry);
+	  procedure put(f : in file_type; i : in tackon_entry);
+	  procedure put(i : in tackon_entry);
+	  procedure get(s : in string; i : out tackon_entry; last : out integer);
+	  procedure put(s : out string; i : in tackon_entry);  
+   end tackon_entry_io;  
 
 
-   type PREFIX_ENTRY is 
+   type prefix_entry is 
 	  record
-		 ROOT    : PART_OF_SPEECH_TYPE := X;
-		 TARGET  : PART_OF_SPEECH_TYPE := X; 
+		 root    : part_of_speech_type := x;
+		 target  : part_of_speech_type := x; 
 	  end record;
 
-   NULL_PREFIX_ENTRY : PREFIX_ENTRY;
+   null_prefix_entry : prefix_entry;
 
-   package PREFIX_ENTRY_IO is
-	  DEFAULT_WIDTH : NATURAL;
-	  procedure GET(F : in FILE_TYPE; P : out PREFIX_ENTRY);
-	  procedure GET(P : out PREFIX_ENTRY);
-	  procedure PUT(F : in FILE_TYPE; P : in PREFIX_ENTRY);
-	  procedure PUT(P : in PREFIX_ENTRY);
-	  procedure GET(S : in STRING; P : out PREFIX_ENTRY; LAST : out INTEGER);
-	  procedure PUT(S : out STRING; P : in PREFIX_ENTRY);  
-   end PREFIX_ENTRY_IO;  
+   package prefix_entry_io is
+	  default_width : natural;
+	  procedure get(f : in file_type; p : out prefix_entry);
+	  procedure get(p : out prefix_entry);
+	  procedure put(f : in file_type; p : in prefix_entry);
+	  procedure put(p : in prefix_entry);
+	  procedure get(s : in string; p : out prefix_entry; last : out integer);
+	  procedure put(s : out string; p : in prefix_entry);  
+   end prefix_entry_io;  
    
    
-   type SUFFIX_ENTRY is 
+   type suffix_entry is 
 	  record
-		 ROOT       : PART_OF_SPEECH_TYPE := X;
-		 ROOT_KEY   : STEM_KEY_TYPE := 0;
-		 TARGET     : TARGET_ENTRY := NULL_TARGET_ENTRY; 
-		 TARGET_KEY : STEM_KEY_TYPE := 0;
+		 root       : part_of_speech_type := x;
+		 root_key   : stem_key_type := 0;
+		 target     : target_entry := null_target_entry; 
+		 target_key : stem_key_type := 0;
 	  end record;
 
-   NULL_SUFFIX_ENTRY : SUFFIX_ENTRY; 
+   null_suffix_entry : suffix_entry; 
 
-   package SUFFIX_ENTRY_IO is
-	  DEFAULT_WIDTH : NATURAL;
-	  procedure GET(F : in FILE_TYPE; P : out SUFFIX_ENTRY);
-	  procedure GET(P : out SUFFIX_ENTRY);
-	  procedure PUT(F : in FILE_TYPE; P : in SUFFIX_ENTRY);
-	  procedure PUT(P : in SUFFIX_ENTRY);
-	  procedure GET(S : in STRING; P : out SUFFIX_ENTRY; LAST : out INTEGER);
-	  procedure PUT(S : out STRING; P : in SUFFIX_ENTRY);  
-   end SUFFIX_ENTRY_IO;  
+   package suffix_entry_io is
+	  default_width : natural;
+	  procedure get(f : in file_type; p : out suffix_entry);
+	  procedure get(p : out suffix_entry);
+	  procedure put(f : in file_type; p : in suffix_entry);
+	  procedure put(p : in suffix_entry);
+	  procedure get(s : in string; p : out suffix_entry; last : out integer);
+	  procedure put(s : out string; p : in suffix_entry);  
+   end suffix_entry_io;  
 
-   type TACKON_ITEM is
+   type tackon_item is
 	  record
-		 POFS: PART_OF_SPEECH_TYPE := TACKON;
-		 TACK : STEM_TYPE := NULL_STEM_TYPE;
-		 ENTR : TACKON_ENTRY := NULL_TACKON_ENTRY;
-		 MNPC : INTEGER := 0;
+		 pofs: part_of_speech_type := tackon;
+		 tack : stem_type := null_stem_type;
+		 entr : tackon_entry := null_tackon_entry;
+		 mnpc : integer := 0;
 	  end record;
 
-   NULL_TACKON_ITEM : TACKON_ITEM;
+   null_tackon_item : tackon_item;
 
 
-   type PREFIX_ITEM is
+   type prefix_item is
 	  record
-		 POFS: PART_OF_SPEECH_TYPE := PREFIX;
-		 FIX  : FIX_TYPE := NULL_FIX_TYPE;
-		 CONNECT : CHARACTER := ' ';
-		 ENTR : PREFIX_ENTRY := NULL_PREFIX_ENTRY;
-		 MNPC : INTEGER := 0;
+		 pofs: part_of_speech_type := prefix;
+		 fix  : fix_type := null_fix_type;
+		 connect : character := ' ';
+		 entr : prefix_entry := null_prefix_entry;
+		 mnpc : integer := 0;
 	  end record;
    
-   NULL_PREFIX_ITEM : PREFIX_ITEM;
+   null_prefix_item : prefix_item;
    
 
-   type SUFFIX_ITEM is
+   type suffix_item is
 	  record
-		 POFS: PART_OF_SPEECH_TYPE := SUFFIX;
-		 FIX  : FIX_TYPE := NULL_FIX_TYPE;
-		 CONNECT    : CHARACTER := ' ';
-		 ENTR : SUFFIX_ENTRY := NULL_SUFFIX_ENTRY;
-		 MNPC : INTEGER := 0;
+		 pofs: part_of_speech_type := suffix;
+		 fix  : fix_type := null_fix_type;
+		 connect    : character := ' ';
+		 entr : suffix_entry := null_suffix_entry;
+		 mnpc : integer := 0;
 	  end record;
 
-   NULL_SUFFIX_ITEM : SUFFIX_ITEM;
+   null_suffix_item : suffix_item;
 
    
-   type PREFIX_ARRAY is array (INTEGER range <>) of PREFIX_ITEM; 
-   type TICKON_ARRAY is array (INTEGER range <>) of PREFIX_ITEM; 
-   type SUFFIX_ARRAY is array (INTEGER range <>) of SUFFIX_ITEM; 
-   type TACKON_ARRAY is array (INTEGER range <>) of TACKON_ITEM; 
-   type MEANS_ARRAY  is array (INTEGER range <>) of MEANING_TYPE;
+   type prefix_array is array (integer range <>) of prefix_item; 
+   type tickon_array is array (integer range <>) of prefix_item; 
+   type suffix_array is array (integer range <>) of suffix_item; 
+   type tackon_array is array (integer range <>) of tackon_item; 
+   type means_array  is array (integer range <>) of meaning_type;
    --  To simulate a DICT_IO file, as used previously
    
-   TACKONS  : TACKON_ARRAY(1..20);
-   PACKONS  : TACKON_ARRAY(1..25);
-   TICKONS  : PREFIX_ARRAY(1..10);
-   PREFIXES : PREFIX_ARRAY(1..130);
-   SUFFIXES : SUFFIX_ARRAY(1..185);
-   MEANS    : MEANS_ARRAY(1..370);
+   tackons  : tackon_array(1..20);
+   packons  : tackon_array(1..25);
+   tickons  : prefix_array(1..10);
+   prefixes : prefix_array(1..130);
+   suffixes : suffix_array(1..185);
+   means    : means_array(1..370);
    
-   NUMBER_OF_TICKONS  : INTEGER := 0;
-   NUMBER_OF_TACKONS  : INTEGER := 0;
-   NUMBER_OF_PACKONS  : INTEGER := 0;
-   NUMBER_OF_PREFIXES : INTEGER := 0;
-   NUMBER_OF_SUFFIXES : INTEGER := 0;
+   number_of_tickons  : integer := 0;
+   number_of_tackons  : integer := 0;
+   number_of_packons  : integer := 0;
+   number_of_prefixes : integer := 0;
+   number_of_suffixes : integer := 0;
 
-   procedure LOAD_ADDONS (FILE_NAME : in STRING);   
+   procedure load_addons (file_name : in string);   
 
-   function SUBTRACT_TACKON(W : STRING; X : TACKON_ITEM) return STRING;      
-   function SUBTRACT_PREFIX(W : STRING; X : PREFIX_ITEM) return STEM_TYPE;  
-   function SUBTRACT_TICKON(W : STRING; X : PREFIX_ITEM) return STEM_TYPE 
-	 renames SUBTRACT_PREFIX;
-   function SUBTRACT_SUFFIX(W : STRING; X : SUFFIX_ITEM) return STEM_TYPE;   
+   function subtract_tackon(w : string; x : tackon_item) return string;      
+   function subtract_prefix(w : string; x : prefix_item) return stem_type;  
+   function subtract_tickon(w : string; x : prefix_item) return stem_type 
+	 renames subtract_prefix;
+   function subtract_suffix(w : string; x : suffix_item) return stem_type;   
    
-   function ADD_PREFIX(STEM : STEM_TYPE; 
-					   PREFIX : PREFIX_ITEM) return STEM_TYPE;  
-   function ADD_SUFFIX(STEM : STEM_TYPE; 
-					   SUFFIX : SUFFIX_ITEM) return STEM_TYPE;   
+   function add_prefix(stem : stem_type; 
+					   prefix : prefix_item) return stem_type;  
+   function add_suffix(stem : stem_type; 
+					   suffix : suffix_item) return stem_type;   
 
 
-end ADDONS_PACKAGE;
+end addons_package;

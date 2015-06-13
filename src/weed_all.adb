@@ -1,48 +1,48 @@
-with TEXT_IO; use TEXT_IO;
-with INFLECTIONS_PACKAGE; use INFLECTIONS_PACKAGE;
-procedure WEED_ALL(W : in out STRING; 
-				   POFS : in PART_OF_SPEECH_TYPE) is
+with text_io; use text_io;
+with inflections_package; use inflections_package;
+procedure weed_all(w : in out string; 
+				   pofs : in part_of_speech_type) is
    --  In contrast to the Latin phase where the prioritization takes is at runtime
    --  for the English most of the work is done beforehand
    --  both the setting of a priority class for each entry in the scan of DICTLINE
    --  and the WEEDing/TRIMming done herein
-   KILL : BOOLEAN := FALSE;
+   kill : boolean := false;
 begin     
 
-   if W'LENGTH <= 1  then
+   if w'length <= 1  then
 	  --if W(1)  not in  'A'..'Z'  then  
-	  KILL := TRUE;
+	  kill := true;
 	  --end if;
       
    else
       
 	  if   --  WORDS words
-		W = "DECL" or
-		W = "DAT"  or
-		W = "ACC"  or
-		W = "ABL"  or
-		W = "ADJ"  or
-		W = "AD"  or
-		W = "BC"  or
-		W = "COMP"  or
-		W = "SUPER"  or
-		W = "DEMONST"  or
-		W = "INDEF"  or
-		W = "INF"  or
-		W = "KLUDGE"  or
-		W = "NE"  or
-		W = "NW"  or
-		W = "SE"  or
-		W = "SW"  or
-		W = "NT"  or
-		W = "OT"  or
-		W = "PASS"  or
-		W = "L+S"  or
-		W = "St"        
+		w = "DECL" or
+		w = "DAT"  or
+		w = "ACC"  or
+		w = "ABL"  or
+		w = "ADJ"  or
+		w = "AD"  or
+		w = "BC"  or
+		w = "COMP"  or
+		w = "SUPER"  or
+		w = "DEMONST"  or
+		w = "INDEF"  or
+		w = "INF"  or
+		w = "KLUDGE"  or
+		w = "NE"  or
+		w = "NW"  or
+		w = "SE"  or
+		w = "SW"  or
+		w = "NT"  or
+		w = "OT"  or
+		w = "PASS"  or
+		w = "L+S"  or
+		w = "St"        
 		
 	  then
          
-		 KILL := TRUE;
+		 kill := true;
 	  end if;
       
       
@@ -50,29 +50,29 @@ begin
       
 	  if 
 		--  Articles
-		W = "a"    or
-		W = "an"   or
-		W = "the"  or    
-		W = "The"  or 
+		w = "a"    or
+		w = "an"   or
+		w = "the"  or    
+		w = "The"  or 
 		
 		--  Others  
-		W = "no"   
+		w = "no"   
 		
 	  then
          
-		 KILL := TRUE;
+		 kill := true;
 	  end if;
       
       
 	  if   --  Fragments
-		W = "ad"   or     
-		W = "de"   or     
-		W = "bi"   or     
-		W = "di"   or     
-		W = "re"   or     
-		W = "ex"        
+		w = "ad"   or     
+		w = "de"   or     
+		w = "bi"   or     
+		w = "di"   or     
+		w = "re"   or     
+		w = "ex"        
 	  then
-		 KILL := TRUE;
+		 kill := true;
 	  end if;
       
 	  
@@ -80,36 +80,36 @@ begin
       
       
 	  if
-		W = "abb"   or     --  Abbreviation  
+		w = "abb"   or     --  Abbreviation  
 						   --  Number suffixes   
-		W = "st"   or      --  1st
-		W = "nd"   or      --  2nd
-		W = "rd"   or      --  3rd
-		W = "th"           --  4th
+		w = "st"   or      --  1st
+		w = "nd"   or      --  2nd
+		w = "rd"   or      --  3rd
+		w = "th"           --  4th
 	  then
-		 KILL := TRUE;
+		 kill := true;
 	  end if;
       
 	  --  Kill abbreviations
-	  if W(W'LAST) = '.'  then
-		 KILL := TRUE;
+	  if w(w'last) = '.'  then
+		 kill := true;
 	  end if; 
       
 	  --  Kill internal AREA
-	  if W(W'LAST) = ':'  then
-		 KILL := TRUE;
+	  if w(w'last) = ':'  then
+		 kill := true;
 	  end if;                   
       
    end if;
    
    
-   if KILL then
-	  for I in W'RANGE  loop
-		 W(I) := '\';
+   if kill then
+	  for i in w'range  loop
+		 w(i) := '\';
 	  end loop;
    end if;
    
    --PUT_LINE("WEEDed ANY  "  & W & '|' & BOOLEAN'IMAGE(KILL));         
    
-end WEED_ALL;
+end weed_all;
 

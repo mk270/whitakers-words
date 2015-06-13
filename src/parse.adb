@@ -1,108 +1,108 @@
-with TEXT_IO;
-with STRINGS_PACKAGE; use STRINGS_PACKAGE;
-with LATIN_FILE_NAMES; use LATIN_FILE_NAMES;
-with WORD_PARAMETERS; use WORD_PARAMETERS;
-with DEVELOPER_PARAMETERS; use DEVELOPER_PARAMETERS;
-with INFLECTIONS_PACKAGE; use INFLECTIONS_PACKAGE;
-with DICTIONARY_PACKAGE; use DICTIONARY_PACKAGE;
-with ADDONS_PACKAGE; use ADDONS_PACKAGE;
-with WORD_SUPPORT_PACKAGE; use WORD_SUPPORT_PACKAGE;
-with PREFACE;
-with WORD_PACKAGE; use WORD_PACKAGE;
-with LIST_PACKAGE; use LIST_PACKAGE;
-with TRICKS_PACKAGE; use TRICKS_PACKAGE;
-with CONFIG; use CONFIG;
-with PREFACE;
-with PUT_STAT;
-with ENGLISH_SUPPORT_PACKAGE; use ENGLISH_SUPPORT_PACKAGE;
-with SEARCH_ENGLISH;
-pragma Elaborate(WORD_PARAMETERS);
-procedure PARSE(COMMAND_LINE : STRING := "") is
-   use INFLECTIONS_PACKAGE.INTEGER_IO;
-   use INFLECTION_RECORD_IO;
-   use TEXT_IO;
+with text_io;
+with strings_package; use strings_package;
+with latin_file_names; use latin_file_names;
+with word_parameters; use word_parameters;
+with developer_parameters; use developer_parameters;
+with inflections_package; use inflections_package;
+with dictionary_package; use dictionary_package;
+with addons_package; use addons_package;
+with word_support_package; use word_support_package;
+with preface;
+with word_package; use word_package;
+with list_package; use list_package;
+with tricks_package; use tricks_package;
+with config; use config;
+with preface;
+with put_stat;
+with english_support_package; use english_support_package;
+with search_english;
+pragma elaborate(word_parameters);
+procedure parse(command_line : string := "") is
+   use inflections_package.integer_io;
+   use inflection_record_io;
+   use text_io;
 
-   STORAGE_ERROR_COUNT : INTEGER := 0;
+   storage_error_count : integer := 0;
 
-   J, K, L : INTEGER := 0;
-   LINE, BLANK_LINE : STRING(1..2500) := (others => ' ');
+   j, k, l : integer := 0;
+   line, blank_line : string(1..2500) := (others => ' ');
    --INPUT : TEXT_IO.FILE_TYPE;
 
    
-   PA : PARSE_ARRAY(1..100) := (others => NULL_PARSE_RECORD);
-   SYNCOPE_MAX : constant := 20;
-   NO_SYNCOPE : BOOLEAN := FALSE;
-   TRICKS_MAX : constant := 40;
-   SYPA : PARSE_ARRAY(1..SYNCOPE_MAX) := (others => NULL_PARSE_RECORD);
-   TRPA : PARSE_ARRAY(1..TRICKS_MAX) := (others => NULL_PARSE_RECORD);
-   PA_LAST, SYPA_LAST, TRPA_LAST : INTEGER := 0;
+   pa : parse_array(1..100) := (others => null_parse_record);
+   syncope_max : constant := 20;
+   no_syncope : boolean := false;
+   tricks_max : constant := 40;
+   sypa : parse_array(1..syncope_max) := (others => null_parse_record);
+   trpa : parse_array(1..tricks_max) := (others => null_parse_record);
+   pa_last, sypa_last, trpa_last : integer := 0;
 
 
-   procedure PARSE_LINE(INPUT_LINE : STRING) is
-	  L : INTEGER := TRIM(INPUT_LINE)'LAST;
+   procedure parse_line(input_line : string) is
+	  l : integer := trim(input_line)'last;
 	  --LINE : STRING(1..2500) := (others => ' ');
-	  W : STRING(1..L) := (others => ' ');      
+	  w : string(1..l) := (others => ' ');      
    begin
-	  WORD_NUMBER := 0;
-	  LINE(1..L) := TRIM(INPUT_LINE);
+	  word_number := 0;
+	  line(1..l) := trim(input_line);
 	  
 
 	  --  Someday I ought to be interested in punctuation and numbers, but not now
-	  ELIMINATE_NOT_LETTERS:
+	  eliminate_not_letters:
 		  begin
-			 for I in 1..L  loop
-				if ((LINE(I) in 'A'..'Z')  or
-					  (LINE(I) = '-')           or     --  For the comment 
-					  (LINE(I) = '.')           or     --  Catch period later
-					  (LINE(I) in 'a'..'z'))  then
+			 for i in 1..l  loop
+				if ((line(i) in 'A'..'Z')  or
+					  (line(i) = '-')           or     --  For the comment 
+					  (line(i) = '.')           or     --  Catch period later
+					  (line(i) in 'a'..'z'))  then
 				   null;
 				else
-				   LINE(I) := ' ';
+				   line(i) := ' ';
 				end if;
 			 end loop;
-		  end ELIMINATE_NOT_LETTERS;
+		  end eliminate_not_letters;
 
 
 
-		  J := 1;
-		  K := 0;
-	  OVER_LINE:
-		  while J <= L  loop
+		  j := 1;
+		  k := 0;
+	  over_line:
+		  while j <= l  loop
 
 
 			 
 			 --  Skip over leading and intervening blanks, looking for comments
 			 --  Punctuation, numbers, and special characters were cleared above
-			 for I in K+1..L  loop
-				exit when LINE(J) in 'A'..'Z';
-				exit when LINE(J) in 'a'..'z';
-				if I < L  and then
-				  LINE(I..I+1) = "--"   then
-				   exit OVER_LINE;      --  the rest of the line is comment
+			 for i in k+1..l  loop
+				exit when line(j) in 'A'..'Z';
+				exit when line(j) in 'a'..'z';
+				if i < l  and then
+				  line(i..i+1) = "--"   then
+				   exit over_line;      --  the rest of the line is comment
 				end if;
-				J := I + 1;
+				j := i + 1;
 			 end loop;
 
-			 exit when J > L;             --  Kludge
+			 exit when j > l;             --  Kludge
 
-			 FOLLOWS_PERIOD := FALSE;
-			 if FOLLOWED_BY_PERIOD  then
-				FOLLOWED_BY_PERIOD := FALSE;
-				FOLLOWS_PERIOD := TRUE;
+			 follows_period := false;
+			 if followed_by_period  then
+				followed_by_period := false;
+				follows_period := true;
 			 end if;
 
 
 
-			 CAPITALIZED := FALSE;
-			 ALL_CAPS := FALSE;
+			 capitalized := false;
+			 all_caps := false;
 
 
 			 --  Extract the word
-			 for I in J..L  loop
+			 for i in j..l  loop
 
 				--  Although I have removed punctuation above, it may not always be so
-				if LINE(I) = '.'  then
-				   FOLLOWED_BY_PERIOD := TRUE;
+				if line(i) = '.'  then
+				   followed_by_period := true;
 				   exit;
 				end if;
 				--         exit when (LINE(I) = ' ' or LINE(I) = ',' or LINE(I) = '-'
@@ -110,115 +110,115 @@ procedure PARSE(COMMAND_LINE : STRING := "") is
 				--                or LINE(I) = '(' or LINE(I) = '[' or LINE(I) = '{' or LINE(I) = '<'
 				--                or LINE(I) = ')' or LINE(I) = ']' or LINE(I) = '}' or LINE(I) = '>'
 				--                or (CHARACTER'POS(LINE(I)) < 32)  or (CHARACTER'POS(LINE(I)) > 127) );
-				exit when ((LINE(I) not in 'A'..'Z') and (LINE(I) not in 'a'..'z'));
-				W(I) := LINE(I);
-				K := I;
+				exit when ((line(i) not in 'A'..'Z') and (line(i) not in 'a'..'z'));
+				w(i) := line(i);
+				k := i;
 
 			 end loop;
 
 
 
-			 if W(J) in 'A'..'Z'  and then
-			   K - J >= 1  and then
-			   W(J+1) in 'a'..'z'  then
-				CAPITALIZED := TRUE;
+			 if w(j) in 'A'..'Z'  and then
+			   k - j >= 1  and then
+			   w(j+1) in 'a'..'z'  then
+				capitalized := true;
 			 end if;
 
-			 ALL_CAPS := TRUE;
-			 for I in J..K  loop
-				if W(I) = LOWER_CASE(W(I))  then
-				   ALL_CAPS := FALSE;
+			 all_caps := true;
+			 for i in j..k  loop
+				if w(i) = lower_case(w(i))  then
+				   all_caps := false;
 				   exit;
 				end if;
 			 end loop;
 
-			 for I in J..K-1  loop               --  Kludge for QVAE
-				if W(I) = 'Q'  and then W(I+1) = 'V'  then
-				   W(I+1) := 'U';
+			 for i in j..k-1  loop               --  Kludge for QVAE
+				if w(i) = 'Q'  and then w(i+1) = 'V'  then
+				   w(i+1) := 'U';
 				end if;
 			 end loop;
 
 			 
-			 if LANGUAGE = ENGLISH_TO_LATIN  then
+			 if language = english_to_latin  then
 				
-			PARSE_LINE_ENGLISH_TO_LATIN:  
+			parse_line_english_to_latin:  
 				--  Since we do only one English word per line
 				declare
-				   INPUT_WORD : constant STRING := W(J..K);
-				   POFS : PART_OF_SPEECH_TYPE := X;
+				   input_word : constant string := w(j..k);
+				   pofs : part_of_speech_type := x;
 				begin
 
 				   --  Extract from the rest of the line
 				   --  Should do AUX here !!!!!!!!!!!!!!!!!!!!!!!!
-				   EXTRACT_POFS:
+				   extract_pofs:
 					   begin
-						  PART_OF_SPEECH_TYPE_IO.GET(LINE(K+1..L), POFS, L);
+						  part_of_speech_type_io.get(line(k+1..l), pofs, l);
 						  --TEXT_IO.PUT_LINE("In EXTRACT   " & LINE(K+1..L));
 					   exception
 						  when others =>
-							 POFS := X;
-					   end EXTRACT_POFS;
+							 pofs := x;
+					   end extract_pofs;
 					   --PART_OF_SPEECH_TYPE_IO.PUT(POFS); 
 					   --TEXT_IO.NEW_LINE;
 
-					   SEARCH_ENGLISH(INPUT_WORD, POFS);
+					   search_english(input_word, pofs);
 
-					   exit OVER_LINE;
+					   exit over_line;
 
-				end PARSE_LINE_ENGLISH_TO_LATIN;
+				end parse_line_english_to_latin;
 
 				
 				
 				
-			 elsif LANGUAGE = LATIN_TO_ENGLISH  then
+			 elsif language = latin_to_english  then
 				
-			PARSE_WORD_LATIN_TO_ENGLISH:  
+			parse_word_latin_to_english:  
 				declare
-				   INPUT_WORD : constant STRING := W(J..K);
-				   ENTERING_PA_LAST : INTEGER := 0;
-				   ENTERING_TRPA_LAST    : INTEGER := 0;
-				   HAVE_DONE_ENCLITIC : BOOLEAN := FALSE;
+				   input_word : constant string := w(j..k);
+				   entering_pa_last : integer := 0;
+				   entering_trpa_last    : integer := 0;
+				   have_done_enclitic : boolean := false;
 				   
 
-				   procedure PASS(INPUT_WORD : STRING);
+				   procedure pass(input_word : string);
 
 				   
-				   procedure ENCLITIC is
-					  SAVE_DO_FIXES  : BOOLEAN := WORDS_MODE(DO_FIXES);
-					  SAVE_DO_ONLY_FIXES  : BOOLEAN := WORDS_MDEV(DO_ONLY_FIXES);
-					  ENCLITIC_LIMIT : INTEGER := 4;
-					  TRY : constant STRING := LOWER_CASE(INPUT_WORD);
+				   procedure enclitic is
+					  save_do_fixes  : boolean := words_mode(do_fixes);
+					  save_do_only_fixes  : boolean := words_mdev(do_only_fixes);
+					  enclitic_limit : integer := 4;
+					  try : constant string := lower_case(input_word);
 				   begin
 					  --TEXT_IO.PUT_LINE("Entering ENCLITIC  HAVE DONE = " & BOOLEAN'IMAGE(HAVE_DONE_ENCLITIC));
 					  --if WORDS_MODE(TRIM_OUTPUT)  and (PA_LAST > 0)  then    return;   end if;
-					  if HAVE_DONE_ENCLITIC  then    return;   end if;
+					  if have_done_enclitic  then    return;   end if;
 					  
-					  ENTERING_PA_LAST := PA_LAST;
-					  if PA_LAST > 0 then ENCLITIC_LIMIT := 1; end if;
-				  LOOP_OVER_ENCLITIC_TACKONS:
-					  for I in 1..ENCLITIC_LIMIT  loop   --  If have parse, only do que of que, ne, ve, (est) 
+					  entering_pa_last := pa_last;
+					  if pa_last > 0 then enclitic_limit := 1; end if;
+				  loop_over_enclitic_tackons:
+					  for i in 1..enclitic_limit  loop   --  If have parse, only do que of que, ne, ve, (est) 
 
-					 REMOVE_A_TACKON:
+					 remove_a_tackon:
 						 declare
-							LESS : constant STRING :=
-							  SUBTRACT_TACKON(TRY, TACKONS(I));
+							less : constant string :=
+							  subtract_tackon(try, tackons(i));
 							--SUBTRACT_TACKON(INPUT_WORD, TACKONS(I));
-							SAVE_PA_LAST  : INTEGER := 0;
+							save_pa_last  : integer := 0;
 						 begin
 							--TEXT_IO.PUT_LINE("In ENCLITIC     LESS/TACKON  = " & LESS & "/" & TACKONS(I).TACK); 
-							if LESS  /= TRY  then       --  LESS is less
+							if less  /= try  then       --  LESS is less
 														--WORDS_MODE(DO_FIXES) := FALSE;
-							   WORD_PACKAGE.WORD(LESS, PA, PA_LAST);
+							   word_package.word(less, pa, pa_last);
 							   --TEXT_IO.PUT_LINE("In ENCLITICS after WORD NO_FIXES  LESS = " & LESS & "   PA_LAST = " & INTEGER'IMAGE(PA_LAST));
 
 
-							   if PA_LAST = 0  then
+							   if pa_last = 0  then
 
-								  SAVE_PA_LAST := PA_LAST;
-								  TRY_SLURY(LESS, PA, PA_LAST, LINE_NUMBER, WORD_NUMBER);
-								  if SAVE_PA_LAST /= 0   then     
-									 if (PA_LAST - 1) - SAVE_PA_LAST = SAVE_PA_LAST  then
-										PA_LAST := SAVE_PA_LAST;
+								  save_pa_last := pa_last;
+								  try_slury(less, pa, pa_last, line_number, word_number);
+								  if save_pa_last /= 0   then     
+									 if (pa_last - 1) - save_pa_last = save_pa_last  then
+										pa_last := save_pa_last;
 									 end if;
 								  end if;
 								  
@@ -226,100 +226,100 @@ procedure PARSE(COMMAND_LINE : STRING := "") is
 							   
 							   --  Do not SYNCOPE if there is a verb TO_BE or compound already there
 							   --  I do this here and below, it might be combined but it workd now
-							   for I in 1..PA_LAST  loop
+							   for i in 1..pa_last  loop
 								  --PARSE_RECORD_IO.PUT(PA(I)); TEXT_IO.NEW_LINE;
-								  if PA(I).IR.QUAL.POFS = V and then
-									PA(I).IR.QUAL.V.CON = (5, 1)  then 
-									 NO_SYNCOPE := TRUE;
+								  if pa(i).ir.qual.pofs = v and then
+									pa(i).ir.qual.v.con = (5, 1)  then 
+									 no_syncope := true;
 								  end if;
 							   end loop;
 
 							   
 							   --TEXT_IO.PUT_LINE("In ENCLITICS after SLURY  LESS = " & LESS & "   PA_LAST = " & INTEGER'IMAGE(PA_LAST));
-							   SYPA_LAST := 0;
-							   if WORDS_MDEV(DO_SYNCOPE)  and not NO_SYNCOPE  then
-								  SYNCOPE(LESS, SYPA, SYPA_LAST);  --  Want SYNCOPE second to make cleaner LIST
+							   sypa_last := 0;
+							   if words_mdev(do_syncope)  and not no_syncope  then
+								  syncope(less, sypa, sypa_last);  --  Want SYNCOPE second to make cleaner LIST
 																   --TEXT_IO.PUT_LINE("In ENCLITIC after SYNCOPE  LESS = " & LESS & "   SYPA_LAST = " & INTEGER'IMAGE(SYPA_LAST));
-								  PA_LAST := PA_LAST + SYPA_LAST;   --  Make syncope another array to avoid PA_LAST = 0 problems
-								  PA(1..PA_LAST) := PA(1..PA_LAST-SYPA_LAST) & SYPA(1..SYPA_LAST);  --  Add SYPA to PA
-								  SYPA(1..SYNCOPE_MAX) := (1..SYNCOPE_MAX => NULL_PARSE_RECORD);   --  Clean up so it does not repeat
-								  SYPA_LAST := 0;
+								  pa_last := pa_last + sypa_last;   --  Make syncope another array to avoid PA_LAST = 0 problems
+								  pa(1..pa_last) := pa(1..pa_last-sypa_last) & sypa(1..sypa_last);  --  Add SYPA to PA
+								  sypa(1..syncope_max) := (1..syncope_max => null_parse_record);   --  Clean up so it does not repeat
+								  sypa_last := 0;
 							   end if;
-							   NO_SYNCOPE := FALSE;
+							   no_syncope := false;
 							   --  Restore FIXES
 							   --WORDS_MODE(DO_FIXES) := SAVE_DO_FIXES;
 							   
-							   WORDS_MDEV(DO_ONLY_FIXES) := TRUE;
-							   WORD(INPUT_WORD, PA, PA_LAST);
+							   words_mdev(do_only_fixes) := true;
+							   word(input_word, pa, pa_last);
 							   --TEXT_IO.PUT_LINE("In ENCLITICS after ONLY_FIXES  LESS = " & LESS & "   PA_LAST = " & INTEGER'IMAGE(PA_LAST));
-							   WORDS_MDEV(DO_ONLY_FIXES) := SAVE_DO_ONLY_FIXES;
+							   words_mdev(do_only_fixes) := save_do_only_fixes;
 							   
 							   
-							   if PA_LAST > ENTERING_PA_LAST  then      --  have a possible word
-								  PA_LAST := PA_LAST + 1;
-								  PA(ENTERING_PA_LAST+2..PA_LAST) :=
-									PA(ENTERING_PA_LAST+1..PA_LAST-1);
-								  PA(ENTERING_PA_LAST+1) := (TACKONS(I).TACK,
-															 ((TACKON, NULL_TACKON_RECORD), 0, NULL_ENDING_RECORD, X, X),
-															 ADDONS, DICT_IO.COUNT(TACKONS(I).MNPC));
+							   if pa_last > entering_pa_last  then      --  have a possible word
+								  pa_last := pa_last + 1;
+								  pa(entering_pa_last+2..pa_last) :=
+									pa(entering_pa_last+1..pa_last-1);
+								  pa(entering_pa_last+1) := (tackons(i).tack,
+															 ((tackon, null_tackon_record), 0, null_ending_record, x, x),
+															 addons, dict_io.count(tackons(i).mnpc));
 								  
-								  HAVE_DONE_ENCLITIC := TRUE;
+								  have_done_enclitic := true;
 							   end if;
-							   exit LOOP_OVER_ENCLITIC_TACKONS;
+							   exit loop_over_enclitic_tackons;
 							end if;
-						 end REMOVE_A_TACKON;
-					  end loop LOOP_OVER_ENCLITIC_TACKONS;
-				   end ENCLITIC;    
+						 end remove_a_tackon;
+					  end loop loop_over_enclitic_tackons;
+				   end enclitic;    
 				   
 				   
-				   procedure TRICKS_ENCLITIC is
-					  TRY : constant STRING := LOWER_CASE(INPUT_WORD);
+				   procedure tricks_enclitic is
+					  try : constant string := lower_case(input_word);
 				   begin
 					  --TEXT_IO.PUT_LINE("Entering TRICKS_ENCLITIC    PA_LAST = " & INTEGER'IMAGE(PA_LAST));
 					  --if WORDS_MODE(TRIM_OUTPUT)  and (PA_LAST > 0)  then    return;   end if;
-					  if HAVE_DONE_ENCLITIC  then    return;   end if;
+					  if have_done_enclitic  then    return;   end if;
 					  
-					  ENTERING_TRPA_LAST := TRPA_LAST;
-				  LOOP_OVER_ENCLITIC_TACKONS:
-					  for I in 1..4  loop   --  que, ne, ve, (est) 
+					  entering_trpa_last := trpa_last;
+				  loop_over_enclitic_tackons:
+					  for i in 1..4  loop   --  que, ne, ve, (est) 
 
-					 REMOVE_A_TACKON:
+					 remove_a_tackon:
 						 declare
-							LESS : constant STRING :=
+							less : constant string :=
 							  --SUBTRACT_TACKON(LOWER_CASE(INPUT_WORD), TACKONS(I));
-							  SUBTRACT_TACKON(TRY, TACKONS(I));
+							  subtract_tackon(try, tackons(i));
 						 begin
 							--TEXT_IO.PUT_LINE("In TRICKS_ENCLITIC     LESS/TACKON  = " & LESS & "/" & TACKONS(I).TACK); 
-							if LESS  /= TRY  then       --  LESS is less
+							if less  /= try  then       --  LESS is less
 														--PASS(LESS);
-							   TRY_TRICKS(LESS, TRPA, TRPA_LAST, LINE_NUMBER, WORD_NUMBER);
+							   try_tricks(less, trpa, trpa_last, line_number, word_number);
 							   --TEXT_IO.PUT_LINE("In TRICKS_ENCLITICS after TRY_TRICKS  LESS = " & LESS & "   TRPA_LAST = " & INTEGER'IMAGE(TRPA_LAST));
-							   if TRPA_LAST > ENTERING_TRPA_LAST  then      --  have a possible word
-								  TRPA_LAST := TRPA_LAST + 1;
-								  TRPA(ENTERING_TRPA_LAST+2..trPA_LAST) :=
-									TRPA(ENTERING_TRPA_LAST+1..TRPA_LAST-1);
-								  TRPA(ENTERING_TRPA_LAST+1) := (TACKONS(I).TACK,
-																 ((TACKON, NULL_TACKON_RECORD), 0, NULL_ENDING_RECORD, X, X),
-																 ADDONS, DICT_IO.COUNT(TACKONS(I).MNPC));
+							   if trpa_last > entering_trpa_last  then      --  have a possible word
+								  trpa_last := trpa_last + 1;
+								  trpa(entering_trpa_last+2..trpa_last) :=
+									trpa(entering_trpa_last+1..trpa_last-1);
+								  trpa(entering_trpa_last+1) := (tackons(i).tack,
+																 ((tackon, null_tackon_record), 0, null_ending_record, x, x),
+																 addons, dict_io.count(tackons(i).mnpc));
 							   end if;
-							   exit LOOP_OVER_ENCLITIC_TACKONS;
+							   exit loop_over_enclitic_tackons;
 							end if;
-						 end REMOVE_A_TACKON;
-					  end loop LOOP_OVER_ENCLITIC_TACKONS;
-				   end TRICKS_ENCLITIC;
+						 end remove_a_tackon;
+					  end loop loop_over_enclitic_tackons;
+				   end tricks_enclitic;
 
-				   procedure PASS(INPUT_WORD : STRING) is
+				   procedure pass(input_word : string) is
 					  --  This is the core logic of the program, everything else is details
-					  SAVE_PA_LAST  : INTEGER := 0;
-					  SAVE_DO_FIXES  : BOOLEAN := WORDS_MODE(DO_FIXES);
-					  SAVE_DO_ONLY_FIXES  : BOOLEAN := WORDS_MDEV(DO_ONLY_FIXES);
-					  SAVE_DO_TRICKS : BOOLEAN := WORDS_MODE(DO_TRICKS);
+					  save_pa_last  : integer := 0;
+					  save_do_fixes  : boolean := words_mode(do_fixes);
+					  save_do_only_fixes  : boolean := words_mdev(do_only_fixes);
+					  save_do_tricks : boolean := words_mode(do_tricks);
 				   begin
 					  --TEXT_IO.PUT_LINE("Entering PASS with >" & INPUT_WORD);
 					  --  Do straight WORDS without FIXES/TRICKS, is the word in the dictionary
-					  WORDS_MODE(DO_FIXES) := FALSE;
-					  ROMAN_NUMERALS(INPUT_WORD, PA, PA_LAST);  
-					  WORD(INPUT_WORD, PA, PA_LAST);
+					  words_mode(do_fixes) := false;
+					  roman_numerals(input_word, pa, pa_last);  
+					  word(input_word, pa, pa_last);
 					  
 					  --TEXT_IO.PUT_LINE("SLURY-   PA_LAST = " & INTEGER'IMAGE(PA_LAST));
 					  --for JK in 1..PA_LAST  loop
@@ -327,17 +327,17 @@ procedure PARSE(COMMAND_LINE : STRING := "") is
 					  --end loop;
 
 
-					  if PA_LAST = 0  then
-						 TRY_SLURY(INPUT_WORD, PA, PA_LAST, LINE_NUMBER, WORD_NUMBER);
+					  if pa_last = 0  then
+						 try_slury(input_word, pa, pa_last, line_number, word_number);
 					  end if;
 					  
 					  
 					  --  Do not SYNCOPE if there is a verb TO_BE or compound already there
-					  for I in 1..PA_LAST  loop
+					  for i in 1..pa_last  loop
 						 --PARSE_RECORD_IO.PUT(PA(I)); TEXT_IO.NEW_LINE;
-						 if PA(I).IR.QUAL.POFS = V and then
-						   PA(I).IR.QUAL.V.CON = (5, 1)  then 
-							NO_SYNCOPE := TRUE;
+						 if pa(i).ir.qual.pofs = v and then
+						   pa(i).ir.qual.v.con = (5, 1)  then 
+							no_syncope := true;
 						 end if;
 					  end loop;
 					  
@@ -364,49 +364,49 @@ procedure PARSE(COMMAND_LINE : STRING := "") is
 					  ----TEXT_IO.PUT_LINE("1  PASS_BLOCK for  " & INPUT_WORD & "   PA_LAST = " & INTEGER'IMAGE(PA_LAST));
 					  
 					  --  Pure SYNCOPE
-					  SYPA_LAST := 0;
-					  if WORDS_MDEV(DO_SYNCOPE)  and not NO_SYNCOPE  then
-						 SYNCOPE(INPUT_WORD, SYPA, SYPA_LAST);  
-						 PA_LAST := PA_LAST + SYPA_LAST;   --  Make syncope another array to avoid PA-LAST = 0 problems
-						 PA(1..PA_LAST) := PA(1..PA_LAST-SYPA_LAST) & SYPA(1..SYPA_LAST);  --  Add SYPA to PA
-						 SYPA(1..SYNCOPE_MAX) := (1..SYNCOPE_MAX => NULL_PARSE_RECORD);   --  Clean up so it does not repeat
-						 SYPA_LAST := 0;
+					  sypa_last := 0;
+					  if words_mdev(do_syncope)  and not no_syncope  then
+						 syncope(input_word, sypa, sypa_last);  
+						 pa_last := pa_last + sypa_last;   --  Make syncope another array to avoid PA-LAST = 0 problems
+						 pa(1..pa_last) := pa(1..pa_last-sypa_last) & sypa(1..sypa_last);  --  Add SYPA to PA
+						 sypa(1..syncope_max) := (1..syncope_max => null_parse_record);   --  Clean up so it does not repeat
+						 sypa_last := 0;
 					  end if;
-					  NO_SYNCOPE := FALSE;
+					  no_syncope := false;
 
 					  --TEXT_IO.PUT_LINE("2  PASS_BLOCK for  " & INPUT_WORD & "   PA_LAST = " & INTEGER'IMAGE(PA_LAST));
 					  
 					  --  There may be a vaild simple parse, if so it is most probable
 					  --  But I have to allow for the possibility that -que is answer, not colloque V 
-					  ENCLITIC;
+					  enclitic;
 					  
 					  --  Restore FIXES
-					  WORDS_MODE(DO_FIXES) := SAVE_DO_FIXES;
+					  words_mode(do_fixes) := save_do_fixes;
 					  --TEXT_IO.PUT_LINE("3  PASS_BLOCK for  " & INPUT_WORD & "   PA_LAST = " & INTEGER'IMAGE(PA_LAST));
 					  
 					  --  Now with only fixes
-					  if PA_LAST = 0  and then
-						WORDS_MODE(DO_FIXES)  then
-						 WORDS_MDEV(DO_ONLY_FIXES) := TRUE;
+					  if pa_last = 0  and then
+						words_mode(do_fixes)  then
+						 words_mdev(do_only_fixes) := true;
 						 --TEXT_IO.PUT_LINE("3a PASS_BLOCK for  " & INPUT_WORD & "   PA_LAST = " & INTEGER'IMAGE(PA_LAST));
-						 WORD(INPUT_WORD, PA, PA_LAST);
+						 word(input_word, pa, pa_last);
 						 --TEXT_IO.PUT_LINE("3b PASS_BLOCK for  " & INPUT_WORD & "   PA_LAST = " & INTEGER'IMAGE(PA_LAST));
-						 SYPA_LAST := 0;
-						 if WORDS_MDEV(DO_SYNCOPE)  and not NO_SYNCOPE  then
-							SYNCOPE(INPUT_WORD, SYPA, SYPA_LAST);  
+						 sypa_last := 0;
+						 if words_mdev(do_syncope)  and not no_syncope  then
+							syncope(input_word, sypa, sypa_last);  
 							--TEXT_IO.PUT_LINE("3c PASS_BLOCK for  " & INPUT_WORD & "   PA_LAST = " & INTEGER'IMAGE(PA_LAST));
-							PA_LAST := PA_LAST + SYPA_LAST;   --  Make syncope another array to avoid PA-LAST = 0 problems
-							PA(1..PA_LAST) := PA(1..PA_LAST-SYPA_LAST) & SYPA(1..SYPA_LAST);  --  Add SYPA to PA
-							SYPA(1..SYNCOPE_MAX) := (1..SYNCOPE_MAX => NULL_PARSE_RECORD);   --  Clean up so it does not repeat
-							SYPA_LAST := 0;
+							pa_last := pa_last + sypa_last;   --  Make syncope another array to avoid PA-LAST = 0 problems
+							pa(1..pa_last) := pa(1..pa_last-sypa_last) & sypa(1..sypa_last);  --  Add SYPA to PA
+							sypa(1..syncope_max) := (1..syncope_max => null_parse_record);   --  Clean up so it does not repeat
+							sypa_last := 0;
 						 end if;
-						 NO_SYNCOPE := FALSE;
+						 no_syncope := false;
 
 						 --TEXT_IO.PUT_LINE("4  PASS_BLOCK for  " & INPUT_WORD & "   PA_LAST = " & INTEGER'IMAGE(PA_LAST));
-						 ENCLITIC;
+						 enclitic;
 						 
 						 --TEXT_IO.PUT_LINE("5  PASS_BLOCK for  " & INPUT_WORD & "   PA_LAST = " & INTEGER'IMAGE(PA_LAST));
-						 WORDS_MDEV(DO_ONLY_FIXES) := SAVE_DO_ONLY_FIXES;
+						 words_mdev(do_only_fixes) := save_do_only_fixes;
 					  end if;
 					  --TEXT_IO.PUT_LINE("6  PASS_BLOCK for  " & INPUT_WORD & "   PA_LAST = " & INTEGER'IMAGE(PA_LAST));
 					  --  ROMAN_NUMERALS(INPUT_WORD, PA, PA_LAST);  
@@ -438,42 +438,42 @@ procedure PARSE(COMMAND_LINE : STRING := "") is
 					  --  
 					  -- end if;   --  on A_LAST = 0
 					  
-				   end PASS;
+				   end pass;
 
 				begin   --  PARSE
-				   XXX_MEANING := NULL_MEANING_TYPE;
+				   xxx_meaning := null_meaning_type;
 
-			   PASS_BLOCK:
+			   pass_block:
 				   begin
-					  PA_LAST := 0;
-					  WORD_NUMBER := WORD_NUMBER + 1;
+					  pa_last := 0;
+					  word_number := word_number + 1;
 
-					  PASS(INPUT_WORD);
+					  pass(input_word);
 
-				   end PASS_BLOCK;
+				   end pass_block;
 				   
 				   --TEXT_IO.PUT_LINE("After PASS_BLOCK for  " & INPUT_WORD & "   PA_LAST = " & INTEGER'IMAGE(PA_LAST));
 
 				   --if (PA_LAST = 0) or DO_TRICKS_ANYWAY  then    --  WORD failed, try to modify the word
-				   if (PA_LAST = 0)  and then         
-					 not (WORDS_MODE(IGNORE_UNKNOWN_NAMES)  and CAPITALIZED)  then
+				   if (pa_last = 0)  and then         
+					 not (words_mode(ignore_unknown_names)  and capitalized)  then
 					  --  WORD failed, try to modify the word
 					  --TEXT_IO.PUT_LINE("WORDS fail me");
-					  if WORDS_MODE(DO_TRICKS)  then
+					  if words_mode(do_tricks)  then
 						 --TEXT_IO.PUT_LINE("DO_TRICKS      PA_LAST    TRPA_LAST  " & INTEGER'IMAGE(PA_LAST) & "   " & INTEGER'IMAGE(TRPA_LAST));
-						 WORDS_MODE(DO_TRICKS) := FALSE;  --  Turn it off so wont be circular
-						 TRY_TRICKS(INPUT_WORD, TRPA, TRPA_LAST, LINE_NUMBER, WORD_NUMBER);
+						 words_mode(do_tricks) := false;  --  Turn it off so wont be circular
+						 try_tricks(input_word, trpa, trpa_last, line_number, word_number);
 						 --TEXT_IO.PUT_LINE("DONE_TRICKS    PA_LAST    TRPA_LAST  " & INTEGER'IMAGE(PA_LAST) & "   " & INTEGER'IMAGE(TRPA_LAST));
-						 if TRPA_LAST = 0  then
-							TRICKS_ENCLITIC;
+						 if trpa_last = 0  then
+							tricks_enclitic;
 						 end if;
-						 WORDS_MODE(DO_TRICKS) := TRUE;   --  Turn it back on
+						 words_mode(do_tricks) := true;   --  Turn it back on
 					  end if;
 					  
-					  PA_LAST := PA_LAST + TRPA_LAST;   --  Make TRICKS another array to avoid PA-LAST = 0 problems
-					  PA(1..PA_LAST) := PA(1..PA_LAST-TRPA_LAST) & TRPA(1..TRPA_LAST);  --  Add SYPA to PA
-					  TRPA(1..TRICKS_MAX) := (1..TRICKS_MAX => NULL_PARSE_RECORD);   --  Clean up so it does not repeat
-					  TRPA_LAST := 0;
+					  pa_last := pa_last + trpa_last;   --  Make TRICKS another array to avoid PA-LAST = 0 problems
+					  pa(1..pa_last) := pa(1..pa_last-trpa_last) & trpa(1..trpa_last);  --  Add SYPA to PA
+					  trpa(1..tricks_max) := (1..tricks_max => null_parse_record);   --  Clean up so it does not repeat
+					  trpa_last := 0;
 
 				   end if;
 				   
@@ -488,65 +488,65 @@ procedure PARSE(COMMAND_LINE : STRING := "") is
 				   --  For this we have to look ahead
 
 
-				   if PA_LAST > 0   then    --  But PA may be killed by ALLOW in LIST_STEMS
-					  if WORDS_MODE(DO_COMPOUNDS)  and
-						not (CONFIGURATION = ONLY_MEANINGS)  then
-					 COMPOUNDS_WITH_SUM:
+				   if pa_last > 0   then    --  But PA may be killed by ALLOW in LIST_STEMS
+					  if words_mode(do_compounds)  and
+						not (configuration = only_meanings)  then
+					 compounds_with_sum:
 						 declare
-							NW : STRING(1..2500) := (others => ' ');
-							NK : INTEGER := 0;
+							nw : string(1..2500) := (others => ' ');
+							nk : integer := 0;
 
-							COMPOUND_TENSE : INFLECTIONS_PACKAGE.TENSE_TYPE := X;
-							COMPOUND_TVM   : INFLECTIONS_PACKAGE.TENSE_VOICE_MOOD_RECORD;
-							PPL_ON : BOOLEAN := FALSE;
+							compound_tense : inflections_package.tense_type := x;
+							compound_tvm   : inflections_package.tense_voice_mood_record;
+							ppl_on : boolean := false;
 
-							SUM_INFO : VERB_RECORD := ((5, 1),
-													   (X, ACTIVE, X),
+							sum_info : verb_record := ((5, 1),
+													   (x, active, x),
 													   0,
-													   X);
+													   x);
 
 							--  ESSE_INFO : VERB_RECORD := ((5, 1),
 							--                              (PRES, ACTIVE, INF),
 							--                               0,
 							--                               X);
 
-							PPL_INFO : VPAR_RECORD := ((0, 0),
-													   X,
-													   X,
-													   X,
-													   (X, X, X));
+							ppl_info : vpar_record := ((0, 0),
+													   x,
+													   x,
+													   x,
+													   (x, x, x));
 
-							SUPINE_INFO : SUPINE_RECORD := ((0, 0),
-															X,
-															X,
-															X);
+							supine_info : supine_record := ((0, 0),
+															x,
+															x,
+															x);
 
-							procedure LOOK_AHEAD is
-							   J : INTEGER := 0;
+							procedure look_ahead is
+							   j : integer := 0;
 							begin
-							   for I in K+2..L  loop
+							   for i in k+2..l  loop
 								  --  Although I have removed punctuation above, it may not always be so
-								  exit when (LINE(I) = ' ' or LINE(I) = ',' or LINE(I) = '-'
-											   or LINE(I) = ';' or LINE(I) = ':' or LINE(I) = '.'
-											   or LINE(I) = '(' or LINE(I) = '[' or LINE(I) = '{' or LINE(I) = '<'
-											   or LINE(I) = ')' or LINE(I) = ']' or LINE(I) = '}' or LINE(I) = '>');
-								  J := J + 1;
-								  NW(J) := LINE(I);
-								  NK := I;
+								  exit when (line(i) = ' ' or line(i) = ',' or line(i) = '-'
+											   or line(i) = ';' or line(i) = ':' or line(i) = '.'
+											   or line(i) = '(' or line(i) = '[' or line(i) = '{' or line(i) = '<'
+											   or line(i) = ')' or line(i) = ']' or line(i) = '}' or line(i) = '>');
+								  j := j + 1;
+								  nw(j) := line(i);
+								  nk := i;
 							   end loop;
-							end LOOK_AHEAD;
+							end look_ahead;
 
-							function NEXT_WORD return STRING is
+							function next_word return string is
 							begin
-							   return TRIM(NW);
-							end NEXT_WORD;
+							   return trim(nw);
+							end next_word;
 
-							function IS_SUM(T : STRING) return BOOLEAN is
-							   SA : constant array (MOOD_TYPE range IND..SUB,
-													TENSE_TYPE range PRES..FUTP,
-													NUMBER_TYPE range S..P,
-													PERSON_TYPE range 1..3)
-								 of STRING(1..9) :=
+							function is_sum(t : string) return boolean is
+							   sa : constant array (mood_type range ind..sub,
+													tense_type range pres..futp,
+													number_type range s..p,
+													person_type range 1..3)
+								 of string(1..9) :=
 								 (
 								  (         --  IND
 											(("sum      ", "es       ", "est      "), ("sumus    ", "estis    ", "sunt     ")),
@@ -567,337 +567,337 @@ procedure PARSE(COMMAND_LINE : STRING := "") is
 								 );
 
 							begin
-							   if T = ""  then
-								  return FALSE;
-							   elsif T(T'FIRST) /= 's'  and
-								 T(T'FIRST) /= 'e'  and
-								 T(T'FIRST) /= 'f'      then
-								  return FALSE;
+							   if t = ""  then
+								  return false;
+							   elsif t(t'first) /= 's'  and
+								 t(t'first) /= 'e'  and
+								 t(t'first) /= 'f'      then
+								  return false;
 							   end if;
-							   for L in MOOD_TYPE range IND..SUB  loop
-								  for K in TENSE_TYPE range PRES..FUTP  loop
-									 for J in NUMBER_TYPE range S..P  loop
-										for I in PERSON_TYPE range 1..3  loop
-										   if TRIM(T) = TRIM(SA(L, K, J, I))  then
-											  SUM_INFO := ((5, 1), (K, ACTIVE, L), I, J);
-											  return TRUE;     --  Only one of the forms can agree
+							   for l in mood_type range ind..sub  loop
+								  for k in tense_type range pres..futp  loop
+									 for j in number_type range s..p  loop
+										for i in person_type range 1..3  loop
+										   if trim(t) = trim(sa(l, k, j, i))  then
+											  sum_info := ((5, 1), (k, active, l), i, j);
+											  return true;     --  Only one of the forms can agree
 										   end if;
 										end loop;
 									 end loop;
 								  end loop;
 							   end loop;
-							   return FALSE;
-							end IS_SUM;
+							   return false;
+							end is_sum;
 
-							function IS_ESSE(T : STRING) return BOOLEAN is
+							function is_esse(t : string) return boolean is
 							begin
-							   return TRIM(T) = "esse";
-							end IS_ESSE;
+							   return trim(t) = "esse";
+							end is_esse;
 
-							function IS_FUISSE(T : STRING) return BOOLEAN is
+							function is_fuisse(t : string) return boolean is
 							begin
-							   return TRIM(T) = "fuisse";
-							end IS_FUISSE;
+							   return trim(t) = "fuisse";
+							end is_fuisse;
 
-							function IS_IRI(T : STRING) return BOOLEAN is
+							function is_iri(t : string) return boolean is
 							begin
-							   return TRIM(T) = "iri";
-							end IS_IRI;
+							   return trim(t) = "iri";
+							end is_iri;
 
 
 						 begin
 
 							--  Look ahead for sum                                           
-							LOOK_AHEAD;
-							if IS_SUM(NEXT_WORD)  then                 --  On NEXT_WORD = sum, esse, iri
+							look_ahead;
+							if is_sum(next_word)  then                 --  On NEXT_WORD = sum, esse, iri
 
-							   for I in 1..PA_LAST  loop    --  Check for PPL
-								  if PA(I).IR.QUAL.POFS = VPAR and then
-									PA(I).IR.QUAL.VPAR.CS = NOM  and then
-									PA(I).IR.QUAL.VPAR.NUMBER = SUM_INFO.NUMBER  and then
-									( (PA(I).IR.QUAL.VPAR.TENSE_VOICE_MOOD = (PERF, PASSIVE, PPL)) or
-										(PA(I).IR.QUAL.VPAR.TENSE_VOICE_MOOD = (FUT,  ACTIVE,  PPL)) or
-										(PA(I).IR.QUAL.VPAR.TENSE_VOICE_MOOD = (FUT,  PASSIVE, PPL)) )  then
+							   for i in 1..pa_last  loop    --  Check for PPL
+								  if pa(i).ir.qual.pofs = vpar and then
+									pa(i).ir.qual.vpar.cs = nom  and then
+									pa(i).ir.qual.vpar.number = sum_info.number  and then
+									( (pa(i).ir.qual.vpar.tense_voice_mood = (perf, passive, ppl)) or
+										(pa(i).ir.qual.vpar.tense_voice_mood = (fut,  active,  ppl)) or
+										(pa(i).ir.qual.vpar.tense_voice_mood = (fut,  passive, ppl)) )  then
 
 									 --  There is at least one hit, fix PA, and advance J over the sum
-									 K := NK;
+									 k := nk;
 
 								  end if;
 							   end loop;
 
-							   if K = NK  then      --  There was a PPL hit
-							  CLEAR_PAS_NOM_PPL:
+							   if k = nk  then      --  There was a PPL hit
+							  clear_pas_nom_ppl:
 								  declare
-									 J : INTEGER := PA_LAST;
+									 j : integer := pa_last;
 								  begin
-									 while J >= 1  loop        --  Sweep backwards to kill empty suffixes
-										if ((PA(J).IR.QUAL.POFS = PREFIX) and then (PPL_ON))  then
+									 while j >= 1  loop        --  Sweep backwards to kill empty suffixes
+										if ((pa(j).ir.qual.pofs = prefix) and then (ppl_on))  then
 										   null;
-										elsif ((PA(J).IR.QUAL.POFS = SUFFIX) and then (PPL_ON))  then
+										elsif ((pa(j).ir.qual.pofs = suffix) and then (ppl_on))  then
 										   null;
-										elsif ((PA(J).IR.QUAL.POFS = TACKON) and then (PPL_ON))  then
+										elsif ((pa(j).ir.qual.pofs = tackon) and then (ppl_on))  then
 										   null;
 
 
 
-										elsif PA(J).IR.QUAL.POFS = VPAR and then
-										  PA(J).IR.QUAL.VPAR.CS = NOM  and then
-										  PA(J).IR.QUAL.VPAR.NUMBER = SUM_INFO.NUMBER  then
+										elsif pa(j).ir.qual.pofs = vpar and then
+										  pa(j).ir.qual.vpar.cs = nom  and then
+										  pa(j).ir.qual.vpar.number = sum_info.number  then
 
-										   if PA(J).IR.QUAL.VPAR.TENSE_VOICE_MOOD = (PERF, PASSIVE, PPL)  then
-											  PPL_ON := TRUE;
+										   if pa(j).ir.qual.vpar.tense_voice_mood = (perf, passive, ppl)  then
+											  ppl_on := true;
 
-											  case SUM_INFO.TENSE_VOICE_MOOD.TENSE is  --  Allows PERF for sum
-												 when PRES | PERF  =>  COMPOUND_TENSE := PERF;
-												 when IMPF | PLUP  =>  COMPOUND_TENSE := PLUP;
-												 when FUT          =>  COMPOUND_TENSE := FUTP;
-												 when others       =>  COMPOUND_TENSE := X;
+											  case sum_info.tense_voice_mood.tense is  --  Allows PERF for sum
+												 when pres | perf  =>  compound_tense := perf;
+												 when impf | plup  =>  compound_tense := plup;
+												 when fut          =>  compound_tense := futp;
+												 when others       =>  compound_tense := x;
 											  end case;
-											  COMPOUND_TVM := (COMPOUND_TENSE, PASSIVE, SUM_INFO.TENSE_VOICE_MOOD.MOOD);
+											  compound_tvm := (compound_tense, passive, sum_info.tense_voice_mood.mood);
 
-											  PPL_INFO := (PA(J).IR.QUAL.VPAR.CON,   --  In this case, there is 1 
-														   PA(J).IR.QUAL.VPAR.CS,    --  although several different
-														   PA(J).IR.QUAL.VPAR.NUMBER,--  dictionary entries may fit
-														   PA(J).IR.QUAL.VPAR.GENDER,--  all have same PPL_INFO
-														   PA(J).IR.QUAL.VPAR.TENSE_VOICE_MOOD);
-											  PPP_MEANING :=
-												HEAD("PERF PASSIVE PPL + verb TO_BE => PASSIVE perfect system",
-													 MAX_MEANING_SIZE);
+											  ppl_info := (pa(j).ir.qual.vpar.con,   --  In this case, there is 1 
+														   pa(j).ir.qual.vpar.cs,    --  although several different
+														   pa(j).ir.qual.vpar.number,--  dictionary entries may fit
+														   pa(j).ir.qual.vpar.gender,--  all have same PPL_INFO
+														   pa(j).ir.qual.vpar.tense_voice_mood);
+											  ppp_meaning :=
+												head("PERF PASSIVE PPL + verb TO_BE => PASSIVE perfect system",
+													 max_meaning_size);
 
-										   elsif PA(J).IR.QUAL.VPAR.TENSE_VOICE_MOOD = (FUT, ACTIVE,  PPL)  then
-											  PPL_ON := TRUE;
-											  COMPOUND_TENSE := SUM_INFO.TENSE_VOICE_MOOD.TENSE;
-											  COMPOUND_TVM := (COMPOUND_TENSE, ACTIVE, SUM_INFO.TENSE_VOICE_MOOD.MOOD);
+										   elsif pa(j).ir.qual.vpar.tense_voice_mood = (fut, active,  ppl)  then
+											  ppl_on := true;
+											  compound_tense := sum_info.tense_voice_mood.tense;
+											  compound_tvm := (compound_tense, active, sum_info.tense_voice_mood.mood);
 
-											  PPL_INFO := (PA(J).IR.QUAL.VPAR.CON,   --  In this case, there is 1 
-														   PA(J).IR.QUAL.VPAR.CS,    --  although several different
-														   PA(J).IR.QUAL.VPAR.NUMBER,--  dictionary entries may fit
-														   PA(J).IR.QUAL.VPAR.GENDER,--  all have same PPL_INFO
-														   PA(J).IR.QUAL.VPAR.TENSE_VOICE_MOOD);
-											  PPP_MEANING := HEAD(
+											  ppl_info := (pa(j).ir.qual.vpar.con,   --  In this case, there is 1 
+														   pa(j).ir.qual.vpar.cs,    --  although several different
+														   pa(j).ir.qual.vpar.number,--  dictionary entries may fit
+														   pa(j).ir.qual.vpar.gender,--  all have same PPL_INFO
+														   pa(j).ir.qual.vpar.tense_voice_mood);
+											  ppp_meaning := head(
 																  "FUT ACTIVE PPL + verb TO_BE => ACTIVE Periphrastic - about to, going to",
-																  MAX_MEANING_SIZE);
+																  max_meaning_size);
 
-										   elsif PA(J).IR.QUAL.VPAR.TENSE_VOICE_MOOD = (FUT, PASSIVE, PPL)  then
-											  PPL_ON := TRUE;
-											  COMPOUND_TENSE := SUM_INFO.TENSE_VOICE_MOOD.TENSE;
-											  COMPOUND_TVM := (COMPOUND_TENSE, PASSIVE, SUM_INFO.TENSE_VOICE_MOOD.MOOD);
+										   elsif pa(j).ir.qual.vpar.tense_voice_mood = (fut, passive, ppl)  then
+											  ppl_on := true;
+											  compound_tense := sum_info.tense_voice_mood.tense;
+											  compound_tvm := (compound_tense, passive, sum_info.tense_voice_mood.mood);
 
-											  PPL_INFO := (PA(J).IR.QUAL.VPAR.CON,   --  In this case, there is 1 
-														   PA(J).IR.QUAL.VPAR.CS,    --  although several different
-														   PA(J).IR.QUAL.VPAR.NUMBER,--  dictionary entries may fit
-														   PA(J).IR.QUAL.VPAR.GENDER,--  all have same PPL_INFO
-														   PA(J).IR.QUAL.VPAR.TENSE_VOICE_MOOD);
-											  PPP_MEANING := HEAD(
+											  ppl_info := (pa(j).ir.qual.vpar.con,   --  In this case, there is 1 
+														   pa(j).ir.qual.vpar.cs,    --  although several different
+														   pa(j).ir.qual.vpar.number,--  dictionary entries may fit
+														   pa(j).ir.qual.vpar.gender,--  all have same PPL_INFO
+														   pa(j).ir.qual.vpar.tense_voice_mood);
+											  ppp_meaning := head(
 																  "FUT PASSIVE PPL + verb TO_BE => PASSIVE Periphrastic - should/ought/had to",
-																  MAX_MEANING_SIZE);
+																  max_meaning_size);
 
 										   end if;
 										else
-										   PA(J..PA_LAST-1) := PA(J+1..PA_LAST);
-										   PA_LAST := PA_LAST - 1;
-										   PPL_ON := FALSE;
+										   pa(j..pa_last-1) := pa(j+1..pa_last);
+										   pa_last := pa_last - 1;
+										   ppl_on := false;
 										end if;
-										J := J - 1;
+										j := j - 1;
 									 end loop;
-								  end CLEAR_PAS_NOM_PPL;
+								  end clear_pas_nom_ppl;
 
 
-								  PA_LAST := PA_LAST + 1;
-								  PA(PA_LAST) :=
-									(HEAD("PPL+" & NEXT_WORD, MAX_STEM_SIZE),
-									 ((V,
-									   (PPL_INFO.CON,
-										COMPOUND_TVM,
-										SUM_INFO.PERSON,
-										SUM_INFO.NUMBER)
-									  ), 0, NULL_ENDING_RECORD, X, A),
-									 PPP, NULL_MNPC);
+								  pa_last := pa_last + 1;
+								  pa(pa_last) :=
+									(head("PPL+" & next_word, max_stem_size),
+									 ((v,
+									   (ppl_info.con,
+										compound_tvm,
+										sum_info.person,
+										sum_info.number)
+									  ), 0, null_ending_record, x, a),
+									 ppp, null_mnpc);
 
 							   end if;
 
-							elsif IS_ESSE(NEXT_WORD) or IS_FUISSE(NEXT_WORD)  then     --  On NEXT_WORD
+							elsif is_esse(next_word) or is_fuisse(next_word)  then     --  On NEXT_WORD
 
-							   for I in 1..PA_LAST  loop    --  Check for PPL
-								  if PA(I).IR.QUAL.POFS = VPAR and then
-									(((PA(I).IR.QUAL.VPAR.TENSE_VOICE_MOOD = (PERF, PASSIVE, PPL)) and
-										IS_ESSE(NEXT_WORD)) or
-									   ((PA(I).IR.QUAL.VPAR.TENSE_VOICE_MOOD = (FUT,  ACTIVE,  PPL)) or
-										  (PA(I).IR.QUAL.VPAR.TENSE_VOICE_MOOD = (FUT,  PASSIVE, PPL))) )  then
+							   for i in 1..pa_last  loop    --  Check for PPL
+								  if pa(i).ir.qual.pofs = vpar and then
+									(((pa(i).ir.qual.vpar.tense_voice_mood = (perf, passive, ppl)) and
+										is_esse(next_word)) or
+									   ((pa(i).ir.qual.vpar.tense_voice_mood = (fut,  active,  ppl)) or
+										  (pa(i).ir.qual.vpar.tense_voice_mood = (fut,  passive, ppl))) )  then
 
 									 --  There is at least one hit, fix PA, and advance J over the sum
-									 K := NK;
+									 k := nk;
 
 								  end if;
 							   end loop;
 
-							   if K = NK  then      --  There was a PPL hit
-							  CLEAR_PAS_PPL:
+							   if k = nk  then      --  There was a PPL hit
+							  clear_pas_ppl:
 								  declare
-									 J : INTEGER := PA_LAST;
+									 j : integer := pa_last;
 								  begin
-									 while J >= 1  loop        --  Sweep backwards to kill empty suffixes
-										if ((PA(J).IR.QUAL.POFS = PREFIX) and then (PPL_ON))  then
+									 while j >= 1  loop        --  Sweep backwards to kill empty suffixes
+										if ((pa(j).ir.qual.pofs = prefix) and then (ppl_on))  then
 										   null;
-										elsif ((PA(J).IR.QUAL.POFS = SUFFIX) and then (PPL_ON))  then
+										elsif ((pa(j).ir.qual.pofs = suffix) and then (ppl_on))  then
 										   null;
-										elsif ((PA(J).IR.QUAL.POFS = TACKON) and then (PPL_ON))  then
+										elsif ((pa(j).ir.qual.pofs = tackon) and then (ppl_on))  then
 										   null;
 
 
 
-										elsif PA(J).IR.QUAL.POFS = VPAR   then
+										elsif pa(j).ir.qual.pofs = vpar   then
 
-										   if PA(J).IR.QUAL.VPAR.TENSE_VOICE_MOOD = (PERF, PASSIVE, PPL)  then
-											  PPL_ON := TRUE;
+										   if pa(j).ir.qual.vpar.tense_voice_mood = (perf, passive, ppl)  then
+											  ppl_on := true;
 
-											  COMPOUND_TVM := (PERF, PASSIVE, INF);
+											  compound_tvm := (perf, passive, inf);
 
-											  PPL_INFO := (PA(J).IR.QUAL.VPAR.CON,   --  In this case, there is 1 
-														   PA(J).IR.QUAL.VPAR.CS,    --  although several different
-														   PA(J).IR.QUAL.VPAR.NUMBER,--  dictionary entries may fit
-														   PA(J).IR.QUAL.VPAR.GENDER,--  all have same PPL_INFO
-														   PA(J).IR.QUAL.VPAR.TENSE_VOICE_MOOD);
-											  PPP_MEANING :=
-												HEAD("PERF PASSIVE PPL + esse => PERF PASSIVE INF",
-													 MAX_MEANING_SIZE);
+											  ppl_info := (pa(j).ir.qual.vpar.con,   --  In this case, there is 1 
+														   pa(j).ir.qual.vpar.cs,    --  although several different
+														   pa(j).ir.qual.vpar.number,--  dictionary entries may fit
+														   pa(j).ir.qual.vpar.gender,--  all have same PPL_INFO
+														   pa(j).ir.qual.vpar.tense_voice_mood);
+											  ppp_meaning :=
+												head("PERF PASSIVE PPL + esse => PERF PASSIVE INF",
+													 max_meaning_size);
 
-										   elsif PA(J).IR.QUAL.VPAR.TENSE_VOICE_MOOD = (FUT, ACTIVE,  PPL)  then
-											  PPL_ON := TRUE;
-											  PPL_INFO := (PA(J).IR.QUAL.VPAR.CON,   --  In this case, there is 1 
-														   PA(J).IR.QUAL.VPAR.CS,    --  although several different
-														   PA(J).IR.QUAL.VPAR.NUMBER,--  dictionary entries may fit
-														   PA(J).IR.QUAL.VPAR.GENDER,--  all have same PPL_INFO
-														   PA(J).IR.QUAL.VPAR.TENSE_VOICE_MOOD);
-											  if IS_ESSE(NEXT_WORD)  then
-												 COMPOUND_TVM := (FUT, ACTIVE, INF);
-												 PPP_MEANING := HEAD(
+										   elsif pa(j).ir.qual.vpar.tense_voice_mood = (fut, active,  ppl)  then
+											  ppl_on := true;
+											  ppl_info := (pa(j).ir.qual.vpar.con,   --  In this case, there is 1 
+														   pa(j).ir.qual.vpar.cs,    --  although several different
+														   pa(j).ir.qual.vpar.number,--  dictionary entries may fit
+														   pa(j).ir.qual.vpar.gender,--  all have same PPL_INFO
+														   pa(j).ir.qual.vpar.tense_voice_mood);
+											  if is_esse(next_word)  then
+												 compound_tvm := (fut, active, inf);
+												 ppp_meaning := head(
 																	 "FUT ACTIVE PPL + esse => PRES Periphastic/FUT ACTIVE INF - be about/going to",
-																	 MAX_MEANING_SIZE);
+																	 max_meaning_size);
 												 -- also peri COMPOUND_TVM := (PRES, ACTIVE, INF);
 											  else   --  fuisse
-												 COMPOUND_TVM := (PERF, ACTIVE, INF);
-												 PPP_MEANING := HEAD(
+												 compound_tvm := (perf, active, inf);
+												 ppp_meaning := head(
 																	 "FUT ACT PPL+fuisse => PERF ACT INF Periphrastic - to have been about/going to",
-																	 MAX_MEANING_SIZE);
+																	 max_meaning_size);
 											  end if;
 
 
-										   elsif PA(J).IR.QUAL.VPAR.TENSE_VOICE_MOOD = (FUT, PASSIVE, PPL)  then
-											  PPL_ON := TRUE;
+										   elsif pa(j).ir.qual.vpar.tense_voice_mood = (fut, passive, ppl)  then
+											  ppl_on := true;
 
-											  PPL_INFO := (PA(J).IR.QUAL.VPAR.CON,   --  In this case, there is 1 
-														   PA(J).IR.QUAL.VPAR.CS,    --  although several different
-														   PA(J).IR.QUAL.VPAR.NUMBER,--  dictionary entries may fit
-														   PA(J).IR.QUAL.VPAR.GENDER,--  all have same PPL_INFO
-														   PA(J).IR.QUAL.VPAR.TENSE_VOICE_MOOD);
-											  if IS_ESSE(NEXT_WORD)  then
-												 COMPOUND_TVM := (PRES, PASSIVE, INF);
-												 PPP_MEANING := HEAD(
+											  ppl_info := (pa(j).ir.qual.vpar.con,   --  In this case, there is 1 
+														   pa(j).ir.qual.vpar.cs,    --  although several different
+														   pa(j).ir.qual.vpar.number,--  dictionary entries may fit
+														   pa(j).ir.qual.vpar.gender,--  all have same PPL_INFO
+														   pa(j).ir.qual.vpar.tense_voice_mood);
+											  if is_esse(next_word)  then
+												 compound_tvm := (pres, passive, inf);
+												 ppp_meaning := head(
 																	 "FUT PASSIVE PPL + esse => PRES PASSIVE INF",
-																	 MAX_MEANING_SIZE);
+																	 max_meaning_size);
 												 -- also peri COMPOUND_TVM := (PRES, ACTIVE, INF);
 											  else   --  fuisse
-												 COMPOUND_TVM := (PERF, PASSIVE, INF);
-												 PPP_MEANING := HEAD(
+												 compound_tvm := (perf, passive, inf);
+												 ppp_meaning := head(
 																	 "FUT PASSIVE PPL + fuisse => PERF PASSIVE INF Periphrastic - about to, going to",
-																	 MAX_MEANING_SIZE);
+																	 max_meaning_size);
 											  end if;
 
 
 										   end if;
 										else
-										   PA(J..PA_LAST-1) := PA(J+1..PA_LAST);
-										   PA_LAST := PA_LAST - 1;
-										   PPL_ON := FALSE;
+										   pa(j..pa_last-1) := pa(j+1..pa_last);
+										   pa_last := pa_last - 1;
+										   ppl_on := false;
 										end if;
-										J := J - 1;
+										j := j - 1;
 									 end loop;
-								  end CLEAR_PAS_PPL;
+								  end clear_pas_ppl;
 
 
-								  PA_LAST := PA_LAST + 1;
-								  PA(PA_LAST) :=
-									(HEAD("PPL+" & NEXT_WORD, MAX_STEM_SIZE),
-									 ((V,
-									   (PPL_INFO.CON,
-										COMPOUND_TVM,
+								  pa_last := pa_last + 1;
+								  pa(pa_last) :=
+									(head("PPL+" & next_word, max_stem_size),
+									 ((v,
+									   (ppl_info.con,
+										compound_tvm,
 										0,
-										X)
-									  ), 0, NULL_ENDING_RECORD, X, A),
-									 PPP, NULL_MNPC);
+										x)
+									  ), 0, null_ending_record, x, a),
+									 ppp, null_mnpc);
 
 							   end if;
 
-							elsif IS_IRI(NEXT_WORD)  then              --  On NEXT_WORD = sum, esse, iri
+							elsif is_iri(next_word)  then              --  On NEXT_WORD = sum, esse, iri
 																	   --  Look ahead for sum                                           
 
-							   for J in 1..PA_LAST  loop    --  Check for SUPINE
-								  if PA(J).IR.QUAL.POFS = SUPINE   and then
-									PA(J).IR.QUAL.SUPINE.CS = ACC    then
+							   for j in 1..pa_last  loop    --  Check for SUPINE
+								  if pa(j).ir.qual.pofs = supine   and then
+									pa(j).ir.qual.supine.cs = acc    then
 									 --  There is at least one hit, fix PA, and advance J over the iri
-									 K := NK;
+									 k := nk;
 
 								  end if;
 							   end loop;
 
-							   if K = NK  then      --  There was a SUPINE hit
-							  CLEAR_PAS_SUPINE:
+							   if k = nk  then      --  There was a SUPINE hit
+							  clear_pas_supine:
 								  declare
-									 J : INTEGER := PA_LAST;
+									 j : integer := pa_last;
 								  begin
-									 while J >= 1  loop        --  Sweep backwards to kill empty suffixes
-										if ((PA(J).IR.QUAL.POFS = PREFIX) and then (PPL_ON))  then
+									 while j >= 1  loop        --  Sweep backwards to kill empty suffixes
+										if ((pa(j).ir.qual.pofs = prefix) and then (ppl_on))  then
 										   null;
-										elsif ((PA(J).IR.QUAL.POFS = SUFFIX) and then (PPL_ON))  then
+										elsif ((pa(j).ir.qual.pofs = suffix) and then (ppl_on))  then
 										   null;
-										elsif ((PA(J).IR.QUAL.POFS = TACKON) and then (PPL_ON))  then
+										elsif ((pa(j).ir.qual.pofs = tackon) and then (ppl_on))  then
 										   null;
 
 
 
-										elsif PA(J).IR.QUAL.POFS = SUPINE  and then
-										  PA(J).IR.QUAL.SUPINE.CS = ACC  then
+										elsif pa(j).ir.qual.pofs = supine  and then
+										  pa(j).ir.qual.supine.cs = acc  then
 
-										   PPL_ON := TRUE;
-										   SUPINE_INFO := (PA(J).IR.QUAL.SUPINE.CON,
-														   PA(J).IR.QUAL.SUPINE.CS,
-														   PA(J).IR.QUAL.SUPINE.NUMBER,
-														   PA(J).IR.QUAL.SUPINE.GENDER);
+										   ppl_on := true;
+										   supine_info := (pa(j).ir.qual.supine.con,
+														   pa(j).ir.qual.supine.cs,
+														   pa(j).ir.qual.supine.number,
+														   pa(j).ir.qual.supine.gender);
 
 
 
-										   PA_LAST := PA_LAST + 1;
-										   PA(PA_LAST) :=
-											 (HEAD("SUPINE + iri", MAX_STEM_SIZE),
-											  ((V,
-												(SUPINE_INFO.CON,
-												 (FUT, PASSIVE, INF),
+										   pa_last := pa_last + 1;
+										   pa(pa_last) :=
+											 (head("SUPINE + iri", max_stem_size),
+											  ((v,
+												(supine_info.con,
+												 (fut, passive, inf),
 												 0,
-												 X)
-											   ), 0, NULL_ENDING_RECORD, X, A),
-											  PPP, NULL_MNPC);
-										   PPP_MEANING := HEAD(
+												 x)
+											   ), 0, null_ending_record, x, a),
+											  ppp, null_mnpc);
+										   ppp_meaning := head(
 															   "SUPINE + iri => FUT PASSIVE INF - to be about/going/ready to be ~",
-															   MAX_MEANING_SIZE);
+															   max_meaning_size);
 
-										   K := NK;
+										   k := nk;
 
 
 										else
-										   PA(J..PA_LAST-1) := PA(J+1..PA_LAST);
-										   PA_LAST := PA_LAST - 1;
-										   PPL_ON := FALSE;
+										   pa(j..pa_last-1) := pa(j+1..pa_last);
+										   pa_last := pa_last - 1;
+										   ppl_on := false;
 										end if;
-										J := J -1;
+										j := j -1;
 									 end loop;
-								  end CLEAR_PAS_SUPINE;
+								  end clear_pas_supine;
 							   end if;
 
 							end if;       --  On NEXT_WORD = sum, esse, iri
 
 
-						 end COMPOUNDS_WITH_SUM;
+						 end compounds_with_sum;
 					  end if;       --  On WORDS_MODE(DO_COMPOUNDS)
 
 
@@ -907,26 +907,26 @@ procedure PARSE(COMMAND_LINE : STRING := "") is
 				   --TEXT_IO.PUT_LINE("Before LISTing STEMS (PA_LAST > 0 to start) PA_LAST = " & 
 				   --INTEGER'IMAGE(PA_LAST));
 				   
-				   if  WORDS_MODE(WRITE_OUTPUT_TO_FILE)      then
-					  LIST_STEMS(OUTPUT, INPUT_WORD, INPUT_LINE, PA, PA_LAST);
+				   if  words_mode(write_output_to_file)      then
+					  list_stems(output, input_word, input_line, pa, pa_last);
 				   else
-					  LIST_STEMS(CURRENT_OUTPUT, INPUT_WORD, INPUT_LINE, PA, PA_LAST);
+					  list_stems(current_output, input_word, input_line, pa, pa_last);
 				   end if;
 
 				   --TEXT_IO.PUT_LINE("After LISTing STEMS (PA_LAST > 0 to start) PA_LAST = " & 
 				   --INTEGER'IMAGE(PA_LAST));
 				   
 				   
-				   PA_LAST := 0;
+				   pa_last := 0;
 
 				exception
 				   when others  =>
-					  PUT_STAT("Exception    at "
-								 & HEAD(INTEGER'IMAGE(LINE_NUMBER), 8) & HEAD(INTEGER'IMAGE(WORD_NUMBER), 4)    
-								 & "   " & HEAD(INPUT_WORD, 28) & "   "  & INPUT_LINE);
+					  put_stat("Exception    at "
+								 & head(integer'image(line_number), 8) & head(integer'image(word_number), 4)    
+								 & "   " & head(input_word, 28) & "   "  & input_line);
 					  raise;
 
-				end PARSE_WORD_LATIN_TO_ENGLISH;
+				end parse_word_latin_to_english;
 
 
 			 end if;
@@ -935,41 +935,41 @@ procedure PARSE(COMMAND_LINE : STRING := "") is
 			 ----------------------------------------------------------------------
 
 
-			 J := K + 1;    --  In case it is end of line and we don't look for ' '
+			 j := k + 1;    --  In case it is end of line and we don't look for ' '
 
-			 exit when WORDS_MDEV(DO_ONLY_INITIAL_WORD);
+			 exit when words_mdev(do_only_initial_word);
 
-		  end loop OVER_LINE;        --  Loop on line
+		  end loop over_line;        --  Loop on line
 
    exception
 	  --   Have STORAGE_ERROR check in WORD too  ?????????????
-	  when STORAGE_ERROR  =>    --  I want to again, at least twice
-		 if WORDS_MDEV(DO_PEARSE_CODES) then
-			TEXT_IO.PUT("00 ");
+	  when storage_error  =>    --  I want to again, at least twice
+		 if words_mdev(do_pearse_codes) then
+			text_io.put("00 ");
 		 end if;
-		 TEXT_IO.PUT_LINE(    --  ERROR_FILE,
+		 text_io.put_line(    --  ERROR_FILE,
 							  "STORAGE_ERROR Exception in WORDS, try again");
-		 STORAGE_ERROR_COUNT := STORAGE_ERROR_COUNT + 1;
-		 if STORAGE_ERROR_COUNT >= 4  then  raise; end if;
-		 PA_LAST := 0;
-	  when GIVE_UP =>
-		 PA_LAST := 0;
+		 storage_error_count := storage_error_count + 1;
+		 if storage_error_count >= 4  then  raise; end if;
+		 pa_last := 0;
+	  when give_up =>
+		 pa_last := 0;
 		 raise;
 	  when others  =>    --  I want to try to get on with the next line
-		 TEXT_IO.PUT_LINE(    --  ERROR_FILE,
-							  "Exception in PARSE_LINE processing " & INPUT_LINE);
-		 if WORDS_MODE(WRITE_UNKNOWNS_TO_FILE)  then
-			if WORDS_MDEV(DO_PEARSE_CODES) then
-			   TEXT_IO.PUT(UNKNOWNS, "00 ");
+		 text_io.put_line(    --  ERROR_FILE,
+							  "Exception in PARSE_LINE processing " & input_line);
+		 if words_mode(write_unknowns_to_file)  then
+			if words_mdev(do_pearse_codes) then
+			   text_io.put(unknowns, "00 ");
 			end if;
-			TEXT_IO.PUT(UNKNOWNS, INPUT_LINE(J..K));
-			TEXT_IO.SET_COL(UNKNOWNS, 30);
-			INFLECTIONS_PACKAGE.INTEGER_IO.PUT(UNKNOWNS, LINE_NUMBER, 5);
-			INFLECTIONS_PACKAGE.INTEGER_IO.PUT(UNKNOWNS, WORD_NUMBER, 3);
-			TEXT_IO.PUT_LINE(UNKNOWNS, "    ========   ERROR      ");
+			text_io.put(unknowns, input_line(j..k));
+			text_io.set_col(unknowns, 30);
+			inflections_package.integer_io.put(unknowns, line_number, 5);
+			inflections_package.integer_io.put(unknowns, word_number, 3);
+			text_io.put_line(unknowns, "    ========   ERROR      ");
 		 end if;
-		 PA_LAST := 0;
-   end PARSE_LINE;     
+		 pa_last := 0;
+   end parse_line;     
 
 
    --procedure CHANGE_LANGUAGE(C : CHARACTER) is
@@ -1003,144 +1003,144 @@ begin              --  PARSE
    --  INITIALIZE_DEVELOPER_PARAMETERS;
    --  INITIALIZE_WORD_PACKAGE;
    --
-   if METHOD = COMMAND_LINE_INPUT  then
-	  if TRIM(COMMAND_LINE) /= ""  then
-		 PARSE_LINE(COMMAND_LINE);
+   if method = command_line_input  then
+	  if trim(command_line) /= ""  then
+		 parse_line(command_line);
 	  end if;
 
    else
 
-	  PREFACE.PUT_LINE(
+	  preface.put_line(
 					   "Copyright (c) 1993-2006 - Free for any use - Version 1.97FC");
-	  PREFACE.PUT_LINE(
+	  preface.put_line(
 					   "For updates and latest version check http://www.erols.com/whitaker/words.htm");
-	  PREFACE.PUT_LINE(
+	  preface.put_line(
 					   "Comments? William Whitaker, Box 51225  Midland  TX  79710  USA - whitaker@erols.com");
-	  PREFACE.NEW_LINE;
-	  PREFACE.PUT_LINE(
+	  preface.new_line;
+	  preface.put_line(
 					   "Input a word or line of Latin and ENTER to get the forms and meanings");
-	  PREFACE.PUT_LINE("    Or input " & START_FILE_CHARACTER &
+	  preface.put_line("    Or input " & start_file_character &
 						 " and the name of a file containing words or lines");
-	  PREFACE.PUT_LINE("    Or input " & CHANGE_PARAMETERS_CHARACTER &
+	  preface.put_line("    Or input " & change_parameters_character &
 						 " to change parameters and mode of the program");
-	  PREFACE.PUT_LINE("    Or input " & HELP_CHARACTER &
+	  preface.put_line("    Or input " & help_character &
 						 " to get help wherever available on individual parameters");
-	  PREFACE.PUT_LINE(
+	  preface.put_line(
 					   "Two empty lines (just a RETURN/ENTER) from the keyboard exits the program");
 
-	  if ENGLISH_DICTIONARY_AVAILABLE(GENERAL)  then
-		 PREFACE.PUT_LINE("English-to-Latin available");
-		 PREFACE.PUT_LINE(
-						  CHANGE_LANGUAGE_CHARACTER & "E changes to English-to-Latin, " &
-							CHANGE_LANGUAGE_CHARACTER & "L changes back     [tilde E]");
+	  if english_dictionary_available(general)  then
+		 preface.put_line("English-to-Latin available");
+		 preface.put_line(
+						  change_language_character & "E changes to English-to-Latin, " &
+							change_language_character & "L changes back     [tilde E]");
 	  end if;
 	  
-	  if CONFIGURATION = ONLY_MEANINGS  then
-		 PREFACE.PUT_LINE(
+	  if configuration = only_meanings  then
+		 preface.put_line(
 						  "THIS VERSION IS HARDCODED TO GIVE DICTIONARY FORM AND MEANINGS ONLY");
-		 PREFACE.PUT_LINE(
+		 preface.put_line(
 						  "IT CANNOT BE MODIFIED BY CHANGING THE DO_MEANINGS_ONLY PARAMETER");
 	  end if;
 
-  GET_INPUT_LINES:
+  get_input_lines:
 	  loop
-	 GET_INPUT_LINE:
+	 get_input_line:
 		 begin                    --  Block to manipulate file of lines
-			if (NAME(CURRENT_INPUT) = NAME(STANDARD_INPUT))  then
-			   SCROLL_LINE_NUMBER := INTEGER(TEXT_IO.LINE(TEXT_IO.STANDARD_OUTPUT));
-			   PREFACE.NEW_LINE;
-			   PREFACE.PUT("=>");
+			if (name(current_input) = name(standard_input))  then
+			   scroll_line_number := integer(text_io.line(text_io.standard_output));
+			   preface.new_line;
+			   preface.put("=>");
 			end if;
 
-			LINE := BLANK_LINE;
-			GET_LINE(LINE, L);
-			if (L = 0) or else (TRIM(LINE(1..L)) = "")  then
+			line := blank_line;
+			get_line(line, l);
+			if (l = 0) or else (trim(line(1..l)) = "")  then
 			   --LINE_NUMBER := LINE_NUMBER + 1;  --  Count blank lines 
-			   if (NAME(CURRENT_INPUT) = NAME(STANDARD_INPUT))  then   --  INPUT is keyboard
-				  PREFACE.PUT("Blank exits =>");
-				  GET_LINE(LINE, L);             -- Second try
-				  if (L = 0) or else (TRIM(LINE(1..L)) = "")  then  -- Two in a row
+			   if (name(current_input) = name(standard_input))  then   --  INPUT is keyboard
+				  preface.put("Blank exits =>");
+				  get_line(line, l);             -- Second try
+				  if (l = 0) or else (trim(line(1..l)) = "")  then  -- Two in a row
 					 exit;
 				  end if;
 			   else                 --  INPUT is file
 									--LINE_NUMBER := LINE_NUMBER + 1;   --  Count blank lines in file
-				  if END_OF_FILE(CURRENT_INPUT) then
-					 SET_INPUT(STANDARD_INPUT);
-					 CLOSE(INPUT);
+				  if end_of_file(current_input) then
+					 set_input(standard_input);
+					 close(input);
 				  end if;
 			   end if;
 			end if;
 			
-			if (TRIM(LINE(1..L)) /= "")  then  -- Not a blank line so L(1) (in file input)
-			   if LINE(1) = START_FILE_CHARACTER  then    --  To begin file of words
-				  if (NAME(CURRENT_INPUT) /= NAME(STANDARD_INPUT)) then
-					 TEXT_IO.PUT_LINE("Cannot have file of words (@FILE) in an @FILE");
+			if (trim(line(1..l)) /= "")  then  -- Not a blank line so L(1) (in file input)
+			   if line(1) = start_file_character  then    --  To begin file of words
+				  if (name(current_input) /= name(standard_input)) then
+					 text_io.put_line("Cannot have file of words (@FILE) in an @FILE");
 				  else
-					 TEXT_IO.OPEN(INPUT, TEXT_IO.IN_FILE, TRIM(LINE(2..L)));
-					 TEXT_IO.SET_INPUT(INPUT);
+					 text_io.open(input, text_io.in_file, trim(line(2..l)));
+					 text_io.set_input(input);
 				  end if;
-			   elsif LINE(1) = CHANGE_PARAMETERS_CHARACTER  and then
-				 (NAME(CURRENT_INPUT) = NAME(STANDARD_INPUT)) and then
-				 not CONFIG.SUPPRESS_PREFACE  then
-				  CHANGE_PARAMETERS;
-			   elsif LINE(1) = CHANGE_LANGUAGE_CHARACTER  then
+			   elsif line(1) = change_parameters_character  and then
+				 (name(current_input) = name(standard_input)) and then
+				 not config.suppress_preface  then
+				  change_parameters;
+			   elsif line(1) = change_language_character  then
 				  -- (NAME(CURRENT_INPUT) = NAME(STANDARD_INPUT)) and then
 				  --   not CONFIG.SUPPRESS_PREFACE  then
 				  --TEXT_IO.PUT_LINE("CHANGE CHARACTER   " & TRIM(LINE));
-				  CHANGE_LANGUAGE(LINE(2));
+				  change_language(line(2));
 			   elsif --  CONFIGURATION = DEVELOPER_VERSION  and then    --  Allow anyone to do it
-				 LINE(1) = CHANGE_DEVELOPER_MODES_CHARACTER  and then
-				 (NAME(CURRENT_INPUT) = NAME(STANDARD_INPUT)) and then
-				 not CONFIG.SUPPRESS_PREFACE  then
-				  CHANGE_DEVELOPER_MODES;
+				 line(1) = change_developer_modes_character  and then
+				 (name(current_input) = name(standard_input)) and then
+				 not config.suppress_preface  then
+				  change_developer_modes;
 			   else
-				  if (NAME(CURRENT_INPUT) /= NAME(STANDARD_INPUT))  then
-					 PREFACE.NEW_LINE;
-					 PREFACE.PUT_LINE(LINE(1..L));
+				  if (name(current_input) /= name(standard_input))  then
+					 preface.new_line;
+					 preface.put_line(line(1..l));
 				  end if;
-				  if WORDS_MODE(WRITE_OUTPUT_TO_FILE)     then
-					 if not CONFIG.SUPPRESS_PREFACE     then
-						NEW_LINE(OUTPUT);
-						TEXT_IO.PUT_LINE(OUTPUT, LINE(1..L));
+				  if words_mode(write_output_to_file)     then
+					 if not config.suppress_preface     then
+						new_line(output);
+						text_io.put_line(output, line(1..l));
 					 end if;
 				  end if;
-				  LINE_NUMBER := LINE_NUMBER + 1;  --  Count lines to be parsed
-				  PARSE_LINE(LINE(1..L));
+				  line_number := line_number + 1;  --  Count lines to be parsed
+				  parse_line(line(1..l));
 			   end if;
 			end if;
 			
 		 exception
-			when NAME_ERROR | USE_ERROR =>
-			   if (NAME(CURRENT_INPUT) /= NAME(STANDARD_INPUT))  then
-				  SET_INPUT(STANDARD_INPUT);
-				  CLOSE(INPUT);
+			when name_error | use_error =>
+			   if (name(current_input) /= name(standard_input))  then
+				  set_input(standard_input);
+				  close(input);
 			   end if;
-			   PUT_LINE("An unknown or unacceptable file name. Try Again");
-			when END_ERROR =>          --  The end of the input file resets to CON:
-			   if (NAME(CURRENT_INPUT) /= NAME(STANDARD_INPUT))  then
-				  SET_INPUT(STANDARD_INPUT);
-				  CLOSE(INPUT);
-				  if METHOD = COMMAND_LINE_FILES  then raise GIVE_UP; end if;
+			   put_line("An unknown or unacceptable file name. Try Again");
+			when end_error =>          --  The end of the input file resets to CON:
+			   if (name(current_input) /= name(standard_input))  then
+				  set_input(standard_input);
+				  close(input);
+				  if method = command_line_files  then raise give_up; end if;
 			   else
-				  PUT_LINE("Raised END_ERROR, although in STANDARD_INPUT");
-				  PUT_LINE("^Z is inappropriate keyboard input, WORDS should be terminated with a blank line");
-				  raise GIVE_UP;
+				  put_line("Raised END_ERROR, although in STANDARD_INPUT");
+				  put_line("^Z is inappropriate keyboard input, WORDS should be terminated with a blank line");
+				  raise give_up;
 			   end if;
-			when STATUS_ERROR =>      --  The end of the input file resets to CON:
-			   PUT_LINE("Raised STATUS_ERROR");
-		 end GET_INPUT_LINE;                     --  end Block to manipulate file of lines
+			when status_error =>      --  The end of the input file resets to CON:
+			   put_line("Raised STATUS_ERROR");
+		 end get_input_line;                     --  end Block to manipulate file of lines
 
-	  end loop GET_INPUT_LINES;          --  Loop on lines
+	  end loop get_input_lines;          --  Loop on lines
 
    end if;     --  On command line input
 
    begin
-	  STEM_IO.OPEN(STEM_FILE(LOCAL), STEM_IO.IN_FILE,
-				   ADD_FILE_NAME_EXTENSION(STEM_FILE_NAME,
+	  stem_io.open(stem_file(local), stem_io.in_file,
+				   add_file_name_extension(stem_file_name,
 										   "LOCAL"));
 	  --  Failure to OPEN will raise an exception, to be handled below
-	  if STEM_IO.IS_OPEN(STEM_FILE(LOCAL)) then
-		 STEM_IO.DELETE(STEM_FILE(LOCAL));
+	  if stem_io.is_open(stem_file(local)) then
+		 stem_io.delete(stem_file(local));
 	  end if;
    exception
 	  when others =>
@@ -1149,44 +1149,44 @@ begin              --  PARSE
    --  The rest of this seems like overkill, it might have been done elsewhere
    begin
 	  if
-		DICT_IO.IS_OPEN(DICT_FILE(LOCAL)) then
-		 DICT_IO.DELETE(DICT_FILE(LOCAL));
+		dict_io.is_open(dict_file(local)) then
+		 dict_io.delete(dict_file(local));
 	  else
-		 DICT_IO.OPEN(DICT_FILE(LOCAL), DICT_IO.IN_FILE,
-					  ADD_FILE_NAME_EXTENSION(DICT_FILE_NAME,
+		 dict_io.open(dict_file(local), dict_io.in_file,
+					  add_file_name_extension(dict_file_name,
 											  "LOCAL"));
-		 DICT_IO.DELETE(DICT_FILE(LOCAL));
+		 dict_io.delete(dict_file(local));
 	  end if;
    exception when others => null; end;   --  not there, so don't have to DELETE
    begin
 	  if
-		DICT_IO.IS_OPEN(DICT_FILE(ADDONS))  then
-		 DICT_IO.DELETE(DICT_FILE(ADDONS));
+		dict_io.is_open(dict_file(addons))  then
+		 dict_io.delete(dict_file(addons));
 	  else
-		 DICT_IO.OPEN(DICT_FILE(ADDONS), DICT_IO.IN_FILE,
-					  ADD_FILE_NAME_EXTENSION(DICT_FILE_NAME,
+		 dict_io.open(dict_file(addons), dict_io.in_file,
+					  add_file_name_extension(dict_file_name,
 											  "ADDONS"));
-		 DICT_IO.DELETE(DICT_FILE(ADDONS));
+		 dict_io.delete(dict_file(addons));
 	  end if;
    exception when others => null; end;   --  not there, so don't have to DELETE
    begin
 	  if
-		DICT_IO.IS_OPEN(DICT_FILE(UNIQUE)) then
-		 DICT_IO.DELETE(DICT_FILE(UNIQUE));
+		dict_io.is_open(dict_file(unique)) then
+		 dict_io.delete(dict_file(unique));
 	  else
-		 DICT_IO.OPEN(DICT_FILE(UNIQUE), DICT_IO.IN_FILE,
-					  ADD_FILE_NAME_EXTENSION(DICT_FILE_NAME,
+		 dict_io.open(dict_file(unique), dict_io.in_file,
+					  add_file_name_extension(dict_file_name,
 											  "UNIQUE"));
-		 DICT_IO.DELETE(DICT_FILE(UNIQUE));
+		 dict_io.delete(dict_file(unique));
 	  end if;
    exception when others => null; end;   --  not there, so don't have to DELETE
 
 exception
-   when STORAGE_ERROR  =>    --  Have tried at least twice, fail
-	  PREFACE.PUT_LINE("Continuing STORAGE_ERROR Exception in PARSE");
-	  PREFACE.PUT_LINE("If insufficient memory in DOS, try removing TSRs");
-   when GIVE_UP  =>
-	  PREFACE.PUT_LINE("Giving up!");
+   when storage_error  =>    --  Have tried at least twice, fail
+	  preface.put_line("Continuing STORAGE_ERROR Exception in PARSE");
+	  preface.put_line("If insufficient memory in DOS, try removing TSRs");
+   when give_up  =>
+	  preface.put_line("Giving up!");
    when others  =>
-	  PREFACE.PUT_LINE("Unexpected exception raised in PARSE");
-end PARSE;
+	  preface.put_line("Unexpected exception raised in PARSE");
+end parse;

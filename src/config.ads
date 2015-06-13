@@ -1,20 +1,20 @@
-package CONFIG is
+package config is
 
-   OUTPUT_SCREEN_SIZE : INTEGER := 20;
+   output_screen_size : integer := 20;
 
-   type CONFIGURATION_TYPE is (DEVELOPER_VERSION, USER_VERSION, ONLY_MEANINGS); 
+   type configuration_type is (developer_version, user_version, only_meanings); 
    
-   CONFIGURATION : CONFIGURATION_TYPE := DEVELOPER_VERSION;
+   configuration : configuration_type := developer_version;
 
-   type METHOD_TYPE is (INTERACTIVE, COMMAND_LINE_INPUT, COMMAND_LINE_FILES);
+   type method_type is (interactive, command_line_input, command_line_files);
 
-   METHOD : METHOD_TYPE := INTERACTIVE;
+   method : method_type := interactive;
 
-   type LANGUAGE_TYPE is (LATIN_TO_ENGLISH, ENGLISH_TO_LATIN);
+   type language_type is (latin_to_english, english_to_latin);
 
-   LANGUAGE : LANGUAGE_TYPE := LATIN_TO_ENGLISH;
+   language : language_type := latin_to_english;
 
-   SUPPRESS_PREFACE : BOOLEAN := FALSE;   
+   suppress_preface : boolean := false;   
    
    
-end CONFIG;
+end config;

@@ -1,31 +1,31 @@
-with TEXT_IO;
-package STRINGS_PACKAGE is
-   type TRIM_END is (LEFT, RIGHT, BOTH);
+with text_io;
+package strings_package is
+   type trim_end is (left, right, both);
    
-   NULL_STRING : constant STRING(2..1) := (others => ' ');
-   
-   
-   function MAX(A, B : INTEGER) return INTEGER;
-   function MIN(A, B : INTEGER) return INTEGER;
+   null_string : constant string(2..1) := (others => ' ');
    
    
-   function LOWER_CASE(C : CHARACTER) return CHARACTER;
-   function LOWER_CASE(S : STRING) return STRING;
+   function max(a, b : integer) return integer;
+   function min(a, b : integer) return integer;
    
-   function UPPER_CASE(C : CHARACTER) return CHARACTER;
-   function UPPER_CASE(S : STRING) return STRING;
    
-   function TRIM(SOURCE : in STRING;
-				 SIDE   : in TRIM_END := BOTH) return STRING;
+   function lower_case(c : character) return character;
+   function lower_case(s : string) return string;
+   
+   function upper_case(c : character) return character;
+   function upper_case(s : string) return string;
+   
+   function trim(source : in string;
+				 side   : in trim_end := both) return string;
    --  Equivalent to Ada.Strings.Fixed.Trim(Source, Both);
    
-   function HEAD(SOURCE : in STRING; 
-				 COUNT  : in NATURAL; 
-				 PAD    : in CHARACTER := ' ') return STRING;  
+   function head(source : in string; 
+				 count  : in natural; 
+				 pad    : in character := ' ') return string;  
    
    
-   procedure GET_NON_COMMENT_LINE(F : in TEXT_IO.FILE_TYPE; 
-								  S : out STRING; LAST : out INTEGER);
+   procedure get_non_comment_line(f : in text_io.file_type; 
+								  s : out string; last : out integer);
    
    
-end STRINGS_PACKAGE;  
+end strings_package;  

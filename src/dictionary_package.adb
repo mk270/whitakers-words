@@ -1,1609 +1,1609 @@
-with STRINGS_PACKAGE; use STRINGS_PACKAGE;
-with INFLECTIONS_PACKAGE; use INFLECTIONS_PACKAGE;
-pragma ELABORATE(INFLECTIONS_PACKAGE);
-package body DICTIONARY_PACKAGE is
-   use STEM_KEY_TYPE_IO;
-   use TEXT_IO;
+with strings_package; use strings_package;
+with inflections_package; use inflections_package;
+pragma elaborate(inflections_package);
+package body dictionary_package is
+   use stem_key_type_io;
+   use text_io;
 
-   MNPC_IO_DEFAULT_WIDTH : constant NATURAL := 6;
-   NUMERAL_VALUE_TYPE_IO_DEFAULT_WIDTH : constant NATURAL := 5;
-   KIND_ENTRY_IO_DEFAULT_WIDTH : constant NATURAL := VERB_KIND_TYPE_IO.DEFAULT_WIDTH;
+   mnpc_io_default_width : constant natural := 6;
+   numeral_value_type_io_default_width : constant natural := 5;
+   kind_entry_io_default_width : constant natural := verb_kind_type_io.default_width;
    --PART_WIDTH : NATURAL;
    
    
-   function NUMBER_OF_STEMS(P : PART_OF_SPEECH_TYPE) return STEM_KEY_TYPE is
+   function number_of_stems(p : part_of_speech_type) return stem_key_type is
    begin
-	  case P is
-		 when N       => return 2;
-		 when PRON    => return 2;
-		 when PACK    => return 2;
-		 when ADJ     => return 4;
-		 when NUM     => return 4;
-		 when ADV     => return 3;
-		 when V       => return 4;
-		 when VPAR    => return 0;
-		 when SUPINE  => return 0;
-		 when PREP    => return 1;
-		 when CONJ    => return 1;
-		 when INTERJ  => return 1;
+	  case p is
+		 when n       => return 2;
+		 when pron    => return 2;
+		 when pack    => return 2;
+		 when adj     => return 4;
+		 when num     => return 4;
+		 when adv     => return 3;
+		 when v       => return 4;
+		 when vpar    => return 0;
+		 when supine  => return 0;
+		 when prep    => return 1;
+		 when conj    => return 1;
+		 when interj  => return 1;
 		 when others  => return 0;
 	  end case;
-   end NUMBER_OF_STEMS;
+   end number_of_stems;
 
 
 
-   package body PARSE_RECORD_IO is
-	  use TEXT_IO;
-	  use INFLECTION_RECORD_IO;
-	  use DICTIONARY_KIND_IO;
-	  use MNPC_IO;
-	  SPACER : CHARACTER := ' ';
+   package body parse_record_io is
+	  use text_io;
+	  use inflection_record_io;
+	  use dictionary_kind_io;
+	  use mnpc_io;
+	  spacer : character := ' ';
 
-	  procedure GET(F : in TEXT_IO.FILE_TYPE; PR: out PARSE_RECORD) is
+	  procedure get(f : in text_io.file_type; pr: out parse_record) is
 	  begin
-		 GET(F, PR.STEM);
-		 GET(F, SPACER);
-		 GET(F, PR.IR);
-		 GET(F, SPACER);
-		 GET(F, PR.D_K);
-		 GET(F, SPACER);
-		 GET(F, PR.MNPC);
-	  end GET;
+		 get(f, pr.stem);
+		 get(f, spacer);
+		 get(f, pr.ir);
+		 get(f, spacer);
+		 get(f, pr.d_k);
+		 get(f, spacer);
+		 get(f, pr.mnpc);
+	  end get;
 
-	  procedure GET(PR : out PARSE_RECORD) is
+	  procedure get(pr : out parse_record) is
 	  begin
-		 GET(PR.STEM);
-		 GET(SPACER);
-		 GET(PR.IR);
-		 GET(SPACER);
-		 GET(PR.D_K);
-		 GET(SPACER);
-		 GET(PR.MNPC);
-	  end GET;
+		 get(pr.stem);
+		 get(spacer);
+		 get(pr.ir);
+		 get(spacer);
+		 get(pr.d_k);
+		 get(spacer);
+		 get(pr.mnpc);
+	  end get;
 
-	  procedure PUT(F : in TEXT_IO.FILE_TYPE; PR : in PARSE_RECORD) is
+	  procedure put(f : in text_io.file_type; pr : in parse_record) is
 	  begin
-		 PUT(F, PR.STEM);
-		 PUT(F, ' ');
-		 PUT(F, PR.IR);
-		 PUT(F, ' ');
-		 PUT(F, PR.D_K);
-		 PUT(F, ' ');
-		 PUT(F, PR.MNPC);
-	  end PUT;
+		 put(f, pr.stem);
+		 put(f, ' ');
+		 put(f, pr.ir);
+		 put(f, ' ');
+		 put(f, pr.d_k);
+		 put(f, ' ');
+		 put(f, pr.mnpc);
+	  end put;
 
-	  procedure PUT(PR : in PARSE_RECORD) is
+	  procedure put(pr : in parse_record) is
 	  begin
-		 TEXT_IO.PUT(PR.STEM);
-		 TEXT_IO.PUT(' ');
-		 INFLECTION_RECORD_IO.PUT(PR.IR);
-		 TEXT_IO.PUT(' ');
-		 DICTIONARY_KIND_IO.PUT(PR.D_K);
-		 TEXT_IO.PUT(' ');
-		 MNPC_IO.PUT(PR.MNPC);
-	  end PUT;
+		 text_io.put(pr.stem);
+		 text_io.put(' ');
+		 inflection_record_io.put(pr.ir);
+		 text_io.put(' ');
+		 dictionary_kind_io.put(pr.d_k);
+		 text_io.put(' ');
+		 mnpc_io.put(pr.mnpc);
+	  end put;
 
-	  procedure GET(S : in STRING; PR : out PARSE_RECORD; LAST : out INTEGER) is
-		 L : INTEGER := S'FIRST - 1;
+	  procedure get(s : in string; pr : out parse_record; last : out integer) is
+		 l : integer := s'first - 1;
 	  begin
-		 STEM_TYPE_IO.GET(S, PR.STEM, L);
-		 L := L + 1;
-		 GET(S(L+1..S'LAST), PR.IR, L);
-		 L := L + 1;
-		 GET(S(L+1..S'LAST), PR.D_K, L);
-		 L := L + 1;
-		 GET(S(L+1..S'LAST), PR.MNPC, LAST);
-	  end GET;
+		 stem_type_io.get(s, pr.stem, l);
+		 l := l + 1;
+		 get(s(l+1..s'last), pr.ir, l);
+		 l := l + 1;
+		 get(s(l+1..s'last), pr.d_k, l);
+		 l := l + 1;
+		 get(s(l+1..s'last), pr.mnpc, last);
+	  end get;
 
-	  procedure PUT(S : out STRING; PR : in PARSE_RECORD) is
-		 L : INTEGER := 0;
-		 M : INTEGER := 0;
+	  procedure put(s : out string; pr : in parse_record) is
+		 l : integer := 0;
+		 m : integer := 0;
 	  begin
-		 M := L + MAX_STEM_SIZE;
-		 S(L+1..M) := PR.STEM;
-		 L := M + 1;
-		 S(L) :=  ' ';
-		 M := L + INFLECTION_RECORD_IO.DEFAULT_WIDTH;
-		 PUT(S(L+1..M), PR.IR);
-		 L := M + 1;
-		 S(L) :=  ' ';
-		 M := L + DICTIONARY_KIND_IO.DEFAULT_WIDTH;
-		 PUT(S(L+1..M), PR.D_K);
-		 L := M + 1;
-		 S(L) :=  ' ';
-		 M := L + MNPC_IO_DEFAULT_WIDTH;
-		 PUT(S(L+1..M), PR.MNPC);
-		 S(M+1..S'LAST) := (others => ' ');
-	  end PUT;
+		 m := l + max_stem_size;
+		 s(l+1..m) := pr.stem;
+		 l := m + 1;
+		 s(l) :=  ' ';
+		 m := l + inflection_record_io.default_width;
+		 put(s(l+1..m), pr.ir);
+		 l := m + 1;
+		 s(l) :=  ' ';
+		 m := l + dictionary_kind_io.default_width;
+		 put(s(l+1..m), pr.d_k);
+		 l := m + 1;
+		 s(l) :=  ' ';
+		 m := l + mnpc_io_default_width;
+		 put(s(l+1..m), pr.mnpc);
+		 s(m+1..s'last) := (others => ' ');
+	  end put;
 
-   end PARSE_RECORD_IO;
+   end parse_record_io;
 
-   package body NOUN_ENTRY_IO is
-	  use DECN_RECORD_IO;
-	  use GENDER_TYPE_IO;
-	  use NOUN_KIND_TYPE_IO;
-	  SPACER : CHARACTER := ' ';
+   package body noun_entry_io is
+	  use decn_record_io;
+	  use gender_type_io;
+	  use noun_kind_type_io;
+	  spacer : character := ' ';
 
 
-	  procedure GET(F : in FILE_TYPE; N : out NOUN_ENTRY) is
+	  procedure get(f : in file_type; n : out noun_entry) is
 	  begin
-		 GET(F, N.DECL);
-		 GET(F, SPACER);
-		 GET(F, N.GENDER);
-		 GET(F, SPACER);
-		 GET(F, N.KIND);
-	  end GET;
+		 get(f, n.decl);
+		 get(f, spacer);
+		 get(f, n.gender);
+		 get(f, spacer);
+		 get(f, n.kind);
+	  end get;
 
-	  procedure GET(N : out NOUN_ENTRY) is
+	  procedure get(n : out noun_entry) is
 	  begin
-		 GET(N.DECL);
-		 GET(SPACER);
-		 GET(N.GENDER);
-		 GET(SPACER);
-		 GET(N.KIND);
-	  end GET;
+		 get(n.decl);
+		 get(spacer);
+		 get(n.gender);
+		 get(spacer);
+		 get(n.kind);
+	  end get;
 
-	  procedure PUT(F : in FILE_TYPE; N : in NOUN_ENTRY) is
+	  procedure put(f : in file_type; n : in noun_entry) is
 	  begin
-		 PUT(F, N.DECL);
-		 PUT(F, ' ');
-		 PUT(F, N.GENDER);
-		 PUT(F, ' ');
-		 PUT(F, N.KIND);
-	  end PUT;
+		 put(f, n.decl);
+		 put(f, ' ');
+		 put(f, n.gender);
+		 put(f, ' ');
+		 put(f, n.kind);
+	  end put;
 
-	  procedure PUT(N : in NOUN_ENTRY) is
+	  procedure put(n : in noun_entry) is
 	  begin
-		 PUT(N.DECL);
-		 PUT(' ');
-		 PUT(N.GENDER);
-		 PUT(' ');
-		 PUT(N.KIND);
-	  end PUT;
+		 put(n.decl);
+		 put(' ');
+		 put(n.gender);
+		 put(' ');
+		 put(n.kind);
+	  end put;
 
-	  procedure GET(S : in STRING; N : out NOUN_ENTRY; LAST : out INTEGER) is
-		 L : INTEGER := S'FIRST - 1;
+	  procedure get(s : in string; n : out noun_entry; last : out integer) is
+		 l : integer := s'first - 1;
 	  begin
-		 GET(S(L+1..S'LAST), N.DECL, L);
-		 L := L + 1;
-		 GET(S(L+1..S'LAST), N.GENDER, L);
-		 L := L + 1;
-		 GET(S(L+1..S'LAST), N.KIND, LAST);
-	  end GET;
+		 get(s(l+1..s'last), n.decl, l);
+		 l := l + 1;
+		 get(s(l+1..s'last), n.gender, l);
+		 l := l + 1;
+		 get(s(l+1..s'last), n.kind, last);
+	  end get;
 
-	  procedure PUT(S : out STRING; N : in NOUN_ENTRY) is
-		 L : INTEGER := S'FIRST - 1;
-		 M : INTEGER := 0;
+	  procedure put(s : out string; n : in noun_entry) is
+		 l : integer := s'first - 1;
+		 m : integer := 0;
 	  begin
-		 M := L + DECN_RECORD_IO.DEFAULT_WIDTH;
-		 PUT(S(L+1..M), N.DECL);
-		 L := M + 1;
-		 S(L) :=  ' ';
-		 M := L + GENDER_TYPE_IO.DEFAULT_WIDTH;
-		 PUT(S(L+1..M), N.GENDER);
-		 L := M + 1;
-		 S(L) :=  ' ';
-		 M := L + NOUN_KIND_TYPE_IO.DEFAULT_WIDTH;
-		 PUT(S(L+1..M), N.KIND);
-		 S(M+1..S'LAST) := (others => ' ');
-	  end PUT;
+		 m := l + decn_record_io.default_width;
+		 put(s(l+1..m), n.decl);
+		 l := m + 1;
+		 s(l) :=  ' ';
+		 m := l + gender_type_io.default_width;
+		 put(s(l+1..m), n.gender);
+		 l := m + 1;
+		 s(l) :=  ' ';
+		 m := l + noun_kind_type_io.default_width;
+		 put(s(l+1..m), n.kind);
+		 s(m+1..s'last) := (others => ' ');
+	  end put;
 
 
-   end NOUN_ENTRY_IO;
+   end noun_entry_io;
 
 
-   package body PRONOUN_ENTRY_IO is
-	  use DECN_RECORD_IO;
-	  use PRONOUN_KIND_TYPE_IO;
-	  SPACER : CHARACTER := ' ';
+   package body pronoun_entry_io is
+	  use decn_record_io;
+	  use pronoun_kind_type_io;
+	  spacer : character := ' ';
 
 
-	  procedure GET(F : in FILE_TYPE; P : out PRONOUN_ENTRY) is
+	  procedure get(f : in file_type; p : out pronoun_entry) is
 	  begin
-		 GET(F, P.DECL);
-		 GET(F, SPACER);
-		 GET(F, P.KIND);
-	  end GET;
+		 get(f, p.decl);
+		 get(f, spacer);
+		 get(f, p.kind);
+	  end get;
 
-	  procedure GET(P : out PRONOUN_ENTRY) is
+	  procedure get(p : out pronoun_entry) is
 	  begin
-		 GET(P.DECL);
-		 GET(SPACER);
-		 GET(P.KIND);
-	  end GET;
+		 get(p.decl);
+		 get(spacer);
+		 get(p.kind);
+	  end get;
 
-	  procedure PUT(F : in FILE_TYPE; P : in PRONOUN_ENTRY) is
+	  procedure put(f : in file_type; p : in pronoun_entry) is
 	  begin
-		 PUT(F, P.DECL);
-		 PUT(F, ' ');
-		 PUT(F, P.KIND);
-	  end PUT;
+		 put(f, p.decl);
+		 put(f, ' ');
+		 put(f, p.kind);
+	  end put;
 
-	  procedure PUT(P : in PRONOUN_ENTRY) is
+	  procedure put(p : in pronoun_entry) is
 	  begin
-		 PUT(P.DECL);
-		 PUT(' ');
-		 PUT(P.KIND);
-	  end PUT;
+		 put(p.decl);
+		 put(' ');
+		 put(p.kind);
+	  end put;
 
-	  procedure GET(S : in STRING; P : out PRONOUN_ENTRY; LAST : out INTEGER) is
-		 L : INTEGER := S'FIRST - 1;
+	  procedure get(s : in string; p : out pronoun_entry; last : out integer) is
+		 l : integer := s'first - 1;
 	  begin
-		 GET(S(L+1..S'LAST), P.DECL, L);
-		 L := L + 1;
-		 GET(S(L+1..S'LAST), P.KIND, LAST);
-	  end GET;
+		 get(s(l+1..s'last), p.decl, l);
+		 l := l + 1;
+		 get(s(l+1..s'last), p.kind, last);
+	  end get;
 
-	  procedure PUT(S : out STRING; P : in PRONOUN_ENTRY) is
-		 L : INTEGER := S'FIRST - 1;
-		 M : INTEGER := 0;
+	  procedure put(s : out string; p : in pronoun_entry) is
+		 l : integer := s'first - 1;
+		 m : integer := 0;
 	  begin
-		 M := L + DECN_RECORD_IO.DEFAULT_WIDTH;
-		 PUT(S(L+1..M), P.DECL);
-		 L := M + 1;
-		 S(L) :=  ' ';
-		 M := L + PRONOUN_KIND_TYPE_IO.DEFAULT_WIDTH;
-		 PUT(S(L+1..M), P.KIND);
-		 S(M+1..S'LAST) := (others => ' ');
-	  end PUT;
+		 m := l + decn_record_io.default_width;
+		 put(s(l+1..m), p.decl);
+		 l := m + 1;
+		 s(l) :=  ' ';
+		 m := l + pronoun_kind_type_io.default_width;
+		 put(s(l+1..m), p.kind);
+		 s(m+1..s'last) := (others => ' ');
+	  end put;
 
 
-   end PRONOUN_ENTRY_IO;
+   end pronoun_entry_io;
 
 
-   package body PROPACK_ENTRY_IO is
-	  use DECN_RECORD_IO;
-	  use PRONOUN_KIND_TYPE_IO;
-	  SPACER : CHARACTER := ' ';
+   package body propack_entry_io is
+	  use decn_record_io;
+	  use pronoun_kind_type_io;
+	  spacer : character := ' ';
 
 
-	  procedure GET(F : in FILE_TYPE; P : out PROPACK_ENTRY) is
+	  procedure get(f : in file_type; p : out propack_entry) is
 	  begin
-		 GET(F, P.DECL);
-		 GET(F, SPACER);
-		 GET(F, P.KIND);
-	  end GET;
+		 get(f, p.decl);
+		 get(f, spacer);
+		 get(f, p.kind);
+	  end get;
 
-	  procedure GET(P : out PROPACK_ENTRY) is
+	  procedure get(p : out propack_entry) is
 	  begin
-		 GET(P.DECL);
-		 GET(SPACER);
-		 GET(P.KIND);
-	  end GET;
+		 get(p.decl);
+		 get(spacer);
+		 get(p.kind);
+	  end get;
 
-	  procedure PUT(F : in FILE_TYPE; P : in PROPACK_ENTRY) is
+	  procedure put(f : in file_type; p : in propack_entry) is
 	  begin
-		 PUT(F, P.DECL);
-		 PUT(F, ' ');
-		 PUT(F, P.KIND);
-	  end PUT;
+		 put(f, p.decl);
+		 put(f, ' ');
+		 put(f, p.kind);
+	  end put;
 
-	  procedure PUT(P : in PROPACK_ENTRY) is
+	  procedure put(p : in propack_entry) is
 	  begin
-		 PUT(P.DECL);
-		 PUT(' ');
-		 PUT(P.KIND);
-	  end PUT;
+		 put(p.decl);
+		 put(' ');
+		 put(p.kind);
+	  end put;
 
-	  procedure GET(S : in STRING; P : out PROPACK_ENTRY; LAST : out INTEGER) is
-		 L : INTEGER := S'FIRST - 1;
+	  procedure get(s : in string; p : out propack_entry; last : out integer) is
+		 l : integer := s'first - 1;
 	  begin
-		 GET(S(L+1..S'LAST), P.DECL, L);
-		 L := L + 1;
-		 GET(S(L+1..S'LAST), P.KIND, LAST);
-	  end GET;
+		 get(s(l+1..s'last), p.decl, l);
+		 l := l + 1;
+		 get(s(l+1..s'last), p.kind, last);
+	  end get;
 
-	  procedure PUT(S : out STRING; P : in PROPACK_ENTRY) is
-		 L : INTEGER := S'FIRST - 1;
-		 M : INTEGER := 0;
+	  procedure put(s : out string; p : in propack_entry) is
+		 l : integer := s'first - 1;
+		 m : integer := 0;
 	  begin
-		 M := L + DECN_RECORD_IO.DEFAULT_WIDTH;
-		 PUT(S(L+1..M), P.DECL);
-		 L := M + 1;
-		 S(L) :=  ' ';
-		 M := L + PRONOUN_KIND_TYPE_IO.DEFAULT_WIDTH;
-		 PUT(S(L+1..M), P.KIND);
-		 S(M+1..S'LAST) := (others => ' ');
-	  end PUT;
+		 m := l + decn_record_io.default_width;
+		 put(s(l+1..m), p.decl);
+		 l := m + 1;
+		 s(l) :=  ' ';
+		 m := l + pronoun_kind_type_io.default_width;
+		 put(s(l+1..m), p.kind);
+		 s(m+1..s'last) := (others => ' ');
+	  end put;
 
 
-   end PROPACK_ENTRY_IO;
+   end propack_entry_io;
 
 
-   package body ADJECTIVE_ENTRY_IO is
-	  use DECN_RECORD_IO;
-	  use GENDER_TYPE_IO;
-	  use CASE_TYPE_IO;
-	  use NUMBER_TYPE_IO;
-	  use COMPARISON_TYPE_IO;
-	  SPACER : CHARACTER := ' ';
+   package body adjective_entry_io is
+	  use decn_record_io;
+	  use gender_type_io;
+	  use case_type_io;
+	  use number_type_io;
+	  use comparison_type_io;
+	  spacer : character := ' ';
 
 
-	  procedure GET(F : in FILE_TYPE; A : out ADJECTIVE_ENTRY) is
+	  procedure get(f : in file_type; a : out adjective_entry) is
 	  begin
-		 GET(F, A.DECL);
-		 GET(F, SPACER);
-		 GET(F, A.CO);
-	  end GET;
+		 get(f, a.decl);
+		 get(f, spacer);
+		 get(f, a.co);
+	  end get;
 
-	  procedure GET(A : out ADJECTIVE_ENTRY) is
+	  procedure get(a : out adjective_entry) is
 	  begin
-		 GET(A.DECL);
-		 GET(SPACER);
-		 GET(A.CO);
-	  end GET;
+		 get(a.decl);
+		 get(spacer);
+		 get(a.co);
+	  end get;
 
-	  procedure PUT(F : in FILE_TYPE; A : in ADJECTIVE_ENTRY) is
+	  procedure put(f : in file_type; a : in adjective_entry) is
 	  begin
-		 PUT(F, A.DECL);
-		 PUT(F, ' ');
-		 PUT(F, A.CO);
-	  end PUT;
+		 put(f, a.decl);
+		 put(f, ' ');
+		 put(f, a.co);
+	  end put;
 
-	  procedure PUT(A : in ADJECTIVE_ENTRY) is
+	  procedure put(a : in adjective_entry) is
 	  begin
-		 PUT(A.DECL);
-		 PUT(' ');
-		 PUT(A.CO);
-	  end PUT;
+		 put(a.decl);
+		 put(' ');
+		 put(a.co);
+	  end put;
 
-	  procedure GET(S : in STRING; A : out ADJECTIVE_ENTRY; LAST : out INTEGER) is
-		 L : INTEGER := S'FIRST - 1;
+	  procedure get(s : in string; a : out adjective_entry; last : out integer) is
+		 l : integer := s'first - 1;
 	  begin
-		 GET(S(L+1..S'LAST), A.DECL, L);
-		 L := L + 1;
-		 GET(S(L+1..S'LAST), A.CO, LAST);
-	  end GET;
+		 get(s(l+1..s'last), a.decl, l);
+		 l := l + 1;
+		 get(s(l+1..s'last), a.co, last);
+	  end get;
 
-	  procedure PUT(S : out STRING; A : in ADJECTIVE_ENTRY) is
-		 L : INTEGER := S'FIRST - 1;
-		 M : INTEGER := 0;
+	  procedure put(s : out string; a : in adjective_entry) is
+		 l : integer := s'first - 1;
+		 m : integer := 0;
 	  begin
-		 M := L + DECN_RECORD_IO.DEFAULT_WIDTH;
-		 PUT(S(L+1..M), A.DECL);
-		 L := M + 1;
-		 S(L) :=  ' ';
-		 M := L + COMPARISON_TYPE_IO.DEFAULT_WIDTH;
-		 PUT(S(L+1..M), A.CO);
-		 S(M+1..S'LAST) := (others => ' ');
-	  end PUT;
+		 m := l + decn_record_io.default_width;
+		 put(s(l+1..m), a.decl);
+		 l := m + 1;
+		 s(l) :=  ' ';
+		 m := l + comparison_type_io.default_width;
+		 put(s(l+1..m), a.co);
+		 s(m+1..s'last) := (others => ' ');
+	  end put;
 
 
-   end ADJECTIVE_ENTRY_IO;
+   end adjective_entry_io;
 
 
 
-   package body NUMERAL_ENTRY_IO is
-	  use DECN_RECORD_IO;
-	  use NUMERAL_SORT_TYPE_IO;
-	  use INFLECTIONS_PACKAGE.INTEGER_IO;
-	  SPACER : CHARACTER := ' ';
+   package body numeral_entry_io is
+	  use decn_record_io;
+	  use numeral_sort_type_io;
+	  use inflections_package.integer_io;
+	  spacer : character := ' ';
 
-	  NUM_OUT_SIZE : constant := 5;    --  Set in spec  !!!!!!!!!!!!!!!!!!!!!!!!!
+	  num_out_size : constant := 5;    --  Set in spec  !!!!!!!!!!!!!!!!!!!!!!!!!
 
 
-	  procedure GET(F : in FILE_TYPE; NUM : out NUMERAL_ENTRY) is
+	  procedure get(f : in file_type; num : out numeral_entry) is
 	  begin
-		 GET(F, NUM.DECL);
-		 GET(F, SPACER);
-		 GET(F, NUM.SORT);
-		 GET(F, SPACER);
-		 GET(F, NUM.VALUE);
-	  end GET;
+		 get(f, num.decl);
+		 get(f, spacer);
+		 get(f, num.sort);
+		 get(f, spacer);
+		 get(f, num.value);
+	  end get;
 
-	  procedure GET(NUM : out NUMERAL_ENTRY) is
+	  procedure get(num : out numeral_entry) is
 	  begin
-		 GET(NUM.DECL);
-		 GET(SPACER);
-		 GET(NUM.SORT);
-		 GET(SPACER);
-		 GET(NUM.VALUE);
-	  end GET;
+		 get(num.decl);
+		 get(spacer);
+		 get(num.sort);
+		 get(spacer);
+		 get(num.value);
+	  end get;
 
-	  procedure PUT(F : in FILE_TYPE; NUM : in NUMERAL_ENTRY) is
+	  procedure put(f : in file_type; num : in numeral_entry) is
 	  begin
-		 PUT(F, NUM.DECL);
-		 PUT(F, ' ');
-		 PUT(F, NUM.SORT);
-		 PUT(F, ' ');
-		 PUT(F, NUM.VALUE, NUM_OUT_SIZE);
-	  end PUT;
+		 put(f, num.decl);
+		 put(f, ' ');
+		 put(f, num.sort);
+		 put(f, ' ');
+		 put(f, num.value, num_out_size);
+	  end put;
 
-	  procedure PUT(NUM : in NUMERAL_ENTRY) is
+	  procedure put(num : in numeral_entry) is
 	  begin
-		 PUT(NUM.DECL);
-		 PUT(' ');
-		 PUT(NUM.SORT);
-		 PUT(' ');
-		 PUT(NUM.VALUE, NUM_OUT_SIZE);
-	  end PUT;
+		 put(num.decl);
+		 put(' ');
+		 put(num.sort);
+		 put(' ');
+		 put(num.value, num_out_size);
+	  end put;
 
-	  procedure GET(S : in STRING; NUM : out NUMERAL_ENTRY; LAST : out INTEGER) is
-		 L : INTEGER := S'FIRST - 1;
+	  procedure get(s : in string; num : out numeral_entry; last : out integer) is
+		 l : integer := s'first - 1;
 	  begin
 		 --TEXT_IO.PUT("+1");
-		 GET(S(L+1..S'LAST), NUM.DECL, L);
+		 get(s(l+1..s'last), num.decl, l);
 		 --TEXT_IO.PUT("+2");
-		 L := L + 1;
-		 GET(S(L+1..S'LAST), NUM.SORT, L);
+		 l := l + 1;
+		 get(s(l+1..s'last), num.sort, l);
 		 --TEXT_IO.PUT("+3");
-		 L := L + 1;
-		 GET(S(L+1..S'LAST), NUM.VALUE, LAST);
+		 l := l + 1;
+		 get(s(l+1..s'last), num.value, last);
 		 --TEXT_IO.PUT("+4");
-	  end GET;
+	  end get;
 	  
-	  procedure PUT(S : out STRING; NUM : in NUMERAL_ENTRY) is
-		 L : INTEGER := S'FIRST - 1;
-		 M : INTEGER := 0;
+	  procedure put(s : out string; num : in numeral_entry) is
+		 l : integer := s'first - 1;
+		 m : integer := 0;
 	  begin
-		 M := L + DECN_RECORD_IO.DEFAULT_WIDTH;
-		 PUT(S(L+1..M), NUM.DECL);
-		 L := M + 1;
-		 S(L) :=  ' ';
-		 M := L + NUMERAL_SORT_TYPE_IO.DEFAULT_WIDTH;
-		 PUT(S(L+1..M), NUM.SORT);
-		 L := M + 1;
-		 S(L) :=  ' ';
+		 m := l + decn_record_io.default_width;
+		 put(s(l+1..m), num.decl);
+		 l := m + 1;
+		 s(l) :=  ' ';
+		 m := l + numeral_sort_type_io.default_width;
+		 put(s(l+1..m), num.sort);
+		 l := m + 1;
+		 s(l) :=  ' ';
 		 --M := L + NUMERAL_VALUE_TYPE_IO.DEFAULT_WIDTH;
-		 M := L + NUM_OUT_SIZE;
-		 PUT(S(L+1..M), NUM.VALUE);
-		 S(M+1..S'LAST) := (others => ' ');
-	  end PUT;
+		 m := l + num_out_size;
+		 put(s(l+1..m), num.value);
+		 s(m+1..s'last) := (others => ' ');
+	  end put;
 
 
-   end NUMERAL_ENTRY_IO;
+   end numeral_entry_io;
 
 
-   package body ADVERB_ENTRY_IO is
-	  use COMPARISON_TYPE_IO;
-	  SPACER : CHARACTER := ' ';
+   package body adverb_entry_io is
+	  use comparison_type_io;
+	  spacer : character := ' ';
 
 
-	  procedure GET(F : in FILE_TYPE; A : out ADVERB_ENTRY) is
+	  procedure get(f : in file_type; a : out adverb_entry) is
 	  begin
-		 GET(F, A.CO);
-	  end GET;
+		 get(f, a.co);
+	  end get;
 
-	  procedure GET(A : out ADVERB_ENTRY) is
+	  procedure get(a : out adverb_entry) is
 	  begin
-		 GET(A.CO);
-	  end GET;
+		 get(a.co);
+	  end get;
 
-	  procedure PUT(F : in FILE_TYPE; A : in ADVERB_ENTRY) is
+	  procedure put(f : in file_type; a : in adverb_entry) is
 	  begin
-		 PUT(F, A.CO);
-	  end PUT;
+		 put(f, a.co);
+	  end put;
 
-	  procedure PUT(A : in ADVERB_ENTRY) is
+	  procedure put(a : in adverb_entry) is
 	  begin
-		 PUT(A.CO);
-	  end PUT;
+		 put(a.co);
+	  end put;
 
-	  procedure GET(S : in STRING; A : out ADVERB_ENTRY; LAST : out INTEGER) is
-		 L : INTEGER := S'FIRST - 1;
+	  procedure get(s : in string; a : out adverb_entry; last : out integer) is
+		 l : integer := s'first - 1;
 	  begin
-		 GET(S(L+1..S'LAST), A.CO, LAST);
-	  end GET;
+		 get(s(l+1..s'last), a.co, last);
+	  end get;
 
-	  procedure PUT(S : out STRING; A : in ADVERB_ENTRY) is
-		 L : INTEGER := S'FIRST - 1;
-		 M : INTEGER := 0;
+	  procedure put(s : out string; a : in adverb_entry) is
+		 l : integer := s'first - 1;
+		 m : integer := 0;
 	  begin
-		 M := L + COMPARISON_TYPE_IO.DEFAULT_WIDTH;
-		 PUT(S(L+1..M), A.CO);
-		 S(M+1..S'LAST) := (others => ' ');
-	  end PUT;
+		 m := l + comparison_type_io.default_width;
+		 put(s(l+1..m), a.co);
+		 s(m+1..s'last) := (others => ' ');
+	  end put;
 
 
-   end ADVERB_ENTRY_IO;
+   end adverb_entry_io;
 
 
-   package body VERB_ENTRY_IO is
-	  use DECN_RECORD_IO;
-	  use VERB_KIND_TYPE_IO;
-	  SPACER : CHARACTER := ' ';
+   package body verb_entry_io is
+	  use decn_record_io;
+	  use verb_kind_type_io;
+	  spacer : character := ' ';
 
 
-	  procedure GET(F : in FILE_TYPE; V : out VERB_ENTRY) is
+	  procedure get(f : in file_type; v : out verb_entry) is
 	  begin
-		 GET(F, V.CON);
-		 GET(F, SPACER);
-		 GET(F, V.KIND);
-	  end GET;
+		 get(f, v.con);
+		 get(f, spacer);
+		 get(f, v.kind);
+	  end get;
 
-	  procedure GET(V : out VERB_ENTRY) is
+	  procedure get(v : out verb_entry) is
 	  begin
-		 GET(V.CON);
-		 GET(SPACER);
-		 GET(V.KIND);
-	  end GET;
+		 get(v.con);
+		 get(spacer);
+		 get(v.kind);
+	  end get;
 
-	  procedure PUT(F : in FILE_TYPE; V : in VERB_ENTRY) is
+	  procedure put(f : in file_type; v : in verb_entry) is
 	  begin
-		 PUT(F, V.CON);
-		 PUT(F, ' ');
-		 PUT(F, V.KIND);
-	  end PUT;
+		 put(f, v.con);
+		 put(f, ' ');
+		 put(f, v.kind);
+	  end put;
 
-	  procedure PUT(V : in VERB_ENTRY) is
+	  procedure put(v : in verb_entry) is
 	  begin
-		 PUT(V.CON);
-		 PUT(' ');
-		 PUT(V.KIND);
-	  end PUT;
+		 put(v.con);
+		 put(' ');
+		 put(v.kind);
+	  end put;
 	  
-	  procedure GET(S : in STRING; V : out VERB_ENTRY; LAST : out INTEGER) is
-		 L : INTEGER := S'FIRST - 1;
+	  procedure get(s : in string; v : out verb_entry; last : out integer) is
+		 l : integer := s'first - 1;
 	  begin
-		 GET(S(L+1..S'LAST), V.CON, L);
-		 L := L + 1;
-		 GET(S(L+1..S'LAST), V.KIND, LAST);
-	  end GET;
+		 get(s(l+1..s'last), v.con, l);
+		 l := l + 1;
+		 get(s(l+1..s'last), v.kind, last);
+	  end get;
 
-	  procedure PUT(S : out STRING; V : in VERB_ENTRY) is
-		 L : INTEGER := S'FIRST - 1;
-		 M : INTEGER := 0;
+	  procedure put(s : out string; v : in verb_entry) is
+		 l : integer := s'first - 1;
+		 m : integer := 0;
 	  begin
-		 M := L + DECN_RECORD_IO.DEFAULT_WIDTH;
-		 PUT(S(L+1..M), V.CON);
-		 L := M + 1;
-		 S(L) :=  ' ';
-		 M := L + VERB_KIND_TYPE_IO.DEFAULT_WIDTH;
-		 PUT(S(L+1..M), V.KIND);
-		 S(M+1..S'LAST) := (others => ' ');
-	  end PUT;
+		 m := l + decn_record_io.default_width;
+		 put(s(l+1..m), v.con);
+		 l := m + 1;
+		 s(l) :=  ' ';
+		 m := l + verb_kind_type_io.default_width;
+		 put(s(l+1..m), v.kind);
+		 s(m+1..s'last) := (others => ' ');
+	  end put;
 
 
-   end VERB_ENTRY_IO;
+   end verb_entry_io;
 
 
-   package body PREPOSITION_ENTRY_IO is
-	  use CASE_TYPE_IO;
-	  SPACER : CHARACTER := ' ';
+   package body preposition_entry_io is
+	  use case_type_io;
+	  spacer : character := ' ';
 
-	  procedure GET(F : in FILE_TYPE; P : out PREPOSITION_ENTRY) is
+	  procedure get(f : in file_type; p : out preposition_entry) is
 	  begin
-		 GET(F, P.OBJ);
-	  end GET;
+		 get(f, p.obj);
+	  end get;
 
-	  procedure GET(P : out PREPOSITION_ENTRY) is
+	  procedure get(p : out preposition_entry) is
 	  begin
-		 GET(P.OBJ);
-	  end GET;
+		 get(p.obj);
+	  end get;
 
-	  procedure PUT(F : in FILE_TYPE; P : in PREPOSITION_ENTRY) is
+	  procedure put(f : in file_type; p : in preposition_entry) is
 	  begin
-		 PUT(F, P.OBJ);
-	  end PUT;
+		 put(f, p.obj);
+	  end put;
 
-	  procedure PUT(P : in PREPOSITION_ENTRY) is
+	  procedure put(p : in preposition_entry) is
 	  begin
-		 PUT(P.OBJ);
-	  end PUT;
+		 put(p.obj);
+	  end put;
 
-	  procedure GET(S : in STRING; P : out PREPOSITION_ENTRY; LAST : out INTEGER) is
+	  procedure get(s : in string; p : out preposition_entry; last : out integer) is
 	  begin
-		 GET(S, P.OBJ, LAST);
-	  end GET;
+		 get(s, p.obj, last);
+	  end get;
 
-	  procedure PUT(S : out STRING; P : in PREPOSITION_ENTRY) is
-		 L : INTEGER := S'FIRST - 1;
-		 M : INTEGER := 0;
+	  procedure put(s : out string; p : in preposition_entry) is
+		 l : integer := s'first - 1;
+		 m : integer := 0;
 	  begin
-		 M := L + CASE_TYPE_IO.DEFAULT_WIDTH;
-		 PUT(S(L+1..M), P.OBJ);
-		 S(M+1..S'LAST) := (others => ' ');
-	  end PUT;
+		 m := l + case_type_io.default_width;
+		 put(s(l+1..m), p.obj);
+		 s(m+1..s'last) := (others => ' ');
+	  end put;
 
 
-   end PREPOSITION_ENTRY_IO;
+   end preposition_entry_io;
 
 
-   package body CONJUNCTION_ENTRY_IO is
-	  NULL_CONJUNCTION_ENTRY : CONJUNCTION_ENTRY;
-	  SPACER : CHARACTER := ' ';
+   package body conjunction_entry_io is
+	  null_conjunction_entry : conjunction_entry;
+	  spacer : character := ' ';
 
 
-	  procedure GET(F : in FILE_TYPE; C : out CONJUNCTION_ENTRY) is
+	  procedure get(f : in file_type; c : out conjunction_entry) is
 	  begin
-		 C := NULL_CONJUNCTION_ENTRY;
-	  end GET;
+		 c := null_conjunction_entry;
+	  end get;
 
-	  procedure GET(C : out CONJUNCTION_ENTRY) is
+	  procedure get(c : out conjunction_entry) is
 	  begin
-		 C := NULL_CONJUNCTION_ENTRY;
-	  end GET;
+		 c := null_conjunction_entry;
+	  end get;
 
-	  procedure PUT(F : in FILE_TYPE; C : in CONJUNCTION_ENTRY) is
-	  begin
-		 null;
-	  end PUT;
-
-	  procedure PUT(C : in CONJUNCTION_ENTRY) is
+	  procedure put(f : in file_type; c : in conjunction_entry) is
 	  begin
 		 null;
-	  end PUT;
+	  end put;
 
-	  procedure GET(S : in STRING; C : out CONJUNCTION_ENTRY; LAST : out INTEGER) is
-		 L : INTEGER := S'FIRST - 1;
-	  begin
-		 C := NULL_CONJUNCTION_ENTRY;
-		 LAST := L;
-	  end GET;
-
-	  procedure PUT(S : out STRING; C : in CONJUNCTION_ENTRY) is
-	  begin
-		 S(S'FIRST..S'LAST) := (others => ' ');
-	  end PUT;
-
-
-   end CONJUNCTION_ENTRY_IO;
-
-
-   package body INTERJECTION_ENTRY_IO is
-	  NULL_INTERJECTION_ENTRY : INTERJECTION_ENTRY;
-	  SPACER : CHARACTER := ' ';
-
-	  procedure GET(F : in FILE_TYPE; I : out INTERJECTION_ENTRY) is
-	  begin
-		 I := NULL_INTERJECTION_ENTRY;
-	  end GET;
-
-	  procedure GET(I : out INTERJECTION_ENTRY) is
-	  begin
-		 I := NULL_INTERJECTION_ENTRY;
-	  end GET;
-
-	  procedure PUT(F : in FILE_TYPE; I : in INTERJECTION_ENTRY) is
+	  procedure put(c : in conjunction_entry) is
 	  begin
 		 null;
-	  end PUT;
+	  end put;
 
-	  procedure PUT(I : in INTERJECTION_ENTRY) is
+	  procedure get(s : in string; c : out conjunction_entry; last : out integer) is
+		 l : integer := s'first - 1;
+	  begin
+		 c := null_conjunction_entry;
+		 last := l;
+	  end get;
+
+	  procedure put(s : out string; c : in conjunction_entry) is
+	  begin
+		 s(s'first..s'last) := (others => ' ');
+	  end put;
+
+
+   end conjunction_entry_io;
+
+
+   package body interjection_entry_io is
+	  null_interjection_entry : interjection_entry;
+	  spacer : character := ' ';
+
+	  procedure get(f : in file_type; i : out interjection_entry) is
+	  begin
+		 i := null_interjection_entry;
+	  end get;
+
+	  procedure get(i : out interjection_entry) is
+	  begin
+		 i := null_interjection_entry;
+	  end get;
+
+	  procedure put(f : in file_type; i : in interjection_entry) is
 	  begin
 		 null;
-	  end PUT;
+	  end put;
 
-	  procedure GET(S : in STRING; I : out INTERJECTION_ENTRY; LAST : out INTEGER) is
-		 L : INTEGER := S'FIRST - 1;
+	  procedure put(i : in interjection_entry) is
 	  begin
-		 I := NULL_INTERJECTION_ENTRY;
-		 LAST := L;
-	  end GET;
+		 null;
+	  end put;
 
-	  procedure PUT(S : out STRING; I : in INTERJECTION_ENTRY) is
+	  procedure get(s : in string; i : out interjection_entry; last : out integer) is
+		 l : integer := s'first - 1;
 	  begin
-		 S(S'FIRST..S'LAST) := (others => ' ');
-	  end PUT;
+		 i := null_interjection_entry;
+		 last := l;
+	  end get;
+
+	  procedure put(s : out string; i : in interjection_entry) is
+	  begin
+		 s(s'first..s'last) := (others => ' ');
+	  end put;
 
 
-   end INTERJECTION_ENTRY_IO;
+   end interjection_entry_io;
 
 
 
-   function "<" (LEFT, RIGHT : PART_ENTRY) return BOOLEAN is
+   function "<" (left, right : part_entry) return boolean is
    begin
-	  if LEFT.POFS = RIGHT.POFS  then
-		 case LEFT.POFS is
-			when N =>
-			   if LEFT.N.DECL < RIGHT.N.DECL  or else
-				 (LEFT.N.DECL = RIGHT.N.DECL  and then
-				 LEFT.N.GENDER < RIGHT.N.GENDER)  or else
-				 ((LEFT.N.DECL = RIGHT.N.DECL  and 
-				 LEFT.N.GENDER = RIGHT.N.GENDER)  and then
-				 LEFT.N.KIND < RIGHT.N.KIND)  then
-				  return TRUE;
+	  if left.pofs = right.pofs  then
+		 case left.pofs is
+			when n =>
+			   if left.n.decl < right.n.decl  or else
+				 (left.n.decl = right.n.decl  and then
+				 left.n.gender < right.n.gender)  or else
+				 ((left.n.decl = right.n.decl  and 
+				 left.n.gender = right.n.gender)  and then
+				 left.n.kind < right.n.kind)  then
+				  return true;
 			   end if;
-			when PRON =>
-			   if LEFT.PRON.DECL < RIGHT.PRON.DECL  or else
-				 (LEFT.PRON.DECL = RIGHT.PRON.DECL  and then
-				 LEFT.PRON.KIND < RIGHT.PRON.KIND)  then
-				  return TRUE;
+			when pron =>
+			   if left.pron.decl < right.pron.decl  or else
+				 (left.pron.decl = right.pron.decl  and then
+				 left.pron.kind < right.pron.kind)  then
+				  return true;
 			   end if;
-			when PACK =>
-			   if LEFT.PACK.DECL < RIGHT.PACK.DECL  or else 
-				 (LEFT.PACK.DECL = RIGHT.PACK.DECL  and then
-				 LEFT.PACK.KIND < RIGHT.PACK.KIND)  then
-				  return TRUE;
+			when pack =>
+			   if left.pack.decl < right.pack.decl  or else 
+				 (left.pack.decl = right.pack.decl  and then
+				 left.pack.kind < right.pack.kind)  then
+				  return true;
 			   end if;
-			when ADJ =>
-			   if LEFT.ADJ.DECL < RIGHT.ADJ.DECL   or else
-				 (LEFT.ADJ.DECL = RIGHT.ADJ.DECL  and then
-				 LEFT.ADJ.CO < RIGHT.ADJ.CO)   then
-				  return TRUE;
+			when adj =>
+			   if left.adj.decl < right.adj.decl   or else
+				 (left.adj.decl = right.adj.decl  and then
+				 left.adj.co < right.adj.co)   then
+				  return true;
 			   end if;
-			when NUM =>
-			   if LEFT.NUM.DECL < RIGHT.NUM.DECL  or else
-				 (LEFT.NUM.DECL = RIGHT.NUM.DECL  and then
-				 LEFT.NUM.SORT < RIGHT.NUM.SORT)  or else
-				 ((LEFT.NUM.DECL = RIGHT.NUM.DECL)  and then
-				 (LEFT.NUM.SORT = RIGHT.NUM.SORT)   and then
-				 LEFT.NUM.VALUE < RIGHT.NUM.VALUE)   then
-				  return TRUE;
-			   end if;when ADV =>
-				  return LEFT.ADV.CO < RIGHT.ADV.CO;
-			when V =>
-			   if (LEFT.V.CON < RIGHT.V.CON)  or else
-				 (LEFT.V.CON = RIGHT.V.CON  and then
-				 LEFT.V.KIND < RIGHT.V.KIND)  then
-				  return TRUE;
+			when num =>
+			   if left.num.decl < right.num.decl  or else
+				 (left.num.decl = right.num.decl  and then
+				 left.num.sort < right.num.sort)  or else
+				 ((left.num.decl = right.num.decl)  and then
+				 (left.num.sort = right.num.sort)   and then
+				 left.num.value < right.num.value)   then
+				  return true;
+			   end if;when adv =>
+				  return left.adv.co < right.adv.co;
+			when v =>
+			   if (left.v.con < right.v.con)  or else
+				 (left.v.con = right.v.con  and then
+				 left.v.kind < right.v.kind)  then
+				  return true;
 			   end if;
-			when PREP =>
-			   return LEFT.PREP.OBJ < RIGHT.PREP.OBJ;
+			when prep =>
+			   return left.prep.obj < right.prep.obj;
 			when others =>
 			   null;
 		 end case;
 	  else
-		 return LEFT.POFS < RIGHT.POFS;
+		 return left.pofs < right.pofs;
 	  end if;
-	  return FALSE;
+	  return false;
    exception
-	  when CONSTRAINT_ERROR  =>
-		 return LEFT.POFS < RIGHT.POFS;
+	  when constraint_error  =>
+		 return left.pofs < right.pofs;
    end "<";
 
 
    
-   package body PART_ENTRY_IO is
-	  use PART_OF_SPEECH_TYPE_IO;
-	  use NOUN_ENTRY_IO;
-	  use PRONOUN_ENTRY_IO;
-	  use PROPACK_ENTRY_IO;
-	  use ADJECTIVE_ENTRY_IO;
-	  use NUMERAL_ENTRY_IO;
-	  use ADVERB_ENTRY_IO;
-	  use VERB_ENTRY_IO;
-	  use PREPOSITION_ENTRY_IO;
-	  use CONJUNCTION_ENTRY_IO;
-	  use INTERJECTION_ENTRY_IO;
-	  SPACER : CHARACTER := ' ';
+   package body part_entry_io is
+	  use part_of_speech_type_io;
+	  use noun_entry_io;
+	  use pronoun_entry_io;
+	  use propack_entry_io;
+	  use adjective_entry_io;
+	  use numeral_entry_io;
+	  use adverb_entry_io;
+	  use verb_entry_io;
+	  use preposition_entry_io;
+	  use conjunction_entry_io;
+	  use interjection_entry_io;
+	  spacer : character := ' ';
 
 
-	  NOUN : NOUN_ENTRY;
-	  PRONOUN : PRONOUN_ENTRY;
-	  PROPACK : PROPACK_ENTRY;
-	  ADJECTIVE : ADJECTIVE_ENTRY;
-	  NUMERAL : NUMERAL_ENTRY;
-	  ADVERB : ADVERB_ENTRY;
-	  VERB : VERB_ENTRY;
-	  PREPOSITION : PREPOSITION_ENTRY;
-	  CONJUNCTION : CONJUNCTION_ENTRY;
-	  INTERJECTION : INTERJECTION_ENTRY;
+	  noun : noun_entry;
+	  pronoun : pronoun_entry;
+	  propack : propack_entry;
+	  adjective : adjective_entry;
+	  numeral : numeral_entry;
+	  adverb : adverb_entry;
+	  verb : verb_entry;
+	  preposition : preposition_entry;
+	  conjunction : conjunction_entry;
+	  interjection : interjection_entry;
 
-	  PR : PART_ENTRY;
+	  pr : part_entry;
 
 
-	  procedure GET(F : in FILE_TYPE; P : out PART_ENTRY) is
-		 PS : PART_OF_SPEECH_TYPE := X;
-		 C : POSITIVE_COUNT := COL(F);
+	  procedure get(f : in file_type; p : out part_entry) is
+		 ps : part_of_speech_type := x;
+		 c : positive_count := col(f);
 	  begin
-		 GET(F, PS);
-		 GET(F, SPACER);
-		 case PS is
-			when N =>
-			   GET(F, NOUN);
-			   P := (N, NOUN);
-			when PRON =>
-			   GET(F, PRONOUN);
-			   P := (PRON, PRONOUN);
-			when PACK =>
-			   GET(F, PROPACK);
-			   P := (PACK, PROPACK);
-			when ADJ =>
-			   GET(F, ADJECTIVE);
-			   P := (ADJ, ADJECTIVE);
-			when NUM =>
-			   GET(F, NUMERAL);
-			   P := (NUM, NUMERAL);
-			when ADV =>
-			   GET(F, ADVERB);
-			   P := (ADV, ADVERB);
-			when V =>
-			   GET(F, VERB);
-			   P := (V, VERB);
-			when VPAR =>
+		 get(f, ps);
+		 get(f, spacer);
+		 case ps is
+			when n =>
+			   get(f, noun);
+			   p := (n, noun);
+			when pron =>
+			   get(f, pronoun);
+			   p := (pron, pronoun);
+			when pack =>
+			   get(f, propack);
+			   p := (pack, propack);
+			when adj =>
+			   get(f, adjective);
+			   p := (adj, adjective);
+			when num =>
+			   get(f, numeral);
+			   p := (num, numeral);
+			when adv =>
+			   get(f, adverb);
+			   p := (adv, adverb);
+			when v =>
+			   get(f, verb);
+			   p := (v, verb);
+			when vpar =>
 			   null;                --  No VAPR entry
-			when SUPINE =>
+			when supine =>
 			   null;                --  No SUPINE entry
-			when PREP =>
-			   GET(F, PREPOSITION);
-			   P := (PREP, PREPOSITION);
-			when CONJ =>
-			   GET(F, CONJUNCTION);
-			   P := (CONJ, CONJUNCTION);
-			when INTERJ =>
-			   GET(F, INTERJECTION);
-			   P := (INTERJ, INTERJECTION);
-			when PREFIX =>
-			   P := (POFS => PREFIX);
-			when SUFFIX =>
-			   P := (POFS => SUFFIX);
-			when TACKON =>
-			   P := (POFS => TACKON);
-			when X =>
-			   P := (POFS => X);
+			when prep =>
+			   get(f, preposition);
+			   p := (prep, preposition);
+			when conj =>
+			   get(f, conjunction);
+			   p := (conj, conjunction);
+			when interj =>
+			   get(f, interjection);
+			   p := (interj, interjection);
+			when prefix =>
+			   p := (pofs => prefix);
+			when suffix =>
+			   p := (pofs => suffix);
+			when tackon =>
+			   p := (pofs => tackon);
+			when x =>
+			   p := (pofs => x);
 		 end case;
-		 SET_COL(F, POSITIVE_COUNT(PART_ENTRY_IO.DEFAULT_WIDTH)+C);
+		 set_col(f, positive_count(part_entry_io.default_width)+c);
 		 return;
-	  end GET;
+	  end get;
 
-	  procedure GET(P : out PART_ENTRY) is
-		 PS : PART_OF_SPEECH_TYPE := X;
+	  procedure get(p : out part_entry) is
+		 ps : part_of_speech_type := x;
 	  begin
-		 GET(PS);
-		 GET(SPACER);
-		 case PS is
-			when N =>
-			   GET(NOUN);
-			   P := (N, NOUN);
-			when PRON =>
-			   GET(PRONOUN);
-			   P := (PRON, PRONOUN);
-			when PACK =>
-			   GET(PROPACK);
-			   P := (PACK, PROPACK);
-			when ADJ =>
-			   GET(ADJECTIVE);
-			   P := (ADJ, ADJECTIVE);
-			when NUM =>
-			   GET(NUMERAL);
-			   P := (NUM, NUMERAL);
-			when ADV =>
-			   GET(ADVERB);
-			   P := (ADV, ADVERB);
-			when V =>
-			   GET(VERB);
-			   P := (V, VERB);
-			when VPAR =>
+		 get(ps);
+		 get(spacer);
+		 case ps is
+			when n =>
+			   get(noun);
+			   p := (n, noun);
+			when pron =>
+			   get(pronoun);
+			   p := (pron, pronoun);
+			when pack =>
+			   get(propack);
+			   p := (pack, propack);
+			when adj =>
+			   get(adjective);
+			   p := (adj, adjective);
+			when num =>
+			   get(numeral);
+			   p := (num, numeral);
+			when adv =>
+			   get(adverb);
+			   p := (adv, adverb);
+			when v =>
+			   get(verb);
+			   p := (v, verb);
+			when vpar =>
 			   null;                --  No VAPR entry
-			when SUPINE =>
+			when supine =>
 			   null;                --  No SUPINE entry
-			when PREP =>
-			   GET(PREPOSITION);
-			   P := (PREP, PREPOSITION);
-			when CONJ =>
-			   GET(CONJUNCTION);
-			   P := (CONJ, CONJUNCTION);
-			when INTERJ =>
-			   GET(INTERJECTION);
-			   P := (INTERJ, INTERJECTION);
-			when PREFIX =>
-			   P := (POFS => PREFIX);
-			when SUFFIX =>
-			   P := (POFS => SUFFIX);
-			when TACKON =>
-			   P := (POFS => TACKON);
-			when X =>
-			   P := (POFS => X);
+			when prep =>
+			   get(preposition);
+			   p := (prep, preposition);
+			when conj =>
+			   get(conjunction);
+			   p := (conj, conjunction);
+			when interj =>
+			   get(interjection);
+			   p := (interj, interjection);
+			when prefix =>
+			   p := (pofs => prefix);
+			when suffix =>
+			   p := (pofs => suffix);
+			when tackon =>
+			   p := (pofs => tackon);
+			when x =>
+			   p := (pofs => x);
 		 end case;
 		 return;
-	  end GET;
+	  end get;
 
-	  procedure PUT(F : in FILE_TYPE; P : in PART_ENTRY) is
-		 C : POSITIVE := POSITIVE(COL(F));
+	  procedure put(f : in file_type; p : in part_entry) is
+		 c : positive := positive(col(f));
 	  begin
-		 PUT(F, P.POFS);
-		 PUT(F, ' ');
-		 case P.POFS is
-			when N =>
-			   PUT(F, P.N);
-			when PRON =>
-			   PUT(F, P.PRON);
-			when PACK =>
-			   PUT(F, P.PACK);
-			when ADJ =>
-			   PUT(F, P.ADJ);
-			when NUM =>
-			   PUT(F, P.NUM);
-			when ADV =>
-			   PUT(F, P.ADV);
-			when V =>
-			   PUT(F, P.V);
-			when VPAR =>
+		 put(f, p.pofs);
+		 put(f, ' ');
+		 case p.pofs is
+			when n =>
+			   put(f, p.n);
+			when pron =>
+			   put(f, p.pron);
+			when pack =>
+			   put(f, p.pack);
+			when adj =>
+			   put(f, p.adj);
+			when num =>
+			   put(f, p.num);
+			when adv =>
+			   put(f, p.adv);
+			when v =>
+			   put(f, p.v);
+			when vpar =>
 			   null;                --  No VAPR entry
-			when SUPINE =>
+			when supine =>
 			   null;                --  No SUPINE entry
-			when PREP =>
-			   PUT(F, P.PREP);
-			when CONJ =>
-			   PUT(F, P.CONJ);
-			when INTERJ =>
-			   PUT(F, P.INTERJ);
+			when prep =>
+			   put(f, p.prep);
+			when conj =>
+			   put(f, p.conj);
+			when interj =>
+			   put(f, p.interj);
 			when others =>
 			   null;
 		 end case;
 		 --PUT(F, STRING'((INTEGER(COL(F))..PART_ENTRY_IO.DEFAULT_WIDTH+C-1 => ' ')));
 		 return;
-	  end PUT;
+	  end put;
 
 
-	  procedure PUT(P : in PART_ENTRY) is
-		 C : POSITIVE := POSITIVE(COL);
+	  procedure put(p : in part_entry) is
+		 c : positive := positive(col);
 	  begin
-		 PUT(P.POFS);
-		 PUT(' ');
-		 case P.POFS is
-			when N =>
-			   PUT(P.N);
-			when PRON =>
-			   PUT(P.PRON);
-			when PACK =>
-			   PUT(P.PACK);
-			when ADJ =>
-			   PUT(P.ADJ);
-			when NUM =>
-			   PUT(P.NUM);
-			when ADV =>
-			   PUT(P.ADV);
-			when V =>
-			   PUT(P.V);
-			when VPAR =>
+		 put(p.pofs);
+		 put(' ');
+		 case p.pofs is
+			when n =>
+			   put(p.n);
+			when pron =>
+			   put(p.pron);
+			when pack =>
+			   put(p.pack);
+			when adj =>
+			   put(p.adj);
+			when num =>
+			   put(p.num);
+			when adv =>
+			   put(p.adv);
+			when v =>
+			   put(p.v);
+			when vpar =>
 			   null;                --  No VAPR entry
-			when SUPINE =>
+			when supine =>
 			   null;                --  No SUPINE entry
-			when PREP =>
-			   PUT(P.PREP);
-			when CONJ =>
-			   PUT(P.CONJ);
-			when INTERJ =>
-			   PUT(P.INTERJ);
+			when prep =>
+			   put(p.prep);
+			when conj =>
+			   put(p.conj);
+			when interj =>
+			   put(p.interj);
 			when others =>
 			   null;
 		 end case;
 		 --PUT(STRING'((INTEGER(COL)..PART_ENTRY_IO.DEFAULT_WIDTH+C-1 => ' ')));
 		 return;
-	  end PUT;
+	  end put;
 
-	  procedure GET(S : in STRING; P : out PART_ENTRY; LAST : out INTEGER) is
-		 L : INTEGER := S'FIRST - 1;
-		 PS : PART_OF_SPEECH_TYPE := X;
+	  procedure get(s : in string; p : out part_entry; last : out integer) is
+		 l : integer := s'first - 1;
+		 ps : part_of_speech_type := x;
 	  begin
-		 LAST := L;      --  In case it is not set later
-		 GET(S, PS, L);
-		 L := L + 1;
-		 case PS is
-			when N =>
-			   GET(S(L+1..S'LAST), NOUN, LAST);
-			   P := (N, NOUN);
-			when PRON =>
-			   GET(S(L+1..S'LAST), PRONOUN, LAST);
-			   P := (PRON, PRONOUN);
-			when PACK =>
-			   GET(S(L+1..S'LAST), PROPACK, LAST);
-			   P := (PACK, PROPACK);
-			when ADJ =>
-			   GET(S(L+1..S'LAST), ADJECTIVE, LAST);
-			   P := (ADJ, ADJECTIVE);
-			when NUM =>
-			   GET(S(L+1..S'LAST), NUMERAL, LAST);
-			   P := (NUM, NUMERAL);
-			when ADV =>
-			   GET(S(L+1..S'LAST), ADVERB, LAST);
-			   P := (ADV, ADVERB);
-			when V =>
-			   GET(S(L+1..S'LAST), VERB, LAST);
-			   P := (V, VERB);
-			when VPAR =>
+		 last := l;      --  In case it is not set later
+		 get(s, ps, l);
+		 l := l + 1;
+		 case ps is
+			when n =>
+			   get(s(l+1..s'last), noun, last);
+			   p := (n, noun);
+			when pron =>
+			   get(s(l+1..s'last), pronoun, last);
+			   p := (pron, pronoun);
+			when pack =>
+			   get(s(l+1..s'last), propack, last);
+			   p := (pack, propack);
+			when adj =>
+			   get(s(l+1..s'last), adjective, last);
+			   p := (adj, adjective);
+			when num =>
+			   get(s(l+1..s'last), numeral, last);
+			   p := (num, numeral);
+			when adv =>
+			   get(s(l+1..s'last), adverb, last);
+			   p := (adv, adverb);
+			when v =>
+			   get(s(l+1..s'last), verb, last);
+			   p := (v, verb);
+			when vpar =>
 			   null;                --  No VAPR entry
-			when SUPINE =>
+			when supine =>
 			   null;                --  No SUPINE entry
-			when PREP =>
-			   GET(S(L+1..S'LAST), PREPOSITION, LAST);
-			   P := (PREP, PREPOSITION);
-			when CONJ =>
-			   GET(S(L+1..S'LAST), CONJUNCTION, LAST);
-			   P := (CONJ, CONJUNCTION);
-			when INTERJ =>
-			   GET(S(L+1..S'LAST), INTERJECTION, LAST);
-			   P := (INTERJ, INTERJECTION);
-			when PREFIX =>
-			   P := (POFS => PREFIX);
-			when SUFFIX =>
-			   P := (POFS => SUFFIX);
-			when TACKON =>
-			   P := (POFS => TACKON);
-			when X =>
-			   P := (POFS => X);
+			when prep =>
+			   get(s(l+1..s'last), preposition, last);
+			   p := (prep, preposition);
+			when conj =>
+			   get(s(l+1..s'last), conjunction, last);
+			   p := (conj, conjunction);
+			when interj =>
+			   get(s(l+1..s'last), interjection, last);
+			   p := (interj, interjection);
+			when prefix =>
+			   p := (pofs => prefix);
+			when suffix =>
+			   p := (pofs => suffix);
+			when tackon =>
+			   p := (pofs => tackon);
+			when x =>
+			   p := (pofs => x);
 		 end case;
-	  end GET;
+	  end get;
 
 
-	  procedure PUT(S : out STRING; P : in PART_ENTRY) is
-		 L : INTEGER := S'FIRST - 1;
-		 M : INTEGER := 0;
+	  procedure put(s : out string; p : in part_entry) is
+		 l : integer := s'first - 1;
+		 m : integer := 0;
 	  begin
-		 M := L + PART_OF_SPEECH_TYPE_IO.DEFAULT_WIDTH;
-		 PUT(S(L+1..M), P.POFS);
-		 L := M + 1;
-		 S(L) :=  ' ';
-		 case P.POFS is
-			when N =>
-			   M := L + NOUN_ENTRY_IO.DEFAULT_WIDTH;
-			   PUT(S(L+1..M), P.N);
-			when PRON =>
-			   M := L + PRONOUN_ENTRY_IO.DEFAULT_WIDTH;
-			   PUT(S(L+1..M), P.PRON);
-			when PACK =>
-			   M := L + PROPACK_ENTRY_IO.DEFAULT_WIDTH;
-			   PUT(S(L+1..M), P.PACK);
-			when ADJ =>
-			   M := L + ADJECTIVE_ENTRY_IO.DEFAULT_WIDTH;
-			   PUT(S(L+1..M), P.ADJ);
-			when NUM =>
-			   M := L + NUMERAL_ENTRY_IO.DEFAULT_WIDTH;
-			   PUT(S(L+1..M), P.NUM);
-			when ADV =>
-			   M := L + ADVERB_ENTRY_IO.DEFAULT_WIDTH;
-			   PUT(S(L+1..M), P.ADV);
-			when V =>
-			   M := L + VERB_ENTRY_IO.DEFAULT_WIDTH;
-			   PUT(S(L+1..M), P.V);
-			when VPAR =>
+		 m := l + part_of_speech_type_io.default_width;
+		 put(s(l+1..m), p.pofs);
+		 l := m + 1;
+		 s(l) :=  ' ';
+		 case p.pofs is
+			when n =>
+			   m := l + noun_entry_io.default_width;
+			   put(s(l+1..m), p.n);
+			when pron =>
+			   m := l + pronoun_entry_io.default_width;
+			   put(s(l+1..m), p.pron);
+			when pack =>
+			   m := l + propack_entry_io.default_width;
+			   put(s(l+1..m), p.pack);
+			when adj =>
+			   m := l + adjective_entry_io.default_width;
+			   put(s(l+1..m), p.adj);
+			when num =>
+			   m := l + numeral_entry_io.default_width;
+			   put(s(l+1..m), p.num);
+			when adv =>
+			   m := l + adverb_entry_io.default_width;
+			   put(s(l+1..m), p.adv);
+			when v =>
+			   m := l + verb_entry_io.default_width;
+			   put(s(l+1..m), p.v);
+			when vpar =>
 			   null;                --  No VAPR entryR
-			when SUPINE =>
+			when supine =>
 			   null;                --  No SUPINE entry
-			when PREP =>
-			   M := L + PREPOSITION_ENTRY_IO.DEFAULT_WIDTH;
-			   PUT(S(L+1..M), P.PREP);
-			when CONJ =>
-			   M := L + CONJUNCTION_ENTRY_IO.DEFAULT_WIDTH;
-			   PUT(S(L+1..M), P.CONJ);
-			when INTERJ =>
-			   M := L + INTERJECTION_ENTRY_IO.DEFAULT_WIDTH;
-			   PUT(S(L+1..M), P.INTERJ);
+			when prep =>
+			   m := l + preposition_entry_io.default_width;
+			   put(s(l+1..m), p.prep);
+			when conj =>
+			   m := l + conjunction_entry_io.default_width;
+			   put(s(l+1..m), p.conj);
+			when interj =>
+			   m := l + interjection_entry_io.default_width;
+			   put(s(l+1..m), p.interj);
 			when others =>
 			   null;
 		 end case;
 		 --S(M+1..S'LAST) := (others => ' ');
-	  end PUT;
+	  end put;
 
 
-   end PART_ENTRY_IO;
+   end part_entry_io;
 
 
    
 
-   package body KIND_ENTRY_IO is
-	  use NOUN_KIND_TYPE_IO;
-	  use PRONOUN_KIND_TYPE_IO;
-	  use INFLECTIONS_PACKAGE.INTEGER_IO;
-	  use VERB_KIND_TYPE_IO;
-	  SPACER : CHARACTER := ' ';
+   package body kind_entry_io is
+	  use noun_kind_type_io;
+	  use pronoun_kind_type_io;
+	  use inflections_package.integer_io;
+	  use verb_kind_type_io;
+	  spacer : character := ' ';
 
 
-	  NOUN_KIND  : NOUN_KIND_TYPE;
-	  PRONOUN_KIND : PRONOUN_KIND_TYPE;
-	  PROPACK_KIND : PRONOUN_KIND_TYPE;
-	  VERB_KIND : VERB_KIND_TYPE;
-	  VPAR_KIND : VERB_KIND_TYPE;
-	  SUPINE_KIND : VERB_KIND_TYPE;
-	  NUMERAL_VALUE : NUMERAL_VALUE_TYPE;
+	  noun_kind  : noun_kind_type;
+	  pronoun_kind : pronoun_kind_type;
+	  propack_kind : pronoun_kind_type;
+	  verb_kind : verb_kind_type;
+	  vpar_kind : verb_kind_type;
+	  supine_kind : verb_kind_type;
+	  numeral_value : numeral_value_type;
 
 
 
-	  procedure GET(F : in FILE_TYPE; 
-					PS : in PART_OF_SPEECH_TYPE; P : out KIND_ENTRY) is
+	  procedure get(f : in file_type; 
+					ps : in part_of_speech_type; p : out kind_entry) is
 	  begin
-		 case PS is
-			when N =>
-			   GET(F, NOUN_KIND);
-			   P := (N, NOUN_KIND);
-			when PRON =>
-			   GET(F, PRONOUN_KIND);
-			   P := (PRON, PRONOUN_KIND);
-			when PACK =>
-			   GET(F, PROPACK_KIND);
-			   P := (PACK, PROPACK_KIND);
-			when ADJ =>
-			   SET_COL(F, COL(F) + POSITIVE_COUNT(KIND_ENTRY_IO.DEFAULT_WIDTH));
-			   P := (POFS => ADJ);
-			when NUM =>
-			   GET(F, NUMERAL_VALUE);
-			   P := (NUM, NUMERAL_VALUE);
-			when ADV =>
-			   SET_COL(F, COL(F) + POSITIVE_COUNT(KIND_ENTRY_IO.DEFAULT_WIDTH));
-			   P := (POFS => ADV);
-			when V =>
-			   GET(F, VERB_KIND);
-			   P := (V, VERB_KIND);
-			when VPAR =>
-			   GET(F, VPAR_KIND);
-			   P := (VPAR, VPAR_KIND);
-			when SUPINE =>
-			   GET(F, SUPINE_KIND);
-			   P := (SUPINE, SUPINE_KIND);
-			when PREP =>
-			   SET_COL(F, COL(F) + POSITIVE_COUNT(KIND_ENTRY_IO.DEFAULT_WIDTH));
-			   P := (POFS => PREP);
-			when CONJ =>
-			   SET_COL(F, COL(F) + POSITIVE_COUNT(KIND_ENTRY_IO.DEFAULT_WIDTH));
-			   P := (POFS => CONJ);
-			when INTERJ =>
-			   SET_COL(F, COL(F) + POSITIVE_COUNT(KIND_ENTRY_IO.DEFAULT_WIDTH));
-			   P := (POFS => INTERJ);
-			when TACKON =>
-			   SET_COL(F, COL(F) + POSITIVE_COUNT(KIND_ENTRY_IO.DEFAULT_WIDTH));
-			   P := (POFS => TACKON);
-			when PREFIX =>
-			   SET_COL(F, COL(F) + POSITIVE_COUNT(KIND_ENTRY_IO.DEFAULT_WIDTH));
-			   P := (POFS => PREFIX);
-			when SUFFIX =>
-			   SET_COL(F, COL(F) + POSITIVE_COUNT(KIND_ENTRY_IO.DEFAULT_WIDTH));
-			   P := (POFS => SUFFIX);
-			when X =>
-			   SET_COL(F, COL(F) + POSITIVE_COUNT(KIND_ENTRY_IO.DEFAULT_WIDTH));
-			   P := (POFS => X);
+		 case ps is
+			when n =>
+			   get(f, noun_kind);
+			   p := (n, noun_kind);
+			when pron =>
+			   get(f, pronoun_kind);
+			   p := (pron, pronoun_kind);
+			when pack =>
+			   get(f, propack_kind);
+			   p := (pack, propack_kind);
+			when adj =>
+			   set_col(f, col(f) + positive_count(kind_entry_io.default_width));
+			   p := (pofs => adj);
+			when num =>
+			   get(f, numeral_value);
+			   p := (num, numeral_value);
+			when adv =>
+			   set_col(f, col(f) + positive_count(kind_entry_io.default_width));
+			   p := (pofs => adv);
+			when v =>
+			   get(f, verb_kind);
+			   p := (v, verb_kind);
+			when vpar =>
+			   get(f, vpar_kind);
+			   p := (vpar, vpar_kind);
+			when supine =>
+			   get(f, supine_kind);
+			   p := (supine, supine_kind);
+			when prep =>
+			   set_col(f, col(f) + positive_count(kind_entry_io.default_width));
+			   p := (pofs => prep);
+			when conj =>
+			   set_col(f, col(f) + positive_count(kind_entry_io.default_width));
+			   p := (pofs => conj);
+			when interj =>
+			   set_col(f, col(f) + positive_count(kind_entry_io.default_width));
+			   p := (pofs => interj);
+			when tackon =>
+			   set_col(f, col(f) + positive_count(kind_entry_io.default_width));
+			   p := (pofs => tackon);
+			when prefix =>
+			   set_col(f, col(f) + positive_count(kind_entry_io.default_width));
+			   p := (pofs => prefix);
+			when suffix =>
+			   set_col(f, col(f) + positive_count(kind_entry_io.default_width));
+			   p := (pofs => suffix);
+			when x =>
+			   set_col(f, col(f) + positive_count(kind_entry_io.default_width));
+			   p := (pofs => x);
 		 end case;
 		 return;
-	  end GET;
+	  end get;
 
 
-	  procedure GET(PS : in PART_OF_SPEECH_TYPE; P : out KIND_ENTRY) is
+	  procedure get(ps : in part_of_speech_type; p : out kind_entry) is
 	  begin
-		 case PS is
-			when N =>
-			   GET(NOUN_KIND);
-			   P := (N, NOUN_KIND);
-			when PRON =>
-			   GET(PRONOUN_KIND);
-			   P := (PRON, PRONOUN_KIND);
-			when PACK =>
-			   GET(PROPACK_KIND);
-			   P := (PACK, PROPACK_KIND);
-			when ADJ =>
-			   SET_COL(COL + POSITIVE_COUNT(KIND_ENTRY_IO.DEFAULT_WIDTH));
-			   P := (POFS => ADJ);
-			when NUM =>
-			   GET(NUMERAL_VALUE);
-			   P := (NUM, NUMERAL_VALUE);
-			when ADV =>
-			   SET_COL(COL + POSITIVE_COUNT(KIND_ENTRY_IO.DEFAULT_WIDTH));
-			   P := (POFS => ADV);
-			when V =>
-			   GET(VERB_KIND);
-			   P := (V, VERB_KIND);
-			when VPAR =>
-			   GET(VPAR_KIND);
-			   P := (VPAR, VPAR_KIND);
-			when SUPINE =>
-			   GET(SUPINE_KIND);
-			   P := (SUPINE, SUPINE_KIND);
-			when PREP =>
-			   SET_COL(COL + POSITIVE_COUNT(KIND_ENTRY_IO.DEFAULT_WIDTH));
-			   P := (POFS => PREP);
-			when CONJ =>
-			   SET_COL(COL + POSITIVE_COUNT(KIND_ENTRY_IO.DEFAULT_WIDTH));
-			   P := (POFS => CONJ);
-			when INTERJ =>
-			   SET_COL(COL + POSITIVE_COUNT(KIND_ENTRY_IO.DEFAULT_WIDTH));
-			   P := (POFS => INTERJ);
-			when TACKON =>
-			   SET_COL(COL + POSITIVE_COUNT(KIND_ENTRY_IO.DEFAULT_WIDTH));
-			   P := (POFS => TACKON);
-			when PREFIX =>
-			   SET_COL(COL + POSITIVE_COUNT(KIND_ENTRY_IO.DEFAULT_WIDTH));
-			   P := (POFS => PREFIX);
-			when SUFFIX =>
-			   SET_COL(COL + POSITIVE_COUNT(KIND_ENTRY_IO.DEFAULT_WIDTH));
-			   P := (POFS => SUFFIX);
-			when X =>
-			   SET_COL(COL + POSITIVE_COUNT(KIND_ENTRY_IO.DEFAULT_WIDTH));
-			   P := (POFS => X);
+		 case ps is
+			when n =>
+			   get(noun_kind);
+			   p := (n, noun_kind);
+			when pron =>
+			   get(pronoun_kind);
+			   p := (pron, pronoun_kind);
+			when pack =>
+			   get(propack_kind);
+			   p := (pack, propack_kind);
+			when adj =>
+			   set_col(col + positive_count(kind_entry_io.default_width));
+			   p := (pofs => adj);
+			when num =>
+			   get(numeral_value);
+			   p := (num, numeral_value);
+			when adv =>
+			   set_col(col + positive_count(kind_entry_io.default_width));
+			   p := (pofs => adv);
+			when v =>
+			   get(verb_kind);
+			   p := (v, verb_kind);
+			when vpar =>
+			   get(vpar_kind);
+			   p := (vpar, vpar_kind);
+			when supine =>
+			   get(supine_kind);
+			   p := (supine, supine_kind);
+			when prep =>
+			   set_col(col + positive_count(kind_entry_io.default_width));
+			   p := (pofs => prep);
+			when conj =>
+			   set_col(col + positive_count(kind_entry_io.default_width));
+			   p := (pofs => conj);
+			when interj =>
+			   set_col(col + positive_count(kind_entry_io.default_width));
+			   p := (pofs => interj);
+			when tackon =>
+			   set_col(col + positive_count(kind_entry_io.default_width));
+			   p := (pofs => tackon);
+			when prefix =>
+			   set_col(col + positive_count(kind_entry_io.default_width));
+			   p := (pofs => prefix);
+			when suffix =>
+			   set_col(col + positive_count(kind_entry_io.default_width));
+			   p := (pofs => suffix);
+			when x =>
+			   set_col(col + positive_count(kind_entry_io.default_width));
+			   p := (pofs => x);
 		 end case;
 		 return;
-	  end GET;
+	  end get;
 
 
 
-	  procedure PUT(F : in FILE_TYPE; 
-					PS : in PART_OF_SPEECH_TYPE; P : in KIND_ENTRY) is 
-		 C : POSITIVE := POSITIVE(COL(F));
+	  procedure put(f : in file_type; 
+					ps : in part_of_speech_type; p : in kind_entry) is 
+		 c : positive := positive(col(f));
 	  begin
-		 case P.POFS is
-			when N =>
-			   PUT(F, P.N_KIND);
-			when PRON =>
-			   PUT(F, P.PRON_KIND);
-			when PACK =>
-			   PUT(F, P.PACK_KIND);
-			when NUM =>
-			   PUT(F, P.NUM_VALUE, NUMERAL_VALUE_TYPE_IO_DEFAULT_WIDTH);
-			when V =>
-			   PUT(F, P.V_KIND);
-			when VPAR =>
-			   PUT(F, P.VPAR_KIND);
-			when SUPINE =>
-			   PUT(F, P.SUPINE_KIND);
+		 case p.pofs is
+			when n =>
+			   put(f, p.n_kind);
+			when pron =>
+			   put(f, p.pron_kind);
+			when pack =>
+			   put(f, p.pack_kind);
+			when num =>
+			   put(f, p.num_value, numeral_value_type_io_default_width);
+			when v =>
+			   put(f, p.v_kind);
+			when vpar =>
+			   put(f, p.vpar_kind);
+			when supine =>
+			   put(f, p.supine_kind);
 			when others =>
 			   null;
 		 end case;
-		 PUT(F, STRING'((INTEGER(COL(F))..KIND_ENTRY_IO.DEFAULT_WIDTH+C-1 => ' ')));
+		 put(f, string'((integer(col(f))..kind_entry_io.default_width+c-1 => ' ')));
 		 return;
-	  end PUT;
+	  end put;
 
-	  procedure PUT(PS : in PART_OF_SPEECH_TYPE; P : in KIND_ENTRY) is 
-		 C : POSITIVE := POSITIVE(COL);
+	  procedure put(ps : in part_of_speech_type; p : in kind_entry) is 
+		 c : positive := positive(col);
 	  begin
-		 case P.POFS is
-			when N =>
-			   PUT(P.N_KIND);
-			when PRON =>
-			   PUT(P.PRON_KIND);
-			when PACK =>
-			   PUT(P.PACK_KIND);
-			when NUM =>
-			   PUT(P.NUM_VALUE, NUMERAL_VALUE_TYPE_IO_DEFAULT_WIDTH);
-			when V =>
-			   PUT(P.V_KIND);
-			when VPAR =>
-			   PUT(P.VPAR_KIND);
-			when SUPINE =>
-			   PUT(P.SUPINE_KIND);
+		 case p.pofs is
+			when n =>
+			   put(p.n_kind);
+			when pron =>
+			   put(p.pron_kind);
+			when pack =>
+			   put(p.pack_kind);
+			when num =>
+			   put(p.num_value, numeral_value_type_io_default_width);
+			when v =>
+			   put(p.v_kind);
+			when vpar =>
+			   put(p.vpar_kind);
+			when supine =>
+			   put(p.supine_kind);
 			when others =>
 			   null;
 		 end case;
-		 PUT(STRING'((INTEGER(COL)..KIND_ENTRY_IO.DEFAULT_WIDTH+C-1 => ' ')));
+		 put(string'((integer(col)..kind_entry_io.default_width+c-1 => ' ')));
 		 return;
-	  end PUT;
+	  end put;
 
 
-	  procedure GET(S : in STRING; PS : in PART_OF_SPEECH_TYPE; 
-								   P : out KIND_ENTRY; LAST : out INTEGER) is
-		 L : INTEGER := S'FIRST - 1;
+	  procedure get(s : in string; ps : in part_of_speech_type; 
+								   p : out kind_entry; last : out integer) is
+		 l : integer := s'first - 1;
 	  begin
-		 LAST := L;         --  In case it is not set later
-		 case PS is
-			when N =>
-			   GET(S(L+1..S'LAST), NOUN_KIND, LAST);
-			   P := (N, NOUN_KIND);
-			when PRON =>
-			   GET(S(L+1..S'LAST), PRONOUN_KIND, LAST);
-			   P := (PRON, PRONOUN_KIND);
-			when PACK =>
-			   GET(S(L+1..S'LAST), PROPACK_KIND, LAST);
-			   P := (PACK, PROPACK_KIND);
-			when ADJ =>
-			   P := (POFS => ADJ);
-			when NUM =>
-			   GET(S(L+1..S'LAST), NUMERAL_VALUE, LAST);
-			   P := (NUM, NUMERAL_VALUE);
-			when ADV =>
-			   P := (POFS => ADV);
-			when V =>
-			   GET(S(L+1..S'LAST), VERB_KIND, LAST);
-			   P := (V, VERB_KIND);
-			when VPAR =>
-			   GET(S(L+1..S'LAST), VPAR_KIND, LAST);
-			   P := (VPAR, VPAR_KIND);
-			when SUPINE =>
-			   GET(S(L+1..S'LAST), SUPINE_KIND, LAST);
-			   P := (SUPINE, SUPINE_KIND);
-			when PREP =>
-			   P := (POFS => PREP);
-			when CONJ =>
-			   P := (POFS => CONJ);
-			when INTERJ =>
-			   P := (POFS => INTERJ);
-			when TACKON =>
-			   P := (POFS => TACKON);
-			when PREFIX =>
-			   P := (POFS => PREFIX);
-			when SUFFIX =>
-			   P := (POFS => SUFFIX);
-			when X =>      
-			   P := (POFS => X);
+		 last := l;         --  In case it is not set later
+		 case ps is
+			when n =>
+			   get(s(l+1..s'last), noun_kind, last);
+			   p := (n, noun_kind);
+			when pron =>
+			   get(s(l+1..s'last), pronoun_kind, last);
+			   p := (pron, pronoun_kind);
+			when pack =>
+			   get(s(l+1..s'last), propack_kind, last);
+			   p := (pack, propack_kind);
+			when adj =>
+			   p := (pofs => adj);
+			when num =>
+			   get(s(l+1..s'last), numeral_value, last);
+			   p := (num, numeral_value);
+			when adv =>
+			   p := (pofs => adv);
+			when v =>
+			   get(s(l+1..s'last), verb_kind, last);
+			   p := (v, verb_kind);
+			when vpar =>
+			   get(s(l+1..s'last), vpar_kind, last);
+			   p := (vpar, vpar_kind);
+			when supine =>
+			   get(s(l+1..s'last), supine_kind, last);
+			   p := (supine, supine_kind);
+			when prep =>
+			   p := (pofs => prep);
+			when conj =>
+			   p := (pofs => conj);
+			when interj =>
+			   p := (pofs => interj);
+			when tackon =>
+			   p := (pofs => tackon);
+			when prefix =>
+			   p := (pofs => prefix);
+			when suffix =>
+			   p := (pofs => suffix);
+			when x =>      
+			   p := (pofs => x);
 		 end case;
 		 return;
-	  end GET;
+	  end get;
 
 
-	  procedure PUT(S : out STRING; 
-					PS : in PART_OF_SPEECH_TYPE; P : in KIND_ENTRY) is
-		 L : INTEGER := S'FIRST - 1;
-		 M : INTEGER := 0;
+	  procedure put(s : out string; 
+					ps : in part_of_speech_type; p : in kind_entry) is
+		 l : integer := s'first - 1;
+		 m : integer := 0;
 	  begin
-		 case P.POFS is
-			when N =>
-			   M := L + NOUN_KIND_TYPE_IO.DEFAULT_WIDTH;
-			   PUT(S(L+1..M), P.N_KIND);
-			when PRON =>
-			   M := L + PRONOUN_KIND_TYPE_IO.DEFAULT_WIDTH;
-			   PUT(S(L+1..M), P.PRON_KIND);
-			when PACK =>
-			   M := L + PRONOUN_KIND_TYPE_IO.DEFAULT_WIDTH;
-			   PUT(S(L+1..M), P.PACK_KIND);
-			when NUM =>
-			   M := L + NUMERAL_VALUE_TYPE_IO_DEFAULT_WIDTH;
-			   PUT(S(L+1..M), P.NUM_VALUE);
-			when V =>
-			   M := L + VERB_KIND_TYPE_IO.DEFAULT_WIDTH;
-			   PUT(S(L+1..M), P.V_KIND);
-			when VPAR =>
-			   M := L + VERB_KIND_TYPE_IO.DEFAULT_WIDTH;
-			   PUT(S(L+1..M), P.VPAR_KIND);
-			when SUPINE =>
-			   M := L + VERB_KIND_TYPE_IO.DEFAULT_WIDTH;
-			   PUT(S(L+1..M), P.SUPINE_KIND);
+		 case p.pofs is
+			when n =>
+			   m := l + noun_kind_type_io.default_width;
+			   put(s(l+1..m), p.n_kind);
+			when pron =>
+			   m := l + pronoun_kind_type_io.default_width;
+			   put(s(l+1..m), p.pron_kind);
+			when pack =>
+			   m := l + pronoun_kind_type_io.default_width;
+			   put(s(l+1..m), p.pack_kind);
+			when num =>
+			   m := l + numeral_value_type_io_default_width;
+			   put(s(l+1..m), p.num_value);
+			when v =>
+			   m := l + verb_kind_type_io.default_width;
+			   put(s(l+1..m), p.v_kind);
+			when vpar =>
+			   m := l + verb_kind_type_io.default_width;
+			   put(s(l+1..m), p.vpar_kind);
+			when supine =>
+			   m := l + verb_kind_type_io.default_width;
+			   put(s(l+1..m), p.supine_kind);
 			when others =>
 			   null;
 		 end case;
-		 S(M+1..S'LAST) := (others => ' ');
-	  end PUT;
+		 s(m+1..s'last) := (others => ' ');
+	  end put;
 
 
-   end KIND_ENTRY_IO;
+   end kind_entry_io;
 
 
 
 
-   package body TRANSLATION_RECORD_IO is
-	  use TEXT_IO;
-	  use AGE_TYPE_IO;
-	  use AREA_TYPE_IO;
-	  use GEO_TYPE_IO;
-	  use FREQUENCY_TYPE_IO;
-	  use SOURCE_TYPE_IO;
-	  SPACER : CHARACTER := ' ';
+   package body translation_record_io is
+	  use text_io;
+	  use age_type_io;
+	  use area_type_io;
+	  use geo_type_io;
+	  use frequency_type_io;
+	  use source_type_io;
+	  spacer : character := ' ';
 	  --LINE : STRING(1..250);
-	  LAST : INTEGER := 0;
+	  last : integer := 0;
 
-	  procedure GET(F : in TEXT_IO.FILE_TYPE; TR: out TRANSLATION_RECORD) is
+	  procedure get(f : in text_io.file_type; tr: out translation_record) is
 	  begin
-		 GET(F, TR.AGE);
-		 GET(F, SPACER);
-		 GET(F, TR.AREA);
-		 GET(F, SPACER);
-		 GET(F, TR.GEO);
-		 GET(F, SPACER);
-		 GET(F, TR.FREQ);
-		 GET(F, SPACER);
-		 GET(F, TR.SOURCE);
+		 get(f, tr.age);
+		 get(f, spacer);
+		 get(f, tr.area);
+		 get(f, spacer);
+		 get(f, tr.geo);
+		 get(f, spacer);
+		 get(f, tr.freq);
+		 get(f, spacer);
+		 get(f, tr.source);
 		 --GET(F, SPACER);
 		 --GET_LINE(F, LINE, LAST);
 		 --TR.MEAN := HEAD(LINE(1..LAST), MAX_MEANING_SIZE);
-	  end GET;
+	  end get;
 
-	  procedure GET(TR : out TRANSLATION_RECORD) is
+	  procedure get(tr : out translation_record) is
 	  begin
-		 GET(TR.AGE);
-		 GET(SPACER);
-		 GET(TR.AREA);
-		 GET(SPACER);
-		 GET(TR.GEO);
-		 GET(SPACER);
-		 GET(TR.FREQ);
-		 GET(SPACER);
-		 GET(TR.SOURCE);
+		 get(tr.age);
+		 get(spacer);
+		 get(tr.area);
+		 get(spacer);
+		 get(tr.geo);
+		 get(spacer);
+		 get(tr.freq);
+		 get(spacer);
+		 get(tr.source);
 		 --GET(SPACER);
 		 --GET_LINE(LINE, LAST);
 		 --TR.MEAN := HEAD(LINE(1..LAST), MAX_MEANING_SIZE);
-	  end GET;
+	  end get;
 
-	  procedure PUT(F : in TEXT_IO.FILE_TYPE; TR : in TRANSLATION_RECORD) is
+	  procedure put(f : in text_io.file_type; tr : in translation_record) is
 	  begin
-		 PUT(F, TR.AGE);
-		 PUT(F, ' ');
-		 PUT(F, TR.AREA);
-		 PUT(F, ' ');
-		 PUT(F, TR.GEO);
-		 PUT(F, ' ');
-		 PUT(F, TR.FREQ);
-		 PUT(F, ' ');
-		 PUT(F, TR.SOURCE);
+		 put(f, tr.age);
+		 put(f, ' ');
+		 put(f, tr.area);
+		 put(f, ' ');
+		 put(f, tr.geo);
+		 put(f, ' ');
+		 put(f, tr.freq);
+		 put(f, ' ');
+		 put(f, tr.source);
 		 --PUT(F, ' ');
 		 --PUT(F, TR.MEAN);
-	  end PUT;
+	  end put;
 
-	  procedure PUT(TR : in TRANSLATION_RECORD) is
+	  procedure put(tr : in translation_record) is
 	  begin
-		 AGE_TYPE_IO.PUT(TR.AGE);
-		 TEXT_IO.PUT(' ');
-		 AREA_TYPE_IO.PUT(TR.AREA);
-		 TEXT_IO.PUT(' ');
-		 GEO_TYPE_IO.PUT(TR.GEO);
-		 TEXT_IO.PUT(' ');
-		 FREQUENCY_TYPE_IO.PUT(TR.FREQ);
-		 TEXT_IO.PUT(' ');
-		 SOURCE_TYPE_IO.PUT(TR.SOURCE);
+		 age_type_io.put(tr.age);
+		 text_io.put(' ');
+		 area_type_io.put(tr.area);
+		 text_io.put(' ');
+		 geo_type_io.put(tr.geo);
+		 text_io.put(' ');
+		 frequency_type_io.put(tr.freq);
+		 text_io.put(' ');
+		 source_type_io.put(tr.source);
 		 --TEXT_IO.PUT(' ');
 		 --TEXT_IO.PUT(TR.MEAN);
-	  end PUT;
+	  end put;
 
-	  procedure GET(S : in STRING; TR : out TRANSLATION_RECORD; LAST : out INTEGER) is
-		 L : INTEGER := S'FIRST - 1;
+	  procedure get(s : in string; tr : out translation_record; last : out integer) is
+		 l : integer := s'first - 1;
 	  begin
-		 GET(S(L+1..S'LAST), TR.AGE, L);
+		 get(s(l+1..s'last), tr.age, l);
 		 --PUT(TR.AGE); TEXT_IO.PUT('-');
-		 L := L + 1;
-		 GET(S(L+1..S'LAST), TR.AREA, L);
+		 l := l + 1;
+		 get(s(l+1..s'last), tr.area, l);
 		 --PUT(TR.AREA); TEXT_IO.PUT('-');
-		 L := L + 1;
-		 GET(S(L+1..S'LAST), TR.GEO, L);
+		 l := l + 1;
+		 get(s(l+1..s'last), tr.geo, l);
 		 --PUT(TR.GEO); TEXT_IO.PUT('-');
-		 L := L + 1;
-		 GET(S(L+1..S'LAST), TR.FREQ, L);
+		 l := l + 1;
+		 get(s(l+1..s'last), tr.freq, l);
 		 --PUT(TR.FREQ); TEXT_IO.PUT('-');
-		 L := L + 1;
-		 GET(S(L+1..S'LAST), TR.SOURCE, LAST);
+		 l := l + 1;
+		 get(s(l+1..s'last), tr.source, last);
 		 --PUT(TR.SOURCE); TEXT_IO.PUT('-');
 		 --L := M + 1;
 		 --M := L + MAX_MEANING_SIZE;
 		 --TR.MEAN := HEAD(S(L+1..S'LAST), MAX_MEANING_SIZE);
 		 --LAST := M;
-	  end GET;
+	  end get;
 
-	  procedure PUT(S : out STRING; TR : in TRANSLATION_RECORD) is
-		 L : INTEGER := 0;
-		 M : INTEGER := 0;
+	  procedure put(s : out string; tr : in translation_record) is
+		 l : integer := 0;
+		 m : integer := 0;
 	  begin
-		 M := L + AGE_TYPE_IO.DEFAULT_WIDTH;
-		 PUT(S(L+1..M), TR.AGE);
-		 L := M + 1;
-		 S(L) :=  ' ';
-		 M := L + AREA_TYPE_IO.DEFAULT_WIDTH;
-		 PUT(S(L+1..M), TR.AREA);
-		 L := M + 1;
-		 S(L) :=  ' ';
-		 M := L + GEO_TYPE_IO.DEFAULT_WIDTH;
-		 PUT(S(L+1..M), TR.GEO);
-		 L := M + 1;
-		 S(L) :=  ' ';
-		 M := L + FREQUENCY_TYPE_IO.DEFAULT_WIDTH;
-		 PUT(S(L+1..M), TR.FREQ);
-		 L := M + 1;
-		 S(L) :=  ' ';
-		 M := L + SOURCE_TYPE_IO.DEFAULT_WIDTH;
-		 PUT(S(L+1..M), TR.SOURCE);
+		 m := l + age_type_io.default_width;
+		 put(s(l+1..m), tr.age);
+		 l := m + 1;
+		 s(l) :=  ' ';
+		 m := l + area_type_io.default_width;
+		 put(s(l+1..m), tr.area);
+		 l := m + 1;
+		 s(l) :=  ' ';
+		 m := l + geo_type_io.default_width;
+		 put(s(l+1..m), tr.geo);
+		 l := m + 1;
+		 s(l) :=  ' ';
+		 m := l + frequency_type_io.default_width;
+		 put(s(l+1..m), tr.freq);
+		 l := m + 1;
+		 s(l) :=  ' ';
+		 m := l + source_type_io.default_width;
+		 put(s(l+1..m), tr.source);
 		 --L := M + 1;
 		 --S(L) :=  ' ';
 		 --M := L + MAX_MEANING_SIZE;
 		 --S(L+1..M) :=  TR.MEAN;
-		 S(M+1..S'LAST) := (others => ' ');
-	  end PUT;
+		 s(m+1..s'last) := (others => ' ');
+	  end put;
 
-   end TRANSLATION_RECORD_IO;
+   end translation_record_io;
 
 
 
-   package body DICTIONARY_ENTRY_IO is
-	  use PART_ENTRY_IO;
-	  use TRANSLATION_RECORD_IO;
+   package body dictionary_entry_io is
+	  use part_entry_io;
+	  use translation_record_io;
 	  --use KIND_ENTRY_IO;
 
-	  SPACER : CHARACTER := ' ';
-	  PART_COL : NATURAL := 0;
+	  spacer : character := ' ';
+	  part_col : natural := 0;
 	  
-	  DE : DICTIONARY_ENTRY;
+	  de : dictionary_entry;
 
-	  procedure GET(F : in FILE_TYPE; D : out DICTIONARY_ENTRY) is
+	  procedure get(f : in file_type; d : out dictionary_entry) is
 	  begin
-		 for I in STEM_KEY_TYPE range 1..4  loop
-			GET(F, D.STEMS(I));
-			GET(F, SPACER);
+		 for i in stem_key_type range 1..4  loop
+			get(f, d.stems(i));
+			get(f, spacer);
 		 end loop;
-		 GET(F, D.PART);
+		 get(f, d.part);
 		 --    GET(F, SPACER);
 		 --    GET(F, D.PART.POFS, D.KIND);
-		 GET(F, SPACER);
-		 GET(F, D.TRAN);
-		 GET(F, SPACER);
-		 GET(F, D.MEAN);
-	  end GET;
+		 get(f, spacer);
+		 get(f, d.tran);
+		 get(f, spacer);
+		 get(f, d.mean);
+	  end get;
 
-	  procedure GET(D : out DICTIONARY_ENTRY) is
+	  procedure get(d : out dictionary_entry) is
 	  begin
-		 for I in STEM_KEY_TYPE range 1..4  loop
-			GET(D.STEMS(I));
-			GET(SPACER);
+		 for i in stem_key_type range 1..4  loop
+			get(d.stems(i));
+			get(spacer);
 		 end loop;
-		 GET(D.PART);
+		 get(d.part);
 		 --    GET(SPACER);
 		 --    GET(D.PART.POFS, D.KIND);
-		 GET(SPACER);
-		 GET(D.TRAN);
-		 GET(SPACER);
-		 GET(D.MEAN);
-	  end GET;
+		 get(spacer);
+		 get(d.tran);
+		 get(spacer);
+		 get(d.mean);
+	  end get;
 
-	  procedure PUT(F : in FILE_TYPE; D : in DICTIONARY_ENTRY) is
+	  procedure put(f : in file_type; d : in dictionary_entry) is
 	  begin
-		 for I in STEM_KEY_TYPE range 1..4  loop
-			PUT(F, D.STEMS(I));
-			PUT(F, ' ');
+		 for i in stem_key_type range 1..4  loop
+			put(f, d.stems(i));
+			put(f, ' ');
 		 end loop;
-		 PART_COL := NATURAL(COL(F));
-		 PUT(F, D.PART);
+		 part_col := natural(col(f));
+		 put(f, d.part);
 		 --    PUT(F, ' ');
 		 --    PUT(F, D.PART.POFS, D.KIND);
-		 SET_COL(F, COUNT(PART_COL + PART_ENTRY_IO.DEFAULT_WIDTH + 1));
-		 PUT(F, D.TRAN);
-		 PUT(F, ' ');
-		 PUT(F, D.MEAN);
-	  end PUT;
+		 set_col(f, count(part_col + part_entry_io.default_width + 1));
+		 put(f, d.tran);
+		 put(f, ' ');
+		 put(f, d.mean);
+	  end put;
 
-	  procedure PUT(D : in DICTIONARY_ENTRY) is
+	  procedure put(d : in dictionary_entry) is
 	  begin
-		 for I in STEM_KEY_TYPE range 1..4  loop
-			PUT(D.STEMS(I));
-			PUT(' ');
+		 for i in stem_key_type range 1..4  loop
+			put(d.stems(i));
+			put(' ');
 		 end loop;
-		 PART_COL := NATURAL(COL);
-		 PUT(D.PART);
+		 part_col := natural(col);
+		 put(d.part);
 		 --    PUT(' ');
 		 --    PUT(D.PART.POFS, D.KIND);
-		 SET_COL(COUNT(PART_COL + PART_ENTRY_IO.DEFAULT_WIDTH + 1));
-		 PUT(D.TRAN);
-		 PUT(' ');
-		 PUT(D.MEAN);
-	  end PUT;
+		 set_col(count(part_col + part_entry_io.default_width + 1));
+		 put(d.tran);
+		 put(' ');
+		 put(d.mean);
+	  end put;
 
-	  procedure GET(S : in STRING; D : out DICTIONARY_ENTRY; LAST : out INTEGER) is
-		 L : INTEGER := S'FIRST - 1;
-		 M : INTEGER := 0;
-		 I : INTEGER := 0;
+	  procedure get(s : in string; d : out dictionary_entry; last : out integer) is
+		 l : integer := s'first - 1;
+		 m : integer := 0;
+		 i : integer := 0;
 	  begin
-		 for I in STEM_KEY_TYPE range 1..4  loop
-			STEM_TYPE_IO.GET(S(L+1..S'LAST), D.STEMS(I), L);
+		 for i in stem_key_type range 1..4  loop
+			stem_type_io.get(s(l+1..s'last), d.stems(i), l);
 		 end loop;
-		 GET(S(L+1..S'LAST), D.PART, L);
+		 get(s(l+1..s'last), d.part, l);
 		 --    L := L + 1;
 		 --    GET(S(L+1..S'LAST), D.PART.POFS, D.KIND, L);
-		 L := L + 1;
-		 GET(S(L+1..S'LAST), D.TRAN, L);
-		 L := L + 1;
-		 D.MEAN := HEAD(S(L+1..S'LAST), MAX_MEANING_SIZE);
-		 I := L+1;
-		 while S(I) = ' ' loop
-			I := I + 1;
+		 l := l + 1;
+		 get(s(l+1..s'last), d.tran, l);
+		 l := l + 1;
+		 d.mean := head(s(l+1..s'last), max_meaning_size);
+		 i := l+1;
+		 while s(i) = ' ' loop
+			i := i + 1;
 		 end loop;
-		 while (S(I) not in 'A'..'Z') and 
-		   (S(I) not in 'a'..'z')     loop
-			LAST := I;
-			I := I + 1;
+		 while (s(i) not in 'A'..'Z') and 
+		   (s(i) not in 'a'..'z')     loop
+			last := i;
+			i := i + 1;
 			exit;
 		 end loop;     
-	  end GET;
+	  end get;
 
-	  procedure PUT(S : out STRING; D : in DICTIONARY_ENTRY) is
-		 L : INTEGER := S'FIRST - 1;
-		 M : INTEGER := 0;
+	  procedure put(s : out string; d : in dictionary_entry) is
+		 l : integer := s'first - 1;
+		 m : integer := 0;
 	  begin
-		 for I in STEM_KEY_TYPE range 1..4  loop
-			M := L + MAX_STEM_SIZE;
-			S(L+1..M) := D.STEMS(I);
-			L := M + 1;
-			S(L) :=  ' ';
+		 for i in stem_key_type range 1..4  loop
+			m := l + max_stem_size;
+			s(l+1..m) := d.stems(i);
+			l := m + 1;
+			s(l) :=  ' ';
 		 end loop;
-		 PART_COL := L + 1;
-		 M := L + PART_ENTRY_IO.DEFAULT_WIDTH;
-		 PUT(S(L+1..M), D.PART);
+		 part_col := l + 1;
+		 m := l + part_entry_io.default_width;
+		 put(s(l+1..m), d.part);
 		 --    L := M + 1;
 		 --    S(L) :=  ' ';
 		 --    M := L + KIND_ENTRY_IO_DEFAULT_WIDTH;
 		 --    PUT(S(L+1..M), D.PART.POFS, D.KIND);
-		 L := PART_COL + PART_ENTRY_IO.DEFAULT_WIDTH + 1;
-		 M := L + TRANSLATION_RECORD_IO.DEFAULT_WIDTH;
-		 PUT(S(L+1..M), D.TRAN);
-		 L := M + 1;
-		 S(L) :=  ' ';
-		 M := M + MAX_MEANING_SIZE;
-		 S(L+1..M) := D.MEAN;
-		 S(M+1..S'LAST) := (others => ' ');
-	  end PUT;
+		 l := part_col + part_entry_io.default_width + 1;
+		 m := l + translation_record_io.default_width;
+		 put(s(l+1..m), d.tran);
+		 l := m + 1;
+		 s(l) :=  ' ';
+		 m := m + max_meaning_size;
+		 s(l+1..m) := d.mean;
+		 s(m+1..s'last) := (others => ' ');
+	  end put;
 
-   end DICTIONARY_ENTRY_IO;
-
-
+   end dictionary_entry_io;
 
 
 
-   function "<=" (LEFT, RIGHT : AREA_TYPE) return BOOLEAN is
+
+
+   function "<=" (left, right : area_type) return boolean is
    begin
-	  if RIGHT = LEFT  or else
-		RIGHT = X  then
-		 return TRUE;
+	  if right = left  or else
+		right = x  then
+		 return true;
 	  else
-		 return FALSE;
+		 return false;
 	  end if;
    end "<=";
 
@@ -1611,74 +1611,74 @@ package body DICTIONARY_PACKAGE is
 begin     --  initialization of body of DICTIONARY_PACKAGE
 		  --TEXT_IO.PUT_LINE("Initializing DICTIONARY_PACKAGE");
 
-   DICTIONARY_KIND_IO.DEFAULT_WIDTH := DICTIONARY_KIND'WIDTH;
+   dictionary_kind_io.default_width := dictionary_kind'width;
 
    --NUMERAL_VALUE_TYPE_IO.DEFAULT_WIDTH := 5;
 
-   AREA_TYPE_IO.DEFAULT_WIDTH := AREA_TYPE'WIDTH;
+   area_type_io.default_width := area_type'width;
 
-   GEO_TYPE_IO.DEFAULT_WIDTH := GEO_TYPE'WIDTH;
+   geo_type_io.default_width := geo_type'width;
 
-   FREQUENCY_TYPE_IO.DEFAULT_WIDTH := FREQUENCY_TYPE'WIDTH;
+   frequency_type_io.default_width := frequency_type'width;
 
-   SOURCE_TYPE_IO.DEFAULT_WIDTH := SOURCE_TYPE'WIDTH;
-
-
-
-   PARSE_RECORD_IO.DEFAULT_WIDTH :=
-	 STEM_TYPE_IO.DEFAULT_WIDTH + 1 +
-	 INFLECTION_RECORD_IO.DEFAULT_WIDTH + 1 +
-	 DICTIONARY_KIND_IO.DEFAULT_WIDTH + 1 +
-	 MNPC_IO_DEFAULT_WIDTH;
-   NOUN_ENTRY_IO.DEFAULT_WIDTH :=
-	 DECN_RECORD_IO.DEFAULT_WIDTH + 1 +
-	 GENDER_TYPE_IO.DEFAULT_WIDTH + 1 +
-	 NOUN_KIND_TYPE_IO.DEFAULT_WIDTH;
-   PRONOUN_ENTRY_IO.DEFAULT_WIDTH :=
-	 DECN_RECORD_IO.DEFAULT_WIDTH + 1 +
-	 PRONOUN_KIND_TYPE_IO.DEFAULT_WIDTH;
-   PROPACK_ENTRY_IO.DEFAULT_WIDTH :=
-	 DECN_RECORD_IO.DEFAULT_WIDTH + 1 +
-	 PRONOUN_KIND_TYPE_IO.DEFAULT_WIDTH;
-   ADJECTIVE_ENTRY_IO.DEFAULT_WIDTH :=
-	 DECN_RECORD_IO.DEFAULT_WIDTH + 1 +
-	 COMPARISON_TYPE_IO.DEFAULT_WIDTH;
-   ADVERB_ENTRY_IO.DEFAULT_WIDTH :=
-	 COMPARISON_TYPE_IO.DEFAULT_WIDTH;
-   VERB_ENTRY_IO.DEFAULT_WIDTH :=
-	 DECN_RECORD_IO.DEFAULT_WIDTH + 1 +
-	 VERB_KIND_TYPE_IO.DEFAULT_WIDTH;
-   PREPOSITION_ENTRY_IO.DEFAULT_WIDTH := 0;
-   CONJUNCTION_ENTRY_IO.DEFAULT_WIDTH := 0;
-
-   INTERJECTION_ENTRY_IO.DEFAULT_WIDTH := 0;
-   NUMERAL_ENTRY_IO.DEFAULT_WIDTH :=
-	 DECN_RECORD_IO.DEFAULT_WIDTH + 1 +
-	 NUMERAL_SORT_TYPE_IO.DEFAULT_WIDTH + 1 +
-	 NUMERAL_VALUE_TYPE_IO_DEFAULT_WIDTH;
+   source_type_io.default_width := source_type'width;
 
 
-   PART_ENTRY_IO.DEFAULT_WIDTH := PART_OF_SPEECH_TYPE_IO.DEFAULT_WIDTH + 1 +  
-	 NUMERAL_ENTRY_IO.DEFAULT_WIDTH;     --  Largest
+
+   parse_record_io.default_width :=
+	 stem_type_io.default_width + 1 +
+	 inflection_record_io.default_width + 1 +
+	 dictionary_kind_io.default_width + 1 +
+	 mnpc_io_default_width;
+   noun_entry_io.default_width :=
+	 decn_record_io.default_width + 1 +
+	 gender_type_io.default_width + 1 +
+	 noun_kind_type_io.default_width;
+   pronoun_entry_io.default_width :=
+	 decn_record_io.default_width + 1 +
+	 pronoun_kind_type_io.default_width;
+   propack_entry_io.default_width :=
+	 decn_record_io.default_width + 1 +
+	 pronoun_kind_type_io.default_width;
+   adjective_entry_io.default_width :=
+	 decn_record_io.default_width + 1 +
+	 comparison_type_io.default_width;
+   adverb_entry_io.default_width :=
+	 comparison_type_io.default_width;
+   verb_entry_io.default_width :=
+	 decn_record_io.default_width + 1 +
+	 verb_kind_type_io.default_width;
+   preposition_entry_io.default_width := 0;
+   conjunction_entry_io.default_width := 0;
+
+   interjection_entry_io.default_width := 0;
+   numeral_entry_io.default_width :=
+	 decn_record_io.default_width + 1 +
+	 numeral_sort_type_io.default_width + 1 +
+	 numeral_value_type_io_default_width;
+
+
+   part_entry_io.default_width := part_of_speech_type_io.default_width + 1 +  
+	 numeral_entry_io.default_width;     --  Largest
 
    
 
    --  Should make up a MAX of PART_ENTRY + KIND_ENTRY (same POFS) WIDTHS
 
    
-   TRANSLATION_RECORD_IO.DEFAULT_WIDTH :=
-	 AGE_TYPE_IO.DEFAULT_WIDTH + 1 +
-	 AREA_TYPE_IO.DEFAULT_WIDTH + 1 +
-	 GEO_TYPE_IO.DEFAULT_WIDTH + 1 +
-	 FREQUENCY_TYPE_IO.DEFAULT_WIDTH + 1 +
-	 SOURCE_TYPE_IO.DEFAULT_WIDTH;
+   translation_record_io.default_width :=
+	 age_type_io.default_width + 1 +
+	 area_type_io.default_width + 1 +
+	 geo_type_io.default_width + 1 +
+	 frequency_type_io.default_width + 1 +
+	 source_type_io.default_width;
 
 
-   DICTIONARY_ENTRY_IO.DEFAULT_WIDTH := 4 * (MAX_STEM_SIZE + 1) +
-	 PART_ENTRY_IO.DEFAULT_WIDTH + 1 +
-	 TRANSLATION_RECORD_IO.DEFAULT_WIDTH + 1 +
-	 MAX_MEANING_SIZE;
+   dictionary_entry_io.default_width := 4 * (max_stem_size + 1) +
+	 part_entry_io.default_width + 1 +
+	 translation_record_io.default_width + 1 +
+	 max_meaning_size;
 
    --TEXT_IO.PUT_LINE("Initialized  DICTIONARY_PACKAGE");
 
-end DICTIONARY_PACKAGE;
+end dictionary_package;

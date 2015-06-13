@@ -1,114 +1,114 @@
-with TEXT_IO;
-with INFLECTIONS_PACKAGE; use INFLECTIONS_PACKAGE;
-with DICTIONARY_PACKAGE; use DICTIONARY_PACKAGE;
-with ADDONS_PACKAGE; use ADDONS_PACKAGE;
-with UNIQUES_PACKAGE; use UNIQUES_PACKAGE;
-package LINE_STUFF is
-   use TEXT_IO;
+with text_io;
+with inflections_package; use inflections_package;
+with dictionary_package; use dictionary_package;
+with addons_package; use addons_package;
+with uniques_package; use uniques_package;
+package line_stuff is
+   use text_io;
 
 
 
-   type DICTIONARY_ITEM;
-   type DICTIONARY_LIST is access DICTIONARY_ITEM;
-   type DICTIONARY_ITEM is
+   type dictionary_item;
+   type dictionary_list is access dictionary_item;
+   type dictionary_item is
 	  record
-		 DE   : DICTIONARY_ENTRY := NULL_DICTIONARY_ENTRY;
-		 SUCC : DICTIONARY_LIST;
+		 de   : dictionary_entry := null_dictionary_entry;
+		 succ : dictionary_list;
 	  end record;
 
-   type DICTIONARY is array (CHARACTER) of DICTIONARY_LIST;
-   NULL_DICTIONARY : DICTIONARY := (others => null);
+   type dictionary is array (character) of dictionary_list;
+   null_dictionary : dictionary := (others => null);
    --DICT, UNIQUES, QUES : DICTIONARY := NULL_DICTIONARY;  
-   DICT, UNIQUES : DICTIONARY := NULL_DICTIONARY;
+   dict, uniques : dictionary := null_dictionary;
 
-   DICT_LOC : DICTIONARY := NULL_DICTIONARY;
+   dict_loc : dictionary := null_dictionary;
 
-   type TACKON_LINE is
+   type tackon_line is
 	  record
-		 POFS : PART_OF_SPEECH_TYPE := TACKON;
-		 TACK : STEM_TYPE := NULL_STEM_TYPE;
-		 ENTR : TACKON_ENTRY := NULL_TACKON_ENTRY;
-		 MEAN : MEANING_TYPE := NULL_MEANING_TYPE;
+		 pofs : part_of_speech_type := tackon;
+		 tack : stem_type := null_stem_type;
+		 entr : tackon_entry := null_tackon_entry;
+		 mean : meaning_type := null_meaning_type;
 	  end record;
 
-   NULL_TACKON_LINE : TACKON_LINE;
+   null_tackon_line : tackon_line;
 
-   package TACKON_LINE_IO is
-	  DEFAULT_WIDTH : NATURAL;
-	  procedure GET(F : in FILE_TYPE; P : out TACKON_LINE);
-	  procedure GET(P : out TACKON_LINE);
-	  procedure PUT(F : in FILE_TYPE; P : in TACKON_LINE);
-	  procedure PUT(P : in TACKON_LINE);
-	  procedure GET(S : in STRING; P : out TACKON_LINE; LAST : out INTEGER);
-	  procedure PUT(S : out STRING; P : in TACKON_LINE);
-   end TACKON_LINE_IO;
+   package tackon_line_io is
+	  default_width : natural;
+	  procedure get(f : in file_type; p : out tackon_line);
+	  procedure get(p : out tackon_line);
+	  procedure put(f : in file_type; p : in tackon_line);
+	  procedure put(p : in tackon_line);
+	  procedure get(s : in string; p : out tackon_line; last : out integer);
+	  procedure put(s : out string; p : in tackon_line);
+   end tackon_line_io;
 
 
-   type PREFIX_LINE is
+   type prefix_line is
 	  record
-		 POFS : PART_OF_SPEECH_TYPE := PREFIX;
-		 FIX  : FIX_TYPE := NULL_FIX_TYPE;
-		 CONNECT : CHARACTER := ' ';
-		 ENTR : PREFIX_ENTRY := NULL_PREFIX_ENTRY;
-		 MEAN : MEANING_TYPE := NULL_MEANING_TYPE;
+		 pofs : part_of_speech_type := prefix;
+		 fix  : fix_type := null_fix_type;
+		 connect : character := ' ';
+		 entr : prefix_entry := null_prefix_entry;
+		 mean : meaning_type := null_meaning_type;
 	  end record;
 
-   NULL_PREFIX_LINE : PREFIX_LINE;
+   null_prefix_line : prefix_line;
 
-   package PREFIX_LINE_IO is
-	  DEFAULT_WIDTH : NATURAL;
-	  procedure GET(F : in FILE_TYPE; P : out PREFIX_LINE);
-	  procedure GET(P : out PREFIX_LINE);
-	  procedure PUT(F : in FILE_TYPE; P : in PREFIX_LINE);
-	  procedure PUT(P : in PREFIX_LINE);
-	  procedure GET(S : in STRING; P : out PREFIX_LINE; LAST : out INTEGER);
-	  procedure PUT(S : out STRING; P : in PREFIX_LINE);
-   end PREFIX_LINE_IO;
+   package prefix_line_io is
+	  default_width : natural;
+	  procedure get(f : in file_type; p : out prefix_line);
+	  procedure get(p : out prefix_line);
+	  procedure put(f : in file_type; p : in prefix_line);
+	  procedure put(p : in prefix_line);
+	  procedure get(s : in string; p : out prefix_line; last : out integer);
+	  procedure put(s : out string; p : in prefix_line);
+   end prefix_line_io;
 
-   type SUFFIX_LINE is
+   type suffix_line is
 	  record
-		 POFS : PART_OF_SPEECH_TYPE := SUFFIX;
-		 FIX  : FIX_TYPE := NULL_FIX_TYPE;
-		 CONNECT    : CHARACTER := ' ';
-		 ENTR : SUFFIX_ENTRY := NULL_SUFFIX_ENTRY;
-		 MEAN : MEANING_TYPE := NULL_MEANING_TYPE;
+		 pofs : part_of_speech_type := suffix;
+		 fix  : fix_type := null_fix_type;
+		 connect    : character := ' ';
+		 entr : suffix_entry := null_suffix_entry;
+		 mean : meaning_type := null_meaning_type;
 	  end record;
 
-   NULL_SUFFIX_LINE : SUFFIX_LINE;
+   null_suffix_line : suffix_line;
 
-   package SUFFIX_LINE_IO is
-	  DEFAULT_WIDTH : NATURAL;
-	  procedure GET(F : in FILE_TYPE; P : out SUFFIX_LINE);
-	  procedure GET(P : out SUFFIX_LINE);
-	  procedure PUT(F : in FILE_TYPE; P : in SUFFIX_LINE);
-	  procedure PUT(P : in SUFFIX_LINE);
-	  procedure GET(S : in STRING; P : out SUFFIX_LINE; LAST : out INTEGER);
-	  procedure PUT(S : out STRING; P : in SUFFIX_LINE);
-   end SUFFIX_LINE_IO;
+   package suffix_line_io is
+	  default_width : natural;
+	  procedure get(f : in file_type; p : out suffix_line);
+	  procedure get(p : out suffix_line);
+	  procedure put(f : in file_type; p : in suffix_line);
+	  procedure put(p : in suffix_line);
+	  procedure get(s : in string; p : out suffix_line; last : out integer);
+	  procedure put(s : out string; p : in suffix_line);
+   end suffix_line_io;
 
-   type UNIQUE_ENTRY is
+   type unique_entry is
 	  record
-		 STEM : STEM_TYPE          := NULL_STEM_TYPE;
-		 QUAL : QUALITY_RECORD     := NULL_QUALITY_RECORD;
-		 KIND : KIND_ENTRY         := NULL_KIND_ENTRY;
-		 TRAN : TRANSLATION_RECORD := NULL_TRANSLATION_RECORD;
+		 stem : stem_type          := null_stem_type;
+		 qual : quality_record     := null_quality_record;
+		 kind : kind_entry         := null_kind_entry;
+		 tran : translation_record := null_translation_record;
 	  end record;
 
-   package UNIQUE_ENTRY_IO is
-	  DEFAULT_WIDTH : FIELD;
-	  procedure GET(F : in FILE_TYPE; P : out UNIQUE_ENTRY);
-	  procedure GET(P : out UNIQUE_ENTRY);
-	  procedure PUT(F : in FILE_TYPE; P : in UNIQUE_ENTRY);
-	  procedure PUT(P : in UNIQUE_ENTRY);
-	  procedure GET(S : in STRING; P : out UNIQUE_ENTRY; LAST : out INTEGER);
-	  procedure PUT(S : out STRING; P : in UNIQUE_ENTRY);
-   end UNIQUE_ENTRY_IO;
+   package unique_entry_io is
+	  default_width : field;
+	  procedure get(f : in file_type; p : out unique_entry);
+	  procedure get(p : out unique_entry);
+	  procedure put(f : in file_type; p : in unique_entry);
+	  procedure put(p : in unique_entry);
+	  procedure get(s : in string; p : out unique_entry; last : out integer);
+	  procedure put(s : out string; p : in unique_entry);
+   end unique_entry_io;
 
-   procedure LOAD_STEM_FILE(D_K : DICTIONARY_KIND);
+   procedure load_stem_file(d_k : dictionary_kind);
 
-   procedure LOAD_DICTIONARY(DICT : in out DICTIONARY;
-							 DICTIONARY_FILE_NAME : STRING);
+   procedure load_dictionary(dict : in out dictionary;
+							 dictionary_file_name : string);
 
-   procedure LOAD_UNIQUES(UNQ : in out LATIN_UNIQUES; FILE_NAME : in STRING);
+   procedure load_uniques(unq : in out latin_uniques; file_name : in string);
 
-end LINE_STUFF;
+end line_stuff;

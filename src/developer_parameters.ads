@@ -1,9 +1,9 @@
-with TEXT_IO;
-package DEVELOPER_PARAMETERS is
+with text_io;
+package developer_parameters is
 
    --  These are a few strange declarations to be used in diagnostics;
-   SRA_MAX, SRAA_MAX, DMA_MAX : INTEGER := 0;
-   PA_LAST_MAX, FINAL_PA_LAST_MAX : INTEGER := 0;
+   sra_max, sraa_max, dma_max : integer := 0;
+   pa_last_max, final_pa_last_max : integer := 0;
    
    --  This package defines a number of parameters that areused in the program
    --  The default values are set in the body, so that they may be changed easily
@@ -12,8 +12,8 @@ package DEVELOPER_PARAMETERS is
    --  They are all text files and human readable
 
    --  DEVELOPER MODE_FILE is used by the program to remember values 
-   MDEV_FILE : TEXT_IO.FILE_TYPE;
-   MDEV_FULL_NAME : constant STRING := "WORD.MDV";
+   mdev_file : text_io.file_type;
+   mdev_full_name : constant string := "WORD.MDV";
 
    --  Debug not currently in use
    --  --  DBG collects debug output for one entry at a time
@@ -21,71 +21,71 @@ package DEVELOPER_PARAMETERS is
    --  DEBUG_FULL_NAME : constant STRING := "WORD.DBG";
 
    --  STATS collects statistics on the program, stems used, inflections, etc.
-   STATS : TEXT_IO.FILE_TYPE;
-   STATS_FULL_NAME : constant STRING := "WORD.STA";
+   stats : text_io.file_type;
+   stats_full_name : constant string := "WORD.STA";
 
-   type MDEV_TYPE is (   
+   type mdev_type is (   
 	 --               HAVE_DEBUG_FILE,      --  No longer in use
 	 --               WRITE_DEBUG_FILE,     
 
-	 HAVE_STATISTICS_FILE, 
-	 WRITE_STATISTICS_FILE,
+	 have_statistics_file, 
+	 write_statistics_file,
 
-	 SHOW_DICTIONARY,      
-	 SHOW_DICTIONARY_LINE, 
-	 SHOW_DICTIONARY_CODES, 
-	 DO_PEARSE_CODES,
+	 show_dictionary,      
+	 show_dictionary_line, 
+	 show_dictionary_codes, 
+	 do_pearse_codes,
 
-	 DO_ONLY_INITIAL_WORD, 
-	 FOR_WORD_LIST_CHECK,  
+	 do_only_initial_word, 
+	 for_word_list_check,  
 
-	 DO_ONLY_FIXES,         
-	 DO_FIXES_ANYWAY,       
-	 USE_PREFIXES,          
-	 USE_SUFFIXES,       
-	 USE_TACKONS,       
+	 do_only_fixes,         
+	 do_fixes_anyway,       
+	 use_prefixes,          
+	 use_suffixes,       
+	 use_tackons,       
 
-	 DO_MEDIEVAL_TRICKS,   
+	 do_medieval_tricks,   
 	 
-	 DO_SYNCOPE,            
-	 DO_TWO_WORDS,            
-	 INCLUDE_UNKNOWN_CONTEXT,
-	 NO_MEANINGS,
+	 do_syncope,            
+	 do_two_words,            
+	 include_unknown_context,
+	 no_meanings,
 	 
 	 
-	 OMIT_ARCHAIC,        
-	 OMIT_MEDIEVAL,    
-	 OMIT_UNCOMMON,    
+	 omit_archaic,        
+	 omit_medieval,    
+	 omit_uncommon,    
 	 
-	 DO_I_FOR_J,        
-	 DO_U_FOR_V,    
+	 do_i_for_j,        
+	 do_u_for_v,    
 	 
-	 PAUSE_IN_SCREEN_OUTPUT, 
-	 NO_SCREEN_ACTIVITY,   
+	 pause_in_screen_output, 
+	 no_screen_activity,   
 	 
-	 UPDATE_LOCAL_DICTIONARY,
-	 UPDATE_MEANINGS,       
+	 update_local_dictionary,
+	 update_meanings,       
 
-	 MINIMIZE_OUTPUT         );
+	 minimize_output         );
 
-   package MDEV_TYPE_IO is new TEXT_IO.ENUMERATION_IO(MDEV_TYPE); 
+   package mdev_type_io is new text_io.enumeration_io(mdev_type); 
 
-   type MDEV_ARRAY is array (MDEV_TYPE) of BOOLEAN;
-
-
-   WORDS_MDEV : MDEV_ARRAY;        --  Initialized in body
+   type mdev_array is array (mdev_type) of boolean;
 
 
-   START_FILE_CHARACTER               : CHARACTER := '@';
-   CHANGE_DEVELOPER_MODES_CHARACTER   : CHARACTER := '!';
+   words_mdev : mdev_array;        --  Initialized in body
+
+
+   start_file_character               : character := '@';
+   change_developer_modes_character   : character := '!';
    
-   procedure CHANGE_DEVELOPER_MODES;
+   procedure change_developer_modes;
 
-   procedure UPDATE_LOCAL_DICTIONARY_FILE;  
+   procedure update_local_dictionary_file;  
    
-   procedure INITIALIZE_DEVELOPER_PARAMETERS;
+   procedure initialize_developer_parameters;
 
 
-end DEVELOPER_PARAMETERS;
+end developer_parameters;
 
 

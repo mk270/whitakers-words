@@ -1,147 +1,147 @@
-with TEXT_IO; use TEXT_IO;
-package body STRINGS_PACKAGE is
+with text_io; use text_io;
+package body strings_package is
    
-   function MAX(A, B : INTEGER) return INTEGER is
+   function max(a, b : integer) return integer is
    begin
-	  if A >= B  then 
-		 return A; end if; 
-         return B;
-   end MAX;
+	  if a >= b  then 
+		 return a; end if; 
+         return b;
+   end max;
    
-   function MIN(A, B : INTEGER) return INTEGER is
+   function min(a, b : integer) return integer is
    begin
-	  if A <= B  then 
-		 return A; end if; 
-         return B;
-   end MIN;
+	  if a <= b  then 
+		 return a; end if; 
+         return b;
+   end min;
    
    
-   function LOWER_CASE(C : CHARACTER) return CHARACTER is
+   function lower_case(c : character) return character is
    begin
-	  if C in 'A'..'Z'  then
-		 return CHARACTER'VAL(CHARACTER'POS(C) + 32);
+	  if c in 'A'..'Z'  then
+		 return character'val(character'pos(c) + 32);
 	  else
-		 return C;
+		 return c;
 	  end if;
-   end LOWER_CASE;
+   end lower_case;
    
-   function LOWER_CASE(S : STRING) return STRING is
-	  T : STRING(S'RANGE);
+   function lower_case(s : string) return string is
+	  t : string(s'range);
    begin
-	  for I in S'RANGE  loop
-		 T(I) := LOWER_CASE(S(I));
+	  for i in s'range  loop
+		 t(i) := lower_case(s(i));
 	  end loop;
-	  return T;
-   end LOWER_CASE;
+	  return t;
+   end lower_case;
    
    
-   function UPPER_CASE(C : CHARACTER) return CHARACTER is
+   function upper_case(c : character) return character is
    begin
-	  if C in 'a'..'z'  then
-		 return CHARACTER'VAL(CHARACTER'POS(C) - 32);
+	  if c in 'a'..'z'  then
+		 return character'val(character'pos(c) - 32);
 	  else
-		 return C;
+		 return c;
 	  end if;
-   end UPPER_CASE;
+   end upper_case;
    
-   function UPPER_CASE(S : STRING) return STRING is
-	  T : STRING(S'RANGE);
+   function upper_case(s : string) return string is
+	  t : string(s'range);
    begin
-	  for I in S'RANGE  loop
-		 T(I) := UPPER_CASE(S(I));
+	  for i in s'range  loop
+		 t(i) := upper_case(s(i));
 	  end loop;
-	  return T;
-   end UPPER_CASE;
+	  return t;
+   end upper_case;
    
    
-   function TRIM(SOURCE : in STRING;
-				 SIDE   : in TRIM_END := BOTH) return STRING is
+   function trim(source : in string;
+				 side   : in trim_end := both) return string is
       --  Removes leading and trailing blanks and returns a STRING staring at 1
       --  For a string of all blanks as input it returns NULL_STRING
-	  T : STRING(1..SOURCE'LENGTH) := SOURCE;
-	  FIRST: NATURAL := SOURCE'FIRST; 
-	  LAST : NATURAL := SOURCE'LAST;
+	  t : string(1..source'length) := source;
+	  first: natural := source'first; 
+	  last : natural := source'last;
 
    begin
-	  if SIDE /= RIGHT  then
-		 FIRST := SOURCE'LAST + 1;
-		 for I in SOURCE'RANGE  loop
-			if SOURCE(I) /= ' '  then
-			   FIRST := I;
+	  if side /= right  then
+		 first := source'last + 1;
+		 for i in source'range  loop
+			if source(i) /= ' '  then
+			   first := i;
 			   exit;
 			end if;
 		 end loop;
 	  else
-		 FIRST := SOURCE'FIRST;
+		 first := source'first;
 	  end if;
       
-	  if SIDE /= LEFT  then
-		 LAST := SOURCE'FIRST - 1;
-		 for I in reverse SOURCE'RANGE  loop
-			if SOURCE(I) /= ' '  then
-			   LAST := I;
+	  if side /= left  then
+		 last := source'first - 1;
+		 for i in reverse source'range  loop
+			if source(i) /= ' '  then
+			   last := i;
 			   exit;
 			end if;
 		 end loop;
 	  else
-		 LAST := SOURCE'LAST;
+		 last := source'last;
 	  end if;
       
-	  if FIRST > LAST  then
-		 return NULL_STRING;
+	  if first > last  then
+		 return null_string;
 	  else
-		 T(1..LAST-FIRST+1) := SOURCE(FIRST..LAST);
-		 return T(1..LAST-FIRST+1);
+		 t(1..last-first+1) := source(first..last);
+		 return t(1..last-first+1);
 	  end if;
-   end TRIM;        
+   end trim;        
    
    
-   function HEAD(SOURCE : in STRING; 
-				 COUNT  : in NATURAL; 
-				 PAD    : in CHARACTER := ' ') return STRING is
+   function head(source : in string; 
+				 count  : in natural; 
+				 pad    : in character := ' ') return string is
       --  Truncates or fills a string to exactly N in length
-	  T : STRING(1..COUNT) := (others => ' ');
+	  t : string(1..count) := (others => ' ');
    begin
-	  if COUNT < SOURCE'LENGTH  then
-		 T(1..COUNT) := SOURCE(SOURCE'FIRST..SOURCE'FIRST+COUNT-1);
+	  if count < source'length  then
+		 t(1..count) := source(source'first..source'first+count-1);
 	  else
-		 T(1..SOURCE'LENGTH) := SOURCE(SOURCE'FIRST..SOURCE'LAST);
+		 t(1..source'length) := source(source'first..source'last);
 	  end if;
-	  return T;
-   end HEAD; 
+	  return t;
+   end head; 
    
    
-   procedure GET_NON_COMMENT_LINE(F : in TEXT_IO.FILE_TYPE; 
-								  S : out STRING; LAST : out INTEGER) is
+   procedure get_non_comment_line(f : in text_io.file_type; 
+								  s : out string; last : out integer) is
       --  Reads a text file and outs a string that is as much of the 
       --  first line encountered that is not a comment, that is not a comment   
       
-	  T : STRING(1..250) := (others => ' ');
-	  L, LX : INTEGER := 0;
+	  t : string(1..250) := (others => ' ');
+	  l, lx : integer := 0;
    begin
-	  LAST := 0;
-  FILE_LOOP:
-	  while not TEXT_IO.END_OF_FILE(F)  loop  --  Loop until data - Finish on EOF
-		 TEXT_IO.GET_LINE(F, T, L);
-		 if (HEAD(TRIM(T), 250)(1..2) = "  "  or 
-			   HEAD(TRIM(T), 250)(1..2) = "--")  then
+	  last := 0;
+  file_loop:
+	  while not text_io.end_of_file(f)  loop  --  Loop until data - Finish on EOF
+		 text_io.get_line(f, t, l);
+		 if (head(trim(t), 250)(1..2) = "  "  or 
+			   head(trim(t), 250)(1..2) = "--")  then
 			null;
 		 else
-			LX := L;
-		LINE_LOOP:
-			for I in 2..L  loop
+			lx := l;
+		line_loop:
+			for i in 2..l  loop
                --  Any leading comment does not get to here
-			   if (T(I-1) = '-')  and  (T(I) = '-')  then   --  We have a comment
-				  LX := I - 2;
-				  exit FILE_LOOP;
+			   if (t(i-1) = '-')  and  (t(i) = '-')  then   --  We have a comment
+				  lx := i - 2;
+				  exit file_loop;
 			   end if;
-			end loop LINE_LOOP;
-			exit FILE_LOOP;
+			end loop line_loop;
+			exit file_loop;
 		 end if;
-	  end loop FILE_LOOP;
-	  S(1..LX) := T(1..LX);
-	  LAST := LX;
-   end GET_NON_COMMENT_LINE;
+	  end loop file_loop;
+	  s(1..lx) := t(1..lx);
+	  last := lx;
+   end get_non_comment_line;
    
    
-end STRINGS_PACKAGE;  
+end strings_package;  

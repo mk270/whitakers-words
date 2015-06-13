@@ -1,41 +1,41 @@
-with CONFIG;
-package body PREFACE is
+with config;
+package body preface is
 
-   procedure PUT(S : STRING) is
+   procedure put(s : string) is
    begin
-	  if not CONFIG.SUPPRESS_PREFACE  then
-		 TEXT_IO.PUT(TEXT_IO.CURRENT_OUTPUT, S);
+	  if not config.suppress_preface  then
+		 text_io.put(text_io.current_output, s);
 	  end if;
-   end PUT;
+   end put;
 
-   procedure SET_COL(PC : TEXT_IO.POSITIVE_COUNT) is
+   procedure set_col(pc : text_io.positive_count) is
    begin
-	  if not CONFIG.SUPPRESS_PREFACE  then
-		 TEXT_IO.SET_COL(TEXT_IO.CURRENT_OUTPUT, PC);
+	  if not config.suppress_preface  then
+		 text_io.set_col(text_io.current_output, pc);
 	  end if;
-   end SET_COL; 
+   end set_col; 
 
-   procedure PUT_LINE(S : STRING) is
+   procedure put_line(s : string) is
    begin
-	  if not CONFIG.SUPPRESS_PREFACE  then
-		 TEXT_IO.PUT_LINE(TEXT_IO.CURRENT_OUTPUT, S);
+	  if not config.suppress_preface  then
+		 text_io.put_line(text_io.current_output, s);
 	  end if;
-   end PUT_LINE;
+   end put_line;
 
-   procedure NEW_LINE(SPACING  : TEXT_IO.POSITIVE_COUNT := 1) is
+   procedure new_line(spacing  : text_io.positive_count := 1) is
    begin
-	  if not CONFIG.SUPPRESS_PREFACE  then
-		 TEXT_IO.NEW_LINE(TEXT_IO.CURRENT_OUTPUT, SPACING);
+	  if not config.suppress_preface  then
+		 text_io.new_line(text_io.current_output, spacing);
 	  end if;
-   end NEW_LINE;
+   end new_line;
 
-   procedure PUT(N : INTEGER; WIDTH : TEXT_IO.FIELD := INTEGER'WIDTH) is
-	  package INTEGER_IO is new TEXT_IO.INTEGER_IO(INTEGER);
+   procedure put(n : integer; width : text_io.field := integer'width) is
+	  package integer_io is new text_io.integer_io(integer);
    begin
-	  if not CONFIG.SUPPRESS_PREFACE  then
-		 INTEGER_IO.PUT(TEXT_IO.CURRENT_OUTPUT, N, WIDTH);
+	  if not config.suppress_preface  then
+		 integer_io.put(text_io.current_output, n, width);
 	  end if;
-   end PUT;
+   end put;
 
 
-end PREFACE;
+end preface;

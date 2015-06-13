@@ -1,59 +1,59 @@
-with TEXT_IO; 
-with INFLECTIONS_PACKAGE; use INFLECTIONS_PACKAGE;
-with DICTIONARY_PACKAGE; use DICTIONARY_PACKAGE;
-with CONFIG; use CONFIG;
-with WORD_PARAMETERS; use WORD_PARAMETERS;
+with text_io; 
+with inflections_package; use inflections_package;
+with dictionary_package; use dictionary_package;
+with config; use config;
+with word_parameters; use word_parameters;
 --with LATIN_DEBUG; 
-procedure PUT_EXAMPLE_LINE(OUTPUT : TEXT_IO.FILE_TYPE; IR : in INFLECTION_RECORD; 
-													   DE : in DICTIONARY_ENTRY) is
+procedure put_example_line(output : text_io.file_type; ir : in inflection_record; 
+													   de : in dictionary_entry) is
    --      use LATIN_DEBUG;
-   VK : VERB_KIND_TYPE;
+   vk : verb_kind_type;
    
-   procedure PUT_VERB_EXAMPLE(OUTPUT : TEXT_IO.FILE_TYPE; IR : in INFLECTION_RECORD; 
-														  VK : in VERB_KIND_TYPE) is
-	  PERSON : constant PERSON_TYPE      := IR.QUAL.V.PERSON;
-	  NUMBER : constant NUMBER_TYPE      := IR.QUAL.V.NUMBER;
-	  TENSE  : constant TENSE_TYPE       := IR.QUAL.V.TENSE_VOICE_MOOD.TENSE;
-	  MOOD   : constant MOOD_TYPE        := IR.QUAL.V.TENSE_VOICE_MOOD.MOOD; 
-	  VOICE  : VOICE_TYPE       := IR.QUAL.V.TENSE_VOICE_MOOD.VOICE;
-	  KIND   : VERB_KIND_TYPE   := VK; 
+   procedure put_verb_example(output : text_io.file_type; ir : in inflection_record; 
+														  vk : in verb_kind_type) is
+	  person : constant person_type      := ir.qual.v.person;
+	  number : constant number_type      := ir.qual.v.number;
+	  tense  : constant tense_type       := ir.qual.v.tense_voice_mood.tense;
+	  mood   : constant mood_type        := ir.qual.v.tense_voice_mood.mood; 
+	  voice  : voice_type       := ir.qual.v.tense_voice_mood.voice;
+	  kind   : verb_kind_type   := vk; 
       --  Nothing on  (part), gerund, 
       
-	  function THEY return STRING is
+	  function they return string is
 	  begin
-		 if KIND = IMPERS  then
+		 if kind = impers  then
 			return "it ";
 		 end if;
          
-		 if MOOD = INF then
+		 if mood = inf then
 			return "to ";
 		 end if;
          
-		 if MOOD = IMP and TENSE = PRES  and NUMBER = P  then
+		 if mood = imp and tense = pres  and number = p  then
 			return "(you) ";
 		 end if;
          
-		 if MOOD = SUB and TENSE = PRES  and 
-		   PERSON = 1 and NUMBER = P  then
+		 if mood = sub and tense = pres  and 
+		   person = 1 and number = p  then
 			return "let us ";   --  G&L 263 1
 		 end if;
          
-		 if  NUMBER = S  then
-			if PERSON = 1  then
+		 if  number = s  then
+			if person = 1  then
 			   return "I ";
-			elsif  PERSON = 2  then
+			elsif  person = 2  then
 			   return "you ";
-			elsif  PERSON = 3  then
+			elsif  person = 3  then
 			   return "he/it ";
 			else
 			   return "";
 			end if;
-		 elsif NUMBER = P  then
-			if PERSON = 1  then
+		 elsif number = p  then
+			if person = 1  then
 			   return "we ";
-			elsif  PERSON = 2  then
+			elsif  person = 2  then
 			   return "you ";
-			elsif  PERSON = 3  then
+			elsif  person = 3  then
 			   return "they ";
 			else
 			   return "";
@@ -61,33 +61,33 @@ procedure PUT_EXAMPLE_LINE(OUTPUT : TEXT_IO.FILE_TYPE; IR : in INFLECTION_RECORD
 		 else
 			return "";
 		 end if;
-	  end THEY;
+	  end they;
       
-	  function SHALL return STRING is
+	  function shall return string is
 	  begin            --  ACTIVE only  !!!!!!!!!!!!!!!!
-		 if (TENSE = FUT or TENSE = FUTP )  then
-			if (MOOD = IND) or (MOOD = SUB)  then
-			   if PERSON = 1  then
+		 if (tense = fut or tense = futp )  then
+			if (mood = ind) or (mood = sub)  then
+			   if person = 1  then
 				  return "shall ";
-			   elsif  PERSON = 2  then
+			   elsif  person = 2  then
 				  return "will ";
-			   elsif  PERSON = 3  then
+			   elsif  person = 3  then
 				  return "will ";
 			   else 
 				  return "";
 			   end if;
-			elsif MOOD = IMP  then
-			   if PERSON = 1  then
+			elsif mood = imp  then
+			   if person = 1  then
 				  return "will ";
-			   elsif  PERSON = 2  then
+			   elsif  person = 2  then
 				  return "(shall) ";
-			   elsif  PERSON = 3  then
+			   elsif  person = 3  then
 				  return "(shall) ";
 			   else
 				  return "";
 			   end if;
-			elsif MOOD = INF  then
-			   if TENSE = FUT  then
+			elsif mood = inf  then
+			   if tense = fut  then
 				  return "be about to be ";
 			   else
 				  return "";
@@ -98,75 +98,75 @@ procedure PUT_EXAMPLE_LINE(OUTPUT : TEXT_IO.FILE_TYPE; IR : in INFLECTION_RECORD
 		 else
 			return "";
 		 end if;
-	  end SHALL;
+	  end shall;
       
-	  function HAVE return STRING is
+	  function have return string is
 	  begin
-		 if TENSE in PRES..FUT  then
+		 if tense in pres..fut  then
 			return "";
-		 elsif TENSE = PERF  then
-			if (TENSE = PERF) and (PERSON = 3) and (NUMBER = S)  then
+		 elsif tense = perf  then
+			if (tense = perf) and (person = 3) and (number = s)  then
 			   return "has ";
 			else
 			   return "have ";    -- works for INF too
 			end if;
-		 elsif TENSE = PLUP  then
-			if MOOD = IND  then
+		 elsif tense = plup  then
+			if mood = ind  then
 			   return "had";
-			elsif MOOD = SUB  then
+			elsif mood = sub  then
 			   return "have ";
 			else
 			   return "";
 			end if;
-		 elsif TENSE = FUTP   then
+		 elsif tense = futp   then
 			return "have ";
 		 else
 			return "";
 		 end if;
-	  end HAVE;
+	  end have;
       
-	  function BEEN return STRING is
+	  function been return string is
 	  begin
-		 if VOICE = PASSIVE  then
-			if MOOD = IND  then
-			   if TENSE = PRES  then
-				  if (PERSON = 1) and (NUMBER = S)  then
+		 if voice = passive  then
+			if mood = ind  then
+			   if tense = pres  then
+				  if (person = 1) and (number = s)  then
 					 return "am/am being ";
-				  elsif (PERSON = 3) and (NUMBER = S)  then
+				  elsif (person = 3) and (number = s)  then
 					 return "is/is being ";
 				  else
 					 return "are/are being ";
 				  end if;
-			   elsif TENSE = IMPF   then
-				  if (PERSON = 1 or PERSON = 3) and (NUMBER = S)  then
+			   elsif tense = impf   then
+				  if (person = 1 or person = 3) and (number = s)  then
 					 return "was/was being ";
 				  else
 					 return "were/were being ";
 				  end if;
-			   elsif TENSE = FUT   then
+			   elsif tense = fut   then
 				  return "be ";
-			   elsif TENSE = PERF   then
-				  if (PERSON = 1 or PERSON = 3) and (NUMBER = S)  then
+			   elsif tense = perf   then
+				  if (person = 1 or person = 3) and (number = s)  then
 					 return "been/was ";                
 				  else
 					 return "been/were ";              
 				  end if;
-			   elsif TENSE in PLUP..FUTP   then
+			   elsif tense in plup..futp   then
 				  return "been ";
 			   else 
 				  return "";
 			   end if;
-			elsif MOOD = SUB  then
+			elsif mood = sub  then
 			   return "";              --????????
-			elsif MOOD = INF  then
-			   if TENSE = PRES  then
+			elsif mood = inf  then
+			   if tense = pres  then
 				  return "be ";
-			   elsif TENSE = PERF  then
+			   elsif tense = perf  then
 				  return "been ";
 			   else 
 				  return "";
 			   end if;
-			elsif MOOD = IMP  then
+			elsif mood = imp  then
 			   return "be ";
 			else
 			   return "";
@@ -174,52 +174,52 @@ procedure PUT_EXAMPLE_LINE(OUTPUT : TEXT_IO.FILE_TYPE; IR : in INFLECTION_RECORD
 		 else
 			return "";
 		 end if;
-	  end BEEN;
+	  end been;
       
-	  function ED return STRING is
+	  function ed return string is
 	  begin
-		 if MOOD = IMP  then
-			if VOICE = ACTIVE  then
+		 if mood = imp  then
+			if voice = active  then
 			   return "!";
-			elsif VOICE = PASSIVE  then
+			elsif voice = passive  then
 			   return "ed!";
 			else
 			   return "";
 			end if;            
-		 elsif MOOD = INF  then
-			if VOICE = ACTIVE  then
+		 elsif mood = inf  then
+			if voice = active  then
 			   return "";
-			elsif VOICE = PASSIVE  then
+			elsif voice = passive  then
 			   return "ed";
 			else
 			   return "";
 			end if;
-		 elsif MOOD = IND  then
-			if VOICE = ACTIVE  then
-			   if TENSE = PRES  then
-				  if (PERSON = 3) and (NUMBER = S)  then
+		 elsif mood = ind  then
+			if voice = active  then
+			   if tense = pres  then
+				  if (person = 3) and (number = s)  then
 					 return "s";
 				  else
 					 return "";
 				  end if;
-			   elsif TENSE = IMPF   then
-				  if (PERSON = 1 or PERSON = 3) and (NUMBER = S)  then
+			   elsif tense = impf   then
+				  if (person = 1 or person = 3) and (number = s)  then
 					 return "ed/was ~ing";
 				  else
 					 return "ed/were ~ing";
 				  end if;
-			   elsif TENSE in PERF..FUTP   then
+			   elsif tense in perf..futp   then
 				  return "ed";
 			   else 
 				  return "";
 			   end if;
-			elsif VOICE = PASSIVE  then
+			elsif voice = passive  then
 			   return "ed";
 			else 
 			   return "";
 			end if;
-		 elsif MOOD = SUB  then
-			if TENSE in PERF..PLUP  then
+		 elsif mood = sub  then
+			if tense in perf..plup  then
 			   return "ed";
 			else
 			   return "";
@@ -227,28 +227,28 @@ procedure PUT_EXAMPLE_LINE(OUTPUT : TEXT_IO.FILE_TYPE; IR : in INFLECTION_RECORD
 		 else 
 			return "";
 		 end if;
-	  end ED;
+	  end ed;
       
-	  function SUB return STRING is 
+	  function sub return string is 
 	  begin
-		 if MOOD = SUB  then
+		 if mood = sub  then
 			return "may/must/should ";
 		 else 
 			return "";
 		 end if;
-	  end SUB;
+	  end sub;
       
       
    begin   --  PUT_VERB_EXAMPLE
-	  if KIND = DEP    then   
-		 VOICE := ACTIVE;    --  Should only have allowed PASSIVE at this point
-	  elsif KIND = SEMIDEP    and then TENSE in PERF..FUTP   then
-		 VOICE := ACTIVE;    --  Should only have allowed PASSIVE at this point
+	  if kind = dep    then   
+		 voice := active;    --  Should only have allowed PASSIVE at this point
+	  elsif kind = semidep    and then tense in perf..futp   then
+		 voice := active;    --  Should only have allowed PASSIVE at this point
 	  end if;
       
-	  TEXT_IO.PUT(OUTPUT, THEY & SUB & SHALL & HAVE & BEEN & "~" & ED);
+	  text_io.put(output, they & sub & shall & have & been & "~" & ed);
       
-   end PUT_VERB_EXAMPLE;  
+   end put_verb_example;  
    
    
 begin    --  PUT_EXAMPLE_LINE
@@ -257,118 +257,118 @@ begin    --  PUT_EXAMPLE_LINE
    --TEXT_IO.PUT("  LKM  "); BOOLEAN_IO.PUT(WORDS_MDEV(LOCK_MEANINGS));
    --TEXT_IO.PUT("   /LKM  "); BOOLEAN_IO.PUT((not WORDS_MDEV(LOCK_MEANINGS))  );
    
-   if WORDS_MODE(DO_EXAMPLES)  and then (not (CONFIGURATION = ONLY_MEANINGS))   then
+   if words_mode(do_examples)  and then (not (configuration = only_meanings))   then
       
-	  case IR.QUAL.POFS is 
-		 when N => 
-			case IR.QUAL.N.CS is
-			   when GEN =>
-				  TEXT_IO.PUT(OUTPUT, "~'s; of ~"); 
-				  TEXT_IO.NEW_LINE(OUTPUT);
-			   when ABL =>
-				  TEXT_IO.NEW_LINE(OUTPUT);      --  Info too much for same line
-				  TEXT_IO.SET_COL(OUTPUT, 6);
-				  TEXT_IO.PUT(OUTPUT, 
+	  case ir.qual.pofs is 
+		 when n => 
+			case ir.qual.n.cs is
+			   when gen =>
+				  text_io.put(output, "~'s; of ~"); 
+				  text_io.new_line(output);
+			   when abl =>
+				  text_io.new_line(output);      --  Info too much for same line
+				  text_io.set_col(output, 6);
+				  text_io.put(output, 
 							  "from _ (separ); because of ~ (cause); than ~ (compar); of ~ (circumstance)");
-				  TEXT_IO.NEW_LINE(OUTPUT);
-			   when DAT =>
-				  TEXT_IO.NEW_LINE(OUTPUT);      --  Info too much for same line
-				  TEXT_IO.SET_COL(OUTPUT, 6);
-				  TEXT_IO.PUT(OUTPUT, 
+				  text_io.new_line(output);
+			   when dat =>
+				  text_io.new_line(output);      --  Info too much for same line
+				  text_io.set_col(output, 6);
+				  text_io.put(output, 
 							  "for _ (purpose, reference); to ~ (w/adjectives); to ~ (double dative)");
-				  TEXT_IO.NEW_LINE(OUTPUT);
-			   when LOC =>
-				  TEXT_IO.PUT(OUTPUT, "at ~ (place where)");
-				  TEXT_IO.NEW_LINE(OUTPUT);
+				  text_io.new_line(output);
+			   when loc =>
+				  text_io.put(output, "at ~ (place where)");
+				  text_io.new_line(output);
 			   when others  => 
 				  null;
 				  --TEXT_IO.NEW_LINE(OUTPUT); 
 			end case;
 			
-		 when ADJ => 
-			case IR.QUAL.ADJ.CO is
-			   when COMP  => 
-				  TEXT_IO.PUT(OUTPUT, "~er; more/too _");
-				  TEXT_IO.NEW_LINE(OUTPUT);
-			   when SUPER => 
-				  TEXT_IO.PUT(OUTPUT, "~est; most/very");
-				  TEXT_IO.NEW_LINE(OUTPUT);
+		 when adj => 
+			case ir.qual.adj.co is
+			   when comp  => 
+				  text_io.put(output, "~er; more/too _");
+				  text_io.new_line(output);
+			   when super => 
+				  text_io.put(output, "~est; most/very");
+				  text_io.new_line(output);
 			   when others  => 
 				  null;
 				  --TEXT_IO.NEW_LINE(OUTPUT); 
 			end case;
 			
-		 when ADV => 
-			case IR.QUAL.ADV.CO is
-			   when COMP  => 
-				  TEXT_IO.PUT(OUTPUT, "more/too ~(ly)");
-				  TEXT_IO.NEW_LINE(OUTPUT);
-			   when SUPER => 
-				  TEXT_IO.PUT(OUTPUT, "most/very ~(ly)");
-				  TEXT_IO.NEW_LINE(OUTPUT);
+		 when adv => 
+			case ir.qual.adv.co is
+			   when comp  => 
+				  text_io.put(output, "more/too ~(ly)");
+				  text_io.new_line(output);
+			   when super => 
+				  text_io.put(output, "most/very ~(ly)");
+				  text_io.new_line(output);
 			   when others  => 
 				  null;
 				  --TEXT_IO.NEW_LINE(OUTPUT); 
 			end case;
 			
-		 when V => 
+		 when v => 
             --TEXT_IO.NEW_LINE(OUTPUT);        --  Verb info too much for same line
-			VK := DE.PART.V.KIND;
-			TEXT_IO.SET_COL(OUTPUT, 6);
-			PUT_VERB_EXAMPLE(OUTPUT, IR, VK);
-			TEXT_IO.NEW_LINE(OUTPUT);
+			vk := de.part.v.kind;
+			text_io.set_col(output, 6);
+			put_verb_example(output, ir, vk);
+			text_io.new_line(output);
 			
-		 when VPAR => 
+		 when vpar => 
             --    TEXT_IO.NEW_LINE(OUTPUT);        --  Verb info too much for same line
-			case IR.QUAL.VPAR.TENSE_VOICE_MOOD.TENSE is
-			   when PERF  => 
-				  TEXT_IO.PUT(OUTPUT, 
+			case ir.qual.vpar.tense_voice_mood.tense is
+			   when perf  => 
+				  text_io.put(output, 
 							  "~ed  PERF PASSIVE PPL often used as ADJ or N (amatus => belov.ed)");
-				  TEXT_IO.NEW_LINE(OUTPUT);
-			   when PRES  => 
-				  TEXT_IO.PUT(OUTPUT, 
+				  text_io.new_line(output);
+			   when pres  => 
+				  text_io.put(output, 
 							  "~ing  PRES ACTIVE PPL often used as ADJ or N (lov.ing, curl.y)");
-				  TEXT_IO.NEW_LINE(OUTPUT);
-			   when FUT   => 
-				  if IR.QUAL.VPAR.TENSE_VOICE_MOOD.VOICE = ACTIVE  then
-					 TEXT_IO.PUT(OUTPUT, 
+				  text_io.new_line(output);
+			   when fut   => 
+				  if ir.qual.vpar.tense_voice_mood.voice = active  then
+					 text_io.put(output, 
 								 "about/going/intending/destined to ~  FUT ACTIVE PPL often used as ADJ or N ");
-					 TEXT_IO.NEW_LINE(OUTPUT);
+					 text_io.new_line(output);
 				  else
-					 case IR.QUAL.VPAR.CS is
-						when GEN =>
-						   TEXT_IO.PUT(OUTPUT, 
+					 case ir.qual.vpar.cs is
+						when gen =>
+						   text_io.put(output, 
 									   "to(/must) be ~ed  FUT PASSIVE PPL, often used as gerund or gerundive (of ~ing)");
-						when DAT =>
-						   TEXT_IO.PUT(OUTPUT, 
+						when dat =>
+						   text_io.put(output, 
 									   "to(/must) be ~ed  FUT PASSIVE PPL, often used as gerund or gerundive (to/for ~ing)");
-						when ABL =>
-						   TEXT_IO.PUT(OUTPUT, 
+						when abl =>
+						   text_io.put(output, 
 									   "to(/must) be ~ed  FUT PASSIVE PPL, often used as gerund or gerundive (by/in ~ing)");
-						when ACC =>
-						   TEXT_IO.PUT(OUTPUT, 
+						when acc =>
+						   text_io.put(output, 
 									   "to(/must) be ~ed  FUT PASSIVE PPL, often used as gerund or gerundive (for ~ing/to ~)");
 						when others =>
-						   TEXT_IO.PUT(OUTPUT, 
+						   text_io.put(output, 
 									   "to(/must) be ~ed  FUT PASSIVE PPL, often used as gerund or gerundive (~ing)");
 					 end case;
-					 TEXT_IO.NEW_LINE(OUTPUT);
+					 text_io.new_line(output);
 				  end if;
 			   when others  => 
 				  null;
 				  --TEXT_IO.NEW_LINE(OUTPUT); 
 			end case;      --  TENSE
 			
-		 when SUPINE => 
+		 when supine => 
             --TEXT_IO.NEW_LINE(OUTPUT);
-			if IR.QUAL.SUPINE.CS = ACC  then
-			   TEXT_IO.PUT(OUTPUT, 
+			if ir.qual.supine.cs = acc  then
+			   text_io.put(output, 
 						   "to ~  expresses purpose of verb of motion; may take a direct object");
-			   TEXT_IO.NEW_LINE(OUTPUT);
-			elsif IR.QUAL.SUPINE.CS = ABL  then
-			   TEXT_IO.PUT(OUTPUT, 
+			   text_io.new_line(output);
+			elsif ir.qual.supine.cs = abl  then
+			   text_io.put(output, 
 						   "to ~  after ADJ indicating aspect/respect in which something is/is done");
-			   TEXT_IO.NEW_LINE(OUTPUT);
+			   text_io.new_line(output);
 			end if;   
 			
 		 when others  => 
@@ -381,4 +381,4 @@ begin    --  PUT_EXAMPLE_LINE
       --TEXT_IO.NEW_LINE(OUTPUT); 
    end if;
    
-end PUT_EXAMPLE_LINE;  
+end put_example_line;  

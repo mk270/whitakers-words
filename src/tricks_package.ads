@@ -1,19 +1,19 @@
-with DICTIONARY_PACKAGE; use DICTIONARY_PACKAGE;
-package TRICKS_PACKAGE is
+with dictionary_package; use dictionary_package;
+package tricks_package is
    
-   procedure SYNCOPE(W : STRING;
-					 PA : in out PARSE_ARRAY; PA_LAST : in out INTEGER);           
+   procedure syncope(w : string;
+					 pa : in out parse_array; pa_last : in out integer);           
 
-   procedure TRY_TRICKS(W : STRING; 
-						PA : in out PARSE_ARRAY; PA_LAST : in out INTEGER;   
-												 LINE_NUMBER : INTEGER; WORD_NUMBER : INTEGER);
+   procedure try_tricks(w : string; 
+						pa : in out parse_array; pa_last : in out integer;   
+												 line_number : integer; word_number : integer);
 
-   procedure TRY_SLURY(W : STRING;
-					   PA : in out PARSE_ARRAY; PA_LAST : in out INTEGER;
-												LINE_NUMBER : INTEGER; WORD_NUMBER : INTEGER);   
+   procedure try_slury(w : string;
+					   pa : in out parse_array; pa_last : in out integer;
+												line_number : integer; word_number : integer);   
 
-   procedure ROMAN_NUMERALS(INPUT_WORD : STRING;
-							PA : in out PARSE_ARRAY; PA_LAST : in out INTEGER);
+   procedure roman_numerals(input_word : string;
+							pa : in out parse_array; pa_last : in out integer);
    
 
-end TRICKS_PACKAGE;
+end tricks_package;

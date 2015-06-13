@@ -1,11 +1,11 @@
-with TEXT_IO;
-with DEVELOPER_PARAMETERS; use DEVELOPER_PARAMETERS;
-procedure PUT_STAT(S : STRING) is
+with text_io;
+with developer_parameters; use developer_parameters;
+procedure put_stat(s : string) is
 begin
-   if TEXT_IO.IS_OPEN(STATS) then
-	  TEXT_IO.PUT_LINE(STATS, S);
+   if text_io.is_open(stats) then
+	  text_io.put_line(stats, s);
    end if;
-end PUT_STAT;
+end put_stat;
 
 
 
