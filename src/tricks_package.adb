@@ -312,24 +312,24 @@ package body tricks_package is
 	  if only_roman_digits(w) and then (roman_number_w /= 0)  then
 		 pa_last := pa_last + 1;
 		 pa(pa_last) := ( stem => head(w, max_stem_size),
-						  ir => (
-								 qual => (
-										  pofs => num,
-										  num => (
-												  decl   => (2, 0),
-												  cs     => x,
-												  number => x,
-												  gender => x,
-												  sort   => card) ),
+		   ir => (
+		   qual => (
+		   pofs => num,
+		   num => (
+		   decl   => (2, 0),
+		   cs     => x,
+		   number => x,
+		   gender => x,
+		   sort   => card) ),
 
-								 key => 0,
-								 ending => null_ending_record,
-								 age => x,
-								 freq => a),
-						  d_k => rrr,
-						  mnpc => null_mnpc);
+		   key => 0,
+		   ending => null_ending_record,
+		   age => x,
+		   freq => a),
+		   d_k => rrr,
+		   mnpc => null_mnpc);
 		 rrr_meaning := head(integer'image(roman_number_w) & "  as a ROMAN NUMERAL;",
-							 max_meaning_size);
+		   max_meaning_size);
 	  else
 		 null;    --  Is not ROMAN NUMERAL, so go on and try something else
 	  end if;
@@ -399,7 +399,7 @@ package body tricks_package is
 		 if (s(i..i+1) = "ii")  then
 			pa_last := pa_last + 1;
 			pa(pa_last) := ("Syncope  ii => ivi", syncope_inflection_record,
-							yyy, null_mnpc);
+			  yyy, null_mnpc);
 			word(s(s'first..i) & "v" & s(i+1..s'last), pa, pa_last);
 			if pa_last > pa_save + 1  then
 			   exit;
@@ -412,12 +412,12 @@ package body tricks_package is
 		--PA(PA_LAST).IR.QUAL.V.CON = (3, 4)/(6, 1) and then
 		pa(pa_last).ir.key = 3  then          --  Perfect system
 		 yyy_meaning := head(
-							 "Syncopated perfect ivi can drop 'v' without contracting vowel "
-							   , max_meaning_size);
+		   "Syncopated perfect ivi can drop 'v' without contracting vowel "
+		   , max_meaning_size);
 
 		 put_stat("SYNCOPE  ivi at "
-					& head(integer'image(line_number), 8) & head(integer'image(word_number), 4)
-					& "   " & head(w, 20) & "   "  & pa(pa_save+1).stem);
+		   & head(integer'image(line_number), 8) & head(integer'image(word_number), 4)
+		   & "   " & head(w, 20) & "   "  & pa(pa_save+1).stem);
 		 return;
 	  else
 		 pa_last := pa_save;
@@ -426,13 +426,13 @@ package body tricks_package is
 	  -- avis => as, evis => es, ivis => is, ovis => os   in perfect
 	  for i in reverse s'first..s'last-2  loop     --  Need isse
 		 if ((s(i..i+1) = "as")  or
-			   (s(i..i+1) = "es")  or
-			   (s(i..i+1) = "is")  or
-			   (s(i..i+1) = "os")) then
+		   (s(i..i+1) = "es")  or
+		   (s(i..i+1) = "is")  or
+		   (s(i..i+1) = "os")) then
 			--TEXT_IO.PUT_LINE("SYNCOPE vis   S = " & S & "    PA_SAVE = " & INTEGER'IMAGE(PA_SAVE));
 			pa_last := pa_last + 1;
 			pa(pa_last)         := ("Syncope   s => vis", syncope_inflection_record,
-									yyy, null_mnpc);
+			  yyy, null_mnpc);
 			--TEXT_IO.PUT_LINE("SYNCOPE vis   S+ = " & S(S'FIRST..I) & "vi" & S(I+1..S'LAST) & "  " & INTEGER'IMAGE(PA_LAST));
 			word(s(s'first..i) & "vi" & s(i+1..s'last), pa, pa_last);
 			--TEXT_IO.PUT_LINE("SYNCOPE vis   DONE "  & "    PA_LAST = " & INTEGER'IMAGE(PA_LAST));
@@ -447,11 +447,11 @@ package body tricks_package is
 		pa(pa_last).ir.qual.pofs = v and then
 		pa(pa_last).ir.key = 3  then          --  Perfect system
 		 yyy_meaning := head(
-							 "Syncopated perfect often drops the 'v' and contracts vowel "
-							   , max_meaning_size);
+		   "Syncopated perfect often drops the 'v' and contracts vowel "
+		   , max_meaning_size);
 		 put_stat("SYNCOPE  vis at "
-					& head(integer'image(line_number), 8) & head(integer'image(word_number), 4)
-					& "   " & head(w, 20) & "   "  & pa(pa_save+1).stem);
+		   & head(integer'image(line_number), 8) & head(integer'image(word_number), 4)
+		   & "   " & head(w, 20) & "   "  & pa(pa_save+1).stem);
 	  end if;
 	  --  end loop;   --  over resulting solutions
 	  if pa_last > pa_save + 1  then
@@ -465,11 +465,11 @@ package body tricks_package is
 	  -- aver => ar, ever => er, in perfect
 	  for i in reverse s'first+1..s'last-2  loop
 		 if ((s(i..i+1) = "ar")  or
-			   (s(i..i+1) = "er")  or
-			   (s(i..i+1) = "or")) then
+		   (s(i..i+1) = "er")  or
+		   (s(i..i+1) = "or")) then
 			pa_last := pa_last + 1;
 			pa(pa_last) := ("Syncope   r => v.r", syncope_inflection_record,
-							yyy, null_mnpc);
+			  yyy, null_mnpc);
 			word(s(s'first..i) & "ve" & s(i+1..s'last), pa, pa_last);
 			if pa_last > pa_save + 1  then
 			   exit;
@@ -482,12 +482,12 @@ package body tricks_package is
 		pa(pa_last).ir.qual.pofs = v and then
 		pa(pa_last).ir.key = 3  then          --  Perfect system
 		 yyy_meaning := head(
-							 "Syncopated perfect often drops the 'v' and contracts vowel "
-							   , max_meaning_size);
+		   "Syncopated perfect often drops the 'v' and contracts vowel "
+		   , max_meaning_size);
 
 		 put_stat("SYNCOPE  ver at "
-					& head(integer'image(line_number), 8) & head(integer'image(word_number), 4)
-					& "   " & head(w, 20) & "   "  & pa(pa_save+1).stem);
+		   & head(integer'image(line_number), 8) & head(integer'image(word_number), 4)
+		   & "   " & head(w, 20) & "   "  & pa(pa_save+1).stem);
 		 return;
 	  else
 		 pa_last := pa_save;
@@ -498,7 +498,7 @@ package body tricks_package is
 		 if (s(i..i+2) = "ier")  then
 			pa_last := pa_last + 1;
 			pa(pa_last) := ("Syncope  ier=>iver", syncope_inflection_record,
-							yyy, null_mnpc);
+			  yyy, null_mnpc);
 			word(s(s'first..i) & "v" & s(i+1..s'last), pa, pa_last);
 			if pa_last > pa_save + 1  then
 			   exit;
@@ -510,12 +510,12 @@ package body tricks_package is
 		pa(pa_last).ir.qual.pofs = v and then
 		pa(pa_last).ir.key = 3  then          --  Perfect system
 		 yyy_meaning := head(
-							 "Syncopated perfect often drops the 'v' and contracts vowel "
-							   , max_meaning_size);
+		   "Syncopated perfect often drops the 'v' and contracts vowel "
+		   , max_meaning_size);
 
 		 put_stat("SYNCOPE  ier at "
-					& head(integer'image(line_number), 8) & head(integer'image(word_number), 4)
-					& "   " & head(w, 20) & "   "  & pa(pa_save+1).stem);
+		   & head(integer'image(line_number), 8) & head(integer'image(word_number), 4)
+		   & "   " & head(w, 20) & "   "  & pa(pa_save+1).stem);
 		 return;
 	  else
 		 pa_last := pa_save;
@@ -524,10 +524,10 @@ package body tricks_package is
 	  --         -- sis => s, xis => x, in perfect
 	  for i in reverse s'first..s'last-2  loop
 		 if ((s(i) = 's')  or
-			   (s(i) = 'x'))  then
+		   (s(i) = 'x'))  then
 			pa_last := pa_last + 1;
 			pa(pa_last)         := ("Syncope s/x => +is", syncope_inflection_record,
-									yyy, null_mnpc);
+			  yyy, null_mnpc);
 			word(s(s'first..i) & "is" & s(i+1..s'last), pa, pa_last);
 			if pa_last > pa_save + 1  then
 			   exit;               --  Exit loop here if SYNCOPE found hit
@@ -540,11 +540,11 @@ package body tricks_package is
 		pa(pa_last).ir.qual.pofs = v and then
 		pa(pa_last).ir.key = 3  then          --  Perfect system
 		 yyy_meaning := head(
-							 "Syncopated perfect sometimes drops the 'is' after 's' or 'x' "
-							   , max_meaning_size);
+		   "Syncopated perfect sometimes drops the 'is' after 's' or 'x' "
+		   , max_meaning_size);
 		 put_stat("SYNCOPEx/sis at "
-					& head(integer'image(line_number), 8) & head(integer'image(word_number), 4)
-					& "   " & head(w, 20) & "   "  & pa(pa_save+1).stem);
+		   & head(integer'image(line_number), 8) & head(integer'image(word_number), 4)
+		   & "   " & head(w, 20) & "   "  & pa(pa_save+1).stem);
 		 return;
 	  else
 		 pa_last := pa_save;
@@ -593,21 +593,21 @@ package body tricks_package is
 		   s(s'first..s'first+x1'length-1) = x1   then
 			pa_last := pa_last + 1;
 			pa(pa_last) := (head("Word mod " & x1 & "/" & x2, max_stem_size),
-							null_inflection_record,
-							xxx, null_mnpc);
+			  null_inflection_record,
+			  xxx, null_mnpc);
 			tword(x2 & s(s'first+x1'length..s'last), pa, pa_last);
 			if (pa_last > pa_save + 1)   and then
 			  (pa(pa_last-1).ir.qual.pofs /= tackon)  then
 			   if explanation = ""  then
 				  xxx_meaning := head(
-									  "An initial '" & x1 & "' may have replaced usual '" & x2 & "'"
-                                        , max_meaning_size);
+					"An initial '" & x1 & "' may have replaced usual '" & x2 & "'"
+					, max_meaning_size);
 			   else
 				  xxx_meaning := head(explanation, max_meaning_size);
 			   end if;
 			   put_stat("TRICK   FLIP at "
-						  & head(integer'image(line_number), 8) & head(integer'image(word_number), 4)
-						  & "   " & head(w, 20) & "   "  & pa(pa_save+1).stem);
+				 & head(integer'image(line_number), 8) & head(integer'image(word_number), 4)
+				 & "   " & head(w, 20) & "   "  & pa(pa_save+1).stem);
 			   return;
 			else
 			   pa_last := pa_save;
@@ -627,8 +627,8 @@ package body tricks_package is
 		   s(s'first..s'first+x1'length-1) = x1   then
 			pa_last := pa_last + 1;
 			pa(pa_last) := (head("Word mod " & x1 & "/" & x2, max_stem_size),
-							null_inflection_record,
-							xxx, null_mnpc);
+			  null_inflection_record,
+			  xxx, null_mnpc);
 			--TEXT_IO.PUT_LINE("Trying " & X2 & S(S'FIRST+X1'LENGTH..S'LAST));
 			tword(x2 & s(s'first+x1'length..s'last), pa, pa_last);
 			if (pa_last > pa_save + 1)   and then
@@ -636,14 +636,14 @@ package body tricks_package is
 			   --TEXT_IO.PUT_LINE("FLIPF worked");
 			   if explanation = ""  then
 				  xxx_meaning := head(
-									  "An initial '" & x1 & "' may be rendered by '" & x2 & "'"
-                                        , max_meaning_size);
+					"An initial '" & x1 & "' may be rendered by '" & x2 & "'"
+					, max_meaning_size);
 			   else
 				  xxx_meaning := head(explanation, max_meaning_size);
 			   end if;
 			   put_stat("TRICK  FLIPF at "
-						  & head(integer'image(line_number), 8) & head(integer'image(word_number), 4)
-						  & "   " & head(w, 20) & "   "  & pa(pa_save+1).stem);
+				 & head(integer'image(line_number), 8) & head(integer'image(word_number), 4)
+				 & "   " & head(w, 20) & "   "  & pa(pa_save+1).stem);
 			   return;
 			else
 			   pa_last := pa_save;
@@ -657,8 +657,8 @@ package body tricks_package is
 			--TEXT_IO.PUT_LINE("Trying FFLOP");
 			pa_last := pa_last + 1;
 			pa(pa_last) := (head("Word mod " & x2 & "/" & x1, max_stem_size),
-							null_inflection_record,
-							xxx, null_mnpc);
+			  null_inflection_record,
+			  xxx, null_mnpc);
 			--TEXT_IO.PUT_LINE("Trying " & X1 & S(S'FIRST+X2'LENGTH..S'LAST));
 			tword(x1 & s(s'first+x2'length..s'last), pa, pa_last);
 			if (pa_last > pa_save + 1)   and then
@@ -666,14 +666,14 @@ package body tricks_package is
 			   --TEXT_IO.PUT_LINE("FFLOP worked");
 			   if explanation = ""  then
 				  xxx_meaning := head(
-									  "An initial '" & x2 & "' may be rendered by '" & x1 & "'"
-                                        , max_meaning_size);
+					"An initial '" & x2 & "' may be rendered by '" & x1 & "'"
+					, max_meaning_size);
 			   else
 				  xxx_meaning := head(explanation, max_meaning_size);
 			   end if;
 			   put_stat("TRICK  FFLOP at "
-						  & head(integer'image(line_number), 8) & head(integer'image(word_number), 4)
-						  & "   " & head(w, 20) & "   "  & pa(pa_save+1).stem);
+				 & head(integer'image(line_number), 8) & head(integer'image(word_number), 4)
+				 & "   " & head(w, 20) & "   "  & pa(pa_save+1).stem);
 			   return;
 			else
 			   pa_last := pa_save;
@@ -692,21 +692,21 @@ package body tricks_package is
 			if s(i..i+x1'length-1) = x1   then
 			   pa_last := pa_last + 1;
 			   pa(pa_last) := (head("Word mod " & x1 & "/" & x2, max_stem_size),
-							   null_inflection_record,
-							   xxx, null_mnpc);
+				 null_inflection_record,
+				 xxx, null_mnpc);
 			   tword(s(s'first..i-1) & x2 & s(i+x1'length..s'last), pa, pa_last);
 			   if (pa_last > pa_save + 1)   and then
 				 (pa(pa_last-1).ir.qual.pofs /= tackon)  then
 				  if explanation = ""  then
 					 xxx_meaning := head(
-										 "An internal '" & x1 & "' might be rendered by '" & x2 & "'"
-                                           , max_meaning_size);
+					   "An internal '" & x1 & "' might be rendered by '" & x2 & "'"
+					   , max_meaning_size);
 				  else
 					 xxx_meaning := head(explanation, max_meaning_size);
 				  end if;
 				  put_stat("TRICK   INTR at "
-							 & head(integer'image(line_number), 8) & head(integer'image(word_number), 4)
-							 & "   " & head(w, 20) & "   "  & pa(pa_save+1).stem);
+					& head(integer'image(line_number), 8) & head(integer'image(word_number), 4)
+					& "   " & head(w, 20) & "   "  & pa(pa_save+1).stem);
 				  return;
 			   else
 				  pa_last := pa_save;
@@ -726,8 +726,8 @@ package body tricks_package is
 			pa_last := pa_last + 1;
 			trick_translation_record.freq := c;
 			pa(pa_last) := (head("Word mod iis -> is", max_stem_size),
-							null_inflection_record,
-							xxx, null_mnpc);
+			  null_inflection_record,
+			  xxx, null_mnpc);
 			word(s(s'first..s'last-2) & "iis", pa, pa_last);
 			if (pa_last > pa_save + 1)    then
 			   i := pa_last;
@@ -735,7 +735,7 @@ package body tricks_package is
 				  if pa(i).ir.qual.pofs = adj  and then
 					pa(i).ir.qual.adj.decl = (1, 1)  and then
 					((pa(i).ir.qual.adj.cs = dat) or
-					   (pa(i).ir.qual.adj.cs = abl))   and then
+					(pa(i).ir.qual.adj.cs = abl))   and then
 					pa(i).ir.qual.adj.number = p   then
 					 null;       --  Only for ADJ 1 1 DAT/ABL P
 				  else
@@ -748,13 +748,13 @@ package body tricks_package is
 			if (pa_last > pa_save + 1)    then
 			   if explanation = ""  then
 				  xxx_meaning := head("A Terminal 'iis' on ADJ 1 1 DAT/ABL P might drop 'i'",
-									  max_meaning_size);
+					max_meaning_size);
 			   else
 				  xxx_meaning := head(explanation, max_meaning_size);
 			   end if;
 			   put_stat("TRICK  ADJIS at "
-						  & head(integer'image(line_number), 8) & head(integer'image(word_number), 4)
-						  & "   " & head(w, 20) & "   "  & pa(pa_save+1).stem);
+				 & head(integer'image(line_number), 8) & head(integer'image(word_number), 4)
+				 & "   " & head(w, 20) & "   "  & pa(pa_save+1).stem);
 			   return;
 			else
 			   pa_last := pa_save;
@@ -774,23 +774,23 @@ package body tricks_package is
 			  (is_a_vowel(s(i-1)) and is_a_vowel(s(i+1))) then
 			   pa_last := pa_last + 1;
 			   pa(pa_last)           := (head("Word mod " & s(i) &
-												" -> " & s(i) & s(i), max_stem_size),
-										 null_inflection_record,
-										 xxx, null_mnpc);
+				 " -> " & s(i) & s(i), max_stem_size),
+				 null_inflection_record,
+				 xxx, null_mnpc);
 			   tword(s(s'first..i) & s(i) & s(i+1..s'last), pa, pa_last);
                --TEXT_IO.PUT_LINE(S(S'FIRST..I) & S(I) & S(I+1..S'LAST));
 			   if (pa_last > pa_save + 1)   and then
 				 (pa(pa_last-1).ir.qual.pofs /= tackon)  then
 				  if explanation = ""  then
 					 xxx_meaning := head(
-										 "A doubled consonant may be rendered by just the single"
-                                           & "  MEDIEVAL", max_meaning_size);
+					   "A doubled consonant may be rendered by just the single"
+					   & "  MEDIEVAL", max_meaning_size);
 				  else
 					 xxx_meaning := head(explanation, max_meaning_size);
 				  end if;
 				  put_stat("TRICK   2CON at "
-							 & head(integer'image(line_number), 8) & head(integer'image(word_number), 4)
-							 & "   " & head(w, 20) & "   "  & pa(pa_save+1).stem);
+					& head(integer'image(line_number), 8) & head(integer'image(word_number), 4)
+					& "   " & head(w, 20) & "   "  & pa(pa_save+1).stem);
 				  return;
 			   else
 				  pa_last := pa_save;
@@ -858,8 +858,8 @@ package body tricks_package is
 
 			pa_last := pa_last + 1;
 			pa(pa_last):= (head("Two words", max_stem_size),
-						   null_inflection_record,
-						   xxx, null_mnpc);
+			  null_inflection_record,
+			  xxx, null_mnpc);
             --TEXT_IO.PUT_LINE("Setting PA TWO_WORDS  PA_LAST = " & INTEGER'IMAGE(PA_LAST));
 
 			while i < s'length - 2  loop
@@ -925,21 +925,21 @@ package body tricks_package is
 					 end loop;
 
 					 xxx_meaning := head(
-										 "It is very likely a compound number    " &
-                                           s(s'first..s'first+i-1) & " + " &
-                                           s(s'first+i..s'last), max_meaning_size);
+					   "It is very likely a compound number    " &
+					   s(s'first..s'first+i-1) & " + " &
+					   s(s'first+i..s'last), max_meaning_size);
 					 put_stat("TRICK   2NUM at "
-								& head(integer'image(line_number), 8) & head(integer'image(word_number), 4)
-								& "   " & head(w, 20) & "   "  & s(1..i_mid) & '+' & s(i_mid+1..s'last));
+					   & head(integer'image(line_number), 8) & head(integer'image(word_number), 4)
+					   & "   " & head(w, 20) & "   "  & s(1..i_mid) & '+' & s(i_mid+1..s'last));
 				  else
 					 xxx_meaning := head(
-										 "May be 2 words combined (" &
-                                           s(s'first..s'first+i-1) & "+" &
-                                           s(s'first+i..s'last) &
-                                           ") If not obvious, probably incorrect", max_meaning_size);
+					   "May be 2 words combined (" &
+					   s(s'first..s'first+i-1) & "+" &
+					   s(s'first+i..s'last) &
+					   ") If not obvious, probably incorrect", max_meaning_size);
 					 put_stat("TRICK   2WDS at "
-								& head(integer'image(line_number), 8) & head(integer'image(word_number), 4)
-								& "   " & head(w, 20) & "   "  & s(1..i_mid) & '+' & s(i_mid+1..s'last));
+					   & head(integer'image(line_number), 8) & head(integer'image(word_number), 4)
+					   & "   " & head(w, 20) & "   "  & s(1..i_mid) & '+' & s(i_mid+1..s'last));
 				  end if;
 			   else
 				  xxx_meaning := head(explanation, max_meaning_size);
@@ -982,126 +982,160 @@ package body tricks_package is
 
             flip_flop("adgn", "agn");
             if pa_last > 0  then
-               return; end if;
-			   flip_flop("adsc", "asc");
-			   if pa_last > 0  then
-				  return; end if;
-				  flip_flop("adsp", "asp");
-				  if pa_last > 0  then
-					 return; end if;
-					 flip_flop("arqui",  "arci");
-					 if pa_last > 0  then
-						return; end if;
-						flip_flop("arqu",  "arcu");
-						if pa_last > 0  then
-						   return; end if;
-						   flip("ae",  "e");
-						   if pa_last > 0  then
-							  return; end if;
-							  flip("al",  "hal");
-							  if pa_last > 0  then
-								 return; end if;
-								 flip("am",  "ham");
-								 if pa_last > 0  then
-									return; end if;
-									flip("ar",  "har");
-									if pa_last > 0  then
-									   return; end if;
-									   flip("aur",  "or");
-									   if pa_last > 0  then
-										  return; end if;
+               return;
+			end if;
+			flip_flop("adsc", "asc");
+			if pa_last > 0  then
+			   return;
+			end if;
+			flip_flop("adsp", "asp");
+			if pa_last > 0  then
+			   return;
+			end if;
+			flip_flop("arqui",  "arci");
+			if pa_last > 0  then
+			   return;
+			end if;
+			flip_flop("arqu",  "arcu");
+			if pa_last > 0  then
+			   return;
+			end if;
+			flip("ae",  "e");
+			if pa_last > 0  then
+			   return;
+			end if;
+			flip("al",  "hal");
+			if pa_last > 0  then
+			   return;
+			end if;
+			flip("am",  "ham");
+			if pa_last > 0  then
+			   return;
+			end if;
+			flip("ar",  "har");
+			if pa_last > 0  then
+			   return;
+			end if;
+			flip("aur",  "or");
+			if pa_last > 0  then
+			   return;
+			end if;
 
          when 'd'  =>
 
 			flip("dampn" , "damn");
 			if pa_last > 0  then
-			   return; end if;
-			   flip_flop("dij"  , "disj");       --  OLD p.543
-			   if pa_last > 0  then
-				  return; end if;
-				  flip_flop("dir"  , "disr");       --  OLD p.556
-				  if pa_last > 0  then
-					 return; end if;
-					 flip_flop("dir"  , "der");        --  OLD p.547
-					 if pa_last > 0  then
-						return; end if;
-						flip_flop("del"  , "dil");        --  OLD p.507/543
-						if pa_last > 0  then
-						   return; end if;
+			   return;
+			end if;
+			flip_flop("dij"  , "disj");       --  OLD p.543
+			if pa_last > 0  then
+			   return;
+			end if;
+			flip_flop("dir"  , "disr");       --  OLD p.556
+			if pa_last > 0  then
+			   return;
+			end if;
+			flip_flop("dir"  , "der");        --  OLD p.547
+			if pa_last > 0  then
+			   return;
+			end if;
+			flip_flop("del"  , "dil");        --  OLD p.507/543
+			if pa_last > 0  then
+			   return;
+			end if;
 
          when 'e'  =>
 
             flip_flop("ecf" , "eff");
             if pa_last > 0  then
-               return; end if;
-			   flip_flop("ecs" , "exs");
-			   if pa_last > 0  then
-				  return; end if;
-				  flip_flop("es"  , "ess");
-				  if pa_last > 0  then
-					 return; end if;
-					 flip_flop("ex"  , "exs");
-					 if pa_last > 0  then
-						return; end if;
+               return;
+			end if;
+			flip_flop("ecs" , "exs");
+			if pa_last > 0  then
+			   return;
+			end if;
+			flip_flop("es"  , "ess");
+			if pa_last > 0  then
+			   return;
+			end if;
+			flip_flop("ex"  , "exs");
+			if pa_last > 0  then
+			   return;
+			end if;
 
-						flip("eid",  "id");
-						if pa_last > 0  then
-						   return; end if;
-						   flip("el",  "hel");
-						   if pa_last > 0  then
-							  return; end if;
-							  flip("e",  "ae");
-							  if pa_last > 0  then
-								 return; end if;
+			flip("eid",  "id");
+			if pa_last > 0  then
+			   return;
+			end if;
+			flip("el",  "hel");
+			if pa_last > 0  then
+			   return;
+			end if;
+			flip("e",  "ae");
+			if pa_last > 0  then
+			   return;
+			end if;
 
          when 'f'  =>
 
             flip_flop("faen" , "fen");
             if pa_last > 0  then
-               return; end if;
+               return;
+			end if;
 
-			   flip_flop("faen" , "foen");
-			   if pa_last > 0  then
-				  return; end if;
+			flip_flop("faen" , "foen");
+			if pa_last > 0  then
+			   return;
+			end if;
 
-				  flip_flop("fed" , "foed");
-				  if pa_last > 0  then
-					 return; end if;
+			flip_flop("fed" , "foed");
+			if pa_last > 0  then
+			   return;
+			end if;
 
-					 flip_flop("fet" , "foet");
-					 if pa_last > 0  then
-						return; end if;
+			flip_flop("fet" , "foet");
+			if pa_last > 0  then
+			   return;
+			end if;
 
-						flip("f",  "ph");
-						if pa_last > 0  then
-						   return; end if;  -- Try lead then all
+			flip("f",  "ph");
+			if pa_last > 0  then
+			   return;
+			end if;  -- Try lead then all
 
          when 'g'  =>
 
             flip("gna",  "na");
             if pa_last > 0  then
-               return; end if;
+               return;
+			end if;
 
          when 'h'  =>
 
             flip("har",  "ar");
             if pa_last > 0  then
-               return; end if;
-			   flip("hal",  "al");
-			   if pa_last > 0  then
-				  return; end if;
-				  flip("ham",  "am");
-				  if pa_last > 0  then
-					 return; end if;
-					 flip("hel",  "el");
-					 if pa_last > 0  then
-						return; end if;
-						flip("hol",  "ol");
-						if pa_last > 0  then
-						   return; end if;
-						   flip("hum",  "um");
-						   if pa_last > 0  then
-							  return; end if;
+               return;
+			end if;
+			flip("hal",  "al");
+			if pa_last > 0  then
+			   return;
+			end if;
+			flip("ham",  "am");
+			if pa_last > 0  then
+			   return;
+			end if;
+			flip("hel",  "el");
+			if pa_last > 0  then
+			   return;
+			end if;
+			flip("hol",  "ol");
+			if pa_last > 0  then
+			   return;
+			end if;
+			flip("hum",  "um");
+			if pa_last > 0  then
+			   return;
+			end if;
 
          when 'i'  =>
 
@@ -1109,7 +1143,7 @@ package body tricks_package is
             if s'length > 1 and then
 			  s(s'first..s'first+1) = "is"   then
                pa(1) := ("Word mod is => iis", null_inflection_record,
-						 xxx, null_mnpc);
+				 xxx, null_mnpc);
                pa_last := 1;
                tword("i" & s(s'first..s'last), pa, pa_last);
             end if;
@@ -1118,8 +1152,8 @@ package body tricks_package is
 			  pa(pa_last).ir.qual.pofs = v and then
 			  pa(pa_last).ir.qual.v.con = (6, 1) then  --    Check it is V 6 1 eo
                xxx_meaning := head(
-								   "Some forms of eo stem 'i' grates with an 'is...' ending, so 'is' -> 'iis' "
-									 , max_meaning_size);
+				 "Some forms of eo stem 'i' grates with an 'is...' ending, so 'is' -> 'iis' "
+				 , max_meaning_size);
                return;
             else
                pa_last := 0;
@@ -1129,62 +1163,75 @@ package body tricks_package is
 
             flip("k",  "c");
             if pa_last > 0  then
-               return; end if;
-			   flip("c",  "k");
-			   if pa_last > 0  then
-				  return; end if;
+               return;
+			end if;
+			flip("c",  "k");
+			if pa_last > 0  then
+			   return;
+			end if;
 
          when 'l'  =>
 
             flip_flop("lub", "lib");
             if pa_last > 1 then
-               return; end if;
+               return;
+			end if;
 
          when 'm'  =>
 
             flip_flop("mani", "manu");
             if pa_last > 1 then
-               return; end if;
+               return;
+			end if;
 
          when 'n'  =>
 
             flip("na",  "gna");
             if pa_last > 0  then
-               return; end if;
+               return;
+			end if;
 
-			   flip_flop("nihil",  "nil");
-			   if pa_last > 0  then
-				  return; end if;
+			flip_flop("nihil",  "nil");
+			if pa_last > 0  then
+			   return;
+			end if;
 
 
          when 'o'  =>
 
             flip_flop("obt", "opt");
             if pa_last > 1 then
-               return; end if;
-			   flip_flop("obs", "ops");
-			   if pa_last > 1 then
-				  return; end if;
-				  flip("ol",  "hol");
-				  if pa_last > 0  then
-					 return; end if;
-					 flip("opp", "op");
-					 if pa_last > 1 then
-						return; end if;
-						flip("or",  "aur");
-						if pa_last > 0  then
-						   return; end if;
+               return;
+			end if;
+			flip_flop("obs", "ops");
+			if pa_last > 1 then
+			   return;
+			end if;
+			flip("ol",  "hol");
+			if pa_last > 0  then
+			   return;
+			end if;
+			flip("opp", "op");
+			if pa_last > 1 then
+			   return;
+			end if;
+			flip("or",  "aur");
+			if pa_last > 0  then
+			   return;
+			end if;
 
          when 'p'  =>
 
             flip("ph",  "f");
             if pa_last > 0  then
-               return; end if;  -- Try lead then all
-			   flip_flop("pre", "prae");
-			   if pa_last > 1 then
-				  return; end if;
+               return;
+			end if;  -- Try lead then all
+			flip_flop("pre", "prae");
+			if pa_last > 1 then
+			   return;
+			end if;
 
-				  --  when 'q'  =>
+			--  when 'q'  =>
 
 
          when 's'  =>
@@ -1195,53 +1242,64 @@ package body tricks_package is
 
             flip_flop("subsc",  "susc");
             if pa_last > 0  then
-               return; end if;
-			   flip_flop("subsp",  "susp");
-			   if pa_last > 0  then
-				  return; end if;
+               return;
+			end if;
+			flip_flop("subsp",  "susp");
+			if pa_last > 0  then
+			   return;
+			end if;
 
-				  flip_flop("subc",  "susc");
-				  if pa_last > 0  then
-					 return; end if;
-					 flip_flop("succ",  "susc");
-					 if pa_last > 0  then
-						return; end if;
+			flip_flop("subc",  "susc");
+			if pa_last > 0  then
+			   return;
+			end if;
+			flip_flop("succ",  "susc");
+			if pa_last > 0  then
+			   return;
+			end if;
 
-						flip_flop("subt",  "supt");
-						if pa_last > 0  then
-						   return; end if;
-						   flip_flop("subt",  "sust");
-						   if pa_last > 0  then
-							  return; end if;
+			flip_flop("subt",  "supt");
+			if pa_last > 0  then
+			   return;
+			end if;
+			flip_flop("subt",  "sust");
+			if pa_last > 0  then
+			   return;
+			end if;
 
          when 't'  =>
 
             flip_flop("transv",  "trav");
             if pa_last > 0  then
-               return; end if;
-			   --            FLIP("trig",  "tric");
-			   --            if PA_LAST > 0  then
+               return;
+			end if;
+			--            FLIP("trig",  "tric");
+			--            if PA_LAST > 0  then
 
          when 'u'  =>
 
             flip("ul",  "hul");
             if pa_last > 0  then
-               return; end if;
-			   flip("uol",  "vul");
-			   if pa_last > 0  then
-				  return; end if;  --  u is not v for this purpose
+               return;
+			end if;
+			flip("uol",  "vul");
+			if pa_last > 0  then
+			   return;
+			end if;  --  u is not v for this purpose
 
          when 'y'  =>
 
             flip("y",  "i");
             if pa_last > 0  then
-               return; end if;
+               return;
+			end if;
 
          when 'z'  =>
 
             flip("z",  "di");
             if pa_last > 0  then
-               return; end if;
+               return;
+			end if;
 
          when others  =>  null;
 
@@ -1249,228 +1307,269 @@ package body tricks_package is
 
 	  internal("ae",  "e");
 	  if pa_last > 0  then
-		 return; end if;
+		 return;
+	  end if;
 
-         internal("bul",  "bol");
-         if pa_last > 0  then
-            return; end if;
-			internal("bol",  "bul");
-			if pa_last > 0  then
-			   return; end if;
+	  internal("bul",  "bol");
+	  if pa_last > 0  then
+		 return;
+	  end if;
+	  internal("bol",  "bul");
+	  if pa_last > 0  then
+		 return;
+	  end if;
 
-			   internal("cl",  "cul");
-			   if pa_last > 0  then
-				  return; end if;
+	  internal("cl",  "cul");
+	  if pa_last > 0  then
+		 return;
+	  end if;
 
-				  internal("cu",  "quu");
-				  if pa_last > 0  then
-					 return; end if;
+	  internal("cu",  "quu");
+	  if pa_last > 0  then
+		 return;
+	  end if;
 
-					 internal("f",  "ph");
-					 if pa_last > 0  then
-						return; end if;
-						internal("ph",  "f");
-						if pa_last > 0  then
-						   return; end if;
+	  internal("f",  "ph");
+	  if pa_last > 0  then
+		 return;
+	  end if;
+	  internal("ph",  "f");
+	  if pa_last > 0  then
+		 return;
+	  end if;
 
-						   internal("h",  "");
-						   if pa_last > 0  then
-							  return; end if;
+	  internal("h",  "");
+	  if pa_last > 0  then
+		 return;
+	  end if;
 
-							  internal("oe",  "e");
-							  if pa_last > 0  then
-								 return; end if;
+	  internal("oe",  "e");
+	  if pa_last > 0  then
+		 return;
+	  end if;
 
-								 internal("vul",  "vol");
-								 if pa_last > 0  then
-									return; end if;
-									internal("vol",  "vul");
-									if pa_last > 0  then
-									   return; end if;
-									   internal("uol",  "vul");
-									   if pa_last > 0  then
-										  return; end if;
+	  internal("vul",  "vol");
+	  if pa_last > 0  then
+		 return;
+	  end if;
+	  internal("vol",  "vul");
+	  if pa_last > 0  then
+		 return;
+	  end if;
+	  internal("uol",  "vul");
+	  if pa_last > 0  then
+		 return;
+	  end if;
 
-										  adj_terminal_iis;
-										  if pa_last > 0  then
-											 return; end if;
+	  adj_terminal_iis;
+	  if pa_last > 0  then
+		 return;
+	  end if;
 
-											 ---------------------------------------------------------------
+	  ---------------------------------------------------------------
 
-											 if words_mdev(do_medieval_tricks)  then
-												--      Medieval  ->  Classic
+	  if words_mdev(do_medieval_tricks)  then
+		 --      Medieval  ->  Classic
 
-												--  Harrington/Elliott    1.1.1
+		 --  Harrington/Elliott    1.1.1
 
-												internal("col",  "caul");
-												if pa_last > 0  then
-												   return; end if;
+		 internal("col",  "caul");
+		 if pa_last > 0  then
+			return;
+		 end if;
 
-												   --TEXT_IO.PUT_LINE("Trying com -> con");
+		 --TEXT_IO.PUT_LINE("Trying com -> con");
 
 
-												   --  Harrington/Elliott    1.3
+		 --  Harrington/Elliott    1.3
 
-												   internal("e",  "ae");
-												   if pa_last > 0  then
-													  return; end if;
+		 internal("e",  "ae");
+		 if pa_last > 0  then
+			return;
+		 end if;
 
-													  internal("o",  "u");
-													  if pa_last > 0  then
-														 return; end if;
+		 internal("o",  "u");
+		 if pa_last > 0  then
+			return;
+		 end if;
 
-														 internal("i",  "y");
-														 if pa_last > 0  then
-															return; end if;
+		 internal("i",  "y");
+		 if pa_last > 0  then
+			return;
+		 end if;
 
-															--  Harrington/Elliott    1.3.1
+		 --  Harrington/Elliott    1.3.1
 
-															internal("ism",  "sm");
-															if pa_last > 0  then
-															   return; end if;
+		 internal("ism",  "sm");
+		 if pa_last > 0  then
+			return;
+		 end if;
 
-															   internal("isp",  "sp");
-															   if pa_last > 0  then
-																  return; end if;
+		 internal("isp",  "sp");
+		 if pa_last > 0  then
+			return;
+		 end if;
 
-																  internal("ist",  "st");
-																  if pa_last > 0  then
-																	 return; end if;
+		 internal("ist",  "st");
+		 if pa_last > 0  then
+			return;
+		 end if;
 
-																	 internal("iz",  "z");
-																	 if pa_last > 0  then
-																		return; end if;
+		 internal("iz",  "z");
+		 if pa_last > 0  then
+			return;
+		 end if;
 
-																		internal("esm",  "sm");
-																		if pa_last > 0  then
-																		   return; end if;
+		 internal("esm",  "sm");
+		 if pa_last > 0  then
+			return;
+		 end if;
 
-																		   internal("esp",  "sp");
-																		   if pa_last > 0  then
-																			  return; end if;
+		 internal("esp",  "sp");
+		 if pa_last > 0  then
+			return;
+		 end if;
 
-																			  internal("est",  "st");
-																			  if pa_last > 0  then
-																				 return; end if;
+		 internal("est",  "st");
+		 if pa_last > 0  then
+			return;
+		 end if;
 
-																				 internal("ez",  "z");
-																				 if pa_last > 0  then
-																					return; end if;
+		 internal("ez",  "z");
+		 if pa_last > 0  then
+			return;
+		 end if;
 
-																					--  Harrington/Elliott    1.4
+		 --  Harrington/Elliott    1.4
 
-																					internal("di",  "z");
-																					if pa_last > 0  then
-																					   return; end if;
+		 internal("di",  "z");
+		 if pa_last > 0  then
+			return;
+		 end if;
 
-																					   internal("f",  "ph");
-																					   if pa_last > 0  then
-																						  return; end if;
+		 internal("f",  "ph");
+		 if pa_last > 0  then
+			return;
+		 end if;
 
-																						  internal("is",  "ix");
-																						  if pa_last > 0  then
-																							 return; end if;
+		 internal("is",  "ix");
+		 if pa_last > 0  then
+			return;
+		 end if;
 
-																							 internal("b",  "p");
-																							 if pa_last > 0  then
-																								return; end if;
+		 internal("b",  "p");
+		 if pa_last > 0  then
+			return;
+		 end if;
 
-																								internal("d",  "t");
-																								if pa_last > 0  then
-																								   return; end if;
+		 internal("d",  "t");
+		 if pa_last > 0  then
+			return;
+		 end if;
 
-																								   internal("v",  "b");
-																								   if pa_last > 0  then
-																									  return; end if;
+		 internal("v",  "b");
+		 if pa_last > 0  then
+			return;
+		 end if;
 
-																									  internal("v",  "f");
-																									  if pa_last > 0  then
-																										 return; end if;
+		 internal("v",  "f");
+		 if pa_last > 0  then
+			return;
+		 end if;
 
-																										 internal("v",  "f");
-																										 if pa_last > 0  then
-																											return; end if;
+		 internal("v",  "f");
+		 if pa_last > 0  then
+			return;
+		 end if;
 
-																											internal("s",  "x");
-																											if pa_last > 0  then
-																											   return; end if;
+		 internal("s",  "x");
+		 if pa_last > 0  then
+			return;
+		 end if;
 
-																											   --  Harrington/Elliott    1.4.1
+		 --  Harrington/Elliott    1.4.1
 
-																											   internal("ci",  "ti");
-																											   if pa_last > 0  then
-																												  return; end if;
+		 internal("ci",  "ti");
+		 if pa_last > 0  then
+			return;
+		 end if;
 
-																												  --  Harrington/Elliott    1.4.2
+		 --  Harrington/Elliott    1.4.2
 
-																												  internal("nt",  "nct");
-																												  if pa_last > 0  then
-																													 return; end if;
+		 internal("nt",  "nct");
+		 if pa_last > 0  then
+			return;
+		 end if;
 
-																													 internal("s",  "ns");
-																													 if pa_last > 0  then
-																														return; end if;
+		 internal("s",  "ns");
+		 if pa_last > 0  then
+			return;
+		 end if;
 
-																														--  Others
+		 --  Others
 
-																														internal("ch",  "c");
-																														if pa_last > 0  then
-																														   return; end if;
+		 internal("ch",  "c");
+		 if pa_last > 0  then
+			return;
+		 end if;
 
-																														   internal("c",  "ch");
-																														   if pa_last > 0  then
-																															  return; end if;
+		 internal("c",  "ch");
+		 if pa_last > 0  then
+			return;
+		 end if;
 
-																															  internal("th",  "t");
-																															  if pa_last > 0  then
-																																 return; end if;
+		 internal("th",  "t");
+		 if pa_last > 0  then
+			return;
+		 end if;
 
-																																 internal("t",  "th");
-																																 if pa_last > 0  then
-																																	return; end if;
+		 internal("t",  "th");
+		 if pa_last > 0  then
+			return;
+		 end if;
 
-																																	double_consonants;
+		 double_consonants;
 
-											 end if;   --  Medieval Tricks
-													   ---------------------------------------------------------------
+	  end if;   --  Medieval Tricks
+				---------------------------------------------------------------
 
-											 if not (words_mode(ignore_unknown_names)  and capitalized)  then   --  Don't try on Names
-												if words_mdev(do_two_words)  then
-												   two_words;
-												end if;
-											 end if;
+	  if not (words_mode(ignore_unknown_names)  and capitalized)  then   --  Don't try on Names
+		 if words_mdev(do_two_words)  then
+			two_words;
+		 end if;
+	  end if;
 
-											 --  It could be an improperly formed Roman Numeral
-											 if only_roman_digits(w)  then
+	  --  It could be an improperly formed Roman Numeral
+	  if only_roman_digits(w)  then
 
-												pa_last := 1;
-												pa(1) := ("Bad Roman Numeral?", null_inflection_record,
-														  xxx, null_mnpc);
-												xxx_meaning := null_meaning_type;
+		 pa_last := 1;
+		 pa(1) := ("Bad Roman Numeral?", null_inflection_record,
+		   xxx, null_mnpc);
+		 xxx_meaning := null_meaning_type;
 
-												rrr_meaning := head(integer'image(bad_roman_number(w)) & "  as ill-formed ROMAN NUMERAL?;",
-																	max_meaning_size);
-												pa_last := pa_last + 1;
-												pa(pa_last) := ( stem => head(w, max_stem_size),
-																 ir => (
-																		qual => (
-																				 pofs => num,
-																				 num => (
-																						 decl   => (2, 0),
-																						 cs     => x,
-																						 number => x,
-																						 gender => x,
-																						 sort   => card) ),
+		 rrr_meaning := head(integer'image(bad_roman_number(w)) & "  as ill-formed ROMAN NUMERAL?;",
+		   max_meaning_size);
+		 pa_last := pa_last + 1;
+		 pa(pa_last) := ( stem => head(w, max_stem_size),
+		   ir => (
+		   qual => (
+		   pofs => num,
+		   num => (
+		   decl   => (2, 0),
+		   cs     => x,
+		   number => x,
+		   gender => x,
+		   sort   => card) ),
 
-																		key => 0,
-																		ending => null_ending_record,
-																		age => x,
-																		freq => d),
-																 d_k => rrr,
-																 mnpc => null_mnpc         );
+		   key => 0,
+		   ending => null_ending_record,
+		   age => x,
+		   freq => d),
+		   d_k => rrr,
+		   mnpc => null_mnpc         );
 
-												return;
-											 end if;
+		 return;
+	  end if;
 
    exception
 	  when others  =>    --  I want to ignore anything that happens in TRICKS
@@ -1478,7 +1577,7 @@ package body tricks_package is
 		 pa(pa_last+1) := null_parse_record;     --  Just to clear the trys
 
 		 text_io.put_line(    --  ERROR_FILE,
-							  "Exception in TRY_TRICKS processing " & w);
+		   "Exception in TRY_TRICKS processing " & w);
    end try_tricks;
 
    procedure try_slury(w : string;
@@ -1509,21 +1608,21 @@ package body tricks_package is
 		   s(s'first..s'first+x1'length-1) = x1   then
 			pa_last := pa_last + 1;
 			pa(pa_last) := (head("Word mod " & x1 & "/" & x2, max_stem_size),
-							null_inflection_record,
-							xxx, null_mnpc);
+			  null_inflection_record,
+			  xxx, null_mnpc);
 			tword(x2 & s(s'first+x1'length..s'last), pa, pa_last);
 			if (pa_last > pa_save + 1)   and then
 			  (pa(pa_last-1).ir.qual.pofs /= tackon)  then
 			   if explanation = ""  then
 				  xxx_meaning := head(
-									  "An initial '" & x1 & "' may be rendered by '" & x2 & "'"
-                                        , max_meaning_size);
+					"An initial '" & x1 & "' may be rendered by '" & x2 & "'"
+					, max_meaning_size);
 			   else
 				  xxx_meaning := head(explanation, max_meaning_size);
 			   end if;
 			   put_stat("SLURY   FLIP at "
-						  & head(integer'image(line_number), 8) & head(integer'image(word_number), 4)
-						  & "   " & head(w, 20) & "   "  & pa(pa_save+1).stem);
+				 & head(integer'image(line_number), 8) & head(integer'image(word_number), 4)
+				 & "   " & head(w, 20) & "   "  & pa(pa_save+1).stem);
 			   return;
 			else
 			   pa_last := pa_save;
@@ -1542,21 +1641,21 @@ package body tricks_package is
 		   s(s'first..s'first+x1'length-1) = x1   then
 			pa_last := pa_last + 1;
 			pa(pa_last) := (head("Word mod " & x1 & "/" & x2, max_stem_size),
-							null_inflection_record,
-							xxx, null_mnpc);
+			  null_inflection_record,
+			  xxx, null_mnpc);
 			tword(x2 & s(s'first+x1'length..s'last), pa, pa_last);
 			if (pa_last > pa_save + 1)   and then
 			  (pa(pa_last-1).ir.qual.pofs /= tackon)  then
 			   if explanation = ""  then
 				  xxx_meaning := head(
-									  "An initial '" & x1 & "' may be rendered by '" & x2 & "'"
-                                        , max_meaning_size);
+					"An initial '" & x1 & "' may be rendered by '" & x2 & "'"
+					, max_meaning_size);
 			   else
 				  xxx_meaning := head(explanation, max_meaning_size);
 			   end if;
 			   put_stat("SLURY   FLOP at "
-						  & head(integer'image(line_number), 8) & head(integer'image(word_number), 4)
-						  & "   " & head(w, 20) & "   "  & pa(pa_save+1).stem);
+				 & head(integer'image(line_number), 8) & head(integer'image(word_number), 4)
+				 & "   " & head(w, 20) & "   "  & pa(pa_save+1).stem);
 			   return;
 			else
 			   pa_last := pa_save;
@@ -1566,21 +1665,21 @@ package body tricks_package is
 		   s(s'first..s'first+x2'length-1) = x2   then
 			pa_last := pa_last + 1;
 			pa(pa_last) := (head("Word mod " & x2 & "/" & x1, max_stem_size),
-							null_inflection_record,
-							xxx, null_mnpc);
+			  null_inflection_record,
+			  xxx, null_mnpc);
 			tword(x1 & s(s'first+x2'length..s'last), pa, pa_last);
 			if (pa_last > pa_save + 1)   and then
 			  (pa(pa_last-1).ir.qual.pofs /= tackon)  then
 			   if explanation = ""  then
 				  xxx_meaning := head(
-									  "An initial '" & x1 & "' may be rendered by '" & x2 & "'"
-                                        , max_meaning_size);
+					"An initial '" & x1 & "' may be rendered by '" & x2 & "'"
+					, max_meaning_size);
 			   else
 				  xxx_meaning := head(explanation, max_meaning_size);
 			   end if;
 			   put_stat("SLURY   FLOP at "
-						  & head(integer'image(line_number), 8) & head(integer'image(word_number), 4)
-						  & "   " & head(w, 20) & "   "  & pa(pa_save+1).stem);
+				 & head(integer'image(line_number), 8) & head(integer'image(word_number), 4)
+				 & "   " & head(w, 20) & "   "  & pa(pa_save+1).stem);
 			   return;
 			else
 			   pa_last := pa_save;
@@ -1599,21 +1698,21 @@ package body tricks_package is
 			  not is_a_vowel(s(s'first+sl))           then
 			   pa_last := pa_last + 1;
 			   pa(pa_last)           := (head("Slur " & x1 & "/" & x1(1..sl-1) & "~", max_stem_size),
-										 null_inflection_record,
-										 xxx, null_mnpc);
+				 null_inflection_record,
+				 xxx, null_mnpc);
 			   tword(x1(1..sl-1) & s(s'first+sl) & s(s'first+sl..s'last), pa, pa_last);
 			   if (pa_last > pa_save + 1)   and then
 				 (pa(pa_last-1).ir.qual.pofs /= tackon)  then
 				  if explanation = ""  then
 					 xxx_meaning := head(
-										 "An initial '" & x1 & "' may be rendered by " & x1(1..x1'last-1) & "~",
-										 max_meaning_size);
+					   "An initial '" & x1 & "' may be rendered by " & x1(1..x1'last-1) & "~",
+					   max_meaning_size);
 				  else
 					 xxx_meaning := head(explanation, max_meaning_size);
 				  end if;
 				  put_stat("SLURY   SLUR at "
-							 & head(integer'image(line_number), 8) & head(integer'image(word_number), 4)
-							 & "   " & head(w, 20) & "   "  & pa(pa_save+1).stem);
+					& head(integer'image(line_number), 8) & head(integer'image(word_number), 4)
+					& "   " & head(w, 20) & "   "  & pa(pa_save+1).stem);
 				  return;
 			   else
 				  pa_last := pa_save;
@@ -1624,21 +1723,21 @@ package body tricks_package is
 			  not is_a_vowel(s(s'first+sl))           then
 			   pa_last := pa_last + 1;
 			   pa(pa_last) := (head("Slur " & x1(1..sl-1) & "~" & "/" & x1, max_stem_size),
-							   null_inflection_record,
-							   xxx, null_mnpc);
+				 null_inflection_record,
+				 xxx, null_mnpc);
 			   tword(x1 & s(s'first+sl..s'last), pa, pa_last);
 			   if (pa_last > pa_save + 1)   and then
 				 (pa(pa_last-1).ir.qual.pofs /= tackon)  then
 				  if explanation = ""  then
 					 xxx_meaning := head(
-										 "An initial '" & x1(1..sl-1) & "~" & "' may be rendered by " & x1
-                                           , max_meaning_size);
+					   "An initial '" & x1(1..sl-1) & "~" & "' may be rendered by " & x1
+					   , max_meaning_size);
 				  else
 					 xxx_meaning := head(explanation, max_meaning_size);
 				  end if;
 				  put_stat("SLURY   SLUR at "
-							 & head(integer'image(line_number), 8) & head(integer'image(word_number), 4)
-							 & "   " & head(w, 20) & "   "  & pa(pa_save+1).stem);
+					& head(integer'image(line_number), 8) & head(integer'image(word_number), 4)
+					& "   " & head(w, 20) & "   "  & pa(pa_save+1).stem);
 				  return;
 			   else
 				  pa_last := pa_save;
@@ -1659,55 +1758,69 @@ package body tricks_package is
 
 		 flip_flop("abs", "aps");
 		 if pa_last > 0  then
-			return; end if;
-            flip_flop("acq", "adq");
-            if pa_last > 0  then
-               return; end if;
-			   flip_flop("ante",  "anti");
-			   if pa_last > 0  then
-				  return; end if;
-				  flip_flop("auri",  "aure");
-				  if pa_last > 0  then
-					 return; end if;
-					 flip_flop("auri",  "auru");
-					 if pa_last > 0  then
-						return; end if;
-						slur("ad");
-						if pa_last > 0  then
-						   return; end if;
+			return;
+		 end if;
+		 flip_flop("acq", "adq");
+		 if pa_last > 0  then
+			return;
+		 end if;
+		 flip_flop("ante",  "anti");
+		 if pa_last > 0  then
+			return;
+		 end if;
+		 flip_flop("auri",  "aure");
+		 if pa_last > 0  then
+			return;
+		 end if;
+		 flip_flop("auri",  "auru");
+		 if pa_last > 0  then
+			return;
+		 end if;
+		 slur("ad");
+		 if pa_last > 0  then
+			return;
+		 end if;
 
 	  elsif s(s'first) = 'c'  then
 
 		 flip("circum" , "circun");
 		 if pa_last > 0  then
-			return; end if;
-            flip_flop("con", "com");
-            if pa_last > 0  then
-               return; end if;
-			   flip("co" , "com");
-			   if pa_last > 0  then
-				  return; end if;
-				  flip("co" , "con");
-				  if pa_last > 0  then
-					 return; end if;
-					 flip_flop("conl" , "coll");
-					 if pa_last > 0  then
-						return; end if;
+			return;
+		 end if;
+		 flip_flop("con", "com");
+		 if pa_last > 0  then
+			return;
+		 end if;
+		 flip("co" , "com");
+		 if pa_last > 0  then
+			return;
+		 end if;
+		 flip("co" , "con");
+		 if pa_last > 0  then
+			return;
+		 end if;
+		 flip_flop("conl" , "coll");
+		 if pa_last > 0  then
+			return;
+		 end if;
 
 	  elsif s(s'first) = 'i'  then
 
 		 slur("in");
 		 if pa_last > 1 then
-			return; end if;
+			return;
+		 end if;
 
-            flip_flop("inb", "imb");
-            if pa_last > 1 then
-               return; end if;
-			   flip_flop("inp", "imp");
-			   if pa_last > 1 then
-				  return; end if;
+		 flip_flop("inb", "imb");
+		 if pa_last > 1 then
+			return;
+		 end if;
+		 flip_flop("inp", "imp");
+		 if pa_last > 1 then
+			return;
+		 end if;
 
-				  --    -- for some forms of eo the stem "i" grates with an "is..." ending
+		 --    -- for some forms of eo the stem "i" grates with an "is..." ending
 
 
 	  elsif s(s'first) = 'n'  then
@@ -1716,30 +1829,34 @@ package body tricks_package is
 
 		 flip("nun",  "non");
 		 if pa_last > 0  then
-			return; end if;
+			return;
+		 end if;
 
 	  elsif s(s'first) = 'o'  then
 
 		 slur("ob");
 		 if pa_last > 0  then
-			return; end if;
+			return;
+		 end if;
 
 
 	  elsif s(s'first) = 'q'  then
 
 		 flip_flop("quadri",  "quadru");
 		 if pa_last > 0  then
-			return; end if;
+			return;
+		 end if;
 
 	  elsif s(s'first) = 's'  then
 
 		 flip("se",  "ce");     --  Latham
 		 if pa_last > 0  then
-			return; end if;
-			
-			--  From Oxford Latin Dictionary p.1835 "sub-"
+			return;
+		 end if;
+		 
+		 --  From Oxford Latin Dictionary p.1835 "sub-"
 
-            slur("sub");
+		 slur("sub");
 
 	  end if;   --  if on first letter
 
@@ -1749,7 +1866,7 @@ package body tricks_package is
 		 pa(pa_last+1) := null_parse_record;     --  Just to clear the trys
 
 		 text_io.put_line(    --  ERROR_FILE,
-							  "Exception in TRY_SLURY processing " & w);
+		   "Exception in TRY_SLURY processing " & w);
    end try_slury;
 
 end tricks_package;
