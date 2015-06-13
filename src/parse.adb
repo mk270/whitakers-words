@@ -940,36 +940,7 @@ procedure parse(command_line : string := "") is
 		 pa_last := 0;
    end parse_line;
 
-   --procedure CHANGE_LANGUAGE(C : CHARACTER) is
-   --begin
-   --  if UPPER_CASE(C) = 'L'  then
-   --    LANGUAGE := LATIN_TO_ENGLISH;
-   --    PREFACE.PUT_LINE("Language changed to " & LANGUAGE_TYPE'IMAGE(LANGUAGE));
-   --  elsif UPPER_CASE(C) = 'E'  then
-   --    if ENGLISH_DICTIONARY_AVAILABLE(GENERAL)  then
-   --      LANGUAGE:= ENGLISH_TO_LATIN;
-   --      PREFACE.PUT_LINE("Language changed to " & LANGUAGE_TYPE'IMAGE(LANGUAGE));
-   --      PREFACE.PUT_LINE("Input a single English word (+ part of speech - N, ADJ, V, PREP, ...)");
-   --    else
-   --      PREFACE.PUT_LINE("No English dictionary available");
-   --    end if;
-   --  else
-   --    PREFACE.PUT_LINE("Bad LANGAUGE input - no change, remains " & LANGUAGE_TYPE'IMAGE(LANGUAGE));
-   --  end if;
-   --exception
-   --  when others  =>
-   --    PREFACE.PUT_LINE("Bad LANGAUGE input - no change, remains " & LANGUAGE_TYPE'IMAGE(LANGUAGE));
-   --end CHANGE_LANGUAGE;
-   --
-   --
-
 begin              --  PARSE
-				   --  All Rights Reserved   -   William Armstrong Whitaker
-
-   --  INITIALIZE_WORD_PARAMETERS;
-   --  INITIALIZE_DEVELOPER_PARAMETERS;
-   --  INITIALIZE_WORD_PACKAGE;
-   --
    if method = command_line_input  then
 	  if trim(command_line) /= ""  then
 		 parse_line(command_line);

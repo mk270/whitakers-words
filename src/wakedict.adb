@@ -95,46 +95,6 @@ begin
    create(dictfile, out_file, add_file_name_extension(dict_file_name,
 													  dictionary_kind'image(d_k)));
 
-   --      if D_K = GENERAL  then
-   --         PUT_LINE("WAKEDICT reads DICTLINE.d_k and produces DICTFILE.d_k");
-   --         PUT_LINE("WAKEDICT also produces STEMLIST.d_k");
-   --         PUT_LINE("This version inserts ESSE when d_k = GEN");
-   --
-   --         J := J + 1;
-   --
-   --      --  First construct ESSE
-   --         DE.STEMS(1) := "s                 ";
-   --         DE.STEMS(2) := "                  ";
-   --         DE.STEMS(3) := "fu                ";
-   --         DE.STEMS(4) := "fut               ";
-   --      --DE.PART := (PART => V,  CON => (5, 10));
-   --      --DE.PART := (V, ((5, 1)));
-   --         DE.PART := (V, BE_VE);
-   --         DE.KIND := (V, TO_BE);
-   --         DE.TRAN := (X, X, X, A, X);
-   --         DE.MEAN := MEAN_TO_BE;
-   --
-   --
-   --         if not PORTING  then
-   --         --  Load ESSE
-   --            for I in STEM_KEY_TYPE range 1..4  loop
-   --               PUT(STEMLIST, DE.STEMS(I)); PUT(STEMLIST, ' ');
-   --               PUT(STEMLIST, DE.PART); PUT(STEMLIST, ' ');
-   --               SET_COL(STEMLIST, 45);
-   --               PUT(STEMLIST, I, 2); PUT(STEMLIST, ' ');
-   --            --      PUT(STEMLIST, DE.TRAN.AGE); PUT(STEMLIST, ' ');
-   --            --      PUT(STEMLIST, DE.TRAN.AREA); PUT(STEMLIST, ' ');
-   --            --      PUT(STEMLIST, DE.TRAN.GEO); PUT(STEMLIST, ' ');
-   --            --      PUT(STEMLIST, DE.TRAN.FREQ); PUT(STEMLIST, ' ');
-   --            --      PUT(STEMLIST, DE.TRAN.SOURCE); PUT(STEMLIST, ' ');
-   --               SET_COL(STEMLIST, 50);
-   --               INTEGER_IO.PUT(STEMLIST, INTEGER(J), 6); NEW_LINE(STEMLIST);
-   --            end loop;
-   --         end if;
-   --
-   --         WRITE(DICTFILE, DE, J);        --  J = 1
-   --      end if;
-   --
 
    --  Now do the rest
 over_lines:
@@ -148,16 +108,10 @@ over_lines:
 		  begin
 
 			 de.stems(1) := s(start_stem_1..max_stem_size);
-			 --NEW_LINE; PUT(DE.STEMS(1));
 			 de.stems(2) := s(start_stem_2..start_stem_2+max_stem_size-1);
 			 de.stems(3) := s(start_stem_3..start_stem_3+max_stem_size-1);
 			 de.stems(4) := s(start_stem_4..start_stem_4+max_stem_size-1);
-			 --PUT('#'); PUT(INTEGER'IMAGE(L)); PUT(INTEGER'IMAGE(LAST));
-			 --PUT('@');
 			 get(s(start_part..last), de.part, l);
-			 --PUT('%'); PUT(INTEGER'IMAGE(L)); PUT(INTEGER'IMAGE(LAST));
-			 --PUT('&'); PUT(S(L+1..LAST)); PUT('3');
-			 -- GET(S(L+1..LAST), DE.PART.POFS, DE.KIND, L);
 			 get(s(l+1..last), de.tran.age, l);
 			 get(s(l+1..last), de.tran.area, l);
 			 get(s(l+1..last), de.tran.geo, l);
@@ -188,37 +142,8 @@ over_lines:
 				put(stemlist, de.part); put(stemlist, ' ');
 				set_col(stemlist, 45);
 				integer_io.put(stemlist, 0, 2); put(stemlist, ' ');
-				--        PUT(STEMLIST, DE.TRAN.AGE); PUT(STEMLIST, ' ');
-				--        PUT(STEMLIST, DE.TRAN.AREA); PUT(STEMLIST, ' ');
-				--        PUT(STEMLIST, DE.TRAN.GEO); PUT(STEMLIST, ' ');
-				--        PUT(STEMLIST, DE.TRAN.FREQ); PUT(STEMLIST, ' ');
-				--        PUT(STEMLIST, DE.TRAN.SOURCE); PUT(STEMLIST, ' ');
 				set_col(stemlist, 50);
 				integer_io.put(stemlist, integer(j), 6); new_line(stemlist);
-				--        if DE.STEMS(3) /= NULL_STEM_TYPE  and DE.STEMS(3) /= ZZZ_STEM  then
-				--          PUT(STEMLIST, DE.STEMS(3)); PUT(STEMLIST, ' ');
-				--          PUT(STEMLIST, DE.PART); PUT(STEMLIST, ' ');
-				--          SET_COL(STEMLIST, 45);
-				--          INTEGER_IO.PUT(STEMLIST, 3, 2); PUT(STEMLIST, ' ');
-				----          PUT(STEMLIST, DE.TRAN.AGE); PUT(STEMLIST, ' ');
-				----          PUT(STEMLIST, DE.TRAN.AREA); PUT(STEMLIST, ' ');
-				----          PUT(STEMLIST, DE.TRAN.GEO); PUT(STEMLIST, ' ');
-				----          PUT(STEMLIST, DE.TRAN.FREQ); PUT(STEMLIST, ' ');
-				----          PUT(STEMLIST, DE.TRAN.SOURCE); PUT(STEMLIST, ' ');
-				--          INTEGER_IO.PUT(STEMLIST, INTEGER(J), 6); NEW_LINE(STEMLIST);
-				--        end if;
-				--        if DE.STEMS(4) /= NULL_STEM_TYPE  and DE.STEMS(4) /= ZZZ_STEM  then
-				--          PUT(STEMLIST, DE.STEMS(4)); PUT(STEMLIST, ' ');
-				--          PUT(STEMLIST, DE.PART); PUT(STEMLIST, ' ');
-				--          SET_COL(STEMLIST, 45);
-				--          INTEGER_IO.PUT(STEMLIST, 4, 2); PUT(STEMLIST, ' ');
-				--          PUT(STEMLIST, DE.TRAN.AGE); PUT(STEMLIST, ' ');
-				--          PUT(STEMLIST, DE.TRAN.AREA); PUT(STEMLIST, ' ');
-				--        PUT(STEMLIST, DE.TRAN.GEO); PUT(STEMLIST, ' ');
-				--        PUT(STEMLIST, DE.TRAN.FREQ); PUT(STEMLIST, ' ');
-				--        PUT(STEMLIST, DE.TRAN.SOURCE); PUT(STEMLIST, ' ');
-				--          INTEGER_IO.PUT(STEMLIST, INTEGER(J), 6); NEW_LINE(STEMLIST);
-				--        end if;
 			 elsif de.part.pofs = adj  and then
                de.stems(1) = de.stems(2)     and then
                de.stems(1) /= zzz_stem       then
@@ -226,11 +151,6 @@ over_lines:
 				put(stemlist, de.part); put(stemlist, ' ');
 				set_col(stemlist, 45);
 				integer_io.put(stemlist, 0, 2); put(stemlist, ' ');
-				--        PUT(STEMLIST, DE.TRAN.AGE); PUT(STEMLIST, ' ');
-				--        PUT(STEMLIST, DE.TRAN.AREA); PUT(STEMLIST, ' ');
-				--        PUT(STEMLIST, DE.TRAN.GEO); PUT(STEMLIST, ' ');
-				--        PUT(STEMLIST, DE.TRAN.FREQ); PUT(STEMLIST, ' ');
-				--        PUT(STEMLIST, DE.TRAN.SOURCE); PUT(STEMLIST, ' ');
 				set_col(stemlist, 50);
 				integer_io.put(stemlist, integer(j), 6); new_line(stemlist);
 				if de.stems(3) /= null_stem_type  and de.stems(3) /= zzz_stem  then
@@ -238,11 +158,6 @@ over_lines:
 				   put(stemlist, de.part); put(stemlist, ' ');
 				   set_col(stemlist, 45);
 				   integer_io.put(stemlist, 3, 2); put(stemlist, ' ');
-				   --          PUT(STEMLIST, DE.TRAN.AGE); PUT(STEMLIST, ' ');
-				   --          PUT(STEMLIST, DE.TRAN.AREA); PUT(STEMLIST, ' ');
-				   --          PUT(STEMLIST, DE.TRAN.GEO); PUT(STEMLIST, ' ');
-				   --          PUT(STEMLIST, DE.TRAN.FREQ); PUT(STEMLIST, ' ');
-				   --          PUT(STEMLIST, DE.TRAN.SOURCE); PUT(STEMLIST, ' ');
 				   set_col(stemlist, 50);
 				   integer_io.put(stemlist, integer(j), 6); new_line(stemlist);
 				end if;
@@ -251,11 +166,6 @@ over_lines:
 				   put(stemlist, de.part); put(stemlist, ' ');
 				   set_col(stemlist, 45);
 				   integer_io.put(stemlist, 4, 2); put(stemlist, ' ');
-				   --          PUT(STEMLIST, DE.TRAN.AGE); PUT(STEMLIST, ' ');
-				   --          PUT(STEMLIST, DE.TRAN.AREA); PUT(STEMLIST, ' ');
-				   --          PUT(STEMLIST, DE.TRAN.GEO); PUT(STEMLIST, ' ');
-				   --          PUT(STEMLIST, DE.TRAN.FREQ); PUT(STEMLIST, ' ');
-				   --          PUT(STEMLIST, DE.TRAN.SOURCE); PUT(STEMLIST, ' ');
 				   set_col(stemlist, 50);
 				   integer_io.put(stemlist, integer(j), 6); new_line(stemlist);
 				end if;
@@ -266,11 +176,6 @@ over_lines:
 				put(stemlist, de.part); put(stemlist, ' ');
 				set_col(stemlist, 45);
 				integer_io.put(stemlist, 3, 2); put(stemlist, ' ');
-				--        PUT(STEMLIST, DE.TRAN.AGE); PUT(STEMLIST, ' ');
-				--        PUT(STEMLIST, DE.TRAN.AREA); PUT(STEMLIST, ' ');
-				--        PUT(STEMLIST, DE.TRAN.GEO); PUT(STEMLIST, ' ');
-				--        PUT(STEMLIST, DE.TRAN.FREQ); PUT(STEMLIST, ' ');
-				--        PUT(STEMLIST, DE.TRAN.SOURCE); PUT(STEMLIST, ' ');
 				set_col(stemlist, 50);
 				integer_io.put(stemlist, integer(j), 6); new_line(stemlist);
 			 elsif de.part.pofs = adj  and then
@@ -279,11 +184,6 @@ over_lines:
 				put(stemlist, de.part); put(stemlist, ' ');
 				set_col(stemlist, 45);
 				integer_io.put(stemlist, 4, 2); put(stemlist, ' ');
-				--        PUT(STEMLIST, DE.TRAN.AGE); PUT(STEMLIST, ' ');
-				--        PUT(STEMLIST, DE.TRAN.AREA); PUT(STEMLIST, ' ');
-				--        PUT(STEMLIST, DE.TRAN.GEO); PUT(STEMLIST, ' ');
-				--        PUT(STEMLIST, DE.TRAN.FREQ); PUT(STEMLIST, ' ');
-				--        PUT(STEMLIST, DE.TRAN.SOURCE); PUT(STEMLIST, ' ');
 				set_col(stemlist, 50);
 				integer_io.put(stemlist, integer(j), 6); new_line(stemlist);
 			 elsif de.part.pofs = adv  and then
@@ -293,11 +193,6 @@ over_lines:
 				put(stemlist, de.part); put(stemlist, ' ');
 				set_col(stemlist, 45);
 				integer_io.put(stemlist, 2, 2); put(stemlist, ' ');
-				--        PUT(STEMLIST, DE.TRAN.AGE); PUT(STEMLIST, ' ');
-				--        PUT(STEMLIST, DE.TRAN.AREA); PUT(STEMLIST, ' ');
-				--        PUT(STEMLIST, DE.TRAN.GEO); PUT(STEMLIST, ' ');
-				--        PUT(STEMLIST, DE.TRAN.FREQ); PUT(STEMLIST, ' ');
-				--        PUT(STEMLIST, DE.TRAN.SOURCE); PUT(STEMLIST, ' ');
 				set_col(stemlist, 50);
 				integer_io.put(stemlist, integer(j), 6); new_line(stemlist);
 			 elsif de.part.pofs = adv  and then
@@ -306,11 +201,6 @@ over_lines:
 				put(stemlist, de.part); put(stemlist, ' ');
 				set_col(stemlist, 45);
 				integer_io.put(stemlist, 3, 2); put(stemlist, ' ');
-				--        PUT(STEMLIST, DE.TRAN.AGE); PUT(STEMLIST, ' ');
-				--        PUT(STEMLIST, DE.TRAN.AREA); PUT(STEMLIST, ' ');
-				--        PUT(STEMLIST, DE.TRAN.GEO); PUT(STEMLIST, ' ');
-				--        PUT(STEMLIST, DE.TRAN.FREQ); PUT(STEMLIST, ' ');
-				--        PUT(STEMLIST, DE.TRAN.SOURCE); PUT(STEMLIST, ' ');
 				set_col(stemlist, 50);
 				integer_io.put(stemlist, integer(j), 6); new_line(stemlist);
 			 elsif de.part.pofs = v    and then
@@ -320,11 +210,6 @@ over_lines:
 				put(stemlist, de.part); put(stemlist, ' ');
 				set_col(stemlist, 45);
 				integer_io.put(stemlist, 0, 2); put(stemlist, ' ');
-				--        PUT(STEMLIST, DE.TRAN.AGE); PUT(STEMLIST, ' ');
-				--        PUT(STEMLIST, DE.TRAN.AREA); PUT(STEMLIST, ' ');
-				--        PUT(STEMLIST, DE.TRAN.GEO); PUT(STEMLIST, ' ');
-				--        PUT(STEMLIST, DE.TRAN.FREQ); PUT(STEMLIST, ' ');
-				--        PUT(STEMLIST, DE.TRAN.SOURCE); PUT(STEMLIST, ' ');
 				set_col(stemlist, 50);
 				integer_io.put(stemlist, integer(j), 6); new_line(stemlist);
 				if de.stems(3) /= null_stem_type  and de.stems(3) /= zzz_stem  then
@@ -332,11 +217,6 @@ over_lines:
 				   put(stemlist, de.part); put(stemlist, ' ');
 				   set_col(stemlist, 45);
 				   integer_io.put(stemlist, 3, 2); put(stemlist, ' ');
-				   --          PUT(STEMLIST, DE.TRAN.AGE); PUT(STEMLIST, ' ');
-				   --          PUT(STEMLIST, DE.TRAN.AREA); PUT(STEMLIST, ' ');
-				   --          PUT(STEMLIST, DE.TRAN.GEO); PUT(STEMLIST, ' ');
-				   --          PUT(STEMLIST, DE.TRAN.FREQ); PUT(STEMLIST, ' ');
-				   --          PUT(STEMLIST, DE.TRAN.SOURCE); PUT(STEMLIST, ' ');
 				   set_col(stemlist, 50);
 				   integer_io.put(stemlist, integer(j), 6); new_line(stemlist);
 				end if;
@@ -345,11 +225,6 @@ over_lines:
 				   put(stemlist, de.part); put(stemlist, ' ');
 				   set_col(stemlist, 45);
 				   integer_io.put(stemlist, 4, 2); put(stemlist, ' ');
-				   --          PUT(STEMLIST, DE.TRAN.AGE); PUT(STEMLIST, ' ');
-				   --          PUT(STEMLIST, DE.TRAN.AREA); PUT(STEMLIST, ' ');
-				   --          PUT(STEMLIST, DE.TRAN.GEO); PUT(STEMLIST, ' ');
-				   --          PUT(STEMLIST, DE.TRAN.FREQ); PUT(STEMLIST, ' ');
-				   --          PUT(STEMLIST, DE.TRAN.SOURCE); PUT(STEMLIST, ' ');
 				   set_col(stemlist, 50);
 				   integer_io.put(stemlist, integer(j), 6); new_line(stemlist);
 				end if;
@@ -359,11 +234,6 @@ over_lines:
 				put(stemlist, de.part); put(stemlist, ' ');
 				set_col(stemlist, 45);
 				integer_io.put(stemlist, 1, 2); put(stemlist, ' ');
-				--        PUT(STEMLIST, DE.TRAN.AGE); PUT(STEMLIST, ' ');
-				--        PUT(STEMLIST, DE.TRAN.AREA); PUT(STEMLIST, ' ');
-				--        PUT(STEMLIST, DE.TRAN.GEO); PUT(STEMLIST, ' ');
-				--        PUT(STEMLIST, DE.TRAN.FREQ); PUT(STEMLIST, ' ');
-				--        PUT(STEMLIST, DE.TRAN.SOURCE); PUT(STEMLIST, ' ');
 				set_col(stemlist, 50);
 				integer_io.put(stemlist, integer(j), 6); new_line(stemlist);
 			 elsif de.part.pofs = num  and then
@@ -372,11 +242,6 @@ over_lines:
 				put(stemlist, de.part); put(stemlist, ' ');
 				set_col(stemlist, 45);
 				integer_io.put(stemlist, 2, 2); put(stemlist, ' ');
-				--        PUT(STEMLIST, DE.TRAN.AGE); PUT(STEMLIST, ' ');
-				--        PUT(STEMLIST, DE.TRAN.AREA); PUT(STEMLIST, ' ');
-				--        PUT(STEMLIST, DE.TRAN.GEO); PUT(STEMLIST, ' ');
-				--        PUT(STEMLIST, DE.TRAN.FREQ); PUT(STEMLIST, ' ');
-				--        PUT(STEMLIST, DE.TRAN.SOURCE); PUT(STEMLIST, ' ');
 				set_col(stemlist, 50);
 				integer_io.put(stemlist, integer(j), 6); new_line(stemlist);
 			 elsif de.part.pofs = num  and then
@@ -385,11 +250,6 @@ over_lines:
 				put(stemlist, de.part); put(stemlist, ' ');
 				set_col(stemlist, 45);
 				integer_io.put(stemlist, 3, 2); put(stemlist, ' ');
-				--        PUT(STEMLIST, DE.TRAN.AGE); PUT(STEMLIST, ' ');
-				--        PUT(STEMLIST, DE.TRAN.AREA); PUT(STEMLIST, ' ');
-				--        PUT(STEMLIST, DE.TRAN.GEO); PUT(STEMLIST, ' ');
-				--        PUT(STEMLIST, DE.TRAN.FREQ); PUT(STEMLIST, ' ');
-				--        PUT(STEMLIST, DE.TRAN.SOURCE); PUT(STEMLIST, ' ');
 				set_col(stemlist, 50);
 				integer_io.put(stemlist, integer(j), 6); new_line(stemlist);
 			 elsif de.part.pofs = num  and then
@@ -398,11 +258,6 @@ over_lines:
 				put(stemlist, de.part); put(stemlist, ' ');
 				set_col(stemlist, 45);
 				integer_io.put(stemlist, 4, 2); put(stemlist, ' ');
-				--        PUT(STEMLIST, DE.TRAN.AGE); PUT(STEMLIST, ' ');
-				--        PUT(STEMLIST, DE.TRAN.AREA); PUT(STEMLIST, ' ');
-				--        PUT(STEMLIST, DE.TRAN.GEO); PUT(STEMLIST, ' ');
-				--        PUT(STEMLIST, DE.TRAN.FREQ); PUT(STEMLIST, ' ');
-				--        PUT(STEMLIST, DE.TRAN.SOURCE); PUT(STEMLIST, ' ');
 				set_col(stemlist, 50);
 				integer_io.put(stemlist, integer(j), 6); new_line(stemlist);
 			 else
@@ -413,11 +268,6 @@ over_lines:
 					  put(stemlist, de.part); put(stemlist, ' ');
 					  set_col(stemlist, 45);
 					  put(stemlist, i, 2); put(stemlist, ' ');
-					  --            PUT(STEMLIST, DE.TRAN.AGE); PUT(STEMLIST, ' ');
-					  --            PUT(STEMLIST, DE.TRAN.AREA); PUT(STEMLIST, ' ');
-					  --            PUT(STEMLIST, DE.TRAN.GEO); PUT(STEMLIST, ' ');
-					  --            PUT(STEMLIST, DE.TRAN.FREQ); PUT(STEMLIST, ' ');
-					  --            PUT(STEMLIST, DE.TRAN.SOURCE); PUT(STEMLIST, ' ');
 					  set_col(stemlist, 50);
 					  integer_io.put(stemlist, integer(j), 6); new_line(stemlist);
 				   end if;
@@ -450,11 +300,6 @@ over_lines:
 			 put(stemlist, de.part); put(stemlist, ' ');
 			 set_col(stemlist, 45);
 			 put(stemlist, i, 2); put(stemlist, ' ');
-			 --      PUT(STEMLIST, DE.TRAN.AGE); PUT(STEMLIST, ' ');
-			 --      PUT(STEMLIST, DE.TRAN.AREA); PUT(STEMLIST, ' ');
-			 --      PUT(STEMLIST, DE.TRAN.GEO); PUT(STEMLIST, ' ');
-			 --      PUT(STEMLIST, DE.TRAN.FREQ); PUT(STEMLIST, ' ');
-			 --      PUT(STEMLIST, DE.TRAN.SOURCE); PUT(STEMLIST, ' ');
 			 set_col(stemlist, 50);
 			 integer_io.put(stemlist, integer(j), 6); new_line(stemlist);
 		  end loop;

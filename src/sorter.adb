@@ -99,19 +99,6 @@ procedure sorter is
    no_appendix_section : constant appendix_section_type :=
 	 (none, (0, 0, 0, 0, 0));
 
-   --  procedure PUT(OUTPUT : TEXT_IO.FILE_TYPE; S : SECTION_TYPE);
-   --  procedure PUT(S : SECTION_TYPE);
-   --  procedure GET(FROM : in STRING;
-   --                   S : out SECTION_TYPE; LAST : out POSITIVE);
-   --  function "<"(A, B : SECTION_TYPE) return BOOLEAN;
-   --
-   --  procedure PUT(OUTPUT : TEXT_IO.FILE_TYPE; S : APPENDIX_SECTION_TYPE);
-   --  procedure PUT(S : APPENDIX_SECTION_TYPE);
-   --  procedure GET(FROM : in STRING;
-   --                   S : out APPENDIX_SECTION_TYPE; LAST : out POSITIVE);
-   --  function "<"(A, B : APPENDIX_SECTION_TYPE) return BOOLEAN;
-   --
-
    procedure put(output : text_io.file_type; s : section_type) is
 	  level : integer := 0;
 
@@ -374,35 +361,6 @@ procedure sorter is
 			s.appendix := none;
 			l := ft - 2;
 	  end;
-
-      --    PUT("B");
-      --    GET(FROM(L+2..LT), S.SECTION.FIRST_LEVEL, L);
-      --    if L+1 >= LT  then
-      --      LAST := L;
-      --      return;
-      --    end if;
-      --PUT("C");
-      --    GET(FROM(L+2..LT), S.SECTION.SECOND_LEVEL, L);
-      --    if L+1 >= LT  then
-      --      LAST := L;
-      --      return;
-      --    end if;
-      --PUT("D");
-      --    GET(FROM(L+2..LT), S.SECTION.THIRD_LEVEL, L);
-      --    if L+1 >= LT  then
-      --      LAST := L;
-      --      return;
-      --    end if;
-      --PUT("E");
-      --    GET(FROM(L+2..LT), S.SECTION.FOURTH_LEVEL, L);
-      --    if L+1 >= LT  then
-      --      LAST := L;
-      --      return;
-      --    end if;
-      --PUT("F");
-      --    GET(FROM(L+2..LT), S.SECTION.FIFTH_LEVEL, L);
-      --    LAST := L;
-      --PUT("G");
 
 	  get(from(l+2..lt), s.section, l);
       --PUT("F");

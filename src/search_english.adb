@@ -43,14 +43,9 @@ procedure search_english(input_english_word : string; pofs : part_of_speech_type
 
    procedure load_output_array(ewds : in ewds_record) is
    begin
-	  --PUT("LOAD a  " & PART_OF_SPEECH_TYPE'IMAGE(INPUT_POFS));
-	  --PUT("LOAD b  " & PART_OF_SPEECH_TYPE'IMAGE(INPUT_POFS));
 	  if ewds.pofs <= input_pofs  then
          number_of_hits := number_of_hits + 1;
          output_array(number_of_hits) := ewds;
-		 --  PUT("$  " & INTEGER'IMAGE(NUMBER_OF_HITS));
-		 --         EWDS_RECORD_IO.PUT(OUTPUT_ARRAY(NUMBER_OF_HITS));
-		 --         TEXT_IO.NEW_LINE;
 	  end if;
    end load_output_array;
 
@@ -94,10 +89,6 @@ procedure search_english(input_english_word : string; pofs : part_of_speech_type
 
    end sort_output_array;
 
-   --     begin
-   --       SORT_OUTPUT_ARRAY;
-   --      end TRIM_OUTPUT_ARRAY;
-
    procedure dump_output_array(output : in text_io.file_type) is
 	  de : dictionary_entry := null_dictionary_entry;
 	  number_to_show : integer := number_of_hits;
@@ -107,10 +98,6 @@ procedure search_english(input_english_word : string; pofs : part_of_speech_type
       if number_of_hits = 0  then
          text_io.put_line(output, "No Match");
 	  else
-		 --PUT_LINE("Unsorted EWDS");
-		 --for I in 1..NUMBER_TO_SHOW  loop
-		 --  PUT(INTEGER'IMAGE(I)); PUT("*"); EWDS_RECORD_IO.PUT(OUTPUT_ARRAY(I)); NEW_LINE;
-		 --end loop;
 
 		 sort_output_array;
 
@@ -131,9 +118,6 @@ procedure search_english(input_english_word : string; pofs : part_of_speech_type
 
 		do_pause:
 			begin
-			   --PUT(INTEGER'IMAGE(INTEGER(TEXT_IO.LINE(OUTPUT))) & " ");
-			   --PUT(INTEGER'IMAGE(INTEGER(SCROLL_LINE_NUMBER)) & " ");
-			   --PUT(INTEGER'IMAGE(INTEGER(CONFIG.OUTPUT_SCREEN_SIZE)) & " ");
 			   if (integer(text_io.line(output)) >
 					 scroll_line_number + config.output_screen_size)  then
 				  pause(output);
@@ -141,17 +125,10 @@ procedure search_english(input_english_word : string; pofs : part_of_speech_type
 			   end if;
 			end do_pause;
 
-			--         EWDS_RECORD_IO.PUT(OUTPUT_ARRAY(I));
-			--         TEXT_IO.NEW_LINE;
 			dict_io.read(dict_file(general), de, dict_io.count(output_array(i).n));
-
-			--TEXT_IO.PUT_LINE("DUMP_OUTPUT READ");
-			--  DICTIONARY_ENTRY_IO.PUT(DE); TEXT_IO.NEW_LINE;
-
             put(output, dictionary_form(de));
             text_io.put(output, "   ");
-            --PART_ENTRY_IO.PUT(OUTPUT, DE.PART);
-			--TEXT_IO.PUT_LINE("DUMP_OUTPUT PART");
+
             if de.part.pofs = n  then
                text_io.put(output, "  ");  decn_record_io.put(output, de.part.n.decl);
                text_io.put(output, "  " & gender_type'image(de.part.n.gender) & "  ");
@@ -162,8 +139,6 @@ procedure search_english(input_english_word : string; pofs : part_of_speech_type
 			if (de.part.pofs = v)  and then  (de.part.v.kind in gen..perfdef)  then
                text_io.put(output, "  " & verb_kind_type'image(de.part.v.kind) & "  ");
 			end if;
-
-			--TEXT_IO.PUT_LINE("DUMP_OUTPUT CODE");
 
 			if words_mdev(show_dictionary_codes)    then
 			   text_io.put(output, " [");
@@ -223,15 +198,12 @@ binary_search:
 
 	   if (j1 = j2-1) or (j1 = j2) then
 		  if first_try  then
-			 --   TEXT_IO.PUT_LINE("FIRST_TRY");
 			 j := j1;
 			 first_try := false;
 		  elsif second_try  then
-			 --   TEXT_IO.PUT_LINE("SECOND_TRY");
 			 j := j2;
 			 second_try := false;
 		  else
-			 --   TEXT_IO.PUT_LINE("THIRD_TRY   exit BINARY_SEARCH");
 			 jj := j;
 			 exit binary_search;
 		  end if;
@@ -240,14 +212,6 @@ binary_search:
 	   --  Should D_K
 	   set_index(ewds_file, ewds_direct_io.count(j));
 	   read(ewds_file, ewds);
-	   --   EWDS_RECORD_IO.PUT(EWDS);
-	   --   TEXT_IO.NEW_LINE;
-	   --   PUT_LINE(LOWER_CASE(EWDS.W));
-	   --   PUT_LINE(INPUT_WORD);
-	   --   TEXT_IO.PUT_LINE("J = " & INTEGER'IMAGE(INTEGER(J)) &
-	   --                  "   J1 = " & INTEGER'IMAGE(INTEGER(J1)) &
-	   --                 "   J2 = " & INTEGER'IMAGE(INTEGER(J2)));
-	   --
 	   if  "<"(lower_case(ewds.w), input_word)  then  --  Not LTU, not u=v
 		  j1 := j;
 		  j := (j1 + j2) / 2;
@@ -261,7 +225,6 @@ binary_search:
 
 			 if "="(lower_case(ewds.w), input_word)  then
 				jj := i;
-				--      PUT(INTEGER'IMAGE(INTEGER(I))); PUT("-"); EWDS_RECORD_IO.PUT(EWDS); NEW_LINE;
 				load_output_array(ewds);
 
 			 else
@@ -275,8 +238,6 @@ binary_search:
 
 			 if "="(lower_case(ewds.w), input_word)  then
 				jj := i;
-
-				--        PUT(INTEGER'IMAGE(INTEGER(I))); PUT("+"); EWDS_RECORD_IO.PUT(EWDS);  NEW_LINE;
 				load_output_array(ewds);
 
 			 else
@@ -293,11 +254,6 @@ binary_search:
 	else
 	   dump_output_array(current_output);
 	end if;
-
-	-- DUMP_OUTPUT_ARRAY(;
-
-	--      TEXT_IO.PUT_LINE("Leaving SEARCH NUMBER_OF_HITS = " &
-	--        INTEGER'IMAGE(NUMBER_OF_HITS));
 exception
    when others  =>
       text_io.put_line("exception SEARCH NUMBER_OF_HITS = " &

@@ -267,10 +267,6 @@ procedure put_example_line(output : text_io.file_type; ir : in inflection_record
 
 begin    --  PUT_EXAMPLE_LINE
 
-   --TEXT_IO.PUT("In EXAMPLES  ");
-   --TEXT_IO.PUT("  LKM  "); BOOLEAN_IO.PUT(WORDS_MDEV(LOCK_MEANINGS));
-   --TEXT_IO.PUT("   /LKM  "); BOOLEAN_IO.PUT((not WORDS_MDEV(LOCK_MEANINGS))  );
-
    if words_mode(do_examples)  and then (not (configuration = only_meanings))   then
 
 	  case ir.qual.pofs is

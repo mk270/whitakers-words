@@ -31,37 +31,6 @@ procedure weed(w : in out string;
    kill : boolean := false;
 begin
 
-   --PUT_LINE("WEED    "  & W & '|');
-
-   --      if   --  WORDS words
-   --        W = "ACC"  or
-   --        W = "ABL"  or
-   --        W = "AD"  or
-   --        W = "BC"  or
-   --        W = "DAT"  or
-   --        W = "DEMONST"  or
-   --        W = "INDEF"  or
-   --        W = "INF"  or
-   --        W = "KLUDGE"  or
-   --        W = "NE"  or
-   --        W = "NW"  or
-   --        W = "NT"  or
-   --        W = "OT"  or
-   --        W = "PASS"  or
-   --        W = "SE"  or
-   --        W = "SW"  or
-   --        W = "St"
-   --
-   --                       then
-   --
-   --        KILL := TRUE;
-   --      end if;
-
-   --           --  Articles
-   --           W = "a"    or
-   --           W = "an"   or
-   --           W = "the"  or
-
    --  Conjunctions
    if (pofs /= conj) and then
 	 (w = "and"   or
@@ -404,20 +373,6 @@ begin
 
    if
 
-	 --  Numbers
-	 --           W = "half"   or
-	 --           W = "one"   or
-	 --           W = "first"   or
-	 --           W = "two"   or
-	 --           W = "second"   or
-	 --           W = "double"   or
-	 --           W = "three"   or
-	 --           W = "third"   or
-	 --           W = "four"   or
-	 --           W = "seven"   or
-	 --           W = "ten"   or
-	 --           W = "times"   or
-
 	 --  Compounding verbs
 	 w = "have"  or
 	 w = "has"   or
@@ -442,28 +397,10 @@ begin
 
    end if;
 
-   --          if
-   --           --  Abbreviations
-   --           W = "abb"
-   --                             then
-   --             KILL := TRUE;
-   --
-   --          end if;
-   --
-   --
-   --        -  Kill abbreviations
-   --        if W(W'LAST) = '.'  then
-   --          KILL := TRUE;
-   --        end if;
-   --
-   --
-
    if kill then
 	  for i in w'range  loop
 		 w(i) := '\';
 	  end loop;
    end if;
-
-   --PUT_LINE("WEEDed  "  & W & '|' & BOOLEAN'IMAGE(KILL));
 
 end weed;
