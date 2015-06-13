@@ -23,12 +23,12 @@ package body word_package is
 			if text_io.name(output) =
 			  text_io.name(text_io.standard_output)  then
 			   text_io.put_line(text_io.standard_output,
-								"                          MORE - hit RETURN/ENTER to continue");
+				 "                          MORE - hit RETURN/ENTER to continue");
 			   text_io.get_line(text_io.standard_input, pause_line, pause_last);
 			end if;
 		 elsif method = command_line_input  then
 			text_io.put_line(text_io.standard_output,
-							 "                          MORE - hit RETURN/ENTER to continue");
+			  "                          MORE - hit RETURN/ENTER to continue");
 			text_io.get_line(text_io.standard_input, pause_line, pause_last);
 		 elsif method = command_line_files  then
 			null;                       --  Do not PAUSE
