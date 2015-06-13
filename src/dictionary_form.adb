@@ -10,7 +10,7 @@ function dictionary_form(de : dictionary_entry) return string is
 
    fst: array (which_type range 1..5) of string(1..3) :=
 	 ("1st", "2nd", "3rd", "4th", "5th");
-   
+
    not_found : exception;
 
    function add(stem, infl : string) return string is
@@ -34,26 +34,25 @@ begin
    if de = null_dictionary_entry  then
 	  return "";
    end if;
-   
+
    if (de.part.pofs = prep)   then
-	  return trim(de.stems(1)) & "  " & part_of_speech_type'image(de.part.pofs) & 
+	  return trim(de.stems(1)) & "  " & part_of_speech_type'image(de.part.pofs) &
 		"  " & case_type'image(de.part.prep.obj);
    end if;
 
-   if de.stems(2) = null_stem_type  and 
+   if de.stems(2) = null_stem_type  and
 	 de.stems(3) = null_stem_type  and
 	 de.stems(4) = null_stem_type       and not
 	 (((de.part.pofs = n)  and then (de.part.n.decl.which = 9))  or
-	 ((de.part.pofs = adj)  and then 
+	 ((de.part.pofs = adj)  and then
 	 ((de.part.adj.decl.which = 9) or
-	 (de.part.adj.co = comp or de.part.adj.co = super))   ) or  
-	 ((de.part.pofs = v)  and then (de.part.v.con = (9, 8))) or  
-	 ((de.part.pofs = v)  and then (de.part.v.con = (9, 9))))  
+	 (de.part.adj.co = comp or de.part.adj.co = super))   ) or
+	 ((de.part.pofs = v)  and then (de.part.v.con = (9, 8))) or
+	 ((de.part.pofs = v)  and then (de.part.v.con = (9, 9))))
    then
-	  return trim(de.stems(1)) & "  " & part_of_speech_type'image(de.part.pofs);  
+	  return trim(de.stems(1)) & "  " & part_of_speech_type'image(de.part.pofs);
 	  --  For UNIQUES, CONJ, INTERJ, ...
    end if;
-   
 
    if de.part.pofs = n    then
 	  if de.part.n.decl.which = 1  then
@@ -145,7 +144,7 @@ begin
    elsif de.part.pofs = pron    then
 	  if de.part.pron.decl.which = 1  then
 		 raise not_found;
-		 
+
 	  elsif de.part.pron.decl.which = 3  then
 		 ox(1) := add(de.stems(1), "ic");
 		 ox(2) := add(de.stems(1), "aec");
@@ -165,7 +164,6 @@ begin
 			ox(2) := add(de.stems(2), "adem");
 			ox(3) := add(de.stems(1), "dem");
 		 end if;
-
 
 	  elsif de.part.pron.decl.which = 6  then
 		 ox(1) := add(de.stems(1), "e");
@@ -188,16 +186,16 @@ begin
 		 raise not_found;
 	  end if;      --  PRON
 
-   elsif de.part.pofs = adj  then  
-	  
-	  --TEXT_IO.NEW_LINE;  
+   elsif de.part.pofs = adj  then
+
+	  --TEXT_IO.NEW_LINE;
 	  --DICTIONARY_ENTRY_IO.PUT(DE);
 	  --TEXT_IO.NEW_LINE;
-	  
-	  if de.part.adj.co = comp  then       
-		 ox(1) := add(de.stems(1), "or");   
-		 ox(2) := add(de.stems(1), "or");   
-		 ox(3) := add(de.stems(1), "us");  
+
+	  if de.part.adj.co = comp  then
+		 ox(1) := add(de.stems(1), "or");
+		 ox(2) := add(de.stems(1), "or");
+		 ox(3) := add(de.stems(1), "us");
 	  elsif de.part.adj.co = super  then
 		 ox(1) := add(de.stems(1), "mus");
 		 ox(2) := add(de.stems(1), "ma");
@@ -283,10 +281,9 @@ begin
 			ox(1) := add(de.stems(1), "");
 			ox(2) := add(null_ox, "undeclined");
 
-
 		 else
 			raise not_found;
-		 end if;      
+		 end if;
 
 	  elsif de.part.adj.co = x    then
 		 if de.part.adj.decl.which = 1  then
@@ -334,15 +331,13 @@ begin
 		 raise not_found;
 	  end if;
 
-
    elsif (de.part.pofs = adv) and then (de.part.adv.co = x)  then
 	  ox(1) := add(de.stems(1), "");
 	  ox(2) := add(de.stems(2), "");
 	  ox(3) := add(de.stems(3), "");
 
-
    elsif de.part.pofs = v    then
-	  
+
 	  if de.part.v.kind = dep  then    --  all DEP
 		 ox(3) := add(null_ox, "DEP");  --  Flag for later use
 		 ox(4) := add(de.stems(4), "us sum");
@@ -366,15 +361,13 @@ begin
 		 else
 			raise not_found;
 		 end if;                      --  all DEP handled
-		 
-		 
+
 	  elsif de.part.v.kind = perfdef  then   --  all PERFDEF handled
 		 ox(1) := add(de.stems(3), "i");
 		 ox(2) := add(de.stems(3), "isse");
 		 ox(3) := add(de.stems(4), "us");
 		 ox(4) := null_ox;  --  Flag for later use
-		 
-		 
+
 	  elsif de.part.v.kind = impers  and then
 		((de.stems(1)(1..3) = "zzz")  and   -- Recognize as PERFDEF IMPERS
 		(de.stems(2)(1..3) = "zzz"))  then
@@ -382,11 +375,9 @@ begin
 		 ox(2) := add(de.stems(3), "isse");
 		 ox(3) := add(de.stems(4), "us est");
 		 --          OX(4) := ADD(NULL_OX, "PERFDEF");
-		 
 
-	  else                            --  Not DEP/PERFDEF/IMPERS  
-		 
-		 
+	  else                            --  Not DEP/PERFDEF/IMPERS
+
 		 if de.part.v.kind = impers  then
 			if de.part.v.con.which = 1  then
 			   ox(1) := add(de.stems(1), "at");
@@ -412,11 +403,11 @@ begin
                   ox(1) := add(de.stems(1), "t");
 			   end if;
 			end if;
-			
+
 		 else
-            
+
             --  OX 1
-            if de.part.v.con.which = 2  then  
+            if de.part.v.con.which = 2  then
 			   ox(1) := add(de.stems(1), "eo");
 
             elsif de.part.v.con.which = 5  then
@@ -426,7 +417,7 @@ begin
             else
 			   ox(1) := add(de.stems(1), "o");
             end if;                      --  /= IMPERS handled
-										 --end if;      
+										 --end if;
 										 --  OX(1) handled
 		 end if;
 
@@ -484,7 +475,6 @@ begin
 
 		 end if;                        --  OX(2) handled
 
-
 		 --  OX 3 & 4
 		 if de.part.v.kind = impers  then
 			if (ox(3)(1..7) /= "PERFDEF")  then
@@ -506,14 +496,12 @@ begin
 			ox(3) := add(de.stems(3), "i");
 			ox(4) := add(de.stems(4), "us");
 		 end if;                         --  OX(3 & 4) handled
-		 
+
 	  end if;                 --  On V KIND
 
 	  if de.part.v.con = (6, 1)  then      --  Finalization correction
 		 ox(3) := add(ox(3), " (ii)");
 	  end if;
-	  
-	  
 
    elsif (de.part.pofs = num) and then (de.part.num.sort = x)  then
 	  if de.part.num.decl.which = 1  then
@@ -584,12 +572,10 @@ begin
 
    else
 	  ox(1) := add(de.stems(1), "");
-   end if;     -- On PART   
+   end if;     -- On PART
 
+   --TEXT_IO.PUT_LINE(OX(1) & "+" & OX(2) & "+" & OX(3) & "+" & OX(4));
 
-   
-   --TEXT_IO.PUT_LINE(OX(1) & "+" & OX(2) & "+" & OX(3) & "+" & OX(4));                
-   
    --  Now clean up and output
    --  Several flags have been set which modify OX's
    if ox(1)(1..3) = "zzz"  then
@@ -621,23 +607,21 @@ begin
 	  add_up(", " & trim(ox(4)));
    end if;
 
-   
    add_to("  " & part_of_speech_type'image(de.part.pofs)& "  ");
 
    if de.part.pofs = n  then
-	  
+
 	  --  For DICTPAGE
 	  if de.part.n.decl.which in 1..5 and
 		de.part.n.decl.var  in 1..5 then
 		 add_to(" (" & fst(de.part.n.decl.which) & ")");
-	  end if;         
-	  
+	  end if;
+
 	  add_to(" " & gender_type'image(de.part.n.gender) & "  ");
    end if;
-   
-   
-   if (de.part.pofs = v)  then 
-	  
+
+   if (de.part.pofs = v)  then
+
 	  --  For DICTPAGE
 	  if de.part.v.con.which in 1..3 then
 		 if de.part.v.con.var = 1 then
@@ -645,19 +629,18 @@ begin
 		 elsif  de.part.v.con = (3, 4)  then
 			add_to(" (" & fst(4) & ")");
 		 end if;
-	  end if;         
-	  
+	  end if;
+
 	  if  (de.part.v.kind in gen..perfdef)  then
 		 add_to(" " & verb_kind_type'image(de.part.v.kind) & "  ");
 	  end if;
-	  
+
    end if;
 
    --TEXT_IO.PUT_LINE(">>>>" & TRIM(FORM));
 
    return trim(form);
 
-   
 exception
    when not_found  =>
 	  return "";

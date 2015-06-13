@@ -10,18 +10,17 @@ package body word_parameters is
    blank_help_line : constant string(1..70) := (others => ' ');
    no_help : constant help_type := (2..1 => blank_help_line);
 
-
    type reply_type is (n, y);
    package reply_type_io is new text_io.enumeration_io(reply_type);
    reply : array (boolean) of reply_type := (n, y);
    mode_of_reply : array (reply_type) of boolean := (false, true);
 
    blank_input : exception;
-   
+
    --  The default modes are set in the body so that they can be changed
    --  with only this being recompiled, not the rest of the with'ing system
    default_mode_array : constant mode_array := (
-												trim_output                 => true,      
+												trim_output                 => true,
 
 												have_output_file            => false,
 												write_output_to_file        => false,
@@ -45,7 +44,6 @@ package body word_parameters is
 
    bad_mode_file : exception;
 
-
    trim_output_help : constant help_type :=  (
 											  "This option instructs the program to remove from the output list of   ",
 											  "possible constructs those which are least likely.  There is now a fair",
@@ -61,7 +59,6 @@ package body word_parameters is
 											  "When in English mode, trim just reduces the output to the top six     ",
 											  "results, if there are that many.  Asterix means there are more        ",
 											  "                                                The default is Y(es)  " );
-
 
    have_output_file_help : constant help_type :=  (
 												   "This option instructs the program to create a file which can hold the ",
@@ -98,7 +95,7 @@ package body word_parameters is
 												   "text with the unknown words, by line.  This functions as a spelling   ",
 												   "checker for Latin texts.  The default is N(o).                        ",
 												   "This does not work in English mode, but may in the future.            " );
-   
+
    write_unknowns_to_file_help : constant help_type :=  (
 														 "This option instructs the program to write all unresolved words to a  ",
 														 "UNKNOWNS file named " & unknowns_full_name
@@ -214,7 +211,6 @@ package body word_parameters is
 													   "from full translations, therefore the default choice is N(o).         ",
 													   "This processing can be turned on with the choice of Y(es).            " );
 
-
    save_parameters_help : constant help_type :=  (
 												  "This option instructs the program, to save the current parameters, as ",
 												  "just established by the user, in a file WORD.MOD.  If such a file     ",
@@ -289,7 +285,7 @@ package body word_parameters is
 	  if ll /= 0  then
 		 if trim(l1(1..ll)) = ""  then
 			put_line("Blank input, skipping the rest of CHANGE_PARAMETERS");
-			raise blank_input;                 
+			raise blank_input;
 		 elsif l1(1) = '?'  then
 			put(help);
 			inquire(mo, help);
@@ -301,7 +297,6 @@ package body word_parameters is
 	  new_line;
    end inquire;
 
-
    procedure change_parameters is
 	  l1 : string(1..100) := (others => ' ');
 	  ll : natural;
@@ -309,13 +304,12 @@ package body word_parameters is
 
    begin
 
-	  
 	  put_line("To set/change parameters reply Y/y or N/n.  Return accepts current value.");
 	  put_line("A '?' reply gives infomation/help on that parameter.  A space skips the rest.");
 	  new_line;
-	  
+
 	  --  Interactive mode - lets you do things on unknown words
-	  
+
 	  --  You can say it is a noun and then look at the endings
 	  --  Or look all the endings and guess what part of speech
 
@@ -344,9 +338,7 @@ package body word_parameters is
 
 	  inquire(trim_output, trim_output_help);
 
-
 	  inquire(have_output_file, have_output_file_help);
-
 
 	  if is_open(output)  and then not words_mode(have_output_file)  then
 		 close(output);
@@ -379,7 +371,6 @@ package body word_parameters is
 		 end;
       end if;
 
-
 	  inquire(ignore_unknown_names, ignore_unknown_names_help);
 
 	  inquire(ignore_unknown_caps, ignore_unknown_caps_help);
@@ -390,20 +381,17 @@ package body word_parameters is
 
 	  inquire(do_tricks, do_tricks_help);
 
-
 	  inquire(do_dictionary_forms, do_dictionary_forms_help);
 
 	  inquire(show_age, show_age_help);
 
 	  inquire(show_frequency, show_frequency_help);
 
-
 	  inquire(do_examples, do_examples_help);
 
 	  inquire(do_only_meanings, do_only_meanings_help);
 
 	  inquire(do_stems_for_unknown, do_stems_for_unknown_help);
-
 
 	  put("Do you wish to save this set of parameters? Y or N (Default) ");
 	  put(" =>");
@@ -431,8 +419,6 @@ package body word_parameters is
 
    end change_parameters;
 
-   
-   
    procedure initialize_word_parameters is
    begin
 	  words_mode := default_mode_array;
@@ -472,6 +458,5 @@ package body word_parameters is
 		 preface.put_line("WORD.UNK Created at Initialization");
 	  end if;
    end initialize_word_parameters;
-
 
 end word_parameters;

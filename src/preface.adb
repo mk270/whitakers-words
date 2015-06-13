@@ -13,7 +13,7 @@ package body preface is
 	  if not config.suppress_preface  then
 		 text_io.set_col(text_io.current_output, pc);
 	  end if;
-   end set_col; 
+   end set_col;
 
    procedure put_line(s : string) is
    begin
@@ -36,6 +36,5 @@ package body preface is
 		 integer_io.put(text_io.current_output, n, width);
 	  end if;
    end put;
-
 
 end preface;

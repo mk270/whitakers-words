@@ -6,7 +6,3 @@ begin
 	  text_io.put_line(stats, s);
    end if;
 end put_stat;
-
-
-
-

@@ -4,7 +4,6 @@ with config;
 with preface;
 package body word_support_package is
 
-
    function len(s : string) return integer is
    begin
       return trim(s)'length;
@@ -52,7 +51,6 @@ package body word_support_package is
       end case;
    end num_sort_from_key;
 
-
    function first_index(input_word : string;
 						d_k : dictionary_file_kind := default_dictionary_file_kind)
                        return stem_io.count is
@@ -81,35 +79,34 @@ package body word_support_package is
 	  end if;
    end  last_index;
 
-   --procedure PUT_INDICES(CH : STRING; 
+   --procedure PUT_INDICES(CH : STRING;
    --                        D_K : DICTIONARY_KIND) is
    --    WD : STRING(1..2) := CH(1..2);
    --  begin
    --    if CH = "  "  then
    --      if BBLL(CH(1), CH(2), D_K) >= BBLF(CH(1), CH(2), D_K)  then
-   --        PUT("CH = ("); PUT(CH); PUT(") index is of range  "); 
-   --        PUT(BBLF(CH(1), CH(2), D_K)); PUT(".."); PUT(BBLL(CH(1), CH(2), D_K)); 
+   --        PUT("CH = ("); PUT(CH); PUT(") index is of range  ");
+   --        PUT(BBLF(CH(1), CH(2), D_K)); PUT(".."); PUT(BBLL(CH(1), CH(2), D_K));
    --        PUT("    number ");
    --        PUT(BBLL(CH(1), CH(2), D_K) - BBLF(CH(1), CH(2), D_K) + 1);
    --      end if;
    --    elsif CH(2) = ' '  then
    --      if BDLL(CH(1), CH(2), D_K) >= BDLF(CH(1), CH(2), D_K)  then
-   --        PUT("CH = ("); PUT(CH); PUT(") index is of range  "); 
-   --        PUT(BDLF(CH(1), CH(2), D_K)); PUT(".."); PUT(BDLL(CH(1), CH(2), D_K)); 
+   --        PUT("CH = ("); PUT(CH); PUT(") index is of range  ");
+   --        PUT(BDLF(CH(1), CH(2), D_K)); PUT(".."); PUT(BDLL(CH(1), CH(2), D_K));
    --        PUT("    number ");
    --        PUT(BDLL(CH(1), CH(2), D_K) - BDLF(CH(1), CH(2), D_K) + 1);
    --      end if;
    --    else
    --      if LAST_INDEX(WD, D_K) >= FIRST_INDEX(WD, D_K)  then
-   --        PUT("CH = ("); PUT(WD); PUT(") index is of range  "); 
-   --        PUT(FIRST_INDEX(WD, D_K)); PUT(".."); PUT(LAST_INDEX(WD, D_K)); 
+   --        PUT("CH = ("); PUT(WD); PUT(") index is of range  ");
+   --        PUT(FIRST_INDEX(WD, D_K)); PUT(".."); PUT(LAST_INDEX(WD, D_K));
    --        PUT("    number ");
    --        PUT(LAST_INDEX(WD, D_K) - FIRST_INDEX(WD, D_K) + 1);
    --      end if;
    --    end if;
    --    NEW_LINE;
    --  end PUT_INDICES;
-
 
    procedure load_bdl_from_disk is
 	  use stem_io;
@@ -127,8 +124,8 @@ package body word_support_package is
 			d_k : dictionary_kind := general;
 		 begin
 			if not is_open(stem_file(d_k))  then
-			   --TEXT_IO.PUT_LINE("LOADING_BDL is going to OPEN " &  
-			   --ADD_FILE_NAME_EXTENSION(STEM_FILE_NAME, 
+			   --TEXT_IO.PUT_LINE("LOADING_BDL is going to OPEN " &
+			   --ADD_FILE_NAME_EXTENSION(STEM_FILE_NAME,
 			   --DICTIONARY_KIND'IMAGE(D_K)));
 			   open(stem_file(d_k), stem_io.in_file,
 					add_file_name_extension(stem_file_name,
@@ -167,8 +164,8 @@ package body word_support_package is
 			exit when d_k = local;
 			--TEXT_IO.PUT_LINE("OPENING BDL STEMFILE " & EXT(D_K));
 			if not is_open(stem_file(d_k))  then
-			   --PUT_LINE("LOADING_BDL is going to OPEN " &  
-			   --ADD_FILE_NAME_EXTENSION(STEM_FILE_NAME, 
+			   --PUT_LINE("LOADING_BDL is going to OPEN " &
+			   --ADD_FILE_NAME_EXTENSION(STEM_FILE_NAME,
 			   --DICTIONARY_KIND'IMAGE(D_K)));
 			   open(stem_file(d_k), stem_io.in_file,
 					add_file_name_extension(stem_file_name,
@@ -200,9 +197,6 @@ package body word_support_package is
 	  --TEXT_IO.NEW_LINE;
 
    end load_bdl_from_disk;
-
-
-
 
    procedure load_indices_from_indx_file(indxfile_name : string;
 										 d_k : dictionary_kind) is
@@ -268,6 +262,5 @@ package body word_support_package is
 	  preface.put(" stems");
 	  preface.set_col(55); preface.put_line("--  Loaded correctly");
    end load_indices_from_indx_file;
-
 
 end word_support_package;

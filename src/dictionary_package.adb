@@ -9,8 +9,7 @@ package body dictionary_package is
    numeral_value_type_io_default_width : constant natural := 5;
    kind_entry_io_default_width : constant natural := verb_kind_type_io.default_width;
    --PART_WIDTH : NATURAL;
-   
-   
+
    function number_of_stems(p : part_of_speech_type) return stem_key_type is
    begin
 	  case p is
@@ -29,8 +28,6 @@ package body dictionary_package is
 		 when others  => return 0;
 	  end case;
    end number_of_stems;
-
-
 
    package body parse_record_io is
 	  use text_io;
@@ -124,7 +121,6 @@ package body dictionary_package is
 	  use noun_kind_type_io;
 	  spacer : character := ' ';
 
-
 	  procedure get(f : in file_type; n : out noun_entry) is
 	  begin
 		 get(f, n.decl);
@@ -188,15 +184,12 @@ package body dictionary_package is
 		 s(m+1..s'last) := (others => ' ');
 	  end put;
 
-
    end noun_entry_io;
-
 
    package body pronoun_entry_io is
 	  use decn_record_io;
 	  use pronoun_kind_type_io;
 	  spacer : character := ' ';
-
 
 	  procedure get(f : in file_type; p : out pronoun_entry) is
 	  begin
@@ -247,15 +240,12 @@ package body dictionary_package is
 		 s(m+1..s'last) := (others => ' ');
 	  end put;
 
-
    end pronoun_entry_io;
-
 
    package body propack_entry_io is
 	  use decn_record_io;
 	  use pronoun_kind_type_io;
 	  spacer : character := ' ';
-
 
 	  procedure get(f : in file_type; p : out propack_entry) is
 	  begin
@@ -306,9 +296,7 @@ package body dictionary_package is
 		 s(m+1..s'last) := (others => ' ');
 	  end put;
 
-
    end propack_entry_io;
-
 
    package body adjective_entry_io is
 	  use decn_record_io;
@@ -317,7 +305,6 @@ package body dictionary_package is
 	  use number_type_io;
 	  use comparison_type_io;
 	  spacer : character := ' ';
-
 
 	  procedure get(f : in file_type; a : out adjective_entry) is
 	  begin
@@ -368,10 +355,7 @@ package body dictionary_package is
 		 s(m+1..s'last) := (others => ' ');
 	  end put;
 
-
    end adjective_entry_io;
-
-
 
    package body numeral_entry_io is
 	  use decn_record_io;
@@ -380,7 +364,6 @@ package body dictionary_package is
 	  spacer : character := ' ';
 
 	  num_out_size : constant := 5;    --  Set in spec  !!!!!!!!!!!!!!!!!!!!!!!!!
-
 
 	  procedure get(f : in file_type; num : out numeral_entry) is
 	  begin
@@ -431,7 +414,7 @@ package body dictionary_package is
 		 get(s(l+1..s'last), num.value, last);
 		 --TEXT_IO.PUT("+4");
 	  end get;
-	  
+
 	  procedure put(s : out string; num : in numeral_entry) is
 		 l : integer := s'first - 1;
 		 m : integer := 0;
@@ -450,14 +433,11 @@ package body dictionary_package is
 		 s(m+1..s'last) := (others => ' ');
 	  end put;
 
-
    end numeral_entry_io;
-
 
    package body adverb_entry_io is
 	  use comparison_type_io;
 	  spacer : character := ' ';
-
 
 	  procedure get(f : in file_type; a : out adverb_entry) is
 	  begin
@@ -494,15 +474,12 @@ package body dictionary_package is
 		 s(m+1..s'last) := (others => ' ');
 	  end put;
 
-
    end adverb_entry_io;
-
 
    package body verb_entry_io is
 	  use decn_record_io;
 	  use verb_kind_type_io;
 	  spacer : character := ' ';
-
 
 	  procedure get(f : in file_type; v : out verb_entry) is
 	  begin
@@ -531,7 +508,7 @@ package body dictionary_package is
 		 put(' ');
 		 put(v.kind);
 	  end put;
-	  
+
 	  procedure get(s : in string; v : out verb_entry; last : out integer) is
 		 l : integer := s'first - 1;
 	  begin
@@ -553,9 +530,7 @@ package body dictionary_package is
 		 s(m+1..s'last) := (others => ' ');
 	  end put;
 
-
    end verb_entry_io;
-
 
    package body preposition_entry_io is
 	  use case_type_io;
@@ -595,14 +570,11 @@ package body dictionary_package is
 		 s(m+1..s'last) := (others => ' ');
 	  end put;
 
-
    end preposition_entry_io;
-
 
    package body conjunction_entry_io is
 	  null_conjunction_entry : conjunction_entry;
 	  spacer : character := ' ';
-
 
 	  procedure get(f : in file_type; c : out conjunction_entry) is
 	  begin
@@ -636,9 +608,7 @@ package body dictionary_package is
 		 s(s'first..s'last) := (others => ' ');
 	  end put;
 
-
    end conjunction_entry_io;
-
 
    package body interjection_entry_io is
 	  null_interjection_entry : interjection_entry;
@@ -676,10 +646,7 @@ package body dictionary_package is
 		 s(s'first..s'last) := (others => ' ');
 	  end put;
 
-
    end interjection_entry_io;
-
-
 
    function "<" (left, right : part_entry) return boolean is
    begin
@@ -689,7 +656,7 @@ package body dictionary_package is
 			   if left.n.decl < right.n.decl  or else
 				 (left.n.decl = right.n.decl  and then
 				 left.n.gender < right.n.gender)  or else
-				 ((left.n.decl = right.n.decl  and 
+				 ((left.n.decl = right.n.decl  and
 				 left.n.gender = right.n.gender)  and then
 				 left.n.kind < right.n.kind)  then
 				  return true;
@@ -701,7 +668,7 @@ package body dictionary_package is
 				  return true;
 			   end if;
 			when pack =>
-			   if left.pack.decl < right.pack.decl  or else 
+			   if left.pack.decl < right.pack.decl  or else
 				 (left.pack.decl = right.pack.decl  and then
 				 left.pack.kind < right.pack.kind)  then
 				  return true;
@@ -742,8 +709,6 @@ package body dictionary_package is
 		 return left.pofs < right.pofs;
    end "<";
 
-
-   
    package body part_entry_io is
 	  use part_of_speech_type_io;
 	  use noun_entry_io;
@@ -758,7 +723,6 @@ package body dictionary_package is
 	  use interjection_entry_io;
 	  spacer : character := ' ';
 
-
 	  noun : noun_entry;
 	  pronoun : pronoun_entry;
 	  propack : propack_entry;
@@ -771,7 +735,6 @@ package body dictionary_package is
 	  interjection : interjection_entry;
 
 	  pr : part_entry;
-
 
 	  procedure get(f : in file_type; p : out part_entry) is
 		 ps : part_of_speech_type := x;
@@ -916,7 +879,6 @@ package body dictionary_package is
 		 return;
 	  end put;
 
-
 	  procedure put(p : in part_entry) is
 		 c : positive := positive(col);
 	  begin
@@ -1007,7 +969,6 @@ package body dictionary_package is
 		 end case;
 	  end get;
 
-
 	  procedure put(s : out string; p : in part_entry) is
 		 l : integer := s'first - 1;
 		 m : integer := 0;
@@ -1057,11 +1018,7 @@ package body dictionary_package is
 		 --S(M+1..S'LAST) := (others => ' ');
 	  end put;
 
-
    end part_entry_io;
-
-
-   
 
    package body kind_entry_io is
 	  use noun_kind_type_io;
@@ -1069,7 +1026,6 @@ package body dictionary_package is
 	  use inflections_package.integer_io;
 	  use verb_kind_type_io;
 	  spacer : character := ' ';
-
 
 	  noun_kind  : noun_kind_type;
 	  pronoun_kind : pronoun_kind_type;
@@ -1079,9 +1035,7 @@ package body dictionary_package is
 	  supine_kind : verb_kind_type;
 	  numeral_value : numeral_value_type;
 
-
-
-	  procedure get(f : in file_type; 
+	  procedure get(f : in file_type;
 					ps : in part_of_speech_type; p : out kind_entry) is
 	  begin
 		 case ps is
@@ -1136,7 +1090,6 @@ package body dictionary_package is
 		 end case;
 		 return;
 	  end get;
-
 
 	  procedure get(ps : in part_of_speech_type; p : out kind_entry) is
 	  begin
@@ -1193,10 +1146,8 @@ package body dictionary_package is
 		 return;
 	  end get;
 
-
-
-	  procedure put(f : in file_type; 
-					ps : in part_of_speech_type; p : in kind_entry) is 
+	  procedure put(f : in file_type;
+					ps : in part_of_speech_type; p : in kind_entry) is
 		 c : positive := positive(col(f));
 	  begin
 		 case p.pofs is
@@ -1221,7 +1172,7 @@ package body dictionary_package is
 		 return;
 	  end put;
 
-	  procedure put(ps : in part_of_speech_type; p : in kind_entry) is 
+	  procedure put(ps : in part_of_speech_type; p : in kind_entry) is
 		 c : positive := positive(col);
 	  begin
 		 case p.pofs is
@@ -1246,8 +1197,7 @@ package body dictionary_package is
 		 return;
 	  end put;
 
-
-	  procedure get(s : in string; ps : in part_of_speech_type; 
+	  procedure get(s : in string; ps : in part_of_speech_type;
 								   p : out kind_entry; last : out integer) is
 		 l : integer := s'first - 1;
 	  begin
@@ -1290,14 +1240,13 @@ package body dictionary_package is
 			   p := (pofs => prefix);
 			when suffix =>
 			   p := (pofs => suffix);
-			when x =>      
+			when x =>
 			   p := (pofs => x);
 		 end case;
 		 return;
 	  end get;
 
-
-	  procedure put(s : out string; 
+	  procedure put(s : out string;
 					ps : in part_of_speech_type; p : in kind_entry) is
 		 l : integer := s'first - 1;
 		 m : integer := 0;
@@ -1330,11 +1279,7 @@ package body dictionary_package is
 		 s(m+1..s'last) := (others => ' ');
 	  end put;
 
-
    end kind_entry_io;
-
-
-
 
    package body translation_record_io is
 	  use text_io;
@@ -1463,8 +1408,6 @@ package body dictionary_package is
 
    end translation_record_io;
 
-
-
    package body dictionary_entry_io is
 	  use part_entry_io;
 	  use translation_record_io;
@@ -1472,7 +1415,7 @@ package body dictionary_package is
 
 	  spacer : character := ' ';
 	  part_col : natural := 0;
-	  
+
 	  de : dictionary_entry;
 
 	  procedure get(f : in file_type; d : out dictionary_entry) is
@@ -1556,12 +1499,12 @@ package body dictionary_package is
 		 while s(i) = ' ' loop
 			i := i + 1;
 		 end loop;
-		 while (s(i) not in 'A'..'Z') and 
+		 while (s(i) not in 'A'..'Z') and
 		   (s(i) not in 'a'..'z')     loop
 			last := i;
 			i := i + 1;
 			exit;
-		 end loop;     
+		 end loop;
 	  end get;
 
 	  procedure put(s : out string; d : in dictionary_entry) is
@@ -1593,10 +1536,6 @@ package body dictionary_package is
 
    end dictionary_entry_io;
 
-
-
-
-
    function "<=" (left, right : area_type) return boolean is
    begin
 	  if right = left  or else
@@ -1606,7 +1545,6 @@ package body dictionary_package is
 		 return false;
 	  end if;
    end "<=";
-
 
 begin     --  initialization of body of DICTIONARY_PACKAGE
 		  --TEXT_IO.PUT_LINE("Initializing DICTIONARY_PACKAGE");
@@ -1622,8 +1560,6 @@ begin     --  initialization of body of DICTIONARY_PACKAGE
    frequency_type_io.default_width := frequency_type'width;
 
    source_type_io.default_width := source_type'width;
-
-
 
    parse_record_io.default_width :=
 	 stem_type_io.default_width + 1 +
@@ -1657,22 +1593,17 @@ begin     --  initialization of body of DICTIONARY_PACKAGE
 	 numeral_sort_type_io.default_width + 1 +
 	 numeral_value_type_io_default_width;
 
-
-   part_entry_io.default_width := part_of_speech_type_io.default_width + 1 +  
+   part_entry_io.default_width := part_of_speech_type_io.default_width + 1 +
 	 numeral_entry_io.default_width;     --  Largest
-
-   
 
    --  Should make up a MAX of PART_ENTRY + KIND_ENTRY (same POFS) WIDTHS
 
-   
    translation_record_io.default_width :=
 	 age_type_io.default_width + 1 +
 	 area_type_io.default_width + 1 +
 	 geo_type_io.default_width + 1 +
 	 frequency_type_io.default_width + 1 +
 	 source_type_io.default_width;
-
 
    dictionary_entry_io.default_width := 4 * (max_stem_size + 1) +
 	 part_entry_io.default_width + 1 +

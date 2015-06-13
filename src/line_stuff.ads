@@ -6,8 +6,6 @@ with uniques_package; use uniques_package;
 package line_stuff is
    use text_io;
 
-
-
    type dictionary_item;
    type dictionary_list is access dictionary_item;
    type dictionary_item is
@@ -18,7 +16,7 @@ package line_stuff is
 
    type dictionary is array (character) of dictionary_list;
    null_dictionary : dictionary := (others => null);
-   --DICT, UNIQUES, QUES : DICTIONARY := NULL_DICTIONARY;  
+   --DICT, UNIQUES, QUES : DICTIONARY := NULL_DICTIONARY;
    dict, uniques : dictionary := null_dictionary;
 
    dict_loc : dictionary := null_dictionary;
@@ -42,7 +40,6 @@ package line_stuff is
 	  procedure get(s : in string; p : out tackon_line; last : out integer);
 	  procedure put(s : out string; p : in tackon_line);
    end tackon_line_io;
-
 
    type prefix_line is
 	  record

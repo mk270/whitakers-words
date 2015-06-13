@@ -1,7 +1,7 @@
 package body english_support_package is
    --use EWDS_DIRECT_IO;
-   use text_io;    
-   
+   use text_io;
+
    package body ewds_record_io is
 	  package integer_io is new text_io.integer_io(integer);
 	  use part_of_speech_type_io;
@@ -10,7 +10,7 @@ package body english_support_package is
 	  use integer_io;
 	  spacer : character := ' ';
 	  nwidth : constant := 5;
-	  
+
 	  procedure get(f : in text_io.file_type; p : out ewds_record) is
 	  begin
 		 get(f, p.w);
@@ -95,19 +95,18 @@ package body english_support_package is
 		 p.aux := s(l+1..l+aux_word_size);
 		 l := l + aux_word_size + 1;
 		 get(s(l+1..s'last), p.n, l);
-		 l := l + 1;           
+		 l := l + 1;
 		 get(s(l+1..s'last), p.pofs, l);
-		 l := l + 1;           
+		 l := l + 1;
 		 get(s(l+1..s'last), p.freq, l);
-		 l := l + 1;           
+		 l := l + 1;
 		 get(s(l+1..s'last), p.semi, l);
-		 l := l + 1;           
+		 l := l + 1;
 		 get(s(l+1..s'last), p.kind, l);
-		 l := l + 1;           
+		 l := l + 1;
 		 get(s(l+1..s'last), p.rank, last);
 	  end get;
 
-	  
 	  procedure put(s : out string; p : in ewds_record) is
 		 l : integer := s'first - 1;
 		 m : integer := 0;
@@ -138,14 +137,9 @@ package body english_support_package is
 		 m := l + priority_width;
 		 put(s(l+1..m), p.rank, nwidth);
 
-		 
-		 
 		 s(m+1..s'last) := (others => ' ');
 	  end put;
 
-
    end ewds_record_io;
 
-
 end english_support_package;
-

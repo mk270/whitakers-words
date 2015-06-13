@@ -1,7 +1,7 @@
 with inflections_package; use inflections_package;
 with dictionary_package; use dictionary_package;
 package uniques_package is
-   
+
    type unique_item;
    type unique_list is access unique_item;
 

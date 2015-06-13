@@ -2,8 +2,8 @@ package config is
 
    output_screen_size : integer := 20;
 
-   type configuration_type is (developer_version, user_version, only_meanings); 
-   
+   type configuration_type is (developer_version, user_version, only_meanings);
+
    configuration : configuration_type := developer_version;
 
    type method_type is (interactive, command_line_input, command_line_files);
@@ -14,7 +14,6 @@ package config is
 
    language : language_type := latin_to_english;
 
-   suppress_preface : boolean := false;   
-   
-   
+   suppress_preface : boolean := false;
+
 end config;

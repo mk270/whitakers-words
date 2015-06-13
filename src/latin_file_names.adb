@@ -17,5 +17,4 @@ package body latin_file_names is
 	  return name(1..name_length) & '.' & extension(1..extension_length);
    end add_file_name_extension;
 
-
 end latin_file_names;

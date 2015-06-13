@@ -8,31 +8,30 @@ procedure makeefil is
 begin
    text_io.open(ewds_list, text_io.in_file, "EWDSLIST.GEN");
    create(ewds_file, out_file, "EWDSFILE.GEN");
-   
+
    while not text_io.end_of_file(ewds_list)  loop
 	  ewds_record_io.get(ewds_list, new_ewds);
 	  text_io.skip_line(ewds_list);
-	  
-	  
+
 	  --  Eliminate doubles    --  If sort is OK
-	  if ewds.w = new_ewds.w  and  --  AUX ???? 
+	  if ewds.w = new_ewds.w  and  --  AUX ????
 		ewds.n = new_ewds.n  then
 		 -- PUT_LINE("DOUBLES   ");
 		 -- EWDS_RECORD_IO.PUT(EWDS); NEW_LINE;
 		 -- EWDS_RECORD_IO.PUT(NEW_EWDS); NEW_LINE;
-		 
+
 		 if ewds.kind > new_ewds.kind  then  --  Large KIND = high priority
 			null;
-		 elsif ewds.kind < new_ewds.kind  then 
+		 elsif ewds.kind < new_ewds.kind  then
 			ewds := new_ewds;
-		 elsif ewds.kind = new_ewds.kind  then 
+		 elsif ewds.kind = new_ewds.kind  then
 			if ewds.semi > new_ewds.semi  then
                ewds := new_ewds;
 			end if;
 		 end if;
-         
+
 	  else
-		 
+
 		 write(ewds_file, ewds);
 		 ewds := new_ewds;
 		 number_of_ewords := number_of_ewords + 1;
@@ -43,10 +42,9 @@ begin
    text_io.new_line;
    text_io.put_line("NUMBER_OF_EWORDS = " & integer'image(number_of_ewords));
 exception
-   when others => 
+   when others =>
 	  close(ewds_file);
 	  text_io.new_line;
 	  text_io.put_line("MAKEEFIL terminated on an exception");
 	  text_io.put_line("NUMBER_OF_EWORDS = " & integer'image(number_of_ewords));
 end makeefil;
-

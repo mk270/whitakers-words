@@ -14,12 +14,12 @@ procedure makeinfl is
    use age_type_io;
    use frequency_type_io;
    use lel_section_io;
-   
+
    porting : constant boolean := true;    --FALSE for WAKEINFL;
 
    m, n   : integer := 0;
    n1, n2, n3, n4, n5 : integer := 0;
-   
+
    output : text_io.file_type;
    inflections_sections_file : lel_section_io.file_type;
 
@@ -103,7 +103,6 @@ procedure makeinfl is
 
 	  end load_inflections_list;
 
-
 	  procedure list_to_lel_file  is
 		 --  From ILC (=L_I) list of inflections, prepares the LEL inflections array
 		 use lel_section_io;
@@ -169,7 +168,6 @@ procedure makeinfl is
 		 write(inflections_sections_file, lel, 2);
 		 n2 := j2;
 
-
 		 null_lel;
 		 ilc := l_i;                              --  Resetting the list to start over
 		 for ch in character range 'a'..'z'  loop
@@ -193,7 +191,6 @@ procedure makeinfl is
 		 write(inflections_sections_file, lel, 3);
 		 n3 := j3;
 
-
 		 null_lel;
 		 ilc := l_i;                              --  Resetting the list to start over
 		 for ch in character range 'a'..'z'  loop
@@ -214,7 +211,7 @@ procedure makeinfl is
 			   end loop;
 			end loop;
 		 end loop;
-		 
+
 		 --  Now put the PACK in 4            --  Maybe it should be in 5 ????
 		 ilc := l_i;                              --  Resetting the list to start over
 		 for ch in character range 'a'..'z'  loop
@@ -239,7 +236,6 @@ procedure makeinfl is
 
 	  end list_to_lel_file;
 
-
    begin
 
 	  load_inflections_list;
@@ -249,7 +245,7 @@ procedure makeinfl is
 	  integer_io.put(number_of_inflections);
 	  text_io.put_line(" entries    --  Loaded correctly");
 
-	  list_to_lel_file;                     --  Load arrays to file 
+	  list_to_lel_file;                     --  Load arrays to file
 	  text_io.put_line("File INFLECTS.SEC  --  Loaded");
 
    exception
@@ -279,15 +275,15 @@ begin
 	  for i in bel'range    loop                     --  Blank endings
 		 if  bel(i) /= null_inflection_record  then
 			m := m + 1;
-			put(output, bel(i).qual); 
+			put(output, bel(i).qual);
 			set_col(output, 50);
-			put(output, bel(i).key, 1); 
+			put(output, bel(i).key, 1);
 			set_col(output, 52);
-			put(output, bel(i).ending); 
+			put(output, bel(i).ending);
 			set_col(output, 62);
-			put(output, bel(i).age); 
+			put(output, bel(i).age);
 			set_col(output, 64);
-			put(output, bel(i).freq); 
+			put(output, bel(i).freq);
 			new_line(output);
 		 end if;
 	  end loop;
@@ -300,15 +296,15 @@ begin
 		 for i in lel'range    loop                     --  Non-blank endings
 			if  lel(i) /= null_inflection_record  then
 			   m := m + 1;
-			   put(output, lel(i).qual); 
+			   put(output, lel(i).qual);
 			   set_col(output, 50);
-			   put(output, lel(i).key, 1); 
+			   put(output, lel(i).key, 1);
 			   set_col(output, 52);
-			   put(output, lel(i).ending); 
+			   put(output, lel(i).ending);
 			   set_col(output, 62);
-			   put(output, lel(i).age); 
+			   put(output, lel(i).age);
 			   set_col(output, 64);
-			   put(output, lel(i).freq); 
+			   put(output, lel(i).freq);
 			   new_line(output);
 			end if;
 		 end loop;
@@ -318,7 +314,6 @@ begin
 
    new_line;
    put("LINE_INFLECTIONS finds "); put(m); put_line(" inflections"); new_line;
-
 
    for i in character range ' '..' '  loop
 	  integer_io.put(0); put("    "); put(i); put("    "); put(belf(0, i));
@@ -349,7 +344,6 @@ begin
    end loop;
    new_line;
 
-
    new_line;
    put(n5);  put("    ");
    put(n1);  put("    ");
@@ -357,6 +351,5 @@ begin
    put(n3);  put("    ");
    put(n4);  put("    ");
    new_line;
-
 
 end makeinfl;

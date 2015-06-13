@@ -11,14 +11,11 @@ pragma elaborate(dictionary_package);
 pragma elaborate(addons_package);
 package body line_stuff is
 
-
-
-
    procedure load_dictionary(dict : in out dictionary;
 							 dictionary_file_name : string)  is
 	  --  For loading a DICTIONARY list from a file
 	  --  Only used now for DICT.LOC
-	  
+
 	  dictionary_file : file_type;
 	  blk_stem : constant stem_type := null_stem_type;
 	  sts : stems_type := null_stems_type;
@@ -27,7 +24,7 @@ package body line_stuff is
 	  kind : kind_entry := null_kind_entry;
 	  value : numeral_value_type := 0;
 	  mean : meaning_type := null_meaning_type;
-	  
+
 	  fc1, fc2, fc3, fc4 : character;
 
 	  line, st_line, blank_line : string(1..100) := (others => ' ');
@@ -51,11 +48,10 @@ package body line_stuff is
 			i := i + 1;
 			l := l + 1;
 		 end loop;
-		 --  Return  last 
+		 --  Return  last
 		 last := l;
 
 	  end get_stem;
-
 
    begin
 
@@ -67,7 +63,7 @@ package body line_stuff is
 		 st_line := blank_line;
 		 get_non_comment_line(dictionary_file, st_line, last);      --  STEMS
 																	--TEXT_IO.PUT_LINE("READ STEMS");
-		 
+
 		 line := blank_line;
 		 --TEXT_IO.PUT("1 ");
 		 get_non_comment_line(dictionary_file, line, l);           --  PART
@@ -79,35 +75,32 @@ package body line_stuff is
 		 translation_record_io.get(line(ll+1..l), tran, lll);
 		 --TEXT_IO.PUT("5 ");
 		 --TEXT_IO.PUT_LINE("READ PART");
-		 
+
 		 --  Specialize for parts
 		 --  If ADV then look if the CO is something other than X
 		 --  If so (like POS) then only that stem is active, and the others => xxx
 		 --  Same for ADJ
-		 --  If the ADJ or ADV stems have different first letters then make them 
+		 --  If the ADJ or ADV stems have different first letters then make them
 		 --  different dictionary entries  --  Do this in LOAD and in DICT.DIC
 		 --TEXT_IO.PUT_LINE("GETTING STEMS IN LOAD_DICTIONARY");
 
 		 sts := null_stems_type;
 		 ll := 1;
-		 --  Extract up to 4 stems                  
+		 --  Extract up to 4 stems
 		 for i in 1..number_of_stems(pt.pofs)  loop   --  EXTRACT STEMS
 			get_stem(st_line(ll..last), sts(i), ll);
 		 end loop;
-		 
-		 
-		 --for I in 1..NUMBER_OF_STEMS(PT.POFS)  loop  
-		 --  TEXT_IO.PUT(STS(I));      
+
+		 --for I in 1..NUMBER_OF_STEMS(PT.POFS)  loop
+		 --  TEXT_IO.PUT(STS(I));
 		 --end loop;
 		 --TEXT_IO.NEW_LINE;
-		 
+
 		 line := blank_line;
 		 get_non_comment_line(dictionary_file, line, l);         --  MEANING
-		 mean := head(trim(line(1..l)), max_meaning_size);         
+		 mean := head(trim(line(1..l)), max_meaning_size);
 		 --TEXT_IO.PUT_LINE("READ MEANING");
-		 
-		 
-		 
+
 		 --  Now take care of other first letters in a gross way
 		 fc1 := lower_case(sts(1)(1));
 		 fc2 := lower_case(sts(2)(1));
@@ -421,15 +414,15 @@ package body line_stuff is
 			--PUT_LINE("L_D_F  Setting Dictfile index M = " & INTEGER'IMAGE(INTEGER(M)));
 			dict_io.set_index(dict_file(d_k), m);
 			-- %%%%%%%%%%%!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!%%%%%%%%%%%%%%%%%%%%%%%
-			--PUT_LINE(DLC(FC).DE.TRAN.MEAN); 
-			-- M_P_R := DLC(FC).DE.TRAN.MEAN; 
+			--PUT_LINE(DLC(FC).DE.TRAN.MEAN);
+			-- M_P_R := DLC(FC).DE.TRAN.MEAN;
 			--DICT_IO.WRITE(DICT_FILE(D_K), M_P_R);   --@@@@@@@@@@@@@@@@@@@@@
 			dict_io.write(dict_file(d_k), dlc(fc).de);
 			for k in stem_key_type range 1..4  loop
 			   if dlc(fc).de.stems(k) /= null_stem_type  and
 				 dlc(fc).de.stems(k) /= zzz_stem  then
 				  --LATIN_DEBUG.PUT(DLC(FC).DE.STEMS(K)); LATIN_DEBUG.PUT("  ..  ");
-				  --LATIN_DEBUG.PUT(DLC(FC).DE.PART); LATIN_DEBUG.PUT("  ..  "); LATIN_DEBUG.PUT(K); 
+				  --LATIN_DEBUG.PUT(DLC(FC).DE.PART); LATIN_DEBUG.PUT("  ..  "); LATIN_DEBUG.PUT(K);
 				  --LATIN_DEBUG.PUT("  ..  "); LATIN_DEBUG.PUT(INTEGER(M)); LATIN_DEBUG.NEW_LINE;
 				  write(stem_file(d_k),
 						(dlc(fc).de.stems(k), dlc(fc).de.part, k, m));
@@ -447,14 +440,11 @@ package body line_stuff is
 	  --PUT_LINE("L_D_F  44444  M = " & INTEGER'IMAGE(INTEGER(M)));
    end load_stem_file;
 
-
-
    package body tackon_line_io is
 	  use part_of_speech_type_io;
 	  use tackon_entry_io;
 	  use text_io;
 	  spacer : character := ' ';
-
 
 	  procedure get(f : in file_type; p : out tackon_line) is
 	  begin
@@ -466,7 +456,6 @@ package body line_stuff is
 		 get(f, spacer);
 		 get(f, p.mean);
 	  end get;
-
 
 	  procedure get(p : out tackon_line) is
 	  begin
@@ -519,7 +508,6 @@ package body line_stuff is
 		 last := m;
 	  end get;
 
-
 	  procedure put(s : out string; p : in tackon_line) is
 		 l : integer := s'first - 1;
 		 m : integer := 0;
@@ -549,7 +537,6 @@ package body line_stuff is
 	  use text_io;
 	  spacer : character := ' ';
 
-
 	  procedure get(f : in file_type; p : out prefix_line) is
 	  begin
 		 get(f, p.pofs);
@@ -562,7 +549,6 @@ package body line_stuff is
 		 get(f, spacer);
 		 get(f, p.mean);
 	  end get;
-
 
 	  procedure get(p : out prefix_line) is
 	  begin
@@ -626,7 +612,6 @@ package body line_stuff is
 		 last := m;
 	  end get;
 
-
 	  procedure put(s : out string; p : in prefix_line) is
 		 l : integer := s'first - 1;
 		 m : integer := 0;
@@ -653,7 +638,6 @@ package body line_stuff is
 
    end prefix_line_io;
 
-
    package body suffix_line_io is
 	  use part_of_speech_type_io;
 	  use suffix_entry_io;
@@ -672,7 +656,6 @@ package body line_stuff is
 		 get(f, spacer);
 		 get(f, p.mean);
 	  end get;
-
 
 	  procedure get(p : out suffix_line) is
 	  begin
@@ -736,7 +719,6 @@ package body line_stuff is
 		 last := m;
 	  end get;
 
-
 	  procedure put(s : out string; p : in suffix_line) is
 		 l : integer := s'first - 1;
 		 m : integer := 0;
@@ -784,7 +766,6 @@ package body line_stuff is
 		 get(f, ue.tran);
 		 p := ue;
 	  end get;
-
 
 	  procedure get(p : out unique_entry) is
 		 ue : unique_entry;
@@ -837,7 +818,6 @@ package body line_stuff is
 		 get(s(l+1..s'last), p.tran, last);
 	  end get;
 
-
 	  procedure put(s : out string; p : in unique_entry) is
 		 l : integer := s'first - 1;
 		 m : integer := 0;
@@ -861,8 +841,6 @@ package body line_stuff is
 
    end unique_entry_io;
 
-
-
    procedure load_uniques(unq : in out latin_uniques; file_name : in string) is
 	  use inflections_package.integer_io;
 	  use quality_record_io;
@@ -870,7 +848,7 @@ package body line_stuff is
 	  use kind_entry_io;
 	  use translation_record_io;
 	  use dict_io;
-	  
+
 	  uniques_file : text_io.file_type;
 	  line, stem_line, blanks : string(1..100) := (others => ' ');
 	  last, l : integer := 0;
@@ -900,11 +878,11 @@ package body line_stuff is
 
 	  while not end_of_file(uniques_file)  loop
 		 stem_line := blanks;
-		 get_line(uniques_file, stem_line, last);      --  STEM 
+		 get_line(uniques_file, stem_line, last);      --  STEM
 		 stem := head(trim(stem_line(1..last)), max_stem_size);
 
 		 line := blanks;
-		 get_line(uniques_file, line, last);    --  QUAL, KIND, TRAN       
+		 get_line(uniques_file, line, last);    --  QUAL, KIND, TRAN
 		 get(line(1..last), qual, l);
 		 get(line(l+1..last), qual.pofs, kind, l);
 		 age_type_io.get(line(l+1..last), tran.age, l);
@@ -912,7 +890,6 @@ package body line_stuff is
 		 geo_type_io.get(line(l+1..last), tran.geo, l);
 		 frequency_type_io.get(line(l+1..last), tran.freq, l);
 		 source_type_io.get(line(l+1..last), tran.source, l);
-
 
 		 line := blanks;
 		 get_line(uniques_file, line, l);         --  MEAN
@@ -934,28 +911,26 @@ package body line_stuff is
 			   when num =>
 				  part := (num, (qual.num.decl, qual.num.sort, kind.num_value));
 			   when adv =>
-				  part := (adv, (co => qual.adv.co));  
+				  part := (adv, (co => qual.adv.co));
 			   when v =>
 				  part := (v, (qual.v.con, kind.v_kind));
 			   when others  =>
 				  part := null_part_entry;
 			end case;
 
-
-
-			unique_de.stems := (stem, 
+			unique_de.stems := (stem,
 								null_stem_type, null_stem_type, null_stem_type);
 			unique_de.part  :=  part;
 			--UNIQUE_DE.KIND  :=  KIND;
 			unique_de.tran  :=  tran;
 			unique_de.mean  :=  mean;
-			
+
 			--        DICT_IO.SET_INDEX(DICT_FILE(D_K), M);
 			--        DICT_IO.WRITE(DICT_FILE(D_K), UNIQUE_DE);
-			
+
 			uniques_de(m) := unique_de;
 		 end;
-		 --@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@      
+		 --@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 
 		 mnpc := m;
 
@@ -972,7 +947,7 @@ package body line_stuff is
 
 		 m := m + 1;
 		 number_of_uniques_entries := integer(m) - 1;
-		 
+
 	  end loop;
 	  close(uniques_file);
 	  preface.set_col(33);
@@ -994,10 +969,6 @@ package body line_stuff is
 		 preface.set_col(55); preface.put_line("--  Loaded before error");
 		 --raise;
    end load_uniques;
-   
-   
-   
-   
 
 begin
 
@@ -1006,7 +977,6 @@ begin
    --                                   INFLECTION_RECORD_IO.DEFAULT_WIDTH + 1 +
    --                                   DICTIONARY_KIND_IO.DEFAULT_WIDTH + 1 +
    --                                   MAX_MEANING_SIZE;
-
 
    prefix_line_io.default_width := part_of_speech_type_io.default_width + 1 +
 	 max_stem_size + 1 +
@@ -1026,7 +996,5 @@ begin
    unique_entry_io.default_width := max_stem_size + 1 +
 	 inflection_record_io.default_width + 1 +
 	 translation_record_io.default_width;
-
-
 
 end line_stuff;

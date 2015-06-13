@@ -1,21 +1,20 @@
 with text_io; use text_io;
 package body strings_package is
-   
+
    function max(a, b : integer) return integer is
    begin
-	  if a >= b  then 
-		 return a; end if; 
+	  if a >= b  then
+		 return a; end if;
          return b;
    end max;
-   
+
    function min(a, b : integer) return integer is
    begin
-	  if a <= b  then 
-		 return a; end if; 
+	  if a <= b  then
+		 return a; end if;
          return b;
    end min;
-   
-   
+
    function lower_case(c : character) return character is
    begin
 	  if c in 'A'..'Z'  then
@@ -24,7 +23,7 @@ package body strings_package is
 		 return c;
 	  end if;
    end lower_case;
-   
+
    function lower_case(s : string) return string is
 	  t : string(s'range);
    begin
@@ -33,8 +32,7 @@ package body strings_package is
 	  end loop;
 	  return t;
    end lower_case;
-   
-   
+
    function upper_case(c : character) return character is
    begin
 	  if c in 'a'..'z'  then
@@ -43,7 +41,7 @@ package body strings_package is
 		 return c;
 	  end if;
    end upper_case;
-   
+
    function upper_case(s : string) return string is
 	  t : string(s'range);
    begin
@@ -52,14 +50,13 @@ package body strings_package is
 	  end loop;
 	  return t;
    end upper_case;
-   
-   
+
    function trim(source : in string;
 				 side   : in trim_end := both) return string is
       --  Removes leading and trailing blanks and returns a STRING staring at 1
       --  For a string of all blanks as input it returns NULL_STRING
 	  t : string(1..source'length) := source;
-	  first: natural := source'first; 
+	  first: natural := source'first;
 	  last : natural := source'last;
 
    begin
@@ -74,7 +71,7 @@ package body strings_package is
 	  else
 		 first := source'first;
 	  end if;
-      
+
 	  if side /= left  then
 		 last := source'first - 1;
 		 for i in reverse source'range  loop
@@ -86,18 +83,17 @@ package body strings_package is
 	  else
 		 last := source'last;
 	  end if;
-      
+
 	  if first > last  then
 		 return null_string;
 	  else
 		 t(1..last-first+1) := source(first..last);
 		 return t(1..last-first+1);
 	  end if;
-   end trim;        
-   
-   
-   function head(source : in string; 
-				 count  : in natural; 
+   end trim;
+
+   function head(source : in string;
+				 count  : in natural;
 				 pad    : in character := ' ') return string is
       --  Truncates or fills a string to exactly N in length
 	  t : string(1..count) := (others => ' ');
@@ -108,14 +104,13 @@ package body strings_package is
 		 t(1..source'length) := source(source'first..source'last);
 	  end if;
 	  return t;
-   end head; 
-   
-   
-   procedure get_non_comment_line(f : in text_io.file_type; 
+   end head;
+
+   procedure get_non_comment_line(f : in text_io.file_type;
 								  s : out string; last : out integer) is
-      --  Reads a text file and outs a string that is as much of the 
-      --  first line encountered that is not a comment, that is not a comment   
-      
+      --  Reads a text file and outs a string that is as much of the
+      --  first line encountered that is not a comment, that is not a comment
+
 	  t : string(1..250) := (others => ' ');
 	  l, lx : integer := 0;
    begin
@@ -123,7 +118,7 @@ package body strings_package is
   file_loop:
 	  while not text_io.end_of_file(f)  loop  --  Loop until data - Finish on EOF
 		 text_io.get_line(f, t, l);
-		 if (head(trim(t), 250)(1..2) = "  "  or 
+		 if (head(trim(t), 250)(1..2) = "  "  or
 			   head(trim(t), 250)(1..2) = "--")  then
 			null;
 		 else
@@ -142,6 +137,5 @@ package body strings_package is
 	  s(1..lx) := t(1..lx);
 	  last := lx;
    end get_non_comment_line;
-   
-   
-end strings_package;  
+
+end strings_package;

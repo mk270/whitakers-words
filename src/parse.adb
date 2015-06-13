@@ -28,7 +28,6 @@ procedure parse(command_line : string := "") is
    line, blank_line : string(1..2500) := (others => ' ');
    --INPUT : TEXT_IO.FILE_TYPE;
 
-   
    pa : parse_array(1..100) := (others => null_parse_record);
    syncope_max : constant := 20;
    no_syncope : boolean := false;
@@ -37,22 +36,20 @@ procedure parse(command_line : string := "") is
    trpa : parse_array(1..tricks_max) := (others => null_parse_record);
    pa_last, sypa_last, trpa_last : integer := 0;
 
-
    procedure parse_line(input_line : string) is
 	  l : integer := trim(input_line)'last;
 	  --LINE : STRING(1..2500) := (others => ' ');
-	  w : string(1..l) := (others => ' ');      
+	  w : string(1..l) := (others => ' ');
    begin
 	  word_number := 0;
 	  line(1..l) := trim(input_line);
-	  
 
 	  --  Someday I ought to be interested in punctuation and numbers, but not now
 	  eliminate_not_letters:
 		  begin
 			 for i in 1..l  loop
 				if ((line(i) in 'A'..'Z')  or
-					  (line(i) = '-')           or     --  For the comment 
+					  (line(i) = '-')           or     --  For the comment
 					  (line(i) = '.')           or     --  Catch period later
 					  (line(i) in 'a'..'z'))  then
 				   null;
@@ -62,15 +59,11 @@ procedure parse(command_line : string := "") is
 			 end loop;
 		  end eliminate_not_letters;
 
-
-
 		  j := 1;
 		  k := 0;
 	  over_line:
 		  while j <= l  loop
 
-
-			 
 			 --  Skip over leading and intervening blanks, looking for comments
 			 --  Punctuation, numbers, and special characters were cleared above
 			 for i in k+1..l  loop
@@ -91,11 +84,8 @@ procedure parse(command_line : string := "") is
 				follows_period := true;
 			 end if;
 
-
-
 			 capitalized := false;
 			 all_caps := false;
-
 
 			 --  Extract the word
 			 for i in j..l  loop
@@ -115,8 +105,6 @@ procedure parse(command_line : string := "") is
 				k := i;
 
 			 end loop;
-
-
 
 			 if w(j) in 'A'..'Z'  and then
 			   k - j >= 1  and then
@@ -138,10 +126,9 @@ procedure parse(command_line : string := "") is
 				end if;
 			 end loop;
 
-			 
 			 if language = english_to_latin  then
-				
-			parse_line_english_to_latin:  
+
+			parse_line_english_to_latin:
 				--  Since we do only one English word per line
 				declare
 				   input_word : constant string := w(j..k);
@@ -158,7 +145,7 @@ procedure parse(command_line : string := "") is
 						  when others =>
 							 pofs := x;
 					   end extract_pofs;
-					   --PART_OF_SPEECH_TYPE_IO.PUT(POFS); 
+					   --PART_OF_SPEECH_TYPE_IO.PUT(POFS);
 					   --TEXT_IO.NEW_LINE;
 
 					   search_english(input_word, pofs);
@@ -167,22 +154,17 @@ procedure parse(command_line : string := "") is
 
 				end parse_line_english_to_latin;
 
-				
-				
-				
 			 elsif language = latin_to_english  then
-				
-			parse_word_latin_to_english:  
+
+			parse_word_latin_to_english:
 				declare
 				   input_word : constant string := w(j..k);
 				   entering_pa_last : integer := 0;
 				   entering_trpa_last    : integer := 0;
 				   have_done_enclitic : boolean := false;
-				   
 
 				   procedure pass(input_word : string);
 
-				   
 				   procedure enclitic is
 					  save_do_fixes  : boolean := words_mode(do_fixes);
 					  save_do_only_fixes  : boolean := words_mdev(do_only_fixes);
@@ -192,11 +174,11 @@ procedure parse(command_line : string := "") is
 					  --TEXT_IO.PUT_LINE("Entering ENCLITIC  HAVE DONE = " & BOOLEAN'IMAGE(HAVE_DONE_ENCLITIC));
 					  --if WORDS_MODE(TRIM_OUTPUT)  and (PA_LAST > 0)  then    return;   end if;
 					  if have_done_enclitic  then    return;   end if;
-					  
+
 					  entering_pa_last := pa_last;
 					  if pa_last > 0 then enclitic_limit := 1; end if;
 				  loop_over_enclitic_tackons:
-					  for i in 1..enclitic_limit  loop   --  If have parse, only do que of que, ne, ve, (est) 
+					  for i in 1..enclitic_limit  loop   --  If have parse, only do que of que, ne, ve, (est)
 
 					 remove_a_tackon:
 						 declare
@@ -205,36 +187,34 @@ procedure parse(command_line : string := "") is
 							--SUBTRACT_TACKON(INPUT_WORD, TACKONS(I));
 							save_pa_last  : integer := 0;
 						 begin
-							--TEXT_IO.PUT_LINE("In ENCLITIC     LESS/TACKON  = " & LESS & "/" & TACKONS(I).TACK); 
+							--TEXT_IO.PUT_LINE("In ENCLITIC     LESS/TACKON  = " & LESS & "/" & TACKONS(I).TACK);
 							if less  /= try  then       --  LESS is less
 														--WORDS_MODE(DO_FIXES) := FALSE;
 							   word_package.word(less, pa, pa_last);
 							   --TEXT_IO.PUT_LINE("In ENCLITICS after WORD NO_FIXES  LESS = " & LESS & "   PA_LAST = " & INTEGER'IMAGE(PA_LAST));
 
-
 							   if pa_last = 0  then
 
 								  save_pa_last := pa_last;
 								  try_slury(less, pa, pa_last, line_number, word_number);
-								  if save_pa_last /= 0   then     
+								  if save_pa_last /= 0   then
 									 if (pa_last - 1) - save_pa_last = save_pa_last  then
 										pa_last := save_pa_last;
 									 end if;
 								  end if;
-								  
-							   end if;         
-							   
+
+							   end if;
+
 							   --  Do not SYNCOPE if there is a verb TO_BE or compound already there
 							   --  I do this here and below, it might be combined but it workd now
 							   for i in 1..pa_last  loop
 								  --PARSE_RECORD_IO.PUT(PA(I)); TEXT_IO.NEW_LINE;
 								  if pa(i).ir.qual.pofs = v and then
-									pa(i).ir.qual.v.con = (5, 1)  then 
+									pa(i).ir.qual.v.con = (5, 1)  then
 									 no_syncope := true;
 								  end if;
 							   end loop;
 
-							   
 							   --TEXT_IO.PUT_LINE("In ENCLITICS after SLURY  LESS = " & LESS & "   PA_LAST = " & INTEGER'IMAGE(PA_LAST));
 							   sypa_last := 0;
 							   if words_mdev(do_syncope)  and not no_syncope  then
@@ -248,13 +228,12 @@ procedure parse(command_line : string := "") is
 							   no_syncope := false;
 							   --  Restore FIXES
 							   --WORDS_MODE(DO_FIXES) := SAVE_DO_FIXES;
-							   
+
 							   words_mdev(do_only_fixes) := true;
 							   word(input_word, pa, pa_last);
 							   --TEXT_IO.PUT_LINE("In ENCLITICS after ONLY_FIXES  LESS = " & LESS & "   PA_LAST = " & INTEGER'IMAGE(PA_LAST));
 							   words_mdev(do_only_fixes) := save_do_only_fixes;
-							   
-							   
+
 							   if pa_last > entering_pa_last  then      --  have a possible word
 								  pa_last := pa_last + 1;
 								  pa(entering_pa_last+2..pa_last) :=
@@ -262,26 +241,25 @@ procedure parse(command_line : string := "") is
 								  pa(entering_pa_last+1) := (tackons(i).tack,
 															 ((tackon, null_tackon_record), 0, null_ending_record, x, x),
 															 addons, dict_io.count(tackons(i).mnpc));
-								  
+
 								  have_done_enclitic := true;
 							   end if;
 							   exit loop_over_enclitic_tackons;
 							end if;
 						 end remove_a_tackon;
 					  end loop loop_over_enclitic_tackons;
-				   end enclitic;    
-				   
-				   
+				   end enclitic;
+
 				   procedure tricks_enclitic is
 					  try : constant string := lower_case(input_word);
 				   begin
 					  --TEXT_IO.PUT_LINE("Entering TRICKS_ENCLITIC    PA_LAST = " & INTEGER'IMAGE(PA_LAST));
 					  --if WORDS_MODE(TRIM_OUTPUT)  and (PA_LAST > 0)  then    return;   end if;
 					  if have_done_enclitic  then    return;   end if;
-					  
+
 					  entering_trpa_last := trpa_last;
 				  loop_over_enclitic_tackons:
-					  for i in 1..4  loop   --  que, ne, ve, (est) 
+					  for i in 1..4  loop   --  que, ne, ve, (est)
 
 					 remove_a_tackon:
 						 declare
@@ -289,7 +267,7 @@ procedure parse(command_line : string := "") is
 							  --SUBTRACT_TACKON(LOWER_CASE(INPUT_WORD), TACKONS(I));
 							  subtract_tackon(try, tackons(i));
 						 begin
-							--TEXT_IO.PUT_LINE("In TRICKS_ENCLITIC     LESS/TACKON  = " & LESS & "/" & TACKONS(I).TACK); 
+							--TEXT_IO.PUT_LINE("In TRICKS_ENCLITIC     LESS/TACKON  = " & LESS & "/" & TACKONS(I).TACK);
 							if less  /= try  then       --  LESS is less
 														--PASS(LESS);
 							   try_tricks(less, trpa, trpa_last, line_number, word_number);
@@ -318,34 +296,31 @@ procedure parse(command_line : string := "") is
 					  --TEXT_IO.PUT_LINE("Entering PASS with >" & INPUT_WORD);
 					  --  Do straight WORDS without FIXES/TRICKS, is the word in the dictionary
 					  words_mode(do_fixes) := false;
-					  roman_numerals(input_word, pa, pa_last);  
+					  roman_numerals(input_word, pa, pa_last);
 					  word(input_word, pa, pa_last);
-					  
+
 					  --TEXT_IO.PUT_LINE("SLURY-   PA_LAST = " & INTEGER'IMAGE(PA_LAST));
 					  --for JK in 1..PA_LAST  loop
 					  -- f PARSE_RECORD_IO.PUT(PA(JK)); TEXT_IO.NEW_LINE;
 					  --end loop;
 
-
 					  if pa_last = 0  then
 						 try_slury(input_word, pa, pa_last, line_number, word_number);
 					  end if;
-					  
-					  
+
 					  --  Do not SYNCOPE if there is a verb TO_BE or compound already there
 					  for i in 1..pa_last  loop
 						 --PARSE_RECORD_IO.PUT(PA(I)); TEXT_IO.NEW_LINE;
 						 if pa(i).ir.qual.pofs = v and then
-						   pa(i).ir.qual.v.con = (5, 1)  then 
+						   pa(i).ir.qual.v.con = (5, 1)  then
 							no_syncope := true;
 						 end if;
 					  end loop;
-					  
-					  
+
 					  -- --  WITH THE DICTIONARY BETTER, LET US FORGET THIS - a and c DONE, e and i STILL BUT NOT MANY
 					  --  SAVE_PA_LAST := PA_LAST;
 					  --  --  BIG PROBLEM HERE
-					  --  --  If I do SLURY everytime, then each case where there is an aps- and abs- in dictionary 
+					  --  --  If I do SLURY everytime, then each case where there is an aps- and abs- in dictionary
 					  --  --  will show up twice, straight and SLURY, in the ourout - For either input
 					  --  --  But if I only do SLURY if there is no hit, then some incomplete pairs will not
 					  --  --  fully express (illuxit has two entries, inluxit has only one of them) (inritas)
@@ -354,7 +329,7 @@ procedure parse(command_line : string := "") is
 					  --  --  Or if there is syncope
 					  --  TRY_SLURY(INPUT_WORD, PA, PA_LAST, LINE_NUMBER, WORD_NUMBER);
 					  ----TEXT_IO.PUT_LINE("SLURY+   PA_LAST = " & INTEGER'IMAGE(PA_LAST));
-					  --  if SAVE_PA_LAST /= 0   then     
+					  --  if SAVE_PA_LAST /= 0   then
 					  --    if (PA_LAST - 2) = SAVE_PA_LAST  then
 					  --      PA_LAST := SAVE_PA_LAST;
 					  --      XXX_MEANING := NULL_MEANING_TYPE;
@@ -362,11 +337,11 @@ procedure parse(command_line : string := "") is
 					  --    end if;
 					  --  end if;
 					  ----TEXT_IO.PUT_LINE("1  PASS_BLOCK for  " & INPUT_WORD & "   PA_LAST = " & INTEGER'IMAGE(PA_LAST));
-					  
+
 					  --  Pure SYNCOPE
 					  sypa_last := 0;
 					  if words_mdev(do_syncope)  and not no_syncope  then
-						 syncope(input_word, sypa, sypa_last);  
+						 syncope(input_word, sypa, sypa_last);
 						 pa_last := pa_last + sypa_last;   --  Make syncope another array to avoid PA-LAST = 0 problems
 						 pa(1..pa_last) := pa(1..pa_last-sypa_last) & sypa(1..sypa_last);  --  Add SYPA to PA
 						 sypa(1..syncope_max) := (1..syncope_max => null_parse_record);   --  Clean up so it does not repeat
@@ -375,15 +350,15 @@ procedure parse(command_line : string := "") is
 					  no_syncope := false;
 
 					  --TEXT_IO.PUT_LINE("2  PASS_BLOCK for  " & INPUT_WORD & "   PA_LAST = " & INTEGER'IMAGE(PA_LAST));
-					  
+
 					  --  There may be a vaild simple parse, if so it is most probable
-					  --  But I have to allow for the possibility that -que is answer, not colloque V 
+					  --  But I have to allow for the possibility that -que is answer, not colloque V
 					  enclitic;
-					  
+
 					  --  Restore FIXES
 					  words_mode(do_fixes) := save_do_fixes;
 					  --TEXT_IO.PUT_LINE("3  PASS_BLOCK for  " & INPUT_WORD & "   PA_LAST = " & INTEGER'IMAGE(PA_LAST));
-					  
+
 					  --  Now with only fixes
 					  if pa_last = 0  and then
 						words_mode(do_fixes)  then
@@ -393,7 +368,7 @@ procedure parse(command_line : string := "") is
 						 --TEXT_IO.PUT_LINE("3b PASS_BLOCK for  " & INPUT_WORD & "   PA_LAST = " & INTEGER'IMAGE(PA_LAST));
 						 sypa_last := 0;
 						 if words_mdev(do_syncope)  and not no_syncope  then
-							syncope(input_word, sypa, sypa_last);  
+							syncope(input_word, sypa, sypa_last);
 							--TEXT_IO.PUT_LINE("3c PASS_BLOCK for  " & INPUT_WORD & "   PA_LAST = " & INTEGER'IMAGE(PA_LAST));
 							pa_last := pa_last + sypa_last;   --  Make syncope another array to avoid PA-LAST = 0 problems
 							pa(1..pa_last) := pa(1..pa_last-sypa_last) & sypa(1..sypa_last);  --  Add SYPA to PA
@@ -404,26 +379,26 @@ procedure parse(command_line : string := "") is
 
 						 --TEXT_IO.PUT_LINE("4  PASS_BLOCK for  " & INPUT_WORD & "   PA_LAST = " & INTEGER'IMAGE(PA_LAST));
 						 enclitic;
-						 
+
 						 --TEXT_IO.PUT_LINE("5  PASS_BLOCK for  " & INPUT_WORD & "   PA_LAST = " & INTEGER'IMAGE(PA_LAST));
 						 words_mdev(do_only_fixes) := save_do_only_fixes;
 					  end if;
 					  --TEXT_IO.PUT_LINE("6  PASS_BLOCK for  " & INPUT_WORD & "   PA_LAST = " & INTEGER'IMAGE(PA_LAST));
-					  --  ROMAN_NUMERALS(INPUT_WORD, PA, PA_LAST);  
-					  
+					  --  ROMAN_NUMERALS(INPUT_WORD, PA, PA_LAST);
+
 					  --  If Pure WORDS and ENCLITICS found something OK, otherwise proceed
 					  --    if PA_LAST = 0  or        --  If no go, try syncope, fixes
-					  --      (not WORDS_MODE(TRIM_OUTPUT)) or     
-					  --       WORDS_MDEV(DO_FIXES_ANYWAY) then     
-					  --   
-					  --     
+					  --      (not WORDS_MODE(TRIM_OUTPUT)) or
+					  --       WORDS_MDEV(DO_FIXES_ANYWAY) then
+					  --
+					  --
 					  --     --  If SYNCOPE does it, then OK, otherwise proceed
 					  --     --  Do not try FIXES (aud+i+i) on audii since SYNCOPE worked
 					  --     --  Now try FIXES
-					  --     if PA_LAST = 0  or (not WORDS_MODE(TRIM_OUTPUT)) or     
-					  --       WORDS_MDEV(DO_FIXES_ANYWAY)  then     
+					  --     if PA_LAST = 0  or (not WORDS_MODE(TRIM_OUTPUT)) or
+					  --       WORDS_MDEV(DO_FIXES_ANYWAY)  then
 					  --      --TRY_SLURY(INPUT_WORD, PA, PA_LAST, LINE_NUMBER, WORD_NUMBER);
-					  --       if PA_LAST = 0  then 
+					  --       if PA_LAST = 0  then
 					  --       WORD(INPUT_WORD, PA, PA_LAST);
 					  --         SYPA_LAST := 0;
 					  --         --  SYNCOPE after TRICK
@@ -435,9 +410,9 @@ procedure parse(command_line : string := "") is
 					  --     SYPA(1..SYNCOPE_MAX) := (1..SYNCOPE_MAX => NULL_PARSE_RECORD);   --  Clean up so it does not repeat
 					  --     SYPA_LAST := 0;
 					  --
-					  --  
+					  --
 					  -- end if;   --  on A_LAST = 0
-					  
+
 				   end pass;
 
 				begin   --  PARSE
@@ -451,11 +426,11 @@ procedure parse(command_line : string := "") is
 					  pass(input_word);
 
 				   end pass_block;
-				   
+
 				   --TEXT_IO.PUT_LINE("After PASS_BLOCK for  " & INPUT_WORD & "   PA_LAST = " & INTEGER'IMAGE(PA_LAST));
 
 				   --if (PA_LAST = 0) or DO_TRICKS_ANYWAY  then    --  WORD failed, try to modify the word
-				   if (pa_last = 0)  and then         
+				   if (pa_last = 0)  and then
 					 not (words_mode(ignore_unknown_names)  and capitalized)  then
 					  --  WORD failed, try to modify the word
 					  --TEXT_IO.PUT_LINE("WORDS fail me");
@@ -469,24 +444,21 @@ procedure parse(command_line : string := "") is
 						 end if;
 						 words_mode(do_tricks) := true;   --  Turn it back on
 					  end if;
-					  
+
 					  pa_last := pa_last + trpa_last;   --  Make TRICKS another array to avoid PA-LAST = 0 problems
 					  pa(1..pa_last) := pa(1..pa_last-trpa_last) & trpa(1..trpa_last);  --  Add SYPA to PA
 					  trpa(1..tricks_max) := (1..tricks_max => null_parse_record);   --  Clean up so it does not repeat
 					  trpa_last := 0;
 
 				   end if;
-				   
-				   
-				   --TEXT_IO.PUT_LINE("After TRICKS " & INTEGER'IMAGE(PA_LAST));     
-				   
+
+				   --TEXT_IO.PUT_LINE("After TRICKS " & INTEGER'IMAGE(PA_LAST));
 
 				   --======================================================================
 
 				   --  At this point we have done what we can with individual words
 				   --  Now see if there is something we can do with word combinations
 				   --  For this we have to look ahead
-
 
 				   if pa_last > 0   then    --  But PA may be killed by ALLOW in LIST_STEMS
 					  if words_mode(do_compounds)  and
@@ -604,10 +576,9 @@ procedure parse(command_line : string := "") is
 							   return trim(t) = "iri";
 							end is_iri;
 
-
 						 begin
 
-							--  Look ahead for sum                                           
+							--  Look ahead for sum
 							look_ahead;
 							if is_sum(next_word)  then                 --  On NEXT_WORD = sum, esse, iri
 
@@ -638,8 +609,6 @@ procedure parse(command_line : string := "") is
 										elsif ((pa(j).ir.qual.pofs = tackon) and then (ppl_on))  then
 										   null;
 
-
-
 										elsif pa(j).ir.qual.pofs = vpar and then
 										  pa(j).ir.qual.vpar.cs = nom  and then
 										  pa(j).ir.qual.vpar.number = sum_info.number  then
@@ -655,7 +624,7 @@ procedure parse(command_line : string := "") is
 											  end case;
 											  compound_tvm := (compound_tense, passive, sum_info.tense_voice_mood.mood);
 
-											  ppl_info := (pa(j).ir.qual.vpar.con,   --  In this case, there is 1 
+											  ppl_info := (pa(j).ir.qual.vpar.con,   --  In this case, there is 1
 														   pa(j).ir.qual.vpar.cs,    --  although several different
 														   pa(j).ir.qual.vpar.number,--  dictionary entries may fit
 														   pa(j).ir.qual.vpar.gender,--  all have same PPL_INFO
@@ -669,7 +638,7 @@ procedure parse(command_line : string := "") is
 											  compound_tense := sum_info.tense_voice_mood.tense;
 											  compound_tvm := (compound_tense, active, sum_info.tense_voice_mood.mood);
 
-											  ppl_info := (pa(j).ir.qual.vpar.con,   --  In this case, there is 1 
+											  ppl_info := (pa(j).ir.qual.vpar.con,   --  In this case, there is 1
 														   pa(j).ir.qual.vpar.cs,    --  although several different
 														   pa(j).ir.qual.vpar.number,--  dictionary entries may fit
 														   pa(j).ir.qual.vpar.gender,--  all have same PPL_INFO
@@ -683,7 +652,7 @@ procedure parse(command_line : string := "") is
 											  compound_tense := sum_info.tense_voice_mood.tense;
 											  compound_tvm := (compound_tense, passive, sum_info.tense_voice_mood.mood);
 
-											  ppl_info := (pa(j).ir.qual.vpar.con,   --  In this case, there is 1 
+											  ppl_info := (pa(j).ir.qual.vpar.con,   --  In this case, there is 1
 														   pa(j).ir.qual.vpar.cs,    --  although several different
 														   pa(j).ir.qual.vpar.number,--  dictionary entries may fit
 														   pa(j).ir.qual.vpar.gender,--  all have same PPL_INFO
@@ -701,7 +670,6 @@ procedure parse(command_line : string := "") is
 										j := j - 1;
 									 end loop;
 								  end clear_pas_nom_ppl;
-
 
 								  pa_last := pa_last + 1;
 								  pa(pa_last) :=
@@ -744,8 +712,6 @@ procedure parse(command_line : string := "") is
 										elsif ((pa(j).ir.qual.pofs = tackon) and then (ppl_on))  then
 										   null;
 
-
-
 										elsif pa(j).ir.qual.pofs = vpar   then
 
 										   if pa(j).ir.qual.vpar.tense_voice_mood = (perf, passive, ppl)  then
@@ -753,7 +719,7 @@ procedure parse(command_line : string := "") is
 
 											  compound_tvm := (perf, passive, inf);
 
-											  ppl_info := (pa(j).ir.qual.vpar.con,   --  In this case, there is 1 
+											  ppl_info := (pa(j).ir.qual.vpar.con,   --  In this case, there is 1
 														   pa(j).ir.qual.vpar.cs,    --  although several different
 														   pa(j).ir.qual.vpar.number,--  dictionary entries may fit
 														   pa(j).ir.qual.vpar.gender,--  all have same PPL_INFO
@@ -764,7 +730,7 @@ procedure parse(command_line : string := "") is
 
 										   elsif pa(j).ir.qual.vpar.tense_voice_mood = (fut, active,  ppl)  then
 											  ppl_on := true;
-											  ppl_info := (pa(j).ir.qual.vpar.con,   --  In this case, there is 1 
+											  ppl_info := (pa(j).ir.qual.vpar.con,   --  In this case, there is 1
 														   pa(j).ir.qual.vpar.cs,    --  although several different
 														   pa(j).ir.qual.vpar.number,--  dictionary entries may fit
 														   pa(j).ir.qual.vpar.gender,--  all have same PPL_INFO
@@ -782,11 +748,10 @@ procedure parse(command_line : string := "") is
 																	 max_meaning_size);
 											  end if;
 
-
 										   elsif pa(j).ir.qual.vpar.tense_voice_mood = (fut, passive, ppl)  then
 											  ppl_on := true;
 
-											  ppl_info := (pa(j).ir.qual.vpar.con,   --  In this case, there is 1 
+											  ppl_info := (pa(j).ir.qual.vpar.con,   --  In this case, there is 1
 														   pa(j).ir.qual.vpar.cs,    --  although several different
 														   pa(j).ir.qual.vpar.number,--  dictionary entries may fit
 														   pa(j).ir.qual.vpar.gender,--  all have same PPL_INFO
@@ -804,7 +769,6 @@ procedure parse(command_line : string := "") is
 																	 max_meaning_size);
 											  end if;
 
-
 										   end if;
 										else
 										   pa(j..pa_last-1) := pa(j+1..pa_last);
@@ -814,7 +778,6 @@ procedure parse(command_line : string := "") is
 										j := j - 1;
 									 end loop;
 								  end clear_pas_ppl;
-
 
 								  pa_last := pa_last + 1;
 								  pa(pa_last) :=
@@ -830,7 +793,7 @@ procedure parse(command_line : string := "") is
 							   end if;
 
 							elsif is_iri(next_word)  then              --  On NEXT_WORD = sum, esse, iri
-																	   --  Look ahead for sum                                           
+																	   --  Look ahead for sum
 
 							   for j in 1..pa_last  loop    --  Check for SUPINE
 								  if pa(j).ir.qual.pofs = supine   and then
@@ -854,8 +817,6 @@ procedure parse(command_line : string := "") is
 										elsif ((pa(j).ir.qual.pofs = tackon) and then (ppl_on))  then
 										   null;
 
-
-
 										elsif pa(j).ir.qual.pofs = supine  and then
 										  pa(j).ir.qual.supine.cs = acc  then
 
@@ -864,8 +825,6 @@ procedure parse(command_line : string := "") is
 														   pa(j).ir.qual.supine.cs,
 														   pa(j).ir.qual.supine.number,
 														   pa(j).ir.qual.supine.gender);
-
-
 
 										   pa_last := pa_last + 1;
 										   pa(pa_last) :=
@@ -883,7 +842,6 @@ procedure parse(command_line : string := "") is
 
 										   k := nk;
 
-
 										else
 										   pa(j..pa_last-1) := pa(j+1..pa_last);
 										   pa_last := pa_last - 1;
@@ -896,44 +854,39 @@ procedure parse(command_line : string := "") is
 
 							end if;       --  On NEXT_WORD = sum, esse, iri
 
-
 						 end compounds_with_sum;
 					  end if;       --  On WORDS_MODE(DO_COMPOUNDS)
-
 
 					  --========================================================================
 				   end if;
 
-				   --TEXT_IO.PUT_LINE("Before LISTing STEMS (PA_LAST > 0 to start) PA_LAST = " & 
+				   --TEXT_IO.PUT_LINE("Before LISTing STEMS (PA_LAST > 0 to start) PA_LAST = " &
 				   --INTEGER'IMAGE(PA_LAST));
-				   
+
 				   if  words_mode(write_output_to_file)      then
 					  list_stems(output, input_word, input_line, pa, pa_last);
 				   else
 					  list_stems(current_output, input_word, input_line, pa, pa_last);
 				   end if;
 
-				   --TEXT_IO.PUT_LINE("After LISTing STEMS (PA_LAST > 0 to start) PA_LAST = " & 
+				   --TEXT_IO.PUT_LINE("After LISTing STEMS (PA_LAST > 0 to start) PA_LAST = " &
 				   --INTEGER'IMAGE(PA_LAST));
-				   
-				   
+
 				   pa_last := 0;
 
 				exception
 				   when others  =>
 					  put_stat("Exception    at "
-								 & head(integer'image(line_number), 8) & head(integer'image(word_number), 4)    
+								 & head(integer'image(line_number), 8) & head(integer'image(word_number), 4)
 								 & "   " & head(input_word, 28) & "   "  & input_line);
 					  raise;
 
 				end parse_word_latin_to_english;
 
-
 			 end if;
 
 			 ----------------------------------------------------------------------
 			 ----------------------------------------------------------------------
-
 
 			 j := k + 1;    --  In case it is end of line and we don't look for ' '
 
@@ -969,15 +922,14 @@ procedure parse(command_line : string := "") is
 			text_io.put_line(unknowns, "    ========   ERROR      ");
 		 end if;
 		 pa_last := 0;
-   end parse_line;     
-
+   end parse_line;
 
    --procedure CHANGE_LANGUAGE(C : CHARACTER) is
    --begin
    --  if UPPER_CASE(C) = 'L'  then
    --    LANGUAGE := LATIN_TO_ENGLISH;
    --    PREFACE.PUT_LINE("Language changed to " & LANGUAGE_TYPE'IMAGE(LANGUAGE));
-   --  elsif UPPER_CASE(C) = 'E'  then  
+   --  elsif UPPER_CASE(C) = 'E'  then
    --    if ENGLISH_DICTIONARY_AVAILABLE(GENERAL)  then
    --      LANGUAGE:= ENGLISH_TO_LATIN;
    --      PREFACE.PUT_LINE("Language changed to " & LANGUAGE_TYPE'IMAGE(LANGUAGE));
@@ -988,13 +940,12 @@ procedure parse(command_line : string := "") is
    --  else
    --    PREFACE.PUT_LINE("Bad LANGAUGE input - no change, remains " & LANGUAGE_TYPE'IMAGE(LANGUAGE));
    --  end if;
-   --exception 
+   --exception
    --  when others  =>
    --    PREFACE.PUT_LINE("Bad LANGAUGE input - no change, remains " & LANGUAGE_TYPE'IMAGE(LANGUAGE));
    --end CHANGE_LANGUAGE;
-   --    
-   --  
-
+   --
+   --
 
 begin              --  PARSE
 				   --  All Rights Reserved   -   William Armstrong Whitaker
@@ -1034,7 +985,7 @@ begin              --  PARSE
 						  change_language_character & "E changes to English-to-Latin, " &
 							change_language_character & "L changes back     [tilde E]");
 	  end if;
-	  
+
 	  if configuration = only_meanings  then
 		 preface.put_line(
 						  "THIS VERSION IS HARDCODED TO GIVE DICTIONARY FORM AND MEANINGS ONLY");
@@ -1055,7 +1006,7 @@ begin              --  PARSE
 			line := blank_line;
 			get_line(line, l);
 			if (l = 0) or else (trim(line(1..l)) = "")  then
-			   --LINE_NUMBER := LINE_NUMBER + 1;  --  Count blank lines 
+			   --LINE_NUMBER := LINE_NUMBER + 1;  --  Count blank lines
 			   if (name(current_input) = name(standard_input))  then   --  INPUT is keyboard
 				  preface.put("Blank exits =>");
 				  get_line(line, l);             -- Second try
@@ -1070,7 +1021,7 @@ begin              --  PARSE
 				  end if;
 			   end if;
 			end if;
-			
+
 			if (trim(line(1..l)) /= "")  then  -- Not a blank line so L(1) (in file input)
 			   if line(1) = start_file_character  then    --  To begin file of words
 				  if (name(current_input) /= name(standard_input)) then
@@ -1108,7 +1059,7 @@ begin              --  PARSE
 				  parse_line(line(1..l));
 			   end if;
 			end if;
-			
+
 		 exception
 			when name_error | use_error =>
 			   if (name(current_input) /= name(standard_input))  then

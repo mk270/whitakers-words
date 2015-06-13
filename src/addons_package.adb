@@ -1,5 +1,3 @@
-
-
 with strings_package; use strings_package;
 with latin_file_names; use latin_file_names;
 with developer_parameters; use developer_parameters;
@@ -43,7 +41,6 @@ package body addons_package is
 
 	  return true;
    end equ;
-
 
    procedure load_addons (file_name : in string) is
 	  use part_of_speech_type_io;
@@ -121,8 +118,8 @@ package body addons_package is
 	  --    DICT_IO.CREATE(DICT_FILE(D_K), DICT_IO.INOUT_FILE,
 	  --          --ADD_FILE_NAME_EXTENSION(DICT_FILE_NAME, DICTIONARY_KIND'IMAGE(D_K)));
 	  --       "");
-	  --       
-	  while not end_of_file(addons_file)  loop                                 
+	  --
+	  while not end_of_file(addons_file)  loop
 
 		 de := null_dictionary_entry;
 		 get_no_comment_line(addons_file, s, last);
@@ -132,7 +129,7 @@ package body addons_package is
 			when tackon  =>
 			   ts := head(trim(s(l+1..last)), max_stem_size);
 			   de.stems(1) := ts;
-			   
+
 			   get_line(addons_file, s, last);
 			   get(s(1..last), tn, l);
 			   get_line(addons_file, s, last);
@@ -178,7 +175,6 @@ package body addons_package is
 			   get_line(addons_file, s, last);
 			   mean := head(s(1..last), max_meaning_size);
 
-
 			   if  pm.entr.root = pack     then
 				  tic := tic + 1;
 				  tickons (tic).pofs:= pofs;
@@ -192,8 +188,7 @@ package body addons_package is
 				  tickons (tic).mnpc := m;
 				  means(m) := mean;
 				  m := m + 1;
-				  
-				  
+
 			   else
 				  pre := pre + 1;
 				  prefixes(pre).pofs:= pofs;
@@ -258,10 +253,8 @@ package body addons_package is
 
 	  --for I in MEANS'RANGE  loop
 	  --  TEXT_IO.PUT(INTEGER'IMAGE(INTEGER(I))); TEXT_IO.PUT_LINE("--" & MEANS(I));
-	  --end loop;  
-	  
+	  --end loop;
 
-	  
    exception
 	  when text_io.name_error  =>
 		 preface.put_line("No ADDONS file ");
@@ -274,9 +267,6 @@ package body addons_package is
 		 preface.put_line("Exception in LOAD_ADDONS");
 		 preface.put_line(s(1..last));
    end load_addons;
-   
-   
-   
 
    function subtract_tackon(w : string; x : tackon_item) return string is
 	  wd : constant string := trim(w);
@@ -324,7 +314,7 @@ package body addons_package is
 	  z  : constant integer := xf'length;
 	  st : stem_type := head(wd, max_stem_size);
    begin
-	  --PUT_LINE("In SUBTRACT_SUFFIX  Z = " & INTEGER'IMAGE(Z) & 
+	  --PUT_LINE("In SUBTRACT_SUFFIX  Z = " & INTEGER'IMAGE(Z) &
 	  --"  CONNECT >" & X.CONNECT & '<');
 	  if words_mdev(use_suffixes) and then
 		x /= null_suffix_item and then
@@ -363,7 +353,6 @@ package body addons_package is
 	  end if;
    end add_suffix;
 
-
    --  package body TARGET_ENTRY_IO is separate;
 
    --  package body TACKON_ENTRY_IO is separate;
@@ -377,7 +366,6 @@ package body addons_package is
    --  package body SUFFIX_ENTRY_IO is separate;
 
    --  package body SUFFIX_LINE_IO is separate;
-
 
    package body target_entry_io is
 	  use part_of_speech_type_io;
@@ -394,7 +382,7 @@ package body addons_package is
 	  --  use PRONOUN_KIND_TYPE_IO;
 	  --  use INFLECTIONS_PACKAGE.INTEGER_IO;
 	  --  use VERB_KIND_TYPE_IO;
-	  
+
 	  spacer : character := ' ';
 
 	  noun  : noun_entry;
@@ -410,11 +398,10 @@ package body addons_package is
 	  --  PROPACK_KIND : PRONOUN_KIND_TYPE;
 	  --  NUMERAL_VALUE : NUMERAL_VALUE_TYPE;
 	  --  VERB_KIND : VERB_KIND_TYPE;
-	  
+
 	  --KIND : KIND_ENTRY;
 
 	  p : target_entry;
-
 
 	  procedure get(f : in file_type; p : out target_entry) is
 		 ps : target_pofs_type := x;
@@ -524,7 +511,6 @@ package body addons_package is
 		 return;
 	  end put;
 
-
 	  procedure put(p : in target_entry) is
 		 c : positive := positive(col);
 	  begin
@@ -583,7 +569,7 @@ package body addons_package is
 			   get(s(l+1..s'last), numeral, last);
 			   --GET(S(L+1..S'LAST), NUMERAL_VALUE, LAST);
 			   p := (num, numeral);  --, NUMERAL_VALUE);
-			when adv =>  
+			when adv =>
 			   get(s(l+1..s'last), adverb, last);
 			   p := (adv, adverb);
 			when v =>
@@ -595,7 +581,6 @@ package body addons_package is
 		 end case;
 		 return;
 	  end get;
-
 
 	  procedure put(s : out string; p : in target_entry) is
 		 l : integer := s'first - 1;
@@ -643,9 +628,7 @@ package body addons_package is
 		 s(m+1..s'last) := (others => ' ');
 	  end put;
 
-
    end target_entry_io;
-
 
    package body tackon_entry_io is
 	  spacer : character := ' ';
@@ -685,9 +668,7 @@ package body addons_package is
 		 s(s'first..s'last) := (others => ' ');
 	  end put;
 
-
    end tackon_entry_io;
-
 
    package body prefix_entry_io is
 	  use part_of_speech_type_io;
@@ -702,7 +683,6 @@ package body addons_package is
 		 get(f, spacer);
 		 get(f, p.target);
 	  end get;
-
 
 	  procedure get(p : out prefix_entry) is
 	  begin
@@ -733,7 +713,6 @@ package body addons_package is
 		 get(s(l+1..s'last), p.target, last);
 	  end get;
 
-
 	  procedure put(s : out string; p : in prefix_entry) is
 		 l : integer := s'first - 1;
 		 m : integer := 0;
@@ -748,8 +727,6 @@ package body addons_package is
 	  end put;
 
    end prefix_entry_io;
-
-
 
    package body suffix_entry_io is
 	  use part_of_speech_type_io;
@@ -769,7 +746,6 @@ package body addons_package is
 		 get(f, spacer);
 		 get(f, p.target_key);
 	  end get;
-
 
 	  procedure get(p : out suffix_entry) is
 	  begin
@@ -821,7 +797,6 @@ package body addons_package is
 		 --TEXT_IO.PUT("#5" & INTEGER'IMAGE(LAST));
 	  end get;
 
-
 	  procedure put(s : out string; p : in suffix_entry) is
 		 l : integer := s'first - 1;
 		 m : integer := 0;
@@ -845,8 +820,6 @@ package body addons_package is
 
    end suffix_entry_io;
 
-
-
 begin    --  Initiate body of ADDONS_PACKAGE
 		 --TEXT_IO.PUT_LINE("Initializing ADDONS_PACKAGE");
 
@@ -861,5 +834,4 @@ begin    --  Initiate body of ADDONS_PACKAGE
 	 2;
    tackon_entry_io.default_width := target_entry_io.default_width;
 
-   
 end addons_package;

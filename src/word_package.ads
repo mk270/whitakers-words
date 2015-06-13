@@ -4,7 +4,7 @@ with dictionary_package; use dictionary_package;
 with addons_package; use addons_package;
 with word_support_package; use word_support_package;
 package word_package is
-   
+
    line_number, word_number : integer := 0;
 
    type stem_array_type is array (integer range <>) of stem_type;
@@ -16,7 +16,6 @@ package word_package is
    sa, ssa : stem_array := not_a_stem_array;
    ssa_max : integer := 0;
 
-
    type pruned_dictionary_item is
 	  record
 		 ds   : dictionary_stem;
@@ -26,12 +25,11 @@ package word_package is
    type pruned_dictionary_list is array (1..80) of pruned_dictionary_item;
    --  Aug 96   QU_PRON max 42, PACK max 54
    --  Jan 97   QU_PRON max 42, PACK max 74  --  Might reduce
-   
+
    pdl : pruned_dictionary_list := (others => null_pruned_dictionary_item);
    pdl_index : integer := 0;
 
    subtype sal is parse_array(1..250);
-
 
    type dict_restriction is (x, regular, qu_pron_only, pack_only);
 
@@ -45,22 +43,21 @@ package word_package is
    output_scroll_count : integer := 0;
 
    procedure pause(output : text_io.file_type);
-   
-   function min(a, b : integer) return integer;  
-   
-   function ltu(c, d : character) return boolean;  
-   
-   function equ(c, d : character) return boolean;   
-   
-   function gtu(c, d : character) return boolean;  
-   
-   function ltu(s, t : string) return boolean;  
-   
-   function gtu(s, t : string) return boolean;  
-   
-   function equ(s, t : string) return boolean;  
-   
-   
+
+   function min(a, b : integer) return integer;
+
+   function ltu(c, d : character) return boolean;
+
+   function equ(c, d : character) return boolean;
+
+   function gtu(c, d : character) return boolean;
+
+   function ltu(s, t : string) return boolean;
+
+   function gtu(s, t : string) return boolean;
+
+   function equ(s, t : string) return boolean;
+
    procedure run_inflections(s : in string; sl : in out sal;
 											restriction : dict_restriction := regular);
 
@@ -71,8 +68,8 @@ package word_package is
    procedure word(raw_word : in string;
 				  pa : in out parse_array; pa_last : in out integer);
 
-   procedure change_language(c : character);  
-   
+   procedure change_language(c : character);
+
    procedure initialize_word_package;
 
 end word_package;

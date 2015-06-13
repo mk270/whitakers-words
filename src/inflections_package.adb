@@ -3,7 +3,6 @@ with preface;
 package body inflections_package is
    use text_io;
 
-
    function "<" (left, right : decn_record) return boolean is
    begin
 	  if left.which < right.which  or else
@@ -15,8 +14,6 @@ package body inflections_package is
 	  end if;
    end "<";
 
-   
-   
    function "<" (left, right : quality_record) return boolean is
    begin
 	  if left.pofs = right.pofs  then
@@ -216,7 +213,6 @@ package body inflections_package is
 		 return left.pofs < right.pofs;
    end "<";
 
-
    function "<=" (left, right : part_of_speech_type) return boolean is
    begin
 	  if right = left  or else
@@ -314,7 +310,6 @@ package body inflections_package is
 	  end if;
    end "<=";
 
-
    function "<=" (left, right : pronoun_kind_type)   return boolean is
    begin
 	  if (right = left   or else
@@ -324,7 +319,6 @@ package body inflections_package is
 		 return false;
 	  end if;
    end "<=";
-
 
    function "<=" (left, right : verb_kind_type)   return boolean is
    begin
@@ -336,7 +330,6 @@ package body inflections_package is
 	  end if;
    end "<=";
 
-
    function "<=" (left, right : numeral_sort_type)   return boolean is
    begin
 	  if (right = left   or else
@@ -346,7 +339,6 @@ package body inflections_package is
 		 return false;
 	  end if;
    end "<=";
-
 
    function "<=" (left, right : stem_key_type)   return boolean is
    begin            --  Only works for 2 stem parts, not verbs
@@ -368,7 +360,6 @@ package body inflections_package is
 	  end if;
    end "<=";
 
-
    function "<=" (left, right : frequency_type) return boolean is
    begin
 	  if right = left  or else
@@ -378,9 +369,6 @@ package body inflections_package is
 		 return false;
 	  end if;
    end "<=";
-   
-   
-   
 
    package body stem_type_io is
 	  procedure get(f : in file_type; d : out stem_type) is
@@ -391,13 +379,12 @@ package body inflections_package is
 			get(f, c);
 			if (c not in 'A'..'Z') and (c not in 'a'..'z')  then
 			   exit;
-			else 
+			else
 			   d(i) := c;
 			end if;
 		 end loop;
 	  end get;
-	  
-	  
+
 	  procedure get(d : out stem_type) is
 		 c : character := ' ';
 	  begin
@@ -406,46 +393,45 @@ package body inflections_package is
 			text_io.get(c);
 			if (c not in 'A'..'Z') and (c not in 'a'..'z')  then
 			   exit;
-			else 
+			else
 			   d(i) := c;
 			end if;
 		 end loop;
 	  end get;
-	  
+
 	  procedure put(f : in file_type; d : in stem_type) is
-	  begin 
+	  begin
 		 text_io.put(f, d);
 	  end put;
-      
+
 	  procedure put(d : in stem_type) is
-	  begin 
+	  begin
 		 text_io.put(d);
 	  end put;
-      
-	  procedure get(s : in string; d : out stem_type; 
+
+	  procedure get(s : in string; d : out stem_type;
 								   last : out integer) is
 		 c : character;
-	  begin 
+	  begin
 		 d := null_stem_type;
 		 last := 0;
 		 for i in 1..stem_type_io.default_width  loop
 			c := s(i);
 			if (c not in 'A'..'Z') and (c not in 'a'..'z')  then
 			   exit;
-			else 
+			else
 			   d(i) := c;
 			   last := i;
 			end if;
 		 end loop;
 	  end get;
-	  
+
 	  procedure put(s : out string; d : in stem_type) is
-	  begin 
+	  begin
 		 s(s'first..s'first+stem_type_io.default_width-1) := d;
 	  end put;
-	  
-   end stem_type_io;  
-   
+
+   end stem_type_io;
 
    package body decn_record_io is
 	  --  This package will carry the documentation for all the following packages
@@ -514,7 +500,7 @@ package body inflections_package is
 		 m : integer := 0;
 	  begin
 		 --  Make a place the DEFAULT_WIDTH of the component  to be Put
-		 --  The DEFAULT_WIDTH has been set for these _IO packages to be 
+		 --  The DEFAULT_WIDTH has been set for these _IO packages to be
 		 --  the LONGEST component width, not the normal Ada default
 		 m := l + 1;           --  But WHICH is to be PUT WIDTH 1
 							   --  Put onto the substring that is exactly the DEFAULT (LONGEST) size
@@ -528,7 +514,7 @@ package body inflections_package is
 		 --  Put the next component
 		 put(s(l+1..m), d.var);
 		 --  The following may be necessary to fill the out string
-		 --  but usually the out string has been specified exactly 
+		 --  but usually the out string has been specified exactly
 		 s(m+1..s'last) := (others => ' ');
 	  end put;
 
@@ -606,14 +592,12 @@ package body inflections_package is
 
    end tense_voice_mood_record_io;
 
-
    package body noun_record_io is
 	  use decn_record_io;
 	  use case_type_io;
 	  use gender_type_io;
 	  use number_type_io;
 	  spacer : character := ' ';
-
 
 	  procedure get(f : in file_type; n : out noun_record) is
 	  begin
@@ -692,9 +676,7 @@ package body inflections_package is
 		 s(m+1..s'last) := (others => ' ');
 	  end put;
 
-
    end noun_record_io;
-
 
    package body pronoun_record_io is
 	  use decn_record_io;
@@ -780,9 +762,7 @@ package body inflections_package is
 		 s(m+1..s'last) := (others => ' ');
 	  end put;
 
-
    end pronoun_record_io;
-
 
    package body propack_record_io is
 	  use decn_record_io;
@@ -868,9 +848,7 @@ package body inflections_package is
 		 s(m+1..s'last) := (others => ' ');
 	  end put;
 
-
    end propack_record_io;
-
 
    package body adjective_record_io is
 	  use decn_record_io;
@@ -879,7 +857,6 @@ package body inflections_package is
 	  use number_type_io;
 	  use comparison_type_io;
 	  spacer : character := ' ';
-
 
 	  procedure get(f : in file_type; a : out adjective_record) is
 	  begin
@@ -972,11 +949,8 @@ package body inflections_package is
 		 s(m+1..s'last) := (others => ' ');
 	  end put;
 
-
    end adjective_record_io;
 
-
-   
    package body numeral_record_io is
 	  use decn_record_io;
 	  use case_type_io;
@@ -985,7 +959,6 @@ package body inflections_package is
 	  use numeral_sort_type_io;
 	  use gender_type_io;
 	  spacer : character := ' ';
-
 
 	  procedure get(f : in file_type; num : out numeral_record) is
 	  begin
@@ -1003,7 +976,7 @@ package body inflections_package is
 	  procedure get(num : out numeral_record) is
 	  begin
 		 get(num.decl);
-		 get(spacer);                                                                             
+		 get(spacer);
 		 get(spacer);
 		 get(num.number);
 		 get(spacer);
@@ -1077,15 +1050,11 @@ package body inflections_package is
 		 s(m+1..s'last) := (others => ' ');
 	  end put;
 
-
    end numeral_record_io;
-
-
 
    package body adverb_record_io is
 	  use comparison_type_io;
 	  spacer : character := ' ';
-
 
 	  procedure get(f : in file_type; a : out adverb_record) is
 	  begin
@@ -1122,9 +1091,7 @@ package body inflections_package is
 		 s(m+1..s'last) := (others => ' ');
 	  end put;
 
-
    end adverb_record_io;
-
 
    package body verb_record_io is
 	  use decn_record_io;
@@ -1132,7 +1099,6 @@ package body inflections_package is
 	  use person_type_io;
 	  use number_type_io;
 	  spacer : character := ' ';
-
 
 	  procedure get(f : in file_type; v : out verb_record) is
 	  begin
@@ -1211,9 +1177,7 @@ package body inflections_package is
 		 s(m+1..s'last) := (others => ' ');
 	  end put;
 
-
    end verb_record_io;
-
 
    package body vpar_record_io is
 	  use decn_record_io;
@@ -1222,7 +1186,6 @@ package body inflections_package is
 	  use gender_type_io;
 	  use tense_voice_mood_record_io;
 	  spacer : character := ' ';
-
 
 	  procedure get(f : in file_type; vp : out vpar_record) is
 	  begin
@@ -1315,9 +1278,7 @@ package body inflections_package is
 		 s(m+1..s'last) := (others => ' ');
 	  end put;
 
-
    end vpar_record_io;
-
 
    package body supine_record_io is
 	  use decn_record_io;
@@ -1325,7 +1286,6 @@ package body inflections_package is
 	  use number_type_io;
 	  use gender_type_io;
 	  spacer : character := ' ';
-
 
 	  procedure get(f : in file_type; vp : out supine_record) is
 	  begin
@@ -1404,9 +1364,7 @@ package body inflections_package is
 		 s(m+1..s'last) := (others => ' ');
 	  end put;
 
-
    end supine_record_io;
-
 
    package body preposition_record_io is
 	  use case_type_io;
@@ -1447,14 +1405,11 @@ package body inflections_package is
 		 s(m+1..s'last) := (others => ' ');
 	  end put;
 
-
    end preposition_record_io;
-
 
    package body conjunction_record_io is
 	  null_conjunction_record : conjunction_record;
 	  spacer : character := ' ';
-
 
 	  procedure get(f : in file_type; c : out conjunction_record) is
 		 --  There is actually nothing to a CONJUNCTION_RECORD, no compoonents
@@ -1490,9 +1445,7 @@ package body inflections_package is
 		 s(s'first..s'last) := (others => ' ');
 	  end put;
 
-
    end conjunction_record_io;
-
 
    package body interjection_record_io is
 	  null_interjection_record : interjection_record;
@@ -1530,10 +1483,7 @@ package body inflections_package is
 		 s(s'first..s'last) := (others => ' ');
 	  end put;
 
-
    end interjection_record_io;
-
-
 
    package body tackon_record_io is
 	  null_tackon_record : tackon_record;
@@ -1571,9 +1521,7 @@ package body inflections_package is
 		 s(s'first..s'last) := (others => ' ');
 	  end put;
 
-
    end tackon_record_io;
-
 
    package body prefix_record_io is
 
@@ -1611,9 +1559,7 @@ package body inflections_package is
 
    end prefix_record_io;
 
-
    package body suffix_record_io is
-
 
 	  procedure get(f : in file_type; p : out suffix_record) is
 	  begin
@@ -1649,7 +1595,6 @@ package body inflections_package is
 
    end suffix_record_io;
 
-
    package body quality_record_io is
 	  use part_of_speech_type_io;
 	  use noun_record_io;
@@ -1669,7 +1614,6 @@ package body inflections_package is
 	  use suffix_record_io;
 	  spacer : character := ' ';
 
-
 	  noun  : noun_record;
 	  pronoun : pronoun_record;
 	  propack : propack_record;
@@ -1687,7 +1631,6 @@ package body inflections_package is
 	  suffx : suffix_record;
 
 	  pr : quality_record;
-
 
 	  procedure get(f : in file_type; p : out quality_record) is
 		 ps : part_of_speech_type := x;
@@ -1846,7 +1789,6 @@ package body inflections_package is
 		 return;
 	  end put;
 
-
 	  procedure put(p : in quality_record) is
 		 c : positive := positive(col);
 	  begin
@@ -1949,7 +1891,6 @@ package body inflections_package is
 		 return;
 	  end get;
 
-
 	  procedure put(s : out string; p : in quality_record) is
 		 --  Note that this does not Put with a uniform width
 		 --  which would require a constant QUALITY_RECORD_IO.DEFAULT_WIDTH
@@ -2014,9 +1955,7 @@ package body inflections_package is
 		 s(m+1..s'last) := (others => ' ');
 	  end put;
 
-
    end quality_record_io;
-
 
    package body ending_record_io is
 	  use integer_io;
@@ -2078,10 +2017,10 @@ package body inflections_package is
 			l := l + 1;
 			--if S(L+N-1) = ' '  or else
 			--   S(L+N+1) /= ' '  then
-			--if 
+			--if
 			--   S(L+N+1) /= ' '  then
-			-- TEXT_IO.PUT_LINE("ERROR in INFLECTION =>" & S);   
-			--else     
+			-- TEXT_IO.PUT_LINE("ERROR in INFLECTION =>" & S);
+			--else
 			sf := s(l+1..l+n) & blanks(n+1..max_ending_size);
 			last := l + n;
 			x := (n, sf(1..n) & blanks(n+1..max_ending_size));
@@ -2113,9 +2052,7 @@ package body inflections_package is
 		 s(m+1..s'last) := (others => ' ');
 	  end put;
 
-
    end ending_record_io;
-
 
    package body inflection_record_io is
 	  use quality_record_io;
@@ -2222,10 +2159,9 @@ package body inflections_package is
 
    end inflection_record_io;
 
-
    procedure establish_inflections_section  is
 	  --  Loads the inflection array from the file prepared in FILE_INFLECTIONS_SECTION
-	  --  If N = 0 (an artifical flag for the section for blank inflections = 5) 
+	  --  If N = 0 (an artifical flag for the section for blank inflections = 5)
 	  --  computes the LELL..LELF indices for use in WORD
 	  use text_io;
 	  use inflection_record_io;
@@ -2245,7 +2181,6 @@ package body inflections_package is
 		 lel_section_io.read(inflections_sections_file,
 							 lel,
 							 lel_section_io.positive_count(5));
-
 
 		 i := 1;
 		 belf(0, ' ') := i;
@@ -2297,9 +2232,7 @@ package body inflections_package is
 				  exit n1_loop;
 			   end if;
 
-
 			   i := i + 1;
-
 
 			end loop n1_loop;
 
@@ -2312,7 +2245,6 @@ package body inflections_package is
 		 lel_section_io.read(inflections_sections_file,
 							 lel,
 							 lel_section_io.positive_count(2));
-
 
 		 i := 1;
 
@@ -2334,8 +2266,6 @@ package body inflections_package is
 
 			   ch := lel(i).ending.suf(n);
 			   exit when ch > 'r';
-
-
 
 			   if ch /= xch  then
 				  lell(xn, xch) := i - 1;
@@ -2386,7 +2316,6 @@ package body inflections_package is
 			   ch := lel(i).ending.suf(n);
 			   exit when ch > 's';
 
-
 			   if ch /= xch  then
 				  lell(xn, xch) := i - 1;
 				  lelf(n, ch) := i;
@@ -2403,7 +2332,6 @@ package body inflections_package is
 
 			   i := i + 1;
 
-
 			end loop n3_loop;
 
 		 end loop c3_loop;
@@ -2416,13 +2344,11 @@ package body inflections_package is
 							 lel,
 							 lel_section_io.positive_count(4));
 
-
 		 i := 1;
 
 		 n := lel(i).ending.size;
 
 		 ch := lel(i).ending.suf(n);
-
 
 		 xn := n;
 		 xch := ch;
@@ -2436,7 +2362,6 @@ package body inflections_package is
 			   exit c4_loop when  lel(i).qual.pofs = pron  and then
 				 (lel(i).qual.pron.decl.which = 1  or
 					lel(i).qual.pron.decl.which = 2);
-
 
 			   n := lel(i).ending.size;
 
@@ -2470,12 +2395,10 @@ package body inflections_package is
 
 			ch := lel(i).ending.suf(n);
 
-
 			xn := n;
 			xch := ch;
 			pelf(n,  ch) := i;
 			pell(n,  ch) := 0;
-
 
 		c_p_loop:
 			loop
@@ -2486,7 +2409,6 @@ package body inflections_package is
 				  n := lel(i).ending.size;
 
 				  ch := lel(i).ending.suf(n);
-
 
 				  if ch /= xch  then
 					 pell(xn, xch) := i - 1;
@@ -2507,7 +2429,6 @@ package body inflections_package is
 			   end loop n_p_loop;
 
 			end loop c_p_loop;
-
 
 		 exception
 			when constraint_error => null;
@@ -2539,8 +2460,6 @@ package body inflections_package is
 		 raise give_up;
 
    end establish_inflections_section;
-
-
 
 begin  --  initialization of body of INFLECTIONS_PACKAGE
 	   --TEXT_IO.PUT_LINE("Initializing INFLECTIONS_PACKAGE");
@@ -2628,6 +2547,5 @@ begin  --  initialization of body of INFLECTIONS_PACKAGE
 	 ending_record_io.default_width + 1 +
 	 age_type_io.default_width + 1 +
 	 frequency_type_io.default_width;
-
 
 end inflections_package;

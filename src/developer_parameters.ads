@@ -4,14 +4,14 @@ package developer_parameters is
    --  These are a few strange declarations to be used in diagnostics;
    sra_max, sraa_max, dma_max : integer := 0;
    pa_last_max, final_pa_last_max : integer := 0;
-   
+
    --  This package defines a number of parameters that areused in the program
    --  The default values are set in the body, so that they may be changed easily
 
    --  These files are used by the program if requested, but not necessary
    --  They are all text files and human readable
 
-   --  DEVELOPER MODE_FILE is used by the program to remember values 
+   --  DEVELOPER MODE_FILE is used by the program to remember values
    mdev_file : text_io.file_type;
    mdev_full_name : constant string := "WORD.MDV";
 
@@ -24,68 +24,62 @@ package developer_parameters is
    stats : text_io.file_type;
    stats_full_name : constant string := "WORD.STA";
 
-   type mdev_type is (   
+   type mdev_type is (
 	 --               HAVE_DEBUG_FILE,      --  No longer in use
-	 --               WRITE_DEBUG_FILE,     
+	 --               WRITE_DEBUG_FILE,
 
-	 have_statistics_file, 
+	 have_statistics_file,
 	 write_statistics_file,
 
-	 show_dictionary,      
-	 show_dictionary_line, 
-	 show_dictionary_codes, 
+	 show_dictionary,
+	 show_dictionary_line,
+	 show_dictionary_codes,
 	 do_pearse_codes,
 
-	 do_only_initial_word, 
-	 for_word_list_check,  
+	 do_only_initial_word,
+	 for_word_list_check,
 
-	 do_only_fixes,         
-	 do_fixes_anyway,       
-	 use_prefixes,          
-	 use_suffixes,       
-	 use_tackons,       
+	 do_only_fixes,
+	 do_fixes_anyway,
+	 use_prefixes,
+	 use_suffixes,
+	 use_tackons,
 
-	 do_medieval_tricks,   
-	 
-	 do_syncope,            
-	 do_two_words,            
+	 do_medieval_tricks,
+
+	 do_syncope,
+	 do_two_words,
 	 include_unknown_context,
 	 no_meanings,
-	 
-	 
-	 omit_archaic,        
-	 omit_medieval,    
-	 omit_uncommon,    
-	 
-	 do_i_for_j,        
-	 do_u_for_v,    
-	 
-	 pause_in_screen_output, 
-	 no_screen_activity,   
-	 
+
+	 omit_archaic,
+	 omit_medieval,
+	 omit_uncommon,
+
+	 do_i_for_j,
+	 do_u_for_v,
+
+	 pause_in_screen_output,
+	 no_screen_activity,
+
 	 update_local_dictionary,
-	 update_meanings,       
+	 update_meanings,
 
 	 minimize_output         );
 
-   package mdev_type_io is new text_io.enumeration_io(mdev_type); 
+   package mdev_type_io is new text_io.enumeration_io(mdev_type);
 
    type mdev_array is array (mdev_type) of boolean;
 
-
    words_mdev : mdev_array;        --  Initialized in body
-
 
    start_file_character               : character := '@';
    change_developer_modes_character   : character := '!';
-   
+
    procedure change_developer_modes;
 
-   procedure update_local_dictionary_file;  
-   
+   procedure update_local_dictionary_file;
+
    procedure initialize_developer_parameters;
 
-
 end developer_parameters;
-
-

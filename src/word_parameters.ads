@@ -21,43 +21,38 @@ package word_parameters is
 
    --  This is a flag to tell if there has been trimming for this word
    trimmed : boolean := false;
-   
-   
-   type mode_type is (      
-							trim_output, 
-							
-							have_output_file,        
-							write_output_to_file,    
 
-							do_unknowns_only,        
-							write_unknowns_to_file,  
-							
-							ignore_unknown_names,    
-							ignore_unknown_caps,    
-							do_compounds,            
-							do_fixes,                
-							do_tricks,               
-							
-							do_dictionary_forms,     
-							show_age,                
-							show_frequency,          
+   type mode_type is (
+							trim_output,
 
-							do_examples,             
-							do_only_meanings,        
-							do_stems_for_unknown       );         
+							have_output_file,
+							write_output_to_file,
 
-   package mode_type_io is new text_io.enumeration_io(mode_type); 
+							do_unknowns_only,
+							write_unknowns_to_file,
+
+							ignore_unknown_names,
+							ignore_unknown_caps,
+							do_compounds,
+							do_fixes,
+							do_tricks,
+
+							do_dictionary_forms,
+							show_age,
+							show_frequency,
+
+							do_examples,
+							do_only_meanings,
+							do_stems_for_unknown       );
+
+   package mode_type_io is new text_io.enumeration_io(mode_type);
 
    type mode_array is array (mode_type) of boolean;
 
-
    words_mode : mode_array;        --  Initialized in body
 
-   
-   
-   procedure change_parameters;  
+   procedure change_parameters;
 
-   
    procedure initialize_word_parameters;
 
 end word_parameters;

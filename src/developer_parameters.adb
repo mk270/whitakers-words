@@ -10,11 +10,9 @@ package body developer_parameters is
 
    use text_io;
 
-
    type help_type is array (natural range <>) of string(1..70);
    blank_help_line : constant string(1..70) := (others => ' ');
    no_help : constant help_type := (2..1 => blank_help_line);
-
 
    type reply_type is (n, y);
    package reply_type_io is new text_io.enumeration_io(reply_type);
@@ -22,7 +20,7 @@ package body developer_parameters is
    mdev_of_reply : array (reply_type) of boolean := (false, true);
 
    blank_input : exception;
-   
+
    --  The default MDEVs are set in the body so that they can be changed
    --  with only this being recompiled, not the rest of the with'ing system
    default_mdev_array : constant mdev_array := (
@@ -35,7 +33,7 @@ package body developer_parameters is
 
 	 show_dictionary             => false,
 	 show_dictionary_line        => false,
-	 show_dictionary_codes       => true,   
+	 show_dictionary_codes       => true,
 	 do_pearse_codes             => false,
 
 	 do_only_initial_word        => false,
@@ -43,12 +41,12 @@ package body developer_parameters is
 
 	 do_only_fixes               => false,
 	 do_fixes_anyway             => false,
-	 use_prefixes                => true, 
-	 use_suffixes                => true, 
-	 use_tackons                 => true, 
-	 
+	 use_prefixes                => true,
+	 use_suffixes                => true,
+	 use_tackons                 => true,
+
 	 do_medieval_tricks          => true,
-	 
+
 	 do_syncope                  => true,
 	 do_two_words                => true,
 	 include_unknown_context     => true,
@@ -63,16 +61,13 @@ package body developer_parameters is
 
 	 pause_in_screen_output      => true,
 	 no_screen_activity          => false,
-	 
+
 	 update_local_dictionary     => false,
 	 update_meanings             => false,
 
 	 minimize_output             => true    );
 
    bad_mdev_file : exception;
-
-
-
 
    --HAVE_DEBUG_FILE_HELP : constant HELP_TYPE :=  (
    --   "This option instructs the program to create a file which can hold     ",
@@ -114,7 +109,6 @@ package body developer_parameters is
 	 "each invocation of the program, if the HAVE_STATISTICS_FILE is set.   ",
 	 "If the option HAVE_STATISTICS_FILE is off, the user will not be given ",
 	 "a chance to turn this one on.                Default is N(o).         " );
-
 
    show_dictionary_help : constant help_type :=  (
 	 "This option causes a flag, like 'GEN>' to be put before the meaning   ",
@@ -162,7 +156,6 @@ package body developer_parameters is
 	 "conventional translation situations, so the default choice is N(o).   ",
 	 "This processing can be turned on with the choice of Y(es).            " );
 
-
    do_fixes_anyway_help : constant help_type :=  (
 	 "This option instructs the program to do both the normal dictionary    ",
 	 "search and then process for the various prefixes and suffixes too.    ",
@@ -209,7 +202,6 @@ package body developer_parameters is
 	 "This is primarily a development tool, so the conventional user should ",
 	 "probably maintain the default  choice of Y(es).                       " );
 
-
    do_medieval_tricks_help : constant help_type :=  (
 	 "This option instructs the program, when it is unable to find a proper ",
 	 "match in the dictionary, and after various prefixes and suffixes, and ",
@@ -224,7 +216,6 @@ package body developer_parameters is
 	 "variations found in medieval Latin, but some constructs are common.   ",
 	 "The default choice is N(o), since the results are iffy, medieval only,",
 	 "and expensive.  This processing is turned on with the choice of Y(es)." );
-   
 
    do_syncope_help : constant help_type :=  (
 	 "This option instructs the program to postulate that syncope of        ",
@@ -248,7 +239,6 @@ package body developer_parameters is
 	 "correct, it is probably clear to the user.  Otherwise,  beware.  .    ",
 	 "Since this is a last chanceand infrequent, the default is Y(es);      ",
 	 "This processing is turned off with the choice of N(o).                " );
-   
 
    include_unknown_context_help : constant help_type :=  (
 	 "This option instructs the program, when writing to an UNKNOWNS file,  ",
@@ -258,12 +248,11 @@ package body developer_parameters is
 	 "few UNKNOWNS.    The main use at the moment is to provide display     ",
 	 "of the input line on the output file in the case of UNKNOWNS_ONLY.    ");
 
-   no_meanings_help : constant help_type :=  (  
-	 "This option instructs the program to omit putting out meanings.       ", 
+   no_meanings_help : constant help_type :=  (
+	 "This option instructs the program to omit putting out meanings.       ",
 	 "This is only useful for certain dictionary maintenance procedures.    ",
 	 "The combination not DO_DICTIONARY_FORMS, MEANINGS_ONLY, NO_MEANINGS   ",
 	 "results in no visible output, except spacing lines.    Default is N)o.");
-   
 
    omit_archaic_help : constant help_type :=  (
 	 "THIS OPTION IS CAN ONLY BE ACTIVE IF WORDS_MODE(TRIM_OUTPUT) IS SET!  ",
@@ -271,7 +260,6 @@ package body developer_parameters is
 	 "entries with an AGE code of A (Archaic).  Archaic results are rarely  ",
 	 "of interest in general use.  If there is no other possible form, then ",
 	 "the Archaic (roughly defined) will be reported.  The default is Y(es)." );
-
 
    omit_medieval_help : constant help_type :=  (
 	 "THIS OPTION IS CAN ONLY BE ACTIVE IF WORDS_MODE(TRIM_OUTPUT) IS SET!  ",
@@ -311,8 +299,6 @@ package body developer_parameters is
 	 "The program default, and the dictionary convention is to retain the v.",
 	 "Reset If this ia unsuitable for your application. The default is N(o)." );
 
-
-
    pause_in_screen_output_help : constant help_type :=  (
 	 "This option instructs the program to pause in output on the screen    ",
 	 "after about 16 lines so that the user can read the output, otherwise  ",
@@ -322,14 +308,11 @@ package body developer_parameters is
 	 "and only when there is no output file.  It is moot if only single word",
 	 "input or brief output.                 The default is Y(es).          " );
 
-
    no_screen_activity_help : constant help_type :=  (
 	 "This option instructs the program not to keep a running screen of the ",
 	 "input.  This is probably only to be used by the developer to calibrate",
 	 "run times for large text file input, removing the time necessary to   ",
 	 "write to screen.                       The default is N(o).           ");
-   
-   
 
    update_local_dictionary_help : constant help_type :=  (
 	 "This option instructs the program to invite the user to input a new   ",
@@ -362,13 +345,11 @@ package body developer_parameters is
 	 "This option is only for experienced users and should remain off.      ",
 	 "                                          The default is N(o).        ",
 	 "      ------    NOT AVAILABLE IN THIS VERSION   -------               " );
-   
 
    minimize_output_help : constant help_type :=  (
 	 "This option instructs the program to minimize the output.  This is a  ",
 	 "somewhat flexible term, but the use of this option will probably lead ",
 	 "to less output.                        The default is Y(es).          " );
-
 
    save_parameters_help : constant help_type :=  (
 	 "This option instructs the program, to save the current parameters, as ",
@@ -391,7 +372,6 @@ package body developer_parameters is
 	  end loop;
 	  new_line;
    end put;
-
 
    procedure update_local_dictionary_file is
 	  use text_io;
@@ -460,8 +440,6 @@ package body developer_parameters is
 		 begin
 			append_to_dict_loc_file;
 
-
-
 			dict_loc := null_dictionary;
 			load_dictionary(dict_loc,
 			  add_file_name_extension(dictionary_file_name, "LOCAL"));
@@ -474,10 +452,6 @@ package body developer_parameters is
 	  end loop;
 
    end update_local_dictionary_file;
-
-
-
-
 
    procedure put_mdevs is
 	  use mdev_type_io;
@@ -603,19 +577,18 @@ package body developer_parameters is
 	  new_line;
    end inquire;
 
-
    procedure change_developer_modes is
 	  l1 : string(1..100);
 	  ll : natural;
 	  r  : reply_type;
 
    begin
-	  
+
 	  put_line("To set developer modes reply Y/y or N/n.  Return accepts current value.");
 	  put_line("A '?' reply gives infomation/help on that parameter.  A space skips the rest.");
 	  put_line("Developer modes are only for special requirements and may not all be operable.");
 	  new_line;
-	  
+
 	  --  Interactive MDEV - lets you do things on unknown words
 
 	  --  You can say it is a noun and then look at the endings
@@ -643,7 +616,6 @@ package body developer_parameters is
 
 	  --  Maybe to turn on or off pre/suffix
 	  --  Maybe to allow the user to look at just all the prefixes that match
-
 
 	  --    INQUIRE(HAVE_DEBUG_FILE, HAVE_DEBUG_FILE_HELP);
 	  --    if IS_OPEN(DBG)  and then not WORDS_MDEV(HAVE_DEBUG_FILE)  then
@@ -688,8 +660,6 @@ package body developer_parameters is
 		 words_mdev(for_word_list_check) := false;
 	  end if;
 
-
-
 	  inquire(show_dictionary, show_dictionary_help);
 
 	  inquire(show_dictionary_line, show_dictionary_line_help);
@@ -698,23 +668,20 @@ package body developer_parameters is
 
 	  inquire(do_pearse_codes, do_pearse_codes_help);
 
-
 	  if words_mode(do_fixes) then
 		 inquire(do_only_fixes, do_only_fixes_help);
 		 inquire(do_fixes_anyway, do_fixes_anyway_help);
 	  end if;
 
 	  inquire(use_prefixes, use_prefixes_help);
-	  
+
 	  inquire(use_suffixes, use_suffixes_help);
-	  
+
 	  inquire(use_tackons, use_tackons_help);
-	  
-	  
+
 	  if words_mode(do_tricks) then
 		 inquire(do_medieval_tricks, do_medieval_tricks_help);
 	  end if;
-
 
 	  inquire(do_syncope, do_syncope_help);
 
@@ -724,33 +691,25 @@ package body developer_parameters is
 
 	  inquire(no_meanings, no_meanings_help);
 
-
 	  inquire(omit_archaic, omit_archaic_help);
 
 	  inquire(omit_medieval, omit_medieval_help);
 
 	  inquire(omit_uncommon, omit_uncommon_help);
 
-
 	  inquire(do_i_for_j, do_i_for_j_help);
 
 	  inquire(do_u_for_v, do_u_for_v_help);
 
-
 	  inquire(pause_in_screen_output, pause_in_screen_output_help);
-	  
-	  inquire(no_screen_activity, no_screen_activity_help);        
 
-	  
-	  
+	  inquire(no_screen_activity, no_screen_activity_help);
+
 	  inquire(update_local_dictionary, update_local_dictionary_help);
 
 	  inquire(update_meanings, update_meanings_help);
 
-
 	  inquire(minimize_output, minimize_output_help);
-
-
 
 	  put("START_FILE_CHARACTER ?  "); set_col(45); put("(Currently  '");
 	  put(start_file_character); put("'");
@@ -789,7 +748,6 @@ package body developer_parameters is
 		 end if;
 	  end if;
 	  new_line;
-
 
 	  put("CHANGE_DEVELOPER_MODES_CHARACTER ?  ");
 	  set_col(45); put("(Currently  '");
@@ -838,10 +796,8 @@ package body developer_parameters is
 
    end change_developer_modes;
 
-
    procedure initialize_developer_parameters is
    begin
-
 
   do_mdev_file:
 	  begin
@@ -862,7 +818,6 @@ package body developer_parameters is
 			words_mdev := default_mdev_array;
 	  end do_mdev_file;
 
-
 	  --  if not IS_OPEN(DBG) and then WORDS_MDEV(HAVE_DEBUG_FILE)  then
 	  --    CREATE(DBG, OUT_FILE, DEBUG_FULL_NAME);
 	  --    PREFACE.PUT_LINE("WORD.DBG Created at Initialization");
@@ -873,6 +828,5 @@ package body developer_parameters is
 	  end if;
 
    end initialize_developer_parameters;
-
 
 end developer_parameters;
