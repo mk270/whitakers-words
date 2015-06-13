@@ -763,67 +763,6 @@ package body tricks_package is
 		 pa_last := pa_save;
 	  end adj_terminal_iis;
 
-      --  Now SLUR is handled in TRY_SLURY
-      --
-      --    procedure SLUR(X1 : STRING; EXPLANATION : STRING := "") is
-      --      PA_SAVE : INTEGER := PA_LAST;
-      --      SL : INTEGER := X1'LENGTH;
-      --    begin
-      --      if S'LENGTH >= X1'LENGTH+2  then
-      --        if S(S'FIRST..S'FIRST+X1'LENGTH-1) = X1   and then   --  Initial  X1
-      --          not IS_A_VOWEL(S(S'FIRST+SL))                  then
-      --          PA_LAST := PA_LAST + 1;
-      --          PA(PA_LAST)           := (HEAD("Slur " & X1 & "/" & X1(1..SL-1) & "~", MAX_STEM_SIZE),
-      --                    NULL_INFLECTION_RECORD,
-      --                    XXX, NULL_MNPC);
-      --          TWORD(X1(1..SL-1) & S(S'FIRST+SL) & S(S'FIRST+SL..S'LAST), PA, PA_LAST);
-      --          if (PA_LAST > PA_SAVE + 1)   and then
-      --            (PA(PA_LAST-1).IR.QUAL.POFS /= TACKON)  then
-      --            if EXPLANATION = ""  then
-      --              XXX_MEANING := HEAD(
-      --                    "An initial '" & X1 & "' may be rendered by " & X1(1) & "~"
-      --                                 , MAX_MEANING_SIZE);
-      --            else
-      --              XXX_MEANING := HEAD(EXPLANATION, MAX_MEANING_SIZE);
-      --            end if;
-      --PUT_STAT("TRICK   SLUR at "
-      --                       & HEAD(INTEGER'IMAGE(LINE_NUMBER), 8) & HEAD(INTEGER'IMAGE(WORD_NUMBER), 4)
-      --                       & "   " & HEAD(W, 20) & "   "  & PA(PA_SAVE+1).STEM);
-      --          else
-      --            PA_LAST := PA_SAVE;
-      --          end if;
-      --
-      --        elsif (S(S'FIRST..S'FIRST+SL-1) = X1(1..SL-1))  and then
-      --              (S(S'FIRST+SL-1) = S(S'FIRST+SL))   and then   --  Double letter
-      --          not IS_A_VOWEL(S(S'FIRST+SL))           then
-      --          PA_LAST := PA_LAST + 1;
-      --          PA(PA_LAST) := (HEAD("Slur " & X1(1..SL-1) & "~" & "/" & X1, MAX_STEM_SIZE),
-      --                    NULL_INFLECTION_RECORD,
-      --                    XXX, NULL_MNPC);
-      --           TWORD(X1 & S(S'FIRST+SL..S'LAST), PA, PA_LAST);
-      --          if (PA_LAST > PA_SAVE + 1)   and then
-      --            (PA(PA_LAST-1).IR.QUAL.POFS /= TACKON)  then
-      --            if EXPLANATION = ""  then
-      --              XXX_MEANING := HEAD(
-      --                    "An initial '" & X1(1..SL-1) & "~" & "' may be rendered by " & X1
-      --                                 , MAX_MEANING_SIZE);
-      --            else
-      --              XXX_MEANING := HEAD(EXPLANATION, MAX_MEANING_SIZE);
-      --            end if;
-      --PUT_STAT("TRICK   SLUR at "
-      --                       & HEAD(INTEGER'IMAGE(LINE_NUMBER), 8) & HEAD(INTEGER'IMAGE(WORD_NUMBER), 4)
-      --                       & "   " & HEAD(W, 20) & "   "  & PA(PA_SAVE+1).STEM);
-      --          else
-      --            PA_LAST := PA_SAVE;
-      --      end if;
-      --
-      --        end if;
-      --      end if;
-      --      PA_LAST := PA_SAVE;
-      --    end SLUR;
-      --
-      --
-
 	  procedure double_consonants(explanation : string := "") is
 		 pa_save : integer := pa_last;
 	  begin
@@ -1755,20 +1694,6 @@ package body tricks_package is
 					 if pa_last > 0  then
 						return; end if;
 
-						--elsif S(S'FIRST) = 'e'  then
-
-
-
-						--elsif S(S'FIRST) = 'f'  then
-
-
-
-						--elsif S(S'FIRST) = 'g'  then
-
-
-						--elsif S(S'FIRST) = 'h'  then
-
-
 	  elsif s(s'first) = 'i'  then
 
 		 slur("in");
@@ -1783,31 +1708,6 @@ package body tricks_package is
 				  return; end if;
 
 				  --    -- for some forms of eo the stem "i" grates with an "is..." ending
-				  --    if S'LENGTH > 1 and then
-				  --       S(S'FIRST..S'FIRST+1) = "is"   then
-				  --      PA(1) := ("Word mod is => iis", NULL_INFLECTION_RECORD,
-				  --                XXX, NULL_MNPC);
-				  --      PA_LAST := 1;
-				  --      TWORD("i" & S(S'FIRST..S'LAST), PA, PA_LAST);
-				  --    end if;
-				  --    if (PA_LAST > PA_SAVE + 1)   and then
-				  --       (PA(PA_LAST-1).IR.QUAL.POFS /= TACKON)  and then
-				  --        PA(PA_LAST).IR.QUAL.POFS = V and then
-				  --        PA(PA_LAST).IR.QUAL.V.CON = (6, 1) then  --    Check it is V 6 1 eo
-				  --      XXX_MEANING := HEAD(
-				  --"Some forms of eo stem 'i' grates with an 'is...' ending, so 'is' -> 'iis' "
-				  --                             , MAX_MEANING_SIZE);
-				  --    else
-				  --      PA_LAST := 0;
-				  --    end if;
-
-				  --elsif S(S'FIRST) = 'k'  then
-
-
-				  --elsif S(S'FIRST) = 'l'  then
-
-
-				  --elsif S(S'FIRST) = 'm'  then
 
 
 	  elsif s(s'first) = 'n'  then
@@ -1824,8 +1724,6 @@ package body tricks_package is
 		 if pa_last > 0  then
 			return; end if;
 
-			--elsif S(S'FIRST) = 'p'  then
-
 
 	  elsif s(s'first) = 'q'  then
 
@@ -1838,93 +1736,12 @@ package body tricks_package is
 		 flip("se",  "ce");     --  Latham
 		 if pa_last > 0  then
 			return; end if;
-
+			
 			--  From Oxford Latin Dictionary p.1835 "sub-"
 
             slur("sub");
 
-
-
-
-			--elsif S(S'FIRST) = 't'  then
-
-
-			--elsif S(S'FIRST) = 'u'  then
-
-
-			--elsif S(S'FIRST) = 'y'  then
-
-
 	  end if;   --  if on first letter
-
-      --  All INTERNAL out
-      --
-      --
-      --
-      --
-      --
-      --
-      --
-      --
-      --
-
-      ---------------------------------------------------------------
-
-      --if WORDS_MDEV(DO_MEDIEVAL_TRICKS)  then
-      ----      Medieval  ->  Classic
-      --
-      ----  Harrington/Elliott    1.1.1
-      --
-      --
-      ----TEXT_IO.PUT_LINE("Trying com -> con");
-      --
-      --
-      --
-      ----  Harrington/Elliott    1.3
-      --
-      --
-      --
-      --
-      --
-      ----  Harrington/Elliott    1.3.1
-      --
-      --
-      --
-      --
-      --
-      --
-      --
-      --
-      --
-      --
-      ----  Harrington/Elliott    1.4
-      --
-      --
-      --
-      --
-      --
-      --
-      --
-      --
-      --
-      --
-      --
-      --
-      --
-      ----  Harrington/Elliott    1.4.1
-      --
-      --
-      --
-      ----  Harrington/Elliott    1.4.2
-      --
-      --
-      --
-      --
-      --DOUBLE_CONSONANTS;
-      --
-      --
-      --end if;   --  Medieval Tricks
-      ---------------------------------------------
 
    exception
 	  when others  =>    --  I want to ignore anything that happens in SLURY
