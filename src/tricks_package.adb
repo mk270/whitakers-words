@@ -1588,7 +1588,7 @@ package body tricks_package is
       --  That is called lying with statistics
 	  use inflections_package.integer_io;
 	  s  : constant string(1..w'length) := w;
-	  pa_save : integer := pa_last;
+	  pa_save : constant integer := pa_last;
 
 	  procedure tword(w : string;
 					  pa : in out parse_array; pa_last : in out integer) is
@@ -1635,7 +1635,7 @@ package body tricks_package is
          --  At the begining of input word, replaces X1 by X2 - then X2 by X1
          --  To be uesd only when X1 and X2 start with the same letter because it
          --  will be called from a point where the first letter is established
-		 pa_save : integer := pa_last;
+		 pa_save : constant integer := pa_last;
 	  begin
 		 if s'length >= x1'length+2  and then
 		   s(s'first..s'first+x1'length-1) = x1   then
@@ -1690,8 +1690,8 @@ package body tricks_package is
 	  end flip_flop;
 
 	  procedure slur(x1 : string; explanation : string := "") is
-		 pa_save : integer := pa_last;
-		 sl : integer := x1'length;
+		 pa_save : constant integer := pa_last;
+		 sl : constant integer := x1'length;
 	  begin
 		 if s'length >= x1'length+2  then
 			if s(s'first..s'first+x1'length-1) = x1   and then   --  Initial  X1

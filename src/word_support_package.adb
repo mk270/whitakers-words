@@ -103,23 +103,17 @@ package body word_support_package is
 	  k : integer := 0;
    begin
 
-	  --PUT_LINE("LOADING BDL FROM DISK");
 	  if dictionary_available(general)  then
 		 --  The blanks are on the GENERAL dictionary
 	 loading_bdl_from_disk:
 		 declare
-			d_k : dictionary_kind := general;
+			d_k : constant dictionary_kind := general;
 		 begin
 			if not is_open(stem_file(d_k))  then
-			   --TEXT_IO.PUT_LINE("LOADING_BDL is going to OPEN " &
-			   --ADD_FILE_NAME_EXTENSION(STEM_FILE_NAME,
-			   --DICTIONARY_KIND'IMAGE(D_K)));
 			   open(stem_file(d_k), stem_io.in_file,
 					add_file_name_extension(stem_file_name,
 											dictionary_kind'image(d_k)));
-			   --TEXT_IO.PUT_LINE("OPENing was successful");
 			end if;
-			--TEXT_IO.PUT_LINE("BDL OPEN");
 			index_first := bblf(' ', ' ', dictionary_kind(d_k));
 			index_last  := bbll(' ', ' ', dictionary_kind(d_k));
 
@@ -130,7 +124,6 @@ package body word_support_package is
 			   bdl(k) := ds;
 			end loop;
 			close(stem_file(d_k));
-			--TEXT_IO.PUT_LINE("BDL LOADED FROM DISK   K = " & INTEGER'IMAGE(K));
 		 exception
 			when name_error =>
 			   text_io.put_line("LOADING BDL FROM DISK had NAME_ERROR on " &

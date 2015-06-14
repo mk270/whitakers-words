@@ -236,8 +236,6 @@ procedure list_sweep(pa : in out parse_array; pa_last : in out integer) is
 	  sm : parse_record;
 	  has_noun_abbreviation      : boolean := false;
 
-	  j : integer := sl'first;
-
 	  function depr (pr : parse_record) return dictionary_entry is
 		 de : dictionary_entry;
 	  begin
@@ -660,15 +658,6 @@ compress_loop:
 				   return false;
 				end if;
 			 end "<=";
-			 function "<" (a, b : parse_record) return boolean is
-			 begin                             --  !!!!!!!!!!!!!!!!!!!!!!!!!!
-				if a.ir.qual = b.ir.qual  and
-                  a.mnpc   /= b.mnpc     then
-				   return true;
-				else
-				   return false;
-				end if;
-			 end "<";
 		  begin
 			 if ((pr.d_k /= xxx) and (pr.d_k /= yyy) and  (pr.d_k /= ppp)) then
 				if pr <= opr  then       --  Get rid of duplicates, if ORDER is OK
