@@ -230,13 +230,9 @@ procedure list_sweep(pa : in out parse_array; pa_last : in out integer) is
    -----------------------------------------------------------
 
    procedure order_parse_array(sl: in out parse_array; diff_j : out integer) is
-	  use inflection_record_io;
-	  use dict_io;
-
 	  hits : integer := 0;
-	  sl_first : integer := sl'first;
 	  sl_last : integer := sl'last;
-	  sl_last_initial : integer := sl_last;
+	  sl_last_initial : constant integer := sl_last;
 	  sm : parse_record;
 	  --DE, ODE : DICTIONARY_ENTRY;
 	  roman_number      : boolean := false;
