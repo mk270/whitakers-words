@@ -14,10 +14,8 @@
 -- All parts of the WORDS system, source code and data files, are made freely
 -- available to anyone who wishes to use them, for whatever purpose.
 
-with text_io; use text_io;
 with inflections_package; use inflections_package;
-procedure weed_all(w : in out string;
-				   pofs : in part_of_speech_type) is
+procedure weed_all(w : in out string) is
    --  In contrast to the Latin phase where the prioritization takes is at runtime
    --  for the English most of the work is done beforehand
    --  both the setting of a priority class for each entry in the scan of DICTLINE

@@ -53,13 +53,9 @@ procedure makeewds is
    start_tran    : constant integer :=
 	 start_part +
 	 integer(part_entry_io.default_width + 1);
-   finish_line   : constant integer :=
-	 start_tran +
-	 translation_record_io.default_width - 1;
 
    line_number : integer := 0;
 
-   subtype word_type is string(1..max_meaning_size);
    subtype line_type is string(1..400);
 
    n : integer := 0;
@@ -67,7 +63,8 @@ procedure makeewds is
    input, output, check : text_io.file_type;
    de : dictionary_entry;
 
-   s, line, blank_line : line_type := (others => ' ');
+   s, line : line_type := (others => ' ');
+   blank_line : constant line_type := (others => ' ');
    l, last : integer := 0;
 
    ewa : ewds_array(1..40) := (others => null_ewds_record);
@@ -91,8 +88,6 @@ procedure makeewds is
       word_end   : integer := 0;
       i, j, jmax : integer := 0;
       hyphenated : boolean := false;
-
-      ww : integer := 0;     --  For debug
 
    begin
 	  --PUT_LINE("S    " & INTEGER'IMAGE(LINE_NUMBER) & "   " & INTEGER'IMAGE(S'FIRST) & "  " & INTEGER'IMAGE(S'LAST));
@@ -255,7 +250,7 @@ procedure makeewds is
 	  ewa(n) := null_ewds_record;
 
 	  -- Slightly disparage extension
-	  if s(1) = '|'  then k := 3;  end if;
+	  if s(s'first) = '|'  then k := 3;  end if;
 
 	  while  l <= s'last  loop  --  loop over MEAN
 		 if s(l) = ' '  then  --  Clear initial blanks
@@ -341,7 +336,7 @@ procedure makeewds is
 		 process_semi:
 			 declare
 				st : constant string := trim(semi);
-				sm : string(st'first..st'last) := st;
+				sm : constant string(st'first..st'last) := st;
 				start_comma, end_comma : integer := 0;
 			 begin
 				if st'length > 0  then
@@ -514,7 +509,7 @@ procedure makeewds is
 									 --INTEGER'IMAGE(W_START) & "  " & INTEGER'IMAGE(W_END)
 									 --& "  " & CS(W_START..W_END)
 									 --);
-									 weed_all(cs(w_start..w_end), pofs);
+									 weed_all(cs(w_start..w_end));
 									 if not pure then
 										weed(cs(w_start..w_end), pofs);
 									 end if;
@@ -851,7 +846,7 @@ exception
 	  null;
    when others =>
 	  put_line(s(1..last));
-	  integer_io.put(integer(line_number)); new_line;
+	  integer_io.put(line_number); new_line;
 	  close(output);
 	  if checking  then close(check); end if;
 

@@ -14,7 +14,6 @@
 -- All parts of the WORDS system, source code and data files, are made freely
 -- available to anyone who wishes to use them, for whatever purpose.
 
-with text_io; use text_io;
 with inflections_package; use inflections_package;
 procedure weed(w : in out string;
 			   pofs : in part_of_speech_type) is
