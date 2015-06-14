@@ -1386,7 +1386,7 @@ package body dictionary_package is
 		 m : integer := 0;
 	  begin
 		 m := l + age_type_io.default_width;
-		 put(s(l+1..m), tr.age);
+		 put(s(s'first + l .. m), tr.age);
 		 l := m + 1;
 		 s(l) :=  ' ';
 		 m := l + area_type_io.default_width;
@@ -1394,7 +1394,7 @@ package body dictionary_package is
 		 l := m + 1;
 		 s(l) :=  ' ';
 		 m := l + geo_type_io.default_width;
-		 put(s(l+1..m), tr.geo);
+		 put(s(s'first + l .. m), tr.geo);
 		 l := m + 1;
 		 s(l) :=  ' ';
 		 m := l + frequency_type_io.default_width;
