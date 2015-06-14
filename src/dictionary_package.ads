@@ -16,12 +16,11 @@
 
 --  Need KIND_ENTRY and IO
 --  Need to modify TRANS
-with text_io;
+with text_io; use text_io;
 with direct_io;
 with inflections_package; use inflections_package;
 package dictionary_package is
    pragma elaborate_body;
-   use text_io;
 
    zzz_stem  : constant stem_type := "zzz" & (4..max_stem_size => ' ');
    type stems_type is array (stem_key_type range 1..4) of stem_type;

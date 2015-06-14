@@ -182,7 +182,6 @@ procedure parse(command_line : string := "") is
 				   procedure pass(input_word : string);
 
 				   procedure enclitic is
-					  save_do_fixes  : constant boolean := words_mode(do_fixes);
 					  save_do_only_fixes : constant boolean := words_mdev(do_only_fixes);
 					  enclitic_limit : integer := 4;
 					  try : constant string := lower_case(input_word);
@@ -304,10 +303,8 @@ procedure parse(command_line : string := "") is
 
 				   procedure pass(input_word : string) is
 					  --  This is the core logic of the program, everything else is details
-					  save_pa_last : integer := 0;
 					  save_do_fixes : constant boolean := words_mode(do_fixes);
 					  save_do_only_fixes : constant boolean := words_mdev(do_only_fixes);
-					  save_do_tricks : boolean := words_mode(do_tricks);
 				   begin
 					  --TEXT_IO.PUT_LINE("Entering PASS with >" & INPUT_WORD);
 					  --  Do straight WORDS without FIXES/TRICKS, is the word in the dictionary

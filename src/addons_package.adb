@@ -15,7 +15,6 @@
 -- available to anyone who wishes to use them, for whatever purpose.
 
 with strings_package; use strings_package;
-with latin_file_names; use latin_file_names;
 with developer_parameters; use developer_parameters;
 with preface;
 with inflections_package; use inflections_package;

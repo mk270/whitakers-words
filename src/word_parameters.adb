@@ -28,8 +28,8 @@ package body word_parameters is
 
    type reply_type is (n, y);
    package reply_type_io is new text_io.enumeration_io(reply_type);
-   reply : array (boolean) of reply_type := (n, y);
-   mode_of_reply : array (reply_type) of boolean := (false, true);
+   reply : constant array (boolean) of reply_type := (n, y);
+   mode_of_reply : constant array (reply_type) of boolean := (false, true);
 
    blank_input : exception;
 

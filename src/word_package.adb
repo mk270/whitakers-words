@@ -18,7 +18,6 @@ with latin_file_names; use latin_file_names;
 with strings_package; use strings_package;
 with config;  use config;
 with uniques_package; use uniques_package;
-with addons_package; use addons_package;
 with word_parameters; use word_parameters;
 with preface;
 with developer_parameters; use developer_parameters;
@@ -638,7 +637,7 @@ package body word_package is
 				  pa : in out parse_array; pa_last : in out integer) is
 
 	  input_word : constant string := lower_case(raw_word);
-	  pa_save : integer := pa_last;
+	  pa_save : constant integer := pa_last;
 
 	  unique_found : boolean := false;
 
@@ -706,7 +705,7 @@ package body word_package is
 
 	  procedure array_stems(sx : in sal;
 							pa : in out parse_array; pa_last : in out integer) is
-		 sl : sal := sx;
+		 sl : constant sal := sx;
 		 opr : parse_record := null_parse_record;
 	  begin
 
@@ -1352,20 +1351,6 @@ package body word_package is
 		 mean : meaning_type;
 		 packon_first_hit : boolean := false;
 		 sl, sl_nulls : sal := (others => null_parse_record);
-
-		 function "<=" (left, right : pronoun_kind_type)   return boolean is
-		 begin
-			if (right = left   or else
-				  right = x)  then
-			   return true;
-			elsif
-			  (right = adject and    --  Just for PACK
-				 left  = indef)   then
-			   return true;
-			else
-			   return false;
-			end if;
-		 end "<=";
 
 	  begin
 
