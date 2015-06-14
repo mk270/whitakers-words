@@ -850,7 +850,6 @@ package body dictionary_package is
 	  end get;
 
 	  procedure put(f : in file_type; p : in part_entry) is
-		 c : positive := positive(col(f));
 	  begin
 		 put(f, p.pofs);
 		 put(f, ' ');
@@ -887,7 +886,6 @@ package body dictionary_package is
 	  end put;
 
 	  procedure put(p : in part_entry) is
-		 c : positive := positive(col);
 	  begin
 		 put(p.pofs);
 		 put(' ');
@@ -1420,8 +1418,6 @@ package body dictionary_package is
 	  spacer : character := ' ';
 	  part_col : natural := 0;
 
-	  de : dictionary_entry;
-
 	  procedure get(f : in file_type; d : out dictionary_entry) is
 	  begin
 		 for i in stem_key_type range 1..4  loop
@@ -1486,7 +1482,6 @@ package body dictionary_package is
 
 	  procedure get(s : in string; d : out dictionary_entry; last : out integer) is
 		 l : integer := s'first - 1;
-		 m : integer := 0;
 		 i : integer := 0;
 	  begin
 		 for i in stem_key_type range 1..4  loop
