@@ -14,12 +14,11 @@
 -- All parts of the WORDS system, source code and data files, are made freely
 -- available to anyone who wishes to use them, for whatever purpose.
 
-with text_io;
+with text_io; use text_io;
 with direct_io;
 package inflections_package is
    pragma elaborate_body;
    package integer_io is new text_io.integer_io(integer);
-   use text_io;
 
    --  Generally simple/enumeration types have names ending in _TYPE
    --            complex/record     types have names ending in _RECORD
