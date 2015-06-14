@@ -1621,8 +1621,6 @@ package body inflections_package is
 	  prefx : prefix_record;
 	  suffx : suffix_record;
 
-	  pr : quality_record;
-
 	  procedure get(f : in file_type; p : out quality_record) is
 		 ps : part_of_speech_type := x;
 	  begin

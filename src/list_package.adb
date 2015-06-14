@@ -41,7 +41,7 @@ package body list_package is
 
    max_meaning_print_size : constant := 79;
    mm : integer := max_meaning_size;
-   i, j, k : integer := 0;
+   i : integer := 0;
 
    inflection_frequency : constant array (frequency_type) of string(1..8) :=
 	 ("        ",  --  X
@@ -87,26 +87,6 @@ package body list_package is
 	  "Medieval",   --  F
 	  "NeoLatin",   --  G
 	  "Modern  " ); --  H
-
-   function cap_stem(s : string) return string  is
-   begin
-	  if all_caps  then
-		 return upper_case(s);
-	  elsif capitalized  then
-		 return upper_case(s(s'first)) & s(s'first+1..s'last);
-	  else
-		 return s;
-	  end if;
-   end cap_stem;
-
-   function cap_ending(s : string) return string  is
-   begin
-	  if all_caps  then
-		 return upper_case(s);
-	  else
-		 return s;
-	  end if;
-   end cap_ending;
 
    procedure put_dictionary_flags(output : text_io.file_type;
 								  de     : dictionary_entry;
