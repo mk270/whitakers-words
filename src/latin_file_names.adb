@@ -30,7 +30,7 @@ package body latin_file_names is
 	  if extension'length >= 3  then
 		 extension_length := 3;
 	  end if;
-	  return name(1..name_length) & '.' & extension(1..extension_length);
+	  return name(name'first .. name_length) & '.' & extension(extension'first .. extension_length);
    end add_file_name_extension;
 
 end latin_file_names;
