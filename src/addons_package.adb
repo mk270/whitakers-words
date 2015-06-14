@@ -99,7 +99,7 @@ package body addons_package is
 	  procedure extract_fix(s : in string;
 							xfix : out fix_type; xc : out character) is
 		 st : constant string := trim(s);
-		 l : integer := st'length;
+		 l : constant integer := st'length;
 		 j : integer := 0;
 	  begin
 		 for i in 1..l  loop
@@ -415,8 +415,6 @@ package body addons_package is
 
 	  --KIND : KIND_ENTRY;
 
-	  p : target_entry;
-
 	  procedure get(f : in file_type; p : out target_entry) is
 		 ps : target_pofs_type := x;
 	  begin
@@ -645,8 +643,6 @@ package body addons_package is
    end target_entry_io;
 
    package body tackon_entry_io is
-	  spacer : character := ' ';
-
 	  procedure get(f : in file_type; i : out tackon_entry) is
 	  begin
 		 get(f, i.base);

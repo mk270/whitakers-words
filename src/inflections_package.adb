@@ -953,7 +953,6 @@ package body inflections_package is
 	  use number_type_io;
 	  use gender_type_io;
 	  use numeral_sort_type_io;
-	  use gender_type_io;
 	  spacer : character := ' ';
 
 	  procedure get(f : in file_type; num : out numeral_record) is

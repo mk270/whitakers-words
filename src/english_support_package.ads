@@ -16,11 +16,8 @@
 
 with text_io;
 with direct_io;
-with strings_package; use strings_package;
-with latin_file_names; use latin_file_names;
 with inflections_package; use inflections_package;
 with dictionary_package; use dictionary_package;
-with word_support_package; use word_support_package;
 package english_support_package is
 
    eword_size    : constant := 24;
