@@ -50,9 +50,6 @@ procedure makeewds is
    start_stem_3  : constant := start_stem_2 + max_stem_size + 1;
    start_stem_4  : constant := start_stem_3 + max_stem_size + 1;
    start_part    : constant := start_stem_4 + max_stem_size + 1;
-   start_tran    : constant integer :=
-	 start_part +
-	 integer(part_entry_io.default_width + 1);
 
    line_number : integer := 0;
 
@@ -225,13 +222,11 @@ procedure makeewds is
 							n : out integer;
 							ewa : out ewds_array) is
 	  i, j, js, k, l, m, im, ic : integer := 0;
-	  start_semi, end_semi : integer := 1;
+	  end_semi : constant integer := 1;
 	  --  Have to expand type to take care of hyphenated
 	  subtype x_meaning_type is string(1..max_meaning_size*2+20);
 	  null_x_meaning_type : constant x_meaning_type := (others => ' ');
 	  semi, comma : x_meaning_type := null_x_meaning_type;
-
-	  sm1, sm2 : integer := 0;
 
 	  ww : integer := 0;    --  For debug
    begin
@@ -259,8 +254,6 @@ procedure makeewds is
 
 		 semi := null_x_meaning_type;
 		 im := 1;
-		 sm1 := 1;
-		 sm2 := 0;
 		 extract_semi:
 			 loop
 
@@ -274,7 +267,6 @@ procedure makeewds is
 				elsif   s(l) = ';'  then     --  Division Terminator
 											 --PUT(':');
 				   k := k + 1;
-				   sm2 := im - 1;
 				   --PUT('+');
 				   l := l + 1;  --  Clear ;
 				   exit;
@@ -293,10 +285,8 @@ procedure makeewds is
 				   --PUT(S(L));
 				   if l > s'last  then
 					  l := s'last;
-					  sm2 := im;
 				   else
 					  if  s(l) = ';'  then  --  );
-						 sm2 := im - 1;
 						 exit extract_semi;
 					  end if;
 				   end if;
@@ -304,20 +294,17 @@ procedure makeewds is
 
 				   if l >= s'last  then  --  Ends in )
 										 --PUT('!');
-					  sm2 := im;
 					  exit;
 				   end if;
 				   --PUT('+');
 				   --L := L + 1;    --  Clear the ')'
 				elsif l = s'last  then
 				   --PUT('|');
-				   sm2 := im;
 				   l := l + 1;     --  To end the loop
 				   exit;
 
 				else
 				   semi(im) := s(l);
-				   sm2 := im;
 				   im := im + 1;
 				end if;
 				--PUT('+');
@@ -337,7 +324,6 @@ procedure makeewds is
 			 declare
 				st : constant string := trim(semi);
 				sm : constant string(st'first..st'last) := st;
-				start_comma, end_comma : integer := 0;
 			 begin
 				if st'length > 0  then
 				   comma := null_x_meaning_type;
@@ -645,7 +631,6 @@ procedure makeewds is
 				   exit;
 				end if;
 			 end loop;
-			 start_semi := l;
 
 			 --PUT_LINE("SEMI Processed Completely   L = "  & INTEGER'IMAGE(L)  & "  S'LAST = " & INTEGER'IMAGE(S'LAST));
 

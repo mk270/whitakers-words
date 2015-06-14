@@ -22,7 +22,6 @@ with dictionary_package; use dictionary_package;
 with word_support_package; use word_support_package;
 
 procedure makestem is
-   use integer_io;
    use stem_key_type_io;
    use count_io;
    use text_io;
@@ -33,16 +32,16 @@ procedure makestem is
    d_k : dictionary_kind := xxx;   --  ######################
 
    i : stem_io.count := 0;
-   line, blanks : string(1..200) := (others => ' ');
+   line : string(1..200) := (others => ' ');
+   blanks : constant string(1..200) := (others => ' ');
    last, ll : integer := 0;
-   m : stem_io.positive_count := 1;
    ds : dictionary_stem;
    fc, ofc : character := ' ';
    sc, osc : character := ' ';
 
    procedure put_indices(ch : string;
 						 d_k : dictionary_kind) is
-	  wd : string(1..2) := ch(ch'first..ch'first+1);
+	  wd : constant string(1..2) := ch(ch'first..ch'first+1);
    begin
       --Put_Line("Put_Indices");
 	  if ch = "  "  then

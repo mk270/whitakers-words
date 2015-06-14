@@ -1697,15 +1697,15 @@ package body tricks_package is
 			if s(s'first..s'first+x1'length-1) = x1   and then   --  Initial  X1
 			  not is_a_vowel(s(s'first+sl))           then
 			   pa_last := pa_last + 1;
-			   pa(pa_last)           := (head("Slur " & x1 & "/" & x1(1..sl-1) & "~", max_stem_size),
+			   pa(pa_last)           := (head("Slur " & x1 & "/" & x1(x1'first..sl-1) & "~", max_stem_size),
 				 null_inflection_record,
 				 xxx, null_mnpc);
-			   tword(x1(1..sl-1) & s(s'first+sl) & s(s'first+sl..s'last), pa, pa_last);
+			   tword(x1(x1'first..sl-1) & s(s'first+sl) & s(s'first+sl..s'last), pa, pa_last);
 			   if (pa_last > pa_save + 1)   and then
 				 (pa(pa_last-1).ir.qual.pofs /= tackon)  then
 				  if explanation = ""  then
 					 xxx_meaning := head(
-					   "An initial '" & x1 & "' may be rendered by " & x1(1..x1'last-1) & "~",
+					   "An initial '" & x1 & "' may be rendered by " & x1(x1'first..x1'last-1) & "~",
 					   max_meaning_size);
 				  else
 					 xxx_meaning := head(explanation, max_meaning_size);
@@ -1718,11 +1718,11 @@ package body tricks_package is
 				  pa_last := pa_save;
 			   end if;
 
-			elsif (s(s'first..s'first+sl-1) = x1(1..sl-1))  and then
+			elsif (s(s'first..s'first+sl-1) = x1(x1'first..sl-1))  and then
 			  (s(s'first+sl-1) = s(s'first+sl))   and then   --  double letter
 			  not is_a_vowel(s(s'first+sl))           then
 			   pa_last := pa_last + 1;
-			   pa(pa_last) := (head("Slur " & x1(1..sl-1) & "~" & "/" & x1, max_stem_size),
+			   pa(pa_last) := (head("Slur " & x1(x1'first..sl-1) & "~" & "/" & x1, max_stem_size),
 				 null_inflection_record,
 				 xxx, null_mnpc);
 			   tword(x1 & s(s'first+sl..s'last), pa, pa_last);
@@ -1730,7 +1730,7 @@ package body tricks_package is
 				 (pa(pa_last-1).ir.qual.pofs /= tackon)  then
 				  if explanation = ""  then
 					 xxx_meaning := head(
-					   "An initial '" & x1(1..sl-1) & "~" & "' may be rendered by " & x1
+					   "An initial '" & x1(x1'first..sl-1) & "~" & "' may be rendered by " & x1
 					   , max_meaning_size);
 				  else
 					 xxx_meaning := head(explanation, max_meaning_size);

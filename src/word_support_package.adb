@@ -237,7 +237,7 @@ package body word_support_package is
 	  close(indx_file(d_k));
 	  preface.set_col(33); preface.put("--  ");
 	  if not config.suppress_preface  then
-		 put(stem_io.count((number_of_non_blank_stems)), 6);
+		 put(number_of_non_blank_stems, 6);
 	  end if;   --  Kludge for when TEXT_IO.COUNT too small
 	  preface.put(" stems");
 	  preface.set_col(55); preface.put_line("--  Loaded correctly");

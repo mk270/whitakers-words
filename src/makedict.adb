@@ -36,7 +36,7 @@ procedure makedict is
 
    porting : constant boolean := true;
 
-   be_ve : verb_entry := (con => (5, 1), kind => to_be);
+   be_ve : constant verb_entry := (con => (5, 1), kind => to_be);
 
    d_k : dictionary_kind := xxx;       --  ######################
 
@@ -45,19 +45,14 @@ procedure makedict is
    start_stem_3  : constant := start_stem_2 + max_stem_size + 1;
    start_stem_4  : constant := start_stem_3 + max_stem_size + 1;
    start_part    : constant := start_stem_4 + max_stem_size + 1;
-   start_tran    : constant integer :=
-	 start_part +
-	 integer(part_entry_io.default_width + 1);
-   finish_line   : constant integer :=
-	 start_tran +
-	 translation_record_io.default_width - 1;
 
    dictfile : dict_io.file_type;
    input, stemlist : text_io.file_type;
    de : dictionary_entry;
 
-   s, line, blank_line : string(1..400) := (others => ' ');
-   l, ll, last : integer := 0;
+   blank_line : constant string(1..400) := (others => ' ');
+   s, line : string(1..400) := (others => ' ');
+   l, last : integer := 0;
    j : dict_io.count := 0;
    mean_to_be : constant meaning_type :=
 	 head("be; exist; (also used to form verb perfect passive tenses)" &

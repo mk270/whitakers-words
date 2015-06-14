@@ -447,8 +447,8 @@ package body word_package is
 
 	  if index_first > 0  and then index_first <= index_last then
 
-		 j1 := stem_io.count(index_first);    --######################
-		 j2 := stem_io.count(index_last);
+		 j1 := index_first;    --######################
+		 j2 := index_last;
 
 	 stem_array_loop:
 		 for k in ssa'range  loop
