@@ -33,7 +33,7 @@ procedure makeinfl is
 
    porting : constant boolean := true;    --FALSE for WAKEINFL;
 
-   m, n   : integer := 0;
+   m : integer := 0;
    n1, n2, n3, n4, n5 : integer := 0;
 
    output : text_io.file_type;
@@ -43,14 +43,10 @@ procedure makeinfl is
 	  --  Reads the INFLECTS. file and prepares an inflections list
 	  --  Then it writes that list into an array
 	  --  Loads the inflection array into a file for later retrieval
-	  use text_io;
-	  use inflection_record_io;
-	  use integer_io;
-
 	  inflections_file : text_io.file_type;
 	  inflections_sections_file : lel_section_io.file_type;
 	  ir : inflection_record;
-	  line, blanks : string(1..100) := (others => ' ');
+	  line : string(1..100) := (others => ' ');
 	  last, l : integer := 0;
 	  sn : ending_size_type := ending_size_type'first;
 	  sx : character := ' ';
@@ -66,7 +62,7 @@ procedure makeinfl is
 
 	  type latin_inflections is array (integer range 0..max_ending_size,
 									   character  range ' '..'z') of inflection_list;
-	  null_latin_inflections : latin_inflections := (others => (others => null));
+	  null_latin_inflections : constant latin_inflections := (others => (others => null));
 
 	  l_i : latin_inflections := null_latin_inflections;
 
@@ -121,8 +117,6 @@ procedure makeinfl is
 
 	  procedure list_to_lel_file  is
 		 --  From ILC (=L_I) list of inflections, prepares the LEL inflections array
-		 use lel_section_io;
-		 i : integer := 0;
 		 ilc : latin_inflections := l_i;
 	  begin
 
@@ -269,7 +263,6 @@ procedure makeinfl is
 		 text_io.put_line("Exception in FILE_INFLECTIONS_SECTIONS");
    end file_inflections_sections;
 
-   use inflections_package;
 begin
 
    put_line("Produces INFLECTS.SEC file from INFLECTS.");
