@@ -645,7 +645,7 @@ package body dictionary_package is
 	  end put;
 
 	  procedure get(s : in string; i : out interjection_entry; last : out integer) is
-		 l : integer := s'first - 1;
+		 l : constant integer := s'first - 1;
 	  begin
 		 i := null_interjection_entry;
 		 last := l;
@@ -744,11 +744,9 @@ package body dictionary_package is
 	  conjunction : conjunction_entry;
 	  interjection : interjection_entry;
 
-	  pr : part_entry;
-
 	  procedure get(f : in file_type; p : out part_entry) is
 		 ps : part_of_speech_type := x;
-		 c : positive_count := col(f);
+		 c : constant positive_count := col(f);
 	  begin
 		 get(f, ps);
 		 get(f, spacer);
@@ -1035,7 +1033,6 @@ package body dictionary_package is
 	  use pronoun_kind_type_io;
 	  use inflections_package.integer_io;
 	  use verb_kind_type_io;
-	  spacer : character := ' ';
 
 	  noun_kind  : noun_kind_type;
 	  pronoun_kind : pronoun_kind_type;
@@ -1158,7 +1155,7 @@ package body dictionary_package is
 
 	  procedure put(f : in file_type;
 					ps : in part_of_speech_type; p : in kind_entry) is
-		 c : positive := positive(col(f));
+		 c : constant positive := positive(col(f));
 	  begin
 		 case p.pofs is
 			when n =>

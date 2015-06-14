@@ -21,7 +21,6 @@ with preface;
 with inflections_package; use inflections_package;
 with dictionary_package; use dictionary_package;
 with addons_package; use addons_package;
-with uniques_package; use uniques_package;
 pragma elaborate(inflections_package);
 pragma elaborate(dictionary_package);
 pragma elaborate(addons_package);
@@ -43,7 +42,8 @@ package body line_stuff is
 
 	  fc1, fc2, fc3, fc4 : character;
 
-	  line, st_line, blank_line : string(1..100) := (others => ' ');
+	  line, st_line : string(1..100) := (others => ' ');
+	  blank_line : constant string(1..100) := (others => ' ');
 	  l, ll, lll, last    : integer := 0;
 	  number_of_dictionary_entries : integer := 0;
 

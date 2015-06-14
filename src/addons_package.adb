@@ -749,8 +749,6 @@ package body addons_package is
 	  use text_io;
 	  spacer : character := ' ';
 
-	  pe : suffix_entry;
-
 	  procedure get(f : in file_type; p : out suffix_entry) is
 	  begin
 		 get(f, p.root);

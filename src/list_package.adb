@@ -241,7 +241,9 @@ package body list_package is
       type stem_inflection_array_array is array (integer range <>)
 		of stem_inflection_array(1..stem_inflection_array_size);
 
-      sra, osra, null_sra : stem_inflection_array(1..stem_inflection_array_size)
+      osra : stem_inflection_array(1..stem_inflection_array_size)
+		:= (others => (null_stem_type, null_inflection_record));
+      sra, null_sra : constant stem_inflection_array(1..stem_inflection_array_size)
 		:= (others => (null_stem_type, null_inflection_record));
       sraa, null_sraa : stem_inflection_array_array(1..stem_inflection_array_array_size)
 		:= (others => null_sra);
@@ -354,7 +356,7 @@ package body list_package is
 		   print_modified_qual:
 			   declare
 				  out_string : string(1..quality_record_io.default_width);
-				  passive_start  : integer :=
+				  passive_start  : constant integer :=
 					part_of_speech_type_io.default_width + 1 +
 					decn_record_io.default_width + 1 +
 					tense_type_io.default_width + 1;

@@ -574,7 +574,6 @@ package body tricks_package is
       --  Since the chances are 1/1000 that we have one,
       --  Ignore the possibility of two in the same word
       --  That is called lying with statistics
-	  use inflections_package.integer_io;
 	  s  : constant string(1..w'length) := w;
 	  pa_save : constant integer := pa_last;
 
@@ -719,12 +718,10 @@ package body tricks_package is
 	  procedure adj_terminal_iis(explanation : string := "") is
 		 pa_save : constant integer := pa_last;
 		 i : integer := 0;
-		 trick_translation_record : translation_record := null_translation_record;
 	  begin
 		 if s'length > 3  and then
 		   s(s'last-1..s'last) = "is"   then   --  Terminal 'is'
 			pa_last := pa_last + 1;
-			trick_translation_record.freq := c;
 			pa(pa_last) := (head("Word mod iis -> is", max_stem_size),
 			  null_inflection_record,
 			  xxx, null_mnpc);
