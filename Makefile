@@ -1,4 +1,8 @@
-all: bin/words bin/makedict bin/makestem bin/makeefil bin/makeewds bin/makeinfl data
+PROGRAMMES := bin/words bin/makedict bin/makestem bin/makeefil bin/makeewds bin/makeinfl 
+
+all: $(PROGRAMMES) data
+
+programmes: $(PROGRAMMES)
 
 bin/words:
 	gprbuild -Pwords
