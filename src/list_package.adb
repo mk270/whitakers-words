@@ -134,7 +134,7 @@ package body list_package is
 								 mnpc   : dict_io.count;
 								 de     : dictionary_entry) is
 	  chit, dhit, ehit, fhit, lhit : boolean := false;   --  Things on this line?
-	  dictionary_line_number : integer := integer(mnpc);
+	  dictionary_line_number : constant integer := integer(mnpc);
 	  --DE : DICTIONARY_ENTRY := DM.DE;
 
    begin                               --  PUT_DICTIONARY_FORM
@@ -245,7 +245,9 @@ package body list_package is
 		:= (others => (null_stem_type, null_inflection_record));
       sra, null_sra : constant stem_inflection_array(1..stem_inflection_array_size)
 		:= (others => (null_stem_type, null_inflection_record));
-      sraa, null_sraa : stem_inflection_array_array(1..stem_inflection_array_array_size)
+      sraa : stem_inflection_array_array(1..stem_inflection_array_array_size)
+		:= (others => null_sra);
+      null_sraa : constant stem_inflection_array_array(1..stem_inflection_array_array_size)
 		:= (others => null_sra);
 
 	  --      type DICTIONARY_MNPC_RECORD is record
@@ -360,17 +362,17 @@ package body list_package is
 					part_of_speech_type_io.default_width + 1 +
 					decn_record_io.default_width + 1 +
 					tense_type_io.default_width + 1;
-				  passive_finish : integer :=
+				  passive_finish : constant integer :=
                     passive_start +
                     voice_type_io.default_width;
-				  ppl_start      : integer :=
+				  ppl_start      : constant integer :=
 					part_of_speech_type_io.default_width + 1 +
 					decn_record_io.default_width + 1 +
 					case_type_io.default_width + 1 +
 					number_type_io.default_width + 1 +
 					gender_type_io.default_width + 1 +
 					tense_type_io.default_width + 1;
-				  ppl_finish     : integer :=
+				  ppl_finish : constant integer :=
                     ppl_start +
                     voice_type_io.default_width;
 				  passive_blank : constant string(1..voice_type_io.default_width) :=
@@ -1446,7 +1448,6 @@ package body list_package is
 							   input_word : string) is
 
 	  d_k : constant dictionary_kind := general;
-	  de : dictionary_entry;
 	  unk_mnpc : dict_io.count;
 
    begin

@@ -37,7 +37,7 @@ package body line_stuff is
 	  pt  : part_entry  := null_part_entry;
 	  tran : translation_record := null_translation_record;
 	  kind : kind_entry := null_kind_entry;
-	  value : numeral_value_type := 0;
+	  value : constant numeral_value_type := 0;
 	  mean : meaning_type := null_meaning_type;
 
 	  fc1, fc2, fc3, fc4 : character;
@@ -866,7 +866,8 @@ package body line_stuff is
 	  use dict_io;
 
 	  uniques_file : text_io.file_type;
-	  line, stem_line, blanks : string(1..100) := (others => ' ');
+	  blanks : constant string(1..100) := (others => ' ');
+	  line, stem_line : string(1..100) := (others => ' ');
 	  last, l : integer := 0;
 	  stem : stem_type := null_stem_type;
 	  qual : quality_record;

@@ -28,13 +28,13 @@ with dictionary_form;
 procedure search_english(input_english_word : string; pofs : part_of_speech_type := x) is
    use ewds_direct_io;
    input_word : eword := lower_case(head(input_english_word, eword_size));
-   input_pofs : part_of_speech_type := pofs;
+   input_pofs : constant part_of_speech_type := pofs;
 
    output_array : ewds_array(1..500) := (others => null_ewds_record);
    number_of_hits : integer := 0;
-   j1, j2, j, jj : ewds_direct_io.count := 0;
+   j1, j2, j : ewds_direct_io.count := 0;
 
-   d_k : dictionary_kind := general;    --  For the moment
+   d_k : constant dictionary_kind := general;    --  For the moment
 
    ewds : ewds_record := null_ewds_record;
 
@@ -60,7 +60,7 @@ procedure search_english(input_english_word : string; pofs : part_of_speech_type
 
 	 switch:
 		 declare
-			dw, ew : ewds_record := null_ewds_record;
+			dw : ewds_record := null_ewds_record;
 
 		 begin
 		inner_loop:    --  Order by RANK, FREQ, SEMI
@@ -91,7 +91,7 @@ procedure search_english(input_english_word : string; pofs : part_of_speech_type
    procedure dump_output_array(output : in text_io.file_type) is
 	  de : dictionary_entry := null_dictionary_entry;
 	  number_to_show : integer := number_of_hits;
-	  one_screen : integer := 6;
+	  one_screen : constant integer := 6;
    begin
 	  --TEXT_IO.PUT_LINE("DUMP_OUTPUT");
       if number_of_hits = 0  then
@@ -203,7 +203,6 @@ binary_search:
 			 j := j2;
 			 second_try := false;
 		  else
-			 jj := j;
 			 exit binary_search;
 		  end if;
 	   end if;
@@ -223,7 +222,6 @@ binary_search:
 			 read(ewds_file, ewds);    --  Reads and advances index!!
 
 			 if "="(lower_case(ewds.w), input_word)  then
-				jj := i;
 				load_output_array(ewds);
 
 			 else
@@ -236,7 +234,6 @@ binary_search:
 			 read(ewds_file, ewds);
 
 			 if "="(lower_case(ewds.w), input_word)  then
-				jj := i;
 				load_output_array(ewds);
 
 			 else

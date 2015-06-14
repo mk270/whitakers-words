@@ -1180,7 +1180,7 @@ package body dictionary_package is
 	  end put;
 
 	  procedure put(ps : in part_of_speech_type; p : in kind_entry) is
-		 c : positive := positive(col);
+		 c : constant positive := positive(col);
 	  begin
 		 case p.pofs is
 			when n =>
@@ -1206,7 +1206,7 @@ package body dictionary_package is
 
 	  procedure get(s : in string; ps : in part_of_speech_type;
 								   p : out kind_entry; last : out integer) is
-		 l : integer := s'first - 1;
+		 l : constant integer := s'first - 1;
 	  begin
 		 last := l;         --  In case it is not set later
 		 case ps is
@@ -1255,7 +1255,7 @@ package body dictionary_package is
 
 	  procedure put(s : out string;
 					ps : in part_of_speech_type; p : in kind_entry) is
-		 l : integer := s'first - 1;
+		 l : constant integer := s'first - 1;
 		 m : integer := 0;
 	  begin
 		 case p.pofs is

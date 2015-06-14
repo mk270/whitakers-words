@@ -19,7 +19,6 @@ with strings_package; use strings_package;
 with word_parameters; use word_parameters;
 with developer_parameters; use developer_parameters;
 with inflections_package; use inflections_package;
-with dictionary_package; use dictionary_package;
 with word_support_package; use word_support_package;
 with word_package; use word_package;
 with put_stat;
@@ -102,7 +101,6 @@ package body tricks_package is
 	  use text_io;
 	  total : natural := 0;
 	  invalid : exception;
-	  decremented : boolean := false;
 	  j : integer := 0;
 	  s : constant string := upper_case(st);
 
