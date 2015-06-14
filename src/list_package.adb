@@ -18,7 +18,6 @@ with config; use config;
 with strings_package; use strings_package;
 with latin_file_names; use latin_file_names;
 with word_parameters; use word_parameters;
-with inflections_package; use inflections_package;
 with dictionary_package; use dictionary_package;
 with addons_package; use addons_package;
 with uniques_package; use uniques_package;

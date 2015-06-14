@@ -1748,7 +1748,7 @@ package body inflections_package is
 	  end get;
 
 	  procedure put(f : in file_type; p : in quality_record) is
-		 c : positive := positive(col(f));
+		 c : constant positive := positive(col(f));
 	  begin
 		 put(f, p.pofs);
 		 put(f, ' ');
@@ -1791,7 +1791,7 @@ package body inflections_package is
 	  end put;
 
 	  procedure put(p : in quality_record) is
-		 c : positive := positive(col);
+		 c : constant positive := positive(col);
 	  begin
 		 put(p.pofs);
 		 put(' ');
@@ -1960,7 +1960,6 @@ package body inflections_package is
 
    package body ending_record_io is
 	  use integer_io;
-	  use text_io;
 	  spacer : character := ' ';
 
 	  sf, blanks : ending := (others => ' ');
@@ -2164,7 +2163,6 @@ package body inflections_package is
 	  --  Loads the inflection array from the file prepared in FILE_INFLECTIONS_SECTION
 	  --  If N = 0 (an artifical flag for the section for blank inflections = 5)
 	  --  computes the LELL..LELF indices for use in WORD
-	  use text_io;
 	  use inflection_record_io;
 	  use lel_section_io;
 

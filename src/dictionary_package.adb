@@ -474,13 +474,13 @@ package body dictionary_package is
 	  end put;
 
 	  procedure get(s : in string; a : out adverb_entry; last : out integer) is
-		 l : integer := s'first - 1;
+		 l : constant integer := s'first - 1;
 	  begin
 		 get(s(l+1..s'last), a.co, last);
 	  end get;
 
 	  procedure put(s : out string; a : in adverb_entry) is
-		 l : integer := s'first - 1;
+		 l : constant integer := s'first - 1;
 		 m : integer := 0;
 	  begin
 		 m := l + comparison_type_io.default_width;
@@ -575,7 +575,7 @@ package body dictionary_package is
 	  end get;
 
 	  procedure put(s : out string; p : in preposition_entry) is
-		 l : integer := s'first - 1;
+		 l : constant integer := s'first - 1;
 		 m : integer := 0;
 	  begin
 		 m := l + case_type_io.default_width;
@@ -609,7 +609,7 @@ package body dictionary_package is
 	  end put;
 
 	  procedure get(s : in string; c : out conjunction_entry; last : out integer) is
-		 l : integer := s'first - 1;
+		 l : constant integer := s'first - 1;
 	  begin
 		 c := null_conjunction_entry;
 		 last := l;
