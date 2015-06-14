@@ -114,8 +114,8 @@ package body word_support_package is
 					add_file_name_extension(stem_file_name,
 											dictionary_kind'image(d_k)));
 			end if;
-			index_first := bblf(' ', ' ', dictionary_kind(d_k));
-			index_last  := bbll(' ', ' ', dictionary_kind(d_k));
+			index_first := bblf(' ', ' ', d_k);
+			index_last  := bbll(' ', ' ', d_k);
 
 			set_index(stem_file(d_k), stem_io.positive_count(index_first));
 			for j in index_first..index_last  loop

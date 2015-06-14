@@ -1060,7 +1060,6 @@ package body inflections_package is
 
    package body adverb_record_io is
 	  use comparison_type_io;
-	  spacer : character := ' ';
 
 	  procedure get(f : in file_type; a : out adverb_record) is
 	  begin
@@ -1374,7 +1373,6 @@ package body inflections_package is
 
    package body preposition_record_io is
 	  use case_type_io;
-	  spacer : character := ' ';
 
 	  procedure get(f : in file_type; p : out preposition_record) is
 	  begin
@@ -1415,7 +1413,6 @@ package body inflections_package is
 
    package body conjunction_record_io is
 	  null_conjunction_record : conjunction_record;
-	  spacer : character := ' ';
 
 	  procedure get(f : in file_type; c : out conjunction_record) is
 		 --  There is actually nothing to a CONJUNCTION_RECORD, no compoonents
@@ -1455,7 +1452,6 @@ package body inflections_package is
 
    package body interjection_record_io is
 	  null_interjection_record : interjection_record;
-	  spacer : character := ' ';
 
 	  procedure get(f : in file_type; i : out interjection_record) is
 	  begin
@@ -1493,7 +1489,6 @@ package body inflections_package is
 
    package body tackon_record_io is
 	  null_tackon_record : tackon_record;
-	  spacer : character := ' ';
 
 	  procedure get(f : in file_type; i : out tackon_record) is
 	  begin

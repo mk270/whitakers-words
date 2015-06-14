@@ -306,7 +306,7 @@ package body tricks_package is
 							pa : in out parse_array; pa_last : in out integer) is
 
 	  w : constant string := trim(input_word);
-	  roman_number_w : integer := roman_number(w);
+	  roman_number_w : constant integer := roman_number(w);
 
    begin
 	  if only_roman_digits(w) and then (roman_number_w /= 0)  then
@@ -382,8 +382,8 @@ package body tricks_package is
    procedure syncope(w : string;
 					 pa : in out parse_array; pa_last : in out integer) is
 	  s  : constant string(1..w'length) := lower_case(w);
-	  pa_save : integer := pa_last;
-	  syncope_inflection_record : inflection_record := null_inflection_record;
+	  pa_save : constant integer := pa_last;
+	  syncope_inflection_record : constant inflection_record := null_inflection_record;
       --     ((V, ((0, 0), (X, X, X), 0, X, X)), 0, NULL_ENDING_RECORD, X, A);
    begin
 
@@ -576,7 +576,7 @@ package body tricks_package is
       --  That is called lying with statistics
 	  use inflections_package.integer_io;
 	  s  : constant string(1..w'length) := w;
-	  pa_save : integer := pa_last;
+	  pa_save : constant integer := pa_last;
 
 	  procedure tword(w : string;
 					  pa : in out parse_array; pa_last : in out integer) is
@@ -587,7 +587,7 @@ package body tricks_package is
 
 	  procedure flip(x1, x2 : string; explanation : string := "") is
          --  At the begining of input word, replaces X1 by X2
-		 pa_save : integer := pa_last;
+		 pa_save : constant integer := pa_last;
 	  begin
 		 if s'length >= x1'length+2  and then
 		   s(s'first..s'first+x1'length-1) = x1   then
@@ -620,7 +620,7 @@ package body tricks_package is
          --  At the begining of input word, replaces X1 by X2 - then X2 by X1
          --  To be uesd only when X1 and X2 start with the same letter because it
          --  will be called from a point where the first letter is established
-		 pa_save : integer := pa_last;
+		 pa_save : constant integer := pa_last;
 	  begin
 		 --TEXT_IO.PUT_LINE("FLIP_FLOP called    " & X1 & "  " & X2);
 		 if s'length >= x1'length+2  and then
@@ -686,7 +686,7 @@ package body tricks_package is
 
 	  procedure internal(x1, x2 : string; explanation : string := "") is
          --  Replaces X1 with X2 anywhere in word and tries it for validity
-		 pa_save : integer := pa_last;
+		 pa_save : constant integer := pa_last;
 	  begin
 		 for i in s'first..s'last-x1'length+1  loop
 			if s(i..i+x1'length-1) = x1   then
@@ -717,7 +717,7 @@ package body tricks_package is
 	  end internal;
 
 	  procedure adj_terminal_iis(explanation : string := "") is
-		 pa_save : integer := pa_last;
+		 pa_save : constant integer := pa_last;
 		 i : integer := 0;
 		 trick_translation_record : translation_record := null_translation_record;
 	  begin
@@ -764,7 +764,7 @@ package body tricks_package is
 	  end adj_terminal_iis;
 
 	  procedure double_consonants(explanation : string := "") is
-		 pa_save : integer := pa_last;
+		 pa_save : constant integer := pa_last;
 	  begin
          --  Medieval often replaced a classical doubled consonant with single
          --  The problem is to take possible medieval words
@@ -805,7 +805,8 @@ package body tricks_package is
          --  This procedure examines the word to determine if it is made up
          --  of two separate inflectted words
          --  They are usually an adjective and a noun or two nouns
-		 pa_save, pa_second : integer := pa_last;
+		 pa_save : constant integer := pa_last;
+		 pa_second : integer := pa_last;
 		 num_hit_one, num_hit_two : boolean := false;
          --MID : INTEGER := S'LENGTH/2;
 		 i, i_mid : integer := 0;
@@ -1586,13 +1587,12 @@ package body tricks_package is
       --  Since the chances are 1/1000 that we have one,
       --  Ignore the possibility of two in the same word
       --  That is called lying with statistics
-	  use inflections_package.integer_io;
 	  s  : constant string(1..w'length) := w;
 	  pa_save : constant integer := pa_last;
 
 	  procedure tword(w : string;
 					  pa : in out parse_array; pa_last : in out integer) is
-		 save_use_prefixes : boolean := words_mdev(use_prefixes);
+		 save_use_prefixes : constant boolean := words_mdev(use_prefixes);
 	  begin
 		 words_mdev(use_prefixes) := false;
 		 word_package.word(w, pa, pa_last);
@@ -1602,7 +1602,7 @@ package body tricks_package is
 
 	  procedure flip(x1, x2 : string; explanation : string := "") is
          --  At the begining of input word, replaces X1 by X2
-		 pa_save : integer := pa_last;
+		 pa_save : constant integer := pa_last;
 	  begin
 		 if s'length >= x1'length+2  and then
 		   s(s'first..s'first+x1'length-1) = x1   then

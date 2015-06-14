@@ -490,7 +490,7 @@ package body word_package is
 						end if;
 					 end if;
 
-					 set_index(stem_file(d_k), stem_io.count(j));
+					 set_index(stem_file(d_k), j);
 					 read(stem_file(d_k), ds);
 
 					 if  ltu(lower_case(ds.stem), ssa(k))  then
@@ -530,7 +530,7 @@ package body word_package is
 					 end if;
 				  end loop binary_search;
 				  j1 := jj;
-				  j2 := stem_io.count(index_last);
+				  j2 := index_last;
 
 			   end if;               --  On LOCAL check
 			end if;               --  On LENGTH > 1
@@ -1348,7 +1348,8 @@ package body word_package is
 		 de : dictionary_entry;
 		 mean : meaning_type;
 		 packon_first_hit : boolean := false;
-		 sl, sl_nulls : sal := (others => null_parse_record);
+		 sl : sal := (others => null_parse_record);
+		 sl_nulls : constant sal := (others => null_parse_record);
 
 	  begin
 
@@ -1556,7 +1557,6 @@ package body word_package is
 	  procedure try_tackons(input_word : string) is
 		 tackon_hit : boolean := false;
 		 tackon_on  : boolean := false;
-		 tackon_length : constant integer := 0;
 		 j : integer := 0;
 		 de : dictionary_entry := null_dictionary_entry;
 		 mean : meaning_type := null_meaning_type;

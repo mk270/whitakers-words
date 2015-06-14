@@ -1368,8 +1368,8 @@ package body list_package is
 
          if index_first > 0  and then index_first <= index_last then
 
-            j1 := stem_io.count(index_first);    --######################
-            j2 := stem_io.count(index_last);
+            j1 := index_first;    --######################
+            j2 := index_last;
 
 			first_try := true;
 
@@ -1393,7 +1393,7 @@ package body list_package is
 				  end if;
 			   end if;
 
-			   set_index(stem_file(d_k), stem_io.count(j));
+			   set_index(stem_file(d_k), j);
 			   read(stem_file(d_k), ds);
 
 			   if  ltu(lower_case(ds.stem), unknown)  then
