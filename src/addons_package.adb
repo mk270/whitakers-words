@@ -88,7 +88,7 @@ package body addons_package is
 			  head(trim(t), 250)(1..2) = "  ")  then
 			   null;
 			else
-			   s(1..l) := t(1..l);
+			   s(s'first .. l) := t(1..l);
 			   last := l;
 			   exit;
 			end if;
