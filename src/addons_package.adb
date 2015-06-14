@@ -490,7 +490,7 @@ package body addons_package is
 	  end get;
 
 	  procedure put(f : in file_type; p : in target_entry) is
-		 c : positive := positive(col(f));
+		 c : constant positive := positive(col(f));
 	  begin
 		 put(f, p.pofs);
 		 put(f, ' ');
@@ -522,7 +522,7 @@ package body addons_package is
 	  end put;
 
 	  procedure put(p : in target_entry) is
-		 c : positive := positive(col);
+		 c : constant positive := positive(col);
 	  begin
 		 put(p.pofs);
 		 put(' ');
@@ -662,13 +662,13 @@ package body addons_package is
 	  end put;
 
 	  procedure get(s : in string; i : out tackon_entry; last : out integer) is
-		 l : integer := s'first - 1;
+		 l : constant integer := s'first - 1;
 	  begin
 		 get(s(l+1..s'last), i.base, last);
 	  end get;
 
 	  procedure put(s : out string; i : in tackon_entry) is
-		 l : integer := s'first - 1;
+		 l : constant integer := s'first - 1;
 		 m : integer := 0;
 	  begin
 		 m := l + target_entry_io.default_width;
