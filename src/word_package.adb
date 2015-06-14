@@ -1126,7 +1126,6 @@ package body word_package is
 
 				  end if;
 			   end if;
-		   <<end_of_sl_loop>> null;
 			end loop on_sl;
 
 		<<end_of_pdl_loop>> null;
