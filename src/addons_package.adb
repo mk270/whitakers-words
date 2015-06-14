@@ -67,7 +67,6 @@ package body addons_package is
 	  s : string(1..100);
 	  l, last, tic, pre, suf, tac, pac : integer := 0;
 	  addons_file : text_io.file_type;
-	  d_k : constant dictionary_kind := addons;
 	  pofs: part_of_speech_type;
 	  de : dictionary_entry := null_dictionary_entry;
 	  mean : meaning_type := null_meaning_type;

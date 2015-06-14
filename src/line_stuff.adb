@@ -876,7 +876,6 @@ package body line_stuff is
 	  mnpc : mnpc_type := null_mnpc;
 	  mean : meaning_type := null_meaning_type;
 	  m : dict_io.positive_count := 1;
-	  d_k : constant dictionary_kind := unique;
 
 	  number_of_uniques_entries : integer := 0;
 
