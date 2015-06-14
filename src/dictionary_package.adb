@@ -111,19 +111,19 @@ package body dictionary_package is
 		 m : integer := 0;
 	  begin
 		 m := l + max_stem_size;
-		 s(l+1..m) := pr.stem;
+		 s(s'first + l .. s'first - 1 + m) := pr.stem;
 		 l := m + 1;
-		 s(l) :=  ' ';
+		 s(s'first - 1 + l) :=  ' ';
 		 m := l + inflection_record_io.default_width;
-		 put(s(l+1..m), pr.ir);
+		 put(s(s'first + l .. s'first - 1 + m), pr.ir);
 		 l := m + 1;
-		 s(l) :=  ' ';
+		 s(s'first - 1 + l) :=  ' ';
 		 m := l + dictionary_kind_io.default_width;
-		 put(s(l+1..m), pr.d_k);
+		 put(s(s'first + l .. s'first - 1 + m), pr.d_k);
 		 l := m + 1;
-		 s(l) :=  ' ';
+		 s(s'first - 1 + l) :=  ' ';
 		 m := l + mnpc_io_default_width;
-		 put(s(l+1..m), pr.mnpc);
+		 put(s(s'first + l .. s'first - 1 + m), pr.mnpc);
 		 s(m+1..s'last) := (others => ' ');
 	  end put;
 
