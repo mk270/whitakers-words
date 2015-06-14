@@ -32,7 +32,7 @@ procedure put_example_line(output : text_io.file_type; ir : in inflection_record
 	  tense  : constant tense_type       := ir.qual.v.tense_voice_mood.tense;
 	  mood   : constant mood_type        := ir.qual.v.tense_voice_mood.mood;
 	  voice  : voice_type       := ir.qual.v.tense_voice_mood.voice;
-	  kind   : verb_kind_type   := vk;
+	  kind   : constant verb_kind_type   := vk;
       --  Nothing on  (part), gerund,
 
 	  function they return string is

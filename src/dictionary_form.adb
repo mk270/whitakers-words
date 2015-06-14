@@ -14,7 +14,6 @@
 -- All parts of the WORDS system, source code and data files, are made freely
 -- available to anyone who wishes to use them, for whatever purpose.
 
-with text_io;
 with strings_package; use strings_package;
 with inflections_package; use inflections_package;
 with dictionary_package; use dictionary_package;
@@ -24,7 +23,7 @@ function dictionary_form(de : dictionary_entry) return string is
    ox : array (1..4) of string (1..24) := (others => null_ox);
    form : string(1..100) := (others => ' ');
 
-   fst: array (which_type range 1..5) of string(1..3) :=
+   fst: constant array (which_type range 1..5) of string(1..3) :=
 	 ("1st", "2nd", "3rd", "4th", "5th");
 
    not_found : exception;
