@@ -681,7 +681,6 @@ package body addons_package is
    end tackon_entry_io;
 
    package body prefix_entry_io is
-	  use part_of_speech_type_io;
 	  spacer : character := ' ';
 
 	  procedure get(f : in file_type; p : out prefix_entry) is
@@ -736,8 +735,6 @@ package body addons_package is
    end prefix_entry_io;
 
    package body suffix_entry_io is
-	  use part_of_speech_type_io;
-	  use target_entry_io;
 	  spacer : character := ' ';
 
 	  procedure get(f : in file_type; p : out suffix_entry) is
