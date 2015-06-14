@@ -58,7 +58,6 @@ package body addons_package is
    end equ;
 
    procedure load_addons (file_name : in string) is
-	  use part_of_speech_type_io;
 	  use tackon_entry_io;
 	  use prefix_entry_io;
 	  use suffix_entry_io;

@@ -548,7 +548,6 @@ package body line_stuff is
    package body prefix_line_io is
 	  use part_of_speech_type_io;
 	  use prefix_entry_io;
-	  use text_io;
 	  spacer : character := ' ';
 
 	  procedure get(f : in file_type; p : out prefix_line) is
@@ -655,7 +654,6 @@ package body line_stuff is
    package body suffix_line_io is
 	  use part_of_speech_type_io;
 	  use suffix_entry_io;
-	  use text_io;
 	  spacer : character := ' ';
 
 	  procedure get(f : in file_type; p : out suffix_line) is
