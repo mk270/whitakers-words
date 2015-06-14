@@ -1404,7 +1404,7 @@ package body list_package is
 			   end if;
 			end loop binary_search;
 			j1 := jj;
-			j2 := stem_io.count(index_last);
+			j2 := index_last;
 
          end if;
          unknown_count := ds.mnpc;

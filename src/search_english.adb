@@ -208,7 +208,7 @@ binary_search:
 	   end if;
 
 	   --  Should D_K
-	   set_index(ewds_file, ewds_direct_io.count(j));
+	   set_index(ewds_file, j);
 	   read(ewds_file, ewds);
 	   if  "<"(lower_case(ewds.w), input_word)  then  --  Not LTU, not u=v
 		  j1 := j;
