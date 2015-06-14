@@ -336,16 +336,6 @@ package body inflections_package is
 	  end if;
    end "<=";
 
-   function "<=" (left, right : numeral_sort_type)   return boolean is
-   begin
-	  if (right = left   or else
-			right = x)  then
-		 return true;
-	  else
-		 return false;
-	  end if;
-   end "<=";
-
    function "<=" (left, right : stem_key_type)   return boolean is
    begin            --  Only works for 2 stem parts, not verbs
 	  if (right = left   or else

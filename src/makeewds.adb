@@ -221,7 +221,8 @@ procedure makeewds is
 							pofs : in part_of_speech_type;
 							n : out integer;
 							ewa : out ewds_array) is
-	  i, j, js, k, l, m, im, ic : integer := 0;
+	  -- i, j, js, k, l, m, im, ic : integer := 0;
+	  j, k, l, m, im, ic : integer := 0;
 	  end_semi : constant integer := 1;
 	  --  Have to expand type to take care of hyphenated
 	  subtype x_meaning_type is string(1..max_meaning_size*2+20);
@@ -233,7 +234,7 @@ procedure makeewds is
 	  --NEW_LINE(2);
 	  --PUT_LINE("MEAN  " & INTEGER'IMAGE(LINE_NUMBER) & "  =>" & S);
 	  --PUT_LINE("MEAN=>" & INTEGER'IMAGE(S'FIRST) & "  " & INTEGER'IMAGE(S'LAST) & "|::::::::");
-	  i := 1;    --  Element Position in line, per SEMI
+	  -- i := 1;    --  Element Position in line, per SEMI
 	  j := 1;    --  Position in word
 	  k := 0;    --  SEMI - Division in line
 	  l := 1;    --  Position in MEAN, for EXTRACTing SEMI
@@ -621,8 +622,9 @@ procedure makeewds is
 																	   --PUT_LINE("Clear  L = " & INTEGER'IMAGE(L));
 				l := l + 1;
 			 end if;
-
-			 js := l;    --  Odd but necessary    ?????
+			 
+			 -- investigate this:
+			 -- js := l;    --  Odd but necessary    ?????
 			 for j in l..s'last  loop
 				exit when j >= s'last;
 				if s(j) = ' '  then

@@ -22,7 +22,6 @@ package body dictionary_package is
 
    mnpc_io_default_width : constant natural := 6;
    numeral_value_type_io_default_width : constant natural := 5;
-   kind_entry_io_default_width : constant natural := verb_kind_type_io.default_width;
    --PART_WIDTH : NATURAL;
 
    function number_of_stems(p : part_of_speech_type) return stem_key_type is

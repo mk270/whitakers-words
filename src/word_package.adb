@@ -764,8 +764,8 @@ package body word_package is
 
 		 pdl_key : stem_key_type;
 		 pdl_p   : part_of_speech_type;
-		 sl_key  : stem_key_type;
-		 sl_p    : part_of_speech_type;
+		 --sl_key  : stem_key_type;
+		 --sl_p    : part_of_speech_type;
 
 		 function "<=" (left, right : part_of_speech_type) return boolean is
 		 begin
@@ -892,8 +892,8 @@ package body word_package is
                   --  Single out those stems that match (pruned) dictionary entries
                   --^^^^^^^^^^^^^^^^^should be able to do this better with new arrangement
 
-				  sl_key := sl(i).ir.key;
-				  sl_p := sl(i).ir.qual.pofs;
+				  --sl_key := sl(i).ir.key;
+				  --sl_p := sl(i).ir.qual.pofs;
 
 				  if (
 					  ((pdl_key <= sl(i).ir.key) )  or else
@@ -1560,7 +1560,7 @@ package body word_package is
 		 de : dictionary_entry := null_dictionary_entry;
 		 mean : meaning_type := null_meaning_type;
 		 entering_pa_last : constant integer := pa_last;
-		 start_of_loop : integer := 5;    --  4 enclitics     --  Hard number  !!!!!!!!!!!!!!!
+		 start_of_loop : constant integer := 5;    --  4 enclitics     --  Hard number  !!!!!!!!!!!!!!!
 		 end_of_loop : constant integer := number_of_tackons;
 	  begin
 
