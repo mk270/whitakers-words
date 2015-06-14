@@ -1093,13 +1093,13 @@ package body inflections_package is
 	  end put;
 
 	  procedure get(s : in string; a : out adverb_record; last : out integer) is
-		 l : integer := s'first - 1;
+		 l : constant integer := s'first - 1;
 	  begin
 		 get(s(l+1..s'last), a.co, last);
 	  end get;
 
 	  procedure put(s : out string; a : in adverb_record) is
-		 l : integer := s'first - 1;
+		 l : constant integer := s'first - 1;
 		 m : integer := 0;
 	  begin
 		 m := l + comparison_type_io.default_width;
@@ -1407,13 +1407,13 @@ package body inflections_package is
 	  end put;
 
 	  procedure get(s : in string; p : out preposition_record; last : out integer) is
-		 l : integer := s'first - 1;
+		 l : constant integer := s'first - 1;
 	  begin
 		 get(s(l+1..s'last), p.obj, last);
 	  end get;
 
 	  procedure put(s : out string; p : in preposition_record) is
-		 l : integer := s'first - 1;
+		 l : constant integer := s'first - 1;
 		 m : integer := 0;
 	  begin
 		 m := l + case_type_io.default_width;
@@ -1449,7 +1449,7 @@ package body inflections_package is
 	  end put;
 
 	  procedure get(s : in string; c : out conjunction_record; last : out integer) is
-		 l : integer := s'first - 1;
+		 l : constant integer := s'first - 1;
 	  begin
 		 c := null_conjunction_record;
 		 last := l - 1;  --  LAST did not even get to S'FIRST, since nothing to read
@@ -1488,7 +1488,7 @@ package body inflections_package is
 	  end put;
 
 	  procedure get(s : in string; i : out interjection_record; last : out integer) is
-		 l : integer := s'first - 1;
+		 l : constant integer := s'first - 1;
 	  begin
 		 i := null_interjection_record;
 		 last := l - 1;
@@ -1526,7 +1526,7 @@ package body inflections_package is
 	  end put;
 
 	  procedure get(s : in string; i : out tackon_record; last : out integer) is
-		 l : integer := s'first - 1;
+		 l : constant integer := s'first - 1;
 	  begin
 		 i := null_tackon_record;
 		 last := l - 1;
@@ -1562,7 +1562,7 @@ package body inflections_package is
 	  end put;
 
 	  procedure get(s : in string; p : out prefix_record; last : out integer) is
-		 l : integer := s'first - 1;
+		 l : constant integer := s'first - 1;
 	  begin
 		 p := null_prefix_record;
 		 last := l - 1;
@@ -1598,7 +1598,7 @@ package body inflections_package is
 	  end put;
 
 	  procedure get(s : in string; p : out suffix_record; last : out integer) is
-		 l : integer := s'first - 1;
+		 l : constant integer := s'first - 1;
 	  begin
 		 p := null_suffix_record;
 		 last := l - 1;

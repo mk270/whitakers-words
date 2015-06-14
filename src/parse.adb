@@ -28,7 +28,6 @@ with word_package; use word_package;
 with list_package; use list_package;
 with tricks_package; use tricks_package;
 with config; use config;
-with preface;
 with put_stat;
 with english_support_package; use english_support_package;
 with search_english;
@@ -41,7 +40,8 @@ procedure parse(command_line : string := "") is
    storage_error_count : integer := 0;
 
    j, k, l : integer := 0;
-   line, blank_line : string(1..2500) := (others => ' ');
+   blank_line : constant string(1..2500) := (others => ' ');
+   line : string(1..2500) := (others => ' ');
    --INPUT : TEXT_IO.FILE_TYPE;
 
    pa : parse_array(1..100) := (others => null_parse_record);
@@ -182,8 +182,8 @@ procedure parse(command_line : string := "") is
 				   procedure pass(input_word : string);
 
 				   procedure enclitic is
-					  save_do_fixes  : boolean := words_mode(do_fixes);
-					  save_do_only_fixes  : boolean := words_mdev(do_only_fixes);
+					  save_do_fixes  : constant boolean := words_mode(do_fixes);
+					  save_do_only_fixes : constant boolean := words_mdev(do_only_fixes);
 					  enclitic_limit : integer := 4;
 					  try : constant string := lower_case(input_word);
 				   begin
@@ -304,9 +304,9 @@ procedure parse(command_line : string := "") is
 
 				   procedure pass(input_word : string) is
 					  --  This is the core logic of the program, everything else is details
-					  save_pa_last  : integer := 0;
-					  save_do_fixes  : boolean := words_mode(do_fixes);
-					  save_do_only_fixes  : boolean := words_mdev(do_only_fixes);
+					  save_pa_last : integer := 0;
+					  save_do_fixes : constant boolean := words_mode(do_fixes);
+					  save_do_only_fixes : constant boolean := words_mdev(do_only_fixes);
 					  save_do_tricks : boolean := words_mode(do_tricks);
 				   begin
 					  --TEXT_IO.PUT_LINE("Entering PASS with >" & INPUT_WORD);

@@ -19,7 +19,6 @@ with inflections_package; use inflections_package;
 pragma elaborate(inflections_package);
 package body dictionary_package is
    use stem_key_type_io;
-   use text_io;
 
    mnpc_io_default_width : constant natural := 6;
    numeral_value_type_io_default_width : constant natural := 5;

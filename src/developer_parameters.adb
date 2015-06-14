@@ -14,7 +14,7 @@
 -- All parts of the WORDS system, source code and data files, are made freely
 -- available to anyone who wishes to use them, for whatever purpose.
 
-with text_io;
+with text_io; use text_io;
 with strings_package; use strings_package;
 with latin_file_names; use latin_file_names;   --  Omit when put name here
 with word_parameters; use word_parameters;
@@ -24,16 +24,14 @@ with line_stuff; use line_stuff;
 pragma elaborate(preface);
 package body developer_parameters is
 
-   use text_io;
-
    type help_type is array (natural range <>) of string(1..70);
    blank_help_line : constant string(1..70) := (others => ' ');
    no_help : constant help_type := (2..1 => blank_help_line);
 
    type reply_type is (n, y);
    package reply_type_io is new text_io.enumeration_io(reply_type);
-   reply : array (boolean) of reply_type := (n, y);
-   mdev_of_reply : array (reply_type) of boolean := (false, true);
+   reply : constant array (boolean) of reply_type := (n, y);
+   mdev_of_reply : constant array (reply_type) of boolean := (false, true);
 
    blank_input : exception;
 
@@ -390,8 +388,7 @@ package body developer_parameters is
    end put;
 
    procedure update_local_dictionary_file is
-	  use text_io;
-	  blank_line : string(1..80) := (others => ' ');
+	  blank_line : constant string(1..80) := (others => ' ');
 	  line, stem_line, part_line, mean_line : string(1..80) := blank_line;
 	  l, sl, pl, ml : integer := 0;    --  SL BAD NAME !!!!!!!!!!!
 									   --DICT_LOC : DICTIONARY;   --  Def in LINE_STUFF

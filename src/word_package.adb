@@ -14,7 +14,6 @@
 -- All parts of the WORDS system, source code and data files, are made freely
 -- available to anyone who wishes to use them, for whatever purpose.
 
-with text_io;
 with latin_file_names; use latin_file_names;
 with strings_package; use strings_package;
 with config;  use config;
@@ -30,7 +29,6 @@ package body word_package is
    inflections_sections_file : lel_section_io.file_type;
 
    procedure pause(output : text_io.file_type) is
-	  use config;
 	  pause_line : string(1..300);
 	  pause_last : integer := 0;
    begin
@@ -1579,9 +1577,9 @@ package body word_package is
 		 j : integer := 0;
 		 de : dictionary_entry := null_dictionary_entry;
 		 mean : meaning_type := null_meaning_type;
-		 entering_pa_last : integer := pa_last;
+		 entering_pa_last : constant integer := pa_last;
 		 start_of_loop : integer := 5;    --  4 enclitics     --  Hard number  !!!!!!!!!!!!!!!
-		 end_of_loop : integer := number_of_tackons;
+		 end_of_loop : constant integer := number_of_tackons;
 	  begin
 
 	 loop_over_tackons:
@@ -1739,9 +1737,9 @@ package body word_package is
 
   qu:
 	  declare
-		 pa_qstart : integer := pa_last;
-		 pa_start : integer := pa_last;
-		 saved_mode_array : mode_array := words_mode;
+		 pa_qstart : constant integer := pa_last;
+		 pa_start : constant integer := pa_last;
+		 saved_mode_array : constant mode_array := words_mode;
 		 qkey : stem_key_type := 0;
 
 	  begin       --  QU
