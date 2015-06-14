@@ -42,25 +42,25 @@ procedure makestem is
 
    procedure put_indices(ch : string;
 						 d_k : dictionary_kind) is
-	  wd : string(1..2) := ch(1..2);
+	  wd : string(1..2) := ch(ch'first..ch'first+1);
    begin
       --Put_Line("Put_Indices");
 	  if ch = "  "  then
-		 if (bblf(ch(1), ch(2), d_k) > 0)                    and then
-		   (bbll(ch(1), ch(2), d_k) >= bblf(ch(1), ch(2), d_k))  then
+		 if (bblf(ch(ch'first), ch(ch'first + 1), d_k) > 0)                    and then
+		   (bbll(ch(ch'first), ch(ch'first + 1), d_k) >= bblf(ch(ch'first), ch(ch'first + 1), d_k))  then
 			put("CH = ("); put(ch); put(") index is of range  ");
-			put(bblf(ch(1), ch(2), d_k)); put(".."); put(bbll(ch(1), ch(2), d_k));
+			put(bblf(ch(ch'first), ch(ch'first + 1), d_k)); put(".."); put(bbll(ch(ch'first), ch(ch'first + 1), d_k));
 			put("    number ");
-			put(bbll(ch(1), ch(2), d_k) - bblf(ch(1), ch(2), d_k) + 1);
+			put(bbll(ch(ch'first), ch(ch'first + 1), d_k) - bblf(ch(ch'first), ch(ch'first + 1), d_k) + 1);
 			new_line;
 		 end if;
-	  elsif ch(2) = ' '  then
-		 if (bdlf(ch(1), ch(2), d_k) > 0)                    and then
-		   (bdll(ch(1), ch(2), d_k) >= bdlf(ch(1), ch(2), d_k))  then
+	  elsif ch(ch'first + 1) = ' '  then
+		 if (bdlf(ch(ch'first), ch(ch'first + 1), d_k) > 0)                    and then
+		   (bdll(ch(ch'first), ch(ch'first + 1), d_k) >= bdlf(ch(ch'first), ch(ch'first + 1), d_k))  then
 			put("CH = ("); put(ch); put(") index is of range  ");
-			put(bdlf(ch(1), ch(2), d_k)); put(".."); put(bdll(ch(1), ch(2), d_k));
+			put(bdlf(ch(ch'first), ch(ch'first + 1), d_k)); put(".."); put(bdll(ch(ch'first), ch(ch'first + 1), d_k));
 			put("    number ");
-			put(bdll(ch(1), ch(2), d_k) - bdlf(ch(1), ch(2), d_k) + 1);
+			put(bdll(ch(ch'first), ch(ch'first + 1), d_k) - bdlf(ch(ch'first), ch(ch'first + 1), d_k) + 1);
 			new_line;
 		 end if;
 	  else
