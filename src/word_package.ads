@@ -17,7 +17,6 @@
 with text_io;
 with inflections_package; use inflections_package;
 with dictionary_package; use dictionary_package;
-with addons_package; use addons_package;
 with word_support_package; use word_support_package;
 package word_package is
 
