@@ -770,8 +770,6 @@ package body line_stuff is
 	  use translation_record_io;
 	  spacer : character;
 
-	  pe : unique_entry;
-
 	  procedure get(f : in file_type; p : out unique_entry) is
 		 ue : unique_entry;
 	  begin

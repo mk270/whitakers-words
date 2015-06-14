@@ -381,7 +381,6 @@ package body addons_package is
    --  package body SUFFIX_LINE_IO is separate;
 
    package body target_entry_io is
-	  use part_of_speech_type_io;
 	  use noun_entry_io;
 	  use pronoun_entry_io;
 	  use propack_entry_io;
