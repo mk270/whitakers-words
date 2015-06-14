@@ -39,14 +39,14 @@ package body list_package is
 	  mnpc : mnpc_type := null_mnpc;
 	  de   : dictionary_entry := null_dictionary_entry;
    end record;
-   null_dictionary_mnpc_record : dictionary_mnpc_record
+   null_dictionary_mnpc_record : constant dictionary_mnpc_record
 	 := (x, null_mnpc, null_dictionary_entry);
 
    max_meaning_print_size : constant := 79;
    mm : integer := max_meaning_size;
    i, j, k : integer := 0;
 
-   inflection_frequency : array (frequency_type) of string(1..8) :=
+   inflection_frequency : constant array (frequency_type) of string(1..8) :=
 	 ("        ",  --  X
 	  "mostfreq",  --  A
 	  "sometime",  --  B
@@ -68,7 +68,7 @@ package body list_package is
 	  "Scholar ",   --  G
 	  "Modern  " ); --  H
 
-   dictionary_frequency : array (frequency_type) of string(1..8) :=
+   dictionary_frequency : constant array (frequency_type) of string(1..8) :=
 	 ("        ",  --  X
 	  "veryfreq",  --  A
 	  "frequent",  --  B
@@ -80,7 +80,7 @@ package body list_package is
 	  "graffiti",  --  J
 	  "Pliny   " );--  N
 
-   dictionary_age : array (age_type) of string(1..8) :=
+   dictionary_age : constant array (age_type) of string(1..8) :=
 	 ("        ",   --  X
 	  "Archaic ",   --  A
 	  "Early   ",   --  B
