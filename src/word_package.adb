@@ -354,8 +354,6 @@ package body word_package is
    end try_to_load_dictionary;
 
    procedure dictionary_search(ssa : stem_array_type;
-							   prefix : prefix_item;
-							   suffix : suffix_item;
 							   d_k : dictionary_kind;
 							   restriction : dict_restriction := regular) is
 	  --  Prepares a PDL list of possible dictionary hits
@@ -604,7 +602,7 @@ package body word_package is
 					add_file_name_extension(stem_file_name,
 											dictionary_kind'image(d_k)));
 			end if;
-			dictionary_search(ssa, prefix, suffix, d_k, restriction);
+			dictionary_search(ssa, d_k, restriction);
 			close(stem_file(d_k));  --??????
 		 end if;
 	  end loop;

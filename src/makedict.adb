@@ -19,7 +19,6 @@ with strings_package; use strings_package;
 with latin_file_names; use latin_file_names;
 with inflections_package; use inflections_package;
 with dictionary_package; use dictionary_package;
-with line_stuff; use line_stuff;
 procedure makedict is
    package integer_io is new text_io.integer_io(integer);
    use text_io;
