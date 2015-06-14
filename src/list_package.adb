@@ -18,7 +18,6 @@ with config; use config;
 with strings_package; use strings_package;
 with latin_file_names; use latin_file_names;
 with word_parameters; use word_parameters;
-with dictionary_package; use dictionary_package;
 with addons_package; use addons_package;
 with uniques_package; use uniques_package;
 with word_support_package; use word_support_package;
@@ -57,7 +56,7 @@ package body list_package is
 	  "inscript",  --  I
 	  "        ",  --  Not used
 	  "        " );
-   inflection_age : array (age_type) of string(1..8) :=
+   inflection_age : constant array (age_type) of string(1..8) :=
 	 ("Always  ",   --  X
 	  "Archaic ",   --  A
 	  "Early   ",   --  B

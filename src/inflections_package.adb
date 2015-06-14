@@ -1952,7 +1952,8 @@ package body inflections_package is
 	  use integer_io;
 	  spacer : character := ' ';
 
-	  sf, blanks : ending := (others => ' ');
+	  sf : ending := (others => ' ');
+	  blanks : constant ending := (others => ' ');
 	  n : ending_size_type := 0;
 
 	  procedure get(f : in file_type; x : out ending_record) is
