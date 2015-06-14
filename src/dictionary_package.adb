@@ -44,7 +44,6 @@ package body dictionary_package is
    end number_of_stems;
 
    package body parse_record_io is
-	  use text_io;
 	  use inflection_record_io;
 	  use dictionary_kind_io;
 	  use mnpc_io;
@@ -1289,7 +1288,6 @@ package body dictionary_package is
    end kind_entry_io;
 
    package body translation_record_io is
-	  use text_io;
 	  use age_type_io;
 	  use area_type_io;
 	  use geo_type_io;

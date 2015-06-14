@@ -14,12 +14,11 @@
 -- All parts of the WORDS system, source code and data files, are made freely
 -- available to anyone who wishes to use them, for whatever purpose.
 
-with text_io;
+with text_io; use text_io;
 with inflections_package; use inflections_package;
 with dictionary_package; use dictionary_package;
 package addons_package is
    pragma elaborate_body;
-   use text_io;
 
    subtype fix_type is stem_type;
    null_fix_type : constant fix_type := null_stem_type;
