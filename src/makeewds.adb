@@ -19,7 +19,6 @@ with strings_package; use strings_package;
 with latin_file_names; use latin_file_names;
 with inflections_package; use inflections_package;
 with dictionary_package; use dictionary_package;
-with line_stuff; use line_stuff;
 with english_support_package; use english_support_package;
 with weed;
 with weed_all;
@@ -68,9 +67,8 @@ procedure makeewds is
    input, output, check : text_io.file_type;
    de : dictionary_entry;
 
-   null_word_type, blank_word : word_type := (others => ' ');
    s, line, blank_line : line_type := (others => ' ');
-   l, ll, last : integer := 0;
+   l, last : integer := 0;
 
    ewa : ewds_array(1..40) := (others => null_ewds_record);
 

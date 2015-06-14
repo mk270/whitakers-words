@@ -149,7 +149,7 @@ package body strings_package is
 			exit file_loop;
 		 end if;
 	  end loop file_loop;
-	  s(1..lx) := t(1..lx);
+	  s(s'first..lx) := t(1..lx);
 	  last := lx;
    end get_non_comment_line;
 

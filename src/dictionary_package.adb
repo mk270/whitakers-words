@@ -452,7 +452,6 @@ package body dictionary_package is
 
    package body adverb_entry_io is
 	  use comparison_type_io;
-	  spacer : character := ' ';
 
 	  procedure get(f : in file_type; a : out adverb_entry) is
 	  begin
@@ -549,7 +548,6 @@ package body dictionary_package is
 
    package body preposition_entry_io is
 	  use case_type_io;
-	  spacer : character := ' ';
 
 	  procedure get(f : in file_type; p : out preposition_entry) is
 	  begin
@@ -589,7 +587,6 @@ package body dictionary_package is
 
    package body conjunction_entry_io is
 	  null_conjunction_entry : conjunction_entry;
-	  spacer : character := ' ';
 
 	  procedure get(f : in file_type; c : out conjunction_entry) is
 	  begin
@@ -627,7 +624,6 @@ package body dictionary_package is
 
    package body interjection_entry_io is
 	  null_interjection_entry : interjection_entry;
-	  spacer : character := ' ';
 
 	  procedure get(f : in file_type; i : out interjection_entry) is
 	  begin
@@ -1305,7 +1301,6 @@ package body dictionary_package is
 	  use source_type_io;
 	  spacer : character := ' ';
 	  --LINE : STRING(1..250);
-	  last : integer := 0;
 
 	  procedure get(f : in text_io.file_type; tr: out translation_record) is
 	  begin
