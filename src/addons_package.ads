@@ -18,6 +18,7 @@ with text_io;
 with inflections_package; use inflections_package;
 with dictionary_package; use dictionary_package;
 package addons_package is
+   pragma elaborate_body;
    use text_io;
 
    subtype fix_type is stem_type;

@@ -17,6 +17,7 @@
 with text_io;
 with direct_io;
 package inflections_package is
+   pragma elaborate_body;
    package integer_io is new text_io.integer_io(integer);
    use text_io;
 

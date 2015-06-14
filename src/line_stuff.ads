@@ -20,6 +20,7 @@ with dictionary_package; use dictionary_package;
 with addons_package; use addons_package;
 with uniques_package; use uniques_package;
 package line_stuff is
+   pragma elaborate_body;
    use text_io;
 
    type dictionary_item;
