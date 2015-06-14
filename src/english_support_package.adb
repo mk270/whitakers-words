@@ -22,7 +22,6 @@ package body english_support_package is
 	  package integer_io is new text_io.integer_io(integer);
 	  use part_of_speech_type_io;
 	  use frequency_type_io;
-	  use text_io;
 	  use integer_io;
 	  spacer : character := ' ';
 	  nwidth : constant := 5;
