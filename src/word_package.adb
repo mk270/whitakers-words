@@ -1333,7 +1333,7 @@ package body word_package is
 
 	  end prune_stems;
 
-	  procedure process_packons(input_word : string; key : stem_key_type := 0) is
+	  procedure process_packons(input_word : string) is
 
 		 stem_length  : integer := 0;
 		 pr   : parse_record;
@@ -1753,9 +1753,9 @@ package body word_package is
 					 if pa_last <= pa_qstart + 1  and then
 					   qkey > 0                    then    --  If did not find a PACKON
 						if q_word(q_word'first..q_word'first+1) = "qu"  then
-                           process_packons(q_word, qkey);
+                           process_packons(q_word);
 						elsif q_word(q_word'first..q_word'first+1) = "cu"  then
-                           process_packons(q_word, qkey);
+                           process_packons(q_word);
 						end if;
 					 else
 						exit;
