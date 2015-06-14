@@ -539,12 +539,10 @@ package body word_package is
    end dictionary_search;
 
    procedure search_dictionaries(ssa : in stem_array_type;
-								 prefix : prefix_item; suffix : suffix_item;
 													   restriction : dict_restriction := regular) is
 	  use stem_io;
 	  fc : character := ' ';
    begin
-      --PUT_LINE("Entering SEARCH_DICTIONARIES");
 	  pdl := (others => null_pruned_dictionary_item);
 	  pdl_index := 0;
       --PUT_LINE("Search for blank stems");
@@ -606,8 +604,6 @@ package body word_package is
 			close(stem_file(d_k));  --??????
 		 end if;
 	  end loop;
-
-      --TEXT_IO.PUT_LINE("Leaving SEARCH_DICTIONARY PDL_INDEX = " & INTEGER'IMAGE(PDL_INDEX));
 
    end search_dictionaries;
 
@@ -1164,8 +1160,7 @@ package body word_package is
                end loop;
 
                if l > 0  then                        --  There has been a prefix hit
-                  search_dictionaries(ssa(1..l),      --  So run new dictionary search
-                                      prefixes(i), suffix);
+                  search_dictionaries(ssa(1..l));      --  So run new dictionary search
 
                   if  pdl_index /= 0     then                  --  Dict search was successful
 															   --PUT_LINE("IN APPLY_PREFIX -  PDL_INDEX not 0     after prefix  " & PREFIXES(I).FIX);
@@ -1213,8 +1208,7 @@ package body word_package is
 			end loop;    --  Loop on J through SA
 
 			if l > 0  then                        --  There has been a suffix hit
-			   search_dictionaries(ssa(1..l),
-								   null_prefix_item, suffixes(i));     --  So run new dictionary search
+			   search_dictionaries(ssa(1..l));     --  So run new dictionary search
 																	   --  For suffixes we allow as many as match
 
 			   if  pdl_index /= 0     then                  --  Dict search was successful
@@ -1296,7 +1290,7 @@ package body word_package is
 
             if not words_mdev(do_only_fixes)  then   --  Just bypass main dictionary search
 
-               search_dictionaries(ssa(1..ssa_max), null_prefix_item, null_suffix_item);
+               search_dictionaries(ssa(1..ssa_max));
 
             end if;
 
@@ -1410,7 +1404,7 @@ package body word_package is
 
                   --  Only one stem will emerge
 				  pdl_index := 0;
-				  search_dictionaries(ssa(1..1), null_prefix_item, null_suffix_item,
+				  search_dictionaries(ssa(1..1),
 									  pack_only);
                   --  Now have a PDL, scan for agreement
 
@@ -1518,7 +1512,7 @@ package body word_package is
 
          --  Only one stem will emerge
 		 pdl_index := 0;
-		 search_dictionaries(ssa(1..1), null_prefix_item, null_suffix_item,
+		 search_dictionaries(ssa(1..1),
 							 qu_pron_only);
          --  Now have a PDL, scan for agreement
 

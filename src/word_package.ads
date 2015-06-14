@@ -78,7 +78,6 @@ package word_package is
 											restriction : dict_restriction := regular);
 
    procedure search_dictionaries(ssa : in stem_array_type;
-								 prefix : prefix_item; suffix : suffix_item;
 													   restriction : dict_restriction := regular);
 
    procedure word(raw_word : in string;
