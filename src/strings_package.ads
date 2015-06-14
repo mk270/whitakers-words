@@ -34,8 +34,7 @@ package strings_package is
    --  Equivalent to Ada.Strings.Fixed.Trim(Source, Both);
 
    function head(source : in string;
-				 count  : in natural;
-				 pad    : in character := ' ') return string;
+				 count  : in natural) return string;
 
    procedure get_non_comment_line(f : in text_io.file_type;
 								  s : out string; last : out integer);

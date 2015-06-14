@@ -109,8 +109,7 @@ package body strings_package is
    end trim;
 
    function head(source : in string;
-				 count  : in natural;
-				 pad    : in character := ' ') return string is
+				 count  : in natural) return string is
       --  Truncates or fills a string to exactly N in length
 	  t : string(1..count) := (others => ' ');
    begin
