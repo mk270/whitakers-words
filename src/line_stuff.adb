@@ -14,6 +14,12 @@
 -- All parts of the WORDS system, source code and data files, are made freely
 -- available to anyone who wishes to use them, for whatever purpose.
 
+
+-- N.B: there is a set of duff assignments in the original source,
+-- marked here with comments saying "apparently redundant?"; unsure
+-- whether this is a bug
+
+
 with word_support_package; use word_support_package;   --  for STEM_IO
 with strings_package; use strings_package;
 with latin_file_names; use latin_file_names;
@@ -614,7 +620,7 @@ package body line_stuff is
 		 p.fix := s(l+1..m);
 		 l := m;
 		 l := l + 1;
-		 m := l + 1;
+		 -- m := l + 1; -- apparently redundant?
 		 p.connect := s(l+1);
 		 l := l + 1;
 		 m := l + prefix_entry_io.default_width;
@@ -637,7 +643,7 @@ package body line_stuff is
 		 s(l+1..m) := p.fix;
 		 l := m + 1;
 		 s(l) :=  ' ';
-		 m := l + 1;
+		 -- m := l + 1; -- apparently redundant?
 		 s(l+1) := p.connect;
 		 m := l + prefix_entry_io.default_width;
 		 put(s(l+1..m), p.entr);
@@ -720,7 +726,7 @@ package body line_stuff is
 		 p.fix := s(l+1..m);
 		 l := m;
 		 l := l + 1;
-		 m := l + 1;
+		 -- m := l + 1; -- apparently redundant?
 		 p.connect := s(l+1);
 		 l := l + 1;
 		 m := l + suffix_entry_io.default_width;
@@ -820,13 +826,13 @@ package body line_stuff is
 		 m := l + max_stem_size;
 		 p.stem := s(l+1..m);
 		 l := l + 1;
-		 m := l + quality_record_io.default_width;
+		 -- m := l + quality_record_io.default_width; -- apparently redundant?
 		 get(s(l+1..s'last), p.qual, l);
 		 l := l + 1;
-		 m := l + kind_entry_io.default_width;
+		 -- m := l + kind_entry_io.default_width; -- apparently redundant?
 		 get(s(l+1..s'last), p.qual.pofs, p.kind, l);
 		 l := l + 1;
-		 m := l + max_meaning_size;
+		 -- m := l + max_meaning_size; -- apparently redundant?
 		 get(s(l+1..s'last), p.tran, last);
 	  end get;
 
