@@ -234,13 +234,7 @@ procedure list_sweep(pa : in out parse_array; pa_last : in out integer) is
 	  sl_last : integer := sl'last;
 	  sl_last_initial : constant integer := sl_last;
 	  sm : parse_record;
-	  --DE, ODE : DICTIONARY_ENTRY;
-	  roman_number      : boolean := false;
 	  has_noun_abbreviation      : boolean := false;
-      --     HAS_ADJECTIVE_ABBREVIATION  : BOOLEAN := FALSE;
-      --     HAS_VERB_ABBREVIATION  : BOOLEAN := FALSE;
-	  not_only_vocative : boolean := false;
-	  not_only_locative : boolean := false;
 
 	  j : integer := sl'first;
 
