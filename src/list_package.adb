@@ -29,8 +29,6 @@ with list_sweep;
 with put_stat;
 package body list_package is
 
-   package boolean_io is new text_io.enumeration_io(boolean);
-
    subtype xons is part_of_speech_type range tackon..suffix;
 
    type dictionary_mnpc_record is record
@@ -262,7 +260,7 @@ package body list_package is
 
       type dictionary_mnpc_array is array (1..dictionary_mnpc_array_size)
 		of dictionary_mnpc_record;
-      dma, odma, null_dma : dictionary_mnpc_array;
+      dma, null_dma : dictionary_mnpc_array;
 
       --MEANING_ARRAY_SIZE : constant := 5;
       --MEANING_ARRAY : array (1..MEANING_ARRAY_SIZE) of MEANING_TYPE;
@@ -835,7 +833,6 @@ package body list_package is
 
 			   when n  =>
 				  osra := null_sra;
-				  odma := null_dma;
 				  --ODM := NULL_DICTIONARY_MNPC_RECORD;
 				  --DM := NULL_DICTIONARY_MNPC_RECORD;
 				  while pa(i).ir.qual.pofs = n   and
@@ -865,7 +862,6 @@ package body list_package is
 
 			   when pron  =>
 				  osra := null_sra;
-				  odma := null_dma;
 				  --ODM := NULL_DICTIONARY_MNPC_RECORD;
 				  --DM := NULL_DICTIONARY_MNPC_RECORD;
 				  while pa(i).ir.qual.pofs = pron   and
@@ -890,7 +886,6 @@ package body list_package is
 
 			   when pack  =>
 				  osra := null_sra;
-				  odma := null_dma;
 				  --ODM := NULL_DICTIONARY_MNPC_RECORD;
 				  --DM := NULL_DICTIONARY_MNPC_RECORD;
 				  while pa(i).ir.qual.pofs = pack   and
@@ -915,7 +910,6 @@ package body list_package is
 
 			   when adj  =>
 				  osra := null_sra;
-				  odma := null_dma;
 				  --ODM := NULL_DICTIONARY_MNPC_RECORD;
 				  --DM := NULL_DICTIONARY_MNPC_RECORD;
 				  while pa(i).ir.qual.pofs = adj   and
@@ -941,7 +935,6 @@ package body list_package is
 
 			   when num  =>
 				  osra := null_sra;
-				  odma := null_dma;
 				  --ODM := NULL_DICTIONARY_MNPC_RECORD;
 				  --DM := NULL_DICTIONARY_MNPC_RECORD;
 				  while pa(i).ir.qual.pofs = num   and
@@ -978,7 +971,6 @@ package body list_package is
 
 			   when v | vpar | supine  =>
 				  osra := null_sra;
-				  odma := null_dma;
 				  --ODM := NULL_DICTIONARY_MNPC_RECORD;
 				  --DM := NULL_DICTIONARY_MNPC_RECORD;
 				  while (pa(i).ir.qual.pofs = v      or
@@ -1013,7 +1005,6 @@ package body list_package is
 			   when others  =>
 				  --TEXT_IO.PUT_LINE("Others");
 				  osra := null_sra;
-				  odma := null_dma;
 				  --ODM := NULL_DICTIONARY_MNPC_RECORD;
 				  --DM := NULL_DICTIONARY_MNPC_RECORD;
 				  while i <= pa_last                   loop

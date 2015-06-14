@@ -36,7 +36,6 @@ package body line_stuff is
 	  sts : stems_type := null_stems_type;
 	  pt  : part_entry  := null_part_entry;
 	  tran : translation_record := null_translation_record;
-	  kind : kind_entry := null_kind_entry;
 	  value : constant numeral_value_type := 0;
 	  mean : meaning_type := null_meaning_type;
 
