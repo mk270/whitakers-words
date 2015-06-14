@@ -684,8 +684,6 @@ package body addons_package is
 	  use part_of_speech_type_io;
 	  spacer : character := ' ';
 
-	  pe : prefix_entry;
-
 	  procedure get(f : in file_type; p : out prefix_entry) is
 	  begin
 		 get(f, p.root);
