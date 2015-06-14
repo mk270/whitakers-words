@@ -458,7 +458,6 @@ package body line_stuff is
    package body tackon_line_io is
 	  use part_of_speech_type_io;
 	  use tackon_entry_io;
-	  use text_io;
 	  spacer : character := ' ';
 
 	  procedure get(f : in file_type; p : out tackon_line) is
