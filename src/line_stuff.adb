@@ -858,7 +858,6 @@ package body line_stuff is
    end unique_entry_io;
 
    procedure load_uniques(unq : in out latin_uniques; file_name : in string) is
-	  use inflections_package.integer_io;
 	  use quality_record_io;
 	  use part_entry_io;
 	  use kind_entry_io;

@@ -17,7 +17,6 @@
 with latin_file_names; use latin_file_names;
 with preface;
 package body inflections_package is
-   use text_io;
 
    function "<" (left, right : decn_record) return boolean is
    begin

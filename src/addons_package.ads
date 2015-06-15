@@ -14,7 +14,7 @@
 -- All parts of the WORDS system, source code and data files, are made freely
 -- available to anyone who wishes to use them, for whatever purpose.
 
-with text_io; use text_io;
+with text_io; use type text_io.file_type;
 with inflections_package; use inflections_package;
 with dictionary_package; use dictionary_package;
 package addons_package is
@@ -57,9 +57,9 @@ package addons_package is
 
    package target_entry_io is
 	  default_width : natural;
-	  procedure get(f : in file_type; p : out target_entry);
+	  procedure get(f : in text_io.file_type; p : out target_entry);
 	  procedure get(p : out target_entry);
-	  procedure put(f : in file_type; p : in target_entry);
+	  procedure put(f : in text_io.file_type; p : in target_entry);
 	  procedure put(p : in target_entry);
 	  procedure get(s : in string; p : out target_entry; last : out integer);
 	  procedure put(s : out string; p : in target_entry);
@@ -74,9 +74,9 @@ package addons_package is
 
    package tackon_entry_io is
 	  default_width : natural;
-	  procedure get(f : in file_type; i : out tackon_entry);
+	  procedure get(f : in text_io.file_type; i : out tackon_entry);
 	  procedure get(i : out tackon_entry);
-	  procedure put(f : in file_type; i : in tackon_entry);
+	  procedure put(f : in text_io.file_type; i : in tackon_entry);
 	  procedure put(i : in tackon_entry);
 	  procedure get(s : in string; i : out tackon_entry; last : out integer);
 	  procedure put(s : out string; i : in tackon_entry);
@@ -92,9 +92,9 @@ package addons_package is
 
    package prefix_entry_io is
 	  default_width : natural;
-	  procedure get(f : in file_type; p : out prefix_entry);
+	  procedure get(f : in text_io.file_type; p : out prefix_entry);
 	  procedure get(p : out prefix_entry);
-	  procedure put(f : in file_type; p : in prefix_entry);
+	  procedure put(f : in text_io.file_type; p : in prefix_entry);
 	  procedure put(p : in prefix_entry);
 	  procedure get(s : in string; p : out prefix_entry; last : out integer);
 	  procedure put(s : out string; p : in prefix_entry);
@@ -112,9 +112,9 @@ package addons_package is
 
    package suffix_entry_io is
 	  default_width : natural;
-	  procedure get(f : in file_type; p : out suffix_entry);
+	  procedure get(f : in text_io.file_type; p : out suffix_entry);
 	  procedure get(p : out suffix_entry);
-	  procedure put(f : in file_type; p : in suffix_entry);
+	  procedure put(f : in text_io.file_type; p : in suffix_entry);
 	  procedure put(p : in suffix_entry);
 	  procedure get(s : in string; p : out suffix_entry; last : out integer);
 	  procedure put(s : out string; p : in suffix_entry);
