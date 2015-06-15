@@ -150,19 +150,16 @@ procedure parse(command_line : string := "") is
       line(1..l) := trim(input_line);
 
       --  Someday I ought to be interested in punctuation and numbers, but not now
-      eliminate_not_letters:
-          begin
-             for i in 1..l  loop
-                if ((line(i) in 'A'..'Z')  or
-                      (line(i) = '-')           or     --  For the comment
-                      (line(i) = '.')           or     --  Catch period later
-                      (line(i) in 'a'..'z'))  then
-                   null;
-                else
-                   line(i) := ' ';
-                end if;
-             end loop;
-          end eliminate_not_letters;
+      for i in 1..l  loop
+         if ((line(i) in 'A'..'Z')  or
+           (line(i) = '-')           or     --  For the comment
+           (line(i) = '.')           or     --  Catch period later
+           (line(i) in 'a'..'z'))  then
+            null;
+         else
+            line(i) := ' ';
+         end if;
+      end loop;
 
           j := 1;
           k := 0;
