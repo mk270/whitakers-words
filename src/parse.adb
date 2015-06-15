@@ -125,6 +125,21 @@ procedure parse(command_line : string := "") is
       return (option => no_match);
    end is_sum;
    
+
+   function is_esse(t : string) return boolean is
+   begin
+      return trim(t) = "esse";
+   end is_esse;
+
+   function is_fuisse(t : string) return boolean is
+   begin
+      return trim(t) = "fuisse";
+   end is_fuisse;
+
+   function is_iri(t : string) return boolean is
+   begin
+      return trim(t) = "iri";
+   end is_iri;
    
    procedure parse_line(input_line : string) is
       l : integer := trim(input_line)'last;
@@ -519,21 +534,6 @@ procedure parse(command_line : string := "") is
                             begin
                                return trim(nw);
                             end next_word;
-
-                            function is_esse(t : string) return boolean is
-                            begin
-                               return trim(t) = "esse";
-                            end is_esse;
-
-                            function is_fuisse(t : string) return boolean is
-                            begin
-                               return trim(t) = "fuisse";
-                            end is_fuisse;
-
-                            function is_iri(t : string) return boolean is
-                            begin
-                               return trim(t) = "iri";
-                            end is_iri;
                             
                             tmp : verb_to_be := (option => no_match);
                             is_verb_to_be : boolean := false;
