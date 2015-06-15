@@ -458,11 +458,6 @@ procedure parse(command_line : string := "") is
                   trpa_last := 0;
 
                end if;
-
-               --TEXT_IO.PUT_LINE("After TRICKS " & INTEGER'IMAGE(PA_LAST));
-
-               --======================================================================
-
                --  At this point we have done what we can with individual words
                --  Now see if there is something we can do with word combinations
                --  For this we have to look ahead
