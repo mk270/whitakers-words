@@ -919,35 +919,35 @@ begin              --  PARSE
    else
 
       preface.put_line(
-                       "Copyright (c) 1993-2006 - Free for any use - Version 1.97FC");
+        "Copyright (c) 1993-2006 - Free for any use - Version 1.97FC");
       preface.put_line(
-                       "For updates and latest version check http://www.erols.com/whitaker/words.htm");
+        "For updates and latest version check http://www.erols.com/whitaker/words.htm");
       preface.put_line(
-                       "Comments? William Whitaker, Box 51225  Midland  TX  79710  USA - whitaker@erols.com");
+        "Comments? William Whitaker, Box 51225  Midland  TX  79710  USA - whitaker@erols.com");
       preface.new_line;
       preface.put_line(
-                       "Input a word or line of Latin and ENTER to get the forms and meanings");
+        "Input a word or line of Latin and ENTER to get the forms and meanings");
       preface.put_line("    Or input " & start_file_character &
-                         " and the name of a file containing words or lines");
+        " and the name of a file containing words or lines");
       preface.put_line("    Or input " & change_parameters_character &
-                         " to change parameters and mode of the program");
+        " to change parameters and mode of the program");
       preface.put_line("    Or input " & help_character &
-                         " to get help wherever available on individual parameters");
+        " to get help wherever available on individual parameters");
       preface.put_line(
-                       "Two empty lines (just a RETURN/ENTER) from the keyboard exits the program");
+        "Two empty lines (just a RETURN/ENTER) from the keyboard exits the program");
 
       if english_dictionary_available(general)  then
          preface.put_line("English-to-Latin available");
          preface.put_line(
-                          change_language_character & "E changes to English-to-Latin, " &
-                            change_language_character & "L changes back     [tilde E]");
+           change_language_character & "E changes to English-to-Latin, " &
+           change_language_character & "L changes back     [tilde E]");
       end if;
 
       if configuration = only_meanings  then
          preface.put_line(
-                          "THIS VERSION IS HARDCODED TO GIVE DICTIONARY FORM AND MEANINGS ONLY");
+           "THIS VERSION IS HARDCODED TO GIVE DICTIONARY FORM AND MEANINGS ONLY");
          preface.put_line(
-                          "IT CANNOT BE MODIFIED BY CHANGING THE DO_MEANINGS_ONLY PARAMETER");
+           "IT CANNOT BE MODIFIED BY CHANGING THE DO_MEANINGS_ONLY PARAMETER");
       end if;
 
   get_input_lines:
