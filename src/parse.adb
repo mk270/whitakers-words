@@ -151,13 +151,10 @@ procedure parse(command_line : string := "") is
                    extract_pofs:
                        begin
                           part_of_speech_type_io.get(line(k+1..l), pofs, l);
-                          --TEXT_IO.PUT_LINE("In EXTRACT   " & LINE(K+1..L));
                        exception
                           when others =>
                              pofs := x;
                        end extract_pofs;
-                       --PART_OF_SPEECH_TYPE_IO.PUT(POFS);
-                       --TEXT_IO.NEW_LINE;
 
                        search_english(input_word, pofs);
 
@@ -181,8 +178,6 @@ procedure parse(command_line : string := "") is
                       enclitic_limit : integer := 4;
                       try : constant string := lower_case(input_word);
                    begin
-                      --TEXT_IO.PUT_LINE("Entering ENCLITIC  HAVE DONE = " & BOOLEAN'IMAGE(HAVE_DONE_ENCLITIC));
-                      --if WORDS_MODE(TRIM_OUTPUT)  and (PA_LAST > 0)  then    return;   end if;
                       if have_done_enclitic  then    return;   end if;
 
                       entering_pa_last := pa_last;
@@ -194,14 +189,11 @@ procedure parse(command_line : string := "") is
                          declare
                             less : constant string :=
                               subtract_tackon(try, tackons(i));
-                            --SUBTRACT_TACKON(INPUT_WORD, TACKONS(I));
                             save_pa_last  : integer := 0;
                          begin
-                            --TEXT_IO.PUT_LINE("In ENCLITIC     LESS/TACKON  = " & LESS & "/" & TACKONS(I).TACK);
                             if less  /= try  then       --  LESS is less
                                                         --WORDS_MODE(DO_FIXES) := FALSE;
                                word_package.word(less, pa, pa_last);
-                               --TEXT_IO.PUT_LINE("In ENCLITICS after WORD NO_FIXES  LESS = " & LESS & "   PA_LAST = " & INTEGER'IMAGE(PA_LAST));
 
                                if pa_last = 0  then
 
@@ -218,18 +210,16 @@ procedure parse(command_line : string := "") is
                                --  Do not SYNCOPE if there is a verb TO_BE or compound already there
                                --  I do this here and below, it might be combined but it workd now
                                for i in 1..pa_last  loop
-                                  --PARSE_RECORD_IO.PUT(PA(I)); TEXT_IO.NEW_LINE;
                                   if pa(i).ir.qual.pofs = v and then
                                     pa(i).ir.qual.v.con = (5, 1)  then
                                      no_syncope := true;
                                   end if;
                                end loop;
 
-                               --TEXT_IO.PUT_LINE("In ENCLITICS after SLURY  LESS = " & LESS & "   PA_LAST = " & INTEGER'IMAGE(PA_LAST));
                                sypa_last := 0;
                                if words_mdev(do_syncope)  and not no_syncope  then
                                   syncope(less, sypa, sypa_last);  --  Want SYNCOPE second to make cleaner LIST
-                                                                   --TEXT_IO.PUT_LINE("In ENCLITIC after SYNCOPE  LESS = " & LESS & "   SYPA_LAST = " & INTEGER'IMAGE(SYPA_LAST));
+
                                   pa_last := pa_last + sypa_last;   --  Make syncope another array to avoid PA_LAST = 0 problems
                                   pa(1..pa_last) := pa(1..pa_last-sypa_last) & sypa(1..sypa_last);  --  Add SYPA to PA
                                   sypa(1..syncope_max) := (1..syncope_max => null_parse_record);   --  Clean up so it does not repeat
@@ -274,14 +264,12 @@ procedure parse(command_line : string := "") is
                      remove_a_tackon:
                          declare
                             less : constant string :=
-                              --SUBTRACT_TACKON(LOWER_CASE(INPUT_WORD), TACKONS(I));
                               subtract_tackon(try, tackons(i));
                          begin
-                            --TEXT_IO.PUT_LINE("In TRICKS_ENCLITIC     LESS/TACKON  = " & LESS & "/" & TACKONS(I).TACK);
                             if less  /= try  then       --  LESS is less
                                                         --PASS(LESS);
                                try_tricks(less, trpa, trpa_last, line_number, word_number);
-                               --TEXT_IO.PUT_LINE("In TRICKS_ENCLITICS after TRY_TRICKS  LESS = " & LESS & "   TRPA_LAST = " & INTEGER'IMAGE(TRPA_LAST));
+							   
                                if trpa_last > entering_trpa_last  then      --  have a possible word
                                   trpa_last := trpa_last + 1;
                                   trpa(entering_trpa_last+2..trpa_last) :=
@@ -336,27 +324,21 @@ procedure parse(command_line : string := "") is
                       end if;
                       no_syncope := false;
 
-                      --TEXT_IO.PUT_LINE("2  PASS_BLOCK for  " & INPUT_WORD & "   PA_LAST = " & INTEGER'IMAGE(PA_LAST));
-
                       --  There may be a vaild simple parse, if so it is most probable
                       --  But I have to allow for the possibility that -que is answer, not colloque V
                       enclitic;
 
                       --  Restore FIXES
                       words_mode(do_fixes) := save_do_fixes;
-                      --TEXT_IO.PUT_LINE("3  PASS_BLOCK for  " & INPUT_WORD & "   PA_LAST = " & INTEGER'IMAGE(PA_LAST));
 
                       --  Now with only fixes
                       if pa_last = 0  and then
                         words_mode(do_fixes)  then
                          words_mdev(do_only_fixes) := true;
-                         --TEXT_IO.PUT_LINE("3a PASS_BLOCK for  " & INPUT_WORD & "   PA_LAST = " & INTEGER'IMAGE(PA_LAST));
                          word(input_word, pa, pa_last);
-                         --TEXT_IO.PUT_LINE("3b PASS_BLOCK for  " & INPUT_WORD & "   PA_LAST = " & INTEGER'IMAGE(PA_LAST));
                          sypa_last := 0;
                          if words_mdev(do_syncope)  and not no_syncope  then
                             syncope(input_word, sypa, sypa_last);
-                            --TEXT_IO.PUT_LINE("3c PASS_BLOCK for  " & INPUT_WORD & "   PA_LAST = " & INTEGER'IMAGE(PA_LAST));
                             pa_last := pa_last + sypa_last;   --  Make syncope another array to avoid PA-LAST = 0 problems
                             pa(1..pa_last) := pa(1..pa_last-sypa_last) & sypa(1..sypa_last);  --  Add SYPA to PA
                             sypa(1..syncope_max) := (1..syncope_max => null_parse_record);   --  Clean up so it does not repeat
@@ -364,10 +346,8 @@ procedure parse(command_line : string := "") is
                          end if;
                          no_syncope := false;
 
-                         --TEXT_IO.PUT_LINE("4  PASS_BLOCK for  " & INPUT_WORD & "   PA_LAST = " & INTEGER'IMAGE(PA_LAST));
                          enclitic;
 
-                         --TEXT_IO.PUT_LINE("5  PASS_BLOCK for  " & INPUT_WORD & "   PA_LAST = " & INTEGER'IMAGE(PA_LAST));
                          words_mdev(do_only_fixes) := save_do_only_fixes;
                       end if;
 
@@ -385,18 +365,13 @@ procedure parse(command_line : string := "") is
 
                    end pass_block;
 
-                   --TEXT_IO.PUT_LINE("After PASS_BLOCK for  " & INPUT_WORD & "   PA_LAST = " & INTEGER'IMAGE(PA_LAST));
-
                    --if (PA_LAST = 0) or DO_TRICKS_ANYWAY  then    --  WORD failed, try to modify the word
                    if (pa_last = 0)  and then
                      not (words_mode(ignore_unknown_names)  and capitalized)  then
                       --  WORD failed, try to modify the word
-                      --TEXT_IO.PUT_LINE("WORDS fail me");
                       if words_mode(do_tricks)  then
-                         --TEXT_IO.PUT_LINE("DO_TRICKS      PA_LAST    TRPA_LAST  " & INTEGER'IMAGE(PA_LAST) & "   " & INTEGER'IMAGE(TRPA_LAST));
                          words_mode(do_tricks) := false;  --  Turn it off so wont be circular
                          try_tricks(input_word, trpa, trpa_last, line_number, word_number);
-                         --TEXT_IO.PUT_LINE("DONE_TRICKS    PA_LAST    TRPA_LAST  " & INTEGER'IMAGE(PA_LAST) & "   " & INTEGER'IMAGE(TRPA_LAST));
                          if trpa_last = 0  then
                             tricks_enclitic;
                          end if;
