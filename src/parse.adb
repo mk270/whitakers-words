@@ -832,17 +832,11 @@ procedure parse(command_line : string := "") is
                       --========================================================================
                    end if;
 
-                   --TEXT_IO.PUT_LINE("Before LISTing STEMS (PA_LAST > 0 to start) PA_LAST = " &
-                   --INTEGER'IMAGE(PA_LAST));
-
                    if  words_mode(write_output_to_file)      then
                       list_stems(output, input_word, input_line, pa, pa_last);
                    else
                       list_stems(current_output, input_word, input_line, pa, pa_last);
                    end if;
-
-                   --TEXT_IO.PUT_LINE("After LISTing STEMS (PA_LAST > 0 to start) PA_LAST = " &
-                   --INTEGER'IMAGE(PA_LAST));
 
                    pa_last := 0;
 
