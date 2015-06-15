@@ -111,11 +111,6 @@ procedure parse(command_line : string := "") is
 				   followed_by_period := true;
 				   exit;
 				end if;
-				--         exit when (LINE(I) = ' ' or LINE(I) = ',' or LINE(I) = '-'
-				--                or LINE(I) = ';' or LINE(I) = ':'
-				--                or LINE(I) = '(' or LINE(I) = '[' or LINE(I) = '{' or LINE(I) = '<'
-				--                or LINE(I) = ')' or LINE(I) = ']' or LINE(I) = '}' or LINE(I) = '>'
-				--                or (CHARACTER'POS(LINE(I)) < 32)  or (CHARACTER'POS(LINE(I)) > 127) );
 				exit when ((line(i) not in 'A'..'Z') and (line(i) not in 'a'..'z'));
 				w(i) := line(i);
 				k := i;
@@ -329,28 +324,7 @@ procedure parse(command_line : string := "") is
 							no_syncope := true;
 						 end if;
 					  end loop;
-
-					  -- --  WITH THE DICTIONARY BETTER, LET US FORGET THIS - a and c DONE, e and i STILL BUT NOT MANY
-					  --  SAVE_PA_LAST := PA_LAST;
-					  --  --  BIG PROBLEM HERE
-					  --  --  If I do SLURY everytime, then each case where there is an aps- and abs- in dictionary
-					  --  --  will show up twice, straight and SLURY, in the ourout - For either input
-					  --  --  But if I only do SLURY if there is no hit, then some incomplete pairs will not
-					  --  --  fully express (illuxit has two entries, inluxit has only one of them) (inritas)
-					  --  --  So I will do SLURY and if it produces only 2 more PR (XXX and GEN), kill it, otherwise use it only
-					  --  --  Still have a problem if there are other intervening results, not slurried.
-					  --  --  Or if there is syncope
-					  --  TRY_SLURY(INPUT_WORD, PA, PA_LAST, LINE_NUMBER, WORD_NUMBER);
-					  ----TEXT_IO.PUT_LINE("SLURY+   PA_LAST = " & INTEGER'IMAGE(PA_LAST));
-					  --  if SAVE_PA_LAST /= 0   then
-					  --    if (PA_LAST - 2) = SAVE_PA_LAST  then
-					  --      PA_LAST := SAVE_PA_LAST;
-					  --      XXX_MEANING := NULL_MEANING_TYPE;
-					  ----TEXT_IO.PUT_LINE("SLURY!   PA_LAST = " & INTEGER'IMAGE(PA_LAST));
-					  --    end if;
-					  --  end if;
-					  ----TEXT_IO.PUT_LINE("1  PASS_BLOCK for  " & INPUT_WORD & "   PA_LAST = " & INTEGER'IMAGE(PA_LAST));
-
+					  
 					  --  Pure SYNCOPE
 					  sypa_last := 0;
 					  if words_mdev(do_syncope)  and not no_syncope  then
@@ -396,35 +370,6 @@ procedure parse(command_line : string := "") is
 						 --TEXT_IO.PUT_LINE("5  PASS_BLOCK for  " & INPUT_WORD & "   PA_LAST = " & INTEGER'IMAGE(PA_LAST));
 						 words_mdev(do_only_fixes) := save_do_only_fixes;
 					  end if;
-					  --TEXT_IO.PUT_LINE("6  PASS_BLOCK for  " & INPUT_WORD & "   PA_LAST = " & INTEGER'IMAGE(PA_LAST));
-					  --  ROMAN_NUMERALS(INPUT_WORD, PA, PA_LAST);
-
-					  --  If Pure WORDS and ENCLITICS found something OK, otherwise proceed
-					  --    if PA_LAST = 0  or        --  If no go, try syncope, fixes
-					  --      (not WORDS_MODE(TRIM_OUTPUT)) or
-					  --       WORDS_MDEV(DO_FIXES_ANYWAY) then
-					  --
-					  --
-					  --     --  If SYNCOPE does it, then OK, otherwise proceed
-					  --     --  Do not try FIXES (aud+i+i) on audii since SYNCOPE worked
-					  --     --  Now try FIXES
-					  --     if PA_LAST = 0  or (not WORDS_MODE(TRIM_OUTPUT)) or
-					  --       WORDS_MDEV(DO_FIXES_ANYWAY)  then
-					  --      --TRY_SLURY(INPUT_WORD, PA, PA_LAST, LINE_NUMBER, WORD_NUMBER);
-					  --       if PA_LAST = 0  then
-					  --       WORD(INPUT_WORD, PA, PA_LAST);
-					  --         SYPA_LAST := 0;
-					  --         --  SYNCOPE after TRICK
-					  --         SYNCOPE(INPUT_WORD, SYPA, SYPA_LAST);  --  Want SYNCOPE second to make cleaner LIST
-					  --       end if;
-					  --     end if;
-					  --     PA_LAST := PA_LAST + SYPA_LAST;   --  Make syncope another array to avoid PA_LAST = 0 problems
-					  --     PA(1..PA_LAST) := PA(1..PA_LAST-SYPA_LAST) & SYPA(1..SYPA_LAST);  --  Add SYPA to PA
-					  --     SYPA(1..SYNCOPE_MAX) := (1..SYNCOPE_MAX => NULL_PARSE_RECORD);   --  Clean up so it does not repeat
-					  --     SYPA_LAST := 0;
-					  --
-					  --
-					  -- end if;   --  on A_LAST = 0
 
 				   end pass;
 

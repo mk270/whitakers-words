@@ -122,15 +122,6 @@ package body list_package is
 		 end if;
 		 if dictionary_form(de)'length /= 0  then
 			text_io.put(output, dictionary_form(de) & "  ");
-
-			--TEXT_IO.PUT(OUTPUT, PART_OF_SPEECH_TYPE'IMAGE(DE.PART.POFS)& "  ");
-			--                     if DE.PART.POFS = N  then
-			--                        TEXT_IO.PUT(OUTPUT, "  " & GENDER_TYPE'IMAGE(DE.PART.N.GENDER) & "  ");
-			--                      end if;
-			--                      if (DE.PART.POFS = V)  and then  (DE.PART.V.KIND in GEN..PERFDEF)  then
-			--                        TEXT_IO.PUT(OUTPUT, "  " & VERB_KIND_TYPE'IMAGE(DE.PART.V.KIND) & "  ");
-			--                      end if;
-
 			dhit := true;
 		 end if;
 	  end if;
@@ -299,38 +290,6 @@ package body list_package is
 
 			if sr.ir /= null_inflection_record  then
 
-			   --PRINT_MODIFIED_QUAL:   --  Really pedantic
-			   --declare
-			   --  OUT_STRING : STRING(1..QUALITY_RECORD_IO.DEFAULT_WIDTH);
-			   --WHICH_START : constant INTEGER
-			   --            := PART_OF_SPEECH_TYPE_IO.DEFAULT_WIDTH + 1 + 1; --  8
-			   --VARIANT_START : constant INTEGER
-			   --            := WHICH_START + WHICH_TYPE_IO_DEFAULT_WIDTH + 1;
-			   --VARIANT_FINISH : constant INTEGER
-			   --            := VARIANT_START + VARIANT_TYPE_IO_DEFAULT_WIDTH;
-			   --WHICH_BLANK : constant STRING(WHICH_START..VARIANT_START) := (others => ' ');
-			   --VARIANT_BLANK : constant STRING(VARIANT_START..VARIANT_FINISH) := (others => ' ');
-			   --begin
-			   --  QUALITY_RECORD_IO.PUT(OUT_STRING, SR.IR.QUAL);
-			   --  case SR.IR.QUAL.POFS is
-			   --    when N | NUM | V | VPAR | SUPINE  =>         --  ADJ?
-			   --      OUT_STRING(VARIANT_START..VARIANT_FINISH) := VARIANT_BLANK;
-			   --    when PRON | PACK   =>
-			   --      OUT_STRING(WHICH_START..VARIANT_FINISH) := WHICH_BLANK & VARIANT_BLANK;
-			   --    when ADJ  =>
-			   --      if SR.IR.QUAL.ADJ.DECL.WHICH = 1  then
-			   --        OUT_STRING(VARIANT_START..VARIANT_FINISH) := VARIANT_BLANK;
-			   --      end if;
-			   --    when others  =>
-			   --      null;
-			   --  end case;
-			   --  TEXT_IO.PUT(OUTPUT, OUT_STRING);
-			   --end PRINT_MODIFIED_QUAL;
-
-			   --QUALITY_RECORD_IO.PUT(OUTPUT, SR.IR.QUAL);
-			   --NEW_LINE(OUTPUT);
-			   --DICTIONARY_ENTRY_IO.PUT(OUTPUT, DM.DE);
-			   --NEW_LINE(OUTPUT);
 
 		   print_modified_qual:
 			   declare
@@ -356,33 +315,6 @@ package body list_package is
 					(others => ' ');
 			   begin
 
-				  --TEXT_IO.PUT_LINE("PASSIVE_START   = " & INTEGER'IMAGE(PASSIVE_START));
-				  --TEXT_IO.PUT_LINE("PASSIVE_FINISH  = " & INTEGER'IMAGE(PASSIVE_FINISH));
-				  --TEXT_IO.PUT_LINE("PPL_START   =  " & INTEGER'IMAGE(PPL_START));
-				  --TEXT_IO.PUT_LINE("PPL_FINISH   =  " & INTEGER'IMAGE(PPL_FINISH));
-				  --
-
-				  --TEXT_IO.PUT_LINE("START PRINT MODIFIED QUAL " );
-				  --  QUALITY_RECORD_IO.PUT(OUT_STRING, SR.IR.QUAL);
-				  --  if (DM.D_K in GENERAL..LOCAL)  and then  --  UNIQUES has no DE
-				  --     (SR.IR.QUAL.POFS = V)    and then
-				  --    ((SR.IR.QUAL.V.TENSE_VOICE_MOOD.MOOD in IND..INF)   and
-				  --     (DM.DE.PART.V.KIND = DEP))       then
-				  ----TEXT_IO.PUT_LINE("PRINT MODIFIED QUAL 1a" );
-				  --    OUT_STRING(PASSIVE_START+1..PASSIVE_FINISH) := PASSIVE_BLANK;
-				  ----TEXT_IO.PUT_LINE("PRINT MODIFIED QUAL 2a" );
-				  --  elsif (DM.D_K in GENERAL..LOCAL)  and then  --  UNIQUES has no DE
-				  --     (SR.IR.QUAL.POFS = VPAR)  and then
-				  --    ((SR.IR.QUAL.V.TENSE_VOICE_MOOD.MOOD = PPL)   and
-				  --     (DM.DE.PART.V.KIND = DEP))       then
-				  --TEXT_IO.PUT_LINE("PRINT MODIFIED QUAL 1b" );
-				  --    OUT_STRING(PPL_START+1..PPL_FINISH) := PASSIVE_BLANK;
-				  --TEXT_IO.PUT_LINE("PRINT MODIFIED QUAL 2b" );
-				  --
-				  --  end if;
-				  ----TEXT_IO.PUT_LINE("PRINT MODIFIED QUAL 3" );
-
-				  --TEXT_IO.PUT_LINE("START PRINT MODIFIED QUAL " );
 				  quality_record_io.put(out_string, sr.ir.qual);
 				  if (dm.d_k in general..local)  then  --  UNIQUES has no DE
 
@@ -418,69 +350,6 @@ package body list_package is
 		 end if;
 
 	  end put_inflection;
-
-	  --         procedure PUT_DICTIONARY_FORM(OUTPUT : TEXT_IO.FILE_TYPE;
-	  --                                       DM     : DICTIONARY_MNPC_RECORD) is
-	  --             HIT : BOOLEAN := FALSE;   --  Is anything on this line
-	  --             DICTIONARY_LINE_NUMBER : INTEGER := INTEGER(DM.MNPC);
-	  --             DE : DICTIONARY_ENTRY := DM.DE;
-	  --
-	  --
-	  --         begin                               --  PUT_DICTIONARY_FORM
-	  --               if WORDS_MODE(DO_DICTIONARY_FORMS)  then
-	  --                 if WORDS_MDEV(DO_PEARSE_CODES) then
-	  --                   TEXT_IO.PUT(OUTPUT, "02 ");
-	  --                   HIT := TRUE;
-	  --                end if;
-	  --                if DICTIONARY_FORM(DE)'LENGTH /= 0  then
-	  --                  TEXT_IO.PUT(OUTPUT, DICTIONARY_FORM(DE) & "  ");
-	  --                  HIT := TRUE;
-	  --                end if;
-	  --               end if;
-	  --
-	  --
-	  --
-	  --               if WORDS_MDEV(SHOW_DICTIONARY_CODES) and then
-	  --                  DE.PART.POFS not in XONS              then
-	  --                  TEXT_IO.PUT(OUTPUT, " [");
-	  --                 AGE_TYPE_IO.PUT(OUTPUT, DE.TRAN.AGE);
-	  --                 AREA_TYPE_IO.PUT(OUTPUT, DE.TRAN.AREA);
-	  --                 GEO_TYPE_IO.PUT(OUTPUT, DE.TRAN.GEO);
-	  --                 FREQUENCY_TYPE_IO.PUT(OUTPUT, DE.TRAN.FREQ);
-	  --                 SOURCE_TYPE_IO.PUT(OUTPUT, DE.TRAN.SOURCE);
-	  --                 TEXT_IO.PUT(OUTPUT, "]  ");
-	  --                 HIT := TRUE;
-	  --               end if;
-	  --
-	  --
-	  --               if WORDS_MDEV(SHOW_DICTIONARY) then
-	  --                 TEXT_IO.PUT(OUTPUT, EXT(DM.D_K) & ">");
-	  --                 HIT := TRUE;
-	  --              end if;
-	  --
-	  --
-	  --               if WORDS_MDEV(SHOW_DICTIONARY_LINE)  then
-	  --                 if DICTIONARY_LINE_NUMBER > 0  then
-	  --                   TEXT_IO.PUT(OUTPUT, "("
-	  --                         & TRIM(INTEGER'IMAGE(DICTIONARY_LINE_NUMBER)) & ")");
-	  --                   HIT := TRUE;
-	  --                  end if;
-	  --               end if;
-	  --
-	  --
-	  --
-	  --               PUT_DICTIONARY_FLAGS(DM, HIT);
-	  --
-	  --
-	  --               if HIT   then
-	  --                  TEXT_IO.NEW_LINE(OUTPUT);
-	  --               end if;
-	  --
-	  --            --end if;
-	  --
-	  --         end PUT_DICTIONARY_FORM;
-	  --
-	  --
 
 	  procedure put_form(sr : stem_inflection_record;
 						 dm : dictionary_mnpc_record) is
@@ -641,18 +510,6 @@ package body list_package is
       --  (or all of a class) it must fix up the rest of the parse array,
       --  e.g., it must clean out dangling prefixes and suffixes
 
-	  --    --  Just to find the words with long/complicated output at the processing level
-	  --    --  This is done with the final PA_LAST, entering LIST_STEM, before SWEEP
-	  --       if PA_LAST > PA_LAST_MAX   then
-	  --         PUT_STAT("$PA_LAST_MAX    for RAW_WORD " & HEAD(RAW_WORD, 24) & "   = " & INTEGER'IMAGE(PA_LAST));
-	  --         PA_LAST_MAX := PA_LAST;
-	  --       end if;
-
-	  --TEXT_IO.PUT_LINE("PA on entering LIST_STEMS    PA_LAST = " & INTEGER'IMAGE(PA_LAST));
-	  --for I in 1..PA_LAST  loop
-	  --PARSE_RECORD_IO.PUT(PA(I)); TEXT_IO.NEW_LINE;
-	  --end loop;
-
 	  if (text_io.name(output) =
 			text_io.name(text_io.standard_output))  then
 		 mm := max_meaning_print_size;   --  to keep from overflowing screen line
@@ -744,16 +601,7 @@ package body list_package is
 						-- TEXT_IO.PUT_LINE("In the ADJ -> ADV kludge  FINISHED");
 
 	  list_sweep(pa(1..pa_last), pa_last);
-
-	  --TEXT_IO.PUT_LINE("PA after leaving LIST_SWEEP    PA_LAST = "  & INTEGER'IMAGE(PA_LAST));
-	  --for I in 1..PA_LAST  loop
-	  --PARSE_RECORD_IO.PUT(PA(I)); TEXT_IO.NEW_LINE;
-	  --end loop;
-	  --
-
-	  --               --  Does STATS
-	  --
-	  --TEXT_IO.PUT_LINE("Before STATING FIXES");
+	  
 	  if  words_mdev(write_statistics_file)    then      --  Omit rest of output
 
 		 for i in 1..pa_last  loop                       --  Just to PUT_STAT
@@ -774,20 +622,9 @@ package body list_package is
 			end if;
 		 end loop;
 
-		 ----    --  Just to find the words with long/complicated output at the LIST level
-		 ----    --  This is done with the final PA_LAST, after SWEEP
-		 ----       if PA_LAST > FINAL_PA_LAST_MAX   then
-		 ----         PUT_STAT("$FINAL_PA_LAST_MAX    for RAW_WORD " & HEAD(RAW_WORD, 24) & "   = " & INTEGER'IMAGE(PA_LAST));
-		 ----         FINAL_PA_LAST_MAX := PA_LAST;
-		 ----       end if;
-
 	  end if;
-
-	  --TEXT_IO.PUT_LINE("After STATING FIXES");
-
+	  
 	  --  Convert from PARSE_RECORDs to DICTIONARY_MNPC_RECORD and STEM_INFLECTION_RECORD
-	  --TEXT_IO.PUT_LINE("Doing arrays in LIST_STEMS    PA_LAST = "  &
-	  --                 INTEGER'IMAGE(PA_LAST));
 	  i := 1;           --  I cycles on PA
 	  j := 0;           --  J indexes the number of DMA arrays  --  Initialize
 	  sraa := null_sraa;
@@ -1022,36 +859,8 @@ package body list_package is
 			end case;
 
 		 end if;
-		 --  --  This just for developer test, will be commented out
-		 --  if K > SRA_MAX  then
-		 --    SRA_MAX := K;
-		 --PUT_STAT("*SRA_MAX for RAW_WORD " & HEAD(RAW_WORD, 26) & "   = " & INTEGER'IMAGE(SRA_MAX));
-		 --  end if;
-		 --  if J > DMA_MAX  then
-		 --    DMA_MAX := J;
-		 --PUT_STAT("*DMA_MAX for RAW_WORD " & HEAD(RAW_WORD, 26) & "   = " & INTEGER'IMAGE(DMA_MAX));
-		 --  end if;
 
 	  end loop cycle_over_pa;
-
-	  --TEXT_IO.PUT_LINE("Made QA");
-
-	  --TEXT_IO.PUT_LINE("QA ARRAYS   FFFFFF  ======================================");
-	  --     for J in 1..DICTIONARY_MNPC_ARRAY_SIZE  loop
-	  --       if DMA(J) /= NULL_DICTIONARY_MNPC_RECORD  then
-	  --         TEXT_IO.PUT(INTEGER'IMAGE(J) & "  ");
-	  --         DICTIONARY_KIND_IO.PUT(DMA(J).D_K); TEXT_IO.PUT("  ");
-	  --         MNPC_IO.PUT(DMA(J).MNPC); TEXT_IO.NEW_LINE;
-	  --       end if;
-	  --     end loop;
-	  --     for J in 1..STEM_INFLECTION_ARRAY_ARRAY_SIZE  loop
-	  --       for K in 1..STEM_INFLECTION_ARRAY_SIZE  loop
-	  --         if SRAA(J)(K) /= NULL_STEM_INFLECTION_RECORD  then
-	  --           TEXT_IO.PUT(INTEGER'IMAGE(J) & " " & INTEGER'IMAGE(K) & "  ");
-	  --           QUALITY_RECORD_IO.PUT(SRAA(J)(K).IR.QUAL); TEXT_IO.NEW_LINE;
-	  --         end if;
-	  --       end loop;
-	  --     end loop;
 
 	  --  Sets + if capitalized
       --  Strangely enough, it may enter LIST_STEMS with PA_LAST /= 0
@@ -1085,38 +894,6 @@ package body list_package is
          end if;
       end if;
 
-	  --                --  Does STATS
-	  --
-	  ----TEXT_IO.PUT_LINE("Before STATING FIXES");
-	  --     if  WORDS_MDEV(WRITE_STATISTICS_FILE)    then      --  Omit rest of output
-	  ----
-	  ----       for I in 1..PA_LAST  loop                       --  Just to PUT_STAT
-	  ----         if (PA(I).D_K = ADDONS)  then
-	  ----           if PA(I).IR.QUAL.POFS = PREFIX  then
-	  ----             PUT_STAT("ADDON PREFIX at "
-	  ----                     & HEAD(INTEGER'IMAGE(LINE_NUMBER), 8) & HEAD(INTEGER'IMAGE(WORD_NUMBER), 4)
-	  ----                     & "   " & HEAD(W, 20) & "   "  & PA(I).STEM);
-	  ----           elsif PA(I).IR.QUAL.POFS = SUFFIX  then
-	  ----             PUT_STAT("ADDON SUFFIX at "
-	  ----                     & HEAD(INTEGER'IMAGE(LINE_NUMBER), 8) & HEAD(INTEGER'IMAGE(WORD_NUMBER), 4)
-	  ----                     & "   " & HEAD(W, 20) & "   "  & PA(I).STEM);
-	  ----           elsif PA(I).IR.QUAL.POFS = TACKON  then
-	  ----             PUT_STAT("ADDON TACKON at "
-	  ----                     & HEAD(INTEGER'IMAGE(LINE_NUMBER), 8) & HEAD(INTEGER'IMAGE(WORD_NUMBER), 4)
-	  ----                     & "   " & HEAD(W, 20) & "   "  & PA(I).STEM);
-	  ----           end if;
-	  ----         end if;
-	  ----       end loop;
-	  --
-	  --
-	  ----    --  Just to find the words with long/complicated output at the LIST level
-	  ----    --  This is done with the final PA_LAST, after SWEEP
-	  --       if PA_LAST > FINAL_PA_LAST_MAX   then
-	  --         PUT_STAT("$FINAL_PA_LAST_MAX    for RAW_WORD " & HEAD(RAW_WORD, 24) & "   = " & INTEGER'IMAGE(PA_LAST));
-	  --         FINAL_PA_LAST_MAX := PA_LAST;
-	  --       end if;
-	  --
-	  --     end if;
 
 	  if pa_last = 0   then
 
@@ -1190,15 +967,6 @@ package body list_package is
 	  osra := null_sra;
   output_loop:
 	  while  dma(j) /= null_dictionary_mnpc_record  loop
-		 ----!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-		 --            if (J > 1)  and then ((DMA(J-1).D_K = PPP)  or                               --!!!!!!!!!!!!!!!!!!!!!!!!
-		 --               (DICTIONARY_FORM(DMA(J).DE) = DICTIONARY_FORM(DMA(J-1).DE)))  then        --!!!!!!!!!!!!!!!!!!!!!!!!
-		 --             null;                                                                       --!!!!!!ND mod!!!!!!!!!!!!
-		 --            else                                                                         --!!!!!!!!!!!!!!!!!!!!!!!!
-		 --              NEW_LINE(OUTPUT);                                                          --!!!!!!!!!!!!!!!!!!!!!!!!
-		 --            end if;                                                                      --!!!!!!!!!!!!!!!!!!!!!!!!
-		 --                                                                                         --!!!!!!!!!!!!!!!!!!!!!!!!
-		 -- --!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 		 if sraa(j) /= osra  then --  Skips one identical SRA
 								  --  no matter what comes next
 
