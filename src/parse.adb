@@ -164,7 +164,8 @@ procedure parse(command_line : string := "") is
       
       j := 1;
       k := 0;
-  over_line:
+      
+      -- loop over line
       while j <= l  loop
          
          --  Skip over leading and intervening blanks, looking for comments
@@ -835,7 +836,7 @@ procedure parse(command_line : string := "") is
 
          exit when words_mdev(do_only_initial_word);
 
-      end loop over_line;        --  Loop on line
+      end loop;        --  Loop on line
 
    exception
       --   Have STORAGE_ERROR check in WORD too  ?????????????
