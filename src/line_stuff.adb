@@ -138,7 +138,7 @@ package body line_stuff is
 		 if pt.pofs = n  then
 			if (sts(2)(1) /= sts(1)(1) and then
 				  sts(2)(1) /= ' '  and then
-				  sts(2)(1..3) /= zzz_stem ) then
+				  sts(2)(1..3) /= zzz_stem(1..3) ) then
 			   dict(fc1) :=
 				 new dictionary_item'(( (sts(1), zzz_stem, blk_stem, blk_stem),
 										--PT, KIND, TRAN, MEAN), DICT(FC1));
@@ -156,7 +156,7 @@ package body line_stuff is
 		 elsif (pt.pofs = pron) or (pt.pofs = pack)  then
 			if (sts(2)(1) /= sts(1)(1) and then
 				  sts(2)(1) /= ' '  and then
-				  sts(2)(1..3) /= zzz_stem ) then
+				  sts(2)(1..3) /= zzz_stem(1..3) ) then
 			   dict(fc1) :=
 				 new dictionary_item'(( (sts(1), zzz_stem, blk_stem, blk_stem),
 										--PT, KIND, TRAN, MEAN), DICT(FC1));
@@ -175,13 +175,13 @@ package body line_stuff is
 			if pt.adj.co   = x  then   --  X for all KINDs
 			   if (sts(2)(1) /= sts(1)(1) and then
 					 sts(2)(1) /= ' '  and then
-					 sts(2)(1..3) /= zzz_stem ) or
+					 sts(2)(1..3) /= zzz_stem(1..3) ) or
 				 (sts(3)(1) /= sts(1)(1) and then
 					sts(3)(1) /= ' '  and then
-					sts(3)(1..3) /= zzz_stem ) or
+					sts(3)(1..3) /= zzz_stem(1..3) ) or
 				 (sts(4)(1) /= sts(1)(1) and then
 					sts(4)(1) /= ' '  and then
-					sts(4)(1..3) /= zzz_stem ) then
+					sts(4)(1..3) /= zzz_stem(1..3) ) then
 				  dict(fc1) :=
 					new dictionary_item'(( (sts(1), blk_stem, blk_stem, blk_stem),
 										   (adj, (pt.adj.decl, pos)),
@@ -237,10 +237,10 @@ package body line_stuff is
 			if pt.adv.co   = x  then   --  X for all KINDs
 			   if (sts(2)(1) /= sts(1)(1) and then
 					 sts(2)(1) /= ' '  and then
-					 sts(2)(1..3) /= zzz_stem ) or
+					 sts(2)(1..3) /= zzz_stem(1..3) ) or
 				 (sts(3)(1) /= sts(1)(1) and then
 					sts(3)(1) /= ' '  and then
-					sts(3)(1..3) /= zzz_stem ) then
+					sts(3)(1..3) /= zzz_stem(1..3) ) then
 				  dict(fc1) :=
 					new dictionary_item'(( (sts(1), blk_stem, blk_stem, blk_stem),
 										   --(ADV, (CO => POS)), KIND, TRAN, MEAN), DICT(FC1));
@@ -281,13 +281,13 @@ package body line_stuff is
 		 elsif pt.pofs = v  then
 			if (sts(2)(1) /= sts(1)(1) and then
 				  sts(2)(1) /= ' '  and then
-				  sts(2)(1..3) /= zzz_stem ) or
+				  sts(2)(1..3) /= zzz_stem(1..3) ) or
 			  (sts(3)(1) /= sts(1)(1) and then
 				 sts(3)(1) /= ' '  and then
-				 sts(3)(1..3) /= zzz_stem ) or
+				 sts(3)(1..3) /= zzz_stem(1..3) ) or
 			  (sts(4)(1) /= sts(1)(1) and then
 				 sts(4)(1) /= ' '  and then
-				 sts(4)(1..3) /= zzz_stem ) then
+				 sts(4)(1..3) /= zzz_stem(1..3) ) then
 			   dict(fc1) :=
 				 new dictionary_item'(( (sts(1), zzz_stem, zzz_stem, zzz_stem),
 										--PT, KIND, TRAN, MEAN), DICT(FC1) );
@@ -313,7 +313,7 @@ package body line_stuff is
 		 elsif pt.pofs = num  then
 			if pt.num.sort = x  then   --  X for all KINDs
 			   if (sts(1)(1) /= ' '  and then
-					 sts(1)(1..3) /= zzz_stem ) then
+					 sts(1)(1..3) /= zzz_stem(1..3) ) then
 				  dict(fc1) :=
 					new dictionary_item'(( (sts(1), blk_stem, blk_stem, blk_stem),
 										   --(NUM, (PT.NUM.DECL, CARD)), KIND, TRAN, MEAN),
@@ -321,7 +321,7 @@ package body line_stuff is
 										 dict(fc1));
 			   end if;
 			   if (sts(2)(1) /= ' '  and then
-					 sts(2)(1..3) /= zzz_stem ) then
+					 sts(2)(1..3) /= zzz_stem(1..3) ) then
 				  dict(fc2) :=
 					new dictionary_item'(( (zzz_stem, sts(2), blk_stem, blk_stem),
 										   --(NUM, ((0, 0), ORD)), KIND, TRAN, MEAN),
@@ -329,7 +329,7 @@ package body line_stuff is
 										 dict(fc2));
 			   end if;
 			   if (sts(3)(1) /= ' '  and then
-					 sts(3)(1..3) /= zzz_stem ) then
+					 sts(3)(1..3) /= zzz_stem(1..3) ) then
 				  dict(fc3) :=
 					new dictionary_item'(( (zzz_stem, zzz_stem, sts(3), blk_stem),
 										   --(NUM, (PT.NUM.DECL, DIST)), KIND, TRAN, MEAN),
@@ -337,7 +337,7 @@ package body line_stuff is
 										 dict(fc3));
 			   end if;
 			   if (sts(4)(1) /= ' '  and then
-					 sts(4)(1..3) /= zzz_stem ) then
+					 sts(4)(1..3) /= zzz_stem(1..3) ) then
 				  dict(fc4) :=
 					new dictionary_item'(( (zzz_stem, zzz_stem, zzz_stem, sts(4)),
 										   --(NUM, (PT.NUM.DECL, ADVERB)), KIND, TRAN, MEAN),
