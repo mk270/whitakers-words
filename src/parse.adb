@@ -247,7 +247,6 @@ procedure parse(command_line : string := "") is
             end;
          end if;
          
-        parse_word_latin_to_english:
             declare
                input_word : constant string := w(j..k);
                entering_pa_last : integer := 0;
@@ -826,7 +825,7 @@ procedure parse(command_line : string := "") is
                     & "   " & head(input_word, 28) & "   "  & input_line);
                   raise;
 
-            end parse_word_latin_to_english;
+            end;
 
 
          ----------------------------------------------------------------------
