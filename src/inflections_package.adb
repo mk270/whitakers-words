@@ -1402,8 +1402,10 @@ package body inflections_package is
 
    package body conjunction_record_io is
 	  null_conjunction_record : conjunction_record;
-
+	  
+	  pragma Warnings (Off, "formal parameter ""f"" is not referenced");
 	  procedure get(f : in file_type; c : out conjunction_record) is
+		 pragma Warnings (On, "formal parameter ""f"" is not referenced");	  
 		 --  There is actually nothing to a CONJUNCTION_RECORD, no compoonents
 	  begin
 		 c := null_conjunction_record;
@@ -1431,7 +1433,9 @@ package body inflections_package is
 		 last := l - 1;  --  LAST did not even get to S'FIRST, since nothing to read
 	  end get;
 
+	  pragma Warnings (Off, "formal parameter ""c"" is not referenced");
 	  procedure put(s : out string; c : in conjunction_record) is
+		 pragma Warnings (On, "formal parameter ""c"" is not referenced");	  
 		 --  Since there is no component, just make the out string blank
 	  begin
 		 s(s'first..s'last) := (others => ' ');
@@ -1442,7 +1446,9 @@ package body inflections_package is
    package body interjection_record_io is
 	  null_interjection_record : interjection_record;
 
+	  pragma Warnings (Off, "formal parameter ""f"" is not referenced");
 	  procedure get(f : in file_type; i : out interjection_record) is
+		 pragma Warnings (On, "formal parameter ""f"" is not referenced");	  
 	  begin
 		 i := null_interjection_record;
 	  end get;
@@ -1469,7 +1475,9 @@ package body inflections_package is
 		 last := l - 1;
 	  end get;
 
+	  pragma Warnings (Off, "formal parameter ""i"" is not referenced");
 	  procedure put(s : out string; i : in interjection_record) is
+		 pragma Warnings (On, "formal parameter ""i"" is not referenced");	  
 	  begin
 		 s(s'first..s'last) := (others => ' ');
 	  end put;
@@ -1479,7 +1487,9 @@ package body inflections_package is
    package body tackon_record_io is
 	  null_tackon_record : tackon_record;
 
+	  pragma Warnings (Off, "formal parameter ""f"" is not referenced");
 	  procedure get(f : in file_type; i : out tackon_record) is
+		 pragma Warnings (On, "formal parameter ""f"" is not referenced");	  
 	  begin
 		 i := null_tackon_record;
 	  end get;
@@ -1506,7 +1516,9 @@ package body inflections_package is
 		 last := l - 1;
 	  end get;
 
+	  pragma Warnings (Off, "formal parameter ""i"" is not referenced");
 	  procedure put(s : out string; i : in tackon_record) is
+		 pragma Warnings (On, "formal parameter ""i"" is not referenced");	  
 	  begin
 		 s(s'first..s'last) := (others => ' ');
 	  end put;
@@ -1515,7 +1527,9 @@ package body inflections_package is
 
    package body prefix_record_io is
 
+	  pragma Warnings (Off, "formal parameter ""f"" is not referenced");
 	  procedure get(f : in file_type; p : out prefix_record) is
+		 pragma Warnings (On, "formal parameter ""f"" is not referenced");	  
 	  begin
 		 p := null_prefix_record;
 	  end get;
@@ -1542,7 +1556,9 @@ package body inflections_package is
 		 last := l - 1;
 	  end get;
 
+	  pragma Warnings (Off, "formal parameter ""p"" is not referenced");
 	  procedure put(s : out string; p : in prefix_record) is
+		 pragma Warnings (On, "formal parameter ""p"" is not referenced");	  
 	  begin
 		 s(s'first..s'last) := (others => ' ');
 	  end put;
@@ -1551,7 +1567,9 @@ package body inflections_package is
 
    package body suffix_record_io is
 
+	  pragma Warnings (Off, "formal parameter ""f"" is not referenced");
 	  procedure get(f : in file_type; p : out suffix_record) is
+		 pragma Warnings (On, "formal parameter ""f"" is not referenced");	  
 	  begin
 		 p := null_suffix_record;
 	  end get;
@@ -1578,7 +1596,9 @@ package body inflections_package is
 		 last := l - 1;
 	  end get;
 
+	  pragma Warnings (Off, "formal parameter ""p"" is not referenced");
 	  procedure put(s : out string; p : in suffix_record) is
+		 pragma Warnings (On, "formal parameter ""p"" is not referenced");	  
 	  begin
 		 s(s'first..s'last) := (others => ' ');
 	  end put;

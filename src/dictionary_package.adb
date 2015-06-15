@@ -585,8 +585,10 @@ package body dictionary_package is
 
    package body conjunction_entry_io is
 	  null_conjunction_entry : conjunction_entry;
-
+	  
+	  pragma Warnings (Off, "formal parameter ""f"" is not referenced");
 	  procedure get(f : in file_type; c : out conjunction_entry) is
+		 pragma Warnings (On, "formal parameter ""f"" is not referenced");
 	  begin
 		 c := null_conjunction_entry;
 	  end get;
@@ -613,7 +615,9 @@ package body dictionary_package is
 		 last := l;
 	  end get;
 
+	  pragma Warnings (Off, "formal parameter ""c"" is not referenced");
 	  procedure put(s : out string; c : in conjunction_entry) is
+		 pragma Warnings (On, "formal parameter ""c"" is not referenced");	  
 	  begin
 		 s(s'first..s'last) := (others => ' ');
 	  end put;
@@ -623,7 +627,9 @@ package body dictionary_package is
    package body interjection_entry_io is
 	  null_interjection_entry : interjection_entry;
 
+	  pragma Warnings (Off, "formal parameter ""f"" is not referenced");
 	  procedure get(f : in file_type; i : out interjection_entry) is
+		 pragma Warnings (On, "formal parameter ""f"" is not referenced");	  
 	  begin
 		 i := null_interjection_entry;
 	  end get;
@@ -650,7 +656,9 @@ package body dictionary_package is
 		 last := l;
 	  end get;
 
+	  pragma Warnings (Off, "formal parameter ""i"" is not referenced");
 	  procedure put(s : out string; i : in interjection_entry) is
+		 pragma Warnings (On, "formal parameter ""i"" is not referenced");	  
 	  begin
 		 s(s'first..s'last) := (others => ' ');
 	  end put;
@@ -1150,8 +1158,10 @@ package body dictionary_package is
 		 return;
 	  end get;
 
+	  pragma Warnings (Off, "formal parameter ""ps"" is not referenced");
 	  procedure put(f : in file_type;
 					ps : in part_of_speech_type; p : in kind_entry) is
+		 pragma Warnings (On, "formal parameter ""ps"" is not referenced");	  
 		 c : constant positive := positive(col(f));
 	  begin
 		 case p.pofs is
@@ -1176,7 +1186,9 @@ package body dictionary_package is
 		 return;
 	  end put;
 
+	  pragma Warnings (Off, "formal parameter ""ps"" is not referenced");
 	  procedure put(ps : in part_of_speech_type; p : in kind_entry) is
+		 pragma Warnings (On, "formal parameter ""ps"" is not referenced");	  
 		 c : constant positive := positive(col);
 	  begin
 		 case p.pofs is
@@ -1250,8 +1262,10 @@ package body dictionary_package is
 		 return;
 	  end get;
 
+	  pragma Warnings (Off, "formal parameter ""ps"" is not referenced");
 	  procedure put(s : out string;
 					ps : in part_of_speech_type; p : in kind_entry) is
+		 pragma Warnings (On, "formal parameter ""ps"" is not referenced");	  
 		 l : constant integer := s'first - 1;
 		 m : integer := 0;
 	  begin
