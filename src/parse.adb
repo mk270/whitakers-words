@@ -245,9 +245,8 @@ procedure parse(command_line : string := "") is
                return;
                
             end;
-                   
-         elsif language = latin_to_english  then
-            
+         end if;
+         
         parse_word_latin_to_english:
             declare
                input_word : constant string := w(j..k);
@@ -829,7 +828,6 @@ procedure parse(command_line : string := "") is
 
             end parse_word_latin_to_english;
 
-         end if;
 
          ----------------------------------------------------------------------
          ----------------------------------------------------------------------
