@@ -318,7 +318,6 @@ procedure parse(command_line : string := "") is
 
                            words_mdev(do_only_fixes) := true;
                            word(input_word, pa, pa_last);
-                           --TEXT_IO.PUT_LINE("In ENCLITICS after ONLY_FIXES  LESS = " & LESS & "   PA_LAST = " & INTEGER'IMAGE(PA_LAST));
                            words_mdev(do_only_fixes) := save_do_only_fixes;
 
                            if pa_last > entering_pa_last  then      --  have a possible word
@@ -340,8 +339,6 @@ procedure parse(command_line : string := "") is
                procedure tricks_enclitic is
                   try : constant string := lower_case(input_word);
                begin
-                  --TEXT_IO.PUT_LINE("Entering TRICKS_ENCLITIC    PA_LAST = " & INTEGER'IMAGE(PA_LAST));
-                  --if WORDS_MODE(TRIM_OUTPUT)  and (PA_LAST > 0)  then    return;   end if;
                   if have_done_enclitic  then    return;   end if;
 
                   entering_trpa_last := trpa_last;
@@ -376,16 +373,10 @@ procedure parse(command_line : string := "") is
                   save_do_fixes : constant boolean := words_mode(do_fixes);
                   save_do_only_fixes : constant boolean := words_mdev(do_only_fixes);
                begin
-                  --TEXT_IO.PUT_LINE("Entering PASS with >" & INPUT_WORD);
                   --  Do straight WORDS without FIXES/TRICKS, is the word in the dictionary
                   words_mode(do_fixes) := false;
                   roman_numerals(input_word, pa, pa_last);
                   word(input_word, pa, pa_last);
-
-                  --TEXT_IO.PUT_LINE("SLURY-   PA_LAST = " & INTEGER'IMAGE(PA_LAST));
-                  --for JK in 1..PA_LAST  loop
-                  -- f PARSE_RECORD_IO.PUT(PA(JK)); TEXT_IO.NEW_LINE;
-                  --end loop;
 
                   if pa_last = 0  then
                      try_slury(input_word, pa, pa_last, line_number, word_number);
@@ -393,7 +384,6 @@ procedure parse(command_line : string := "") is
 
                   --  Do not SYNCOPE if there is a verb TO_BE or compound already there
                   for i in 1..pa_last  loop
-                     --PARSE_RECORD_IO.PUT(PA(I)); TEXT_IO.NEW_LINE;
                      if pa(i).ir.qual.pofs = v and then
                        pa(i).ir.qual.v.con = (5, 1)  then
                         no_syncope := true;
