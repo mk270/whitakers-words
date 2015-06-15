@@ -233,17 +233,17 @@ procedure parse(command_line : string := "") is
                
                --  Extract from the rest of the line
                --  Should do AUX here !!!!!!!!!!!!!!!!!!!!!!!!
-               extract_pofs:
-                   begin
-                      part_of_speech_type_io.get(line(k+1..l), pofs, l);
-                   exception
-                      when others =>
-                         pofs := x;
-                   end extract_pofs;
+               --extract_pofs:
+               begin
+                  part_of_speech_type_io.get(line(k+1..l), pofs, l);
+               exception
+                  when others =>
+                     pofs := x;
+               end;
                    
-                   search_english(input_word, pofs);
-
-                   exit over_line;
+               search_english(input_word, pofs);
+               exit over_line;
+               
             end;
                    
          elsif language = latin_to_english  then
