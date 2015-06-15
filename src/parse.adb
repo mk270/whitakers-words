@@ -150,6 +150,7 @@ procedure parse(command_line : string := "") is
       line(1..l) := trim(input_line);
 
       --  Someday I ought to be interested in punctuation and numbers, but not now
+      --      eliminate_not_letters:
       for i in 1..l  loop
          if ((line(i) in 'A'..'Z')  or
            (line(i) = '-')           or     --  For the comment
