@@ -1572,36 +1572,20 @@ package body word_package is
 
 				  word(less, pa, pa_last);
 
-				  --                  TEXT_IO.PUT("In TRY_TACKONS  Left WORD    ");
-				  --                  TEXT_IO.PUT("PA_LAST = "); TEXT_IO.PUT(INTEGER'IMAGE(PA_LAST)); TEXT_IO.PUT("  ");
-				  --                  TEXT_IO.PUT(TACKONS(I).TACK);
-				  --                  TEXT_IO.NEW_LINE;
-
-                  -----------------------------------------
-
 				  if pa_last > entering_pa_last  then      --  we have a possible word
-														   --TEXT_IO.PUT("I = " & INTEGER'IMAGE(I) & "  " & TACKONS(I).TACK & "  TACKONS(I).ENTR.BASE.PART = ");
-														   --PART_OF_SPEECH_TYPE_IO.PUT(TACKONS(I).ENTR.BASE.PART); TEXT_IO.NEW_LINE;
-
-					 if tackons(i).entr.base.pofs = x  then          --  on PART (= X?)
-																	 --PUT("TACKON X found "); PUT( TACKONS(I).TACK); NEW_LINE;
-																	 --PUT("PA_LAST = "); PUT(PA_LAST); PUT("  ");
-																	 --PUT("TACKON MNPC  "); PUT( TACKONS(I).MNPC); NEW_LINE;
+					 if tackons(i).entr.base.pofs = x  then 
 						tackon_hit := true;
-                        --PUT("TACKON_HIT  = "); PUT(TACKON_HIT); NEW_LINE;
 						tackon_on  := false;
 
 					 else
 
 						j := pa_last;
 
-						while j >= entering_pa_last+1  loop        --  Sweep backwards over PA
-																   --  Sweeping up inapplicable fixes,
-																   --  although we only have TACKONs for X or PRON or ADJ - so far
-																   --  and there are no fixes for PRON - so far
-																   --TEXT_IO.PUT("J = " & INTEGER'IMAGE(J) & "  PA(J).IR.QUAL = ");
-																   --QUALITY_RECORD_IO.PUT(PA(J).IR.QUAL);
-																   --TEXT_IO.NEW_LINE;
+						while j >= entering_pa_last+1  loop 
+						   --  Sweep backwards over PA
+						   --  Sweeping up inapplicable fixes,
+						   --  although we only have TACKONs for X or PRON or ADJ - so far
+						   --  and there are no fixes for PRON - so far
 
 						   if ((pa(j).ir.qual.pofs = prefix) and then (tackon_on))  then
 							  null;          --  check PART
@@ -1617,9 +1601,6 @@ package body word_package is
 							  dict_io.read(dict_file(pa(j).d_k), de);
 							  mean := de.mean;
 
-							  --TEXT_IO.PUT("J = " & INTEGER'IMAGE(J) & "  PA(J).IR.QUAL = ");
-							  --QUALITY_RECORD_IO.PUT(PA(J).IR.QUAL);
-							  --TEXT_IO.NEW_LINE;
 							  --  check PART
 							  case tackons(i).entr.base.pofs is
 								 when n       =>
@@ -1631,16 +1612,9 @@ package body word_package is
 									end if;
 
 								 when pron    =>              --  Only one we have other than X
-															  --PUT("TACK/PA DECL "); PUT(PA(J).IR.QUAL.PRON.DECL); PUT("  -  ");
-															  --PUT(TACKONS(I).ENTR.BASE.PRON.DECL); NEW_LINE;
-															  --PUT("TACK/PA KIND "); PUT(PA(J).IR.QUAL.PRON.KIND); PUT("  -  ");
-															  --PUT(TACKONS(I).ENTR.BASE.PRON.KIND); NEW_LINE;
 									if pa(j).ir.qual.pron.decl <=
 									  tackons(i).entr.base.pron.decl  --and then
-																	  --PA(J).IR.QUAL.PRON.KIND <=
-																	  --TACKONS(I).ENTR.BASE.PRON.KIND
 									then
-                                       --PUT("TACKON PRON found HIT "); PUT( TACKONS(I).TACK); NEW_LINE;
 									   tackon_hit := true;
 									   tackon_on  := true;
 									else
