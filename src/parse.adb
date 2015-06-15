@@ -895,7 +895,21 @@ procedure parse(command_line : string := "") is
          end if;
          pa_last := 0;
    end parse_line;
-
+   
+   procedure delete_if_open(filename : string; dict_name : dictionary_kind) is
+   begin
+      begin
+         if dict_io.is_open(dict_file(dict_name)) then
+            dict_io.delete(dict_file(dict_name));
+         else
+            dict_io.open(dict_file(dict_name), dict_io.in_file,
+              add_file_name_extension(dict_file_name, filename));
+            dict_io.delete(dict_file(dict_name));
+         end if;
+      exception when others => null; 
+      end;   --  not there, so don't have to DELETE
+   end delete_if_open;
+   
 begin              --  PARSE
    if method = command_line_input  then
       if trim(command_line) /= ""  then
@@ -1041,39 +1055,10 @@ begin              --  PARSE
          null;      --  If cannot OPEN then it does not exist, so is deleted
    end;
    --  The rest of this seems like overkill, it might have been done elsewhere
-   begin
-      if
-        dict_io.is_open(dict_file(local)) then
-         dict_io.delete(dict_file(local));
-      else
-         dict_io.open(dict_file(local), dict_io.in_file,
-                      add_file_name_extension(dict_file_name,
-                                              "LOCAL"));
-         dict_io.delete(dict_file(local));
-      end if;
-   exception when others => null; end;   --  not there, so don't have to DELETE
-   begin
-      if
-        dict_io.is_open(dict_file(addons))  then
-         dict_io.delete(dict_file(addons));
-      else
-         dict_io.open(dict_file(addons), dict_io.in_file,
-                      add_file_name_extension(dict_file_name,
-                                              "ADDONS"));
-         dict_io.delete(dict_file(addons));
-      end if;
-   exception when others => null; end;   --  not there, so don't have to DELETE
-   begin
-      if
-        dict_io.is_open(dict_file(unique)) then
-         dict_io.delete(dict_file(unique));
-      else
-         dict_io.open(dict_file(unique), dict_io.in_file,
-                      add_file_name_extension(dict_file_name,
-                                              "UNIQUE"));
-         dict_io.delete(dict_file(unique));
-      end if;
-   exception when others => null; end;   --  not there, so don't have to DELETE
+   
+   delete_if_open("LOCAL", local);
+   delete_if_open("ADDONS", addons);
+   delete_if_open("UNIQUE", unique);
 
 exception
    when storage_error  =>    --  Have tried at least twice, fail
