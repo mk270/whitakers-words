@@ -3,7 +3,9 @@ WORDS
 
 This is a cleaned-up version of the port of William Whitaker's WORDS
 programme, a Latin-English dictionary with inflectional morphology
-support.
+support; the original author passed away in 2010, so any and all help
+maintaining the software as development and execution environments evolve
+would be greatly appreciated.
 
 Usage
 =====
