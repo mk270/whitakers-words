@@ -254,8 +254,6 @@ procedure parse(command_line : string := "") is
             entering_trpa_last    : integer := 0;
             have_done_enclitic : boolean := false;
 
-            procedure pass(input_word : string);
-
             procedure enclitic is
                save_do_only_fixes : constant boolean := words_mdev(do_only_fixes);
                enclitic_limit : integer := 4;
@@ -347,7 +345,6 @@ procedure parse(command_line : string := "") is
                        subtract_tackon(try, tackons(i));
                   begin
                      if less  /= try  then       --  LESS is less
-                                                 --PASS(LESS);
                         try_tricks(less, trpa, trpa_last, line_number, word_number);
                         
                         if trpa_last > entering_trpa_last  then      --  have a possible word
