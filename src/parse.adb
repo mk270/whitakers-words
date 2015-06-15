@@ -478,11 +478,6 @@ procedure parse(command_line : string := "") is
                        0,
                        x);
 
-                     --  ESSE_INFO : VERB_RECORD := ((5, 1),
-                     --                              (PRES, ACTIVE, INF),
-                     --                               0,
-                     --                               X);
-
                      ppl_info : vpar_record := ((0, 0),
                        x,
                        x,
