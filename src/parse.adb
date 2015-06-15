@@ -54,64 +54,76 @@ procedure parse(command_line : string := "") is
    
    type verb_to_be_opt is (ok, no_match);
    type verb_to_be (option : verb_to_be_opt) is
-	  record
-		 case option is
-			when ok =>
-			   verb_rec : verb_record;
-			when no_match =>
-			   null;
-		 end case;
-	  end record;
+      record
+         case option is
+            when ok =>
+               verb_rec : verb_record;
+            when no_match =>
+               null;
+         end case;
+      end record;
    
-                            function is_sum(t : string) return verb_to_be is
-                               sa : constant array (mood_type range ind..sub,
-                                                    tense_type range pres..futp,
-                                                    number_type range s..p,
-                                                    person_type range 1..3)
-                                 of string(1..9) :=
-                                 (
-                                  (         --  IND
-                                            (("sum      ", "es       ", "est      "), ("sumus    ", "estis    ", "sunt     ")),
-                                            (("eram     ", "eras     ", "erat     "), ("eramus   ", "eratis   ", "erant    ")),
-                                            (("ero      ", "eris     ", "erit     "), ("erimus   ", "eritis   ", "erunt    ")),
-                                            (("fui      ", "fuisti   ", "fuit     "), ("fuimus   ", "fuistis  ", "fuerunt  ")),
-                                            (("fueram   ", "fueras   ", "fuerat   "), ("fueramus ", "fueratis ", "fuerant  ")),
-                                            (("fuero    ", "fueris   ", "fuerit   "), ("fuerimus ", "fueritis ", "fuerunt  "))
-                                  ),
-                                  (         --  SUB
-                                            (("sim      ", "sis      ", "sit      "), ("simus    ", "sitis    ", "sint     ")),
-                                            (("essem    ", "esses    ", "esset    "), ("essemus  ", "essetis  ", "essent   ")),
-                                            (("zzz      ", "zzz      ", "zzz      "), ("zzz      ", "zzz      ", "zzz      ")),
-                                            (("fuerim   ", "fueris   ", "fuerit   "), ("fuerimus ", "fueritis ", "fuerint  ")),
-                                            (("fuissem  ", "fuisses  ", "fuisset  "), ("fuissemus", "fuissetis", "fuissent ")),
-                                            (("zzz      ", "zzz      ", "zzz      "), ("zzz      ", "zzz      ", "zzz      "))
-                                  )
-                                 );
+   function is_sum(t : string) return verb_to_be is
+      sa : constant array (mood_type range ind..sub,
+        tense_type range pres..futp,
+        number_type range s..p,
+        person_type range 1..3)
+        of string(1..9) :=
+        (
+        (         --  IND
+        (("sum      ", "es       ", "est      "), 
+         ("sumus    ", "estis    ", "sunt     ")),
+        (("eram     ", "eras     ", "erat     "), 
+         ("eramus   ", "eratis   ", "erant    ")),
+        (("ero      ", "eris     ", "erit     "), 
+         ("erimus   ", "eritis   ", "erunt    ")),
+        (("fui      ", "fuisti   ", "fuit     "), 
+         ("fuimus   ", "fuistis  ", "fuerunt  ")),
+        (("fueram   ", "fueras   ", "fuerat   "), 
+         ("fueramus ", "fueratis ", "fuerant  ")),
+        (("fuero    ", "fueris   ", "fuerit   "), 
+         ("fuerimus ", "fueritis ", "fuerunt  "))
+        ),
+        (         --  SUB
+        (("sim      ", "sis      ", "sit      "), 
+         ("simus    ", "sitis    ", "sint     ")),
+        (("essem    ", "esses    ", "esset    "), 
+         ("essemus  ", "essetis  ", "essent   ")),
+        (("zzz      ", "zzz      ", "zzz      "), 
+         ("zzz      ", "zzz      ", "zzz      ")),
+        (("fuerim   ", "fueris   ", "fuerit   "), 
+         ("fuerimus ", "fueritis ", "fuerint  ")),
+        (("fuissem  ", "fuisses  ", "fuisset  "), 
+         ("fuissemus", "fuissetis", "fuissent ")),
+        (("zzz      ", "zzz      ", "zzz      "), 
+         ("zzz      ", "zzz      ", "zzz      "))
+        )
+        );
 
-                            begin
-                               if t = ""  then
-                                  return (option => no_match);
-                               elsif t(t'first) /= 's'  and
-                                 t(t'first) /= 'e'  and
-                                 t(t'first) /= 'f'      then
-                                  return (option => no_match);
-                               end if;
-                               for l in mood_type range ind..sub  loop
-                                  for k in tense_type range pres..futp  loop
-                                     for j in number_type range s..p  loop
-                                        for i in person_type range 1..3  loop
-                                           if trim(t) = trim(sa(l, k, j, i))  then
-                                              return (
-												option => ok,
-												verb_rec => ((5, 1), (k, active, l), i, j)
-													 );
-                                           end if;
-                                        end loop;
-                                     end loop;
-                                  end loop;
-                               end loop;
-                               return (option => no_match);
-                            end is_sum;
+   begin
+      if t = ""  then
+         return (option => no_match);
+      elsif t(t'first) /= 's'  and
+        t(t'first) /= 'e'  and
+        t(t'first) /= 'f'      then
+         return (option => no_match);
+      end if;
+      for l in mood_type range ind..sub  loop
+         for k in tense_type range pres..futp  loop
+            for j in number_type range s..p  loop
+               for i in person_type range 1..3  loop
+                  if trim(t) = trim(sa(l, k, j, i))  then
+                     return (
+                       option => ok,
+                       verb_rec => ((5, 1), (k, active, l), i, j)
+                            );
+                  end if;
+               end loop;
+            end loop;
+         end loop;
+      end loop;
+      return (option => no_match);
+   end is_sum;
    
    
    procedure parse_line(input_line : string) is
@@ -331,7 +343,7 @@ procedure parse(command_line : string := "") is
                             if less  /= try  then       --  LESS is less
                                                         --PASS(LESS);
                                try_tricks(less, trpa, trpa_last, line_number, word_number);
-							   
+                               
                                if trpa_last > entering_trpa_last  then      --  have a possible word
                                   trpa_last := trpa_last + 1;
                                   trpa(entering_trpa_last+2..trpa_last) :=
@@ -522,24 +534,24 @@ procedure parse(command_line : string := "") is
                             begin
                                return trim(t) = "iri";
                             end is_iri;
-							
-							tmp : verb_to_be := (option => no_match);
-							is_verb_to_be : boolean := false;
-							
+                            
+                            tmp : verb_to_be := (option => no_match);
+                            is_verb_to_be : boolean := false;
+                            
                          begin
 
                             --  Look ahead for sum
                             look_ahead;
-							
-							tmp := is_sum(next_word);
-							case tmp.option is
-							   when ok =>
-								  is_verb_to_be := true;
-								  sum_info := tmp.verb_rec;
-							   when no_match =>
-								  is_verb_to_be := false;
-							end case;
-							
+                            
+                            tmp := is_sum(next_word);
+                            case tmp.option is
+                               when ok =>
+                                  is_verb_to_be := true;
+                                  sum_info := tmp.verb_rec;
+                               when no_match =>
+                                  is_verb_to_be := false;
+                            end case;
+                            
                             if is_verb_to_be then                 --  On NEXT_WORD = sum, esse, iri
 
                                for i in 1..pa_last  loop    --  Check for PPL
