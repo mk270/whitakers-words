@@ -39,28 +39,28 @@ package word_parameters is
    trimmed : boolean := false;
 
    type mode_type is (
-	 trim_output,
-	 
-	 have_output_file,
-	 write_output_to_file,
-	 
-	 do_unknowns_only,
-	 write_unknowns_to_file,
-	 
-	 ignore_unknown_names,
-	 ignore_unknown_caps,
-	 do_compounds,
-	 do_fixes,
-	 do_tricks,
+     trim_output,
+     
+     have_output_file,
+     write_output_to_file,
+     
+     do_unknowns_only,
+     write_unknowns_to_file,
+     
+     ignore_unknown_names,
+     ignore_unknown_caps,
+     do_compounds,
+     do_fixes,
+     do_tricks,
 
-	 do_dictionary_forms,
-	 show_age,
-	 show_frequency,
-	 
-	 do_examples,
-	 do_only_meanings,
-	 do_stems_for_unknown
-					 );
+     do_dictionary_forms,
+     show_age,
+     show_frequency,
+     
+     do_examples,
+     do_only_meanings,
+     do_stems_for_unknown
+                     );
 
    package mode_type_io is new text_io.enumeration_io(mode_type);
 

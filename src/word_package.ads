@@ -32,10 +32,10 @@ package word_package is
    ssa_max : integer := 0;
 
    type pruned_dictionary_item is
-	  record
-		 ds   : dictionary_stem;
-		 d_k  : dictionary_kind := default_dictionary_kind;
-	  end record;
+      record
+         ds   : dictionary_stem;
+         d_k  : dictionary_kind := default_dictionary_kind;
+      end record;
    null_pruned_dictionary_item : pruned_dictionary_item;
    type pruned_dictionary_list is array (1..80) of pruned_dictionary_item;
    --  Aug 96   QU_PRON max 42, PACK max 54
@@ -74,13 +74,13 @@ package word_package is
    function equ(s, t : string) return boolean;
 
    procedure run_inflections(s : in string; sl : in out sal;
-											restriction : dict_restriction := regular);
+                                            restriction : dict_restriction := regular);
 
    procedure search_dictionaries(ssa : in stem_array_type;
-													   restriction : dict_restriction := regular);
+                                                       restriction : dict_restriction := regular);
 
    procedure word(raw_word : in string;
-				  pa : in out parse_array; pa_last : in out integer);
+                  pa : in out parse_array; pa_last : in out integer);
 
    procedure change_language(c : character);
 

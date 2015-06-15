@@ -24,17 +24,17 @@ package list_package is
    --
 
    procedure list_stems(output   : text_io.file_type;
-						raw_word : string;
-						input_line : string;
-						pa       : in out parse_array;
-						pa_last  : in out integer);
+                        raw_word : string;
+                        input_line : string;
+                        pa       : in out parse_array;
+                        pa_last  : in out integer);
 
    procedure list_entry(output   : text_io.file_type;
-						d_k      : dictionary_kind;
-						mn       : dict_io.count);
+                        d_k      : dictionary_kind;
+                        mn       : dict_io.count);
 
    procedure unknown_search(unknown       :  in string;
-							unknown_count : out dict_io.count);
+                            unknown_count : out dict_io.count);
 
    procedure list_neighborhood(output : text_io.file_type; input_word : string);
 

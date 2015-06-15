@@ -25,10 +25,10 @@ package line_stuff is
    type dictionary_item;
    type dictionary_list is access dictionary_item;
    type dictionary_item is
-	  record
-		 de   : dictionary_entry := null_dictionary_entry;
-		 succ : dictionary_list;
-	  end record;
+      record
+         de   : dictionary_entry := null_dictionary_entry;
+         succ : dictionary_list;
+      end record;
 
    type dictionary is array (character) of dictionary_list;
    null_dictionary : dictionary := (others => null);
@@ -38,89 +38,89 @@ package line_stuff is
    dict_loc : dictionary := null_dictionary;
 
    type tackon_line is
-	  record
-		 pofs : part_of_speech_type := tackon;
-		 tack : stem_type := null_stem_type;
-		 entr : tackon_entry := null_tackon_entry;
-		 mean : meaning_type := null_meaning_type;
-	  end record;
+      record
+         pofs : part_of_speech_type := tackon;
+         tack : stem_type := null_stem_type;
+         entr : tackon_entry := null_tackon_entry;
+         mean : meaning_type := null_meaning_type;
+      end record;
 
    null_tackon_line : tackon_line;
 
    package tackon_line_io is
-	  default_width : natural;
-	  procedure get(f : in file_type; p : out tackon_line);
-	  procedure get(p : out tackon_line);
-	  procedure put(f : in file_type; p : in tackon_line);
-	  procedure put(p : in tackon_line);
-	  procedure get(s : in string; p : out tackon_line; last : out integer);
-	  procedure put(s : out string; p : in tackon_line);
+      default_width : natural;
+      procedure get(f : in file_type; p : out tackon_line);
+      procedure get(p : out tackon_line);
+      procedure put(f : in file_type; p : in tackon_line);
+      procedure put(p : in tackon_line);
+      procedure get(s : in string; p : out tackon_line; last : out integer);
+      procedure put(s : out string; p : in tackon_line);
    end tackon_line_io;
 
    type prefix_line is
-	  record
-		 pofs : part_of_speech_type := prefix;
-		 fix  : fix_type := null_fix_type;
-		 connect : character := ' ';
-		 entr : prefix_entry := null_prefix_entry;
-		 mean : meaning_type := null_meaning_type;
-	  end record;
+      record
+         pofs : part_of_speech_type := prefix;
+         fix  : fix_type := null_fix_type;
+         connect : character := ' ';
+         entr : prefix_entry := null_prefix_entry;
+         mean : meaning_type := null_meaning_type;
+      end record;
 
    null_prefix_line : prefix_line;
 
    package prefix_line_io is
-	  default_width : natural;
-	  procedure get(f : in file_type; p : out prefix_line);
-	  procedure get(p : out prefix_line);
-	  procedure put(f : in file_type; p : in prefix_line);
-	  procedure put(p : in prefix_line);
-	  procedure get(s : in string; p : out prefix_line; last : out integer);
-	  procedure put(s : out string; p : in prefix_line);
+      default_width : natural;
+      procedure get(f : in file_type; p : out prefix_line);
+      procedure get(p : out prefix_line);
+      procedure put(f : in file_type; p : in prefix_line);
+      procedure put(p : in prefix_line);
+      procedure get(s : in string; p : out prefix_line; last : out integer);
+      procedure put(s : out string; p : in prefix_line);
    end prefix_line_io;
 
    type suffix_line is
-	  record
-		 pofs : part_of_speech_type := suffix;
-		 fix  : fix_type := null_fix_type;
-		 connect    : character := ' ';
-		 entr : suffix_entry := null_suffix_entry;
-		 mean : meaning_type := null_meaning_type;
-	  end record;
+      record
+         pofs : part_of_speech_type := suffix;
+         fix  : fix_type := null_fix_type;
+         connect    : character := ' ';
+         entr : suffix_entry := null_suffix_entry;
+         mean : meaning_type := null_meaning_type;
+      end record;
 
    null_suffix_line : suffix_line;
 
    package suffix_line_io is
-	  default_width : natural;
-	  procedure get(f : in file_type; p : out suffix_line);
-	  procedure get(p : out suffix_line);
-	  procedure put(f : in file_type; p : in suffix_line);
-	  procedure put(p : in suffix_line);
-	  procedure get(s : in string; p : out suffix_line; last : out integer);
-	  procedure put(s : out string; p : in suffix_line);
+      default_width : natural;
+      procedure get(f : in file_type; p : out suffix_line);
+      procedure get(p : out suffix_line);
+      procedure put(f : in file_type; p : in suffix_line);
+      procedure put(p : in suffix_line);
+      procedure get(s : in string; p : out suffix_line; last : out integer);
+      procedure put(s : out string; p : in suffix_line);
    end suffix_line_io;
 
    type unique_entry is
-	  record
-		 stem : stem_type          := null_stem_type;
-		 qual : quality_record     := null_quality_record;
-		 kind : kind_entry         := null_kind_entry;
-		 tran : translation_record := null_translation_record;
-	  end record;
+      record
+         stem : stem_type          := null_stem_type;
+         qual : quality_record     := null_quality_record;
+         kind : kind_entry         := null_kind_entry;
+         tran : translation_record := null_translation_record;
+      end record;
 
    package unique_entry_io is
-	  default_width : field;
-	  procedure get(f : in file_type; p : out unique_entry);
-	  procedure get(p : out unique_entry);
-	  procedure put(f : in file_type; p : in unique_entry);
-	  procedure put(p : in unique_entry);
-	  procedure get(s : in string; p : out unique_entry; last : out integer);
-	  procedure put(s : out string; p : in unique_entry);
+      default_width : field;
+      procedure get(f : in file_type; p : out unique_entry);
+      procedure get(p : out unique_entry);
+      procedure put(f : in file_type; p : in unique_entry);
+      procedure put(p : in unique_entry);
+      procedure get(s : in string; p : out unique_entry; last : out integer);
+      procedure put(s : out string; p : in unique_entry);
    end unique_entry_io;
 
    procedure load_stem_file(d_k : dictionary_kind);
 
    procedure load_dictionary(dict : in out dictionary;
-							 dictionary_file_name : string);
+                             dictionary_file_name : string);
 
    procedure load_uniques(unq : in out latin_uniques; file_name : in string);
 

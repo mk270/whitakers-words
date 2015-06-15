@@ -41,47 +41,47 @@ package developer_parameters is
    stats_full_name : constant string := "WORD.STA";
 
    type mdev_type is (
-	 --               HAVE_DEBUG_FILE,      --  No longer in use
-	 --               WRITE_DEBUG_FILE,
+     --               HAVE_DEBUG_FILE,      --  No longer in use
+     --               WRITE_DEBUG_FILE,
 
-	 have_statistics_file,
-	 write_statistics_file,
+     have_statistics_file,
+     write_statistics_file,
 
-	 show_dictionary,
-	 show_dictionary_line,
-	 show_dictionary_codes,
-	 do_pearse_codes,
+     show_dictionary,
+     show_dictionary_line,
+     show_dictionary_codes,
+     do_pearse_codes,
 
-	 do_only_initial_word,
-	 for_word_list_check,
+     do_only_initial_word,
+     for_word_list_check,
 
-	 do_only_fixes,
-	 do_fixes_anyway,
-	 use_prefixes,
-	 use_suffixes,
-	 use_tackons,
+     do_only_fixes,
+     do_fixes_anyway,
+     use_prefixes,
+     use_suffixes,
+     use_tackons,
 
-	 do_medieval_tricks,
+     do_medieval_tricks,
 
-	 do_syncope,
-	 do_two_words,
-	 include_unknown_context,
-	 no_meanings,
+     do_syncope,
+     do_two_words,
+     include_unknown_context,
+     no_meanings,
 
-	 omit_archaic,
-	 omit_medieval,
-	 omit_uncommon,
+     omit_archaic,
+     omit_medieval,
+     omit_uncommon,
 
-	 do_i_for_j,
-	 do_u_for_v,
+     do_i_for_j,
+     do_u_for_v,
 
-	 pause_in_screen_output,
-	 no_screen_activity,
+     pause_in_screen_output,
+     no_screen_activity,
 
-	 update_local_dictionary,
-	 update_meanings,
+     update_local_dictionary,
+     update_meanings,
 
-	 minimize_output         );
+     minimize_output         );
 
    package mdev_type_io is new text_io.enumeration_io(mdev_type);
 

@@ -32,29 +32,29 @@ begin
 
    --The main mode of usage for WORDS is a simple call, followed by screen interaction.
    if ada.command_line.argument_count = 0  then      --  Simple WORDS
-	  method := interactive;                          --  Interactive
-	  suppress_preface := false;
-	  set_output(ada.text_io.standard_output);
-	  initialize_word_parameters;
-	  initialize_developer_parameters;
-	  initialize_word_package;
-	  parse;
+      method := interactive;                          --  Interactive
+      suppress_preface := false;
+      set_output(ada.text_io.standard_output);
+      initialize_word_parameters;
+      initialize_developer_parameters;
+      initialize_word_package;
+      parse;
 
       --But there are other, command line options.
       --WORDS may be called with arguments on the same line,
       --in a number of different modes.
       --
    else
-	  suppress_preface := true;
-	  initialize_word_parameters;
-	  initialize_developer_parameters;
-	  initialize_word_package;
+      suppress_preface := true;
+      initialize_word_parameters;
+      initialize_developer_parameters;
+      initialize_word_package;
 
       --Single parameter, either a simple Latin word or an input file.
       --WORDS amo
       --WORDS infile
       if ada.command_line.argument_count = 1  then      --  Input 1 word in-line
-	 one_argument:
+     one_argument:
          declare
             input_name  : constant string := trim(ada.command_line.argument(1));
          begin
@@ -63,29 +63,29 @@ begin
             set_input(input);
             set_output(ada.text_io.standard_output);
             parse;          --  No additional arguments, so just go to PARSE now
-		 exception                  --  Triggers on INPUT
-			when name_error  =>                   --  Raised NAME_ERROR therefore
-			   method := command_line_input;      --  Found word in command line
+         exception                  --  Triggers on INPUT
+            when name_error  =>                   --  Raised NAME_ERROR therefore
+               method := command_line_input;      --  Found word in command line
          end one_argument;
 
-		 --With two arguments the options are: inputfile and outputfile,
-		 --two Latin words, or a language shift to English (Latin being the startup default)
-		 --and an English  word (with no part of speech).
-		 --WORDS infile outfile
-		 --WORDS amo amas
-		 --WORDS ^e  love
+         --With two arguments the options are: inputfile and outputfile,
+         --two Latin words, or a language shift to English (Latin being the startup default)
+         --and an English  word (with no part of speech).
+         --WORDS infile outfile
+         --WORDS amo amas
+         --WORDS ^e  love
       elsif ada.command_line.argument_count = 2  then    --  INPUT and OUTPUT files
-	 two_arguments:                                   --  or multiwords in-line
+     two_arguments:                                   --  or multiwords in-line
          declare
             input_name  : constant string := trim(ada.command_line.argument(1));
             output_name : constant string := trim(ada.command_line.argument(2));
          begin
-			if input_name(1) = change_language_character  then
-			   if (input_name'length > 1)  then
-				  change_language(input_name(2));
-				  arguments_start := 2;
-				  method := command_line_input;      --  Parse the one word
-			   end if;
+            if input_name(1) = change_language_character  then
+               if (input_name'length > 1)  then
+                  change_language(input_name(2));
+                  arguments_start := 2;
+                  method := command_line_input;      --  Parse the one word
+               end if;
             else
                open(input, in_file, input_name);
                create(output, out_file, output_name);
@@ -102,51 +102,51 @@ begin
                set_output(ada.text_io.standard_output);
                close(output);
             end if;
-		 exception                  --  Triggers on either INPUT or OUTPUT  !!!
-			when name_error  =>
-			   method := command_line_input;            --  Found words in command line
+         exception                  --  Triggers on either INPUT or OUTPUT  !!!
+            when name_error  =>
+               method := command_line_input;            --  Found words in command line
 
          end two_arguments;
 
-		 --With three arguments there could be three Latin words or a language shift
-		 --and and English word and part of speech.
-		 --WORDS amo amas amat
-		 --WORDS ^e love v
+         --With three arguments there could be three Latin words or a language shift
+         --and and English word and part of speech.
+         --WORDS amo amas amat
+         --WORDS ^e love v
       elsif ada.command_line.argument_count = 3  then    --  INPUT and OUTPUT files
-	 three_arguments:                                   --  or multiwords in-line
+     three_arguments:                                   --  or multiwords in-line
          declare
             arg1 : constant string := trim(ada.command_line.argument(1));
             arg2 : constant string := trim(ada.command_line.argument(2));
             arg3 : constant string := trim(ada.command_line.argument(3));
          begin
-			if arg1(1) = change_language_character  then
-			   if (arg1'length > 1)  then
-				  change_language(arg1(2));
-				  arguments_start := 2;
-				  method := command_line_input;      --  Parse the one word
-			   end if;
+            if arg1(1) = change_language_character  then
+               if (arg1'length > 1)  then
+                  change_language(arg1(2));
+                  arguments_start := 2;
+                  method := command_line_input;      --  Parse the one word
+               end if;
             else
                method := command_line_input;
             end if;
 
          end three_arguments;
 
-		 --More than three arguments must all be Latin words.
-		 --WORDS amo amas amat amamus amatis amant
+         --More than three arguments must all be Latin words.
+         --WORDS amo amas amat amamus amatis amant
       else    --  More than three arguments
 
          method := command_line_input;
       end if;
 
       if method = command_line_input  then            --  Process words in command line
-	 more_arguments:
+     more_arguments:
          begin
-			--Ada.TEXT_IO.PUT_LINE("MORE_ARG  ARG_START = " & INTEGER'IMAGE(ARGUMENTS_START));
-			suppress_preface := true;
+            --Ada.TEXT_IO.PUT_LINE("MORE_ARG  ARG_START = " & INTEGER'IMAGE(ARGUMENTS_START));
+            suppress_preface := true;
             for i in arguments_start..ada.command_line.argument_count  loop  --  Assemble input words
                input_line := head(trim(input_line) & " " & ada.command_line.argument(i), 250);
             end loop;
-			--Ada.TEXT_IO.PUT_LINE("To PARSE >" & TRIM(INPUT_LINE));
+            --Ada.TEXT_IO.PUT_LINE("To PARSE >" & TRIM(INPUT_LINE));
             parse(trim(input_line));
          end more_arguments;
       end if;

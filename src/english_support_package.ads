@@ -34,38 +34,38 @@ package english_support_package is
    number_of_ewords : integer := 0;
 
    type ewds_record is
-	  record
-		 w    : eword := null_eword;
-		 aux  : auxword := null_auxword;
-		 n    : integer := 0;
-		 pofs : part_of_speech_type := x;
-		 freq : frequency_type := x;
-		 semi : integer := 0;
-		 kind : integer := 0;
-		 rank : integer := 0;
-	  end record;
+      record
+         w    : eword := null_eword;
+         aux  : auxword := null_auxword;
+         n    : integer := 0;
+         pofs : part_of_speech_type := x;
+         freq : frequency_type := x;
+         semi : integer := 0;
+         kind : integer := 0;
+         rank : integer := 0;
+      end record;
 
    null_ewds_record : ewds_record := ((others => ' '),
-									  (others => ' '), 0, x, x, 0, 0, 0);
+                                      (others => ' '), 0, x, x, 0, 0, 0);
 
    type ewds_array is array (positive range <>) of ewds_record;
 
    package ewds_direct_io is new direct_io(ewds_record);
 
    package ewds_record_io is
-	  default_width : natural;
-	  procedure get(f : in text_io.file_type; p : out ewds_record);
-	  procedure get(p : out ewds_record);
-	  procedure put(f : in text_io.file_type; p : in ewds_record);
-	  procedure put(p : in ewds_record);
-	  procedure get(s : in string; p : out ewds_record;
-								   last : out integer);
-	  procedure put(s : out string; p : in ewds_record);
+      default_width : natural;
+      procedure get(f : in text_io.file_type; p : out ewds_record);
+      procedure get(p : out ewds_record);
+      procedure put(f : in text_io.file_type; p : in ewds_record);
+      procedure put(p : in ewds_record);
+      procedure get(s : in string; p : out ewds_record;
+                                   last : out integer);
+      procedure put(s : out string; p : in ewds_record);
    end ewds_record_io;
 
    english_dictionary_available : array (dictionary_kind) of boolean := (false,
-																		 false, false, false, false, false, false,  --  don't SEARCH
-																		 false, false, false, false);
+                                                                         false, false, false, false, false, false,  --  don't SEARCH
+                                                                         false, false, false, false);
 
    ewds_file : ewds_direct_io.file_type;
 

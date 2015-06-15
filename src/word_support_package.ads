@@ -21,15 +21,15 @@ with dictionary_package; use dictionary_package;
 package word_support_package is
 
    followed_by_period, follows_period, capitalized, all_caps :
-	 boolean := false;
+     boolean := false;
 
    type dictionary_stem is
-	  record
-		 stem : stem_type := null_stem_type;
-		 part : part_entry := null_part_entry;
-		 key  : stem_key_type := 0;
-		 mnpc : dict_io.count := null_mnpc;
-	  end record;
+      record
+         stem : stem_type := null_stem_type;
+         part : part_entry := null_part_entry;
+         key  : stem_key_type := 0;
+         mnpc : dict_io.count := null_mnpc;
+      end record;
 
    package stem_io is new direct_io(dictionary_stem);
    package count_io is new text_io.integer_io(stem_io.count);
@@ -48,15 +48,15 @@ package word_support_package is
    --SIZE_OF_DICTIONARY_ARRAY : constant INTEGER := 120;    --  ###################
    --DDL : DICT_ARRAY(1..SIZE_OF_DICTIONARY_ARRAY);
    type dict_array_index is array (character range <>,
-								   character range <>,
-								   dictionary_file_kind range <>) of stem_io.count;
+                                   character range <>,
+                                   dictionary_file_kind range <>) of stem_io.count;
 
    bblf, bbll : dict_array_index(' '..' ', ' '..' ', dictionary_file_kind) :=
-	 (others => (others => (others => 0)));
+     (others => (others => (others => 0)));
    bdlf, bdll : dict_array_index('a'..'z', ' '..' ', dictionary_file_kind) :=
-	 (others => (others => (others => 0)));
+     (others => (others => (others => 0)));
    ddlf, ddll : dict_array_index('a'..'z', 'a'..'z', dictionary_file_kind) :=
-	 (others => (others => (others => 0)));
+     (others => (others => (others => 0)));
 
    function adj_comp_from_key(key : stem_key_type) return comparison_type;
 
@@ -69,15 +69,15 @@ package word_support_package is
    function len(s : string) return integer;
 
    function first_index(input_word : string;
-						d_k : dictionary_file_kind := default_dictionary_file_kind)
-					   return stem_io.count;
+                        d_k : dictionary_file_kind := default_dictionary_file_kind)
+                       return stem_io.count;
 
    function  last_index(input_word : string;
-						d_k : dictionary_file_kind := default_dictionary_file_kind)
-					   return stem_io.count;
+                        d_k : dictionary_file_kind := default_dictionary_file_kind)
+                       return stem_io.count;
 
    procedure load_indices_from_indx_file(indxfile_name : string;
-										 d_k : dictionary_kind);
+                                         d_k : dictionary_kind);
 
    procedure load_bdl_from_disk;
 
