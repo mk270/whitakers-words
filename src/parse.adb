@@ -225,14 +225,12 @@ procedure parse(command_line : string := "") is
          end loop;
 
          if language = english_to_latin  then
-
-        parse_line_english_to_latin:
             --  Since we do only one English word per line
             declare
                input_word : constant string := w(j..k);
                pofs : part_of_speech_type := x;
             begin
-
+               
                --  Extract from the rest of the line
                --  Should do AUX here !!!!!!!!!!!!!!!!!!!!!!!!
                extract_pofs:
@@ -242,13 +240,12 @@ procedure parse(command_line : string := "") is
                       when others =>
                          pofs := x;
                    end extract_pofs;
-
+                   
                    search_english(input_word, pofs);
 
                    exit over_line;
-
-            end parse_line_english_to_latin;
-
+            end;
+                   
          elsif language = latin_to_english  then
             
         parse_word_latin_to_english:
