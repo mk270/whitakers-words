@@ -247,145 +247,167 @@ procedure parse(command_line : string := "") is
             end;
          end if;
          
-            declare
-               input_word : constant string := w(j..k);
-               entering_pa_last : integer := 0;
-               entering_trpa_last    : integer := 0;
-               have_done_enclitic : boolean := false;
+         declare
+            input_word : constant string := w(j..k);
+            entering_pa_last : integer := 0;
+            entering_trpa_last    : integer := 0;
+            have_done_enclitic : boolean := false;
 
-               procedure pass(input_word : string);
+            procedure pass(input_word : string);
 
-               procedure enclitic is
-                  save_do_only_fixes : constant boolean := words_mdev(do_only_fixes);
-                  enclitic_limit : integer := 4;
-                  try : constant string := lower_case(input_word);
-               begin
-                  if have_done_enclitic  then    return;   end if;
+            procedure enclitic is
+               save_do_only_fixes : constant boolean := words_mdev(do_only_fixes);
+               enclitic_limit : integer := 4;
+               try : constant string := lower_case(input_word);
+            begin
+               if have_done_enclitic  then    return;   end if;
 
-                  entering_pa_last := pa_last;
-                  if pa_last > 0 then enclitic_limit := 1; end if;
-              loop_over_enclitic_tackons:
-                  for i in 1..enclitic_limit  loop   --  If have parse, only do que of que, ne, ve, (est)
+               entering_pa_last := pa_last;
+               if pa_last > 0 then enclitic_limit := 1; end if;
+           loop_over_enclitic_tackons:
+               for i in 1..enclitic_limit  loop   --  If have parse, only do que of que, ne, ve, (est)
 
-                 remove_a_tackon:
-                     declare
-                        less : constant string :=
-                          subtract_tackon(try, tackons(i));
-                        save_pa_last  : integer := 0;
-                     begin
-                        if less  /= try  then       --  LESS is less
-                                                    --WORDS_MODE(DO_FIXES) := FALSE;
-                           word_package.word(less, pa, pa_last);
+              remove_a_tackon:
+                  declare
+                     less : constant string :=
+                       subtract_tackon(try, tackons(i));
+                     save_pa_last  : integer := 0;
+                  begin
+                     if less  /= try  then       --  LESS is less
+                                                 --WORDS_MODE(DO_FIXES) := FALSE;
+                        word_package.word(less, pa, pa_last);
 
-                           if pa_last = 0  then
+                        if pa_last = 0  then
 
-                              save_pa_last := pa_last;
-                              try_slury(less, pa, pa_last, line_number, word_number);
-                              if save_pa_last /= 0   then
-                                 if (pa_last - 1) - save_pa_last = save_pa_last  then
-                                    pa_last := save_pa_last;
-                                 end if;
+                           save_pa_last := pa_last;
+                           try_slury(less, pa, pa_last, line_number, word_number);
+                           if save_pa_last /= 0   then
+                              if (pa_last - 1) - save_pa_last = save_pa_last  then
+                                 pa_last := save_pa_last;
                               end if;
-                              
                            end if;
                            
-                           --  Do not SYNCOPE if there is a verb TO_BE or compound already there
-                           --  I do this here and below, it might be combined but it workd now
-                           for i in 1..pa_last  loop
-                              if pa(i).ir.qual.pofs = v and then
-                                pa(i).ir.qual.v.con = (5, 1)  then
-                                 no_syncope := true;
-                              end if;
-                           end loop;
+                        end if;
+                        
+                        --  Do not SYNCOPE if there is a verb TO_BE or compound already there
+                        --  I do this here and below, it might be combined but it workd now
+                        for i in 1..pa_last  loop
+                           if pa(i).ir.qual.pofs = v and then
+                             pa(i).ir.qual.v.con = (5, 1)  then
+                              no_syncope := true;
+                           end if;
+                        end loop;
 
+                        sypa_last := 0;
+                        if words_mdev(do_syncope)  and not no_syncope  then
+                           syncope(less, sypa, sypa_last);  --  Want SYNCOPE second to make cleaner LIST
+
+                           pa_last := pa_last + sypa_last;   --  Make syncope another array to avoid PA_LAST = 0 problems
+                           pa(1..pa_last) := pa(1..pa_last-sypa_last) & sypa(1..sypa_last);  --  Add SYPA to PA
+                           sypa(1..syncope_max) := (1..syncope_max => null_parse_record);   --  Clean up so it does not repeat
                            sypa_last := 0;
-                           if words_mdev(do_syncope)  and not no_syncope  then
-                              syncope(less, sypa, sypa_last);  --  Want SYNCOPE second to make cleaner LIST
-
-                              pa_last := pa_last + sypa_last;   --  Make syncope another array to avoid PA_LAST = 0 problems
-                              pa(1..pa_last) := pa(1..pa_last-sypa_last) & sypa(1..sypa_last);  --  Add SYPA to PA
-                              sypa(1..syncope_max) := (1..syncope_max => null_parse_record);   --  Clean up so it does not repeat
-                              sypa_last := 0;
-                           end if;
-                           no_syncope := false;
-                           --  Restore FIXES
-                           --WORDS_MODE(DO_FIXES) := SAVE_DO_FIXES;
-
-                           words_mdev(do_only_fixes) := true;
-                           word(input_word, pa, pa_last);
-                           words_mdev(do_only_fixes) := save_do_only_fixes;
-
-                           if pa_last > entering_pa_last  then      --  have a possible word
-                              pa_last := pa_last + 1;
-                              pa(entering_pa_last+2..pa_last) :=
-                                pa(entering_pa_last+1..pa_last-1);
-                              pa(entering_pa_last+1) := (tackons(i).tack,
-                                ((tackon, null_tackon_record), 0, null_ending_record, x, x),
-                                addons, dict_io.count(tackons(i).mnpc));
-
-                              have_done_enclitic := true;
-                           end if;
-                           exit loop_over_enclitic_tackons;
                         end if;
-                     end remove_a_tackon;
-                  end loop loop_over_enclitic_tackons;
-               end enclitic;
+                        no_syncope := false;
+                        --  Restore FIXES
+                        --WORDS_MODE(DO_FIXES) := SAVE_DO_FIXES;
 
-               procedure tricks_enclitic is
-                  try : constant string := lower_case(input_word);
-               begin
-                  if have_done_enclitic  then    return;   end if;
+                        words_mdev(do_only_fixes) := true;
+                        word(input_word, pa, pa_last);
+                        words_mdev(do_only_fixes) := save_do_only_fixes;
 
-                  entering_trpa_last := trpa_last;
-              loop_over_enclitic_tackons:
-                  for i in 1..4  loop   --  que, ne, ve, (est)
+                        if pa_last > entering_pa_last  then      --  have a possible word
+                           pa_last := pa_last + 1;
+                           pa(entering_pa_last+2..pa_last) :=
+                             pa(entering_pa_last+1..pa_last-1);
+                           pa(entering_pa_last+1) := (tackons(i).tack,
+                             ((tackon, null_tackon_record), 0, null_ending_record, x, x),
+                             addons, dict_io.count(tackons(i).mnpc));
 
-                 remove_a_tackon:
-                     declare
-                        less : constant string :=
-                          subtract_tackon(try, tackons(i));
-                     begin
-                        if less  /= try  then       --  LESS is less
-                                                    --PASS(LESS);
-                           try_tricks(less, trpa, trpa_last, line_number, word_number);
-                           
-                           if trpa_last > entering_trpa_last  then      --  have a possible word
-                              trpa_last := trpa_last + 1;
-                              trpa(entering_trpa_last+2..trpa_last) :=
-                                trpa(entering_trpa_last+1..trpa_last-1);
-                              trpa(entering_trpa_last+1) := (tackons(i).tack,
-                                ((tackon, null_tackon_record), 0, null_ending_record, x, x),
-                                addons, dict_io.count(tackons(i).mnpc));
-                           end if;
-                           exit loop_over_enclitic_tackons;
+                           have_done_enclitic := true;
                         end if;
-                     end remove_a_tackon;
-                  end loop loop_over_enclitic_tackons;
-               end tricks_enclitic;
-
-               procedure pass(input_word : string) is
-                  --  This is the core logic of the program, everything else is details
-                  save_do_fixes : constant boolean := words_mode(do_fixes);
-                  save_do_only_fixes : constant boolean := words_mdev(do_only_fixes);
-               begin
-                  --  Do straight WORDS without FIXES/TRICKS, is the word in the dictionary
-                  words_mode(do_fixes) := false;
-                  roman_numerals(input_word, pa, pa_last);
-                  word(input_word, pa, pa_last);
-
-                  if pa_last = 0  then
-                     try_slury(input_word, pa, pa_last, line_number, word_number);
-                  end if;
-
-                  --  Do not SYNCOPE if there is a verb TO_BE or compound already there
-                  for i in 1..pa_last  loop
-                     if pa(i).ir.qual.pofs = v and then
-                       pa(i).ir.qual.v.con = (5, 1)  then
-                        no_syncope := true;
+                        exit loop_over_enclitic_tackons;
                      end if;
-                  end loop;
-                  
-                  --  Pure SYNCOPE
+                  end remove_a_tackon;
+               end loop loop_over_enclitic_tackons;
+            end enclitic;
+
+            procedure tricks_enclitic is
+               try : constant string := lower_case(input_word);
+            begin
+               if have_done_enclitic  then    return;   end if;
+
+               entering_trpa_last := trpa_last;
+           loop_over_enclitic_tackons:
+               for i in 1..4  loop   --  que, ne, ve, (est)
+
+              remove_a_tackon:
+                  declare
+                     less : constant string :=
+                       subtract_tackon(try, tackons(i));
+                  begin
+                     if less  /= try  then       --  LESS is less
+                                                 --PASS(LESS);
+                        try_tricks(less, trpa, trpa_last, line_number, word_number);
+                        
+                        if trpa_last > entering_trpa_last  then      --  have a possible word
+                           trpa_last := trpa_last + 1;
+                           trpa(entering_trpa_last+2..trpa_last) :=
+                             trpa(entering_trpa_last+1..trpa_last-1);
+                           trpa(entering_trpa_last+1) := (tackons(i).tack,
+                             ((tackon, null_tackon_record), 0, null_ending_record, x, x),
+                             addons, dict_io.count(tackons(i).mnpc));
+                        end if;
+                        exit loop_over_enclitic_tackons;
+                     end if;
+                  end remove_a_tackon;
+               end loop loop_over_enclitic_tackons;
+            end tricks_enclitic;
+
+            procedure pass(input_word : string) is
+               --  This is the core logic of the program, everything else is details
+               save_do_fixes : constant boolean := words_mode(do_fixes);
+               save_do_only_fixes : constant boolean := words_mdev(do_only_fixes);
+            begin
+               --  Do straight WORDS without FIXES/TRICKS, is the word in the dictionary
+               words_mode(do_fixes) := false;
+               roman_numerals(input_word, pa, pa_last);
+               word(input_word, pa, pa_last);
+
+               if pa_last = 0  then
+                  try_slury(input_word, pa, pa_last, line_number, word_number);
+               end if;
+
+               --  Do not SYNCOPE if there is a verb TO_BE or compound already there
+               for i in 1..pa_last  loop
+                  if pa(i).ir.qual.pofs = v and then
+                    pa(i).ir.qual.v.con = (5, 1)  then
+                     no_syncope := true;
+                  end if;
+               end loop;
+               
+               --  Pure SYNCOPE
+               sypa_last := 0;
+               if words_mdev(do_syncope)  and not no_syncope  then
+                  syncope(input_word, sypa, sypa_last);
+                  pa_last := pa_last + sypa_last;   --  Make syncope another array to avoid PA-LAST = 0 problems
+                  pa(1..pa_last) := pa(1..pa_last-sypa_last) & sypa(1..sypa_last);  --  Add SYPA to PA
+                  sypa(1..syncope_max) := (1..syncope_max => null_parse_record);   --  Clean up so it does not repeat
+                  sypa_last := 0;
+               end if;
+               no_syncope := false;
+
+               --  There may be a vaild simple parse, if so it is most probable
+               --  But I have to allow for the possibility that -que is answer, not colloque V
+               enclitic;
+
+               --  Restore FIXES
+               words_mode(do_fixes) := save_do_fixes;
+
+               --  Now with only fixes
+               if pa_last = 0  and then
+                 words_mode(do_fixes)  then
+                  words_mdev(do_only_fixes) := true;
+                  word(input_word, pa, pa_last);
                   sypa_last := 0;
                   if words_mdev(do_syncope)  and not no_syncope  then
                      syncope(input_word, sypa, sypa_last);
@@ -396,436 +418,414 @@ procedure parse(command_line : string := "") is
                   end if;
                   no_syncope := false;
 
-                  --  There may be a vaild simple parse, if so it is most probable
-                  --  But I have to allow for the possibility that -que is answer, not colloque V
                   enclitic;
 
-                  --  Restore FIXES
-                  words_mode(do_fixes) := save_do_fixes;
-
-                  --  Now with only fixes
-                  if pa_last = 0  and then
-                    words_mode(do_fixes)  then
-                     words_mdev(do_only_fixes) := true;
-                     word(input_word, pa, pa_last);
-                     sypa_last := 0;
-                     if words_mdev(do_syncope)  and not no_syncope  then
-                        syncope(input_word, sypa, sypa_last);
-                        pa_last := pa_last + sypa_last;   --  Make syncope another array to avoid PA-LAST = 0 problems
-                        pa(1..pa_last) := pa(1..pa_last-sypa_last) & sypa(1..sypa_last);  --  Add SYPA to PA
-                        sypa(1..syncope_max) := (1..syncope_max => null_parse_record);   --  Clean up so it does not repeat
-                        sypa_last := 0;
-                     end if;
-                     no_syncope := false;
-
-                     enclitic;
-
-                     words_mdev(do_only_fixes) := save_do_only_fixes;
-                  end if;
-
-               end pass;
-
-            begin   --  PARSE
-               xxx_meaning := null_meaning_type;
-
-           pass_block:
-               begin
-                  pa_last := 0;
-                  word_number := word_number + 1;
-
-                  pass(input_word);
-
-               end pass_block;
-
-               --if (PA_LAST = 0) or DO_TRICKS_ANYWAY  then    --  WORD failed, try to modify the word
-               if (pa_last = 0)  and then
-                 not (words_mode(ignore_unknown_names)  and capitalized)  then
-                  --  WORD failed, try to modify the word
-                  if words_mode(do_tricks)  then
-                     words_mode(do_tricks) := false;  --  Turn it off so wont be circular
-                     try_tricks(input_word, trpa, trpa_last, line_number, word_number);
-                     if trpa_last = 0  then
-                        tricks_enclitic;
-                     end if;
-                     words_mode(do_tricks) := true;   --  Turn it back on
-                  end if;
-
-                  pa_last := pa_last + trpa_last;   --  Make TRICKS another array to avoid PA-LAST = 0 problems
-                  pa(1..pa_last) := pa(1..pa_last-trpa_last) & trpa(1..trpa_last);  --  Add SYPA to PA
-                  trpa(1..tricks_max) := (1..tricks_max => null_parse_record);   --  Clean up so it does not repeat
-                  trpa_last := 0;
-
+                  words_mdev(do_only_fixes) := save_do_only_fixes;
                end if;
-               --  At this point we have done what we can with individual words
-               --  Now see if there is something we can do with word combinations
-               --  For this we have to look ahead
 
-               if pa_last > 0   then    --  But PA may be killed by ALLOW in LIST_STEMS
-                  if words_mode(do_compounds)  and
-                    not (configuration = only_meanings)  then
-                 compounds_with_sum:
-                     declare
-                        nw : string(1..2500) := (others => ' ');
-                        nk : integer := 0;
+            end pass;
 
-                        compound_tense : inflections_package.tense_type := x;
-                        compound_tvm   : inflections_package.tense_voice_mood_record;
-                        ppl_on : boolean := false;
+         begin   --  PARSE
+            xxx_meaning := null_meaning_type;
 
-                        sum_info : verb_record := ((5, 1),
-                          (x, active, x),
-                          0,
-                          x);
+        pass_block:
+            begin
+               pa_last := 0;
+               word_number := word_number + 1;
 
-                        --  ESSE_INFO : VERB_RECORD := ((5, 1),
-                        --                              (PRES, ACTIVE, INF),
-                        --                               0,
-                        --                               X);
+               pass(input_word);
 
-                        ppl_info : vpar_record := ((0, 0),
-                          x,
-                          x,
-                          x,
-                          (x, x, x));
+            end pass_block;
 
-                        supine_info : supine_record := ((0, 0),
-                          x,
-                          x,
-                          x);
+            --if (PA_LAST = 0) or DO_TRICKS_ANYWAY  then    --  WORD failed, try to modify the word
+            if (pa_last = 0)  and then
+              not (words_mode(ignore_unknown_names)  and capitalized)  then
+               --  WORD failed, try to modify the word
+               if words_mode(do_tricks)  then
+                  words_mode(do_tricks) := false;  --  Turn it off so wont be circular
+                  try_tricks(input_word, trpa, trpa_last, line_number, word_number);
+                  if trpa_last = 0  then
+                     tricks_enclitic;
+                  end if;
+                  words_mode(do_tricks) := true;   --  Turn it back on
+               end if;
 
-                        procedure look_ahead is
-                           j : integer := 0;
-                        begin
-                           for i in k+2..l  loop
-                              --  Although I have removed punctuation above, it may not always be so
-                              exit when (line(i) = ' ' or line(i) = ',' or line(i) = '-'
-                                or line(i) = ';' or line(i) = ':' or line(i) = '.'
-                                or line(i) = '(' or line(i) = '[' or line(i) = '{' or line(i) = '<'
-                                or line(i) = ')' or line(i) = ']' or line(i) = '}' or line(i) = '>');
-                              j := j + 1;
-                              nw(j) := line(i);
-                              nk := i;
-                           end loop;
-                        end look_ahead;
+               pa_last := pa_last + trpa_last;   --  Make TRICKS another array to avoid PA-LAST = 0 problems
+               pa(1..pa_last) := pa(1..pa_last-trpa_last) & trpa(1..trpa_last);  --  Add SYPA to PA
+               trpa(1..tricks_max) := (1..tricks_max => null_parse_record);   --  Clean up so it does not repeat
+               trpa_last := 0;
 
-                        function next_word return string is
-                        begin
-                           return trim(nw);
-                        end next_word;
-                        
-                        tmp : verb_to_be := (option => no_match);
-                        is_verb_to_be : boolean := false;
-                        
+            end if;
+            --  At this point we have done what we can with individual words
+            --  Now see if there is something we can do with word combinations
+            --  For this we have to look ahead
+
+            if pa_last > 0   then    --  But PA may be killed by ALLOW in LIST_STEMS
+               if words_mode(do_compounds)  and
+                 not (configuration = only_meanings)  then
+              compounds_with_sum:
+                  declare
+                     nw : string(1..2500) := (others => ' ');
+                     nk : integer := 0;
+
+                     compound_tense : inflections_package.tense_type := x;
+                     compound_tvm   : inflections_package.tense_voice_mood_record;
+                     ppl_on : boolean := false;
+
+                     sum_info : verb_record := ((5, 1),
+                       (x, active, x),
+                       0,
+                       x);
+
+                     --  ESSE_INFO : VERB_RECORD := ((5, 1),
+                     --                              (PRES, ACTIVE, INF),
+                     --                               0,
+                     --                               X);
+
+                     ppl_info : vpar_record := ((0, 0),
+                       x,
+                       x,
+                       x,
+                       (x, x, x));
+
+                     supine_info : supine_record := ((0, 0),
+                       x,
+                       x,
+                       x);
+
+                     procedure look_ahead is
+                        j : integer := 0;
                      begin
+                        for i in k+2..l  loop
+                           --  Although I have removed punctuation above, it may not always be so
+                           exit when (line(i) = ' ' or line(i) = ',' or line(i) = '-'
+                             or line(i) = ';' or line(i) = ':' or line(i) = '.'
+                             or line(i) = '(' or line(i) = '[' or line(i) = '{' or line(i) = '<'
+                             or line(i) = ')' or line(i) = ']' or line(i) = '}' or line(i) = '>');
+                           j := j + 1;
+                           nw(j) := line(i);
+                           nk := i;
+                        end loop;
+                     end look_ahead;
 
-                        --  Look ahead for sum
-                        look_ahead;
-                        
-                        tmp := is_sum(next_word);
-                        case tmp.option is
-                           when ok =>
-                              is_verb_to_be := true;
-                              sum_info := tmp.verb_rec;
-                           when no_match =>
-                              is_verb_to_be := false;
-                        end case;
-                        
-                        if is_verb_to_be then                 --  On NEXT_WORD = sum, esse, iri
+                     function next_word return string is
+                     begin
+                        return trim(nw);
+                     end next_word;
+                     
+                     tmp : verb_to_be := (option => no_match);
+                     is_verb_to_be : boolean := false;
+                     
+                  begin
 
-                           for i in 1..pa_last  loop    --  Check for PPL
-                              if pa(i).ir.qual.pofs = vpar and then
-                                pa(i).ir.qual.vpar.cs = nom  and then
-                                pa(i).ir.qual.vpar.number = sum_info.number  and then
-                                ( (pa(i).ir.qual.vpar.tense_voice_mood = (perf, passive, ppl)) or
-                                (pa(i).ir.qual.vpar.tense_voice_mood = (fut,  active,  ppl)) or
-                                (pa(i).ir.qual.vpar.tense_voice_mood = (fut,  passive, ppl)) )  then
+                     --  Look ahead for sum
+                     look_ahead;
+                     
+                     tmp := is_sum(next_word);
+                     case tmp.option is
+                        when ok =>
+                           is_verb_to_be := true;
+                           sum_info := tmp.verb_rec;
+                        when no_match =>
+                           is_verb_to_be := false;
+                     end case;
+                     
+                     if is_verb_to_be then                 --  On NEXT_WORD = sum, esse, iri
 
-                                 --  There is at least one hit, fix PA, and advance J over the sum
-                                 k := nk;
+                        for i in 1..pa_last  loop    --  Check for PPL
+                           if pa(i).ir.qual.pofs = vpar and then
+                             pa(i).ir.qual.vpar.cs = nom  and then
+                             pa(i).ir.qual.vpar.number = sum_info.number  and then
+                             ( (pa(i).ir.qual.vpar.tense_voice_mood = (perf, passive, ppl)) or
+                             (pa(i).ir.qual.vpar.tense_voice_mood = (fut,  active,  ppl)) or
+                             (pa(i).ir.qual.vpar.tense_voice_mood = (fut,  passive, ppl)) )  then
 
-                              end if;
-                           end loop;
-
-                           if k = nk  then      --  There was a PPL hit
-                          clear_pas_nom_ppl:
-                              declare
-                                 j : integer := pa_last;
-                              begin
-                                 while j >= 1  loop        --  Sweep backwards to kill empty suffixes
-                                    if ((pa(j).ir.qual.pofs = prefix) and then (ppl_on))  then
-                                       null;
-                                    elsif ((pa(j).ir.qual.pofs = suffix) and then (ppl_on))  then
-                                       null;
-                                    elsif ((pa(j).ir.qual.pofs = tackon) and then (ppl_on))  then
-                                       null;
-
-                                    elsif pa(j).ir.qual.pofs = vpar and then
-                                      pa(j).ir.qual.vpar.cs = nom  and then
-                                      pa(j).ir.qual.vpar.number = sum_info.number  then
-
-                                       if pa(j).ir.qual.vpar.tense_voice_mood = (perf, passive, ppl)  then
-                                          ppl_on := true;
-
-                                          case sum_info.tense_voice_mood.tense is  --  Allows PERF for sum
-                                             when pres | perf  =>  compound_tense := perf;
-                                             when impf | plup  =>  compound_tense := plup;
-                                             when fut          =>  compound_tense := futp;
-                                             when others       =>  compound_tense := x;
-                                          end case;
-                                          compound_tvm := (compound_tense, passive, sum_info.tense_voice_mood.mood);
-
-                                          ppl_info := (pa(j).ir.qual.vpar.con,   --  In this case, there is 1
-                                            pa(j).ir.qual.vpar.cs,    --  although several different
-                                            pa(j).ir.qual.vpar.number,--  dictionary entries may fit
-                                            pa(j).ir.qual.vpar.gender,--  all have same PPL_INFO
-                                            pa(j).ir.qual.vpar.tense_voice_mood);
-                                          ppp_meaning :=
-                                            head("PERF PASSIVE PPL + verb TO_BE => PASSIVE perfect system",
-                                            max_meaning_size);
-
-                                       elsif pa(j).ir.qual.vpar.tense_voice_mood = (fut, active,  ppl)  then
-                                          ppl_on := true;
-                                          compound_tense := sum_info.tense_voice_mood.tense;
-                                          compound_tvm := (compound_tense, active, sum_info.tense_voice_mood.mood);
-
-                                          ppl_info := (pa(j).ir.qual.vpar.con,   --  In this case, there is 1
-                                            pa(j).ir.qual.vpar.cs,    --  although several different
-                                            pa(j).ir.qual.vpar.number,--  dictionary entries may fit
-                                            pa(j).ir.qual.vpar.gender,--  all have same PPL_INFO
-                                            pa(j).ir.qual.vpar.tense_voice_mood);
-                                          ppp_meaning := head(
-                                            "FUT ACTIVE PPL + verb TO_BE => ACTIVE Periphrastic - about to, going to",
-                                            max_meaning_size);
-
-                                       elsif pa(j).ir.qual.vpar.tense_voice_mood = (fut, passive, ppl)  then
-                                          ppl_on := true;
-                                          compound_tense := sum_info.tense_voice_mood.tense;
-                                          compound_tvm := (compound_tense, passive, sum_info.tense_voice_mood.mood);
-
-                                          ppl_info := (pa(j).ir.qual.vpar.con,   --  In this case, there is 1
-                                            pa(j).ir.qual.vpar.cs,    --  although several different
-                                            pa(j).ir.qual.vpar.number,--  dictionary entries may fit
-                                            pa(j).ir.qual.vpar.gender,--  all have same PPL_INFO
-                                            pa(j).ir.qual.vpar.tense_voice_mood);
-                                          ppp_meaning := head(
-                                            "FUT PASSIVE PPL + verb TO_BE => PASSIVE Periphrastic - should/ought/had to",
-                                            max_meaning_size);
-
-                                       end if;
-                                    else
-                                       pa(j..pa_last-1) := pa(j+1..pa_last);
-                                       pa_last := pa_last - 1;
-                                       ppl_on := false;
-                                    end if;
-                                    j := j - 1;
-                                 end loop;
-                              end clear_pas_nom_ppl;
-
-                              pa_last := pa_last + 1;
-                              pa(pa_last) :=
-                                (head("PPL+" & next_word, max_stem_size),
-                                ((v,
-                                (ppl_info.con,
-                                compound_tvm,
-                                sum_info.person,
-                                sum_info.number)
-                                 ), 0, null_ending_record, x, a),
-                                ppp, null_mnpc);
+                              --  There is at least one hit, fix PA, and advance J over the sum
+                              k := nk;
 
                            end if;
+                        end loop;
 
-                        elsif is_esse(next_word) or is_fuisse(next_word)  then     --  On NEXT_WORD
+                        if k = nk  then      --  There was a PPL hit
+                       clear_pas_nom_ppl:
+                           declare
+                              j : integer := pa_last;
+                           begin
+                              while j >= 1  loop        --  Sweep backwards to kill empty suffixes
+                                 if ((pa(j).ir.qual.pofs = prefix) and then (ppl_on))  then
+                                    null;
+                                 elsif ((pa(j).ir.qual.pofs = suffix) and then (ppl_on))  then
+                                    null;
+                                 elsif ((pa(j).ir.qual.pofs = tackon) and then (ppl_on))  then
+                                    null;
 
-                           for i in 1..pa_last  loop    --  Check for PPL
-                              if pa(i).ir.qual.pofs = vpar and then
-                                (((pa(i).ir.qual.vpar.tense_voice_mood = (perf, passive, ppl)) and
-                                is_esse(next_word)) or
-                                ((pa(i).ir.qual.vpar.tense_voice_mood = (fut,  active,  ppl)) or
-                                (pa(i).ir.qual.vpar.tense_voice_mood = (fut,  passive, ppl))) )  then
+                                 elsif pa(j).ir.qual.pofs = vpar and then
+                                   pa(j).ir.qual.vpar.cs = nom  and then
+                                   pa(j).ir.qual.vpar.number = sum_info.number  then
 
-                                 --  There is at least one hit, fix PA, and advance J over the sum
-                                 k := nk;
-
-                              end if;
-                           end loop;
-
-                           if k = nk  then      --  There was a PPL hit
-                          clear_pas_ppl:
-                              declare
-                                 j : integer := pa_last;
-                              begin
-                                 while j >= 1  loop        --  Sweep backwards to kill empty suffixes
-                                    if ((pa(j).ir.qual.pofs = prefix) and then (ppl_on))  then
-                                       null;
-                                    elsif ((pa(j).ir.qual.pofs = suffix) and then (ppl_on))  then
-                                       null;
-                                    elsif ((pa(j).ir.qual.pofs = tackon) and then (ppl_on))  then
-                                       null;
-
-                                    elsif pa(j).ir.qual.pofs = vpar   then
-
-                                       if pa(j).ir.qual.vpar.tense_voice_mood = (perf, passive, ppl)  then
-                                          ppl_on := true;
-
-                                          compound_tvm := (perf, passive, inf);
-
-                                          ppl_info := (pa(j).ir.qual.vpar.con,   --  In this case, there is 1
-                                            pa(j).ir.qual.vpar.cs,    --  although several different
-                                            pa(j).ir.qual.vpar.number,--  dictionary entries may fit
-                                            pa(j).ir.qual.vpar.gender,--  all have same PPL_INFO
-                                            pa(j).ir.qual.vpar.tense_voice_mood);
-                                          ppp_meaning :=
-                                            head("PERF PASSIVE PPL + esse => PERF PASSIVE INF",
-                                            max_meaning_size);
-
-                                       elsif pa(j).ir.qual.vpar.tense_voice_mood = (fut, active,  ppl)  then
-                                          ppl_on := true;
-                                          ppl_info := (pa(j).ir.qual.vpar.con,   --  In this case, there is 1
-                                            pa(j).ir.qual.vpar.cs,    --  although several different
-                                            pa(j).ir.qual.vpar.number,--  dictionary entries may fit
-                                            pa(j).ir.qual.vpar.gender,--  all have same PPL_INFO
-                                            pa(j).ir.qual.vpar.tense_voice_mood);
-                                          if is_esse(next_word)  then
-                                             compound_tvm := (fut, active, inf);
-                                             ppp_meaning := head(
-                                               "FUT ACTIVE PPL + esse => PRES Periphastic/FUT ACTIVE INF - be about/going to",
-                                               max_meaning_size);
-                                             -- also peri COMPOUND_TVM := (PRES, ACTIVE, INF);
-                                          else   --  fuisse
-                                             compound_tvm := (perf, active, inf);
-                                             ppp_meaning := head(
-                                               "FUT ACT PPL+fuisse => PERF ACT INF Periphrastic - to have been about/going to",
-                                               max_meaning_size);
-                                          end if;
-
-                                       elsif pa(j).ir.qual.vpar.tense_voice_mood = (fut, passive, ppl)  then
-                                          ppl_on := true;
-
-                                          ppl_info := (pa(j).ir.qual.vpar.con,   --  In this case, there is 1
-                                            pa(j).ir.qual.vpar.cs,    --  although several different
-                                            pa(j).ir.qual.vpar.number,--  dictionary entries may fit
-                                            pa(j).ir.qual.vpar.gender,--  all have same PPL_INFO
-                                            pa(j).ir.qual.vpar.tense_voice_mood);
-                                          if is_esse(next_word)  then
-                                             compound_tvm := (pres, passive, inf);
-                                             ppp_meaning := head(
-                                               "FUT PASSIVE PPL + esse => PRES PASSIVE INF",
-                                               max_meaning_size);
-                                             -- also peri COMPOUND_TVM := (PRES, ACTIVE, INF);
-                                          else   --  fuisse
-                                             compound_tvm := (perf, passive, inf);
-                                             ppp_meaning := head(
-                                               "FUT PASSIVE PPL + fuisse => PERF PASSIVE INF Periphrastic - about to, going to",
-                                               max_meaning_size);
-                                          end if;
-
-                                       end if;
-                                    else
-                                       pa(j..pa_last-1) := pa(j+1..pa_last);
-                                       pa_last := pa_last - 1;
-                                       ppl_on := false;
-                                    end if;
-                                    j := j - 1;
-                                 end loop;
-                              end clear_pas_ppl;
-
-                              pa_last := pa_last + 1;
-                              pa(pa_last) :=
-                                (head("PPL+" & next_word, max_stem_size),
-                                ((v,
-                                (ppl_info.con,
-                                compound_tvm,
-                                0,
-                                x)
-                                 ), 0, null_ending_record, x, a),
-                                ppp, null_mnpc);
-
-                           end if;
-
-                        elsif is_iri(next_word)  then              --  On NEXT_WORD = sum, esse, iri
-                                                                   --  Look ahead for sum
-
-                           for j in 1..pa_last  loop    --  Check for SUPINE
-                              if pa(j).ir.qual.pofs = supine   and then
-                                pa(j).ir.qual.supine.cs = acc    then
-                                 --  There is at least one hit, fix PA, and advance J over the iri
-                                 k := nk;
-
-                              end if;
-                           end loop;
-
-                           if k = nk  then      --  There was a SUPINE hit
-                          clear_pas_supine:
-                              declare
-                                 j : integer := pa_last;
-                              begin
-                                 while j >= 1  loop        --  Sweep backwards to kill empty suffixes
-                                    if ((pa(j).ir.qual.pofs = prefix) and then (ppl_on))  then
-                                       null;
-                                    elsif ((pa(j).ir.qual.pofs = suffix) and then (ppl_on))  then
-                                       null;
-                                    elsif ((pa(j).ir.qual.pofs = tackon) and then (ppl_on))  then
-                                       null;
-
-                                    elsif pa(j).ir.qual.pofs = supine  and then
-                                      pa(j).ir.qual.supine.cs = acc  then
-
+                                    if pa(j).ir.qual.vpar.tense_voice_mood = (perf, passive, ppl)  then
                                        ppl_on := true;
-                                       supine_info := (pa(j).ir.qual.supine.con,
-                                         pa(j).ir.qual.supine.cs,
-                                         pa(j).ir.qual.supine.number,
-                                         pa(j).ir.qual.supine.gender);
 
-                                       pa_last := pa_last + 1;
-                                       pa(pa_last) :=
-                                         (head("SUPINE + iri", max_stem_size),
-                                         ((v,
-                                         (supine_info.con,
-                                         (fut, passive, inf),
-                                         0,
-                                         x)
-                                          ), 0, null_ending_record, x, a),
-                                         ppp, null_mnpc);
-                                       ppp_meaning := head(
-                                         "SUPINE + iri => FUT PASSIVE INF - to be about/going/ready to be ~",
+                                       case sum_info.tense_voice_mood.tense is  --  Allows PERF for sum
+                                          when pres | perf  =>  compound_tense := perf;
+                                          when impf | plup  =>  compound_tense := plup;
+                                          when fut          =>  compound_tense := futp;
+                                          when others       =>  compound_tense := x;
+                                       end case;
+                                       compound_tvm := (compound_tense, passive, sum_info.tense_voice_mood.mood);
+
+                                       ppl_info := (pa(j).ir.qual.vpar.con,   --  In this case, there is 1
+                                         pa(j).ir.qual.vpar.cs,    --  although several different
+                                         pa(j).ir.qual.vpar.number,--  dictionary entries may fit
+                                         pa(j).ir.qual.vpar.gender,--  all have same PPL_INFO
+                                         pa(j).ir.qual.vpar.tense_voice_mood);
+                                       ppp_meaning :=
+                                         head("PERF PASSIVE PPL + verb TO_BE => PASSIVE perfect system",
                                          max_meaning_size);
 
-                                       k := nk;
+                                    elsif pa(j).ir.qual.vpar.tense_voice_mood = (fut, active,  ppl)  then
+                                       ppl_on := true;
+                                       compound_tense := sum_info.tense_voice_mood.tense;
+                                       compound_tvm := (compound_tense, active, sum_info.tense_voice_mood.mood);
 
-                                    else
-                                       pa(j..pa_last-1) := pa(j+1..pa_last);
-                                       pa_last := pa_last - 1;
-                                       ppl_on := false;
+                                       ppl_info := (pa(j).ir.qual.vpar.con,   --  In this case, there is 1
+                                         pa(j).ir.qual.vpar.cs,    --  although several different
+                                         pa(j).ir.qual.vpar.number,--  dictionary entries may fit
+                                         pa(j).ir.qual.vpar.gender,--  all have same PPL_INFO
+                                         pa(j).ir.qual.vpar.tense_voice_mood);
+                                       ppp_meaning := head(
+                                         "FUT ACTIVE PPL + verb TO_BE => ACTIVE Periphrastic - about to, going to",
+                                         max_meaning_size);
+
+                                    elsif pa(j).ir.qual.vpar.tense_voice_mood = (fut, passive, ppl)  then
+                                       ppl_on := true;
+                                       compound_tense := sum_info.tense_voice_mood.tense;
+                                       compound_tvm := (compound_tense, passive, sum_info.tense_voice_mood.mood);
+
+                                       ppl_info := (pa(j).ir.qual.vpar.con,   --  In this case, there is 1
+                                         pa(j).ir.qual.vpar.cs,    --  although several different
+                                         pa(j).ir.qual.vpar.number,--  dictionary entries may fit
+                                         pa(j).ir.qual.vpar.gender,--  all have same PPL_INFO
+                                         pa(j).ir.qual.vpar.tense_voice_mood);
+                                       ppp_meaning := head(
+                                         "FUT PASSIVE PPL + verb TO_BE => PASSIVE Periphrastic - should/ought/had to",
+                                         max_meaning_size);
+
                                     end if;
-                                    j := j -1;
-                                 end loop;
-                              end clear_pas_supine;
+                                 else
+                                    pa(j..pa_last-1) := pa(j+1..pa_last);
+                                    pa_last := pa_last - 1;
+                                    ppl_on := false;
+                                 end if;
+                                 j := j - 1;
+                              end loop;
+                           end clear_pas_nom_ppl;
+
+                           pa_last := pa_last + 1;
+                           pa(pa_last) :=
+                             (head("PPL+" & next_word, max_stem_size),
+                             ((v,
+                             (ppl_info.con,
+                             compound_tvm,
+                             sum_info.person,
+                             sum_info.number)
+                              ), 0, null_ending_record, x, a),
+                             ppp, null_mnpc);
+
+                        end if;
+
+                     elsif is_esse(next_word) or is_fuisse(next_word)  then     --  On NEXT_WORD
+
+                        for i in 1..pa_last  loop    --  Check for PPL
+                           if pa(i).ir.qual.pofs = vpar and then
+                             (((pa(i).ir.qual.vpar.tense_voice_mood = (perf, passive, ppl)) and
+                             is_esse(next_word)) or
+                             ((pa(i).ir.qual.vpar.tense_voice_mood = (fut,  active,  ppl)) or
+                             (pa(i).ir.qual.vpar.tense_voice_mood = (fut,  passive, ppl))) )  then
+
+                              --  There is at least one hit, fix PA, and advance J over the sum
+                              k := nk;
+
                            end if;
+                        end loop;
 
-                        end if;       --  On NEXT_WORD = sum, esse, iri
+                        if k = nk  then      --  There was a PPL hit
+                       clear_pas_ppl:
+                           declare
+                              j : integer := pa_last;
+                           begin
+                              while j >= 1  loop        --  Sweep backwards to kill empty suffixes
+                                 if ((pa(j).ir.qual.pofs = prefix) and then (ppl_on))  then
+                                    null;
+                                 elsif ((pa(j).ir.qual.pofs = suffix) and then (ppl_on))  then
+                                    null;
+                                 elsif ((pa(j).ir.qual.pofs = tackon) and then (ppl_on))  then
+                                    null;
 
-                     end compounds_with_sum;
-                  end if;       --  On WORDS_MODE(DO_COMPOUNDS)
+                                 elsif pa(j).ir.qual.pofs = vpar   then
 
-                  --========================================================================
-               end if;
+                                    if pa(j).ir.qual.vpar.tense_voice_mood = (perf, passive, ppl)  then
+                                       ppl_on := true;
 
-               if  words_mode(write_output_to_file)      then
-                  list_stems(output, input_word, input_line, pa, pa_last);
-               else
-                  list_stems(current_output, input_word, input_line, pa, pa_last);
-               end if;
+                                       compound_tvm := (perf, passive, inf);
 
-               pa_last := 0;
+                                       ppl_info := (pa(j).ir.qual.vpar.con,   --  In this case, there is 1
+                                         pa(j).ir.qual.vpar.cs,    --  although several different
+                                         pa(j).ir.qual.vpar.number,--  dictionary entries may fit
+                                         pa(j).ir.qual.vpar.gender,--  all have same PPL_INFO
+                                         pa(j).ir.qual.vpar.tense_voice_mood);
+                                       ppp_meaning :=
+                                         head("PERF PASSIVE PPL + esse => PERF PASSIVE INF",
+                                         max_meaning_size);
 
-            exception
-               when others  =>
-                  put_stat("Exception    at "
-                    & head(integer'image(line_number), 8) & head(integer'image(word_number), 4)
-                    & "   " & head(input_word, 28) & "   "  & input_line);
-                  raise;
+                                    elsif pa(j).ir.qual.vpar.tense_voice_mood = (fut, active,  ppl)  then
+                                       ppl_on := true;
+                                       ppl_info := (pa(j).ir.qual.vpar.con,   --  In this case, there is 1
+                                         pa(j).ir.qual.vpar.cs,    --  although several different
+                                         pa(j).ir.qual.vpar.number,--  dictionary entries may fit
+                                         pa(j).ir.qual.vpar.gender,--  all have same PPL_INFO
+                                         pa(j).ir.qual.vpar.tense_voice_mood);
+                                       if is_esse(next_word)  then
+                                          compound_tvm := (fut, active, inf);
+                                          ppp_meaning := head(
+                                            "FUT ACTIVE PPL + esse => PRES Periphastic/FUT ACTIVE INF - be about/going to",
+                                            max_meaning_size);
+                                          -- also peri COMPOUND_TVM := (PRES, ACTIVE, INF);
+                                       else   --  fuisse
+                                          compound_tvm := (perf, active, inf);
+                                          ppp_meaning := head(
+                                            "FUT ACT PPL+fuisse => PERF ACT INF Periphrastic - to have been about/going to",
+                                            max_meaning_size);
+                                       end if;
 
-            end;
+                                    elsif pa(j).ir.qual.vpar.tense_voice_mood = (fut, passive, ppl)  then
+                                       ppl_on := true;
+
+                                       ppl_info := (pa(j).ir.qual.vpar.con,   --  In this case, there is 1
+                                         pa(j).ir.qual.vpar.cs,    --  although several different
+                                         pa(j).ir.qual.vpar.number,--  dictionary entries may fit
+                                         pa(j).ir.qual.vpar.gender,--  all have same PPL_INFO
+                                         pa(j).ir.qual.vpar.tense_voice_mood);
+                                       if is_esse(next_word)  then
+                                          compound_tvm := (pres, passive, inf);
+                                          ppp_meaning := head(
+                                            "FUT PASSIVE PPL + esse => PRES PASSIVE INF",
+                                            max_meaning_size);
+                                          -- also peri COMPOUND_TVM := (PRES, ACTIVE, INF);
+                                       else   --  fuisse
+                                          compound_tvm := (perf, passive, inf);
+                                          ppp_meaning := head(
+                                            "FUT PASSIVE PPL + fuisse => PERF PASSIVE INF Periphrastic - about to, going to",
+                                            max_meaning_size);
+                                       end if;
+
+                                    end if;
+                                 else
+                                    pa(j..pa_last-1) := pa(j+1..pa_last);
+                                    pa_last := pa_last - 1;
+                                    ppl_on := false;
+                                 end if;
+                                 j := j - 1;
+                              end loop;
+                           end clear_pas_ppl;
+
+                           pa_last := pa_last + 1;
+                           pa(pa_last) :=
+                             (head("PPL+" & next_word, max_stem_size),
+                             ((v,
+                             (ppl_info.con,
+                             compound_tvm,
+                             0,
+                             x)
+                              ), 0, null_ending_record, x, a),
+                             ppp, null_mnpc);
+
+                        end if;
+
+                     elsif is_iri(next_word)  then              --  On NEXT_WORD = sum, esse, iri
+                                                                --  Look ahead for sum
+
+                        for j in 1..pa_last  loop    --  Check for SUPINE
+                           if pa(j).ir.qual.pofs = supine   and then
+                             pa(j).ir.qual.supine.cs = acc    then
+                              --  There is at least one hit, fix PA, and advance J over the iri
+                              k := nk;
+
+                           end if;
+                        end loop;
+
+                        if k = nk  then      --  There was a SUPINE hit
+                       clear_pas_supine:
+                           declare
+                              j : integer := pa_last;
+                           begin
+                              while j >= 1  loop        --  Sweep backwards to kill empty suffixes
+                                 if ((pa(j).ir.qual.pofs = prefix) and then (ppl_on))  then
+                                    null;
+                                 elsif ((pa(j).ir.qual.pofs = suffix) and then (ppl_on))  then
+                                    null;
+                                 elsif ((pa(j).ir.qual.pofs = tackon) and then (ppl_on))  then
+                                    null;
+
+                                 elsif pa(j).ir.qual.pofs = supine  and then
+                                   pa(j).ir.qual.supine.cs = acc  then
+
+                                    ppl_on := true;
+                                    supine_info := (pa(j).ir.qual.supine.con,
+                                      pa(j).ir.qual.supine.cs,
+                                      pa(j).ir.qual.supine.number,
+                                      pa(j).ir.qual.supine.gender);
+
+                                    pa_last := pa_last + 1;
+                                    pa(pa_last) :=
+                                      (head("SUPINE + iri", max_stem_size),
+                                      ((v,
+                                      (supine_info.con,
+                                      (fut, passive, inf),
+                                      0,
+                                      x)
+                                       ), 0, null_ending_record, x, a),
+                                      ppp, null_mnpc);
+                                    ppp_meaning := head(
+                                      "SUPINE + iri => FUT PASSIVE INF - to be about/going/ready to be ~",
+                                      max_meaning_size);
+
+                                    k := nk;
+
+                                 else
+                                    pa(j..pa_last-1) := pa(j+1..pa_last);
+                                    pa_last := pa_last - 1;
+                                    ppl_on := false;
+                                 end if;
+                                 j := j -1;
+                              end loop;
+                           end clear_pas_supine;
+                        end if;
+
+                     end if;       --  On NEXT_WORD = sum, esse, iri
+
+                  end compounds_with_sum;
+               end if;       --  On WORDS_MODE(DO_COMPOUNDS)
+
+               --========================================================================
+            end if;
+
+            if  words_mode(write_output_to_file)      then
+               list_stems(output, input_word, input_line, pa, pa_last);
+            else
+               list_stems(current_output, input_word, input_line, pa, pa_last);
+            end if;
+
+            pa_last := 0;
+
+         exception
+            when others  =>
+               put_stat("Exception    at "
+                 & head(integer'image(line_number), 8) & head(integer'image(word_number), 4)
+                 & "   " & head(input_word, 28) & "   "  & input_line);
+               raise;
+
+         end;
 
 
          ----------------------------------------------------------------------
