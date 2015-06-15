@@ -174,7 +174,7 @@ procedure parse(command_line : string := "") is
             exit when line(j) in 'a'..'z';
             if i < l  and then
               line(i..i+1) = "--"   then
-               exit over_line;      --  the rest of the line is comment
+               return;      --  the rest of the line is comment
             end if;
             j := i + 1;
          end loop;
@@ -242,7 +242,7 @@ procedure parse(command_line : string := "") is
                end;
                    
                search_english(input_word, pofs);
-               exit over_line;
+               return;
                
             end;
                    
