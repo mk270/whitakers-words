@@ -15,7 +15,6 @@
 -- available to anyone who wishes to use them, for whatever purpose.
 
 with text_io;
-with inflections_package; use inflections_package;
 with dictionary_package; use dictionary_package;
 package list_package is
 

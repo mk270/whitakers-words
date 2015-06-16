@@ -17,10 +17,6 @@
 with strings_package; use strings_package;
 with developer_parameters; use developer_parameters;
 with preface;
-with inflections_package; use inflections_package;
-with dictionary_package; use dictionary_package;
-pragma elaborate(inflections_package);
-pragma elaborate(dictionary_package);
 package body addons_package is
    use text_io;
    use part_of_speech_type_io;

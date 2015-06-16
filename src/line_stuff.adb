@@ -24,12 +24,6 @@ with word_support_package; use word_support_package;   --  for STEM_IO
 with strings_package; use strings_package;
 with latin_file_names; use latin_file_names;
 with preface;
-with inflections_package; use inflections_package;
-with dictionary_package; use dictionary_package;
-with addons_package; use addons_package;
-pragma elaborate(inflections_package);
-pragma elaborate(dictionary_package);
-pragma elaborate(addons_package);
 package body line_stuff is
 
    procedure load_dictionary(dict : in out dictionary;

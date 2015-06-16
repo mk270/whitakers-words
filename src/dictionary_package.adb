@@ -15,8 +15,6 @@
 -- available to anyone who wishes to use them, for whatever purpose.
 
 with strings_package; use strings_package;
-with inflections_package; use inflections_package;
-pragma elaborate(inflections_package);
 package body dictionary_package is
    use stem_key_type_io;
 

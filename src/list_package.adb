@@ -23,6 +23,7 @@ with uniques_package; use uniques_package;
 with word_support_package; use word_support_package;
 with developer_parameters; use developer_parameters;
 with word_package; use word_package;
+with inflections_package; use inflections_package;
 with dictionary_form;
 with put_example_line;
 with list_sweep;
