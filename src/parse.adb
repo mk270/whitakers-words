@@ -52,13 +52,12 @@ procedure parse(command_line : string := "") is
    trpa : parse_array(1..tricks_max) := (others => null_parse_record);
    pa_last, sypa_last, trpa_last : integer := 0;
    
-   type verb_to_be_opt is (ok, no_match);
-   type verb_to_be (option : verb_to_be_opt) is
+   type verb_to_be (matches : boolean) is
       record
-         case option is
-            when ok =>
+         case matches is
+            when true =>
                verb_rec : verb_record;
-            when no_match =>
+            when false =>
                null;
          end case;
       end record;
@@ -102,27 +101,29 @@ procedure parse(command_line : string := "") is
 
    begin
       if t = ""  then
-         return (option => no_match);
+         return verb_to_be'(matches => false);
       elsif t(t'first) /= 's'  and
         t(t'first) /= 'e'  and
         t(t'first) /= 'f'      then
-         return (option => no_match);
+         return verb_to_be'(matches => false);
       end if;
       for l in mood_type range ind..sub  loop
          for k in tense_type range pres..futp  loop
             for j in number_type range s..p  loop
                for i in person_type range 1..3  loop
                   if trim(t) = trim(sa(l, k, j, i))  then
-                     return (
-                       option => ok,
-                       verb_rec => ((5, 1), (k, active, l), i, j)
+                     return verb_to_be'(
+                          matches => true,
+                          verb_rec => ((5, 1), (k, active, l), i, j)
                             );
                   end if;
                end loop;
             end loop;
          end loop;
       end loop;
-      return (option => no_match);
+      return verb_to_be'(
+        matches => false
+             );
    end is_sum;
    
 
@@ -514,7 +515,6 @@ procedure parse(command_line : string := "") is
                         return trim(nw);
                      end next_word;
                      
-                     tmp : verb_to_be := (option => no_match);
                      is_verb_to_be : boolean := false;
                      
                   begin
@@ -522,14 +522,17 @@ procedure parse(command_line : string := "") is
                      --  Look ahead for sum
                      look_ahead;
                      
-                     tmp := is_sum(next_word);
-                     case tmp.option is
-                        when ok =>
-                           is_verb_to_be := true;
-                           sum_info := tmp.verb_rec;
-                        when no_match =>
-                           is_verb_to_be := false;
-                     end case;
+                     declare
+                        tmp : verb_to_be := is_sum(next_word);
+                     begin
+                        case tmp.matches is
+                           when true =>
+                              sum_info := tmp.verb_rec;
+                           when false =>
+                              null;
+                        end case;
+                        is_verb_to_be := tmp.matches;
+                     end;
                      
                      if is_verb_to_be then                 --  On NEXT_WORD = sum, esse, iri
 
