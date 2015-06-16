@@ -1416,9 +1416,12 @@ package body word_package is
                         dict_io.set_index(dict_file(pdl(j).d_k), pdl(j).ds.mnpc);
                         dict_io.read(dict_file(pdl(j).d_k), de);
                         mean := de.mean;
-
-                        if (trim(mean)(1..4) = "(w/-"  and then  --  Does attached PACKON agree
-                              trim(mean)(5..4+packon_length) = trim(packons(k).tack))   then
+                        
+                        -- there is no way this condition can be true;
+                        -- packon_length - 1 /= packon_length
+                        if (trim(mean)(1..4) = "(w/-" and then  --  Does attached PACKON agree
+                            trim(mean)(5..4+packon_length) = trim(packons(k).tack))   then
+                           
                            if (pdl(j).ds.part.pack.decl = sl(m).ir.qual.pron.decl)   then  --  or
                               if packon_first_hit then
                                  pa_last := pa_last + 1;
