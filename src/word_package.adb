@@ -866,11 +866,7 @@ package body word_package is
                  (pdl_part.pofs = prefix.entr.root)  then  --  or part mod by suf
                   null;
                elsif (prefix.entr.root = x)  then  --   or ROOT = X
-                  if pdl_p = n or pdl_p = pron or
-                    pdl_p = adj or pdl_p = adv or pdl_p = v  then
-                     --  Dont prefix PREP, CONJ, ...
-                     null;
-                  end if;
+                  null;
                else
                   goto end_of_pdl_loop;
                end if;
