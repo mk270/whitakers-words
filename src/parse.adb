@@ -152,10 +152,11 @@ procedure parse(command_line : string := "") is
       
       entering_pa_last := pa_last;
       if pa_last > 0 then enclitic_limit := 1; end if;
-  loop_over_enclitic_tackons:
+      
+      -- loop_over_enclitic_tackons:
       for i in 1..enclitic_limit  loop   --  If have parse, only do que of que, ne, ve, (est)
          
-     remove_a_tackon:
+         -- remove_a_tackon:
          declare
             less : constant string := subtract_tackon(try, tackons(i));
             save_pa_last  : integer := 0;
@@ -212,10 +213,10 @@ procedure parse(command_line : string := "") is
                   
                   have_done_enclitic := true;
                end if;
-               exit loop_over_enclitic_tackons;
+               return;
             end if;
-         end remove_a_tackon;
-      end loop loop_over_enclitic_tackons;
+         end;
+      end loop;
    end enclitic;
    
    
