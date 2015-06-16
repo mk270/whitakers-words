@@ -141,6 +141,85 @@ procedure parse(command_line : string := "") is
       return trim(t) = "iri";
    end is_iri;
    
+   procedure enclitic(input_word : string; 
+                      entering_pa_last : in out integer;
+                      have_done_enclitic : in out boolean) is
+      save_do_only_fixes : constant boolean := words_mdev(do_only_fixes);
+      enclitic_limit : integer := 4;
+      try : constant string := lower_case(input_word);
+   begin
+      if have_done_enclitic  then    return;   end if;
+      
+      entering_pa_last := pa_last;
+      if pa_last > 0 then enclitic_limit := 1; end if;
+  loop_over_enclitic_tackons:
+      for i in 1..enclitic_limit  loop   --  If have parse, only do que of que, ne, ve, (est)
+         
+     remove_a_tackon:
+         declare
+            less : constant string := subtract_tackon(try, tackons(i));
+            save_pa_last  : integer := 0;
+         begin
+            if less  /= try  then       --  LESS is less
+                                        --WORDS_MODE(DO_FIXES) := FALSE;
+               word_package.word(less, pa, pa_last);
+               
+               if pa_last = 0  then
+
+                  save_pa_last := pa_last;
+                  try_slury(less, pa, pa_last, line_number, word_number);
+                  if save_pa_last /= 0   then
+                     if (pa_last - 1) - save_pa_last = save_pa_last  then
+                        pa_last := save_pa_last;
+                     end if;
+                  end if;
+                           
+               end if;
+                        
+               --  Do not SYNCOPE if there is a verb TO_BE or compound already there
+               --  I do this here and below, it might be combined but it workd now
+               for i in 1..pa_last  loop
+                  if pa(i).ir.qual.pofs = v and then
+                    pa(i).ir.qual.v.con = (5, 1)  then
+                     no_syncope := true;
+                  end if;
+               end loop;
+
+               sypa_last := 0;
+               if words_mdev(do_syncope)  and not no_syncope  then
+                  syncope(less, sypa, sypa_last);  --  Want SYNCOPE second to make cleaner LIST
+                  
+                  pa_last := pa_last + sypa_last;   --  Make syncope another array to avoid PA_LAST = 0 problems
+                  pa(1..pa_last) := pa(1..pa_last-sypa_last) & sypa(1..sypa_last);  --  Add SYPA to PA
+                  sypa(1..syncope_max) := (1..syncope_max => null_parse_record);   --  Clean up so it does not repeat
+                  sypa_last := 0;
+               end if;
+               no_syncope := false;
+               --  Restore FIXES
+               --WORDS_MODE(DO_FIXES) := SAVE_DO_FIXES;
+               
+               words_mdev(do_only_fixes) := true;
+               word(input_word, pa, pa_last);
+               words_mdev(do_only_fixes) := save_do_only_fixes;
+               
+               if pa_last > entering_pa_last  then      --  have a possible word
+                  pa_last := pa_last + 1;
+                  pa(entering_pa_last+2..pa_last) :=
+                    pa(entering_pa_last+1..pa_last-1);
+                  pa(entering_pa_last+1) := (tackons(i).tack,
+                    ((tackon, null_tackon_record), 0, null_ending_record, x, x),
+                    addons, dict_io.count(tackons(i).mnpc));
+                  
+                  have_done_enclitic := true;
+               end if;
+               exit loop_over_enclitic_tackons;
+            end if;
+         end remove_a_tackon;
+      end loop loop_over_enclitic_tackons;
+   end enclitic;
+   
+   
+   
    procedure parse_line(input_line : string) is
       l : integer := trim(input_line)'last;
       --LINE : STRING(1..2500) := (others => ' ');
@@ -254,81 +333,6 @@ procedure parse(command_line : string := "") is
             entering_trpa_last    : integer := 0;
             have_done_enclitic : boolean := false;
 
-            procedure enclitic is
-               save_do_only_fixes : constant boolean := words_mdev(do_only_fixes);
-               enclitic_limit : integer := 4;
-               try : constant string := lower_case(input_word);
-            begin
-               if have_done_enclitic  then    return;   end if;
-
-               entering_pa_last := pa_last;
-               if pa_last > 0 then enclitic_limit := 1; end if;
-           loop_over_enclitic_tackons:
-               for i in 1..enclitic_limit  loop   --  If have parse, only do que of que, ne, ve, (est)
-
-              remove_a_tackon:
-                  declare
-                     less : constant string :=
-                       subtract_tackon(try, tackons(i));
-                     save_pa_last  : integer := 0;
-                  begin
-                     if less  /= try  then       --  LESS is less
-                                                 --WORDS_MODE(DO_FIXES) := FALSE;
-                        word_package.word(less, pa, pa_last);
-
-                        if pa_last = 0  then
-
-                           save_pa_last := pa_last;
-                           try_slury(less, pa, pa_last, line_number, word_number);
-                           if save_pa_last /= 0   then
-                              if (pa_last - 1) - save_pa_last = save_pa_last  then
-                                 pa_last := save_pa_last;
-                              end if;
-                           end if;
-                           
-                        end if;
-                        
-                        --  Do not SYNCOPE if there is a verb TO_BE or compound already there
-                        --  I do this here and below, it might be combined but it workd now
-                        for i in 1..pa_last  loop
-                           if pa(i).ir.qual.pofs = v and then
-                             pa(i).ir.qual.v.con = (5, 1)  then
-                              no_syncope := true;
-                           end if;
-                        end loop;
-
-                        sypa_last := 0;
-                        if words_mdev(do_syncope)  and not no_syncope  then
-                           syncope(less, sypa, sypa_last);  --  Want SYNCOPE second to make cleaner LIST
-
-                           pa_last := pa_last + sypa_last;   --  Make syncope another array to avoid PA_LAST = 0 problems
-                           pa(1..pa_last) := pa(1..pa_last-sypa_last) & sypa(1..sypa_last);  --  Add SYPA to PA
-                           sypa(1..syncope_max) := (1..syncope_max => null_parse_record);   --  Clean up so it does not repeat
-                           sypa_last := 0;
-                        end if;
-                        no_syncope := false;
-                        --  Restore FIXES
-                        --WORDS_MODE(DO_FIXES) := SAVE_DO_FIXES;
-
-                        words_mdev(do_only_fixes) := true;
-                        word(input_word, pa, pa_last);
-                        words_mdev(do_only_fixes) := save_do_only_fixes;
-
-                        if pa_last > entering_pa_last  then      --  have a possible word
-                           pa_last := pa_last + 1;
-                           pa(entering_pa_last+2..pa_last) :=
-                             pa(entering_pa_last+1..pa_last-1);
-                           pa(entering_pa_last+1) := (tackons(i).tack,
-                             ((tackon, null_tackon_record), 0, null_ending_record, x, x),
-                             addons, dict_io.count(tackons(i).mnpc));
-
-                           have_done_enclitic := true;
-                        end if;
-                        exit loop_over_enclitic_tackons;
-                     end if;
-                  end remove_a_tackon;
-               end loop loop_over_enclitic_tackons;
-            end enclitic;
 
             procedure tricks_enclitic is
                try : constant string := lower_case(input_word);
@@ -396,7 +400,7 @@ procedure parse(command_line : string := "") is
 
                --  There may be a vaild simple parse, if so it is most probable
                --  But I have to allow for the possibility that -que is answer, not colloque V
-               enclitic;
+               enclitic(input_word, entering_pa_last, have_done_enclitic);
 
                --  Restore FIXES
                words_mode(do_fixes) := save_do_fixes;
@@ -416,7 +420,7 @@ procedure parse(command_line : string := "") is
                   end if;
                   no_syncope := false;
 
-                  enclitic;
+                  enclitic(input_word, entering_pa_last, have_done_enclitic);
 
                   words_mdev(do_only_fixes) := save_do_only_fixes;
                end if;
