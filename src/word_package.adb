@@ -345,8 +345,7 @@ package body word_package is
       dict_io.open(dict_file(d_k), dict_io.in_file,
                    add_file_name_extension(dict_file_name,
                                            dictionary_kind'image(d_k)));
-      load_indices_from_indx_file(add_file_name_extension(indx_file_name,
-                                                          dictionary_kind'image(d_k)), d_k);
+      load_indices_from_indx_file(d_k);
       dictionary_available(d_k) := true;
 
    exception

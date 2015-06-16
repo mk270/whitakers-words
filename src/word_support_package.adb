@@ -178,8 +178,7 @@ package body word_support_package is
 
    end load_bdl_from_disk;
 
-   procedure load_indices_from_indx_file(indxfile_name : string;
-                                         d_k : dictionary_kind) is
+   procedure load_indices_from_indx_file(d_k : dictionary_kind) is
       use text_io;
       use inflections_package.integer_io;
       use stem_io;

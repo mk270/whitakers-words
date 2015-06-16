@@ -76,8 +76,7 @@ package word_support_package is
                         d_k : dictionary_file_kind := default_dictionary_file_kind)
                        return stem_io.count;
 
-   procedure load_indices_from_indx_file(indxfile_name : string;
-                                         d_k : dictionary_kind);
+   procedure load_indices_from_indx_file(d_k : dictionary_kind);
 
    procedure load_bdl_from_disk;
 
