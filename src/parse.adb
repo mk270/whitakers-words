@@ -219,6 +219,39 @@ procedure parse(command_line : string := "") is
       end loop;
    end enclitic;
    
+
+   procedure tricks_enclitic(input_word : string;
+                             entering_trpa_last : in out integer;
+                             have_done_enclitic : boolean) is
+               try : constant string := lower_case(input_word);
+            begin
+               if have_done_enclitic  then    return;   end if;
+
+               entering_trpa_last := trpa_last;
+           loop_over_enclitic_tackons:
+               for i in 1..4  loop   --  que, ne, ve, (est)
+
+              remove_a_tackon:
+                  declare
+                     less : constant string :=
+                       subtract_tackon(try, tackons(i));
+                  begin
+                     if less  /= try  then       --  LESS is less
+                        try_tricks(less, trpa, trpa_last, line_number, word_number);
+                        
+                        if trpa_last > entering_trpa_last  then      --  have a possible word
+                           trpa_last := trpa_last + 1;
+                           trpa(entering_trpa_last+2..trpa_last) :=
+                             trpa(entering_trpa_last+1..trpa_last-1);
+                           trpa(entering_trpa_last+1) := (tackons(i).tack,
+                             ((tackon, null_tackon_record), 0, null_ending_record, x, x),
+                             addons, dict_io.count(tackons(i).mnpc));
+                        end if;
+                        exit loop_over_enclitic_tackons;
+                     end if;
+                  end remove_a_tackon;
+               end loop loop_over_enclitic_tackons;
+            end tricks_enclitic;
    
    
    procedure parse_line(input_line : string) is
@@ -335,37 +368,6 @@ procedure parse(command_line : string := "") is
             have_done_enclitic : boolean := false;
 
 
-            procedure tricks_enclitic is
-               try : constant string := lower_case(input_word);
-            begin
-               if have_done_enclitic  then    return;   end if;
-
-               entering_trpa_last := trpa_last;
-           loop_over_enclitic_tackons:
-               for i in 1..4  loop   --  que, ne, ve, (est)
-
-              remove_a_tackon:
-                  declare
-                     less : constant string :=
-                       subtract_tackon(try, tackons(i));
-                  begin
-                     if less  /= try  then       --  LESS is less
-                        try_tricks(less, trpa, trpa_last, line_number, word_number);
-                        
-                        if trpa_last > entering_trpa_last  then      --  have a possible word
-                           trpa_last := trpa_last + 1;
-                           trpa(entering_trpa_last+2..trpa_last) :=
-                             trpa(entering_trpa_last+1..trpa_last-1);
-                           trpa(entering_trpa_last+1) := (tackons(i).tack,
-                             ((tackon, null_tackon_record), 0, null_ending_record, x, x),
-                             addons, dict_io.count(tackons(i).mnpc));
-                        end if;
-                        exit loop_over_enclitic_tackons;
-                     end if;
-                  end remove_a_tackon;
-               end loop loop_over_enclitic_tackons;
-            end tricks_enclitic;
-
             procedure pass(input_word : string) is
                --  This is the core logic of the program, everything else is details
                save_do_fixes : constant boolean := words_mode(do_fixes);
@@ -448,7 +450,7 @@ procedure parse(command_line : string := "") is
                   words_mode(do_tricks) := false;  --  Turn it off so wont be circular
                   try_tricks(input_word, trpa, trpa_last, line_number, word_number);
                   if trpa_last = 0  then
-                     tricks_enclitic;
+                     tricks_enclitic(input_word, entering_trpa_last, have_done_enclitic);
                   end if;
                   words_mode(do_tricks) := true;   --  Turn it back on
                end if;
