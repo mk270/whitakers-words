@@ -523,7 +523,7 @@ procedure parse(command_line : string := "") is
                      look_ahead;
                      
                      declare
-                        tmp : verb_to_be := is_sum(next_word);
+                        tmp : constant verb_to_be := is_sum(next_word);
                      begin
                         case tmp.matches is
                            when true =>
