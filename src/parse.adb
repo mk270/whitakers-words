@@ -257,66 +257,66 @@ procedure parse(command_line : string := "") is
                   entering_pa_last : in out integer;
                   have_done_enclitic : in out boolean) 
    is
-               --  This is the core logic of the program, everything else is details
-               save_do_fixes : constant boolean := words_mode(do_fixes);
-               save_do_only_fixes : constant boolean := words_mdev(do_only_fixes);
-            begin
-               --  Do straight WORDS without FIXES/TRICKS, is the word in the dictionary
-               words_mode(do_fixes) := false;
-               roman_numerals(input_word, pa, pa_last);
-               word(input_word, pa, pa_last);
+      --  This is the core logic of the program, everything else is details
+      save_do_fixes : constant boolean := words_mode(do_fixes);
+      save_do_only_fixes : constant boolean := words_mdev(do_only_fixes);
+   begin
+      --  Do straight WORDS without FIXES/TRICKS, is the word in the dictionary
+      words_mode(do_fixes) := false;
+      roman_numerals(input_word, pa, pa_last);
+      word(input_word, pa, pa_last);
+      
+      if pa_last = 0  then
+         try_slury(input_word, pa, pa_last, line_number, word_number);
+      end if;
 
-               if pa_last = 0  then
-                  try_slury(input_word, pa, pa_last, line_number, word_number);
-               end if;
-
-               --  Do not SYNCOPE if there is a verb TO_BE or compound already there
-               for i in 1..pa_last  loop
-                  if pa(i).ir.qual.pofs = v and then
-                    pa(i).ir.qual.v.con = (5, 1)  then
-                     no_syncope := true;
-                  end if;
-               end loop;
+      --  Do not SYNCOPE if there is a verb TO_BE or compound already there
+      for i in 1..pa_last  loop
+         if pa(i).ir.qual.pofs = v and then
+           pa(i).ir.qual.v.con = (5, 1)  then
+            no_syncope := true;
+         end if;
+      end loop;
                
-               --  Pure SYNCOPE
-               sypa_last := 0;
-               if words_mdev(do_syncope)  and not no_syncope  then
-                  syncope(input_word, sypa, sypa_last);
-                  pa_last := pa_last + sypa_last;   --  Make syncope another array to avoid PA-LAST = 0 problems
-                  pa(1..pa_last) := pa(1..pa_last-sypa_last) & sypa(1..sypa_last);  --  Add SYPA to PA
-                  sypa(1..syncope_max) := (1..syncope_max => null_parse_record);   --  Clean up so it does not repeat
-                  sypa_last := 0;
-               end if;
-               no_syncope := false;
+      --  Pure SYNCOPE
+      sypa_last := 0;
+      if words_mdev(do_syncope)  and not no_syncope  then
+         syncope(input_word, sypa, sypa_last);
+         pa_last := pa_last + sypa_last;   --  Make syncope another array to avoid PA-LAST = 0 problems
+         pa(1..pa_last) := pa(1..pa_last-sypa_last) & sypa(1..sypa_last);  --  Add SYPA to PA
+         sypa(1..syncope_max) := (1..syncope_max => null_parse_record);   --  Clean up so it does not repeat
+         sypa_last := 0;
+      end if;
+      no_syncope := false;
+               
+      --  There may be a vaild simple parse, if so it is most probable
+      --  But I have to allow for the possibility that -que is answer, not colloque V
+      enclitic(input_word, entering_pa_last, have_done_enclitic);
 
-               --  There may be a vaild simple parse, if so it is most probable
-               --  But I have to allow for the possibility that -que is answer, not colloque V
-               enclitic(input_word, entering_pa_last, have_done_enclitic);
+      --  Restore FIXES
+      words_mode(do_fixes) := save_do_fixes;
 
-               --  Restore FIXES
-               words_mode(do_fixes) := save_do_fixes;
-
-               --  Now with only fixes
-               if pa_last = 0  and then
-                 words_mode(do_fixes)  then
-                  words_mdev(do_only_fixes) := true;
-                  word(input_word, pa, pa_last);
-                  sypa_last := 0;
-                  if words_mdev(do_syncope)  and not no_syncope  then
-                     syncope(input_word, sypa, sypa_last);
-                     pa_last := pa_last + sypa_last;   --  Make syncope another array to avoid PA-LAST = 0 problems
-                     pa(1..pa_last) := pa(1..pa_last-sypa_last) & sypa(1..sypa_last);  --  Add SYPA to PA
-                     sypa(1..syncope_max) := (1..syncope_max => null_parse_record);   --  Clean up so it does not repeat
-                     sypa_last := 0;
-                  end if;
-                  no_syncope := false;
-
-                  enclitic(input_word, entering_pa_last, have_done_enclitic);
-
-                  words_mdev(do_only_fixes) := save_do_only_fixes;
-               end if;
-
-            end pass;
+      --  Now with only fixes
+      if pa_last = 0  and then
+        words_mode(do_fixes)  then
+         words_mdev(do_only_fixes) := true;
+         word(input_word, pa, pa_last);
+         sypa_last := 0;
+         if words_mdev(do_syncope)  and not no_syncope  then
+            syncope(input_word, sypa, sypa_last);
+            pa_last := pa_last + sypa_last;   --  Make syncope another array to avoid PA-LAST = 0 problems
+            pa(1..pa_last) := pa(1..pa_last-sypa_last) & sypa(1..sypa_last);  --  Add SYPA to PA
+            sypa(1..syncope_max) := (1..syncope_max => null_parse_record);   --  Clean up so it does not repeat
+            sypa_last := 0;
+         end if;
+         no_syncope := false;
+         
+         enclitic(input_word, entering_pa_last, have_done_enclitic);
+         
+         words_mdev(do_only_fixes) := save_do_only_fixes;
+      end if;
+      
+   end pass;
    
    procedure parse_line(input_line : string) is
       l : integer := trim(input_line)'last;
