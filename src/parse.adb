@@ -228,10 +228,9 @@ procedure parse(command_line : string := "") is
       if have_done_enclitic  then    return;   end if;
       
       entering_trpa_last := trpa_last;
-  loop_over_enclitic_tackons:
+
       for i in 1..4  loop   --  que, ne, ve, (est)
 
-     remove_a_tackon:
          declare
             less : constant string :=
               subtract_tackon(try, tackons(i));
@@ -247,10 +246,10 @@ procedure parse(command_line : string := "") is
                     ((tackon, null_tackon_record), 0, null_ending_record, x, x),
                     addons, dict_io.count(tackons(i).mnpc));
                end if;
-               exit loop_over_enclitic_tackons;
+               return;
             end if;
-         end remove_a_tackon;
-      end loop loop_over_enclitic_tackons;
+         end;
+      end loop;
    end tricks_enclitic;
    
    procedure parse_line(input_line : string) is
