@@ -391,43 +391,10 @@ procedure list_sweep(pa : in out parse_array; pa_last : in out integer) is
                  ((de.tran.freq = x) or else (de.tran.freq < d)) then  --     --  E for DICTLINE is uncommon  !!!!
                   not_only_uncommon := true;
                end if;
-               --   TEXT_IO.PUT_LINE("NOT_ONLY_ARCHAIC = " & BOOLEAN'IMAGE(NOT_ONLY_ARCHAIC));
-               --   TEXT_IO.PUT_LINE("NOT_ONLY_MEDIEVAL = " & BOOLEAN'IMAGE(NOT_ONLY_MEDIEVAL));
-               --   TEXT_IO.PUT_LINE("NOT_ONLY_UNCOMMON = " & BOOLEAN'IMAGE(NOT_ONLY_UNCOMMON));
-
-               --                  if ((SL(I).IR.QUAL.POFS = N) and then (SL(I).IR.QUAL.N.CS /= VOC))  or
-               --                     ((SL(I).IR.QUAL.POFS = ADJ) and then (SL(I).IR.QUAL.ADJ.CS /= VOC))  or
-               --                     ((SL(I).IR.QUAL.POFS = VPAR) and then (SL(I).IR.QUAL.VPAR.CS /= VOC))  then
-               --                     NOT_ONLY_VOCATIVE := TRUE;
-               --                  end if;
-               --                  if (SL(I).IR.QUAL.POFS = N) and then (SL(I).IR.QUAL.N.CS /= LOC)  then
-               --                     NOT_ONLY_LOCATIVE := TRUE;
-               --                  end if;
-               --                  if (SL(I).IR.QUAL.POFS = ADJ) and then (SL(I).IR.QUAL.ADJ.CS /= VOC)  then
-               --                     NOT_ONLY_VOCATIVE := TRUE;
-               --                  end if;
-               --                  if (SL(I).IR.QUAL.POFS = ADJ) and then (SL(I).IR.QUAL.ADJ.CS /= LOC)  then
-               --                     NOT_ONLY_LOCATIVE := TRUE;
-               --                  end if;
-               --                  if (SL(I).IR.QUAL.POFS = VPAR) and then (SL(I).IR.QUAL.VPAR.CS /= VOC)  then
-               --                     NOT_ONLY_VOCATIVE := TRUE;
-               --                  end if;
-               --                  if (SL(I).IR.QUAL.POFS = VPAR) and then (SL(I).IR.QUAL.VPAR.CS /= LOC)  then
-               --                     NOT_ONLY_LOCATIVE := TRUE;
-               --                  end if;
-               --    TEXT_IO.PUT_LINE("NOT_ONLY_VOCATIVE = " & BOOLEAN'IMAGE(NOT_ONLY_VOCATIVE));
-               --    TEXT_IO.PUT_LINE("NOT_ONLY_LOCATIVE = " & BOOLEAN'IMAGE(NOT_ONLY_LOCATIVE));
 
                if sl(i).ir.qual.pofs = n  and then
                  sl(i).ir.qual.n.decl = (9, 8) then
                   has_noun_abbreviation := true;
-                  --TEXT_IO.PUT_LINE("Has noun abbreviation   I = " & INTEGER'IMAGE(I));
-                  --       elsif SL(I).IR.QUAL.POFS = ADJ  and then
-                  --          SL(I).IR.QUAL.ADJ.DECL = (9, 8) then
-                  --         HAS_ADJECTIVE_ABBREVIATION := TRUE;
-                  --       elsif SL(I).IR.QUAL.POFS = V  and then
-                  --          SL(I).IR.QUAL.V.CON = (9, 8) then
-                  --         HAS_VERB_ABBREVIATION := TRUE;
                end if;
             end if;
          end loop;
