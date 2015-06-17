@@ -99,16 +99,10 @@ over_lines:
           begin
 
              de.stems(1) := s(start_stem_1..max_stem_size);
-             --NEW_LINE; PUT(DE.STEMS(1));
              de.stems(2) := s(start_stem_2..start_stem_2+max_stem_size-1);
              de.stems(3) := s(start_stem_3..start_stem_3+max_stem_size-1);
              de.stems(4) := s(start_stem_4..start_stem_4+max_stem_size-1);
-             --PUT('#'); PUT(INTEGER'IMAGE(L)); PUT(INTEGER'IMAGE(LAST));
-             --PUT('@');
              get(s(start_part..last), de.part, l);
-             --PUT('%'); PUT(INTEGER'IMAGE(L)); PUT(INTEGER'IMAGE(LAST));
-             --PUT('&'); PUT(S(L+1..LAST)); PUT('3');
-             --GET(S(L+1..LAST), DE.PART.POFS, DE.PART.POFS.KIND, L);
              get(s(l+1..last), de.tran.age, l);
              get(s(l+1..last), de.tran.area, l);
              get(s(l+1..last), de.tran.geo, l);
@@ -297,11 +291,6 @@ over_lines:
              put(stemlist, de.part); put(stemlist, ' ');
              set_col(stemlist, 45);
              put(stemlist, i, 2); put(stemlist, ' ');
-             --      PUT(STEMLIST, DE.TRAN.AGE); PUT(STEMLIST, ' ');
-             --      PUT(STEMLIST, DE.TRAN.AREA); PUT(STEMLIST, ' ');
-             --      PUT(STEMLIST, DE.TRAN.GEO); PUT(STEMLIST, ' ');
-             --      PUT(STEMLIST, DE.TRAN.FREQ); PUT(STEMLIST, ' ');
-             --      PUT(STEMLIST, DE.TRAN.SOURCE); PUT(STEMLIST, ' ');
              set_col(stemlist, 50);
              integer_io.put(stemlist, integer(j), 6); new_line(stemlist);
           end loop;
