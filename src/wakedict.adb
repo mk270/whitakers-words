@@ -19,7 +19,6 @@ with strings_package; use strings_package;
 with latin_file_names; use latin_file_names;
 with inflections_package; use inflections_package;
 with dictionary_package; use dictionary_package;
-with line_stuff; use line_stuff;
 procedure wakedict is
    package integer_io is new text_io.integer_io(integer);
    use text_io;
@@ -37,7 +36,7 @@ procedure wakedict is
 
    porting : constant boolean := false;
 
-   be_ve : verb_entry := (con => (5, 1), kind => to_be);
+   be_ve : constant verb_entry := (con => (5, 1), kind => to_be);
 
    d_k : dictionary_kind := xxx;       --  ######################
 
@@ -57,8 +56,9 @@ procedure wakedict is
    input, stemlist : text_io.file_type;
    de : dictionary_entry;
 
-   s, line, blank_line : string(1..400) := (others => ' ');
-   l, ll, last : integer := 0;
+   blank_line : constant string(1..400) := (others => ' ');
+   s, line : string(1..400) := (others => ' ');
+   l, last : integer := 0;
    j : dict_io.count := 0;
    mean_to_be : constant meaning_type :=
      head("be; exist; (also used to form verb perfect passive tenses)" &
