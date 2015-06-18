@@ -45,12 +45,6 @@ procedure wakedict is
    start_stem_3  : constant := start_stem_2 + max_stem_size + 1;
    start_stem_4  : constant := start_stem_3 + max_stem_size + 1;
    start_part    : constant := start_stem_4 + max_stem_size + 1;
-   start_tran    : constant integer :=
-     start_part +
-     integer(part_entry_io.default_width + 1);
-   finish_line   : constant integer :=
-     start_tran +
-     translation_record_io.default_width - 1;
 
    dictfile : dict_io.file_type;
    input, stemlist : text_io.file_type;
@@ -94,9 +88,6 @@ begin
 
    create(dictfile, out_file, add_file_name_extension(dict_file_name,
                                                       dictionary_kind'image(d_k)));
-
-
-   --  Now do the rest
 over_lines:
     while not end_of_file(input) loop
        s := blank_line;
