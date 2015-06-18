@@ -53,6 +53,12 @@ procedure parse(configuration : configuration_type;
    trpa : parse_array(1..tricks_max) := (others => null_parse_record);
    pa_last, sypa_last, trpa_last : integer := 0;
    
+   type participle is
+      record
+         ppl_info : vpar_record;
+         compound_tvm : inflections_package.tense_voice_mood_record;
+      end record;
+   
    type verb_to_be (matches : boolean) is
       record
          case matches is
@@ -62,6 +68,20 @@ procedure parse(configuration : configuration_type;
                null;
          end case;
       end record;
+   
+   function get_participle_info(vpar : vpar_record)
+     return vpar_record
+   is
+   begin
+      return (
+        vpar.con,   --  In this case, there is 1
+        vpar.cs,    --  although several different
+        vpar.number,--  dictionary entries may fit
+        vpar.gender,--  all have same PPL_INFO
+        vpar.tense_voice_mood
+             );
+   end get_participle_info;
+   
    
    function is_sum(t : string) return verb_to_be is
       sa : constant array (mood_type range ind..sub,
@@ -579,11 +599,7 @@ procedure parse(configuration : configuration_type;
                                        end case;
                                        compound_tvm := (compound_tense, passive, sum_info.tense_voice_mood.mood);
 
-                                       ppl_info := (pa(j).ir.qual.vpar.con,   --  In this case, there is 1
-                                         pa(j).ir.qual.vpar.cs,    --  although several different
-                                         pa(j).ir.qual.vpar.number,--  dictionary entries may fit
-                                         pa(j).ir.qual.vpar.gender,--  all have same PPL_INFO
-                                         pa(j).ir.qual.vpar.tense_voice_mood);
+                                       ppl_info := get_participle_info(pa(j).ir.qual.vpar);
                                        ppp_meaning :=
                                          head("PERF PASSIVE PPL + verb TO_BE => PASSIVE perfect system",
                                          max_meaning_size);
@@ -593,11 +609,7 @@ procedure parse(configuration : configuration_type;
                                        compound_tense := sum_info.tense_voice_mood.tense;
                                        compound_tvm := (compound_tense, active, sum_info.tense_voice_mood.mood);
 
-                                       ppl_info := (pa(j).ir.qual.vpar.con,   --  In this case, there is 1
-                                         pa(j).ir.qual.vpar.cs,    --  although several different
-                                         pa(j).ir.qual.vpar.number,--  dictionary entries may fit
-                                         pa(j).ir.qual.vpar.gender,--  all have same PPL_INFO
-                                         pa(j).ir.qual.vpar.tense_voice_mood);
+                                       ppl_info := get_participle_info(pa(j).ir.qual.vpar);
                                        ppp_meaning := head(
                                          "FUT ACTIVE PPL + verb TO_BE => ACTIVE Periphrastic - about to, going to",
                                          max_meaning_size);
@@ -607,11 +619,7 @@ procedure parse(configuration : configuration_type;
                                        compound_tense := sum_info.tense_voice_mood.tense;
                                        compound_tvm := (compound_tense, passive, sum_info.tense_voice_mood.mood);
 
-                                       ppl_info := (pa(j).ir.qual.vpar.con,   --  In this case, there is 1
-                                         pa(j).ir.qual.vpar.cs,    --  although several different
-                                         pa(j).ir.qual.vpar.number,--  dictionary entries may fit
-                                         pa(j).ir.qual.vpar.gender,--  all have same PPL_INFO
-                                         pa(j).ir.qual.vpar.tense_voice_mood);
+                                       ppl_info := get_participle_info(pa(j).ir.qual.vpar);
                                        ppp_meaning := head(
                                          "FUT PASSIVE PPL + verb TO_BE => PASSIVE Periphrastic - should/ought/had to",
                                          max_meaning_size);
@@ -674,22 +682,14 @@ procedure parse(configuration : configuration_type;
 
                                        compound_tvm := (perf, passive, inf);
 
-                                       ppl_info := (pa(j).ir.qual.vpar.con,   --  In this case, there is 1
-                                         pa(j).ir.qual.vpar.cs,    --  although several different
-                                         pa(j).ir.qual.vpar.number,--  dictionary entries may fit
-                                         pa(j).ir.qual.vpar.gender,--  all have same PPL_INFO
-                                         pa(j).ir.qual.vpar.tense_voice_mood);
+                                       ppl_info := get_participle_info(pa(j).ir.qual.vpar);
                                        ppp_meaning :=
                                          head("PERF PASSIVE PPL + esse => PERF PASSIVE INF",
                                          max_meaning_size);
 
                                     elsif pa(j).ir.qual.vpar.tense_voice_mood = (fut, active,  ppl)  then
                                        ppl_on := true;
-                                       ppl_info := (pa(j).ir.qual.vpar.con,   --  In this case, there is 1
-                                         pa(j).ir.qual.vpar.cs,    --  although several different
-                                         pa(j).ir.qual.vpar.number,--  dictionary entries may fit
-                                         pa(j).ir.qual.vpar.gender,--  all have same PPL_INFO
-                                         pa(j).ir.qual.vpar.tense_voice_mood);
+                                       ppl_info := get_participle_info(pa(j).ir.qual.vpar);
                                        if is_esse(next_word)  then
                                           compound_tvm := (fut, active, inf);
                                           ppp_meaning := head(
@@ -706,11 +706,7 @@ procedure parse(configuration : configuration_type;
                                     elsif pa(j).ir.qual.vpar.tense_voice_mood = (fut, passive, ppl)  then
                                        ppl_on := true;
 
-                                       ppl_info := (pa(j).ir.qual.vpar.con,   --  In this case, there is 1
-                                         pa(j).ir.qual.vpar.cs,    --  although several different
-                                         pa(j).ir.qual.vpar.number,--  dictionary entries may fit
-                                         pa(j).ir.qual.vpar.gender,--  all have same PPL_INFO
-                                         pa(j).ir.qual.vpar.tense_voice_mood);
+                                       ppl_info := get_participle_info(pa(j).ir.qual.vpar);
                                        if is_esse(next_word)  then
                                           compound_tvm := (pres, passive, inf);
                                           ppp_meaning := head(
