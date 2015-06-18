@@ -55,8 +55,10 @@ procedure parse(configuration : configuration_type;
 
    type participle is
       record
+         ppl_on : boolean;
          ppl_info : vpar_record;
          compound_tvm : inflections_package.tense_voice_mood_record;
+         ppp_meaning : meaning_type;
       end record;
 
    type verb_to_be (matches : boolean) is
@@ -81,6 +83,84 @@ procedure parse(configuration : configuration_type;
         vpar.tense_voice_mood
              );
    end get_participle_info;
+
+   -- we pass in the "default" values of a bunch of variables
+
+   -- this function is called in a loop, which used to overwrite
+   -- the values of this handful of variables, at least one of
+   -- which is a global defined elsewhere
+
+   -- retaining the "defaults" allows us to (re)assign the values
+   -- in the caller, which is effectively a no-op in the fall-through
+   -- code path
+   function get_participle(parsed_verb : vpar_record;
+                           sum_info : verb_record;
+                           default_ppl_on : boolean;
+                           default_compound_tvm : tense_voice_mood_record;
+                           default_ppp_meaning : meaning_type;
+                           default_ppl_info : vpar_record)
+                          return participle
+   is
+      compound_tense : tense_type := pres;
+      compound_tvm : inflections_package.tense_voice_mood_record := (pres, active, ind);
+      ppl_info : vpar_record;
+   begin
+      if parsed_verb.tense_voice_mood = (perf, passive, ppl)  then
+         case sum_info.tense_voice_mood.tense is  --  Allows PERF for sum
+            when pres | perf  =>  compound_tense := perf;
+            when impf | plup  =>  compound_tense := plup;
+            when fut          =>  compound_tense := futp;
+            when others       =>  compound_tense := x;
+         end case;
+         compound_tvm := (compound_tense, passive, sum_info.tense_voice_mood.mood);
+
+         ppl_info := get_participle_info(parsed_verb);
+         ppp_meaning :=
+           head("PERF PASSIVE PPL + verb TO_BE => PASSIVE perfect system",
+           max_meaning_size);
+         return (
+           ppl_on => true,
+           ppl_info => ppl_info,
+           ppp_meaning => ppp_meaning,
+           compound_tvm => compound_tvm
+                );
+      elsif parsed_verb.tense_voice_mood = (fut, active,  ppl)  then
+         compound_tense := sum_info.tense_voice_mood.tense;
+         compound_tvm := (compound_tense, active, sum_info.tense_voice_mood.mood);
+
+         ppl_info := get_participle_info(parsed_verb);
+         ppp_meaning := head(
+           "FUT ACTIVE PPL + verb TO_BE => ACTIVE Periphrastic - about to, going to",
+           max_meaning_size);
+         return (
+           ppl_on => true,
+           ppl_info => ppl_info,
+           ppp_meaning => ppp_meaning,
+           compound_tvm => compound_tvm
+                );
+      elsif parsed_verb.tense_voice_mood = (fut, passive, ppl)  then
+         compound_tense := sum_info.tense_voice_mood.tense;
+         compound_tvm := (compound_tense, passive, sum_info.tense_voice_mood.mood);
+
+         ppl_info := get_participle_info(parsed_verb);
+         ppp_meaning := head(
+           "FUT PASSIVE PPL + verb TO_BE => PASSIVE Periphrastic - should/ought/had to",
+           max_meaning_size);
+         return (
+           ppl_on => true,
+           ppl_info => ppl_info,
+           ppp_meaning => ppp_meaning,
+           compound_tvm => compound_tvm
+                );
+      else
+         return (
+           ppl_on => default_ppl_on,
+           ppl_info => default_ppl_info,
+           ppp_meaning => default_ppp_meaning,
+           compound_tvm => default_compound_tvm
+                );
+      end if;
+   end;
 
 
    function is_sum(t : string) return verb_to_be is
@@ -496,7 +576,6 @@ procedure parse(configuration : configuration_type;
                      nw : string(1..2500) := (others => ' ');
                      nk : integer := 0;
 
-                     compound_tense : inflections_package.tense_type := x;
                      compound_tvm   : inflections_package.tense_voice_mood_record;
                      ppl_on : boolean := false;
 
@@ -587,44 +666,15 @@ procedure parse(configuration : configuration_type;
                                  elsif pa(j).ir.qual.pofs = vpar and then
                                    pa(j).ir.qual.vpar.cs = nom  and then
                                    pa(j).ir.qual.vpar.number = sum_info.number  then
-
-                                    if pa(j).ir.qual.vpar.tense_voice_mood = (perf, passive, ppl)  then
-                                       ppl_on := true;
-
-                                       case sum_info.tense_voice_mood.tense is  --  Allows PERF for sum
-                                          when pres | perf  =>  compound_tense := perf;
-                                          when impf | plup  =>  compound_tense := plup;
-                                          when fut          =>  compound_tense := futp;
-                                          when others       =>  compound_tense := x;
-                                       end case;
-                                       compound_tvm := (compound_tense, passive, sum_info.tense_voice_mood.mood);
-
-                                       ppl_info := get_participle_info(pa(j).ir.qual.vpar);
-                                       ppp_meaning :=
-                                         head("PERF PASSIVE PPL + verb TO_BE => PASSIVE perfect system",
-                                         max_meaning_size);
-
-                                    elsif pa(j).ir.qual.vpar.tense_voice_mood = (fut, active,  ppl)  then
-                                       ppl_on := true;
-                                       compound_tense := sum_info.tense_voice_mood.tense;
-                                       compound_tvm := (compound_tense, active, sum_info.tense_voice_mood.mood);
-
-                                       ppl_info := get_participle_info(pa(j).ir.qual.vpar);
-                                       ppp_meaning := head(
-                                         "FUT ACTIVE PPL + verb TO_BE => ACTIVE Periphrastic - about to, going to",
-                                         max_meaning_size);
-
-                                    elsif pa(j).ir.qual.vpar.tense_voice_mood = (fut, passive, ppl)  then
-                                       ppl_on := true;
-                                       compound_tense := sum_info.tense_voice_mood.tense;
-                                       compound_tvm := (compound_tense, passive, sum_info.tense_voice_mood.mood);
-
-                                       ppl_info := get_participle_info(pa(j).ir.qual.vpar);
-                                       ppp_meaning := head(
-                                         "FUT PASSIVE PPL + verb TO_BE => PASSIVE Periphrastic - should/ought/had to",
-                                         max_meaning_size);
-
-                                    end if;
+                                    declare
+                                       part : constant participle := get_participle(pa(j).ir.qual.vpar, sum_info, ppl_on,
+                                         compound_tvm, ppp_meaning, ppl_info);
+                                    begin
+                                       ppl_on := part.ppl_on;
+                                       ppl_info := part.ppl_info;
+                                       ppp_meaning := part.ppp_meaning;
+                                       compound_tvm := part.compound_tvm;
+                                    end;
                                  else
                                     pa(j..pa_last-1) := pa(j+1..pa_last);
                                     pa_last := pa_last - 1;
