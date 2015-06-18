@@ -20,6 +20,5 @@ procedure meanings is
 begin
    --  The language shift in argumants must take place here
    --  since later parsing of line ignores non-letter characters
-   configuration := only_meanings;
-   words_main;
+   words_main(only_meanings);
 end meanings;

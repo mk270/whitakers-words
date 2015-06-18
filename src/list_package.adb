@@ -161,7 +161,8 @@ package body list_package is
 
    end put_dictionary_form;
 
-   procedure list_stems(output   : text_io.file_type;
+   procedure list_stems(configuration : configuration_type;
+                        output   : text_io.file_type;
                         raw_word : string;
                         input_line : string;
                         pa       : in out parse_array;
@@ -344,7 +345,7 @@ package body list_package is
                --               end if;
                put_inflection_flags;
                text_io.new_line(output);
-               put_example_line(output, sr.ir, dm.de);    --  Only full when DO_EXAMPLES
+               put_example_line(configuration, output, sr.ir, dm.de);    --  Only full when DO_EXAMPLES
             else
                text_io.new_line(output);
             end if;

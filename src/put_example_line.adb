@@ -20,7 +20,8 @@ with dictionary_package; use dictionary_package;
 with config; use config;
 with word_parameters; use word_parameters;
 --with LATIN_DEBUG;
-procedure put_example_line(output : text_io.file_type; ir : in inflection_record;
+procedure put_example_line(configuration : configuration_type;
+                           output : text_io.file_type; ir : in inflection_record;
                                                        de : in dictionary_entry) is
    --      use LATIN_DEBUG;
    vk : verb_kind_type;

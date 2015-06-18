@@ -32,7 +32,8 @@ with put_stat;
 with english_support_package; use english_support_package;
 with search_english;
 pragma elaborate(word_parameters);
-procedure parse(command_line : string := "") is
+procedure parse(configuration : configuration_type;
+                command_line : string := "") is
    use inflections_package.integer_io;
    use inflection_record_io;
    use text_io;
@@ -815,9 +816,11 @@ procedure parse(command_line : string := "") is
             end if;
 
             if  words_mode(write_output_to_file)      then
-               list_stems(output, input_word, input_line, pa, pa_last);
+               list_stems(configuration, output, input_word, 
+                 input_line, pa, pa_last);
             else
-               list_stems(current_output, input_word, input_line, pa, pa_last);
+               list_stems(configuration, current_output, input_word, 
+                 input_line, pa, pa_last);
             end if;
 
             pa_last := 0;

@@ -20,6 +20,5 @@ procedure words is
 begin
    --  The language shift in argumants must take place here
    --  since later parsing of line ignores non-letter characters
-   configuration := developer_version;
-   words_main;
+   words_main(developer_version);
 end words;

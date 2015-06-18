@@ -16,13 +16,15 @@
 
 with text_io;
 with dictionary_package; use dictionary_package;
+with config; use config;
 package list_package is
 
    --  SCROLL_LINE_NUMBER : INTEGER := 0;
    --  OUTPUT_SCROLL_COUNT : INTEGER := 0;
    --
 
-   procedure list_stems(output   : text_io.file_type;
+   procedure list_stems(configuration : configuration_type;
+                        output   : text_io.file_type;
                         raw_word : string;
                         input_line : string;
                         pa       : in out parse_array;
