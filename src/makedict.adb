@@ -15,8 +15,8 @@
 -- available to anyone who wishes to use them, for whatever purpose.
 
 with makedict_main;
-procedure wakedict is
-   porting : constant boolean := false;
+procedure makedict is
+   porting : constant boolean := true;
 begin
    makedict_main(porting);
-end wakedict;
+end makedict;

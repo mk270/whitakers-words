@@ -19,7 +19,7 @@ with strings_package; use strings_package;
 with latin_file_names; use latin_file_names;
 with inflections_package; use inflections_package;
 with dictionary_package; use dictionary_package;
-procedure makedict is
+procedure makedict_main(porting : boolean) is
    package integer_io is new text_io.integer_io(integer);
    use text_io;
    use stem_key_type_io;
@@ -33,8 +33,6 @@ procedure makedict is
    use frequency_type_io;
    use source_type_io;
    use dict_io;
-
-   porting : constant boolean := true;
 
    be_ve : constant verb_entry := (con => (5, 1), kind => to_be);
 
@@ -311,4 +309,4 @@ exception
       integer_io.put(integer(j)); new_line;
       close(stemlist);
 
-end makedict;
+end makedict_main;
