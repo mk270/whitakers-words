@@ -22,13 +22,13 @@ with word_parameters; use word_parameters;
 with developer_parameters; use developer_parameters;
 with word_package; use word_package;
 with parse;
-procedure words is
+procedure words_main is
    input_line  : string(1..250) := (others => ' ');
    arguments_start : integer := 1;
 begin
    --  The language shift in argumants must take place here
    --  since later parsing of line ignores non-letter characters
-   configuration := developer_version;
+   -- configuration := developer_version;
 
    --The main mode of usage for WORDS is a simple call, followed by screen interaction.
    if ada.command_line.argument_count = 0  then      --  Simple WORDS
@@ -152,4 +152,4 @@ begin
       end if;
    end if;
 
-end words;
+end words_main;
