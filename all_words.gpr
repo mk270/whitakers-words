@@ -1,0 +1,9 @@
+aggregate project All_words is
+   for Project_Files use (
+       "words.gpr", "makedict.gpr", "makeefil.gpr", 
+       "makeewds.gpr", "makeinfl.gpr", "makestem.gpr", 
+       "wakedict.gpr", "meanings.gpr"
+   );
+end All_words;
+
+
