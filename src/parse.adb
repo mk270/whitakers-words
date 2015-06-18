@@ -7,10 +7,10 @@
 -- there is no charge. However, just for form, it is Copyrighted
 -- (c). Permission is hereby freely given for any and all use of program
 -- and data. You can sell it as your own, but at least tell me.
--- 
+--
 -- This version is distributed without obligation, but the developer
 -- would appreciate comments and suggestions.
--- 
+--
 -- All parts of the WORDS system, source code and data files, are made freely
 -- available to anyone who wishes to use them, for whatever purpose.
 
@@ -52,13 +52,13 @@ procedure parse(configuration : configuration_type;
    sypa : parse_array(1..syncope_max) := (others => null_parse_record);
    trpa : parse_array(1..tricks_max) := (others => null_parse_record);
    pa_last, sypa_last, trpa_last : integer := 0;
-   
+
    type participle is
       record
          ppl_info : vpar_record;
          compound_tvm : inflections_package.tense_voice_mood_record;
       end record;
-   
+
    type verb_to_be (matches : boolean) is
       record
          case matches is
@@ -68,7 +68,7 @@ procedure parse(configuration : configuration_type;
                null;
          end case;
       end record;
-   
+
    function get_participle_info(vpar : vpar_record)
      return vpar_record
    is
@@ -81,8 +81,8 @@ procedure parse(configuration : configuration_type;
         vpar.tense_voice_mood
              );
    end get_participle_info;
-   
-   
+
+
    function is_sum(t : string) return verb_to_be is
       sa : constant array (mood_type range ind..sub,
         tense_type range pres..futp,
@@ -91,31 +91,31 @@ procedure parse(configuration : configuration_type;
         of string(1..9) :=
         (
         (         --  IND
-        (("sum      ", "es       ", "est      "), 
+        (("sum      ", "es       ", "est      "),
          ("sumus    ", "estis    ", "sunt     ")),
-        (("eram     ", "eras     ", "erat     "), 
+        (("eram     ", "eras     ", "erat     "),
          ("eramus   ", "eratis   ", "erant    ")),
-        (("ero      ", "eris     ", "erit     "), 
+        (("ero      ", "eris     ", "erit     "),
          ("erimus   ", "eritis   ", "erunt    ")),
-        (("fui      ", "fuisti   ", "fuit     "), 
+        (("fui      ", "fuisti   ", "fuit     "),
          ("fuimus   ", "fuistis  ", "fuerunt  ")),
-        (("fueram   ", "fueras   ", "fuerat   "), 
+        (("fueram   ", "fueras   ", "fuerat   "),
          ("fueramus ", "fueratis ", "fuerant  ")),
-        (("fuero    ", "fueris   ", "fuerit   "), 
+        (("fuero    ", "fueris   ", "fuerit   "),
          ("fuerimus ", "fueritis ", "fuerunt  "))
         ),
         (         --  SUB
-        (("sim      ", "sis      ", "sit      "), 
+        (("sim      ", "sis      ", "sit      "),
          ("simus    ", "sitis    ", "sint     ")),
-        (("essem    ", "esses    ", "esset    "), 
+        (("essem    ", "esses    ", "esset    "),
          ("essemus  ", "essetis  ", "essent   ")),
-        (("zzz      ", "zzz      ", "zzz      "), 
+        (("zzz      ", "zzz      ", "zzz      "),
          ("zzz      ", "zzz      ", "zzz      ")),
-        (("fuerim   ", "fueris   ", "fuerit   "), 
+        (("fuerim   ", "fueris   ", "fuerit   "),
          ("fuerimus ", "fueritis ", "fuerint  ")),
-        (("fuissem  ", "fuisses  ", "fuisset  "), 
+        (("fuissem  ", "fuisses  ", "fuisset  "),
          ("fuissemus", "fuissetis", "fuissent ")),
-        (("zzz      ", "zzz      ", "zzz      "), 
+        (("zzz      ", "zzz      ", "zzz      "),
          ("zzz      ", "zzz      ", "zzz      "))
         )
         );
@@ -146,7 +146,7 @@ procedure parse(configuration : configuration_type;
         matches => false
              );
    end is_sum;
-   
+
 
    function is_esse(t : string) return boolean is
    begin
@@ -162,8 +162,8 @@ procedure parse(configuration : configuration_type;
    begin
       return trim(t) = "iri";
    end is_iri;
-   
-   procedure enclitic(input_word : string; 
+
+   procedure enclitic(input_word : string;
                       entering_pa_last : in out integer;
                       have_done_enclitic : in out boolean) is
       save_do_only_fixes : constant boolean := words_mdev(do_only_fixes);
@@ -171,13 +171,13 @@ procedure parse(configuration : configuration_type;
       try : constant string := lower_case(input_word);
    begin
       if have_done_enclitic  then    return;   end if;
-      
+
       entering_pa_last := pa_last;
       if pa_last > 0 then enclitic_limit := 1; end if;
-      
+
       -- loop_over_enclitic_tackons:
       for i in 1..enclitic_limit  loop   --  If have parse, only do que of que, ne, ve, (est)
-         
+
          -- remove_a_tackon:
          declare
             less : constant string := subtract_tackon(try, tackons(i));
@@ -186,7 +186,7 @@ procedure parse(configuration : configuration_type;
             if less  /= try  then       --  LESS is less
                                         --WORDS_MODE(DO_FIXES) := FALSE;
                word_package.word(less, pa, pa_last);
-               
+
                if pa_last = 0  then
 
                   save_pa_last := pa_last;
@@ -196,9 +196,9 @@ procedure parse(configuration : configuration_type;
                         pa_last := save_pa_last;
                      end if;
                   end if;
-                           
+
                end if;
-                        
+
                --  Do not SYNCOPE if there is a verb TO_BE or compound already there
                --  I do this here and below, it might be combined but it workd now
                for i in 1..pa_last  loop
@@ -211,7 +211,7 @@ procedure parse(configuration : configuration_type;
                sypa_last := 0;
                if words_mdev(do_syncope)  and not no_syncope  then
                   syncope(less, sypa, sypa_last);  --  Want SYNCOPE second to make cleaner LIST
-                  
+
                   pa_last := pa_last + sypa_last;   --  Make syncope another array to avoid PA_LAST = 0 problems
                   pa(1..pa_last) := pa(1..pa_last-sypa_last) & sypa(1..sypa_last);  --  Add SYPA to PA
                   sypa(1..syncope_max) := (1..syncope_max => null_parse_record);   --  Clean up so it does not repeat
@@ -220,11 +220,11 @@ procedure parse(configuration : configuration_type;
                no_syncope := false;
                --  Restore FIXES
                --WORDS_MODE(DO_FIXES) := SAVE_DO_FIXES;
-               
+
                words_mdev(do_only_fixes) := true;
                word(input_word, pa, pa_last);
                words_mdev(do_only_fixes) := save_do_only_fixes;
-               
+
                if pa_last > entering_pa_last  then      --  have a possible word
                   pa_last := pa_last + 1;
                   pa(entering_pa_last+2..pa_last) :=
@@ -232,7 +232,7 @@ procedure parse(configuration : configuration_type;
                   pa(entering_pa_last+1) := (tackons(i).tack,
                     ((tackon, null_tackon_record), 0, null_ending_record, x, x),
                     addons, dict_io.count(tackons(i).mnpc));
-                  
+
                   have_done_enclitic := true;
                end if;
                return;
@@ -240,7 +240,7 @@ procedure parse(configuration : configuration_type;
          end;
       end loop;
    end enclitic;
-   
+
 
    procedure tricks_enclitic(input_word : string;
                              entering_trpa_last : in out integer;
@@ -248,7 +248,7 @@ procedure parse(configuration : configuration_type;
       try : constant string := lower_case(input_word);
    begin
       if have_done_enclitic  then    return;   end if;
-      
+
       entering_trpa_last := trpa_last;
 
       for i in 1..4  loop   --  que, ne, ve, (est)
@@ -259,7 +259,7 @@ procedure parse(configuration : configuration_type;
          begin
             if less  /= try  then       --  LESS is less
                try_tricks(less, trpa, trpa_last, line_number, word_number);
-               
+
                if trpa_last > entering_trpa_last  then      --  have a possible word
                   trpa_last := trpa_last + 1;
                   trpa(entering_trpa_last+2..trpa_last) :=
@@ -276,7 +276,7 @@ procedure parse(configuration : configuration_type;
 
    procedure pass(input_word : string;
                   entering_pa_last : in out integer;
-                  have_done_enclitic : in out boolean) 
+                  have_done_enclitic : in out boolean)
    is
       --  This is the core logic of the program, everything else is details
       save_do_fixes : constant boolean := words_mode(do_fixes);
@@ -286,7 +286,7 @@ procedure parse(configuration : configuration_type;
       words_mode(do_fixes) := false;
       roman_numerals(input_word, pa, pa_last);
       word(input_word, pa, pa_last);
-      
+
       if pa_last = 0  then
          try_slury(input_word, pa, pa_last, line_number, word_number);
       end if;
@@ -298,7 +298,7 @@ procedure parse(configuration : configuration_type;
             no_syncope := true;
          end if;
       end loop;
-               
+
       --  Pure SYNCOPE
       sypa_last := 0;
       if words_mdev(do_syncope)  and not no_syncope  then
@@ -309,7 +309,7 @@ procedure parse(configuration : configuration_type;
          sypa_last := 0;
       end if;
       no_syncope := false;
-               
+
       --  There may be a vaild simple parse, if so it is most probable
       --  But I have to allow for the possibility that -que is answer, not colloque V
       enclitic(input_word, entering_pa_last, have_done_enclitic);
@@ -331,14 +331,14 @@ procedure parse(configuration : configuration_type;
             sypa_last := 0;
          end if;
          no_syncope := false;
-         
+
          enclitic(input_word, entering_pa_last, have_done_enclitic);
-         
+
          words_mdev(do_only_fixes) := save_do_only_fixes;
       end if;
-      
+
    end pass;
-   
+
    procedure parse_line(input_line : string) is
       l : integer := trim(input_line)'last;
       --LINE : STRING(1..2500) := (others => ' ');
@@ -359,13 +359,13 @@ procedure parse(configuration : configuration_type;
             line(i) := ' ';
          end if;
       end loop;
-      
+
       j := 1;
       k := 0;
-      
+
       -- loop over line
       while j <= l  loop
-         
+
          --  Skip over leading and intervening blanks, looking for comments
          --  Punctuation, numbers, and special characters were cleared above
          for i in k+1..l  loop
@@ -377,15 +377,15 @@ procedure parse(configuration : configuration_type;
             end if;
             j := i + 1;
          end loop;
-         
+
          exit when j > l;             --  Kludge
-         
+
          follows_period := false;
          if followed_by_period  then
             followed_by_period := false;
             follows_period := true;
          end if;
-         
+
          capitalized := false;
          all_caps := false;
 
@@ -429,7 +429,7 @@ procedure parse(configuration : configuration_type;
                input_word : constant string := w(j..k);
                pofs : part_of_speech_type := x;
             begin
-               
+
                --  Extract from the rest of the line
                --  Should do AUX here !!!!!!!!!!!!!!!!!!!!!!!!
                --extract_pofs:
@@ -439,13 +439,13 @@ procedure parse(configuration : configuration_type;
                   when others =>
                      pofs := x;
                end;
-                   
+
                search_english(input_word, pofs);
                return;
-               
+
             end;
          end if;
-         
+
          declare
             input_word : constant string := w(j..k);
             entering_pa_last : integer := 0;
@@ -535,14 +535,14 @@ procedure parse(configuration : configuration_type;
                      begin
                         return trim(nw);
                      end next_word;
-                     
+
                      is_verb_to_be : boolean := false;
-                     
+
                   begin
 
                      --  Look ahead for sum
                      look_ahead;
-                     
+
                      declare
                         tmp : constant verb_to_be := is_sum(next_word);
                      begin
@@ -554,7 +554,7 @@ procedure parse(configuration : configuration_type;
                         end case;
                         is_verb_to_be := tmp.matches;
                      end;
-                     
+
                      if is_verb_to_be then                 --  On NEXT_WORD = sum, esse, iri
 
                         for i in 1..pa_last  loop    --  Check for PPL
@@ -812,10 +812,10 @@ procedure parse(configuration : configuration_type;
             end if;
 
             if  words_mode(write_output_to_file)      then
-               list_stems(configuration, output, input_word, 
+               list_stems(configuration, output, input_word,
                  input_line, pa, pa_last);
             else
-               list_stems(configuration, current_output, input_word, 
+               list_stems(configuration, current_output, input_word,
                  input_line, pa, pa_last);
             end if;
 
@@ -869,7 +869,7 @@ procedure parse(configuration : configuration_type;
          end if;
          pa_last := 0;
    end parse_line;
-   
+
    procedure delete_if_open(filename : string; dict_name : dictionary_kind) is
    begin
       begin
@@ -880,10 +880,10 @@ procedure parse(configuration : configuration_type;
               add_file_name_extension(dict_file_name, filename));
             dict_io.delete(dict_file(dict_name));
          end if;
-      exception when others => null; 
+      exception when others => null;
       end;   --  not there, so don't have to DELETE
    end delete_if_open;
-   
+
 begin              --  PARSE
    if method = command_line_input  then
       if trim(command_line) /= ""  then
@@ -1029,7 +1029,7 @@ begin              --  PARSE
          null;      --  If cannot OPEN then it does not exist, so is deleted
    end;
    --  The rest of this seems like overkill, it might have been done elsewhere
-   
+
    delete_if_open("LOCAL", local);
    delete_if_open("ADDONS", addons);
    delete_if_open("UNIQUE", unique);
