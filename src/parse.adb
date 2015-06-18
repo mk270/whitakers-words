@@ -104,14 +104,22 @@ procedure parse(configuration : configuration_type;
       compound_tense : tense_type := pres;
       compound_tvm : inflections_package.tense_voice_mood_record := (pres, active, ind);
       ppl_info : vpar_record;
-   begin
-      if parsed_verb.tense_voice_mood = (perf, passive, ppl)  then
-         case sum_info.tense_voice_mood.tense is  --  Allows PERF for sum
-            when pres | perf  =>  compound_tense := perf;
-            when impf | plup  =>  compound_tense := plup;
-            when fut          =>  compound_tense := futp;
-            when others       =>  compound_tense := x;
+
+      function get_compound_tense(tense : tense_type) return tense_type
+      is
+      begin
+         case tense is
+            when pres | perf => return perf; --  Allows PERF for sum
+            when impf | plup => return plup;
+            when fut         => return futp;
+            when others      => return x;
          end case;
+      end get_compound_tense;
+
+   begin
+
+      if parsed_verb.tense_voice_mood = (perf, passive, ppl)  then
+         compound_tense := get_compound_tense(sum_info.tense_voice_mood.tense);
          compound_tvm := (compound_tense, passive, sum_info.tense_voice_mood.mood);
 
          ppl_info := get_participle_info(parsed_verb);
