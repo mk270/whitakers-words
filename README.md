@@ -10,8 +10,8 @@ would be greatly appreciated.
 Dependencies
 ============
 
-GPRBuild
-gnat
+* GPRBuild
+* gnat
 
 Usage
 =====
