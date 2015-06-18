@@ -1,8 +1,9 @@
-PROGRAMMES := bin/words bin/makedict bin/makestem bin/makeefil bin/makeewds bin/makeinfl 
+PROGRAMMES := bin/words bin/makedict bin/makestem bin/makeefil bin/makeewds bin/makeinfl bin/meanings
 
 all: $(PROGRAMMES) data
 
-programmes: $(PROGRAMMES)
+programmes:
+	gprbuild -Pall_words
 
 bin/words:
 	gprbuild -Pwords
@@ -21,6 +22,9 @@ bin/makeewds:
 
 bin/makestem:
 	gprbuild -Pmakestem
+
+bin/meanings:
+	gprbuild -Pmeanings
 
 DICTFILE.GEN: DICTLINE.GEN bin/makedict
 	echo g | bin/makedict $< > /dev/null
