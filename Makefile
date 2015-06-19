@@ -3,28 +3,7 @@ PROGRAMMES := bin/words bin/makedict bin/makestem bin/makeefil bin/makeewds bin/
 all: $(PROGRAMMES) data
 
 programmes:
-	gprbuild -Pall_words
-
-bin/words:
 	gprbuild -Pwords
-
-bin/makeinfl:
-	gprbuild -Pmakeinfl
-
-bin/makedict:
-	gprbuild -Pmakedict
-
-bin/makeefil:
-	gprbuild -Pmakeefil
-
-bin/makeewds:
-	gprbuild -Pmakeewds
-
-bin/makestem:
-	gprbuild -Pmakestem
-
-bin/meanings:
-	gprbuild -Pmeanings
 
 DICTFILE.GEN: DICTLINE.GEN bin/makedict
 	echo g | bin/makedict $< > /dev/null
