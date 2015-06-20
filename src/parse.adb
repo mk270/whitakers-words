@@ -31,6 +31,8 @@ with config; use config;
 with put_stat;
 with english_support_package; use english_support_package;
 with search_english;
+with char_utils; use char_utils;
+
 pragma elaborate(word_parameters);
 procedure parse(configuration : configuration_type;
                 command_line : string := "") is
@@ -608,10 +610,7 @@ procedure parse(configuration : configuration_type;
                      begin
                         for i in k+2..l  loop
                            --  Although I have removed punctuation above, it may not always be so
-                           exit when (line(i) = ' ' or line(i) = ',' or line(i) = '-'
-                             or line(i) = ';' or line(i) = ':' or line(i) = '.'
-                             or line(i) = '(' or line(i) = '[' or line(i) = '{' or line(i) = '<'
-                             or line(i) = ')' or line(i) = ']' or line(i) = '}' or line(i) = '>');
+                           exit when is_punctuation(line(i));
                            j := j + 1;
                            nw(j) := line(i);
                            nk := i;
