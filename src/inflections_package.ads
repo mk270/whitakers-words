@@ -45,22 +45,24 @@ package inflections_package is
    null_meaning_type : constant meaning_type := (others => ' ');
 
    type part_of_speech_type is (
-                                x,         --  all, none, or unknown
-                                n,         --  Noun
-                                pron,      --  PRONoun
-                                pack,      --  PACKON -- artificial for code
-                                adj,       --  ADJective
-                                num,       --  NUMeral
-                                adv,       --  ADVerb
-                                v,         --  Verb
-                                vpar,      --  Verb PARticiple
-                                supine,    --  SUPINE
-                                prep,      --  PREPosition
-                                conj,      --  CONJunction
-                                interj,    --  INTERJection
-                                tackon,    --  TACKON --  artificial for code
-                                prefix,    --  PREFIX --  here artificial for code
-                                suffix     --  SUFFIX --  here artificial for code
+     x,         --  all, none, or unknown
+     n,         --  Noun
+     pron,      --  PRONoun
+     pack,      --  PACKON -- artificial for code
+     adj,       --  ADJective
+     num,       --  NUMeral
+     adv,       --  ADVerb
+     v,         --  Verb
+     vpar,      --  Verb PARticiple
+     supine,    --  SUPINE
+     prep,      --  PREPosition
+     conj,      --  CONJunction
+     interj,    --  INTERJection
+     
+     -- keep tackon/prefix/suffix together, as they are used in range queries
+     tackon,    --  TACKON --  artificial for code
+     prefix,    --  PREFIX --  here artificial for code
+     suffix     --  SUFFIX --  here artificial for code
                                );
 
    package part_of_speech_type_io is
