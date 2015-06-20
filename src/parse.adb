@@ -664,11 +664,8 @@ procedure parse(configuration : configuration_type;
                               j : integer := pa_last;
                            begin
                               while j >= 1  loop        --  Sweep backwards to kill empty suffixes
-                                 if ((pa(j).ir.qual.pofs = prefix) and then (ppl_on))  then
-                                    null;
-                                 elsif ((pa(j).ir.qual.pofs = suffix) and then (ppl_on))  then
-                                    null;
-                                 elsif ((pa(j).ir.qual.pofs = tackon) and then (ppl_on))  then
+                                 if pa(j).ir.qual.pofs in tackon .. suffix 
+                                   and then ppl_on then
                                     null;
 
                                  elsif pa(j).ir.qual.pofs = vpar and then
@@ -726,11 +723,8 @@ procedure parse(configuration : configuration_type;
                               j : integer := pa_last;
                            begin
                               while j >= 1  loop        --  Sweep backwards to kill empty suffixes
-                                 if ((pa(j).ir.qual.pofs = prefix) and then (ppl_on))  then
-                                    null;
-                                 elsif ((pa(j).ir.qual.pofs = suffix) and then (ppl_on))  then
-                                    null;
-                                 elsif ((pa(j).ir.qual.pofs = tackon) and then (ppl_on))  then
+                                 if pa(j).ir.qual.pofs in tackon .. suffix 
+                                   and then ppl_on then
                                     null;
 
                                  elsif pa(j).ir.qual.pofs = vpar   then
@@ -819,11 +813,8 @@ procedure parse(configuration : configuration_type;
                               j : integer := pa_last;
                            begin
                               while j >= 1  loop        --  Sweep backwards to kill empty suffixes
-                                 if ((pa(j).ir.qual.pofs = prefix) and then (ppl_on))  then
-                                    null;
-                                 elsif ((pa(j).ir.qual.pofs = suffix) and then (ppl_on))  then
-                                    null;
-                                 elsif ((pa(j).ir.qual.pofs = tackon) and then (ppl_on))  then
+                                 if pa(j).ir.qual.pofs in tackon .. suffix
+                                   and then ppl_on then
                                     null;
 
                                  elsif pa(j).ir.qual.pofs = supine  and then
