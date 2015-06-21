@@ -20,8 +20,11 @@ is
 
    function is_member(needle : character;
                       haystack : character_array)
-                     return boolean; 
-   
+                     return boolean;
+
    function is_punctuation(c : character) return boolean;
+
+   -- is c alphabetic, or '.' or '-' ?
+   function is_alpha_etc(c : character) return boolean;
 
 end char_utils;

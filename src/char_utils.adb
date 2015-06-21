@@ -51,5 +51,15 @@ is
    begin
       return is_member(c, permitted);
    end is_punctuation;
-      
+
+   function is_alpha_etc(c : character) return boolean
+   is
+   begin
+      return
+        c in 'A' .. 'Z' or
+        c in 'a' .. 'z' or
+        c = '-' or
+        c = '.';
+   end is_alpha_etc;
+
 end char_utils;

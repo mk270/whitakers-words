@@ -440,10 +440,7 @@ procedure parse(configuration : configuration_type;
       --  Someday I ought to be interested in punctuation and numbers, but not now
       --      eliminate_not_letters:
       for i in 1..l  loop
-         if ((line(i) in 'A'..'Z')  or
-           (line(i) = '-')           or     --  For the comment
-           (line(i) = '.')           or     --  Catch period later
-           (line(i) in 'a'..'z'))  then
+         if is_alpha_etc(line(i)) then
             null;
          else
             line(i) := ' ';
