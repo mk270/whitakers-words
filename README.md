@@ -7,6 +7,8 @@ support; the original author passed away in 2010, so any and all help
 maintaining the software as development and execution environments evolve
 would be greatly appreciated.
 
+Effectively, this is an exercise in digital preservation.
+
 Usage
 =====
 
