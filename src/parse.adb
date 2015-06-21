@@ -14,6 +14,20 @@
 -- All parts of the WORDS system, source code and data files, are made freely
 -- available to anyone who wishes to use them, for whatever purpose.
 
+
+
+-- This file contains an alarming amount of repetitive code, to the extent of
+-- unintelligbility
+
+-- to factor out:
+--
+--   the four occurrences of the stanza matching "Add SYPA to PA"
+
+--   the if-branches dealing with participles
+--     (search: clear_pas_ppl, clear_pas_nom_ppl)
+
+--   anything nested more than about six levels deep
+
 with text_io;
 with strings_package; use strings_package;
 with latin_file_names; use latin_file_names;
@@ -998,8 +1012,9 @@ begin              --  PARSE
                end if;
             end if;
 
-            if (trim(line(1..l)) /= "")  then  -- Not a blank line so L(1) (in file input)
-               if line(1) = start_file_character  then    --  To begin file of words
+            if (trim(line(1..l)) /= "")  then
+               -- Not a blank line so L(1) (in file input)
+               if line(1) = start_file_character  then
                   if (name(current_input) /= name(standard_input)) then
                      text_io.put_line("Cannot have file of words (@FILE) in an @FILE");
                   else
@@ -1011,11 +1026,8 @@ begin              --  PARSE
                  not config.suppress_preface  then
                   change_parameters;
                elsif line(1) = change_language_character  then
-                  -- (NAME(CURRENT_INPUT) = NAME(STANDARD_INPUT)) and then
-                  --   not CONFIG.SUPPRESS_PREFACE  then
-                  --TEXT_IO.PUT_LINE("CHANGE CHARACTER   " & TRIM(LINE));
                   change_language(line(2));
-               elsif --  CONFIGURATION = DEVELOPER_VERSION  and then    --  Allow anyone to do it
+               elsif
                  line(1) = change_developer_modes_character  and then
                  (name(current_input) = name(standard_input)) and then
                  not config.suppress_preface  then
