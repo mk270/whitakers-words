@@ -7,8 +7,8 @@ support; the original author passed away in 2010, so any and all help
 maintaining the software as development and execution environments evolve
 would be greatly appreciated.
 
-Dependencies
-============
+Build-time Dependencies
+=======================
 
 * GPRBuild
 * gnat
