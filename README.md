@@ -9,6 +9,13 @@ would be greatly appreciated.
 
 Effectively, this is an exercise in digital preservation.
 
+Contributing
+============
+
+Help is needed maintaining the code for future users; in particular, it
+does not currently support vowel length, so it may be necessary to gather
+a group of Latin experts to adjust its lexicon of several thousand words.
+
 Usage
 =====
 
