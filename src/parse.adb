@@ -14,7 +14,7 @@
 -- All parts of the WORDS system, source code and data files, are made freely
 -- available to anyone who wishes to use them, for whatever purpose.
 
-
+---------------------------------------------------------------------------
 
 -- This file contains an alarming amount of repetitive code, to the extent of
 -- unintelligbility
@@ -207,7 +207,7 @@ procedure parse(configuration : configuration_type;
                 );
       end if;
    end;
-   
+
    -- this function is almost an exact duplicate of the one above
    function get_pas_participle(parsed_verb : vpar_record;
                                sum_info : verb_record;
@@ -418,7 +418,8 @@ procedure parse(configuration : configuration_type;
                word(input_word, pa, pa_last);
                words_mdev(do_only_fixes) := save_do_only_fixes;
 
-               if pa_last > entering_pa_last  then      --  have a possible word
+               if pa_last > entering_pa_last  then
+                  --  have a possible word
                   pa_last := pa_last + 1;
                   pa(entering_pa_last+2..pa_last) :=
                     pa(entering_pa_last+1..pa_last-1);
@@ -655,12 +656,14 @@ procedure parse(configuration : configuration_type;
 
             end pass_block;
 
-            --if (PA_LAST = 0) or DO_TRICKS_ANYWAY  then    --  WORD failed, try to modify the word
+            --if (PA_LAST = 0) or DO_TRICKS_ANYWAY  then
+            --  WORD failed, try to modify the word
             if (pa_last = 0)  and then
               not (words_mode(ignore_unknown_names)  and capitalized)  then
                --  WORD failed, try to modify the word
                if words_mode(do_tricks)  then
-                  words_mode(do_tricks) := false;  --  Turn it off so wont be circular
+                  words_mode(do_tricks) := false;
+                  --  Turn it off so wont be circular
                   try_tricks(input_word, trpa, trpa_last, line_number, word_number);
                   if trpa_last = 0  then
                      tricks_enclitic(input_word, entering_trpa_last, have_done_enclitic);
@@ -678,7 +681,8 @@ procedure parse(configuration : configuration_type;
             --  Now see if there is something we can do with word combinations
             --  For this we have to look ahead
 
-            if pa_last > 0   then    --  But PA may be killed by ALLOW in LIST_STEMS
+            if pa_last > 0   then
+               --  But PA may be killed by ALLOW in LIST_STEMS
                if words_mode(do_compounds)  and
                  not (configuration = only_meanings)  then
               compounds_with_sum:
@@ -729,7 +733,8 @@ procedure parse(configuration : configuration_type;
                         is_verb_to_be := tmp.matches;
                      end;
 
-                     if is_verb_to_be then                 --  On NEXT_WORD = sum, esse, iri
+                     if is_verb_to_be then
+                        --  On NEXT_WORD = sum, esse, iri
 
                         for i in 1..pa_last  loop    --  Check for PPL
                            if pa(i).ir.qual.pofs = vpar and then
@@ -745,12 +750,14 @@ procedure parse(configuration : configuration_type;
                            end if;
                         end loop;
 
-                        if k = nk  then      --  There was a PPL hit
+                        if k = nk  then
+                           --  There was a PPL hit
                        clear_pas_nom_ppl:
                            declare
                               j : integer := pa_last;
                            begin
-                              while j >= 1  loop        --  Sweep backwards to kill empty suffixes
+                              while j >= 1  loop
+                                 --  Sweep backwards to kill empty suffixes
                                  if pa(j).ir.qual.pofs in tackon .. suffix
                                    and then ppl_on then
                                     null;
@@ -804,12 +811,14 @@ procedure parse(configuration : configuration_type;
                            end if;
                         end loop;
 
-                        if k = nk  then      --  There was a PPL hit
+                        if k = nk  then
+                           --  There was a PPL hit
                        clear_pas_ppl:
                            declare
                               j : integer := pa_last;
                            begin
-                              while j >= 1  loop        --  Sweep backwards to kill empty suffixes
+                              while j >= 1  loop
+                                 --  Sweep backwards to kill empty suffixes
                                  if pa(j).ir.qual.pofs in tackon .. suffix
                                    and then ppl_on then
                                     null;
@@ -847,8 +856,9 @@ procedure parse(configuration : configuration_type;
 
                         end if;
 
-                     elsif is_iri(next_word)  then              --  On NEXT_WORD = sum, esse, iri
-                                                                --  Look ahead for sum
+                     elsif is_iri(next_word)  then
+                        --  On NEXT_WORD = sum, esse, iri
+                        --  Look ahead for sum
 
                         for j in 1..pa_last  loop    --  Check for SUPINE
                            if pa(j).ir.qual.pofs = supine   and then
@@ -864,7 +874,8 @@ procedure parse(configuration : configuration_type;
                            declare
                               j : integer := pa_last;
                            begin
-                              while j >= 1  loop        --  Sweep backwards to kill empty suffixes
+                              while j >= 1  loop
+                                 --  Sweep backwards to kill empty suffixes
                                  if pa(j).ir.qual.pofs in tackon .. suffix
                                    and then ppl_on then
                                     null;
@@ -909,7 +920,6 @@ procedure parse(configuration : configuration_type;
                   end compounds_with_sum;
                end if;       --  On WORDS_MODE(DO_COMPOUNDS)
 
-               --========================================================================
             end if;
 
             if  words_mode(write_output_to_file)      then
@@ -985,7 +995,8 @@ procedure parse(configuration : configuration_type;
       end;   --  not there, so don't have to DELETE
    end delete_if_open;
 
-begin              --  PARSE
+begin
+   --  PARSE
    if method = command_line_input  then
       if trim(command_line) /= ""  then
          parse_line(command_line);
@@ -1028,7 +1039,8 @@ begin              --  PARSE
   get_input_lines:
       loop
      get_input_line:
-         begin                    --  Block to manipulate file of lines
+         begin
+            --  Block to manipulate file of lines
             if (name(current_input) = name(standard_input))  then
                scroll_line_number := integer(text_io.line(text_io.standard_output));
                preface.new_line;
@@ -1038,15 +1050,22 @@ begin              --  PARSE
             line := blank_line;
             get_line(line, l);
             if (l = 0) or else (trim(line(1..l)) = "")  then
-               --LINE_NUMBER := LINE_NUMBER + 1;  --  Count blank lines
-               if (name(current_input) = name(standard_input))  then   --  INPUT is keyboard
+               --  Count blank lines
+               --LINE_NUMBER := LINE_NUMBER + 1;
+               if (name(current_input) = name(standard_input))  then
+                  --  INPUT is keyboard
                   preface.put("Blank exits =>");
-                  get_line(line, l);             -- Second try
-                  if (l = 0) or else (trim(line(1..l)) = "")  then  -- Two in a row
+                  get_line(line, l);
+                  -- Second try
+                  if (l = 0) or else (trim(line(1..l)) = "")  then
+                     -- Two in a row
                      exit;
                   end if;
-               else                 --  INPUT is file
-                                    --LINE_NUMBER := LINE_NUMBER + 1;   --  Count blank lines in file
+               else
+                  --  INPUT is file
+
+                  --LINE_NUMBER := LINE_NUMBER + 1;
+                  --  Count blank lines in file
                   if end_of_file(current_input) then
                      set_input(standard_input);
                      close(input);
@@ -1085,7 +1104,9 @@ begin              --  PARSE
                         text_io.put_line(output, line(1..l));
                      end if;
                   end if;
-                  line_number := line_number + 1;  --  Count lines to be parsed
+                  --  Count lines to be parsed
+                  line_number := line_number + 1;
+
                   parse_line(line(1..l));
                end if;
             end if;
@@ -1097,7 +1118,8 @@ begin              --  PARSE
                   close(input);
                end if;
                put_line("An unknown or unacceptable file name. Try Again");
-            when end_error =>          --  The end of the input file resets to CON:
+            when end_error =>
+               --  The end of the input file resets to CON:
                if (name(current_input) /= name(standard_input))  then
                   set_input(standard_input);
                   close(input);
@@ -1107,9 +1129,11 @@ begin              --  PARSE
                   put_line("^Z is inappropriate keyboard input, WORDS should be terminated with a blank line");
                   raise give_up;
                end if;
-            when status_error =>      --  The end of the input file resets to CON:
+            when status_error =>
+               --  The end of the input file resets to CON:
                put_line("Raised STATUS_ERROR");
-         end get_input_line;                     --  end Block to manipulate file of lines
+         end get_input_line;
+         --  end Block to manipulate file of lines
 
       end loop get_input_lines;          --  Loop on lines
 
