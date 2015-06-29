@@ -138,7 +138,8 @@ procedure parse(configuration : configuration_type;
                           return participle
    is
       compound_tense : tense_type := pres;
-      compound_tvm : inflections_package.tense_voice_mood_record := (pres, active, ind);
+      compound_tvm : inflections_package.tense_voice_mood_record :=
+        (pres, active, ind);
       ppl_info : vpar_record;
 
       function get_compound_tense(tense : tense_type) return tense_type
