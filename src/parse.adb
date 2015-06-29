@@ -161,8 +161,6 @@ procedure parse(configuration : configuration_type;
                           return participle
    is
       compound_tense : tense_type := pres;
-      compound_tvm : inflections_package.tense_voice_mood_record :=
-        (pres, active, ind);
 
       function get_compound_tense(tense : tense_type) return tense_type
       is
@@ -186,8 +184,6 @@ procedure parse(configuration : configuration_type;
                compound_tense := sum_info.tense_voice_mood.tense;
             end if;
 
-            compound_tvm := (compound_tense, passive, sum_info.tense_voice_mood.mood);
-
             declare
                ppl_info : constant vpar_record := get_participle_info(parsed_verb);
             begin
@@ -196,7 +192,7 @@ procedure parse(configuration : configuration_type;
                  ppl_info => ppl_info,
                  ppp_meaning =>
                  head(participle_glosses(i).gloss, max_meaning_size),
-                 compound_tvm => compound_tvm
+                 compound_tvm => (compound_tense, passive, sum_info.tense_voice_mood.mood)
                       );
             end;
          end if;
