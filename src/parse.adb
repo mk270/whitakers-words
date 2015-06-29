@@ -109,7 +109,7 @@ procedure parse(configuration : configuration_type;
    -- retaining the "defaults" allows us to (re)assign the values
    -- in the caller, which is effectively a no-op in the fall-through
    -- code path
-   function get_participle(parsed_verb : vpar_record;
+   function get_pas_nom_participle(parsed_verb : vpar_record;
                            sum_info : verb_record;
                            default_ppl_on : boolean;
                            default_compound_tvm : tense_voice_mood_record;
@@ -670,7 +670,7 @@ procedure parse(configuration : configuration_type;
                                    pa(j).ir.qual.vpar.cs = nom  and then
                                    pa(j).ir.qual.vpar.number = sum_info.number  then
                                     declare
-                                       part : constant participle := get_participle(pa(j).ir.qual.vpar, sum_info, ppl_on,
+                                       part : constant participle := get_pas_nom_participle(pa(j).ir.qual.vpar, sum_info, ppl_on,
                                          compound_tvm, ppp_meaning, ppl_info);
                                     begin
                                        ppl_on := part.ppl_on;
