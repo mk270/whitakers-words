@@ -216,6 +216,8 @@ procedure parse(configuration : configuration_type;
            ppp_meaning => ppp_meaning,
            compound_tvm => compound_tvm
                 );
+      else
+         null; -- should raise an exception / fail an assertion - can't get here
       end if;
       end;
    end;
