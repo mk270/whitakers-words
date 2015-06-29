@@ -61,12 +61,11 @@ procedure parse(configuration : configuration_type;
    use inflection_record_io;
    use text_io;
 
+   -- the scope of most of these variables is over-broad
    storage_error_count : integer := 0;
 
    j, k, l : integer := 0;
-   --INPUT : TEXT_IO.FILE_TYPE;
 
-   -- the scope of most of these variables is over-broad
    pa : parse_array(1..100) := (others => null_parse_record);
    syncope_max : constant := 20;
    no_syncope : boolean := false;
@@ -368,7 +367,8 @@ procedure parse(configuration : configuration_type;
       if pa_last > 0 then enclitic_limit := 1; end if;
 
       -- loop_over_enclitic_tackons:
-      for i in 1..enclitic_limit  loop   --  If have parse, only do que of que, ne, ve, (est)
+      for i in 1..enclitic_limit  loop
+         --  If have parse, only do que of que, ne, ve, (est)
 
          -- remove_a_tackon:
          declare
@@ -934,7 +934,8 @@ procedure parse(configuration : configuration_type;
          exception
             when others  =>
                put_stat("Exception    at "
-                 & head(integer'image(line_number), 8) & head(integer'image(word_number), 4)
+                 & head(integer'image(line_number), 8)
+                 & head(integer'image(word_number), 4)
                  & "   " & head(input_word, 28) & "   "  & input_line);
                raise;
 
@@ -966,7 +967,7 @@ procedure parse(configuration : configuration_type;
          raise;
       when others  =>    --  I want to try to get on with the next line
          text_io.put_line(    --  ERROR_FILE,
-                              "Exception in PARSE_LINE processing " & input_line);
+           "Exception in PARSE_LINE processing " & input_line);
          if words_mode(write_unknowns_to_file)  then
             if words_mdev(do_pearse_codes) then
                text_io.put(unknowns, "00 ");
