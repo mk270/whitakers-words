@@ -995,8 +995,111 @@ procedure parse(configuration : configuration_type;
       end;   --  not there, so don't have to DELETE
    end delete_if_open;
 
-   blank_line : constant string(1..2500) := (others => ' ');
-   line : string(1 .. 2500) := (others => ' ');
+   function get_input_line return boolean
+   is
+      blank_line : constant string(1..2500) := (others => ' ');
+      line : string(1 .. 2500) := (others => ' ');
+   begin
+      --  Block to manipulate file of lines
+      if (name(current_input) = name(standard_input))  then
+         scroll_line_number := integer(text_io.line(text_io.standard_output));
+         preface.new_line;
+         preface.put("=>");
+      end if;
+
+      line := blank_line;
+      get_line(line, l);
+      if (l = 0) or else (trim(line(1..l)) = "")  then
+         --  Count blank lines
+         --LINE_NUMBER := LINE_NUMBER + 1;
+         if (name(current_input) = name(standard_input))  then
+            --  INPUT is keyboard
+            preface.put("Blank exits =>");
+            get_line(line, l);
+            -- Second try
+            if (l = 0) or else (trim(line(1..l)) = "")  then
+               -- Two in a row
+               return false;
+            end if;
+         else
+            --  INPUT is file
+
+            --LINE_NUMBER := LINE_NUMBER + 1;
+            --  Count blank lines in file
+            if end_of_file(current_input) then
+               set_input(standard_input);
+               close(input);
+            end if;
+         end if;
+      end if;
+
+      if (trim(line(1..l)) /= "")  then
+         -- Not a blank line so L(1) (in file input)
+         if line(1) = start_file_character  then
+            if (name(current_input) /= name(standard_input)) then
+               text_io.put_line("Cannot have file of words (@FILE) " &
+                 "in an @FILE");
+            else
+               text_io.open(input, text_io.in_file, trim(line(2..l)));
+               text_io.set_input(input);
+            end if;
+         elsif line(1) = change_parameters_character  and then
+           (name(current_input) = name(standard_input)) and then
+           not config.suppress_preface  then
+            change_parameters;
+         elsif line(1) = change_language_character  then
+            change_language(line(2));
+         elsif
+           line(1) = change_developer_modes_character  and then
+           (name(current_input) = name(standard_input)) and then
+           not config.suppress_preface  then
+            change_developer_modes;
+         else
+            if (name(current_input) /= name(standard_input))  then
+               preface.new_line;
+               preface.put_line(line(1..l));
+            end if;
+            if words_mode(write_output_to_file)     then
+               if not config.suppress_preface     then
+                  new_line(output);
+                  text_io.put_line(output, line(1..l));
+               end if;
+            end if;
+            --  Count lines to be parsed
+            line_number := line_number + 1;
+
+            parse_line(line(1..l));
+         end if;
+      end if;
+
+      return true;
+
+   exception
+      when name_error | use_error =>
+         if (name(current_input) /= name(standard_input))  then
+            set_input(standard_input);
+            close(input);
+         end if;
+         put_line("An unknown or unacceptable file name. Try Again");
+         return true;
+      when end_error =>
+         --  The end of the input file resets to CON:
+         if (name(current_input) /= name(standard_input))  then
+            set_input(standard_input);
+            close(input);
+            if method = command_line_files  then raise give_up; end if;
+            return true;
+         else
+            put_line("Raised END_ERROR, although in STANDARD_INPUT");
+            put_line("^Z is inappropriate keyboard input, " &
+              "WORDS should be terminated with a blank line");
+            raise give_up;
+         end if;
+      when status_error =>
+         --  The end of the input file resets to CON:
+         put_line("Raised STATUS_ERROR");
+         return false;
+   end;
 
 begin
    --  PARSE
@@ -1022,105 +1125,9 @@ begin
 
   get_input_lines:
       loop
-     get_input_line:
-         begin
-            --  Block to manipulate file of lines
-            if (name(current_input) = name(standard_input))  then
-               scroll_line_number := integer(text_io.line(text_io.standard_output));
-               preface.new_line;
-               preface.put("=>");
-            end if;
-
-            line := blank_line;
-            get_line(line, l);
-            if (l = 0) or else (trim(line(1..l)) = "")  then
-               --  Count blank lines
-               --LINE_NUMBER := LINE_NUMBER + 1;
-               if (name(current_input) = name(standard_input))  then
-                  --  INPUT is keyboard
-                  preface.put("Blank exits =>");
-                  get_line(line, l);
-                  -- Second try
-                  if (l = 0) or else (trim(line(1..l)) = "")  then
-                     -- Two in a row
-                     exit;
-                  end if;
-               else
-                  --  INPUT is file
-
-                  --LINE_NUMBER := LINE_NUMBER + 1;
-                  --  Count blank lines in file
-                  if end_of_file(current_input) then
-                     set_input(standard_input);
-                     close(input);
-                  end if;
-               end if;
-            end if;
-
-            if (trim(line(1..l)) /= "")  then
-               -- Not a blank line so L(1) (in file input)
-               if line(1) = start_file_character  then
-                  if (name(current_input) /= name(standard_input)) then
-                     text_io.put_line("Cannot have file of words (@FILE) " &
-                       "in an @FILE");
-                  else
-                     text_io.open(input, text_io.in_file, trim(line(2..l)));
-                     text_io.set_input(input);
-                  end if;
-               elsif line(1) = change_parameters_character  and then
-                 (name(current_input) = name(standard_input)) and then
-                 not config.suppress_preface  then
-                  change_parameters;
-               elsif line(1) = change_language_character  then
-                  change_language(line(2));
-               elsif
-                 line(1) = change_developer_modes_character  and then
-                 (name(current_input) = name(standard_input)) and then
-                 not config.suppress_preface  then
-                  change_developer_modes;
-               else
-                  if (name(current_input) /= name(standard_input))  then
-                     preface.new_line;
-                     preface.put_line(line(1..l));
-                  end if;
-                  if words_mode(write_output_to_file)     then
-                     if not config.suppress_preface     then
-                        new_line(output);
-                        text_io.put_line(output, line(1..l));
-                     end if;
-                  end if;
-                  --  Count lines to be parsed
-                  line_number := line_number + 1;
-
-                  parse_line(line(1..l));
-               end if;
-            end if;
-
-         exception
-            when name_error | use_error =>
-               if (name(current_input) /= name(standard_input))  then
-                  set_input(standard_input);
-                  close(input);
-               end if;
-               put_line("An unknown or unacceptable file name. Try Again");
-            when end_error =>
-               --  The end of the input file resets to CON:
-               if (name(current_input) /= name(standard_input))  then
-                  set_input(standard_input);
-                  close(input);
-                  if method = command_line_files  then raise give_up; end if;
-               else
-                  put_line("Raised END_ERROR, although in STANDARD_INPUT");
-                  put_line("^Z is inappropriate keyboard input, " &
-                    "WORDS should be terminated with a blank line");
-                  raise give_up;
-               end if;
-            when status_error =>
-               --  The end of the input file resets to CON:
-               put_line("Raised STATUS_ERROR");
-         end get_input_line;
-         --  end Block to manipulate file of lines
-
+         if not get_input_line then
+            exit;
+         end if;
       end loop get_input_lines;          --  Loop on lines
 
    end if;     --  On command line input
