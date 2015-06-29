@@ -995,6 +995,8 @@ procedure parse(configuration : configuration_type;
       end;   --  not there, so don't have to DELETE
    end delete_if_open;
 
+   -- get and handle a line of input
+   -- return value says whether there is more input, i.e. false -> quit
    function get_input_line return boolean
    is
       blank_line : constant string(1..2500) := (others => ' ');
