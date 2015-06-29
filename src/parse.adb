@@ -657,14 +657,10 @@ procedure parse(configuration : configuration_type;
          begin   --  PARSE
             xxx_meaning := null_meaning_type;
 
-        pass_block:
-            begin
-               pa_last := 0;
-               word_number := word_number + 1;
+            pa_last := 0;
+            word_number := word_number + 1;
 
-               pass(input_word, entering_pa_last, have_done_enclitic);
-
-            end pass_block;
+            pass(input_word, entering_pa_last, have_done_enclitic);
 
             --if (PA_LAST = 0) or DO_TRICKS_ANYWAY  then
             --  WORD failed, try to modify the word
