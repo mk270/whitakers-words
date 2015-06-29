@@ -1123,12 +1123,9 @@ begin
          banner.print_mode_warning;
       end if;
 
-  get_input_lines:
-      loop
-         if not get_input_line then
-            exit;
-         end if;
-      end loop get_input_lines;          --  Loop on lines
+      while get_input_line loop
+         null;
+      end loop;
 
    end if;     --  On command line input
 
