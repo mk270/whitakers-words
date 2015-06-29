@@ -23,10 +23,16 @@
 --
 --   the four occurrences of the stanza matching "Add SYPA to PA"
 
---   the if-branches dealing with participles
---     (search: clear_pas_ppl, clear_pas_nom_ppl)
+--   the if-branches, and functions, dealing with participles
 
 --   anything nested more than about six levels deep
+
+--   the subprogramme "parse_line" is 430-odd lines long, and depends on
+--   variables defined outside it and a bunch of variables from other
+--   source files
+
+--   the use of labels entails negatively indenting source lines, and is
+--   a major readability/intelligibility problem
 
 with text_io;
 with strings_package; use strings_package;
