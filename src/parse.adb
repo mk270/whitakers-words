@@ -128,7 +128,12 @@ procedure parse(configuration : configuration_type;
 
    -- retaining the "defaults" allows us to (re)assign the values
    -- in the caller, which is effectively a no-op in the fall-through
-   -- code path
+   -- code path; we should pass thie information in as a record of type
+   -- "participle" rather than as four separate values, to be clearer
+   -- about what is going on, and save wear-and-tear on the stack frame
+
+   -- compare this function with the very similar one directly below it;
+   -- they should be factored back together
    function get_pas_nom_participle(parsed_verb : vpar_record;
                            sum_info : verb_record;
                            default_ppl_on : boolean;
