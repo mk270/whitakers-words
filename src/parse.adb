@@ -156,7 +156,8 @@ procedure parse(configuration : configuration_type;
 
       if parsed_verb.tense_voice_mood = (perf, passive, ppl)  then
          compound_tense := get_compound_tense(sum_info.tense_voice_mood.tense);
-         compound_tvm := (compound_tense, passive, sum_info.tense_voice_mood.mood);
+         compound_tvm := (compound_tense, passive,
+           sum_info.tense_voice_mood.mood);
 
          ppl_info := get_participle_info(parsed_verb);
          ppp_meaning :=
@@ -170,11 +171,13 @@ procedure parse(configuration : configuration_type;
                 );
       elsif parsed_verb.tense_voice_mood = (fut, active,  ppl)  then
          compound_tense := sum_info.tense_voice_mood.tense;
-         compound_tvm := (compound_tense, active, sum_info.tense_voice_mood.mood);
+         compound_tvm := (compound_tense, active,
+           sum_info.tense_voice_mood.mood);
 
          ppl_info := get_participle_info(parsed_verb);
          ppp_meaning := head(
-           "FUT ACTIVE PPL + verb TO_BE => ACTIVE Periphrastic - about to, going to",
+           "FUT ACTIVE PPL + verb TO_BE => "
+           & "ACTIVE Periphrastic - about to, going to",
            max_meaning_size);
          return (
            ppl_on => true,
@@ -184,11 +187,13 @@ procedure parse(configuration : configuration_type;
                 );
       elsif parsed_verb.tense_voice_mood = (fut, passive, ppl)  then
          compound_tense := sum_info.tense_voice_mood.tense;
-         compound_tvm := (compound_tense, passive, sum_info.tense_voice_mood.mood);
+         compound_tvm := (compound_tense, passive,
+           sum_info.tense_voice_mood.mood);
 
          ppl_info := get_participle_info(parsed_verb);
          ppp_meaning := head(
-           "FUT PASSIVE PPL + verb TO_BE => PASSIVE Periphrastic - should/ought/had to",
+           "FUT PASSIVE PPL + verb TO_BE => "
+           & "PASSIVE Periphrastic - should/ought/had to",
            max_meaning_size);
          return (
            ppl_on => true,
@@ -217,7 +222,9 @@ procedure parse(configuration : configuration_type;
                               return participle
    is
       -- dummy initial value; never read, but assigned in every code path
-      compound_tvm : inflections_package.tense_voice_mood_record := (pres, active, ind);
+      compound_tvm : inflections_package.tense_voice_mood_record :=
+        (pres, active, ind);
+
       ppl_info : vpar_record;
 
 
@@ -241,13 +248,15 @@ procedure parse(configuration : configuration_type;
          if is_esse(trimmed_next_word)  then
             compound_tvm := (fut, active, inf);
             ppp_meaning := head(
-              "FUT ACTIVE PPL + esse => PRES Periphastic/FUT ACTIVE INF - be about/going to",
+              "FUT ACTIVE PPL + esse => "
+              & "PRES Periphastic/FUT ACTIVE INF - be about/going to",
               max_meaning_size);
             -- also peri COMPOUND_TVM := (PRES, ACTIVE, INF);
          else   --  fuisse
             compound_tvm := (perf, active, inf);
             ppp_meaning := head(
-              "FUT ACT PPL+fuisse => PERF ACT INF Periphrastic - to have been about/going to",
+              "FUT ACT PPL+fuisse => "
+              & "PERF ACT INF Periphrastic - to have been about/going to",
               max_meaning_size);
          end if;
          return (
@@ -268,7 +277,8 @@ procedure parse(configuration : configuration_type;
          else   --  fuisse
             compound_tvm := (perf, passive, inf);
             ppp_meaning := head(
-              "FUT PASSIVE PPL + fuisse => PERF PASSIVE INF Periphrastic - about to, going to",
+              "FUT PASSIVE PPL + fuisse => "
+              & "PERF PASSIVE INF Periphrastic - about to, going to",
               max_meaning_size);
          end if;
 
