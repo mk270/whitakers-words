@@ -217,10 +217,10 @@ procedure parse(configuration : configuration_type;
 
 
    begin
-      if pa(j).ir.qual.vpar.tense_voice_mood = (perf, passive, ppl)  then
+      if parsed_verb.tense_voice_mood = (perf, passive, ppl)  then
          compound_tvm := (perf, passive, inf);
 
-         ppl_info := get_participle_info(pa(j).ir.qual.vpar);
+         ppl_info := get_participle_info(parsed_verb);
          ppp_meaning :=
            head("PERF PASSIVE PPL + esse => PERF PASSIVE INF",
            max_meaning_size);
@@ -231,8 +231,8 @@ procedure parse(configuration : configuration_type;
            compound_tvm => compound_tvm
                 );
 
-      elsif pa(j).ir.qual.vpar.tense_voice_mood = (fut, active,  ppl)  then
-         ppl_info := get_participle_info(pa(j).ir.qual.vpar);
+      elsif parsed_verb.tense_voice_mood = (fut, active,  ppl)  then
+         ppl_info := get_participle_info(parsed_verb);
          if is_esse(trimmed_next_word)  then
             compound_tvm := (fut, active, inf);
             ppp_meaning := head(
@@ -252,8 +252,8 @@ procedure parse(configuration : configuration_type;
            compound_tvm => compound_tvm
                 );
 
-      elsif pa(j).ir.qual.vpar.tense_voice_mood = (fut, passive, ppl)  then
-         ppl_info := get_participle_info(pa(j).ir.qual.vpar);
+      elsif parsed_verb.tense_voice_mood = (fut, passive, ppl)  then
+         ppl_info := get_participle_info(parsed_verb);
          if is_esse(trimmed_next_word)  then
             compound_tvm := (pres, passive, inf);
             ppp_meaning := head(
