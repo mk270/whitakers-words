@@ -177,33 +177,20 @@ procedure parse(configuration : configuration_type;
 
    begin
 
-      if not (
-        parsed_verb.tense_voice_mood = (perf, passive, ppl) or else
-        parsed_verb.tense_voice_mood = (fut,  active,  ppl) or else
-        parsed_verb.tense_voice_mood = (fut,  passive, ppl)) then
-         return (
-           ppl_on => default_ppl_on,
-           ppl_info => default_ppl_info,
-           ppp_meaning => default_ppp_meaning,
-           compound_tvm => default_compound_tvm
-                );
-      end if;
+      for i in participle_glosses'range loop
+         if participle_glosses(i).key = parsed_verb.tense_voice_mood then
 
-      if parsed_verb.tense_voice_mood = (perf, passive, ppl) then
-         compound_tense := get_compound_tense(sum_info.tense_voice_mood.tense);
-      else
-         compound_tense := sum_info.tense_voice_mood.tense;
-      end if;
+            if parsed_verb.tense_voice_mood = (perf, passive, ppl) then
+               compound_tense := get_compound_tense(sum_info.tense_voice_mood.tense);
+            else
+               compound_tense := sum_info.tense_voice_mood.tense;
+            end if;
 
-      compound_tvm := (compound_tense, passive, sum_info.tense_voice_mood.mood);
+            compound_tvm := (compound_tense, passive, sum_info.tense_voice_mood.mood);
 
-      declare
-         ppl_info : constant vpar_record := get_participle_info(parsed_verb);
-      begin
-
-      -- temporarily stay at indiosyncratic indentation level
-         for i in participle_glosses'range loop
-            if participle_glosses(i).key = parsed_verb.tense_voice_mood then
+            declare
+               ppl_info : constant vpar_record := get_participle_info(parsed_verb);
+            begin
                return (
                  ppl_on => true,
                  ppl_info => ppl_info,
@@ -211,12 +198,16 @@ procedure parse(configuration : configuration_type;
                  head(participle_glosses(i).gloss, max_meaning_size),
                  compound_tvm => compound_tvm
                       );
-            end if;
-         end loop;
+            end;
+         end if;
+      end loop;
 
-         -- should raise an exception / fail an assertion - can't get here
-
-      end;
+      return (
+        ppl_on => default_ppl_on,
+        ppl_info => default_ppl_info,
+        ppp_meaning => default_ppp_meaning,
+        compound_tvm => default_compound_tvm
+             );
    end;
 
    -- this function is almost an exact duplicate of the one above
