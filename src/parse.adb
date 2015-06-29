@@ -63,7 +63,6 @@ procedure parse(configuration : configuration_type;
    storage_error_count : integer := 0;
 
    j, k, l : integer := 0;
-   line : string(1..2500) := (others => ' ');
    --INPUT : TEXT_IO.FILE_TYPE;
 
    -- the scope of most of these variables is over-broad
@@ -534,7 +533,7 @@ procedure parse(configuration : configuration_type;
 
    procedure parse_line(input_line : string) is
       l : integer := trim(input_line)'last;
-      --LINE : STRING(1..2500) := (others => ' ');
+      line : string(1..2500) := (others => ' ');
       w : string(1..l) := (others => ' ');
    begin
       word_number := 0;
@@ -995,6 +994,7 @@ procedure parse(configuration : configuration_type;
    end delete_if_open;
 
    blank_line : constant string(1..2500) := (others => ' ');
+   line : string(1 .. 2500) := (others => ' ');
 
 begin
    --  PARSE
