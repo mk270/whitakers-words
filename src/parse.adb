@@ -1063,7 +1063,8 @@ begin
                -- Not a blank line so L(1) (in file input)
                if line(1) = start_file_character  then
                   if (name(current_input) /= name(standard_input)) then
-                     text_io.put_line("Cannot have file of words (@FILE) in an @FILE");
+                     text_io.put_line("Cannot have file of words (@FILE) " &
+                       "in an @FILE");
                   else
                      text_io.open(input, text_io.in_file, trim(line(2..l)));
                      text_io.set_input(input);
@@ -1112,7 +1113,8 @@ begin
                   if method = command_line_files  then raise give_up; end if;
                else
                   put_line("Raised END_ERROR, although in STANDARD_INPUT");
-                  put_line("^Z is inappropriate keyboard input, WORDS should be terminated with a blank line");
+                  put_line("^Z is inappropriate keyboard input, " &
+                    "WORDS should be terminated with a blank line");
                   raise give_up;
                end if;
             when status_error =>
