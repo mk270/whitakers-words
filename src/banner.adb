@@ -42,4 +42,14 @@ package body banner is
         "Two empty lines (just a RETURN/ENTER) from the keyboard exits the program");
 
    end print_main_banner;
+
+   procedure print_mode_warning
+   is
+   begin
+      preface.put_line(
+        "THIS VERSION IS HARDCODED TO GIVE DICTIONARY FORM AND MEANINGS ONLY");
+      preface.put_line(
+        "IT CANNOT BE MODIFIED BY CHANGING THE DO_MEANINGS_ONLY PARAMETER");
+   end print_mode_warning;
+
 end banner;

@@ -1016,10 +1016,7 @@ begin
       end if;
 
       if configuration = only_meanings  then
-         preface.put_line(
-           "THIS VERSION IS HARDCODED TO GIVE DICTIONARY FORM AND MEANINGS ONLY");
-         preface.put_line(
-           "IT CANNOT BE MODIFIED BY CHANGING THE DO_MEANINGS_ONLY PARAMETER");
+         banner.print_mode_warning;
       end if;
 
   get_input_lines:

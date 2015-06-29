@@ -18,4 +18,5 @@ package banner is
    procedure print_main_banner(start_file_character : character;
                                change_parameters_character : character;
                                help_character : character);
+   procedure print_mode_warning;
 end banner;
