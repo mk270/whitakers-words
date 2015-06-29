@@ -63,7 +63,6 @@ procedure parse(configuration : configuration_type;
    storage_error_count : integer := 0;
 
    j, k, l : integer := 0;
-   blank_line : constant string(1..2500) := (others => ' ');
    line : string(1..2500) := (others => ' ');
    --INPUT : TEXT_IO.FILE_TYPE;
 
@@ -994,6 +993,8 @@ procedure parse(configuration : configuration_type;
       exception when others => null;
       end;   --  not there, so don't have to DELETE
    end delete_if_open;
+
+   blank_line : constant string(1..2500) := (others => ' ');
 
 begin
    --  PARSE
