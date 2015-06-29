@@ -16,6 +16,10 @@ Help is needed maintaining the code for future users; in particular, it
 does not currently support vowel length, so it may be necessary to gather
 a group of Latin experts to adjust its lexicon of several thousand words.
 
+If you contribute, please be sure to indicate your assent to redistributing
+your contributions under the same terms as the existing software; this
+will minimise copyright hassles in the future.
+
 Usage
 =====
 
