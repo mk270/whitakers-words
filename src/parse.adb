@@ -52,6 +52,7 @@ with put_stat;
 with english_support_package; use english_support_package;
 with search_english;
 with char_utils; use char_utils;
+with banner; use banner;
 
 pragma elaborate(word_parameters);
 procedure parse(configuration : configuration_type;
@@ -1004,24 +1005,8 @@ begin
       end if;
 
    else
-
-      preface.put_line(
-        "Copyright (c) 1993-2006 - Free for any use - Version 1.97FC");
-      preface.put_line(
-        "For updates and latest version check http://www.erols.com/whitaker/words.htm");
-      preface.put_line(
-        "Comments? William Whitaker, Box 51225  Midland  TX  79710  USA - whitaker@erols.com");
-      preface.new_line;
-      preface.put_line(
-        "Input a word or line of Latin and ENTER to get the forms and meanings");
-      preface.put_line("    Or input " & start_file_character &
-        " and the name of a file containing words or lines");
-      preface.put_line("    Or input " & change_parameters_character &
-        " to change parameters and mode of the program");
-      preface.put_line("    Or input " & help_character &
-        " to get help wherever available on individual parameters");
-      preface.put_line(
-        "Two empty lines (just a RETURN/ENTER) from the keyboard exits the program");
+      banner.print_main_banner(start_file_character,
+        change_parameters_character, help_character);
 
       if english_dictionary_available(general)  then
          preface.put_line("English-to-Latin available");
