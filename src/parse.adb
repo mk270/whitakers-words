@@ -215,13 +215,6 @@ procedure parse(configuration : configuration_type;
            ppp_meaning => ppp_meaning,
            compound_tvm => compound_tvm
                 );
-      else
-         return (
-           ppl_on => default_ppl_on,
-           ppl_info => default_ppl_info,
-           ppp_meaning => default_ppp_meaning,
-           compound_tvm => default_compound_tvm
-                );
       end if;
       end;
    end;
