@@ -201,6 +201,87 @@ procedure parse(configuration : configuration_type;
       end if;
    end;
 
+   function get_pas_participle(parsed_verb : vpar_record;
+                               sum_info : verb_record;
+                               trimmed_next_word : string;
+                               default_ppl_on : boolean;
+                               default_compound_tvm : tense_voice_mood_record;
+                               default_ppp_meaning : meaning_type;
+                               default_ppl_info : vpar_record)
+                              return participle
+   is
+      -- dummy initial value; never read, but assigned in every code path
+      compound_tvm : inflections_package.tense_voice_mood_record := (pres, active, ind);
+      ppl_info : vpar_record;
+
+
+   begin
+      if pa(j).ir.qual.vpar.tense_voice_mood = (perf, passive, ppl)  then
+         compound_tvm := (perf, passive, inf);
+
+         ppl_info := get_participle_info(pa(j).ir.qual.vpar);
+         ppp_meaning :=
+           head("PERF PASSIVE PPL + esse => PERF PASSIVE INF",
+           max_meaning_size);
+         return (
+           ppl_on => true,
+           ppl_info => ppl_info,
+           ppp_meaning => ppp_meaning,
+           compound_tvm => compound_tvm
+                );
+
+      elsif pa(j).ir.qual.vpar.tense_voice_mood = (fut, active,  ppl)  then
+         ppl_info := get_participle_info(pa(j).ir.qual.vpar);
+         if is_esse(trimmed_next_word)  then
+            compound_tvm := (fut, active, inf);
+            ppp_meaning := head(
+              "FUT ACTIVE PPL + esse => PRES Periphastic/FUT ACTIVE INF - be about/going to",
+              max_meaning_size);
+            -- also peri COMPOUND_TVM := (PRES, ACTIVE, INF);
+         else   --  fuisse
+            compound_tvm := (perf, active, inf);
+            ppp_meaning := head(
+              "FUT ACT PPL+fuisse => PERF ACT INF Periphrastic - to have been about/going to",
+              max_meaning_size);
+         end if;
+         return (
+           ppl_on => true,
+           ppl_info => ppl_info,
+           ppp_meaning => ppp_meaning,
+           compound_tvm => compound_tvm
+                );
+
+      elsif pa(j).ir.qual.vpar.tense_voice_mood = (fut, passive, ppl)  then
+         ppl_info := get_participle_info(pa(j).ir.qual.vpar);
+         if is_esse(trimmed_next_word)  then
+            compound_tvm := (pres, passive, inf);
+            ppp_meaning := head(
+              "FUT PASSIVE PPL + esse => PRES PASSIVE INF",
+              max_meaning_size);
+            -- also peri COMPOUND_TVM := (PRES, ACTIVE, INF);
+         else   --  fuisse
+            compound_tvm := (perf, passive, inf);
+            ppp_meaning := head(
+              "FUT PASSIVE PPL + fuisse => PERF PASSIVE INF Periphrastic - about to, going to",
+              max_meaning_size);
+         end if;
+
+         return (
+           ppl_on => true,
+           ppl_info => ppl_info,
+           ppp_meaning => ppp_meaning,
+           compound_tvm => compound_tvm
+                );
+      end if;
+
+      return (
+           ppl_on => default_ppl_on,
+           ppl_info => default_ppl_info,
+           ppp_meaning => default_ppp_meaning,
+           compound_tvm => default_compound_tvm
+             );
+
+   end;
 
    function is_sum(t : string) return verb_to_be is
       sa : constant array (mood_type range ind..sub,
@@ -670,8 +751,8 @@ procedure parse(configuration : configuration_type;
                                    pa(j).ir.qual.vpar.cs = nom  and then
                                    pa(j).ir.qual.vpar.number = sum_info.number  then
                                     declare
-                                       part : constant participle := get_pas_nom_participle(pa(j).ir.qual.vpar, sum_info, ppl_on,
-                                         compound_tvm, ppp_meaning, ppl_info);
+                                       part : constant participle := get_pas_nom_participle(pa(j).ir.qual.vpar, sum_info,
+                                         ppl_on, compound_tvm, ppp_meaning, ppl_info);
                                     begin
                                        ppl_on := part.ppl_on;
                                        ppl_info := part.ppl_info;
@@ -726,51 +807,16 @@ procedure parse(configuration : configuration_type;
                                     null;
 
                                  elsif pa(j).ir.qual.pofs = vpar   then
-
-                                    if pa(j).ir.qual.vpar.tense_voice_mood = (perf, passive, ppl)  then
-                                       ppl_on := true;
-
-                                       compound_tvm := (perf, passive, inf);
-
-                                       ppl_info := get_participle_info(pa(j).ir.qual.vpar);
-                                       ppp_meaning :=
-                                         head("PERF PASSIVE PPL + esse => PERF PASSIVE INF",
-                                         max_meaning_size);
-
-                                    elsif pa(j).ir.qual.vpar.tense_voice_mood = (fut, active,  ppl)  then
-                                       ppl_on := true;
-                                       ppl_info := get_participle_info(pa(j).ir.qual.vpar);
-                                       if is_esse(next_word)  then
-                                          compound_tvm := (fut, active, inf);
-                                          ppp_meaning := head(
-                                            "FUT ACTIVE PPL + esse => PRES Periphastic/FUT ACTIVE INF - be about/going to",
-                                            max_meaning_size);
-                                          -- also peri COMPOUND_TVM := (PRES, ACTIVE, INF);
-                                       else   --  fuisse
-                                          compound_tvm := (perf, active, inf);
-                                          ppp_meaning := head(
-                                            "FUT ACT PPL+fuisse => PERF ACT INF Periphrastic - to have been about/going to",
-                                            max_meaning_size);
-                                       end if;
-
-                                    elsif pa(j).ir.qual.vpar.tense_voice_mood = (fut, passive, ppl)  then
-                                       ppl_on := true;
-
-                                       ppl_info := get_participle_info(pa(j).ir.qual.vpar);
-                                       if is_esse(next_word)  then
-                                          compound_tvm := (pres, passive, inf);
-                                          ppp_meaning := head(
-                                            "FUT PASSIVE PPL + esse => PRES PASSIVE INF",
-                                            max_meaning_size);
-                                          -- also peri COMPOUND_TVM := (PRES, ACTIVE, INF);
-                                       else   --  fuisse
-                                          compound_tvm := (perf, passive, inf);
-                                          ppp_meaning := head(
-                                            "FUT PASSIVE PPL + fuisse => PERF PASSIVE INF Periphrastic - about to, going to",
-                                            max_meaning_size);
-                                       end if;
-
-                                    end if;
+                                    declare
+                                       trimmed_next_word : constant string := next_word;
+                                       part : constant participle := get_pas_participle(pa(j).ir.qual.vpar, sum_info, trimmed_next_word,
+                                         ppl_on, compound_tvm, ppp_meaning, ppl_info);
+                                    begin
+                                       ppl_on := part.ppl_on;
+                                       ppl_info := part.ppl_info;
+                                       ppp_meaning := part.ppp_meaning;
+                                       compound_tvm := part.compound_tvm;
+                                    end;
                                  else
                                     pa(j..pa_last-1) := pa(j+1..pa_last);
                                     pa_last := pa_last - 1;
