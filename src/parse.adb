@@ -171,16 +171,20 @@ procedure parse(configuration : configuration_type;
                 );
       end if;
 
+      if parsed_verb.tense_voice_mood = (perf, passive, ppl) then
+         compound_tense := get_compound_tense(sum_info.tense_voice_mood.tense);
+      else
+         compound_tense := sum_info.tense_voice_mood.tense;
+      end if;
+
+      compound_tvm := (compound_tense, passive, sum_info.tense_voice_mood.mood);
+
       declare
          ppl_info : constant vpar_record := get_participle_info(parsed_verb);
       begin
 
       -- temporarily stay at indiosyncratic indentation level
       if parsed_verb.tense_voice_mood = (perf, passive, ppl)  then
-         compound_tense := get_compound_tense(sum_info.tense_voice_mood.tense);
-         compound_tvm := (compound_tense, passive,
-           sum_info.tense_voice_mood.mood);
-
          ppp_meaning :=
            head("PERF PASSIVE PPL + verb TO_BE => PASSIVE perfect system",
            max_meaning_size);
@@ -191,10 +195,6 @@ procedure parse(configuration : configuration_type;
            compound_tvm => compound_tvm
                 );
       elsif parsed_verb.tense_voice_mood = (fut, active,  ppl)  then
-         compound_tense := sum_info.tense_voice_mood.tense;
-         compound_tvm := (compound_tense, active,
-           sum_info.tense_voice_mood.mood);
-
          ppp_meaning := head(
            "FUT ACTIVE PPL + verb TO_BE => "
            & "ACTIVE Periphrastic - about to, going to",
@@ -206,10 +206,6 @@ procedure parse(configuration : configuration_type;
            compound_tvm => compound_tvm
                 );
       elsif parsed_verb.tense_voice_mood = (fut, passive, ppl)  then
-         compound_tense := sum_info.tense_voice_mood.tense;
-         compound_tvm := (compound_tense, passive,
-           sum_info.tense_voice_mood.mood);
-
          ppp_meaning := head(
            "FUT PASSIVE PPL + verb TO_BE => "
            & "PASSIVE Periphrastic - should/ought/had to",
