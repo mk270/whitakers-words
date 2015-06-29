@@ -87,6 +87,21 @@ procedure parse(configuration : configuration_type;
          end case;
       end record;
 
+   function is_esse(t : string) return boolean is
+   begin
+      return trim(t) = "esse";
+   end is_esse;
+
+   function is_fuisse(t : string) return boolean is
+   begin
+      return trim(t) = "fuisse";
+   end is_fuisse;
+
+   function is_iri(t : string) return boolean is
+   begin
+      return trim(t) = "iri";
+   end is_iri;
+
    function get_participle_info(vpar : vpar_record)
      return vpar_record
    is
@@ -251,21 +266,6 @@ procedure parse(configuration : configuration_type;
              );
    end is_sum;
 
-
-   function is_esse(t : string) return boolean is
-   begin
-      return trim(t) = "esse";
-   end is_esse;
-
-   function is_fuisse(t : string) return boolean is
-   begin
-      return trim(t) = "fuisse";
-   end is_fuisse;
-
-   function is_iri(t : string) return boolean is
-   begin
-      return trim(t) = "iri";
-   end is_iri;
 
    procedure enclitic(input_word : string;
                       entering_pa_last : in out integer;
