@@ -200,7 +200,8 @@ procedure parse(configuration : configuration_type;
                 );
       end if;
    end;
-
+   
+   -- this function is almost an exact duplicate of the one above
    function get_pas_participle(parsed_verb : vpar_record;
                                sum_info : verb_record;
                                trimmed_next_word : string;
