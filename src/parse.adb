@@ -61,6 +61,7 @@ procedure parse(configuration : configuration_type;
    line : string(1..2500) := (others => ' ');
    --INPUT : TEXT_IO.FILE_TYPE;
 
+   -- the scope of most of these variables is over-broad
    pa : parse_array(1..100) := (others => null_parse_record);
    syncope_max : constant := 20;
    no_syncope : boolean := false;
