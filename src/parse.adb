@@ -120,6 +120,24 @@ procedure parse(configuration : configuration_type;
              );
    end get_participle_info;
 
+   type participle_gloss is
+      record
+         key : inflections_package.tense_voice_mood_record;
+         gloss : string(1 .. 74);
+      end record;
+
+   type participle_glosses_arr is array (integer range <>) of participle_gloss;
+
+   participle_glosses : constant participle_glosses_arr :=
+     (
+      (key => (perf, passive, ppl),
+       gloss => "PERF PASSIVE PPL + verb TO_BE => PASSIVE perfect system                   "),
+      (key => (fut, active,  ppl),
+       gloss => "FUT ACTIVE PPL + verb TO_BE => ACTIVE Periphrastic - about to, going to   "),
+      (key => (fut, passive, ppl),
+       gloss => "FUT PASSIVE PPL + verb TO_BE => PASSIVE Periphrastic - should/ought/had to")
+     );
+
    -- we pass in the "default" values of a bunch of variables
 
    -- this function is called in a loop, which used to overwrite
@@ -184,41 +202,20 @@ procedure parse(configuration : configuration_type;
       begin
 
       -- temporarily stay at indiosyncratic indentation level
-      if parsed_verb.tense_voice_mood = (perf, passive, ppl)  then
-         ppp_meaning :=
-           head("PERF PASSIVE PPL + verb TO_BE => PASSIVE perfect system",
-           max_meaning_size);
-         return (
-           ppl_on => true,
-           ppl_info => ppl_info,
-           ppp_meaning => ppp_meaning,
-           compound_tvm => compound_tvm
-                );
-      elsif parsed_verb.tense_voice_mood = (fut, active,  ppl)  then
-         ppp_meaning := head(
-           "FUT ACTIVE PPL + verb TO_BE => "
-           & "ACTIVE Periphrastic - about to, going to",
-           max_meaning_size);
-         return (
-           ppl_on => true,
-           ppl_info => ppl_info,
-           ppp_meaning => ppp_meaning,
-           compound_tvm => compound_tvm
-                );
-      elsif parsed_verb.tense_voice_mood = (fut, passive, ppl)  then
-         ppp_meaning := head(
-           "FUT PASSIVE PPL + verb TO_BE => "
-           & "PASSIVE Periphrastic - should/ought/had to",
-           max_meaning_size);
-         return (
-           ppl_on => true,
-           ppl_info => ppl_info,
-           ppp_meaning => ppp_meaning,
-           compound_tvm => compound_tvm
-                );
-      else
-         null; -- should raise an exception / fail an assertion - can't get here
-      end if;
+         for i in participle_glosses'range loop
+            if participle_glosses(i).key = parsed_verb.tense_voice_mood then
+               return (
+                 ppl_on => true,
+                 ppl_info => ppl_info,
+                 ppp_meaning =>
+                 head(participle_glosses(i).gloss, max_meaning_size),
+                 compound_tvm => compound_tvm
+                      );
+            end if;
+         end loop;
+
+         -- should raise an exception / fail an assertion - can't get here
+
       end;
    end;
 
