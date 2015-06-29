@@ -179,21 +179,26 @@ procedure parse(configuration : configuration_type;
          if participle_glosses(i).key = parsed_verb.tense_voice_mood then
 
             if parsed_verb.tense_voice_mood = (perf, passive, ppl) then
-               compound_tense := get_compound_tense(sum_info.tense_voice_mood.tense);
+               compound_tense := get_compound_tense(
+                 sum_info.tense_voice_mood.tense);
             else
                compound_tense := sum_info.tense_voice_mood.tense;
             end if;
 
             declare
-               ppl_info : constant vpar_record := get_participle_info(parsed_verb);
+               ppl_info : constant vpar_record := get_participle_info(
+                 parsed_verb);
             begin
                return (
                  ppl_on => true,
                  ppl_info => ppl_info,
-                 ppp_meaning =>
-                 head(participle_glosses(i).gloss, max_meaning_size),
-                 compound_tvm => (compound_tense, passive, sum_info.tense_voice_mood.mood)
-                      );
+                 ppp_meaning => head(
+                    participle_glosses(i).gloss, max_meaning_size
+                 ),
+                 compound_tvm => (
+                    compound_tense, passive, sum_info.tense_voice_mood.mood
+                 )
+               );
             end;
          end if;
       end loop;
@@ -203,10 +208,11 @@ procedure parse(configuration : configuration_type;
         ppl_info => default_ppl_info,
         ppp_meaning => default_ppp_meaning,
         compound_tvm => default_compound_tvm
-             );
+      );
    end;
 
-   -- this function is almost an exact duplicate of the one above
+   -- this function was almost an exact duplicate of the one above; it should
+   -- be converted to the form above
    function get_pas_participle(parsed_verb : vpar_record;
                                sum_info : verb_record;
                                trimmed_next_word : string;
