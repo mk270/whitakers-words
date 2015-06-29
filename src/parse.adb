@@ -140,7 +140,6 @@ procedure parse(configuration : configuration_type;
       compound_tense : tense_type := pres;
       compound_tvm : inflections_package.tense_voice_mood_record :=
         (pres, active, ind);
-      ppl_info : vpar_record;
 
       function get_compound_tense(tense : tense_type) return tense_type
       is
@@ -155,12 +154,28 @@ procedure parse(configuration : configuration_type;
 
    begin
 
+      if not (
+        parsed_verb.tense_voice_mood = (perf, passive, ppl) or else
+        parsed_verb.tense_voice_mood = (fut,  active,  ppl) or else
+        parsed_verb.tense_voice_mood = (fut,  passive, ppl)) then
+         return (
+           ppl_on => default_ppl_on,
+           ppl_info => default_ppl_info,
+           ppp_meaning => default_ppp_meaning,
+           compound_tvm => default_compound_tvm
+                );
+      end if;
+
+      declare
+         ppl_info : constant vpar_record := get_participle_info(parsed_verb);
+      begin
+
+      -- temporarily stay at indiosyncratic indentation level
       if parsed_verb.tense_voice_mood = (perf, passive, ppl)  then
          compound_tense := get_compound_tense(sum_info.tense_voice_mood.tense);
          compound_tvm := (compound_tense, passive,
            sum_info.tense_voice_mood.mood);
 
-         ppl_info := get_participle_info(parsed_verb);
          ppp_meaning :=
            head("PERF PASSIVE PPL + verb TO_BE => PASSIVE perfect system",
            max_meaning_size);
@@ -175,7 +190,6 @@ procedure parse(configuration : configuration_type;
          compound_tvm := (compound_tense, active,
            sum_info.tense_voice_mood.mood);
 
-         ppl_info := get_participle_info(parsed_verb);
          ppp_meaning := head(
            "FUT ACTIVE PPL + verb TO_BE => "
            & "ACTIVE Periphrastic - about to, going to",
@@ -191,7 +205,6 @@ procedure parse(configuration : configuration_type;
          compound_tvm := (compound_tense, passive,
            sum_info.tense_voice_mood.mood);
 
-         ppl_info := get_participle_info(parsed_verb);
          ppp_meaning := head(
            "FUT PASSIVE PPL + verb TO_BE => "
            & "PASSIVE Periphrastic - should/ought/had to",
@@ -210,6 +223,7 @@ procedure parse(configuration : configuration_type;
            compound_tvm => default_compound_tvm
                 );
       end if;
+      end;
    end;
 
    -- this function is almost an exact duplicate of the one above
