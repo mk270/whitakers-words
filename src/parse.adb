@@ -786,36 +786,8 @@ is
 
                   if k = nk  then
                      --  There was a PPL hit
-                 clear_pas_nom_ppl:
-                     declare
-                        j4 : integer := pa_last;
-                     begin
-                        while j4 >= 1  loop
-                           --  Sweep backwards to kill empty suffixes
-                           if pa(j4).ir.qual.pofs in tackon .. suffix
-                             and then ppl_on then
-                              null;
-
-                           elsif pa(j4).ir.qual.pofs = vpar and then
-                             pa(j4).ir.qual.vpar.cs = nom  and then
-                             pa(j4).ir.qual.vpar.number = sum_info.number  then
-                              declare
-                                 part : constant participle := get_pas_nom_participle(pa(j4).ir.qual.vpar, sum_info,
-                                   ppl_on, compound_tvm, ppp_meaning, ppl_info);
-                              begin
-                                 ppl_on := part.ppl_on;
-                                 ppl_info := part.ppl_info;
-                                 ppp_meaning := part.ppp_meaning;
-                                 compound_tvm := part.compound_tvm;
-                              end;
-                           else
-                              pa(j4..pa_last-1) := pa(j4+1..pa_last);
-                              pa_last := pa_last - 1;
-                              ppl_on := false;
-                           end if;
-                           j4 := j4 - 1;
-                        end loop;
-                     end clear_pas_nom_ppl;
+                     do_clear_pas_nom_ppl(sum_info, compound_tvm, ppl_on,
+                       ppl_info);
 
                      pa_last := pa_last + 1;
                      pa(pa_last) :=
