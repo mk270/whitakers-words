@@ -34,6 +34,9 @@
 --   the use of labels entails negatively indenting source lines, and is
 --   a major readability/intelligibility problem
 
+--  there are some instances of variables shadowed, e.g., "j" was
+--  shadowed twice in nested declare blocks
+
 with text_io;
 with strings_package; use strings_package;
 with word_parameters; use word_parameters;
@@ -59,7 +62,7 @@ is
    -- the scope of most of these variables is over-broad
    storage_error_count : integer := 0;
 
-   j, k : integer := 0;
+   j2, k : integer := 0;
 
    pa : parse_array(1..100) := (others => null_parse_record);
    syncope_max : constant := 20;
@@ -560,25 +563,25 @@ is
          end if;
       end loop;
 
-      j := 1;
+      j2 := 1;
       k := 0;
 
       -- loop over line
-      while j <= l  loop
+      while j2 <= l  loop
 
          --  Skip over leading and intervening blanks, looking for comments
          --  Punctuation, numbers, and special characters were cleared above
          for i in k+1..l  loop
-            exit when line(j) in 'A'..'Z';
-            exit when line(j) in 'a'..'z';
+            exit when line(j2) in 'A'..'Z';
+            exit when line(j2) in 'a'..'z';
             if i < l  and then
               line(i..i+1) = "--"   then
                return;      --  the rest of the line is comment
             end if;
-            j := i + 1;
+            j2 := i + 1;
          end loop;
 
-         exit when j > l;             --  Kludge
+         exit when j2 > l;             --  Kludge
 
          follows_period := false;
          if followed_by_period  then
@@ -590,7 +593,7 @@ is
          all_caps := false;
 
          --  Extract the word
-         for i in j..l  loop
+         for i in j2..l  loop
 
             --  Although I have removed punctuation above, it may not always be so
             if line(i) = '.'  then
@@ -603,21 +606,21 @@ is
 
          end loop;
 
-         if w(j) in 'A'..'Z'  and then
-           k - j >= 1  and then
-           w(j+1) in 'a'..'z'  then
+         if w(j2) in 'A'..'Z'  and then
+           k - j2 >= 1  and then
+           w(j2+1) in 'a'..'z'  then
             capitalized := true;
          end if;
 
          all_caps := true;
-         for i in j..k  loop
+         for i in j2..k  loop
             if w(i) = lower_case(w(i))  then
                all_caps := false;
                exit;
             end if;
          end loop;
 
-         for i in j..k-1  loop               --  Kludge for QVAE
+         for i in j2..k-1  loop               --  Kludge for QVAE
             if w(i) = 'Q'  and then w(i+1) = 'V'  then
                w(i+1) := 'U';
             end if;
@@ -626,7 +629,7 @@ is
          if language = english_to_latin  then
             --  Since we do only one English word per line
             declare
-               input_word : constant string := w(j..k);
+               input_word : constant string := w(j2..k);
                pofs : part_of_speech_type := x;
             begin
 
@@ -648,7 +651,7 @@ is
          -- split parse_line() at this point, into two functions
 
          declare
-            input_word : constant string := w(j..k);
+            input_word : constant string := w(j2..k);
             entering_pa_last : integer := 0;
             entering_trpa_last    : integer := 0;
             have_done_enclitic : boolean := false;
@@ -704,13 +707,13 @@ is
                      supine_info : supine_record := ((0, 0), x, x, x);
 
                      procedure look_ahead is
-                        j : integer := 0;
+                        j3 : integer := 0;
                      begin
                         for i in k+2..l  loop
                            --  Although I have removed punctuation above, it may not always be so
                            exit when is_punctuation(line(i));
-                           j := j + 1;
-                           nw(j) := line(i);
+                           j3 := j3 + 1;
+                           nw(j3) := line(i);
                            nk := i;
                         end loop;
                      end look_ahead;
@@ -758,19 +761,19 @@ is
                            --  There was a PPL hit
                        clear_pas_nom_ppl:
                            declare
-                              j : integer := pa_last;
+                              j4 : integer := pa_last;
                            begin
-                              while j >= 1  loop
+                              while j4 >= 1  loop
                                  --  Sweep backwards to kill empty suffixes
-                                 if pa(j).ir.qual.pofs in tackon .. suffix
+                                 if pa(j4).ir.qual.pofs in tackon .. suffix
                                    and then ppl_on then
                                     null;
 
-                                 elsif pa(j).ir.qual.pofs = vpar and then
-                                   pa(j).ir.qual.vpar.cs = nom  and then
-                                   pa(j).ir.qual.vpar.number = sum_info.number  then
+                                 elsif pa(j4).ir.qual.pofs = vpar and then
+                                   pa(j4).ir.qual.vpar.cs = nom  and then
+                                   pa(j4).ir.qual.vpar.number = sum_info.number  then
                                     declare
-                                       part : constant participle := get_pas_nom_participle(pa(j).ir.qual.vpar, sum_info,
+                                       part : constant participle := get_pas_nom_participle(pa(j4).ir.qual.vpar, sum_info,
                                          ppl_on, compound_tvm, ppp_meaning, ppl_info);
                                     begin
                                        ppl_on := part.ppl_on;
@@ -779,11 +782,11 @@ is
                                        compound_tvm := part.compound_tvm;
                                     end;
                                  else
-                                    pa(j..pa_last-1) := pa(j+1..pa_last);
+                                    pa(j4..pa_last-1) := pa(j4+1..pa_last);
                                     pa_last := pa_last - 1;
                                     ppl_on := false;
                                  end if;
-                                 j := j - 1;
+                                 j4 := j4 - 1;
                               end loop;
                            end clear_pas_nom_ppl;
 
@@ -819,18 +822,18 @@ is
                            --  There was a PPL hit
                        clear_pas_ppl:
                            declare
-                              j : integer := pa_last;
+                              j5 : integer := pa_last;
                            begin
-                              while j >= 1  loop
+                              while j5 >= 1  loop
                                  --  Sweep backwards to kill empty suffixes
-                                 if pa(j).ir.qual.pofs in tackon .. suffix
+                                 if pa(j5).ir.qual.pofs in tackon .. suffix
                                    and then ppl_on then
                                     null;
 
-                                 elsif pa(j).ir.qual.pofs = vpar   then
+                                 elsif pa(j5).ir.qual.pofs = vpar   then
                                     declare
                                        trimmed_next_word : constant string := next_word;
-                                       part : constant participle := get_pas_participle(pa(j).ir.qual.vpar, sum_info, trimmed_next_word,
+                                       part : constant participle := get_pas_participle(pa(j5).ir.qual.vpar, sum_info, trimmed_next_word,
                                          ppl_on, compound_tvm, ppp_meaning, ppl_info);
                                     begin
                                        ppl_on := part.ppl_on;
@@ -839,11 +842,11 @@ is
                                        compound_tvm := part.compound_tvm;
                                     end;
                                  else
-                                    pa(j..pa_last-1) := pa(j+1..pa_last);
+                                    pa(j5..pa_last-1) := pa(j5+1..pa_last);
                                     pa_last := pa_last - 1;
                                     ppl_on := false;
                                  end if;
-                                 j := j - 1;
+                                 j5 := j5 - 1;
                               end loop;
                            end clear_pas_ppl;
 
@@ -876,22 +879,22 @@ is
                         if k = nk  then      --  There was a SUPINE hit
                        clear_pas_supine:
                            declare
-                              j : integer := pa_last;
+                              j6 : integer := pa_last;
                            begin
-                              while j >= 1  loop
+                              while j6 >= 1  loop
                                  --  Sweep backwards to kill empty suffixes
-                                 if pa(j).ir.qual.pofs in tackon .. suffix
+                                 if pa(j6).ir.qual.pofs in tackon .. suffix
                                    and then ppl_on then
                                     null;
 
-                                 elsif pa(j).ir.qual.pofs = supine  and then
-                                   pa(j).ir.qual.supine.cs = acc  then
+                                 elsif pa(j6).ir.qual.pofs = supine  and then
+                                   pa(j6).ir.qual.supine.cs = acc  then
 
                                     ppl_on := true;
-                                    supine_info := (pa(j).ir.qual.supine.con,
-                                      pa(j).ir.qual.supine.cs,
-                                      pa(j).ir.qual.supine.number,
-                                      pa(j).ir.qual.supine.gender);
+                                    supine_info := (pa(j6).ir.qual.supine.con,
+                                      pa(j6).ir.qual.supine.cs,
+                                      pa(j6).ir.qual.supine.number,
+                                      pa(j6).ir.qual.supine.gender);
 
                                     pa_last := pa_last + 1;
                                     pa(pa_last) :=
@@ -910,11 +913,11 @@ is
                                     k := nk;
 
                                  else
-                                    pa(j..pa_last-1) := pa(j+1..pa_last);
+                                    pa(j6..pa_last-1) := pa(j6+1..pa_last);
                                     pa_last := pa_last - 1;
                                     ppl_on := false;
                                  end if;
-                                 j := j -1;
+                                 j6 := j6 -1;
                               end loop;
                            end clear_pas_supine;
                         end if;
@@ -950,7 +953,7 @@ is
          ----------------------------------------------------------------------
          ----------------------------------------------------------------------
 
-         j := k + 1;    --  In case it is end of line and we don't look for ' '
+         j2 := k + 1;    --  In case it is end of line and we don't look for ' '
 
          exit when words_mdev(do_only_initial_word);
 
@@ -977,7 +980,7 @@ is
             if words_mdev(do_pearse_codes) then
                text_io.put(unknowns, "00 ");
             end if;
-            text_io.put(unknowns, input_line(j..k));
+            text_io.put(unknowns, input_line(j2..k));
             text_io.set_col(unknowns, 30);
             inflections_package.integer_io.put(unknowns, line_number, 5);
             inflections_package.integer_io.put(unknowns, word_number, 3);
