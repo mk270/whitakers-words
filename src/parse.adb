@@ -645,6 +645,8 @@ is
             end;
          end if;
 
+         -- split parse_line() at this point, into two functions
+
          declare
             input_word : constant string := w(j..k);
             entering_pa_last : integer := 0;
