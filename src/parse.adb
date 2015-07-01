@@ -643,7 +643,7 @@ is
                end;
 
                search_english(input_word, pofs);
-               return;
+               exit;
 
             end;
          end if;
