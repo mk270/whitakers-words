@@ -363,6 +363,53 @@ is
              );
    end is_sum;
 
+   procedure do_clear_pas_supine(supine_info : out supine_record;
+                                 nk : in integer;
+                                 ppl_on : in out boolean)
+   is
+                        j6 : integer := pa_last;
+                     begin
+                        while j6 >= 1  loop
+                           --  Sweep backwards to kill empty suffixes
+                           if pa(j6).ir.qual.pofs in tackon .. suffix
+                             and then ppl_on then
+                              null;
+
+                           elsif pa(j6).ir.qual.pofs = supine  and then
+                             pa(j6).ir.qual.supine.cs = acc  then
+
+                              ppl_on := true;
+                              supine_info := (pa(j6).ir.qual.supine.con,
+                                pa(j6).ir.qual.supine.cs,
+                                pa(j6).ir.qual.supine.number,
+                                pa(j6).ir.qual.supine.gender);
+
+                              pa_last := pa_last + 1;
+                              pa(pa_last) :=
+                                (head("SUPINE + iri", max_stem_size),
+                                ((v,
+                                (supine_info.con,
+                                (fut, passive, inf),
+                                0,
+                                x)
+                                 ), 0, null_ending_record, x, a),
+                                ppp, null_mnpc);
+                              ppp_meaning := head(
+                                "SUPINE + iri => FUT PASSIVE INF - to be about/going/ready to be ~",
+                                max_meaning_size);
+
+                              k := nk;
+
+                           else
+                              pa(j6..pa_last-1) := pa(j6+1..pa_last);
+                              pa_last := pa_last - 1;
+                              ppl_on := false;
+                           end if;
+                           j6 := j6 -1;
+                        end loop;
+                     end do_clear_pas_supine;
+
+
    procedure perform_syncope(input_word : in string)
    is
    begin
@@ -786,49 +833,7 @@ is
                   end loop;
 
                   if k = nk  then      --  There was a SUPINE hit
-                 clear_pas_supine:
-                     declare
-                        j6 : integer := pa_last;
-                     begin
-                        while j6 >= 1  loop
-                           --  Sweep backwards to kill empty suffixes
-                           if pa(j6).ir.qual.pofs in tackon .. suffix
-                             and then ppl_on then
-                              null;
-
-                           elsif pa(j6).ir.qual.pofs = supine  and then
-                             pa(j6).ir.qual.supine.cs = acc  then
-
-                              ppl_on := true;
-                              supine_info := (pa(j6).ir.qual.supine.con,
-                                pa(j6).ir.qual.supine.cs,
-                                pa(j6).ir.qual.supine.number,
-                                pa(j6).ir.qual.supine.gender);
-
-                              pa_last := pa_last + 1;
-                              pa(pa_last) :=
-                                (head("SUPINE + iri", max_stem_size),
-                                ((v,
-                                (supine_info.con,
-                                (fut, passive, inf),
-                                0,
-                                x)
-                                 ), 0, null_ending_record, x, a),
-                                ppp, null_mnpc);
-                              ppp_meaning := head(
-                                "SUPINE + iri => FUT PASSIVE INF - to be about/going/ready to be ~",
-                                max_meaning_size);
-
-                              k := nk;
-
-                           else
-                              pa(j6..pa_last-1) := pa(j6+1..pa_last);
-                              pa_last := pa_last - 1;
-                              ppl_on := false;
-                           end if;
-                           j6 := j6 -1;
-                        end loop;
-                     end clear_pas_supine;
+                     do_clear_pas_supine(supine_info, nk, ppl_on);
                   end if;
 
                end if;       --  On NEXT_WORD = sum, esse, iri
