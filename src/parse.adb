@@ -369,9 +369,15 @@ is
       sypa_last := 0;
       if words_mdev(do_syncope) and not no_syncope then
          syncope(input_word, sypa, sypa_last);
-         pa_last := pa_last + sypa_last;   --  Make syncope another array to avoid PA-LAST = 0 problems
-         pa(1..pa_last) := pa(1..pa_last-sypa_last) & sypa(1..sypa_last);  --  Add SYPA to PA
-         sypa(1..syncope_max) := (1..syncope_max => null_parse_record);   --  Clean up so it does not repeat
+
+         --  Make syncope another array to avoid PA-LAST = 0 problems
+         pa_last := pa_last + sypa_last;
+
+         --  Add SYPA to PA
+         pa(1..pa_last) := pa(1..pa_last-sypa_last) & sypa(1..sypa_last);
+
+         --  Clean up so it does not repeat
+         sypa(1..syncope_max) := (1..syncope_max => null_parse_record);
          sypa_last := 0;
       end if;
       no_syncope := false;
