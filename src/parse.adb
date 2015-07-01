@@ -118,20 +118,43 @@ is
    type participle_gloss is
       record
          key : inflections_package.tense_voice_mood_record;
-         gloss : string(1 .. 74);
+         gloss : string(1 .. 78);
       end record;
 
+   -- should merge the next three arrays
    type participle_glosses_arr is array (integer range <>) of participle_gloss;
 
    participle_glosses : constant participle_glosses_arr :=
      (
       (key => (perf, passive, ppl),
-       gloss => "PERF PASSIVE PPL + verb TO_BE => PASSIVE perfect system                   "),
+       gloss => "PERF PASSIVE PPL + verb TO_BE => PASSIVE perfect system                       "),
       (key => (fut, active,  ppl),
-       gloss => "FUT ACTIVE PPL + verb TO_BE => ACTIVE Periphrastic - about to, going to   "),
+       gloss => "FUT ACTIVE PPL + verb TO_BE => ACTIVE Periphrastic - about to, going to       "),
       (key => (fut, passive, ppl),
-       gloss => "FUT PASSIVE PPL + verb TO_BE => PASSIVE Periphrastic - should/ought/had to")
+       gloss => "FUT PASSIVE PPL + verb TO_BE => PASSIVE Periphrastic - should/ought/had to    ")
      );
+
+   participle_glosses_with_esse : constant participle_glosses_arr :=
+     (
+      (key => (perf, passive, ppl),
+       gloss => "PERF PASSIVE PPL + esse => PERF PASSIVE INF                                   "),
+      (key => (fut,  active,  ppl),
+       gloss => "FUT ACTIVE PPL + esse => PRES Periphastic/FUT ACTIVE INF - be about/going to  "),
+      (key => (fut,  passive, ppl),
+       gloss => "FUT PASSIVE PPL + esse => PRES PASSIVE INF                                    ")
+     );
+
+   participle_glosses_with_fuisse : constant participle_glosses_arr :=
+     (
+      (key => (perf, passive, ppl),
+       gloss => "PERF PASSIVE PPL + esse => PERF PASSIVE INF                                   "),
+      (key => (fut,  active,  ppl),
+       gloss => "FUT ACT PPL+fuisse => PERF ACT INF Periphrastic - to have been about/going to "),
+      (key => (fut,  passive, ppl),
+       gloss => "FUT PASSIVE PPL + fuisse => PERF PASSIVE INF Periphrastic - about to, going to")
+     );
+
+
 
    -- we pass in the "default" values of a bunch of variables
 
