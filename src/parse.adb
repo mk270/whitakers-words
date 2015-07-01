@@ -544,6 +544,25 @@ is
 
    end pass;
 
+   procedure parse_english_word(input_word : in string;
+                                line : in string;
+                                k : in integer;
+                                l : in out integer)
+   is
+      pofs : part_of_speech_type := x;
+   begin
+      --  Extract from the rest of the line
+      --  Should do AUX here !!!!!!!!!!!!!!!!!!!!!!!!
+      --extract_pofs:
+      begin
+         part_of_speech_type_io.get(line(k+1..l), pofs, l);
+      exception
+         when others => pofs := x;
+      end;
+
+      search_english(input_word, pofs);
+   end parse_english_word;
+
    procedure parse_line(configuration : configuration_type;
                         input_line : string) is
       l : integer := trim(input_line)'last;
@@ -627,25 +646,8 @@ is
          end loop;
 
          if language = english_to_latin  then
-            --  Since we do only one English word per line
-            declare
-               input_word : constant string := w(j2..k);
-               pofs : part_of_speech_type := x;
-            begin
-
-               --  Extract from the rest of the line
-               --  Should do AUX here !!!!!!!!!!!!!!!!!!!!!!!!
-               --extract_pofs:
-               begin
-                  part_of_speech_type_io.get(line(k+1..l), pofs, l);
-               exception
-                  when others => pofs := x;
-               end;
-
-               search_english(input_word, pofs);
-               exit;
-
-            end;
+            parse_english_word(w(j2..k), line, k, l);
+            exit;
          end if;
 
          -- split parse_line() at this point, into two functions
