@@ -563,97 +563,12 @@ is
       search_english(input_word, pofs);
    end parse_english_word;
 
-   procedure parse_line(configuration : configuration_type;
-                        input_line : string) is
-      l : integer := trim(input_line)'last;
-      line : string(1..2500) := (others => ' ');
-      w : string(1..l) := (others => ' ');
-   begin
-      word_number := 0;
-      line(1..l) := trim(input_line);
-
-      --  Someday I ought to be interested in punctuation and numbers, but not now
-      --      eliminate_not_letters:
-      for i in 1..l  loop
-         if is_alpha_etc(line(i)) then
-            null;
-         else
-            line(i) := ' ';
-         end if;
-      end loop;
-
-      j2 := 1;
-      k := 0;
-
-      -- loop over line
-      while j2 <= l  loop
-
-         --  Skip over leading and intervening blanks, looking for comments
-         --  Punctuation, numbers, and special characters were cleared above
-         for i in k+1..l  loop
-            exit when line(j2) in 'A'..'Z';
-            exit when line(j2) in 'a'..'z';
-            if i < l  and then
-              line(i..i+1) = "--"   then
-               return;      --  the rest of the line is comment
-            end if;
-            j2 := i + 1;
-         end loop;
-
-         exit when j2 > l;             --  Kludge
-
-         follows_period := false;
-         if followed_by_period  then
-            followed_by_period := false;
-            follows_period := true;
-         end if;
-
-         capitalized := false;
-         all_caps := false;
-
-         --  Extract the word
-         for i in j2..l  loop
-
-            --  Although I have removed punctuation above, it may not always be so
-            if line(i) = '.'  then
-               followed_by_period := true;
-               exit;
-            end if;
-            exit when ((line(i) not in 'A'..'Z') and (line(i) not in 'a'..'z'));
-            w(i) := line(i);
-            k := i;
-
-         end loop;
-
-         if w(j2) in 'A'..'Z'  and then
-           k - j2 >= 1  and then
-           w(j2+1) in 'a'..'z'  then
-            capitalized := true;
-         end if;
-
-         all_caps := true;
-         for i in j2..k  loop
-            if w(i) = lower_case(w(i))  then
-               all_caps := false;
-               exit;
-            end if;
-         end loop;
-
-         for i in j2..k-1  loop               --  Kludge for QVAE
-            if w(i) = 'Q'  and then w(i+1) = 'V'  then
-               w(i+1) := 'U';
-            end if;
-         end loop;
-
-         if language = english_to_latin  then
-            parse_english_word(w(j2..k), line, k, l);
-            exit;
-         end if;
-
-         -- split parse_line() at this point, into two functions
-
-         declare
-            input_word : constant string := w(j2..k);
+   procedure parse_latin_word(configuration : configuration_type;
+                              input_word : in string;
+                              line : in string;
+                              input_line : in string;
+                              l : integer)
+   is
             entering_pa_last : integer := 0;
             entering_trpa_last    : integer := 0;
             have_done_enclitic : boolean := false;
@@ -949,9 +864,98 @@ is
                  & "   " & head(input_word, 28) & "   "  & input_line);
                raise;
 
-         end;
+   end parse_latin_word;
 
+   procedure parse_line(configuration : configuration_type;
+                        input_line : string) is
+      l : integer := trim(input_line)'last;
+      line : string(1..2500) := (others => ' ');
+      w : string(1..l) := (others => ' ');
+   begin
+      word_number := 0;
+      line(1..l) := trim(input_line);
 
+      --  Someday I ought to be interested in punctuation and numbers, but not now
+      --      eliminate_not_letters:
+      for i in 1..l  loop
+         if is_alpha_etc(line(i)) then
+            null;
+         else
+            line(i) := ' ';
+         end if;
+      end loop;
+
+      j2 := 1;
+      k := 0;
+
+      -- loop over line
+      while j2 <= l  loop
+
+         --  Skip over leading and intervening blanks, looking for comments
+         --  Punctuation, numbers, and special characters were cleared above
+         for i in k+1..l  loop
+            exit when line(j2) in 'A'..'Z';
+            exit when line(j2) in 'a'..'z';
+            if i < l  and then
+              line(i..i+1) = "--"   then
+               return;      --  the rest of the line is comment
+            end if;
+            j2 := i + 1;
+         end loop;
+
+         exit when j2 > l;             --  Kludge
+
+         follows_period := false;
+         if followed_by_period  then
+            followed_by_period := false;
+            follows_period := true;
+         end if;
+
+         capitalized := false;
+         all_caps := false;
+
+         --  Extract the word
+         for i in j2..l  loop
+
+            --  Although I have removed punctuation above, it may not always be so
+            if line(i) = '.'  then
+               followed_by_period := true;
+               exit;
+            end if;
+            exit when ((line(i) not in 'A'..'Z') and (line(i) not in 'a'..'z'));
+            w(i) := line(i);
+            k := i;
+
+         end loop;
+
+         if w(j2) in 'A'..'Z'  and then
+           k - j2 >= 1  and then
+           w(j2+1) in 'a'..'z'  then
+            capitalized := true;
+         end if;
+
+         all_caps := true;
+         for i in j2..k  loop
+            if w(i) = lower_case(w(i))  then
+               all_caps := false;
+               exit;
+            end if;
+         end loop;
+
+         for i in j2..k-1  loop               --  Kludge for QVAE
+            if w(i) = 'Q'  and then w(i+1) = 'V'  then
+               w(i+1) := 'U';
+            end if;
+         end loop;
+
+         if language = english_to_latin  then
+            parse_english_word(w(j2..k), line, k, l);
+            exit;
+         end if;
+
+         -- split parse_line() at this point, into two functions
+
+         parse_latin_word(configuration, w(j2..k), line, input_line, l);
          ----------------------------------------------------------------------
          ----------------------------------------------------------------------
 
