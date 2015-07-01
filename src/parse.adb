@@ -19,14 +19,9 @@
 -- This file contains an alarming amount of repetitive code, to the extent of
 -- unintelligbility
 
--- If you are looking for something to help with, please do some or all of the
--- one task marked below with an asterisk.
-
 -- to factor out:
---
---   the four occurrences of the stanza matching "Add SYPA to PA" [*]
 
---   the if-branches, and functions, dealing with participles
+--   the if-branches and functions dealing with participles/supines
 
 --   anything nested more than about six levels deep
 
