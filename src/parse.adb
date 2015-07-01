@@ -812,35 +812,8 @@ is
 
                   if k = nk  then
                      --  There was a PPL hit
-                 clear_pas_ppl:
-                     declare
-                        j5 : integer := pa_last;
-                     begin
-                        while j5 >= 1  loop
-                           --  Sweep backwards to kill empty suffixes
-                           if pa(j5).ir.qual.pofs in tackon .. suffix
-                             and then ppl_on then
-                              null;
-
-                           elsif pa(j5).ir.qual.pofs = vpar   then
-                              declare
-                                 trimmed_next_word : constant string := next_word;
-                                 part : constant participle := get_pas_participle(pa(j5).ir.qual.vpar, sum_info, trimmed_next_word,
-                                   ppl_on, compound_tvm, ppp_meaning, ppl_info);
-                              begin
-                                 ppl_on := part.ppl_on;
-                                 ppl_info := part.ppl_info;
-                                 ppp_meaning := part.ppp_meaning;
-                                 compound_tvm := part.compound_tvm;
-                              end;
-                           else
-                              pa(j5..pa_last-1) := pa(j5+1..pa_last);
-                              pa_last := pa_last - 1;
-                              ppl_on := false;
-                           end if;
-                           j5 := j5 - 1;
-                        end loop;
-                     end clear_pas_ppl;
+                     do_clear_pas_ppl(next_word, sum_info, compound_tvm,
+                       ppl_on, ppl_info);
 
                      pa_last := pa_last + 1;
                      pa(pa_last) :=
