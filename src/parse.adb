@@ -636,8 +636,7 @@ is
                begin
                   part_of_speech_type_io.get(line(k+1..l), pofs, l);
                exception
-                  when others =>
-                     pofs := x;
+                  when others => pofs := x;
                end;
 
                search_english(input_word, pofs);
@@ -730,10 +729,8 @@ is
                         tmp : constant verb_to_be := is_sum(next_word);
                      begin
                         case tmp.matches is
-                           when true =>
-                              sum_info := tmp.verb_rec;
-                           when false =>
-                              null;
+                           when true => sum_info := tmp.verb_rec;
+                           when false => null;
                         end case;
                         is_verb_to_be := tmp.matches;
                      end;
