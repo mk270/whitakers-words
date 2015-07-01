@@ -180,21 +180,14 @@ is
                compound_tense := sum_info.tense_voice_mood.tense;
             end if;
 
-            declare
-               ppl_info : constant vpar_record := get_participle_info(
-                 parsed_verb);
-            begin
-               return (
-                 ppl_on => true,
-                 ppl_info => ppl_info,
-                 ppp_meaning => head(
-                    participle_glosses(i).gloss, max_meaning_size
-                 ),
-                 compound_tvm => (
-                    compound_tense, passive, sum_info.tense_voice_mood.mood
-                 )
-               );
-            end;
+            return (
+              ppl_on => true,
+              ppl_info => get_participle_info(parsed_verb),
+              ppp_meaning => head(participle_glosses(i).gloss,
+                                  max_meaning_size),
+              compound_tvm => (compound_tense, passive,
+                               sum_info.tense_voice_mood.mood)
+            );
          end if;
       end loop;
 
