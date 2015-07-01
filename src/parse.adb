@@ -368,6 +368,19 @@ is
              );
    end is_sum;
 
+   procedure perform_syncope(input_word : in string)
+   is
+   begin
+      sypa_last := 0;
+      if words_mdev(do_syncope) and not no_syncope then
+         syncope(input_word, sypa, sypa_last);
+         pa_last := pa_last + sypa_last;   --  Make syncope another array to avoid PA-LAST = 0 problems
+         pa(1..pa_last) := pa(1..pa_last-sypa_last) & sypa(1..sypa_last);  --  Add SYPA to PA
+         sypa(1..syncope_max) := (1..syncope_max => null_parse_record);   --  Clean up so it does not repeat
+         sypa_last := 0;
+      end if;
+      no_syncope := false;
+   end perform_syncope;
 
    procedure enclitic(input_word : string;
                       entering_pa_last : in out integer;
@@ -415,16 +428,8 @@ is
                   end if;
                end loop;
 
-               sypa_last := 0;
-               if words_mdev(do_syncope)  and not no_syncope  then
-                  syncope(less, sypa, sypa_last);  --  Want SYNCOPE second to make cleaner LIST
+               perform_syncope(input_word);
 
-                  pa_last := pa_last + sypa_last;   --  Make syncope another array to avoid PA_LAST = 0 problems
-                  pa(1..pa_last) := pa(1..pa_last-sypa_last) & sypa(1..sypa_last);  --  Add SYPA to PA
-                  sypa(1..syncope_max) := (1..syncope_max => null_parse_record);   --  Clean up so it does not repeat
-                  sypa_last := 0;
-               end if;
-               no_syncope := false;
                --  Restore FIXES
                --WORDS_MODE(DO_FIXES) := SAVE_DO_FIXES;
 
@@ -508,15 +513,7 @@ is
       end loop;
 
       --  Pure SYNCOPE
-      sypa_last := 0;
-      if words_mdev(do_syncope)  and not no_syncope  then
-         syncope(input_word, sypa, sypa_last);
-         pa_last := pa_last + sypa_last;   --  Make syncope another array to avoid PA-LAST = 0 problems
-         pa(1..pa_last) := pa(1..pa_last-sypa_last) & sypa(1..sypa_last);  --  Add SYPA to PA
-         sypa(1..syncope_max) := (1..syncope_max => null_parse_record);   --  Clean up so it does not repeat
-         sypa_last := 0;
-      end if;
-      no_syncope := false;
+      perform_syncope(input_word);
 
       --  There may be a vaild simple parse, if so it is most probable
       --  But I have to allow for the possibility that -que is answer, not colloque V
@@ -530,15 +527,8 @@ is
         words_mode(do_fixes)  then
          words_mdev(do_only_fixes) := true;
          word(input_word, pa, pa_last);
-         sypa_last := 0;
-         if words_mdev(do_syncope)  and not no_syncope  then
-            syncope(input_word, sypa, sypa_last);
-            pa_last := pa_last + sypa_last;   --  Make syncope another array to avoid PA-LAST = 0 problems
-            pa(1..pa_last) := pa(1..pa_last-sypa_last) & sypa(1..sypa_last);  --  Add SYPA to PA
-            sypa(1..syncope_max) := (1..syncope_max => null_parse_record);   --  Clean up so it does not repeat
-            sypa_last := 0;
-         end if;
-         no_syncope := false;
+
+         perform_syncope(input_word);
 
          enclitic(input_word, entering_pa_last, have_done_enclitic);
 
