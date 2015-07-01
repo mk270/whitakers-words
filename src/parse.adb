@@ -363,6 +363,7 @@ is
              );
    end is_sum;
 
+   -- parts of these three do_clear_* functions should be factored together
    procedure do_clear_pas_nom_ppl(sum_info : in verb_record;
                                   compound_tvm : out tense_voice_mood_record;
                                   ppl_on : in out boolean;
@@ -398,6 +399,7 @@ is
       end loop;
    end do_clear_pas_nom_ppl;
 
+   -- parts of these three do_clear_* functions should be factored together
    procedure do_clear_pas_ppl(next_word : in string;
                               sum_info : in verb_record;
                               compound_tvm : out tense_voice_mood_record;
@@ -434,6 +436,7 @@ is
       end loop;
    end do_clear_pas_ppl;
 
+   -- parts of these three do_clear_* functions should be factored together
    procedure do_clear_pas_supine(supine_info : out supine_record;
                                  nk : in integer;
                                  ppl_on : in out boolean)
@@ -479,7 +482,6 @@ is
          j6 := j6 -1;
       end loop;
    end do_clear_pas_supine;
-
 
    procedure perform_syncope(input_word : in string)
    is
