@@ -222,8 +222,7 @@ is
       );
    end;
 
-   -- this function was almost an exact duplicate of the one above; it should
-   -- be converted to the form above
+   -- this function should be merged with the one above
    function get_pas_participle(parsed_verb : vpar_record;
                                sum_info : verb_record;
                                trimmed_next_word : string;
@@ -247,6 +246,7 @@ is
                         when active => return fut;
                         when passive => return pres;
                         when x => return fut; -- shouldn't happen!
+                           -- FIXME: remove 'x' member of voice enumeration
                      end case;
                end case;
             when others => return tense;
