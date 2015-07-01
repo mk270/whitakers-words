@@ -210,81 +210,68 @@ is
                                default_ppl_info : vpar_record)
                               return participle
    is
-      -- dummy initial value; never read, but assigned in every code path
-      compound_tvm : inflections_package.tense_voice_mood_record :=
-        (pres, active, ind);
+      function get_compound_tense(tense : tense_type;
+                                  voice : voice_type;
+                                  uses_esse : boolean) return tense_type
+      is
+      begin
+         case tense is
+            when fut =>
+               case uses_esse is
+                  when false => return perf;
+                  when others =>
+                     case voice is
+                        when active => return fut;
+                        when passive => return pres;
+                        when x => return fut; -- shouldn't happen!
+                     end case;
+               end case;
+            when others => return tense;
+         end case;
+      end get_compound_tense;
 
-      ppl_info : vpar_record;
-
+      voice : constant voice_type := parsed_verb.tense_voice_mood.voice;
+      uses_esse : constant boolean := is_esse(trimmed_next_word);
+      compound_tense : tense_type;
 
    begin
-      if parsed_verb.tense_voice_mood = (perf, passive, ppl)  then
-         compound_tvm := (perf, passive, inf);
+      -- voice and mood are always as specified in parsed_verb.tense_voice_mood
+      -- if tense is future, then there's a complicated thing to do
 
-         ppl_info := get_participle_info(parsed_verb);
-         ppp_meaning :=
-           head("PERF PASSIVE PPL + esse => PERF PASSIVE INF",
-           max_meaning_size);
-         return (
-           ppl_on => true,
-           ppl_info => ppl_info,
-           ppp_meaning => ppp_meaning,
-           compound_tvm => compound_tvm
-                );
+      for i in participle_glosses_with_esse'range loop
+         if participle_glosses_with_esse(i).key =
+           parsed_verb.tense_voice_mood then
+            declare
+               ppp_meaning_s : string(1 .. 78);
+            begin
 
-      elsif parsed_verb.tense_voice_mood = (fut, active,  ppl)  then
-         ppl_info := get_participle_info(parsed_verb);
-         if is_esse(trimmed_next_word)  then
-            compound_tvm := (fut, active, inf);
-            ppp_meaning := head(
-              "FUT ACTIVE PPL + esse => "
-              & "PRES Periphastic/FUT ACTIVE INF - be about/going to",
-              max_meaning_size);
-            -- also peri COMPOUND_TVM := (PRES, ACTIVE, INF);
-         else   --  fuisse
-            compound_tvm := (perf, active, inf);
-            ppp_meaning := head(
-              "FUT ACT PPL+fuisse => "
-              & "PERF ACT INF Periphrastic - to have been about/going to",
-              max_meaning_size);
+               compound_tense := get_compound_tense(
+                 parsed_verb.tense_voice_mood.tense,
+                 parsed_verb.tense_voice_mood.voice,
+                 uses_esse);
+
+               if uses_esse then
+                  ppp_meaning_s := participle_glosses_with_esse(i).gloss;
+               else
+                  ppp_meaning_s := participle_glosses_with_fuisse(i).gloss;
+               end if;
+
+               return (
+                 ppl_on => true,
+                 ppl_info => get_participle_info(parsed_verb),
+                 ppp_meaning => head(ppp_meaning_s, max_meaning_size),
+                 compound_tvm => (compound_tense, voice, inf)
+               );
+            end;
          end if;
-         return (
-           ppl_on => true,
-           ppl_info => ppl_info,
-           ppp_meaning => ppp_meaning,
-           compound_tvm => compound_tvm
-                );
-
-      elsif parsed_verb.tense_voice_mood = (fut, passive, ppl)  then
-         ppl_info := get_participle_info(parsed_verb);
-         if is_esse(trimmed_next_word)  then
-            compound_tvm := (pres, passive, inf);
-            ppp_meaning := head(
-              "FUT PASSIVE PPL + esse => PRES PASSIVE INF",
-              max_meaning_size);
-            -- also peri COMPOUND_TVM := (PRES, ACTIVE, INF);
-         else   --  fuisse
-            compound_tvm := (perf, passive, inf);
-            ppp_meaning := head(
-              "FUT PASSIVE PPL + fuisse => "
-              & "PERF PASSIVE INF Periphrastic - about to, going to",
-              max_meaning_size);
-         end if;
-
-         return (
-           ppl_on => true,
-           ppl_info => ppl_info,
-           ppp_meaning => ppp_meaning,
-           compound_tvm => compound_tvm
-                );
-      end if;
+      end loop;
 
       return (
-           ppl_on => default_ppl_on,
-           ppl_info => default_ppl_info,
-           ppp_meaning => default_ppp_meaning,
-           compound_tvm => default_compound_tvm
-             );
+        ppl_on => default_ppl_on,
+        ppl_info => default_ppl_info,
+        ppp_meaning => default_ppp_meaning,
+        compound_tvm => default_compound_tvm
+      );
 
    end;
 
