@@ -1558,7 +1558,7 @@ package body dictionary_package is
    end "<=";
 
 begin     --  initialization of body of DICTIONARY_PACKAGE
-          --TEXT_IO.PUT_LINE("Initializing DICTIONARY_PACKAGE");
+   --TEXT_IO.PUT_LINE("Initializing DICTIONARY_PACKAGE");
 
    dictionary_kind_io.default_width := dictionary_kind'width;
 
@@ -1622,5 +1622,4 @@ begin     --  initialization of body of DICTIONARY_PACKAGE
      max_meaning_size;
 
    --TEXT_IO.PUT_LINE("Initialized  DICTIONARY_PACKAGE");
-
 end dictionary_package;

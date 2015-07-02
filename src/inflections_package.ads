@@ -251,7 +251,7 @@ package inflections_package is
                            semidep,   --  SEMIDEPonent verb (forms perfect as deponent)
                            --  (perfect passive has active force)
                            perfdef    --  PERFect DEFinite verb
-                             --  having only perfect stem, but with present force
+                           --  having only perfect stem, but with present force
                           );
 
    package verb_kind_type_io is

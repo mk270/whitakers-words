@@ -55,7 +55,7 @@ begin
       --WORDS amo
       --WORDS infile
       if ada.command_line.argument_count = 1  then      --  Input 1 word in-line
-     one_argument:
+         one_argument:
          declare
             input_name  : constant string := trim(ada.command_line.argument(1));
          begin
@@ -77,7 +77,7 @@ begin
          --WORDS amo amas
          --WORDS ^e  love
       elsif ada.command_line.argument_count = 2  then    --  INPUT and OUTPUT files
-     two_arguments:                                   --  or multiwords in-line
+         two_arguments:                                  --  or multiwords in-line
          declare
             input_name  : constant string := trim(ada.command_line.argument(1));
             output_name : constant string := trim(ada.command_line.argument(2));
@@ -116,7 +116,7 @@ begin
          --WORDS amo amas amat
          --WORDS ^e love v
       elsif ada.command_line.argument_count = 3  then    --  INPUT and OUTPUT files
-     three_arguments:                                   --  or multiwords in-line
+         three_arguments:                                --  or multiwords in-line
          declare
             arg1 : constant string := trim(ada.command_line.argument(1));
             arg2 : constant string := trim(ada.command_line.argument(2));
@@ -131,7 +131,6 @@ begin
             else
                method := command_line_input;
             end if;
-
          end three_arguments;
 
          --More than three arguments must all be Latin words.
@@ -142,7 +141,7 @@ begin
       end if;
 
       if method = command_line_input  then            --  Process words in command line
-     more_arguments:
+         more_arguments:
          begin
             --Ada.TEXT_IO.PUT_LINE("MORE_ARG  ARG_START = " & INTEGER'IMAGE(ARGUMENTS_START));
             suppress_preface := true;
@@ -154,5 +153,4 @@ begin
          end more_arguments;
       end if;
    end if;
-
 end words_main;

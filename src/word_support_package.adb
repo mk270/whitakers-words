@@ -105,7 +105,7 @@ package body word_support_package is
 
       if dictionary_available(general)  then
          --  The blanks are on the GENERAL dictionary
-     loading_bdl_from_disk:
+         loading_bdl_from_disk:
          declare
             d_k : constant dictionary_kind := general;
          begin

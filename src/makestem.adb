@@ -152,137 +152,140 @@ begin
    --DEBUG.PUT(' '); DEBUG.PUT(")  "); DEBUG.PUT(BDLF(OFC, ' ', D_K));
    --DEBUG.NEW_LINE;
 
-first_character_loop:
-    while not end_of_file(stem_list(d_k))  loop
-       --OSC := ' ';
-       osc := sc;
-   second_character_loop:
-       while not end_of_file(stem_list(d_k))  loop
+   first_character_loop:
+   while not end_of_file(stem_list(d_k))  loop
+      --OSC := ' ';
+      osc := sc;
 
-      inner_loop:
-          while not end_of_file(stem_list(d_k))  loop
-             line := blanks;
-             get_line(stem_list(d_k), line, last);
-             --Put_Line("* " & Line(1..Last));
+      second_character_loop:
+      while not end_of_file(stem_list(d_k))  loop
 
-             if trim(line(1..last)) = "" then put_line("Trim(Line(1..Last)) BLANK"); end if;
-             exit first_character_loop when trim(line(1..last)) = "";
-             fc := lower_case(line(1));
-             sc := lower_case(line(2));
-             --------------------------------------------------------------------
-             if fc = 'v'  then fc := 'u'; end if;
-             if sc = 'v'  then sc := 'u'; end if;
-             if fc = 'j'  then fc := 'i'; end if;
-             if sc = 'j'  then sc := 'i'; end if;
-             --------------------------------------------------------------------
-             i := i + 1;
+         inner_loop:
+         while not end_of_file(stem_list(d_k))  loop
+            line := blanks;
+            get_line(stem_list(d_k), line, last);
+            --Put_Line("* " & Line(1..Last));
 
-             if sc = ' '  then
-                --Put("BDL    I -> "); Put(I       ); New_Line;
-                if fc /= ofc  then
-                   bdlf(fc, ' ', d_k) := i;
-                   --Put(" bf2 BDLF("); Put(Fc);Put(' '); Put(")  ");
-                   --Put(Bdlf(Fc, ' ', D_K)); New_Line;
-                end if;
-             else
-                null;
-                --Put("I        -> "); Put(I); New_Line;
-             end if;
+            if trim(line(1..last)) = "" then
+               put_line("Trim(Line(1..Last)) BLANK");
+            end if;
+            exit first_character_loop when trim(line(1..last)) = "";
+            fc := lower_case(line(1));
+            sc := lower_case(line(2));
+            --------------------------------------------------------------------
+            if fc = 'v'  then fc := 'u'; end if;
+            if sc = 'v'  then sc := 'u'; end if;
+            if fc = 'j'  then fc := 'i'; end if;
+            if sc = 'j'  then sc := 'i'; end if;
+            --------------------------------------------------------------------
+            i := i + 1;
 
-             ds.stem := line(1..max_stem_size);
-             get(line(max_stem_size+1..last), ds.part, ll);
-             get(line(ll+1..last), ds.key , ll);
-             get(line(ll+1..last), ds.mnpc , ll);
-             write(stem_file(d_k), ds);
-             --Put_Line("Wrote STEMfile");
+            if sc = ' '  then
+               --Put("BDL    I -> "); Put(I       ); New_Line;
+               if fc /= ofc  then
+                  bdlf(fc, ' ', d_k) := i;
+                  --Put(" bf2 BDLF("); Put(Fc);Put(' '); Put(")  ");
+                  --Put(Bdlf(Fc, ' ', D_K)); New_Line;
+               end if;
+            else
+               null;
+               --Put("I        -> "); Put(I); New_Line;
+            end if;
 
-             if fc /= ofc   then  --  Jumped FC, effectively must have jumped a SC
-                                  --Put_Line("Jumped FC");
-                if osc = ' '  then
-                   bdll(ofc, osc, d_k) := i - 1;
-                else
-                   ddll(ofc, osc, d_k) := i - 1;
-                end if;
+            ds.stem := line(1..max_stem_size);
+            get(line(max_stem_size+1..last), ds.part, ll);
+            get(line(ll+1..last), ds.key , ll);
+            get(line(ll+1..last), ds.mnpc , ll);
+            write(stem_file(d_k), ds);
+            --Put_Line("Wrote STEMfile");
 
-                if sc = ' '  then
-                   --Put("BDLF  "); Put(Bdlf(Fc, Sc, D_K)); New_Line;
-                   bdlf(fc, sc, d_k) := i;
-                else
-                   ddlf(fc, sc, d_k) := i;
-                end if;
-                --Put_Line("if Sc done");
-                --Put("Ofc = '"); Put(Ofc); Put("'   Osc = '"); Put(Osc); Put_Line("'");
-                put_indices(ofc & osc, d_k);
-                ofc := fc;
-                osc := sc;
-                --Put_Line("exit Second_Character_Loop");
+            if fc /= ofc   then  --  Jumped FC, effectively must have jumped a SC
+               --Put_Line("Jumped FC");
+               if osc = ' '  then
+                  bdll(ofc, osc, d_k) := i - 1;
+               else
+                  ddll(ofc, osc, d_k) := i - 1;
+               end if;
 
-                exit second_character_loop;
-             else
-                if sc /= osc  then          --  Jumped a SC, but not a FC
-                   if osc = ' '  then        --  Jumped a SC from ' ' to something
-                      bdll(fc, osc, d_k) := i - 1;            --  So set BDLL
-                                                              --DEBUG.PUT(" bl1 BDLL("); DEBUG.PUT(FC); DEBUG.PUT(OSC); DEBUG.PUT(")  ");
-                                                              --DEBUG.PUT(BDLL(FC, OSC, D_K)); DEBUG.NEW_LINE;
-                      ddlf(fc, sc, d_k) := i;
-                      --DEBUG.PUT(" df1 DDLF("); DEBUG.PUT( FC); DEBUG.PUT( SC); DEBUG.PUT(")  ");
-                      --DEBUG.PUT(DDLF( FC,  SC, D_K)); DEBUG.NEW_LINE;
-                      put_indices(fc & osc, d_k);
-                      osc := sc;
+               if sc = ' '  then
+                  --Put("BDLF  "); Put(Bdlf(Fc, Sc, D_K)); New_Line;
+                  bdlf(fc, sc, d_k) := i;
+               else
+                  ddlf(fc, sc, d_k) := i;
+               end if;
+               --Put_Line("if Sc done");
+               --Put("Ofc = '"); Put(Ofc); Put("'   Osc = '"); Put(Osc); Put_Line("'");
+               put_indices(ofc & osc, d_k);
+               ofc := fc;
+               osc := sc;
+               --Put_Line("exit Second_Character_Loop");
 
-                      exit inner_loop;
-                   else                      --  Jumped a SL from something, not ' '
-                      ddll(fc, osc, d_k) := i - 1;    --  So set DDLL
-                                                      --DEBUG.PUT(" dl2 DDLL("); DEBUG.PUT(FC); DEBUG.PUT(OSC); DEBUG.PUT(")  ");
-                                                      --DEBUG.PUT(DDLL(FC, OSC, D_K)); DEBUG.NEW_LINE;
-                      ddlf(fc, sc, d_k) := i;
-                      --DEBUG.PUT(" df2 DDLF("); DEBUG.PUT( FC); DEBUG.PUT( SC); DEBUG.PUT(")  ");
-                      --DEBUG.PUT(DDLF( FC,  SC, D_K)); DEBUG.NEW_LINE;
-                      put_indices(fc & osc, d_k);
-                      osc := sc;
+               exit second_character_loop;
+            else
+               if sc /= osc  then          --  Jumped a SC, but not a FC
+                  if osc = ' '  then        --  Jumped a SC from ' ' to something
+                     bdll(fc, osc, d_k) := i - 1;            --  So set BDLL
+                     --DEBUG.PUT(" bl1 BDLL("); DEBUG.PUT(FC); DEBUG.PUT(OSC); DEBUG.PUT(")  ");
+                     --DEBUG.PUT(BDLL(FC, OSC, D_K)); DEBUG.NEW_LINE;
+                     ddlf(fc, sc, d_k) := i;
+                     --DEBUG.PUT(" df1 DDLF("); DEBUG.PUT( FC); DEBUG.PUT( SC); DEBUG.PUT(")  ");
+                     --DEBUG.PUT(DDLF( FC,  SC, D_K)); DEBUG.NEW_LINE;
+                     put_indices(fc & osc, d_k);
+                     osc := sc;
 
-                      exit inner_loop;
-                   end if;
-                end if;
-             end if;
+                     exit inner_loop;
+                  else                      --  Jumped a SL from something, not ' '
+                     ddll(fc, osc, d_k) := i - 1;    --  So set DDLL
+                     --DEBUG.PUT(" dl2 DDLL("); DEBUG.PUT(FC); DEBUG.PUT(OSC); DEBUG.PUT(")  ");
+                     --DEBUG.PUT(DDLL(FC, OSC, D_K)); DEBUG.NEW_LINE;
+                     ddlf(fc, sc, d_k) := i;
+                     --DEBUG.PUT(" df2 DDLF("); DEBUG.PUT( FC); DEBUG.PUT( SC); DEBUG.PUT(")  ");
+                     --DEBUG.PUT(DDLF( FC,  SC, D_K)); DEBUG.NEW_LINE;
+                     put_indices(fc & osc, d_k);
+                     osc := sc;
 
-          end loop inner_loop;
-          --Put_Line("Exitted Inner_Loop");
+                     exit inner_loop;
+                  end if;
+               end if;
+            end if;
 
-       end loop second_character_loop;
-       --Put_Line("Exitted Second_Character_Loop");
+         end loop inner_loop;
+         --Put_Line("Exitted Inner_Loop");
 
-    end loop first_character_loop;
-    --Put_Line("Exitted First_Character_Loop");
-    ddll(ofc, osc, d_k) := i;
+      end loop second_character_loop;
+      --Put_Line("Exitted Second_Character_Loop");
 
-    --  To reprint correctly the last letter information
-    --Put_Line("--  To reprint correctly the last letter information");
-    put_indices(ofc & osc, d_k);
-    close(stem_file(d_k));
+   end loop first_character_loop;
+   --Put_Line("Exitted First_Character_Loop");
+   ddll(ofc, osc, d_k) := i;
 
-    for i in character'('a')..character'('z')  loop
-       for j in character'(' ')..character'(' ')  loop
-          text_io.put(indx_file(d_k), (i, j));
-          put(indx_file(d_k), ' ');
-          put(indx_file(d_k), bdlf(i, j, d_k));
-          put(indx_file(d_k), ' ');
-          put(indx_file(d_k), bdll(i, j, d_k));
-          put(indx_file(d_k), ' ');
-          new_line(indx_file(d_k));
-       end loop;
-    end loop;
-    for i in character'('a')..character'('z')  loop
-       for j in character'('a')..character'('z')  loop
-          text_io.put(indx_file(d_k), (i, j));
-          put(indx_file(d_k), ' ');
-          put(indx_file(d_k), ddlf(i, j, d_k));
-          put(indx_file(d_k), ' ');
-          put(indx_file(d_k), ddll(i, j, d_k));
-          put(indx_file(d_k), ' ');
-          new_line(indx_file(d_k));
-       end loop;
-    end loop;
-    close(indx_file(d_k));
+   --  To reprint correctly the last letter information
+   --Put_Line("--  To reprint correctly the last letter information");
+   put_indices(ofc & osc, d_k);
+   close(stem_file(d_k));
 
+   for i in character'('a')..character'('z')  loop
+      for j in character'(' ')..character'(' ')  loop
+         text_io.put(indx_file(d_k), (i, j));
+         put(indx_file(d_k), ' ');
+         put(indx_file(d_k), bdlf(i, j, d_k));
+         put(indx_file(d_k), ' ');
+         put(indx_file(d_k), bdll(i, j, d_k));
+         put(indx_file(d_k), ' ');
+         new_line(indx_file(d_k));
+      end loop;
+   end loop;
+
+   for i in character'('a')..character'('z')  loop
+      for j in character'('a')..character'('z')  loop
+         text_io.put(indx_file(d_k), (i, j));
+         put(indx_file(d_k), ' ');
+         put(indx_file(d_k), ddlf(i, j, d_k));
+         put(indx_file(d_k), ' ');
+         put(indx_file(d_k), ddll(i, j, d_k));
+         put(indx_file(d_k), ' ');
+         new_line(indx_file(d_k));
+      end loop;
+   end loop;
+   close(indx_file(d_k));
 end makestem;

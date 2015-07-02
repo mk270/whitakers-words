@@ -291,8 +291,7 @@ package body list_package is
 
             if sr.ir /= null_inflection_record  then
 
-
-           print_modified_qual:
+               print_modified_qual:
                declare
                   out_string : string(1..quality_record_io.default_width);
                   passive_start  : constant integer :=
@@ -349,7 +348,6 @@ package body list_package is
                text_io.new_line(output);
             end if;
          end if;
-
       end put_inflection;
 
       procedure put_form(sr : stem_inflection_record;
@@ -383,9 +381,7 @@ package body list_package is
       procedure put_meaning(output : text_io.file_type;
                             raw_meaning : string) is
          --  Handles the MM screen line limit and TRIM_BAR, then TRIMs
-
       begin
-
          text_io.put(output, trim(head(trim_bar(raw_meaning), mm)));
       end put_meaning;
 
@@ -419,14 +415,12 @@ package body list_package is
          end if;
 
          return s;
-
       end constructed_meaning;
 
       procedure put_meaning_line(sr : stem_inflection_record;
                                  dm  : dictionary_mnpc_record) is
       begin
          if dm.d_k not in addons..ppp  then
-
             if words_mdev(do_pearse_codes) then
                text_io.put(output, "03 ");
             end if;
@@ -450,7 +444,6 @@ package body list_package is
                   rrr_meaning := null_meaning_type;
                   text_io.new_line(output);
                end if;
-
             elsif dm.d_k = nnn then
                if nnn_meaning /= null_meaning_type  then
                   --PUT_DICTIONARY_FLAGS;
@@ -461,7 +454,6 @@ package body list_package is
                   nnn_meaning := null_meaning_type;
                   text_io.new_line(output);
                end if;
-
             elsif dm.d_k = xxx  then
                if xxx_meaning /= null_meaning_type  then
                   if words_mdev(do_pearse_codes) then
@@ -471,7 +463,6 @@ package body list_package is
                   xxx_meaning := null_meaning_type;
                   text_io.new_line(output);
                end if;
-
             elsif dm.d_k = yyy  then
                if yyy_meaning /= null_meaning_type  then
                   if words_mdev(do_pearse_codes) then
@@ -481,7 +472,6 @@ package body list_package is
                   yyy_meaning := null_meaning_type;
                   text_io.new_line(output);
                end if;
-
             elsif dm.d_k = ppp  then
                if ppp_meaning /= null_meaning_type  then
                   if words_mdev(do_pearse_codes) then
@@ -491,16 +481,13 @@ package body list_package is
                   ppp_meaning := null_meaning_type;
                   text_io.new_line(output);
                end if;
-
             elsif dm.d_k = addons  then
                if words_mdev(do_pearse_codes) then
                   text_io.put(output, "06 ");
                end if;
                put_meaning(output, means(integer(dm.mnpc)));
                text_io.new_line(output);
-
             end if;
-
          end if;
       end put_meaning_line;
 
@@ -511,13 +498,11 @@ package body list_package is
       --  (or all of a class) it must fix up the rest of the parse array,
       --  e.g., it must clean out dangling prefixes and suffixes
 
-      if (text_io.name(output) =
-            text_io.name(text_io.standard_output))  then
-         mm := max_meaning_print_size;   --  to keep from overflowing screen line
-                                         --  or even adding blank line
+      if text_io.name(output) = text_io.name(text_io.standard_output)  then
+         --  to keep from overflowing screen line or even adding blank line
+         mm := max_meaning_print_size;
       else
          mm := max_meaning_size;
-
       end if;
 
       -------  The gimick of adding an ADV if there is only ADJ VOC  ----
@@ -530,18 +515,16 @@ package body list_package is
       end loop;
 
       --TEXT_IO.PUT_LINE("In the ADJ -> ADV kludge  Checked to see if there is an ADV");
-
-      if ((not there_is_an_adverb) and (words_mode(do_fixes)))  then
+      if (not there_is_an_adverb) and (words_mode(do_fixes))  then
          --TEXT_IO.PUT_LINE("In the ADJ -> ADV kludge  There is no ADV");
          for i in reverse pa'first..pa_last  loop
-
             if pa(i).ir.qual.pofs = adj and then
               (pa(i).ir.qual.adj = ((1, 1), voc, s, m, pos)    or
                  ((pa(i).ir.qual.adj.cs = voc)   and
                     (pa(i).ir.qual.adj.number = s)   and
                     (pa(i).ir.qual.adj.gender = m)   and
-                    (pa(i).ir.qual.adj.co = super)))    then
-
+                    (pa(i).ir.qual.adj.co = super)))
+            then
                j := i;
 
                while j >=  pa'first  loop  --Back through other ADJ cases
@@ -595,16 +578,13 @@ package body list_package is
                end if;
                --TEXT_IO.PUT_LINE("In the ADJ -> ADV kludge  Done adding PA for ADV");
             end if;           --  PA(I).IR.QUAL.POFS = ADJ
-
          end loop;
-
       end if;           --  not THERE_IS_AN_ADVERB
-                        -- TEXT_IO.PUT_LINE("In the ADJ -> ADV kludge  FINISHED");
+      -- TEXT_IO.PUT_LINE("In the ADJ -> ADV kludge  FINISHED");
 
       list_sweep(pa(1..pa_last), pa_last);
       
       if  words_mdev(write_statistics_file)    then      --  Omit rest of output
-
          for i in 1..pa_last  loop                       --  Just to PUT_STAT
             if (pa(i).d_k = addons)  then
                if pa(i).ir.qual.pofs = prefix  then
@@ -622,7 +602,6 @@ package body list_package is
                end if;
             end if;
          end loop;
-
       end if;
       
       --  Convert from PARSE_RECORDs to DICTIONARY_MNPC_RECORD and STEM_INFLECTION_RECORD
@@ -630,9 +609,10 @@ package body list_package is
       j := 0;           --  J indexes the number of DMA arrays  --  Initialize
       sraa := null_sraa;
       dma := null_dma;
-  cycle_over_pa:
+
+      cycle_over_pa:
       while i <= pa_last  loop       --  I cycles over full PA array
-                                     --TEXT_IO.PUT_LINE("Starting loop for I    I = " & INTEGER'IMAGE(I));
+         --TEXT_IO.PUT_LINE("Starting loop for I    I = " & INTEGER'IMAGE(I));
          odm := null_dictionary_mnpc_record;
 
          if pa(i).d_k = unique  then
@@ -646,22 +626,19 @@ package body list_package is
             dma(j) := dm;
             i := i + 1;
          else
-
             case pa(i).ir.qual.pofs  is
-
                when n  =>
                   osra := null_sra;
                   --ODM := NULL_DICTIONARY_MNPC_RECORD;
                   --DM := NULL_DICTIONARY_MNPC_RECORD;
-                  while pa(i).ir.qual.pofs = n   and
-                    i <= pa_last                   loop
+                  while (pa(i).ir.qual.pofs = n) and (i <= pa_last) loop
                      --TEXT_IO.PUT_LINE("Starting loop for N    I = " & INTEGER'IMAGE(I) & "   K = " & INTEGER'IMAGE(K));
                      if pa(i).mnpc  /= odm.mnpc  then   --  Encountering new MNPC
                         osra := sra;
                         k := 1;                  --  K indexes within the MNPCA array --  Initialize
-                                                 --TEXT_IO.PUT_LINE("Starting IRA for N    I = " & INTEGER'IMAGE(I) & "   K = " & INTEGER'IMAGE(K));
+                        --TEXT_IO.PUT_LINE("Starting IRA for N    I = " & INTEGER'IMAGE(I) & "   K = " & INTEGER'IMAGE(K));
                         j := j + 1;             --  J indexes the number of MNPCA arrays - Next MNPCA
-                                                --TEXT_IO.PUT_LINE("Shifting J for N  I = " & INTEGER'IMAGE(I) & "   J = " & INTEGER'IMAGE(J));
+                        --TEXT_IO.PUT_LINE("Shifting J for N  I = " & INTEGER'IMAGE(I) & "   J = " & INTEGER'IMAGE(J));
                         sraa(j)(k) := (pa(i).stem, pa(i).ir);
                         dict_io.set_index(dict_file(pa(i).d_k), pa(i).mnpc);
                         dict_io.read(dict_file(pa(i).d_k), dea);
@@ -670,8 +647,8 @@ package body list_package is
                         odm := dm;
                      else
                         k := k + 1;              --  K indexes within the MNPCA array  - Next MNPC
-                                                 --TEXT_IO.PUT_LINE("Continuing IRA for N  I = " & INTEGER'IMAGE(I) & "   K = " & INTEGER'IMAGE(K)
-                                                 --                                                                 & "   J = " & INTEGER'IMAGE(J));
+                        --TEXT_IO.PUT_LINE("Continuing IRA for N  I = " & INTEGER'IMAGE(I) & "   K = " & INTEGER'IMAGE(K)
+                        --                                                                 & "   J = " & INTEGER'IMAGE(J));
                         sraa(j)(k) := (pa(i).stem, pa(i).ir);
                      end if;
 
@@ -799,9 +776,9 @@ package body list_package is
                      if (pa(i).mnpc  /= odm.mnpc) and (pa(i).d_k /= ppp)   then   --  Encountering new MNPC
                         osra := sra;                                               --  But not for compound
                         k := 1;                  --  K indexes within the MNPCA array --  Initialize
-                                                 --TEXT_IO.PUT_LINE("Starting IRA for VPAR I = " & INTEGER'IMAGE(I) & "   K = " & INTEGER'IMAGE(K));
+                        --TEXT_IO.PUT_LINE("Starting IRA for VPAR I = " & INTEGER'IMAGE(I) & "   K = " & INTEGER'IMAGE(K));
                         j := j + 1;             --  J indexes the number of MNPCA arrays - Next MNPCA
-                                                --TEXT_IO.PUT_LINE("Shifting J for VPAR I = " & INTEGER'IMAGE(I) & "   J = " & INTEGER'IMAGE(J));
+                        --TEXT_IO.PUT_LINE("Shifting J for VPAR I = " & INTEGER'IMAGE(I) & "   J = " & INTEGER'IMAGE(J));
                         sraa(j)(k) := (pa(i).stem, pa(i).ir);
                         if pa(i).d_k /= ppp  then
                            dict_io.set_index(dict_file(pa(i).d_k), pa(i).mnpc);
@@ -812,8 +789,8 @@ package body list_package is
                         odm := dm;
                      else
                         k := k + 1;              --  K indexes within the MNPCA array  - Next MNPC
-                                                 --TEXT_IO.PUT_LINE("Continuing IRA for VPAR  I = " & INTEGER'IMAGE(I) & "   K = " & INTEGER'IMAGE(K)
-                                                 --                                                                      & "   J = " & INTEGER'IMAGE(J));
+                        --TEXT_IO.PUT_LINE("Continuing IRA for VPAR  I = " & INTEGER'IMAGE(I) & "   K = " & INTEGER'IMAGE(K)
+                        --                                                                      & "   J = " & INTEGER'IMAGE(J));
                         sraa(j)(k) := (pa(i).stem, pa(i).ir);
                      end if;
 
@@ -831,9 +808,9 @@ package body list_package is
                        (odm.mnpc /= pa(i).mnpc)      then   --  Encountering new single (K only 1)
                         osra := sra;
                         k := 1;                  --  K indexes within the MNPCA array --  Initialize
-                                                 --TEXT_IO.PUT_LINE("Starting IRA for OTHER I = " & INTEGER'IMAGE(I) & "   K = " & INTEGER'IMAGE(K));
+                        --TEXT_IO.PUT_LINE("Starting IRA for OTHER I = " & INTEGER'IMAGE(I) & "   K = " & INTEGER'IMAGE(K));
                         j := j + 1;             --  J indexes the number of MNPCA arrays - Next MNPCA
-                                                --TEXT_IO.PUT_LINE("Shifting J for OTHER I = " & INTEGER'IMAGE(I) & "   J = " & INTEGER'IMAGE(J));
+                        --TEXT_IO.PUT_LINE("Shifting J for OTHER I = " & INTEGER'IMAGE(I) & "   J = " & INTEGER'IMAGE(J));
                         sraa(j)(k) := (pa(i).stem, pa(i).ir);
                         if pa(i).mnpc /= null_mnpc  then
                            if pa(i).d_k = addons  then
@@ -867,7 +844,7 @@ package body list_package is
       --  Strangely enough, it may enter LIST_STEMS with PA_LAST /= 0
       --  but be weeded and end up with no parse after LIST_SWEEP  -  PA_LAST = 0
       if pa_last = 0  then  --  WORD failed
-                            --????      (DMA(1).D_K in ADDONS..YYY  and then TRIM(DMA(1).DE.STEMS(1)) /= "que")  then  --  or used FIXES/TRICKS
+         --????      (DMA(1).D_K in ADDONS..YYY  and then TRIM(DMA(1).DE.STEMS(1)) /= "que")  then  --  or used FIXES/TRICKS
          if words_mode(ignore_unknown_names)  and capitalized  then
             nnn_meaning := head(
                                 "Assume this is capitalized proper name/abbr, under MODE IGNORE_UNKNOWN_NAME ",
@@ -966,12 +943,13 @@ package body list_package is
       --TEXT_IO.PUT_LINE("PUTting INFLECTIONS");
       j := 1;
       osra := null_sra;
-  output_loop:
-      while  dma(j) /= null_dictionary_mnpc_record  loop
-         if sraa(j) /= osra  then --  Skips one identical SRA
-                                  --  no matter what comes next
 
-        put_inflection_array_j:
+      output_loop:
+      while  dma(j) /= null_dictionary_mnpc_record  loop
+         --  Skips one identical SRA no matter what comes next
+         if sraa(j) /= osra  then
+
+            put_inflection_array_j:
             for k in sraa(j)'range loop
                exit when sraa(j)(k) = null_stem_inflection_record;
 
@@ -984,7 +962,8 @@ package body list_package is
          end if;
 
          --TEXT_IO.PUT_LINE("PUTting FORM");
-     putting_form:
+
+         putting_form:
          begin
             if j = 1  or else
               dictionary_form(dma(j).de) /= dictionary_form(dma(j-1).de)  then
@@ -994,7 +973,7 @@ package body list_package is
          end putting_form;
 
          --TEXT_IO.PUT_LINE("PUTting MEANING");
-     putting_meaning:
+         putting_meaning:
          begin
             if (dma(j).d_k in general..unique)  then
                if (dma(j).de.mean /= dma(j+1).de.mean)  then
@@ -1007,7 +986,7 @@ package body list_package is
             end if;
          end putting_meaning;
 
-     do_pause:
+         do_pause:
          begin
             if i = pa_last  then
                text_io.new_line(output);
@@ -1119,9 +1098,8 @@ package body list_package is
 
             j := (j1 + j2) / 2;
 
-        binary_search:
+            binary_search:
             loop
-
                if (j1 = j2-1) or (j1 = j2) then
                   if first_try  then
                      j := j1;

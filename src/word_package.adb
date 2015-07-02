@@ -324,15 +324,13 @@ package body word_package is
                      m := m + 1;
 
                      sa(stem_length) := pr.stem;    --  Gets set dozens of times
-                                                    --  Could order the endings by length (suffix sort) so length changes slowly
+                     --  Could order the endings by length (suffix sort) so length changes slowly
 
                      --PUT_LINE("LENGTH = " & INTEGER'IMAGE(STEM_LENGTH)
                      --& "   SA =>" & PR.STEM & "|");
-
                   end if;
                end if;
             end loop;
-
          end if;
       end loop;
    end run_inflections;
@@ -450,11 +448,10 @@ package body word_package is
          j1 := index_first;    --######################
          j2 := index_last;
 
-     stem_array_loop:
+         stem_array_loop:
          for k in ssa'range  loop
             if trim(ssa(k))'length > 1  then
                --  This may be checking for 0 and 1 letter SSAs which are done elsewhere
-
                if d_k = local  then    --  Special processing for unordered DICT.LOC
                   for j in j1..j2  loop       --  Sweep exaustively through the scope
                      set_index(stem_file(d_k), stem_io.count(j));
@@ -465,18 +462,15 @@ package body word_package is
                         load_pdl;
                      end if;
                   end loop;
-
                else                     --  Regular dictionaries
-
                   first_try := true;
 
                   second_try := true;
 
                   j := (j1 + j2) / 2;
 
-              binary_search:
+                  binary_search:
                   loop
-
                      if (j1 = j2-1) or (j1 = j2) then
                         if first_try  then
                            j := j1;
@@ -526,12 +520,10 @@ package body word_package is
                            end if;
                         end loop;
                         exit binary_search;
-
                      end if;
                   end loop binary_search;
                   j1 := jj;
                   j2 := index_last;
-
                end if;               --  On LOCAL check
             end if;               --  On LENGTH > 1
          end loop stem_array_loop;
@@ -656,18 +648,18 @@ package body word_package is
             --PUT_LINE("In ORDER  SL_LAST = " & INTEGER'IMAGE(SL_LAST));
 
             --  Bubble sort since this list should usually be very small (1-5)
-        hit_loop:
+            hit_loop:
             loop
                hits := 0;
 
-           switch:
+               switch:
                begin
                   --  Need to remove duplicates in ARRAY_STEMS
                   --  This sort is very sloppy
                   --  One problem is that it can mix up some of the order of PREFIX, XXX, LOC
                   --  I ought to do this for every set of results from different approaches
                   --  not just in one fell swoop at the end !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-              inner_loop:
+                  inner_loop:
                   for i in 1..sl_last-1  loop
                      if sl(i+1) /= null_parse_record  then
                         if (sl(i+1).mnpc < sl(i).mnpc)  or else
@@ -679,9 +671,10 @@ package body word_package is
                           (sl(i+1).mnpc = sl(i).mnpc   and then
                              sl(i+1).ir.ending.size = sl(i).ir.ending.size  and then
                              sl(i+1).ir.qual = sl(i).ir.qual   and then
-                             sl(i+1).d_k  < sl(i).d_k)   then
+                             sl(i+1).d_k  < sl(i).d_k)
+                        then
                            sm := sl(i);
-                           sl(i) := sl(i+1);                                                                            sl(i+1) := sm;
+                           sl(i) := sl(i+1);
                            sl(i+1) := sm;
                            hits := hits + 1;
                         end if;
@@ -689,7 +682,6 @@ package body word_package is
                         exit inner_loop;
                      end if;
                   end loop inner_loop;
-
                end switch;
 
                exit when hits = 0;
@@ -712,23 +704,22 @@ package body word_package is
                if sl(i) /= null_parse_record  then
                   --PUT('*'); PUT(SL(I)); NEW_LINE;
 
-              supress_key_check:
+                  supress_key_check:
                   declare
-
                      function "<=" (a, b : parse_record) return boolean is
                         use dict_io;
-                     begin                             --  !!!!!!!!!!!!!!!!!!!!!!!!!!
-                        if a.ir.qual = b.ir.qual        and then
-                          a.mnpc = b.mnpc  then
+                     begin  --  !!!!!!!!!!!!!!!!!!!!!!!!!!
+                        if a.ir.qual = b.ir.qual and then
+                          a.mnpc = b.mnpc
+                        then
                            return true;
                         else
                            return false;
                         end if;
                      end "<=";
-
                   begin
                      if sl(i) <= opr  then       --  Get rid of duplicates, if ORDER is OK
-                                                 --PUT('-'); PUT(SL(I)); NEW_LINE;
+                        --PUT('-'); PUT(SL(I)); NEW_LINE;
                         null;
                      else
                         pa_last := pa_last + 1;
@@ -736,14 +727,11 @@ package body word_package is
                         opr := sl(i);
                      end if;
                   end supress_key_check;
-
                else
                   exit;
                end if;
             end loop;
-
          end if;
-
       end array_stems;
 
       procedure reduce_stem_list(sl : in sal; sxx : in out sal;
@@ -799,7 +787,8 @@ package body word_package is
          sxx := (others => null_parse_record);  --  Essentially initializing
          --  For the reduced dictionary list PDL
          m := 0;
-     on_pdl:
+
+         on_pdl:
          for j in 1..pdl_index  loop
 
             pdl_part := pdl(j).ds.part;
@@ -811,19 +800,21 @@ package body word_package is
 
             --  If there is no SUFFIX then carry on
             if (suffix = null_suffix_item)  then  --  No suffix working, fall through
-                                                  --PUT_LINE("No SUFFIX in REDUCE - Fall through to PREFIX check ");
+               --PUT_LINE("No SUFFIX in REDUCE - Fall through to PREFIX check ");
                null;
             elsif
               (pdl_p = n    and then pdl_part.n.decl = (9, 8)) or  --  No suffix for
-              (pdl_p = adj  and then pdl_part.adj.decl = (9, 8)) then  --  abbreviations
-                                                                       --   Can be no suffix on abbreviation");
+              (pdl_p = adj  and then pdl_part.adj.decl = (9, 8)) -- abbreviations
+               then
+               --   Can be no suffix on abbreviation");
                goto end_of_pdl_loop;
-            else                      --  There is SUFFIX, see if it agrees with PDL
+            else                  --  There is SUFFIX, see if it agrees with PDL
                if pdl_p <= suffix.entr.root  and then     --  Does SUFFIX agree in ROOT
                  ((pdl_key <= suffix.entr.root_key)  or else
                     ((pdl_key = 0) and then
                        ((pdl_p = n) or (pdl_p = adj) or (pdl_p = v)) and then
-                       ((suffix.entr.root_key = 1) or (suffix.entr.root_key = 2))))  then
+                       ((suffix.entr.root_key = 1) or (suffix.entr.root_key = 2))))
+               then
                   --PUT_LINE("HIT HIT HIT HIT HIT HIT HIT HIT HIT     SUFFIX SUFFIX    in REDUCE");
                   case suffix.entr.target.pofs is      --  Transform PDL_PART to TARGET
                      when n =>
@@ -839,11 +830,11 @@ package body word_package is
                      when v =>
                         pdl_part := (v, suffix.entr.target.v);
                      when others  =>
-                        null;                  --  No others so far, except X = all
+                        null;        --  No others so far, except X = all
                   end case;
                   pdl_key := suffix.entr.target_key;
                   pdl_p  := pdl_part.pofs;  --  Used only for FIX logic below
-                                            --PUT("    Changed to    "); PUT(PDL_PART); PUT(PDL_KEY); NEW_LINE;
+                  --PUT("    Changed to    "); PUT(PDL_PART); PUT(PDL_KEY); NEW_LINE;
 
                else
                   --PUT_LINE("In REDUCE_STEM_LIST   There is no legal suffix");
@@ -853,13 +844,13 @@ package body word_package is
             end if;
 
             if (prefix = null_prefix_item)  then      --  No PREFIX, drop through
-                                                      --PUT_LINE("No PREFIX in REDUCE - Fall through to MATCHing ");
+               --PUT_LINE("No PREFIX in REDUCE - Fall through to MATCHing ");
                null;
             elsif
               (pdl_p = n    and then pdl_part.n.decl = (9, 8)) or  --  No prefix for
               (pdl_p = adj  and then pdl_part.adj.decl = (9, 8)) or --  abbreviations
               (pdl_p = interj  or pdl_p = conj) then  --  or INTERJ or CONJ
-                                                      --PUT_LINE("In REDUCE_STEM_LIST   no prefix on abbreviationi, interj, conj");
+              --PUT_LINE("In REDUCE_STEM_LIST   no prefix on abbreviationi, interj, conj");
                goto end_of_pdl_loop;
             else
                if (pdl_p = prefix.entr.root)  or    --  = ROOT
@@ -874,7 +865,7 @@ package body word_package is
 
             --  SUFFIX and PREFIX either agree or don't exist (agrees with everything)
             ls := len(add_suffix(add_prefix(pdl(j).ds.stem, prefix), suffix));
-        on_sl:
+            on_sl:
             for i in sl'range loop
                exit when sl(i) = null_parse_record;
 
@@ -1120,7 +1111,7 @@ package body word_package is
                end if;
             end loop on_sl;
 
-        <<end_of_pdl_loop>> null;
+         <<end_of_pdl_loop>> null;
          end loop on_pdl;
       end reduce_stem_list;
 
@@ -1143,15 +1134,15 @@ package body word_package is
             for i in 1..number_of_prefixes  loop       --  Loop through PREFIXES
                l :=  0;
                for j in sa'range  loop                  --  Loop through stem array
-                                                        --PUT("J = "); PUT(J); PUT("   SA(J) = "); PUT(SA(J)); NEW_LINE;
+                  --PUT("J = "); PUT(J); PUT("   SA(J) = "); PUT(SA(J)); NEW_LINE;
                   if (sa(j)(1) = prefixes(i).fix(1))  then  --  Cuts down a little -- do better
                      if subtract_prefix(sa(j), prefixes(i)) /=
                        head(sa(j), max_stem_size)  then
                         l := l + 1;            --  We have a hit, make new stem array item
                         ssa(l) := head(subtract_prefix(sa(j), prefixes(i)),
                                        max_stem_size);  --  And that has prefix subtracted to match dict
-                                                        --PUT("L = "); PUT(L); PUT("   "); PUT_LINE(SUBTRACT_PREFIX(SA(J), PREFIXES(I)));
-                     end if;                               --  with prefix subtracted stems
+                        --PUT("L = "); PUT(L); PUT("   "); PUT_LINE(SUBTRACT_PREFIX(SA(J), PREFIXES(I)));
+                     end if;                    --  with prefix subtracted stems
                   end if;
                end loop;
 
@@ -1159,8 +1150,7 @@ package body word_package is
                   search_dictionaries(ssa(1..l));      --  So run new dictionary search
 
                   if  pdl_index /= 0     then                  --  Dict search was successful
-                                                               --PUT_LINE("IN APPLY_PREFIX -  PDL_INDEX not 0     after prefix  " & PREFIXES(I).FIX);
-
+                     --PUT_LINE("IN APPLY_PREFIX -  PDL_INDEX not 0     after prefix  " & PREFIXES(I).FIX);
                      --PUT_LINE("REDUCE_STEM_LIST being called from APPLY_PREFIX  ----  SUFFIX = "
                      --& SUFFIX.FIX);
                      reduce_stem_list(sx, sxx, prefixes(i), suffix);
@@ -1174,7 +1164,6 @@ package body word_package is
                         pa(pa_last).d_k  := addons;
                         exit;      --  Because we accept only one prefix
                      end if;
-
                   end if;
                end if;
             end loop;      --  Loop on I for PREFIXES
@@ -1205,10 +1194,10 @@ package body word_package is
 
             if l > 0  then                        --  There has been a suffix hit
                search_dictionaries(ssa(1..l));     --  So run new dictionary search
-                                                                       --  For suffixes we allow as many as match
+               --  For suffixes we allow as many as match
 
                if  pdl_index /= 0     then                  --  Dict search was successful
-                                                            --PUT_LINE("IN APPLY_SUFFIX -  PDL_INDEX not 0     after suffix  " & SUFFIXES(I).FIX);
+                  --PUT_LINE("IN APPLY_SUFFIX -  PDL_INDEX not 0     after suffix  " & SUFFIXES(I).FIX);
 
                   suffix_hit := i;
 
@@ -1216,7 +1205,7 @@ package body word_package is
 
                   if sxx(1) /= null_parse_record  then    --  There is reduced stem result
                      pa_last := pa_last + 1;        --  So add suffix line to parse array
-                                                    --PUT_LINE("REDUCE_STEM_LIST is not null so add suffix to parse array");
+                     --PUT_LINE("REDUCE_STEM_LIST is not null so add suffix to parse array");
                      pa(pa_last).ir :=
                        ((suffix, null_suffix_record), 0, null_ending_record, x, x);
                      pa(pa_last).stem := head(
@@ -1239,7 +1228,7 @@ package body word_package is
                   apply_prefix(ssa(1..l), suffixes(i), sx, sxx, pa, pa_last);
                   if sxx(1) /= null_parse_record  then    --  There is reduced stem result
                      pa_last := pa_last + 1;        --  So add suffix line to parse array
-                                                    --PUT_LINE("REDUCE_STEM_LIST is not null so add suffix to parse array");
+                     --PUT_LINE("REDUCE_STEM_LIST is not null so add suffix to parse array");
                      pa(pa_last).ir :=
                        ((suffix, null_suffix_record), 0, null_ending_record, x, x);
                      pa(pa_last).stem := head(
@@ -1271,7 +1260,7 @@ package body word_package is
 
             -----------------------------------------------------------------
 
-        generate_reduced_stem_array:
+            generate_reduced_stem_array:
             begin
                j := 1;
                for z in 0..min(max_stem_size, len(input_word))  loop
@@ -1342,11 +1331,12 @@ package body word_package is
 
       begin
 
-     over_packons:
+         over_packons:
          for k in packons'range  loop    -- Do whole set, more than one may apply
-                                         --TEXT_IO.PUT_LINE("OVER_PACKONS   K = "& INTEGER'IMAGE(K) & "   PACKON = " & PACKONS(K).TACK);
-                                         --  PACKON if the TACKON ENTRY is PRON
-        for_each_packon:
+            --TEXT_IO.PUT_LINE("OVER_PACKONS   K = "& INTEGER'IMAGE(K) & "   PACKON = " & PACKONS(K).TACK);
+            --  PACKON if the TACKON ENTRY is PRON
+
+            for_each_packon:
             declare
                xword : constant string := subtract_tackon(input_word, packons(k));
                word : string(1..xword'length) := xword;
@@ -1368,12 +1358,12 @@ package body word_package is
                   lel_section_io.read(inflections_sections_file, lel, 4);
 
                   m := 0;
-              on_inflects:
+
+                  on_inflects:
                   for z in reverse 1..min(6, length_of_word)  loop   --  optimum for qu-pronouns
-                                                                     --PUT("ON_INFLECTS  Z = "); PUT(Z); PUT("  "); PUT(WORD(1..Z)); NEW_LINE;
+                     --PUT("ON_INFLECTS  Z = "); PUT(Z); PUT("  "); PUT(WORD(1..Z)); NEW_LINE;
                      if pell(z, last_of_word) > 0  then   --  Any possible inflections at all
                         for i in pelf(z, last_of_word)..pell(z, last_of_word) loop
-
                            if (z <= length_of_word)  and then
                              ((equ(lel(i).ending.suf(1..z),
                                    word(word'last-z+1..word'last)))  and
@@ -1404,12 +1394,13 @@ package body word_package is
                                       pack_only);
                   --  Now have a PDL, scan for agreement
 
-              pdl_loop:
+                  pdl_loop:
                   for j in 1..pdl_index  loop  --  Go through all dictionary hits to see
                                                --PUT_LINE("PACKON  PDL_INDEX  "); PUT(PDL(J).DS.STEM); PUT(PDL(J).DS.PART); NEW_LINE;
                                                --  M used here wher I is used in REDUCE, maybe make consistent
                      m := 1;
-                 sl_loop:
+
+                     sl_loop:
                      while sl(m) /= null_parse_record  loop  --  Over all inflection hits
                                                              --  if this stem is possible
                                                              --  call up the meaning to check for "(w/-"
@@ -1484,9 +1475,10 @@ package body word_package is
 
          --  M used here while I is used in REDUCE, maybe make consistent
          m := 0;
-     on_inflects:
+
+         on_inflects:
          for z in reverse 1..min(4, length_of_word)  loop     --  optimized for qu-pronouns
-                                                              --PUT("ON_INFLECTS  "); PUT(Z); PUT("  "); PUT(LAST_OF_WORD); NEW_LINE;
+            --PUT("ON_INFLECTS  "); PUT(Z); PUT("  "); PUT(LAST_OF_WORD); NEW_LINE;
             if pell(z, last_of_word) > 0  then   --  Any possible inflections at all
                for i in pelf(z, last_of_word)..pell(z, last_of_word) loop
                   --PUT(LEL(I)); PUT(WORD'LAST); PUT(WORD'LAST-Z+1); NEW_LINE;
@@ -1515,10 +1507,11 @@ package body word_package is
                              qu_pron_only);
          --  Now have a PDL, scan for agreement
 
-     pdl_loop:
+         pdl_loop:
          for j in 1..pdl_index  loop  --  Go through all dictionary hits to see
             m := 1;
-        sl_loop:
+
+            sl_loop:
             while sl(m) /= null_parse_record  loop  --  Over all inflection hits
                if (pdl(j).ds.part.pron.decl = sl(m).ir.qual.pron.decl)   then
                   pa_last := pa_last + 1;
@@ -1556,27 +1549,23 @@ package body word_package is
          start_of_loop : constant integer := 5;    --  4 enclitics     --  Hard number  !!!!!!!!!!!!!!!
          end_of_loop : constant integer := number_of_tackons;
       begin
-
-     loop_over_tackons:
+         loop_over_tackons:
          for i in start_of_loop..end_of_loop  loop
 
-        remove_a_tackon:
+            remove_a_tackon:
             declare
                less : constant string :=
                  subtract_tackon(input_word, tackons(i));
             begin
                --TEXT_IO.PUT_LINE("LESS = " & LESS);
                if less  /= input_word  then       --  LESS is less
-
                   word(less, pa, pa_last);
 
                   if pa_last > entering_pa_last  then      --  we have a possible word
                      if tackons(i).entr.base.pofs = x  then 
                         tackon_hit := true;
                         tackon_on  := false;
-
                      else
-
                         j := pa_last;
 
                         while j >= entering_pa_last+1  loop 
@@ -1590,10 +1579,8 @@ package body word_package is
                               tackon_on  := false;
                            elsif ((pa(j).ir.qual.pofs = suffix) and then (tackon_on))  then
                               --  check PART
-
                               null;
                               tackon_on  := false;
-
                            elsif pa(j).ir.qual.pofs = tackons(i).entr.base.pofs  then
                               dict_io.set_index(dict_file(pa(j).d_k), pa(j).mnpc);
                               dict_io.read(dict_file(pa(j).d_k), de);
@@ -1608,7 +1595,6 @@ package body word_package is
                                        tackon_hit := true;
                                        tackon_on  := true;
                                     end if;
-
                                  when pron    =>              --  Only one we have other than X
                                     if pa(j).ir.qual.pron.decl <=
                                       tackons(i).entr.base.pron.decl  --and then
@@ -1620,7 +1606,6 @@ package body word_package is
                                        pa_last := pa_last - 1;
 
                                     end if;
-
                                  when adj     =>
                                     --  Forego all checks, even on DECL of ADJ
                                     --  -cumque is the only one I have now
@@ -1637,9 +1622,7 @@ package body word_package is
                                  when others  =>
                                     pa(j..pa_last-1) := pa(j+1..pa_last);
                                     pa_last := pa_last - 1;
-
                               end case;
-
                            else                                          --  check PART
                               pa(j..pa_last-1) := pa(j+1..pa_last);
                               pa_last := pa_last - 1;
@@ -1647,13 +1630,11 @@ package body word_package is
                            end if;                                      --  check PART
                            j := j - 1;
                         end loop;                          --  loop sweep over PA
-
                      end if;                                      --  on PART (= X?)
-                                                                  --PUT_LINE("End if on PART = X ?");
+                     --PUT_LINE("End if on PART = X ?");
 
                      -----------------------------------------
                      if tackon_hit  then
-
                         pa_last := pa_last + 1;
                         pa(entering_pa_last+2..pa_last) :=
                           pa(entering_pa_last+1..pa_last-1);
@@ -1665,11 +1646,8 @@ package body word_package is
                         return;                 --  Be happy with one ???????
                      else
                         null;
-
                      end if;   --  TACKON_HIT
-
                   end if;                             --  we have a possible word
-                                                      -----------------------------------------
                end if;                                     --  LESS is less
             end remove_a_tackon;
          end loop loop_over_tackons;
@@ -1677,14 +1655,14 @@ package body word_package is
       end try_tackons;
 
    begin                           --  WORD
-                                   --TEXT_IO.PUT_LINE("Starting WORD  INPUT = " & INPUT_WORD & "   PA_LAST = " & INTEGER'IMAGE(PA_LAST));
+      --TEXT_IO.PUT_LINE("Starting WORD  INPUT = " & INPUT_WORD & "   PA_LAST = " & INTEGER'IMAGE(PA_LAST));
       if trim(input_word) = ""  then
          return;
       end if;
 
       run_uniques(input_word, unique_found, pa, pa_last);
 
-  qu:
+      qu:
       declare
          pa_qstart : constant integer := pa_last;
          pa_start : constant integer := pa_last;
@@ -1742,9 +1720,7 @@ package body word_package is
                         process_qu_pronouns(input_word, 1);
                      elsif input_word(input_word'first..input_word'first+4) = "alicu"  then
                         process_qu_pronouns(input_word, 2);
-
                      end if;
-
                   end if;
 
                   if pa_last = pa_start + 1  then    --  Nothing found
@@ -1752,13 +1728,11 @@ package body word_package is
                   else
                      exit;
                   end if;
-
                end if;
             end;
          end loop;
 
          words_mode := saved_mode_array;
-
       exception
          when others =>
             words_mode := saved_mode_array;
@@ -1777,7 +1751,6 @@ package body word_package is
       if pa_last = pa_save  then
          try_tackons(input_word);
       end if;
-
    exception
       when storage_error =>
          text_io.put_line(text_io.standard_output,
@@ -1810,10 +1783,10 @@ package body word_package is
 
       try_to_load_dictionary(special);
 
-  load_local:
+      load_local:
       begin
          --  First check if there is a LOC dictionary
-     check_for_local_dictionary:
+         check_for_local_dictionary:
          declare
             dummy : text_io.file_type;
          begin
@@ -1844,19 +1817,19 @@ package body word_package is
 
       if not (dictionary_available(general)  or
                 dictionary_available(special)  or
-                dictionary_available(local))  then
+                dictionary_available(local))
+      then
          preface.put_line("There are no main dictionaries - program will not do much");
          preface.put_line("Check that there are dictionary files in this subdirectory");
          preface.put_line("Except DICT.LOC that means DICTFILE, INDXFILE, STEMFILE");
       end if;
 
-  try_to_load_english_words:
+      try_to_load_english_words:
       begin
          english_dictionary_available(general) := false;
          ewds_direct_io.open(ewds_file, ewds_direct_io.in_file, "EWDSFILE.GEN");
 
          english_dictionary_available(general) := true;
-
       exception
          when others  =>
             preface.put_line("No English available");

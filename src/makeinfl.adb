@@ -88,7 +88,7 @@ procedure makeinfl is
          text_io.put("INFLECTIONS file loading");
          while not end_of_file(inflections_file)  loop
 
-        read_a_line:
+            read_a_line:
             begin
                get_non_comment_line(inflections_file, line, last);
 
@@ -98,8 +98,8 @@ procedure makeinfl is
                   if sn = 0  then
                      sx := ' ';
                   else
-                     sx := ir.ending.suf(sn);
-                  end if;
+                  sx := ir.ending.suf(sn);
+               end if;
                   l_i(sn, sx) := new inflection_item'(ir, l_i(sn, sx));
                   number_of_inflections := number_of_inflections + 1;
                   --TEXT_IO.PUT(INTEGER'IMAGE(NUMBER_OF_INFLECTIONS) & "  "); INFLECTION_RECORD_IO.PUT(IR); NEW_LINE;
@@ -112,14 +112,12 @@ procedure makeinfl is
          end loop;
          close(inflections_file);
          put_line("INFLECTIONS_LIST LOADED   " & integer'image(number_of_inflections));
-
       end load_inflections_list;
 
       procedure list_to_lel_file  is
          --  From ILC (=L_I) list of inflections, prepares the LEL inflections array
          ilc : latin_inflections := l_i;
       begin
-
          create(inflections_sections_file, out_file, inflections_sections_name);
 
          null_lel;

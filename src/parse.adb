@@ -523,11 +523,10 @@ is
             save_pa_last  : integer := 0;
          begin
             if less  /= try  then       --  LESS is less
-                                        --WORDS_MODE(DO_FIXES) := FALSE;
+               --WORDS_MODE(DO_FIXES) := FALSE;
                word_package.word(less, pa, pa_last);
 
                if pa_last = 0  then
-
                   save_pa_last := pa_last;
                   try_slury(less, pa, pa_last, line_number, word_number);
                   if save_pa_last /= 0   then
@@ -535,7 +534,6 @@ is
                         pa_last := save_pa_last;
                      end if;
                   end if;
-
                end if;
 
                --  Do not SYNCOPE if there is a verb TO_BE or compound already there
@@ -720,8 +718,10 @@ is
       if pa_last > 0   then
          --  But PA may be killed by ALLOW in LIST_STEMS
          if words_mode(do_compounds)  and
-           not (configuration = only_meanings)  then
-        compounds_with_sum:
+           not (configuration = only_meanings)
+         then
+
+            compounds_with_sum:
             declare
                nw : string(1..2500) := (others => ' ');
                nk : integer := 0;

@@ -497,8 +497,8 @@ package body inflections_package is
          --  Make a place the DEFAULT_WIDTH of the component  to be Put
          --  The DEFAULT_WIDTH has been set for these _IO packages to be
          --  the LONGEST component width, not the normal Ada default
-         m := l + 1;           --  But WHICH is to be PUT WIDTH 1
-                               --  Put onto the substring that is exactly the DEFAULT (LONGEST) size
+         m := l + 1; --  But WHICH is to be PUT WIDTH 1
+         --  Put onto the substring that is exactly the DEFAULT (LONGEST) size
          put(s(l+1..m), d.which);
          --  Advance the position by 1 to the position to make the blank
          l := m + 1;
@@ -2214,9 +2214,9 @@ package body inflections_package is
          xch := ch;
          lelf(n, ch) := i;
 
-     c1_loop:
+         c1_loop:
          loop
-        n1_loop:
+            n1_loop:
             loop
                exit c1_loop when lel(i) = null_inflection_record;
 
@@ -2262,9 +2262,9 @@ package body inflections_package is
          xch := ch;
          lelf(n, ch) := i;
 
-     c2_loop:
+         c2_loop:
          loop
-        n2_loop:
+            n2_loop:
             loop
                exit c2_loop when lel(i) = null_inflection_record;
 
@@ -2311,9 +2311,9 @@ package body inflections_package is
          xch := ch;
          lelf(n, ch) := i;
 
-     c3_loop:
+         c3_loop:
          loop
-        n3_loop:
+            n3_loop:
             loop
                exit c3_loop when lel(i) = null_inflection_record;
 
@@ -2360,11 +2360,10 @@ package body inflections_package is
          xch := ch;
          lelf(n, ch) := i;
 
-     c4_loop:
+         c4_loop:
          loop
-        n4_loop:
+            n4_loop:
             loop
-
                exit c4_loop when  lel(i).qual.pofs = pron  and then
                  (lel(i).qual.pron.decl.which = 1  or
                     lel(i).qual.pron.decl.which = 2);
@@ -2406,9 +2405,9 @@ package body inflections_package is
             pelf(n,  ch) := i;
             pell(n,  ch) := 0;
 
-        c_p_loop:
+            c_p_loop:
             loop
-           n_p_loop:
+               n_p_loop:
                loop
                   exit c_p_loop when lel(i) = null_inflection_record;
 
@@ -2431,11 +2430,8 @@ package body inflections_package is
                   end if;
 
                   i := i + 1;
-
                end loop n_p_loop;
-
             end loop c_p_loop;
-
          exception
             when constraint_error => null;
          end;
@@ -2443,11 +2439,9 @@ package body inflections_package is
          pell(xn, xch) := i - 1;
          number_of_inflections := number_of_inflections + i - 1;
          close(inflections_sections_file);
-
       end load_lel_indexes;
 
    begin
-
       preface.put("INFLECTION_ARRAY being loaded");
       preface.set_col(33);
       preface.put("--  ");
@@ -2455,7 +2449,6 @@ package body inflections_package is
       preface.put(number_of_inflections, 6);
       preface.put(" entries");
       preface.set_col(55); preface.put_line("--  Loaded correctly");
-
    exception
       when text_io.name_error  =>
          new_line;
@@ -2464,11 +2457,10 @@ package body inflections_package is
          put_line("Make sure you are in the subdirectory containing the files");
          put_line("for inflections, dictionary, addons and uniques.");
          raise give_up;
-
    end establish_inflections_section;
 
 begin  --  initialization of body of INFLECTIONS_PACKAGE
-       --TEXT_IO.PUT_LINE("Initializing INFLECTIONS_PACKAGE");
+   --TEXT_IO.PUT_LINE("Initializing INFLECTIONS_PACKAGE");
 
    part_of_speech_type_io.default_width := part_of_speech_type'width;
    gender_type_io.default_width := gender_type'width;

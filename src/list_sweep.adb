@@ -41,7 +41,7 @@ procedure list_sweep(pa : in out parse_array; pa_last : in out integer) is
 
    function allowed_stem(pr : parse_record) return boolean is
       allowed : boolean := true;   --  modify as necessary and return it
-                                   --DE : DICTIONARY_ENTRY;
+      --DE : DICTIONARY_ENTRY;
    begin
       --TEXT_IO.PUT("ALLOWED? >"); PARSE_RECORD_IO.PUT(PR); TEXT_IO.NEW_LINE;
       if pr.d_k not in general..local  then
@@ -57,11 +57,14 @@ procedure list_sweep(pa : in out parse_array; pa_last : in out integer) is
 
             if  words_mdev(for_word_list_check)  then
                if (nom <= pr.ir.qual.n.cs) and then
-                 (s <= pr.ir.qual.n.number) then
+                 (s <= pr.ir.qual.n.number)
+               then
                   allowed := true;
                elsif (nom <= pr.ir.qual.n.cs) and then
-                 (pr.ir.qual.n.number = p) then
-              search_for_pl:
+                 (pr.ir.qual.n.number = p)
+               then
+
+                  search_for_pl:
                   declare
                      de : dictionary_entry;
                      mean : meaning_type := null_meaning_type;
@@ -76,14 +79,12 @@ procedure list_sweep(pa : in out parse_array; pa_last : in out integer) is
                         end if;
                      end loop;
                   end search_for_pl;
-                  --====================================
                else
                   allowed := false;
                end if;
             end if;
 
          when  adj  =>
-
             if  words_mdev(for_word_list_check)  then
                if (nom <= pr.ir.qual.adj.cs) and then
                  (s <= pr.ir.qual.adj.number) and then
@@ -93,9 +94,7 @@ procedure list_sweep(pa : in out parse_array; pa_last : in out integer) is
                   allowed := false;
                end if;
             end if;
-
             --  VERB CHECKS
-
          when  v  =>
             --TEXT_IO.PUT("VERB  ");
             --  Check for Verb 3 1  dic/duc/fac/fer shortened imperative
@@ -222,7 +221,7 @@ procedure list_sweep(pa : in out parse_array; pa_last : in out integer) is
             allowed := false;
          end if;
       end if;                                           --  Non parts
-                                                        --TEXT_IO.PUT_LINE("Returning FOR ALLOWED    " & BOOLEAN'IMAGE(ALLOWED));
+      --TEXT_IO.PUT_LINE("Returning FOR ALLOWED    " & BOOLEAN'IMAGE(ALLOWED));
       return allowed;
 
    end allowed_stem;
@@ -268,15 +267,14 @@ procedure list_sweep(pa : in out parse_array; pa_last : in out integer) is
       end if;
 
       --  Bubble sort since this list should usually be very small (1-5)
-  hit_loop:
+      hit_loop:
       loop
          hits := 0;
 
          --------------------------------------------------
 
-     switch:
+         switch:
          declare
-
             function "<" (left, right : quality_record) return boolean is
             begin
                if left.pofs = right.pofs  and then
@@ -290,17 +288,14 @@ procedure list_sweep(pa : in out parse_array; pa_last : in out integer) is
 
             function equ (left, right : quality_record) return boolean is
             begin
-
                if left.pofs = right.pofs  and then
                  left.pofs = pron        and then
-                 left.pron.decl.which = 1    then
-
+                 left.pron.decl.which = 1
+               then
                   return (left.pron.decl.var = right.pron.decl.var);
                else
-
                   return inflections_package."="(left, right);
                end if;
-
             end equ;
 
             function meaning (pr : parse_record) return meaning_type is
@@ -315,7 +310,7 @@ procedure list_sweep(pa : in out parse_array; pa_last : in out integer) is
             --  I ought to do this for every set of results from different approaches
             --  not just in one fell swoop at the end !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
-        inner_loop:
+            inner_loop:
             for i in sl'first..sl_last-1  loop
                --  Maybe <   =  on PR.STEM  -  will have to make up "<"   --  Actually STEM and PART  --  and check that later in print
                if sl(i+1).d_k  > sl(i).d_k   or else  --  Let DICT.LOC list first
@@ -507,157 +502,157 @@ begin                               --  LIST_SWEEP
       return;
    end if;
 
-reset_pronoun_kind:
-    declare
-       de : dictionary_entry;
-    begin
-       for i in 1..pa_last  loop
-          if pa(i).d_k = general  then
-             dict_io.set_index(dict_file(pa(i).d_k), pa(i).mnpc);
-             dict_io.read(dict_file(pa(i).d_k), de);
-             if de.part.pofs = pron  and then
-               de.part.pron.decl.which =1  then
-                pa(i).ir.qual.pron.decl.var := pronoun_kind_type'pos(de.part.pron.kind);
-                --elsif DE.PART.POFS = PACK  and then
-                -- DE.PART.PACK.DECL.WHICH =1  then
-                -- PA(I).IR.QUAL.PACK.DECL.VAR := PRONOUN_KIND_TYPE'POS(DE.KIND.PRON_KIND);
-             end if;
-          end if;
-       end loop;
-    end reset_pronoun_kind;
+   reset_pronoun_kind:
+   declare
+      de : dictionary_entry;
+   begin
+      for i in 1..pa_last  loop
+         if pa(i).d_k = general  then
+            dict_io.set_index(dict_file(pa(i).d_k), pa(i).mnpc);
+            dict_io.read(dict_file(pa(i).d_k), de);
+            if de.part.pofs = pron  and then
+              de.part.pron.decl.which =1  then
+               pa(i).ir.qual.pron.decl.var := pronoun_kind_type'pos(de.part.pron.kind);
+               --elsif DE.PART.POFS = PACK  and then
+               -- DE.PART.PACK.DECL.WHICH =1  then
+               -- PA(I).IR.QUAL.PACK.DECL.VAR := PRONOUN_KIND_TYPE'POS(DE.KIND.PRON_KIND);
+            end if;
+         end if;
+      end loop;
+   end reset_pronoun_kind;
 
-    ---------------------------------------------------
+   ---------------------------------------------------
 
-    --  NEED TO REMOVE DISALLOWED BEFORE DOING ANYTHING - BUT WITHOUT REORDERING
+   --  NEED TO REMOVE DISALLOWED BEFORE DOING ANYTHING - BUT WITHOUT REORDERING
 
-    --  The problem I seem to have to face first, if not the first problem,
-    --  is the situation in which there are several sets of identical IRs with different MNPC
-    --  These may be variants with some other stem (e.g., K=3) not affecting the (K=1) word
-    --  Or they might be identical forms with different meanings (| additional meanings)
-    --  I need to group such common inflections - and pass this on somehow
+   --  The problem I seem to have to face first, if not the first problem,
+   --  is the situation in which there are several sets of identical IRs with different MNPC
+   --  These may be variants with some other stem (e.g., K=3) not affecting the (K=1) word
+   --  Or they might be identical forms with different meanings (| additional meanings)
+   --  I need to group such common inflections - and pass this on somehow
 
-    --   TEXT_IO.PUT_LINE("PA before SWEEPING in LIST_SWEEP     PA_LAST = " & INTEGER'IMAGE(PA_LAST));
-    --   for I in 1..PA_LAST  loop
-    --   PARSE_RECORD_IO.PUT(PA(I)); TEXT_IO.NEW_LINE;
-    --   end loop;
+   --   TEXT_IO.PUT_LINE("PA before SWEEPING in LIST_SWEEP     PA_LAST = " & INTEGER'IMAGE(PA_LAST));
+   --   for I in 1..PA_LAST  loop
+   --   PARSE_RECORD_IO.PUT(PA(I)); TEXT_IO.NEW_LINE;
+   --   end loop;
 
-sweeping:
-    --  To remove disallowed stems/inflections and resulting dangling fixes
-    declare
-       fix_on : boolean := false;
-       pw_on  : boolean := false;
-       p_first : integer := 1;
-       p_last  : integer := 0;
-       subtype xons is part_of_speech_type range tackon..suffix;
+   sweeping:
+   --  To remove disallowed stems/inflections and resulting dangling fixes
+   declare
+      fix_on : boolean := false;
+      pw_on  : boolean := false;
+      p_first : integer := 1;
+      p_last  : integer := 0;
+      subtype xons is part_of_speech_type range tackon..suffix;
 
-    begin
+   begin
 
-       j := pa_last;
+      j := pa_last;
 
-       while j >= 1  loop        --  Sweep backwards over PA
+      while j >= 1  loop        --  Sweep backwards over PA
 
-          if ((pa(j).d_k in addons..yyy) or (pa(j).ir.qual.pofs in xons))   and then
-            (pw_on)     then               --  first FIX/TRICK after regular
-             fix_on := true;
-             pw_on  := false;
-             p_first := j + 1;
+         if ((pa(j).d_k in addons..yyy) or (pa(j).ir.qual.pofs in xons))   and then
+            (pw_on)
+         then               --  first FIX/TRICK after regular
+            fix_on := true;
+            pw_on  := false;
+            p_first := j + 1;
 
-             jj := j;
-             while pa(jj+1).ir.qual.pofs = pa(jj).ir.qual.pofs  loop
-                p_last := jj + 1;
-             end loop;
+            jj := j;
+            while pa(jj+1).ir.qual.pofs = pa(jj).ir.qual.pofs  loop
+               p_last := jj + 1;
+            end loop;
 
-             ----Order internal to this set of inflections
+            ----Order internal to this set of inflections
 
-             order_parse_array(pa(p_first..p_last), diff_j);
-             pa(p_last-diff_j+1..pa_last-diff_j) := pa(p_last+1..pa_last);
-             pa_last := pa_last - diff_j;
-             p_first := 1;
-             p_last  := 0;
+            order_parse_array(pa(p_first..p_last), diff_j);
+            pa(p_last-diff_j+1..pa_last-diff_j) := pa(p_last+1..pa_last);
+            pa_last := pa_last - diff_j;
+            p_first := 1;
+            p_last  := 0;
 
-          elsif ((pa(j).d_k in addons..yyy) or (pa(j).ir.qual.pofs in xons))  and then
+         elsif ((pa(j).d_k in addons..yyy) or (pa(j).ir.qual.pofs in xons))  and then
             (fix_on)     then               --  another FIX
-                                            --TEXT_IO.PUT_LINE("SWEEP  Another FIX/TRICK  J = " & INTEGER'IMAGE(J));
-             null;
-
-          elsif ((pa(j).d_k in addons..yyy)  or
+            --TEXT_IO.PUT_LINE("SWEEP  Another FIX/TRICK  J = " & INTEGER'IMAGE(J));
+            null;
+         elsif ((pa(j).d_k in addons..yyy)  or
             (pa(j).ir.qual.pofs = x))  and then  --  Kills TRICKS stuff
-            (not pw_on)     then
-             pa(p_last-diff_j+1..pa_last-diff_j) := pa(p_last+1..pa_last);
-             pa_last := pa_last - diff_j;
-             p_last := p_last - 1;
+            (not pw_on)
+         then
+            pa(p_last-diff_j+1..pa_last-diff_j) := pa(p_last+1..pa_last);
+            pa_last := pa_last - diff_j;
+            p_last := p_last - 1;
+         else
+            pw_on := true;
+            fix_on := false;
+            if p_last <= 0  then
+               p_last := j;
+            end if;
+            if j = 1  then
+               order_parse_array(pa(1..p_last), diff_j);
+               pa(p_last-diff_j+1..pa_last-diff_j) := pa(p_last+1..pa_last);
+               pa_last := pa_last - diff_j;
+            end if;
+         end if;                                      --  check PART
 
-          else
-             pw_on := true;
-             fix_on := false;
-             if p_last <= 0  then
-                p_last := j;
-             end if;
-             if j = 1  then
-                order_parse_array(pa(1..p_last), diff_j);
-                pa(p_last-diff_j+1..pa_last-diff_j) := pa(p_last+1..pa_last);
-                pa_last := pa_last - diff_j;
-             end if;
+         j := j - 1;
+      end loop;                          --  loop sweep over PA
+   end sweeping;
 
-          end if;                                      --  check PART
+   opr := pa(1);
+   --  Last chance to weed out duplicates
+   j := 2;
 
-          j := j - 1;
+   compress_loop:
+   loop
+      exit when j > pa_last;
+      pr := pa(j);
+      if pr /= opr  then
+         supress_key_check:
+         declare
+            function "<=" (a, b : parse_record) return boolean is
+            begin                             --  !!!!!!!!!!!!!!!!!!!!!!!!!!
+               if a.ir.qual = b.ir.qual  and
+                  a.mnpc    = b.mnpc
+               then
+                  return true;
+               else
+                  return false;
+               end if;
+            end "<=";
+         begin
+            if ((pr.d_k /= xxx) and (pr.d_k /= yyy) and  (pr.d_k /= ppp)) then
+               if pr <= opr  then       --  Get rid of duplicates, if ORDER is OK
+                  pa(j.. pa_last-1) := pa(j+1..pa_last);  --  Shift PA down 1
+                  pa_last := pa_last - 1;        --  because found key duplicate
+               end if;
+            else
+               j := j + 1;
+            end if;
+         end supress_key_check;
+      else
+         j := j + 1;
+      end if;
 
-       end loop;                          --  loop sweep over PA
+      opr := pr;
+   end loop compress_loop;
 
-    end sweeping;
+   for i in 1..pa_last  loop
+      --  Destroy the artificial VAR for PRON 1 X
+      if pa(i).ir.qual.pofs = pron  and then
+        pa(i).ir.qual.pron.decl.which =1
+      then
+         pa(i).ir.qual.pron.decl.var := 0;
+      end if;
 
-    opr := pa(1);
-    --  Last chance to weed out duplicates
-    j := 2;
-compress_loop:
-    loop
-       exit when j > pa_last;
-       pr := pa(j);
-       if pr /= opr  then
-      supress_key_check:
-          declare
-             function "<=" (a, b : parse_record) return boolean is
-             begin                             --  !!!!!!!!!!!!!!!!!!!!!!!!!!
-                if a.ir.qual = b.ir.qual  and
-                  a.mnpc    = b.mnpc     then
-                   return true;
-                else
-                   return false;
-                end if;
-             end "<=";
-          begin
-             if ((pr.d_k /= xxx) and (pr.d_k /= yyy) and  (pr.d_k /= ppp)) then
-                if pr <= opr  then       --  Get rid of duplicates, if ORDER is OK
-                   pa(j.. pa_last-1) := pa(j+1..pa_last);  --  Shift PA down 1
-                   pa_last := pa_last - 1;        --  because found key duplicate
-                end if;
-             else
-                j := j + 1;
-             end if;
-          end supress_key_check;
-       else
-          j := j + 1;
-
-       end if;
-       opr := pr;
-    end loop compress_loop;
-
-    for i in 1..pa_last  loop
-       --  Destroy the artificial VAR for PRON 1 X
-       if pa(i).ir.qual.pofs = pron  and then
-         pa(i).ir.qual.pron.decl.which =1  then
-          pa(i).ir.qual.pron.decl.var := 0;
-       end if;
-       if pa(i).ir.qual.pofs = v   then
-          if pa(i).ir.qual.v.con = (3, 4)  then
-             --  Fix V 3 4 to be 4th conjugation
-             pa(i).ir.qual.v.con := (4, 1);
-             --    else
-             --    --  Set to 0 other VAR for V
-             --      PA(I).IR.QUAL.V.CON.VAR := 0;
-          end if;
-       end if;
-    end loop;
-
+      if pa(i).ir.qual.pofs = v   then
+         if pa(i).ir.qual.v.con = (3, 4)  then
+            --  Fix V 3 4 to be 4th conjugation
+            pa(i).ir.qual.v.con := (4, 1);
+            --    else
+            --    --  Set to 0 other VAR for V
+            --      PA(I).IR.QUAL.V.CON.VAR := 0;
+         end if;
+      end if;
+   end loop;
 end list_sweep;

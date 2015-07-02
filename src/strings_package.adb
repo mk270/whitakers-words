@@ -27,7 +27,8 @@ package body strings_package is
    function min(a, b : integer) return integer is
    begin
       if a <= b  then
-         return a; end if;
+         return a;
+      end if;
          return b;
    end min;
 
@@ -130,7 +131,7 @@ package body strings_package is
       l, lx : integer := 0;
    begin
       last := 0;
-  file_loop:
+      file_loop:
       while not text_io.end_of_file(f)  loop  --  Loop until data - Finish on EOF
          text_io.get_line(f, t, l);
          if (head(trim(t), 250)(1..2) = "  "  or
@@ -138,7 +139,7 @@ package body strings_package is
             null;
          else
             lx := l;
-        line_loop:
+            line_loop:
             for i in 2..l  loop
                --  Any leading comment does not get to here
                if (t(i-1) = '-')  and  (t(i) = '-')  then   --  We have a comment
@@ -152,5 +153,4 @@ package body strings_package is
       s(s'first..lx) := t(1..lx);
       last := lx;
    end get_non_comment_line;
-
 end strings_package;

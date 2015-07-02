@@ -115,8 +115,7 @@ package dictionary_package is
      v,      --  Vademecum in opus Saxonis - Franz Blatt (Saxo)
      w,      --  My personal guess, mostly obvious extrapolation (Whitaker or W)
      y,      --  Temp special code
-     z       --  Sent by user --  no dictionary reference
-             --  Mostly John White of Blitz Latin
+     z       --  Sent by user --  no dictionary reference, Mostly John White of Blitz Latin
 
      --  Consulted but used only indirectly
      --  Liddell + Scott Greek-English Lexicon (Lid)

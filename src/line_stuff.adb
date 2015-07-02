@@ -77,12 +77,12 @@ package body line_stuff is
          --TEXT_IO.PUT_LINE("GETTING");
          st_line := blank_line;
          get_non_comment_line(dictionary_file, st_line, last);      --  STEMS
-                                                                    --TEXT_IO.PUT_LINE("READ STEMS");
+         --TEXT_IO.PUT_LINE("READ STEMS");
 
          line := blank_line;
          --TEXT_IO.PUT("1 ");
          get_non_comment_line(dictionary_file, line, l);           --  PART
-                                                                   --TEXT_IO.PUT("2 ");
+         --TEXT_IO.PUT("2 ");
          part_entry_io.get(line(1..l), pt, ll);
          --TEXT_IO.PUT("3 ");
          ----  KIND_ENTRY_IO.GET(LINE(LL+1..L), PT.POFS, KIND, LL);

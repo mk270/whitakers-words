@@ -130,166 +130,183 @@ package body tricks_package is
          j := s'last;
 
          evaluate:
-             while j >= s'first  loop
-                --
-                --Legal in the Ones position
-                --  I
-                --  II
-                --  III
-                --  IIII    IV
-                --  V
-                --  VI
-                --  VII
-                --  VIII
-                --  VIIII   IX
-                --
-                --
-                --  Ones
-                if s(j) = 'I' then
-                   total := total + 1;
-                   j := j - 1;
-                   exit evaluate when j < s'first;
-                   while s(j) = 'I'  loop
-                      total := total + 1;
-                      if total >= 5  then raise invalid; end if;
-                      j := j - 1;
-                      exit evaluate when j < s'first;
-                   end loop;
-                end if;
+         while j >= s'first  loop
+            --
+            --Legal in the Ones position
+            --  I
+            --  II
+            --  III
+            --  IIII    IV
+            --  V
+            --  VI
+            --  VII
+            --  VIII
+            --  VIIII   IX
+            --
+            --
+            --  Ones
+            if s(j) = 'I' then
+               total := total + 1;
+               j := j - 1;
+               exit evaluate when j < s'first;
+               while s(j) = 'I'  loop
+                  total := total + 1;
+                  if total >= 5  then
+                     raise invalid;
+                  end if;
+                  j := j - 1;
+                  exit evaluate when j < s'first;
+               end loop;
+            end if;
 
-                if s(j) = 'V'  then
-                   total := total + 5;
-                   j := j - 1;
-                   exit evaluate when j < s'first;
-                   if s(j) = 'I'  and total = 5  then
-                      total := total - 1;
-                      j := j - 1;
-                      exit evaluate when j < s'first;
-                   end if;
+            if s(j) = 'V'  then
+               total := total + 5;
+               j := j - 1;
+               exit evaluate when j < s'first;
+               if s(j) = 'I'  and total = 5  then
+                  total := total - 1;
+                  j := j - 1;
+                  exit evaluate when j < s'first;
+               end if;
 
-                   if s(j) = 'I' or s(j) = 'V'  then raise invalid; end if;
-                end if;
+               if s(j) = 'I' or s(j) = 'V'  then
+                  raise invalid;
+               end if;
+            end if;
 
-                --
-                --Legal in the tens position
-                --  X
-                --  XX
-                --  XXX
-                --  XXXX    XL
-                --  L
-                --  LX
-                --  LXX
-                --  LXXX
-                --  LXXXX   XC
-                --
+            --
+            --Legal in the tens position
+            --  X
+            --  XX
+            --  XXX
+            --  XXXX    XL
+            --  L
+            --  LX
+            --  LXX
+            --  LXXX
+            --  LXXXX   XC
+            --
 
-                --  Tens
-                if s(j) = 'X'  then
-                   total := total + 10;
-                   j := j - 1;
-                   exit evaluate when j < s'first;
-                   while s(j) = 'X'  loop
-                      total := total + 10;
-                      if total >= 50  then raise invalid; end if;
-                      j := j - 1;
-                      exit evaluate when j < s'first;
-                   end loop;
-                   if s(j) = 'I'  and total = 10  then
-                      total := total - 1;
-                      j := j - 1;
-                      exit evaluate when j < s'first;
-                   end if;
-                   if s(j) = 'I' or s(j) = 'V'  then
-                      raise invalid;
-                   end if;
-                end if;
+            --  Tens
+            if s(j) = 'X'  then
+               total := total + 10;
+               j := j - 1;
+               exit evaluate when j < s'first;
+               while s(j) = 'X'  loop
+                  total := total + 10;
+                  if total >= 50 then
+                     raise invalid;
+                  end if;
+                  j := j - 1;
+                  exit evaluate when j < s'first;
+               end loop;
 
-                if s(j) = 'L'  then
-                   total := total + 50;
-                   j := j - 1;
-                   exit evaluate when j < s'first;
+               if s(j) = 'I'  and total = 10  then
+                  total := total - 1;
+                     j := j - 1;
+                     exit evaluate when j < s'first;
+               end if;
 
-                   if s(j) = 'X'  and total <= 59  then
-                      total := total - 10;
-                      j := j - 1;
-                      exit evaluate when j < s'first;
-                   end if;
-                   if s(j) = 'I' or s(j) = 'V'  or s(j) = 'X'  or s(j) = 'L'  then raise invalid; end if;
+               if s(j) = 'I' or s(j) = 'V'  then
+                  raise invalid;
+               end if;
+            end if;
 
-                   if s(j) = 'C'  then
-                      total := total + 100;
-                      j := j - 1;
-                      exit evaluate when j < s'first;
-                      if s(j) = 'X'  and total = 100  then
-                         total := total - 10;
-                         j := j - 1;
-                         exit evaluate when j < s'first;
-                      end if;
-                   end if;
+            if s(j) = 'L'  then
+               total := total + 50;
+               j := j - 1;
+               exit evaluate when j < s'first;
 
-                   if s(j) = 'I' or s(j) = 'V'  or s(j) = 'X'  or s(j) = 'L'  then raise invalid; end if;
-                end if;
+               if s(j) = 'X'  and total <= 59  then
+                  total := total - 10;
+                  j := j - 1;
+                  exit evaluate when j < s'first;
+               end if;
 
-                if s(j) = 'C'  then
-                   total := total + 100;
-                   j := j - 1;
-                   exit evaluate when j < s'first;
-                   while s(j) = 'C'  loop
-                      total := total + 100;
-                      if total >= 500  then raise invalid; end if;
-                      j := j - 1;
-                      exit evaluate when j < s'first;
-                   end loop;
-                   if s(j) = 'X'  and total <= 109  then
-                      total := total - 10;
-                      j := j - 1;
-                      exit evaluate when j < s'first;
-                   end if;
-                   if s(j) = 'I' or s(j) = 'V'  or s(j) = 'X'  or s(j) = 'L'  then raise invalid; end if;
-                end if;
+               if s(j) = 'I' or s(j) = 'V'  or s(j) = 'X'  or s(j) = 'L'  then
+                  raise invalid;
+               end if;
 
-                if s(j) = 'D'  then
-                   total := total + 500;
-                   j := j - 1;
-                   exit evaluate when j < s'first;
-                   if s(j) = 'C'  and total <= 599  then
-                      total := total - 100;
-                      j := j - 1;
-                      exit evaluate when j < s'first;
-                   end if;
-                   if s(j) = 'M'  then
-                      total := total + 1000;
-                      j := j - 1;
-                      exit evaluate when j < s'first;
-                   end if;
-                   if s(j) = 'C'  and total <= 1099  then
-                      total := total - 100;
-                      j := j - 1;
-                      exit evaluate when j < s'first;
-                   end if;
-                   if s(j) = 'I' or s(j) = 'V'  or s(j) = 'X'  or s(j) = 'L' or s(j) = 'C' or s(j) = 'D'  then raise invalid; end if;
-                end if;
+               if s(j) = 'C'  then
+                  total := total + 100;
+                  j := j - 1;
+                  exit evaluate when j < s'first;
+                  if s(j) = 'X'  and total = 100  then
+                     total := total - 10;
+                     j := j - 1;
+                     exit evaluate when j < s'first;
+                  end if;
+               end if;
 
-                if s(j) = 'M'  then
-                   total := total + 1000;
-                   j := j - 1;
-                   exit evaluate when j < s'first;
-                   while s(j) = 'M'  loop
-                      total := total + 1000;
-                      if total >= 5000  then raise invalid; end if;
-                      j := j - 1;
-                      exit evaluate when j < s'first;
-                   end loop;
-                   if s(j) = 'C'  and total <= 1099  then
-                      total := total - 100;
-                      j := j - 1;
-                      exit evaluate when j < s'first;
-                   end if;
-                   if s(j) = 'I' or s(j) = 'V'  or s(j) = 'X'  or s(j) = 'L' or s(j) = 'C' or s(j) = 'D'  then raise invalid; end if;
-                end if;
+               if s(j) = 'I' or s(j) = 'V'  or s(j) = 'X'  or s(j) = 'L'  then
+                  raise invalid;
+               end if;
+            end if;
 
-             end loop evaluate;
+            if s(j) = 'C'  then
+               total := total + 100;
+               j := j - 1;
+               exit evaluate when j < s'first;
+               while s(j) = 'C'  loop
+                  total := total + 100;
+                  if total >= 500  then raise invalid; end if;
+                  j := j - 1;
+                  exit evaluate when j < s'first;
+               end loop;
+               if s(j) = 'X'  and total <= 109  then
+                  total := total - 10;
+                  j := j - 1;
+                  exit evaluate when j < s'first;
+               end if;
+               if s(j) = 'I' or s(j) = 'V'  or s(j) = 'X'  or s(j) = 'L'  then
+                  raise invalid;
+               end if;
+            end if;
 
+            if s(j) = 'D'  then
+               total := total + 500;
+               j := j - 1;
+               exit evaluate when j < s'first;
+               if s(j) = 'C'  and total <= 599  then
+                  total := total - 100;
+                  j := j - 1;
+                  exit evaluate when j < s'first;
+               end if;
+               if s(j) = 'M'  then
+                  total := total + 1000;
+                  j := j - 1;
+                  exit evaluate when j < s'first;
+               end if;
+               if s(j) = 'C'  and total <= 1099  then
+                  total := total - 100;
+                  j := j - 1;
+                  exit evaluate when j < s'first;
+               end if;
+               if s(j) = 'I' or s(j) = 'V'  or s(j) = 'X'  or s(j) = 'L' or s(j) = 'C' or s(j) = 'D'  then
+                  raise invalid;
+               end if;
+            end if;
+
+            if s(j) = 'M'  then
+               total := total + 1000;
+               j := j - 1;
+               exit evaluate when j < s'first;
+               while s(j) = 'M'  loop
+                  total := total + 1000;
+                  if total >= 5000  then raise invalid; end if;
+                  j := j - 1;
+                  exit evaluate when j < s'first;
+               end loop;
+               if s(j) = 'C'  and total <= 1099  then
+                  total := total - 100;
+                  j := j - 1;
+                  exit evaluate when j < s'first;
+               end if;
+               if s(j) = 'I' or s(j) = 'V'  or s(j) = 'X'  or s(j) = 'L' or s(j) = 'C' or s(j) = 'D'  then
+                  raise invalid;
+               end if;
+            end if;
+         end loop evaluate;
       end if;  --  On Only Roman digits
 
       return total;
@@ -849,7 +866,8 @@ package body tricks_package is
          end if;
 
          i := 2;    --  Smallest is re-publica, but that killed by PREFIX, meipsum
-     outer_loop:
+
+         outer_loop:
          while i < s'length - 2  loop
 
             pa_last := pa_last + 1;
@@ -1526,8 +1544,10 @@ package body tricks_package is
 
          double_consonants;
 
-      end if;   --  Medieval Tricks
-                ---------------------------------------------------------------
+      end if;
+
+      --  Medieval Tricks
+      ---------------------------------------------------------------
 
       if not (words_mode(ignore_unknown_names)  and capitalized)  then   --  Don't try on Names
          if words_mdev(do_two_words)  then

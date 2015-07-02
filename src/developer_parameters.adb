@@ -482,11 +482,11 @@ package body developer_parameters is
       end loop;
       put(mdev_file, "START_FILE_CHARACTER             '" &
         start_file_character &"'"); new_line(mdev_file);
-        put(mdev_file, "CHANGE_PARAMETERS_CHARACTER      '" &
-          change_parameters_character &"'"); new_line(mdev_file);
-          put(mdev_file, "CHANGE_DEVELOPER_MODES_CHARACTER '" &
-            change_developer_modes_character &"'"); new_line(mdev_file);
-            close(mdev_file);
+      put(mdev_file, "CHANGE_PARAMETERS_CHARACTER      '" &
+        change_parameters_character &"'"); new_line(mdev_file);
+      put(mdev_file, "CHANGE_DEVELOPER_MODES_CHARACTER '" &
+         change_developer_modes_character &"'"); new_line(mdev_file);
+         close(mdev_file);
    end put_mdevs;
 
    procedure get_mdevs is
@@ -812,7 +812,7 @@ package body developer_parameters is
    procedure initialize_developer_parameters is
    begin
 
-  do_mdev_file:
+      do_mdev_file:
       begin
          --  Read the MDEV file
          get_mdevs;

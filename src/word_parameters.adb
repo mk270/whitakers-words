@@ -440,7 +440,7 @@ package body word_parameters is
       words_mode := default_mode_array;
       --TEXT_IO.PUT_LINE("Initializing WORD_PARAMETERS");
 
-  do_mode_file:
+      do_mode_file:
       begin
          --  Read the mode file
          get_modes; --(WORDS_MODE);
