@@ -122,7 +122,7 @@ procedure list_sweep(pa : in out parse_array; pa_last : in out integer) is
             end;
 
             --  Check for Verb Imperative being in permitted person
-            if (pr.ir.qual.v.tense_voice_mood.mood = imp) then
+            if pr.ir.qual.v.tense_voice_mood.mood = imp then
                if (pr.ir.qual.v.tense_voice_mood.tense = pres) and
                  (pr.ir.qual.v.person = 2)  then
                   null;
@@ -136,8 +136,8 @@ procedure list_sweep(pa : in out parse_array; pa_last : in out integer) is
             end if;
 
             --  Check for V IMPERS and demand that only 3rd person    --  ???????
-            if (de.part.v.kind = impers) then
-               if (pr.ir.qual.v.person = 3)  then
+            if de.part.v.kind = impers then
+               if pr.ir.qual.v.person = 3 then
                   null;
                else
                   --PUT("IMPERS not in 3rd person     "); PUT(PR.IR); NEW_LINE;
@@ -146,7 +146,7 @@ procedure list_sweep(pa : in out parse_array; pa_last : in out integer) is
             end if;
 
             --  Check for V DEP    and demand PASSIVE
-            if (de.part.v.kind = dep) then
+            if de.part.v.kind = dep then
                --TEXT_IO.PUT("DEP  ");
                if (pr.ir.qual.v.tense_voice_mood.voice = active)  and
                  (pr.ir.qual.v.tense_voice_mood.mood = inf)  and
@@ -166,7 +166,7 @@ procedure list_sweep(pa : in out parse_array; pa_last : in out integer) is
             end if;
 
             --  Check for V SEMIDEP    and demand PASSIVE ex Perf
-            if (de.part.v.kind = semidep) then
+            if de.part.v.kind = semidep then
                if (pr.ir.qual.v.tense_voice_mood.voice = passive)  and
                  (pr.ir.qual.v.tense_voice_mood.tense in pres..fut)  and
                  (pr.ir.qual.v.tense_voice_mood.mood in ind..imp)  then
@@ -192,13 +192,14 @@ procedure list_sweep(pa : in out parse_array; pa_last : in out integer) is
                     ((de.part.v.kind = semidep)  and
                     (pr.ir.qual.v.tense_voice_mood = (pres, active, ind))) then
                      allowed := true;
-                  elsif ((de.part.v.kind = perfdef)  and
-                    (pr.ir.qual.v.tense_voice_mood = (perf, active, ind))) then
+                  elsif (de.part.v.kind = perfdef)  and
+                     (pr.ir.qual.v.tense_voice_mood = (perf, active, ind))
+                  then
                      allowed := true;
                   else
                      allowed := false;
                   end if;
-               elsif (de.part.v.kind = impers) then
+               elsif de.part.v.kind = impers then
                   if (pr.ir.qual.v.person = 3)  and then
                     (pr.ir.qual.v.number = s)  and then
                     (pr.ir.qual.v.tense_voice_mood = (pres, active, ind))   then
@@ -216,8 +217,8 @@ procedure list_sweep(pa : in out parse_array; pa_last : in out integer) is
 
       end case;
 
-      if  words_mdev(for_word_list_check)   then       --  Non parts
-         if (pr.ir.qual.pofs in vpar..supine)    then
+      if  words_mdev(for_word_list_check) then       --  Non parts
+         if pr.ir.qual.pofs in vpar..supine then
             allowed := false;
          end if;
       end if;                                           --  Non parts
@@ -399,8 +400,8 @@ procedure list_sweep(pa : in out parse_array; pa_last : in out integer) is
          --  I am assuming there is no trimming of FIXES for AGE/...
          i := sl_last;
          while i >= sl'first  loop
-            if (not allowed_stem(sl(i))   or               --  Remove not ALLOWED_STEM & null
-              (pa(i) = null_parse_record))  then
+            --  Remove not ALLOWED_STEM & null
+            if not allowed_stem(sl(i)) or (pa(i) = null_parse_record) then
                --TEXT_IO.PUT_LINE("Not ALLOWED   SL_LAST = " & INTEGER'IMAGE(SL_LAST) & "  J = " & INTEGER'IMAGE(I));
                sl(i..sl_last-1) := sl(i+1..sl_last);
                sl_last := sl_last - 1;
@@ -621,7 +622,7 @@ begin                               --  LIST_SWEEP
                end if;
             end "<=";
          begin
-            if ((pr.d_k /= xxx) and (pr.d_k /= yyy) and  (pr.d_k /= ppp)) then
+            if (pr.d_k /= xxx) and (pr.d_k /= yyy) and  (pr.d_k /= ppp) then
                if pr <= opr  then       --  Get rid of duplicates, if ORDER is OK
                   pa(j.. pa_last-1) := pa(j+1..pa_last);  --  Shift PA down 1
                   pa_last := pa_last - 1;        --  because found key duplicate

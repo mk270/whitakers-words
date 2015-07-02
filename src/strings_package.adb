@@ -134,8 +134,9 @@ package body strings_package is
       file_loop:
       while not text_io.end_of_file(f)  loop  --  Loop until data - Finish on EOF
          text_io.get_line(f, t, l);
-         if (head(trim(t), 250)(1..2) = "  "  or
-               head(trim(t), 250)(1..2) = "--")  then
+         if head(trim(t), 250)(1..2) = "  "  or
+               head(trim(t), 250)(1..2) = "--"
+         then
             null;
          else
             lx := l;

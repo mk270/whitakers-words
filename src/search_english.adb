@@ -113,8 +113,8 @@ procedure search_english(input_english_word : string; pofs : part_of_speech_type
 
             do_pause:
             begin
-               if (integer(text_io.line(output)) >
-                     scroll_line_number + config.output_screen_size)
+               if integer(text_io.line(output)) >
+                  scroll_line_number + config.output_screen_size
                then
                   pause(output);
                   scroll_line_number := integer(text_io.line(output));
@@ -129,7 +129,7 @@ procedure search_english(input_english_word : string; pofs : part_of_speech_type
                text_io.put(output, "  ");  decn_record_io.put(output, de.part.n.decl);
                text_io.put(output, "  " & gender_type'image(de.part.n.gender) & "  ");
             end if;
-            if (de.part.pofs = v)   then
+            if de.part.pofs = v then
                text_io.put(output, "  ");  decn_record_io.put(output, de.part.v.con);
             end if;
             if (de.part.pofs = v)  and then  (de.part.v.kind in gen..perfdef)  then

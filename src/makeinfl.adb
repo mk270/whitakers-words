@@ -209,7 +209,7 @@ procedure makeinfl is
                        (ilc(n, ch).ir.qual.pron.decl.which = 1  or
                           ilc(n, ch).ir.qual.pron.decl.which = 2))  then
 
-                     if (ch in inflections_section_4)  then
+                     if ch in inflections_section_4 then
                         j4 := j4 + 1;
                         lel(j4) := ilc(n, ch).ir;
 
@@ -225,9 +225,9 @@ procedure makeinfl is
          for ch in character range 'a'..'z'  loop
             for n in reverse 1..max_ending_size  loop
                while ilc(n, ch) /= null  loop
-                  if (ilc(n, ch).ir.qual.pofs = pron  and then
+                  if ilc(n, ch).ir.qual.pofs = pron  and then
                         (ilc(n, ch).ir.qual.pron.decl.which = 1  or
-                           ilc(n, ch).ir.qual.pron.decl.which = 2))  then  --  2 no longer PACK
+                           ilc(n, ch).ir.qual.pron.decl.which = 2)  then  --  2 no longer PACK
 
                      j4 := j4 + 1;
                      lel(j4) := ilc(n, ch).ir;

@@ -931,7 +931,7 @@ is
                followed_by_period := true;
                exit;
             end if;
-            exit when ((line(i) not in 'A'..'Z') and (line(i) not in 'a'..'z'));
+            exit when line(i) not in 'A'..'Z' and line(i) not in 'a'..'z';
             w(i) := line(i);
             k := i;
 

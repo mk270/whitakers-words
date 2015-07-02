@@ -82,7 +82,7 @@ procedure put_example_line(configuration : configuration_type;
 
       function shall return string is
       begin            --  ACTIVE only  !!!!!!!!!!!!!!!!
-         if (tense = fut or tense = futp )  then
+         if tense = fut or tense = futp then
             if (mood = ind) or (mood = sub)  then
                if person = 1  then
                   return "shall ";

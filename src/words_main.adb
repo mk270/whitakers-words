@@ -83,7 +83,7 @@ begin
             output_name : constant string := trim(ada.command_line.argument(2));
          begin
             if input_name(1) = change_language_character  then
-               if (input_name'length > 1)  then
+               if input_name'length > 1 then
                   change_language(input_name(2));
                   arguments_start := 2;
                   method := command_line_input;      --  Parse the one word
@@ -123,7 +123,7 @@ begin
             arg3 : constant string := trim(ada.command_line.argument(3));
          begin
             if arg1(1) = change_language_character  then
-               if (arg1'length > 1)  then
+               if arg1'length > 1 then
                   change_language(arg1(2));
                   arguments_start := 2;
                   method := command_line_input;      --  Parse the one word

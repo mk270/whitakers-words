@@ -153,7 +153,7 @@ package body list_package is
 
       put_dictionary_flags(output, de, fhit);
 
-      if (chit or dhit or ehit or fhit or lhit)  then
+      if chit or dhit or ehit or fhit or lhit then
          text_io.new_line(output);
       end if;
       --end if;
@@ -262,8 +262,9 @@ package body list_package is
 
       begin
          --TEXT_IO.PUT_LINE("PUT_INFLECTION ");
-         if (not words_mode(do_only_meanings) and
-               not (configuration = only_meanings))       then
+         if not words_mode(do_only_meanings) and
+            not (configuration = only_meanings)
+         then
             text_io.set_col(output, 1);
             if words_mdev(do_pearse_codes) then
                if dm.d_k = addons  then
@@ -316,7 +317,7 @@ package body list_package is
                begin
 
                   quality_record_io.put(out_string, sr.ir.qual);
-                  if (dm.d_k in general..local)  then  --  UNIQUES has no DE
+                  if dm.d_k in general..local then  --  UNIQUES has no DE
 
                      if (sr.ir.qual.pofs = v)    and then
                        (dm.de.part.v.kind = dep)       and then
@@ -586,7 +587,7 @@ package body list_package is
 
       if  words_mdev(write_statistics_file)    then      --  Omit rest of output
          for i in 1..pa_last  loop                       --  Just to PUT_STAT
-            if (pa(i).d_k = addons)  then
+            if pa(i).d_k = addons then
                if pa(i).ir.qual.pofs = prefix  then
                   put_stat("ADDON PREFIX at "
                              & head(integer'image(line_number), 8) & head(integer'image(word_number), 4)
@@ -734,7 +735,7 @@ package body list_package is
                   --DM := NULL_DICTIONARY_MNPC_RECORD;
                   while pa(i).ir.qual.pofs = num   and
                     i <= pa_last                   loop
-                     if (pa(i).d_k = rrr)  then        --  Roman numeral
+                     if pa(i).d_k = rrr then        --  Roman numeral
                         osra := sra;
                         k := 1;                  --  K indexes within the MNPCA array --  Initialize
                         j := j + 1;             --  J indexes the number of MNPCA arrays - Next MNPCA
@@ -746,7 +747,7 @@ package body list_package is
                         dm := (pa(i).d_k, pa(i).mnpc, dea);
                         dma(j) := dm;
                         odm := dm;
-                     elsif (pa(i).mnpc  /= odm.mnpc) then    --  Encountering new MNPC
+                     elsif pa(i).mnpc /= odm.mnpc then    --  Encountering new MNPC
                         osra := sra;
                         k := 1;                  --  K indexes within the MNPCA array --  Initialize
                         j := j + 1;             --  J indexes the number of MNPCA arrays - Next MNPCA
@@ -920,7 +921,7 @@ package body list_package is
               words_mode(write_unknowns_to_file)   then
                list_neighborhood(output, raw_word);
                list_neighborhood(unknowns, raw_word);
-            elsif (name(current_input) = name(standard_input))  then
+            elsif name(current_input) = name(standard_input) then
                list_neighborhood(output, raw_word);
             end if;
          end if;
@@ -974,8 +975,8 @@ package body list_package is
          --TEXT_IO.PUT_LINE("PUTting MEANING");
          putting_meaning:
          begin
-            if (dma(j).d_k in general..unique)  then
-               if (dma(j).de.mean /= dma(j+1).de.mean)  then
+            if dma(j).d_k in general..unique then
+               if dma(j).de.mean /= dma(j+1).de.mean then
                   --  This if handles simple multiple MEAN with same IR and FORM
                   --  by anticipating duplicates and waiting until change
                   put_meaning_line(sraa(j)(1), dma(j));
@@ -989,8 +990,9 @@ package body list_package is
          begin
             if i = pa_last  then
                text_io.new_line(output);
-            elsif (integer(text_io.line(output)) >
-                     scroll_line_number + output_screen_size)  then
+            elsif integer(text_io.line(output)) >
+                  scroll_line_number + output_screen_size
+            then
                pause(output);
                scroll_line_number := integer(text_io.line(output));
             end if;
@@ -1049,13 +1051,13 @@ package body list_package is
 
          function ui(c : character) return character  is
          begin
-            if (c = 'v')   then
+            if c = 'v' then
                return 'u';
-            elsif (c = 'V')  then
+            elsif c = 'V' then
                return 'U';
-            elsif (c = 'j')  then
+            elsif c = 'j' then
                return 'i';
-            elsif (c = 'J')  then
+            elsif c = 'J' then
                return 'I';
             else
                return c;
@@ -1169,8 +1171,7 @@ package body list_package is
    begin
       --TEXT_IO.PUT_LINE("Entering LIST_NEIGHBORHOOD");
 
-      if (text_io.name(output) =
-            text_io.name(text_io.standard_output))  then
+      if text_io.name(output) = text_io.name(text_io.standard_output) then
          mm := max_meaning_print_size;   --  to keep from overflowing screen line
       else
          mm := max_meaning_size;

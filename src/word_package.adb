@@ -62,26 +62,26 @@ package body word_package is
 
    function ltu(c, d : character) return boolean is
    begin
-      if (d = 'v')  then
-         if (c < 'u')  then
+      if d = 'v' then
+         if c < 'u' then
             return true;
          else
             return false;
          end if;
-      elsif (d = 'j')  then
-         if (c < 'i')  then
+      elsif d = 'j' then
+         if c < 'i' then
             return true;
          else
             return false;
          end if;
-      elsif (d = 'V')  then
-         if (c < 'U')  then
+      elsif d = 'V' then
+         if c < 'U' then
             return true;
          else
             return false;
          end if;
-      elsif (d = 'J')  then
-         if (c < 'I')  then
+      elsif d = 'J' then
+         if c < 'I' then
             return true;
          else
             return false;
@@ -124,26 +124,26 @@ package body word_package is
 
    function gtu(c, d : character) return boolean is
    begin
-      if d = 'u'  then
-         if (c > 'v')  then
+      if d = 'u' then
+         if c > 'v' then
             return true;
          else
             return false;
          end if;
-      elsif d = 'i'  then
-         if (c > 'j')  then
+      elsif d = 'i' then
+         if c > 'j' then
             return true;
          else
             return false;
          end if;
-      elsif d = 'U'  then
-         if (c > 'V')  then
+      elsif d = 'U' then
+         if c > 'V' then
             return true;
          else
             return false;
          end if;
-      elsif d = 'I'  then
-         if (c > 'J')  then
+      elsif d = 'I' then
+         if c > 'J' then
             return true;
          else
             return false;
@@ -375,13 +375,13 @@ package body word_package is
 
          function ui(c : character) return character  is
          begin
-            if (c = 'v')   then
+            if c = 'v' then
                return 'u';
-            elsif (c = 'V')  then
+            elsif c = 'V' then
                return 'U';
-            elsif (c = 'j')  then
+            elsif c = 'j' then
                return 'i';
-            elsif (c = 'J')  then
+            elsif c = 'J' then
                return 'I';
             else
                return c;
@@ -764,9 +764,10 @@ package body word_package is
 
          function "<=" (left, right : gender_type)   return boolean is
          begin
-            if (right = left   or else
-                  (right = c  and left /= n)  or else
-                  (right = x))  then
+            if right = left               or else
+               (right = c and left /= n)  or else
+               right = x
+            then
                return true;
             else
                return false;
@@ -775,8 +776,7 @@ package body word_package is
 
          function "<=" (left, right : stem_key_type)   return boolean is
          begin
-            if (right = left   or else
-                  (right = 0))  then
+            if right = left or else right = 0 then
                return true;
             else
                return false;
@@ -799,7 +799,7 @@ package body word_package is
             pdl_p  := pdl(j).ds.part.pofs;  --  Used only for FIX logic below
 
             --  If there is no SUFFIX then carry on
-            if (suffix = null_suffix_item)  then  --  No suffix working, fall through
+            if suffix = null_suffix_item then  --  No suffix working, fall through
                --PUT_LINE("No SUFFIX in REDUCE - Fall through to PREFIX check ");
                null;
             elsif
@@ -843,7 +843,7 @@ package body word_package is
                end if;
             end if;
 
-            if (prefix = null_prefix_item)  then      --  No PREFIX, drop through
+            if prefix = null_prefix_item then      --  No PREFIX, drop through
                --PUT_LINE("No PREFIX in REDUCE - Fall through to MATCHing ");
                null;
             elsif
@@ -856,7 +856,7 @@ package body word_package is
                if (pdl_p = prefix.entr.root)  or    --  = ROOT
                  (pdl_part.pofs = prefix.entr.root)  then  --  or part mod by suf
                   null;
-               elsif (prefix.entr.root = x)  then  --   or ROOT = X
+               elsif prefix.entr.root = x then  --   or ROOT = X
                   null;
                else
                   goto end_of_pdl_loop;
@@ -886,10 +886,10 @@ package body word_package is
                      )  and then   --  and KEY
                     ( pdl_part.pofs  = eff_part(sl(i).ir.qual.pofs) )  then
 
-                     if
-                       (pdl_part.pofs = n                                and then
-                          pdl_part.n.decl <= sl(i).ir.qual.n.decl            and then
-                          pdl_part.n.gender <= sl(i).ir.qual.n.gender)             then
+                     if pdl_part.pofs = n                            and then
+                        pdl_part.n.decl <= sl(i).ir.qual.n.decl      and then
+                        pdl_part.n.gender <= sl(i).ir.qual.n.gender
+                     then
                         --  Need to transfer the gender of the noun dictionary item
                         m := m + 1;
                         sxx(m) := (stem => subtract_prefix(sl(i).stem, prefix),
@@ -908,9 +908,9 @@ package body word_package is
                                    d_k => pdl(j).d_k,
                                    mnpc => mnpc_part);
 
-                     elsif
-                       (pdl_part.pofs = pron                             and then
-                          pdl_part.pron.decl <= sl(i).ir.qual.pron.decl)          then
+                     elsif pdl_part.pofs = pron and then
+                           pdl_part.pron.decl <= sl(i).ir.qual.pron.decl
+                     then
                         --PUT(" HIT  PRON  ");
                         --  Need to transfer the kind of the pronoun dictionary item
                         m := m + 1;
@@ -1018,7 +1018,7 @@ package body word_package is
                                    d_k => pdl(j).d_k,
                                    mnpc => mnpc_part);
 
-                     elsif (pdl_part.pofs = v)                         then
+                     elsif pdl_part.pofs = v then
                         --TEXT_IO.PUT_LINE("V found, now check CON");
                         if sl(i).ir.qual.pofs = v     and then
                           (pdl_part.v.con <= sl(i).ir.qual.v.con) then
@@ -1135,7 +1135,7 @@ package body word_package is
                l :=  0;
                for j in sa'range  loop                  --  Loop through stem array
                   --PUT("J = "); PUT(J); PUT("   SA(J) = "); PUT(SA(J)); NEW_LINE;
-                  if (sa(j)(1) = prefixes(i).fix(1))  then  --  Cuts down a little -- do better
+                  if sa(j)(1) = prefixes(i).fix(1) then  --  Cuts down a little -- do better
                      if subtract_prefix(sa(j), prefixes(i)) /=
                        head(sa(j), max_stem_size)  then
                         l := l + 1;            --  We have a hit, make new stem array item
@@ -1410,10 +1410,10 @@ package body word_package is
 
                         -- there is no way this condition can be true;
                         -- packon_length - 1 /= packon_length
-                        if (trim(mean)(1..4) = "(w/-" and then  --  Does attached PACKON agree
-                            trim(mean)(5..4+packon_length) = trim(packons(k).tack))   then
-
-                           if (pdl(j).ds.part.pack.decl = sl(m).ir.qual.pron.decl)   then  --  or
+                        if trim(mean)(1..4) = "(w/-" and then  --  Does attached PACKON agree
+                           trim(mean)(5..4+packon_length) = trim(packons(k).tack)
+                        then
+                           if pdl(j).ds.part.pack.decl = sl(m).ir.qual.pron.decl then  --  or
                               if packon_first_hit then
                                  pa_last := pa_last + 1;
                                  pa(pa_last) := (packons(k).tack,
@@ -1513,7 +1513,7 @@ package body word_package is
 
             sl_loop:
             while sl(m) /= null_parse_record  loop  --  Over all inflection hits
-               if (pdl(j).ds.part.pron.decl = sl(m).ir.qual.pron.decl)   then
+               if pdl(j).ds.part.pron.decl = sl(m).ir.qual.pron.decl then
                   pa_last := pa_last + 1;
                   pa(pa_last) := (stem => sl(m).stem,
                                   ir => (
@@ -1574,10 +1574,10 @@ package body word_package is
                            --  although we only have TACKONs for X or PRON or ADJ - so far
                            --  and there are no fixes for PRON - so far
 
-                           if ((pa(j).ir.qual.pofs = prefix) and then (tackon_on))  then
+                           if pa(j).ir.qual.pofs = prefix and then tackon_on then
                               null;          --  check PART
                               tackon_on  := false;
-                           elsif ((pa(j).ir.qual.pofs = suffix) and then (tackon_on))  then
+                           elsif pa(j).ir.qual.pofs = suffix and then tackon_on then
                               --  check PART
                               null;
                               tackon_on  := false;
@@ -1589,8 +1589,9 @@ package body word_package is
                               --  check PART
                               case tackons(i).entr.base.pofs is
                                  when n       =>
-                                    if (pa(j).ir.qual.n.decl <=
-                                          tackons(i).entr.base.n.decl)  then
+                                    if pa(j).ir.qual.n.decl <=
+                                       tackons(i).entr.base.n.decl
+                                    then
                                        --  Ignore GEN and KIND
                                        tackon_hit := true;
                                        tackon_on  := true;

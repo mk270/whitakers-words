@@ -99,7 +99,7 @@ package body addons_package is
       begin
          for i in 1..l  loop
             j := i;
-            exit when ( (i < l) and then (st(i+1) = ' ') );
+            exit when (i < l) and then (st(i+1) = ' ');
          end loop;
          xfix := head(st(1..j), max_fix_size);
          if j = l  then     --  there is no CONNECT CHARACTER

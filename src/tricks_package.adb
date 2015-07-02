@@ -411,7 +411,7 @@ package body tricks_package is
       --  This is handled in WORDS as syncope
       --  It seems to appear in texts as alternative stems  ii and ivi
       for i in reverse s'first..s'last-1  loop
-         if (s(i..i+1) = "ii")  then
+         if s(i..i+1) = "ii" then
             pa_last := pa_last + 1;
             pa(pa_last) := ("Syncope  ii => ivi", syncope_inflection_record,
               yyy, null_mnpc);
@@ -440,10 +440,11 @@ package body tricks_package is
 
       -- avis => as, evis => es, ivis => is, ovis => os   in perfect
       for i in reverse s'first..s'last-2  loop     --  Need isse
-         if ((s(i..i+1) = "as")  or
-           (s(i..i+1) = "es")  or
-           (s(i..i+1) = "is")  or
-           (s(i..i+1) = "os")) then
+         if (s(i..i+1) = "as")  or
+            (s(i..i+1) = "es")  or
+            (s(i..i+1) = "is")  or
+            (s(i..i+1) = "os")
+         then
             --TEXT_IO.PUT_LINE("SYNCOPE vis   S = " & S & "    PA_SAVE = " & INTEGER'IMAGE(PA_SAVE));
             pa_last := pa_last + 1;
             pa(pa_last)         := ("Syncope   s => vis", syncope_inflection_record,
@@ -479,9 +480,10 @@ package body tricks_package is
 
       -- aver => ar, ever => er, in perfect
       for i in reverse s'first+1..s'last-2  loop
-         if ((s(i..i+1) = "ar")  or
-           (s(i..i+1) = "er")  or
-           (s(i..i+1) = "or")) then
+         if (s(i..i+1) = "ar")  or
+            (s(i..i+1) = "er")  or
+            (s(i..i+1) = "or")
+         then
             pa_last := pa_last + 1;
             pa(pa_last) := ("Syncope   r => v.r", syncope_inflection_record,
               yyy, null_mnpc);
@@ -510,7 +512,7 @@ package body tricks_package is
 
       -- iver => ier,  in perfect
       for i in reverse s'first..s'last-3  loop
-         if (s(i..i+2) = "ier")  then
+         if s(i..i+2) = "ier" then
             pa_last := pa_last + 1;
             pa(pa_last) := ("Syncope  ier=>iver", syncope_inflection_record,
               yyy, null_mnpc);
@@ -538,8 +540,9 @@ package body tricks_package is
 
       --         -- sis => s, xis => x, in perfect
       for i in reverse s'first..s'last-2  loop
-         if ((s(i) = 's')  or
-           (s(i) = 'x'))  then
+         if (s(i) = 's')  or
+            (s(i) = 'x')
+         then
             pa_last := pa_last + 1;
             pa(pa_last)         := ("Syncope s/x => +is", syncope_inflection_record,
               yyy, null_mnpc);
@@ -741,7 +744,7 @@ package body tricks_package is
               null_inflection_record,
               xxx, null_mnpc);
             word(s(s'first..s'last-2) & "iis", pa, pa_last);
-            if (pa_last > pa_save + 1)    then
+            if pa_last > pa_save + 1 then
                i := pa_last;
                while i > pa_save + 1  loop
                   if pa(i).ir.qual.pofs = adj  and then
@@ -757,7 +760,7 @@ package body tricks_package is
                   i := i - 1;
                end loop;
             end if;
-            if (pa_last > pa_save + 1)    then
+            if pa_last > pa_save + 1 then
                if explanation = ""  then
                   xxx_meaning := head("A Terminal 'iis' on ADJ 1 1 DAT/ABL P might drop 'i'",
                     max_meaning_size);
@@ -880,7 +883,7 @@ package body tricks_package is
                --TEXT_IO.PUT_LINE("Trying  " & S(S'FIRST..S'FIRST+I-1));
                if not common_prefix(s(s'first..s'first+i-1))  then
                   words_no_syncope(s(s'first..s'first+i-1), pa, pa_last);
-                  if (pa_last > pa_save + 1)     then
+                  if pa_last > pa_save + 1 then
                      i_mid := i;
                      for j in pa_save+1..pa_last  loop
                         if pa(j).ir.qual.pofs = num  then
@@ -898,7 +901,7 @@ package body tricks_package is
                i := i + 1;
             end loop;
 
-            if (pa_last > pa_save + 1)     then
+            if pa_last > pa_save + 1 then
                null;
                --TEXT_IO.PUT_LINE("Confirm first  " & S(S'FIRST..I_MID) & "    PA_LAST =" & INTEGER'IMAGE(PA_LAST));
             else

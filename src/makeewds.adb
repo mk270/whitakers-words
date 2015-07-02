@@ -143,7 +143,7 @@ procedure makeewds is
             end if;
             --  Finished with the non-word stuff
 
-            if (s(i) = '-') then
+            if s(i) = '-' then
                word_end := i - 1;
 
                --              if  (I /= S'FIRST)  and then    --  Not -word
@@ -187,8 +187,8 @@ procedure makeewds is
             end if;
 
             if  --WORD_END /= 0  and then
-              (s(i) = ' '    or
-                 s(i) = '/' )   then
+              s(i) = ' ' or s(i) = '/'
+            then
                word_start := i + 1;
                word_end   := 0;
             end if;
