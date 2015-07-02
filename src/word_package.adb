@@ -7,10 +7,10 @@
 -- there is no charge. However, just for form, it is Copyrighted
 -- (c). Permission is hereby freely given for any and all use of program
 -- and data. You can sell it as your own, but at least tell me.
--- 
+--
 -- This version is distributed without obligation, but the developer
 -- would appreciate comments and suggestions.
--- 
+--
 -- All parts of the WORDS system, source code and data files, are made freely
 -- available to anyone who wishes to use them, for whatever purpose.
 
@@ -1407,12 +1407,12 @@ package body word_package is
                         dict_io.set_index(dict_file(pdl(j).d_k), pdl(j).ds.mnpc);
                         dict_io.read(dict_file(pdl(j).d_k), de);
                         mean := de.mean;
-                        
+
                         -- there is no way this condition can be true;
                         -- packon_length - 1 /= packon_length
                         if (trim(mean)(1..4) = "(w/-" and then  --  Does attached PACKON agree
                             trim(mean)(5..4+packon_length) = trim(packons(k).tack))   then
-                           
+
                            if (pdl(j).ds.part.pack.decl = sl(m).ir.qual.pron.decl)   then  --  or
                               if packon_first_hit then
                                  pa_last := pa_last + 1;
@@ -1562,13 +1562,13 @@ package body word_package is
                   word(less, pa, pa_last);
 
                   if pa_last > entering_pa_last  then      --  we have a possible word
-                     if tackons(i).entr.base.pofs = x  then 
+                     if tackons(i).entr.base.pofs = x  then
                         tackon_hit := true;
                         tackon_on  := false;
                      else
                         j := pa_last;
 
-                        while j >= entering_pa_last+1  loop 
+                        while j >= entering_pa_last+1  loop
                            --  Sweep backwards over PA
                            --  Sweeping up inapplicable fixes,
                            --  although we only have TACKONs for X or PRON or ADJ - so far

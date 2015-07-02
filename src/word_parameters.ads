@@ -7,10 +7,10 @@
 -- there is no charge. However, just for form, it is Copyrighted
 -- (c). Permission is hereby freely given for any and all use of program
 -- and data. You can sell it as your own, but at least tell me.
--- 
+--
 -- This version is distributed without obligation, but the developer
 -- would appreciate comments and suggestions.
--- 
+--
 -- All parts of the WORDS system, source code and data files, are made freely
 -- available to anyone who wishes to use them, for whatever purpose.
 
@@ -40,23 +40,18 @@ package word_parameters is
 
    type mode_type is (
      trim_output,
-     
      have_output_file,
      write_output_to_file,
-     
      do_unknowns_only,
      write_unknowns_to_file,
-     
      ignore_unknown_names,
      ignore_unknown_caps,
      do_compounds,
      do_fixes,
      do_tricks,
-
      do_dictionary_forms,
      show_age,
      show_frequency,
-     
      do_examples,
      do_only_meanings,
      do_stems_for_unknown

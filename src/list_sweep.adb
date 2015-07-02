@@ -7,10 +7,10 @@
 -- there is no charge. However, just for form, it is Copyrighted
 -- (c). Permission is hereby freely given for any and all use of program
 -- and data. You can sell it as your own, but at least tell me.
--- 
+--
 -- This version is distributed without obligation, but the developer
 -- would appreciate comments and suggestions.
--- 
+--
 -- All parts of the WORDS system, source code and data files, are made freely
 -- available to anyone who wishes to use them, for whatever purpose.
 
@@ -45,11 +45,11 @@ procedure list_sweep(pa : in out parse_array; pa_last : in out integer) is
    begin
       --TEXT_IO.PUT("ALLOWED? >"); PARSE_RECORD_IO.PUT(PR); TEXT_IO.NEW_LINE;
       if pr.d_k not in general..local  then
-         return true; 
+         return true;
       end if;
 
       dict_io.read(dict_file(pr.d_k), de, pr.mnpc);
-      
+
       --  NOUN CHECKS
       case  pr.ir.qual.pofs is
 

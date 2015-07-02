@@ -7,10 +7,10 @@
 -- there is no charge. However, just for form, it is Copyrighted
 -- (c). Permission is hereby freely given for any and all use of program
 -- and data. You can sell it as your own, but at least tell me.
--- 
+--
 -- This version is distributed without obligation, but the developer
 -- would appreciate comments and suggestions.
--- 
+--
 -- All parts of the WORDS system, source code and data files, are made freely
 -- available to anyone who wishes to use them, for whatever purpose.
 
@@ -1868,7 +1868,7 @@ package body tricks_package is
          if pa_last > 0  then
             return;
          end if;
-         
+
          --  From Oxford Latin Dictionary p.1835 "sub-"
 
          slur("sub");

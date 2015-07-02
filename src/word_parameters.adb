@@ -7,10 +7,10 @@
 -- there is no charge. However, just for form, it is Copyrighted
 -- (c). Permission is hereby freely given for any and all use of program
 -- and data. You can sell it as your own, but at least tell me.
--- 
+--
 -- This version is distributed without obligation, but the developer
 -- would appreciate comments and suggestions.
--- 
+--
 -- All parts of the WORDS system, source code and data files, are made freely
 -- available to anyone who wishes to use them, for whatever purpose.
 
@@ -37,27 +37,27 @@ package body word_parameters is
    --  with only this being recompiled, not the rest of the with'ing system
    default_mode_array : constant mode_array := (
      trim_output                 => true,
-     
+
      have_output_file            => false,
      write_output_to_file        => false,
 
      do_unknowns_only            => false,
      write_unknowns_to_file      => false,
-     
+
      ignore_unknown_names        => true,
      ignore_unknown_caps         => true,
      do_compounds                => true,
      do_fixes                    => true,
      do_tricks                   => true,
-     
+
      do_dictionary_forms         => true,
      show_age                    => false,
      show_frequency              => false,
-     
+
      do_examples                 => false,
      do_only_meanings            => false,
      do_stems_for_unknown        => false    );
-   
+
    bad_mode_file : exception;
 
    trim_output_help : constant help_type :=  (
@@ -75,7 +75,7 @@ package body word_parameters is
      "When in English mode, trim just reduces the output to the top six     ",
      "results, if there are that many.  Asterix means there are more        ",
      "                                                The default is Y(es)  " );
-   
+
    have_output_file_help : constant help_type :=  (
      "This option instructs the program to create a file which can hold the ",
      "output for later study, otherwise the results are just displayed on   ",
@@ -86,7 +86,7 @@ package body word_parameters is
      "name.  This is available if the METHOD is INTERACTIVE, no parameters. ",
      "The default is N(o), since this prevents the program from overwriting ",
      "previous work unintentionally.  Y(es) creates the output file.        " );
-   
+
    write_output_to_file_help : constant help_type :=  (
      "This option instructs the program, when HAVE_OUTPUT_FILE is on, to    ",
      "write results to the file " & output_full_name
@@ -96,7 +96,7 @@ package body word_parameters is
      "HAVE_OUTPUT_FILE is off, the user will not be given a chance to turn  ",
      "this one on.  Only for INTERACTIVE running.         Default is N(o).  ",
      "This works in English mode, but output in somewhat diffeent so far.   " );
-   
+
    do_unknowns_only_help : constant help_type :=  (
      "This option instructs the program to only output those words that it  ",
      "cannot resolve.  Of course, it has to do processing on all words, but ",
@@ -125,7 +125,7 @@ package body word_parameters is
      "without destroying the information written in that run.               ",
      "This option is for specialized use, so its default is N(o).           ",
      "This does not work in English mode, but may in the future.            " );
-   
+
    ignore_unknown_names_help : constant help_type :=  (
      "This option instructs the program to assume that any capitalized word ",
      "longer than three letters is a proper name.  As no dictionary can be  ",
@@ -135,7 +135,7 @@ package body word_parameters is
      "option implements that mode, and calls such words proper names.       ",
      "Any proper names that are in the dictionary are handled in the normal ",
      "manner.                                The default is Y(es).          " );
-   
+
    ignore_unknown_caps_help : constant help_type :=  (
      "This option instructs the program to assume that any all caps word    ",
      "is a proper name or similar designation.  This convention is often    ",
@@ -146,7 +146,7 @@ package body word_parameters is
      "option implements that mode, and calls such words names.  Any similar ",
      "designations that are in the dictionary are handled in the normal     ",
      "manner, as are normal words in all caps.    The default is Y(es).     " );
-   
+
    do_compounds_help : constant help_type :=  (
      "This option instructs the program to look ahead for the verb TO_BE (or",
      "iri) when it finds a verb participle, with the expectation of finding ",
@@ -154,7 +154,7 @@ package body word_parameters is
      "trimming of the output, in that VPAR that do not fit (not NOM) will be",
      "excluded, possible interpretations are lost.  Default choice is Y(es).",
      "This processing is turned off with the choice of N(o).                " );
-   
+
    do_fixes_help : constant help_type :=  (
      "This option instructs the program, when it is unable to find a proper ",
      "match in the dictionary, to attach various prefixes and suffixes and  ",
@@ -166,7 +166,7 @@ package body word_parameters is
      "derivations.  The user must proceed with caution.                     ",
      "The default choice is Y(es), since the results are generally useful.  ",
      "This processing can be turned off with the choice of N(o).            " );
-   
+
    do_tricks_help : constant help_type :=  (
      "This option instructs the program, when it is unable to find a proper ",
      "match in the dictionary, and after various prefixes and suffixes, to  ",
@@ -180,7 +180,7 @@ package body word_parameters is
      "low level.  It is very seldom productive, and it is always expensive. ",
      "The only excuse for keeping it as default is that now the dictionary  ",
      "is quite extensive and misses are rare.         Default is now Y(es). ") ;
-   
+
    do_dictionary_forms_help : constant help_type :=  (
      "This option instructs the program to output a line with the forms     ",
      "normally associated with a dictionary entry (NOM and GEN of a noun,   ",

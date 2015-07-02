@@ -7,10 +7,10 @@
 -- there is no charge. However, just for form, it is Copyrighted
 -- (c). Permission is hereby freely given for any and all use of program
 -- and data. You can sell it as your own, but at least tell me.
--- 
+--
 -- This version is distributed without obligation, but the developer
 -- would appreciate comments and suggestions.
--- 
+--
 -- All parts of the WORDS system, source code and data files, are made freely
 -- available to anyone who wishes to use them, for whatever purpose.
 
@@ -583,7 +583,7 @@ package body list_package is
       -- TEXT_IO.PUT_LINE("In the ADJ -> ADV kludge  FINISHED");
 
       list_sweep(pa(1..pa_last), pa_last);
-      
+
       if  words_mdev(write_statistics_file)    then      --  Omit rest of output
          for i in 1..pa_last  loop                       --  Just to PUT_STAT
             if (pa(i).d_k = addons)  then
@@ -603,7 +603,7 @@ package body list_package is
             end if;
          end loop;
       end if;
-      
+
       --  Convert from PARSE_RECORDs to DICTIONARY_MNPC_RECORD and STEM_INFLECTION_RECORD
       i := 1;           --  I cycles on PA
       j := 0;           --  J indexes the number of DMA arrays  --  Initialize
