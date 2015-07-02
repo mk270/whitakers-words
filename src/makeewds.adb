@@ -626,7 +626,7 @@ procedure makeewds is
              -- investigate this:
              -- js := l;    --  Odd but necessary    ?????
              for j in l..s'last  loop
-                exit when j >= s'last;
+                exit when j = s'last;
                 if s(j) = ' '  then
                    l := l + 1;
                 else
