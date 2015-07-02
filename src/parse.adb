@@ -155,8 +155,6 @@ is
        gloss => "FUT PASSIVE PPL + fuisse => PERF PASSIVE INF Periphrastic - about to, going to")
      );
 
-
-
    -- we pass in the "default" values of a bunch of variables
 
    -- this function is called in a loop, which used to overwrite
@@ -480,7 +478,6 @@ is
       end loop;
    end do_clear_pas_supine;
 
-
    procedure perform_syncope(input_word : in string)
    is
    begin
@@ -570,7 +567,6 @@ is
          end;
       end loop;
    end enclitic;
-
 
    procedure tricks_enclitic(input_word : string;
                              entering_trpa_last : in out integer;

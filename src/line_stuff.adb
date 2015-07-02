@@ -14,11 +14,9 @@
 -- All parts of the WORDS system, source code and data files, are made freely
 -- available to anyone who wishes to use them, for whatever purpose.
 
-
 -- N.B: there is a set of duff assignments in the original source,
 -- marked here with comments saying "apparently redundant?"; unsure
 -- whether this is a bug
-
 
 with word_support_package; use word_support_package;   --  for STEM_IO
 with strings_package; use strings_package;

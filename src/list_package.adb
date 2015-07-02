@@ -872,7 +872,6 @@ package body list_package is
          end if;
       end if;
 
-
       if pa_last = 0   then
 
          if  words_mode(write_output_to_file)      then

@@ -1210,7 +1210,6 @@ package body tricks_package is
                return;
             end if;
 
-
          when 'o'  =>
 
             flip_flop("obt", "opt");
@@ -1246,7 +1245,6 @@ package body tricks_package is
             end if;
 
             --  when 'q'  =>
-
 
          when 's'  =>
 
@@ -1393,7 +1391,6 @@ package body tricks_package is
          end if;
 
          --TEXT_IO.PUT_LINE("Trying com -> con");
-
 
          --  Harrington/Elliott    1.3
 
@@ -1837,10 +1834,7 @@ package body tricks_package is
 
          --    -- for some forms of eo the stem "i" grates with an "is..." ending
 
-
       elsif s(s'first) = 'n'  then
-
-
 
          flip("nun",  "non");
          if pa_last > 0  then
@@ -1853,7 +1847,6 @@ package body tricks_package is
          if pa_last > 0  then
             return;
          end if;
-
 
       elsif s(s'first) = 'q'  then
 
