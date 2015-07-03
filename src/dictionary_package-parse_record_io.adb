@@ -14,47 +14,54 @@
 -- All parts of the WORDS system, source code and data files, are made freely
 -- available to anyone who wishes to use them, for whatever purpose.
 
--- TODO: Drop use clauses. It is better to see what exactly is called -
---       helps maintain code in the long run (even if it is not nice to type)
 separate (Dictionary_Package)
 package body Parse_Record_IO is
-   use Inflection_Record_IO;
-   use Dictionary_Kind_IO;
-   use MNPC_IO;
+
+   ---------------------------------------------------------------------------
+   -- Throwaway variable used when reading Parse_Record for "getting rid" of
+   -- not needed separator character between different fields of record.
    Spacer : Character := ' ';
+
+   ---------------------------------------------------------------------------
 
    procedure Get (File : in Text_IO.File_Type; Item : out Parse_Record) is
    begin
       Get (File, Item.Stem);
       Get (File, Spacer);
-      Get (File, Item.IR);
+      Inflection_Record_IO.Get (File, Item.IR);
       Get (File, Spacer);
-      Get (File, Item.D_K);
+      Dictionary_Kind_IO.Get (File, Item.D_K);
       Get (File, Spacer);
-      Get (File, Item.MNPC);
+      MNPC_IO.Get (File, Item.MNPC);
    end Get;
+
+   ---------------------------------------------------------------------------
 
    procedure Get (Item : out Parse_Record) is
    begin
       Get (Item.Stem);
       Get (Spacer);
-      Get (Item.IR);
+      Inflection_Record_IO.Get (Item.IR);
       Get (Spacer);
-      Get (Item.D_K);
+      Dictionary_Kind_IO.Get (Item.D_K);
       Get (Spacer);
-      Get (Item.MNPC);
+      MNPC_IO.Get (Item.MNPC);
    end Get;
+
+   ---------------------------------------------------------------------------
 
    procedure Put (File : in Text_IO.File_Type; Item : in Parse_Record) is
    begin
       Put (File, Item.Stem);
       Put (File, ' ');
-      Put (File, Item.IR);
+      Inflection_Record_IO.Put (File, Item.IR);
       Put (File, ' ');
-      Put (File, Item.D_K);
+      Dictionary_Kind_IO.Put (File, Item.D_K);
       Put (File, ' ');
-      Put (File, Item.MNPC);
+      MNPC_IO.Put (File, Item.MNPC);
    end Put;
+
+   ---------------------------------------------------------------------------
 
    procedure Put (Item : in Parse_Record) is
    begin
@@ -67,41 +74,64 @@ package body Parse_Record_IO is
       MNPC_IO.Put (Item.MNPC);
    end Put;
 
+   ---------------------------------------------------------------------------
+
    procedure Get
       ( Source : in  String;
         Target : out Parse_Record;
         Last   : out Integer
       )
    is
-      l : Integer := Source'First - 1;
+      -- Used for computing lower bound of substring
+      Low : Integer := Source'First - 1;
    begin
-      Stem_Type_IO.Get (Source, Target.Stem, l);
-      l := l + 1;
-      Get (Source (l + 1 .. Source'Last), Target.IR, l);
-      l := l + 1;
-      Get (Source (l + 1 .. Source'Last), Target.D_K, l);
-      l := l + 1;
-      Get (Source (l + 1 .. Source'Last), Target.MNPC, Last);
+      Stem_Type_IO.Get (Source, Target.Stem, Low);
+      Low := Low + 1;
+      Inflection_Record_IO.Get
+         ( Source (Low + 1 .. Source'Last), Target.IR, Low );
+      Low := Low + 1;
+      Dictionary_Kind_IO.Get (Source (Low + 1 .. Source'Last), Target.D_K, Low);
+      Low := Low + 1;
+      MNPC_IO.Get (Source (Low + 1 .. Source'Last), Target.MNPC, Last);
    end Get;
 
-   procedure Put (Target : out String; Item : in Parse_Record) is
-      l : Integer := 0;
-      m : Integer := 0;
+   ---------------------------------------------------------------------------
+
+   procedure Put (Target : out String; Item : in Parse_Record)
+   is
+      -- These variables are used for computing bounds of substrings
+      Low  : Integer := 0;
+      High : Integer := 0;
    begin
-      m := l + Max_Stem_Size;
-      Target (Target'First + l .. Target'First - 1 + m) := Item.Stem;
-      l := m + 1;
-      Target (Target'First - 1 + l) :=  ' ';
-      m := l + Inflection_Record_IO.Default_Width;
-      Put (Target (Target'First + l .. Target'First - 1 + m), Item.IR);
-      l := m + 1;
-      Target (Target'First - 1 + l) :=  ' ';
-      m := l + Dictionary_Kind_IO.Default_Width;
-      Put (Target (Target'First + l .. Target'First - 1 + m), Item.D_K);
-      l := m + 1;
-      Target (Target'First - 1 + l) :=  ' ';
-      m := l + MNPC_IO_Default_Width;
-      Put (Target (Target'First + l .. Target'First - 1 + m), Item.MNPC);
-      Target (m + 1 .. Target'Last) := (others => ' ');
+      -- Put Stem_Type
+      High := Low + Max_Stem_Size;
+      Target (Target'First + Low .. Target'First - 1 + High) := Item.Stem;
+      Low := High + 1;
+      Target (Target'First - 1 + Low) :=  ' ';
+
+      -- Put Inflection_Record
+      High := Low + Inflection_Record_IO.Default_Width;
+      Inflection_Record_IO.Put
+         ( Target (Target'First + Low .. Target'First - 1 + High), Item.IR );
+      Low := High + 1;
+      Target (Target'First - 1 + Low) :=  ' ';
+
+      -- Put Dictionary_Kind
+      High := Low + Dictionary_Kind_IO.Default_Width;
+      Dictionary_Kind_IO.Put
+         ( Target (Target'First + Low .. Target'First - 1 + High), Item.D_K );
+      Low := High + 1;
+
+      -- Put MNPC
+      Target (Target'First - 1 + Low) :=  ' ';
+      High := Low + MNPC_IO_Default_Width;
+      MNPC_IO.Put
+         ( Target (Target'First + Low .. Target'First - 1 + High), Item.MNPC );
+
+      -- Fill remainder of string
+      Target (High + 1 .. Target'Last) := (others => ' ');
    end Put;
+
+   ---------------------------------------------------------------------------
+
 end Parse_Record_IO;
