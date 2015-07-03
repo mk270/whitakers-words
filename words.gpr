@@ -14,7 +14,10 @@ project Words is
    );
 
    package Compiler is
-      Default_Ada := ("-gnatwa", "-Wall");
+      Default_Ada :=
+         ( "-gnatwa", "-Wall", "-fstack-check", "-gnato", "-gnateE",
+           "-gnata", "-gnatU", "-gnatf", "-gnat05"
+         );
       Style := ("-gnaty3aAbefhiklnOprSux");
       for Default_Switches ("Ada") use Default_Ada & Style;
    end Compiler;
