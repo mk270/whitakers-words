@@ -89,7 +89,7 @@ procedure makeewds is
    begin
       --PUT_LINE("S    " & INTEGER'IMAGE(LINE_NUMBER) & "   " & INTEGER'IMAGE(S'FIRST) & "  " & INTEGER'IMAGE(S'LAST));
       --PUT_LINE(S);
-      while i < s'last  loop
+      while i < s'Last  loop
          i := i + 1;
          j := j + 1;
          word_end := 0;
@@ -211,7 +211,7 @@ procedure makeewds is
    exception
       when others =>
          put_line("ADD_HYPHENATED  Exception    LINE = " &
-                    integer'image(line_number));
+                    integer'Image(line_number));
          put_line(s);
          put(de); new_line;
          return t(1..jmax);
@@ -246,11 +246,11 @@ procedure makeewds is
       ewa(n) := null_ewds_record;
 
       -- Slightly disparage extension
-      if s(s'first) = '|' then
+      if s(s'First) = '|' then
          k := 3;
       end if;
 
-      while l <= s'last loop  --  loop over MEAN
+      while l <= s'Last loop  --  loop over MEAN
          if s(l) = ' ' then  --  Clear initial blanks
             l := l + 1;
          end if;
@@ -277,15 +277,15 @@ procedure makeewds is
                   --PUT('+');
                   --PUT(INTEGER'IMAGE(L));
                   --PUT(S(L));
-                  exit when l = s'last;  -- Run out
+                  exit when l = s'Last;  -- Run out
                   l := l + 1;
                end loop;
                --              L := L + 1;    --  Clear the ')'
                --PUT('^');
                --PUT(INTEGER'IMAGE(L));
                --PUT(S(L));
-               if l > s'last  then
-                  l := s'last;
+               if l > s'Last then
+                  l := s'Last;
                else
                   if  s(l) = ';'  then  --  );
                      exit extract_semi;
@@ -293,13 +293,13 @@ procedure makeewds is
                end if;
                --PUT(']');
 
-               if l >= s'last  then  --  Ends in )
+               if l >= s'Last then  --  Ends in )
                   --  PUT('!');
                   exit;
                end if;
                --PUT('+');
                --L := L + 1;    --  Clear the ')'
-            elsif l = s'last  then
+            elsif l = s'Last then
                --PUT('|');
                l := l + 1;     --  To end the loop
                exit;
@@ -324,11 +324,11 @@ procedure makeewds is
          process_semi:
          declare
             st : constant string := trim(semi);
-            sm : constant string(st'first..st'last) := st;
+            sm : constant string(st'First..st'Last) := st;
          begin
-            if st'length > 0  then
+            if st'Length > 0  then
                comma := null_x_meaning_type;
-               im := sm'first;
+               im := sm'First;
                m := 0;
 
                --I := SM'FIRST;
@@ -342,7 +342,7 @@ procedure makeewds is
                ic := 1;
                loop_over_semi:
 
-               while im <= sm'last  loop
+               while im <= sm'Last loop
                   comma := null_x_meaning_type;
                   ww := 20;
                   find_comma:
@@ -392,7 +392,7 @@ procedure makeewds is
                         end if;
                      end if;          --  But could be 2 =>!
                      --PUT_LINE("Through ()[] I = " & INTEGER'IMAGE(I));
-                     exit when im > sm'last;
+                     exit when im > sm'Last;
 
                      --PUT(INTEGER'IMAGE(IM) & " ) " & SM(IM));
                      if sm(im) = ','  then
@@ -401,10 +401,7 @@ procedure makeewds is
                         ic := 1;
                         im := im + 1;       --  Clear ,
                         exit;
-                     elsif
-                        im >= sm'last  or
-                        im = s'last
-                     then
+                     elsif im >= sm'Last or im = s'Last then
                         --  Foumd COMMA
                         comma(ic) := sm(im);
                         m := m + 1;
@@ -427,17 +424,17 @@ procedure makeewds is
                   process_comma:
                   declare
                      ct : constant string := trim(comma);
-                     cs : string(ct'first..ct'last) := ct;
+                     cs : string(ct'First..ct'Last) := ct;
                      pure : boolean := true;
                      w_start, w_end : integer := 0;
                   begin
                      ww := 31;
                      --PUT_LINE("PROCESS COMMA " & INTEGER'IMAGE(LINE_NUMBER) & INTEGER'IMAGE(CT'FIRST) & INTEGER'IMAGE(CT'LAST) &  "=>" & TRIM(COMMA));
-                     if ct'length > 0  then   --  Is COMMA non empty
+                     if ct'Length > 0 then    --  Is COMMA non empty
                                               --  Are there any blanks?
                                               --  If not then it is a pure word
                                               --  Or words with /
-                        for ip in cs'range  loop
+                        for ip in cs'Range loop
                            if cs(ip) = ' '  then
                               pure := false;
                            end if;
@@ -446,9 +443,9 @@ procedure makeewds is
                         ww := 32;
 
                         --  Check for WEED words and eliminate them
-                        w_start := cs'first;
-                        w_end   := cs'last;
-                        for iw in cs'range  loop
+                        w_start := cs'First;
+                        w_end   := cs'Last;
+                        for iw in cs'Range loop
                            --PUT('-');
                            --PUT(CS(IW));
                            if (cs(iw) = '(')  or
@@ -469,24 +466,24 @@ procedure makeewds is
                                  (cs(iw) = '!')  or
                                  (cs(iw) = ')')  or
                                  (cs(iw) = ']')  or
-                                 (iw = cs'last)
+                                 (iw = cs'Last)
                               then
                                  --PUT_LINE("HIT  "  & CS(IW) & "  IW = " & INTEGER'IMAGE(IW) & "  CS'LAST = " & INTEGER'IMAGE(CS'LAST));
                                  ww := 35;
-                                 if iw = cs'last  then
+                                 if iw = cs'Last then
                                     w_end := iw;
-                                 elsif iw /= cs'first  then
+                                 elsif iw /= cs'First then
                                     w_end := iw - 1;
                                  end if;
 
                                  ww := 36;
                                  --  KLUDGE
-                                 if cs(w_start) = '"'     then
+                                 if cs(w_start) = '"' then
                                     ww := 361;
                                     w_start := w_start + 1;
                                     ww := 362;
                                  elsif
-                                    cs(w_end) = '"'  then
+                                    cs(w_end) = '"' then
                                     ww := 364;
                                     w_end := w_end - 1;
                                     ww := 365;
@@ -516,7 +513,7 @@ procedure makeewds is
                            --  Main process of COMMA
                            ic := 1;
                            j := 1;
-                           while  ic <= cs'last  loop
+                           while  ic <= cs'Last  loop
                               --PUT(CS(IC));
 
                               if cs(ic) = '"'  or      --  Skip all "
@@ -573,7 +570,7 @@ procedure makeewds is
                                     j := 1;
                                     ewa(n) := null_ewds_record;
 
-                                 elsif ic = cs'last then --  Order of if important
+                                 elsif ic = cs'Last then --  Order of if important
                                                          --  End, Found word
                                                          --PUT('!');
                                     ewa(n).w(j) := cs(ic);
@@ -619,16 +616,16 @@ procedure makeewds is
             -- I = "  & INTEGER'IMAGE(I)
             --& "  S(I) = " & S(I)
             --);
-            if (l < s'last)  and then  (s(l) = ';')  then             --  ??????
+            if (l < s'Last) and then (s(l) = ';') then             --  ??????
                --PUT_LINE("Clear  L = " & INTEGER'IMAGE(L));
                l := l + 1;
             end if;
 
             -- investigate this:
             -- js := l;    --  Odd but necessary    ?????
-            for j in l..s'last  loop
-               exit when j = s'last;
-               if s(j) = ' '  then
+            for j in l .. s'Last loop
+               exit when j = s'Last;
+               if s(j) = ' ' then
                   l := l + 1;
                else
                   exit;
@@ -637,7 +634,7 @@ procedure makeewds is
 
             --PUT_LINE("SEMI Processed Completely   L = "  & INTEGER'IMAGE(L)  & "  S'LAST = " & INTEGER'IMAGE(S'LAST));
 
-            exit when l >= s'last;
+            exit when l >= s'Last;
       end loop;   --  loop over MEAN
 
       --PUT_LINE("SEMI loop Processed");
@@ -649,10 +646,10 @@ procedure makeewds is
       end if;
    exception
       when others =>
-         if (s(s'last) /= ')') or  (s(s'last) /= ']')  then    --  KLUDGE
+         if (s(s'Last) /= ')') or  (s(s'Last) /= ']') then    --  KLUDGE
             new_line;
-            put_line("Extract Exception    WW = " & integer'image(ww) & "    LINE = " &
-                       integer'image(line_number));
+            put_line("Extract Exception    WW = " & integer'Image(ww) & "    LINE = " &
+                       integer'Image(line_number));
             put_line(s);
             put(de); new_line;
          end if;
@@ -681,14 +678,14 @@ begin
    --     ADD_FILE_NAME_EXTENSION(DICT_LINE_NAME, DICTIONARY_KIND'IMAGE(D_K)));
 
    open(input, in_file, add_file_name_extension(dict_line_name,
-                                                dictionary_kind'image(d_k)));
+                                                dictionary_kind'Image(d_k)));
    --PUT_LINE("OPEN");
 
    if not porting  then
       --PUT_LINE("CREATING");
 
       create(output, out_file, add_file_name_extension("EWDSLIST",
-                                                       dictionary_kind'image(d_k)));
+                                                       dictionary_kind'Image(d_k)));
 
       if checking  then create(check, out_file, "CHECKEWD.");  end if;
 
@@ -728,7 +725,7 @@ begin
          exception
             when others =>
                new_line;
-               put_line("GET Exception  LAST = " & integer'image(last));
+               put_line("GET Exception  LAST = " & integer'Image(last));
                put_line(s(1..last));
                integer_io.put(line_number); new_line;
                put(de); new_line;
@@ -757,7 +754,7 @@ begin
             --        end record;
 
             for i in 1..n  loop
-               if trim(ewa(i).w)'length /= 0  then
+               if trim(ewa(i).w)'Length /= 0 then
                   ewr.w := head(trim(ewa(i).w), eword_size);
                   ewr.aux := head("",  aux_word_size);
                   ewr.n := line_number;
@@ -765,7 +762,7 @@ begin
                   ewr.freq := de.tran.freq;
                   ewr.semi := ewa(i).semi;
                   ewr.kind := ewa(i).kind;
-                  ewr.rank := 80-frequency_type'pos(ewr.freq)*10 + ewr.kind + (ewr.semi-1)*(-3);
+                  ewr.rank := 80-frequency_type'Pos(ewr.freq)*10 + ewr.kind + (ewr.semi-1)*(-3);
                   if ewr.freq = inflections_package.n  then
                      ewr.rank := ewr.rank + 25;
                   end if;
@@ -788,10 +785,11 @@ begin
                         df : constant string := dictionary_form(de);
                         ii : integer := 1;
                      begin
-                        if df'length > 0  then
+                        if df'Length > 0  then
                            while df(ii) /= ' '  and
-                              df(ii) /= '.'  and
-                              df(ii) /= ','  loop
+                              df(ii) /= '.'     and
+                              df(ii) /= ','
+                           loop
                               put(check, df(ii));
                               ii := ii+ 1;
                               exit when ii = 19;
@@ -822,7 +820,7 @@ begin
       end if;
    end loop over_lines;
 
-   put_line("NUMBER_OF_LINES = " & integer'image(line_number));
+   put_line("NUMBER_OF_LINES = " & integer'Image(line_number));
 
    if not porting  then
       close(output);

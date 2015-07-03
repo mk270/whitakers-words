@@ -420,7 +420,7 @@ package body inflections_package is
 
       procedure put(s : out string; d : in stem_type) is
       begin
-         s(s'first..s'first+stem_type_io.default_width-1) := d;
+         s(s'First..s'First+stem_type_io.default_width-1) := d;
       end put;
 
    end stem_type_io;
@@ -476,19 +476,19 @@ package body inflections_package is
                     d : out decn_record; last : out integer) is
          --  Get from a string
          --  Initialize the string position parameter
-         --  Make it first-1 so the first string specification looks like later ones
-         l : integer := s'first - 1;
+         --  Make it First-1 so the first string specification looks like later ones
+         l : integer := s'First - 1;
       begin
          --  Get with the use'd _IO package the first component
-         get(s(l+1..s'last), d.which, l);
+         get(s(l+1..s'Last), d.which, l);
          --  The L is the last position read, so add one to skip the spacer
          l := l + 1;
          --  Get the next component
-         get(s(l+1..s'last), d.var, last);
+         get(s(l+1..s'Last), d.var, last);
       end get;
 
       procedure put(s : out string; d : in decn_record) is
-         l : integer := s'first - 1;
+         l : integer := s'First - 1;
          m : integer := 0;
       begin
          --  Make a place the DEFAULT_WIDTH of the component  to be Put
@@ -507,7 +507,7 @@ package body inflections_package is
          put(s(l+1..m), d.var);
          --  The following may be necessary to fill the out string
          --  but usually the out string has been specified exactly
-         s(m+1..s'last) := (others => ' ');
+         s(m+1..s'Last) := (others => ' ');
       end put;
 
    end decn_record_io;
@@ -556,17 +556,17 @@ package body inflections_package is
 
       procedure get(s : in string;
                     t : out tense_voice_mood_record; last : out integer) is
-         l : integer := s'first - 1;
+         l : integer := s'First - 1;
       begin
-         get(s(l+1..s'last), t.tense, l);
+         get(s(l+1..s'Last), t.tense, l);
          l := l + 1;
-         get(s(l+1..s'last), t.voice, l);
+         get(s(l+1..s'Last), t.voice, l);
          l := l + 1;
-         get(s(l+1..s'last), t.mood, last);
+         get(s(l+1..s'Last), t.mood, last);
       end get;
 
       procedure put(s : out string; t : in tense_voice_mood_record) is
-         l : integer := s'first - 1;
+         l : integer := s'First - 1;
          m : integer := 0;
       begin
          m := l + tense_type_io.default_width;
@@ -579,7 +579,7 @@ package body inflections_package is
          s(l) :=  ' ';
          m := l + mood_type_io.default_width;
          put(s(l+1..m), t.mood);
-         s(m+1..s'last) := (others => ' ');
+         s(m+1..s'Last) := (others => ' ');
       end put;
 
    end tense_voice_mood_record_io;
@@ -636,19 +636,19 @@ package body inflections_package is
       end put;
 
       procedure get(s : in string; n : out noun_record; last : out integer) is
-         l : integer := s'first - 1;
+         l : integer := s'First - 1;
       begin
-         get(s(l+1..s'last), n.decl, l);
+         get(s(l+1..s'Last), n.decl, l);
          l := l + 1;
-         get(s(l+1..s'last), n.cs, l);
+         get(s(l+1..s'Last), n.cs, l);
          l := l + 1;
-         get(s(l+1..s'last), n.number, l);
+         get(s(l+1..s'Last), n.number, l);
          l := l + 1;
-         get(s(l+1..s'last), n.gender, last);
+         get(s(l+1..s'Last), n.gender, last);
       end get;
 
       procedure put(s : out string; n : in noun_record) is
-         l : integer := s'first - 1;
+         l : integer := s'First - 1;
          m : integer := 0;
       begin
          m := l + decn_record_io.default_width;
@@ -665,7 +665,7 @@ package body inflections_package is
          s(l) :=  ' ';
          m := l + gender_type_io.default_width;
          put(s(l+1..m), n.gender);
-         s(m+1..s'last) := (others => ' ');
+         s(m+1..s'Last) := (others => ' ');
       end put;
 
    end noun_record_io;
@@ -722,19 +722,19 @@ package body inflections_package is
       end put;
 
       procedure get(s : in string; p : out pronoun_record; last : out integer) is
-         l : integer := s'first - 1;
+         l : integer := s'First - 1;
       begin
-         get(s(l+1..s'last), p.decl, l);
+         get(s(l+1..s'Last), p.decl, l);
          l := l + 1;
-         get(s(l+1..s'last), p.cs, l);
+         get(s(l+1..s'Last), p.cs, l);
          l := l + 1;
-         get(s(l+1..s'last), p.number, l);
+         get(s(l+1..s'Last), p.number, l);
          l := l + 1;
-         get(s(l+1..s'last), p.gender, last);
+         get(s(l+1..s'Last), p.gender, last);
       end get;
 
       procedure put(s : out string; p : in pronoun_record) is
-         l : integer := s'first - 1;
+         l : integer := s'First - 1;
          m : integer := 0;
       begin
          m := l + decn_record_io.default_width;
@@ -751,7 +751,7 @@ package body inflections_package is
          s(l) :=  ' ';
          m := l + gender_type_io.default_width;
          put(s(l+1..m), p.gender);
-         s(m+1..s'last) := (others => ' ');
+         s(m+1..s'Last) := (others => ' ');
       end put;
 
    end pronoun_record_io;
@@ -808,19 +808,19 @@ package body inflections_package is
       end put;
 
       procedure get(s : in string; p : out propack_record; last : out integer) is
-         l : integer := s'first - 1;
+         l : integer := s'First - 1;
       begin
-         get(s(l+1..s'last), p.decl, l);
+         get(s(l+1..s'Last), p.decl, l);
          l := l + 1;
-         get(s(l+1..s'last), p.cs, l);
+         get(s(l+1..s'Last), p.cs, l);
          l := l + 1;
-         get(s(l+1..s'last), p.number, l);
+         get(s(l+1..s'Last), p.number, l);
          l := l + 1;
-         get(s(l+1..s'last), p.gender, last);
+         get(s(l+1..s'Last), p.gender, last);
       end get;
 
       procedure put(s : out string; p : in propack_record) is
-         l : integer := s'first - 1;
+         l : integer := s'First - 1;
          m : integer := 0;
       begin
          m := l + decn_record_io.default_width;
@@ -837,7 +837,7 @@ package body inflections_package is
          s(l) :=  ' ';
          m := l + gender_type_io.default_width;
          put(s(l+1..m), p.gender);
-         s(m+1..s'last) := (others => ' ');
+         s(m+1..s'Last) := (others => ' ');
       end put;
 
    end propack_record_io;
@@ -903,21 +903,21 @@ package body inflections_package is
       end put;
 
       procedure get(s : in string; a : out adjective_record; last : out integer) is
-         l : integer := s'first - 1;
+         l : integer := s'First - 1;
       begin
-         get(s(l+1..s'last), a.decl, l);
+         get(s(l+1..s'Last), a.decl, l);
          l := l + 1;
-         get(s(l+1..s'last), a.cs, l);
+         get(s(l+1..s'Last), a.cs, l);
          l := l + 1;
-         get(s(l+1..s'last), a.number, l);
+         get(s(l+1..s'Last), a.number, l);
          l := l + 1;
-         get(s(l+1..s'last), a.gender, l);
+         get(s(l+1..s'Last), a.gender, l);
          l := l + 1;
-         get(s(l+1..s'last), a.co, last);
+         get(s(l+1..s'Last), a.co, last);
       end get;
 
       procedure put(s : out string; a : in adjective_record) is
-         l : integer := s'first - 1;
+         l : integer := s'First - 1;
          m : integer := 0;
       begin
          m := l + decn_record_io.default_width;
@@ -938,7 +938,7 @@ package body inflections_package is
          s(l) :=  ' ';
          m := l + comparison_type_io.default_width;
          put(s(l+1..m), a.co);
-         s(m+1..s'last) := (others => ' ');
+         s(m+1..s'Last) := (others => ' ');
       end put;
 
    end adjective_record_io;
@@ -1003,21 +1003,21 @@ package body inflections_package is
       end put;
 
       procedure get(s : in string; num : out numeral_record; last : out integer) is
-         l : integer := s'first - 1;
+         l : integer := s'First - 1;
       begin
-         get(s(l+1..s'last), num.decl, l);
+         get(s(l+1..s'Last), num.decl, l);
          l := l + 1;
-         get(s(l+1..s'last), num.cs, l);
+         get(s(l+1..s'Last), num.cs, l);
          l := l + 1;
-         get(s(l+1..s'last), num.number, l);
+         get(s(l+1..s'Last), num.number, l);
          l := l + 1;
-         get(s(l+1..s'last), num.gender, l);
+         get(s(l+1..s'Last), num.gender, l);
          l := l + 1;
-         get(s(l+1..s'last), num.sort, last);
+         get(s(l+1..s'Last), num.sort, last);
       end get;
 
       procedure put(s : out string; num : in numeral_record) is
-         l : integer := s'first - 1;
+         l : integer := s'First - 1;
          m : integer := 0;
       begin
          m := l + decn_record_io.default_width;
@@ -1038,7 +1038,7 @@ package body inflections_package is
          s(l) :=  ' ';
          m := l + numeral_sort_type_io.default_width;
          put(s(l+1..m), num.sort);
-         s(m+1..s'last) := (others => ' ');
+         s(m+1..s'Last) := (others => ' ');
       end put;
 
    end numeral_record_io;
@@ -1067,18 +1067,18 @@ package body inflections_package is
       end put;
 
       procedure get(s : in string; a : out adverb_record; last : out integer) is
-         l : constant integer := s'first - 1;
+         l : constant integer := s'First - 1;
       begin
-         get(s(l+1..s'last), a.co, last);
+         get(s(l+1..s'Last), a.co, last);
       end get;
 
       procedure put(s : out string; a : in adverb_record) is
-         l : constant integer := s'first - 1;
+         l : constant integer := s'First - 1;
          m : integer := 0;
       begin
          m := l + comparison_type_io.default_width;
          put(s(l+1..m), a.co);
-         s(m+1..s'last) := (others => ' ');
+         s(m+1..s'Last) := (others => ' ');
       end put;
 
    end adverb_record_io;
@@ -1135,19 +1135,19 @@ package body inflections_package is
       end put;
 
       procedure get(s : in string; v : out verb_record; last : out integer) is
-         l : integer := s'first - 1;
+         l : integer := s'First - 1;
       begin
-         get(s(l+1..s'last), v.con, l);
+         get(s(l+1..s'Last), v.con, l);
          l := l + 1;
-         get(s(l+1..s'last), v.tense_voice_mood, l);
+         get(s(l+1..s'Last), v.tense_voice_mood, l);
          l := l + 1;
-         get(s(l+1..s'last), v.person, l);
+         get(s(l+1..s'Last), v.person, l);
          l := l + 1;
-         get(s(l+1..s'last), v.number, last);
+         get(s(l+1..s'Last), v.number, last);
       end get;
 
       procedure put(s : out string; v : in verb_record) is
-         l : integer := s'first - 1;
+         l : integer := s'First - 1;
          m : integer := 0;
       begin
          m := l + decn_record_io.default_width;
@@ -1164,7 +1164,7 @@ package body inflections_package is
          s(l) :=  ' ';
          m := l + number_type_io.default_width;
          put(s(l+1..m), v.number);
-         s(m+1..s'last) := (others => ' ');
+         s(m+1..s'Last) := (others => ' ');
       end put;
 
    end verb_record_io;
@@ -1230,21 +1230,21 @@ package body inflections_package is
       end put;
 
       procedure get(s : in string; vp : out vpar_record; last : out integer) is
-         l : integer := s'first - 1;
+         l : integer := s'First - 1;
       begin
-         get(s(l+1..s'last), vp.con, l);
+         get(s(l+1..s'Last), vp.con, l);
          l := l + 1;
-         get(s(l+1..s'last), vp.cs, l);
+         get(s(l+1..s'Last), vp.cs, l);
          l := l + 1;
-         get(s(l+1..s'last), vp.number, l);
+         get(s(l+1..s'Last), vp.number, l);
          l := l + 1;
-         get(s(l+1..s'last), vp.gender, l);
+         get(s(l+1..s'Last), vp.gender, l);
          l := l + 1;
-         get(s(l+1..s'last), vp.tense_voice_mood, last);
+         get(s(l+1..s'Last), vp.tense_voice_mood, last);
       end get;
 
       procedure put(s : out string; vp : in vpar_record) is
-         l : integer := s'first - 1;
+         l : integer := s'First - 1;
          m : integer := 0;
       begin
          m := l + decn_record_io.default_width;
@@ -1265,7 +1265,7 @@ package body inflections_package is
          s(l) :=  ' ';
          m := l + tense_voice_mood_record_io.default_width;
          put(s(l+1..m), vp.tense_voice_mood);
-         s(m+1..s'last) := (others => ' ');
+         s(m+1..s'Last) := (others => ' ');
       end put;
 
    end vpar_record_io;
@@ -1322,19 +1322,19 @@ package body inflections_package is
       end put;
 
       procedure get(s : in string; vp : out supine_record; last : out integer) is
-         l : integer := s'first - 1;
+         l : integer := s'First - 1;
       begin
-         get(s(l+1..s'last), vp.con, l);
+         get(s(l+1..s'Last), vp.con, l);
          l := l + 1;
-         get(s(l+1..s'last), vp.cs, l);
+         get(s(l+1..s'Last), vp.cs, l);
          l := l + 1;
-         get(s(l+1..s'last), vp.number, l);
+         get(s(l+1..s'Last), vp.number, l);
          l := l + 1;
-         get(s(l+1..s'last), vp.gender, last);
+         get(s(l+1..s'Last), vp.gender, last);
       end get;
 
       procedure put(s : out string; vp : in supine_record) is
-         l : integer := s'first - 1;
+         l : integer := s'First - 1;
          m : integer := 0;
       begin
          m := l + decn_record_io.default_width;
@@ -1351,7 +1351,7 @@ package body inflections_package is
          s(l) :=  ' ';
          m := l + gender_type_io.default_width;
          put(s(l+1..m), vp.gender);
-         s(m+1..s'last) := (others => ' ');
+         s(m+1..s'Last) := (others => ' ');
       end put;
 
    end supine_record_io;
@@ -1380,18 +1380,18 @@ package body inflections_package is
       end put;
 
       procedure get(s : in string; p : out preposition_record; last : out integer) is
-         l : constant integer := s'first - 1;
+         l : constant integer := s'First - 1;
       begin
-         get(s(l+1..s'last), p.obj, last);
+         get(s(l+1..s'Last), p.obj, last);
       end get;
 
       procedure put(s : out string; p : in preposition_record) is
-         l : constant integer := s'first - 1;
+         l : constant integer := s'First - 1;
          m : integer := 0;
       begin
          m := l + case_type_io.default_width;
          put(s(l+1..m), p.obj);
-         s(m+1..s'last) := (others => ' ');
+         s(m+1..s'Last) := (others => ' ');
       end put;
 
    end preposition_record_io;
@@ -1423,7 +1423,7 @@ package body inflections_package is
       end put;
 
       procedure get(s : in string; c : out conjunction_record; last : out integer) is
-         l : constant integer := s'first - 1;
+         l : constant integer := s'First - 1;
       begin
          c := null_conjunction_record;
          last := l - 1;  --  LAST did not even get to S'FIRST, since nothing to read
@@ -1434,7 +1434,7 @@ package body inflections_package is
          pragma Warnings (On, "formal parameter ""c"" is not referenced");
          --  Since there is no component, just make the out string blank
       begin
-         s(s'first..s'last) := (others => ' ');
+         s(s'First..s'Last) := (others => ' ');
       end put;
 
    end conjunction_record_io;
@@ -1465,7 +1465,7 @@ package body inflections_package is
       end put;
 
       procedure get(s : in string; i : out interjection_record; last : out integer) is
-         l : constant integer := s'first - 1;
+         l : constant integer := s'First - 1;
       begin
          i := null_interjection_record;
          last := l - 1;
@@ -1475,7 +1475,7 @@ package body inflections_package is
       procedure put(s : out string; i : in interjection_record) is
          pragma Warnings (On, "formal parameter ""i"" is not referenced");
       begin
-         s(s'first..s'last) := (others => ' ');
+         s(s'First..s'Last) := (others => ' ');
       end put;
 
    end interjection_record_io;
@@ -1506,7 +1506,7 @@ package body inflections_package is
       end put;
 
       procedure get(s : in string; i : out tackon_record; last : out integer) is
-         l : constant integer := s'first - 1;
+         l : constant integer := s'First - 1;
       begin
          i := null_tackon_record;
          last := l - 1;
@@ -1516,7 +1516,7 @@ package body inflections_package is
       procedure put(s : out string; i : in tackon_record) is
          pragma Warnings (On, "formal parameter ""i"" is not referenced");
       begin
-         s(s'first..s'last) := (others => ' ');
+         s(s'First..s'Last) := (others => ' ');
       end put;
 
    end tackon_record_io;
@@ -1546,7 +1546,7 @@ package body inflections_package is
       end put;
 
       procedure get(s : in string; p : out prefix_record; last : out integer) is
-         l : constant integer := s'first - 1;
+         l : constant integer := s'First - 1;
       begin
          p := null_prefix_record;
          last := l - 1;
@@ -1556,7 +1556,7 @@ package body inflections_package is
       procedure put(s : out string; p : in prefix_record) is
          pragma Warnings (On, "formal parameter ""p"" is not referenced");
       begin
-         s(s'first..s'last) := (others => ' ');
+         s(s'First..s'Last) := (others => ' ');
       end put;
 
    end prefix_record_io;
@@ -1586,7 +1586,7 @@ package body inflections_package is
       end put;
 
       procedure get(s : in string; p : out suffix_record; last : out integer) is
-         l : constant integer := s'first - 1;
+         l : constant integer := s'First - 1;
       begin
          p := null_suffix_record;
          last := l - 1;
@@ -1596,7 +1596,7 @@ package body inflections_package is
       procedure put(s : out string; p : in suffix_record) is
          pragma Warnings (On, "formal parameter ""p"" is not referenced");
       begin
-         s(s'first..s'last) := (others => ' ');
+         s(s'First..s'Last) := (others => ' ');
       end put;
 
    end suffix_record_io;
@@ -1837,7 +1837,7 @@ package body inflections_package is
       end put;
 
       procedure get(s : in string; p : out quality_record; last : out integer) is
-         l : integer := s'first - 1;
+         l : integer := s'First - 1;
          ps : part_of_speech_type := x;
       begin
          get(s, ps, l);
@@ -1845,49 +1845,49 @@ package body inflections_package is
          l := l + 1;
          case ps is
             when n =>
-               get(s(l+1..s'last), noun, last);
+               get(s(l+1..s'Last), noun, last);
                p := (n, noun);
             when pron =>
-               get(s(l+1..s'last), pronoun, last);
+               get(s(l+1..s'Last), pronoun, last);
                p := (pron, pronoun);
             when pack =>
-               get(s(l+1..s'last), propack, last);
+               get(s(l+1..s'Last), propack, last);
                p := (pack, propack);
             when adj =>
-               get(s(l+1..s'last), adjective, last);
+               get(s(l+1..s'Last), adjective, last);
                p := (adj, adjective);
             when num =>
-               get(s(l+1..s'last), numeral, last);
+               get(s(l+1..s'Last), numeral, last);
                p := (num, numeral);
             when adv =>
-               get(s(l+1..s'last), adverb, last);
+               get(s(l+1..s'Last), adverb, last);
                p := (adv, adverb);
             when v =>
-               get(s(l+1..s'last), verb, last);
+               get(s(l+1..s'Last), verb, last);
                p := (v, verb);
             when vpar =>
-               get(s(l+1..s'last), vparticiple, last);
+               get(s(l+1..s'Last), vparticiple, last);
                p := (vpar, vparticiple);
             when supine =>
-               get(s(l+1..s'last), supin, last);
+               get(s(l+1..s'Last), supin, last);
                p := (supine, supin);
             when prep =>
-               get(s(l+1..s'last), preposition, last);
+               get(s(l+1..s'Last), preposition, last);
                p := (prep, preposition);
             when conj =>
-               get(s(l+1..s'last), conjunction, last);
+               get(s(l+1..s'Last), conjunction, last);
                p := (conj, conjunction);
             when interj =>
-               get(s(l+1..s'last), interjection, last);
+               get(s(l+1..s'Last), interjection, last);
                p := (interj, interjection);
             when tackon =>
-               get(s(l+1..s'last), tackn, last);
+               get(s(l+1..s'Last), tackn, last);
                p := (tackon, tackn);
             when prefix =>
-               get(s(l+1..s'last), prefx, last);
+               get(s(l+1..s'Last), prefx, last);
                p := (prefix, prefx);
             when suffix =>
-               get(s(l+1..s'last), suffx, last);
+               get(s(l+1..s'Last), suffx, last);
                p := (suffix, suffx);
             when x =>
                p := (pofs => x);
@@ -1900,7 +1900,7 @@ package body inflections_package is
          --  which would require a constant QUALITY_RECORD_IO.DEFAULT_WIDTH
          --  Rather we Put to minimal size with NOUN_RECORD_IO.DEFAULT_WIDTH,
          --  PRONOUN_RECORD_IO,DEFAULT_WIDTH, ...
-         l : integer := s'first - 1;
+         l : integer := s'First - 1;
          m : integer := 0;
       begin
          m := l + part_of_speech_type_io.default_width;
@@ -1956,7 +1956,7 @@ package body inflections_package is
             when others =>
                null;
          end case;
-         s(m+1..s'last) := (others => ' ');
+         s(m+1..s'Last) := (others => ' ');
       end put;
 
    end quality_record_io;
@@ -2010,10 +2010,10 @@ package body inflections_package is
       end put;
 
       procedure get(s : in string; x : out ending_record; last : out integer) is
-         l : integer := s'first - 1;
+         l : integer := s'First - 1;
       begin
          sf := blanks;
-         get(s(l+1..s'last), n, l);
+         get(s(l+1..s'Last), n, l);
          if n = 0  then
             x := null_ending_record;
             last := l;
@@ -2036,7 +2036,7 @@ package body inflections_package is
       end get;
 
       procedure put(s : out string; x : in ending_record) is
-         l : integer := s'first - 1;
+         l : integer := s'First - 1;
          m : integer := 0;
       begin
          m := l + 2;
@@ -2053,7 +2053,7 @@ package body inflections_package is
          m := l + max_ending_size - x.size;
          s(l+1..m) := (others => ' ');
          --  Then to fill out the rest of the out string, if any
-         s(m+1..s'last) := (others => ' ');
+         s(m+1..s'Last) := (others => ' ');
       end put;
 
    end ending_record_io;
@@ -2121,23 +2121,23 @@ package body inflections_package is
       end put;
 
       procedure get(s : in string; p : out inflection_record; last : out integer) is
-         l : integer := s'first - 1;
+         l : integer := s'First - 1;
       begin
          last := 0;
          p := pe;
-         get(s(l+1..s'last), p.qual, l);
+         get(s(l+1..s'Last), p.qual, l);
          l := l + 1;
-         get(s(l+1..s'last), p.key, l);
+         get(s(l+1..s'Last), p.key, l);
          l := l + 1;
-         get(s(l+1..s'last), p.ending, l);
+         get(s(l+1..s'Last), p.ending, l);
          l := l + 1;
-         get(s(l+1..s'last), p.age, l);
+         get(s(l+1..s'Last), p.age, l);
          l := l + 1;
-         get(s(l+1..s'last), p.freq, last);
+         get(s(l+1..s'Last), p.freq, last);
       end get;
 
       procedure put(s : out string; p : in inflection_record) is
-         l : integer := s'first - 1;
+         l : integer := s'First - 1;
          m : integer := 0;
       begin
          m := l + quality_record_io.default_width;
@@ -2158,7 +2158,7 @@ package body inflections_package is
          s(l) :=  ' ';
          m := l + 1;
          put(s(l+1..m), p.freq);
-         s(m+1..s'last) := (others => ' ');
+         s(m+1..s'Last) := (others => ' ');
       end put;
 
    end inflection_record_io;
@@ -2459,21 +2459,21 @@ package body inflections_package is
 begin  --  initialization of body of INFLECTIONS_PACKAGE
    --TEXT_IO.PUT_LINE("Initializing INFLECTIONS_PACKAGE");
 
-   part_of_speech_type_io.default_width := part_of_speech_type'width;
-   gender_type_io.default_width := gender_type'width;
-   case_type_io.default_width := case_type'width;
-   number_type_io.default_width := number_type'width;
+   part_of_speech_type_io.default_width := part_of_speech_type'Width;
+   gender_type_io.default_width := gender_type'Width;
+   case_type_io.default_width := case_type'Width;
+   number_type_io.default_width := number_type'Width;
    person_type_io.default_width := 1;
-   comparison_type_io.default_width := comparison_type'width;
-   tense_type_io.default_width := tense_type'width;
-   voice_type_io.default_width := voice_type'width;
-   mood_type_io.default_width := mood_type'width;
-   noun_kind_type_io.default_width := noun_kind_type'width;
-   pronoun_kind_type_io.default_width := pronoun_kind_type'width;
-   verb_kind_type_io.default_width := verb_kind_type'width;
-   numeral_sort_type_io.default_width := numeral_sort_type'width;
-   age_type_io.default_width := age_type'width;
-   frequency_type_io.default_width := frequency_type'width;
+   comparison_type_io.default_width := comparison_type'Width;
+   tense_type_io.default_width := tense_type'Width;
+   voice_type_io.default_width := voice_type'Width;
+   mood_type_io.default_width := mood_type'Width;
+   noun_kind_type_io.default_width := noun_kind_type'Width;
+   pronoun_kind_type_io.default_width := pronoun_kind_type'Width;
+   verb_kind_type_io.default_width := verb_kind_type'Width;
+   numeral_sort_type_io.default_width := numeral_sort_type'Width;
+   age_type_io.default_width := age_type'Width;
+   frequency_type_io.default_width := frequency_type'Width;
 
    decn_record_io.default_width :=
      1 + 1 +   --WHICH_TYPE_IO_DEFAULT_WIDTH + 1 +

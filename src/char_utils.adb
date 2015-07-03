@@ -21,7 +21,7 @@ is
                      return boolean
    is
    begin
-      for c in haystack'first .. haystack'last loop
+      for c in haystack'First .. haystack'Last loop
          if haystack(c) = needle then
             return true;
          end if;

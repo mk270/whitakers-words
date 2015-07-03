@@ -23,7 +23,7 @@ procedure weed_all(w : in out string) is
    kill : boolean := false;
 begin
 
-   if w'length <= 1  then
+   if w'Length <= 1  then
       --if W(1)  not in  'A'..'Z'  then
       kill := true;
       --end if;
@@ -97,19 +97,19 @@ begin
       end if;
 
       --  Kill abbreviations
-      if w(w'last) = '.'  then
+      if w(w'Last) = '.'  then
          kill := true;
       end if;
 
       --  Kill internal AREA
-      if w(w'last) = ':'  then
+      if w(w'Last) = ':'  then
          kill := true;
       end if;
 
    end if;
 
    if kill then
-      for i in w'range  loop
+      for i in w'Range  loop
          w(i) := '\';
       end loop;
    end if;

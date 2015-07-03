@@ -48,7 +48,7 @@ procedure makeinfl is
       ir : inflection_record;
       line : string(1..100) := (others => ' ');
       last, l : integer := 0;
-      sn : ending_size_type := ending_size_type'first;
+      sn : ending_size_type := ending_size_type'First;
       sx : character := ' ';
 
       type inflection_item;
@@ -71,7 +71,7 @@ procedure makeinfl is
 
       procedure null_lel is
       begin
-         for i in lel'range  loop
+         for i in lel'Range loop
             lel(i) := null_inflection_record;
          end loop;
       end null_lel;
@@ -111,7 +111,7 @@ procedure makeinfl is
 
          end loop;
          close(inflections_file);
-         put_line("INFLECTIONS_LIST LOADED   " & integer'image(number_of_inflections));
+         put_line("INFLECTIONS_LIST LOADED   " & integer'Image(number_of_inflections));
       end load_inflections_list;
 
       procedure list_to_lel_file  is
@@ -278,8 +278,8 @@ begin
    lel_section_io.open(inflections_sections_file, in_file,
                        inflections_sections_name);
 
-   if not porting  then
-      for i in bel'range    loop                     --  Blank endings
+   if not porting then
+      for i in bel'Range loop                     --  Blank endings
          if  bel(i) /= null_inflection_record  then
             m := m + 1;
             put(output, bel(i).qual);
@@ -299,8 +299,8 @@ begin
    for n in 1..4  loop
       read(inflections_sections_file, lel, lel_section_io.positive_count(n));
 
-      if not porting  then
-         for i in lel'range    loop                     --  Non-blank endings
+      if not porting then
+         for i in lel'Range loop                     --  Non-blank endings
             if  lel(i) /= null_inflection_record  then
                m := m + 1;
                put(output, lel(i).qual);

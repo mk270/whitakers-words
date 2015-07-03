@@ -76,16 +76,16 @@ begin
    end if;
 
    open(input, in_file, add_file_name_extension(dict_line_name,
-                                                dictionary_kind'image(d_k)));
+                                                dictionary_kind'Image(d_k)));
 
    if not porting  then
 
       create(stemlist, out_file, add_file_name_extension(stem_list_name,
-                                                         dictionary_kind'image(d_k)));
+                                                         dictionary_kind'Image(d_k)));
    end if;
 
    create(dictfile, out_file, add_file_name_extension(dict_file_name,
-                                                      dictionary_kind'image(d_k)));
+                                                      dictionary_kind'Image(d_k)));
    over_lines:
    while not end_of_file(input) loop
       s := blank_line;

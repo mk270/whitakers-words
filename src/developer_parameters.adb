@@ -111,13 +111,13 @@ package body developer_parameters is
      "overwritten for new invocation of the program, so old data must be    ",
      "explicitly saved if it is to be retained.  The statistics are in TEXT ",
      "format.     The statistics file is named " & stats_full_name
-     & (42+stats_full_name'length..70 => ' '),
+     & (42+stats_full_name'Length..70 => ' '),
      "This information is only of development use, so the default is N(o).  " );
 
    write_statistics_file_help : constant help_type :=  (
      "This option instructs the program, with HAVE_STATISTICS_FILE, to put  ",
      "derived statistics in a file named " & stats_full_name
-     & (36+stats_full_name'length..70 => ' '),
+     & (36+stats_full_name'Length..70 => ' '),
      "This option may be turned on and off while running of the program,    ",
      "thereby capturing only certain desired results.  The file is reset at ",
      "each invocation of the program, if the HAVE_STATISTICS_FILE is set.   ",
@@ -381,7 +381,7 @@ package body developer_parameters is
    procedure put(help : help_type) is
    begin
       new_line;
-      for i in help'first..help'last  loop
+      for i in help'First..help'Last  loop
          put_line(help(i));
       end loop;
       new_line;
@@ -474,7 +474,7 @@ package body developer_parameters is
          close(mdev_file);
       end if;
       create(mdev_file, out_file, mdev_full_name);
-      for i in words_mdev'range  loop
+      for i in words_mdev'Range  loop
          put(mdev_file, i);
          set_col(mdev_file, 35);
          put(mdev_file, reply(words_mdev(i)));
@@ -498,7 +498,7 @@ package body developer_parameters is
       last : integer := 0;
    begin
       open(mdev_file, in_file, mdev_full_name);
-      for i in words_mdev'range  loop
+      for i in words_mdev'Range  loop
          get(mdev_file, mo);
          get(mdev_file, rep);
          words_mdev(mo) := mdev_of_reply(rep);

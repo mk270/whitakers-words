@@ -41,25 +41,25 @@ procedure makestem is
 
    procedure put_indices(ch : string;
                          d_k : dictionary_kind) is
-      wd : constant string(1..2) := ch(ch'first..ch'first+1);
+      wd : constant string(1..2) := ch(ch'First..ch'First+1);
    begin
       --Put_Line("Put_Indices");
       if ch = "  "  then
-         if (bblf(ch(ch'first), ch(ch'first + 1), d_k) > 0)                    and then
-           (bbll(ch(ch'first), ch(ch'first + 1), d_k) >= bblf(ch(ch'first), ch(ch'first + 1), d_k))  then
+         if (bblf(ch(ch'First), ch(ch'First + 1), d_k) > 0)                    and then
+           (bbll(ch(ch'First), ch(ch'First + 1), d_k) >= bblf(ch(ch'First), ch(ch'First + 1), d_k))  then
             put("CH = ("); put(ch); put(") index is of range  ");
-            put(bblf(ch(ch'first), ch(ch'first + 1), d_k)); put(".."); put(bbll(ch(ch'first), ch(ch'first + 1), d_k));
+            put(bblf(ch(ch'First), ch(ch'First + 1), d_k)); put(".."); put(bbll(ch(ch'First), ch(ch'First + 1), d_k));
             put("    number ");
-            put(bbll(ch(ch'first), ch(ch'first + 1), d_k) - bblf(ch(ch'first), ch(ch'first + 1), d_k) + 1);
+            put(bbll(ch(ch'First), ch(ch'First + 1), d_k) - bblf(ch(ch'First), ch(ch'First + 1), d_k) + 1);
             new_line;
          end if;
-      elsif ch(ch'first + 1) = ' '  then
-         if (bdlf(ch(ch'first), ch(ch'first + 1), d_k) > 0)                    and then
-           (bdll(ch(ch'first), ch(ch'first + 1), d_k) >= bdlf(ch(ch'first), ch(ch'first + 1), d_k))  then
+      elsif ch(ch'First + 1) = ' '  then
+         if (bdlf(ch(ch'First), ch(ch'First + 1), d_k) > 0)                    and then
+           (bdll(ch(ch'First), ch(ch'First + 1), d_k) >= bdlf(ch(ch'First), ch(ch'First + 1), d_k))  then
             put("CH = ("); put(ch); put(") index is of range  ");
-            put(bdlf(ch(ch'first), ch(ch'first + 1), d_k)); put(".."); put(bdll(ch(ch'first), ch(ch'first + 1), d_k));
+            put(bdlf(ch(ch'First), ch(ch'First + 1), d_k)); put(".."); put(bdll(ch(ch'First), ch(ch'First + 1), d_k));
             put("    number ");
-            put(bdll(ch(ch'first), ch(ch'first + 1), d_k) - bdlf(ch(ch'first), ch(ch'first + 1), d_k) + 1);
+            put(bdll(ch(ch'First), ch(ch'First + 1), d_k) - bdlf(ch(ch'First), ch(ch'First + 1), d_k) + 1);
             new_line;
          end if;
       else
@@ -94,15 +94,15 @@ begin
 
    open(   stem_list(d_k), in_file,
            add_file_name_extension(stem_list_name,
-                                   dictionary_kind'image(d_k)));
+                                   dictionary_kind'Image(d_k)));
 
    create(stem_file(d_k), inout_file,
           add_file_name_extension(stem_file_name,
-                                  dictionary_kind'image(d_k)));
+                                  dictionary_kind'Image(d_k)));
 
    create(indx_file(d_k), out_file,
           add_file_name_extension(indx_file_name,
-                                  dictionary_kind'image(d_k)));
+                                  dictionary_kind'Image(d_k)));
 
    ------------------------------------------------------------------
 
