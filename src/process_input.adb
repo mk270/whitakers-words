@@ -160,7 +160,7 @@ is
          --  The end of the input file resets to CON:
          put_line("Raised STATUS_ERROR");
          return false;
-   end;
+   end get_input_line;
 
 begin
       --  PARSE

@@ -270,7 +270,7 @@ procedure makeewds is
                k := k + 1;
                --PUT('+');
                l := l + 1;  --  Clear ;
-               exit;
+               exit extract_semi;
             elsif s(l) = '('  then  --  Skip (...)  !
             --PUT('[');
                while s(l) /= ')'   loop
@@ -295,14 +295,14 @@ procedure makeewds is
 
                if l >= s'Last then  --  Ends in )
                   --  PUT('!');
-                  exit;
+                  exit extract_semi;
                end if;
                --PUT('+');
                --L := L + 1;    --  Clear the ')'
             elsif l = s'Last then
                --PUT('|');
                l := l + 1;     --  To end the loop
-               exit;
+               exit extract_semi;
 
                else
                   semi(im) := s(l);
@@ -357,7 +357,7 @@ procedure makeewds is
                         --PUT_LINE("Cleared (+" & "  IM = " & INTEGER'IMAGE(IM));
                         if im >= end_semi  then
                            --PUT_LINE("exit on SM'LAST  "  & INTEGER'IMAGE(SM'LAST) & "  I = " & INTEGER'IMAGE(IM));
-                           exit;
+                           exit find_comma;
                         end if;
                         --PUT_LINE("No exit on SM'LAST  "  & INTEGER'IMAGE(SM'LAST) & "  I = " & INTEGER'IMAGE(IM) & "|" & SM(IM) & "|");
                         if  (sm(im) = ';') or (sm(im) = ',')   then
@@ -366,7 +366,7 @@ procedure makeewds is
                            m := m + 1;
                            ic := 1;
                            im := im + 1;       --  Clear ;,
-                           exit;
+                           exit find_comma;
                         elsif sm(im) = ' '  then
                            --PUT_LINE("Found blank -  IM = " & INTEGER'IMAGE(IM));
                            im := im + 1;
@@ -386,13 +386,13 @@ procedure makeewds is
                            m := m + 1;
                            ic := 1;
                            im := im + 1;       --  Clear ;
-                           exit;
+                           exit find_comma;
                         elsif sm(im) = ' '  then
                            im := im + 1;
                         end if;
                      end if;          --  But could be 2 =>!
                      --PUT_LINE("Through ()[] I = " & INTEGER'IMAGE(I));
-                     exit when im > sm'Last;
+                     exit find_comma when im > sm'Last;
 
                      --PUT(INTEGER'IMAGE(IM) & " ) " & SM(IM));
                      if sm(im) = ','  then
@@ -400,13 +400,13 @@ procedure makeewds is
                         m := m + 1;
                         ic := 1;
                         im := im + 1;       --  Clear ,
-                        exit;
+                        exit find_comma;
                      elsif im >= sm'Last or im = s'Last then
                         --  Foumd COMMA
                         comma(ic) := sm(im);
                         m := m + 1;
                         ic := 1;
-                        exit;
+                        exit find_comma;
                      else
                         comma(ic) := sm(im);
                         im := im + 1;

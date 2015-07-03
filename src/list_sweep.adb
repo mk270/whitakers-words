@@ -354,7 +354,7 @@ procedure list_sweep(pa : in out parse_array; pa_last : in out integer) is
          end switch;
          --------------------------------------------------
 
-         exit when hits = 0;
+         exit hit_loop when hits = 0;
       end loop hit_loop;
 
       --  Fix up the Archaic/Medieval
@@ -606,7 +606,7 @@ begin                               --  LIST_SWEEP
 
    compress_loop:
    loop
-      exit when j > pa_last;
+      exit compress_loop when j > pa_last;
       pr := pa(j);
       if pr /= opr  then
          supress_key_check:
