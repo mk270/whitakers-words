@@ -14,7 +14,7 @@
 -- All parts of the WORDS system, source code and data files, are made freely
 -- available to anyone who wishes to use them, for whatever purpose.
 
-with Strings_package; use Strings_package;
+with Strings_Package; use Strings_Package;
 package body dictionary_package is
    use stem_key_type_io;
 
@@ -1511,7 +1511,7 @@ package body dictionary_package is
          l := l + 1;
          Get(s(l+1..s'Last), d.tran, l);
          l := l + 1;
-         d.mean := head(s(l+1..s'Last), max_meaning_size);
+         d.mean := Head(s(l+1..s'Last), max_meaning_size);
          i := l+1;
          while s(i) = ' ' loop
             i := i + 1;

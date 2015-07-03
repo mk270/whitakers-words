@@ -14,7 +14,7 @@
 -- All parts of the WORDS system, source code and data files, are made freely
 -- available to anyone who wishes to use them, for whatever purpose.
 
-with Strings_package; use Strings_package;
+with Strings_Package; use Strings_Package;
 with latIn_File_names; use latIn_File_names;
 with word_parameters; use word_parameters;
 with addons_package; use addons_package;
@@ -94,16 +94,16 @@ package body list_package is
    begin
 
       if words_mode(show_age)   or
-        (trim(dictionary_age(de.tran.age))'Length /= 0)  --  Not X
+        (Trim (dictionary_age(de.tran.age))'Length /= 0)  --  Not X
       then
-         Text_IO.Put(Output, "  " & trim(dictionary_age(de.tran.age)));
+         Text_IO.Put(Output, "  " & Trim (dictionary_age(de.tran.age)));
          hit := True;
       end if;
       if (words_mode(show_frequency) or
             (de.tran.freq >= d))  and
-        (trim(dictionary_frequency(de.tran.freq))'Length /= 0)
+        (Trim (dictionary_frequency(de.tran.freq))'Length /= 0)
       then
-         Text_IO.Put(Output, "  " & trim(dictionary_frequency(de.tran.freq)));
+         Text_IO.Put(Output, "  " & Trim (dictionary_frequency(de.tran.freq)));
          hit := True;
       end if;
    end Put_dictionary_flags;
@@ -149,7 +149,7 @@ package body list_package is
       if words_mdev(show_dictionary_line)  then
          if dictionary_line_number > 0  then
             Text_IO.Put(Output, "("
-                          & trim(Integer'Image(dictionary_line_number)) & ")");
+                          & Trim (Integer'Image(dictionary_line_number)) & ")");
             lhit := True;
          end if;
       end if;
@@ -253,13 +253,13 @@ package body list_package is
          begin
             if (words_mode(show_age)   or
                   (sr.ir.age /= x))  and     --  Warn even if not to show AGE
-              trim(inflection_age(sr.ir.age))'Length /= 0
+              Trim (inflection_age(sr.ir.age))'Length /= 0
             then
                Text_IO.Put(Output, "  " & inflection_age(sr.ir.age));
             end if;
             if (words_mode(show_frequency)  or
                   (sr.ir.freq >= c))  and    --  Warn regardless
-              trim(inflection_frequency(sr.ir.freq))'Length /= 0
+              Trim (inflection_frequency(sr.ir.freq))'Length /= 0
             then
                Text_IO.Put(Output, "  " & inflection_frequency(sr.ir.freq));
             end if;
@@ -282,11 +282,11 @@ package body list_package is
             end if;
 
             --TEXT_IO.PUT(OUTPUT, CAP_STEM(TRIM(SR.STEM)));
-            Text_IO.Put(Output, (trim(sr.stem)));
+            Text_IO.Put(Output, (Trim (sr.stem)));
             if sr.ir.ending.size > 0  then
                Text_IO.Put(Output, ".");
                --TEXT_IO.PUT(OUTPUT, TRIM(CAP_ENDING(SR.IR.ENDING.SUF)));
-               Text_IO.Put(Output, trim((sr.ir.ending.suf)));
+               Text_IO.Put(Output, Trim ((sr.ir.ending.suf)));
             end if;
 
             if words_mdev(do_pearse_codes) then
@@ -371,27 +371,27 @@ package body list_package is
          end if;
       end Put_form;
 
-      function trim_bar(s : String) return String is
+      function Trim_bar(s : String) return String is
          --  Takes vertical bars from begining of MEAN and TRIMs
       begin
          if s'Length >3  and then s(s'First..s'First+3) = "||||"  then
-            return trim(s(s'First+4.. s'Last));
+            return Trim (s(s'First+4.. s'Last));
          elsif s'Length >2  and then s(s'First..s'First+2) = "|||"  then
-            return trim(s(s'First+3.. s'Last));
+            return Trim (s(s'First+3.. s'Last));
          elsif s'Length > 1  and then  s(s'First..s'First+1) = "||"  then
-            return trim(s(s'First+2.. s'Last));
+            return Trim (s(s'First+2.. s'Last));
          elsif s(s'First) = '|'  then
-            return trim(s(s'First+1.. s'Last));
+            return Trim (s(s'First+1.. s'Last));
          else
-            return trim(s);
+            return Trim (s);
          end if;
-      end trim_bar;
+      end Trim_bar;
 
       procedure Put_meaning(Output : Text_IO.File_Type;
                             raw_meaning : String) is
          --  Handles the MM screen line limit and TRIM_BAR, then TRIMs
       begin
-         Text_IO.Put(Output, trim(head(trim_bar(raw_meaning), mm)));
+         Text_IO.Put(Output, Trim (Head(Trim_bar(raw_meaning), mm)));
       end Put_meaning;
 
       function constructed_meaning(sr : stem_inflection_record;
@@ -405,21 +405,21 @@ package body list_package is
             if sr.ir.qual.pofs = num  then    --  Normal parse
                case sr.ir.qual.num.sort is
                   when card  =>
-                     s := head(Integer'Image(n) &  " - (CARD answers 'how many');", max_meaning_size);
+                     s := Head(Integer'Image(n) &  " - (CARD answers 'how many');", max_meaning_size);
                   when ord   =>
-                     s := head(Integer'Image(n) & "th - (ORD, 'in series'); (a/the)" & Integer'Image(n) &
+                     s := Head(Integer'Image(n) & "th - (ORD, 'in series'); (a/the)" & Integer'Image(n) &
                                  "th (part) (fract w/pars?);", max_meaning_size);
                   when dist  =>
-                     s := head(Integer'Image(n) & " each/apiece/times/fold/toGether/at a time - 'how many each'; by " &
+                     s := Head(Integer'Image(n) & " each/apiece/times/fold/toGether/at a time - 'how many each'; by " &
                                  Integer'Image(n) & "s; ", max_meaning_size);
                   when adverb =>
-                     s := head(Integer'Image(n) & " times, on" & Integer'Image(n) &
+                     s := Head(Integer'Image(n) & " times, on" & Integer'Image(n) &
                                  " occasions - (ADVERB answers 'how often');", max_meaning_size);
                   when others =>
                      null;
                end case;
             else  -- there is fix so POFS is not NUM
-               s := head("Number " & Integer'Image(n), max_meaning_size);
+               s := Head("Number " & Integer'Image(n), max_meaning_size);
             end if;
          end if;
 
@@ -439,7 +439,7 @@ package body list_package is
                Put_meaning(Output, uniques_de(dm.mnpc).mean);
                Text_IO.New_Line(Output);
             else
-               Put_meaning(Output, trim_bar(dm.de.mean));
+               Put_meaning(Output, Trim_bar(dm.de.mean));
                Text_IO.New_Line(Output);
             end if;
          else
@@ -501,7 +501,7 @@ package body list_package is
       end Put_meaning_line;
 
    begin
-      trimmed := False;
+      Trimmed := False;
 
       --  Since this procedure weeds out possible parses, if it weeds out all
       --  (or all of a class) it must fix up the rest of the parse array,
@@ -572,7 +572,7 @@ package body list_package is
                                   pa(j2+1).mnpc);
                   --PARSE_RECORD_IO.PUT(PA(PA_LAST)); TEXT_IO.NEW_LINE;
                   ppp_meaning :=
-                    head("-ly; -ily;  Converting ADJ to ADV",
+                    Head("-ly; -ily;  Converting ADJ to ADV",
                          max_meaning_size);
 
                elsif pa(j2+1).ir.qual.adj.co = super  then
@@ -582,7 +582,7 @@ package body list_package is
                                   pa(j2+1).d_k,
                                   pa(j2+1).mnpc);
                   ppp_meaning :=
-                    head("-estly; -estily; most -ly, very -ly  Converting ADJ to ADV",
+                    Head("-estly; -estily; most -ly, very -ly  Converting ADJ to ADV",
                          max_meaning_size);
                end if;
                --TEXT_IO.PUT_LINE("In the ADJ -> ADV kludge  Done adding PA for ADV");
@@ -598,16 +598,16 @@ package body list_package is
             if pa(i).d_k = addons then
                if pa(i).ir.qual.pofs = prefix  then
                   Put_stat("ADDON PREFIX at "
-                             & head(Integer'Image(line_number), 8) & head(Integer'Image(word_number), 4)
-                             & "   " & head(w, 20) & "   "  & pa(i).stem & "  " & Integer'Image(Integer(pa(i).mnpc)));
+                             & Head(Integer'Image(line_number), 8) & Head(Integer'Image(word_number), 4)
+                             & "   " & Head(w, 20) & "   "  & pa(i).stem & "  " & Integer'Image(Integer(pa(i).mnpc)));
                elsif pa(i).ir.qual.pofs = suffix  then
                   Put_stat("ADDON SUFFIX at "
-                             & head(Integer'Image(line_number), 8) & head(Integer'Image(word_number), 4)
-                             & "   " & head(w, 20) & "   "  & pa(i).stem & "  " & Integer'Image(Integer(pa(i).mnpc)));
+                             & Head(Integer'Image(line_number), 8) & Head(Integer'Image(word_number), 4)
+                             & "   " & Head(w, 20) & "   "  & pa(i).stem & "  " & Integer'Image(Integer(pa(i).mnpc)));
                elsif pa(i).ir.qual.pofs = tackon  then
                   Put_stat("ADDON TACKON at "
-                             & head(Integer'Image(line_number), 8) & head(Integer'Image(word_number), 4)
-                             & "   " & head(w, 20) & "   "  & pa(i).stem & "  " & Integer'Image(Integer(pa(i).mnpc)));
+                             & Head(Integer'Image(line_number), 8) & Head(Integer'Image(word_number), 4)
+                             & "   " & Head(w, 20) & "   "  & pa(i).stem & "  " & Integer'Image(Integer(pa(i).mnpc)));
                end if;
             end if;
          end loop;
@@ -856,10 +856,10 @@ package body list_package is
       if pa_last = 0  then  --  WORD failed
          --????      (DMA(1).D_K in ADDONS..YYY  and then TRIM(DMA(1).DE.STEMS(1)) /= "que")  then  --  or used FIXES/TRICKS
          if words_mode(ignore_unknown_names)  and capitalized  then
-            nnn_meaning := head(
+            nnn_meaning := Head(
                                 "Assume this is capitalized proper name/abbr, under MODE IGNORE_UNKNOWN_NAME ",
                                 max_meaning_size);
-            pa(1) := (head(raw_word, max_stem_size),
+            pa(1) := (Head(raw_word, max_stem_size),
                       ((n, ((0, 0), x, x, x)), 0, null_ending_record, x, x),
                       nnn, null_mnpc);
             pa_last := 1;    --  So LIST_NEIGHBORHOOD will not be called
@@ -868,10 +868,10 @@ package body list_package is
             sraa(1)(1) := (pa(1).stem, pa(1).ir);
             dma(1) := (nnn, 0, null_dictionary_entry);
          elsif  words_mode(ignore_unknown_caps)  and all_caps  then
-            nnn_meaning := head(
+            nnn_meaning := Head(
                                 "Assume this is capitalized proper name/abbr, under MODE IGNORE_UNKNOWN_CAPS ",
                                 max_meaning_size);
-            pa(1) := (head(raw_word, max_stem_size),
+            pa(1) := (Head(raw_word, max_stem_size),
                       ((n, ((0, 0), x, x, x)), 0, null_ending_record, x, x),
                       nnn, null_mnpc);
             pa_last := 1;
@@ -968,7 +968,7 @@ package body list_package is
 
                Put_inflection(sraa(j)(k), dma(j));
                if sraa(j)(k).stem(1..3) = "PPL"  then
-                  Text_IO.Put_Line(Output, head(ppp_meaning, mm));
+                  Text_IO.Put_Line(Output, Head(ppp_meaning, mm));
                end if;
             end loop Put_inflection_array_j;
             osra := sraa(j);
@@ -1017,7 +1017,7 @@ package body list_package is
       end loop Output_loop;
       --TEXT_IO.PUT_LINE("Finished OUTPUT_LOOP");
 
-      if trimmed  then
+      if Trimmed then
          Put(Output, '*');
       end if;
       Text_IO.New_Line(Output);
@@ -1026,8 +1026,8 @@ package body list_package is
       when others  =>
          Text_IO.Put_Line("Unexpected exception in LIST_STEMS processing " & raw_word);
          Put_stat("EXCEPTION LS at "
-                    & head(Integer'Image(line_number), 8) & head(Integer'Image(word_number), 4)
-                    & "   " & head(w, 20) & "   "  & pa(i).stem);
+                    & Head(Integer'Image(line_number), 8) & Head(Integer'Image(word_number), 4)
+                    & "   " & Head(w, 20) & "   "  & pa(i).stem);
    end list_stems;
 
    procedure list_entry(Output   : Text_IO.File_Type;
@@ -1040,7 +1040,7 @@ package body list_package is
       --TEXT_IO.PUT_LINE(OUTPUT, DICTIONARY_FORM(DE));
       Put_dictionary_form(Output, d_k, mn, de);
       Text_IO.Put_Line(Output,
-                       trim(head(de.mean, mm)));  --  so it wont line wrap/Put CR
+                       Trim (Head(de.mean, mm)));  --  so it wont line wrap/Put CR
 
    end list_entry;
 
@@ -1060,7 +1060,7 @@ package body list_package is
       function first_two(w : String) return String is
          --  'v' could be represented by 'u', like the new Oxford Latin Dictionary
          --  Fixes the first two letters of a word/stem which can be done right
-         s : constant String := lower_case(w);
+         s : constant String := Lower_Case (w);
          ss : String(w'Range) := w;
 
          function ui(c : Character) return Character  is
@@ -1131,10 +1131,10 @@ package body list_package is
                Set_Index(stem_file(d_k), j);
                Read(stem_file(d_k), ds);
 
-               if  ltu(lower_case(ds.stem), unknown)  then
+               if  ltu(Lower_Case (ds.stem), unknown)  then
                   j1 := j;
                   j := (j1 + j2) / 2;
-               elsif  gtu(lower_case(ds.stem), unknown)  then
+               elsif  gtu(Lower_Case (ds.stem), unknown)  then
                   j2 := j;
                   j := (j1 + j2) / 2;
                else
@@ -1142,7 +1142,7 @@ package body list_package is
                      Set_Index(stem_file(d_k), stem_io.Count(i));
                      Read(stem_file(d_k), ds);
 
-                     if equ(lower_case(ds.stem), unknown)  then
+                     if equ(Lower_Case (ds.stem), unknown)  then
                         jj := i;
 
                      else
@@ -1154,7 +1154,7 @@ package body list_package is
                      Set_Index(stem_file(d_k), stem_io.Count(i));
                      Read(stem_file(d_k), ds);
 
-                     if equ(lower_case(ds.stem), unknown)  then
+                     if equ(Lower_Case (ds.stem), unknown)  then
                         jj := i;
 
                      else
@@ -1191,7 +1191,7 @@ package body list_package is
          mm := max_meaning_size;
       end if;
 
-      unknown_search(head(Input_word, max_stem_size), unk_mnpc);
+      unknown_search(Head(Input_word, max_stem_size), unk_mnpc);
       --TEXT_IO.PUT_LINE("UNK_MNPC = " & INTEGER'IMAGE(INTEGER(UNK_MNPC)));
       if Integer(unk_mnpc) > 0  then
          Text_IO.Put_Line(Output,

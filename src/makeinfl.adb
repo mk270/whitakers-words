@@ -15,7 +15,7 @@
 -- available to anyone who wishes to use them, for whatever purpose.
 
 with Text_IO;
-with Strings_package; use Strings_package;
+with Strings_Package; use Strings_Package;
 with latIn_File_names; use latIn_File_names;
 with inflections_package; use inflections_package;
 with IO_Exceptions;
@@ -90,7 +90,7 @@ procedure makeinfl is
 
             read_a_line:
             begin
-               Get_non_comment_line(inflections_file, line, last);
+               Get_Non_Comment_Line (inflections_file, line, last);
 
                if last > 0  then
                   Get(line(1..last), ir, l);

@@ -14,7 +14,7 @@
 -- All parts of the WORDS system, source code and data files, are made freely
 -- available to anyone who wishes to use them, for whatever purpose.
 
-with Strings_package; use Strings_package;
+with Strings_Package; use Strings_Package;
 with developer_parameters; use developer_parameters;
 with preface;
 package body addons_package is
@@ -80,8 +80,8 @@ package body addons_package is
          while not End_Of_File(f)  loop
             Get_Line(f, t, l);
             if l >= 2  and then
-              (head(trim(t), 250)(1..2) = "--"  or
-              head(trim(t), 250)(1..2) = "  ")
+              (Head(Trim (t), 250)(1..2) = "--"  or
+              Head(Trim (t), 250)(1..2) = "  ")
             then
                null;
             else
@@ -94,7 +94,7 @@ package body addons_package is
 
       procedure extract_fix(s : in String;
                             xfix : out fix_type; xc : out Character) is
-         st : constant String := trim(s);
+         st : constant String := Trim (s);
          l : constant Integer := st'Length;
          j : Integer := 0;
       begin
@@ -102,7 +102,7 @@ package body addons_package is
             j := i;
             exit when (i < l) and then (st(i+1) = ' ');
          end loop;
-         xfix := head(st(1..j), max_fix_size);
+         xfix := Head(st(1..j), max_fix_size);
          if j = l  then     --  there is no CONNECT CHARACTER
             xc := ' ';
             return;
@@ -137,13 +137,13 @@ package body addons_package is
          Get(s(1..last), pofs, l);
          case pofs is
             when tackon  =>
-               ts := head(trim(s(l+1..last)), max_stem_size);
+               ts := Head(Trim (s(l+1..last)), max_stem_size);
                de.stems(1) := ts;
 
                Get_Line(addons_file, s, last);
                Get(s(1..last), tn, l);
                Get_Line(addons_file, s, last);
-               mean := head(s(1..last), max_meaning_size);
+               mean := Head(s(1..last), max_meaning_size);
 
                if  tn.base.pofs= pack   and then
                   (tn.base.pack.decl.which = 1 or
@@ -183,7 +183,7 @@ package body addons_package is
                Get_Line(addons_file, s, last);
                Get(s(1..last), pm.entr, l);
                Get_Line(addons_file, s, last);
-               mean := head(s(1..last), max_meaning_size);
+               mean := Head(s(1..last), max_meaning_size);
 
                if pm.entr.root = pack then
                   tic := tic + 1;
@@ -230,7 +230,7 @@ package body addons_package is
                --TEXT_IO.PUT("@3");
                Get_Line(addons_file, s, last);
                --TEXT_IO.PUT("@4");
-               mean := head(s(1..last), max_meaning_size);
+               mean := Head(s(1..last), max_meaning_size);
                --TEXT_IO.PUT("@5");
                --
                --        DICT_IO.SET_INDEX(DICT_FILE(D_K), M);
@@ -278,9 +278,9 @@ package body addons_package is
    end load_addons;
 
    function subtract_tackon(w : String; x : tackon_item) return String is
-      wd : constant String := trim(w);
+      wd : constant String := Trim (w);
       l  : constant Integer := wd'Length;
-      xf : constant String := trim(x.tack);
+      xf : constant String := Trim (x.tack);
       z  : constant Integer := xf'Length;
    begin
       --PUT_LINE("In SUB TACKON " & INTEGER'IMAGE(L) & INTEGER'IMAGE(Z));
@@ -298,10 +298,10 @@ package body addons_package is
    end subtract_tackon;
 
    function subtract_prefix(w : String; x : prefix_item) return stem_type is
-      wd : constant String := trim(w);
-      xf : constant String := trim(x.fix);
+      wd : constant String := Trim (w);
+      xf : constant String := Trim (x.fix);
       z  : constant Integer := xf'Length;
-      st : stem_type := head(wd, max_stem_size);
+      st : stem_type := Head(wd, max_stem_size);
    begin
       if words_mdev(use_prefixes) and then
         x /= null_prefix_item and then
@@ -319,11 +319,11 @@ package body addons_package is
    end subtract_prefix;
 
    function subtract_suffix(w : String; x : suffix_item) return stem_type is
-      wd : constant String := trim(w);
+      wd : constant String := Trim (w);
       l  : constant Integer := wd'Length;
-      xf : constant String := trim(x.fix);
+      xf : constant String := Trim (x.fix);
       z  : constant Integer := xf'Length;
-      st : stem_type := head(wd, max_stem_size);
+      st : stem_type := Head(wd, max_stem_size);
    begin
       --PUT_LINE("In SUBTRACT_SUFFIX  Z = " & INTEGER'IMAGE(Z) &
       --"  CONNECT >" & X.CONNECT & '<');
@@ -345,10 +345,10 @@ package body addons_package is
 
    function add_prefix(stem : stem_type;
                        prefix : prefix_item) return stem_type is
-      fpx : constant String := trim(prefix.fix) & stem;
+      fpx : constant String := Trim (prefix.fix) & stem;
    begin
       if words_mdev(use_prefixes)  then
-         return head(fpx, max_stem_size);
+         return Head(fpx, max_stem_size);
       else
          return stem;
       end if;
@@ -356,10 +356,10 @@ package body addons_package is
 
    function add_suffix(stem : stem_type;
                        suffix : suffix_item) return stem_type is
-      fpx : constant String := trim(stem) & suffix.fix;
+      fpx : constant String := Trim (stem) & suffix.fix;
    begin
       if words_mdev(use_suffixes)  then
-         return head(fpx, max_stem_size);
+         return Head(fpx, max_stem_size);
       else
          return stem;
       end if;

@@ -35,11 +35,11 @@ package word_parameters is
    --  UNKNOWNS is used to record the words that the program fails to find
    unknowns : Text_IO.File_Type;
 
-   --  This is a flag to tell if there has been trimming for this word
-   trimmed : Boolean := False;
+   --  This is a flag to tell if there has been Trim ming for this word
+   Trimmed : Boolean := False;
 
    type mode_type is (
-     trim_Output,
+     Trim_Output,
      have_Output_file,
      Write_Output_to_file,
      do_unknowns_only,

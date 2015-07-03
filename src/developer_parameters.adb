@@ -15,7 +15,7 @@
 -- available to anyone who wishes to use them, for whatever purpose.
 
 with Text_IO; use Text_IO;
-with Strings_package; use Strings_package;
+with Strings_Package; use Strings_Package;
 with latIn_File_names; use latIn_File_names;   --  Omit when Put name here
 with word_parameters; use word_parameters;
 with dictionary_package; use dictionary_package;
@@ -579,7 +579,7 @@ package body developer_parameters is
       Put(reply(words_mdev(mo))); Put(" =>");
       Get_Line(l1, ll);
       if ll /= 0  then
-         if trim(l1(1..ll)) = ""  then
+         if Trim (l1(1..ll)) = ""  then
             Put_Line("Blank Input, skipping the rest of CHANGE_DEVELOPER_MODES");
             raise blank_Input;
          elsif l1(1) = '?'  then

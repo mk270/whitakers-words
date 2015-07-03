@@ -15,7 +15,7 @@
 -- available to anyone who wishes to use them, for whatever purpose.
 
 with Text_IO;
-with Strings_package; use Strings_package;
+with Strings_Package; use Strings_Package;
 with latIn_File_names; use latIn_File_names;
 with inflections_package; use inflections_package;
 with dictionary_package; use dictionary_package;
@@ -53,7 +53,7 @@ procedure makedict_main(porting : Boolean) is
    l, last : Integer := 0;
    j : dict_io.Count := 0;
    mean_to_be : constant meaning_type :=
-     head("be; exist; (also used to form verb perfect passive tenses)" &
+     Head ("be; exist; (also used to form verb perfect passive tenses)" &
             " with NOM PERF PPL", max_meaning_size);
 
 begin
@@ -62,12 +62,12 @@ begin
    Put("What dictionary to list, GENERAL or SPECIAL  (Reply G or S) =>");
    Get_Line(line, last);
    if last > 0  then
-      if trim(line(1..last))(1) = 'G' or else
-         trim(line(1..last))(1) = 'g'
+      if Trim (line(1..last))(1) = 'G' or else
+         Trim (line(1..last))(1) = 'g'
       then
          d_k := general;
-      elsif trim(line(1..last))(1) = 'S' or else
-         trim(line(1..last))(1) = 's'
+      elsif Trim (line(1..last))(1) = 'S' or else
+         Trim (line(1..last))(1) = 's'
       then
          d_k := special;
       else
@@ -90,7 +90,7 @@ begin
    while not End_Of_File(Input) loop
       s := blank_line;
       Get_Line(Input, s, last);
-      if trim(s(1..last)) /= ""  then
+      if Trim (s(1..last)) /= ""  then
          l := 0;
 
          form_de:
@@ -105,7 +105,7 @@ begin
             Get(s(l+1..last), de.tran.geo, l);
             Get(s(l+1..last), de.tran.freq, l);
             Get(s(l+1..last), de.tran.source, l);
-            de.mean := head(s(l+2..last), max_meaning_size);
+            de.mean := Head (s(l+2..last), max_meaning_size);
             --  Note that this allows initial blanks
             --  L+2 skips over the SPACER, required because this is STRING, not ENUM
          exception

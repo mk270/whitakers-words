@@ -14,7 +14,7 @@
 -- All parts of the WORDS system, source code and data files, are made freely
 -- available to anyone who wishes to use them, for whatever purpose.
 
-with Strings_package; use Strings_package;
+with Strings_Package; use Strings_Package;
 with inflections_package; use inflections_package;
 with dictionary_package; use dictionary_package;
 function dictionary_form(de : dictionary_entry) return String is
@@ -30,17 +30,17 @@ function dictionary_form(de : dictionary_entry) return String is
 
    function add(stem, infl : String) return String is
    begin
-      return head(trim(stem) & trim(infl), 24);
+      return Head(Trim (stem) & Trim (infl), 24);
    end add;
 
    procedure add_up(factor : String) is
    begin
-      form := head(trim(form) & trim(factor), 100);
+      form := Head(Trim (form) & Trim (factor), 100);
    end add_up;
 
    procedure add_to(factor : String) is
    begin
-      form := head(trim(form) & factor, 100);
+      form := Head(Trim (form) & factor, 100);
    end add_to;
 
 begin
@@ -51,7 +51,7 @@ begin
    end if;
 
    if de.part.pofs = prep then
-      return trim(de.stems(1)) & "  " & part_of_speech_type'Image(de.part.pofs) &
+      return Trim (de.stems(1)) & "  " & part_of_speech_type'Image(de.part.pofs) &
         "  " & case_type'Image(de.part.prep.obj);
    end if;
 
@@ -65,7 +65,7 @@ begin
      ((de.part.pofs = v)  and then (de.part.v.con = (9, 8))) or
      ((de.part.pofs = v)  and then (de.part.v.con = (9, 9))))
    then
-      return trim(de.stems(1)) & "  " & part_of_speech_type'Image(de.part.pofs);
+      return Trim (de.stems(1)) & "  " & part_of_speech_type'Image(de.part.pofs);
       --  For UNIQUES, CONJ, INTERJ, ...
    end if;
 
@@ -404,7 +404,7 @@ begin
                if de.part.v.con.var = 2  then
                   ox(1) := add(de.stems(1), "t");
                else
-                  if de.stems(1)(trim(de.stems(1))'Last) = 'i'  then
+                  if de.stems(1)(Trim (de.stems(1))'Last) = 'i'  then
                      ox(1) := add(de.stems(1), "t");
                   else
                      ox(1) := add(de.stems(1), "it");
@@ -599,12 +599,12 @@ begin
    if ox(1)(1..3) = "zzz"  then
       add_up(" - ");
    elsif ox(1) /= null_ox  then
-      add_up(trim(ox(1)));
+      add_up(Trim (ox(1)));
    end if;
    if ox(2)(1..3) = "zzz"  then
       add_up(", - ");
    elsif ox(2) /= null_ox  then
-      add_up(", " & trim(ox(2)));
+      add_up(", " & Trim (ox(2)));
    end if;
    if ox(3)(1..3) = "zzz"  then
       add_up(", - ");
@@ -615,14 +615,14 @@ begin
    elsif ox(3)(1..5) = "BLANK"  then
       null;
    elsif ox(3) /= null_ox  then
-      add_up(", " & trim(ox(3)));
+      add_up(", " & Trim (ox(3)));
    end if;
    if ox(4)(1..3) = "zzz"  then
       add_up(", - ");
    elsif ox(4)(1..5) = "BLANK"  then
       null;
    elsif ox(4) /= null_ox  then
-      add_up(", " & trim(ox(4)));
+      add_up(", " & Trim (ox(4)));
    end if;
 
    add_to("  " & part_of_speech_type'Image(de.part.pofs)& "  ");
@@ -658,7 +658,7 @@ begin
 
    --TEXT_IO.PUT_LINE(">>>>" & TRIM(FORM));
 
-   return trim(form);
+   return Trim (form);
 
 exception
    when not_found  =>

@@ -15,7 +15,7 @@
 -- available to anyone who wishes to use them, for whatever purpose.
 
 with Text_IO;
-with Strings_package; use Strings_package;
+with Strings_Package; use Strings_Package;
 with latIn_File_names; use latIn_File_names;
 with inflections_package; use inflections_package;
 with dictionary_package; use dictionary_package;
@@ -83,12 +83,12 @@ begin
    Put("What dictionary to load, GENERAL or SPECIAL  =>");
    Get_Line(line, last);
    if last > 0  then
-      if trim(line(1..last))(1) = 'G'  or else
-         trim(line(1..last))(1) = 'g'
+      if Trim (line(1..last))(1) = 'G'  or else
+         Trim (line(1..last))(1) = 'g'
       then
          d_k := general;
-      elsif trim(line(1..last))(1) = 'S'  or else
-         trim(line(1..last))(1) = 's'
+      elsif Trim (line(1..last))(1) = 'S'  or else
+         Trim (line(1..last))(1) = 's'
       then
          d_k := special;
       else
@@ -171,12 +171,12 @@ begin
             Get_Line(stem_list(d_k), line, last);
             --Put_Line("* " & Line(1..Last));
 
-            if trim(line(1..last)) = "" then
+            if Trim (line(1..last)) = "" then
                Put_Line("Trim(Line(1..Last)) BLANK");
             end if;
-            exit first_Character_loop when trim(line(1..last)) = "";
-            fc := lower_case(line(1));
-            sc := lower_case(line(2));
+            exit first_Character_loop when Trim (line(1..last)) = "";
+            fc := Lower_Case (line(1));
+            sc := Lower_Case (line(2));
             --------------------------------------------------------------------
             if fc = 'v' then
                fc := 'u';

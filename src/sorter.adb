@@ -16,7 +16,7 @@
 
 with Text_IO;
 with direct_io;
-with Strings_package; use Strings_package;
+with Strings_Package; use Strings_Package;
 with inflections_package; use inflections_package;
 with dictionary_package; use dictionary_package;
 procedure sorter is
@@ -235,7 +235,7 @@ procedure sorter is
       lt : Integer := from'Last;
    begin
       s := no_section;
-      if trim(from)'Last < from'First   then
+      if Trim (from)'Last < from'First   then
          return;   --  Empty String, no data         --  Return default
       end if;
 
@@ -342,7 +342,7 @@ procedure sorter is
 
       s := no_appendix_section;
       if (ft = lt)  or else
-        (trim(from)'Length = 0)  then   --  Empty/blank String, no data
+        (Trim (from)'Length = 0)  then   --  Empty/blank String, no data
          Put("@");
          return;                      --  Return default
       end if;
@@ -488,7 +488,7 @@ procedure sorter is
    end Get_entry;
 
    function ignore_separators(s : String) return String is
-      t : String(s'First..s'Last) := lower_case(s);
+      t : String(s'First..s'Last) := Lower_Case (s);
    begin
       for i in s'First+1..s'Last-1  loop
          if (s(i-1) /= '-'  and then s(i-1) /= '_')  and then
@@ -649,8 +649,8 @@ procedure sorter is
       rx, ry : part_of_speech_type;   --  So I can X here
    begin
       if st = a  then
-         as := lower_case(as);
-         bs := lower_case(bs);
+         as := Lower_Case (as);
+         bs := Lower_Case (bs);
          if wt = i  then
             return as < bs;
          else
@@ -674,8 +674,8 @@ procedure sorter is
          end if;
 
       elsif st = u  then
-         as := lower_case(as);
-         bs := lower_case(bs);
+         as := Lower_Case (as);
+         bs := Lower_Case (bs);
          if wt = i  then
             return ltu(as, bs);
          else
@@ -755,8 +755,8 @@ procedure sorter is
       rx, ry : part_of_speech_type;
    begin
       if st = a  then
-         as := lower_case(as);
-         bs := lower_case(bs);
+         as := Lower_Case (as);
+         bs := Lower_Case (bs);
          return as = bs;
 
       elsif st = c  then
@@ -768,8 +768,8 @@ procedure sorter is
          return as = bs;
 
       elsif st = u  then
-         as := lower_case(as);
-         bs := lower_case(bs);
+         as := Lower_Case (as);
+         bs := Lower_Case (bs);
          return equ(as,  bs);
 
       elsif st = n  then
@@ -889,10 +889,10 @@ procedure sorter is
 
             Put(prompt);
             Get_Line(name, last);
-            if trim(name(1..last))'Length /= 0  then
+            if Trim (name(1..last))'Length /= 0  then
                Create(Output, Out_File, name(1..last));
             else
-               Create(Output, Out_File, trim(Input_name));
+               Create(Output, Out_File, Trim (Input_name));
             end if;
             exit;
          exception
@@ -968,9 +968,9 @@ begin
       --end;
       --PUT_LINE(LINE_TEXT(1..CURRENT_LENGTH));
       --PUT_LINE("=>" & HEAD(LINE_TEXT(1..CURRENT_LENGTH), LINE_LENGTH) & "|");
-      if trim(line_text(1..current_length)) /= ""  then
+      if Trim (line_text(1..current_length)) /= ""  then
          --begin
-         Write(work, head(line_text(1..current_length), line_length)  );
+         Write(work, Head(line_text(1..current_length), line_length)  );
          --exception when others  =>
          --TEXT_IO.PUT_LINE("WORK WRITE exception");
          --TEXT_IO.PUT_LINE(LINE_TEXT(1..CURRENT_LENGTH) & "|");
@@ -1047,9 +1047,9 @@ line_heapsort:
     Set_Index(work, 1);
     while not End_Of_File(work)  loop
        Read(work, line_text);
-       if trim(graphic(line_text))'Length > 0  then
+       if Trim (graphic(line_text))'Length > 0  then
           --PUT_LINE(TRIM(LINE_TEXT, RIGHT));
-          Put_Line(Output, trim(line_text, right));
+          Put_Line(Output, Trim (line_text, right));
        end if;
     end loop;
 

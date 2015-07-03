@@ -15,7 +15,7 @@
 -- available to anyone who wishes to use them, for whatever purpose.
 
 with Text_IO;
-with Strings_package; use Strings_package;
+with Strings_Package; use Strings_Package;
 with latIn_File_names; use latIn_File_names;
 with word_parameters; use word_parameters;
 with developer_parameters; use developer_parameters;
@@ -70,7 +70,7 @@ is
 
       line := blank_line;
       Get_Line(line, l);
-      if (l = 0) or else (trim(line(1..l)) = "")  then
+      if (l = 0) or else (Trim (line(1..l)) = "")  then
          --  Count blank lines
          --LINE_NUMBER := LINE_NUMBER + 1;
          if Name(Current_Input) = Name(Standard_Input) then
@@ -78,7 +78,7 @@ is
             preface.Put("Blank exits =>");
             Get_Line(line, l);
             -- Second try
-            if (l = 0) or else (trim(line(1..l)) = "")  then
+            if (l = 0) or else (Trim (line(1..l)) = "")  then
                -- Two in a row
                return False;
             end if;
@@ -94,14 +94,14 @@ is
          end if;
       end if;
 
-      if trim(line(1..l)) /= "" then
+      if Trim (line(1..l)) /= "" then
          -- Not a blank line so L(1) (in file Input)
          if line(1) = start_file_Character  then
             if Name(Current_Input) /= Name(Standard_Input) then
                Text_IO.Put_Line("Cannot have file of words (@FILE) " &
                  "in an @FILE");
             else
-               Text_IO.Open(Input, Text_IO.In_File, trim(line(2..l)));
+               Text_IO.Open(Input, Text_IO.In_File, Trim (line(2..l)));
                Text_IO.Set_Input(Input);
             end if;
          elsif line(1) = change_parameters_Character  and then
@@ -169,7 +169,7 @@ is
 begin
       --  PARSE
    if method = Command_Line_Input  then
-      if trim(Command_Line) /= ""  then
+      if Trim (Command_Line) /= ""  then
          parse.parse_line(configuration, Command_Line);
       end if;
 

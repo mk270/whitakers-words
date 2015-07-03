@@ -15,14 +15,14 @@
 -- available to anyone who wishes to use them, for whatever purpose.
 
 with latIn_File_names; use latIn_File_names;
-with Strings_package; use Strings_package;
+with Strings_Package; use Strings_Package;
 with config;
 with preface;
 package body word_support_package is
 
    function len(s : String) return Integer is
    begin
-      return trim(s)'Length;
+      return Trim (s)'Length;
    end len;
 
    function eff_part(part : part_of_speech_type) return part_of_speech_type is
@@ -70,7 +70,7 @@ package body word_support_package is
    function first_index(Input_word : String;
                         d_k : dictionary_file_kind := default_dictionary_file_kind)
                        return stem_io.Count is
-      wd : constant String := trim(Input_word);  --  String may not start at 1
+      wd : constant String := Trim (Input_word);  --  String may not start at 1
    begin
       if d_k = local  then
          return ddlf(wd(wd'First), 'a', d_k);
@@ -84,7 +84,7 @@ package body word_support_package is
    function  last_index(Input_word : String;
                         d_k : dictionary_file_kind := default_dictionary_file_kind)
                        return stem_io.Count is
-      wd : constant String := trim(Input_word);
+      wd : constant String := Trim (Input_word);
    begin        --  remember the String may not start at 1
       if d_k = local  then
          return ddll(wd(wd'First), 'a', d_k);

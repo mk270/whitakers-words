@@ -16,7 +16,7 @@
 
 with Ada.Command_Line;
 with Ada.Text_IO; use Ada.Text_IO;
-with Strings_package; use Strings_package;
+with Strings_Package; use Strings_Package;
 with config; use config;
 with word_parameters; use word_parameters;
 with developer_parameters; use developer_parameters;
@@ -57,7 +57,7 @@ begin
       if Ada.Command_Line.Argument_Count = 1  then      --  InPut 1 word in-line
          one_Argument:
          declare
-            Input_name  : constant String := trim(Ada.Command_Line.Argument(1));
+            Input_name  : constant String := Trim (Ada.Command_Line.Argument(1));
          begin
             Open(Input, In_File, Input_name); --  Try file name, not raises NAME_ERROR
             method := Command_Line_files;
@@ -79,8 +79,8 @@ begin
       elsif Ada.Command_Line.Argument_Count = 2  then    --  INPUT and OUTPUT files
          two_Arguments:                                  --  or multiwords in-line
          declare
-            Input_name  : constant String := trim(Ada.Command_Line.Argument(1));
-            Output_name : constant String := trim(Ada.Command_Line.Argument(2));
+            Input_name  : constant String := Trim (Ada.Command_Line.Argument(1));
+            Output_name : constant String := Trim (Ada.Command_Line.Argument(2));
          begin
             if Input_name(1) = change_language_Character  then
                if Input_name'Length > 1 then
@@ -118,9 +118,9 @@ begin
       elsif Ada.Command_Line.Argument_Count = 3  then    --  INPUT and OUTPUT files
          three_Arguments:                                --  or multiwords in-line
          declare
-            arg1 : constant String := trim(Ada.Command_Line.Argument(1));
-            arg2 : constant String := trim(Ada.Command_Line.Argument(2));
-            arg3 : constant String := trim(Ada.Command_Line.Argument(3));
+            arg1 : constant String := Trim (Ada.Command_Line.Argument(1));
+            arg2 : constant String := Trim (Ada.Command_Line.Argument(2));
+            arg3 : constant String := Trim (Ada.Command_Line.Argument(3));
          begin
             if arg1(1) = change_language_Character  then
                if arg1'Length > 1 then
@@ -146,10 +146,10 @@ begin
             --Ada.TEXT_IO.PUT_LINE("MORE_ARG  ARG_START = " & INTEGER'IMAGE(ARGUMENTS_START));
             suppress_preface := True;
             for i in Arguments_start..Ada.Command_Line.Argument_Count  loop  --  Assemble Input words
-               Input_Line := head(trim(Input_Line) & " " & Ada.Command_Line.Argument(i), 250);
+               Input_Line := Head(Trim (Input_Line) & " " & Ada.Command_Line.Argument(i), 250);
             end loop;
             --Ada.TEXT_IO.PUT_LINE("To PARSE >" & TRIM(INPUT_LINE));
-            process_Input(configuration, trim(Input_Line));
+            process_Input(configuration, Trim (Input_Line));
          end more_Arguments;
       end if;
    end if;

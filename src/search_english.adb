@@ -15,7 +15,7 @@
 -- available to anyone who wishes to use them, for whatever purpose.
 
 with Text_IO; use Text_IO;
-with Strings_package; use Strings_package;
+with Strings_Package; use Strings_Package;
 with config;
 with word_parameters; use word_parameters;
 with inflections_package; use inflections_package;
@@ -27,7 +27,7 @@ with dictionary_form;
 
 procedure search_english(Input_english_word : String; pofs : part_of_speech_type := x) is
    use ewds_direct_io;
-   Input_word : eword := lower_case(head(Input_english_word, eword_size));
+   Input_word : eword := Lower_Case (Head(Input_english_word, eword_size));
    Input_pofs : constant part_of_speech_type := pofs;
 
    Output_array : ewds_array(1..500) := (others => null_ewds_record);
@@ -98,11 +98,11 @@ procedure search_english(Input_english_word : String; pofs : part_of_speech_type
 
          --TEXT_IO.PUT_LINE("DUMP_OUTPUT SORTED");
 
-         trimmed := False;
-         if words_mode(trim_Output)  then
+         Trimmed := False;
+         if words_mode(Trim_Output)  then
             if number_of_hits > one_screen  then
                number_to_show := one_screen;
-               trimmed := True;
+               Trimmed := True;
             else
                number_to_show := number_of_hits;
             end if;
@@ -153,20 +153,20 @@ procedure search_english(Input_english_word : String; pofs : part_of_speech_type
 
             if words_mdev(show_dictionary_line)  then
                Text_IO.Put(Output, "("
-                             & trim(Integer'Image(Output_array(i).n)) & ")");
+                             & Trim (Integer'Image(Output_array(i).n)) & ")");
             end if;
 
             Text_IO.New_Line(Output);
 
             --TEXT_IO.PUT_LINE("DUMP_OUTPUT MEAN");
 
-            Text_IO.Put(Output, trim(de.mean));
+            Text_IO.Put(Output, Trim (de.mean));
             Text_IO.New_Line(Output);
 
          end loop;
          --TEXT_IO.PUT_LINE("DUMP_OUTPUT TRIMMED");
 
-         if trimmed  then
+         if Trimmed then
             Put_Line(Output, "*");
          end if;
 
@@ -207,10 +207,10 @@ begin
       --  Should D_K
       Set_Index(ewds_file, j);
       Read(ewds_file, ewds);
-      if  "<"(lower_case(ewds.w), Input_word)  then  --  Not LTU, not u=v
+      if  "<"(Lower_Case (ewds.w), Input_word)  then  --  Not LTU, not u=v
          j1 := j;
          j := (j1 + j2) / 2;
-      elsif  ">"(lower_case(ewds.w), Input_word)  then
+      elsif  ">"(Lower_Case (ewds.w), Input_word)  then
          j2 := j;
          j := (j1 + j2) / 2;
       else
@@ -218,7 +218,7 @@ begin
             Set_Index(ewds_file, ewds_direct_io.Count(i));
             Read(ewds_file, ewds);    --  Reads and advances index!!
 
-            if "="(lower_case(ewds.w), Input_word)  then
+            if "="(Lower_Case (ewds.w), Input_word)  then
                load_Output_array(ewds);
             else
                exit;
@@ -229,7 +229,7 @@ begin
             Set_Index(ewds_file, ewds_direct_io.Count(i));
             Read(ewds_file, ewds);
 
-            if "="(lower_case(ewds.w), Input_word)  then
+            if "="(Lower_Case (ewds.w), Input_word)  then
                load_Output_array(ewds);
             else
                exit binary_search;

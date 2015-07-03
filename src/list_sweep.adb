@@ -14,7 +14,7 @@
 -- All parts of the WORDS system, source code and data files, are made freely
 -- available to anyone who wishes to use them, for whatever purpose.
 
-with Strings_package; use Strings_package;
+with Strings_Package; use Strings_Package;
 with word_parameters; use word_parameters;
 with inflections_package; use inflections_package;
 with dictionary_package; use dictionary_package;
@@ -101,7 +101,7 @@ procedure list_sweep(pa : in out parse_array; pa_last : in out Integer) is
             --  Check for Verb 3 1  dic/duc/fac/fer shortened imperative
             --  See G&L 130.5
             declare
-               stem : constant String := trim(pr.stem);
+               stem : constant String := Trim (pr.stem);
                last_three : String(1..3);
             begin
                if (pr.ir.qual.v = ((3, 1), (pres, active, imp), 2, s))  and
@@ -370,7 +370,7 @@ procedure list_sweep(pa : in out parse_array; pa_last : in out Integer) is
       end loop hit_loop;
 
       --  Fix up the Archaic/Medieval
-      if words_mode(trim_Output)  then
+      if words_mode(Trim_Output)  then
          --  Remove those inflections if MDEV and there is other valid
          --         TEXT_IO.PUT_LINE("SCANNING FOR TRIM   SL'FIRST = " & INTEGER'IMAGE(SL'FIRST) & "   SL'LAST = " & INTEGER'IMAGE(SL'LAST) );
          --         for I in SL'FIRST..SL_LAST  loop
@@ -411,9 +411,9 @@ procedure list_sweep(pa : in out parse_array; pa_last : in out Integer) is
             end if;
          end loop;
 
-         --  We order and trim within a subset SL, but have to correct the big set PA also
+         --  We order and Trim  within a subset SL, but have to correct the big set PA also
          --  Kill not ALLOWED first, then check the remaining from the top
-         --  I am assuming there is no trimming of FIXES for AGE/...
+         --  I am assuming there is no Trim ming of FIXES for AGE/...
          i := sl_last;
          while i >= sl'First  loop
             --  Remove not ALLOWED_STEM & null
@@ -421,7 +421,7 @@ procedure list_sweep(pa : in out parse_array; pa_last : in out Integer) is
                --TEXT_IO.PUT_LINE("Not ALLOWED   SL_LAST = " & INTEGER'IMAGE(SL_LAST) & "  J = " & INTEGER'IMAGE(I));
                sl(i..sl_last-1) := sl(i+1..sl_last);
                sl_last := sl_last - 1;
-               trimmed := True;
+               Trimmed := True;
                --TEXT_IO.PUT_LINE("Not ALLOWED end  SL_LAST = " & INTEGER'IMAGE(SL_LAST) & "  J = " & INTEGER'IMAGE(I));
             end if;
             i := i - 1;
@@ -436,14 +436,14 @@ procedure list_sweep(pa : in out parse_array; pa_last : in out Integer) is
                sl(i..sl_last-1) := sl(i+1..sl_last);
                sl_last := sl_last - 1;
                --TEXT_IO.PUT_LINE("Archaic        SL_LAST = " & INTEGER'IMAGE(SL_LAST) & "  I = " & INTEGER'IMAGE(I));
-               trimmed := True;
+               Trimmed := True;
             elsif (not_only_medieval and words_mdev(omit_medieval)) and then
                sl(i).ir.age >= f
             then
                sl(i..sl_last-1) := sl(i+1..sl_last);
                sl_last := sl_last - 1;
                --TEXT_IO.PUT_LINE("Medieval       SL_LAST = " & INTEGER'IMAGE(SL_LAST) & "  I = " & INTEGER'IMAGE(I));
-               trimmed := True;
+               Trimmed := True;
             end if;
             i := i - 1;
          end loop;
@@ -456,7 +456,7 @@ procedure list_sweep(pa : in out parse_array; pa_last : in out Integer) is
                sl(i..sl_last-1) := sl(i+1..sl_last);
                sl_last := sl_last - 1;
                --TEXT_IO.PUT_LINE("Uncommon       SL_LAST = " & INTEGER'IMAGE(SL_LAST) & "  I = " & INTEGER'IMAGE(I));
-               trimmed := True;
+               Trimmed := True;
             end if;
             i := i - 1;
          end loop;
@@ -491,7 +491,7 @@ procedure list_sweep(pa : in out parse_array; pa_last : in out Integer) is
             then
                if (sl(i).ir.qual.pofs /= n) or
                  (   (sl(i).ir.qual /= (n,  ((9, 8), x, x, m)))  and
-                 ( trim(sl(i).stem)'Length = 1  and then
+                 ( Trim (sl(i).stem)'Length = 1  and then
                  (sl(i).stem(1) = 'A'  or
                  sl(i).stem(1) = 'C'  or
                  sl(i).stem(1) = 'D'  or
@@ -506,7 +506,7 @@ procedure list_sweep(pa : in out parse_array; pa_last : in out Integer) is
                then
                   sl(i..sl_last-1) := sl(i+1..sl_last);
                   sl_last := sl_last - 1;
-                  trimmed := True;
+                  Trimmed := True;
                end if;
             end if;
             i := i - 1;

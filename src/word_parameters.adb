@@ -14,7 +14,7 @@
 -- All parts of the WORDS system, source code and data files, are made freely
 -- available to anyone who wishes to use them, for whatever purpose.
 
-with Strings_package; use Strings_package;
+with Strings_Package; use Strings_Package;
 with latIn_File_names; use latIn_File_names;
 with config; use config;
 with preface;
@@ -36,7 +36,7 @@ package body word_parameters is
    --  The default modes are set in the body so that they can be changed
    --  with only this being recompiled, not the rest of the with'ing system
    default_mode_array : constant mode_array := (
-     trim_Output                 => True,
+     Trim_Output                 => True,
 
      have_Output_file            => False,
      Write_Output_to_file        => False,
@@ -60,7 +60,7 @@ package body word_parameters is
 
    bad_mode_file : exception;
 
-   trim_Output_help : constant help_type :=  (
+   Trim_Output_help : constant help_type :=  (
      "This option instructs the program to remove from the Output list of   ",
      "possible constructs those which are least likely.  There is now a fair",
      "amount of trimming, killing LOC and VOC plus removing Uncommon and    ",
@@ -151,7 +151,7 @@ package body word_parameters is
      "This option instructs the program to look ahead for the verb TO_BE (or",
      "iri) when it finds a verb participle, with the expectation of finding ",
      "a compound perfect tense or periphastic.  This option can also be a   ",
-     "trimming of the Output, in that VPAR that do not fit (not NOM) will be",
+     "trimming of the output, in that VPAR that do not fit (not NOM) will be",
      "excluded, possible interpretations are lost.  Default choice is Y(es).",
      "This processing is turned off with the choice of N(o).                " );
 
@@ -299,7 +299,7 @@ package body word_parameters is
       Put(reply(words_mode(mo))); Put(" =>");
       Get_Line(l1, ll);
       if ll /= 0  then
-         if trim(l1(1..ll)) = ""  then
+         if Trim (l1(1..ll)) = ""  then
             Put_Line("Blank Input, skipping the rest of CHANGE_PARAMETERS");
             raise blank_Input;
          elsif l1(1) = '?'  then
@@ -352,7 +352,7 @@ package body word_parameters is
       --  Maybe to turn on or off pre/suffix
       --  Maybe to allow the user to look at just all the prefixes that match
 
-      inquire(trim_Output, trim_Output_help);
+      inquire(Trim_Output, Trim_Output_help);
 
       inquire(have_Output_file, have_Output_file_help);
 

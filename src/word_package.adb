@@ -16,7 +16,7 @@
 
 with addons_package; use addons_package;
 with latIn_File_names; use latIn_File_names;
-with Strings_package; use Strings_package;
+with Strings_Package; use Strings_Package;
 with config;  use config;
 with uniques_package; use uniques_package;
 with word_parameters; use word_parameters;
@@ -201,8 +201,8 @@ package body word_package is
    procedure run_uniques(s : in String; unique_found : out Boolean;
                                         pa : in out parse_array; pa_last : in out Integer) is
       sl : constant String        --  BAD NAME!!!!!!!!!!!!!!!!!!
-        := lower_case(trim(s));
-      st : constant stem_type := head(sl, max_stem_size);
+        := Lower_Case (Trim (s));
+      st : constant stem_type := Head(sl, max_stem_size);
       unql : unique_list;   --  Unique list for a letter
    begin
       unique_found := False;
@@ -224,7 +224,7 @@ package body word_package is
          --  If there is a match, add to PA
          --TEXT_IO.PUT_LINE("UNIQUE =>" & UNQL.PR.STEM);
          --if ST = LOWER_CASE(UNQL.PR.STEM)  then
-         if equ(st, lower_case(unql.stem)) then
+         if equ(st, Lower_Case (unql.stem)) then
             pa_last := pa_last + 1;
             pa(pa_last) := (unql.stem,
                             (unql.qual,
@@ -249,7 +249,7 @@ package body word_package is
       --  and constructs a STEM_LIST of those that survive SL
       use lel_section_io;
       use inflection_record_io;
-      word : constant String := lower_case(trim(s));
+      word : constant String := Lower_Case (Trim (s));
       last_of_word : constant Character := word(word'Last);
       length_of_word   : constant Integer := word'Length;
       stem_length  : Integer := 0;
@@ -309,8 +309,8 @@ package body word_package is
          if lell(z, last_of_word) > 0  then   --  Any likely inflections at all
 
             for i in lelf(z, last_of_word)..lell(z, last_of_word) loop
-               if equ(lower_case(lel(i).ending.suf(1..z)),
-                      lower_case(word(word'Last-z+1..word'Last)))
+               if equ(Lower_Case (lel(i).ending.suf(1..z)),
+                      Lower_Case (word(word'Last-z+1..word'Last)))
                then
                   --  Add to list of possible ending records
                   --STEM_LENGTH := WORD'LENGTH - LEL(I).ENDING.SIZE;
@@ -373,7 +373,7 @@ package body word_package is
       function first_two(w : String) return String is
          --  'v' could be represented by 'u', like the new Oxford Latin Dictionary
          --  Fixes the first two letters of a word/stem which can be done right
-         s : constant String := lower_case(w);
+         s : constant String := Lower_Case (w);
          ss : String(w'Range) := w;
 
          function ui(c : Character) return Character  is
@@ -455,14 +455,14 @@ package body word_package is
 
          stem_array_loop:
          for k in ssa'Range  loop
-            if trim(ssa(k))'Length > 1  then
+            if Trim (ssa(k))'Length > 1  then
                --  This may be checking for 0 and 1 letter SSAs which are done elsewhere
                if d_k = local  then    --  Special processing for unordered DICT.LOC
                   for j in j1..j2  loop       --  Sweep exaustively through the scope
                      Set_Index(stem_file(d_k), stem_io.Count(j));
                      Read(stem_file(d_k), ds);
 
-                     if equ(lower_case(ds.stem), ssa(k))  then
+                     if equ(Lower_Case (ds.stem), ssa(k))  then
                         --TEXT_IO.PUT_LINE("HIT LOC =   " & DS.STEM & " - " & SSA(K));
                         load_pdl;
                      end if;
@@ -492,10 +492,10 @@ package body word_package is
                      Set_Index(stem_file(d_k), j);
                      Read(stem_file(d_k), ds);
 
-                     if  ltu(lower_case(ds.stem), ssa(k))  then
+                     if  ltu(Lower_Case (ds.stem), ssa(k))  then
                         j1 := j;
                         j := (j1 + j2) / 2;
-                     elsif  gtu(lower_case(ds.stem), ssa(k))  then
+                     elsif  gtu(Lower_Case (ds.stem), ssa(k))  then
                         j2 := j;
                         j := (j1 + j2) / 2;
                      else
@@ -503,7 +503,7 @@ package body word_package is
                            Set_Index(stem_file(d_k), stem_io.Count(i));
                            Read(stem_file(d_k), ds);
 
-                           if equ(lower_case(ds.stem), ssa(k))  then
+                           if equ(Lower_Case (ds.stem), ssa(k))  then
                               jj := i;
                               load_pdl;
 
@@ -516,7 +516,7 @@ package body word_package is
                            Set_Index(stem_file(d_k), stem_io.Count(i));
                            Read(stem_file(d_k), ds);
 
-                           if equ(lower_case(ds.stem), ssa(k))  then
+                           if equ(Lower_Case (ds.stem), ssa(k))  then
                               jj := i;
                               load_pdl;
 
@@ -572,7 +572,7 @@ package body word_package is
          for i in 2..bdl_last  loop
             --  Check all stems of the dictionary entry against the reduced stems
             --if LOWER_CASE(BDL(I).STEM(1)) = FC  then
-            if equ(lower_case(bdl(i).stem(1)),  fc)  then
+            if equ(Lower_Case (bdl(i).stem(1)),  fc)  then
                --PUT("HIT on 1 letter stem   I = ");PUT(I);PUT("  STEM = ");PUT_LINE(BDL(I).STEM);
                pdl_index := pdl_index + 1;
                pdl(pdl_index) := pruned_dictionary_item'(bdl(i), general);
@@ -605,10 +605,10 @@ package body word_package is
    end search_dictionaries;
 
    procedure change_language(c : Character) is
-   begin  if upper_case(c) = 'L'  then
+   begin  if Upper_Case (c) = 'L'  then
       language := latin_to_english;
       preface.Put_Line("Language changed to " & language_type'Image(language));
-   elsif upper_case(c) = 'E'  then
+   elsif Upper_Case (c) = 'E'  then
       if english_dictionary_available(general)  then
          language:= english_to_latin;
          preface.Put_Line("Language changed to " & language_type'Image(language));
@@ -627,7 +627,7 @@ package body word_package is
    procedure word(raw_word : in String;
                   pa : in out parse_array; pa_last : in out Integer) is
 
-      Input_word : constant String := lower_case(raw_word);
+      Input_word : constant String := Lower_Case (raw_word);
       pa_save : constant Integer := pa_last;
 
       unique_found : Boolean := False;
@@ -1153,10 +1153,10 @@ package body word_package is
                   --PUT("J = "); PUT(J); PUT("   SA(J) = "); PUT(SA(J)); NEW_LINE;
                   if sa(j)(1) = prefixes(i).fix(1) then  --  Cuts down a little -- do better
                      if subtract_prefix(sa(j), prefixes(i)) /=
-                       head(sa(j), max_stem_size)
+                       Head(sa(j), max_stem_size)
                      then
                         l := l + 1;            --  We have a hit, make new stem array item
-                        ssa(l) := head(subtract_prefix(sa(j), prefixes(i)),
+                        ssa(l) := Head(subtract_prefix(sa(j), prefixes(i)),
                                        max_stem_size);  --  And that has prefix subtracted to match dict
                         --PUT("L = "); PUT(L); PUT("   "); PUT_LINE(SUBTRACT_PREFIX(SA(J), PREFIXES(I)));
                      end if;                    --  with prefix subtracted stems
@@ -1176,7 +1176,7 @@ package body word_package is
                         pa_last := pa_last + 1;        --  So add prefix line to parse array
                         pa(pa_last).ir :=
                           ((prefix, null_prefix_record), 0, null_ending_record, x, x);
-                        pa(pa_last).stem := head(prefixes(i).fix, max_stem_size);
+                        pa(pa_last).stem := Head(prefixes(i).fix, max_stem_size);
                         pa(pa_last).mnpc := dict_io.Count(prefixes(i).mnpc);
                         pa(pa_last).d_k  := addons;
                         exit;      --  Because we accept only one prefix
@@ -1202,10 +1202,10 @@ package body word_package is
 
             for j in sa'Range  loop                  --  Loop through stem array
                if subtract_suffix(sa(j), suffixes(i)) /=
-                 head(sa(j), max_stem_size)
+                 Head(sa(j), max_stem_size)
                then
                   l := l + 1;            --  We have a hit, make new stem array item
-                  ssa(l) := head(subtract_suffix(sa(j), suffixes(i)),
+                  ssa(l) := Head(subtract_suffix(sa(j), suffixes(i)),
                                  max_stem_size);  --  And that has prefix subtracted to match dict
                end if;
             end loop;    --  Loop on J through SA
@@ -1226,7 +1226,7 @@ package body word_package is
                      --PUT_LINE("REDUCE_STEM_LIST is not null so add suffix to parse array");
                      pa(pa_last).ir :=
                        ((suffix, null_suffix_record), 0, null_ending_record, x, x);
-                     pa(pa_last).stem := head(
+                     pa(pa_last).stem := Head(
                                               suffixes(suffix_hit).fix, max_stem_size);
                      --  Maybe it would better if suffix.fix was of stem size
                      pa(pa_last).mnpc := dict_io.Count(suffixes(suffix_hit).mnpc);
@@ -1249,7 +1249,7 @@ package body word_package is
                      --PUT_LINE("REDUCE_STEM_LIST is not null so add suffix to parse array");
                      pa(pa_last).ir :=
                        ((suffix, null_suffix_record), 0, null_ending_record, x, x);
-                     pa(pa_last).stem := head(
+                     pa(pa_last).stem := Head(
                                               suffixes(suffix_hit).fix, max_stem_size);
                      pa(pa_last).mnpc := dict_io.Count(suffixes(suffix_hit).mnpc);
                      pa(pa_last).d_k  := addons;
@@ -1357,7 +1357,7 @@ package body word_package is
             declare
                xword : constant String := subtract_tackon(Input_word, packons(k));
                word : String(1..xword'Length) := xword;
-               packon_length : constant Integer := trim(packons(k).tack)'Length;
+               packon_length : constant Integer := Trim (packons(k).tack)'Length;
                last_of_word : Character := word(word'Last);
                length_of_word   : constant Integer := word'Length;
             begin
@@ -1392,11 +1392,11 @@ package body word_package is
 
                               --  Add to list of possible ending records
                               stem_length := word'Length - z;
-                              pr := (head(word(word'First..stem_length), max_stem_size),
+                              pr := (Head(word(word'First..stem_length), max_stem_size),
                                      lel(i), default_dictionary_kind, null_mnpc);
                               m := m + 1;
                               sl(m) := pr;
-                              ssa(1) := head(word(word'First.. word'First+stem_length-1),
+                              ssa(1) := Head(word(word'First.. word'First+stem_length-1),
                                              max_stem_size);
                               --PUT_LINE("STEM_LENGTH = " & INTEGER'IMAGE(STEM_LENGTH));
                               --PUT_LINE("SSA(1) in PACKONS from real  INFLECTS ->" & SSA(1) & '|');
@@ -1428,8 +1428,8 @@ package body word_package is
 
                         -- there is no way this condition can be True;
                         -- packon_length - 1 /= packon_length
-                        if trim(mean)(1..4) = "(w/-" and then  --  Does attached PACKON agree
-                           trim(mean)(5..4+packon_length) = trim(packons(k).tack)
+                        if Trim (mean)(1..4) = "(w/-" and then  --  Does attached PACKON agree
+                           Trim (mean)(5..4+packon_length) = Trim (packons(k).tack)
                         then
                            if pdl(j).ds.part.pack.decl = sl(m).ir.qual.pron.decl then  --  or
                               if packon_first_hit then
@@ -1477,7 +1477,7 @@ package body word_package is
 
       procedure process_qu_pronouns(Input_word : String; qkey : stem_key_type := 0) is
 
-         word : constant String := lower_case(trim(Input_word));
+         word : constant String := Lower_Case (Trim (Input_word));
          last_of_word : constant Character := word(word'Last);
          length_of_word   : constant Integer := word'Length;
          stem_length  : Integer := 0;
@@ -1508,11 +1508,11 @@ package body word_package is
                      --  Have found an ending that is a possible match
                      --  Add to list of possible ending records
                      stem_length := word'Length - z;
-                     pr := (head(word(word'First..stem_length), max_stem_size),
+                     pr := (Head(word(word'First..stem_length), max_stem_size),
                             lel(i), default_dictionary_kind, null_mnpc);
                      m := m + 1;
                      sl(m) := pr;
-                     ssa(1) := head(word(word'First.. word'First+stem_length-1),
+                     ssa(1) := Head(word(word'First.. word'First+stem_length-1),
                                     max_stem_size);
                      --  may Get set several times
                   end if;
@@ -1676,7 +1676,7 @@ package body word_package is
 
    begin                           --  WORD
       --TEXT_IO.PUT_LINE("Starting WORD  INPUT = " & INPUT_WORD & "   PA_LAST = " & INTEGER'IMAGE(PA_LAST));
-      if trim(Input_word) = ""  then
+      if Trim (Input_word) = ""  then
          return;
       end if;
 
@@ -1695,7 +1695,7 @@ package body word_package is
 
          for i in 1..number_of_tickons+1  loop
             declare
-               q_word : constant String :=  trim(subtract_tickon(Input_word, tickons(i)));
+               q_word : constant String :=  Trim (subtract_tickon(Input_word, tickons(i)));
             begin
                pa_last := pa_qstart;
                pa(pa_last+1) := null_parse_record;
@@ -1706,7 +1706,7 @@ package body word_package is
                   if i <= number_of_tickons  then        --  Add to PA if
                                                          --TEXT_IO.PUT_LINE("ADDING TICKON PA    " & TICKONS(I).FIX);
                      pa_last := pa_last + 1;        --  So add prefix line to parse array
-                     pa(pa_last).stem := head(tickons(i).fix, max_stem_size);
+                     pa(pa_last).stem := Head(tickons(i).fix, max_stem_size);
                      pa(pa_last).ir := ((prefix, null_prefix_record), 0, null_ending_record, x, x);
                      pa(pa_last).d_k  := addons;
                      pa(pa_last).mnpc := dict_io.Count(tickons(i).mnpc);

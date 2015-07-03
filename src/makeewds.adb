@@ -15,7 +15,7 @@
 -- available to anyone who wishes to use them, for whatever purpose.
 
 with Text_IO;
-with Strings_package; use Strings_package;
+with Strings_Package; use Strings_Package;
 with latIn_File_names; use latIn_File_names;
 with inflections_package; use inflections_package;
 with dictionary_package; use dictionary_package;
@@ -324,7 +324,7 @@ procedure makeewds is
 
          process_semi:
          declare
-            st : constant String := trim(semi);
+            st : constant String := Trim (semi);
             sm : constant String(st'First..st'Last) := st;
          begin
             if st'Length > 0  then
@@ -424,7 +424,7 @@ procedure makeewds is
 
                   process_comma:
                   declare
-                     ct : constant String := trim(comma);
+                     ct : constant String := Trim (comma);
                      cs : String(ct'First..ct'Last) := ct;
                      pure : Boolean := True;
                      w_start, w_end : Integer := 0;
@@ -661,13 +661,13 @@ begin
    Put("What dictionary to list, GENERAL or SPECIAL  =>");
    Get_Line(line, last);
    if last > 0  then
-      if trim(line(1..last))(1) = 'G'  or else
-         trim(line(1..last))(1) = 'g'
+      if Trim (line(1..last))(1) = 'G'  or else
+         Trim (line(1..last))(1) = 'g'
       then
          d_k := general;
          --  LINE_NUMBER := LINE_NUMBER + 1;  --  Because of ESSE DICTFILE line  --  no longer
-      elsif trim(line(1..last))(1) = 'S'  or else
-         trim(line(1..last))(1) = 's'
+      elsif Trim (line(1..last))(1) = 'S'  or else
+         Trim (line(1..last))(1) = 's'
       then
          d_k := special;
       else
@@ -701,7 +701,7 @@ begin
    while not End_Of_File(Input) loop
       s := blank_line;
       Get_Line(Input, s, last);
-      if trim(s(1..last)) /= ""  then       --  If non-blank line
+      if Trim (s(1..last)) /= ""  then       --  If non-blank line
          l := 0;
 
          form_de:
@@ -722,7 +722,7 @@ begin
             Get(s(l+1..last), de.tran.geo, l);
             Get(s(l+1..last), de.tran.freq, l);
             Get(s(l+1..last), de.tran.source, l);
-            de.mean := head(s(l+2..last), max_meaning_size);
+            de.mean := Head (s(l+2..last), max_meaning_size);
             --  Note that this allows initial blanks
             --  L+2 skips over the SPACER, required because this is STRING, not ENUM
 
@@ -742,7 +742,7 @@ begin
             null;
          else
             --  Extract words
-            extract_words(add_hyphenated(trim(de.mean)), de.part.pofs, n, ewa);
+            extract_words(add_hyphenated(Trim (de.mean)), de.part.pofs, n, ewa);
 
             --      EWORD_SIZE    : constant := 38;
             --      AUX_WORD_SIZE : constant := 9;
@@ -757,9 +757,9 @@ begin
             --        end record;
 
             for i in 1..n  loop
-               if trim(ewa(i).w)'Length /= 0 then
-                  ewr.w := head(trim(ewa(i).w), eword_size);
-                  ewr.aux := head("",  aux_word_size);
+               if Trim (ewa(i).w)'Length /= 0 then
+                  ewr.w := Head (Trim (ewa(i).w), eword_size);
+                  ewr.aux := Head ("",  aux_word_size);
                   ewr.n := line_number;
                   ewr.pofs := de.part.pofs;
                   ewr.freq := de.tran.freq;

@@ -36,7 +36,7 @@
 --  shadowed twice in nested declare blocks
 
 with Text_IO;
-with Strings_package; use Strings_package;
+with Strings_Package; use Strings_Package;
 with word_parameters; use word_parameters;
 with developer_parameters; use developer_parameters;
 with inflections_package; use inflections_package;
@@ -90,17 +90,17 @@ is
 
    function is_esse(t : String) return Boolean is
    begin
-      return trim(t) = "esse";
+      return Trim (t) = "esse";
    end is_esse;
 
    function is_fuisse(t : String) return Boolean is
    begin
-      return trim(t) = "fuisse";
+      return Trim (t) = "fuisse";
    end is_fuisse;
 
    function is_iri(t : String) return Boolean is
    begin
-      return trim(t) = "iri";
+      return Trim (t) = "iri";
    end is_iri;
 
    function Get_participle_info(vpar : vpar_record)
@@ -205,7 +205,7 @@ is
             return (
               ppl_on => True,
               ppl_info => Get_participle_info(parsed_verb),
-              ppp_meaning => head(participle_glosses(i).gloss,
+              ppp_meaning => Head(participle_glosses(i).gloss,
                                   max_meaning_size),
               compound_tvm => (compound_tense, passive,
                                sum_info.tense_voice_mood.mood)
@@ -224,7 +224,7 @@ is
    -- this function should be merged with the one above
    function Get_pas_participle(parsed_verb : vpar_record;
                                sum_info : verb_record;
-                               trimmed_next_word : String;
+                               Trimmed_next_word : String;
                                default_ppl_on : Boolean;
                                default_compound_tvm : tense_voice_mood_record;
                                default_ppp_meaning : meaning_type;
@@ -253,7 +253,7 @@ is
       end Get_compound_tense;
 
       voice : constant voice_type := parsed_verb.tense_voice_mood.voice;
-      uses_esse : constant Boolean := is_esse(trimmed_next_word);
+      uses_esse : constant Boolean := is_esse(Trimmed_next_word);
       compound_tense : tense_type;
 
    begin
@@ -282,7 +282,7 @@ is
                return (
                  ppl_on => True,
                  ppl_info => Get_participle_info(parsed_verb),
-                 ppp_meaning => head(ppp_meaning_s, max_meaning_size),
+                 ppp_meaning => Head(ppp_meaning_s, max_meaning_size),
                  compound_tvm => (compound_tense, voice, inf)
                );
             end;
@@ -348,7 +348,7 @@ is
          for k in tense_type range pres..futp  loop
             for j in number_type range s..p  loop
                for i in person_type range 1..3  loop
-                  if trim(t) = trim(sa(l, k, j, i))  then
+                  if Trim (t) = Trim (sa(l, k, j, i))  then
                      return verb_to_be'(
                           matches => True,
                           verb_rec => ((5, 1), (k, active, l), i, j)
@@ -418,10 +418,10 @@ is
             null;
          elsif pa(j5).ir.qual.pofs = vpar   then
             declare
-               trimmed_next_word : constant String := next_word;
+               Trimmed_next_word : constant String := next_word;
                part : constant participle :=
                  Get_pas_participle(pa(j5).ir.qual.vpar, sum_info,
-                   trimmed_next_word, ppl_on, compound_tvm, ppp_meaning,
+                   Trimmed_next_word, ppl_on, compound_tvm, ppp_meaning,
                    ppl_info);
             begin
                ppl_on := part.ppl_on;
@@ -464,7 +464,7 @@ is
 
             pa_last := pa_last + 1;
             pa(pa_last) :=
-              (head("SUPINE + iri", max_stem_size),
+              (Head("SUPINE + iri", max_stem_size),
               ((v,
               (supine_info.con,
               (fut, passive, inf),
@@ -472,7 +472,7 @@ is
               x)
                ), 0, null_ending_record, x, a),
               ppp, null_mnpc);
-            ppp_meaning := head(
+            ppp_meaning := Head(
               "SUPINE + iri => FUT PASSIVE INF - to be about/going/ready to be ~",
               max_meaning_size);
 
@@ -512,7 +512,7 @@ is
                       have_done_enclitic : in out Boolean) is
       save_do_only_fixes : constant Boolean := words_mdev(do_only_fixes);
       enclitic_limit : Integer := 4;
-      try : constant String := lower_case(Input_word);
+      try : constant String := Lower_Case (Input_word);
    begin
       if have_done_enclitic  then
          return;
@@ -585,7 +585,7 @@ is
    procedure tricks_enclitic(Input_word : String;
                              entering_trpa_last : in out Integer;
                              have_done_enclitic : Boolean) is
-      try : constant String := lower_case(Input_word);
+      try : constant String := Lower_Case (Input_word);
    begin
       if have_done_enclitic then
          return;
@@ -759,7 +759,7 @@ is
 
                function next_word return String is
                begin
-                  return trim(nw);
+                  return Trim (nw);
                end next_word;
 
                is_verb_to_be : Boolean := False;
@@ -803,7 +803,7 @@ is
 
                      pa_last := pa_last + 1;
                      pa(pa_last) :=
-                       (head("PPL+" & next_word, max_stem_size),
+                       (Head("PPL+" & next_word, max_stem_size),
                        ((v,
                        (ppl_info.con,
                        compound_tvm,
@@ -835,7 +835,7 @@ is
 
                      pa_last := pa_last + 1;
                      pa(pa_last) :=
-                       (head("PPL+" & next_word, max_stem_size),
+                       (Head("PPL+" & next_word, max_stem_size),
                        ((v,
                        (ppl_info.con,
                        compound_tvm,
@@ -880,21 +880,21 @@ is
    exception
       when others  =>
          Put_stat("Exception    at "
-           & head(Integer'Image(line_number), 8)
-           & head(Integer'Image(word_number), 4)
-           & "   " & head(Input_word, 28) & "   "  & Input_Line);
+           & Head(Integer'Image(line_number), 8)
+           & Head(Integer'Image(word_number), 4)
+           & "   " & Head(Input_word, 28) & "   "  & Input_Line);
                raise;
 
    end parse_latin_word;
 
    procedure parse_line(configuration : configuration_type;
                         Input_Line : String) is
-      l : Integer := trim(Input_Line)'Last;
+      l : Integer := Trim (Input_Line)'Last;
       line : String(1..2500) := (others => ' ');
       w : String(1..l) := (others => ' ');
    begin
       word_number := 0;
-      line(1..l) := trim(Input_Line);
+      line(1..l) := Trim (Input_Line);
 
       --  Someday I ought to be interested in punctuation and numbers, but not now
       --      eliminate_not_letters:
@@ -957,7 +957,7 @@ is
 
          all_caps := True;
          for i in j2..k  loop
-            if w(i) = lower_case(w(i))  then
+            if w(i) = Lower_Case (w(i))  then
                all_caps := False;
                exit;
             end if;

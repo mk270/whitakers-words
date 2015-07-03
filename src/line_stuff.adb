@@ -19,7 +19,7 @@
 -- whether this is a bug
 
 with word_support_package; use word_support_package;   --  for STEM_IO
-with Strings_package; use Strings_package;
+with Strings_Package; use Strings_Package;
 with latIn_File_names; use latIn_File_names;
 with preface;
 package body line_stuff is
@@ -74,12 +74,12 @@ package body line_stuff is
       while not End_Of_File(dictionary_file)  loop
          --TEXT_IO.PUT_LINE("GETTING");
          st_line := blank_line;
-         Get_non_comment_line(dictionary_file, st_line, last);      --  STEMS
+         Get_Non_Comment_Line (dictionary_file, st_line, last);      --  STEMS
          --TEXT_IO.PUT_LINE("READ STEMS");
 
          line := blank_line;
          --TEXT_IO.PUT("1 ");
-         Get_non_comment_line(dictionary_file, line, l);           --  PART
+         Get_Non_Comment_Line (dictionary_file, line, l);           --  PART
          --TEXT_IO.PUT("2 ");
          part_entry_io.Get(line(1..l), pt, ll);
          --TEXT_IO.PUT("3 ");
@@ -110,15 +110,15 @@ package body line_stuff is
          --TEXT_IO.NEW_LINE;
 
          line := blank_line;
-         Get_non_comment_line(dictionary_file, line, l);         --  MEANING
-         mean := head(trim(line(1..l)), max_meaning_size);
+         Get_Non_Comment_Line (dictionary_file, line, l);         --  MEANING
+         mean := Head(Trim (line(1..l)), max_meaning_size);
          --TEXT_IO.PUT_LINE("READ MEANING");
 
          --  Now take care of other first letters in a gross way
-         fc1 := lower_case(sts(1)(1));
-         fc2 := lower_case(sts(2)(1));
-         fc3 := lower_case(sts(3)(1));
-         fc4 := lower_case(sts(4)(1));
+         fc1 := Lower_Case (sts(1)(1));
+         fc2 := Lower_Case (sts(2)(1));
+         fc3 := Lower_Case (sts(3)(1));
+         fc4 := Lower_Case (sts(4)(1));
          if fc1 = 'v' then
             fc1 := 'u';
          end if;
@@ -904,7 +904,7 @@ package body line_stuff is
       while not End_Of_File(uniques_file)  loop
          stem_line := blanks;
          Get_Line(uniques_file, stem_line, last);      --  STEM
-         stem := head(trim(stem_line(1..last)), max_stem_size);
+         stem := Head(Trim (stem_line(1..last)), max_stem_size);
 
          line := blanks;
          Get_Line(uniques_file, line, last);    --  QUAL, KIND, TRAN
@@ -918,7 +918,7 @@ package body line_stuff is
 
          line := blanks;
          Get_Line(uniques_file, line, l);         --  MEAN
-         mean := head(trim(line(1..l)), max_meaning_size);
+         mean := Head(Trim (line(1..l)), max_meaning_size);
          --@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
          declare
             unique_de : dictionary_entry;
@@ -959,15 +959,15 @@ package body line_stuff is
 
          mnpc := m;
 
-         if lower_case(stem(1)) = 'v' then
+         if Lower_Case (stem(1)) = 'v' then
             unq('u') :=
-              new unique_item'(stem, qual, kind, mnpc, unq(lower_case('u')));
-         elsif lower_case(stem(1)) = 'j' then
+              new unique_item'(stem, qual, kind, mnpc, unq(Lower_Case ('u')));
+         elsif Lower_Case (stem(1)) = 'j' then
             unq('i') :=
-              new unique_item'(stem, qual, kind, mnpc, unq(lower_case('i')));
+              new unique_item'(stem, qual, kind, mnpc, unq(Lower_Case ('i')));
          else
-            unq(lower_case(stem(1))) :=
-              new unique_item'(stem, qual, kind, mnpc, unq(lower_case(stem(1))));
+            unq(Lower_Case (stem(1))) :=
+              new unique_item'(stem, qual, kind, mnpc, unq(Lower_Case (stem(1))));
          end if;
 
          m := m + 1;
