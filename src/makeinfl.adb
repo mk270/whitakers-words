@@ -24,7 +24,7 @@ procedure makeinfl is
    use Text_IO;
    use Integer_IO;
    use stem_key_type_io;
-   use inflection_record_io;
+   use Inflection_Record_IO;
    use quality_record_io;
    use ending_record_io;
    use age_type_io;
@@ -45,7 +45,7 @@ procedure makeinfl is
       --  Loads the inflection array into a file for later retrieval
       inflections_file : Text_IO.File_Type;
       inflections_sections_file : lel_section_io.File_Type;
-      ir : inflection_record;
+      ir : Inflection_Record;
       line : String(1..100) := (others => ' ');
       last, l : Integer := 0;
       sn : ending_size_type := ending_size_type'First;
@@ -56,7 +56,7 @@ procedure makeinfl is
 
       type inflection_item is
          record
-            ir   : inflection_record;
+            ir   : Inflection_Record;
             succ : inflection_list;
          end record;
 
@@ -66,13 +66,13 @@ procedure makeinfl is
 
       l_i : latin_inflections := null_latin_inflections;
 
-      lel : lel_section := (others => null_inflection_record);
+      lel : lel_section := (others => Null_Inflection_Record);
       j1, j2, j3, j4, j5 : Integer := 0;
 
       procedure null_lel is
       begin
          for i in lel'Range loop
-            lel(i) := null_inflection_record;
+            lel(i) := Null_Inflection_Record;
          end loop;
       end null_lel;
 
@@ -273,7 +273,7 @@ begin
 
    if not porting then
       for i in bel'Range loop                     --  Blank endings
-         if  bel(i) /= null_inflection_record  then
+         if  bel(i) /= Null_Inflection_Record  then
             m := m + 1;
             Put(Output, bel(i).qual);
             Set_Col(Output, 50);
@@ -294,7 +294,7 @@ begin
 
       if not porting then
          for i in lel'Range loop                     --  Non-blank endings
-            if  lel(i) /= null_inflection_record  then
+            if  lel(i) /= Null_Inflection_Record  then
                m := m + 1;
                Put(Output, lel(i).qual);
                Set_Col(Output, 50);

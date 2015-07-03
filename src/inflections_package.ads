@@ -18,31 +18,31 @@ with Text_IO; use Text_IO;
 with Direct_IO;
 package inflections_package is
    pragma Elaborate_Body;
-   package Integer_IO is new Text_IO.Integer_IO(Integer);
+   package Integer_IO is new Text_IO.Integer_IO (Integer);
 
    --  Generally simple/enumeration types have names ending in _TYPE
    --            complex/record     types have names ending in _RECORD
    --            array              types have names ending in _ARRAY
 
-   max_stem_size    : constant := 18;
-   max_meaning_size : constant := 80;
+   Max_Stem_Size    : constant := 18;
+   Max_Meaning_Size : constant := 80;
 
-   subtype stem_type is String(1..max_stem_size);
-   null_stem_type : constant stem_type := (others => ' ');
+   subtype Stem_Type is String (1 .. Max_Stem_Size);
+   Null_Stem_Type : constant Stem_Type := (others => ' ');
 
-   package stem_type_io is
-      Default_Width : Natural := max_stem_size;
-      procedure Get(f : in File_Type; d : out stem_type);
-      procedure Get(d : out stem_type);
-      procedure Put(f : in File_Type; d : in stem_type);
-      procedure Put(d : in stem_type);
-      procedure Get(s : in String; d : out stem_type;
+   package Stem_Type_IO is
+      Default_Width : Natural := Max_Stem_Size;
+      procedure Get(f : in File_Type; d : out Stem_Type);
+      procedure Get(d : out Stem_Type);
+      procedure Put(f : in File_Type; d : in Stem_Type);
+      procedure Put(d : in Stem_Type);
+      procedure Get(s : in String; d : out Stem_Type;
                                    last : out Integer);
-      procedure Put(s : out String; d : in stem_type);
-   end stem_type_io;
+      procedure Put(s : out String; d : in Stem_Type);
+   end Stem_Type_IO;
 
-   subtype meaning_type is String(1..max_meaning_size);
-   null_meaning_type : constant meaning_type := (others => ' ');
+   subtype Meaning_Type is String (1 .. Max_Meaning_Size);
+   Null_Meaning_Type : constant Meaning_Type := (others => ' ');
 
    type part_of_speech_type is (
      x,         --  all, none, or unknown
@@ -635,7 +635,7 @@ package inflections_package is
 
    package frequency_type_io is new Text_IO.enumeration_io(frequency_type);
 
-   type inflection_record is
+   type Inflection_Record is
       record
          qual   : quality_record   := null_quality_record;
          key    : stem_key_type := 0;
@@ -644,17 +644,17 @@ package inflections_package is
          freq   : frequency_type      := x;
       end record;
 
-   null_inflection_record : inflection_record;
+   Null_Inflection_Record : Inflection_Record;
 
-   package inflection_record_io is
+   package Inflection_Record_IO is
       Default_Width : Natural;
-      procedure Get(f : in File_Type; p : out inflection_record);
-      procedure Get(p : out inflection_record);
-      procedure Put(f : in File_Type; p : in inflection_record);
-      procedure Put(p : in inflection_record);
-      procedure Get(s : in String; p : out inflection_record; last : out Integer);
-      procedure Put(s : out String; p : in inflection_record);
-   end inflection_record_io;
+      procedure Get(f : in File_Type; p : out Inflection_Record);
+      procedure Get(p : out Inflection_Record);
+      procedure Put(f : in File_Type; p : in Inflection_Record);
+      procedure Put(p : in Inflection_Record);
+      procedure Get(s : in String; p : out Inflection_Record; last : out Integer);
+      procedure Put(s : out String; p : in Inflection_Record);
+   end Inflection_Record_IO;
 
    --  This implies a knowledge of the inflections last Character
    subtype inflections_section_1 is Character range 'a'..'i';
@@ -665,7 +665,7 @@ package inflections_package is
    size_of_blank_inflections   : constant Integer :=  80;    --  ############
    size_of_inflections_section : constant Integer := 570;    --  ############
 
-   type inflection_array is array (Positive range <>) of inflection_record;
+   type inflection_array is array (Positive range <>) of Inflection_Record;
    subtype lel_section is inflection_array(1..size_of_inflections_section);
    package lel_section_io is new direct_io(lel_section);
 

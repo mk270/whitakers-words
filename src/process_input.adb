@@ -20,7 +20,7 @@ with latIn_File_names; use latIn_File_names;
 with word_parameters; use word_parameters;
 with developer_parameters; use developer_parameters;
 with inflections_package; use inflections_package;
-with dictionary_package; use dictionary_package;
+with Dictionary_Package; use Dictionary_Package;
 with word_support_package; use word_support_package;
 with preface;
 with word_package; use word_package;
@@ -36,18 +36,18 @@ procedure process_Input(configuration : configuration_type;
                         Command_Line : String := "")
 is
    -- use inflections_package.Integer_IO;
-   -- use inflection_record_io;
+   -- use Inflection_Record_IO;
    use Text_IO;
 
-   procedure delete_if_Open(filename : String; dict_name : dictionary_kind) is
+   procedure delete_if_Open(filename : String; dict_name : Dictionary_Kind) is
    begin
       begin
-         if dict_io.Is_Open(dict_file(dict_name)) then
-            dict_io.Delete(dict_file(dict_name));
+         if Dict_IO.Is_Open(dict_file(dict_name)) then
+            Dict_IO.Delete(dict_file(dict_name));
          else
-            dict_io.Open(dict_file(dict_name), dict_io.In_File,
+            Dict_IO.Open(dict_file(dict_name), Dict_IO.In_File,
               add_file_name_extension(dict_file_name, filename));
-            dict_io.Delete(dict_file(dict_name));
+            Dict_IO.Delete(dict_file(dict_name));
          end if;
       exception when others => null;
       end;   --  not there, so don't have to DELETE

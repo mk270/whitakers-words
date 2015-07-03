@@ -17,7 +17,7 @@
 with Text_IO;
 with Direct_IO;
 with inflections_package; use inflections_package;
-with dictionary_package; use dictionary_package;
+with Dictionary_Package; use Dictionary_Package;
 package english_support_package is
 
    eword_size    : constant := 24;
@@ -63,7 +63,7 @@ package english_support_package is
       procedure Put(s : out String; p : in ewds_record);
    end ewds_record_io;
 
-   english_dictionary_available : array (dictionary_kind) of Boolean := (False,
+   english_dictionary_available : array (Dictionary_Kind) of Boolean := (False,
                                                                          False, False, False, False, False, False,  --  don't SEARCH
                                                                          False, False, False, False);
 

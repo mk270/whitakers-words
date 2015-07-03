@@ -107,12 +107,12 @@ package body word_support_package is
          --  The blanks are on the GENERAL dictionary
          loading_bdl_from_disk:
          declare
-            d_k : constant dictionary_kind := general;
+            d_k : constant Dictionary_Kind := general;
          begin
             if not Is_Open(stem_file(d_k))  then
                Open(stem_file(d_k), stem_io.In_File,
                     add_file_name_extension(stem_file_name,
-                                            dictionary_kind'Image(d_k)));
+                                            Dictionary_Kind'Image(d_k)));
             end if;
             index_first := bblf(' ', ' ', d_k);
             index_last  := bbll(' ', ' ', d_k);
@@ -128,18 +128,18 @@ package body word_support_package is
             when Name_Error =>
                Text_IO.Put_Line("LOADING BDL FROM DISK had NAME_ERROR on " &
                                   add_file_name_extension(stem_file_name,
-                                                          dictionary_kind'Image(d_k)));
+                                                          Dictionary_Kind'Image(d_k)));
                Text_IO.Put_Line("The will be no blank stems loaded");
             when Use_Error =>
                Text_IO.Put_Line("LOADING BDL FROM DISK had USE_ERROR on " &
                                   add_file_name_extension(stem_file_name,
-                                                          dictionary_kind'Image(d_k)));
+                                                          Dictionary_Kind'Image(d_k)));
                Text_IO.Put_Line("There will be no blank stems loaded");
          end loading_bdl_from_disk;
       end if;
 
       --  Now load the stems of just one letter
-      for d_k in general..dictionary_kind'Last loop
+      for d_k in general..Dictionary_Kind'Last loop
          if dictionary_available(d_k)  then
             exit when d_k = local;
             --TEXT_IO.PUT_LINE("OPENING BDL STEMFILE " & EXT(D_K));
@@ -149,7 +149,7 @@ package body word_support_package is
                --DICTIONARY_KIND'IMAGE(D_K)));
                Open(stem_file(d_k), stem_io.In_File,
                     add_file_name_extension(stem_file_name,
-                                            dictionary_kind'Image(d_k)));
+                                            Dictionary_Kind'Image(d_k)));
                --STEMFILE." & EXT(D_K));
                --PUT_LINE("OPENing was successful");
             end if;
@@ -178,7 +178,7 @@ package body word_support_package is
 
    end load_bdl_from_disk;
 
-   procedure load_indices_from_indx_file(d_k : dictionary_kind) is
+   procedure load_indices_from_indx_file(d_k : Dictionary_Kind) is
       use Text_IO;
       use inflections_package.Integer_IO;
       use stem_io;
@@ -201,10 +201,10 @@ package body word_support_package is
    begin
       Open(indx_file(d_k), Text_IO.In_File,
            add_file_name_extension(indx_file_name,
-                                   dictionary_kind'Image(d_k)));
+                                   Dictionary_Kind'Image(d_k)));
       --"INDXFILE." & EXT(D_K)); --  $$$$$$$$$$$$
 
-      preface.Put(dictionary_kind'Image(d_k));
+      preface.Put(Dictionary_Kind'Image(d_k));
       preface.Put(" Dictionary loading");
 
       if d_k = general  then

@@ -17,20 +17,20 @@
 with Strings_Package; use Strings_Package;
 with word_parameters; use word_parameters;
 with inflections_package; use inflections_package;
-with dictionary_package; use dictionary_package;
+with Dictionary_Package; use Dictionary_Package;
 with uniques_package; use uniques_package;
 with developer_parameters; use developer_parameters;
 with word_support_package; use word_support_package;
 
-procedure list_sweep(pa : in out parse_array; pa_last : in out Integer) is
+procedure list_sweep(pa : in out Parse_Array; pa_last : in out Integer) is
    --  This procedure is supposed to process the Output PARSE_ARRAY at PA level
    --  before it Get turned into SIRAA and DMNPCA in LIST_PACKAGE
    --  Since it does only PARSE_ARRAY it is just cheaking INFLECTIONS, not DICTIOARY
 
-   use inflection_record_io;
-   use dict_io;
+   use Inflection_Record_IO;
+   use Dict_IO;
 
-   pr, opr : parse_record := null_parse_record;
+   pr, opr : Parse_Record := Null_Parse_Record;
    de : dictionary_entry := null_dictionary_entry;
    i, j, jj : Integer := 0;
    diff_j : Integer := 0;
@@ -39,40 +39,38 @@ procedure list_sweep(pa : in out parse_array; pa_last : in out Integer) is
    not_only_medieval : Boolean := False;
    not_only_uncommon : Boolean := False;
 
-   function allowed_stem(pr : parse_record) return Boolean is
+   function allowed_stem(pr : Parse_Record) return Boolean is
       allowed : Boolean := True;   --  modify as necessary and return it
       --DE : DICTIONARY_ENTRY;
    begin
       --TEXT_IO.PUT("ALLOWED? >"); PARSE_RECORD_IO.PUT(PR); TEXT_IO.NEW_LINE;
-      if pr.d_k not in general..local  then
+      if pr.D_K not in general..local  then
          return True;
       end if;
 
-      dict_io.Read(dict_file(pr.d_k), de, pr.mnpc);
+      Dict_IO.Read(dict_file(pr.D_K), de, pr.MNPC);
 
       --  NOUN CHECKS
-      case  pr.ir.qual.pofs is
-
+      case  pr.IR.qual.pofs is
          when n  =>
-
             if  words_mdev(for_word_list_check)  then
-               if (nom <= pr.ir.qual.n.cs) and then
-                 (s <= pr.ir.qual.n.number)
+               if (nom <= pr.IR.qual.n.cs) and then
+                 (s <= pr.IR.qual.n.number)
                then
                   allowed := True;
-               elsif (nom <= pr.ir.qual.n.cs) and then
-                 (pr.ir.qual.n.number = p)
+               elsif (nom <= pr.IR.qual.n.cs) and then
+                 (pr.IR.qual.n.number = p)
                then
 
                   search_for_pl:
                   declare
                      de : dictionary_entry;
-                     mean : meaning_type := null_meaning_type;
+                     mean : Meaning_Type := Null_Meaning_Type;
                   begin
                      allowed := False;
-                     dict_io.Read(dict_file(pr.d_k), de, pr.mnpc);
+                     Dict_IO.Read(dict_file(pr.D_K), de, pr.MNPC);
                      mean := de.mean;
-                     for j in meaning_type'First..meaning_type'Last-2  loop
+                     for j in Meaning_Type'First..Meaning_Type'Last-2  loop
                         if mean(j..j+2) = "pl."  then
                            allowed := True;
                            exit;
@@ -86,9 +84,9 @@ procedure list_sweep(pa : in out parse_array; pa_last : in out Integer) is
 
          when  adj  =>
             if  words_mdev(for_word_list_check)  then
-               if (nom <= pr.ir.qual.adj.cs) and then
-                 (s <= pr.ir.qual.adj.number) and then
-                 (m <= pr.ir.qual.adj.gender)
+               if (nom <= pr.IR.qual.adj.cs) and then
+                 (s <= pr.IR.qual.adj.number) and then
+                 (m <= pr.IR.qual.adj.gender)
                then
                   allowed := True;
                else
@@ -101,11 +99,11 @@ procedure list_sweep(pa : in out parse_array; pa_last : in out Integer) is
             --  Check for Verb 3 1  dic/duc/fac/fer shortened imperative
             --  See G&L 130.5
             declare
-               stem : constant String := Trim (pr.stem);
+               stem : constant String := Trim (pr.Stem);
                last_three : String(1..3);
             begin
-               if (pr.ir.qual.v = ((3, 1), (pres, active, imp), 2, s))  and
-                 (pr.ir.ending.size = 0)
+               if (pr.IR.qual.v = ((3, 1), (pres, active, imp), 2, s))  and
+                 (pr.IR.ending.size = 0)
                then    --  For this special case
                   if stem'Length >= 3  then
                      last_three := stem(stem'Last-2..stem'Last);
@@ -125,13 +123,13 @@ procedure list_sweep(pa : in out parse_array; pa_last : in out Integer) is
             end;
 
             --  Check for Verb Imperative being in permitted person
-            if pr.ir.qual.v.tense_voice_mood.mood = imp then
-               if (pr.ir.qual.v.tense_voice_mood.tense = pres) and
-                 (pr.ir.qual.v.person = 2)
+            if pr.IR.qual.v.tense_voice_mood.mood = imp then
+               if (pr.IR.qual.v.tense_voice_mood.tense = pres) and
+                 (pr.IR.qual.v.person = 2)
                then
                   null;
-               elsif (pr.ir.qual.v.tense_voice_mood.tense = fut) and
-                 (pr.ir.qual.v.person = 2 or pr.ir.qual.v.person = 3)
+               elsif (pr.IR.qual.v.tense_voice_mood.tense = fut) and
+                 (pr.IR.qual.v.person = 2 or pr.IR.qual.v.person = 3)
                then
                   null;
                else
@@ -142,7 +140,7 @@ procedure list_sweep(pa : in out parse_array; pa_last : in out Integer) is
 
             --  Check for V IMPERS and demand that only 3rd person    --  ???????
             if de.part.v.kind = impers then
-               if pr.ir.qual.v.person = 3 then
+               if pr.IR.qual.v.person = 3 then
                   null;
                else
                   --PUT("IMPERS not in 3rd person     "); PUT(PR.IR); NEW_LINE;
@@ -153,15 +151,15 @@ procedure list_sweep(pa : in out parse_array; pa_last : in out Integer) is
             --  Check for V DEP    and demand PASSIVE
             if de.part.v.kind = dep then
                --TEXT_IO.PUT("DEP  ");
-               if (pr.ir.qual.v.tense_voice_mood.voice = active)  and
-                 (pr.ir.qual.v.tense_voice_mood.mood = inf)  and
-                 (pr.ir.qual.v.tense_voice_mood.tense = fut)
+               if (pr.IR.qual.v.tense_voice_mood.voice = active)  and
+                 (pr.IR.qual.v.tense_voice_mood.mood = inf)  and
+                 (pr.IR.qual.v.tense_voice_mood.tense = fut)
                then
                   --TEXT_IO.PUT("PASSIVE  ");
                   --TEXT_IO.PUT("DEP    FUT INF not in ACTIVE "); PUT(PR.IR); TEXT_IO.NEW_LINE;
                   allowed := True;
-               elsif (pr.ir.qual.v.tense_voice_mood.voice = active)  and
-                 (pr.ir.qual.v.tense_voice_mood.mood in ind..inf)
+               elsif (pr.IR.qual.v.tense_voice_mood.voice = active)  and
+                 (pr.IR.qual.v.tense_voice_mood.mood in ind..inf)
                then
                   --TEXT_IO.PUT("ACTIVE  ");
                   --TEXT_IO.PUT("DEP    not in PASSIVE     NOT ALLOWED   "); PUT(PR.IR); TEXT_IO.NEW_LINE;
@@ -174,15 +172,15 @@ procedure list_sweep(pa : in out parse_array; pa_last : in out Integer) is
 
             --  Check for V SEMIDEP    and demand PASSIVE ex Perf
             if de.part.v.kind = semidep then
-               if (pr.ir.qual.v.tense_voice_mood.voice = passive)  and
-                 (pr.ir.qual.v.tense_voice_mood.tense in pres..fut)  and
-                 (pr.ir.qual.v.tense_voice_mood.mood in ind..imp)
+               if (pr.IR.qual.v.tense_voice_mood.voice = passive)  and
+                 (pr.IR.qual.v.tense_voice_mood.tense in pres..fut)  and
+                 (pr.IR.qual.v.tense_voice_mood.mood in ind..imp)
                then
                   --PUT("SEMIDEP    Pres not in ACTIVE "); PUT(PR.IR); NEW_LINE;
                   allowed := False;
-               elsif (pr.ir.qual.v.tense_voice_mood.voice = active)  and
-                 (pr.ir.qual.v.tense_voice_mood.tense in perf..futp )  and
-                 (pr.ir.qual.v.tense_voice_mood.mood in ind..imp)
+               elsif (pr.IR.qual.v.tense_voice_mood.voice = active)  and
+                 (pr.IR.qual.v.tense_voice_mood.tense in perf..futp )  and
+                 (pr.IR.qual.v.tense_voice_mood.mood in ind..imp)
                then
                   --PUT("SEMIDEP    Perf not in PASSIVE "); PUT(PR.IR); NEW_LINE;
                   allowed := False;
@@ -192,28 +190,28 @@ procedure list_sweep(pa : in out parse_array; pa_last : in out Integer) is
             end if;
 
             if  words_mdev(for_word_list_check)  then
-               if (pr.ir.qual.v.person = 1) and then
-                  (pr.ir.qual.v.number = s)
+               if (pr.IR.qual.v.person = 1) and then
+                  (pr.IR.qual.v.number = s)
                then
                   if ((de.part.v.kind in x..intrans)  and
-                    (pr.ir.qual.v.tense_voice_mood = (pres, active, ind))) or else
+                    (pr.IR.qual.v.tense_voice_mood = (pres, active, ind))) or else
                     ((de.part.v.kind = dep)  and
-                    (pr.ir.qual.v.tense_voice_mood = (pres, passive, ind))) or else
+                    (pr.IR.qual.v.tense_voice_mood = (pres, passive, ind))) or else
                     ((de.part.v.kind = semidep)  and
-                    (pr.ir.qual.v.tense_voice_mood = (pres, active, ind)))
+                    (pr.IR.qual.v.tense_voice_mood = (pres, active, ind)))
                   then
                      allowed := True;
                   elsif (de.part.v.kind = perfdef)  and
-                     (pr.ir.qual.v.tense_voice_mood = (perf, active, ind))
+                     (pr.IR.qual.v.tense_voice_mood = (perf, active, ind))
                   then
                      allowed := True;
                   else
                      allowed := False;
                   end if;
                elsif de.part.v.kind = impers then
-                  if (pr.ir.qual.v.person = 3)  and then
-                    (pr.ir.qual.v.number = s)  and then
-                    (pr.ir.qual.v.tense_voice_mood = (pres, active, ind))
+                  if (pr.IR.qual.v.person = 3)  and then
+                    (pr.IR.qual.v.number = s)  and then
+                    (pr.IR.qual.v.tense_voice_mood = (pres, active, ind))
                   then
                      allowed := True;
                   else
@@ -230,7 +228,7 @@ procedure list_sweep(pa : in out parse_array; pa_last : in out Integer) is
       end case;
 
       if  words_mdev(for_word_list_check) then       --  Non parts
-         if pr.ir.qual.pofs in vpar..supine then
+         if pr.IR.qual.pofs in vpar..supine then
             allowed := False;
          end if;
       end if;                                           --  Non parts
@@ -240,31 +238,31 @@ procedure list_sweep(pa : in out parse_array; pa_last : in out Integer) is
 
    -----------------------------------------------------------
 
-   procedure order_parse_array(sl: in out parse_array; diff_j : out Integer) is
+   procedure Order_Parse_Array(sl: in out Parse_Array; diff_j : out Integer) is
       hits : Integer := 0;
       sl_last : Integer := sl'Last;
       sl_last_initial : constant Integer := sl_last;
-      sm : parse_record;
+      sm : Parse_Record;
       has_noun_abbreviation      : Boolean := False;
 
-      function depr (pr : parse_record) return dictionary_entry is
+      function depr (pr : Parse_Record) return dictionary_entry is
          de : dictionary_entry;
       begin
          --TEXT_IO.PUT("DEPR  "); PARSE_RECORD_IO.PUT(PR); TEXT_IO.NEW_LINE;
-         if pr.mnpc = null_mnpc  then
+         if pr.MNPC = Null_MNPC  then
             return null_dictionary_entry;
          else
-            if pr.d_k in general..local  then
+            if pr.D_K in general..local  then
                --if PR.MNPC /= OMNPC  then
-               dict_io.Set_Index(dict_file(pr.d_k), pr.mnpc);
-               dict_io.Read(dict_file(pr.d_k), de);
+               Dict_IO.Set_Index(dict_file(pr.D_K), pr.MNPC);
+               Dict_IO.Read(dict_file(pr.D_K), de);
                --OMNPC := PR.MNPC;
                --ODE := DE;
                --else
                --DE := ODE;
                --end if;
-            elsif pr.d_k = unique  then
-               de :=  uniques_de(pr.mnpc);
+            elsif pr.D_K = unique  then
+               de :=  uniques_de(pr.MNPC);
             end if;
          end if;
 
@@ -311,7 +309,7 @@ procedure list_sweep(pa : in out parse_array; pa_last : in out Integer) is
                end if;
             end equ;
 
-            function meaning (pr : parse_record) return meaning_type is
+            function meaning (pr : Parse_Record) return Meaning_Type is
             begin
                return depr(pr).mean;
             end meaning;
@@ -326,32 +324,32 @@ procedure list_sweep(pa : in out parse_array; pa_last : in out Integer) is
             inner_loop:
             for i in sl'First..sl_last-1  loop
                --  Maybe <   =  on PR.STEM  -  will have to make up "<"   --  Actually STEM and PART  --  and check that later in print
-               if sl(i+1).d_k  > sl(i).d_k   or else  --  Let DICT.LOC list first
+               if sl(i+1).D_K  > sl(i).D_K   or else  --  Let DICT.LOC list first
 
-                 (sl(i+1).d_k  = sl(i).d_k    and then
-                 sl(i+1).mnpc  < sl(i).mnpc)   or else
+                 (sl(i+1).D_K  = sl(i).D_K    and then
+                 sl(i+1).MNPC  < sl(i).MNPC)   or else
 
-                 (sl(i+1).d_k  = sl(i).d_k    and then
-                 sl(i+1).mnpc  = sl(i).mnpc    and then
-                 sl(i+1).ir.qual < sl(i).ir.qual)  or else
+                 (sl(i+1).D_K  = sl(i).D_K    and then
+                 sl(i+1).MNPC  = sl(i).MNPC    and then
+                 sl(i+1).IR.qual < sl(i).IR.qual)  or else
 
-                 (sl(i+1).d_k  = sl(i).d_k    and then
-                 sl(i+1).mnpc  = sl(i).mnpc    and then
-                 equ(sl(i+1).ir.qual, sl(i).ir.qual)  and then
+                 (sl(i+1).D_K  = sl(i).D_K    and then
+                 sl(i+1).MNPC  = sl(i).MNPC    and then
+                 equ(sl(i+1).IR.qual, sl(i).IR.qual)  and then
                  meaning(sl(i+1)) < meaning(sl(i)))  or else   --  | is > letter
 
-                 (sl(i+1).d_k  = sl(i).d_k  and then
-                 sl(i+1).mnpc  = sl(i).mnpc    and then
-                 equ(sl(i+1).ir.qual, sl(i).ir.qual)  and then
+                 (sl(i+1).D_K  = sl(i).D_K  and then
+                 sl(i+1).MNPC  = sl(i).MNPC    and then
+                 equ(sl(i+1).IR.qual, sl(i).IR.qual)  and then
                  meaning(sl(i+1)) = meaning(sl(i))   and then
-                 sl(i+1).ir.ending.size < sl(i).ir.ending.size)    or else
+                 sl(i+1).IR.ending.size < sl(i).IR.ending.size)    or else
 
-                 (sl(i+1).d_k  = sl(i).d_k  and then
-                 sl(i+1).mnpc  = sl(i).mnpc    and then
-                 equ(sl(i+1).ir.qual, sl(i).ir.qual)  and then
+                 (sl(i+1).D_K  = sl(i).D_K  and then
+                 sl(i+1).MNPC  = sl(i).MNPC    and then
+                 equ(sl(i+1).IR.qual, sl(i).IR.qual)  and then
                  meaning(sl(i+1)) = meaning(sl(i))   and then
-                 sl(i+1).ir.ending.size = sl(i).ir.ending.size  and then
-                 inflections_package."<"(sl(i+1).ir.qual, sl(i).ir.qual))
+                 sl(i+1).IR.ending.size = sl(i).IR.ending.size  and then
+                 inflections_package."<"(sl(i+1).IR.qual, sl(i).IR.qual))
                then
 
                   sm := sl(i);
@@ -380,31 +378,31 @@ procedure list_sweep(pa : in out parse_array; pa_last : in out Integer) is
          --  Check to see if we can afford to TRIM, if there will be something left over
          for i in sl'First..sl_last  loop
             --TEXT_IO.PUT_LINE("SCANNING FOR TRIM   I = " & INTEGER'IMAGE(I) & "  INFL AGE = " & AGE_TYPE'IMAGE(SL(I).IR.AGE));
-            if sl(i).d_k in general..local  then
+            if sl(i).D_K in general..local  then
 
-               dict_io.Set_Index(dict_file(sl(i).d_k), sl(i).mnpc);
+               Dict_IO.Set_Index(dict_file(sl(i).D_K), sl(i).MNPC);
                --TEXT_IO.PUT(INTEGER'IMAGE(INTEGER(SL(I).MNPC)));
-               dict_io.Read(dict_file(sl(i).d_k), de);
+               Dict_IO.Read(dict_file(sl(i).D_K), de);
                --DICTIONARY_ENTRY_IO.PUT(DE); TEXT_IO.NEW_LINE;
 
-               if ((sl(i).ir.age = x) or else (sl(i).ir.age > a))  and
+               if ((sl(i).IR.age = x) or else (sl(i).IR.age > a))  and
                  ((de.tran.age = x) or else (de.tran.age > a))
                then
                   not_only_archaic := True;
                end if;
-               if ((sl(i).ir.age = x) or else (sl(i).ir.age < f))  and     --  Or E????
+               if ((sl(i).IR.age = x) or else (sl(i).IR.age < f))  and     --  Or E????
                  ((de.tran.age = x) or else (de.tran.age < f))     --  Or E????
                then
                   not_only_medieval := True;
                end if;
-               if ((sl(i).ir.freq = x) or else (sl(i).ir.freq < c))   and  --  A/X < C   --  C for inflections is uncommon  !!!!
+               if ((sl(i).IR.freq = x) or else (sl(i).IR.freq < c))   and  --  A/X < C   --  C for inflections is uncommon  !!!!
                  ((de.tran.freq = x) or else (de.tran.freq < d))  --     --  E for DICTLINE is uncommon  !!!!
                then
                   not_only_uncommon := True;
                end if;
 
-               if sl(i).ir.qual.pofs = n  and then
-                 sl(i).ir.qual.n.decl = (9, 8)
+               if sl(i).IR.qual.pofs = n  and then
+                 sl(i).IR.qual.n.decl = (9, 8)
                then
                   has_noun_abbreviation := True;
                end if;
@@ -417,7 +415,7 @@ procedure list_sweep(pa : in out parse_array; pa_last : in out Integer) is
          i := sl_last;
          while i >= sl'First  loop
             --  Remove not ALLOWED_STEM & null
-            if not allowed_stem(sl(i)) or (pa(i) = null_parse_record) then
+            if not allowed_stem(sl(i)) or (pa(i) = Null_Parse_Record) then
                --TEXT_IO.PUT_LINE("Not ALLOWED   SL_LAST = " & INTEGER'IMAGE(SL_LAST) & "  J = " & INTEGER'IMAGE(I));
                sl(i..sl_last-1) := sl(i+1..sl_last);
                sl_last := sl_last - 1;
@@ -431,14 +429,14 @@ procedure list_sweep(pa : in out parse_array; pa_last : in out Integer) is
          while i >= sl'First  loop
             --TEXT_IO.PUT_LINE("TRIMMING FOR TRIM   I = " & INTEGER'IMAGE(I));
             if (not_only_archaic and words_mdev(omit_archaic)) and then
-              sl(i).ir.age = a
+              sl(i).IR.age = a
             then
                sl(i..sl_last-1) := sl(i+1..sl_last);
                sl_last := sl_last - 1;
                --TEXT_IO.PUT_LINE("Archaic        SL_LAST = " & INTEGER'IMAGE(SL_LAST) & "  I = " & INTEGER'IMAGE(I));
                Trimmed := True;
             elsif (not_only_medieval and words_mdev(omit_medieval)) and then
-               sl(i).ir.age >= f
+               sl(i).IR.age >= f
             then
                sl(i..sl_last-1) := sl(i+1..sl_last);
                sl_last := sl_last - 1;
@@ -451,7 +449,7 @@ procedure list_sweep(pa : in out parse_array; pa_last : in out Integer) is
          i := sl_last;
          while i >= sl'First  loop
             if (not_only_uncommon and words_mdev(omit_uncommon)) and then
-              sl(i).ir.freq >= c
+              sl(i).IR.freq >= c
             then      --  Remember A < C
                sl(i..sl_last-1) := sl(i+1..sl_last);
                sl_last := sl_last - 1;
@@ -489,15 +487,15 @@ procedure list_sweep(pa : in out parse_array; pa_last : in out Integer) is
             if has_noun_abbreviation    and then
               (all_caps and followed_by_period)
             then
-               if (sl(i).ir.qual.pofs /= n) or
-                 (   (sl(i).ir.qual /= (n,  ((9, 8), x, x, m)))  and
-                 ( Trim (sl(i).stem)'Length = 1  and then
-                 (sl(i).stem(1) = 'A'  or
-                 sl(i).stem(1) = 'C'  or
-                 sl(i).stem(1) = 'D'  or
+               if (sl(i).IR.qual.pofs /= n) or
+                 (   (sl(i).IR.qual /= (n,  ((9, 8), x, x, m)))  and
+                 ( Trim (sl(i).Stem)'Length = 1  and then
+                 (sl(i).Stem(1) = 'A'  or
+                 sl(i).Stem(1) = 'C'  or
+                 sl(i).Stem(1) = 'D'  or
                  --SL(I).STEM(1) = 'K'  or      --  No problem here
-                 sl(i).stem(1) = 'L'  or
-                 sl(i).stem(1) = 'M'            --  or
+                 sl(i).Stem(1) = 'L'  or
+                 sl(i).Stem(1) = 'M'            --  or
                                                 --SL(I).STEM(1) = 'N'  or
                                                 --SL(I).STEM(1) = 'P'  or
                                                 --SL(I).STEM(1) = 'Q'  or
@@ -516,7 +514,7 @@ procedure list_sweep(pa : in out parse_array; pa_last : in out Integer) is
 
       diff_j := sl_last_initial - sl_last;
 
-   end order_parse_array;
+   end Order_Parse_Array;
 
 begin                               --  LIST_SWEEP
 
@@ -529,13 +527,13 @@ begin                               --  LIST_SWEEP
       de : dictionary_entry;
    begin
       for i in 1..pa_last  loop
-         if pa(i).d_k = general  then
-            dict_io.Set_Index(dict_file(pa(i).d_k), pa(i).mnpc);
-            dict_io.Read(dict_file(pa(i).d_k), de);
+         if pa(i).D_K = general  then
+            Dict_IO.Set_Index(dict_file(pa(i).D_K), pa(i).MNPC);
+            Dict_IO.Read(dict_file(pa(i).D_K), de);
             if de.part.pofs = pron  and then
               de.part.pron.decl.which = 1
             then
-               pa(i).ir.qual.pron.decl.var := pronoun_kind_type'Pos(de.part.pron.kind);
+               pa(i).IR.qual.pron.decl.var := pronoun_kind_type'Pos(de.part.pron.kind);
                --elsif DE.PART.POFS = PACK  and then
                -- DE.PART.PACK.DECL.WHICH =1  then
                -- PA(I).IR.QUAL.PACK.DECL.VAR := PRONOUN_KIND_TYPE'POS(DE.KIND.PRON_KIND);
@@ -574,7 +572,7 @@ begin                               --  LIST_SWEEP
 
       while j >= 1  loop        --  Sweep backwards over PA
 
-         if ((pa(j).d_k in addons..yyy) or (pa(j).ir.qual.pofs in xons))   and then
+         if ((pa(j).D_K in addons..yyy) or (pa(j).IR.qual.pofs in xons))   and then
             (pw_on)
          then               --  first FIX/TRICK after regular
             fix_on := True;
@@ -582,25 +580,25 @@ begin                               --  LIST_SWEEP
             p_first := j + 1;
 
             jj := j;
-            while pa(jj+1).ir.qual.pofs = pa(jj).ir.qual.pofs  loop
+            while pa(jj+1).IR.qual.pofs = pa(jj).IR.qual.pofs  loop
                p_last := jj + 1;
             end loop;
 
             ----Order internal to this set of inflections
 
-            order_parse_array(pa(p_first..p_last), diff_j);
+            Order_Parse_Array(pa(p_first..p_last), diff_j);
             pa(p_last-diff_j+1..pa_last-diff_j) := pa(p_last+1..pa_last);
             pa_last := pa_last - diff_j;
             p_first := 1;
             p_last  := 0;
 
-         elsif ((pa(j).d_k in addons..yyy) or (pa(j).ir.qual.pofs in xons))  and then
+         elsif ((pa(j).D_K in addons..yyy) or (pa(j).IR.qual.pofs in xons))  and then
             (fix_on)
          then               --  another FIX
             --TEXT_IO.PUT_LINE("SWEEP  Another FIX/TRICK  J = " & INTEGER'IMAGE(J));
             null;
-         elsif ((pa(j).d_k in addons..yyy)  or
-            (pa(j).ir.qual.pofs = x))  and then  --  Kills TRICKS stuff
+         elsif ((pa(j).D_K in addons..yyy)  or
+            (pa(j).IR.qual.pofs = x))  and then  --  Kills TRICKS stuff
             (not pw_on)
          then
             pa(p_last-diff_j+1..pa_last-diff_j) := pa(p_last+1..pa_last);
@@ -613,7 +611,7 @@ begin                               --  LIST_SWEEP
                p_last := j;
             end if;
             if j = 1  then
-               order_parse_array(pa(1..p_last), diff_j);
+               Order_Parse_Array(pa(1..p_last), diff_j);
                pa(p_last-diff_j+1..pa_last-diff_j) := pa(p_last+1..pa_last);
                pa_last := pa_last - diff_j;
             end if;
@@ -634,10 +632,10 @@ begin                               --  LIST_SWEEP
       if pr /= opr  then
          supress_key_check:
          declare
-            function "<=" (a, b : parse_record) return Boolean is
+            function "<=" (a, b : Parse_Record) return Boolean is
             begin                             --  !!!!!!!!!!!!!!!!!!!!!!!!!!
-               if a.ir.qual = b.ir.qual  and
-                  a.mnpc    = b.mnpc
+               if a.IR.qual = b.IR.qual  and
+                  a.MNPC    = b.MNPC
                then
                   return True;
                else
@@ -645,7 +643,7 @@ begin                               --  LIST_SWEEP
                end if;
             end "<=";
          begin
-            if (pr.d_k /= xxx) and (pr.d_k /= yyy) and  (pr.d_k /= ppp) then
+            if (pr.D_K /= xxx) and (pr.D_K /= yyy) and  (pr.D_K /= ppp) then
                if pr <= opr  then       --  Get rid of duplicates, if ORDER is OK
                   pa(j.. pa_last-1) := pa(j+1..pa_last);  --  Shift PA down 1
                   pa_last := pa_last - 1;        --  because found key duplicate
@@ -663,16 +661,16 @@ begin                               --  LIST_SWEEP
 
    for i in 1..pa_last  loop
       --  Destroy the artificial VAR for PRON 1 X
-      if pa(i).ir.qual.pofs = pron  and then
-        pa(i).ir.qual.pron.decl.which =1
+      if pa(i).IR.qual.pofs = pron  and then
+        pa(i).IR.qual.pron.decl.which =1
       then
-         pa(i).ir.qual.pron.decl.var := 0;
+         pa(i).IR.qual.pron.decl.var := 0;
       end if;
 
-      if pa(i).ir.qual.pofs = v   then
-         if pa(i).ir.qual.v.con = (3, 4)  then
+      if pa(i).IR.qual.pofs = v   then
+         if pa(i).IR.qual.v.con = (3, 4)  then
             --  Fix V 3 4 to be 4th conjugation
-            pa(i).ir.qual.v.con := (4, 1);
+            pa(i).IR.qual.v.con := (4, 1);
             --    else
             --    --  Set to 0 other VAR for V
             --      PA(I).IR.QUAL.V.CON.VAR := 0;

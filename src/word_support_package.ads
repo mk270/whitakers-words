@@ -17,7 +17,7 @@
 with Text_IO;
 with Direct_IO;
 with inflections_package; use inflections_package;
-with dictionary_package; use dictionary_package;
+with Dictionary_Package; use Dictionary_Package;
 package word_support_package is
 
    followed_by_period, follows_period, capitalized, all_caps :
@@ -25,16 +25,16 @@ package word_support_package is
 
    type dictionary_stem is
       record
-         stem : stem_type := null_stem_type;
+         stem : Stem_Type := Null_Stem_Type;
          part : part_entry := null_part_entry;
          key  : stem_key_type := 0;
-         mnpc : dict_io.Count := null_mnpc;
+         MNPC : Dict_IO.Count := Null_MNPC;
       end record;
 
    package stem_io is new direct_io(dictionary_stem);
    package Count_io is new Text_IO.Integer_IO(stem_io.Count);
 
-   subtype dictionary_file_kind is dictionary_kind range general..local;
+   subtype dictionary_file_kind is Dictionary_Kind range general..local;
    default_dictionary_file_kind : dictionary_file_kind := general;
 
    stem_file : array (dictionary_file_kind) of stem_io.File_Type;
@@ -76,7 +76,7 @@ package word_support_package is
                         d_k : dictionary_file_kind := default_dictionary_file_kind)
                        return stem_io.Count;
 
-   procedure load_indices_from_indx_file(d_k : dictionary_kind);
+   procedure load_indices_from_indx_file(d_k : Dictionary_Kind);
 
    procedure load_bdl_from_disk;
 

@@ -16,16 +16,16 @@
 
 with Text_IO;
 with inflections_package; use inflections_package;
-with dictionary_package; use dictionary_package;
+with Dictionary_Package; use Dictionary_Package;
 with word_support_package; use word_support_package;
 package word_package is
 
    line_number, word_number : Integer := 0;
 
-   type stem_array_type is array (Integer range <>) of stem_type;
-   subtype stem_array is stem_array_type(0..max_stem_size);
+   type stem_array_type is array (Integer range <>) of Stem_Type;
+   subtype stem_array is stem_array_type(0..Max_Stem_Size);
 
-   not_a_stem : constant stem_type := (others => 'x');
+   not_a_stem : constant Stem_Type := (others => 'x');
    not_a_stem_array : stem_array  := (others => not_a_stem);
 
    sa, ssa : stem_array := not_a_stem_array;
@@ -34,7 +34,7 @@ package word_package is
    type pruned_dictionary_item is
       record
          ds   : dictionary_stem;
-         d_k  : dictionary_kind := default_dictionary_kind;
+         d_k  : Dictionary_Kind := Default_Dictionary_Kind;
       end record;
    null_pruned_dictionary_item : pruned_dictionary_item;
    type pruned_dictionary_list is array (1..80) of pruned_dictionary_item;
@@ -44,15 +44,15 @@ package word_package is
    pdl : pruned_dictionary_list := (others => null_pruned_dictionary_item);
    pdl_index : Integer := 0;
 
-   subtype sal is parse_array(1..250);
+   subtype sal is Parse_Array(1..250);
 
    type dict_restriction is (x, regular, qu_pron_only, pack_only);
 
-   xxx_meaning : meaning_type := null_meaning_type;  --  For TRICKS
-   yyy_meaning : meaning_type := null_meaning_type;  --  For SYNCOPE
-   nnn_meaning : meaning_type := null_meaning_type;  --  For Names
-   rrr_meaning : meaning_type := null_meaning_type;  --  For Roman Numerals
-   ppp_meaning : meaning_type := null_meaning_type;  --  For COMPOUNDED
+   xxx_meaning : Meaning_Type := Null_Meaning_Type;  --  For TRICKS
+   yyy_meaning : Meaning_Type := Null_Meaning_Type;  --  For SYNCOPE
+   nnn_meaning : Meaning_Type := Null_Meaning_Type;  --  For Names
+   rrr_meaning : Meaning_Type := Null_Meaning_Type;  --  For Roman Numerals
+   ppp_meaning : Meaning_Type := Null_Meaning_Type;  --  For COMPOUNDED
 
    scroll_line_number : Integer := 0;
    Output_scroll_count : Integer := 0;
@@ -80,7 +80,7 @@ package word_package is
                                                        restriction : dict_restriction := regular);
 
    procedure word(raw_word : in String;
-                  pa : in out parse_array; pa_last : in out Integer);
+                  pa : in out Parse_Array; pa_last : in out Integer);
 
    procedure change_language(c : Character);
 

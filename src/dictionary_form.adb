@@ -16,7 +16,7 @@
 
 with Strings_Package; use Strings_Package;
 with inflections_package; use inflections_package;
-with dictionary_package; use dictionary_package;
+with Dictionary_Package; use Dictionary_Package;
 function dictionary_form(de : dictionary_entry) return String is
 
    null_ox : constant String(1..24) := (others => ' ');
@@ -55,9 +55,9 @@ begin
         "  " & case_type'Image(de.part.prep.obj);
    end if;
 
-   if de.stems(2) = null_stem_type  and
-     de.stems(3) = null_stem_type  and
-     de.stems(4) = null_stem_type       and not
+   if de.stems(2) = Null_Stem_Type  and
+     de.stems(3) = Null_Stem_Type  and
+     de.stems(4) = Null_Stem_Type       and not
      (((de.part.pofs = n)  and then (de.part.n.decl.which = 9))  or
      ((de.part.pofs = adj)  and then
      ((de.part.adj.decl.which = 9) or

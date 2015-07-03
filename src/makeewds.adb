@@ -18,7 +18,7 @@ with Text_IO;
 with Strings_Package; use Strings_Package;
 with latIn_File_names; use latIn_File_names;
 with inflections_package; use inflections_package;
-with dictionary_package; use dictionary_package;
+with Dictionary_Package; use Dictionary_Package;
 with english_support_package; use english_support_package;
 with weed;
 with weed_all;
@@ -43,13 +43,13 @@ procedure makeewds is
    porting  : constant Boolean := False;
    checking : constant Boolean := True;
 
-   d_k : dictionary_kind := xxx;       --  ######################
+   d_k : Dictionary_Kind := xxx;       --  ######################
 
    start_stem_1  : constant := 1;
-   start_stem_2  : constant := start_stem_1 + max_stem_size + 1;
-   start_stem_3  : constant := start_stem_2 + max_stem_size + 1;
-   start_stem_4  : constant := start_stem_3 + max_stem_size + 1;
-   start_part    : constant := start_stem_4 + max_stem_size + 1;
+   start_stem_2  : constant := start_stem_1 + Max_Stem_Size + 1;
+   start_stem_3  : constant := start_stem_2 + Max_Stem_Size + 1;
+   start_stem_4  : constant := start_stem_3 + Max_Stem_Size + 1;
+   start_part    : constant := start_stem_4 + Max_Stem_Size + 1;
 
    line_number : Integer := 0;
 
@@ -80,7 +80,7 @@ procedure makeewds is
       --  Find hyphenated words and add them to MEAN with a / connector, right before the parse
       --  so one has both the individual words (may be more than two) and a single combined word
       --  counting-board -> counting board/countingboard
-      t : String (1..max_meaning_size*2 + 20) := (others => ' ');   --  Cannot be bigger
+      t : String (1..Max_Meaning_Size*2 + 20) := (others => ' ');   --  Cannot be bigger
       word_start : Integer := 1;
       word_end   : Integer := 0;
       i, j, jmax : Integer := 0;
@@ -226,9 +226,9 @@ procedure makeewds is
       j, k, l, m, im, ic : Integer := 0;
       end_semi : constant Integer := 1;
       --  Have to expand type to take care of hyphenated
-      subtype x_meaning_type is String(1..max_meaning_size*2+20);
-      null_x_meaning_type : constant x_meaning_type := (others => ' ');
-      semi, comma : x_meaning_type := null_x_meaning_type;
+      subtype x_Meaning_Type is String(1..Max_Meaning_Size*2+20);
+      null_x_Meaning_Type : constant x_Meaning_Type := (others => ' ');
+      semi, comma : x_Meaning_Type := null_x_Meaning_Type;
 
       ww : Integer := 0;    --  For debug
    begin
@@ -256,7 +256,7 @@ procedure makeewds is
             l := l + 1;
          end if;
 
-         semi := null_x_meaning_type;
+         semi := null_x_Meaning_Type;
          im := 1;
          extract_semi:
          loop
@@ -328,7 +328,7 @@ procedure makeewds is
             sm : constant String(st'First..st'Last) := st;
          begin
             if st'Length > 0  then
-               comma := null_x_meaning_type;
+               comma := null_x_Meaning_Type;
                im := sm'First;
                m := 0;
 
@@ -344,7 +344,7 @@ procedure makeewds is
                loop_over_semi:
 
                while im <= sm'Last loop
-                  comma := null_x_meaning_type;
+                  comma := null_x_Meaning_Type;
                   ww := 20;
                   find_comma:
                   loop
@@ -680,14 +680,14 @@ begin
    --     ADD_FILE_NAME_EXTENSION(DICT_LINE_NAME, DICTIONARY_KIND'IMAGE(D_K)));
 
    Open(Input, In_File, add_file_name_extension(dict_line_name,
-                                                dictionary_kind'Image(d_k)));
+                                                Dictionary_Kind'Image(d_k)));
    --PUT_LINE("OPEN");
 
    if not porting  then
       --PUT_LINE("CREATING");
 
       Create(Output, Out_File, add_file_name_extension("EWDSLIST",
-                                                       dictionary_kind'Image(d_k)));
+                                                       Dictionary_Kind'Image(d_k)));
 
       if checking  then
          Create (check, Out_File, "CHECKEWD.");
@@ -706,11 +706,11 @@ begin
 
          form_de:
          begin
-            de.stems(1) := s(start_stem_1..max_stem_size);
+            de.stems(1) := s(start_stem_1..Max_Stem_Size);
             --NEW_LINE; PUT(DE.STEMS(1));
-            de.stems(2) := s(start_stem_2..start_stem_2+max_stem_size-1);
-            de.stems(3) := s(start_stem_3..start_stem_3+max_stem_size-1);
-            de.stems(4) := s(start_stem_4..start_stem_4+max_stem_size-1);
+            de.stems(2) := s(start_stem_2..start_stem_2+Max_Stem_Size-1);
+            de.stems(3) := s(start_stem_3..start_stem_3+Max_Stem_Size-1);
+            de.stems(4) := s(start_stem_4..start_stem_4+Max_Stem_Size-1);
             --PUT('#'); PUT(INTEGER'IMAGE(L)); PUT(INTEGER'IMAGE(LAST));
             --PUT('@');
             Get(s(start_part..last), de.part, l);
@@ -722,7 +722,7 @@ begin
             Get(s(l+1..last), de.tran.geo, l);
             Get(s(l+1..last), de.tran.freq, l);
             Get(s(l+1..last), de.tran.source, l);
-            de.mean := Head (s(l+2..last), max_meaning_size);
+            de.mean := Head (s(l+2..last), Max_Meaning_Size);
             --  Note that this allows initial blanks
             --  L+2 skips over the SPACER, required because this is STRING, not ENUM
 

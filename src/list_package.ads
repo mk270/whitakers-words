@@ -15,7 +15,7 @@
 -- available to anyone who wishes to use them, for whatever purpose.
 
 with Text_IO;
-with dictionary_package; use dictionary_package;
+with Dictionary_Package; use Dictionary_Package;
 with config; use config;
 package list_package is
 
@@ -27,15 +27,15 @@ package list_package is
                         Output   : Text_IO.File_Type;
                         raw_word : String;
                         Input_Line : String;
-                        pa       : in out parse_array;
+                        pa       : in out Parse_Array;
                         pa_last  : in out Integer);
 
    procedure list_entry(Output   : Text_IO.File_Type;
-                        d_k      : dictionary_kind;
-                        mn       : dict_io.Count);
+                        d_k      : Dictionary_Kind;
+                        mn       : Dict_IO.Count);
 
    procedure unknown_search(unknown       :  in String;
-                            unknown_count : out dict_io.Count);
+                            unknown_count : out Dict_IO.Count);
 
    procedure list_neighborhood(Output : Text_IO.File_Type; Input_word : String);
 

@@ -19,7 +19,7 @@ with Strings_Package; use Strings_Package;
 with config;
 with word_parameters; use word_parameters;
 with inflections_package; use inflections_package;
-with dictionary_package; use dictionary_package;
+with Dictionary_Package; use Dictionary_Package;
 with developer_parameters; use developer_parameters;
 with word_package; use word_package;
 with english_support_package; use english_support_package;
@@ -34,7 +34,7 @@ procedure search_english(Input_english_word : String; pofs : part_of_speech_type
    number_of_hits : Integer := 0;
    j1, j2, j : ewds_direct_io.Count := 0;
 
-   d_k : constant dictionary_kind := general;    --  For the moment
+   d_k : constant Dictionary_Kind := general;    --  For the moment
 
    ewds : ewds_record := null_ewds_record;
 
@@ -121,7 +121,7 @@ procedure search_english(Input_english_word : String; pofs : part_of_speech_type
                end if;
             end do_pause;
 
-            dict_io.Read(dict_file(general), de, dict_io.Count(Output_array(i).n));
+            Dict_IO.Read(dict_file(general), de, Dict_IO.Count(Output_array(i).n));
             Put(Output, dictionary_form(de));
             Text_IO.Put(Output, "   ");
 

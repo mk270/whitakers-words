@@ -16,17 +16,17 @@
 
 with Text_IO;
 with inflections_package; use inflections_package;
-with dictionary_package; use dictionary_package;
+with Dictionary_Package; use Dictionary_Package;
 with config; use config;
 with word_parameters; use word_parameters;
 --with LATIN_DEBUG;
 procedure Put_example_line(configuration : configuration_type;
-                           Output : Text_IO.File_Type; ir : in inflection_record;
+                           Output : Text_IO.File_Type; ir : in Inflection_Record;
                                                        de : in dictionary_entry) is
    --      use LATIN_DEBUG;
    vk : verb_kind_type;
 
-   procedure Put_verb_example(Output : Text_IO.File_Type; ir : in inflection_record;
+   procedure Put_verb_example(Output : Text_IO.File_Type; ir : in Inflection_Record;
                                                           vk : in verb_kind_type) is
       person : constant person_type      := ir.qual.v.person;
       number : constant number_type      := ir.qual.v.number;

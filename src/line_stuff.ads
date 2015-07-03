@@ -16,7 +16,7 @@
 
 with Text_IO; use Text_IO;
 with inflections_package; use inflections_package;
-with dictionary_package; use dictionary_package;
+with Dictionary_Package; use Dictionary_Package;
 with addons_package; use addons_package;
 with uniques_package; use uniques_package;
 package line_stuff is
@@ -40,9 +40,9 @@ package line_stuff is
    type tackon_line is
       record
          pofs : part_of_speech_type := tackon;
-         tack : stem_type := null_stem_type;
+         tack : Stem_Type := Null_Stem_Type;
          entr : tackon_entry := null_tackon_entry;
-         mean : meaning_type := null_meaning_type;
+         mean : Meaning_Type := Null_Meaning_Type;
       end record;
 
    null_tackon_line : tackon_line;
@@ -63,7 +63,7 @@ package line_stuff is
          fix  : fix_type := null_fix_type;
          connect : Character := ' ';
          entr : prefix_entry := null_prefix_entry;
-         mean : meaning_type := null_meaning_type;
+         mean : Meaning_Type := Null_Meaning_Type;
       end record;
 
    null_prefix_line : prefix_line;
@@ -84,7 +84,7 @@ package line_stuff is
          fix  : fix_type := null_fix_type;
          connect    : Character := ' ';
          entr : suffix_entry := null_suffix_entry;
-         mean : meaning_type := null_meaning_type;
+         mean : Meaning_Type := Null_Meaning_Type;
       end record;
 
    null_suffix_line : suffix_line;
@@ -101,7 +101,7 @@ package line_stuff is
 
    type unique_entry is
       record
-         stem : stem_type          := null_stem_type;
+         stem : Stem_Type          := Null_Stem_Type;
          qual : quality_record     := null_quality_record;
          kind : kind_entry         := null_kind_entry;
          tran : translation_record := null_translation_record;
@@ -117,7 +117,7 @@ package line_stuff is
       procedure Put(s : out String; p : in unique_entry);
    end unique_entry_io;
 
-   procedure load_stem_file(d_k : dictionary_kind);
+   procedure load_stem_file(d_k : Dictionary_Kind);
 
    procedure load_dictionary(dict : in out dictionary;
                              dictionary_file_name : String);

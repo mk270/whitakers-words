@@ -323,7 +323,7 @@ package body tricks_package is
    end roman_number;
 
    procedure roman_numerals(Input_word : String;
-                            pa : in out parse_array; pa_last : in out Integer) is
+                            pa : in out Parse_Array; pa_last : in out Integer) is
 
       w : constant String := Trim (Input_word);
       roman_number_w : constant Integer := roman_number(w);
@@ -331,8 +331,8 @@ package body tricks_package is
    begin
       if only_roman_digits(w) and then (roman_number_w /= 0)  then
          pa_last := pa_last + 1;
-         pa(pa_last) := ( stem => Head(w, max_stem_size),
-           ir => (
+         pa(pa_last) := (Stem => Head (w, Max_Stem_Size),
+           IR => (
            qual => (
            pofs => num,
            num => (
@@ -346,10 +346,10 @@ package body tricks_package is
            ending => null_ending_record,
            age => x,
            freq => a),
-           d_k => rrr,
-           mnpc => null_mnpc);
+           D_K => rrr,
+           MNPC => Null_MNPC);
          rrr_meaning := Head(Integer'Image(roman_number_w) & "  as a ROMAN NUMERAL;",
-           max_meaning_size);
+           Max_Meaning_Size);
       else
          null;    --  Is not ROMAN NUMERAL, so go on and try something else
       end if;
@@ -400,16 +400,16 @@ package body tricks_package is
    end bad_roman_number;
 
    procedure syncope(w : String;
-                     pa : in out parse_array; pa_last : in out Integer) is
+                     pa : in out Parse_Array; pa_last : in out Integer) is
       s  : constant String(1..w'Length) := Lower_Case (w);
       pa_save : constant Integer := pa_last;
-      syncope_inflection_record : constant inflection_record := null_inflection_record;
+      Syncope_Inflection_Record : constant Inflection_Record := Null_Inflection_Record;
       --     ((V, ((0, 0), (X, X, X), 0, X, X)), 0, NULL_ENDING_RECORD, X, A);
    begin
 
       --  Syncopated forms (see Gildersleeve and Lodge, 131)
 
-      yyy_meaning := null_meaning_type;
+      yyy_meaning := Null_Meaning_Type;
 
       --  This one has to go first --  special for 3 4
       --  ivi  => ii ,  in perfect  (esp. for V 3 4)
@@ -418,8 +418,8 @@ package body tricks_package is
       for i in reverse s'First..s'Last-1  loop
          if s(i..i+1) = "ii" then
             pa_last := pa_last + 1;
-            pa(pa_last) := ("Syncope  ii => ivi", syncope_inflection_record,
-              yyy, null_mnpc);
+            pa(pa_last) := ("Syncope  ii => ivi", Syncope_Inflection_Record,
+              yyy, Null_MNPC);
             word(s(s'First..i) & "v" & s(i+1..s'Last), pa, pa_last);
             if pa_last > pa_save + 1  then
                exit;
@@ -428,17 +428,17 @@ package body tricks_package is
          pa_last := pa_save;     --  No luck, or it would have exited above
       end loop;
       if pa_last > pa_save + 1  and then
-        pa(pa_last).ir.qual.pofs = v and then
+        pa(pa_last).IR.qual.pofs = v and then
         --PA(PA_LAST).IR.QUAL.V.CON = (3, 4)/(6, 1) and then
-        pa(pa_last).ir.key = 3
+        pa(pa_last).IR.key = 3
       then          --  Perfect system
          yyy_meaning := Head(
            "Syncopated perfect ivi can drop 'v' without contracting vowel "
-           , max_meaning_size);
+           , Max_Meaning_Size);
 
          Put_stat("SYNCOPE  ivi at "
            & Head(Integer'Image(line_number), 8) & Head(Integer'Image(word_number), 4)
-           & "   " & Head(w, 20) & "   "  & pa(pa_save+1).stem);
+           & "   " & Head(w, 20) & "   "  & pa(pa_save+1).Stem);
          return;
       else
          pa_last := pa_save;
@@ -453,8 +453,8 @@ package body tricks_package is
          then
             --TEXT_IO.PUT_LINE("SYNCOPE vis   S = " & S & "    PA_SAVE = " & INTEGER'IMAGE(PA_SAVE));
             pa_last := pa_last + 1;
-            pa(pa_last)         := ("Syncope   s => vis", syncope_inflection_record,
-              yyy, null_mnpc);
+            pa(pa_last)         := ("Syncope   s => vis", Syncope_Inflection_Record,
+              yyy, Null_MNPC);
             --TEXT_IO.PUT_LINE("SYNCOPE vis   S+ = " & S(S'FIRST..I) & "vi" & S(I+1..S'LAST) & "  " & INTEGER'IMAGE(PA_LAST));
             word(s(s'First..i) & "vi" & s(i+1..s'Last), pa, pa_last);
             --TEXT_IO.PUT_LINE("SYNCOPE vis   DONE "  & "    PA_LAST = " & INTEGER'IMAGE(PA_LAST));
@@ -466,21 +466,19 @@ package body tricks_package is
       end loop;
       --  Loop over the resulting solutions
       if pa_last > pa_save + 1  and then
-        pa(pa_last).ir.qual.pofs = v and then
-        pa(pa_last).ir.key = 3
+        pa(pa_last).IR.qual.pofs = v and then
+        pa(pa_last).IR.key = 3
       then          --  Perfect system
          yyy_meaning := Head(
            "Syncopated perfect often drops the 'v' and contracts vowel "
-           , max_meaning_size);
+           , Max_Meaning_Size);
          Put_stat("SYNCOPE  vis at "
            & Head(Integer'Image(line_number), 8) & Head(Integer'Image(word_number), 4)
-           & "   " & Head(w, 20) & "   "  & pa(pa_save+1).stem);
+           & "   " & Head(w, 20) & "   "  & pa(pa_save+1).Stem);
       end if;
       --  end loop;   --  over resulting solutions
       if pa_last > pa_save + 1  then
-
          return;
-
       else
          pa_last := pa_save;
       end if;
@@ -492,8 +490,8 @@ package body tricks_package is
             (s(i..i+1) = "or")
          then
             pa_last := pa_last + 1;
-            pa(pa_last) := ("Syncope   r => v.r", syncope_inflection_record,
-              yyy, null_mnpc);
+            pa(pa_last) := ("Syncope   r => v.r", Syncope_Inflection_Record,
+              yyy, Null_MNPC);
             word(s(s'First..i) & "ve" & s(i+1..s'Last), pa, pa_last);
             if pa_last > pa_save + 1  then
                exit;
@@ -503,16 +501,16 @@ package body tricks_package is
       end loop;
 
       if pa_last > pa_save + 1  and then
-        pa(pa_last).ir.qual.pofs = v and then
-        pa(pa_last).ir.key = 3
+        pa(pa_last).IR.qual.pofs = v and then
+        pa(pa_last).IR.key = 3
       then          --  Perfect system
          yyy_meaning := Head(
            "Syncopated perfect often drops the 'v' and contracts vowel "
-           , max_meaning_size);
+           , Max_Meaning_Size);
 
          Put_stat("SYNCOPE  ver at "
            & Head(Integer'Image(line_number), 8) & Head(Integer'Image(word_number), 4)
-           & "   " & Head(w, 20) & "   "  & pa(pa_save+1).stem);
+           & "   " & Head(w, 20) & "   "  & pa(pa_save+1).Stem);
          return;
       else
          pa_last := pa_save;
@@ -522,8 +520,8 @@ package body tricks_package is
       for i in reverse s'First..s'Last-3  loop
          if s(i..i+2) = "ier" then
             pa_last := pa_last + 1;
-            pa(pa_last) := ("Syncope  ier=>iver", syncope_inflection_record,
-              yyy, null_mnpc);
+            pa(pa_last) := ("Syncope  ier=>iver", Syncope_Inflection_Record,
+              yyy, Null_MNPC);
             word(s(s'First..i) & "v" & s(i+1..s'Last), pa, pa_last);
             if pa_last > pa_save + 1  then
                exit;
@@ -532,16 +530,16 @@ package body tricks_package is
          pa_last := pa_save;     --  No luck, or it would have exited above
       end loop;
       if pa_last > pa_save + 1  and then
-        pa(pa_last).ir.qual.pofs = v and then
-        pa(pa_last).ir.key = 3
+        pa(pa_last).IR.qual.pofs = v and then
+        pa(pa_last).IR.key = 3
       then          --  Perfect system
          yyy_meaning := Head(
            "Syncopated perfect often drops the 'v' and contracts vowel "
-           , max_meaning_size);
+           , Max_Meaning_Size);
 
          Put_stat("SYNCOPE  ier at "
            & Head(Integer'Image(line_number), 8) & Head(Integer'Image(word_number), 4)
-           & "   " & Head(w, 20) & "   "  & pa(pa_save+1).stem);
+           & "   " & Head(w, 20) & "   "  & pa(pa_save+1).Stem);
          return;
       else
          pa_last := pa_save;
@@ -553,8 +551,8 @@ package body tricks_package is
             (s(i) = 'x')
          then
             pa_last := pa_last + 1;
-            pa(pa_last)         := ("Syncope s/x => +is", syncope_inflection_record,
-              yyy, null_mnpc);
+            pa(pa_last)         := ("Syncope s/x => +is", Syncope_Inflection_Record,
+              yyy, Null_MNPC);
             word(s(s'First..i) & "is" & s(i+1..s'Last), pa, pa_last);
             if pa_last > pa_save + 1  then
                exit;               --  Exit loop here if SYNCOPE found hit
@@ -564,15 +562,15 @@ package body tricks_package is
       end loop;
       --  Loop over the resulting solutions
       if pa_last > pa_save + 1  and then
-        pa(pa_last).ir.qual.pofs = v and then
-        pa(pa_last).ir.key = 3
+        pa(pa_last).IR.qual.pofs = v and then
+        pa(pa_last).IR.key = 3
       then          --  Perfect system
          yyy_meaning := Head(
            "Syncopated perfect sometimes drops the 'is' after 's' or 'x' "
-           , max_meaning_size);
+           , Max_Meaning_Size);
          Put_stat("SYNCOPEx/sis at "
            & Head(Integer'Image(line_number), 8) & Head(Integer'Image(word_number), 4)
-           & "   " & Head(w, 20) & "   "  & pa(pa_save+1).stem);
+           & "   " & Head(w, 20) & "   "  & pa(pa_save+1).Stem);
          return;
       else
          pa_last := pa_save;
@@ -580,24 +578,22 @@ package body tricks_package is
 
       --  end loop;   --  over resulting solutions
       if pa_last > pa_save + 1  then
-
          return;
-
       else
          pa_last := pa_save;
       end if;
 
-      pa(pa_last+1) := null_parse_record;     --  Just to clear the trys
+      pa(pa_last+1) := Null_Parse_Record;     --  Just to clear the trys
 
    exception
       when others  =>
          pa_last := pa_save;
-         pa(pa_last+1) := null_parse_record;     --  Just to clear the trys
+         pa(pa_last+1) := Null_Parse_Record;     --  Just to clear the trys
 
    end syncope;
 
    procedure try_tricks(w : String;
-                        pa : in out parse_array; pa_last : in out Integer;
+                        pa : in out Parse_Array; pa_last : in out Integer;
                                                  line_number : Integer; word_number : Integer) is
       --  Since the chances are 1/1000 that we have one,
       --  Ignore the possibility of two in the same word
@@ -606,7 +602,7 @@ package body tricks_package is
       pa_save : constant Integer := pa_last;
 
       procedure tword(w : String;
-                      pa : in out parse_array; pa_last : in out Integer) is
+                      pa : in out Parse_Array; pa_last : in out Integer) is
       begin
          word_package.word(w, pa, pa_last);
          syncope(w, pa, pa_last);
@@ -620,23 +616,23 @@ package body tricks_package is
             s(s'First..s'First+x1'Length-1) = x1
          then
             pa_last := pa_last + 1;
-            pa(pa_last) := (Head("Word mod " & x1 & "/" & x2, max_stem_size),
-              null_inflection_record,
-              xxx, null_mnpc);
+            pa(pa_last) := (Head("Word mod " & x1 & "/" & x2, Max_Stem_Size),
+              Null_Inflection_Record,
+              xxx, Null_MNPC);
             tword(x2 & s(s'First+x1'Length..s'Last), pa, pa_last);
             if (pa_last > pa_save + 1)   and then
-              (pa(pa_last-1).ir.qual.pofs /= tackon)
+              (pa(pa_last-1).IR.qual.pofs /= tackon)
             then
                if explanation = ""  then
                   xxx_meaning := Head(
                     "An initial '" & x1 & "' may have replaced usual '" & x2 & "'"
-                    , max_meaning_size);
+                    , Max_Meaning_Size);
                else
-                  xxx_meaning := Head(explanation, max_meaning_size);
+                  xxx_meaning := Head(explanation, Max_Meaning_Size);
                end if;
                Put_stat("TRICK   FLIP at "
                  & Head(Integer'Image(line_number), 8) & Head(Integer'Image(word_number), 4)
-                 & "   " & Head(w, 20) & "   "  & pa(pa_save+1).stem);
+                 & "   " & Head(w, 20) & "   "  & pa(pa_save+1).Stem);
                return;
             else
                pa_last := pa_save;
@@ -656,25 +652,25 @@ package body tricks_package is
            s(s'First..s'First+x1'Length-1) = x1
          then
             pa_last := pa_last + 1;
-            pa(pa_last) := (Head("Word mod " & x1 & "/" & x2, max_stem_size),
-              null_inflection_record,
-              xxx, null_mnpc);
+            pa(pa_last) := (Head("Word mod " & x1 & "/" & x2, Max_Stem_Size),
+              Null_Inflection_Record,
+              xxx, Null_MNPC);
             --TEXT_IO.PUT_LINE("Trying " & X2 & S(S'FIRST+X1'LENGTH..S'LAST));
             tword(x2 & s(s'First+x1'Length..s'Last), pa, pa_last);
             if (pa_last > pa_save + 1)   and then
-              (pa(pa_last-1).ir.qual.pofs /= tackon)
+              (pa(pa_last-1).IR.qual.pofs /= tackon)
             then
                --TEXT_IO.PUT_LINE("FLIPF worked");
                if explanation = ""  then
                   xxx_meaning := Head(
                     "An initial '" & x1 & "' may be rendered by '" & x2 & "'"
-                    , max_meaning_size);
+                    , Max_Meaning_Size);
                else
-                  xxx_meaning := Head(explanation, max_meaning_size);
+                  xxx_meaning := Head(explanation, Max_Meaning_Size);
                end if;
                Put_stat("TRICK  FLIPF at "
                  & Head(Integer'Image(line_number), 8) & Head(Integer'Image(word_number), 4)
-                 & "   " & Head(w, 20) & "   "  & pa(pa_save+1).stem);
+                 & "   " & Head(w, 20) & "   "  & pa(pa_save+1).Stem);
                return;
             else
                pa_last := pa_save;
@@ -688,25 +684,25 @@ package body tricks_package is
          then
             --TEXT_IO.PUT_LINE("Trying FFLOP");
             pa_last := pa_last + 1;
-            pa(pa_last) := (Head("Word mod " & x2 & "/" & x1, max_stem_size),
-              null_inflection_record,
-              xxx, null_mnpc);
+            pa(pa_last) := (Head("Word mod " & x2 & "/" & x1, Max_Stem_Size),
+              Null_Inflection_Record,
+              xxx, Null_MNPC);
             --TEXT_IO.PUT_LINE("Trying " & X1 & S(S'FIRST+X2'LENGTH..S'LAST));
             tword(x1 & s(s'First+x2'Length..s'Last), pa, pa_last);
             if (pa_last > pa_save + 1)   and then
-              (pa(pa_last-1).ir.qual.pofs /= tackon)
+              (pa(pa_last-1).IR.qual.pofs /= tackon)
             then
                --TEXT_IO.PUT_LINE("FFLOP worked");
                if explanation = ""  then
                   xxx_meaning := Head(
                     "An initial '" & x2 & "' may be rendered by '" & x1 & "'"
-                    , max_meaning_size);
+                    , Max_Meaning_Size);
                else
-                  xxx_meaning := Head(explanation, max_meaning_size);
+                  xxx_meaning := Head(explanation, Max_Meaning_Size);
                end if;
                Put_stat("TRICK  FFLOP at "
                  & Head(Integer'Image(line_number), 8) & Head(Integer'Image(word_number), 4)
-                 & "   " & Head(w, 20) & "   "  & pa(pa_save+1).stem);
+                 & "   " & Head(w, 20) & "   "  & pa(pa_save+1).Stem);
                return;
             else
                pa_last := pa_save;
@@ -724,23 +720,23 @@ package body tricks_package is
          for i in s'First..s'Last-x1'Length+1  loop
             if s(i..i+x1'Length-1) = x1   then
                pa_last := pa_last + 1;
-               pa(pa_last) := (Head("Word mod " & x1 & "/" & x2, max_stem_size),
-                 null_inflection_record,
-                 xxx, null_mnpc);
+               pa(pa_last) := (Head("Word mod " & x1 & "/" & x2, Max_Stem_Size),
+                 Null_Inflection_Record,
+                 xxx, Null_MNPC);
                tword(s(s'First..i-1) & x2 & s(i+x1'Length..s'Last), pa, pa_last);
                if (pa_last > pa_save + 1)   and then
-                 (pa(pa_last-1).ir.qual.pofs /= tackon)
+                 (pa(pa_last-1).IR.qual.pofs /= tackon)
                then
                   if explanation = ""  then
                      xxx_meaning := Head(
                        "An internal '" & x1 & "' might be rendered by '" & x2 & "'"
-                       , max_meaning_size);
+                       , Max_Meaning_Size);
                   else
-                     xxx_meaning := Head(explanation, max_meaning_size);
+                     xxx_meaning := Head(explanation, Max_Meaning_Size);
                   end if;
                   Put_stat("TRICK   INTR at "
                     & Head(Integer'Image(line_number), 8) & Head(Integer'Image(word_number), 4)
-                    & "   " & Head(w, 20) & "   "  & pa(pa_save+1).stem);
+                    & "   " & Head(w, 20) & "   "  & pa(pa_save+1).Stem);
                   return;
                else
                   pa_last := pa_save;
@@ -758,18 +754,18 @@ package body tricks_package is
            s(s'Last-1..s'Last) = "is"
          then   --  Terminal 'is'
             pa_last := pa_last + 1;
-            pa(pa_last) := (Head("Word mod iis -> is", max_stem_size),
-              null_inflection_record,
-              xxx, null_mnpc);
+            pa(pa_last) := (Head("Word mod iis -> is", Max_Stem_Size),
+              Null_Inflection_Record,
+              xxx, Null_MNPC);
             word(s(s'First..s'Last-2) & "iis", pa, pa_last);
             if pa_last > pa_save + 1 then
                i := pa_last;
                while i > pa_save + 1  loop
-                  if pa(i).ir.qual.pofs = adj  and then
-                    pa(i).ir.qual.adj.decl = (1, 1)  and then
-                    ((pa(i).ir.qual.adj.cs = dat) or
-                    (pa(i).ir.qual.adj.cs = abl))   and then
-                    pa(i).ir.qual.adj.number = p
+                  if pa(i).IR.qual.pofs = adj  and then
+                    pa(i).IR.qual.adj.decl = (1, 1)  and then
+                    ((pa(i).IR.qual.adj.cs = dat) or
+                    (pa(i).IR.qual.adj.cs = abl))   and then
+                    pa(i).IR.qual.adj.number = p
                   then
                      null;       --  Only for ADJ 1 1 DAT/ABL P
                   else
@@ -782,13 +778,13 @@ package body tricks_package is
             if pa_last > pa_save + 1 then
                if explanation = ""  then
                   xxx_meaning := Head("A Terminal 'iis' on ADJ 1 1 DAT/ABL P might drop 'i'",
-                    max_meaning_size);
+                    Max_Meaning_Size);
                else
-                  xxx_meaning := Head(explanation, max_meaning_size);
+                  xxx_meaning := Head(explanation, Max_Meaning_Size);
                end if;
                Put_stat("TRICK  ADJIS at "
                  & Head(Integer'Image(line_number), 8) & Head(Integer'Image(word_number), 4)
-                 & "   " & Head(w, 20) & "   "  & pa(pa_save+1).stem);
+                 & "   " & Head(w, 20) & "   "  & pa(pa_save+1).Stem);
                return;
             else
                pa_last := pa_save;
@@ -809,24 +805,24 @@ package body tricks_package is
             then
                pa_last := pa_last + 1;
                pa(pa_last)           := (Head("Word mod " & s(i) &
-                 " -> " & s(i) & s(i), max_stem_size),
-                 null_inflection_record,
-                 xxx, null_mnpc);
+                 " -> " & s(i) & s(i), Max_Stem_Size),
+                 Null_Inflection_Record,
+                 xxx, Null_MNPC);
                tword(s(s'First..i) & s(i) & s(i+1..s'Last), pa, pa_last);
                --TEXT_IO.PUT_LINE(S(S'FIRST..I) & S(I) & S(I+1..S'LAST));
                if (pa_last > pa_save + 1)   and then
-                 (pa(pa_last-1).ir.qual.pofs /= tackon)
+                 (pa(pa_last-1).IR.qual.pofs /= tackon)
                then
                   if explanation = ""  then
                      xxx_meaning := Head(
                        "A doubled consonant may be rendered by just the single"
-                       & "  MEDIEVAL", max_meaning_size);
+                       & "  MEDIEVAL", Max_Meaning_Size);
                   else
-                     xxx_meaning := Head(explanation, max_meaning_size);
+                     xxx_meaning := Head(explanation, Max_Meaning_Size);
                   end if;
                   Put_stat("TRICK   2CON at "
                     & Head(Integer'Image(line_number), 8) & Head(Integer'Image(word_number), 4)
-                    & "   " & Head(w, 20) & "   "  & pa(pa_save+1).stem);
+                    & "   " & Head(w, 20) & "   "  & pa(pa_save+1).Stem);
                   return;
                else
                   pa_last := pa_save;
@@ -848,7 +844,7 @@ package body tricks_package is
          i, i_mid : Integer := 0;
          remember_syncope : Boolean := False;
          procedure words_no_syncope (w : String;
-                                     pa : in out parse_array; pa_last : in out Integer) is
+                                     pa : in out Parse_Array; pa_last : in out Integer) is
          begin
             if words_mdev(do_syncope)  then
                remember_syncope := True;
@@ -896,9 +892,9 @@ package body tricks_package is
          while i < s'Length - 2  loop
 
             pa_last := pa_last + 1;
-            pa(pa_last):= (Head("Two words", max_stem_size),
-              null_inflection_record,
-              xxx, null_mnpc);
+            pa(pa_last):= (Head("Two words", Max_Stem_Size),
+              Null_Inflection_Record,
+              xxx, Null_MNPC);
             --TEXT_IO.PUT_LINE("Setting PA TWO_WORDS  PA_LAST = " & INTEGER'IMAGE(PA_LAST));
 
             while i < s'Length - 2  loop
@@ -908,7 +904,7 @@ package body tricks_package is
                   if pa_last > pa_save + 1 then
                      i_mid := i;
                      for j in pa_save+1..pa_last  loop
-                        if pa(j).ir.qual.pofs = num  then
+                        if pa(j).IR.qual.pofs = num  then
                            num_hit_one := True;
                            exit;
                         end if;
@@ -935,14 +931,14 @@ package body tricks_package is
             --  Now for second word
             --TEXT_IO.PUT_LINE("Looking for second  >" & S(I_MID+1..S'LAST));
             pa_last := pa_last + 1;
-            pa(pa_last) := null_parse_record;     --  Separator
+            pa(pa_last) := Null_Parse_Record;     --  Separator
             pa_second := pa_last;
             words_no_syncope(s(i_mid+1..s'Last), pa, pa_last);
             if (pa_last > pa_second)   and then       --  No + 1 since XXX taken care of above
-              (pa(pa_last-1).ir.qual.pofs /= tackon)
+              (pa(pa_last-1).IR.qual.pofs /= tackon)
             then
                for j in pa_second..pa_last  loop
-                  if pa(j).ir.qual.pofs = num  then
+                  if pa(j).IR.qual.pofs = num  then
                      num_hit_two := True;
                      exit;
                   end if;
@@ -957,8 +953,8 @@ package body tricks_package is
                   then
                      --  Clear out any non-NUM if we are in TRIM
                      for j in pa_save+1..pa_last  loop
-                        if pa(j).d_k in general..unique  and then
-                          pa(j).ir.qual.pofs /= num
+                        if pa(j).D_K in general..unique  and then
+                          pa(j).IR.qual.pofs /= num
                         then
                            pa(j..pa_last-1) := pa(j+1..pa_last);
                            pa_last := pa_last - 1;
@@ -968,7 +964,7 @@ package body tricks_package is
                      xxx_meaning := Head(
                        "It is very likely a compound number    " &
                        s(s'First..s'First+i-1) & " + " &
-                       s(s'First+i..s'Last), max_meaning_size);
+                       s(s'First+i..s'Last), Max_Meaning_Size);
                      Put_stat("TRICK   2NUM at "
                        & Head(Integer'Image(line_number), 8) & Head(Integer'Image(word_number), 4)
                        & "   " & Head(w, 20) & "   "  & s(1..i_mid) & '+' & s(i_mid+1..s'Last));
@@ -977,13 +973,13 @@ package body tricks_package is
                        "May be 2 words combined (" &
                        s(s'First..s'First+i-1) & "+" &
                        s(s'First+i..s'Last) &
-                       ") If not obvious, probably incorrect", max_meaning_size);
+                       ") If not obvious, probably incorrect", Max_Meaning_Size);
                      Put_stat("TRICK   2WDS at "
                        & Head(Integer'Image(line_number), 8) & Head(Integer'Image(word_number), 4)
                        & "   " & Head(w, 20) & "   "  & s(1..i_mid) & '+' & s(i_mid+1..s'Last));
                   end if;
                else
-                  xxx_meaning := Head(explanation, max_meaning_size);
+                  xxx_meaning := Head(explanation, Max_Meaning_Size);
                end if;
 
                --TEXT_IO.PUT_LINE("Returing from 2WDS  PA_SAVE+1 = " & INTEGER'IMAGE(PA_SAVE+1) & "  " & PA(PA_SAVE+1).STEM);
@@ -1013,7 +1009,7 @@ package body tricks_package is
       --  These things might be genericized, at least the PA(1) assignments
       --TEXT_IO.PUT_LINE("TRICKS called");
 
-      xxx_meaning := null_meaning_type;
+      xxx_meaning := Null_Meaning_Type;
 
       --  If there is no satisfaction from above, we will try further
 
@@ -1184,19 +1180,19 @@ package body tricks_package is
             if s'Length > 1 and then
               s(s'First..s'First+1) = "is"
             then
-               pa(1) := ("Word mod is => iis", null_inflection_record,
-                 xxx, null_mnpc);
+               pa(1) := ("Word mod is => iis", Null_Inflection_Record,
+                 xxx, Null_MNPC);
                pa_last := 1;
                tword("i" & s(s'First..s'Last), pa, pa_last);
             end if;
             if (pa_last > pa_save + 1)   and then
-              (pa(pa_last-1).ir.qual.pofs /= tackon)  and then
-              pa(pa_last).ir.qual.pofs = v and then
-              pa(pa_last).ir.qual.v.con = (6, 1)
+              (pa(pa_last-1).IR.qual.pofs /= tackon)  and then
+              pa(pa_last).IR.qual.pofs = v and then
+              pa(pa_last).IR.qual.v.con = (6, 1)
             then  --    Check it is V 6 1 eo
                xxx_meaning := Head(
                  "Some forms of eo stem 'i' grates with an 'is...' ending, so 'is' -> 'iis' "
-                 , max_meaning_size);
+                 , Max_Meaning_Size);
                return;
             else
                pa_last := 0;
@@ -1585,15 +1581,15 @@ package body tricks_package is
       if only_roman_digits(w)  then
 
          pa_last := 1;
-         pa(1) := ("Bad Roman Numeral?", null_inflection_record,
-           xxx, null_mnpc);
-         xxx_meaning := null_meaning_type;
+         pa(1) := ("Bad Roman Numeral?", Null_Inflection_Record,
+           xxx, Null_MNPC);
+         xxx_meaning := Null_Meaning_Type;
 
          rrr_meaning := Head(Integer'Image(bad_roman_number(w)) & "  as ill-formed ROMAN NUMERAL?;",
-           max_meaning_size);
+           Max_Meaning_Size);
          pa_last := pa_last + 1;
-         pa(pa_last) := ( stem => Head(w, max_stem_size),
-           ir => (
+         pa(pa_last) := (Stem => Head(w, Max_Stem_Size),
+           IR => (
            qual => (
            pofs => num,
            num => (
@@ -1607,8 +1603,8 @@ package body tricks_package is
            ending => null_ending_record,
            age => x,
            freq => d),
-           d_k => rrr,
-           mnpc => null_mnpc         );
+           D_K => rrr,
+           MNPC => Null_MNPC         );
 
          return;
       end if;
@@ -1616,14 +1612,14 @@ package body tricks_package is
    exception
       when others  =>    --  I want to ignore anything that happens in TRICKS
          pa_last := pa_save;
-         pa(pa_last+1) := null_parse_record;     --  Just to clear the trys
+         pa(pa_last+1) := Null_Parse_Record;     --  Just to clear the trys
 
          Text_IO.Put_Line(    --  ERROR_FILE,
            "Exception in TRY_TRICKS processing " & w);
    end try_tricks;
 
    procedure try_slury(w : String;
-                       pa : in out parse_array; pa_last : in out Integer;
+                       pa : in out Parse_Array; pa_last : in out Integer;
                                                 line_number : Integer; word_number : Integer) is
       --  Since the chances are 1/1000 that we have one,
       --  Ignore the possibility of two in the same word
@@ -1632,7 +1628,7 @@ package body tricks_package is
       pa_save : constant Integer := pa_last;
 
       procedure tword(w : String;
-                      pa : in out parse_array; pa_last : in out Integer) is
+                      pa : in out Parse_Array; pa_last : in out Integer) is
          save_use_prefixes : constant Boolean := words_mdev(use_prefixes);
       begin
          words_mdev(use_prefixes) := False;
@@ -1649,23 +1645,23 @@ package body tricks_package is
            s(s'First..s'First+x1'Length-1) = x1
          then
             pa_last := pa_last + 1;
-            pa(pa_last) := (Head("Word mod " & x1 & "/" & x2, max_stem_size),
-              null_inflection_record,
-              xxx, null_mnpc);
+            pa(pa_last) := (Head("Word mod " & x1 & "/" & x2, Max_Stem_Size),
+              Null_Inflection_Record,
+              xxx, Null_MNPC);
             tword(x2 & s(s'First+x1'Length..s'Last), pa, pa_last);
             if (pa_last > pa_save + 1)   and then
-              (pa(pa_last-1).ir.qual.pofs /= tackon)
+              (pa(pa_last-1).IR.qual.pofs /= tackon)
             then
                if explanation = ""  then
                   xxx_meaning := Head(
                     "An initial '" & x1 & "' may be rendered by '" & x2 & "'"
-                    , max_meaning_size);
+                    , Max_Meaning_Size);
                else
-                  xxx_meaning := Head(explanation, max_meaning_size);
+                  xxx_meaning := Head(explanation, Max_Meaning_Size);
                end if;
                Put_stat("SLURY   FLIP at "
                  & Head(Integer'Image(line_number), 8) & Head(Integer'Image(word_number), 4)
-                 & "   " & Head(w, 20) & "   "  & pa(pa_save+1).stem);
+                 & "   " & Head(w, 20) & "   "  & pa(pa_save+1).Stem);
                return;
             else
                pa_last := pa_save;
@@ -1684,23 +1680,23 @@ package body tricks_package is
            s(s'First..s'First+x1'Length-1) = x1
          then
             pa_last := pa_last + 1;
-            pa(pa_last) := (Head("Word mod " & x1 & "/" & x2, max_stem_size),
-              null_inflection_record,
-              xxx, null_mnpc);
+            pa(pa_last) := (Head("Word mod " & x1 & "/" & x2, Max_Stem_Size),
+              Null_Inflection_Record,
+              xxx, Null_MNPC);
             tword(x2 & s(s'First+x1'Length..s'Last), pa, pa_last);
             if (pa_last > pa_save + 1)   and then
-              (pa(pa_last-1).ir.qual.pofs /= tackon)
+              (pa(pa_last-1).IR.qual.pofs /= tackon)
             then
                if explanation = ""  then
                   xxx_meaning := Head(
                     "An initial '" & x1 & "' may be rendered by '" & x2 & "'"
-                    , max_meaning_size);
+                    , Max_Meaning_Size);
                else
-                  xxx_meaning := Head(explanation, max_meaning_size);
+                  xxx_meaning := Head(explanation, Max_Meaning_Size);
                end if;
                Put_stat("SLURY   FLOP at "
                  & Head(Integer'Image(line_number), 8) & Head(Integer'Image(word_number), 4)
-                 & "   " & Head(w, 20) & "   "  & pa(pa_save+1).stem);
+                 & "   " & Head(w, 20) & "   "  & pa(pa_save+1).Stem);
                return;
             else
                pa_last := pa_save;
@@ -1710,23 +1706,23 @@ package body tricks_package is
            s(s'First..s'First+x2'Length-1) = x2
          then
             pa_last := pa_last + 1;
-            pa(pa_last) := (Head("Word mod " & x2 & "/" & x1, max_stem_size),
-              null_inflection_record,
-              xxx, null_mnpc);
+            pa(pa_last) := (Head("Word mod " & x2 & "/" & x1, Max_Stem_Size),
+              Null_Inflection_Record,
+              xxx, Null_MNPC);
             tword(x1 & s(s'First+x2'Length..s'Last), pa, pa_last);
             if (pa_last > pa_save + 1)   and then
-              (pa(pa_last-1).ir.qual.pofs /= tackon)
+              (pa(pa_last-1).IR.qual.pofs /= tackon)
             then
                if explanation = ""  then
                   xxx_meaning := Head(
                     "An initial '" & x1 & "' may be rendered by '" & x2 & "'"
-                    , max_meaning_size);
+                    , Max_Meaning_Size);
                else
-                  xxx_meaning := Head(explanation, max_meaning_size);
+                  xxx_meaning := Head(explanation, Max_Meaning_Size);
                end if;
                Put_stat("SLURY   FLOP at "
                  & Head(Integer'Image(line_number), 8) & Head(Integer'Image(word_number), 4)
-                 & "   " & Head(w, 20) & "   "  & pa(pa_save+1).stem);
+                 & "   " & Head(w, 20) & "   "  & pa(pa_save+1).Stem);
                return;
             else
                pa_last := pa_save;
@@ -1745,23 +1741,23 @@ package body tricks_package is
               not is_a_vowel(s(s'First+sl))
             then
                pa_last := pa_last + 1;
-               pa(pa_last)           := (Head("Slur " & x1 & "/" & x1(x1'First..sl-1) & "~", max_stem_size),
-                 null_inflection_record,
-                 xxx, null_mnpc);
+               pa(pa_last)           := (Head("Slur " & x1 & "/" & x1(x1'First..sl-1) & "~", Max_Stem_Size),
+                 Null_Inflection_Record,
+                 xxx, Null_MNPC);
                tword(x1(x1'First..sl-1) & s(s'First+sl) & s(s'First+sl..s'Last), pa, pa_last);
                if (pa_last > pa_save + 1)   and then
-                 (pa(pa_last-1).ir.qual.pofs /= tackon)
+                 (pa(pa_last-1).IR.qual.pofs /= tackon)
                then
                   if explanation = ""  then
                      xxx_meaning := Head(
                        "An initial '" & x1 & "' may be rendered by " & x1(x1'First..x1'Last-1) & "~",
-                       max_meaning_size);
+                       Max_Meaning_Size);
                   else
-                     xxx_meaning := Head(explanation, max_meaning_size);
+                     xxx_meaning := Head(explanation, Max_Meaning_Size);
                   end if;
                   Put_stat("SLURY   SLUR at "
                     & Head(Integer'Image(line_number), 8) & Head(Integer'Image(word_number), 4)
-                    & "   " & Head(w, 20) & "   "  & pa(pa_save+1).stem);
+                    & "   " & Head(w, 20) & "   "  & pa(pa_save+1).Stem);
                   return;
                else
                   pa_last := pa_save;
@@ -1772,23 +1768,23 @@ package body tricks_package is
               not is_a_vowel(s(s'First+sl))
             then
                pa_last := pa_last + 1;
-               pa(pa_last) := (Head("Slur " & x1(x1'First..sl-1) & "~" & "/" & x1, max_stem_size),
-                 null_inflection_record,
-                 xxx, null_mnpc);
+               pa(pa_last) := (Head("Slur " & x1(x1'First..sl-1) & "~" & "/" & x1, Max_Stem_Size),
+                 Null_Inflection_Record,
+                 xxx, Null_MNPC);
                tword(x1 & s(s'First+sl..s'Last), pa, pa_last);
                if (pa_last > pa_save + 1)   and then
-                 (pa(pa_last-1).ir.qual.pofs /= tackon)
+                 (pa(pa_last-1).IR.qual.pofs /= tackon)
                then
                   if explanation = ""  then
                      xxx_meaning := Head(
                        "An initial '" & x1(x1'First..sl-1) & "~" & "' may be rendered by " & x1
-                       , max_meaning_size);
+                       , Max_Meaning_Size);
                   else
-                     xxx_meaning := Head(explanation, max_meaning_size);
+                     xxx_meaning := Head(explanation, Max_Meaning_Size);
                   end if;
                   Put_stat("SLURY   SLUR at "
                     & Head(Integer'Image(line_number), 8) & Head(Integer'Image(word_number), 4)
-                    & "   " & Head(w, 20) & "   "  & pa(pa_save+1).stem);
+                    & "   " & Head(w, 20) & "   "  & pa(pa_save+1).Stem);
                   return;
                else
                   pa_last := pa_save;
@@ -1910,7 +1906,7 @@ package body tricks_package is
    exception
       when others  =>    --  I want to ignore anything that happens in SLURY
          pa_last := pa_save;
-         pa(pa_last+1) := null_parse_record;     --  Just to clear the trys
+         pa(pa_last+1) := Null_Parse_Record;     --  Just to clear the trys
 
          Text_IO.Put_Line(    --  ERROR_FILE,
            "Exception in TRY_SLURY processing " & w);

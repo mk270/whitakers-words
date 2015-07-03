@@ -31,16 +31,16 @@ package body list_package is
 
    subtype xons is part_of_speech_type range tackon..suffix;
 
-   type dictionary_mnpc_record is record
-      d_k  : dictionary_kind := default_dictionary_kind;
-      mnpc : mnpc_type := null_mnpc;
+   type dictionary_MNPC_record is record
+      d_k  : Dictionary_Kind := Default_Dictionary_Kind;
+      MNPC : MNPC_type := Null_MNPC;
       de   : dictionary_entry := null_dictionary_entry;
    end record;
-   null_dictionary_mnpc_record : constant dictionary_mnpc_record
-     := (x, null_mnpc, null_dictionary_entry);
+   null_dictionary_MNPC_record : constant dictionary_MNPC_record
+     := (x, Null_MNPC, null_dictionary_entry);
 
    max_meaning_print_size : constant := 79;
-   mm : Integer := max_meaning_size;
+   mm : Integer := Max_Meaning_Size;
    i : Integer := 0;
 
    inflection_frequency : constant array (frequency_type) of String(1..8) :=
@@ -109,11 +109,11 @@ package body list_package is
    end Put_dictionary_flags;
 
    procedure Put_dictionary_form(Output : Text_IO.File_Type;
-                                 d_k    : dictionary_kind;
-                                 mnpc   : dict_io.Count;
+                                 d_k    : Dictionary_Kind;
+                                 MNPC   : Dict_IO.Count;
                                  de     : dictionary_entry) is
       chit, dhit, ehit, fhit, lhit : Boolean := False;   --  Things on this line?
-      dictionary_line_number : constant Integer := Integer(mnpc);
+      dictionary_line_number : constant Integer := Integer(MNPC);
       --DE : DICTIONARY_ENTRY := DM.DE;
 
    begin                               --  PUT_DICTIONARY_FORM
@@ -167,10 +167,10 @@ package body list_package is
                         Output   : Text_IO.File_Type;
                         raw_word : String;
                         Input_Line : String;
-                        pa       : in out parse_array;
+                        pa       : in out Parse_Array;
                         pa_last  : in out Integer) is
       use Text_IO;
-      use dict_io;
+      use Dict_IO;
 
       --  The main WORD processing has been to produce an array of PARSE_RECORD
       --      type PARSE_RECORD is
@@ -200,23 +200,23 @@ package body list_package is
       --  but breaking it into two arrays allows different manipulation
       --  These are only within this routine, used to clean up the Output
 
-      type stem_inflection_record is
+      type Stem_Inflection_Record is
          record
-            stem : stem_type          := null_stem_type;
-            ir   : inflection_record  := null_inflection_record;
+            stem : Stem_Type          := Null_Stem_Type;
+            ir   : Inflection_Record  := Null_Inflection_Record;
          end record;
-      null_stem_inflection_record : stem_inflection_record;
+      null_Stem_Inflection_Record : Stem_Inflection_Record;
 
       stem_inflection_array_size       : constant := 10;
       stem_inflection_array_array_size : constant := 40;
-      type stem_inflection_array is array (Integer range <>) of stem_inflection_record;
+      type stem_inflection_array is array (Integer range <>) of Stem_Inflection_Record;
       type stem_inflection_array_array is array (Integer range <>)
         of stem_inflection_array(1..stem_inflection_array_size);
 
       osra : stem_inflection_array(1..stem_inflection_array_size)
-        := (others => (null_stem_type, null_inflection_record));
+        := (others => (Null_Stem_Type, Null_Inflection_Record));
       sra, null_sra : constant stem_inflection_array(1..stem_inflection_array_size)
-        := (others => (null_stem_type, null_inflection_record));
+        := (others => (Null_Stem_Type, Null_Inflection_Record));
       sraa : stem_inflection_array_array(1..stem_inflection_array_array_size)
         := (others => null_sra);
       null_sraa : constant stem_inflection_array_array(1..stem_inflection_array_array_size)
@@ -229,13 +229,13 @@ package body list_package is
       --      end record;
       --      NULL_DICTIONARY_MNPC_RECORD : DICTIONARY_MNPC_RECORD
       --                                  := (X, NULL_MNPC, NULL_DICTIONARY_ENTRY);
-      dm, odm : dictionary_mnpc_record := null_dictionary_mnpc_record;
+      dm, odm : dictionary_MNPC_record := null_dictionary_MNPC_record;
 
-      dictionary_mnpc_array_size : constant := 40;
+      dictionary_MNPC_array_size : constant := 40;
 
-      type dictionary_mnpc_array is array (1..dictionary_mnpc_array_size)
-        of dictionary_mnpc_record;
-      dma, null_dma : dictionary_mnpc_array;
+      type dictionary_MNPC_array is array (1..dictionary_MNPC_array_size)
+        of dictionary_MNPC_record;
+      dma, null_dma : dictionary_MNPC_array;
 
       --MEANING_ARRAY_SIZE : constant := 5;
       --MEANING_ARRAY : array (1..MEANING_ARRAY_SIZE) of MEANING_TYPE;
@@ -246,8 +246,8 @@ package body list_package is
       j, j1, j2, k : Integer := 0;
       there_is_an_adverb : Boolean := False;
 
-      procedure  Put_inflection(sr : stem_inflection_record;
-                                dm : dictionary_mnpc_record) is
+      procedure  Put_inflection(sr : Stem_Inflection_Record;
+                                dm : dictionary_MNPC_record) is
          --  Handles Putting ONLY_MEAN, PEARSE_CODES, CAPS, QUAL, V_KIND, FLAGS
          procedure Put_inflection_flags is
          begin
@@ -295,7 +295,7 @@ package body list_package is
                Text_IO.Set_Col(Output, 22);
             end if;
 
-            if sr.ir /= null_inflection_record  then
+            if sr.ir /= Null_Inflection_Record  then
 
                print_modified_qual:
                declare
@@ -358,8 +358,8 @@ package body list_package is
          end if;
       end Put_inflection;
 
-      procedure Put_form(sr : stem_inflection_record;
-                         dm : dictionary_mnpc_record) is
+      procedure Put_form(sr : Stem_Inflection_Record;
+                         dm : dictionary_MNPC_record) is
          --  Handles PEARSE_CODES and DICTIONARY_FORM (which has FLAGS) and D_K
          --  The Pearse 02 is handled in PUT_DICTIONARY_FORM
       begin
@@ -367,7 +367,7 @@ package body list_package is
            (dm.d_k in general..unique)
          then
             --DICTIONARY_ENTRY_IO.PUT(DM.DE);
-            Put_dictionary_form(Output, dm.d_k, dm.mnpc, dm.de);
+            Put_dictionary_form(Output, dm.d_k, dm.MNPC, dm.de);
          end if;
       end Put_form;
 
@@ -394,10 +394,10 @@ package body list_package is
          Text_IO.Put(Output, Trim (Head(Trim_bar(raw_meaning), mm)));
       end Put_meaning;
 
-      function constructed_meaning(sr : stem_inflection_record;
-                                   dm  : dictionary_mnpc_record) return String is
+      function constructed_meaning(sr : Stem_Inflection_Record;
+                                   dm  : dictionary_MNPC_record) return String is
          --  Constructs the meaning for NUM from NUM.SORT and NUM_VALUE
-         s : String(1..max_meaning_size) := null_meaning_type;
+         s : String(1..Max_Meaning_Size) := Null_Meaning_Type;
          n : Integer := 0;
       begin
          if dm.de.part.pofs = num  then
@@ -405,29 +405,29 @@ package body list_package is
             if sr.ir.qual.pofs = num  then    --  Normal parse
                case sr.ir.qual.num.sort is
                   when card  =>
-                     s := Head(Integer'Image(n) &  " - (CARD answers 'how many');", max_meaning_size);
+                     s := Head(Integer'Image(n) &  " - (CARD answers 'how many');", Max_Meaning_Size);
                   when ord   =>
                      s := Head(Integer'Image(n) & "th - (ORD, 'in series'); (a/the)" & Integer'Image(n) &
-                                 "th (part) (fract w/pars?);", max_meaning_size);
+                                 "th (part) (fract w/pars?);", Max_Meaning_Size);
                   when dist  =>
                      s := Head(Integer'Image(n) & " each/apiece/times/fold/toGether/at a time - 'how many each'; by " &
-                                 Integer'Image(n) & "s; ", max_meaning_size);
+                                 Integer'Image(n) & "s; ", Max_Meaning_Size);
                   when adverb =>
                      s := Head(Integer'Image(n) & " times, on" & Integer'Image(n) &
-                                 " occasions - (ADVERB answers 'how often');", max_meaning_size);
+                                 " occasions - (ADVERB answers 'how often');", Max_Meaning_Size);
                   when others =>
                      null;
                end case;
             else  -- there is fix so POFS is not NUM
-               s := Head("Number " & Integer'Image(n), max_meaning_size);
+               s := Head("Number " & Integer'Image(n), Max_Meaning_Size);
             end if;
          end if;
 
          return s;
       end constructed_meaning;
 
-      procedure Put_meaning_line(sr : stem_inflection_record;
-                                 dm  : dictionary_mnpc_record) is
+      procedure Put_meaning_line(sr : Stem_Inflection_Record;
+                                 dm  : dictionary_MNPC_record) is
       begin
          if dm.d_k not in addons..ppp  then
             if words_mdev(do_pearse_codes) then
@@ -436,7 +436,7 @@ package body list_package is
             if dm.de.part.pofs = num  and then dm.de.part.num.value > 0  then
                Text_IO.Put_Line(Output, constructed_meaning(sr, dm));    --  Constructed MEANING
             elsif dm.d_k = unique  then
-               Put_meaning(Output, uniques_de(dm.mnpc).mean);
+               Put_meaning(Output, uniques_de(dm.MNPC).mean);
                Text_IO.New_Line(Output);
             else
                Put_meaning(Output, Trim_bar(dm.de.mean));
@@ -444,57 +444,57 @@ package body list_package is
             end if;
          else
             if dm.d_k = rrr  then
-               if rrr_meaning /= null_meaning_type   then
+               if rrr_meaning /= Null_Meaning_Type   then
                   --PUT_DICTIONARY_FLAGS;
                   if words_mdev(do_pearse_codes) then
                      Text_IO.Put(Output, "03 ");
                   end if;
                   Put_meaning(Output, rrr_meaning);      --  Roman Numeral
-                  rrr_meaning := null_meaning_type;
+                  rrr_meaning := Null_Meaning_Type;
                   Text_IO.New_Line(Output);
                end if;
             elsif dm.d_k = nnn then
-               if nnn_meaning /= null_meaning_type  then
+               if nnn_meaning /= Null_Meaning_Type  then
                   --PUT_DICTIONARY_FLAGS;
                   if words_mdev(do_pearse_codes) then
                      Text_IO.Put(Output, "03 ");
                   end if;
                   Put_meaning(Output, nnn_meaning);  --  Unknown Name
-                  nnn_meaning := null_meaning_type;
+                  nnn_meaning := Null_Meaning_Type;
                   Text_IO.New_Line(Output);
                end if;
             elsif dm.d_k = xxx  then
-               if xxx_meaning /= null_meaning_type  then
+               if xxx_meaning /= Null_Meaning_Type  then
                   if words_mdev(do_pearse_codes) then
                      Text_IO.Put(Output, "06 ");
                   end if;
                   Put_meaning(Output, xxx_meaning);  --  TRICKS
-                  xxx_meaning := null_meaning_type;
+                  xxx_meaning := Null_Meaning_Type;
                   Text_IO.New_Line(Output);
                end if;
             elsif dm.d_k = yyy  then
-               if yyy_meaning /= null_meaning_type  then
+               if yyy_meaning /= Null_Meaning_Type  then
                   if words_mdev(do_pearse_codes) then
                      Text_IO.Put(Output, "06 ");
                   end if;
                   Put_meaning(Output, yyy_meaning);  --  Syncope
-                  yyy_meaning := null_meaning_type;
+                  yyy_meaning := Null_Meaning_Type;
                   Text_IO.New_Line(Output);
                end if;
             elsif dm.d_k = ppp  then
-               if ppp_meaning /= null_meaning_type  then
+               if ppp_meaning /= Null_Meaning_Type  then
                   if words_mdev(do_pearse_codes) then
                      Text_IO.Put(Output, "06 ");
                   end if;
                   Put_meaning(Output, ppp_meaning); --  Compounds
-                  ppp_meaning := null_meaning_type;
+                  ppp_meaning := Null_Meaning_Type;
                   Text_IO.New_Line(Output);
                end if;
             elsif dm.d_k = addons  then
                if words_mdev(do_pearse_codes) then
                   Text_IO.Put(Output, "06 ");
                end if;
-               Put_meaning(Output, means(Integer(dm.mnpc)));
+               Put_meaning(Output, means(Integer(dm.MNPC)));
                Text_IO.New_Line(Output);
             end if;
          end if;
@@ -511,13 +511,13 @@ package body list_package is
          --  to keep from overflowing screen line or even adding blank line
          mm := max_meaning_print_size;
       else
-         mm := max_meaning_size;
+         mm := Max_Meaning_Size;
       end if;
 
       -------  The gimick of adding an ADV if there is only ADJ VOC  ----
       --TEXT_IO.PUT_LINE("About to do the ADJ -> ADV kludge");
       for i in pa'First..pa_last  loop
-         if pa(i).ir.qual.pofs = adv   then
+         if pa(i).IR.qual.pofs = adv   then
             there_is_an_adverb := True;
             exit;
          end if;
@@ -527,24 +527,24 @@ package body list_package is
       if (not there_is_an_adverb) and (words_mode(do_fixes))  then
          --TEXT_IO.PUT_LINE("In the ADJ -> ADV kludge  There is no ADV");
          for i in reverse pa'First..pa_last  loop
-            if pa(i).ir.qual.pofs = adj and then
-              (pa(i).ir.qual.adj = ((1, 1), voc, s, m, pos)    or
-                 ((pa(i).ir.qual.adj.cs = voc)   and
-                    (pa(i).ir.qual.adj.number = s)   and
-                    (pa(i).ir.qual.adj.gender = m)   and
-                    (pa(i).ir.qual.adj.co = super)))
+            if pa(i).IR.qual.pofs = adj and then
+              (pa(i).IR.qual.adj = ((1, 1), voc, s, m, pos)    or
+                 ((pa(i).IR.qual.adj.cs = voc)   and
+                    (pa(i).IR.qual.adj.number = s)   and
+                    (pa(i).IR.qual.adj.gender = m)   and
+                    (pa(i).IR.qual.adj.co = super)))
             then
                j := i;
 
                while j >=  pa'First  loop  --Back through other ADJ cases
-                  if pa(j).ir.qual.pofs /= adj  then
+                  if pa(j).IR.qual.pofs /= adj  then
                      j2 := j;                          --  J2 is first (reverse) that is not ADJ
                      exit;
                   end if;
                   j := j - 1;
                end loop;
                while j >=  pa'First  loop  --  Sweep up associated fixes
-                  if pa(j).ir.qual.pofs not in xons  then
+                  if pa(j).IR.qual.pofs not in xons  then
                      j1 := j;                      --  J1 is first (reverse) that is not XONS
                      exit;
                   end if;
@@ -560,30 +560,30 @@ package body list_package is
                --TEXT_IO.PUT_LINE("In the ADJ -> ADV kludge  Adding SUFFIX E ADV");
                pa(pa_last) := ("e                 ",
                                ((suffix, null_suffix_record), 0, null_ending_record, x, b),
-                               ppp, null_mnpc);
+                               ppp, Null_MNPC);
                --PARSE_RECORD_IO.PUT(PA(PA_LAST)); TEXT_IO.NEW_LINE;
                pa_last := pa_last + 1;
-               if pa(j2+1).ir.qual.adj.co = pos   then
+               if pa(j2+1).IR.qual.adj.co = pos   then
                   --TEXT_IO.PUT_LINE("In the ADJ -> ADV kludge  Adding POS for ADV");
-                  pa(pa_last) := (pa(j2+1).stem,
-                                  ((pofs => adv, adv => (co => pa(j2+1).ir.qual.adj.co)),
+                  pa(pa_last) := (pa(j2+1).Stem,
+                                  ((pofs => adv, adv => (co => pa(j2+1).IR.qual.adj.co)),
                                    key => 0, ending => (1, "e      "), age => x, freq => b),
-                                  pa(j2+1).d_k,
-                                  pa(j2+1).mnpc);
+                                  pa(j2+1).D_K,
+                                  pa(j2+1).MNPC);
                   --PARSE_RECORD_IO.PUT(PA(PA_LAST)); TEXT_IO.NEW_LINE;
                   ppp_meaning :=
                     Head("-ly; -ily;  Converting ADJ to ADV",
-                         max_meaning_size);
+                         Max_Meaning_Size);
 
-               elsif pa(j2+1).ir.qual.adj.co = super  then
-                  pa(pa_last) := (pa(j2+1).stem,
-                                  ((pofs => adv, adv => (co => pa(j2+1).ir.qual.adj.co)),
+               elsif pa(j2+1).IR.qual.adj.co = super  then
+                  pa(pa_last) := (pa(j2+1).Stem,
+                                  ((pofs => adv, adv => (co => pa(j2+1).IR.qual.adj.co)),
                                    key => 0, ending => (2, "me     "), age => x, freq => b),
-                                  pa(j2+1).d_k,
-                                  pa(j2+1).mnpc);
+                                  pa(j2+1).D_K,
+                                  pa(j2+1).MNPC);
                   ppp_meaning :=
                     Head("-estly; -estily; most -ly, very -ly  Converting ADJ to ADV",
-                         max_meaning_size);
+                         Max_Meaning_Size);
                end if;
                --TEXT_IO.PUT_LINE("In the ADJ -> ADV kludge  Done adding PA for ADV");
             end if;           --  PA(I).IR.QUAL.POFS = ADJ
@@ -595,19 +595,19 @@ package body list_package is
 
       if  words_mdev(Write_statistics_file)    then      --  Omit rest of Output
          for i in 1..pa_last  loop                       --  Just to PUT_STAT
-            if pa(i).d_k = addons then
-               if pa(i).ir.qual.pofs = prefix  then
+            if pa(i).D_K = addons then
+               if pa(i).IR.qual.pofs = prefix  then
                   Put_stat("ADDON PREFIX at "
                              & Head(Integer'Image(line_number), 8) & Head(Integer'Image(word_number), 4)
-                             & "   " & Head(w, 20) & "   "  & pa(i).stem & "  " & Integer'Image(Integer(pa(i).mnpc)));
-               elsif pa(i).ir.qual.pofs = suffix  then
+                             & "   " & Head(w, 20) & "   "  & pa(i).Stem & "  " & Integer'Image(Integer(pa(i).MNPC)));
+               elsif pa(i).IR.qual.pofs = suffix  then
                   Put_stat("ADDON SUFFIX at "
                              & Head(Integer'Image(line_number), 8) & Head(Integer'Image(word_number), 4)
-                             & "   " & Head(w, 20) & "   "  & pa(i).stem & "  " & Integer'Image(Integer(pa(i).mnpc)));
-               elsif pa(i).ir.qual.pofs = tackon  then
+                             & "   " & Head(w, 20) & "   "  & pa(i).Stem & "  " & Integer'Image(Integer(pa(i).MNPC)));
+               elsif pa(i).IR.qual.pofs = tackon  then
                   Put_stat("ADDON TACKON at "
                              & Head(Integer'Image(line_number), 8) & Head(Integer'Image(word_number), 4)
-                             & "   " & Head(w, 20) & "   "  & pa(i).stem & "  " & Integer'Image(Integer(pa(i).mnpc)));
+                             & "   " & Head(w, 20) & "   "  & pa(i).Stem & "  " & Integer'Image(Integer(pa(i).MNPC)));
                end if;
             end if;
          end loop;
@@ -622,43 +622,43 @@ package body list_package is
       cycle_over_pa:
       while i <= pa_last  loop       --  I cycles over full PA array
          --TEXT_IO.PUT_LINE("Starting loop for I    I = " & INTEGER'IMAGE(I));
-         odm := null_dictionary_mnpc_record;
+         odm := null_dictionary_MNPC_record;
 
-         if pa(i).d_k = unique  then
+         if pa(i).D_K = unique  then
             j := j + 1;
-            sraa(j)(1) := (pa(i).stem, pa(i).ir);
+            sraa(j)(1) := (pa(i).Stem, pa(i).IR);
             --TEXT_IO.PUT_LINE("UNIQUE   I = " & INTEGER'IMAGE(I) & "  J = " & INTEGER'IMAGE(J));
-            dm := null_dictionary_mnpc_record;
+            dm := null_dictionary_MNPC_record;
             dm.d_k := unique;
-            dm.mnpc := pa(i).mnpc;
-            dm.de := uniques_de(pa(i).mnpc);
+            dm.MNPC := pa(i).MNPC;
+            dm.de := uniques_de(pa(i).MNPC);
             dma(j) := dm;
             i := i + 1;
          else
-            case pa(i).ir.qual.pofs  is
+            case pa(i).IR.qual.pofs  is
                when n  =>
                   osra := null_sra;
                   --ODM := NULL_DICTIONARY_MNPC_RECORD;
                   --DM := NULL_DICTIONARY_MNPC_RECORD;
-                  while (pa(i).ir.qual.pofs = n) and (i <= pa_last) loop
+                  while (pa(i).IR.qual.pofs = n) and (i <= pa_last) loop
                      --TEXT_IO.PUT_LINE("Starting loop for N    I = " & INTEGER'IMAGE(I) & "   K = " & INTEGER'IMAGE(K));
-                     if pa(i).mnpc  /= odm.mnpc  then   --  Encountering new MNPC
+                     if pa(i).MNPC  /= odm.MNPC  then   --  Encountering new MNPC
                         osra := sra;
                         k := 1;                  --  K indexes within the MNPCA array --  Initialize
                         --TEXT_IO.PUT_LINE("Starting IRA for N    I = " & INTEGER'IMAGE(I) & "   K = " & INTEGER'IMAGE(K));
                         j := j + 1;             --  J indexes the number of MNPCA arrays - Next MNPCA
                         --TEXT_IO.PUT_LINE("Shifting J for N  I = " & INTEGER'IMAGE(I) & "   J = " & INTEGER'IMAGE(J));
-                        sraa(j)(k) := (pa(i).stem, pa(i).ir);
-                        dict_io.Set_Index(dict_file(pa(i).d_k), pa(i).mnpc);
-                        dict_io.Read(dict_file(pa(i).d_k), dea);
-                        dm := (pa(i).d_k, pa(i).mnpc, dea);
+                        sraa(j)(k) := (pa(i).Stem, pa(i).IR);
+                        Dict_IO.Set_Index(dict_file(pa(i).D_K), pa(i).MNPC);
+                        Dict_IO.Read(dict_file(pa(i).D_K), dea);
+                        dm := (pa(i).D_K, pa(i).MNPC, dea);
                         dma(j) := dm;
                         odm := dm;
                      else
                         k := k + 1;              --  K indexes within the MNPCA array  - Next MNPC
                         --TEXT_IO.PUT_LINE("Continuing IRA for N  I = " & INTEGER'IMAGE(I) & "   K = " & INTEGER'IMAGE(K)
                         --                                                                 & "   J = " & INTEGER'IMAGE(J));
-                        sraa(j)(k) := (pa(i).stem, pa(i).ir);
+                        sraa(j)(k) := (pa(i).Stem, pa(i).IR);
                      end if;
 
                      i := i + 1;              --  I cycles over full PA array
@@ -668,21 +668,21 @@ package body list_package is
                   osra := null_sra;
                   --ODM := NULL_DICTIONARY_MNPC_RECORD;
                   --DM := NULL_DICTIONARY_MNPC_RECORD;
-                  while pa(i).ir.qual.pofs = pron   and
+                  while pa(i).IR.qual.pofs = pron   and
                     i <= pa_last                   loop
-                     if pa(i).mnpc  /= odm.mnpc  then   --  Encountering new MNPC
+                     if pa(i).MNPC  /= odm.MNPC  then   --  Encountering new MNPC
                         osra := sra;
                         k := 1;                  --  K indexes within the MNPCA array --  Initialize
                         j := j + 1;             --  J indexes the number of MNPCA arrays - Next MNPCA
-                        sraa(j)(k) := (pa(i).stem, pa(i).ir);
-                        dict_io.Set_Index(dict_file(pa(i).d_k), pa(i).mnpc);
-                        dict_io.Read(dict_file(pa(i).d_k), dea);
-                        dm := (pa(i).d_k, pa(i).mnpc, dea);
+                        sraa(j)(k) := (pa(i).Stem, pa(i).IR);
+                        Dict_IO.Set_Index(dict_file(pa(i).D_K), pa(i).MNPC);
+                        Dict_IO.Read(dict_file(pa(i).D_K), dea);
+                        dm := (pa(i).D_K, pa(i).MNPC, dea);
                         dma(j) := dm;
                         odm := dm;
                      else
                         k := k + 1;              --  K indexes within the MNPCA array  - Next MNPC
-                        sraa(j)(k) := (pa(i).stem, pa(i).ir);
+                        sraa(j)(k) := (pa(i).Stem, pa(i).IR);
                      end if;
 
                      i := i + 1;              --  I cycles over full PA array
@@ -692,21 +692,20 @@ package body list_package is
                   osra := null_sra;
                   --ODM := NULL_DICTIONARY_MNPC_RECORD;
                   --DM := NULL_DICTIONARY_MNPC_RECORD;
-                  while pa(i).ir.qual.pofs = pack   and
-                    i <= pa_last                   loop
-                     if pa(i).mnpc  /= odm.mnpc  then   --  Encountering new MNPC
+                  while pa(i).IR.qual.pofs = pack and i <= pa_last loop
+                     if pa(i).MNPC  /= odm.MNPC  then   --  Encountering new MNPC
                         osra := sra;
                         k := 1;                  --  K indexes within the MNPCA array --  Initialize
                         j := j + 1;             --  J indexes the number of MNPCA arrays - Next MNPCA
-                        sraa(j)(k) := (pa(i).stem, pa(i).ir);
-                        dict_io.Set_Index(dict_file(pa(i).d_k), pa(i).mnpc);
-                        dict_io.Read(dict_file(pa(i).d_k), dea);
-                        dm := (pa(i).d_k, pa(i).mnpc, dea);
+                        sraa(j)(k) := (pa(i).Stem, pa(i).IR);
+                        Dict_IO.Set_Index(dict_file(pa(i).D_K), pa(i).MNPC);
+                        Dict_IO.Read(dict_file(pa(i).D_K), dea);
+                        dm := (pa(i).D_K, pa(i).MNPC, dea);
                         dma(j) := dm;
                         odm := dm;
                      else
                         k := k + 1;              --  K indexes within the MNPCA array  - Next MNPC
-                        sraa(j)(k) := (pa(i).stem, pa(i).ir);
+                        sraa(j)(k) := (pa(i).Stem, pa(i).IR);
                      end if;
 
                      i := i + 1;              --  I cycles over full PA array
@@ -716,22 +715,21 @@ package body list_package is
                   osra := null_sra;
                   --ODM := NULL_DICTIONARY_MNPC_RECORD;
                   --DM := NULL_DICTIONARY_MNPC_RECORD;
-                  while pa(i).ir.qual.pofs = adj   and
-                    i <= pa_last                   loop
+                  while pa(i).IR.qual.pofs = adj and i <= pa_last loop
                      --TEXT_IO.PUT_LINE("SRAA - ADJ");
-                     if pa(i).mnpc  /= odm.mnpc  then   --  Encountering new MNPC
+                     if pa(i).MNPC  /= odm.MNPC  then   --  Encountering new MNPC
                         osra := sra;
                         k := 1;                  --  K indexes within the MNPCA array --  Initialize
                         j := j + 1;             --  J indexes the number of MNPCA arrays - Next MNPCA
-                        sraa(j)(k) := (pa(i).stem, pa(i).ir);
-                        dict_io.Set_Index(dict_file(pa(i).d_k), pa(i).mnpc);
-                        dict_io.Read(dict_file(pa(i).d_k), dea);
-                        dm := (pa(i).d_k, pa(i).mnpc, dea);
+                        sraa(j)(k) := (pa(i).Stem, pa(i).IR);
+                        Dict_IO.Set_Index(dict_file(pa(i).D_K), pa(i).MNPC);
+                        Dict_IO.Read(dict_file(pa(i).D_K), dea);
+                        dm := (pa(i).D_K, pa(i).MNPC, dea);
                         dma(j) := dm;
                         odm := dm;
                      else
                         k := k + 1;              --  K indexes within the MNPCA array  - Next MNPC
-                        sraa(j)(k) := (pa(i).stem, pa(i).ir);
+                        sraa(j)(k) := (pa(i).Stem, pa(i).IR);
                      end if;
                      --TEXT_IO.PUT_LINE("SRAA  + ADJ");
                      i := i + 1;              --  I cycles over full PA array
@@ -741,33 +739,33 @@ package body list_package is
                   osra := null_sra;
                   --ODM := NULL_DICTIONARY_MNPC_RECORD;
                   --DM := NULL_DICTIONARY_MNPC_RECORD;
-                  while pa(i).ir.qual.pofs = num   and
+                  while pa(i).IR.qual.pofs = num   and
                     i <= pa_last                   loop
-                     if pa(i).d_k = rrr then        --  Roman numeral
+                     if pa(i).D_K = rrr then        --  Roman numeral
                         osra := sra;
                         k := 1;                  --  K indexes within the MNPCA array --  Initialize
                         j := j + 1;             --  J indexes the number of MNPCA arrays - Next MNPCA
-                        sraa(j)(k) := (pa(i).stem, pa(i).ir);
+                        sraa(j)(k) := (pa(i).Stem, pa(i).IR);
                         --DICT_IO.SET_INDEX(DICT_FILE(PA(I).D_K), PA(I).MNPC);
                         --DICT_IO.READ(DICT_FILE(PA(I).D_K), DEA);
 
                         dea := null_dictionary_entry;
-                        dm := (pa(i).d_k, pa(i).mnpc, dea);
+                        dm := (pa(i).D_K, pa(i).MNPC, dea);
                         dma(j) := dm;
                         odm := dm;
-                     elsif pa(i).mnpc /= odm.mnpc then    --  Encountering new MNPC
+                     elsif pa(i).MNPC /= odm.MNPC then    --  Encountering new MNPC
                         osra := sra;
                         k := 1;                  --  K indexes within the MNPCA array --  Initialize
                         j := j + 1;             --  J indexes the number of MNPCA arrays - Next MNPCA
-                        sraa(j)(k) := (pa(i).stem, pa(i).ir);
-                        dict_io.Set_Index(dict_file(pa(i).d_k), pa(i).mnpc);
-                        dict_io.Read(dict_file(pa(i).d_k), dea);
-                        dm := (pa(i).d_k, pa(i).mnpc, dea);
+                        sraa(j)(k) := (pa(i).Stem, pa(i).IR);
+                        Dict_IO.Set_Index(dict_file(pa(i).D_K), pa(i).MNPC);
+                        Dict_IO.Read(dict_file(pa(i).D_K), dea);
+                        dm := (pa(i).D_K, pa(i).MNPC, dea);
                         dma(j) := dm;
                         odm := dm;
                      else
                         k := k + 1;              --  K indexes within the MNPCA array  - Next MNPC
-                        sraa(j)(k) := (pa(i).stem, pa(i).ir);
+                        sraa(j)(k) := (pa(i).Stem, pa(i).IR);
                      end if;
 
                      i := i + 1;              --  I cycles over full PA array
@@ -777,30 +775,30 @@ package body list_package is
                   osra := null_sra;
                   --ODM := NULL_DICTIONARY_MNPC_RECORD;
                   --DM := NULL_DICTIONARY_MNPC_RECORD;
-                  while (pa(i).ir.qual.pofs = v      or
-                           pa(i).ir.qual.pofs = vpar   or
-                           pa(i).ir.qual.pofs = supine)   and
+                  while (pa(i).IR.qual.pofs = v      or
+                           pa(i).IR.qual.pofs = vpar   or
+                           pa(i).IR.qual.pofs = supine)   and
                     i <= pa_last                   loop
                      --TEXT_IO.PUT_LINE("Starting loop for VPAR I = " & INTEGER'IMAGE(I) & "   K = " & INTEGER'IMAGE(K));
-                     if (pa(i).mnpc  /= odm.mnpc) and (pa(i).d_k /= ppp)   then   --  Encountering new MNPC
-                        osra := sra;                                               --  But not for compound
+                     if (pa(i).MNPC  /= odm.MNPC) and (pa(i).D_K /= ppp)   then   --  Encountering new MNPC
+                        osra := sra;                                              --  But not for compound
                         k := 1;                  --  K indexes within the MNPCA array --  Initialize
                         --TEXT_IO.PUT_LINE("Starting IRA for VPAR I = " & INTEGER'IMAGE(I) & "   K = " & INTEGER'IMAGE(K));
                         j := j + 1;             --  J indexes the number of MNPCA arrays - Next MNPCA
                         --TEXT_IO.PUT_LINE("Shifting J for VPAR I = " & INTEGER'IMAGE(I) & "   J = " & INTEGER'IMAGE(J));
-                        sraa(j)(k) := (pa(i).stem, pa(i).ir);
-                        if pa(i).d_k /= ppp  then
-                           dict_io.Set_Index(dict_file(pa(i).d_k), pa(i).mnpc);
-                           dict_io.Read(dict_file(pa(i).d_k), dea);
+                        sraa(j)(k) := (pa(i).Stem, pa(i).IR);
+                        if pa(i).D_K /= ppp  then
+                           Dict_IO.Set_Index(dict_file(pa(i).D_K), pa(i).MNPC);
+                           Dict_IO.Read(dict_file(pa(i).D_K), dea);
                         end if;     --  use previous DEA
-                        dm := (pa(i).d_k, pa(i).mnpc, dea);
+                        dm := (pa(i).D_K, pa(i).MNPC, dea);
                         dma(j) := dm;
                         odm := dm;
                      else
                         k := k + 1;              --  K indexes within the MNPCA array  - Next MNPC
                         --TEXT_IO.PUT_LINE("Continuing IRA for VPAR  I = " & INTEGER'IMAGE(I) & "   K = " & INTEGER'IMAGE(K)
                         --                                                                      & "   J = " & INTEGER'IMAGE(J));
-                        sraa(j)(k) := (pa(i).stem, pa(i).ir);
+                        sraa(j)(k) := (pa(i).Stem, pa(i).IR);
                      end if;
 
                      i := i + 1;              --  I cycles over full PA array
@@ -813,26 +811,26 @@ package body list_package is
                   --DM := NULL_DICTIONARY_MNPC_RECORD;
                   while i <= pa_last                   loop
                      --TEXT_IO.PUT_LINE("Starting loop for OTHER I = " & INTEGER'IMAGE(I) & "   K = " & INTEGER'IMAGE(K));
-                     if (odm.d_k  /= pa(i).d_k)  or
-                        (odm.mnpc /= pa(i).mnpc)
+                     if (odm.d_k  /= pa(i).D_K)  or
+                        (odm.MNPC /= pa(i).MNPC)
                      then   --  Encountering new single (K only 1)
                         osra := sra;
                         k := 1;                  --  K indexes within the MNPCA array --  Initialize
                         --TEXT_IO.PUT_LINE("Starting IRA for OTHER I = " & INTEGER'IMAGE(I) & "   K = " & INTEGER'IMAGE(K));
                         j := j + 1;             --  J indexes the number of MNPCA arrays - Next MNPCA
                         --TEXT_IO.PUT_LINE("Shifting J for OTHER I = " & INTEGER'IMAGE(I) & "   J = " & INTEGER'IMAGE(J));
-                        sraa(j)(k) := (pa(i).stem, pa(i).ir);
-                        if pa(i).mnpc /= null_mnpc  then
-                           if pa(i).d_k = addons  then
+                        sraa(j)(k) := (pa(i).Stem, pa(i).IR);
+                        if pa(i).MNPC /= Null_MNPC  then
+                           if pa(i).D_K = addons  then
                               dea :=  null_dictionary_entry;   --  Fix for ADDONS in MEANS, not DICT_IO
                            else
-                              dict_io.Set_Index(dict_file(pa(i).d_k), pa(i).mnpc);
-                              dict_io.Read(dict_file(pa(i).d_k), dea);
+                              Dict_IO.Set_Index(dict_file(pa(i).D_K), pa(i).MNPC);
+                              Dict_IO.Read(dict_file(pa(i).D_K), dea);
                            end if;
                         else                       --  Has no dictionary to read
                            dea:= null_dictionary_entry;
                         end if;
-                        dm := (pa(i).d_k, pa(i).mnpc, dea);
+                        dm := (pa(i).D_K, pa(i).MNPC, dea);
                         dma(j) := dm;
                         odm := dm;
                         --else
@@ -858,26 +856,26 @@ package body list_package is
          if words_mode(ignore_unknown_names)  and capitalized  then
             nnn_meaning := Head(
                                 "Assume this is capitalized proper name/abbr, under MODE IGNORE_UNKNOWN_NAME ",
-                                max_meaning_size);
-            pa(1) := (Head(raw_word, max_stem_size),
+                                Max_Meaning_Size);
+            pa(1) := (Head(raw_word, Max_Stem_Size),
                       ((n, ((0, 0), x, x, x)), 0, null_ending_record, x, x),
-                      nnn, null_mnpc);
+                      nnn, Null_MNPC);
             pa_last := 1;    --  So LIST_NEIGHBORHOOD will not be called
             sraa := null_sraa;
             dma := null_dma;
-            sraa(1)(1) := (pa(1).stem, pa(1).ir);
+            sraa(1)(1) := (pa(1).Stem, pa(1).IR);
             dma(1) := (nnn, 0, null_dictionary_entry);
          elsif  words_mode(ignore_unknown_caps)  and all_caps  then
             nnn_meaning := Head(
                                 "Assume this is capitalized proper name/abbr, under MODE IGNORE_UNKNOWN_CAPS ",
-                                max_meaning_size);
-            pa(1) := (Head(raw_word, max_stem_size),
+                                Max_Meaning_Size);
+            pa(1) := (Head(raw_word, Max_Stem_Size),
                       ((n, ((0, 0), x, x, x)), 0, null_ending_record, x, x),
-                      nnn, null_mnpc);
+                      nnn, Null_MNPC);
             pa_last := 1;
             sraa := null_sraa;
             dma := null_dma;
-            sraa(1)(1) := (pa(1).stem, pa(1).ir);
+            sraa(1)(1) := (pa(1).Stem, pa(1).IR);
             dma(1) := (nnn, 0, null_dictionary_entry);
          end if;
       end if;
@@ -958,13 +956,13 @@ package body list_package is
       osra := null_sra;
 
       Output_loop:
-      while  dma(j) /= null_dictionary_mnpc_record  loop
+      while  dma(j) /= null_dictionary_MNPC_record  loop
          --  Skips one identical SRA no matter what comes next
          if sraa(j) /= osra  then
 
             Put_inflection_array_j:
             for k in sraa(j)'Range loop
-               exit Put_inflection_array_j when sraa(j)(k) = null_stem_inflection_record;
+               exit Put_inflection_array_j when sraa(j)(k) = null_Stem_Inflection_Record;
 
                Put_inflection(sraa(j)(k), dma(j));
                if sraa(j)(k).stem(1..3) = "PPL"  then
@@ -1027,15 +1025,15 @@ package body list_package is
          Text_IO.Put_Line("Unexpected exception in LIST_STEMS processing " & raw_word);
          Put_stat("EXCEPTION LS at "
                     & Head(Integer'Image(line_number), 8) & Head(Integer'Image(word_number), 4)
-                    & "   " & Head(w, 20) & "   "  & pa(i).stem);
+                    & "   " & Head(w, 20) & "   "  & pa(i).Stem);
    end list_stems;
 
    procedure list_entry(Output   : Text_IO.File_Type;
-                        d_k      : dictionary_kind;
-                        mn       : dict_io.Count) is
+                        d_k      : Dictionary_Kind;
+                        mn       : Dict_IO.Count) is
       de : dictionary_entry;
    begin
-      dict_io.Read(dict_file(d_k), de, mn);
+      Dict_IO.Read(dict_file(d_k), de, mn);
       Text_IO.Put(Output, "=>  ");
       --TEXT_IO.PUT_LINE(OUTPUT, DICTIONARY_FORM(DE));
       Put_dictionary_form(Output, d_k, mn, de);
@@ -1045,11 +1043,11 @@ package body list_package is
    end list_entry;
 
    procedure unknown_search(unknown       :  in String;
-                            unknown_count : out dict_io.Count) is
+                            unknown_count : out Dict_IO.Count) is
 
       use stem_io;
 
-      d_k : constant dictionary_kind := general;
+      d_k : constant Dictionary_Kind := general;
       j, j1, j2, jj : stem_io.Count := 0;
 
       index_on : constant String := unknown;
@@ -1096,7 +1094,7 @@ package body list_package is
          if not Is_Open(stem_file(d_k))  then
             Open(stem_file(d_k), stem_io.In_File,
                  add_file_name_extension(stem_file_name,
-                                         dictionary_kind'Image(d_k)));
+                                         Dictionary_Kind'Image(d_k)));
          end if;
 
          index_first := first_index(first_two(index_on), d_k);
@@ -1169,7 +1167,7 @@ package body list_package is
             j2 := index_last;
 
          end if;
-         unknown_count := ds.mnpc;
+         unknown_count := ds.MNPC;
 
          Close(stem_file(d_k));  --??????
       end if;
@@ -1179,8 +1177,8 @@ package body list_package is
    procedure list_neighborhood(Output : Text_IO.File_Type;
                                Input_word : String) is
 
-      d_k : constant dictionary_kind := general;
-      unk_mnpc : dict_io.Count;
+      d_k : constant Dictionary_Kind := general;
+      unk_MNPC : Dict_IO.Count;
 
    begin
       --TEXT_IO.PUT_LINE("Entering LIST_NEIGHBORHOOD");
@@ -1188,17 +1186,17 @@ package body list_package is
       if Text_IO.Name(Output) = Text_IO.Name(Text_IO.Standard_Output) then
          mm := max_meaning_print_size;   --  to keep from overflowing screen line
       else
-         mm := max_meaning_size;
+         mm := Max_Meaning_Size;
       end if;
 
-      unknown_search(Head(Input_word, max_stem_size), unk_mnpc);
+      unknown_search(Head(Input_word, Max_Stem_Size), unk_MNPC);
       --TEXT_IO.PUT_LINE("UNK_MNPC = " & INTEGER'IMAGE(INTEGER(UNK_MNPC)));
-      if Integer(unk_mnpc) > 0  then
+      if Integer(unk_MNPC) > 0  then
          Text_IO.Put_Line(Output,
                           "----------  Entries in GENEAL Dictionary around the UNKNOWN  ----------");
          pause(Output);
-         for mn in dict_io.Count(Integer(unk_mnpc)-5)..
-           dict_io.Count(Integer(unk_mnpc)+3)  loop
+         for mn in Dict_IO.Count(Integer(unk_MNPC)-5)..
+           Dict_IO.Count(Integer(unk_MNPC)+3)  loop
             list_entry(Output, d_k, mn);
 
          end loop;

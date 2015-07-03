@@ -16,13 +16,13 @@
 
 with Text_IO; use type Text_IO.File_Type;
 with inflections_package; use inflections_package;
-with dictionary_package; use dictionary_package;
+with Dictionary_Package; use Dictionary_Package;
 package addons_package is
    pragma Elaborate_Body;
 
-   subtype fix_type is stem_type;
-   null_fix_type : constant fix_type := null_stem_type;
-   max_fix_size : constant := max_stem_size;
+   subtype fix_type is Stem_Type;
+   null_fix_type : constant fix_type := Null_Stem_Type;
+   max_fix_size : constant := Max_Stem_Size;
 
    subtype Target_pofs_type is part_of_speech_type range x..v;
 
@@ -123,9 +123,9 @@ package addons_package is
    type tackon_item is
       record
          pofs: part_of_speech_type := tackon;
-         tack : stem_type := null_stem_type;
+         tack : Stem_Type := Null_Stem_Type;
          entr : tackon_entry := null_tackon_entry;
-         mnpc : Integer := 0;
+         MNPC : Integer := 0;
       end record;
 
    null_tackon_item : tackon_item;
@@ -136,7 +136,7 @@ package addons_package is
          fix  : fix_type := null_fix_type;
          connect : Character := ' ';
          entr : prefix_entry := null_prefix_entry;
-         mnpc : Integer := 0;
+         MNPC : Integer := 0;
       end record;
 
    null_prefix_item : prefix_item;
@@ -147,7 +147,7 @@ package addons_package is
          fix  : fix_type := null_fix_type;
          connect    : Character := ' ';
          entr : suffix_entry := null_suffix_entry;
-         mnpc : Integer := 0;
+         MNPC : Integer := 0;
       end record;
 
    null_suffix_item : suffix_item;
@@ -156,7 +156,7 @@ package addons_package is
    type tickon_array is array (Integer range <>) of prefix_item;
    type suffix_array is array (Integer range <>) of suffix_item;
    type tackon_array is array (Integer range <>) of tackon_item;
-   type means_array  is array (Integer range <>) of meaning_type;
+   type means_array  is array (Integer range <>) of Meaning_Type;
    --  To simulate a DICT_IO file, as used previously
 
    tackons  : tackon_array(1..20);
@@ -175,14 +175,14 @@ package addons_package is
    procedure load_addons (file_name : in String);
 
    function subtract_tackon(w : String; x : tackon_item) return String;
-   function subtract_prefix(w : String; x : prefix_item) return stem_type;
-   function subtract_tickon(w : String; x : prefix_item) return stem_type
+   function subtract_prefix(w : String; x : prefix_item) return Stem_Type;
+   function subtract_tickon(w : String; x : prefix_item) return Stem_Type
      renames subtract_prefix;
-   function subtract_suffix(w : String; x : suffix_item) return stem_type;
+   function subtract_suffix(w : String; x : suffix_item) return Stem_Type;
 
-   function add_prefix(stem : stem_type;
-                       prefix : prefix_item) return stem_type;
-   function add_suffix(stem : stem_type;
-                       suffix : suffix_item) return stem_type;
+   function add_prefix(stem : Stem_Type;
+                       prefix : prefix_item) return Stem_Type;
+   function add_suffix(stem : Stem_Type;
+                       suffix : suffix_item) return Stem_Type;
 
 end addons_package;

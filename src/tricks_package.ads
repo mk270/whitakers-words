@@ -14,21 +14,21 @@
 -- All parts of the WORDS system, source code and data files, are made freely
 -- available to anyone who wishes to use them, for whatever purpose.
 
-with dictionary_package; use dictionary_package;
+with Dictionary_Package; use Dictionary_Package;
 package tricks_package is
 
    procedure syncope(w : String;
-                     pa : in out parse_array; pa_last : in out Integer);
+                     pa : in out Parse_Array; pa_last : in out Integer);
 
    procedure try_tricks(w : String;
-                        pa : in out parse_array; pa_last : in out Integer;
+                        pa : in out Parse_Array; pa_last : in out Integer;
                                                  line_number : Integer; word_number : Integer);
 
    procedure try_slury(w : String;
-                       pa : in out parse_array; pa_last : in out Integer;
+                       pa : in out Parse_Array; pa_last : in out Integer;
                                                 line_number : Integer; word_number : Integer);
 
    procedure roman_numerals(Input_word : String;
-                            pa : in out parse_array; pa_last : in out Integer);
+                            pa : in out Parse_Array; pa_last : in out Integer);
 
 end tricks_package;

@@ -18,7 +18,7 @@ with Text_IO;
 with Strings_Package; use Strings_Package;
 with latIn_File_names; use latIn_File_names;
 with inflections_package; use inflections_package;
-with dictionary_package; use dictionary_package;
+with Dictionary_Package; use Dictionary_Package;
 procedure makedict_main(porting : Boolean) is
    package Integer_IO is new Text_IO.Integer_IO(Integer);
    use Text_IO;
@@ -32,29 +32,29 @@ procedure makedict_main(porting : Boolean) is
    use geo_type_io;
    use frequency_type_io;
    use source_type_io;
-   use dict_io;
+   use Dict_IO;
 
    be_ve : constant verb_entry := (con => (5, 1), kind => to_be);
 
-   d_k : dictionary_kind := xxx;       --  ######################
+   d_k : Dictionary_Kind := xxx;       --  ######################
 
    start_stem_1  : constant := 1;
-   start_stem_2  : constant := start_stem_1 + max_stem_size + 1;
-   start_stem_3  : constant := start_stem_2 + max_stem_size + 1;
-   start_stem_4  : constant := start_stem_3 + max_stem_size + 1;
-   start_part    : constant := start_stem_4 + max_stem_size + 1;
+   start_stem_2  : constant := start_stem_1 + Max_Stem_Size + 1;
+   start_stem_3  : constant := start_stem_2 + Max_Stem_Size + 1;
+   start_stem_4  : constant := start_stem_3 + Max_Stem_Size + 1;
+   start_part    : constant := start_stem_4 + Max_Stem_Size + 1;
 
-   dictfile : dict_io.File_Type;
+   dictfile : Dict_IO.File_Type;
    Input, stemlist : Text_IO.File_Type;
    de : dictionary_entry;
 
    blank_line : constant String(1..400) := (others => ' ');
    s, line : String(1..400) := (others => ' ');
    l, last : Integer := 0;
-   j : dict_io.Count := 0;
-   mean_to_be : constant meaning_type :=
+   j : Dict_IO.Count := 0;
+   mean_to_be : constant Meaning_Type :=
      Head ("be; exist; (also used to form verb perfect passive tenses)" &
-            " with NOM PERF PPL", max_meaning_size);
+            " with NOM PERF PPL", Max_Meaning_Size);
 
 begin
    Put_Line("Takes a DICTLINE.D_K and produces a STEMLIST.D_K and DICTFILE.D_K");
@@ -77,15 +77,15 @@ begin
    end if;
 
    Open(Input, In_File, add_file_name_extension(dict_line_name,
-                                                dictionary_kind'Image(d_k)));
+                                                Dictionary_Kind'Image(d_k)));
 
    if not porting  then
       Create(stemlist, Out_File, add_file_name_extension(stem_list_name,
-                                                         dictionary_kind'Image(d_k)));
+                                                         Dictionary_Kind'Image(d_k)));
    end if;
 
    Create(dictfile, Out_File, add_file_name_extension(dict_file_name,
-                                                      dictionary_kind'Image(d_k)));
+                                                      Dictionary_Kind'Image(d_k)));
    over_lines:
    while not End_Of_File(Input) loop
       s := blank_line;
@@ -95,17 +95,17 @@ begin
 
          form_de:
          begin
-            de.stems(1) := s(start_stem_1..max_stem_size);
-            de.stems(2) := s(start_stem_2..start_stem_2+max_stem_size-1);
-            de.stems(3) := s(start_stem_3..start_stem_3+max_stem_size-1);
-            de.stems(4) := s(start_stem_4..start_stem_4+max_stem_size-1);
+            de.stems(1) := s(start_stem_1..Max_Stem_Size);
+            de.stems(2) := s(start_stem_2..start_stem_2+Max_Stem_Size-1);
+            de.stems(3) := s(start_stem_3..start_stem_3+Max_Stem_Size-1);
+            de.stems(4) := s(start_stem_4..start_stem_4+Max_Stem_Size-1);
             Get(s(start_part..last), de.part, l);
             Get(s(l+1..last), de.tran.age, l);
             Get(s(l+1..last), de.tran.area, l);
             Get(s(l+1..last), de.tran.geo, l);
             Get(s(l+1..last), de.tran.freq, l);
             Get(s(l+1..last), de.tran.source, l);
-            de.mean := Head (s(l+2..last), max_meaning_size);
+            de.mean := Head (s(l+2..last), Max_Meaning_Size);
             --  Note that this allows initial blanks
             --  L+2 skips over the SPACER, required because this is STRING, not ENUM
          exception
@@ -141,7 +141,7 @@ begin
                Integer_IO.Put(stemlist, 0, 2); Put(stemlist, ' ');
                Set_Col(stemlist, 50);
                Integer_IO.Put(stemlist, Integer(j), 6); New_Line(stemlist);
-               if de.stems(3) /= null_stem_type  and de.stems(3) /= zzz_stem  then
+               if de.stems(3) /= Null_Stem_Type  and de.stems(3) /= zzz_stem  then
                   Put(stemlist, de.stems(3)); Put(stemlist, ' ');
                   Put(stemlist, de.part); Put(stemlist, ' ');
                   Set_Col(stemlist, 45);
@@ -149,7 +149,7 @@ begin
                   Set_Col(stemlist, 50);
                   Integer_IO.Put(stemlist, Integer(j), 6); New_Line(stemlist);
                end if;
-               if de.stems(4) /= null_stem_type  and de.stems(4) /= zzz_stem  then
+               if de.stems(4) /= Null_Stem_Type  and de.stems(4) /= zzz_stem  then
                   Put(stemlist, de.stems(4)); Put(stemlist, ' ');
                   Put(stemlist, de.part); Put(stemlist, ' ');
                   Set_Col(stemlist, 45);
@@ -205,7 +205,7 @@ begin
                Integer_IO.Put(stemlist, 0, 2); Put(stemlist, ' ');
                Set_Col(stemlist, 50);
                Integer_IO.Put(stemlist, Integer(j), 6); New_Line(stemlist);
-               if de.stems(3) /= null_stem_type  and de.stems(3) /= zzz_stem  then
+               if de.stems(3) /= Null_Stem_Type  and de.stems(3) /= zzz_stem  then
                   Put(stemlist, de.stems(3)); Put(stemlist, ' ');
                   Put(stemlist, de.part); Put(stemlist, ' ');
                   Set_Col(stemlist, 45);
@@ -214,7 +214,7 @@ begin
                   Integer_IO.Put(stemlist, Integer(j), 6); New_Line(stemlist);
                end if;
 
-               if de.stems(4) /= null_stem_type  and de.stems(4) /= zzz_stem  then
+               if de.stems(4) /= Null_Stem_Type  and de.stems(4) /= zzz_stem  then
                   Put(stemlist, de.stems(4)); Put(stemlist, ' ');
                   Put(stemlist, de.part); Put(stemlist, ' ');
                   Set_Col(stemlist, 45);
@@ -261,7 +261,7 @@ begin
             else
                for i in stem_key_type range 1..4  loop
                   if de.stems(i) /= zzz_stem  and
-                     de.stems(i) /= null_stem_type
+                     de.stems(i) /= Null_Stem_Type
                   then
                      Put(stemlist, de.stems(i)); Put(stemlist, ' ');
                      Put(stemlist, de.part); Put(stemlist, ' ');

@@ -40,7 +40,7 @@ with Strings_Package; use Strings_Package;
 with word_parameters; use word_parameters;
 with developer_parameters; use developer_parameters;
 with inflections_package; use inflections_package;
-with dictionary_package; use dictionary_package;
+with Dictionary_Package; use Dictionary_Package;
 with addons_package; use addons_package;
 with word_support_package; use word_support_package;
 with word_package; use word_package;
@@ -54,7 +54,7 @@ pragma Elaborate (word_parameters);
 package body parse
 is
    use inflections_package.Integer_IO;
-   use inflection_record_io;
+   use Inflection_Record_IO;
    use Text_IO;
 
    -- the scope of most of these variables is over-broad
@@ -62,12 +62,12 @@ is
 
    j2, k : Integer := 0;
 
-   pa : parse_array(1..100) := (others => null_parse_record);
+   pa : Parse_Array(1..100) := (others => Null_Parse_Record);
    syncope_max : constant := 20;
    no_syncope : Boolean := False;
    tricks_max : constant := 40;
-   sypa : parse_array(1..syncope_max) := (others => null_parse_record);
-   trpa : parse_array(1..tricks_max) := (others => null_parse_record);
+   sypa : Parse_Array(1..syncope_max) := (others => Null_Parse_Record);
+   trpa : Parse_Array(1..tricks_max) := (others => Null_Parse_Record);
    pa_last, sypa_last, trpa_last : Integer := 0;
 
    type participle is
@@ -75,7 +75,7 @@ is
          ppl_on : Boolean;
          ppl_info : vpar_record;
          compound_tvm : inflections_package.tense_voice_mood_record;
-         ppp_meaning : meaning_type;
+         ppp_meaning : Meaning_Type;
       end record;
 
    type verb_to_be (matches : Boolean) is
@@ -173,7 +173,7 @@ is
                            sum_info : verb_record;
                            default_ppl_on : Boolean;
                            default_compound_tvm : tense_voice_mood_record;
-                           default_ppp_meaning : meaning_type;
+                           default_ppp_meaning : Meaning_Type;
                            default_ppl_info : vpar_record)
                           return participle
    is
@@ -206,7 +206,7 @@ is
               ppl_on => True,
               ppl_info => Get_participle_info(parsed_verb),
               ppp_meaning => Head(participle_glosses(i).gloss,
-                                  max_meaning_size),
+                                  Max_Meaning_Size),
               compound_tvm => (compound_tense, passive,
                                sum_info.tense_voice_mood.mood)
             );
@@ -227,7 +227,7 @@ is
                                Trimmed_next_word : String;
                                default_ppl_on : Boolean;
                                default_compound_tvm : tense_voice_mood_record;
-                               default_ppp_meaning : meaning_type;
+                               default_ppp_meaning : Meaning_Type;
                                default_ppl_info : vpar_record)
                               return participle
    is
@@ -282,7 +282,7 @@ is
                return (
                  ppl_on => True,
                  ppl_info => Get_participle_info(parsed_verb),
-                 ppp_meaning => Head(ppp_meaning_s, max_meaning_size),
+                 ppp_meaning => Head(ppp_meaning_s, Max_Meaning_Size),
                  compound_tvm => (compound_tense, voice, inf)
                );
             end;
@@ -373,18 +373,18 @@ is
    begin
       while j4 >= 1  loop
          --  Sweep backwards to kill empty suffixes
-         if pa(j4).ir.qual.pofs in tackon .. suffix
+         if pa(j4).IR.qual.pofs in tackon .. suffix
            and then ppl_on
          then
             null;
 
-         elsif pa(j4).ir.qual.pofs = vpar and then
-           pa(j4).ir.qual.vpar.cs = nom  and then
-           pa(j4).ir.qual.vpar.number = sum_info.number
+         elsif pa(j4).IR.qual.pofs = vpar and then
+            pa(j4).IR.qual.vpar.cs = nom  and then
+            pa(j4).IR.qual.vpar.number = sum_info.number
          then
             declare
                part : constant participle :=
-                 Get_pas_nom_participle(pa(j4).ir.qual.vpar, sum_info,
+                 Get_pas_nom_participle(pa(j4).IR.qual.vpar, sum_info,
                    ppl_on, compound_tvm, ppp_meaning, ppl_info);
             begin
                ppl_on := part.ppl_on;
@@ -412,15 +412,15 @@ is
    begin
       while j5 >= 1  loop
          --  Sweep backwards to kill empty suffixes
-         if pa(j5).ir.qual.pofs in tackon .. suffix
+         if pa(j5).IR.qual.pofs in tackon .. suffix
             and then ppl_on
          then
             null;
-         elsif pa(j5).ir.qual.pofs = vpar   then
+         elsif pa(j5).IR.qual.pofs = vpar   then
             declare
                Trimmed_next_word : constant String := next_word;
                part : constant participle :=
-                 Get_pas_participle(pa(j5).ir.qual.vpar, sum_info,
+                 Get_pas_participle(pa(j5).IR.qual.vpar, sum_info,
                    Trimmed_next_word, ppl_on, compound_tvm, ppp_meaning,
                    ppl_info);
             begin
@@ -447,34 +447,34 @@ is
    begin
       while j6 >= 1  loop
          --  Sweep backwards to kill empty suffixes
-         if pa(j6).ir.qual.pofs in tackon .. suffix
+         if pa(j6).IR.qual.pofs in tackon .. suffix
            and then ppl_on
          then
             null;
 
-         elsif pa(j6).ir.qual.pofs = supine  and then
-           pa(j6).ir.qual.supine.cs = acc
+         elsif pa(j6).IR.qual.pofs = supine  and then
+           pa(j6).IR.qual.supine.cs = acc
          then
 
             ppl_on := True;
-            supine_info := (pa(j6).ir.qual.supine.con,
-              pa(j6).ir.qual.supine.cs,
-              pa(j6).ir.qual.supine.number,
-              pa(j6).ir.qual.supine.gender);
+            supine_info := (pa(j6).IR.qual.supine.con,
+              pa(j6).IR.qual.supine.cs,
+              pa(j6).IR.qual.supine.number,
+              pa(j6).IR.qual.supine.gender);
 
             pa_last := pa_last + 1;
             pa(pa_last) :=
-              (Head("SUPINE + iri", max_stem_size),
+              (Head("SUPINE + iri", Max_Stem_Size),
               ((v,
               (supine_info.con,
               (fut, passive, inf),
               0,
               x)
                ), 0, null_ending_record, x, a),
-              ppp, null_mnpc);
+              ppp, Null_MNPC);
             ppp_meaning := Head(
               "SUPINE + iri => FUT PASSIVE INF - to be about/going/ready to be ~",
-              max_meaning_size);
+              Max_Meaning_Size);
 
             k := nk;
 
@@ -501,7 +501,7 @@ is
          pa(1..pa_last) := pa(1..pa_last-sypa_last) & sypa(1..sypa_last);
 
          --  Clean up so it does not repeat
-         sypa(1..syncope_max) := (1..syncope_max => null_parse_record);
+         sypa(1..syncope_max) := (1..syncope_max => Null_Parse_Record);
          sypa_last := 0;
       end if;
       no_syncope := False;
@@ -549,8 +549,8 @@ is
                --  Do not SYNCOPE if there is a verb TO_BE or compound already there
                --  I do this here and below, it might be combined but it workd now
                for i in 1..pa_last  loop
-                  if pa(i).ir.qual.pofs = v and then
-                    pa(i).ir.qual.v.con = (5, 1)
+                  if pa(i).IR.qual.pofs = v and then
+                    pa(i).IR.qual.v.con = (5, 1)
                   then
                      no_syncope := True;
                   end if;
@@ -572,7 +572,7 @@ is
                     pa(entering_pa_last+1..pa_last-1);
                   pa(entering_pa_last+1) := (tackons(i).tack,
                     ((tackon, null_tackon_record), 0, null_ending_record, x, x),
-                    addons, dict_io.Count(tackons(i).mnpc));
+                    addons, Dict_IO.Count(tackons(i).MNPC));
 
                   have_done_enclitic := True;
                end if;
@@ -608,7 +608,7 @@ is
                     trpa(entering_trpa_last+1..trpa_last-1);
                   trpa(entering_trpa_last+1) := (tackons(i).tack,
                     ((tackon, null_tackon_record), 0, null_ending_record, x, x),
-                    addons, dict_io.Count(tackons(i).mnpc));
+                    addons, Dict_IO.Count(tackons(i).MNPC));
                end if;
                return;
             end if;
@@ -635,8 +635,8 @@ is
 
       --  Do not SYNCOPE if there is a verb TO_BE or compound already there
       for i in 1..pa_last  loop
-         if pa(i).ir.qual.pofs = v and then
-           pa(i).ir.qual.v.con = (5, 1)
+         if pa(i).IR.qual.pofs = v and then
+           pa(i).IR.qual.v.con = (5, 1)
          then
             no_syncope := True;
          end if;
@@ -694,7 +694,7 @@ is
       entering_trpa_last    : Integer := 0;
       have_done_enclitic : Boolean := False;
    begin   --  PARSE
-      xxx_meaning := null_meaning_type;
+      xxx_meaning := Null_Meaning_Type;
 
       pa_last := 0;
       word_number := word_number + 1;
@@ -719,7 +719,7 @@ is
 
          pa_last := pa_last + trpa_last;   --  Make TRICKS another array to avoid PA-LAST = 0 problems
          pa(1..pa_last) := pa(1..pa_last-trpa_last) & trpa(1..trpa_last);  --  Add SYPA to PA
-         trpa(1..tricks_max) := (1..tricks_max => null_parse_record);   --  Clean up so it does not repeat
+         trpa(1..tricks_max) := (1..tricks_max => Null_Parse_Record);   --  Clean up so it does not repeat
          trpa_last := 0;
 
       end if;
@@ -783,12 +783,12 @@ is
                   --  On NEXT_WORD = sum, esse, iri
 
                   for i in 1..pa_last  loop    --  Check for PPL
-                     if pa(i).ir.qual.pofs = vpar and then
-                       pa(i).ir.qual.vpar.cs = nom  and then
-                       pa(i).ir.qual.vpar.number = sum_info.number  and then
-                       ( (pa(i).ir.qual.vpar.tense_voice_mood = (perf, passive, ppl)) or
-                       (pa(i).ir.qual.vpar.tense_voice_mood = (fut,  active,  ppl)) or
-                       (pa(i).ir.qual.vpar.tense_voice_mood = (fut,  passive, ppl)) )
+                     if pa(i).IR.qual.pofs = vpar and then
+                       pa(i).IR.qual.vpar.cs = nom  and then
+                       pa(i).IR.qual.vpar.number = sum_info.number  and then
+                       ( (pa(i).IR.qual.vpar.tense_voice_mood = (perf, passive, ppl)) or
+                       (pa(i).IR.qual.vpar.tense_voice_mood = (fut,  active,  ppl)) or
+                       (pa(i).IR.qual.vpar.tense_voice_mood = (fut,  passive, ppl)) )
                      then
 
                         --  There is at least one hit, fix PA, and advance J over the sum
@@ -803,24 +803,24 @@ is
 
                      pa_last := pa_last + 1;
                      pa(pa_last) :=
-                       (Head("PPL+" & next_word, max_stem_size),
+                       (Head("PPL+" & next_word, Max_Stem_Size),
                        ((v,
                        (ppl_info.con,
                        compound_tvm,
                        sum_info.person,
                        sum_info.number)
                         ), 0, null_ending_record, x, a),
-                       ppp, null_mnpc);
+                       ppp, Null_MNPC);
                   end if;
 
                elsif is_esse(next_word) or is_fuisse(next_word)  then     --  On NEXT_WORD
 
                   for i in 1..pa_last  loop    --  Check for PPL
-                     if pa(i).ir.qual.pofs = vpar and then
-                       (((pa(i).ir.qual.vpar.tense_voice_mood = (perf, passive, ppl)) and
+                     if pa(i).IR.qual.pofs = vpar and then
+                       (((pa(i).IR.qual.vpar.tense_voice_mood = (perf, passive, ppl)) and
                        is_esse(next_word)) or
-                       ((pa(i).ir.qual.vpar.tense_voice_mood = (fut,  active,  ppl)) or
-                       (pa(i).ir.qual.vpar.tense_voice_mood = (fut,  passive, ppl))) )
+                       ((pa(i).IR.qual.vpar.tense_voice_mood = (fut,  active,  ppl)) or
+                       (pa(i).IR.qual.vpar.tense_voice_mood = (fut,  passive, ppl))) )
                      then
 
                         --  There is at least one hit, fix PA, and advance J over the sum
@@ -835,14 +835,14 @@ is
 
                      pa_last := pa_last + 1;
                      pa(pa_last) :=
-                       (Head("PPL+" & next_word, max_stem_size),
+                       (Head("PPL+" & next_word, Max_Stem_Size),
                        ((v,
                        (ppl_info.con,
                        compound_tvm,
                        0,
                        x)
                         ), 0, null_ending_record, x, a),
-                       ppp, null_mnpc);
+                       ppp, Null_MNPC);
                   end if;
 
                elsif is_iri(next_word)  then
@@ -850,8 +850,8 @@ is
                   --  Look ahead for sum
 
                   for j in 1..pa_last  loop    --  Check for SUPINE
-                     if pa(j).ir.qual.pofs = supine   and then
-                       pa(j).ir.qual.supine.cs = acc
+                     if pa(j).IR.qual.pofs = supine   and then
+                       pa(j).IR.qual.supine.cs = acc
                      then
                         --  There is at least one hit, fix PA, and advance J over the iri
                         k := nk;

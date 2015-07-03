@@ -18,7 +18,7 @@ with Text_IO;
 with Strings_Package; use Strings_Package;
 with latIn_File_names; use latIn_File_names;
 with inflections_package; use inflections_package;
-with dictionary_package; use dictionary_package;
+with Dictionary_Package; use Dictionary_Package;
 with word_support_package; use word_support_package;
 
 procedure makestem is
@@ -26,10 +26,10 @@ procedure makestem is
    use Count_io;
    use Text_IO;
    use stem_io;
-   use mnpc_io;
+   use MNPC_IO;
    use part_entry_io;
 
-   d_k : dictionary_kind := xxx;   --  ######################
+   d_k : Dictionary_Kind := xxx;   --  ######################
 
    i : stem_io.Count := 0;
    line : String(1..200) := (others => ' ');
@@ -40,7 +40,7 @@ procedure makestem is
    sc, osc : Character := ' ';
 
    procedure Put_indices(ch : String;
-                         d_k : dictionary_kind) is
+                         d_k : Dictionary_Kind) is
       wd : constant String(1..2) := ch(ch'First..ch'First+1);
    begin
       --Put_Line("Put_Indices");
@@ -99,15 +99,15 @@ begin
 
    Open(   stem_list(d_k), In_File,
            add_file_name_extension(stem_list_name,
-                                   dictionary_kind'Image(d_k)));
+                                   Dictionary_Kind'Image(d_k)));
 
    Create(stem_file(d_k), Inout_File,
           add_file_name_extension(stem_file_name,
-                                  dictionary_kind'Image(d_k)));
+                                  Dictionary_Kind'Image(d_k)));
 
    Create(indx_file(d_k), Out_File,
           add_file_name_extension(indx_file_name,
-                                  dictionary_kind'Image(d_k)));
+                                  Dictionary_Kind'Image(d_k)));
 
    ------------------------------------------------------------------
 
@@ -122,15 +122,15 @@ begin
 
       fc := line(1);
       sc := line(2);
-      ds.stem := line(1..max_stem_size);
+      ds.stem := line(1..Max_Stem_Size);
       --PUT_LINE("#" & LINE(MAX_STEM_SIZE+1..LAST));
-      Get(line(max_stem_size+1..last), ds.part, ll);
+      Get(line(Max_Stem_Size+1..last), ds.part, ll);
       --PUT(DS.PART); NEW_LINE;
       --PUT_LINE("#" & LINE(LL+1..LAST));
       Get(line(ll+1..last), ds.key , ll);
       --PUT(DS.KEY ); NEW_LINE;
       --PUT_LINE("#" & LINE(LL+1..LAST));
-      Get(line(ll+1..last), ds.mnpc , ll);
+      Get(line(ll+1..last), ds.MNPC , ll);
       --PUT(DS.AAMNPC); NEW_LINE;
       Write(stem_file(d_k), ds);
       bbll(fc, sc, general) := i;          --  1
@@ -205,10 +205,10 @@ begin
                --Put("I        -> "); Put(I); New_Line;
             end if;
 
-            ds.stem := line(1..max_stem_size);
-            Get(line(max_stem_size+1..last), ds.part, ll);
+            ds.stem := line(1..Max_Stem_Size);
+            Get(line(Max_Stem_Size+1..last), ds.part, ll);
             Get(line(ll+1..last), ds.key , ll);
-            Get(line(ll+1..last), ds.mnpc , ll);
+            Get(line(ll+1..last), ds.MNPC , ll);
             Write(stem_file(d_k), ds);
             --Put_Line("Wrote STEMfile");
 

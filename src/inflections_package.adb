@@ -366,12 +366,12 @@ package body inflections_package is
       end if;
    end "<=";
 
-   package body stem_type_io is
-      procedure Get(f : in File_Type; d : out stem_type) is
+   package body Stem_Type_IO is
+      procedure Get(f : in File_Type; d : out Stem_Type) is
          c : Character := ' ';
       begin
-         d := null_stem_type;
-         for i in 1..stem_type_io.Default_Width  loop
+         d := Null_Stem_Type;
+         for i in 1..Stem_Type_IO.Default_Width  loop
             Get(f, c);
             if (c not in 'A'..'Z') and (c not in 'a'..'z')  then
                exit;
@@ -381,11 +381,11 @@ package body inflections_package is
          end loop;
       end Get;
 
-      procedure Get(d : out stem_type) is
+      procedure Get(d : out Stem_Type) is
          c : Character := ' ';
       begin
-         d := null_stem_type;
-         for i in 1..stem_type_io.Default_Width loop
+         d := Null_Stem_Type;
+         for i in 1..Stem_Type_IO.Default_Width loop
             Text_IO.Get(c);
             if (c not in 'A'..'Z') and (c not in 'a'..'z') then
                exit;
@@ -395,23 +395,23 @@ package body inflections_package is
          end loop;
       end Get;
 
-      procedure Put(f : in File_Type; d : in stem_type) is
+      procedure Put(f : in File_Type; d : in Stem_Type) is
       begin
          Text_IO.Put(f, d);
       end Put;
 
-      procedure Put(d : in stem_type) is
+      procedure Put(d : in Stem_Type) is
       begin
          Text_IO.Put(d);
       end Put;
 
-      procedure Get(s : in String; d : out stem_type;
+      procedure Get(s : in String; d : out Stem_Type;
                                    last : out Integer) is
          c : Character;
       begin
-         d := null_stem_type;
+         d := Null_Stem_Type;
          last := 0;
-         for i in 1..stem_type_io.Default_Width  loop
+         for i in 1..Stem_Type_IO.Default_Width  loop
             c := s(i);
             if (c not in 'A'..'Z') and (c not in 'a'..'z')  then
                exit;
@@ -422,12 +422,12 @@ package body inflections_package is
          end loop;
       end Get;
 
-      procedure Put(s : out String; d : in stem_type) is
+      procedure Put(s : out String; d : in Stem_Type) is
       begin
-         s(s'First..s'First+stem_type_io.Default_Width-1) := d;
+         s(s'First..s'First+Stem_Type_IO.Default_Width-1) := d;
       end Put;
 
-   end stem_type_io;
+   end Stem_Type_IO;
 
    package body decn_record_io is
       --  This package will carry the documentation for all the following packages
@@ -2062,7 +2062,7 @@ package body inflections_package is
 
    end ending_record_io;
 
-   package body inflection_record_io is
+   package body Inflection_Record_IO is
       use quality_record_io;
       use stem_key_type_io;
       use ending_record_io;
@@ -2070,9 +2070,9 @@ package body inflections_package is
       use frequency_type_io;
       spacer : Character := ' ';
 
-      pe : inflection_record;
+      pe : Inflection_Record;
 
-      procedure Get(f : in File_Type; p : out inflection_record) is
+      procedure Get(f : in File_Type; p : out Inflection_Record) is
       begin
          Get(f, p.qual);
          Get(f, spacer);
@@ -2085,7 +2085,7 @@ package body inflections_package is
          Get(f, p.freq);
       end Get;
 
-      procedure Get(p : out inflection_record) is
+      procedure Get(p : out Inflection_Record) is
       begin
          Get(p.qual);
          Get(spacer);
@@ -2098,7 +2098,7 @@ package body inflections_package is
          Get(p.freq);
       end Get;
 
-      procedure Put(f : in File_Type; p : in inflection_record) is
+      procedure Put(f : in File_Type; p : in Inflection_Record) is
       begin
          Put(f, p.qual);
          Put(f, ' ');
@@ -2111,7 +2111,7 @@ package body inflections_package is
          Put(f, p.freq);
       end Put;
 
-      procedure Put(p : in inflection_record) is
+      procedure Put(p : in Inflection_Record) is
       begin
          Put(p.qual);
          Put(' ');
@@ -2124,7 +2124,7 @@ package body inflections_package is
          Put(p.freq);
       end Put;
 
-      procedure Get(s : in String; p : out inflection_record; last : out Integer) is
+      procedure Get(s : in String; p : out Inflection_Record; last : out Integer) is
          l : Integer := s'First - 1;
       begin
          last := 0;
@@ -2140,7 +2140,7 @@ package body inflections_package is
          Get(s(l+1..s'Last), p.freq, last);
       end Get;
 
-      procedure Put(s : out String; p : in inflection_record) is
+      procedure Put(s : out String; p : in Inflection_Record) is
          l : Integer := s'First - 1;
          m : Integer := 0;
       begin
@@ -2165,13 +2165,13 @@ package body inflections_package is
          s(m+1..s'Last) := (others => ' ');
       end Put;
 
-   end inflection_record_io;
+   end Inflection_Record_IO;
 
    procedure establish_inflections_section  is
       --  Loads the inflection array from the file prepared in FILE_INFLECTIONS_SECTION
       --  If N = 0 (an artifical flag for the section for blank inflections = 5)
       --  comPutes the LELL..LELF indices for use in WORD
-      use inflection_record_io;
+      use Inflection_Record_IO;
       use lel_section_io;
 
       procedure load_lel_indexes is
@@ -2193,7 +2193,7 @@ package body inflections_package is
          belf(0, ' ') := i;
          bell(0, ' ') := 0;
          loop
-            exit when lel(i) = null_inflection_record;
+            exit when lel(i) = Null_Inflection_Record;
             bel(i) := lel(i);
 
             bell(0, ' ') := i;
@@ -2219,7 +2219,7 @@ package body inflections_package is
          loop
             n1_loop:
             loop
-               exit c1_loop when lel(i) = null_inflection_record;
+               exit c1_loop when lel(i) = Null_Inflection_Record;
 
                n := lel(i).ending.size;
 
@@ -2267,7 +2267,7 @@ package body inflections_package is
          loop
             n2_loop:
             loop
-               exit c2_loop when lel(i) = null_inflection_record;
+               exit c2_loop when lel(i) = Null_Inflection_Record;
 
                n := lel(i).ending.size;
 
@@ -2316,7 +2316,7 @@ package body inflections_package is
          loop
             n3_loop:
             loop
-               exit c3_loop when lel(i) = null_inflection_record;
+               exit c3_loop when lel(i) = Null_Inflection_Record;
 
                n := lel(i).ending.size;
 
@@ -2410,7 +2410,7 @@ package body inflections_package is
             loop
                n_p_loop:
                loop
-                  exit c_p_loop when lel(i) = null_inflection_record;
+                  exit c_p_loop when lel(i) = Null_Inflection_Record;
 
                   n := lel(i).ending.size;
 
@@ -2541,7 +2541,7 @@ begin  --  initialization of body of INFLECTIONS_PACKAGE
      vpar_record_io.Default_Width; --  Largest
    ending_record_io.Default_Width := 3 + 1 +
      max_ending_size;
-   inflection_record_io.Default_Width := quality_record_io.Default_Width + 1 +
+   Inflection_Record_IO.Default_Width := quality_record_io.Default_Width + 1 +
      1  + 1 +
      ending_record_io.Default_Width + 1 +
      age_type_io.Default_Width + 1 +

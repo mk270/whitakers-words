@@ -30,12 +30,12 @@ package body line_stuff is
       --  Only used now for DICT.LOC
 
       dictionary_file : File_Type;
-      blk_stem : constant stem_type := null_stem_type;
+      blk_stem : constant Stem_Type := Null_Stem_Type;
       sts : stems_type := null_stems_type;
       pt  : part_entry  := null_part_entry;
       tran : translation_record := null_translation_record;
       value : constant numeral_value_type := 0;
-      mean : meaning_type := null_meaning_type;
+      mean : Meaning_Type := Null_Meaning_Type;
 
       fc1, fc2, fc3, fc4 : Character;
 
@@ -45,11 +45,11 @@ package body line_stuff is
       number_of_dictionary_entries : Integer := 0;
 
       procedure Get_stem(s : in String;
-                         stem : out stem_type; last : out Integer) is
+                         stem : out Stem_Type; last : out Integer) is
          i  : Integer := 1;
          l  : Integer := s'First;
       begin
-         stem := null_stem_type;
+         stem := Null_Stem_Type;
          --  Squeeze left
          while l <= s'Last and then s(l) = ' '  loop
             l := l + 1;
@@ -111,7 +111,7 @@ package body line_stuff is
 
          line := blank_line;
          Get_Non_Comment_Line (dictionary_file, line, l);         --  MEANING
-         mean := Head(Trim (line(1..l)), max_meaning_size);
+         mean := Head(Trim (line(1..l)), Max_Meaning_Size);
          --TEXT_IO.PUT_LINE("READ MEANING");
 
          --  Now take care of other first letters in a gross way
@@ -404,17 +404,17 @@ package body line_stuff is
          preface.Put_Line("--  Loaded anyway   ");
    end load_dictionary;
 
-   procedure load_stem_file(d_k : dictionary_kind)  is
+   procedure load_stem_file(d_k : Dictionary_Kind)  is
       --  This is used to load a dictionary access file, like DIC.LOC
       --  It uses the single first letter index rather than the two letter
       --  This dictionary must be searched with a somewhat different procedure
       --  Not used when one loads from a regular STEMFILE (which uses two letters)
       --use LATIN_DEBUG;
       use stem_io;
-      use dict_io;
+      use Dict_IO;
       i : stem_io.Count := 1;
       --M_P_R : MEANING_TYPE;
-      m : dict_io.Positive_Count := 1;
+      m : Dict_IO.Positive_Count := 1;
       dlc : dictionary := dict_loc;
       --DS : DICTIONARY_STEM;
       --ZZZ_STEM : constant STEM_TYPE := "zzz" & (4..MAX_STEM_SIZE => ' '); --####
@@ -424,13 +424,13 @@ package body line_stuff is
          Delete(stem_file(d_k));
       end if;
       Create(stem_file(d_k), Inout_File, add_file_name_extension(stem_file_name,
-                                                                 dictionary_kind'Image(d_k)));
+                                                                 Dictionary_Kind'Image(d_k)));
       --PUT_LINE("LOAD_STEM_FILE for LOC - Created STEM_FILE");
       if Is_Open(dict_file(d_k))  then
          Delete(dict_file(d_k));
       end if;
       Create(dict_file(d_k), Inout_File, add_file_name_extension(dict_file_name,
-                                                                 dictionary_kind'Image(d_k)));
+                                                                 Dictionary_Kind'Image(d_k)));
       --PUT_LINE("LOAD_STEM_FILE for LOC - Created DICT_FILE");
 
       --PUT_LINE("L_D_F  Start  M = " & INTEGER'IMAGE(INTEGER(M)));
@@ -442,14 +442,14 @@ package body line_stuff is
          ddll(fc, 'a', d_k) := 0;
          while dlc(fc) /= null  loop
             --PUT_LINE("L_D_F  Setting Dictfile index M = " & INTEGER'IMAGE(INTEGER(M)));
-            dict_io.Set_Index(dict_file(d_k), m);
+            Dict_IO.Set_Index(dict_file(d_k), m);
             -- %%%%%%%%%%%!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!%%%%%%%%%%%%%%%%%%%%%%%
             --PUT_LINE(DLC(FC).DE.TRAN.MEAN);
             -- M_P_R := DLC(FC).DE.TRAN.MEAN;
             --DICT_IO.WRITE(DICT_FILE(D_K), M_P_R);   --@@@@@@@@@@@@@@@@@@@@@
-            dict_io.Write(dict_file(d_k), dlc(fc).de);
+            Dict_IO.Write(dict_file(d_k), dlc(fc).de);
             for k in stem_key_type range 1..4  loop
-               if dlc(fc).de.stems(k) /= null_stem_type  and
+               if dlc(fc).de.stems(k) /= Null_Stem_Type  and
                  dlc(fc).de.stems(k) /= zzz_stem
                then
                   --LATIN_DEBUG.PUT(DLC(FC).DE.STEMS(K)); LATIN_DEBUG.PUT("  ..  ");
@@ -524,16 +524,16 @@ package body line_stuff is
          l : Integer := s'First - 1;
          m : Integer := 0;
       begin
-         m := l + dictionary_kind_io.Default_Width;
+         m := l + Dictionary_Kind_IO.Default_Width;
          Get(s(l+1..m), p.pofs, l);
          l := m + 1;
-         m := l + max_stem_size;
+         m := l + Max_Stem_Size;
          p.tack := s(l+1..m);
          l := m + 1;
          m := l + tackon_entry_io.Default_Width;
          Get(s(l+1..m), p.entr, l);
          l := m + 1;
-         m := l + max_meaning_size;
+         m := l + Max_Meaning_Size;
          p.mean := s(l+1..m);
          last := m;
       end Get;
@@ -542,11 +542,11 @@ package body line_stuff is
          l : Integer := s'First - 1;
          m : Integer := 0;
       begin
-         m := l + dictionary_kind_io.Default_Width;
+         m := l + Dictionary_Kind_IO.Default_Width;
          Put(s(l+1..m), p.pofs);
          l := m + 1;
          s(l) := ' ';
-         m := l + max_stem_size;
+         m := l + Max_Stem_Size;
          s(l+1..m) := p.tack;
          l := m + 1;
          s(l) := ' ';
@@ -554,7 +554,7 @@ package body line_stuff is
          Put(s(l+1..m), p.entr);
          l := m + 1;
          s(l) := ' ';
-         m := l + max_meaning_size;
+         m := l + Max_Meaning_Size;
          s(l+1..m) := p.mean;
          s(m+1..s'Last) := (others => ' ');
       end Put;
@@ -622,11 +622,11 @@ package body line_stuff is
          l : Integer := s'First - 1;
          m : Integer := 0;
       begin
-         m := l + dictionary_kind_io.Default_Width;
+         m := l + Dictionary_Kind_IO.Default_Width;
          Get(s(l+1..s'Last), p.pofs, l);
          l := m;
          l := l + 1;
-         m := l + max_stem_size;
+         m := l + Max_Stem_Size;
          p.fix := s(l+1..m);
          l := m;
          l := l + 1;
@@ -636,7 +636,7 @@ package body line_stuff is
          m := l + prefix_entry_io.Default_Width;
          Get(s(l+1..s'Last), p.entr, l);
          l := m + 1;
-         m := l + max_meaning_size;
+         m := l + Max_Meaning_Size;
          p.mean := s(l+1..m);
          last := m;
       end Get;
@@ -645,11 +645,11 @@ package body line_stuff is
          l : Integer := s'First - 1;
          m : Integer := 0;
       begin
-         m := l + dictionary_kind_io.Default_Width;
+         m := l + Dictionary_Kind_IO.Default_Width;
          Put(s(l+1..m), p.pofs);
          l := m + 1;
          s(l) :=  ' ';
-         m := l + max_stem_size;
+         m := l + Max_Stem_Size;
          s(l+1..m) := p.fix;
          l := m + 1;
          s(l) :=  ' ';
@@ -659,7 +659,7 @@ package body line_stuff is
          Put(s(l+1..m), p.entr);
          l := m + 1;
          s(l) :=  ' ';
-         m := l + max_meaning_size;
+         m := l + Max_Meaning_Size;
          s(l+1..m) := p.mean;
          m := l + 1;
          s(m+1..s'Last) := (others => ' ');
@@ -728,11 +728,11 @@ package body line_stuff is
          l : Integer := s'First - 1;
          m : Integer := 0;
       begin
-         m := l + dictionary_kind_io.Default_Width;
+         m := l + Dictionary_Kind_IO.Default_Width;
          Get(s(l+1..s'Last), p.pofs, l);
          l := m;
          l := l + 1;
-         m := l + max_stem_size;
+         m := l + Max_Stem_Size;
          p.fix := s(l+1..m);
          l := m;
          l := l + 1;
@@ -742,7 +742,7 @@ package body line_stuff is
          m := l + suffix_entry_io.Default_Width;
          Get(s(l+1..s'Last), p.entr, l);
          l := m + 1;
-         m := l + max_meaning_size;
+         m := l + Max_Meaning_Size;
          p.mean := s(l+1..m);
          last := m;
       end Get;
@@ -751,11 +751,11 @@ package body line_stuff is
          l : Integer := s'First - 1;
          m : Integer := 0;
       begin
-         m := l + dictionary_kind_io.Default_Width;
+         m := l + Dictionary_Kind_IO.Default_Width;
          Put(s(l+1..m), p.pofs);
          l := m + 1;
          s(l) :=  ' ';
-         m := l + max_stem_size;
+         m := l + Max_Stem_Size;
          s(l+1..m) := p.fix;
          l := m + 1;
          s(l) :=  ' ';
@@ -767,7 +767,7 @@ package body line_stuff is
          Put(s(l+1..m), p.entr);
          l := m + 1;
          s(l) :=  ' ';
-         m := l + max_meaning_size;
+         m := l + Max_Meaning_Size;
          s(l+1..m) := p.mean;
          s(m+1..s'Last) := (others => ' ');
       end Put;
@@ -831,7 +831,7 @@ package body line_stuff is
          l : Integer := s'First - 1;
          m : Integer := 0;
       begin
-         m := l + max_stem_size;
+         m := l + Max_Stem_Size;
          p.stem := s(l+1..m);
          l := l + 1;
          -- m := l + quality_record_io.Default_Width; -- apparently redundant?
@@ -840,7 +840,7 @@ package body line_stuff is
          -- m := l + kind_entry_io.Default_Width; -- apparently redundant?
          Get(s(l+1..s'Last), p.qual.pofs, p.kind, l);
          l := l + 1;
-         -- m := l + max_meaning_size; -- apparently redundant?
+         -- m := l + Max_Meaning_Size; -- apparently redundant?
          Get(s(l+1..s'Last), p.tran, last);
       end Get;
 
@@ -848,7 +848,7 @@ package body line_stuff is
          l : Integer := s'First - 1;
          m : Integer := 0;
       begin
-         m := l + max_stem_size;
+         m := l + Max_Stem_Size;
          s(l+1..m) := p.stem;
          l := m + 1;
          s(l) :=  ' ';
@@ -860,7 +860,7 @@ package body line_stuff is
          Put(s(l+1..m), p.qual.pofs, p.kind);
          l := m + 1;
          s(l) :=  ' ';
-         m := m + max_meaning_size;
+         m := m + Max_Meaning_Size;
          Put(s(l+1..m), p.tran);
          s(m+1..s'Last) := (others => ' ');
       end Put;
@@ -872,20 +872,20 @@ package body line_stuff is
       use part_entry_io;
       use kind_entry_io;
       use translation_record_io;
-      use dict_io;
+      use Dict_IO;
 
       uniques_file : Text_IO.File_Type;
       blanks : constant String(1..100) := (others => ' ');
       line, stem_line : String(1..100) := (others => ' ');
       last, l : Integer := 0;
-      stem : stem_type := null_stem_type;
+      stem : Stem_Type := Null_Stem_Type;
       qual : quality_record;
       kind : kind_entry;
       --PART : PART_ENTRY := NULL_PART_ENTRY;
       tran : translation_record := null_translation_record;
-      mnpc : mnpc_type := null_mnpc;
-      mean : meaning_type := null_meaning_type;
-      m : dict_io.Positive_Count := 1;
+      MNPC : MNPC_type := Null_MNPC;
+      mean : Meaning_Type := Null_Meaning_Type;
+      m : Dict_IO.Positive_Count := 1;
 
       number_of_uniques_entries : Integer := 0;
 
@@ -904,7 +904,7 @@ package body line_stuff is
       while not End_Of_File(uniques_file)  loop
          stem_line := blanks;
          Get_Line(uniques_file, stem_line, last);      --  STEM
-         stem := Head(Trim (stem_line(1..last)), max_stem_size);
+         stem := Head(Trim (stem_line(1..last)), Max_Stem_Size);
 
          line := blanks;
          Get_Line(uniques_file, line, last);    --  QUAL, KIND, TRAN
@@ -918,7 +918,7 @@ package body line_stuff is
 
          line := blanks;
          Get_Line(uniques_file, line, l);         --  MEAN
-         mean := Head(Trim (line(1..l)), max_meaning_size);
+         mean := Head(Trim (line(1..l)), Max_Meaning_Size);
          --@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
          declare
             unique_de : dictionary_entry;
@@ -944,7 +944,7 @@ package body line_stuff is
             end case;
 
             unique_de.stems := (stem,
-                                null_stem_type, null_stem_type, null_stem_type);
+                                Null_Stem_Type, Null_Stem_Type, Null_Stem_Type);
             unique_de.part  :=  part;
             --UNIQUE_DE.KIND  :=  KIND;
             unique_de.tran  :=  tran;
@@ -957,17 +957,17 @@ package body line_stuff is
          end;
          --@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 
-         mnpc := m;
+         MNPC := m;
 
          if Lower_Case (stem(1)) = 'v' then
             unq('u') :=
-              new unique_item'(stem, qual, kind, mnpc, unq(Lower_Case ('u')));
+              new unique_item'(stem, qual, kind, MNPC, unq(Lower_Case ('u')));
          elsif Lower_Case (stem(1)) = 'j' then
             unq('i') :=
-              new unique_item'(stem, qual, kind, mnpc, unq(Lower_Case ('i')));
+              new unique_item'(stem, qual, kind, MNPC, unq(Lower_Case ('i')));
          else
             unq(Lower_Case (stem(1))) :=
-              new unique_item'(stem, qual, kind, mnpc, unq(Lower_Case (stem(1))));
+              new unique_item'(stem, qual, kind, MNPC, unq(Lower_Case (stem(1))));
          end if;
 
          m := m + 1;
@@ -1004,22 +1004,22 @@ begin
    --                                   MAX_MEANING_SIZE;
 
    prefix_line_io.Default_Width := part_of_speech_type_io.Default_Width + 1 +
-     max_stem_size + 1 +
+     Max_Stem_Size + 1 +
      1 + 1 +
      prefix_entry_io.Default_Width + 1 +
-     max_meaning_size;
+     Max_Meaning_Size;
    suffix_line_io.Default_Width := part_of_speech_type_io.Default_Width + 1 +
-     max_stem_size + 1 +
+     Max_Stem_Size + 1 +
      1 + 1 +
      suffix_entry_io.Default_Width + 1 +
-     max_meaning_size;
+     Max_Meaning_Size;
    tackon_line_io.Default_Width := part_of_speech_type_io.Default_Width + 1 +
-     max_stem_size + 1 +
+     Max_Stem_Size + 1 +
      tackon_entry_io.Default_Width + 1 +
-     max_meaning_size;
+     Max_Meaning_Size;
 
-   unique_entry_io.Default_Width := max_stem_size + 1 +
-     inflection_record_io.Default_Width + 1 +
+   unique_entry_io.Default_Width := Max_Stem_Size + 1 +
+     Inflection_Record_IO.Default_Width + 1 +
      translation_record_io.Default_Width;
 
 end line_stuff;

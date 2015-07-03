@@ -64,12 +64,12 @@ package body addons_package is
       addons_file : Text_IO.File_Type;
       pofs: part_of_speech_type;
       de : dictionary_entry := null_dictionary_entry;
-      mean : meaning_type := null_meaning_type;
+      mean : Meaning_Type := Null_Meaning_Type;
       m : Integer := 1;
       --TG : TARGET_ENTRY;
       tn : tackon_entry;
       pm : prefix_item;
-      ts : stem_type;
+      ts : Stem_Type;
 
       procedure Get_no_comment_line(f : in Text_IO.File_Type;
                                     s : out String; last : out Integer) is
@@ -137,13 +137,13 @@ package body addons_package is
          Get(s(1..last), pofs, l);
          case pofs is
             when tackon  =>
-               ts := Head(Trim (s(l+1..last)), max_stem_size);
+               ts := Head(Trim (s(l+1..last)), Max_Stem_Size);
                de.stems(1) := ts;
 
                Get_Line(addons_file, s, last);
                Get(s(1..last), tn, l);
                Get_Line(addons_file, s, last);
-               mean := Head(s(1..last), max_meaning_size);
+               mean := Head(s(1..last), Max_Meaning_Size);
 
                if  tn.base.pofs= pack   and then
                   (tn.base.pack.decl.which = 1 or
@@ -157,7 +157,7 @@ package body addons_package is
                   --            DICT_IO.SET_INDEX(DICT_FILE(D_K), M);
                   --            DE.MEAN := MEAN;
                   --            DICT_IO.WRITE(DICT_FILE(D_K), DE);
-                  packons (pac).mnpc := m;
+                  packons (pac).MNPC := m;
                   means(m) := mean;
                   m := m + 1;
                else
@@ -169,7 +169,7 @@ package body addons_package is
                   --            DE.MEAN := MEAN;
                   --            DICT_IO.WRITE(DICT_FILE(D_K), DE);
                   --            --DICT_IO.WRITE(DICT_FILE(D_K), MEAN);
-                  tackons (tac).mnpc := m;
+                  tackons (tac).MNPC := m;
                   means(m) := mean;
                   m := m + 1;
                end if;
@@ -183,7 +183,7 @@ package body addons_package is
                Get_Line(addons_file, s, last);
                Get(s(1..last), pm.entr, l);
                Get_Line(addons_file, s, last);
-               mean := Head(s(1..last), max_meaning_size);
+               mean := Head(s(1..last), Max_Meaning_Size);
 
                if pm.entr.root = pack then
                   tic := tic + 1;
@@ -195,7 +195,7 @@ package body addons_package is
                   --            DE.MEAN := MEAN;
                   --            DICT_IO.WRITE(DICT_FILE(D_K), DE);
                   --            --DICT_IO.WRITE(DICT_FILE(D_K), MEAN);
-                  tickons (tic).mnpc := m;
+                  tickons (tic).MNPC := m;
                   means(m) := mean;
                   m := m + 1;
                else
@@ -208,7 +208,7 @@ package body addons_package is
                   de.mean := mean;
                   --            DICT_IO.WRITE(DICT_FILE(D_K), DE);
                   --            --DICT_IO.WRITE(DICT_FILE(D_K), MEAN);
-                  prefixes(pre).mnpc := m;
+                  prefixes(pre).MNPC := m;
                   means(m) := mean;
                   m := m + 1;
                end if;
@@ -230,14 +230,14 @@ package body addons_package is
                --TEXT_IO.PUT("@3");
                Get_Line(addons_file, s, last);
                --TEXT_IO.PUT("@4");
-               mean := Head(s(1..last), max_meaning_size);
+               mean := Head(s(1..last), Max_Meaning_Size);
                --TEXT_IO.PUT("@5");
                --
                --        DICT_IO.SET_INDEX(DICT_FILE(D_K), M);
                --        DE.MEAN := MEAN;
                --        DICT_IO.WRITE(DICT_FILE(D_K), DE);
                --        --DICT_IO.WRITE(DICT_FILE(D_K), MEAN);
-               suffixes(suf).mnpc := m;
+               suffixes(suf).MNPC := m;
                means(m) := mean;
                m := m + 1;
 
@@ -297,11 +297,11 @@ package body addons_package is
       end if;
    end subtract_tackon;
 
-   function subtract_prefix(w : String; x : prefix_item) return stem_type is
+   function subtract_prefix(w : String; x : prefix_item) return Stem_Type is
       wd : constant String := Trim (w);
       xf : constant String := Trim (x.fix);
       z  : constant Integer := xf'Length;
-      st : stem_type := Head(wd, max_stem_size);
+      st : Stem_Type := Head(wd, Max_Stem_Size);
    begin
       if words_mdev(use_prefixes) and then
         x /= null_prefix_item and then
@@ -311,19 +311,19 @@ package body addons_package is
         ( (x.connect = ' ') or (wd(z+1) = x.connect) )
       then
          st(1..wd'Length-z) := wd(z+1..wd'Last);
-         st(wd'Length-z+1..max_stem_size) :=
-           null_stem_type(wd'Length-z+1..max_stem_size);
+         st(wd'Length-z+1..Max_Stem_Size) :=
+           Null_Stem_Type(wd'Length-z+1..Max_Stem_Size);
       end if;
       --PUT_LINE("SUBTRACT_PREFIX  " & X.FIX & " FROM " & WD & "  returns " & ST);
       return st;
    end subtract_prefix;
 
-   function subtract_suffix(w : String; x : suffix_item) return stem_type is
+   function subtract_suffix(w : String; x : suffix_item) return Stem_Type is
       wd : constant String := Trim (w);
       l  : constant Integer := wd'Length;
       xf : constant String := Trim (x.fix);
       z  : constant Integer := xf'Length;
-      st : stem_type := Head(wd, max_stem_size);
+      st : Stem_Type := Head(wd, Max_Stem_Size);
    begin
       --PUT_LINE("In SUBTRACT_SUFFIX  Z = " & INTEGER'IMAGE(Z) &
       --"  CONNECT >" & X.CONNECT & '<');
@@ -336,30 +336,30 @@ package body addons_package is
       then
          --PUT_LINE("In SUBTRACT_SUFFIX we got a hit");
          st(1..wd'Length-z) := wd(1..wd'Length-z);
-         st(wd'Length-z+1..max_stem_size) :=
-           null_stem_type(wd'Length-z+1..max_stem_size);
+         st(wd'Length-z+1..Max_Stem_Size) :=
+           Null_Stem_Type(wd'Length-z+1..Max_Stem_Size);
       end if;
       --PUT_LINE("SUBTRACT_SUFFIX  " & X.FIX & " FROM " & WD & "  returns " & ST);
       return st;
    end subtract_suffix;
 
-   function add_prefix(stem : stem_type;
-                       prefix : prefix_item) return stem_type is
+   function add_prefix(stem : Stem_Type;
+                       prefix : prefix_item) return Stem_Type is
       fpx : constant String := Trim (prefix.fix) & stem;
    begin
       if words_mdev(use_prefixes)  then
-         return Head(fpx, max_stem_size);
+         return Head(fpx, Max_Stem_Size);
       else
          return stem;
       end if;
    end add_prefix;
 
-   function add_suffix(stem : stem_type;
-                       suffix : suffix_item) return stem_type is
+   function add_suffix(stem : Stem_Type;
+                       suffix : suffix_item) return Stem_Type is
       fpx : constant String := Trim (stem) & suffix.fix;
    begin
       if words_mdev(use_suffixes)  then
-         return Head(fpx, max_stem_size);
+         return Head(fpx, Max_Stem_Size);
       else
          return stem;
       end if;
