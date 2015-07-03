@@ -22,7 +22,7 @@ package body word_support_package is
 
    function len(s : string) return integer is
    begin
-      return trim(s)'length;
+      return trim(s)'Length;
    end len;
 
    function eff_part(part : part_of_speech_type) return part_of_speech_type is
@@ -73,11 +73,11 @@ package body word_support_package is
       wd : constant string := trim(input_word);  --  string may not start at 1
    begin
       if d_k = local  then
-         return ddlf(wd(wd'first), 'a', d_k);
-      elsif wd'length < 2 then
+         return ddlf(wd(wd'First), 'a', d_k);
+      elsif wd'Length < 2 then
          return   0; --  BDLF(WD(WD'FIRST), ' ', D_K);
       else
-         return ddlf(wd(wd'first), wd(wd'first+1), d_k);
+         return ddlf(wd(wd'First), wd(wd'First+1), d_k);
       end if;
    end first_index;
 
@@ -87,11 +87,11 @@ package body word_support_package is
       wd : constant string := trim(input_word);
    begin        --  remember the string may not start at 1
       if d_k = local  then
-         return ddll(wd(wd'first), 'a', d_k);
-      elsif wd'length < 2 then
+         return ddll(wd(wd'First), 'a', d_k);
+      elsif wd'Length < 2 then
          return   0; --  BDLL(WD(WD'FIRST), ' ', D_K);
       else
-         return ddll(wd(wd'first), wd(wd'first+1), d_k);
+         return ddll(wd(wd'First), wd(wd'First+1), d_k);
       end if;
    end  last_index;
 
@@ -112,7 +112,7 @@ package body word_support_package is
             if not is_open(stem_file(d_k))  then
                open(stem_file(d_k), stem_io.in_file,
                     add_file_name_extension(stem_file_name,
-                                            dictionary_kind'image(d_k)));
+                                            dictionary_kind'Image(d_k)));
             end if;
             index_first := bblf(' ', ' ', d_k);
             index_last  := bbll(' ', ' ', d_k);
@@ -128,18 +128,18 @@ package body word_support_package is
             when name_error =>
                text_io.put_line("LOADING BDL FROM DISK had NAME_ERROR on " &
                                   add_file_name_extension(stem_file_name,
-                                                          dictionary_kind'image(d_k)));
+                                                          dictionary_kind'Image(d_k)));
                text_io.put_line("The will be no blank stems loaded");
             when use_error =>
                text_io.put_line("LOADING BDL FROM DISK had USE_ERROR on " &
                                   add_file_name_extension(stem_file_name,
-                                                          dictionary_kind'image(d_k)));
+                                                          dictionary_kind'Image(d_k)));
                text_io.put_line("There will be no blank stems loaded");
          end loading_bdl_from_disk;
       end if;
 
       --  Now load the stems of just one letter
-      for d_k in general..dictionary_kind'last loop
+      for d_k in general..dictionary_kind'Last loop
          if dictionary_available(d_k)  then
             exit when d_k = local;
             --TEXT_IO.PUT_LINE("OPENING BDL STEMFILE " & EXT(D_K));
@@ -149,7 +149,7 @@ package body word_support_package is
                --DICTIONARY_KIND'IMAGE(D_K)));
                open(stem_file(d_k), stem_io.in_file,
                     add_file_name_extension(stem_file_name,
-                                            dictionary_kind'image(d_k)));
+                                            dictionary_kind'Image(d_k)));
                --STEMFILE." & EXT(D_K));
                --PUT_LINE("OPENing was successful");
             end if;
@@ -198,10 +198,10 @@ package body word_support_package is
    begin
       open(indx_file(d_k), text_io.in_file,
            add_file_name_extension(indx_file_name,
-                                   dictionary_kind'image(d_k)));
+                                   dictionary_kind'Image(d_k)));
       --"INDXFILE." & EXT(D_K)); --  $$$$$$$$$$$$
 
-      preface.put(dictionary_kind'image(d_k));
+      preface.put(dictionary_kind'Image(d_k));
       preface.put(" Dictionary loading");
 
       if d_k = general  then

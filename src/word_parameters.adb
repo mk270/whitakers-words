@@ -80,7 +80,7 @@ package body word_parameters is
      "This option instructs the program to create a file which can hold the ",
      "output for later study, otherwise the results are just displayed on   ",
      "the screen.  The output file is named " & output_full_name
-     & (39+output_full_name'length..70 => ' '),
+     & (39+output_full_name'Length..70 => ' '),
      "This means that one run will necessarily overwrite a previous run,    ",
      "unless the previous results are renamed or copied to a file of another",
      "name.  This is available if the METHOD is INTERACTIVE, no parameters. ",
@@ -90,7 +90,7 @@ package body word_parameters is
    write_output_to_file_help : constant help_type :=  (
      "This option instructs the program, when HAVE_OUTPUT_FILE is on, to    ",
      "write results to the file " & output_full_name
-     & (27+output_full_name'length..70 => ' '),
+     & (27+output_full_name'Length..70 => ' '),
      "This option may be turned on and off during running of the program,   ",
      "thereby capturing only certain desired results.  If the option        ",
      "HAVE_OUTPUT_FILE is off, the user will not be given a chance to turn  ",
@@ -115,7 +115,7 @@ package body word_parameters is
    write_unknowns_to_file_help : constant help_type :=  (
      "This option instructs the program to write all unresolved words to a  ",
      "UNKNOWNS file named " & unknowns_full_name
-     & (21+unknowns_full_name'length..70 => ' '),
+     & (21+unknowns_full_name'Length..70 => ' '),
      "With this option on , the file of unknowns is written, even though    ",
      "the main output contains both known and unknown (unresolved) words.   ",
      "One may wish to save the unknowns for later analysis, testing, or to  ",
@@ -243,7 +243,7 @@ package body word_parameters is
    procedure put(help : help_type) is
    begin
       new_line;
-      for i in help'first..help'last  loop
+      for i in help'First..help'Last  loop
          put_line(help(i));
       end loop;
       new_line;
@@ -257,7 +257,7 @@ package body word_parameters is
          close(mode_file);
       end if;
       create(mode_file, out_file, mode_full_name);
-      for i in words_mode'range  loop
+      for i in words_mode'Range  loop
          put(mode_file, i);
          set_col(mode_file, 35);
          put(mode_file, reply(words_mode(i)));

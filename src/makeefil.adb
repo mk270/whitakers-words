@@ -56,11 +56,11 @@ begin
    end loop;
    close(ewds_file);
    text_io.new_line;
-   text_io.put_line("NUMBER_OF_EWORDS = " & integer'image(number_of_ewords));
+   text_io.put_line("NUMBER_OF_EWORDS = " & integer'Image(number_of_ewords));
 exception
    when others =>
       close(ewds_file);
       text_io.new_line;
       text_io.put_line("MAKEEFIL terminated on an exception");
-      text_io.put_line("NUMBER_OF_EWORDS = " & integer'image(number_of_ewords));
+      text_io.put_line("NUMBER_OF_EWORDS = " & integer'Image(number_of_ewords));
 end makeefil;

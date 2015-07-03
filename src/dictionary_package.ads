@@ -428,7 +428,7 @@ package dictionary_package is
 
    package mnpc_io is new text_io.integer_io(dict_io.count);
    subtype mnpc_type is dict_io.count;
-   null_mnpc : dict_io.count := dict_io.count'first;
+   null_mnpc : dict_io.count := dict_io.count'First;
 
    type parse_record is
       record

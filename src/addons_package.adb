@@ -40,12 +40,12 @@ package body addons_package is
 
    function equ(s, t : string) return boolean is
    begin
-      if s'length /= t'length  then
+      if s'Length /= t'Length  then
          return false;
       end if;
 
-      for i in 1..s'length  loop
-         if not equ(s(s'first+i-1), t(t'first+i-1))  then
+      for i in 1..s'Length  loop
+         if not equ(s(s'First+i-1), t(t'First+i-1))  then
             return false;
          end if;
       end loop;
@@ -84,7 +84,7 @@ package body addons_package is
               head(trim(t), 250)(1..2) = "  ")  then
                null;
             else
-               s(s'first .. l) := t(1..l);
+               s(s'First .. l) := t(1..l);
                last := l;
                exit;
             end if;
@@ -94,7 +94,7 @@ package body addons_package is
       procedure extract_fix(s : in string;
                             xfix : out fix_type; xc : out character) is
          st : constant string := trim(s);
-         l : constant integer := st'length;
+         l : constant integer := st'Length;
          j : integer := 0;
       begin
          for i in 1..l  loop
@@ -279,9 +279,9 @@ package body addons_package is
 
    function subtract_tackon(w : string; x : tackon_item) return string is
       wd : constant string := trim(w);
-      l  : constant integer := wd'length;
+      l  : constant integer := wd'Length;
       xf : constant string := trim(x.tack);
-      z  : constant integer := xf'length;
+      z  : constant integer := xf'Length;
    begin
       --PUT_LINE("In SUB TACKON " & INTEGER'IMAGE(L) & INTEGER'IMAGE(Z));
       if words_mdev(use_tackons) and then
@@ -299,18 +299,18 @@ package body addons_package is
    function subtract_prefix(w : string; x : prefix_item) return stem_type is
       wd : constant string := trim(w);
       xf : constant string := trim(x.fix);
-      z  : constant integer := xf'length;
+      z  : constant integer := xf'Length;
       st : stem_type := head(wd, max_stem_size);
    begin
       if words_mdev(use_prefixes) and then
         x /= null_prefix_item and then
-        wd'length > z  and then
+        wd'Length > z  and then
         --WD(1..Z) = XF(1..Z)  and then
         equ(wd(1..z),  xf(1..z)) and then
         ( (x.connect = ' ') or (wd(z+1) = x.connect) )  then
-         st(1..wd'length-z) := wd(z+1..wd'last);
-         st(wd'length-z+1..max_stem_size) :=
-           null_stem_type(wd'length-z+1..max_stem_size);
+         st(1..wd'Length-z) := wd(z+1..wd'Last);
+         st(wd'Length-z+1..max_stem_size) :=
+           null_stem_type(wd'Length-z+1..max_stem_size);
       end if;
       --PUT_LINE("SUBTRACT_PREFIX  " & X.FIX & " FROM " & WD & "  returns " & ST);
       return st;
@@ -318,23 +318,23 @@ package body addons_package is
 
    function subtract_suffix(w : string; x : suffix_item) return stem_type is
       wd : constant string := trim(w);
-      l  : constant integer := wd'length;
+      l  : constant integer := wd'Length;
       xf : constant string := trim(x.fix);
-      z  : constant integer := xf'length;
+      z  : constant integer := xf'Length;
       st : stem_type := head(wd, max_stem_size);
    begin
       --PUT_LINE("In SUBTRACT_SUFFIX  Z = " & INTEGER'IMAGE(Z) &
       --"  CONNECT >" & X.CONNECT & '<');
       if words_mdev(use_suffixes) and then
         x /= null_suffix_item and then
-        wd'length > z  and then
+        wd'Length > z  and then
         --WD(L-Z+1..L) = XF(1..Z)  and then
         equ(wd(l-z+1..l),  xf(1..z))  and then
         ( (x.connect = ' ') or (wd(l-z) = x.connect) )  then
          --PUT_LINE("In SUBTRACT_SUFFIX we got a hit");
-         st(1..wd'length-z) := wd(1..wd'length-z);
-         st(wd'length-z+1..max_stem_size) :=
-           null_stem_type(wd'length-z+1..max_stem_size);
+         st(1..wd'Length-z) := wd(1..wd'Length-z);
+         st(wd'Length-z+1..max_stem_size) :=
+           null_stem_type(wd'Length-z+1..max_stem_size);
       end if;
       --PUT_LINE("SUBTRACT_SUFFIX  " & X.FIX & " FROM " & WD & "  returns " & ST);
       return st;
@@ -550,36 +550,36 @@ package body addons_package is
       end put;
 
       procedure get(s : in string; p : out target_entry; last : out integer) is
-         l : integer := s'first - 1;
+         l : integer := s'First - 1;
          ps : target_pofs_type := x;
       begin
          get(s, ps, l);
          l := l + 1;
          case ps is
             when n =>
-               get(s(l+1..s'last), noun, last);
+               get(s(l+1..s'Last), noun, last);
                --GET(S(L+1..S'LAST), NOUN_KIND, LAST);
                p := (n, noun);  --, NOUN_KIND);
             when pron =>
-               get(s(l+1..s'last), pronoun, last);
+               get(s(l+1..s'Last), pronoun, last);
                --GET(S(L+1..S'LAST), PRONOUN_KIND, LAST);
                p := (pron, pronoun);  --, PRONOUN_KIND);
             when pack =>
-               get(s(l+1..s'last), propack, last);
+               get(s(l+1..s'Last), propack, last);
                --GET(S(L+1..S'LAST), PROPACK_KIND, LAST);
                p := (pack, propack);  --, PROPACK_KIND);
             when adj =>
-               get(s(l+1..s'last), adjective, last);
+               get(s(l+1..s'Last), adjective, last);
                p := (adj, adjective);
             when num =>
-               get(s(l+1..s'last), numeral, last);
+               get(s(l+1..s'Last), numeral, last);
                --GET(S(L+1..S'LAST), NUMERAL_VALUE, LAST);
                p := (num, numeral);  --, NUMERAL_VALUE);
             when adv =>
-               get(s(l+1..s'last), adverb, last);
+               get(s(l+1..s'Last), adverb, last);
                p := (adv, adverb);
             when v =>
-               get(s(l+1..s'last), verb, last);
+               get(s(l+1..s'Last), verb, last);
                --GET(S(L+1..S'LAST), VERB_KIND, LAST);
                p := (v, verb);  --, VERB_KIND);
             when x =>
@@ -589,7 +589,7 @@ package body addons_package is
       end get;
 
       procedure put(s : out string; p : in target_entry) is
-         l : integer := s'first - 1;
+         l : integer := s'First - 1;
          m : integer := 0;
       begin
          m := l + part_of_speech_type_io.default_width;
@@ -631,7 +631,7 @@ package body addons_package is
             when others =>
                null;
          end case;
-         s(m+1..s'last) := (others => ' ');
+         s(m+1..s'Last) := (others => ' ');
       end put;
 
    end target_entry_io;
@@ -658,18 +658,18 @@ package body addons_package is
       end put;
 
       procedure get(s : in string; i : out tackon_entry; last : out integer) is
-         l : constant integer := s'first - 1;
+         l : constant integer := s'First - 1;
       begin
-         get(s(l+1..s'last), i.base, last);
+         get(s(l+1..s'Last), i.base, last);
       end get;
 
       procedure put(s : out string; i : in tackon_entry) is
-         l : constant integer := s'first - 1;
+         l : constant integer := s'First - 1;
          m : integer := 0;
       begin
          m := l + target_entry_io.default_width;
          put(s(l+1..m), i.base);
-         s(s'first..s'last) := (others => ' ');
+         s(s'First..s'Last) := (others => ' ');
       end put;
 
    end tackon_entry_io;
@@ -706,15 +706,15 @@ package body addons_package is
       end put;
 
       procedure get(s : in string; p : out prefix_entry; last : out integer) is
-         l : integer := s'first - 1;
+         l : integer := s'First - 1;
       begin
-         get(s(l+1..s'last), p.root, l);
+         get(s(l+1..s'Last), p.root, l);
          l := l + 1;
-         get(s(l+1..s'last), p.target, last);
+         get(s(l+1..s'Last), p.target, last);
       end get;
 
       procedure put(s : out string; p : in prefix_entry) is
-         l : integer := s'first - 1;
+         l : integer := s'First - 1;
          m : integer := 0;
       begin
          m := l + part_of_speech_type_io.default_width;
@@ -723,7 +723,7 @@ package body addons_package is
          s(l) :=  ' ';
          m := l + part_of_speech_type_io.default_width;
          put(s(l+1..m), p.target);
-         s(m+1..s'last) := (others => ' ');
+         s(m+1..s'Last) := (others => ' ');
       end put;
 
    end prefix_entry_io;
@@ -776,24 +776,24 @@ package body addons_package is
       end put;
 
       procedure get(s : in string; p : out suffix_entry; last : out integer) is
-         l : integer := s'first - 1;
+         l : integer := s'First - 1;
       begin
          --TEXT_IO.PUT("#1" & INTEGER'IMAGE(L));
-         get(s(l+1..s'last), p.root, l);
+         get(s(l+1..s'Last), p.root, l);
          --TEXT_IO.PUT("#2" & INTEGER'IMAGE(L));
          l := l + 1;
-         get(s(l+1..s'last), p.root_key, l);
+         get(s(l+1..s'Last), p.root_key, l);
          --TEXT_IO.PUT("#3" & INTEGER'IMAGE(L));
          l := l + 1;
-         get(s(l+1..s'last), p.target, l);
+         get(s(l+1..s'Last), p.target, l);
          --TEXT_IO.PUT("#4" & INTEGER'IMAGE(L));
          l := l + 1;
-         get(s(l+1..s'last), p.target_key, last);
+         get(s(l+1..s'Last), p.target_key, last);
          --TEXT_IO.PUT("#5" & INTEGER'IMAGE(LAST));
       end get;
 
       procedure put(s : out string; p : in suffix_entry) is
-         l : integer := s'first - 1;
+         l : integer := s'First - 1;
          m : integer := 0;
       begin
          m := l + part_of_speech_type_io.default_width;
@@ -810,7 +810,7 @@ package body addons_package is
          s(l) :=  ' ';
          m := l + 2;
          put(s(l+1..m), p.target_key);
-         s(m+1..s'last) := (others => ' ');
+         s(m+1..s'Last) := (others => ' ');
       end put;
 
    end suffix_entry_io;

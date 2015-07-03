@@ -94,13 +94,13 @@ package body list_package is
    begin
 
       if words_mode(show_age)   or
-        (trim(dictionary_age(de.tran.age))'length /= 0)  then  --  Not X
+        (trim(dictionary_age(de.tran.age))'Length /= 0)  then  --  Not X
          text_io.put(output, "  " & trim(dictionary_age(de.tran.age)));
          hit := true;
       end if;
       if (words_mode(show_frequency) or
             (de.tran.freq >= d))  and
-        (trim(dictionary_frequency(de.tran.freq))'length /= 0)  then
+        (trim(dictionary_frequency(de.tran.freq))'Length /= 0)  then
          text_io.put(output, "  " & trim(dictionary_frequency(de.tran.freq)));
          hit := true;
       end if;
@@ -120,7 +120,7 @@ package body list_package is
             text_io.put(output, "02 ");
             dhit := true;
          end if;
-         if dictionary_form(de)'length /= 0  then
+         if dictionary_form(de)'Length /= 0  then
             text_io.put(output, dictionary_form(de) & "  ");
             dhit := true;
          end if;
@@ -146,7 +146,7 @@ package body list_package is
       if words_mdev(show_dictionary_line)  then
          if dictionary_line_number > 0  then
             text_io.put(output, "("
-                          & trim(integer'image(dictionary_line_number)) & ")");
+                          & trim(integer'Image(dictionary_line_number)) & ")");
             lhit := true;
          end if;
       end if;
@@ -250,12 +250,12 @@ package body list_package is
          begin
             if (words_mode(show_age)   or
                   (sr.ir.age /= x))  and     --  Warn even if not to show AGE
-              trim(inflection_age(sr.ir.age))'length /= 0  then
+              trim(inflection_age(sr.ir.age))'Length /= 0  then
                text_io.put(output, "  " & inflection_age(sr.ir.age));
             end if;
             if (words_mode(show_frequency)  or
                   (sr.ir.freq >= c))  and    --  Warn regardless
-              trim(inflection_frequency(sr.ir.freq))'length /= 0  then
+              trim(inflection_frequency(sr.ir.freq))'Length /= 0  then
                text_io.put(output, "  " & inflection_frequency(sr.ir.freq));
             end if;
          end put_inflection_flags;
@@ -366,14 +366,14 @@ package body list_package is
       function trim_bar(s : string) return string is
          --  Takes vertical bars from begining of MEAN and TRIMs
       begin
-         if s'length >3  and then s(s'first..s'first+3) = "||||"  then
-            return trim(s(s'first+4.. s'last));
-         elsif s'length >2  and then s(s'first..s'first+2) = "|||"  then
-            return trim(s(s'first+3.. s'last));
-         elsif s'length > 1  and then  s(s'first..s'first+1) = "||"  then
-            return trim(s(s'first+2.. s'last));
-         elsif s(s'first) = '|'  then
-            return trim(s(s'first+1.. s'last));
+         if s'Length >3  and then s(s'First..s'First+3) = "||||"  then
+            return trim(s(s'First+4.. s'Last));
+         elsif s'Length >2  and then s(s'First..s'First+2) = "|||"  then
+            return trim(s(s'First+3.. s'Last));
+         elsif s'Length > 1  and then  s(s'First..s'First+1) = "||"  then
+            return trim(s(s'First+2.. s'Last));
+         elsif s(s'First) = '|'  then
+            return trim(s(s'First+1.. s'Last));
          else
             return trim(s);
          end if;
@@ -397,21 +397,21 @@ package body list_package is
             if sr.ir.qual.pofs = num  then    --  Normal parse
                case sr.ir.qual.num.sort is
                   when card  =>
-                     s := head(integer'image(n) &  " - (CARD answers 'how many');", max_meaning_size);
+                     s := head(integer'Image(n) &  " - (CARD answers 'how many');", max_meaning_size);
                   when ord   =>
-                     s := head(integer'image(n) & "th - (ORD, 'in series'); (a/the)" & integer'image(n) &
+                     s := head(integer'Image(n) & "th - (ORD, 'in series'); (a/the)" & integer'Image(n) &
                                  "th (part) (fract w/pars?);", max_meaning_size);
                   when dist  =>
-                     s := head(integer'image(n) & " each/apiece/times/fold/together/at a time - 'how many each'; by " &
-                                 integer'image(n) & "s; ", max_meaning_size);
+                     s := head(integer'Image(n) & " each/apiece/times/fold/together/at a time - 'how many each'; by " &
+                                 integer'Image(n) & "s; ", max_meaning_size);
                   when adverb =>
-                     s := head(integer'image(n) & " times, on" & integer'image(n) &
+                     s := head(integer'Image(n) & " times, on" & integer'Image(n) &
                                  " occasions - (ADVERB answers 'how often');", max_meaning_size);
                   when others =>
                      null;
                end case;
             else  -- there is fix so POFS is not NUM
-               s := head("Number " & integer'image(n), max_meaning_size);
+               s := head("Number " & integer'Image(n), max_meaning_size);
             end if;
          end if;
 
@@ -508,7 +508,7 @@ package body list_package is
 
       -------  The gimick of adding an ADV if there is only ADJ VOC  ----
       --TEXT_IO.PUT_LINE("About to do the ADJ -> ADV kludge");
-      for i in pa'first..pa_last  loop
+      for i in pa'First..pa_last  loop
          if pa(i).ir.qual.pofs = adv   then
             there_is_an_adverb := true;
             exit;
@@ -518,7 +518,7 @@ package body list_package is
       --TEXT_IO.PUT_LINE("In the ADJ -> ADV kludge  Checked to see if there is an ADV");
       if (not there_is_an_adverb) and (words_mode(do_fixes))  then
          --TEXT_IO.PUT_LINE("In the ADJ -> ADV kludge  There is no ADV");
-         for i in reverse pa'first..pa_last  loop
+         for i in reverse pa'First..pa_last  loop
             if pa(i).ir.qual.pofs = adj and then
               (pa(i).ir.qual.adj = ((1, 1), voc, s, m, pos)    or
                  ((pa(i).ir.qual.adj.cs = voc)   and
@@ -528,14 +528,14 @@ package body list_package is
             then
                j := i;
 
-               while j >=  pa'first  loop  --Back through other ADJ cases
+               while j >=  pa'First  loop  --Back through other ADJ cases
                   if pa(j).ir.qual.pofs /= adj  then
                      j2 := j;                          --  J2 is first (reverse) that is not ADJ
                      exit;
                   end if;
                   j := j - 1;
                end loop;
-               while j >=  pa'first  loop  --  Sweep up associated fixes
+               while j >=  pa'First  loop  --  Sweep up associated fixes
                   if pa(j).ir.qual.pofs not in xons  then
                      j1 := j;                      --  J1 is first (reverse) that is not XONS
                      exit;
@@ -590,16 +590,16 @@ package body list_package is
             if pa(i).d_k = addons then
                if pa(i).ir.qual.pofs = prefix  then
                   put_stat("ADDON PREFIX at "
-                             & head(integer'image(line_number), 8) & head(integer'image(word_number), 4)
-                             & "   " & head(w, 20) & "   "  & pa(i).stem & "  " & integer'image(integer(pa(i).mnpc)));
+                             & head(integer'Image(line_number), 8) & head(integer'Image(word_number), 4)
+                             & "   " & head(w, 20) & "   "  & pa(i).stem & "  " & integer'Image(integer(pa(i).mnpc)));
                elsif pa(i).ir.qual.pofs = suffix  then
                   put_stat("ADDON SUFFIX at "
-                             & head(integer'image(line_number), 8) & head(integer'image(word_number), 4)
-                             & "   " & head(w, 20) & "   "  & pa(i).stem & "  " & integer'image(integer(pa(i).mnpc)));
+                             & head(integer'Image(line_number), 8) & head(integer'Image(word_number), 4)
+                             & "   " & head(w, 20) & "   "  & pa(i).stem & "  " & integer'Image(integer(pa(i).mnpc)));
                elsif pa(i).ir.qual.pofs = tackon  then
                   put_stat("ADDON TACKON at "
-                             & head(integer'image(line_number), 8) & head(integer'image(word_number), 4)
-                             & "   " & head(w, 20) & "   "  & pa(i).stem & "  " & integer'image(integer(pa(i).mnpc)));
+                             & head(integer'Image(line_number), 8) & head(integer'Image(word_number), 4)
+                             & "   " & head(w, 20) & "   "  & pa(i).stem & "  " & integer'Image(integer(pa(i).mnpc)));
                end if;
             end if;
          end loop;
@@ -950,7 +950,7 @@ package body list_package is
          if sraa(j) /= osra  then
 
             put_inflection_array_j:
-            for k in sraa(j)'range loop
+            for k in sraa(j)'Range loop
                exit when sraa(j)(k) = null_stem_inflection_record;
 
                put_inflection(sraa(j)(k), dma(j));
@@ -1012,7 +1012,7 @@ package body list_package is
       when others  =>
          text_io.put_line("Unexpected exception in LIST_STEMS processing " & raw_word);
          put_stat("EXCEPTION LS at "
-                    & head(integer'image(line_number), 8) & head(integer'image(word_number), 4)
+                    & head(integer'Image(line_number), 8) & head(integer'Image(word_number), 4)
                     & "   " & head(w, 20) & "   "  & pa(i).stem);
    end list_stems;
 
@@ -1047,7 +1047,7 @@ package body list_package is
          --  'v' could be represented by 'u', like the new Oxford Latin Dictionary
          --  Fixes the first two letters of a word/stem which can be done right
          s : constant string := lower_case(w);
-         ss : string(w'range) := w;
+         ss : string(w'Range) := w;
 
          function ui(c : character) return character  is
          begin
@@ -1066,11 +1066,11 @@ package body list_package is
 
       begin
 
-         if s'length = 1  then
-            ss(s'first) := ui(w(s'first));
+         if s'Length = 1  then
+            ss(s'First) := ui(w(s'First));
          else
-            ss(s'first)   := ui(w(s'first));
-            ss(s'first+1) := ui(w(s'first+1));
+            ss(s'First)   := ui(w(s'First));
+            ss(s'First+1) := ui(w(s'First+1));
          end if;
 
          return ss;
@@ -1082,7 +1082,7 @@ package body list_package is
          if not is_open(stem_file(d_k))  then
             open(stem_file(d_k), stem_io.in_file,
                  add_file_name_extension(stem_file_name,
-                                         dictionary_kind'image(d_k)));
+                                         dictionary_kind'Image(d_k)));
          end if;
 
          index_first := first_index(first_two(index_on), d_k);
