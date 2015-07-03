@@ -14,145 +14,101 @@
 -- All parts of the WORDS system, source code and data files, are made freely
 -- available to anyone who wishes to use them, for whatever purpose.
 
+with Ada.Characters.Handling;
+with Ada.Strings.Fixed;
 with Text_IO; use Text_IO;
-package body Strings_package is
+package body Strings_Package is
 
-   function max(a, b : Integer) return Integer is
+   ---------------------------------------------------------------------------
+
+   function Max (A, B : Integer) return Integer is
    begin
-      if a >= b then
-         return a;
+      if A >= B then
+         return A;
       end if;
-         return b;
-   end max;
+      return B;
+   end Max;
 
-   function min(a, b : Integer) return Integer is
+   function Min (A, B : Integer) return Integer is
    begin
-      if a <= b then
-         return a;
+      if A <= B then
+         return A;
       end if;
-         return b;
-   end min;
+      return B;
+   end Min;
 
-   function lower_case(c : Character) return Character is
+   ---------------------------------------------------------------------------
+
+   function Lower_Case (C : Character) return Character
+      renames Ada.Characters.Handling.To_Lower;
+
+   function Lower_Case (S : String) return String
+      renames Ada.Characters.Handling.To_Lower;
+
+   function Upper_Case (C : Character) return Character
+      renames Ada.Characters.Handling.To_Upper;
+
+   function Upper_Case (S : String) return String
+      renames Ada.Characters.Handling.To_Upper;
+
+   ---------------------------------------------------------------------------
+
+   function Trim
+      ( Source : in String;
+        Side   : in Trim_End := Both
+      ) return String
+   is
    begin
-      if c in 'A'..'Z'  then
-         return Character'Val(Character'Pos(c) + 32);
-      else
-         return c;
-      end if;
-   end lower_case;
+      return Ada.Strings.Fixed.Trim (Source, Ada.Strings.Trim_End (Side));
+   end Trim;
 
-   function lower_case(s : String) return String is
-      t : String(s'Range);
+   ---------------------------------------------------------------------------
+
+   function Head
+      ( Source : in String;
+        Count  : in Natural
+      ) return String is
    begin
-      for i in s'Range  loop
-         t(i) := lower_case(s(i));
-      end loop;
-      return t;
-   end lower_case;
+      return Ada.Strings.Fixed.Head (Source, Count, ' ');
+   end Head;
 
-   function upper_case(c : Character) return Character is
+   ---------------------------------------------------------------------------
+
+   procedure Get_Non_Comment_Line
+      ( File : in  Text_IO.File_Type;
+        Item : out String;
+        Last : out Integer
+      ) is
+      Line  : String (1 .. 250) := (others => ' ');
+      Length, LX : Integer := 0;
+      -- LX is Line (Line'First .. Start_Of_Comment)'Length
    begin
-      if c in 'a'..'z'  then
-         return Character'Val(Character'Pos(c) - 32);
-      else
-         return c;
-      end if;
-   end upper_case;
+      Last := 0;
 
-   function upper_case(s : String) return String is
-      t : String(s'Range);
-   begin
-      for i in s'Range  loop
-         t(i) := upper_case(s(i));
-      end loop;
-      return t;
-   end upper_case;
-
-   function trim(source : in String;
-                 side   : in trim_end := both) return String is
-      --  Removes leading and trailing blanks and returns a STRING staring at 1
-      --  For a String of all blanks as Input it returns NULL_STRING
-      t : String(1..source'Length) := source;
-      first: Natural := source'First;
-      last : Natural := source'Last;
-
-   begin
-      if side /= right  then
-         first := source'Last + 1;
-         for i in source'Range  loop
-            if source(i) /= ' '  then
-               first := i;
-               exit;
-            end if;
-         end loop;
-      else
-         first := source'First;
-      end if;
-
-      if side /= left  then
-         last := source'First - 1;
-         for i in reverse source'Range  loop
-            if source(i) /= ' '  then
-               last := i;
-               exit;
-            end if;
-         end loop;
-      else
-         last := source'Last;
-      end if;
-
-      if first > last  then
-         return null_String;
-      else
-         t(1..last-first+1) := source(first..last);
-         return t(1..last-first+1);
-      end if;
-   end trim;
-
-   function head(source : in String;
-                 count  : in Natural) return String is
-      --  Truncates or fills a String to exactly N in Length
-      t : String(1..count) := (others => ' ');
-   begin
-      if count < source'Length  then
-         t(1..count) := source(source'First..source'First+count-1);
-      else
-         t(1..source'Length) := source(source'First..source'Last);
-      end if;
-      return t;
-   end head;
-
-   procedure Get_non_comment_line(f : in Text_IO.File_Type;
-                                  s : out String; last : out Integer) is
-      --  Reads a text file and outs a String that is as much of the
-      --  first line encountered that is not a comment, that is not a comment
-
-      t : String(1..250) := (others => ' ');
-      l, lx : Integer := 0;
-   begin
-      last := 0;
-      file_loop:
-      while not Text_IO.End_Of_File(f)  loop  --  Loop until data - Finish on EOF
-         Text_IO.Get_Line(f, t, l);
-         if head(trim(t), 250)(1..2) = "  "  or
-               head(trim(t), 250)(1..2) = "--"
+      File_Loop:
+      while not Text_IO.End_Of_File (File) loop  --  Loop until data - Finish on EOF
+         Text_IO.Get_Line (File, Line, Length);
+         if Head (Trim (Line), 250)(1 .. 2) = "  "  or
+            Head (Trim (Line), 250)(1 .. 2) = "--"
          then
             null;
          else
-            lx := l;
-            line_loop:
-            for i in 2..l  loop
-               --  Any leading comment does not Get to here
-               if (t(i-1) = '-')  and  (t(i) = '-')  then   --  We have a comment
-                  lx := i - 2;
-                  exit file_loop;
-               end if;
-            end loop line_loop;
-            exit file_loop;
+            -- Search for start of comment in line (if any).
+            LX := Ada.Strings.Fixed.Index (Line, "--", Line'First);
+            if LX /= 0 then
+               LX := LX - 1;
+            else
+               LX := Length;
+            end if;
+
+            exit File_Loop;
          end if;
-      end loop file_loop;
-      s(s'First..lx) := t(1..lx);
-      last := lx;
-   end Get_non_comment_line;
-end Strings_package;
+      end loop File_Loop;
+
+      Item (Item'First .. LX) := Line (1 .. LX);
+      Last := LX;
+   end Get_Non_Comment_Line;
+
+   ---------------------------------------------------------------------------
+
+end Strings_Package;
