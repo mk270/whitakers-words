@@ -684,7 +684,7 @@ package body word_package is
                   end loop inner_loop;
                end switch;
 
-               exit when hits = 0;
+               exit hit_loop when hits = 0;
             end loop hit_loop;
             sx := sl;
       end order_stems;
@@ -867,7 +867,7 @@ package body word_package is
             ls := len(add_suffix(add_prefix(pdl(j).ds.stem, prefix), suffix));
             on_sl:
             for i in sl'Range loop
-               exit when sl(i) = null_parse_record;
+               exit on_sl when sl(i) = null_parse_record;
 
                if ls  = len(sl(i).stem)  then
 

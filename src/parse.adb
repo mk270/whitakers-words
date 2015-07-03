@@ -219,7 +219,7 @@ is
         ppp_meaning => default_ppp_meaning,
         compound_tvm => default_compound_tvm
       );
-   end;
+   end get_pas_nom_participle;
 
    -- this function should be merged with the one above
    function get_pas_participle(parsed_verb : vpar_record;
@@ -295,7 +295,7 @@ is
         compound_tvm => default_compound_tvm
       );
 
-   end;
+   end get_pas_participle;
 
    function is_sum(t : string) return verb_to_be is
       sa : constant array (mood_type range ind..sub,

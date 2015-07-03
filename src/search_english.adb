@@ -81,7 +81,7 @@ procedure search_english(input_english_word : string; pofs : part_of_speech_type
                end if;
             end loop inner_loop;
          end switch;
-         exit when hits = 0;
+         exit hit_loop when hits = 0;
       end loop hit_loop;
    end sort_output_array;
 

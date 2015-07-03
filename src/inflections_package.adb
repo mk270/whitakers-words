@@ -2268,7 +2268,7 @@ package body inflections_package is
                n := lel(i).ending.size;
 
                ch := lel(i).ending.suf(n);
-               exit when ch > 'r';
+               exit n2_loop when ch > 'r';
 
                if ch /= xch  then
                   lell(xn, xch) := i - 1;
@@ -2317,7 +2317,7 @@ package body inflections_package is
                n := lel(i).ending.size;
 
                ch := lel(i).ending.suf(n);
-               exit when ch > 's';
+               exit n3_loop when ch > 's';
 
                if ch /= xch  then
                   lell(xn, xch) := i - 1;

@@ -951,7 +951,7 @@ package body list_package is
 
             put_inflection_array_j:
             for k in sraa(j)'Range loop
-               exit when sraa(j)(k) = null_stem_inflection_record;
+               exit put_inflection_array_j when sraa(j)(k) = null_stem_inflection_record;
 
                put_inflection(sraa(j)(k), dma(j));
                if sraa(j)(k).stem(1..3) = "PPL"  then
