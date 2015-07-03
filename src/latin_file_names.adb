@@ -14,15 +14,15 @@
 -- All parts of the WORDS system, source code and data files, are made freely
 -- available to anyone who wishes to use them, for whatever purpose.
 
-package body latin_file_names is
+package body latIn_File_names is
 
-   function add_file_name_extension(name, extension : string) return string is
-      --  This is the version that creates a DOS file name
-      --  One that has a name, a '.', and an extension no longer than 3 characters
-      --  Arbitarily, we also truncate the NAME to 8 characters
+   function add_file_name_extension(name, extension : String) return String is
+      --  This is the version that Creates a DOS file name
+      --  One that has a name, a '.', and an extension no longer than 3 Characters
+      --  Arbitarily, we also truncate the NAME to 8 Characters
       --  To port to another system, one needs to do this function appropriately
-      name_length : integer := name'Length;
-      extension_length : integer := extension'Length;
+      name_length : Integer := name'Length;
+      extension_length : Integer := extension'Length;
    begin
       if name_length >= 8  then
          name_length := 8;
@@ -33,4 +33,4 @@ package body latin_file_names is
       return name(name'First .. name_length) & '.' & extension(extension'First .. extension_length);
    end add_file_name_extension;
 
-end latin_file_names;
+end latIn_File_names;

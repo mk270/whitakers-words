@@ -14,13 +14,13 @@
 -- All parts of the WORDS system, source code and data files, are made freely
 -- available to anyone who wishes to use them, for whatever purpose.
 
-with latin_file_names; use latin_file_names;
-with strings_package; use strings_package;
+with latIn_File_names; use latIn_File_names;
+with Strings_package; use Strings_package;
 with config;
 with preface;
 package body word_support_package is
 
-   function len(s : string) return integer is
+   function len(s : String) return Integer is
    begin
       return trim(s)'Length;
    end len;
@@ -67,10 +67,10 @@ package body word_support_package is
       end case;
    end num_sort_from_key;
 
-   function first_index(input_word : string;
+   function first_index(Input_word : String;
                         d_k : dictionary_file_kind := default_dictionary_file_kind)
-                       return stem_io.count is
-      wd : constant string := trim(input_word);  --  string may not start at 1
+                       return stem_io.Count is
+      wd : constant String := trim(Input_word);  --  String may not start at 1
    begin
       if d_k = local  then
          return ddlf(wd(wd'First), 'a', d_k);
@@ -81,11 +81,11 @@ package body word_support_package is
       end if;
    end first_index;
 
-   function  last_index(input_word : string;
+   function  last_index(Input_word : String;
                         d_k : dictionary_file_kind := default_dictionary_file_kind)
-                       return stem_io.count is
-      wd : constant string := trim(input_word);
-   begin        --  remember the string may not start at 1
+                       return stem_io.Count is
+      wd : constant String := trim(Input_word);
+   begin        --  remember the String may not start at 1
       if d_k = local  then
          return ddll(wd(wd'First), 'a', d_k);
       elsif wd'Length < 2 then
@@ -99,8 +99,8 @@ package body word_support_package is
       use stem_io;
       ds : dictionary_stem;
       index_first,
-      index_last  : stem_io.count := 0;
-      k : integer := 0;
+      index_last  : stem_io.Count := 0;
+      k : Integer := 0;
    begin
 
       if dictionary_available(general)  then
@@ -109,32 +109,32 @@ package body word_support_package is
          declare
             d_k : constant dictionary_kind := general;
          begin
-            if not is_open(stem_file(d_k))  then
-               open(stem_file(d_k), stem_io.in_file,
+            if not Is_Open(stem_file(d_k))  then
+               Open(stem_file(d_k), stem_io.In_File,
                     add_file_name_extension(stem_file_name,
                                             dictionary_kind'Image(d_k)));
             end if;
             index_first := bblf(' ', ' ', d_k);
             index_last  := bbll(' ', ' ', d_k);
 
-            set_index(stem_file(d_k), stem_io.positive_count(index_first));
+            Set_Index(stem_file(d_k), stem_io.Positive_Count(index_first));
             for j in index_first..index_last  loop
-               read(stem_file(d_k), ds);
+               Read(stem_file(d_k), ds);
                k := k + 1;
                bdl(k) := ds;
             end loop;
-            close(stem_file(d_k));
+            Close(stem_file(d_k));
          exception
-            when name_error =>
-               text_io.put_line("LOADING BDL FROM DISK had NAME_ERROR on " &
+            when Name_Error =>
+               Text_IO.Put_Line("LOADING BDL FROM DISK had NAME_ERROR on " &
                                   add_file_name_extension(stem_file_name,
                                                           dictionary_kind'Image(d_k)));
-               text_io.put_line("The will be no blank stems loaded");
-            when use_error =>
-               text_io.put_line("LOADING BDL FROM DISK had USE_ERROR on " &
+               Text_IO.Put_Line("The will be no blank stems loaded");
+            when Use_Error =>
+               Text_IO.Put_Line("LOADING BDL FROM DISK had USE_ERROR on " &
                                   add_file_name_extension(stem_file_name,
                                                           dictionary_kind'Image(d_k)));
-               text_io.put_line("There will be no blank stems loaded");
+               Text_IO.Put_Line("There will be no blank stems loaded");
          end loading_bdl_from_disk;
       end if;
 
@@ -143,30 +143,30 @@ package body word_support_package is
          if dictionary_available(d_k)  then
             exit when d_k = local;
             --TEXT_IO.PUT_LINE("OPENING BDL STEMFILE " & EXT(D_K));
-            if not is_open(stem_file(d_k))  then
+            if not Is_Open(stem_file(d_k))  then
                --PUT_LINE("LOADING_BDL is going to OPEN " &
                --ADD_FILE_NAME_EXTENSION(STEM_FILE_NAME,
                --DICTIONARY_KIND'IMAGE(D_K)));
-               open(stem_file(d_k), stem_io.in_file,
+               Open(stem_file(d_k), stem_io.In_File,
                     add_file_name_extension(stem_file_name,
                                             dictionary_kind'Image(d_k)));
                --STEMFILE." & EXT(D_K));
                --PUT_LINE("OPENing was successful");
             end if;
-            for i in character range 'a'..'z'  loop
+            for i in Character range 'a'..'z'  loop
                index_first := bdlf(i, ' ', d_k);
                index_last  := bdll(i, ' ', d_k);
                if index_first > 0  then
-                  set_index(stem_file(d_k), stem_io.positive_count(index_first));
+                  Set_Index(stem_file(d_k), stem_io.Positive_Count(index_first));
                   for j in index_first..index_last  loop
-                     read(stem_file(d_k), ds);
+                     Read(stem_file(d_k), ds);
                      k := k + 1;
                      bdl(k) := ds;
                   end loop;
                end if;
             end loop;
             --TEXT_IO.PUT_LINE("Single letters LOADED FROM DISK   K = " & INTEGER'IMAGE(K));
-            close(stem_file(d_k));
+            Close(stem_file(d_k));
          end if;
 
       end loop;
@@ -179,52 +179,55 @@ package body word_support_package is
    end load_bdl_from_disk;
 
    procedure load_indices_from_indx_file(d_k : dictionary_kind) is
-      use text_io;
-      use inflections_package.integer_io;
+      use Text_IO;
+      use inflections_package.Integer_IO;
       use stem_io;
-      use count_io;
-      ch : string(1..2);
-      m, n : stem_io.count;
+      use Count_io;
+      ch : String(1..2);
+      m, n : stem_io.Count;
       number_of_blank_stems,
-      number_of_non_blank_stems : stem_io.count := 0;
-      s : string(1..100) := (others => ' ');
-      last, l : integer := 0;
+      number_of_non_blank_stems : stem_io.Count := 0;
+      s : String(1..100) := (others => ' ');
+      last, l : Integer := 0;
 
-      function max(a, b : stem_io.count) return stem_io.count is
+      function max(a, b : stem_io.Count) return stem_io.Count is
       begin
-         if a >= b then  return a; end if; return b;
+         if a >= b then
+            return a;
+         end if;
+         return b;
       end max;
 
    begin
-      open(indx_file(d_k), text_io.in_file,
+      Open(indx_file(d_k), Text_IO.In_File,
            add_file_name_extension(indx_file_name,
                                    dictionary_kind'Image(d_k)));
       --"INDXFILE." & EXT(D_K)); --  $$$$$$$$$$$$
 
-      preface.put(dictionary_kind'Image(d_k));
-      preface.put(" Dictionary loading");
+      preface.Put(dictionary_kind'Image(d_k));
+      preface.Put(" Dictionary loading");
 
       if d_k = general  then
-         get_line(indx_file(d_k), s, last);
+         Get_Line(indx_file(d_k), s, last);
          ch := s(1..2);
-         get(s(4..last), m, l);
+         Get(s(4..last), m, l);
          bblf(ch(1), ch(2), d_k) := m;
-         get(s(l+1..last), n, l);
+         Get(s(l+1..last), n, l);
          bbll(ch(1), ch(2), d_k) := n;
          number_of_blank_stems := max(number_of_blank_stems, n);
       end if;
 
-      while not end_of_file(indx_file(d_k))  loop
-         get_line(indx_file(d_k), s, last);
+      while not End_Of_File(indx_file(d_k))  loop
+         Get_Line(indx_file(d_k), s, last);
          exit when last = 0;
          ch := s(1..2);
-         get(s(4..last), m, l);
+         Get(s(4..last), m, l);
          if ch(2) = ' '  then
             bdlf(ch(1), ch(2), d_k) := m;
          else
             ddlf(ch(1), ch(2), d_k) := m;
          end if;
-         get(s(l+1..last), n, l);
+         Get(s(l+1..last), n, l);
          if ch(2) = ' '  then
             bdll(ch(1), ch(2), d_k) := n;
             number_of_blank_stems := max(number_of_blank_stems, n);
@@ -233,13 +236,13 @@ package body word_support_package is
             number_of_non_blank_stems := max(number_of_non_blank_stems, n);
          end if;
       end loop;
-      close(indx_file(d_k));
-      preface.set_col(33); preface.put("--  ");
+      Close(indx_file(d_k));
+      preface.Set_Col(33); preface.Put("--  ");
       if not config.suppress_preface  then
-         put(number_of_non_blank_stems, 6);
+         Put(number_of_non_blank_stems, 6);
       end if;   --  Kludge for when TEXT_IO.COUNT too small
-      preface.put(" stems");
-      preface.set_col(55); preface.put_line("--  Loaded correctly");
+      preface.Put(" stems");
+      preface.Set_Col(55); preface.Put_Line("--  Loaded correctly");
    end load_indices_from_indx_file;
 
 end word_support_package;

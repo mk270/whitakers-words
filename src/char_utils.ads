@@ -16,15 +16,15 @@
 
 package char_utils
 is
-   type character_array is array (integer range <>) of character;
+   type Character_array is array (Integer range <>) of Character;
 
-   function is_member(needle : character;
-                      haystack : character_array)
-                     return boolean;
+   function is_member(needle : Character;
+                      haystack : Character_array)
+                     return Boolean;
 
-   function is_punctuation(c : character) return boolean;
+   function is_punctuation(c : Character) return Boolean;
 
    -- is c alphabetic, or '.' or '-' ?
-   function is_alpha_etc(c : character) return boolean;
+   function is_alpha_etc(c : Character) return Boolean;
 
 end char_utils;

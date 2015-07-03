@@ -16,22 +16,22 @@
 
 package body char_utils
 is
-   function is_member(needle : character;
-                      haystack : character_array)
-                     return boolean
+   function is_member(needle : Character;
+                      haystack : Character_array)
+                     return Boolean
    is
    begin
       for c in haystack'First .. haystack'Last loop
          if haystack(c) = needle then
-            return true;
+            return True;
          end if;
       end loop;
-      return false;
+      return False;
    end is_member;
 
-   function is_punctuation(c : character) return boolean
+   function is_punctuation(c : Character) return Boolean
    is
-      permitted : constant character_array :=
+      permitted : constant Character_array :=
         (
         ' ',
         ',',
@@ -52,7 +52,7 @@ is
       return is_member(c, permitted);
    end is_punctuation;
 
-   function is_alpha_etc(c : character) return boolean
+   function is_alpha_etc(c : Character) return Boolean
    is
    begin
       return

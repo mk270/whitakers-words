@@ -19,6 +19,6 @@ with config; use config;
 procedure words is
 begin
    --  The language shift in argumants must take place here
-   --  since later parsing of line ignores non-letter characters
+   --  since later parsing of line ignores non-letter Characters
    words_main(developer_version);
 end words;

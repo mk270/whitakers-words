@@ -14,8 +14,8 @@
 -- All parts of the WORDS system, source code and data files, are made freely
 -- available to anyone who wishes to use them, for whatever purpose.
 
-with text_io;
-with direct_io;
+with Text_IO;
+with Direct_IO;
 with inflections_package; use inflections_package;
 with dictionary_package; use dictionary_package;
 package english_support_package is
@@ -25,48 +25,48 @@ package english_support_package is
    line_number_width : constant := 10;
    priority_width : constant := 3;
 
-   subtype eword is string(1..eword_size);
+   subtype eword is String(1..eword_size);
    null_eword : eword := (others => ' ');
-   subtype auxword is string(1..aux_word_size);
+   subtype auxword is String(1..aux_word_size);
    null_auxword : auxword := (others => ' ');
-   subtype priority_type is integer range 0..99;
+   subtype priority_type is Integer range 0..99;
 
-   number_of_ewords : integer := 0;
+   number_of_ewords : Integer := 0;
 
    type ewds_record is
       record
          w    : eword := null_eword;
          aux  : auxword := null_auxword;
-         n    : integer := 0;
+         n    : Integer := 0;
          pofs : part_of_speech_type := x;
          freq : frequency_type := x;
-         semi : integer := 0;
-         kind : integer := 0;
-         rank : integer := 0;
+         semi : Integer := 0;
+         kind : Integer := 0;
+         rank : Integer := 0;
       end record;
 
    null_ewds_record : ewds_record := ((others => ' '),
                                       (others => ' '), 0, x, x, 0, 0, 0);
 
-   type ewds_array is array (positive range <>) of ewds_record;
+   type ewds_array is array (Positive range <>) of ewds_record;
 
    package ewds_direct_io is new direct_io(ewds_record);
 
    package ewds_record_io is
-      default_width : natural;
-      procedure get(f : in text_io.file_type; p : out ewds_record);
-      procedure get(p : out ewds_record);
-      procedure put(f : in text_io.file_type; p : in ewds_record);
-      procedure put(p : in ewds_record);
-      procedure get(s : in string; p : out ewds_record;
-                                   last : out integer);
-      procedure put(s : out string; p : in ewds_record);
+      Default_Width : Natural;
+      procedure Get(f : in Text_IO.File_Type; p : out ewds_record);
+      procedure Get(p : out ewds_record);
+      procedure Put(f : in Text_IO.File_Type; p : in ewds_record);
+      procedure Put(p : in ewds_record);
+      procedure Get(s : in String; p : out ewds_record;
+                                   last : out Integer);
+      procedure Put(s : out String; p : in ewds_record);
    end ewds_record_io;
 
-   english_dictionary_available : array (dictionary_kind) of boolean := (false,
-                                                                         false, false, false, false, false, false,  --  don't SEARCH
-                                                                         false, false, false, false);
+   english_dictionary_available : array (dictionary_kind) of Boolean := (False,
+                                                                         False, False, False, False, False, False,  --  don't SEARCH
+                                                                         False, False, False, False);
 
-   ewds_file : ewds_direct_io.file_type;
+   ewds_file : ewds_direct_io.File_Type;
 
 end english_support_package;

@@ -14,11 +14,11 @@
 -- All parts of the WORDS system, source code and data files, are made freely
 -- available to anyone who wishes to use them, for whatever purpose.
 
-with text_io;
+with Text_IO;
 package preface is
-   procedure put(s: string);
-   procedure set_col(pc : text_io.positive_count);
-   procedure put_line(s : string);
-   procedure new_line(spacing  : text_io.positive_count := 1);
-   procedure put(n : integer; width : text_io.field := integer'Width);
+   procedure Put(s: String);
+   procedure Set_Col(pc : Text_IO.Positive_Count);
+   procedure Put_Line(s : String);
+   procedure New_Line(spacing  : Text_IO.Positive_Count := 1);
+   procedure Put(n : Integer; width : Text_IO.Field := Integer'Width);
 end preface;

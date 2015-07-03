@@ -14,19 +14,19 @@
 -- All parts of the WORDS system, source code and data files, are made freely
 -- available to anyone who wishes to use them, for whatever purpose.
 
-with text_io; use type text_io.file_type;
+with Text_IO; use type Text_IO.File_Type;
 with inflections_package; use inflections_package;
 with dictionary_package; use dictionary_package;
 package addons_package is
-   pragma elaborate_body;
+   pragma Elaborate_Body;
 
    subtype fix_type is stem_type;
    null_fix_type : constant fix_type := null_stem_type;
    max_fix_size : constant := max_stem_size;
 
-   subtype target_pofs_type is part_of_speech_type range x..v;
+   subtype Target_pofs_type is part_of_speech_type range x..v;
 
-   type target_entry(pofs: target_pofs_type := x) is
+   type Target_entry(pofs: Target_pofs_type := x) is
       record
          case pofs is
             when n  =>
@@ -53,71 +53,71 @@ package addons_package is
          end case;
       end record;
 
-   null_target_entry : target_entry;
+   null_Target_entry : Target_entry;
 
-   package target_entry_io is
-      default_width : natural;
-      procedure get(f : in text_io.file_type; p : out target_entry);
-      procedure get(p : out target_entry);
-      procedure put(f : in text_io.file_type; p : in target_entry);
-      procedure put(p : in target_entry);
-      procedure get(s : in string; p : out target_entry; last : out integer);
-      procedure put(s : out string; p : in target_entry);
-   end target_entry_io;
+   package Target_entry_io is
+      Default_Width : Natural;
+      procedure Get(f : in Text_IO.File_Type; p : out Target_entry);
+      procedure Get(p : out Target_entry);
+      procedure Put(f : in Text_IO.File_Type; p : in Target_entry);
+      procedure Put(p : in Target_entry);
+      procedure Get(s : in String; p : out Target_entry; last : out Integer);
+      procedure Put(s : out String; p : in Target_entry);
+   end Target_entry_io;
 
    type tackon_entry is
       record
-         base : target_entry;
+         base : Target_entry;
       end record;
 
    null_tackon_entry : tackon_entry;
 
    package tackon_entry_io is
-      default_width : natural;
-      procedure get(f : in text_io.file_type; i : out tackon_entry);
-      procedure get(i : out tackon_entry);
-      procedure put(f : in text_io.file_type; i : in tackon_entry);
-      procedure put(i : in tackon_entry);
-      procedure get(s : in string; i : out tackon_entry; last : out integer);
-      procedure put(s : out string; i : in tackon_entry);
+      Default_Width : Natural;
+      procedure Get(f : in Text_IO.File_Type; i : out tackon_entry);
+      procedure Get(i : out tackon_entry);
+      procedure Put(f : in Text_IO.File_Type; i : in tackon_entry);
+      procedure Put(i : in tackon_entry);
+      procedure Get(s : in String; i : out tackon_entry; last : out Integer);
+      procedure Put(s : out String; i : in tackon_entry);
    end tackon_entry_io;
 
    type prefix_entry is
       record
          root    : part_of_speech_type := x;
-         target  : part_of_speech_type := x;
+         Target  : part_of_speech_type := x;
       end record;
 
    null_prefix_entry : prefix_entry;
 
    package prefix_entry_io is
-      default_width : natural;
-      procedure get(f : in text_io.file_type; p : out prefix_entry);
-      procedure get(p : out prefix_entry);
-      procedure put(f : in text_io.file_type; p : in prefix_entry);
-      procedure put(p : in prefix_entry);
-      procedure get(s : in string; p : out prefix_entry; last : out integer);
-      procedure put(s : out string; p : in prefix_entry);
+      Default_Width : Natural;
+      procedure Get(f : in Text_IO.File_Type; p : out prefix_entry);
+      procedure Get(p : out prefix_entry);
+      procedure Put(f : in Text_IO.File_Type; p : in prefix_entry);
+      procedure Put(p : in prefix_entry);
+      procedure Get(s : in String; p : out prefix_entry; last : out Integer);
+      procedure Put(s : out String; p : in prefix_entry);
    end prefix_entry_io;
 
    type suffix_entry is
       record
          root       : part_of_speech_type := x;
          root_key   : stem_key_type := 0;
-         target     : target_entry := null_target_entry;
-         target_key : stem_key_type := 0;
+         Target     : Target_entry := null_Target_entry;
+         Target_key : stem_key_type := 0;
       end record;
 
    null_suffix_entry : suffix_entry;
 
    package suffix_entry_io is
-      default_width : natural;
-      procedure get(f : in text_io.file_type; p : out suffix_entry);
-      procedure get(p : out suffix_entry);
-      procedure put(f : in text_io.file_type; p : in suffix_entry);
-      procedure put(p : in suffix_entry);
-      procedure get(s : in string; p : out suffix_entry; last : out integer);
-      procedure put(s : out string; p : in suffix_entry);
+      Default_Width : Natural;
+      procedure Get(f : in Text_IO.File_Type; p : out suffix_entry);
+      procedure Get(p : out suffix_entry);
+      procedure Put(f : in Text_IO.File_Type; p : in suffix_entry);
+      procedure Put(p : in suffix_entry);
+      procedure Get(s : in String; p : out suffix_entry; last : out Integer);
+      procedure Put(s : out String; p : in suffix_entry);
    end suffix_entry_io;
 
    type tackon_item is
@@ -125,7 +125,7 @@ package addons_package is
          pofs: part_of_speech_type := tackon;
          tack : stem_type := null_stem_type;
          entr : tackon_entry := null_tackon_entry;
-         mnpc : integer := 0;
+         mnpc : Integer := 0;
       end record;
 
    null_tackon_item : tackon_item;
@@ -134,9 +134,9 @@ package addons_package is
       record
          pofs: part_of_speech_type := prefix;
          fix  : fix_type := null_fix_type;
-         connect : character := ' ';
+         connect : Character := ' ';
          entr : prefix_entry := null_prefix_entry;
-         mnpc : integer := 0;
+         mnpc : Integer := 0;
       end record;
 
    null_prefix_item : prefix_item;
@@ -145,18 +145,18 @@ package addons_package is
       record
          pofs: part_of_speech_type := suffix;
          fix  : fix_type := null_fix_type;
-         connect    : character := ' ';
+         connect    : Character := ' ';
          entr : suffix_entry := null_suffix_entry;
-         mnpc : integer := 0;
+         mnpc : Integer := 0;
       end record;
 
    null_suffix_item : suffix_item;
 
-   type prefix_array is array (integer range <>) of prefix_item;
-   type tickon_array is array (integer range <>) of prefix_item;
-   type suffix_array is array (integer range <>) of suffix_item;
-   type tackon_array is array (integer range <>) of tackon_item;
-   type means_array  is array (integer range <>) of meaning_type;
+   type prefix_array is array (Integer range <>) of prefix_item;
+   type tickon_array is array (Integer range <>) of prefix_item;
+   type suffix_array is array (Integer range <>) of suffix_item;
+   type tackon_array is array (Integer range <>) of tackon_item;
+   type means_array  is array (Integer range <>) of meaning_type;
    --  To simulate a DICT_IO file, as used previously
 
    tackons  : tackon_array(1..20);
@@ -166,19 +166,19 @@ package addons_package is
    suffixes : suffix_array(1..185);
    means    : means_array(1..370);
 
-   number_of_tickons  : integer := 0;
-   number_of_tackons  : integer := 0;
-   number_of_packons  : integer := 0;
-   number_of_prefixes : integer := 0;
-   number_of_suffixes : integer := 0;
+   number_of_tickons  : Integer := 0;
+   number_of_tackons  : Integer := 0;
+   number_of_packons  : Integer := 0;
+   number_of_prefixes : Integer := 0;
+   number_of_suffixes : Integer := 0;
 
-   procedure load_addons (file_name : in string);
+   procedure load_addons (file_name : in String);
 
-   function subtract_tackon(w : string; x : tackon_item) return string;
-   function subtract_prefix(w : string; x : prefix_item) return stem_type;
-   function subtract_tickon(w : string; x : prefix_item) return stem_type
+   function subtract_tackon(w : String; x : tackon_item) return String;
+   function subtract_prefix(w : String; x : prefix_item) return stem_type;
+   function subtract_tickon(w : String; x : prefix_item) return stem_type
      renames subtract_prefix;
-   function subtract_suffix(w : string; x : suffix_item) return stem_type;
+   function subtract_suffix(w : String; x : suffix_item) return stem_type;
 
    function add_prefix(stem : stem_type;
                        prefix : prefix_item) return stem_type;

@@ -15,8 +15,8 @@
 -- available to anyone who wishes to use them, for whatever purpose.
 
 with addons_package; use addons_package;
-with latin_file_names; use latin_file_names;
-with strings_package; use strings_package;
+with latIn_File_names; use latIn_File_names;
+with Strings_package; use Strings_package;
 with config;  use config;
 with uniques_package; use uniques_package;
 with word_parameters; use word_parameters;
@@ -26,184 +26,186 @@ with line_stuff; use line_stuff;
 with english_support_package; use english_support_package;
 package body word_package is
 
-   inflections_sections_file : lel_section_io.file_type;
+   inflections_sections_file : lel_section_io.File_Type;
 
-   procedure pause(output : text_io.file_type) is
-      pause_line : string(1..300);
-      pause_last : integer := 0;
+   procedure pause(Output : Text_IO.File_Type) is
+      pause_line : String(1..300);
+      pause_last : Integer := 0;
    begin
-      if words_mdev(pause_in_screen_output)  then
+      if words_mdev(pause_in_screen_Output)  then
          if method = interactive  then
-            if text_io.name(output) =
-              text_io.name(text_io.standard_output)  then
-               text_io.put_line(text_io.standard_output,
+            if Text_IO.Name(Output) =
+              Text_IO.Name(Text_IO.Standard_Output)
+            then
+               Text_IO.Put_Line(Text_IO.Standard_Output,
                  "                          MORE - hit RETURN/ENTER to continue");
-               text_io.get_line(text_io.standard_input, pause_line, pause_last);
+               Text_IO.Get_Line(Text_IO.Standard_Input, pause_line, pause_last);
             end if;
-         elsif method = command_line_input  then
-            text_io.put_line(text_io.standard_output,
+         elsif method = Command_Line_Input  then
+            Text_IO.Put_Line(Text_IO.Standard_Output,
               "                          MORE - hit RETURN/ENTER to continue");
-            text_io.get_line(text_io.standard_input, pause_line, pause_last);
-         elsif method = command_line_files  then
+            Text_IO.Get_Line(Text_IO.Standard_Input, pause_line, pause_last);
+         elsif method = Command_Line_files  then
             null;                       --  Do not PAUSE
          end if;
       end if;
    exception
       when others  =>
-         text_io.put_line("Unexpected exception in PAUSE");
+         Text_IO.Put_Line("Unexpected exception in PAUSE");
    end pause;
 
-   function min(a, b : integer) return integer is
+   function min(a, b : Integer) return Integer is
    begin
       if a <= b  then
-         return a; end if;
+         return a;
+      end if;
          return b;
    end min;
 
-   function ltu(c, d : character) return boolean is
+   function ltu(c, d : Character) return Boolean is
    begin
       if d = 'v' then
          if c < 'u' then
-            return true;
+            return True;
          else
-            return false;
+            return False;
          end if;
       elsif d = 'j' then
          if c < 'i' then
-            return true;
+            return True;
          else
-            return false;
+            return False;
          end if;
       elsif d = 'V' then
          if c < 'U' then
-            return true;
+            return True;
          else
-            return false;
+            return False;
          end if;
       elsif d = 'J' then
          if c < 'I' then
-            return true;
+            return True;
          else
-            return false;
+            return False;
          end if;
       else
          return c < d;
       end if;
    end ltu;
 
-   function equ(c, d : character) return boolean is
+   function equ(c, d : Character) return Boolean is
    begin
       if (d = 'u') or (d = 'v')  then
          if (c = 'u') or (c = 'v')  then
-            return true;
+            return True;
          else
-            return false;
+            return False;
          end if;
       elsif (d = 'i') or (d = 'j')  then
          if (c = 'i') or (c = 'j')  then
-            return true;
+            return True;
          else
-            return false;
+            return False;
          end if;
       elsif (d = 'U') or (d = 'V')  then
          if (c = 'U') or (c = 'V')  then
-            return true;
+            return True;
          else
-            return false;
+            return False;
          end if;
       elsif (d = 'I') or (d = 'J')  then
          if (c = 'I') or (c = 'J')  then
-            return true;
+            return True;
          else
-            return false;
+            return False;
          end if;
       else
          return c = d;
       end if;
    end equ;
 
-   function gtu(c, d : character) return boolean is
+   function gtu(c, d : Character) return Boolean is
    begin
       if d = 'u' then
          if c > 'v' then
-            return true;
+            return True;
          else
-            return false;
+            return False;
          end if;
       elsif d = 'i' then
          if c > 'j' then
-            return true;
+            return True;
          else
-            return false;
+            return False;
          end if;
       elsif d = 'U' then
          if c > 'V' then
-            return true;
+            return True;
          else
-            return false;
+            return False;
          end if;
       elsif d = 'I' then
          if c > 'J' then
-            return true;
+            return True;
          else
-            return false;
+            return False;
          end if;
       else
          return c > d;
       end if;
    end gtu;
 
-   function ltu(s, t : string) return boolean is
+   function ltu(s, t : String) return Boolean is
    begin
       for i in 1..s'Length  loop   --  Not TRIMed, so same length
          if equ(s(s'First+i-1), t(t'First+i-1))  then
             null;
          elsif gtu(s(s'First+i-1), t(t'First+i-1))  then
-            return false;
+            return False;
          elsif ltu(s(s'First+i-1), t(t'First+i-1))  then
-            return true;
+            return True;
          end if;
       end loop;
-      return false;
+      return False;
    end ltu;
 
-   function gtu(s, t : string) return boolean is
+   function gtu(s, t : String) return Boolean is
    begin
       for i in 1..s'Length  loop   --  Not TRIMed, so same length
          if equ(s(s'First+i-1), t(t'First+i-1))  then
             null;
          elsif ltu(s(s'First+i-1), t(t'First+i-1))  then
-            return false;
+            return False;
          elsif gtu(s(s'First+i-1), t(t'First+i-1))  then
-            return true;
+            return True;
          end if;
       end loop;
-      return false;
+      return False;
    end gtu;
 
-   function equ(s, t : string) return boolean is
+   function equ(s, t : String) return Boolean is
    begin
       if s'Length /= t'Length  then
-         return false;
+         return False;
       end if;
 
       for i in 1..s'Length  loop
          if not equ(s(s'First+i-1), t(t'First+i-1))  then
-            return false;
+            return False;
          end if;
       end loop;
 
-      return true;
+      return True;
    end equ;
 
-   procedure run_uniques(s : in string; unique_found : out boolean;
-                                        pa : in out parse_array; pa_last : in out integer) is
-      sl : constant string        --  BAD NAME!!!!!!!!!!!!!!!!!!
+   procedure run_uniques(s : in String; unique_found : out Boolean;
+                                        pa : in out parse_array; pa_last : in out Integer) is
+      sl : constant String        --  BAD NAME!!!!!!!!!!!!!!!!!!
         := lower_case(trim(s));
       st : constant stem_type := head(sl, max_stem_size);
       unql : unique_list;   --  Unique list for a letter
    begin
-      unique_found := false;
+      unique_found := False;
       if sl(sl'First) = 'v'  then
          unql := unq('u');   --  Unique list for a letter
       elsif sl(sl'First) = 'j'  then
@@ -234,25 +236,25 @@ package body word_package is
                             unql.mnpc);
 
             --TEXT_IO.PUT_LINE("UNIQUE    HIT     *********" & INTEGER'IMAGE(PA_LAST));
-            unique_found := true;
+            unique_found := True;
          end if;
          unql := unql.succ;
       end loop;
 
    end run_uniques;
 
-   procedure run_inflections(s : in string; sl : in out sal;
+   procedure run_inflections(s : in String; sl : in out sal;
                                             restriction : dict_restriction := regular) is
-      --  Trys all possible inflections against the input word in S
+      --  Trys all possible inflections against the Input word in S
       --  and constructs a STEM_LIST of those that survive SL
       use lel_section_io;
       use inflection_record_io;
-      word : constant string := lower_case(trim(s));
-      last_of_word : constant character := word(word'Last);
-      length_of_word   : constant integer := word'Length;
-      stem_length  : integer := 0;
+      word : constant String := lower_case(trim(s));
+      last_of_word : constant Character := word(word'Last);
+      length_of_word   : constant Integer := word'Length;
+      stem_length  : Integer := 0;
       pr   : parse_record;
-      m : integer := 1;
+      m : Integer := 1;
 
    begin
       --TEXT_IO.NEW_LINE;
@@ -268,35 +270,35 @@ package body word_package is
       --  since the blank ending agrees with everything
       --  PACK/PRON have no blank endings
       if ((restriction /= pack_only) and (restriction /= qu_pron_only))  and then
-        (word'Length <= max_stem_size)  then
+        (word'Length <= max_stem_size)
+      then
          for i in belf(0, ' ')..bell(0, ' ')  loop
             pr := (word & null_stem_type(length_of_word+1..stem_type'Length),
                    bel(i), default_dictionary_kind, null_mnpc);
             sl(m) := pr;
             m := m + 1;
-
          end loop;
-         sa(length_of_word) := pr.stem;  --  Is always a possibility (null ending)
 
+         sa(length_of_word) := pr.stem;  --  Is always a possibility (null ending)
       end if;
 
       --  Here we read in the INFLECTIONS_SECTION that is applicable
       if restriction = regular  then
          case last_of_word is
             when 'a' | 'c' | 'd' | 'e' | 'i'  =>
-               read(inflections_sections_file, lel, 1);
+               Read(inflections_sections_file, lel, 1);
             when 'm' | 'n' | 'o' | 'r'  =>
-               read(inflections_sections_file, lel, 2);
+               Read(inflections_sections_file, lel, 2);
             when 's'  =>
-               read(inflections_sections_file, lel, 3);
+               Read(inflections_sections_file, lel, 3);
             when 't' | 'u'  =>
-               read(inflections_sections_file, lel, 4);
+               Read(inflections_sections_file, lel, 4);
             when others  =>
                --PUT_LINE("Only blank inflections are found");
                return;
          end case;
       elsif restriction = pack_only  or restriction = qu_pron_only  then
-         read(inflections_sections_file, lel, 4);
+         Read(inflections_sections_file, lel, 4);
       end if;
 
       --  Now do the non-blank endings      --  Only go to LENGTH_OF_WORD
@@ -308,7 +310,8 @@ package body word_package is
 
             for i in lelf(z, last_of_word)..lell(z, last_of_word) loop
                if equ(lower_case(lel(i).ending.suf(1..z)),
-                      lower_case(word(word'Last-z+1..word'Last)))  then
+                      lower_case(word(word'Last-z+1..word'Last)))
+               then
                   --  Add to list of possible ending records
                   --STEM_LENGTH := WORD'LENGTH - LEL(I).ENDING.SIZE;
                   stem_length := word'Length - z;
@@ -337,18 +340,18 @@ package body word_package is
 
    procedure try_to_load_dictionary(d_k : dictionary_kind) is
    begin
-      stem_io.open(stem_file(d_k), stem_io.in_file,
+      stem_io.Open(stem_file(d_k), stem_io.In_File,
                    add_file_name_extension(stem_file_name,
                                            dictionary_kind'Image(d_k)));
-      dict_io.open(dict_file(d_k), dict_io.in_file,
+      dict_io.Open(dict_file(d_k), dict_io.In_File,
                    add_file_name_extension(dict_file_name,
                                            dictionary_kind'Image(d_k)));
       load_indices_from_indx_file(d_k);
-      dictionary_available(d_k) := true;
+      dictionary_available(d_k) := True;
 
    exception
       when others  =>
-         dictionary_available(d_k) := false;
+         dictionary_available(d_k) := False;
    end try_to_load_dictionary;
 
    procedure dictionary_search(ssa : stem_array_type;
@@ -360,20 +363,20 @@ package body word_package is
       use stem_io;
 
       --type NAT_32 is Range 0..2**31-1;   --###############
-      j, j1, j2, jj : stem_io.count := 0;
+      j, j1, j2, jj : stem_io.Count := 0;
 
-      index_on : constant string := ssa(ssa'Last);
-      index_first, index_last : stem_io.count := 0;
+      index_on : constant String := ssa(ssa'Last);
+      index_first, index_last : stem_io.Count := 0;
       ds : dictionary_stem;
-      first_try, second_try : boolean := true;
+      first_try, second_try : Boolean := True;
 
-      function first_two(w : string) return string is
+      function first_two(w : String) return String is
          --  'v' could be represented by 'u', like the new Oxford Latin Dictionary
          --  Fixes the first two letters of a word/stem which can be done right
-         s : constant string := lower_case(w);
-         ss : string(w'Range) := w;
+         s : constant String := lower_case(w);
+         ss : String(w'Range) := w;
 
-         function ui(c : character) return character  is
+         function ui(c : Character) return Character  is
          begin
             if c = 'v' then
                return 'u';
@@ -406,7 +409,8 @@ package body word_package is
             when regular    =>
                if not (ds.part.pofs = pack  or
                          (ds.part.pofs = pron  and then
-                            (ds.part.pron.decl.which = 1)))  then
+                            (ds.part.pron.decl.which = 1)))
+               then
                   pdl_index := pdl_index + 1;
                   pdl(pdl_index) := pruned_dictionary_item'(ds, d_k);
                end if;
@@ -419,7 +423,8 @@ package body word_package is
 
             when qu_pron_only  =>
                if ds.part.pofs = pron  and then
-                 (ds.part.pron.decl.which = 1)  then
+                 (ds.part.pron.decl.which = 1)
+               then
                   pdl_index := pdl_index + 1;
                   pdl(pdl_index) := pruned_dictionary_item'(ds, d_k);
                end if;
@@ -454,8 +459,8 @@ package body word_package is
                --  This may be checking for 0 and 1 letter SSAs which are done elsewhere
                if d_k = local  then    --  Special processing for unordered DICT.LOC
                   for j in j1..j2  loop       --  Sweep exaustively through the scope
-                     set_index(stem_file(d_k), stem_io.count(j));
-                     read(stem_file(d_k), ds);
+                     Set_Index(stem_file(d_k), stem_io.Count(j));
+                     Read(stem_file(d_k), ds);
 
                      if equ(lower_case(ds.stem), ssa(k))  then
                         --TEXT_IO.PUT_LINE("HIT LOC =   " & DS.STEM & " - " & SSA(K));
@@ -463,9 +468,9 @@ package body word_package is
                      end if;
                   end loop;
                else                     --  Regular dictionaries
-                  first_try := true;
+                  first_try := True;
 
-                  second_try := true;
+                  second_try := True;
 
                   j := (j1 + j2) / 2;
 
@@ -474,18 +479,18 @@ package body word_package is
                      if (j1 = j2-1) or (j1 = j2) then
                         if first_try  then
                            j := j1;
-                           first_try := false;
+                           first_try := False;
                         elsif second_try  then
                            j := j2;
-                           second_try := false;
+                           second_try := False;
                         else
                            jj := j;
                            exit binary_search;
                         end if;
                      end if;
 
-                     set_index(stem_file(d_k), j);
-                     read(stem_file(d_k), ds);
+                     Set_Index(stem_file(d_k), j);
+                     Read(stem_file(d_k), ds);
 
                      if  ltu(lower_case(ds.stem), ssa(k))  then
                         j1 := j;
@@ -495,8 +500,8 @@ package body word_package is
                         j := (j1 + j2) / 2;
                      else
                         for i in reverse j1..j  loop
-                           set_index(stem_file(d_k), stem_io.count(i));
-                           read(stem_file(d_k), ds);
+                           Set_Index(stem_file(d_k), stem_io.Count(i));
+                           Read(stem_file(d_k), ds);
 
                            if equ(lower_case(ds.stem), ssa(k))  then
                               jj := i;
@@ -508,8 +513,8 @@ package body word_package is
                         end loop;
 
                         for i in j+1..j2  loop
-                           set_index(stem_file(d_k), stem_io.count(i));
-                           read(stem_file(d_k), ds);
+                           Set_Index(stem_file(d_k), stem_io.Count(i));
+                           Read(stem_file(d_k), ds);
 
                            if equ(lower_case(ds.stem), ssa(k))  then
                               jj := i;
@@ -533,7 +538,7 @@ package body word_package is
    procedure search_dictionaries(ssa : in stem_array_type;
                                                        restriction : dict_restriction := regular) is
       use stem_io;
-      fc : character := ' ';
+      fc : Character := ' ';
    begin
       pdl := (others => null_pruned_dictionary_item);
       pdl_index := 0;
@@ -587,110 +592,111 @@ package body word_package is
 
       for d_k in dictionary_kind  loop
          if dictionary_available(d_k)  then
-            if not is_open(stem_file(d_k))  then
-               open(stem_file(d_k), stem_io.in_file,
+            if not Is_Open(stem_file(d_k))  then
+               Open(stem_file(d_k), stem_io.In_File,
                     add_file_name_extension(stem_file_name,
                                             dictionary_kind'Image(d_k)));
             end if;
             dictionary_search(ssa, d_k, restriction);
-            close(stem_file(d_k));  --??????
+            Close(stem_file(d_k));  --??????
          end if;
       end loop;
 
    end search_dictionaries;
 
-   procedure change_language(c : character) is
+   procedure change_language(c : Character) is
    begin  if upper_case(c) = 'L'  then
       language := latin_to_english;
-      preface.put_line("Language changed to " & language_type'Image(language));
+      preface.Put_Line("Language changed to " & language_type'Image(language));
    elsif upper_case(c) = 'E'  then
       if english_dictionary_available(general)  then
          language:= english_to_latin;
-         preface.put_line("Language changed to " & language_type'Image(language));
-         preface.put_line("Input a single English word (+ part of speech - N, ADJ, V, PREP, ...)");
+         preface.Put_Line("Language changed to " & language_type'Image(language));
+         preface.Put_Line("InPut a single English word (+ part of speech - N, ADJ, V, PREP, ...)");
       else
-         preface.put_line("No English dictionary available");
+         preface.Put_Line("No English dictionary available");
       end if;
    else
-      preface.put_line("Bad LANGAUGE input - no change, remains " & language_type'Image(language));
+      preface.Put_Line("Bad LANGAUGE Input - no change, remains " & language_type'Image(language));
    end if;
    exception
       when others  =>
-         preface.put_line("Bad LANGAUGE input - no change, remains " & language_type'Image(language));
+         preface.Put_Line("Bad LANGAUGE Input - no change, remains " & language_type'Image(language));
    end change_language;
 
-   procedure word(raw_word : in string;
-                  pa : in out parse_array; pa_last : in out integer) is
+   procedure word(raw_word : in String;
+                  pa : in out parse_array; pa_last : in out Integer) is
 
-      input_word : constant string := lower_case(raw_word);
-      pa_save : constant integer := pa_last;
+      Input_word : constant String := lower_case(raw_word);
+      pa_save : constant Integer := pa_last;
 
-      unique_found : boolean := false;
+      unique_found : Boolean := False;
 
       ss, sss : sal := (others => null_parse_record);
 
       procedure order_stems(sx : in out sal) is
          use inflection_record_io;
          use dict_io;
-         hits : integer := 0;
+         hits : Integer := 0;
          sl : sal := sx;
-         sl_last : integer := 0;
+         sl_last : Integer := 0;
          sm : parse_record;
       begin
          if sx(1) = null_parse_record  then
-            return; end if;
-            --PUT_LINE("ORDERing_STEMS");
+            return;
+         end if;
+         --PUT_LINE("ORDERing_STEMS");
 
-            for i in sl'Range  loop
-               exit when sl(i) = null_parse_record;
-               sl_last := sl_last + 1;
-            end loop;
-            --PUT_LINE("In ORDER  SL_LAST = " & INTEGER'IMAGE(SL_LAST));
+         for i in sl'Range  loop
+            exit when sl(i) = null_parse_record;
+            sl_last := sl_last + 1;
+         end loop;
+         --PUT_LINE("In ORDER  SL_LAST = " & INTEGER'IMAGE(SL_LAST));
 
-            --  Bubble sort since this list should usually be very small (1-5)
-            hit_loop:
-            loop
-               hits := 0;
+         --  Bubble sort since this list should usually be very small (1-5)
+         hit_loop:
+         loop
+            hits := 0;
 
-               switch:
-               begin
-                  --  Need to remove duplicates in ARRAY_STEMS
-                  --  This sort is very sloppy
-                  --  One problem is that it can mix up some of the order of PREFIX, XXX, LOC
-                  --  I ought to do this for every set of results from different approaches
-                  --  not just in one fell swoop at the end !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-                  inner_loop:
-                  for i in 1..sl_last-1  loop
-                     if sl(i+1) /= null_parse_record  then
-                        if (sl(i+1).mnpc < sl(i).mnpc)  or else
-                          (sl(i+1).mnpc = sl(i).mnpc   and then
-                             sl(i+1).ir.ending.size < sl(i).ir.ending.size)  or else
-                          (sl(i+1).mnpc = sl(i).mnpc   and then
-                             sl(i+1).ir.ending.size = sl(i).ir.ending.size  and then
-                             sl(i+1).ir.qual < sl(i).ir.qual)  or else
-                          (sl(i+1).mnpc = sl(i).mnpc   and then
-                             sl(i+1).ir.ending.size = sl(i).ir.ending.size  and then
-                             sl(i+1).ir.qual = sl(i).ir.qual   and then
-                             sl(i+1).d_k  < sl(i).d_k)
-                        then
-                           sm := sl(i);
-                           sl(i) := sl(i+1);
-                           sl(i+1) := sm;
-                           hits := hits + 1;
-                        end if;
-                     else
-                        exit inner_loop;
+            switch:
+            begin
+               --  Need to remove duplicates in ARRAY_STEMS
+               --  This sort is very sloppy
+               --  One problem is that it can mix up some of the order of PREFIX, XXX, LOC
+               --  I ought to do this for every set of results from different approaches
+               --  not just in one fell swoop at the end !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+               inner_loop:
+               for i in 1..sl_last-1  loop
+                  if sl(i+1) /= null_parse_record  then
+                     if (sl(i+1).mnpc < sl(i).mnpc)  or else
+                       (sl(i+1).mnpc = sl(i).mnpc   and then
+                          sl(i+1).ir.ending.size < sl(i).ir.ending.size)  or else
+                       (sl(i+1).mnpc = sl(i).mnpc   and then
+                          sl(i+1).ir.ending.size = sl(i).ir.ending.size  and then
+                          sl(i+1).ir.qual < sl(i).ir.qual)  or else
+                       (sl(i+1).mnpc = sl(i).mnpc   and then
+                          sl(i+1).ir.ending.size = sl(i).ir.ending.size  and then
+                          sl(i+1).ir.qual = sl(i).ir.qual   and then
+                          sl(i+1).d_k  < sl(i).d_k)
+                     then
+                        sm := sl(i);
+                        sl(i) := sl(i+1);
+                        sl(i+1) := sm;
+                        hits := hits + 1;
                      end if;
-                  end loop inner_loop;
-               end switch;
+                  else
+                     exit inner_loop;
+                  end if;
+               end loop inner_loop;
+            end switch;
 
-               exit hit_loop when hits = 0;
-            end loop hit_loop;
-            sx := sl;
+            exit hit_loop when hits = 0;
+         end loop hit_loop;
+         sx := sl;
       end order_stems;
 
       procedure array_stems(sx : in sal;
-                            pa : in out parse_array; pa_last : in out integer) is
+                            pa : in out parse_array; pa_last : in out Integer) is
          sl : constant sal := sx;
          opr : parse_record := null_parse_record;
       begin
@@ -706,15 +712,15 @@ package body word_package is
 
                   supress_key_check:
                   declare
-                     function "<=" (a, b : parse_record) return boolean is
+                     function "<=" (a, b : parse_record) return Boolean is
                         use dict_io;
                      begin  --  !!!!!!!!!!!!!!!!!!!!!!!!!!
                         if a.ir.qual = b.ir.qual and then
                           a.mnpc = b.mnpc
                         then
-                           return true;
+                           return True;
                         else
-                           return false;
+                           return False;
                         end if;
                      end "<=";
                   begin
@@ -743,43 +749,44 @@ package body word_package is
          pdl_part : part_entry;
          com : comparison_type := x;
          num_sort : numeral_sort_type := x;
-         ls : integer := 0;
-         m : integer := 0;
+         ls : Integer := 0;
+         m : Integer := 0;
 
          pdl_key : stem_key_type;
          pdl_p   : part_of_speech_type;
          --sl_key  : stem_key_type;
          --sl_p    : part_of_speech_type;
 
-         function "<=" (left, right : part_of_speech_type) return boolean is
+         function "<=" (left, right : part_of_speech_type) return Boolean is
          begin
             if right = left  or else
-              (left = pack and right = pron)  or else
-              right = x    then
-               return true;
+               (left = pack and right = pron)  or else
+               right = x
+            then
+               return True;
             else
-               return false;
+               return False;
             end if;
          end "<=";
 
-         function "<=" (left, right : gender_type)   return boolean is
+         function "<=" (left, right : gender_type)   return Boolean is
          begin
             if right = left               or else
                (right = c and left /= n)  or else
                right = x
             then
-               return true;
+               return True;
             else
-               return false;
+               return False;
             end if;
          end "<=";
 
-         function "<=" (left, right : stem_key_type)   return boolean is
+         function "<=" (left, right : stem_key_type)   return Boolean is
          begin
             if right = left or else right = 0 then
-               return true;
+               return True;
             else
-               return false;
+               return False;
             end if;
          end "<=";
 
@@ -803,9 +810,9 @@ package body word_package is
                --PUT_LINE("No SUFFIX in REDUCE - Fall through to PREFIX check ");
                null;
             elsif
-              (pdl_p = n    and then pdl_part.n.decl = (9, 8)) or  --  No suffix for
-              (pdl_p = adj  and then pdl_part.adj.decl = (9, 8)) -- abbreviations
-               then
+               (pdl_p = n    and then pdl_part.n.decl = (9, 8)) or  --  No suffix for
+               (pdl_p = adj  and then pdl_part.adj.decl = (9, 8)) -- abbreviations
+            then
                --   Can be no suffix on abbreviation");
                goto end_of_pdl_loop;
             else                  --  There is SUFFIX, see if it agrees with PDL
@@ -816,23 +823,23 @@ package body word_package is
                        ((suffix.entr.root_key = 1) or (suffix.entr.root_key = 2))))
                then
                   --PUT_LINE("HIT HIT HIT HIT HIT HIT HIT HIT HIT     SUFFIX SUFFIX    in REDUCE");
-                  case suffix.entr.target.pofs is      --  Transform PDL_PART to TARGET
+                  case suffix.entr.Target.pofs is      --  Transform PDL_PART to TARGET
                      when n =>
-                        pdl_part := (n, suffix.entr.target.n);
+                        pdl_part := (n, suffix.entr.Target.n);
                      when pron =>
-                        pdl_part := (pron, suffix.entr.target.pron);
+                        pdl_part := (pron, suffix.entr.Target.pron);
                      when adj =>
-                        pdl_part := (adj, suffix.entr.target.adj);
+                        pdl_part := (adj, suffix.entr.Target.adj);
                      when num =>
-                        pdl_part := (num, suffix.entr.target.num);
+                        pdl_part := (num, suffix.entr.Target.num);
                      when adv =>
-                        pdl_part := (adv, suffix.entr.target.adv);
+                        pdl_part := (adv, suffix.entr.Target.adv);
                      when v =>
-                        pdl_part := (v, suffix.entr.target.v);
+                        pdl_part := (v, suffix.entr.Target.v);
                      when others  =>
                         null;        --  No others so far, except X = all
                   end case;
-                  pdl_key := suffix.entr.target_key;
+                  pdl_key := suffix.entr.Target_key;
                   pdl_p  := pdl_part.pofs;  --  Used only for FIX logic below
                   --PUT("    Changed to    "); PUT(PDL_PART); PUT(PDL_KEY); NEW_LINE;
 
@@ -849,12 +856,14 @@ package body word_package is
             elsif
               (pdl_p = n    and then pdl_part.n.decl = (9, 8)) or  --  No prefix for
               (pdl_p = adj  and then pdl_part.adj.decl = (9, 8)) or --  abbreviations
-              (pdl_p = interj  or pdl_p = conj) then  --  or INTERJ or CONJ
-              --PUT_LINE("In REDUCE_STEM_LIST   no prefix on abbreviationi, interj, conj");
+              (pdl_p = interj  or pdl_p = conj)  --  or INTERJ or CONJ
+            then
+               --PUT_LINE("In REDUCE_STEM_LIST   no prefix on abbreviationi, interj, conj");
                goto end_of_pdl_loop;
             else
                if (pdl_p = prefix.entr.root)  or    --  = ROOT
-                 (pdl_part.pofs = prefix.entr.root)  then  --  or part mod by suf
+                 (pdl_part.pofs = prefix.entr.root)  --  or part mod by suf
+               then
                   null;
                elsif prefix.entr.root = x then  --   or ROOT = X
                   null;
@@ -884,8 +893,8 @@ package body word_package is
                            (((pdl_p = n) or (pdl_p = adj) or (pdl_p = v)) and then
                               ((sl(i).ir.key = 1) or (sl(i).ir.key = 2)) ))
                      )  and then   --  and KEY
-                    ( pdl_part.pofs  = eff_part(sl(i).ir.qual.pofs) )  then
-
+                    ( pdl_part.pofs  = eff_part(sl(i).ir.qual.pofs) )
+                  then
                      if pdl_part.pofs = n                            and then
                         pdl_part.n.decl <= sl(i).ir.qual.n.decl      and then
                         pdl_part.n.gender <= sl(i).ir.qual.n.gender
@@ -933,7 +942,8 @@ package body word_package is
                      elsif (pdl_part.pofs = adj)                          and then
                        (pdl_part.adj.decl <= sl(i).ir.qual.adj.decl)     and then
                        ((sl(i).ir.qual.adj.co   <= pdl_part.adj.co  ) or
-                          ((sl(i).ir.qual.adj.co = x)  or (pdl_part.adj.co = x)))    then
+                          ((sl(i).ir.qual.adj.co = x)  or (pdl_part.adj.co = x)))
+                     then
                         --  Note the reversal on comparisom
                         --PUT(" HIT  ADJ   ");
                         --  Need to transfer the gender of the dictionary item
@@ -965,7 +975,8 @@ package body word_package is
 
                      elsif (pdl_part.pofs = num)                          and then
                        (pdl_part.num.decl <= sl(i).ir.qual.num.decl)     and then
-                       (pdl_key         = sl(i).ir.key)                   then
+                       (pdl_key         = sl(i).ir.key)
+                     then
                         --PUT(" HIT  NUM    ");
                         if pdl_part.num.sort = x  then
                            --  If the entry is X, generate a CO from KEY
@@ -994,7 +1005,8 @@ package body word_package is
 
                      elsif (pdl_part.pofs = adv)                          and then
                        ((pdl_part.adv.co   <= sl(i).ir.qual.adv.co  ) or
-                          ((sl(i).ir.qual.adv.co = x)  or (pdl_part.adv.co = x)))    then
+                          ((sl(i).ir.qual.adv.co = x)  or (pdl_part.adv.co = x)))
+                     then
                         --PUT(" HIT  ADV   ");
                         --  Need to transfer the CO of the ADV dictionary item
                         if pdl_part.adv.co in pos..super  then
@@ -1021,7 +1033,8 @@ package body word_package is
                      elsif pdl_part.pofs = v then
                         --TEXT_IO.PUT_LINE("V found, now check CON");
                         if sl(i).ir.qual.pofs = v     and then
-                          (pdl_part.v.con <= sl(i).ir.qual.v.con) then
+                          (pdl_part.v.con <= sl(i).ir.qual.v.con)
+                        then
                            --TEXT_IO.PUT(" HIT  V     ");
                            m := m + 1;
                            sxx(m) := (stem => subtract_prefix(sl(i).stem, prefix),
@@ -1041,7 +1054,8 @@ package body word_package is
                                       mnpc => mnpc_part);
 
                         elsif sl(i).ir.qual.pofs = vpar   and then
-                          (pdl_part.v.con <= sl(i).ir.qual.vpar.con)   then
+                           (pdl_part.v.con <= sl(i).ir.qual.vpar.con)
+                        then
                            --PUT(" HIT  VPAR  ");
                            m := m + 1;
                            sxx(m) := (stem => subtract_prefix(sl(i).stem, prefix),
@@ -1062,7 +1076,8 @@ package body word_package is
                                       mnpc => mnpc_part);
 
                         elsif sl(i).ir.qual.pofs = supine   and then
-                          (pdl_part.v.con <= sl(i).ir.qual.supine.con)   then
+                          (pdl_part.v.con <= sl(i).ir.qual.supine.con)
+                        then
                            --PUT(" HIT  SUPINE");
                            m := m + 1;
                            sxx(m) := (stem => subtract_prefix(sl(i).stem, prefix),
@@ -1084,19 +1099,20 @@ package body word_package is
                         end if;
 
                      elsif pdl_part.pofs = prep and then
-                       pdl_part.prep.obj = sl(i).ir.qual.prep.obj           then
+                       pdl_part.prep.obj = sl(i).ir.qual.prep.obj
+                     then
                         --PUT(" HIT  PREP  ");
                         m := m + 1;
                         sxx(m) := (subtract_prefix(sl(i).stem, prefix), sl(i).ir,
                                    pdl(j).d_k, mnpc_part);
 
-                     elsif pdl_part.pofs = conj                              then
+                     elsif pdl_part.pofs = conj then
                         --PUT(" HIT  CONJ  ");
                         m := m + 1;
                         sxx(m) := (subtract_prefix(sl(i).stem, prefix), sl(i).ir,
                                    pdl(j).d_k, mnpc_part);
 
-                     elsif pdl_part.pofs = interj                            then
+                     elsif pdl_part.pofs = interj then
                         --PUT(" HIT  INTERJ ");
                         m := m + 1;
                         sxx(m) := (subtract_prefix(sl(i).stem, prefix), sl(i).ir,
@@ -1117,12 +1133,12 @@ package body word_package is
 
       procedure apply_prefix(sa : in stem_array_type; suffix : in suffix_item;
                                                       sx : in sal; sxx : in out sal;
-                                                                   pa : in out parse_array; pa_last : in out integer) is
+                                                                   pa : in out parse_array; pa_last : in out Integer) is
          --  Worry about the stem changing re-cipio from capio
          --  Correspondence of parts, need EFF for VPAR
          --  The prefixes should be ordered with the longest/most likely first
          ssa : stem_array;
-         l : integer :=  0;
+         l : Integer :=  0;
 
       begin
          --PUT_LINE("Entering APPLY_PREFIX");
@@ -1137,7 +1153,8 @@ package body word_package is
                   --PUT("J = "); PUT(J); PUT("   SA(J) = "); PUT(SA(J)); NEW_LINE;
                   if sa(j)(1) = prefixes(i).fix(1) then  --  Cuts down a little -- do better
                      if subtract_prefix(sa(j), prefixes(i)) /=
-                       head(sa(j), max_stem_size)  then
+                       head(sa(j), max_stem_size)
+                     then
                         l := l + 1;            --  We have a hit, make new stem array item
                         ssa(l) := head(subtract_prefix(sa(j), prefixes(i)),
                                        max_stem_size);  --  And that has prefix subtracted to match dict
@@ -1160,7 +1177,7 @@ package body word_package is
                         pa(pa_last).ir :=
                           ((prefix, null_prefix_record), 0, null_ending_record, x, x);
                         pa(pa_last).stem := head(prefixes(i).fix, max_stem_size);
-                        pa(pa_last).mnpc := dict_io.count(prefixes(i).mnpc);
+                        pa(pa_last).mnpc := dict_io.Count(prefixes(i).mnpc);
                         pa(pa_last).d_k  := addons;
                         exit;      --  Because we accept only one prefix
                      end if;
@@ -1172,10 +1189,10 @@ package body word_package is
 
       procedure apply_suffix(sa : in stem_array_type;
                              sx : in sal; sxx : in out sal;
-                                          pa : in out parse_array; pa_last : in out integer) is
+                                          pa : in out parse_array; pa_last : in out Integer) is
          ssa : stem_array;
-         l : integer :=  0;
-         suffix_hit : integer := 0;
+         l : Integer :=  0;
+         suffix_hit : Integer := 0;
          --            use TEXT_IO;
          --            use INFLECTIONS_PACKAGE.INTEGER_IO;
 
@@ -1185,7 +1202,8 @@ package body word_package is
 
             for j in sa'Range  loop                  --  Loop through stem array
                if subtract_suffix(sa(j), suffixes(i)) /=
-                 head(sa(j), max_stem_size)  then
+                 head(sa(j), max_stem_size)
+               then
                   l := l + 1;            --  We have a hit, make new stem array item
                   ssa(l) := head(subtract_suffix(sa(j), suffixes(i)),
                                  max_stem_size);  --  And that has prefix subtracted to match dict
@@ -1196,7 +1214,7 @@ package body word_package is
                search_dictionaries(ssa(1..l));     --  So run new dictionary search
                --  For suffixes we allow as many as match
 
-               if  pdl_index /= 0     then                  --  Dict search was successful
+               if pdl_index /= 0 then                  --  Dict search was successful
                   --PUT_LINE("IN APPLY_SUFFIX -  PDL_INDEX not 0     after suffix  " & SUFFIXES(I).FIX);
 
                   suffix_hit := i;
@@ -1211,7 +1229,7 @@ package body word_package is
                      pa(pa_last).stem := head(
                                               suffixes(suffix_hit).fix, max_stem_size);
                      --  Maybe it would better if suffix.fix was of stem size
-                     pa(pa_last).mnpc := dict_io.count(suffixes(suffix_hit).mnpc);
+                     pa(pa_last).mnpc := dict_io.Count(suffixes(suffix_hit).mnpc);
                      --PUT("SUFFIX MNPC  "); PUT(SUFFIXES(SUFFIX_HIT).MNPC); NEW_LINE;
                      pa(pa_last).d_k  := addons;
                      ---
@@ -1233,7 +1251,7 @@ package body word_package is
                        ((suffix, null_suffix_record), 0, null_ending_record, x, x);
                      pa(pa_last).stem := head(
                                               suffixes(suffix_hit).fix, max_stem_size);
-                     pa(pa_last).mnpc := dict_io.count(suffixes(suffix_hit).mnpc);
+                     pa(pa_last).mnpc := dict_io.Count(suffixes(suffix_hit).mnpc);
                      pa(pa_last).d_k  := addons;
 
                      for i in sxx'Range  loop    --  Set this set of results
@@ -1241,29 +1259,27 @@ package body word_package is
                         pa_last := pa_last + 1;
                         pa(pa_last) := sxx(i);
                      end loop;
-
                   end if;
-
                end if;
             end if;                               --  with suffix subtracted stems
          end loop;      --  Loop on I for SUFFIXES
-
       end apply_suffix;
 
-      procedure prune_stems(input_word : string; sx : in sal; sxx : in out sal) is
-         j : integer := 0;
+      procedure prune_stems(Input_word : String; sx : in sal; sxx : in out sal) is
+         j : Integer := 0;
          --SXX : SAL;
 
       begin
          if sx(1) = null_parse_record  then
-            return; end if;
+            return;
+         end if;
 
             -----------------------------------------------------------------
 
             generate_reduced_stem_array:
             begin
                j := 1;
-               for z in 0..min(max_stem_size, len(input_word))  loop
+               for z in 0..min(max_stem_size, len(Input_word))  loop
                   if sa(z) /= not_a_stem  then
                      --PUT(Z); PUT(J); PUT("  "); PUT_LINE(SA(Z));
                      ssa(j) := sa(z);
@@ -1282,7 +1298,8 @@ package body word_package is
             if (((pa_last = 0)  and            --  No Uniques or Syncope
                    (pdl_index = 0))  --)   and then    --  No dictionary match
                 or words_mdev(do_fixes_anyway))  and then
-              words_mode(do_fixes)  then
+              words_mode(do_fixes)
+            then
 
                ----So try prefixes and suffixes, Generate a new SAA array, search again
 
@@ -1318,14 +1335,14 @@ package body word_package is
 
       end prune_stems;
 
-      procedure process_packons(input_word : string) is
+      procedure process_packons(Input_word : String) is
 
-         stem_length  : integer := 0;
+         stem_length  : Integer := 0;
          pr   : parse_record;
-         m : integer := 1;
+         m : Integer := 1;
          de : dictionary_entry;
          mean : meaning_type;
-         packon_first_hit : boolean := false;
+         packon_first_hit : Boolean := False;
          sl : sal := (others => null_parse_record);
          sl_nulls : constant sal := (others => null_parse_record);
 
@@ -1338,15 +1355,15 @@ package body word_package is
 
             for_each_packon:
             declare
-               xword : constant string := subtract_tackon(input_word, packons(k));
-               word : string(1..xword'Length) := xword;
-               packon_length : constant integer := trim(packons(k).tack)'Length;
-               last_of_word : character := word(word'Last);
-               length_of_word   : constant integer := word'Length;
+               xword : constant String := subtract_tackon(Input_word, packons(k));
+               word : String(1..xword'Length) := xword;
+               packon_length : constant Integer := trim(packons(k).tack)'Length;
+               last_of_word : Character := word(word'Last);
+               length_of_word   : constant Integer := word'Length;
             begin
                sl := sl_nulls;      --  Initialize SL to nulls
-               if word  /= input_word  then
-                  packon_first_hit := true;
+               if word  /= Input_word  then
+                  packon_first_hit := True;
 
                   if packons(k).tack(1..3) = "dam" and  last_of_word = 'n'  then
                      word(word'Last) := 'm';   --  Takes care of the m - > n shift with dam
@@ -1355,7 +1372,7 @@ package body word_package is
                   end if;
 
                   --  No blank endings in these pronouns
-                  lel_section_io.read(inflections_sections_file, lel, 4);
+                  lel_section_io.Read(inflections_sections_file, lel, 4);
 
                   m := 0;
 
@@ -1367,7 +1384,8 @@ package body word_package is
                            if (z <= length_of_word)  and then
                              ((equ(lel(i).ending.suf(1..z),
                                    word(word'Last-z+1..word'Last)))  and
-                                (lel(i).qual.pron.decl <= packons(k).entr.base.pack.decl))  then
+                                (lel(i).qual.pron.decl <= packons(k).entr.base.pack.decl))
+                           then
                               --  Have found an ending that is a possible match
                               --  And INFLECT agrees with PACKON.BASE
                               --PUT_LINE("INFLECTS HIT ------------------------------------------------------");
@@ -1382,7 +1400,7 @@ package body word_package is
                                              max_stem_size);
                               --PUT_LINE("STEM_LENGTH = " & INTEGER'IMAGE(STEM_LENGTH));
                               --PUT_LINE("SSA(1) in PACKONS from real  INFLECTS ->" & SSA(1) & '|');
-                              --  may get set several times
+                              --  may Get set several times
                            end if;
                         end loop;
                      end if;
@@ -1404,11 +1422,11 @@ package body word_package is
                      while sl(m) /= null_parse_record  loop  --  Over all inflection hits
                                                              --  if this stem is possible
                                                              --  call up the meaning to check for "(w/-"
-                        dict_io.set_index(dict_file(pdl(j).d_k), pdl(j).ds.mnpc);
-                        dict_io.read(dict_file(pdl(j).d_k), de);
+                        dict_io.Set_Index(dict_file(pdl(j).d_k), pdl(j).ds.mnpc);
+                        dict_io.Read(dict_file(pdl(j).d_k), de);
                         mean := de.mean;
 
-                        -- there is no way this condition can be true;
+                        -- there is no way this condition can be True;
                         -- packon_length - 1 /= packon_length
                         if trim(mean)(1..4) = "(w/-" and then  --  Does attached PACKON agree
                            trim(mean)(5..4+packon_length) = trim(packons(k).tack)
@@ -1420,8 +1438,8 @@ package body word_package is
                                                  ((tackon, null_tackon_record), 0,
                                                   null_ending_record, x, x),
                                                  addons,
-                                                 dict_io.count((packons(k).mnpc)));
-                                 packon_first_hit := false;
+                                                 dict_io.Count((packons(k).mnpc)));
+                                 packon_first_hit := False;
 
                               end if;
                               pa_last := pa_last + 1;
@@ -1451,19 +1469,19 @@ package body word_package is
 
                end if;
             end for_each_packon;
-            packon_first_hit := false;
+
+            packon_first_hit := False;
 
          end loop over_packons;
-
       end process_packons;
 
-      procedure process_qu_pronouns(input_word : string; qkey : stem_key_type := 0) is
+      procedure process_qu_pronouns(Input_word : String; qkey : stem_key_type := 0) is
 
-         word : constant string := lower_case(trim(input_word));
-         last_of_word : constant character := word(word'Last);
-         length_of_word   : constant integer := word'Length;
-         stem_length  : integer := 0;
-         m : integer := 0;
+         word : constant String := lower_case(trim(Input_word));
+         last_of_word : constant Character := word(word'Last);
+         length_of_word   : constant Integer := word'Length;
+         stem_length  : Integer := 0;
+         m : Integer := 0;
          pr   : parse_record;
          sl : sal := (others => null_parse_record);
 
@@ -1471,7 +1489,7 @@ package body word_package is
          --TEXT_IO.PUT_LINE("PROCESS_QU_PRONOUNS   " & INPUT_WORD);
 
          --  No blank endings in these pronouns
-         lel_section_io.read(inflections_sections_file, lel, 4);
+         lel_section_io.Read(inflections_sections_file, lel, 4);
 
          --  M used here while I is used in REDUCE, maybe make consistent
          m := 0;
@@ -1485,7 +1503,8 @@ package body word_package is
                   if (z <= length_of_word)  and then
                     lel(i).key = qkey  and then
                     equ(lel(i).ending.suf(1..z),
-                        word(word'Last-z+1..word'Last))    then
+                        word(word'Last-z+1..word'Last))
+                  then
                      --  Have found an ending that is a possible match
                      --  Add to list of possible ending records
                      stem_length := word'Length - z;
@@ -1495,7 +1514,7 @@ package body word_package is
                      sl(m) := pr;
                      ssa(1) := head(word(word'First.. word'First+stem_length-1),
                                     max_stem_size);
-                     --  may get set several times
+                     --  may Get set several times
                   end if;
                end loop;
             end if;
@@ -1539,32 +1558,32 @@ package body word_package is
 
       end process_qu_pronouns;
 
-      procedure try_tackons(input_word : string) is
-         tackon_hit : boolean := false;
-         tackon_on  : boolean := false;
-         j : integer := 0;
+      procedure try_tackons(Input_word : String) is
+         tackon_hit : Boolean := False;
+         tackon_on  : Boolean := False;
+         j : Integer := 0;
          de : dictionary_entry := null_dictionary_entry;
          mean : meaning_type := null_meaning_type;
-         entering_pa_last : constant integer := pa_last;
-         start_of_loop : constant integer := 5;    --  4 enclitics     --  Hard number  !!!!!!!!!!!!!!!
-         end_of_loop : constant integer := number_of_tackons;
+         entering_pa_last : constant Integer := pa_last;
+         start_of_loop : constant Integer := 5;    --  4 enclitics     --  Hard number  !!!!!!!!!!!!!!!
+         end_of_loop : constant Integer := number_of_tackons;
       begin
          loop_over_tackons:
          for i in start_of_loop..end_of_loop  loop
 
             remove_a_tackon:
             declare
-               less : constant string :=
-                 subtract_tackon(input_word, tackons(i));
+               less : constant String :=
+                 subtract_tackon(Input_word, tackons(i));
             begin
                --TEXT_IO.PUT_LINE("LESS = " & LESS);
-               if less  /= input_word  then       --  LESS is less
+               if less  /= Input_word  then       --  LESS is less
                   word(less, pa, pa_last);
 
                   if pa_last > entering_pa_last  then      --  we have a possible word
                      if tackons(i).entr.base.pofs = x  then
-                        tackon_hit := true;
-                        tackon_on  := false;
+                        tackon_hit := True;
+                        tackon_on  := False;
                      else
                         j := pa_last;
 
@@ -1576,14 +1595,14 @@ package body word_package is
 
                            if pa(j).ir.qual.pofs = prefix and then tackon_on then
                               null;          --  check PART
-                              tackon_on  := false;
+                              tackon_on  := False;
                            elsif pa(j).ir.qual.pofs = suffix and then tackon_on then
                               --  check PART
                               null;
-                              tackon_on  := false;
+                              tackon_on  := False;
                            elsif pa(j).ir.qual.pofs = tackons(i).entr.base.pofs  then
-                              dict_io.set_index(dict_file(pa(j).d_k), pa(j).mnpc);
-                              dict_io.read(dict_file(pa(j).d_k), de);
+                              dict_io.Set_Index(dict_file(pa(j).d_k), pa(j).mnpc);
+                              dict_io.Read(dict_file(pa(j).d_k), de);
                               mean := de.mean;
 
                               --  check PART
@@ -1593,15 +1612,15 @@ package body word_package is
                                        tackons(i).entr.base.n.decl
                                     then
                                        --  Ignore GEN and KIND
-                                       tackon_hit := true;
-                                       tackon_on  := true;
+                                       tackon_hit := True;
+                                       tackon_on  := True;
                                     end if;
                                  when pron    =>              --  Only one we have other than X
                                     if pa(j).ir.qual.pron.decl <=
                                       tackons(i).entr.base.pron.decl  --and then
                                     then
-                                       tackon_hit := true;
-                                       tackon_on  := true;
+                                       tackon_hit := True;
+                                       tackon_on  := True;
                                     else
                                        pa(j..pa_last-1) := pa(j+1..pa_last);
                                        pa_last := pa_last - 1;
@@ -1611,8 +1630,8 @@ package body word_package is
                                     --  Forego all checks, even on DECL of ADJ
                                     --  -cumque is the only one I have now
                                     --  if  .......
-                                    tackon_hit := true;
-                                    tackon_on  := true;
+                                    tackon_hit := True;
+                                    tackon_on  := True;
                                     --  else
                                     --    PA(J..PA_LAST-1) := PA(J+1..PA_LAST);
                                     --    PA_LAST := PA_LAST - 1;
@@ -1643,7 +1662,7 @@ package body word_package is
                                                    ((tackon, null_tackon_record), 0,
                                                     null_ending_record, x, x),
                                                    addons,
-                                                   dict_io.count((tackons(i).mnpc)));
+                                                   dict_io.Count((tackons(i).mnpc)));
                         return;                 --  Be happy with one ???????
                      else
                         null;
@@ -1657,31 +1676,32 @@ package body word_package is
 
    begin                           --  WORD
       --TEXT_IO.PUT_LINE("Starting WORD  INPUT = " & INPUT_WORD & "   PA_LAST = " & INTEGER'IMAGE(PA_LAST));
-      if trim(input_word) = ""  then
+      if trim(Input_word) = ""  then
          return;
       end if;
 
-      run_uniques(input_word, unique_found, pa, pa_last);
+      run_uniques(Input_word, unique_found, pa, pa_last);
 
       qu:
       declare
-         pa_qstart : constant integer := pa_last;
-         pa_start : constant integer := pa_last;
+         pa_qstart : constant Integer := pa_last;
+         pa_start : constant Integer := pa_last;
          saved_mode_array : constant mode_array := words_mode;
          qkey : stem_key_type := 0;
 
       begin       --  QU
          tickons(number_of_tickons+1) := null_prefix_item;
-         words_mode  := (others => false);
+         words_mode  := (others => False);
 
          for i in 1..number_of_tickons+1  loop
             declare
-               q_word : constant string :=  trim(subtract_tickon(input_word, tickons(i)));
+               q_word : constant String :=  trim(subtract_tickon(Input_word, tickons(i)));
             begin
                pa_last := pa_qstart;
                pa(pa_last+1) := null_parse_record;
                if (i = number_of_tickons + 1)   or else  --  The prefix is a TICKON
-                 (q_word /= input_word) then            --  and it matches the start of INPUT_WORD
+                 (q_word /= Input_word)            --  and it matches the start of INPUT_WORD
+               then
 
                   if i <= number_of_tickons  then        --  Add to PA if
                                                          --TEXT_IO.PUT_LINE("ADDING TICKON PA    " & TICKONS(I).FIX);
@@ -1689,12 +1709,13 @@ package body word_package is
                      pa(pa_last).stem := head(tickons(i).fix, max_stem_size);
                      pa(pa_last).ir := ((prefix, null_prefix_record), 0, null_ending_record, x, x);
                      pa(pa_last).d_k  := addons;
-                     pa(pa_last).mnpc := dict_io.count(tickons(i).mnpc);
+                     pa(pa_last).mnpc := dict_io.Count(tickons(i).mnpc);
                   end if;
 
                   if q_word'Length >= 3   and then   --  qui is shortest QU_PRON
                     ((q_word(q_word'First..q_word'First+1) = "qu")  or
-                       (q_word(q_word'First..q_word'First+1) = "cu"))  then
+                       (q_word(q_word'First..q_word'First+1) = "cu"))
+                  then
                      if q_word(q_word'First..q_word'First+1) = "qu"  then
                         qkey := 1;
                         process_qu_pronouns(q_word, qkey);
@@ -1702,8 +1723,7 @@ package body word_package is
                         qkey := 2;
                         process_qu_pronouns(q_word, qkey);
                      end if;
-                     if pa_last <= pa_qstart + 1  and then
-                       qkey > 0                    then    --  If did not find a PACKON
+                     if pa_last <= pa_qstart + 1 and then qkey > 0 then    --  If did not find a PACKON
                         if q_word(q_word'First..q_word'First+1) = "qu"  then
                            process_packons(q_word);
                         elsif q_word(q_word'First..q_word'First+1) = "cu"  then
@@ -1716,11 +1736,11 @@ package body word_package is
                         exit;
                      end if;
 
-                  elsif input_word'Length >= 6  then   --  aliqui as aliQU_PRON
-                     if input_word(input_word'First..input_word'First+4) = "aliqu"  then
-                        process_qu_pronouns(input_word, 1);
-                     elsif input_word(input_word'First..input_word'First+4) = "alicu"  then
-                        process_qu_pronouns(input_word, 2);
+                  elsif Input_word'Length >= 6  then   --  aliqui as aliQU_PRON
+                     if Input_word(Input_word'First..Input_word'First+4) = "aliqu"  then
+                        process_qu_pronouns(Input_word, 1);
+                     elsif Input_word(Input_word'First..Input_word'First+4) = "alicu"  then
+                        process_qu_pronouns(Input_word, 2);
                      end if;
                   end if;
 
@@ -1740,8 +1760,8 @@ package body word_package is
       end qu;
 
       --==========================================================
-      run_inflections(input_word, ss);
-      prune_stems(input_word, ss, sss);
+      run_inflections(Input_word, ss);
+      prune_stems(Input_word, ss, sss);
       if sss(1) /= null_parse_record   then
          order_stems(sss);
          array_stems(sss, pa, pa_last);
@@ -1750,24 +1770,24 @@ package body word_package is
       --==========================================================
 
       if pa_last = pa_save  then
-         try_tackons(input_word);
+         try_tackons(Input_word);
       end if;
    exception
-      when storage_error =>
-         text_io.put_line(text_io.standard_output,
+      when Storage_Error =>
+         Text_IO.Put_Line(Text_IO.Standard_Output,
                           "STORAGE_ERROR exception in WORD while processing =>"
                             & raw_word);
          pa_last := pa_save;
-         if words_mode(write_unknowns_to_file)  then
-            text_io.put(unknowns, raw_word);
-            text_io.set_col(unknowns, 21);
-            text_io.put_line(unknowns, "========   STORAGE_ERROR  ");
+         if words_mode(Write_unknowns_to_file)  then
+            Text_IO.Put(unknowns, raw_word);
+            Text_IO.Set_Col(unknowns, 21);
+            Text_IO.Put_Line(unknowns, "========   STORAGE_ERROR  ");
          end if;
       when others =>
-         if words_mode(write_unknowns_to_file)  then
-            text_io.put(unknowns, raw_word);
-            text_io.set_col(unknowns, 21);
-            text_io.put_line(unknowns, "========   ERROR  ");
+         if words_mode(Write_unknowns_to_file)  then
+            Text_IO.Put(unknowns, raw_word);
+            Text_IO.Set_Col(unknowns, 21);
+            Text_IO.Put_Line(unknowns, "========   ERROR  ");
          end if;
          pa_last := pa_save;
    end word;
@@ -1777,7 +1797,7 @@ package body word_package is
 
       establish_inflections_section;
 
-      lel_section_io.open(inflections_sections_file, lel_section_io.in_file,
+      lel_section_io.Open(inflections_sections_file, lel_section_io.In_File,
                           inflections_sections_name);
 
       try_to_load_dictionary(general);
@@ -1789,25 +1809,25 @@ package body word_package is
          --  First check if there is a LOC dictionary
          check_for_local_dictionary:
          declare
-            dummy : text_io.file_type;
+            dummy : Text_IO.File_Type;
          begin
-            text_io.open(dummy, text_io.in_file,
+            Text_IO.Open(dummy, Text_IO.In_File,
                          add_file_name_extension(dictionary_file_name,
                                                  "LOCAL"));
             --  Failure to OPEN will raise an exception, to be handled below
-            text_io.close(dummy);
+            Text_IO.Close(dummy);
          end check_for_local_dictionary;
          --  If the above does not exception out, we can load LOC
-         preface.put("LOCAL ");
+         preface.Put("LOCAL ");
          dict_loc := null_dictionary;
          load_dictionary(dict_loc,
                          add_file_name_extension(dictionary_file_name, "LOCAL"));
          --  Need to carry LOC through consistently on LOAD_D and LOAD_D_FILE
          load_stem_file(local);
-         dictionary_available(local) := true;
+         dictionary_available(local) := True;
       exception
          when others  =>
-            dictionary_available(local) := false;
+            dictionary_available(local) := False;
       end load_local;
 
       load_uniques(unq, uniques_full_name);
@@ -1820,21 +1840,21 @@ package body word_package is
                 dictionary_available(special)  or
                 dictionary_available(local))
       then
-         preface.put_line("There are no main dictionaries - program will not do much");
-         preface.put_line("Check that there are dictionary files in this subdirectory");
-         preface.put_line("Except DICT.LOC that means DICTFILE, INDXFILE, STEMFILE");
+         preface.Put_Line("There are no main dictionaries - program will not do much");
+         preface.Put_Line("Check that there are dictionary files in this subdirectory");
+         preface.Put_Line("Except DICT.LOC that means DICTFILE, INDXFILE, STEMFILE");
       end if;
 
       try_to_load_english_words:
       begin
-         english_dictionary_available(general) := false;
-         ewds_direct_io.open(ewds_file, ewds_direct_io.in_file, "EWDSFILE.GEN");
+         english_dictionary_available(general) := False;
+         ewds_direct_io.Open(ewds_file, ewds_direct_io.In_File, "EWDSFILE.GEN");
 
-         english_dictionary_available(general) := true;
+         english_dictionary_available(general) := True;
       exception
          when others  =>
-            preface.put_line("No English available");
-            english_dictionary_available(general) := false;
+            preface.Put_Line("No English available");
+            english_dictionary_available(general) := False;
       end try_to_load_english_words;
 
    end initialize_word_package;

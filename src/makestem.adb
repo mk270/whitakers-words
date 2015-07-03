@@ -14,93 +14,98 @@
 -- All parts of the WORDS system, source code and data files, are made freely
 -- available to anyone who wishes to use them, for whatever purpose.
 
-with text_io;
-with strings_package; use strings_package;
-with latin_file_names; use latin_file_names;
+with Text_IO;
+with Strings_package; use Strings_package;
+with latIn_File_names; use latIn_File_names;
 with inflections_package; use inflections_package;
 with dictionary_package; use dictionary_package;
 with word_support_package; use word_support_package;
 
 procedure makestem is
    use stem_key_type_io;
-   use count_io;
-   use text_io;
+   use Count_io;
+   use Text_IO;
    use stem_io;
    use mnpc_io;
    use part_entry_io;
 
    d_k : dictionary_kind := xxx;   --  ######################
 
-   i : stem_io.count := 0;
-   line : string(1..200) := (others => ' ');
-   blanks : constant string(1..200) := (others => ' ');
-   last, ll : integer := 0;
+   i : stem_io.Count := 0;
+   line : String(1..200) := (others => ' ');
+   blanks : constant String(1..200) := (others => ' ');
+   last, ll : Integer := 0;
    ds : dictionary_stem;
-   fc, ofc : character := ' ';
-   sc, osc : character := ' ';
+   fc, ofc : Character := ' ';
+   sc, osc : Character := ' ';
 
-   procedure put_indices(ch : string;
+   procedure Put_indices(ch : String;
                          d_k : dictionary_kind) is
-      wd : constant string(1..2) := ch(ch'First..ch'First+1);
+      wd : constant String(1..2) := ch(ch'First..ch'First+1);
    begin
       --Put_Line("Put_Indices");
       if ch = "  "  then
          if (bblf(ch(ch'First), ch(ch'First + 1), d_k) > 0)                    and then
-           (bbll(ch(ch'First), ch(ch'First + 1), d_k) >= bblf(ch(ch'First), ch(ch'First + 1), d_k))  then
-            put("CH = ("); put(ch); put(") index is of range  ");
-            put(bblf(ch(ch'First), ch(ch'First + 1), d_k)); put(".."); put(bbll(ch(ch'First), ch(ch'First + 1), d_k));
-            put("    number ");
-            put(bbll(ch(ch'First), ch(ch'First + 1), d_k) - bblf(ch(ch'First), ch(ch'First + 1), d_k) + 1);
-            new_line;
+            (bbll(ch(ch'First), ch(ch'First + 1), d_k) >= bblf(ch(ch'First), ch(ch'First + 1), d_k))
+         then
+            Put("CH = ("); Put(ch); Put(") index is of range  ");
+            Put(bblf(ch(ch'First), ch(ch'First + 1), d_k)); Put(".."); Put(bbll(ch(ch'First), ch(ch'First + 1), d_k));
+            Put("    number ");
+            Put(bbll(ch(ch'First), ch(ch'First + 1), d_k) - bblf(ch(ch'First), ch(ch'First + 1), d_k) + 1);
+            New_Line;
          end if;
       elsif ch(ch'First + 1) = ' '  then
-         if (bdlf(ch(ch'First), ch(ch'First + 1), d_k) > 0)                    and then
-           (bdll(ch(ch'First), ch(ch'First + 1), d_k) >= bdlf(ch(ch'First), ch(ch'First + 1), d_k))  then
-            put("CH = ("); put(ch); put(") index is of range  ");
-            put(bdlf(ch(ch'First), ch(ch'First + 1), d_k)); put(".."); put(bdll(ch(ch'First), ch(ch'First + 1), d_k));
-            put("    number ");
-            put(bdll(ch(ch'First), ch(ch'First + 1), d_k) - bdlf(ch(ch'First), ch(ch'First + 1), d_k) + 1);
-            new_line;
+         if (bdlf(ch(ch'First), ch(ch'First + 1), d_k) > 0) and then
+            (bdll(ch(ch'First), ch(ch'First + 1), d_k) >= bdlf(ch(ch'First), ch(ch'First + 1), d_k))
+         then
+            Put("CH = ("); Put(ch); Put(") index is of range  ");
+            Put(bdlf(ch(ch'First), ch(ch'First + 1), d_k)); Put(".."); Put(bdll(ch(ch'First), ch(ch'First + 1), d_k));
+            Put("    number ");
+            Put(bdll(ch(ch'First), ch(ch'First + 1), d_k) - bdlf(ch(ch'First), ch(ch'First + 1), d_k) + 1);
+            New_Line;
          end if;
       else
-         if (first_index(wd, d_k) > 0)                and then
-           (last_index(wd, d_k) >= first_index(wd, d_k))  then
-            put("CH = ("); put(wd); put(") index is of range  ");
-            put(first_index(wd, d_k)); put(".."); put(last_index(wd, d_k));
-            put("    number ");
-            put(last_index(wd, d_k) - first_index(wd, d_k) + 1);
-            new_line;
+         if (first_index(wd, d_k) > 0) and then
+            (last_index(wd, d_k) >= first_index(wd, d_k))
+         then
+            Put("CH = ("); Put(wd); Put(") index is of range  ");
+            Put(first_index(wd, d_k)); Put(".."); Put(last_index(wd, d_k));
+            Put("    number ");
+            Put(last_index(wd, d_k) - first_index(wd, d_k) + 1);
+            New_Line;
          end if;
       end if;
-   end put_indices;
+   end Put_indices;
 
 begin
-   put_line("Creates STEMFILE.D_K and INDXFILE.D_K from STEMLIST.D_K");
+   Put_Line("Creates STEMFILE.D_K and INDXFILE.D_K from STEMLIST.D_K");
 
-   put("What dictionary to load, GENERAL or SPECIAL  =>");
-   get_line(line, last);
+   Put("What dictionary to load, GENERAL or SPECIAL  =>");
+   Get_Line(line, last);
    if last > 0  then
       if trim(line(1..last))(1) = 'G'  or else
-        trim(line(1..last))(1) = 'g'     then
+         trim(line(1..last))(1) = 'g'
+      then
          d_k := general;
       elsif trim(line(1..last))(1) = 'S'  or else
-        trim(line(1..last))(1) = 's'     then
+         trim(line(1..last))(1) = 's'
+      then
          d_k := special;
       else
-         put_line("No such dictionary");
-         raise text_io.data_error;
+         Put_Line("No such dictionary");
+         raise Text_IO.Data_Error;
       end if;
    end if;
 
-   open(   stem_list(d_k), in_file,
+   Open(   stem_list(d_k), In_File,
            add_file_name_extension(stem_list_name,
                                    dictionary_kind'Image(d_k)));
 
-   create(stem_file(d_k), inout_file,
+   Create(stem_file(d_k), Inout_File,
           add_file_name_extension(stem_file_name,
                                   dictionary_kind'Image(d_k)));
 
-   create(indx_file(d_k), out_file,
+   Create(indx_file(d_k), Out_File,
           add_file_name_extension(indx_file_name,
                                   dictionary_kind'Image(d_k)));
 
@@ -112,33 +117,33 @@ begin
       bblf(' ', ' ', general) := i;
       bbll(' ', ' ', general) := 0;
       line := blanks;
-      get_line(stem_list(d_k), line, last);
-      put_line(line(1..last));
+      Get_Line(stem_list(d_k), line, last);
+      Put_Line(line(1..last));
 
       fc := line(1);
       sc := line(2);
       ds.stem := line(1..max_stem_size);
       --PUT_LINE("#" & LINE(MAX_STEM_SIZE+1..LAST));
-      get(line(max_stem_size+1..last), ds.part, ll);
+      Get(line(max_stem_size+1..last), ds.part, ll);
       --PUT(DS.PART); NEW_LINE;
       --PUT_LINE("#" & LINE(LL+1..LAST));
-      get(line(ll+1..last), ds.key , ll);
+      Get(line(ll+1..last), ds.key , ll);
       --PUT(DS.KEY ); NEW_LINE;
       --PUT_LINE("#" & LINE(LL+1..LAST));
-      get(line(ll+1..last), ds.mnpc , ll);
+      Get(line(ll+1..last), ds.mnpc , ll);
       --PUT(DS.AAMNPC); NEW_LINE;
-      write(stem_file(d_k), ds);
+      Write(stem_file(d_k), ds);
       bbll(fc, sc, general) := i;          --  1
 
-      put(indx_file(d_k), "  ");
-      put(indx_file(d_k), ' ');
-      put(indx_file(d_k), bblf(' ', ' ', general));
-      put(indx_file(d_k), ' ');
-      put(indx_file(d_k), bbll(' ', ' ', general));
-      put(indx_file(d_k), ' ');
-      new_line(indx_file(d_k));
+      Put(indx_file(d_k), "  ");
+      Put(indx_file(d_k), ' ');
+      Put(indx_file(d_k), bblf(' ', ' ', general));
+      Put(indx_file(d_k), ' ');
+      Put(indx_file(d_k), bbll(' ', ' ', general));
+      Put(indx_file(d_k), ' ');
+      New_Line(indx_file(d_k));
 
-      put_indices("  ", general);
+      Put_indices("  ", general);
 
    end if;
    ------------------------------------------------------------------
@@ -152,31 +157,39 @@ begin
    --DEBUG.PUT(' '); DEBUG.PUT(")  "); DEBUG.PUT(BDLF(OFC, ' ', D_K));
    --DEBUG.NEW_LINE;
 
-   first_character_loop:
-   while not end_of_file(stem_list(d_k))  loop
+   first_Character_loop:
+   while not End_Of_File(stem_list(d_k))  loop
       --OSC := ' ';
       osc := sc;
 
-      second_character_loop:
-      while not end_of_file(stem_list(d_k))  loop
+      second_Character_loop:
+      while not End_Of_File(stem_list(d_k))  loop
 
          inner_loop:
-         while not end_of_file(stem_list(d_k))  loop
+         while not End_Of_File(stem_list(d_k))  loop
             line := blanks;
-            get_line(stem_list(d_k), line, last);
+            Get_Line(stem_list(d_k), line, last);
             --Put_Line("* " & Line(1..Last));
 
             if trim(line(1..last)) = "" then
-               put_line("Trim(Line(1..Last)) BLANK");
+               Put_Line("Trim(Line(1..Last)) BLANK");
             end if;
-            exit first_character_loop when trim(line(1..last)) = "";
+            exit first_Character_loop when trim(line(1..last)) = "";
             fc := lower_case(line(1));
             sc := lower_case(line(2));
             --------------------------------------------------------------------
-            if fc = 'v'  then fc := 'u'; end if;
-            if sc = 'v'  then sc := 'u'; end if;
-            if fc = 'j'  then fc := 'i'; end if;
-            if sc = 'j'  then sc := 'i'; end if;
+            if fc = 'v' then
+               fc := 'u';
+            end if;
+            if sc = 'v' then
+               sc := 'u';
+            end if;
+            if fc = 'j' then
+               fc := 'i';
+            end if;
+            if sc = 'j' then
+               sc := 'i';
+            end if;
             --------------------------------------------------------------------
             i := i + 1;
 
@@ -193,10 +206,10 @@ begin
             end if;
 
             ds.stem := line(1..max_stem_size);
-            get(line(max_stem_size+1..last), ds.part, ll);
-            get(line(ll+1..last), ds.key , ll);
-            get(line(ll+1..last), ds.mnpc , ll);
-            write(stem_file(d_k), ds);
+            Get(line(max_stem_size+1..last), ds.part, ll);
+            Get(line(ll+1..last), ds.key , ll);
+            Get(line(ll+1..last), ds.mnpc , ll);
+            Write(stem_file(d_k), ds);
             --Put_Line("Wrote STEMfile");
 
             if fc /= ofc   then  --  Jumped FC, effectively must have jumped a SC
@@ -215,12 +228,12 @@ begin
                end if;
                --Put_Line("if Sc done");
                --Put("Ofc = '"); Put(Ofc); Put("'   Osc = '"); Put(Osc); Put_Line("'");
-               put_indices(ofc & osc, d_k);
+               Put_indices(ofc & osc, d_k);
                ofc := fc;
                osc := sc;
                --Put_Line("exit Second_Character_Loop");
 
-               exit second_character_loop;
+               exit second_Character_loop;
             else
                if sc /= osc  then          --  Jumped a SC, but not a FC
                   if osc = ' '  then        --  Jumped a SC from ' ' to something
@@ -230,7 +243,7 @@ begin
                      ddlf(fc, sc, d_k) := i;
                      --DEBUG.PUT(" df1 DDLF("); DEBUG.PUT( FC); DEBUG.PUT( SC); DEBUG.PUT(")  ");
                      --DEBUG.PUT(DDLF( FC,  SC, D_K)); DEBUG.NEW_LINE;
-                     put_indices(fc & osc, d_k);
+                     Put_indices(fc & osc, d_k);
                      osc := sc;
 
                      exit inner_loop;
@@ -241,7 +254,7 @@ begin
                      ddlf(fc, sc, d_k) := i;
                      --DEBUG.PUT(" df2 DDLF("); DEBUG.PUT( FC); DEBUG.PUT( SC); DEBUG.PUT(")  ");
                      --DEBUG.PUT(DDLF( FC,  SC, D_K)); DEBUG.NEW_LINE;
-                     put_indices(fc & osc, d_k);
+                     Put_indices(fc & osc, d_k);
                      osc := sc;
 
                      exit inner_loop;
@@ -252,40 +265,40 @@ begin
          end loop inner_loop;
          --Put_Line("Exitted Inner_Loop");
 
-      end loop second_character_loop;
+      end loop second_Character_loop;
       --Put_Line("Exitted Second_Character_Loop");
 
-   end loop first_character_loop;
+   end loop first_Character_loop;
    --Put_Line("Exitted First_Character_Loop");
    ddll(ofc, osc, d_k) := i;
 
    --  To reprint correctly the last letter information
    --Put_Line("--  To reprint correctly the last letter information");
-   put_indices(ofc & osc, d_k);
-   close(stem_file(d_k));
+   Put_indices(ofc & osc, d_k);
+   Close(stem_file(d_k));
 
-   for i in character'('a')..character'('z')  loop
-      for j in character'(' ')..character'(' ')  loop
-         text_io.put(indx_file(d_k), (i, j));
-         put(indx_file(d_k), ' ');
-         put(indx_file(d_k), bdlf(i, j, d_k));
-         put(indx_file(d_k), ' ');
-         put(indx_file(d_k), bdll(i, j, d_k));
-         put(indx_file(d_k), ' ');
-         new_line(indx_file(d_k));
+   for i in Character'('a')..Character'('z')  loop
+      for j in Character'(' ')..Character'(' ')  loop
+         Text_IO.Put(indx_file(d_k), (i, j));
+         Put(indx_file(d_k), ' ');
+         Put(indx_file(d_k), bdlf(i, j, d_k));
+         Put(indx_file(d_k), ' ');
+         Put(indx_file(d_k), bdll(i, j, d_k));
+         Put(indx_file(d_k), ' ');
+         New_Line(indx_file(d_k));
       end loop;
    end loop;
 
-   for i in character'('a')..character'('z')  loop
-      for j in character'('a')..character'('z')  loop
-         text_io.put(indx_file(d_k), (i, j));
-         put(indx_file(d_k), ' ');
-         put(indx_file(d_k), ddlf(i, j, d_k));
-         put(indx_file(d_k), ' ');
-         put(indx_file(d_k), ddll(i, j, d_k));
-         put(indx_file(d_k), ' ');
-         new_line(indx_file(d_k));
+   for i in Character'('a')..Character'('z')  loop
+      for j in Character'('a')..Character'('z')  loop
+         Text_IO.Put(indx_file(d_k), (i, j));
+         Put(indx_file(d_k), ' ');
+         Put(indx_file(d_k), ddlf(i, j, d_k));
+         Put(indx_file(d_k), ' ');
+         Put(indx_file(d_k), ddll(i, j, d_k));
+         Put(indx_file(d_k), ' ');
+         New_Line(indx_file(d_k));
       end loop;
    end loop;
-   close(indx_file(d_k));
+   Close(indx_file(d_k));
 end makestem;
