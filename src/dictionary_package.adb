@@ -15,10 +15,10 @@
 -- available to anyone who wishes to use them, for whatever purpose.
 
 with Strings_Package; use Strings_Package;
-package body dictionary_package is
+package body Dictionary_Package is
    use stem_key_type_io;
 
-   mnpc_io_Default_Width : constant Natural := 6;
+   MNPC_IO_Default_Width : constant Natural := 6;
    numeral_value_type_io_Default_Width : constant Natural := 5;
    --PART_WIDTH : NATURAL;
 
@@ -41,90 +41,7 @@ package body dictionary_package is
       end case;
    end number_of_stems;
 
-   package body parse_record_io is
-      use inflection_record_io;
-      use dictionary_kind_io;
-      use mnpc_io;
-      spacer : Character := ' ';
-
-      procedure Get(f : in Text_IO.File_Type; pr: out parse_record) is
-      begin
-         Get(f, pr.stem);
-         Get(f, spacer);
-         Get(f, pr.ir);
-         Get(f, spacer);
-         Get(f, pr.d_k);
-         Get(f, spacer);
-         Get(f, pr.mnpc);
-      end Get;
-
-      procedure Get(pr : out parse_record) is
-      begin
-         Get(pr.stem);
-         Get(spacer);
-         Get(pr.ir);
-         Get(spacer);
-         Get(pr.d_k);
-         Get(spacer);
-         Get(pr.mnpc);
-      end Get;
-
-      procedure Put(f : in Text_IO.File_Type; pr : in parse_record) is
-      begin
-         Put(f, pr.stem);
-         Put(f, ' ');
-         Put(f, pr.ir);
-         Put(f, ' ');
-         Put(f, pr.d_k);
-         Put(f, ' ');
-         Put(f, pr.mnpc);
-      end Put;
-
-      procedure Put(pr : in parse_record) is
-      begin
-         Text_IO.Put(pr.stem);
-         Text_IO.Put(' ');
-         inflection_record_io.Put(pr.ir);
-         Text_IO.Put(' ');
-         dictionary_kind_io.Put(pr.d_k);
-         Text_IO.Put(' ');
-         mnpc_io.Put(pr.mnpc);
-      end Put;
-
-      procedure Get(s : in String; pr : out parse_record; last : out Integer) is
-         l : Integer := s'First - 1;
-      begin
-         stem_type_io.Get(s, pr.stem, l);
-         l := l + 1;
-         Get(s(l+1..s'Last), pr.ir, l);
-         l := l + 1;
-         Get(s(l+1..s'Last), pr.d_k, l);
-         l := l + 1;
-         Get(s(l+1..s'Last), pr.mnpc, last);
-      end Get;
-
-      procedure Put(s : out String; pr : in parse_record) is
-         l : Integer := 0;
-         m : Integer := 0;
-      begin
-         m := l + max_stem_size;
-         s(s'First + l .. s'First - 1 + m) := pr.stem;
-         l := m + 1;
-         s(s'First - 1 + l) :=  ' ';
-         m := l + inflection_record_io.Default_Width;
-         Put(s(s'First + l .. s'First - 1 + m), pr.ir);
-         l := m + 1;
-         s(s'First - 1 + l) :=  ' ';
-         m := l + dictionary_kind_io.Default_Width;
-         Put(s(s'First + l .. s'First - 1 + m), pr.d_k);
-         l := m + 1;
-         s(s'First - 1 + l) :=  ' ';
-         m := l + mnpc_io_Default_Width;
-         Put(s(s'First + l .. s'First - 1 + m), pr.mnpc);
-         s(m+1..s'Last) := (others => ' ');
-      end Put;
-
-   end parse_record_io;
+   package body Parse_Record_IO is separate;
 
    package body noun_entry_io is
       use decn_record_io;
@@ -1503,7 +1420,7 @@ package body dictionary_package is
          i : Integer := 0;
       begin
          for i in stem_key_type range 1..4  loop
-            stem_type_io.Get(s(l+1..s'Last), d.stems(i), l);
+            Stem_Type_IO.Get(s(l+1..s'Last), d.stems(i), l);
          end loop;
          Get(s(l+1..s'Last), d.part, l);
          --    L := L + 1;
@@ -1511,7 +1428,7 @@ package body dictionary_package is
          l := l + 1;
          Get(s(l+1..s'Last), d.tran, l);
          l := l + 1;
-         d.mean := Head(s(l+1..s'Last), max_meaning_size);
+         d.mean := Head(s(l+1..s'Last), Max_Meaning_Size);
          i := l+1;
          while s(i) = ' ' loop
             i := i + 1;
@@ -1529,7 +1446,7 @@ package body dictionary_package is
          m : Integer := 0;
       begin
          for i in stem_key_type range 1..4  loop
-            m := l + max_stem_size;
+            m := l + Max_Stem_Size;
             s(l+1..m) := d.stems(i);
             l := m + 1;
             s(l) :=  ' ';
@@ -1546,7 +1463,7 @@ package body dictionary_package is
          Put(s(l+1..m), d.tran);
          l := m + 1;
          s(l) :=  ' ';
-         m := m + max_meaning_size;
+         m := m + Max_Meaning_Size;
          s(l+1..m) := d.mean;
          s(m+1..s'Last) := (others => ' ');
       end Put;
@@ -1565,7 +1482,7 @@ package body dictionary_package is
 begin     --  initialization of body of DICTIONARY_PACKAGE
    --TEXT_IO.PUT_LINE("Initializing DICTIONARY_PACKAGE");
 
-   dictionary_kind_io.Default_Width := dictionary_kind'Width;
+   Dictionary_Kind_IO.Default_Width := Dictionary_Kind'Width;
 
    --NUMERAL_VALUE_TYPE_IO.DEFAULT_WIDTH := 5;
 
@@ -1577,11 +1494,11 @@ begin     --  initialization of body of DICTIONARY_PACKAGE
 
    source_type_io.Default_Width := source_type'Width;
 
-   parse_record_io.Default_Width :=
-     stem_type_io.Default_Width + 1 +
-     inflection_record_io.Default_Width + 1 +
-     dictionary_kind_io.Default_Width + 1 +
-     mnpc_io_Default_Width;
+   Parse_Record_IO.Default_Width :=
+     Stem_Type_IO.Default_Width + 1 +
+     Inflection_Record_IO.Default_Width + 1 +
+     Dictionary_Kind_IO.Default_Width + 1 +
+     MNPC_IO_Default_Width;
    noun_entry_io.Default_Width :=
      decn_record_io.Default_Width + 1 +
      gender_type_io.Default_Width + 1 +
@@ -1621,10 +1538,10 @@ begin     --  initialization of body of DICTIONARY_PACKAGE
      frequency_type_io.Default_Width + 1 +
      source_type_io.Default_Width;
 
-   dictionary_entry_io.Default_Width := 4 * (max_stem_size + 1) +
+   dictionary_entry_io.Default_Width := 4 * (Max_Stem_Size + 1) +
      part_entry_io.Default_Width + 1 +
      translation_record_io.Default_Width + 1 +
-     max_meaning_size;
+     Max_Meaning_Size;
 
    --TEXT_IO.PUT_LINE("Initialized  DICTIONARY_PACKAGE");
-end dictionary_package;
+end Dictionary_Package;

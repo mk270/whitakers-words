@@ -19,14 +19,14 @@
 with Text_IO; use Text_IO;
 with Direct_IO;
 with inflections_package; use inflections_package;
-package dictionary_package is
+package Dictionary_Package is
    pragma Elaborate_Body;
 
-   zzz_stem  : constant stem_type := "zzz" & (4..max_stem_size => ' ');
-   type stems_type is array (stem_key_type range 1..4) of stem_type;
-   null_stems_type : constant stems_type := (others => null_stem_type);
+   zzz_stem  : constant Stem_Type := "zzz" & (4..Max_Stem_Size => ' ');
+   type stems_type is array (stem_key_type range 1..4) of Stem_Type;
+   null_stems_type : constant stems_type := (others => Null_Stem_Type);
 
-   type dictionary_kind is (x,            --  null
+   type Dictionary_Kind is (x,            --  null
      addons,       --  For FIXES
      xxx,          --  TRICKS
      yyy,          --  Syncope
@@ -35,16 +35,16 @@ package dictionary_package is
      ppp,          --  Compounds
      general, special, local, unique);
 
-   package dictionary_kind_io is new Text_IO.enumeration_io(dictionary_kind);
+   package Dictionary_Kind_IO is new Text_IO.Enumeration_IO (Dictionary_Kind);
 
-   ext : array (dictionary_kind) of String(1..3) := ("X  ", "ADD", "XXX", "YYY",
+   ext : array (Dictionary_Kind) of String(1..3) := ("X  ", "ADD", "XXX", "YYY",
      "NNN", "RRR", "PPP",
      "GEN", "SPE", "LOC",
      "UNI");
 
-   default_dictionary_kind : dictionary_kind := x;
+   Default_Dictionary_Kind : Dictionary_Kind := x;
 
-   dictionary_available : array (dictionary_kind) of Boolean := (False,
+   dictionary_available : array (Dictionary_Kind) of Boolean := (False,
      False, False, False, False, False, False,  --  don't SEARCH
      False, False, False, False);
    --  Start out as FALSE and set to TRUE when the DICT is loaded
@@ -374,9 +374,9 @@ package dictionary_package is
             when v =>
                v : verb_entry;
             when vpar =>
-               null;                 --  There will be no VPAR dictionary entries
+               null;        --  There will be no VPAR dictionary entries
             when supine =>
-               null;                 --  There will be no SUPINE dictionary entries
+               null;        --  There will be no SUPINE dictionary entries
             when prep =>
                prep : preposition_entry;
             when conj =>
@@ -408,7 +408,7 @@ package dictionary_package is
          part  : part_entry         := null_part_entry;
          --            KIND  : KIND_ENTRY         := NULL_KIND_ENTRY;
          tran  : translation_record := null_translation_record;
-         mean  : meaning_type       := null_meaning_type;
+         mean  : Meaning_Type       := Null_Meaning_Type;
       end record;
 
    package dictionary_entry_io is
@@ -423,37 +423,42 @@ package dictionary_package is
 
    null_dictionary_entry : dictionary_entry;
 
-   package dict_io is new direct_io(dictionary_entry);
-   dict_file : array (dictionary_kind) of dict_io.File_Type;
+   package Dict_IO is new direct_io(dictionary_entry);
+   dict_file : array (Dictionary_Kind) of Dict_IO.File_Type;
 
-   package mnpc_io is new Text_IO.Integer_IO(dict_io.Count);
-   subtype mnpc_type is dict_io.Count;
-   null_mnpc : dict_io.Count := dict_io.Count'First;
+   package MNPC_IO is new Text_IO.Integer_IO (Dict_IO.Count);
+   subtype MNPC_type is Dict_IO.Count;
+   Null_MNPC : Dict_IO.Count := Dict_IO.Count'First;
 
-   type parse_record is
+   type Parse_Record is
       record
-         stem  : stem_type := null_stem_type;
-         ir    : inflection_record := null_inflection_record;
-         d_k   : dictionary_kind := default_dictionary_kind;
-         mnpc  : dict_io.Count := null_mnpc;
+         Stem  : Stem_Type := Null_Stem_Type;
+         IR    : Inflection_Record := Null_Inflection_Record;
+         D_K   : Dictionary_Kind := Default_Dictionary_Kind;
+         MNPC  : Dict_IO.Count := Null_MNPC;
       end record;
 
-   null_parse_record : parse_record;
+   -- NOTE: Why this one is not constant?
+   Null_Parse_Record : Parse_Record;
 
-   package parse_record_io is
+   package Parse_Record_IO is
       Default_Width : Text_IO.Field;
-      procedure Get(f : in Text_IO.File_Type; pr : out parse_record);
-      procedure Get(pr : out parse_record);
-      procedure Put(f : in Text_IO.File_Type; pr : in parse_record);
-      procedure Put(pr : in parse_record);
-      procedure Get(s : in String; pr : out parse_record; last : out Integer);
-      procedure Put(s : out String; pr : in parse_record);
-   end parse_record_io;
+      procedure Get (File : in Text_IO.File_Type; Item : out Parse_Record);
+      procedure Get (Item : out Parse_Record);
+      procedure Put (File : in Text_IO.File_Type; Item : in Parse_Record);
+      procedure Put (Item : in Parse_Record);
+      procedure Get
+         ( Source : in String;
+           Target : out Parse_Record;
+           Last   : out Integer
+         );
+      procedure Put (Target : out String; Item : in Parse_Record);
+   end Parse_Record_IO;
 
-   type parse_array is array (Integer range <>) of parse_record;
+   type Parse_Array is array (Integer range <>) of Parse_Record;
 
    function number_of_stems(p : part_of_speech_type) return stem_key_type;
 
    overriding function "<=" (left, right : area_type) return Boolean;
 
-end dictionary_package;
+end Dictionary_Package;
