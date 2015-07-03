@@ -296,11 +296,7 @@ is
         compound_tvm => default_compound_tvm
       );
 
-<<<<<<< HEAD
-   end get_pas_participle;
-=======
    end Get_pas_participle;
->>>>>>> dev
 
    function is_sum(t : String) return verb_to_be is
       sa : constant array (mood_type range ind..sub,
@@ -405,12 +401,8 @@ is
       end loop;
    end do_clear_pas_nom_ppl;
 
-<<<<<<< HEAD
    -- parts of these three do_clear_* functions should be factored together
-   procedure do_clear_pas_ppl(next_word : in string;
-=======
    procedure do_clear_pas_ppl(next_word : in String;
->>>>>>> dev
                               sum_info : in verb_record;
                               compound_tvm : out tense_voice_mood_record;
                               ppl_on : in out Boolean;
