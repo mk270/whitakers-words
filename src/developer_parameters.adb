@@ -7,10 +7,10 @@
 -- there is no charge. However, just for form, it is Copyrighted
 -- (c). Permission is hereby freely given for any and all use of program
 -- and data. You can sell it as your own, but at least tell me.
--- 
+--
 -- This version is distributed without obligation, but the developer
 -- would appreciate comments and suggestions.
--- 
+--
 -- All parts of the WORDS system, source code and data files, are made freely
 -- available to anyone who wishes to use them, for whatever purpose.
 
@@ -482,11 +482,11 @@ package body developer_parameters is
       end loop;
       put(mdev_file, "START_FILE_CHARACTER             '" &
         start_file_character &"'"); new_line(mdev_file);
-        put(mdev_file, "CHANGE_PARAMETERS_CHARACTER      '" &
-          change_parameters_character &"'"); new_line(mdev_file);
-          put(mdev_file, "CHANGE_DEVELOPER_MODES_CHARACTER '" &
-            change_developer_modes_character &"'"); new_line(mdev_file);
-            close(mdev_file);
+      put(mdev_file, "CHANGE_PARAMETERS_CHARACTER      '" &
+        change_parameters_character &"'"); new_line(mdev_file);
+      put(mdev_file, "CHANGE_DEVELOPER_MODES_CHARACTER '" &
+         change_developer_modes_character &"'"); new_line(mdev_file);
+         close(mdev_file);
    end put_mdevs;
 
    procedure get_mdevs is
@@ -812,7 +812,7 @@ package body developer_parameters is
    procedure initialize_developer_parameters is
    begin
 
-  do_mdev_file:
+      do_mdev_file:
       begin
          --  Read the MDEV file
          get_mdevs;

@@ -62,7 +62,7 @@ is
       l : integer := 0;
    begin
       --  Block to manipulate file of lines
-      if (name(current_input) = name(standard_input))  then
+      if name(current_input) = name(standard_input) then
          scroll_line_number := integer(text_io.line(text_io.standard_output));
          preface.new_line;
          preface.put("=>");
@@ -73,7 +73,7 @@ is
       if (l = 0) or else (trim(line(1..l)) = "")  then
          --  Count blank lines
          --LINE_NUMBER := LINE_NUMBER + 1;
-         if (name(current_input) = name(standard_input))  then
+         if name(current_input) = name(standard_input) then
             --  INPUT is keyboard
             preface.put("Blank exits =>");
             get_line(line, l);
@@ -94,10 +94,10 @@ is
          end if;
       end if;
 
-      if (trim(line(1..l)) /= "")  then
+      if trim(line(1..l)) /= "" then
          -- Not a blank line so L(1) (in file input)
          if line(1) = start_file_character  then
-            if (name(current_input) /= name(standard_input)) then
+            if name(current_input) /= name(standard_input) then
                text_io.put_line("Cannot have file of words (@FILE) " &
                  "in an @FILE");
             else
@@ -116,7 +116,7 @@ is
            not config.suppress_preface  then
             change_developer_modes;
          else
-            if (name(current_input) /= name(standard_input))  then
+            if name(current_input) /= name(standard_input) then
                preface.new_line;
                preface.put_line(line(1..l));
             end if;
@@ -137,7 +137,7 @@ is
 
    exception
       when name_error | use_error =>
-         if (name(current_input) /= name(standard_input))  then
+         if name(current_input) /= name(standard_input) then
             set_input(standard_input);
             close(input);
          end if;
@@ -145,7 +145,7 @@ is
          return true;
       when end_error =>
          --  The end of the input file resets to CON:
-         if (name(current_input) /= name(standard_input))  then
+         if name(current_input) /= name(standard_input) then
             set_input(standard_input);
             close(input);
             if method = command_line_files  then raise give_up; end if;

@@ -155,8 +155,6 @@ is
        gloss => "FUT PASSIVE PPL + fuisse => PERF PASSIVE INF Periphrastic - about to, going to")
      );
 
-
-
    -- we pass in the "default" values of a bunch of variables
 
    -- this function is called in a loop, which used to overwrite
@@ -525,11 +523,10 @@ is
             save_pa_last  : integer := 0;
          begin
             if less  /= try  then       --  LESS is less
-                                        --WORDS_MODE(DO_FIXES) := FALSE;
+               --WORDS_MODE(DO_FIXES) := FALSE;
                word_package.word(less, pa, pa_last);
 
                if pa_last = 0  then
-
                   save_pa_last := pa_last;
                   try_slury(less, pa, pa_last, line_number, word_number);
                   if save_pa_last /= 0   then
@@ -537,7 +534,6 @@ is
                         pa_last := save_pa_last;
                      end if;
                   end if;
-
                end if;
 
                --  Do not SYNCOPE if there is a verb TO_BE or compound already there
@@ -574,7 +570,6 @@ is
          end;
       end loop;
    end enclitic;
-
 
    procedure tricks_enclitic(input_word : string;
                              entering_trpa_last : in out integer;
@@ -722,8 +717,10 @@ is
       if pa_last > 0   then
          --  But PA may be killed by ALLOW in LIST_STEMS
          if words_mode(do_compounds)  and
-           not (configuration = only_meanings)  then
-        compounds_with_sum:
+           not (configuration = only_meanings)
+         then
+
+            compounds_with_sum:
             declare
                nw : string(1..2500) := (others => ' ');
                nk : integer := 0;
@@ -937,7 +934,7 @@ is
                followed_by_period := true;
                exit;
             end if;
-            exit when ((line(i) not in 'A'..'Z') and (line(i) not in 'a'..'z'));
+            exit when line(i) not in 'A'..'Z' and line(i) not in 'a'..'z';
             w(i) := line(i);
             k := i;
 

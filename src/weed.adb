@@ -7,10 +7,10 @@
 -- there is no charge. However, just for form, it is Copyrighted
 -- (c). Permission is hereby freely given for any and all use of program
 -- and data. You can sell it as your own, but at least tell me.
--- 
+--
 -- This version is distributed without obligation, but the developer
 -- would appreciate comments and suggestions.
--- 
+--
 -- All parts of the WORDS system, source code and data files, are made freely
 -- available to anyone who wishes to use them, for whatever purpose.
 
@@ -305,73 +305,68 @@ begin
 
    end if;
 
-   if (
-             w = "kind"   or
-               w = "manner"   or
-               w = "variety"   or
+   if w = "kind"   or
+      w = "manner"   or
+      w = "variety"   or
 
-               --  Posessives
-               w = "its"   or
-               w = "own"   or
-               w = "his"   or
-               w = "ones"  or
-               w = "one's" or
+      --  Posessives
+      w = "its"   or
+      w = "own"   or
+      w = "his"   or
+      w = "ones"  or
+      w = "one's" or
 
-               w = "pertaining"   or
-               w = "belonging"   or
-               w = "containing"   or
-               w = "consisting"   or
-               w = "relating"   or
-               w = "resembling"   or
-               w = "abounding"   or
-               w = "concerned"   or
-               w = "producing"   or
-               w = "connected"   or
-               w = "made"   or
-               w = "used"   or
-               w = "having"
-      ) then
+      w = "pertaining"   or
+      w = "belonging"   or
+      w = "containing"   or
+      w = "consisting"   or
+      w = "relating"   or
+      w = "resembling"   or
+      w = "abounding"   or
+      w = "concerned"   or
+      w = "producing"   or
+      w = "connected"   or
+      w = "made"   or
+      w = "used"   or
+      w = "having"
+   then
       kill := true;
-
    end if;
 
    if
      (pofs /= v) and then
      (--  Verbs
       w = "take"   or
-        w = "make"  or
-        w = "go"   or --      !!
-        w = "bring"   or
-        w = "cut"   or
-        w = "put"   or
-        w = "set"   or
-        w = "grow"   or
-        w = "give"   or
-        w = "cause"   or
-        w = "turn"   or
-        w = "fall"   or
-        w = "hold"   or
-        w = "keep"   or
-        w = "construct"   or
-        w = "throw"   or
-        w = "lay"   or
-        w = "remove"   or
-        w = "produce"   or
-        w = "use"   or
-        w = "order"   or
-        w = "provide"   or
+      w = "make"  or
+      w = "go"   or --      !!
+      w = "bring"   or
+      w = "cut"   or
+      w = "put"   or
+      w = "set"   or
+      w = "grow"   or
+      w = "give"   or
+      w = "cause"   or
+      w = "turn"   or
+      w = "fall"   or
+      w = "hold"   or
+      w = "keep"   or
+      w = "construct"   or
+      w = "throw"   or
+      w = "lay"   or
+      w = "remove"   or
+      w = "produce"   or
+      w = "use"   or
+      w = "order"   or
+      w = "provide"   or
 
-        w = "being"   or
-        w = "making"   or
-        w = "lacking"     )
-
+      w = "being"   or
+      w = "making"   or
+      w = "lacking"     )
    then
       kill := true;
-
    end if;
 
    if
-
      --  Compounding verbs
      w = "have"  or
      w = "has"   or
@@ -390,10 +385,8 @@ begin
      w = "been"   or
      --W = "attempt"   or
      w = "begin"                    --or
-
    then
       kill := true;
-
    end if;
 
    if kill then
@@ -401,5 +394,4 @@ begin
          w(i) := '\';
       end loop;
    end if;
-
 end weed;

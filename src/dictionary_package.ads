@@ -7,10 +7,10 @@
 -- there is no charge. However, just for form, it is Copyrighted
 -- (c). Permission is hereby freely given for any and all use of program
 -- and data. You can sell it as your own, but at least tell me.
--- 
+--
 -- This version is distributed without obligation, but the developer
 -- would appreciate comments and suggestions.
--- 
+--
 -- All parts of the WORDS system, source code and data files, are made freely
 -- available to anyone who wishes to use them, for whatever purpose.
 
@@ -115,8 +115,7 @@ package dictionary_package is
      v,      --  Vademecum in opus Saxonis - Franz Blatt (Saxo)
      w,      --  My personal guess, mostly obvious extrapolation (Whitaker or W)
      y,      --  Temp special code
-     z       --  Sent by user --  no dictionary reference
-             --  Mostly John White of Blitz Latin
+     z       --  Sent by user --  no dictionary reference, Mostly John White of Blitz Latin
 
      --  Consulted but used only indirectly
      --  Liddell + Scott Greek-English Lexicon (Lid)

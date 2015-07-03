@@ -7,10 +7,10 @@
 -- there is no charge. However, just for form, it is Copyrighted
 -- (c). Permission is hereby freely given for any and all use of program
 -- and data. You can sell it as your own, but at least tell me.
--- 
+--
 -- This version is distributed without obligation, but the developer
 -- would appreciate comments and suggestions.
--- 
+--
 -- All parts of the WORDS system, source code and data files, are made freely
 -- available to anyone who wishes to use them, for whatever purpose.
 
@@ -583,7 +583,7 @@ package body dictionary_package is
 
    package body conjunction_entry_io is
       null_conjunction_entry : conjunction_entry;
-      
+
       pragma Warnings (Off, "formal parameter ""f"" is not referenced");
       procedure get(f : in file_type; c : out conjunction_entry) is
          pragma Warnings (On, "formal parameter ""f"" is not referenced");
@@ -615,7 +615,7 @@ package body dictionary_package is
 
       pragma Warnings (Off, "formal parameter ""c"" is not referenced");
       procedure put(s : out string; c : in conjunction_entry) is
-         pragma Warnings (On, "formal parameter ""c"" is not referenced");    
+         pragma Warnings (On, "formal parameter ""c"" is not referenced");
       begin
          s(s'first..s'last) := (others => ' ');
       end put;
@@ -627,7 +627,7 @@ package body dictionary_package is
 
       pragma Warnings (Off, "formal parameter ""f"" is not referenced");
       procedure get(f : in file_type; i : out interjection_entry) is
-         pragma Warnings (On, "formal parameter ""f"" is not referenced");    
+         pragma Warnings (On, "formal parameter ""f"" is not referenced");
       begin
          i := null_interjection_entry;
       end get;
@@ -656,7 +656,7 @@ package body dictionary_package is
 
       pragma Warnings (Off, "formal parameter ""i"" is not referenced");
       procedure put(s : out string; i : in interjection_entry) is
-         pragma Warnings (On, "formal parameter ""i"" is not referenced");    
+         pragma Warnings (On, "formal parameter ""i"" is not referenced");
       begin
          s(s'first..s'last) := (others => ' ');
       end put;
@@ -1159,7 +1159,7 @@ package body dictionary_package is
       pragma Warnings (Off, "formal parameter ""ps"" is not referenced");
       procedure put(f : in file_type;
                     ps : in part_of_speech_type; p : in kind_entry) is
-         pragma Warnings (On, "formal parameter ""ps"" is not referenced");   
+         pragma Warnings (On, "formal parameter ""ps"" is not referenced");
          c : constant positive := positive(col(f));
       begin
          case p.pofs is
@@ -1186,7 +1186,7 @@ package body dictionary_package is
 
       pragma Warnings (Off, "formal parameter ""ps"" is not referenced");
       procedure put(ps : in part_of_speech_type; p : in kind_entry) is
-         pragma Warnings (On, "formal parameter ""ps"" is not referenced");   
+         pragma Warnings (On, "formal parameter ""ps"" is not referenced");
          c : constant positive := positive(col);
       begin
          case p.pofs is
@@ -1263,7 +1263,7 @@ package body dictionary_package is
       pragma Warnings (Off, "formal parameter ""ps"" is not referenced");
       procedure put(s : out string;
                     ps : in part_of_speech_type; p : in kind_entry) is
-         pragma Warnings (On, "formal parameter ""ps"" is not referenced");   
+         pragma Warnings (On, "formal parameter ""ps"" is not referenced");
          l : constant integer := s'first - 1;
          m : integer := 0;
       begin
@@ -1558,7 +1558,7 @@ package body dictionary_package is
    end "<=";
 
 begin     --  initialization of body of DICTIONARY_PACKAGE
-          --TEXT_IO.PUT_LINE("Initializing DICTIONARY_PACKAGE");
+   --TEXT_IO.PUT_LINE("Initializing DICTIONARY_PACKAGE");
 
    dictionary_kind_io.default_width := dictionary_kind'width;
 
@@ -1622,5 +1622,4 @@ begin     --  initialization of body of DICTIONARY_PACKAGE
      max_meaning_size;
 
    --TEXT_IO.PUT_LINE("Initialized  DICTIONARY_PACKAGE");
-
 end dictionary_package;

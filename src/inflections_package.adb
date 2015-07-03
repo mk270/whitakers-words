@@ -7,10 +7,10 @@
 -- there is no charge. However, just for form, it is Copyrighted
 -- (c). Permission is hereby freely given for any and all use of program
 -- and data. You can sell it as your own, but at least tell me.
--- 
+--
 -- This version is distributed without obligation, but the developer
 -- would appreciate comments and suggestions.
--- 
+--
 -- All parts of the WORDS system, source code and data files, are made freely
 -- available to anyone who wishes to use them, for whatever purpose.
 
@@ -317,8 +317,7 @@ package body inflections_package is
 
    function "<=" (left, right : noun_kind_type)   return boolean is
    begin
-      if (right = left   or else
-            right = x)  then
+      if right = left or else right = x then
          return true;
       else
          return false;
@@ -327,8 +326,7 @@ package body inflections_package is
 
    function "<=" (left, right : pronoun_kind_type)   return boolean is
    begin
-      if (right = left   or else
-            right = x)  then
+      if right = left or else right = x then
          return true;
       else
          return false;
@@ -337,8 +335,7 @@ package body inflections_package is
 
    function "<=" (left, right : stem_key_type)   return boolean is
    begin            --  Only works for 2 stem parts, not verbs
-      if (right = left   or else
-            right = 0)  then
+      if right = left or else right = 0 then
          return true;
       else
          return false;
@@ -497,8 +494,8 @@ package body inflections_package is
          --  Make a place the DEFAULT_WIDTH of the component  to be Put
          --  The DEFAULT_WIDTH has been set for these _IO packages to be
          --  the LONGEST component width, not the normal Ada default
-         m := l + 1;           --  But WHICH is to be PUT WIDTH 1
-                               --  Put onto the substring that is exactly the DEFAULT (LONGEST) size
+         m := l + 1; --  But WHICH is to be PUT WIDTH 1
+         --  Put onto the substring that is exactly the DEFAULT (LONGEST) size
          put(s(l+1..m), d.which);
          --  Advance the position by 1 to the position to make the blank
          l := m + 1;
@@ -1401,10 +1398,10 @@ package body inflections_package is
 
    package body conjunction_record_io is
       null_conjunction_record : conjunction_record;
-      
+
       pragma Warnings (Off, "formal parameter ""f"" is not referenced");
       procedure get(f : in file_type; c : out conjunction_record) is
-         pragma Warnings (On, "formal parameter ""f"" is not referenced");    
+         pragma Warnings (On, "formal parameter ""f"" is not referenced");
          --  There is actually nothing to a CONJUNCTION_RECORD, no compoonents
       begin
          c := null_conjunction_record;
@@ -1434,7 +1431,7 @@ package body inflections_package is
 
       pragma Warnings (Off, "formal parameter ""c"" is not referenced");
       procedure put(s : out string; c : in conjunction_record) is
-         pragma Warnings (On, "formal parameter ""c"" is not referenced");    
+         pragma Warnings (On, "formal parameter ""c"" is not referenced");
          --  Since there is no component, just make the out string blank
       begin
          s(s'first..s'last) := (others => ' ');
@@ -1447,7 +1444,7 @@ package body inflections_package is
 
       pragma Warnings (Off, "formal parameter ""f"" is not referenced");
       procedure get(f : in file_type; i : out interjection_record) is
-         pragma Warnings (On, "formal parameter ""f"" is not referenced");    
+         pragma Warnings (On, "formal parameter ""f"" is not referenced");
       begin
          i := null_interjection_record;
       end get;
@@ -1476,7 +1473,7 @@ package body inflections_package is
 
       pragma Warnings (Off, "formal parameter ""i"" is not referenced");
       procedure put(s : out string; i : in interjection_record) is
-         pragma Warnings (On, "formal parameter ""i"" is not referenced");    
+         pragma Warnings (On, "formal parameter ""i"" is not referenced");
       begin
          s(s'first..s'last) := (others => ' ');
       end put;
@@ -1488,7 +1485,7 @@ package body inflections_package is
 
       pragma Warnings (Off, "formal parameter ""f"" is not referenced");
       procedure get(f : in file_type; i : out tackon_record) is
-         pragma Warnings (On, "formal parameter ""f"" is not referenced");    
+         pragma Warnings (On, "formal parameter ""f"" is not referenced");
       begin
          i := null_tackon_record;
       end get;
@@ -1517,7 +1514,7 @@ package body inflections_package is
 
       pragma Warnings (Off, "formal parameter ""i"" is not referenced");
       procedure put(s : out string; i : in tackon_record) is
-         pragma Warnings (On, "formal parameter ""i"" is not referenced");    
+         pragma Warnings (On, "formal parameter ""i"" is not referenced");
       begin
          s(s'first..s'last) := (others => ' ');
       end put;
@@ -1528,7 +1525,7 @@ package body inflections_package is
 
       pragma Warnings (Off, "formal parameter ""f"" is not referenced");
       procedure get(f : in file_type; p : out prefix_record) is
-         pragma Warnings (On, "formal parameter ""f"" is not referenced");    
+         pragma Warnings (On, "formal parameter ""f"" is not referenced");
       begin
          p := null_prefix_record;
       end get;
@@ -1557,7 +1554,7 @@ package body inflections_package is
 
       pragma Warnings (Off, "formal parameter ""p"" is not referenced");
       procedure put(s : out string; p : in prefix_record) is
-         pragma Warnings (On, "formal parameter ""p"" is not referenced");    
+         pragma Warnings (On, "formal parameter ""p"" is not referenced");
       begin
          s(s'first..s'last) := (others => ' ');
       end put;
@@ -1568,7 +1565,7 @@ package body inflections_package is
 
       pragma Warnings (Off, "formal parameter ""f"" is not referenced");
       procedure get(f : in file_type; p : out suffix_record) is
-         pragma Warnings (On, "formal parameter ""f"" is not referenced");    
+         pragma Warnings (On, "formal parameter ""f"" is not referenced");
       begin
          p := null_suffix_record;
       end get;
@@ -1597,7 +1594,7 @@ package body inflections_package is
 
       pragma Warnings (Off, "formal parameter ""p"" is not referenced");
       procedure put(s : out string; p : in suffix_record) is
-         pragma Warnings (On, "formal parameter ""p"" is not referenced");    
+         pragma Warnings (On, "formal parameter ""p"" is not referenced");
       begin
          s(s'first..s'last) := (others => ' ');
       end put;
@@ -2214,9 +2211,9 @@ package body inflections_package is
          xch := ch;
          lelf(n, ch) := i;
 
-     c1_loop:
+         c1_loop:
          loop
-        n1_loop:
+            n1_loop:
             loop
                exit c1_loop when lel(i) = null_inflection_record;
 
@@ -2262,9 +2259,9 @@ package body inflections_package is
          xch := ch;
          lelf(n, ch) := i;
 
-     c2_loop:
+         c2_loop:
          loop
-        n2_loop:
+            n2_loop:
             loop
                exit c2_loop when lel(i) = null_inflection_record;
 
@@ -2311,9 +2308,9 @@ package body inflections_package is
          xch := ch;
          lelf(n, ch) := i;
 
-     c3_loop:
+         c3_loop:
          loop
-        n3_loop:
+            n3_loop:
             loop
                exit c3_loop when lel(i) = null_inflection_record;
 
@@ -2360,11 +2357,10 @@ package body inflections_package is
          xch := ch;
          lelf(n, ch) := i;
 
-     c4_loop:
+         c4_loop:
          loop
-        n4_loop:
+            n4_loop:
             loop
-
                exit c4_loop when  lel(i).qual.pofs = pron  and then
                  (lel(i).qual.pron.decl.which = 1  or
                     lel(i).qual.pron.decl.which = 2);
@@ -2406,9 +2402,9 @@ package body inflections_package is
             pelf(n,  ch) := i;
             pell(n,  ch) := 0;
 
-        c_p_loop:
+            c_p_loop:
             loop
-           n_p_loop:
+               n_p_loop:
                loop
                   exit c_p_loop when lel(i) = null_inflection_record;
 
@@ -2431,11 +2427,8 @@ package body inflections_package is
                   end if;
 
                   i := i + 1;
-
                end loop n_p_loop;
-
             end loop c_p_loop;
-
          exception
             when constraint_error => null;
          end;
@@ -2443,11 +2436,9 @@ package body inflections_package is
          pell(xn, xch) := i - 1;
          number_of_inflections := number_of_inflections + i - 1;
          close(inflections_sections_file);
-
       end load_lel_indexes;
 
    begin
-
       preface.put("INFLECTION_ARRAY being loaded");
       preface.set_col(33);
       preface.put("--  ");
@@ -2455,7 +2446,6 @@ package body inflections_package is
       preface.put(number_of_inflections, 6);
       preface.put(" entries");
       preface.set_col(55); preface.put_line("--  Loaded correctly");
-
    exception
       when text_io.name_error  =>
          new_line;
@@ -2464,11 +2454,10 @@ package body inflections_package is
          put_line("Make sure you are in the subdirectory containing the files");
          put_line("for inflections, dictionary, addons and uniques.");
          raise give_up;
-
    end establish_inflections_section;
 
 begin  --  initialization of body of INFLECTIONS_PACKAGE
-       --TEXT_IO.PUT_LINE("Initializing INFLECTIONS_PACKAGE");
+   --TEXT_IO.PUT_LINE("Initializing INFLECTIONS_PACKAGE");
 
    part_of_speech_type_io.default_width := part_of_speech_type'width;
    gender_type_io.default_width := gender_type'width;

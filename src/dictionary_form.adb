@@ -7,10 +7,10 @@
 -- there is no charge. However, just for form, it is Copyrighted
 -- (c). Permission is hereby freely given for any and all use of program
 -- and data. You can sell it as your own, but at least tell me.
--- 
+--
 -- This version is distributed without obligation, but the developer
 -- would appreciate comments and suggestions.
--- 
+--
 -- All parts of the WORDS system, source code and data files, are made freely
 -- available to anyone who wishes to use them, for whatever purpose.
 
@@ -50,7 +50,7 @@ begin
       return "";
    end if;
 
-   if (de.part.pofs = prep)   then
+   if de.part.pofs = prep then
       return trim(de.stems(1)) & "  " & part_of_speech_type'image(de.part.pofs) &
         "  " & case_type'image(de.part.prep.obj);
    end if;
@@ -492,7 +492,7 @@ begin
 
          --  OX 3 & 4
          if de.part.v.kind = impers  then
-            if (ox(3)(1..7) /= "PERFDEF")  then
+            if ox(3)(1..7) /= "PERFDEF" then
                ox(3) := add(de.stems(3), "it");
             end if;
             ox(4) := add(de.stems(4), "us est");
@@ -635,7 +635,7 @@ begin
       add_to(" " & gender_type'image(de.part.n.gender) & "  ");
    end if;
 
-   if (de.part.pofs = v)  then
+   if de.part.pofs = v then
 
       --  For DICTPAGE
       if de.part.v.con.which in 1..3 then
@@ -646,7 +646,7 @@ begin
          end if;
       end if;
 
-      if  (de.part.v.kind in gen..perfdef)  then
+      if de.part.v.kind in gen..perfdef then
          add_to(" " & verb_kind_type'image(de.part.v.kind) & "  ");
       end if;
 

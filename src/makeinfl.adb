@@ -7,10 +7,10 @@
 -- there is no charge. However, just for form, it is Copyrighted
 -- (c). Permission is hereby freely given for any and all use of program
 -- and data. You can sell it as your own, but at least tell me.
--- 
+--
 -- This version is distributed without obligation, but the developer
 -- would appreciate comments and suggestions.
--- 
+--
 -- All parts of the WORDS system, source code and data files, are made freely
 -- available to anyone who wishes to use them, for whatever purpose.
 
@@ -88,7 +88,7 @@ procedure makeinfl is
          text_io.put("INFLECTIONS file loading");
          while not end_of_file(inflections_file)  loop
 
-        read_a_line:
+            read_a_line:
             begin
                get_non_comment_line(inflections_file, line, last);
 
@@ -98,8 +98,8 @@ procedure makeinfl is
                   if sn = 0  then
                      sx := ' ';
                   else
-                     sx := ir.ending.suf(sn);
-                  end if;
+                  sx := ir.ending.suf(sn);
+               end if;
                   l_i(sn, sx) := new inflection_item'(ir, l_i(sn, sx));
                   number_of_inflections := number_of_inflections + 1;
                   --TEXT_IO.PUT(INTEGER'IMAGE(NUMBER_OF_INFLECTIONS) & "  "); INFLECTION_RECORD_IO.PUT(IR); NEW_LINE;
@@ -112,14 +112,12 @@ procedure makeinfl is
          end loop;
          close(inflections_file);
          put_line("INFLECTIONS_LIST LOADED   " & integer'image(number_of_inflections));
-
       end load_inflections_list;
 
       procedure list_to_lel_file  is
          --  From ILC (=L_I) list of inflections, prepares the LEL inflections array
          ilc : latin_inflections := l_i;
       begin
-
          create(inflections_sections_file, out_file, inflections_sections_name);
 
          null_lel;
@@ -211,7 +209,7 @@ procedure makeinfl is
                        (ilc(n, ch).ir.qual.pron.decl.which = 1  or
                           ilc(n, ch).ir.qual.pron.decl.which = 2))  then
 
-                     if (ch in inflections_section_4)  then
+                     if ch in inflections_section_4 then
                         j4 := j4 + 1;
                         lel(j4) := ilc(n, ch).ir;
 
@@ -227,9 +225,9 @@ procedure makeinfl is
          for ch in character range 'a'..'z'  loop
             for n in reverse 1..max_ending_size  loop
                while ilc(n, ch) /= null  loop
-                  if (ilc(n, ch).ir.qual.pofs = pron  and then
+                  if ilc(n, ch).ir.qual.pofs = pron  and then
                         (ilc(n, ch).ir.qual.pron.decl.which = 1  or
-                           ilc(n, ch).ir.qual.pron.decl.which = 2))  then  --  2 no longer PACK
+                           ilc(n, ch).ir.qual.pron.decl.which = 2)  then  --  2 no longer PACK
 
                      j4 := j4 + 1;
                      lel(j4) := ilc(n, ch).ir;

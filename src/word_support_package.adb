@@ -7,10 +7,10 @@
 -- there is no charge. However, just for form, it is Copyrighted
 -- (c). Permission is hereby freely given for any and all use of program
 -- and data. You can sell it as your own, but at least tell me.
--- 
+--
 -- This version is distributed without obligation, but the developer
 -- would appreciate comments and suggestions.
--- 
+--
 -- All parts of the WORDS system, source code and data files, are made freely
 -- available to anyone who wishes to use them, for whatever purpose.
 
@@ -105,7 +105,7 @@ package body word_support_package is
 
       if dictionary_available(general)  then
          --  The blanks are on the GENERAL dictionary
-     loading_bdl_from_disk:
+         loading_bdl_from_disk:
          declare
             d_k : constant dictionary_kind := general;
          begin

@@ -7,10 +7,10 @@
 -- there is no charge. However, just for form, it is Copyrighted
 -- (c). Permission is hereby freely given for any and all use of program
 -- and data. You can sell it as your own, but at least tell me.
--- 
+--
 -- This version is distributed without obligation, but the developer
 -- would appreciate comments and suggestions.
--- 
+--
 -- All parts of the WORDS system, source code and data files, are made freely
 -- available to anyone who wishes to use them, for whatever purpose.
 
@@ -54,16 +54,15 @@ procedure search_english(input_english_word : string; pofs : part_of_speech_type
    begin
 
       --  Bubble sort
-  hit_loop:
+      hit_loop:
       loop
          hits := 0;
 
-     switch:
+         switch:
          declare
             dw : ewds_record := null_ewds_record;
-
          begin
-        inner_loop:    --  Order by RANK, FREQ, SEMI
+            inner_loop:    --  Order by RANK, FREQ, SEMI
             for i in 1..number_of_hits-1  loop
                if output_array(i+1).rank  >  output_array(i).rank     or else
 
@@ -72,8 +71,8 @@ procedure search_english(input_english_word : string; pofs : part_of_speech_type
 
                  (output_array(i+1).rank  =  output_array(i).rank     and then
                     output_array(i+1).freq  =  output_array(i).freq   and then
-                    output_array(i+1).semi  <  output_array(i).semi)          then
-
+                    output_array(i+1).semi  <  output_array(i).semi)
+               then
                   dw := output_array(i);
                   output_array(i) := output_array(i+1);
                   output_array(i+1) := dw;
@@ -81,11 +80,9 @@ procedure search_english(input_english_word : string; pofs : part_of_speech_type
                   --PUT_LINE("HITS    " & INTEGER'IMAGE(HITS));
                end if;
             end loop inner_loop;
-
          end switch;
          exit when hits = 0;
       end loop hit_loop;
-
    end sort_output_array;
 
    procedure dump_output_array(output : in text_io.file_type) is
@@ -97,7 +94,6 @@ procedure search_english(input_english_word : string; pofs : part_of_speech_type
       if number_of_hits = 0  then
          text_io.put_line(output, "No Match");
       else
-
          sort_output_array;
 
          --TEXT_IO.PUT_LINE("DUMP_OUTPUT SORTED");
@@ -115,10 +111,11 @@ procedure search_english(input_english_word : string; pofs : part_of_speech_type
          for i in 1..number_to_show  loop
             text_io.new_line(output);
 
-        do_pause:
+            do_pause:
             begin
-               if (integer(text_io.line(output)) >
-                     scroll_line_number + config.output_screen_size)  then
+               if integer(text_io.line(output)) >
+                  scroll_line_number + config.output_screen_size
+               then
                   pause(output);
                   scroll_line_number := integer(text_io.line(output));
                end if;
@@ -132,7 +129,7 @@ procedure search_english(input_english_word : string; pofs : part_of_speech_type
                text_io.put(output, "  ");  decn_record_io.put(output, de.part.n.decl);
                text_io.put(output, "  " & gender_type'image(de.part.n.gender) & "  ");
             end if;
-            if (de.part.pofs = v)   then
+            if de.part.pofs = v then
                text_io.put(output, "  ");  decn_record_io.put(output, de.part.v.con);
             end if;
             if (de.part.pofs = v)  and then  (de.part.v.kind in gen..perfdef)  then
@@ -191,65 +188,63 @@ begin
 
    j := (j1 + j2) / 2;
 
-binary_search:
-    loop
-       --   TEXT_IO.PUT_LINE("J = " & INTEGER'IMAGE(INTEGER(J)));
+   binary_search:
+   loop
+      --   TEXT_IO.PUT_LINE("J = " & INTEGER'IMAGE(INTEGER(J)));
 
-       if (j1 = j2-1) or (j1 = j2) then
-          if first_try  then
-             j := j1;
-             first_try := false;
-          elsif second_try  then
-             j := j2;
-             second_try := false;
-          else
-             exit binary_search;
-          end if;
-       end if;
+      if (j1 = j2-1) or (j1 = j2) then
+         if first_try  then
+            j := j1;
+            first_try := false;
+         elsif second_try  then
+            j := j2;
+            second_try := false;
+         else
+            exit binary_search;
+         end if;
+      end if;
 
-       --  Should D_K
-       set_index(ewds_file, j);
-       read(ewds_file, ewds);
-       if  "<"(lower_case(ewds.w), input_word)  then  --  Not LTU, not u=v
-          j1 := j;
-          j := (j1 + j2) / 2;
-       elsif  ">"(lower_case(ewds.w), input_word)  then
-          j2 := j;
-          j := (j1 + j2) / 2;
-       else
-          for i in reverse j1..j  loop
-             set_index(ewds_file, ewds_direct_io.count(i));
-             read(ewds_file, ewds);    --  Reads and advances index!!
+      --  Should D_K
+      set_index(ewds_file, j);
+      read(ewds_file, ewds);
+      if  "<"(lower_case(ewds.w), input_word)  then  --  Not LTU, not u=v
+         j1 := j;
+         j := (j1 + j2) / 2;
+      elsif  ">"(lower_case(ewds.w), input_word)  then
+         j2 := j;
+         j := (j1 + j2) / 2;
+      else
+         for i in reverse j1..j  loop
+            set_index(ewds_file, ewds_direct_io.count(i));
+            read(ewds_file, ewds);    --  Reads and advances index!!
 
-             if "="(lower_case(ewds.w), input_word)  then
-                load_output_array(ewds);
+            if "="(lower_case(ewds.w), input_word)  then
+               load_output_array(ewds);
+            else
+               exit;
+            end if;
+         end loop;
 
-             else
-                exit;
-             end if;
-          end loop;
+         for i in j+1..j2  loop
+            set_index(ewds_file, ewds_direct_io.count(i));
+            read(ewds_file, ewds);
 
-          for i in j+1..j2  loop
-             set_index(ewds_file, ewds_direct_io.count(i));
-             read(ewds_file, ewds);
+            if "="(lower_case(ewds.w), input_word)  then
+               load_output_array(ewds);
+            else
+               exit binary_search;
+            end if;
+         end loop;
 
-             if "="(lower_case(ewds.w), input_word)  then
-                load_output_array(ewds);
+         exit binary_search;
+      end if;
+   end loop binary_search;
 
-             else
-                exit binary_search;
-             end if;
-          end loop;
-          exit binary_search;
-
-       end if;
-    end loop binary_search;
-
-    if  words_mode(write_output_to_file)      then
-       dump_output_array(output);
-    else
-       dump_output_array(current_output);
-    end if;
+   if  words_mode(write_output_to_file)      then
+      dump_output_array(output);
+   else
+      dump_output_array(current_output);
+   end if;
 exception
    when others  =>
       text_io.put_line("exception SEARCH NUMBER_OF_HITS = " &

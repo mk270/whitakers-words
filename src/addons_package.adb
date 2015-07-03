@@ -7,10 +7,10 @@
 -- there is no charge. However, just for form, it is Copyrighted
 -- (c). Permission is hereby freely given for any and all use of program
 -- and data. You can sell it as your own, but at least tell me.
--- 
+--
 -- This version is distributed without obligation, but the developer
 -- would appreciate comments and suggestions.
--- 
+--
 -- All parts of the WORDS system, source code and data files, are made freely
 -- available to anyone who wishes to use them, for whatever purpose.
 
@@ -99,7 +99,7 @@ package body addons_package is
       begin
          for i in 1..l  loop
             j := i;
-            exit when ( (i < l) and then (st(i+1) = ' ') );
+            exit when (i < l) and then (st(i+1) = ' ');
          end loop;
          xfix := head(st(1..j), max_fix_size);
          if j = l  then     --  there is no CONNECT CHARACTER

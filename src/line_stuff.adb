@@ -7,18 +7,16 @@
 -- there is no charge. However, just for form, it is Copyrighted
 -- (c). Permission is hereby freely given for any and all use of program
 -- and data. You can sell it as your own, but at least tell me.
--- 
+--
 -- This version is distributed without obligation, but the developer
 -- would appreciate comments and suggestions.
--- 
+--
 -- All parts of the WORDS system, source code and data files, are made freely
 -- available to anyone who wishes to use them, for whatever purpose.
-
 
 -- N.B: there is a set of duff assignments in the original source,
 -- marked here with comments saying "apparently redundant?"; unsure
 -- whether this is a bug
-
 
 with word_support_package; use word_support_package;   --  for STEM_IO
 with strings_package; use strings_package;
@@ -77,12 +75,12 @@ package body line_stuff is
          --TEXT_IO.PUT_LINE("GETTING");
          st_line := blank_line;
          get_non_comment_line(dictionary_file, st_line, last);      --  STEMS
-                                                                    --TEXT_IO.PUT_LINE("READ STEMS");
+         --TEXT_IO.PUT_LINE("READ STEMS");
 
          line := blank_line;
          --TEXT_IO.PUT("1 ");
          get_non_comment_line(dictionary_file, line, l);           --  PART
-                                                                   --TEXT_IO.PUT("2 ");
+         --TEXT_IO.PUT("2 ");
          part_entry_io.get(line(1..l), pt, ll);
          --TEXT_IO.PUT("3 ");
          ----  KIND_ENTRY_IO.GET(LINE(LL+1..L), PT.POFS, KIND, LL);
@@ -130,9 +128,10 @@ package body line_stuff is
          if fc4 = 'v'  then fc4 := 'u';  end if;
          if fc4 = 'j'  then fc4 := 'i';  end if;
          if pt.pofs = n  then
-            if (sts(2)(1) /= sts(1)(1) and then
-                  sts(2)(1) /= ' '  and then
-                  sts(2)(1..3) /= zzz_stem(1..3) ) then
+            if sts(2)(1) /= sts(1)(1)  and then
+               sts(2)(1) /= ' '        and then
+               sts(2)(1..3) /= zzz_stem(1..3)
+            then
                dict(fc1) :=
                  new dictionary_item'(( (sts(1), zzz_stem, blk_stem, blk_stem),
                                         --PT, KIND, TRAN, MEAN), DICT(FC1));
@@ -147,10 +146,11 @@ package body line_stuff is
                                                  dict(fc1));
             end if;
 
-         elsif (pt.pofs = pron) or (pt.pofs = pack)  then
-            if (sts(2)(1) /= sts(1)(1) and then
-                  sts(2)(1) /= ' '  and then
-                  sts(2)(1..3) /= zzz_stem(1..3) ) then
+         elsif pt.pofs = pron or pt.pofs = pack then
+            if sts(2)(1) /= sts(1)(1)  and then
+               sts(2)(1) /= ' '        and then
+               sts(2)(1..3) /= zzz_stem(1..3)
+            then
                dict(fc1) :=
                  new dictionary_item'(( (sts(1), zzz_stem, blk_stem, blk_stem),
                                         --PT, KIND, TRAN, MEAN), DICT(FC1));
@@ -306,32 +306,28 @@ package body line_stuff is
 
          elsif pt.pofs = num  then
             if pt.num.sort = x  then   --  X for all KINDs
-               if (sts(1)(1) /= ' '  and then
-                     sts(1)(1..3) /= zzz_stem(1..3) ) then
+               if sts(1)(1) /= ' ' and then sts(1)(1..3) /= zzz_stem(1..3) then
                   dict(fc1) :=
                     new dictionary_item'(( (sts(1), blk_stem, blk_stem, blk_stem),
                                            --(NUM, (PT.NUM.DECL, CARD)), KIND, TRAN, MEAN),
                                            (num, (pt.num.decl, card, value)), tran, mean),
                                          dict(fc1));
                end if;
-               if (sts(2)(1) /= ' '  and then
-                     sts(2)(1..3) /= zzz_stem(1..3) ) then
+               if sts(2)(1) /= ' ' and then sts(2)(1..3) /= zzz_stem(1..3) then
                   dict(fc2) :=
                     new dictionary_item'(( (zzz_stem, sts(2), blk_stem, blk_stem),
                                            --(NUM, ((0, 0), ORD)), KIND, TRAN, MEAN),
                                            (num, ((0, 0), ord, value)), tran, mean),
                                          dict(fc2));
                end if;
-               if (sts(3)(1) /= ' '  and then
-                     sts(3)(1..3) /= zzz_stem(1..3) ) then
+               if sts(3)(1) /= ' ' and then sts(3)(1..3) /= zzz_stem(1..3) then
                   dict(fc3) :=
                     new dictionary_item'(( (zzz_stem, zzz_stem, sts(3), blk_stem),
                                            --(NUM, (PT.NUM.DECL, DIST)), KIND, TRAN, MEAN),
                                            (num, (pt.num.decl, dist, value)), tran, mean),
                                          dict(fc3));
                end if;
-               if (sts(4)(1) /= ' '  and then
-                     sts(4)(1..3) /= zzz_stem(1..3) ) then
+               if sts(4)(1) /= ' ' and then sts(4)(1..3) /= zzz_stem(1..3) then
                   dict(fc4) :=
                     new dictionary_item'(( (zzz_stem, zzz_stem, zzz_stem, sts(4)),
                                            --(NUM, (PT.NUM.DECL, ADVERB)), KIND, TRAN, MEAN),
@@ -943,10 +939,10 @@ package body line_stuff is
 
          mnpc := m;
 
-         if (lower_case(stem(1)) = 'v') then
+         if lower_case(stem(1)) = 'v' then
             unq('u') :=
               new unique_item'(stem, qual, kind, mnpc, unq(lower_case('u')));
-         elsif (lower_case(stem(1)) = 'j') then
+         elsif lower_case(stem(1)) = 'j' then
             unq('i') :=
               new unique_item'(stem, qual, kind, mnpc, unq(lower_case('i')));
          else
