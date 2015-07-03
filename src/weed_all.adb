@@ -15,17 +15,17 @@
 -- available to anyone who wishes to use them, for whatever purpose.
 
 with inflections_package; use inflections_package;
-procedure weed_all(w : in out string) is
+procedure weed_all(w : in out String) is
    --  In contrast to the Latin phase where the prioritization takes is at runtime
    --  for the English most of the work is done beforehand
    --  both the setting of a priority class for each entry in the scan of DICTLINE
    --  and the WEEDing/TRIMming done herein
-   kill : boolean := false;
+   kill : Boolean := False;
 begin
 
    if w'Length <= 1  then
       --if W(1)  not in  'A'..'Z'  then
-      kill := true;
+      kill := True;
       --end if;
 
    else
@@ -56,7 +56,7 @@ begin
 
       then
 
-         kill := true;
+         kill := True;
       end if;
 
       if
@@ -71,7 +71,7 @@ begin
 
       then
 
-         kill := true;
+         kill := True;
       end if;
 
       if   --  Fragments
@@ -82,7 +82,7 @@ begin
         w = "re"   or
         w = "ex"
       then
-         kill := true;
+         kill := True;
       end if;
 
       if
@@ -93,17 +93,17 @@ begin
         w = "rd"   or      --  3rd
         w = "th"           --  4th
       then
-         kill := true;
+         kill := True;
       end if;
 
       --  Kill abbreviations
       if w(w'Last) = '.'  then
-         kill := true;
+         kill := True;
       end if;
 
       --  Kill internal AREA
       if w(w'Last) = ':'  then
-         kill := true;
+         kill := True;
       end if;
 
    end if;

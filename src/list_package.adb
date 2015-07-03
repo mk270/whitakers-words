@@ -14,8 +14,8 @@
 -- All parts of the WORDS system, source code and data files, are made freely
 -- available to anyone who wishes to use them, for whatever purpose.
 
-with strings_package; use strings_package;
-with latin_file_names; use latin_file_names;
+with Strings_package; use Strings_package;
+with latIn_File_names; use latIn_File_names;
 with word_parameters; use word_parameters;
 with addons_package; use addons_package;
 with uniques_package; use uniques_package;
@@ -24,9 +24,9 @@ with developer_parameters; use developer_parameters;
 with word_package; use word_package;
 with inflections_package; use inflections_package;
 with dictionary_form;
-with put_example_line;
+with Put_example_line;
 with list_sweep;
-with put_stat;
+with Put_stat;
 package body list_package is
 
    subtype xons is part_of_speech_type range tackon..suffix;
@@ -40,10 +40,10 @@ package body list_package is
      := (x, null_mnpc, null_dictionary_entry);
 
    max_meaning_print_size : constant := 79;
-   mm : integer := max_meaning_size;
-   i : integer := 0;
+   mm : Integer := max_meaning_size;
+   i : Integer := 0;
 
-   inflection_frequency : constant array (frequency_type) of string(1..8) :=
+   inflection_frequency : constant array (frequency_type) of String(1..8) :=
      ("        ",  --  X
       "mostfreq",  --  A
       "sometime",  --  B
@@ -54,7 +54,7 @@ package body list_package is
       "inscript",  --  I
       "        ",  --  Not used
       "        " );
-   inflection_age : constant array (age_type) of string(1..8) :=
+   inflection_age : constant array (age_type) of String(1..8) :=
      ("Always  ",   --  X
       "Archaic ",   --  A
       "Early   ",   --  B
@@ -65,7 +65,7 @@ package body list_package is
       "Scholar ",   --  G
       "Modern  " ); --  H
 
-   dictionary_frequency : constant array (frequency_type) of string(1..8) :=
+   dictionary_frequency : constant array (frequency_type) of String(1..8) :=
      ("        ",  --  X
       "veryfreq",  --  A
       "frequent",  --  B
@@ -77,7 +77,7 @@ package body list_package is
       "graffiti",  --  J
       "Pliny   " );--  N
 
-   dictionary_age : constant array (age_type) of string(1..8) :=
+   dictionary_age : constant array (age_type) of String(1..8) :=
      ("        ",   --  X
       "Archaic ",   --  A
       "Early   ",   --  B
@@ -88,85 +88,88 @@ package body list_package is
       "NeoLatin",   --  G
       "Modern  " ); --  H
 
-   procedure put_dictionary_flags(output : text_io.file_type;
+   procedure Put_dictionary_flags(Output : Text_IO.File_Type;
                                   de     : dictionary_entry;
-                                  hit    : out boolean) is
+                                  hit    : out Boolean) is
    begin
 
       if words_mode(show_age)   or
-        (trim(dictionary_age(de.tran.age))'Length /= 0)  then  --  Not X
-         text_io.put(output, "  " & trim(dictionary_age(de.tran.age)));
-         hit := true;
+        (trim(dictionary_age(de.tran.age))'Length /= 0)  --  Not X
+      then
+         Text_IO.Put(Output, "  " & trim(dictionary_age(de.tran.age)));
+         hit := True;
       end if;
       if (words_mode(show_frequency) or
             (de.tran.freq >= d))  and
-        (trim(dictionary_frequency(de.tran.freq))'Length /= 0)  then
-         text_io.put(output, "  " & trim(dictionary_frequency(de.tran.freq)));
-         hit := true;
+        (trim(dictionary_frequency(de.tran.freq))'Length /= 0)
+      then
+         Text_IO.Put(Output, "  " & trim(dictionary_frequency(de.tran.freq)));
+         hit := True;
       end if;
-   end put_dictionary_flags;
+   end Put_dictionary_flags;
 
-   procedure put_dictionary_form(output : text_io.file_type;
+   procedure Put_dictionary_form(Output : Text_IO.File_Type;
                                  d_k    : dictionary_kind;
-                                 mnpc   : dict_io.count;
+                                 mnpc   : dict_io.Count;
                                  de     : dictionary_entry) is
-      chit, dhit, ehit, fhit, lhit : boolean := false;   --  Things on this line?
-      dictionary_line_number : constant integer := integer(mnpc);
+      chit, dhit, ehit, fhit, lhit : Boolean := False;   --  Things on this line?
+      dictionary_line_number : constant Integer := Integer(mnpc);
       --DE : DICTIONARY_ENTRY := DM.DE;
 
    begin                               --  PUT_DICTIONARY_FORM
       if words_mode(do_dictionary_forms)  then
          if words_mdev(do_pearse_codes) then
-            text_io.put(output, "02 ");
-            dhit := true;
+            Text_IO.Put(Output, "02 ");
+            dhit := True;
          end if;
          if dictionary_form(de)'Length /= 0  then
-            text_io.put(output, dictionary_form(de) & "  ");
-            dhit := true;
+            Text_IO.Put(Output, dictionary_form(de) & "  ");
+            dhit := True;
          end if;
       end if;
 
       if words_mdev(show_dictionary_codes) and then
-        de.part.pofs not in xons              then
-         text_io.put(output, " [");
-         age_type_io.put(output, de.tran.age);
-         area_type_io.put(output, de.tran.area);
-         geo_type_io.put(output, de.tran.geo);
-         frequency_type_io.put(output, de.tran.freq);
-         source_type_io.put(output, de.tran.source);
-         text_io.put(output, "]  ");
-         chit := true;
+        de.part.pofs not in xons
+      then
+         Text_IO.Put(Output, " [");
+         age_type_io.Put(Output, de.tran.age);
+         area_type_io.Put(Output, de.tran.area);
+         geo_type_io.Put(Output, de.tran.geo);
+         frequency_type_io.Put(Output, de.tran.freq);
+         source_type_io.Put(Output, de.tran.source);
+         Text_IO.Put(Output, "]  ");
+         chit := True;
       end if;
 
       if words_mdev(show_dictionary) then
-         text_io.put(output, ext(d_k) & ">");
-         ehit := true;
+         Text_IO.Put(Output, ext(d_k) & ">");
+         ehit := True;
       end if;
 
       if words_mdev(show_dictionary_line)  then
          if dictionary_line_number > 0  then
-            text_io.put(output, "("
-                          & trim(integer'Image(dictionary_line_number)) & ")");
-            lhit := true;
+            Text_IO.Put(Output, "("
+                          & trim(Integer'Image(dictionary_line_number)) & ")");
+            lhit := True;
          end if;
       end if;
 
-      put_dictionary_flags(output, de, fhit);
+      Put_dictionary_flags(Output, de, fhit);
 
       if chit or dhit or ehit or fhit or lhit then
-         text_io.new_line(output);
+         Text_IO.New_Line(Output);
       end if;
       --end if;
 
-   end put_dictionary_form;
+   end Put_dictionary_form;
 
    procedure list_stems(configuration : configuration_type;
-                        output   : text_io.file_type;
-                        raw_word : string;
-                        input_line : string;
+                        Output   : Text_IO.File_Type;
+                        raw_word : String;
+                        Input_Line : String;
                         pa       : in out parse_array;
-                        pa_last  : in out integer) is
-      use text_io;
+                        pa_last  : in out Integer) is
+      use Text_IO;
       use dict_io;
 
       --  The main WORD processing has been to produce an array of PARSE_RECORD
@@ -179,8 +182,8 @@ package body list_package is
       --        end record;
       --  This has involved STEMFILE and INFLECTS, no DICTFILE
 
-      --  PARSE_RECORD is put through the LIST_SWEEP procedure that does TRIMing
-      --  Then, for processing for output, the data is converted to arrays of
+      --  PARSE_RECORD is Put through the LIST_SWEEP procedure that does TRIMing
+      --  Then, for processing for Output, the data is converted to arrays of
       --      type STEM_INFLECTION_RECORD is
       --        record
       --          STEM : STEM_TYPE          := NULL_STEM_TYPE;
@@ -195,7 +198,7 @@ package body list_package is
       --        end record;
       --  containing the same data plus the DICTFILE data DICTIONARY_ENTRY
       --  but breaking it into two arrays allows different manipulation
-      --  These are only within this routine, used to clean up the output
+      --  These are only within this routine, used to clean up the Output
 
       type stem_inflection_record is
          record
@@ -206,8 +209,8 @@ package body list_package is
 
       stem_inflection_array_size       : constant := 10;
       stem_inflection_array_array_size : constant := 40;
-      type stem_inflection_array is array (integer range <>) of stem_inflection_record;
-      type stem_inflection_array_array is array (integer range <>)
+      type stem_inflection_array is array (Integer range <>) of stem_inflection_record;
+      type stem_inflection_array_array is array (Integer range <>)
         of stem_inflection_array(1..stem_inflection_array_size);
 
       osra : stem_inflection_array(1..stem_inflection_array_size)
@@ -239,100 +242,104 @@ package body list_package is
 
       dea : dictionary_entry := null_dictionary_entry;
 
-      w : constant string := raw_word;
-      j, j1, j2, k : integer := 0;
-      there_is_an_adverb : boolean := false;
+      w : constant String := raw_word;
+      j, j1, j2, k : Integer := 0;
+      there_is_an_adverb : Boolean := False;
 
-      procedure  put_inflection(sr : stem_inflection_record;
+      procedure  Put_inflection(sr : stem_inflection_record;
                                 dm : dictionary_mnpc_record) is
-         --  Handles putting ONLY_MEAN, PEARSE_CODES, CAPS, QUAL, V_KIND, FLAGS
-         procedure put_inflection_flags is
+         --  Handles Putting ONLY_MEAN, PEARSE_CODES, CAPS, QUAL, V_KIND, FLAGS
+         procedure Put_inflection_flags is
          begin
             if (words_mode(show_age)   or
                   (sr.ir.age /= x))  and     --  Warn even if not to show AGE
-              trim(inflection_age(sr.ir.age))'Length /= 0  then
-               text_io.put(output, "  " & inflection_age(sr.ir.age));
+              trim(inflection_age(sr.ir.age))'Length /= 0
+            then
+               Text_IO.Put(Output, "  " & inflection_age(sr.ir.age));
             end if;
             if (words_mode(show_frequency)  or
                   (sr.ir.freq >= c))  and    --  Warn regardless
-              trim(inflection_frequency(sr.ir.freq))'Length /= 0  then
-               text_io.put(output, "  " & inflection_frequency(sr.ir.freq));
+              trim(inflection_frequency(sr.ir.freq))'Length /= 0
+            then
+               Text_IO.Put(Output, "  " & inflection_frequency(sr.ir.freq));
             end if;
-         end put_inflection_flags;
+         end Put_inflection_flags;
 
       begin
          --TEXT_IO.PUT_LINE("PUT_INFLECTION ");
          if not words_mode(do_only_meanings) and
             not (configuration = only_meanings)
          then
-            text_io.set_col(output, 1);
+            Text_IO.Set_Col(Output, 1);
             if words_mdev(do_pearse_codes) then
                if dm.d_k = addons  then
-                  text_io.put(output, "05 ");
+                  Text_IO.Put(Output, "05 ");
                elsif dm.d_k in xxx..yyy  then
-                  text_io.put(output, "06 ");
+                  Text_IO.Put(Output, "06 ");
                else
-                  text_io.put(output, "01 ");
+                  Text_IO.Put(Output, "01 ");
                end if;
             end if;
 
             --TEXT_IO.PUT(OUTPUT, CAP_STEM(TRIM(SR.STEM)));
-            text_io.put(output, (trim(sr.stem)));
+            Text_IO.Put(Output, (trim(sr.stem)));
             if sr.ir.ending.size > 0  then
-               text_io.put(output, ".");
+               Text_IO.Put(Output, ".");
                --TEXT_IO.PUT(OUTPUT, TRIM(CAP_ENDING(SR.IR.ENDING.SUF)));
-               text_io.put(output, trim((sr.ir.ending.suf)));
+               Text_IO.Put(Output, trim((sr.ir.ending.suf)));
             end if;
 
             if words_mdev(do_pearse_codes) then
-               text_io.set_col(output, 25);
+               Text_IO.Set_Col(Output, 25);
             else
-               text_io.set_col(output, 22);
+               Text_IO.Set_Col(Output, 22);
             end if;
 
             if sr.ir /= null_inflection_record  then
 
                print_modified_qual:
                declare
-                  out_string : string(1..quality_record_io.default_width);
-                  passive_start  : constant integer :=
-                    part_of_speech_type_io.default_width + 1 +
-                    decn_record_io.default_width + 1 +
-                    tense_type_io.default_width + 1;
-                  passive_finish : constant integer :=
+                  out_String : String(1..quality_record_io.Default_Width);
+                  passive_start  : constant Integer :=
+                    part_of_speech_type_io.Default_Width + 1 +
+                    decn_record_io.Default_Width + 1 +
+                    tense_type_io.Default_Width + 1;
+                  passive_finish : constant Integer :=
                     passive_start +
-                    voice_type_io.default_width;
-                  ppl_start      : constant integer :=
-                    part_of_speech_type_io.default_width + 1 +
-                    decn_record_io.default_width + 1 +
-                    case_type_io.default_width + 1 +
-                    number_type_io.default_width + 1 +
-                    gender_type_io.default_width + 1 +
-                    tense_type_io.default_width + 1;
-                  ppl_finish : constant integer :=
+                    voice_type_io.Default_Width;
+                  ppl_start      : constant Integer :=
+                    part_of_speech_type_io.Default_Width + 1 +
+                    decn_record_io.Default_Width + 1 +
+                    case_type_io.Default_Width + 1 +
+                    number_type_io.Default_Width + 1 +
+                    gender_type_io.Default_Width + 1 +
+                    tense_type_io.Default_Width + 1;
+                  ppl_finish : constant Integer :=
                     ppl_start +
-                    voice_type_io.default_width;
-                  passive_blank : constant string(1..voice_type_io.default_width) :=
+                    voice_type_io.Default_Width;
+                  passive_blank : constant String(1..voice_type_io.Default_Width) :=
                     (others => ' ');
                begin
 
-                  quality_record_io.put(out_string, sr.ir.qual);
+                  quality_record_io.Put(out_String, sr.ir.qual);
                   if dm.d_k in general..local then  --  UNIQUES has no DE
 
                      if (sr.ir.qual.pofs = v)    and then
                        (dm.de.part.v.kind = dep)       and then
-                       (sr.ir.qual.v.tense_voice_mood.mood in ind..inf)   then
+                       (sr.ir.qual.v.tense_voice_mood.mood in ind..inf)
+                     then
                         --TEXT_IO.PUT_LINE("START PRINT MODIFIED QUAL   V" );
-                        out_string(passive_start+1..passive_finish) := passive_blank;
+                        out_String(passive_start+1..passive_finish) := passive_blank;
                      elsif (sr.ir.qual.pofs = vpar)    and then
                        (dm.de.part.v.kind = dep)    and then
-                       (sr.ir.qual.vpar.tense_voice_mood.mood = ppl)  then
+                       (sr.ir.qual.vpar.tense_voice_mood.mood = ppl)
+                     then
                         --TEXT_IO.PUT_LINE("START PRINT MODIFIED QUAL   VPAR" );
-                        out_string(ppl_start+1..ppl_finish) := passive_blank;
+                        out_String(ppl_start+1..ppl_finish) := passive_blank;
                      end if;
                   end if;
 
-                  text_io.put(output, out_string);
+                  Text_IO.Put(Output, out_String);
                   --TEXT_IO.PUT_LINE("PRINT MODIFIED QUAL 4" );
                end print_modified_qual;
 
@@ -342,28 +349,29 @@ package body list_package is
                --                 TEXT_IO.PUT(OUTPUT, "  ");
                --                 INFLECTIONS_PACKAGE.INTEGER_IO.PUT(OUTPUT, DM.DE.KIND.NUM_VALUE);
                --               end if;
-               put_inflection_flags;
-               text_io.new_line(output);
-               put_example_line(configuration, output, sr.ir, dm.de);    --  Only full when DO_EXAMPLES
+               Put_inflection_flags;
+               Text_IO.New_Line(Output);
+               Put_example_line(configuration, Output, sr.ir, dm.de);    --  Only full when DO_EXAMPLES
             else
-               text_io.new_line(output);
+               Text_IO.New_Line(Output);
             end if;
          end if;
-      end put_inflection;
+      end Put_inflection;
 
-      procedure put_form(sr : stem_inflection_record;
+      procedure Put_form(sr : stem_inflection_record;
                          dm : dictionary_mnpc_record) is
          --  Handles PEARSE_CODES and DICTIONARY_FORM (which has FLAGS) and D_K
          --  The Pearse 02 is handled in PUT_DICTIONARY_FORM
       begin
          if (sr.ir.qual.pofs not in xons)  and
-           (dm.d_k in general..unique)           then
+           (dm.d_k in general..unique)
+         then
             --DICTIONARY_ENTRY_IO.PUT(DM.DE);
-            put_dictionary_form(output, dm.d_k, dm.mnpc, dm.de);
+            Put_dictionary_form(Output, dm.d_k, dm.mnpc, dm.de);
          end if;
-      end put_form;
+      end Put_form;
 
-      function trim_bar(s : string) return string is
+      function trim_bar(s : String) return String is
          --  Takes vertical bars from begining of MEAN and TRIMs
       begin
          if s'Length >3  and then s(s'First..s'First+3) = "||||"  then
@@ -379,127 +387,127 @@ package body list_package is
          end if;
       end trim_bar;
 
-      procedure put_meaning(output : text_io.file_type;
-                            raw_meaning : string) is
+      procedure Put_meaning(Output : Text_IO.File_Type;
+                            raw_meaning : String) is
          --  Handles the MM screen line limit and TRIM_BAR, then TRIMs
       begin
-         text_io.put(output, trim(head(trim_bar(raw_meaning), mm)));
-      end put_meaning;
+         Text_IO.Put(Output, trim(head(trim_bar(raw_meaning), mm)));
+      end Put_meaning;
 
       function constructed_meaning(sr : stem_inflection_record;
-                                   dm  : dictionary_mnpc_record) return string is
+                                   dm  : dictionary_mnpc_record) return String is
          --  Constructs the meaning for NUM from NUM.SORT and NUM_VALUE
-         s : string(1..max_meaning_size) := null_meaning_type;
-         n : integer := 0;
+         s : String(1..max_meaning_size) := null_meaning_type;
+         n : Integer := 0;
       begin
          if dm.de.part.pofs = num  then
             n := dm.de.part.num.value;
             if sr.ir.qual.pofs = num  then    --  Normal parse
                case sr.ir.qual.num.sort is
                   when card  =>
-                     s := head(integer'Image(n) &  " - (CARD answers 'how many');", max_meaning_size);
+                     s := head(Integer'Image(n) &  " - (CARD answers 'how many');", max_meaning_size);
                   when ord   =>
-                     s := head(integer'Image(n) & "th - (ORD, 'in series'); (a/the)" & integer'Image(n) &
+                     s := head(Integer'Image(n) & "th - (ORD, 'in series'); (a/the)" & Integer'Image(n) &
                                  "th (part) (fract w/pars?);", max_meaning_size);
                   when dist  =>
-                     s := head(integer'Image(n) & " each/apiece/times/fold/together/at a time - 'how many each'; by " &
-                                 integer'Image(n) & "s; ", max_meaning_size);
+                     s := head(Integer'Image(n) & " each/apiece/times/fold/toGether/at a time - 'how many each'; by " &
+                                 Integer'Image(n) & "s; ", max_meaning_size);
                   when adverb =>
-                     s := head(integer'Image(n) & " times, on" & integer'Image(n) &
+                     s := head(Integer'Image(n) & " times, on" & Integer'Image(n) &
                                  " occasions - (ADVERB answers 'how often');", max_meaning_size);
                   when others =>
                      null;
                end case;
             else  -- there is fix so POFS is not NUM
-               s := head("Number " & integer'Image(n), max_meaning_size);
+               s := head("Number " & Integer'Image(n), max_meaning_size);
             end if;
          end if;
 
          return s;
       end constructed_meaning;
 
-      procedure put_meaning_line(sr : stem_inflection_record;
+      procedure Put_meaning_line(sr : stem_inflection_record;
                                  dm  : dictionary_mnpc_record) is
       begin
          if dm.d_k not in addons..ppp  then
             if words_mdev(do_pearse_codes) then
-               text_io.put(output, "03 ");
+               Text_IO.Put(Output, "03 ");
             end if;
             if dm.de.part.pofs = num  and then dm.de.part.num.value > 0  then
-               text_io.put_line(output, constructed_meaning(sr, dm));    --  Constructed MEANING
+               Text_IO.Put_Line(Output, constructed_meaning(sr, dm));    --  Constructed MEANING
             elsif dm.d_k = unique  then
-               put_meaning(output, uniques_de(dm.mnpc).mean);
-               text_io.new_line(output);
+               Put_meaning(Output, uniques_de(dm.mnpc).mean);
+               Text_IO.New_Line(Output);
             else
-               put_meaning(output, trim_bar(dm.de.mean));
-               text_io.new_line(output);
+               Put_meaning(Output, trim_bar(dm.de.mean));
+               Text_IO.New_Line(Output);
             end if;
          else
             if dm.d_k = rrr  then
                if rrr_meaning /= null_meaning_type   then
                   --PUT_DICTIONARY_FLAGS;
                   if words_mdev(do_pearse_codes) then
-                     text_io.put(output, "03 ");
+                     Text_IO.Put(Output, "03 ");
                   end if;
-                  put_meaning(output, rrr_meaning);      --  Roman Numeral
+                  Put_meaning(Output, rrr_meaning);      --  Roman Numeral
                   rrr_meaning := null_meaning_type;
-                  text_io.new_line(output);
+                  Text_IO.New_Line(Output);
                end if;
             elsif dm.d_k = nnn then
                if nnn_meaning /= null_meaning_type  then
                   --PUT_DICTIONARY_FLAGS;
                   if words_mdev(do_pearse_codes) then
-                     text_io.put(output, "03 ");
+                     Text_IO.Put(Output, "03 ");
                   end if;
-                  put_meaning(output, nnn_meaning);  --  Unknown Name
+                  Put_meaning(Output, nnn_meaning);  --  Unknown Name
                   nnn_meaning := null_meaning_type;
-                  text_io.new_line(output);
+                  Text_IO.New_Line(Output);
                end if;
             elsif dm.d_k = xxx  then
                if xxx_meaning /= null_meaning_type  then
                   if words_mdev(do_pearse_codes) then
-                     text_io.put(output, "06 ");
+                     Text_IO.Put(Output, "06 ");
                   end if;
-                  put_meaning(output, xxx_meaning);  --  TRICKS
+                  Put_meaning(Output, xxx_meaning);  --  TRICKS
                   xxx_meaning := null_meaning_type;
-                  text_io.new_line(output);
+                  Text_IO.New_Line(Output);
                end if;
             elsif dm.d_k = yyy  then
                if yyy_meaning /= null_meaning_type  then
                   if words_mdev(do_pearse_codes) then
-                     text_io.put(output, "06 ");
+                     Text_IO.Put(Output, "06 ");
                   end if;
-                  put_meaning(output, yyy_meaning);  --  Syncope
+                  Put_meaning(Output, yyy_meaning);  --  Syncope
                   yyy_meaning := null_meaning_type;
-                  text_io.new_line(output);
+                  Text_IO.New_Line(Output);
                end if;
             elsif dm.d_k = ppp  then
                if ppp_meaning /= null_meaning_type  then
                   if words_mdev(do_pearse_codes) then
-                     text_io.put(output, "06 ");
+                     Text_IO.Put(Output, "06 ");
                   end if;
-                  put_meaning(output, ppp_meaning); --  Compounds
+                  Put_meaning(Output, ppp_meaning); --  Compounds
                   ppp_meaning := null_meaning_type;
-                  text_io.new_line(output);
+                  Text_IO.New_Line(Output);
                end if;
             elsif dm.d_k = addons  then
                if words_mdev(do_pearse_codes) then
-                  text_io.put(output, "06 ");
+                  Text_IO.Put(Output, "06 ");
                end if;
-               put_meaning(output, means(integer(dm.mnpc)));
-               text_io.new_line(output);
+               Put_meaning(Output, means(Integer(dm.mnpc)));
+               Text_IO.New_Line(Output);
             end if;
          end if;
-      end put_meaning_line;
+      end Put_meaning_line;
 
    begin
-      trimmed := false;
+      trimmed := False;
 
       --  Since this procedure weeds out possible parses, if it weeds out all
       --  (or all of a class) it must fix up the rest of the parse array,
       --  e.g., it must clean out dangling prefixes and suffixes
 
-      if text_io.name(output) = text_io.name(text_io.standard_output)  then
+      if Text_IO.Name (Output) = Text_IO.Name (Text_IO.Standard_Output)  then
          --  to keep from overflowing screen line or even adding blank line
          mm := max_meaning_print_size;
       else
@@ -510,7 +518,7 @@ package body list_package is
       --TEXT_IO.PUT_LINE("About to do the ADJ -> ADV kludge");
       for i in pa'First..pa_last  loop
          if pa(i).ir.qual.pofs = adv   then
-            there_is_an_adverb := true;
+            there_is_an_adverb := True;
             exit;
          end if;
       end loop;
@@ -585,21 +593,21 @@ package body list_package is
 
       list_sweep(pa(1..pa_last), pa_last);
 
-      if  words_mdev(write_statistics_file)    then      --  Omit rest of output
+      if  words_mdev(Write_statistics_file)    then      --  Omit rest of Output
          for i in 1..pa_last  loop                       --  Just to PUT_STAT
             if pa(i).d_k = addons then
                if pa(i).ir.qual.pofs = prefix  then
-                  put_stat("ADDON PREFIX at "
-                             & head(integer'Image(line_number), 8) & head(integer'Image(word_number), 4)
-                             & "   " & head(w, 20) & "   "  & pa(i).stem & "  " & integer'Image(integer(pa(i).mnpc)));
+                  Put_stat("ADDON PREFIX at "
+                             & head(Integer'Image(line_number), 8) & head(Integer'Image(word_number), 4)
+                             & "   " & head(w, 20) & "   "  & pa(i).stem & "  " & Integer'Image(Integer(pa(i).mnpc)));
                elsif pa(i).ir.qual.pofs = suffix  then
-                  put_stat("ADDON SUFFIX at "
-                             & head(integer'Image(line_number), 8) & head(integer'Image(word_number), 4)
-                             & "   " & head(w, 20) & "   "  & pa(i).stem & "  " & integer'Image(integer(pa(i).mnpc)));
+                  Put_stat("ADDON SUFFIX at "
+                             & head(Integer'Image(line_number), 8) & head(Integer'Image(word_number), 4)
+                             & "   " & head(w, 20) & "   "  & pa(i).stem & "  " & Integer'Image(Integer(pa(i).mnpc)));
                elsif pa(i).ir.qual.pofs = tackon  then
-                  put_stat("ADDON TACKON at "
-                             & head(integer'Image(line_number), 8) & head(integer'Image(word_number), 4)
-                             & "   " & head(w, 20) & "   "  & pa(i).stem & "  " & integer'Image(integer(pa(i).mnpc)));
+                  Put_stat("ADDON TACKON at "
+                             & head(Integer'Image(line_number), 8) & head(Integer'Image(word_number), 4)
+                             & "   " & head(w, 20) & "   "  & pa(i).stem & "  " & Integer'Image(Integer(pa(i).mnpc)));
                end if;
             end if;
          end loop;
@@ -641,8 +649,8 @@ package body list_package is
                         j := j + 1;             --  J indexes the number of MNPCA arrays - Next MNPCA
                         --TEXT_IO.PUT_LINE("Shifting J for N  I = " & INTEGER'IMAGE(I) & "   J = " & INTEGER'IMAGE(J));
                         sraa(j)(k) := (pa(i).stem, pa(i).ir);
-                        dict_io.set_index(dict_file(pa(i).d_k), pa(i).mnpc);
-                        dict_io.read(dict_file(pa(i).d_k), dea);
+                        dict_io.Set_Index(dict_file(pa(i).d_k), pa(i).mnpc);
+                        dict_io.Read(dict_file(pa(i).d_k), dea);
                         dm := (pa(i).d_k, pa(i).mnpc, dea);
                         dma(j) := dm;
                         odm := dm;
@@ -667,8 +675,8 @@ package body list_package is
                         k := 1;                  --  K indexes within the MNPCA array --  Initialize
                         j := j + 1;             --  J indexes the number of MNPCA arrays - Next MNPCA
                         sraa(j)(k) := (pa(i).stem, pa(i).ir);
-                        dict_io.set_index(dict_file(pa(i).d_k), pa(i).mnpc);
-                        dict_io.read(dict_file(pa(i).d_k), dea);
+                        dict_io.Set_Index(dict_file(pa(i).d_k), pa(i).mnpc);
+                        dict_io.Read(dict_file(pa(i).d_k), dea);
                         dm := (pa(i).d_k, pa(i).mnpc, dea);
                         dma(j) := dm;
                         odm := dm;
@@ -691,8 +699,8 @@ package body list_package is
                         k := 1;                  --  K indexes within the MNPCA array --  Initialize
                         j := j + 1;             --  J indexes the number of MNPCA arrays - Next MNPCA
                         sraa(j)(k) := (pa(i).stem, pa(i).ir);
-                        dict_io.set_index(dict_file(pa(i).d_k), pa(i).mnpc);
-                        dict_io.read(dict_file(pa(i).d_k), dea);
+                        dict_io.Set_Index(dict_file(pa(i).d_k), pa(i).mnpc);
+                        dict_io.Read(dict_file(pa(i).d_k), dea);
                         dm := (pa(i).d_k, pa(i).mnpc, dea);
                         dma(j) := dm;
                         odm := dm;
@@ -716,8 +724,8 @@ package body list_package is
                         k := 1;                  --  K indexes within the MNPCA array --  Initialize
                         j := j + 1;             --  J indexes the number of MNPCA arrays - Next MNPCA
                         sraa(j)(k) := (pa(i).stem, pa(i).ir);
-                        dict_io.set_index(dict_file(pa(i).d_k), pa(i).mnpc);
-                        dict_io.read(dict_file(pa(i).d_k), dea);
+                        dict_io.Set_Index(dict_file(pa(i).d_k), pa(i).mnpc);
+                        dict_io.Read(dict_file(pa(i).d_k), dea);
                         dm := (pa(i).d_k, pa(i).mnpc, dea);
                         dma(j) := dm;
                         odm := dm;
@@ -752,8 +760,8 @@ package body list_package is
                         k := 1;                  --  K indexes within the MNPCA array --  Initialize
                         j := j + 1;             --  J indexes the number of MNPCA arrays - Next MNPCA
                         sraa(j)(k) := (pa(i).stem, pa(i).ir);
-                        dict_io.set_index(dict_file(pa(i).d_k), pa(i).mnpc);
-                        dict_io.read(dict_file(pa(i).d_k), dea);
+                        dict_io.Set_Index(dict_file(pa(i).d_k), pa(i).mnpc);
+                        dict_io.Read(dict_file(pa(i).d_k), dea);
                         dm := (pa(i).d_k, pa(i).mnpc, dea);
                         dma(j) := dm;
                         odm := dm;
@@ -782,8 +790,8 @@ package body list_package is
                         --TEXT_IO.PUT_LINE("Shifting J for VPAR I = " & INTEGER'IMAGE(I) & "   J = " & INTEGER'IMAGE(J));
                         sraa(j)(k) := (pa(i).stem, pa(i).ir);
                         if pa(i).d_k /= ppp  then
-                           dict_io.set_index(dict_file(pa(i).d_k), pa(i).mnpc);
-                           dict_io.read(dict_file(pa(i).d_k), dea);
+                           dict_io.Set_Index(dict_file(pa(i).d_k), pa(i).mnpc);
+                           dict_io.Read(dict_file(pa(i).d_k), dea);
                         end if;     --  use previous DEA
                         dm := (pa(i).d_k, pa(i).mnpc, dea);
                         dma(j) := dm;
@@ -806,7 +814,8 @@ package body list_package is
                   while i <= pa_last                   loop
                      --TEXT_IO.PUT_LINE("Starting loop for OTHER I = " & INTEGER'IMAGE(I) & "   K = " & INTEGER'IMAGE(K));
                      if (odm.d_k  /= pa(i).d_k)  or
-                       (odm.mnpc /= pa(i).mnpc)      then   --  Encountering new single (K only 1)
+                        (odm.mnpc /= pa(i).mnpc)
+                     then   --  Encountering new single (K only 1)
                         osra := sra;
                         k := 1;                  --  K indexes within the MNPCA array --  Initialize
                         --TEXT_IO.PUT_LINE("Starting IRA for OTHER I = " & INTEGER'IMAGE(I) & "   K = " & INTEGER'IMAGE(K));
@@ -817,8 +826,8 @@ package body list_package is
                            if pa(i).d_k = addons  then
                               dea :=  null_dictionary_entry;   --  Fix for ADDONS in MEANS, not DICT_IO
                            else
-                              dict_io.set_index(dict_file(pa(i).d_k), pa(i).mnpc);
-                              dict_io.read(dict_file(pa(i).d_k), dea);
+                              dict_io.Set_Index(dict_file(pa(i).d_k), pa(i).mnpc);
+                              dict_io.Read(dict_file(pa(i).d_k), dea);
                            end if;
                         else                       --  Has no dictionary to read
                            dea:= null_dictionary_entry;
@@ -875,68 +884,72 @@ package body list_package is
 
       if pa_last = 0   then
 
-         if  words_mode(write_output_to_file)      then
+         if  words_mode(Write_Output_to_file)      then
             if words_mdev(do_pearse_codes) then
-               text_io.put(output, "04 ");
+               Text_IO.Put(Output, "04 ");
             end if;
-            text_io.put(output, raw_word);
-            text_io.set_col(output, 30);
-            inflections_package.integer_io.put(output, line_number, 7);
-            inflections_package.integer_io.put(output, word_number, 7);
-            text_io.put_line(output, "    ========   UNKNOWN    ");
+            Text_IO.Put(Output, raw_word);
+            Text_IO.Set_Col(Output, 30);
+            inflections_package.Integer_IO.Put(Output, line_number, 7);
+            inflections_package.Integer_IO.Put(Output, word_number, 7);
+            Text_IO.Put_Line(Output, "    ========   UNKNOWN    ");
             --TEXT_IO.NEW_LINE(OUTPUT);
-         else              --  Just screen output
+         else              --  Just screen Output
             if words_mdev(do_pearse_codes) then
-               text_io.put("04 ");
+               Text_IO.Put("04 ");
             end if;
-            text_io.put(raw_word);
-            text_io.set_col(30);
-            text_io.put_line("    ========   UNKNOWN    ");
+            Text_IO.Put(raw_word);
+            Text_IO.Set_Col(30);
+            Text_IO.Put_Line("    ========   UNKNOWN    ");
             --TEXT_IO.NEW_LINE;
          end if;
 
-         if words_mode(write_unknowns_to_file)  then
+         if words_mode(Write_unknowns_to_file)  then
             if words_mdev(include_unknown_context) or
-              words_mdev(do_only_initial_word)  then
-               text_io.put_line(input_line);
-               text_io.put_line(unknowns, input_line);
+              words_mdev(do_only_initial_word)
+            then
+               Text_IO.Put_Line(Input_Line);
+               Text_IO.Put_Line(unknowns, Input_Line);
             end if;
             if words_mdev(do_pearse_codes) then
-               text_io.put(unknowns, "04 ");
+               Text_IO.Put(unknowns, "04 ");
             end if;
-            text_io.put(unknowns, raw_word);
-            text_io.set_col(unknowns, 30);
-            inflections_package.integer_io.put(unknowns, line_number, 7);
-            inflections_package.integer_io.put(unknowns, word_number, 7);
-            text_io.put_line(unknowns, "    ========   UNKNOWN    ");
+            Text_IO.Put(unknowns, raw_word);
+            Text_IO.Set_Col(unknowns, 30);
+            inflections_package.Integer_IO.Put(unknowns, line_number, 7);
+            inflections_package.Integer_IO.Put(unknowns, word_number, 7);
+            Text_IO.Put_Line(unknowns, "    ========   UNKNOWN    ");
          end if;
       end if;
 
       if pa_last = 0   then
          if words_mode(do_stems_for_unknown)   then
-            if  words_mode(write_output_to_file)  and then
-              not words_mode(write_unknowns_to_file)   then
-               list_neighborhood(output, raw_word);
-            elsif  words_mode(write_output_to_file)  and then
-              words_mode(write_unknowns_to_file)   then
-               list_neighborhood(output, raw_word);
+            if  words_mode(Write_Output_to_file)  and then
+              not words_mode(Write_unknowns_to_file)
+            then
+               list_neighborhood(Output, raw_word);
+            elsif  words_mode(Write_Output_to_file)  and then
+               words_mode(Write_unknowns_to_file)
+            then
+               list_neighborhood(Output, raw_word);
                list_neighborhood(unknowns, raw_word);
-            elsif name(current_input) = name(standard_input) then
-               list_neighborhood(output, raw_word);
+            elsif Name(Current_Input) = Name(Standard_Input) then
+               list_neighborhood(Output, raw_word);
             end if;
          end if;
       end if;
 
-      if pa_last = 0   then
+      if pa_last = 0 then
          if words_mdev(update_local_dictionary)  and  -- Don't if reading from file
-           (name(current_input) = name(standard_input))  then
+           (Name(Current_Input) = Name(Standard_Input))
+         then
             update_local_dictionary_file;
             word(raw_word, pa, pa_last);       --  Circular if you dont update!!!!!
          end if;
       end if;
 
       --  Exit if UNKNOWNS ONLY (but had to do STATS above)
-      if  words_mode(do_unknowns_only)    then      --  Omit rest of output
+      if  words_mode(do_unknowns_only)    then      --  Omit rest of Output
          return;
       end if;
 
@@ -944,112 +957,113 @@ package body list_package is
       j := 1;
       osra := null_sra;
 
-      output_loop:
+      Output_loop:
       while  dma(j) /= null_dictionary_mnpc_record  loop
          --  Skips one identical SRA no matter what comes next
          if sraa(j) /= osra  then
 
-            put_inflection_array_j:
+            Put_inflection_array_j:
             for k in sraa(j)'Range loop
-               exit put_inflection_array_j when sraa(j)(k) = null_stem_inflection_record;
+               exit Put_inflection_array_j when sraa(j)(k) = null_stem_inflection_record;
 
-               put_inflection(sraa(j)(k), dma(j));
+               Put_inflection(sraa(j)(k), dma(j));
                if sraa(j)(k).stem(1..3) = "PPL"  then
-                  text_io.put_line(output, head(ppp_meaning, mm));
+                  Text_IO.Put_Line(Output, head(ppp_meaning, mm));
                end if;
-            end loop put_inflection_array_j;
+            end loop Put_inflection_array_j;
             osra := sraa(j);
          end if;
 
          --TEXT_IO.PUT_LINE("PUTting FORM");
 
-         putting_form:
+         Putting_form:
          begin
             if j = 1  or else
-              dictionary_form(dma(j).de) /= dictionary_form(dma(j-1).de)  then
+              dictionary_form(dma(j).de) /= dictionary_form(dma(j-1).de)
+            then
                --  Put at first chance, skip duplicates
-               put_form(sraa(j)(1), dma(j));
+               Put_form(sraa(j)(1), dma(j));
             end if;
-         end putting_form;
+         end Putting_form;
 
          --TEXT_IO.PUT_LINE("PUTting MEANING");
-         putting_meaning:
+         Putting_meaning:
          begin
             if dma(j).d_k in general..unique then
                if dma(j).de.mean /= dma(j+1).de.mean then
                   --  This if handles simple multiple MEAN with same IR and FORM
                   --  by anticipating duplicates and waiting until change
-                  put_meaning_line(sraa(j)(1), dma(j));
+                  Put_meaning_line(sraa(j)(1), dma(j));
                end if;
             else
-               put_meaning_line(sraa(j)(1), dma(j));
+               Put_meaning_line(sraa(j)(1), dma(j));
             end if;
-         end putting_meaning;
+         end Putting_meaning;
 
          do_pause:
          begin
             if i = pa_last  then
-               text_io.new_line(output);
-            elsif integer(text_io.line(output)) >
-                  scroll_line_number + output_screen_size
+               Text_IO.New_Line(Output);
+            elsif Integer(Text_IO.Line(Output)) >
+                  scroll_line_number + Output_screen_size
             then
-               pause(output);
-               scroll_line_number := integer(text_io.line(output));
+               pause(Output);
+               scroll_line_number := Integer(Text_IO.Line(Output));
             end if;
          end do_pause;
          --TEXT_IO.PUT_LINE("End of OUTPUT_LOOP with J = " & INTEGER'IMAGE(J));
 
          j := j + 1;
-      end loop output_loop;
+      end loop Output_loop;
       --TEXT_IO.PUT_LINE("Finished OUTPUT_LOOP");
 
       if trimmed  then
-         put(output, '*');
+         Put(Output, '*');
       end if;
-      text_io.new_line(output);
+      Text_IO.New_Line(Output);
 
    exception
       when others  =>
-         text_io.put_line("Unexpected exception in LIST_STEMS processing " & raw_word);
-         put_stat("EXCEPTION LS at "
-                    & head(integer'Image(line_number), 8) & head(integer'Image(word_number), 4)
+         Text_IO.Put_Line("Unexpected exception in LIST_STEMS processing " & raw_word);
+         Put_stat("EXCEPTION LS at "
+                    & head(Integer'Image(line_number), 8) & head(Integer'Image(word_number), 4)
                     & "   " & head(w, 20) & "   "  & pa(i).stem);
    end list_stems;
 
-   procedure list_entry(output   : text_io.file_type;
+   procedure list_entry(Output   : Text_IO.File_Type;
                         d_k      : dictionary_kind;
-                        mn       : dict_io.count) is
+                        mn       : dict_io.Count) is
       de : dictionary_entry;
    begin
-      dict_io.read(dict_file(d_k), de, mn);
-      text_io.put(output, "=>  ");
+      dict_io.Read(dict_file(d_k), de, mn);
+      Text_IO.Put(Output, "=>  ");
       --TEXT_IO.PUT_LINE(OUTPUT, DICTIONARY_FORM(DE));
-      put_dictionary_form(output, d_k, mn, de);
-      text_io.put_line(output,
-                       trim(head(de.mean, mm)));  --  so it wont line wrap/put CR
+      Put_dictionary_form(Output, d_k, mn, de);
+      Text_IO.Put_Line(Output,
+                       trim(head(de.mean, mm)));  --  so it wont line wrap/Put CR
 
    end list_entry;
 
-   procedure unknown_search(unknown       :  in string;
-                            unknown_count : out dict_io.count) is
+   procedure unknown_search(unknown       :  in String;
+                            unknown_count : out dict_io.Count) is
 
       use stem_io;
 
       d_k : constant dictionary_kind := general;
-      j, j1, j2, jj : stem_io.count := 0;
+      j, j1, j2, jj : stem_io.Count := 0;
 
-      index_on : constant string := unknown;
-      index_first, index_last : stem_io.count := 0;
+      index_on : constant String := unknown;
+      index_first, index_last : stem_io.Count := 0;
       ds : dictionary_stem;
-      first_try, second_try : boolean := true;
+      first_try, second_try : Boolean := True;
 
-      function first_two(w : string) return string is
+      function first_two(w : String) return String is
          --  'v' could be represented by 'u', like the new Oxford Latin Dictionary
          --  Fixes the first two letters of a word/stem which can be done right
-         s : constant string := lower_case(w);
-         ss : string(w'Range) := w;
+         s : constant String := lower_case(w);
+         ss : String(w'Range) := w;
 
-         function ui(c : character) return character  is
+         function ui(c : Character) return Character  is
          begin
             if c = 'v' then
                return 'u';
@@ -1079,8 +1093,8 @@ package body list_package is
    begin
 
       if dictionary_available(d_k)  then
-         if not is_open(stem_file(d_k))  then
-            open(stem_file(d_k), stem_io.in_file,
+         if not Is_Open(stem_file(d_k))  then
+            Open(stem_file(d_k), stem_io.In_File,
                  add_file_name_extension(stem_file_name,
                                          dictionary_kind'Image(d_k)));
          end if;
@@ -1093,9 +1107,9 @@ package body list_package is
             j1 := index_first;    --######################
             j2 := index_last;
 
-            first_try := true;
+            first_try := True;
 
-            second_try := true;
+            second_try := True;
 
             j := (j1 + j2) / 2;
 
@@ -1104,18 +1118,18 @@ package body list_package is
                if (j1 = j2-1) or (j1 = j2) then
                   if first_try  then
                      j := j1;
-                     first_try := false;
+                     first_try := False;
                   elsif second_try  then
                      j := j2;
-                     second_try := false;
+                     second_try := False;
                   else
                      jj := j;
                      exit binary_search;
                   end if;
                end if;
 
-               set_index(stem_file(d_k), j);
-               read(stem_file(d_k), ds);
+               Set_Index(stem_file(d_k), j);
+               Read(stem_file(d_k), ds);
 
                if  ltu(lower_case(ds.stem), unknown)  then
                   j1 := j;
@@ -1125,8 +1139,8 @@ package body list_package is
                   j := (j1 + j2) / 2;
                else
                   for i in reverse j1..j  loop
-                     set_index(stem_file(d_k), stem_io.count(i));
-                     read(stem_file(d_k), ds);
+                     Set_Index(stem_file(d_k), stem_io.Count(i));
+                     Read(stem_file(d_k), ds);
 
                      if equ(lower_case(ds.stem), unknown)  then
                         jj := i;
@@ -1137,8 +1151,8 @@ package body list_package is
                   end loop;
 
                   for i in j+1..j2  loop
-                     set_index(stem_file(d_k), stem_io.count(i));
-                     read(stem_file(d_k), ds);
+                     Set_Index(stem_file(d_k), stem_io.Count(i));
+                     Read(stem_file(d_k), ds);
 
                      if equ(lower_case(ds.stem), unknown)  then
                         jj := i;
@@ -1157,35 +1171,35 @@ package body list_package is
          end if;
          unknown_count := ds.mnpc;
 
-         close(stem_file(d_k));  --??????
+         Close(stem_file(d_k));  --??????
       end if;
       --TEXT_IO.PUT_LINE("Leaving LIST_NEIGHBORHOOD    UNKNOWN_SEARCH");
    end unknown_search;
 
-   procedure list_neighborhood(output : text_io.file_type;
-                               input_word : string) is
+   procedure list_neighborhood(Output : Text_IO.File_Type;
+                               Input_word : String) is
 
       d_k : constant dictionary_kind := general;
-      unk_mnpc : dict_io.count;
+      unk_mnpc : dict_io.Count;
 
    begin
       --TEXT_IO.PUT_LINE("Entering LIST_NEIGHBORHOOD");
 
-      if text_io.name(output) = text_io.name(text_io.standard_output) then
+      if Text_IO.Name(Output) = Text_IO.Name(Text_IO.Standard_Output) then
          mm := max_meaning_print_size;   --  to keep from overflowing screen line
       else
          mm := max_meaning_size;
       end if;
 
-      unknown_search(head(input_word, max_stem_size), unk_mnpc);
+      unknown_search(head(Input_word, max_stem_size), unk_mnpc);
       --TEXT_IO.PUT_LINE("UNK_MNPC = " & INTEGER'IMAGE(INTEGER(UNK_MNPC)));
-      if integer(unk_mnpc) > 0  then
-         text_io.put_line(output,
+      if Integer(unk_mnpc) > 0  then
+         Text_IO.Put_Line(Output,
                           "----------  Entries in GENEAL Dictionary around the UNKNOWN  ----------");
-         pause(output);
-         for mn in dict_io.count(integer(unk_mnpc)-5)..
-           dict_io.count(integer(unk_mnpc)+3)  loop
-            list_entry(output, d_k, mn);
+         pause(Output);
+         for mn in dict_io.Count(Integer(unk_mnpc)-5)..
+           dict_io.Count(Integer(unk_mnpc)+3)  loop
+            list_entry(Output, d_k, mn);
 
          end loop;
       end if;

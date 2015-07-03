@@ -16,7 +16,7 @@
 
 with makedict_main;
 procedure makedict is
-   porting : constant boolean := true;
+   porting : constant Boolean := True;
 begin
    makedict_main(porting);
 end makedict;

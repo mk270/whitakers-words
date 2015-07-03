@@ -14,22 +14,22 @@
 -- All parts of the WORDS system, source code and data files, are made freely
 -- available to anyone who wishes to use them, for whatever purpose.
 
-with text_io;
+with Text_IO;
 with inflections_package; use inflections_package;
 with dictionary_package; use dictionary_package;
 with word_support_package; use word_support_package;
 package word_package is
 
-   line_number, word_number : integer := 0;
+   line_number, word_number : Integer := 0;
 
-   type stem_array_type is array (integer range <>) of stem_type;
+   type stem_array_type is array (Integer range <>) of stem_type;
    subtype stem_array is stem_array_type(0..max_stem_size);
 
    not_a_stem : constant stem_type := (others => 'x');
    not_a_stem_array : stem_array  := (others => not_a_stem);
 
    sa, ssa : stem_array := not_a_stem_array;
-   ssa_max : integer := 0;
+   ssa_max : Integer := 0;
 
    type pruned_dictionary_item is
       record
@@ -42,7 +42,7 @@ package word_package is
    --  Jan 97   QU_PRON max 42, PACK max 74  --  Might reduce
 
    pdl : pruned_dictionary_list := (others => null_pruned_dictionary_item);
-   pdl_index : integer := 0;
+   pdl_index : Integer := 0;
 
    subtype sal is parse_array(1..250);
 
@@ -54,35 +54,35 @@ package word_package is
    rrr_meaning : meaning_type := null_meaning_type;  --  For Roman Numerals
    ppp_meaning : meaning_type := null_meaning_type;  --  For COMPOUNDED
 
-   scroll_line_number : integer := 0;
-   output_scroll_count : integer := 0;
+   scroll_line_number : Integer := 0;
+   Output_scroll_count : Integer := 0;
 
-   procedure pause(output : text_io.file_type);
+   procedure pause(Output : Text_IO.File_Type);
 
-   function min(a, b : integer) return integer;
+   function min(a, b : Integer) return Integer;
 
-   function ltu(c, d : character) return boolean;
+   function ltu(c, d : Character) return Boolean;
 
-   function equ(c, d : character) return boolean;
+   function equ(c, d : Character) return Boolean;
 
-   function gtu(c, d : character) return boolean;
+   function gtu(c, d : Character) return Boolean;
 
-   function ltu(s, t : string) return boolean;
+   function ltu(s, t : String) return Boolean;
 
-   function gtu(s, t : string) return boolean;
+   function gtu(s, t : String) return Boolean;
 
-   function equ(s, t : string) return boolean;
+   function equ(s, t : String) return Boolean;
 
-   procedure run_inflections(s : in string; sl : in out sal;
+   procedure run_inflections(s : in String; sl : in out sal;
                                             restriction : dict_restriction := regular);
 
    procedure search_dictionaries(ssa : in stem_array_type;
                                                        restriction : dict_restriction := regular);
 
-   procedure word(raw_word : in string;
-                  pa : in out parse_array; pa_last : in out integer);
+   procedure word(raw_word : in String;
+                  pa : in out parse_array; pa_last : in out Integer);
 
-   procedure change_language(c : character);
+   procedure change_language(c : Character);
 
    procedure initialize_word_package;
 

@@ -14,74 +14,75 @@
 -- All parts of the WORDS system, source code and data files, are made freely
 -- available to anyone who wishes to use them, for whatever purpose.
 
-with strings_package; use strings_package;
+with Strings_package; use Strings_package;
 with developer_parameters; use developer_parameters;
 with preface;
 package body addons_package is
-   use text_io;
+   use Text_IO;
    use part_of_speech_type_io;
-   use target_entry_io;
+   use Target_entry_io;
    use part_entry_io;
    --use KIND_ENTRY_IO;
    use stem_key_type_io;
 
-   function equ(c, d : character) return boolean is
+   function equ(c, d : Character) return Boolean is
    begin
       if (d = 'u') or (d = 'v')  then
          if (c = 'u') or (c = 'v')  then
-            return true;
+            return True;
          else
-            return false;
+            return False;
          end if;
       else
          return c = d;
       end if;
    end equ;
 
-   function equ(s, t : string) return boolean is
+   function equ(s, t : String) return Boolean is
    begin
       if s'Length /= t'Length  then
-         return false;
+         return False;
       end if;
 
       for i in 1..s'Length  loop
          if not equ(s(s'First+i-1), t(t'First+i-1))  then
-            return false;
+            return False;
          end if;
       end loop;
 
-      return true;
+      return True;
    end equ;
 
-   procedure load_addons (file_name : in string) is
+   procedure load_addons (file_name : in String) is
       use tackon_entry_io;
       use prefix_entry_io;
       use suffix_entry_io;
       --use DICT_IO;
 
-      s : string(1..100);
-      l, last, tic, pre, suf, tac, pac : integer := 0;
-      addons_file : text_io.file_type;
+      s : String(1..100);
+      l, last, tic, pre, suf, tac, pac : Integer := 0;
+      addons_file : Text_IO.File_Type;
       pofs: part_of_speech_type;
       de : dictionary_entry := null_dictionary_entry;
       mean : meaning_type := null_meaning_type;
-      m : integer := 1;
+      m : Integer := 1;
       --TG : TARGET_ENTRY;
       tn : tackon_entry;
       pm : prefix_item;
       ts : stem_type;
 
-      procedure get_no_comment_line(f : in text_io.file_type;
-                                    s : out string; last : out integer) is
-         t : string(1..250) := (others => ' ');
-         l : integer := 0;
+      procedure Get_no_comment_line(f : in Text_IO.File_Type;
+                                    s : out String; last : out Integer) is
+         t : String(1..250) := (others => ' ');
+         l : Integer := 0;
       begin
          last := 0;
-         while not end_of_file(f)  loop
-            get_line(f, t, l);
+         while not End_Of_File(f)  loop
+            Get_Line(f, t, l);
             if l >= 2  and then
               (head(trim(t), 250)(1..2) = "--"  or
-              head(trim(t), 250)(1..2) = "  ")  then
+              head(trim(t), 250)(1..2) = "  ")
+            then
                null;
             else
                s(s'First .. l) := t(1..l);
@@ -89,13 +90,13 @@ package body addons_package is
                exit;
             end if;
          end loop;
-      end get_no_comment_line;
+      end Get_no_comment_line;
 
-      procedure extract_fix(s : in string;
-                            xfix : out fix_type; xc : out character) is
-         st : constant string := trim(s);
-         l : constant integer := st'Length;
-         j : integer := 0;
+      procedure extract_fix(s : in String;
+                            xfix : out fix_type; xc : out Character) is
+         st : constant String := trim(s);
+         l : constant Integer := st'Length;
+         j : Integer := 0;
       begin
          for i in 1..l  loop
             j := i;
@@ -117,9 +118,9 @@ package body addons_package is
       end extract_fix;
 
    begin
-      open(addons_file, in_file, file_name);
-      preface.put("ADDONS");
-      preface.put(" loading ");
+      Open(addons_file, In_File, file_name);
+      preface.Put("ADDONS");
+      preface.Put(" loading ");
 
       --    if DICT_IO.IS_OPEN(DICT_FILE(D_K))  then
       --      DICT_IO.DELETE(DICT_FILE(D_K));
@@ -128,26 +129,27 @@ package body addons_package is
       --          --ADD_FILE_NAME_EXTENSION(DICT_FILE_NAME, DICTIONARY_KIND'IMAGE(D_K)));
       --       "");
       --
-      while not end_of_file(addons_file)  loop
+      while not End_Of_File(addons_file)  loop
 
          de := null_dictionary_entry;
-         get_no_comment_line(addons_file, s, last);
+         Get_no_comment_line(addons_file, s, last);
          --TEXT_IO.PUT_LINE(S(1..LAST));
-         get(s(1..last), pofs, l);
+         Get(s(1..last), pofs, l);
          case pofs is
             when tackon  =>
                ts := head(trim(s(l+1..last)), max_stem_size);
                de.stems(1) := ts;
 
-               get_line(addons_file, s, last);
-               get(s(1..last), tn, l);
-               get_line(addons_file, s, last);
+               Get_Line(addons_file, s, last);
+               Get(s(1..last), tn, l);
+               Get_Line(addons_file, s, last);
                mean := head(s(1..last), max_meaning_size);
 
                if  tn.base.pofs= pack   and then
-                 (tn.base.pack.decl.which = 1 or
-                 tn.base.pack.decl.which = 2)  and then
-                 mean(1..9) = "PACKON w/"  then
+                  (tn.base.pack.decl.which = 1 or
+                  tn.base.pack.decl.which = 2)  and then
+                  mean(1..9) = "PACKON w/"
+               then
                   pac := pac + 1;
                   packons (pac).pofs:= pofs;
                   packons(pac).tack := ts;
@@ -158,7 +160,6 @@ package body addons_package is
                   packons (pac).mnpc := m;
                   means(m) := mean;
                   m := m + 1;
-
                else
                   tac := tac + 1;
                   tackons (tac).pofs:= pofs;
@@ -179,12 +180,12 @@ package body addons_package is
             when prefix  =>
 
                extract_fix(s(l+1..last), pm.fix, pm.connect);
-               get_line(addons_file, s, last);
-               get(s(1..last), pm.entr, l);
-               get_line(addons_file, s, last);
+               Get_Line(addons_file, s, last);
+               Get(s(1..last), pm.entr, l);
+               Get_Line(addons_file, s, last);
                mean := head(s(1..last), max_meaning_size);
 
-               if  pm.entr.root = pack     then
+               if pm.entr.root = pack then
                   tic := tic + 1;
                   tickons (tic).pofs:= pofs;
                   tickons(tic).fix  := pm.fix;
@@ -197,7 +198,6 @@ package body addons_package is
                   tickons (tic).mnpc := m;
                   means(m) := mean;
                   m := m + 1;
-
                else
                   pre := pre + 1;
                   prefixes(pre).pofs:= pofs;
@@ -222,13 +222,13 @@ package body addons_package is
                --TEXT_IO.PUT_LINE(S(1..LAST));
                extract_fix(s(l+1..last), suffixes(suf).fix, suffixes(suf).connect);
                --TEXT_IO.PUT("@1");
-               get_line(addons_file, s, last);
+               Get_Line(addons_file, s, last);
                --TEXT_IO.PUT("@2");
                --TEXT_IO.PUT_LINE(S(1..LAST) & "<");
                --TEXT_IO.PUT("@2");
-               get(s(1..last), suffixes(suf).entr, l);
+               Get(s(1..last), suffixes(suf).entr, l);
                --TEXT_IO.PUT("@3");
-               get_line(addons_file, s, last);
+               Get_Line(addons_file, s, last);
                --TEXT_IO.PUT("@4");
                mean := head(s(1..last), max_meaning_size);
                --TEXT_IO.PUT("@5");
@@ -244,50 +244,51 @@ package body addons_package is
                number_of_suffixes := suf;
 
             when others  =>
-               text_io.put_line("Bad ADDON    !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-               text_io.put_line(s(1..last));
-               raise text_io.data_error;
+               Text_IO.Put_Line("Bad ADDON    !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+               Text_IO.Put_Line(s(1..last));
+               raise Text_IO.Data_Error;
          end case;
 
       end loop;
 
-      preface.put(tac, 1); preface.put("+");
-      preface.put(pac, 2); preface.put(" TACKONS ");
-      preface.put(tic, 1); preface.put("+");
-      preface.put(pre, 3); preface.put(" PREFIXES ");
-      preface.put(suf, 3); preface.put(" SUFFIXES ");
+      preface.Put(tac, 1); preface.Put("+");
+      preface.Put(pac, 2); preface.Put(" TACKONS ");
+      preface.Put(tic, 1); preface.Put("+");
+      preface.Put(pre, 3); preface.Put(" PREFIXES ");
+      preface.Put(suf, 3); preface.Put(" SUFFIXES ");
 
-      preface.set_col(60); preface.put_line("--  Loaded correctly");
-      close(addons_file);
+      preface.Set_Col(60); preface.Put_Line("--  Loaded correctly");
+      Close(addons_file);
 
       --for I in MEANS'RANGE  loop
       --  TEXT_IO.PUT(INTEGER'IMAGE(INTEGER(I))); TEXT_IO.PUT_LINE("--" & MEANS(I));
       --end loop;
 
    exception
-      when text_io.name_error  =>
-         preface.put_line("No ADDONS file ");
+      when Text_IO.Name_Error  =>
+         preface.Put_Line("No ADDONS file ");
          null;
-      when text_io.data_error  =>
-         preface.put_line(s(1..last));
-         preface.put_line("No further ADDONS read ");
-         close(addons_file);
+      when Text_IO.Data_Error  =>
+         preface.Put_Line(s(1..last));
+         preface.Put_Line("No further ADDONS read ");
+         Close(addons_file);
       when others      =>
-         preface.put_line("Exception in LOAD_ADDONS");
-         preface.put_line(s(1..last));
+         preface.Put_Line("Exception in LOAD_ADDONS");
+         preface.Put_Line(s(1..last));
    end load_addons;
 
-   function subtract_tackon(w : string; x : tackon_item) return string is
-      wd : constant string := trim(w);
-      l  : constant integer := wd'Length;
-      xf : constant string := trim(x.tack);
-      z  : constant integer := xf'Length;
+   function subtract_tackon(w : String; x : tackon_item) return String is
+      wd : constant String := trim(w);
+      l  : constant Integer := wd'Length;
+      xf : constant String := trim(x.tack);
+      z  : constant Integer := xf'Length;
    begin
       --PUT_LINE("In SUB TACKON " & INTEGER'IMAGE(L) & INTEGER'IMAGE(Z));
       if words_mdev(use_tackons) and then
         l > z  and then
         --WD(L-Z+1..L) = XF(1..Z)  then
-        equ(wd(l-z+1..l),  xf(1..z)) then
+        equ(wd(l-z+1..l),  xf(1..z))
+      then
          --PUT("In SUBTRACT_TACKON we got a hit   "); PUT_LINE(X.TACK);
          return wd(1..l-z);
       else
@@ -296,10 +297,10 @@ package body addons_package is
       end if;
    end subtract_tackon;
 
-   function subtract_prefix(w : string; x : prefix_item) return stem_type is
-      wd : constant string := trim(w);
-      xf : constant string := trim(x.fix);
-      z  : constant integer := xf'Length;
+   function subtract_prefix(w : String; x : prefix_item) return stem_type is
+      wd : constant String := trim(w);
+      xf : constant String := trim(x.fix);
+      z  : constant Integer := xf'Length;
       st : stem_type := head(wd, max_stem_size);
    begin
       if words_mdev(use_prefixes) and then
@@ -307,7 +308,8 @@ package body addons_package is
         wd'Length > z  and then
         --WD(1..Z) = XF(1..Z)  and then
         equ(wd(1..z),  xf(1..z)) and then
-        ( (x.connect = ' ') or (wd(z+1) = x.connect) )  then
+        ( (x.connect = ' ') or (wd(z+1) = x.connect) )
+      then
          st(1..wd'Length-z) := wd(z+1..wd'Last);
          st(wd'Length-z+1..max_stem_size) :=
            null_stem_type(wd'Length-z+1..max_stem_size);
@@ -316,11 +318,11 @@ package body addons_package is
       return st;
    end subtract_prefix;
 
-   function subtract_suffix(w : string; x : suffix_item) return stem_type is
-      wd : constant string := trim(w);
-      l  : constant integer := wd'Length;
-      xf : constant string := trim(x.fix);
-      z  : constant integer := xf'Length;
+   function subtract_suffix(w : String; x : suffix_item) return stem_type is
+      wd : constant String := trim(w);
+      l  : constant Integer := wd'Length;
+      xf : constant String := trim(x.fix);
+      z  : constant Integer := xf'Length;
       st : stem_type := head(wd, max_stem_size);
    begin
       --PUT_LINE("In SUBTRACT_SUFFIX  Z = " & INTEGER'IMAGE(Z) &
@@ -330,7 +332,8 @@ package body addons_package is
         wd'Length > z  and then
         --WD(L-Z+1..L) = XF(1..Z)  and then
         equ(wd(l-z+1..l),  xf(1..z))  and then
-        ( (x.connect = ' ') or (wd(l-z) = x.connect) )  then
+        ( (x.connect = ' ') or (wd(l-z) = x.connect) )
+      then
          --PUT_LINE("In SUBTRACT_SUFFIX we got a hit");
          st(1..wd'Length-z) := wd(1..wd'Length-z);
          st(wd'Length-z+1..max_stem_size) :=
@@ -342,7 +345,7 @@ package body addons_package is
 
    function add_prefix(stem : stem_type;
                        prefix : prefix_item) return stem_type is
-      fpx : constant string := trim(prefix.fix) & stem;
+      fpx : constant String := trim(prefix.fix) & stem;
    begin
       if words_mdev(use_prefixes)  then
          return head(fpx, max_stem_size);
@@ -353,7 +356,7 @@ package body addons_package is
 
    function add_suffix(stem : stem_type;
                        suffix : suffix_item) return stem_type is
-      fpx : constant string := trim(stem) & suffix.fix;
+      fpx : constant String := trim(stem) & suffix.fix;
    begin
       if words_mdev(use_suffixes)  then
          return head(fpx, max_stem_size);
@@ -376,7 +379,7 @@ package body addons_package is
 
    --  package body SUFFIX_LINE_IO is separate;
 
-   package body target_entry_io is
+   package body Target_entry_io is
       use noun_entry_io;
       use pronoun_entry_io;
       use propack_entry_io;
@@ -391,7 +394,7 @@ package body addons_package is
       --  use INFLECTIONS_PACKAGE.INTEGER_IO;
       --  use VERB_KIND_TYPE_IO;
 
-      spacer : character := ' ';
+      spacer : Character := ' ';
 
       noun  : noun_entry;
       pronoun : pronoun_entry;
@@ -409,424 +412,424 @@ package body addons_package is
 
       --KIND : KIND_ENTRY;
 
-      procedure get(f : in file_type; p : out target_entry) is
-         ps : target_pofs_type := x;
+      procedure Get(f : in File_Type; p : out Target_entry) is
+         ps : Target_pofs_type := x;
       begin
-         get(f, ps);
-         get(f, spacer);
+         Get(f, ps);
+         Get(f, spacer);
          case ps is
             when n =>
-               get(f, noun);
+               Get(f, noun);
                --GET(F, NOUN_KIND);
                p := (n, noun);  --, NOUN_KIND);
             when pron =>
-               get(f, pronoun);
+               Get(f, pronoun);
                --GET(F, PRONOUN_KIND);
                p := (pron, pronoun);  --, PRONOUN_KIND);
             when pack =>
-               get(f, propack);
+               Get(f, propack);
                --GET(F, PROPACK_KIND);
                p := (pack, propack);  --, PROPACK_KIND);
             when adj =>
-               get(f, adjective);
+               Get(f, adjective);
                p := (adj, adjective);
             when num =>
-               get(f, numeral);
+               Get(f, numeral);
                --GET(F, NUMERAL_VALUE);
                p := (num, numeral);  --, NUMERAL_VALUE);
             when adv =>
-               get(f, adverb);
+               Get(f, adverb);
                p := (adv, adverb);
             when v =>
-               get(f, verb);
+               Get(f, verb);
                --GET(F, VERB_KIND);
                p := (v, verb);  --, VERB_KIND);
             when x =>
                p := (pofs=> x);
          end case;
          return;
-      end get;
+      end Get;
 
-      procedure get(p : out target_entry) is
-         ps : target_pofs_type := x;
+      procedure Get(p : out Target_entry) is
+         ps : Target_pofs_type := x;
       begin
-         get(ps);
-         get(spacer);
+         Get(ps);
+         Get(spacer);
          case ps is
             when n =>
-               get(noun);
+               Get(noun);
                --GET(NOUN_KIND);
                p := (n, noun);  --, NOUN_KIND);
             when pron =>
-               get(pronoun);
+               Get(pronoun);
                --GET(PRONOUN_KIND);
                p := (pron, pronoun);  --, PRONOUN_KIND);
             when pack =>
-               get(propack);
+               Get(propack);
                --GET(PROPACK_KIND);
                p := (pack, propack);  --, PROPACK_KIND);
             when adj =>
-               get(adjective);
+               Get(adjective);
                p := (adj, adjective);
             when num =>
-               get(numeral);
+               Get(numeral);
                --GET(NUMERAL_VALUE);
                p := (num, numeral);  --, NUMERAL_VALUE);
             when adv =>
-               get(adverb);
+               Get(adverb);
                p := (adv, adverb);
             when v =>
-               get(verb);
+               Get(verb);
                --GET(VERB_KIND);
                p := (v, verb);  --, VERB_KIND);
             when x =>
                p := (pofs=> x);
          end case;
          return;
-      end get;
+      end Get;
 
-      procedure put(f : in file_type; p : in target_entry) is
-         c : constant positive := positive(col(f));
+      procedure Put(f : in File_Type; p : in Target_entry) is
+         c : constant Positive := Positive (Col (f));
       begin
-         put(f, p.pofs);
-         put(f, ' ');
+         Put(f, p.pofs);
+         Put(f, ' ');
          case p.pofs is
             when n =>
-               put(f, p.n);
+               Put(f, p.n);
                --PUT(F, P.NOUN_KIND);
             when pron =>
-               put(f, p.pron);
+               Put(f, p.pron);
                --PUT(F, P.PRONOUN_KIND);
             when pack =>
-               put(f, p.pack);
+               Put(f, p.pack);
                --PUT(F, P.PROPACK_KIND);
             when adj =>
-               put(f, p.adj);
+               Put(f, p.adj);
             when num =>
-               put(f, p.num);
+               Put(f, p.num);
                --PUT(F, P.NUMERAL_VALUE);
             when adv =>
-               put(f, p.adv);
+               Put(f, p.adv);
             when v =>
-               put(f, p.v);
+               Put(f, p.v);
                --PUT(F, P.VERB_KIND);
             when others =>
                null;
          end case;
-         put(f, string'((integer(col(f))..target_entry_io.default_width+c-1 => ' ')));
+         Put(f, String'((Integer(Col(f))..Target_entry_io.Default_Width+c-1 => ' ')));
          return;
-      end put;
+      end Put;
 
-      procedure put(p : in target_entry) is
-         c : constant positive := positive(col);
+      procedure Put(p : in Target_entry) is
+         c : constant Positive := Positive (Col);
       begin
-         put(p.pofs);
-         put(' ');
+         Put(p.pofs);
+         Put(' ');
          case p.pofs is
             when n =>
-               put(p.n);
+               Put(p.n);
                --PUT(P.NOUN_KIND);
             when pron =>
-               put(p.pron);
+               Put(p.pron);
                --PUT(P.PRONOUN_KIND);
             when pack =>
-               put(p.pack);
+               Put(p.pack);
                --PUT(P.PROPACK_KIND);
             when adj =>
-               put(p.adj);
+               Put(p.adj);
             when num =>
-               put(p.num);
+               Put(p.num);
                --PUT(P.NUMERAL_VALUE);
             when adv =>
-               put(p.adv);
+               Put(p.adv);
             when v =>
-               put(p.v);
+               Put(p.v);
                --PUT(P.VERB_KIND);
             when others =>
                null;
          end case;
-         put(string'((integer(col)..target_entry_io.default_width+c-1 => ' ')));
+         Put(String'((Integer(Col)..Target_entry_io.Default_Width+c-1 => ' ')));
          return;
-      end put;
+      end Put;
 
-      procedure get(s : in string; p : out target_entry; last : out integer) is
-         l : integer := s'First - 1;
-         ps : target_pofs_type := x;
+      procedure Get(s : in String; p : out Target_entry; last : out Integer) is
+         l : Integer := s'First - 1;
+         ps : Target_pofs_type := x;
       begin
-         get(s, ps, l);
+         Get(s, ps, l);
          l := l + 1;
          case ps is
             when n =>
-               get(s(l+1..s'Last), noun, last);
+               Get(s(l+1..s'Last), noun, last);
                --GET(S(L+1..S'LAST), NOUN_KIND, LAST);
                p := (n, noun);  --, NOUN_KIND);
             when pron =>
-               get(s(l+1..s'Last), pronoun, last);
+               Get(s(l+1..s'Last), pronoun, last);
                --GET(S(L+1..S'LAST), PRONOUN_KIND, LAST);
                p := (pron, pronoun);  --, PRONOUN_KIND);
             when pack =>
-               get(s(l+1..s'Last), propack, last);
+               Get(s(l+1..s'Last), propack, last);
                --GET(S(L+1..S'LAST), PROPACK_KIND, LAST);
                p := (pack, propack);  --, PROPACK_KIND);
             when adj =>
-               get(s(l+1..s'Last), adjective, last);
+               Get(s(l+1..s'Last), adjective, last);
                p := (adj, adjective);
             when num =>
-               get(s(l+1..s'Last), numeral, last);
+               Get(s(l+1..s'Last), numeral, last);
                --GET(S(L+1..S'LAST), NUMERAL_VALUE, LAST);
                p := (num, numeral);  --, NUMERAL_VALUE);
             when adv =>
-               get(s(l+1..s'Last), adverb, last);
+               Get(s(l+1..s'Last), adverb, last);
                p := (adv, adverb);
             when v =>
-               get(s(l+1..s'Last), verb, last);
+               Get(s(l+1..s'Last), verb, last);
                --GET(S(L+1..S'LAST), VERB_KIND, LAST);
                p := (v, verb);  --, VERB_KIND);
             when x =>
                p := (pofs=> x);
          end case;
          return;
-      end get;
+      end Get;
 
-      procedure put(s : out string; p : in target_entry) is
-         l : integer := s'First - 1;
-         m : integer := 0;
+      procedure Put(s : out String; p : in Target_entry) is
+         l : Integer := s'First - 1;
+         m : Integer := 0;
       begin
-         m := l + part_of_speech_type_io.default_width;
-         put(s(l+1..m), p.pofs);
+         m := l + part_of_speech_type_io.Default_Width;
+         Put(s(l+1..m), p.pofs);
          l := m + 1;
          s(l) :=  ' ';
          case p.pofs is
             when n =>
-               m := l + noun_entry_io.default_width;
-               put(s(l+1..m), p.n);
+               m := l + noun_entry_io.Default_Width;
+               Put(s(l+1..m), p.n);
                --        M := L + NOUN_KIND_TYPE_IO.DEFAULT_WIDTH;
                --        PUT(S(L+1..M), P.NOUN_KIND);
             when pron =>
-               m := l + pronoun_entry_io.default_width;
-               put(s(l+1..m), p.pron);
+               m := l + pronoun_entry_io.Default_Width;
+               Put(s(l+1..m), p.pron);
                --        M := L + PRONOUN_KIND_TYPE_IO.DEFAULT_WIDTH;
                --        PUT(S(L+1..M), P.PRONOUN_KIND);
             when pack =>
-               m := l + propack_entry_io.default_width;
-               put(s(l+1..m), p.pack);
+               m := l + propack_entry_io.Default_Width;
+               Put(s(l+1..m), p.pack);
                --        M := L + PRONOUN_KIND_TYPE_IO.DEFAULT_WIDTH;
                --        PUT(S(L+1..M), P.PROPACK_KIND);
             when adj =>
-               m := l + adjective_entry_io.default_width;
-               put(s(l+1..m), p.adj);
+               m := l + adjective_entry_io.Default_Width;
+               Put(s(l+1..m), p.adj);
             when num =>
-               m := l + numeral_entry_io.default_width;
-               put(s(l+1..m), p.num);
+               m := l + numeral_entry_io.Default_Width;
+               Put(s(l+1..m), p.num);
                --        M := L + NUMERAL_VALUE_TYPE_IO_DEFAULT_WIDTH;
                --        PUT(S(L+1..M), P.PRONOUN_KIND);
             when adv =>
-               m := l + adverb_entry_io.default_width;
-               put(s(l+1..m), p.adv);
+               m := l + adverb_entry_io.Default_Width;
+               Put(s(l+1..m), p.adv);
             when v =>
-               m := l + verb_entry_io.default_width;
-               put(s(l+1..m), p.v);
+               m := l + verb_entry_io.Default_Width;
+               Put(s(l+1..m), p.v);
                --        M := L + PRONOUN_KIND_TYPE_IO.DEFAULT_WIDTH;
                --        PUT(S(L+1..M), P.PRONOUN_KIND);
             when others =>
                null;
          end case;
          s(m+1..s'Last) := (others => ' ');
-      end put;
+      end Put;
 
-   end target_entry_io;
+   end Target_entry_io;
 
    package body tackon_entry_io is
-      procedure get(f : in file_type; i : out tackon_entry) is
+      procedure Get(f : in File_Type; i : out tackon_entry) is
       begin
-         get(f, i.base);
-      end get;
+         Get(f, i.base);
+      end Get;
 
-      procedure get(i : out tackon_entry) is
+      procedure Get(i : out tackon_entry) is
       begin
-         get(i.base);
-      end get;
+         Get(i.base);
+      end Get;
 
-      procedure put(f : in file_type; i : in tackon_entry) is
+      procedure Put(f : in File_Type; i : in tackon_entry) is
       begin
-         put(f, i.base);
-      end put;
+         Put(f, i.base);
+      end Put;
 
-      procedure put(i : in tackon_entry) is
+      procedure Put(i : in tackon_entry) is
       begin
-         put(i.base);
-      end put;
+         Put(i.base);
+      end Put;
 
-      procedure get(s : in string; i : out tackon_entry; last : out integer) is
-         l : constant integer := s'First - 1;
+      procedure Get(s : in String; i : out tackon_entry; last : out Integer) is
+         l : constant Integer := s'First - 1;
       begin
-         get(s(l+1..s'Last), i.base, last);
-      end get;
+         Get(s(l+1..s'Last), i.base, last);
+      end Get;
 
-      procedure put(s : out string; i : in tackon_entry) is
-         l : constant integer := s'First - 1;
-         m : integer := 0;
+      procedure Put(s : out String; i : in tackon_entry) is
+         l : constant Integer := s'First - 1;
+         m : Integer := 0;
       begin
-         m := l + target_entry_io.default_width;
-         put(s(l+1..m), i.base);
+         m := l + Target_entry_io.Default_Width;
+         Put(s(l+1..m), i.base);
          s(s'First..s'Last) := (others => ' ');
-      end put;
+      end Put;
 
    end tackon_entry_io;
 
    package body prefix_entry_io is
-      spacer : character := ' ';
+      spacer : Character := ' ';
 
-      procedure get(f : in file_type; p : out prefix_entry) is
+      procedure Get(f : in File_Type; p : out prefix_entry) is
       begin
-         get(f, p.root);
-         get(f, spacer);
-         get(f, p.target);
-      end get;
+         Get(f, p.root);
+         Get(f, spacer);
+         Get(f, p.Target);
+      end Get;
 
-      procedure get(p : out prefix_entry) is
+      procedure Get(p : out prefix_entry) is
       begin
-         get(p.root);
-         get(spacer);
-         get(p.target);
-      end get;
+         Get(p.root);
+         Get(spacer);
+         Get(p.Target);
+      end Get;
 
-      procedure put(f : in file_type; p : in prefix_entry) is
+      procedure Put(f : in File_Type; p : in prefix_entry) is
       begin
-         put(f, p.root);
-         put(f, ' ');
-         put(f, p.target);
-      end put;
+         Put(f, p.root);
+         Put(f, ' ');
+         Put(f, p.Target);
+      end Put;
 
-      procedure put(p : in prefix_entry) is
+      procedure Put(p : in prefix_entry) is
       begin
-         put(p.root);
-         put(' ');
-         put(p.target);
-      end put;
+         Put(p.root);
+         Put(' ');
+         Put(p.Target);
+      end Put;
 
-      procedure get(s : in string; p : out prefix_entry; last : out integer) is
-         l : integer := s'First - 1;
+      procedure Get(s : in String; p : out prefix_entry; last : out Integer) is
+         l : Integer := s'First - 1;
       begin
-         get(s(l+1..s'Last), p.root, l);
+         Get(s(l+1..s'Last), p.root, l);
          l := l + 1;
-         get(s(l+1..s'Last), p.target, last);
-      end get;
+         Get(s(l+1..s'Last), p.Target, last);
+      end Get;
 
-      procedure put(s : out string; p : in prefix_entry) is
-         l : integer := s'First - 1;
-         m : integer := 0;
+      procedure Put(s : out String; p : in prefix_entry) is
+         l : Integer := s'First - 1;
+         m : Integer := 0;
       begin
-         m := l + part_of_speech_type_io.default_width;
-         put(s(l+1..m), p.root);
+         m := l + part_of_speech_type_io.Default_Width;
+         Put(s(l+1..m), p.root);
          l := m + 1;
          s(l) :=  ' ';
-         m := l + part_of_speech_type_io.default_width;
-         put(s(l+1..m), p.target);
+         m := l + part_of_speech_type_io.Default_Width;
+         Put(s(l+1..m), p.Target);
          s(m+1..s'Last) := (others => ' ');
-      end put;
+      end Put;
 
    end prefix_entry_io;
 
    package body suffix_entry_io is
-      spacer : character := ' ';
+      spacer : Character := ' ';
 
-      procedure get(f : in file_type; p : out suffix_entry) is
+      procedure Get(f : in File_Type; p : out suffix_entry) is
       begin
-         get(f, p.root);
-         get(f, spacer);
-         get(f, p.root_key);
-         get(f, spacer);
-         get(f, p.target);
-         get(f, spacer);
-         get(f, p.target_key);
-      end get;
+         Get(f, p.root);
+         Get(f, spacer);
+         Get(f, p.root_key);
+         Get(f, spacer);
+         Get(f, p.Target);
+         Get(f, spacer);
+         Get(f, p.Target_key);
+      end Get;
 
-      procedure get(p : out suffix_entry) is
+      procedure Get(p : out suffix_entry) is
       begin
-         get(p.root);
-         get(spacer);
-         get(p.root_key);
-         get(spacer);
-         get(p.target);
-         get(spacer);
-         get(p.target_key);
-      end get;
+         Get(p.root);
+         Get(spacer);
+         Get(p.root_key);
+         Get(spacer);
+         Get(p.Target);
+         Get(spacer);
+         Get(p.Target_key);
+      end Get;
 
-      procedure put(f : in file_type; p : in suffix_entry) is
+      procedure Put(f : in File_Type; p : in suffix_entry) is
       begin
-         put(f, p.root);
-         put(f, ' ');
-         put(f, p.root_key, 2);
-         put(f, ' ');
-         put(f, p.target);
-         put(f, ' ');
-         put(f, p.target_key, 2);
-      end put;
+         Put(f, p.root);
+         Put(f, ' ');
+         Put(f, p.root_key, 2);
+         Put(f, ' ');
+         Put(f, p.Target);
+         Put(f, ' ');
+         Put(f, p.Target_key, 2);
+      end Put;
 
-      procedure put(p : in suffix_entry) is
+      procedure Put(p : in suffix_entry) is
       begin
-         put(p.root);
-         put(' ');
-         put(p.root_key, 2);
-         put(' ');
-         put(p.target);
-         put(' ');
-         put(p.target_key, 2);
-      end put;
+         Put(p.root);
+         Put(' ');
+         Put(p.root_key, 2);
+         Put(' ');
+         Put(p.Target);
+         Put(' ');
+         Put(p.Target_key, 2);
+      end Put;
 
-      procedure get(s : in string; p : out suffix_entry; last : out integer) is
-         l : integer := s'First - 1;
+      procedure Get(s : in String; p : out suffix_entry; last : out Integer) is
+         l : Integer := s'First - 1;
       begin
          --TEXT_IO.PUT("#1" & INTEGER'IMAGE(L));
-         get(s(l+1..s'Last), p.root, l);
+         Get(s(l+1..s'Last), p.root, l);
          --TEXT_IO.PUT("#2" & INTEGER'IMAGE(L));
          l := l + 1;
-         get(s(l+1..s'Last), p.root_key, l);
+         Get(s(l+1..s'Last), p.root_key, l);
          --TEXT_IO.PUT("#3" & INTEGER'IMAGE(L));
          l := l + 1;
-         get(s(l+1..s'Last), p.target, l);
+         Get(s(l+1..s'Last), p.Target, l);
          --TEXT_IO.PUT("#4" & INTEGER'IMAGE(L));
          l := l + 1;
-         get(s(l+1..s'Last), p.target_key, last);
+         Get(s(l+1..s'Last), p.Target_key, last);
          --TEXT_IO.PUT("#5" & INTEGER'IMAGE(LAST));
-      end get;
+      end Get;
 
-      procedure put(s : out string; p : in suffix_entry) is
-         l : integer := s'First - 1;
-         m : integer := 0;
+      procedure Put(s : out String; p : in suffix_entry) is
+         l : Integer := s'First - 1;
+         m : Integer := 0;
       begin
-         m := l + part_of_speech_type_io.default_width;
-         put(s(l+1..m), p.root);
+         m := l + part_of_speech_type_io.Default_Width;
+         Put(s(l+1..m), p.root);
          l := m + 1;
          s(l) :=  ' ';
          m := l + 2;
-         put(s(l+1..m), p.root_key);
+         Put(s(l+1..m), p.root_key);
          l := m + 1;
          s(l) :=  ' ';
-         m := l + target_entry_io.default_width;
-         put(s(l+1..m), p.target);
+         m := l + Target_entry_io.Default_Width;
+         Put(s(l+1..m), p.Target);
          l := m + 1;
          s(l) :=  ' ';
          m := l + 2;
-         put(s(l+1..m), p.target_key);
+         Put(s(l+1..m), p.Target_key);
          s(m+1..s'Last) := (others => ' ');
-      end put;
+      end Put;
 
    end suffix_entry_io;
 
 begin    --  Initiate body of ADDONS_PACKAGE
          --TEXT_IO.PUT_LINE("Initializing ADDONS_PACKAGE");
 
-   prefix_entry_io.default_width := part_of_speech_type_io.default_width + 1 +
-     part_of_speech_type_io.default_width;
-   target_entry_io.default_width := part_of_speech_type_io.default_width + 1 +
-     numeral_entry_io.default_width; --  Largest
+   prefix_entry_io.Default_Width := part_of_speech_type_io.Default_Width + 1 +
+     part_of_speech_type_io.Default_Width;
+   Target_entry_io.Default_Width := part_of_speech_type_io.Default_Width + 1 +
+     numeral_entry_io.Default_Width; --  Largest
 
-   suffix_entry_io.default_width := part_of_speech_type_io.default_width + 1 +
+   suffix_entry_io.Default_Width := part_of_speech_type_io.Default_Width + 1 +
      2 + 1 +
-     target_entry_io.default_width + 1 +
+     Target_entry_io.Default_Width + 1 +
      2;
-   tackon_entry_io.default_width := target_entry_io.default_width;
+   tackon_entry_io.Default_Width := Target_entry_io.Default_Width;
 
 end addons_package;

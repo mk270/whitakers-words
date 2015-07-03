@@ -14,29 +14,29 @@
 -- All parts of the WORDS system, source code and data files, are made freely
 -- available to anyone who wishes to use them, for whatever purpose.
 
-with text_io;
-package strings_package is
+with Text_IO;
+package Strings_package is
    type trim_end is (left, right, both);
 
-   null_string : constant string(2..1) := (others => ' ');
+   null_String : constant String(2..1) := (others => ' ');
 
-   function max(a, b : integer) return integer;
-   function min(a, b : integer) return integer;
+   function max(a, b : Integer) return Integer;
+   function min(a, b : Integer) return Integer;
 
-   function lower_case(c : character) return character;
-   function lower_case(s : string) return string;
+   function lower_case(c : Character) return Character;
+   function lower_case(s : String) return String;
 
-   function upper_case(c : character) return character;
-   function upper_case(s : string) return string;
+   function upper_case(c : Character) return Character;
+   function upper_case(s : String) return String;
 
-   function trim(source : in string;
-                 side   : in trim_end := both) return string;
+   function trim(source : in String;
+                 side   : in trim_end := both) return String;
    --  Equivalent to Ada.Strings.Fixed.Trim(Source, Both);
 
-   function head(source : in string;
-                 count  : in natural) return string;
+   function head(source : in String;
+                 count  : in Natural) return String;
 
-   procedure get_non_comment_line(f : in text_io.file_type;
-                                  s : out string; last : out integer);
+   procedure Get_non_comment_line(f : in Text_IO.File_Type;
+                                  s : out String; last : out Integer);
 
-end strings_package;
+end Strings_package;

@@ -14,7 +14,7 @@
 -- All parts of the WORDS system, source code and data files, are made freely
 -- available to anyone who wishes to use them, for whatever purpose.
 
-with text_io;
+with Text_IO;
 with dictionary_package; use dictionary_package;
 with config; use config;
 package list_package is
@@ -24,19 +24,19 @@ package list_package is
    --
 
    procedure list_stems(configuration : configuration_type;
-                        output   : text_io.file_type;
-                        raw_word : string;
-                        input_line : string;
+                        Output   : Text_IO.File_Type;
+                        raw_word : String;
+                        Input_Line : String;
                         pa       : in out parse_array;
-                        pa_last  : in out integer);
+                        pa_last  : in out Integer);
 
-   procedure list_entry(output   : text_io.file_type;
+   procedure list_entry(Output   : Text_IO.File_Type;
                         d_k      : dictionary_kind;
-                        mn       : dict_io.count);
+                        mn       : dict_io.Count);
 
-   procedure unknown_search(unknown       :  in string;
-                            unknown_count : out dict_io.count);
+   procedure unknown_search(unknown       :  in String;
+                            unknown_count : out dict_io.Count);
 
-   procedure list_neighborhood(output : text_io.file_type; input_word : string);
+   procedure list_neighborhood(Output : Text_IO.File_Type; Input_word : String);
 
 end list_package;

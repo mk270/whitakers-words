@@ -17,40 +17,40 @@
 with config;
 package body preface is
 
-   procedure put(s : string) is
+   procedure Put(s : String) is
    begin
       if not config.suppress_preface  then
-         text_io.put(text_io.current_output, s);
+         Text_IO.Put(Text_IO.Current_Output, s);
       end if;
-   end put;
+   end Put;
 
-   procedure set_col(pc : text_io.positive_count) is
+   procedure Set_Col(pc : Text_IO.Positive_Count) is
    begin
       if not config.suppress_preface  then
-         text_io.set_col(text_io.current_output, pc);
+         Text_IO.Set_Col(Text_IO.Current_Output, pc);
       end if;
-   end set_col;
+   end Set_Col;
 
-   procedure put_line(s : string) is
+   procedure Put_Line(s : String) is
    begin
       if not config.suppress_preface  then
-         text_io.put_line(text_io.current_output, s);
+         Text_IO.Put_Line(Text_IO.Current_Output, s);
       end if;
-   end put_line;
+   end Put_Line;
 
-   procedure new_line(spacing  : text_io.positive_count := 1) is
+   procedure New_Line(spacing  : Text_IO.Positive_Count := 1) is
    begin
       if not config.suppress_preface  then
-         text_io.new_line(text_io.current_output, spacing);
+         Text_IO.New_Line(Text_IO.Current_Output, spacing);
       end if;
-   end new_line;
+   end New_Line;
 
-   procedure put(n : integer; width : text_io.field := integer'Width) is
-      package integer_io is new text_io.integer_io(integer);
+   procedure Put(n : Integer; width : Text_IO.Field := Integer'Width) is
+      package Integer_IO is new Text_IO.Integer_IO(Integer);
    begin
       if not config.suppress_preface  then
-         integer_io.put(text_io.current_output, n, width);
+         Integer_IO.Put(Text_IO.Current_Output, n, width);
       end if;
-   end put;
+   end Put;
 
 end preface;

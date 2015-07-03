@@ -15,7 +15,7 @@
 -- available to anyone who wishes to use them, for whatever purpose.
 
 with inflections_package; use inflections_package;
-procedure weed(w : in out string;
+procedure weed(w : in out String;
                pofs : in part_of_speech_type) is
 
    --  In contrast to the Latin phase where the prioritization takes is at runtime
@@ -24,10 +24,10 @@ procedure weed(w : in out string;
    --  and the WEEDing/TRIMming done herein
 
    --  There may not be much reason to WEED
-   --  If there are a hundred "the", does it matter.  No one should input "the"
+   --  If there are a hundred "the", does it matter.  No one should Input "the"
    --  But it is a matter of logic and secondary effects (special on "the")
 
-   kill : boolean := false;
+   kill : Boolean := False;
 begin
 
    --  Conjunctions
@@ -38,7 +38,7 @@ begin
         w = "if"  )
    then
 
-      kill := true;
+      kill := True;
    end if;
 
    --  Prepositions
@@ -72,7 +72,7 @@ begin
 
    then
 
-      kill := true;
+      kill := True;
    end if;
 
    if
@@ -118,7 +118,7 @@ begin
         w = "law"         )
 
    then
-      kill := true;
+      kill := True;
 
    end if;
 
@@ -168,7 +168,7 @@ begin
      w = "ship"
 
    then
-      kill := true;
+      kill := True;
 
    end if;
 
@@ -204,7 +204,7 @@ begin
         w = "little"   or
         w = "small"         )
    then
-      kill := true;
+      kill := True;
 
    end if;
 
@@ -232,7 +232,7 @@ begin
         w = "common"
      )
    then
-      kill := true;
+      kill := True;
 
    end if;
 
@@ -249,7 +249,7 @@ begin
         w = "forth"   or
         w = "foward"   or
         w = "about"   or
-        w = "together"   or
+        w = "toGether"   or
         w = "off"     or
 
         --Adverbs (pure)
@@ -268,7 +268,7 @@ begin
         w = "so"          )
 
    then
-      kill := true;
+      kill := True;
 
    end if;
 
@@ -300,9 +300,9 @@ begin
         w = "what"   or
         w = "which"   or
         w = "that"   or
-        w = "same"    )  then
-      kill := true;
-
+        w = "same"    )
+   then
+      kill := True;
    end if;
 
    if w = "kind"   or
@@ -330,7 +330,7 @@ begin
       w = "used"   or
       w = "having"
    then
-      kill := true;
+      kill := True;
    end if;
 
    if
@@ -341,7 +341,7 @@ begin
       w = "go"   or --      !!
       w = "bring"   or
       w = "cut"   or
-      w = "put"   or
+      w = "Put"   or
       w = "set"   or
       w = "grow"   or
       w = "give"   or
@@ -363,7 +363,7 @@ begin
       w = "making"   or
       w = "lacking"     )
    then
-      kill := true;
+      kill := True;
    end if;
 
    if
@@ -386,7 +386,7 @@ begin
      --W = "attempt"   or
      w = "begin"                    --or
    then
-      kill := true;
+      kill := True;
    end if;
 
    if kill then

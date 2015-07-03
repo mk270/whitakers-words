@@ -19,17 +19,17 @@
 -- whether this is a bug
 
 with word_support_package; use word_support_package;   --  for STEM_IO
-with strings_package; use strings_package;
-with latin_file_names; use latin_file_names;
+with Strings_package; use Strings_package;
+with latIn_File_names; use latIn_File_names;
 with preface;
 package body line_stuff is
 
    procedure load_dictionary(dict : in out dictionary;
-                             dictionary_file_name : string)  is
+                             dictionary_file_name : String)  is
       --  For loading a DICTIONARY list from a file
       --  Only used now for DICT.LOC
 
-      dictionary_file : file_type;
+      dictionary_file : File_Type;
       blk_stem : constant stem_type := null_stem_type;
       sts : stems_type := null_stems_type;
       pt  : part_entry  := null_part_entry;
@@ -37,17 +37,17 @@ package body line_stuff is
       value : constant numeral_value_type := 0;
       mean : meaning_type := null_meaning_type;
 
-      fc1, fc2, fc3, fc4 : character;
+      fc1, fc2, fc3, fc4 : Character;
 
-      line, st_line : string(1..100) := (others => ' ');
-      blank_line : constant string(1..100) := (others => ' ');
-      l, ll, lll, last    : integer := 0;
-      number_of_dictionary_entries : integer := 0;
+      line, st_line : String(1..100) := (others => ' ');
+      blank_line : constant String(1..100) := (others => ' ');
+      l, ll, lll, last    : Integer := 0;
+      number_of_dictionary_entries : Integer := 0;
 
-      procedure get_stem(s : in string;
-                         stem : out stem_type; last : out integer) is
-         i  : integer := 1;
-         l  : integer := s'First;
+      procedure Get_stem(s : in String;
+                         stem : out stem_type; last : out Integer) is
+         i  : Integer := 1;
+         l  : Integer := s'First;
       begin
          stem := null_stem_type;
          --  Squeeze left
@@ -55,7 +55,7 @@ package body line_stuff is
             l := l + 1;
          end loop;
          --  Count until the first blank
-         --  Return that string
+         --  Return that String
          while l <= s'Last and then s(l) /= ' '  loop
             stem(i) := s(l);
             i := i + 1;
@@ -64,28 +64,28 @@ package body line_stuff is
          --  Return  last
          last := l;
 
-      end get_stem;
+      end Get_stem;
 
    begin
 
-      open(dictionary_file, in_file, dictionary_file_name);
-      preface.put("Dictionary loading");
+      Open(dictionary_file, In_File, dictionary_file_name);
+      preface.Put("Dictionary loading");
 
-      while not end_of_file(dictionary_file)  loop
+      while not End_Of_File(dictionary_file)  loop
          --TEXT_IO.PUT_LINE("GETTING");
          st_line := blank_line;
-         get_non_comment_line(dictionary_file, st_line, last);      --  STEMS
+         Get_non_comment_line(dictionary_file, st_line, last);      --  STEMS
          --TEXT_IO.PUT_LINE("READ STEMS");
 
          line := blank_line;
          --TEXT_IO.PUT("1 ");
-         get_non_comment_line(dictionary_file, line, l);           --  PART
+         Get_non_comment_line(dictionary_file, line, l);           --  PART
          --TEXT_IO.PUT("2 ");
-         part_entry_io.get(line(1..l), pt, ll);
+         part_entry_io.Get(line(1..l), pt, ll);
          --TEXT_IO.PUT("3 ");
          ----  KIND_ENTRY_IO.GET(LINE(LL+1..L), PT.POFS, KIND, LL);
          --TEXT_IO.PUT("4 ");
-         translation_record_io.get(line(ll+1..l), tran, lll);
+         translation_record_io.Get(line(ll+1..l), tran, lll);
          --TEXT_IO.PUT("5 ");
          --TEXT_IO.PUT_LINE("READ PART");
 
@@ -101,7 +101,7 @@ package body line_stuff is
          ll := 1;
          --  Extract up to 4 stems
          for i in 1..number_of_stems(pt.pofs)  loop   --  EXTRACT STEMS
-            get_stem(st_line(ll..last), sts(i), ll);
+            Get_stem(st_line(ll..last), sts(i), ll);
          end loop;
 
          --for I in 1..NUMBER_OF_STEMS(PT.POFS)  loop
@@ -110,7 +110,7 @@ package body line_stuff is
          --TEXT_IO.NEW_LINE;
 
          line := blank_line;
-         get_non_comment_line(dictionary_file, line, l);         --  MEANING
+         Get_non_comment_line(dictionary_file, line, l);         --  MEANING
          mean := head(trim(line(1..l)), max_meaning_size);
          --TEXT_IO.PUT_LINE("READ MEANING");
 
@@ -119,14 +119,30 @@ package body line_stuff is
          fc2 := lower_case(sts(2)(1));
          fc3 := lower_case(sts(3)(1));
          fc4 := lower_case(sts(4)(1));
-         if fc1 = 'v'  then fc1 := 'u';  end if;
-         if fc1 = 'j'  then fc1 := 'i';  end if;
-         if fc2 = 'v'  then fc2 := 'u';  end if;
-         if fc2 = 'j'  then fc2 := 'i';  end if;
-         if fc3 = 'v'  then fc3 := 'u';  end if;
-         if fc3 = 'j'  then fc3 := 'i';  end if;
-         if fc4 = 'v'  then fc4 := 'u';  end if;
-         if fc4 = 'j'  then fc4 := 'i';  end if;
+         if fc1 = 'v' then
+            fc1 := 'u';
+         end if;
+         if fc1 = 'j' then
+            fc1 := 'i';
+         end if;
+         if fc2 = 'v' then
+            fc2 := 'u';
+         end if;
+         if fc2 = 'j' then
+            fc2 := 'i';
+         end if;
+         if fc3 = 'v' then
+            fc3 := 'u';
+         end if;
+         if fc3 = 'j' then
+            fc3 := 'i';
+         end if;
+         if fc4 = 'v' then
+            fc4 := 'u';
+         end if;
+         if fc4 = 'j' then
+            fc4 := 'i';
+         end if;
          if pt.pofs = n  then
             if sts(2)(1) /= sts(1)(1)  and then
                sts(2)(1) /= ' '        and then
@@ -175,7 +191,8 @@ package body line_stuff is
                     sts(3)(1..3) /= zzz_stem(1..3) ) or
                  (sts(4)(1) /= sts(1)(1) and then
                     sts(4)(1) /= ' '  and then
-                    sts(4)(1..3) /= zzz_stem(1..3) ) then
+                    sts(4)(1..3) /= zzz_stem(1..3) )
+               then
                   dict(fc1) :=
                     new dictionary_item'(( (sts(1), blk_stem, blk_stem, blk_stem),
                                            (adj, (pt.adj.decl, pos)),
@@ -234,7 +251,8 @@ package body line_stuff is
                      sts(2)(1..3) /= zzz_stem(1..3) ) or
                  (sts(3)(1) /= sts(1)(1) and then
                     sts(3)(1) /= ' '  and then
-                    sts(3)(1..3) /= zzz_stem(1..3) ) then
+                    sts(3)(1..3) /= zzz_stem(1..3) )
+               then
                   dict(fc1) :=
                     new dictionary_item'(( (sts(1), blk_stem, blk_stem, blk_stem),
                                            --(ADV, (CO => POS)), KIND, TRAN, MEAN), DICT(FC1));
@@ -281,7 +299,8 @@ package body line_stuff is
                  sts(3)(1..3) /= zzz_stem(1..3) ) or
               (sts(4)(1) /= sts(1)(1) and then
                  sts(4)(1) /= ' '  and then
-                 sts(4)(1..3) /= zzz_stem(1..3) ) then
+                 sts(4)(1..3) /= zzz_stem(1..3) )
+            then
                dict(fc1) :=
                  new dictionary_item'(( (sts(1), zzz_stem, zzz_stem, zzz_stem),
                                         --PT, KIND, TRAN, MEAN), DICT(FC1) );
@@ -368,21 +387,21 @@ package body line_stuff is
          end if;
          number_of_dictionary_entries := number_of_dictionary_entries + 1;
       end loop;
-      close(dictionary_file);
-      preface.set_col(33); preface.put("--  ");
-      preface.put(number_of_dictionary_entries, 6);
-      preface.put(" entries"); preface.set_col(55);
-      preface.put_line("--  Loaded correctly");
+      Close(dictionary_file);
+      preface.Set_Col(33); preface.Put("--  ");
+      preface.Put(number_of_dictionary_entries, 6);
+      preface.Put(" entries"); preface.Set_Col(55);
+      preface.Put_Line("--  Loaded correctly");
    exception
       when others   =>
-         preface.put_line("    LOAD_DICTIONARY exception        !!!!!!!!!!");
-         preface.put_line(st_line(1..last));
-         preface.put_line(line(1..l));
-         close(dictionary_file);
-         preface.set_col(33); preface.put("--  ");
-         preface.put(number_of_dictionary_entries, 6);
-         preface.put(" entries"); preface.set_col(55);
-         preface.put_line("--  Loaded anyway   ");
+         preface.Put_Line("    LOAD_DICTIONARY exception        !!!!!!!!!!");
+         preface.Put_Line(st_line(1..last));
+         preface.Put_Line(line(1..l));
+         Close(dictionary_file);
+         preface.Set_Col(33); preface.Put("--  ");
+         preface.Put(number_of_dictionary_entries, 6);
+         preface.Put(" entries"); preface.Set_Col(55);
+         preface.Put_Line("--  Loaded anyway   ");
    end load_dictionary;
 
    procedure load_stem_file(d_k : dictionary_kind)  is
@@ -393,49 +412,50 @@ package body line_stuff is
       --use LATIN_DEBUG;
       use stem_io;
       use dict_io;
-      i : stem_io.count := 1;
+      i : stem_io.Count := 1;
       --M_P_R : MEANING_TYPE;
-      m : dict_io.positive_count := 1;
+      m : dict_io.Positive_Count := 1;
       dlc : dictionary := dict_loc;
       --DS : DICTIONARY_STEM;
       --ZZZ_STEM : constant STEM_TYPE := "zzz" & (4..MAX_STEM_SIZE => ' '); --####
    begin
       --PUT_LINE("LOAD_STEM_FILE for LOC");
-      if is_open(stem_file(d_k))  then
-         delete(stem_file(d_k));
+      if Is_Open(stem_file(d_k))  then
+         Delete(stem_file(d_k));
       end if;
-      create(stem_file(d_k), inout_file, add_file_name_extension(stem_file_name,
+      Create(stem_file(d_k), Inout_File, add_file_name_extension(stem_file_name,
                                                                  dictionary_kind'Image(d_k)));
       --PUT_LINE("LOAD_STEM_FILE for LOC - Created STEM_FILE");
-      if is_open(dict_file(d_k))  then
-         delete(dict_file(d_k));
+      if Is_Open(dict_file(d_k))  then
+         Delete(dict_file(d_k));
       end if;
-      create(dict_file(d_k), inout_file, add_file_name_extension(dict_file_name,
+      Create(dict_file(d_k), Inout_File, add_file_name_extension(dict_file_name,
                                                                  dictionary_kind'Image(d_k)));
       --PUT_LINE("LOAD_STEM_FILE for LOC - Created DICT_FILE");
 
       --PUT_LINE("L_D_F  Start  M = " & INTEGER'IMAGE(INTEGER(M)));
 
-      for fc in character range 'a'..'z'  loop
+      for fc in Character range 'a'..'z'  loop
          --  LOAD_DICTIONARY should have assured that all v were in u
          --LATIN_DEBUG.PUT_LINE("L_D_F  Entering FC loop");
          ddlf(fc, 'a', d_k) := i;
          ddll(fc, 'a', d_k) := 0;
          while dlc(fc) /= null  loop
             --PUT_LINE("L_D_F  Setting Dictfile index M = " & INTEGER'IMAGE(INTEGER(M)));
-            dict_io.set_index(dict_file(d_k), m);
+            dict_io.Set_Index(dict_file(d_k), m);
             -- %%%%%%%%%%%!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!%%%%%%%%%%%%%%%%%%%%%%%
             --PUT_LINE(DLC(FC).DE.TRAN.MEAN);
             -- M_P_R := DLC(FC).DE.TRAN.MEAN;
             --DICT_IO.WRITE(DICT_FILE(D_K), M_P_R);   --@@@@@@@@@@@@@@@@@@@@@
-            dict_io.write(dict_file(d_k), dlc(fc).de);
+            dict_io.Write(dict_file(d_k), dlc(fc).de);
             for k in stem_key_type range 1..4  loop
                if dlc(fc).de.stems(k) /= null_stem_type  and
-                 dlc(fc).de.stems(k) /= zzz_stem  then
+                 dlc(fc).de.stems(k) /= zzz_stem
+               then
                   --LATIN_DEBUG.PUT(DLC(FC).DE.STEMS(K)); LATIN_DEBUG.PUT("  ..  ");
                   --LATIN_DEBUG.PUT(DLC(FC).DE.PART); LATIN_DEBUG.PUT("  ..  "); LATIN_DEBUG.PUT(K);
                   --LATIN_DEBUG.PUT("  ..  "); LATIN_DEBUG.PUT(INTEGER(M)); LATIN_DEBUG.NEW_LINE;
-                  write(stem_file(d_k),
+                  Write(stem_file(d_k),
                         (dlc(fc).de.stems(k), dlc(fc).de.part, k, m));
                   ddll(fc, 'a', d_k) := i;
                   --LATIN_DEBUG.PUT_LINE("L_D_F DDLL(FC, 'a', D_K) := I  = " & INTEGER'IMAGE(I));
@@ -454,156 +474,156 @@ package body line_stuff is
    package body tackon_line_io is
       use part_of_speech_type_io;
       use tackon_entry_io;
-      spacer : character := ' ';
+      spacer : Character := ' ';
 
-      procedure get(f : in file_type; p : out tackon_line) is
+      procedure Get(f : in File_Type; p : out tackon_line) is
       begin
-         get(f, p.pofs);
-         get(f, spacer);
-         get(f, p.tack);
-         get(f, spacer);
-         get(f, p.entr);
-         get(f, spacer);
-         get(f, p.mean);
-      end get;
+         Get(f, p.pofs);
+         Get(f, spacer);
+         Get(f, p.tack);
+         Get(f, spacer);
+         Get(f, p.entr);
+         Get(f, spacer);
+         Get(f, p.mean);
+      end Get;
 
-      procedure get(p : out tackon_line) is
+      procedure Get(p : out tackon_line) is
       begin
-         get(p.pofs);
-         get(spacer);
-         get(p.tack);
-         get(spacer);
-         get(p.entr);
-         get(spacer);
-         get(p.mean);
-      end get;
+         Get(p.pofs);
+         Get(spacer);
+         Get(p.tack);
+         Get(spacer);
+         Get(p.entr);
+         Get(spacer);
+         Get(p.mean);
+      end Get;
 
-      procedure put(f : in file_type; p : in tackon_line) is
+      procedure Put(f : in File_Type; p : in tackon_line) is
       begin
-         put(f, p.pofs);
-         put(f, ' ');
-         put(f, p.tack);
-         put(f, ' ');
-         put(f, p.entr);
-         put(f, ' ');
-         put(f, p.mean);
-      end put;
+         Put(f, p.pofs);
+         Put(f, ' ');
+         Put(f, p.tack);
+         Put(f, ' ');
+         Put(f, p.entr);
+         Put(f, ' ');
+         Put(f, p.mean);
+      end Put;
 
-      procedure put(p : in tackon_line) is
+      procedure Put(p : in tackon_line) is
       begin
-         put(p.pofs);
-         put(' ');
-         put(p.tack);
-         put(' ');
-         put(p.entr);
-         put(' ');
-         put(p.mean);
-      end put;
+         Put(p.pofs);
+         Put(' ');
+         Put(p.tack);
+         Put(' ');
+         Put(p.entr);
+         Put(' ');
+         Put(p.mean);
+      end Put;
 
-      procedure get(s : in string; p : out tackon_line; last : out integer) is
-         l : integer := s'First - 1;
-         m : integer := 0;
+      procedure Get(s : in String; p : out tackon_line; last : out Integer) is
+         l : Integer := s'First - 1;
+         m : Integer := 0;
       begin
-         m := l + dictionary_kind_io.default_width;
-         get(s(l+1..m), p.pofs, l);
+         m := l + dictionary_kind_io.Default_Width;
+         Get(s(l+1..m), p.pofs, l);
          l := m + 1;
          m := l + max_stem_size;
          p.tack := s(l+1..m);
          l := m + 1;
-         m := l + tackon_entry_io.default_width;
-         get(s(l+1..m), p.entr, l);
+         m := l + tackon_entry_io.Default_Width;
+         Get(s(l+1..m), p.entr, l);
          l := m + 1;
          m := l + max_meaning_size;
          p.mean := s(l+1..m);
          last := m;
-      end get;
+      end Get;
 
-      procedure put(s : out string; p : in tackon_line) is
-         l : integer := s'First - 1;
-         m : integer := 0;
+      procedure Put(s : out String; p : in tackon_line) is
+         l : Integer := s'First - 1;
+         m : Integer := 0;
       begin
-         m := l + dictionary_kind_io.default_width;
-         put(s(l+1..m), p.pofs);
+         m := l + dictionary_kind_io.Default_Width;
+         Put(s(l+1..m), p.pofs);
          l := m + 1;
          s(l) := ' ';
          m := l + max_stem_size;
          s(l+1..m) := p.tack;
          l := m + 1;
          s(l) := ' ';
-         m := l + tackon_entry_io.default_width;
-         put(s(l+1..m), p.entr);
+         m := l + tackon_entry_io.Default_Width;
+         Put(s(l+1..m), p.entr);
          l := m + 1;
          s(l) := ' ';
          m := l + max_meaning_size;
          s(l+1..m) := p.mean;
          s(m+1..s'Last) := (others => ' ');
-      end put;
+      end Put;
 
    end tackon_line_io;
 
    package body prefix_line_io is
       use part_of_speech_type_io;
       use prefix_entry_io;
-      spacer : character := ' ';
+      spacer : Character := ' ';
 
-      procedure get(f : in file_type; p : out prefix_line) is
+      procedure Get(f : in File_Type; p : out prefix_line) is
       begin
-         get(f, p.pofs);
-         get(f, spacer);
-         get(f, p.fix);
-         get(f, spacer);
-         get(f, p.connect);
-         get(f, spacer);
-         get(f, p.entr);
-         get(f, spacer);
-         get(f, p.mean);
-      end get;
+         Get(f, p.pofs);
+         Get(f, spacer);
+         Get(f, p.fix);
+         Get(f, spacer);
+         Get(f, p.connect);
+         Get(f, spacer);
+         Get(f, p.entr);
+         Get(f, spacer);
+         Get(f, p.mean);
+      end Get;
 
-      procedure get(p : out prefix_line) is
+      procedure Get(p : out prefix_line) is
       begin
-         get(p.pofs);
-         get(spacer);
-         get(p.fix);
-         get(spacer);
-         get(p.connect);
-         get(spacer);
-         get(p.entr);
-         get(spacer);
-         get(p.mean);
-      end get;
+         Get(p.pofs);
+         Get(spacer);
+         Get(p.fix);
+         Get(spacer);
+         Get(p.connect);
+         Get(spacer);
+         Get(p.entr);
+         Get(spacer);
+         Get(p.mean);
+      end Get;
 
-      procedure put(f : in file_type; p : in prefix_line) is
+      procedure Put(f : in File_Type; p : in prefix_line) is
       begin
-         put(f, p.pofs);
-         put(f, ' ');
-         put(f, p.fix);
-         put(f, ' ');
-         put(f, p.connect);
-         put(f, ' ');
-         put(f, p.entr);
-         put(f, ' ');
-         put(f, p.mean);
-      end put;
+         Put(f, p.pofs);
+         Put(f, ' ');
+         Put(f, p.fix);
+         Put(f, ' ');
+         Put(f, p.connect);
+         Put(f, ' ');
+         Put(f, p.entr);
+         Put(f, ' ');
+         Put(f, p.mean);
+      end Put;
 
-      procedure put(p : in prefix_line) is
+      procedure Put(p : in prefix_line) is
       begin
-         put(p.pofs);
-         put(' ');
-         put(p.fix);
-         put(' ');
-         put(p.connect);
-         put(' ');
-         put(p.entr);
-         put(' ');
-         put(p.mean);
-      end put;
+         Put(p.pofs);
+         Put(' ');
+         Put(p.fix);
+         Put(' ');
+         Put(p.connect);
+         Put(' ');
+         Put(p.entr);
+         Put(' ');
+         Put(p.mean);
+      end Put;
 
-      procedure get(s : in string; p : out prefix_line; last : out integer) is
-         l : integer := s'First - 1;
-         m : integer := 0;
+      procedure Get(s : in String; p : out prefix_line; last : out Integer) is
+         l : Integer := s'First - 1;
+         m : Integer := 0;
       begin
-         m := l + dictionary_kind_io.default_width;
-         get(s(l+1..s'Last), p.pofs, l);
+         m := l + dictionary_kind_io.Default_Width;
+         Get(s(l+1..s'Last), p.pofs, l);
          l := m;
          l := l + 1;
          m := l + max_stem_size;
@@ -613,20 +633,20 @@ package body line_stuff is
          -- m := l + 1; -- apparently redundant?
          p.connect := s(l+1);
          l := l + 1;
-         m := l + prefix_entry_io.default_width;
-         get(s(l+1..s'Last), p.entr, l);
+         m := l + prefix_entry_io.Default_Width;
+         Get(s(l+1..s'Last), p.entr, l);
          l := m + 1;
          m := l + max_meaning_size;
          p.mean := s(l+1..m);
          last := m;
-      end get;
+      end Get;
 
-      procedure put(s : out string; p : in prefix_line) is
-         l : integer := s'First - 1;
-         m : integer := 0;
+      procedure Put(s : out String; p : in prefix_line) is
+         l : Integer := s'First - 1;
+         m : Integer := 0;
       begin
-         m := l + dictionary_kind_io.default_width;
-         put(s(l+1..m), p.pofs);
+         m := l + dictionary_kind_io.Default_Width;
+         Put(s(l+1..m), p.pofs);
          l := m + 1;
          s(l) :=  ' ';
          m := l + max_stem_size;
@@ -635,81 +655,81 @@ package body line_stuff is
          s(l) :=  ' ';
          -- m := l + 1; -- apparently redundant?
          s(l+1) := p.connect;
-         m := l + prefix_entry_io.default_width;
-         put(s(l+1..m), p.entr);
+         m := l + prefix_entry_io.Default_Width;
+         Put(s(l+1..m), p.entr);
          l := m + 1;
          s(l) :=  ' ';
          m := l + max_meaning_size;
          s(l+1..m) := p.mean;
          m := l + 1;
          s(m+1..s'Last) := (others => ' ');
-      end put;
+      end Put;
 
    end prefix_line_io;
 
    package body suffix_line_io is
       use part_of_speech_type_io;
       use suffix_entry_io;
-      spacer : character := ' ';
+      spacer : Character := ' ';
 
-      procedure get(f : in file_type; p : out suffix_line) is
+      procedure Get(f : in File_Type; p : out suffix_line) is
       begin
-         get(f, p.pofs);
-         get(f, spacer);
-         get(f, p.fix);
-         get(f, spacer);
-         get(f, p.connect);
-         get(f, spacer);
-         get(f, p.entr);
-         get(f, spacer);
-         get(f, p.mean);
-      end get;
+         Get(f, p.pofs);
+         Get(f, spacer);
+         Get(f, p.fix);
+         Get(f, spacer);
+         Get(f, p.connect);
+         Get(f, spacer);
+         Get(f, p.entr);
+         Get(f, spacer);
+         Get(f, p.mean);
+      end Get;
 
-      procedure get(p : out suffix_line) is
+      procedure Get(p : out suffix_line) is
       begin
-         get(p.pofs);
-         get(spacer);
-         get(p.fix);
-         get(spacer);
-         get(p.connect);
-         get(spacer);
-         get(p.entr);
-         get(spacer);
-         get(p.mean);
-      end get;
+         Get(p.pofs);
+         Get(spacer);
+         Get(p.fix);
+         Get(spacer);
+         Get(p.connect);
+         Get(spacer);
+         Get(p.entr);
+         Get(spacer);
+         Get(p.mean);
+      end Get;
 
-      procedure put(f : in file_type; p : in suffix_line) is
+      procedure Put(f : in File_Type; p : in suffix_line) is
       begin
-         put(f, p.pofs);
-         put(f, ' ');
-         put(f, p.fix);
-         put(f, ' ');
-         put(f, p.connect);
-         put(f, ' ');
-         put(f, p.entr);
-         put(f, ' ');
-         put(f, p.mean);
-      end put;
+         Put(f, p.pofs);
+         Put(f, ' ');
+         Put(f, p.fix);
+         Put(f, ' ');
+         Put(f, p.connect);
+         Put(f, ' ');
+         Put(f, p.entr);
+         Put(f, ' ');
+         Put(f, p.mean);
+      end Put;
 
-      procedure put(p : in suffix_line) is
+      procedure Put(p : in suffix_line) is
       begin
-         put(p.pofs);
-         put(' ');
-         put(p.fix);
-         put(' ');
-         put(p.connect);
-         put(' ');
-         put(p.entr);
-         put(' ');
-         put(p.mean);
-      end put;
+         Put(p.pofs);
+         Put(' ');
+         Put(p.fix);
+         Put(' ');
+         Put(p.connect);
+         Put(' ');
+         Put(p.entr);
+         Put(' ');
+         Put(p.mean);
+      end Put;
 
-      procedure get(s : in string; p : out suffix_line; last : out integer) is
-         l : integer := s'First - 1;
-         m : integer := 0;
+      procedure Get(s : in String; p : out suffix_line; last : out Integer) is
+         l : Integer := s'First - 1;
+         m : Integer := 0;
       begin
-         m := l + dictionary_kind_io.default_width;
-         get(s(l+1..s'Last), p.pofs, l);
+         m := l + dictionary_kind_io.Default_Width;
+         Get(s(l+1..s'Last), p.pofs, l);
          l := m;
          l := l + 1;
          m := l + max_stem_size;
@@ -719,20 +739,20 @@ package body line_stuff is
          -- m := l + 1; -- apparently redundant?
          p.connect := s(l+1);
          l := l + 1;
-         m := l + suffix_entry_io.default_width;
-         get(s(l+1..s'Last), p.entr, l);
+         m := l + suffix_entry_io.Default_Width;
+         Get(s(l+1..s'Last), p.entr, l);
          l := m + 1;
          m := l + max_meaning_size;
          p.mean := s(l+1..m);
          last := m;
-      end get;
+      end Get;
 
-      procedure put(s : out string; p : in suffix_line) is
-         l : integer := s'First - 1;
-         m : integer := 0;
+      procedure Put(s : out String; p : in suffix_line) is
+         l : Integer := s'First - 1;
+         m : Integer := 0;
       begin
-         m := l + dictionary_kind_io.default_width;
-         put(s(l+1..m), p.pofs);
+         m := l + dictionary_kind_io.Default_Width;
+         Put(s(l+1..m), p.pofs);
          l := m + 1;
          s(l) :=  ' ';
          m := l + max_stem_size;
@@ -743,14 +763,14 @@ package body line_stuff is
          s(l+1) := p.connect;
          l := m + 1;
          s(l) :=  ' ';
-         m := l + suffix_entry_io.default_width;
-         put(s(l+1..m), p.entr);
+         m := l + suffix_entry_io.Default_Width;
+         Put(s(l+1..m), p.entr);
          l := m + 1;
          s(l) :=  ' ';
          m := l + max_meaning_size;
          s(l+1..m) := p.mean;
          s(m+1..s'Last) := (others => ' ');
-      end put;
+      end Put;
 
    end suffix_line_io;
 
@@ -758,106 +778,106 @@ package body line_stuff is
       use quality_record_io;
       use kind_entry_io;
       use translation_record_io;
-      spacer : character;
+      spacer : Character;
 
-      procedure get(f : in file_type; p : out unique_entry) is
+      procedure Get(f : in File_Type; p : out unique_entry) is
          ue : unique_entry;
       begin
-         get(f, ue.stem);
-         get(f, spacer);
-         get(f, ue.qual);
-         get(f, spacer);
-         get(f, ue.qual.pofs, ue.kind);
-         get(f, spacer);
-         get(f, ue.tran);
+         Get(f, ue.stem);
+         Get(f, spacer);
+         Get(f, ue.qual);
+         Get(f, spacer);
+         Get(f, ue.qual.pofs, ue.kind);
+         Get(f, spacer);
+         Get(f, ue.tran);
          p := ue;
-      end get;
+      end Get;
 
-      procedure get(p : out unique_entry) is
+      procedure Get(p : out unique_entry) is
          ue : unique_entry;
       begin
-         get(p.stem);
-         get(spacer);
-         get(ue.qual);
-         get(spacer);
-         get(ue.qual.pofs, ue.kind);
-         get(spacer);
-         get(p.tran);
-      end get;
+         Get(p.stem);
+         Get(spacer);
+         Get(ue.qual);
+         Get(spacer);
+         Get(ue.qual.pofs, ue.kind);
+         Get(spacer);
+         Get(p.tran);
+      end Get;
 
-      procedure put(f : in file_type; p : in unique_entry) is
+      procedure Put(f : in File_Type; p : in unique_entry) is
       begin
-         put(f, p.stem);
-         put(f, ' ');
-         put(f, p.qual);
-         put(f, ' ');
-         put(f, p.qual.pofs, p.kind);
-         put(f, ' ');
-         put(f, p.tran);
-      end put;
+         Put(f, p.stem);
+         Put(f, ' ');
+         Put(f, p.qual);
+         Put(f, ' ');
+         Put(f, p.qual.pofs, p.kind);
+         Put(f, ' ');
+         Put(f, p.tran);
+      end Put;
 
-      procedure put(p : in unique_entry) is
+      procedure Put(p : in unique_entry) is
       begin
-         put(p.stem);
-         put(' ');
-         put(p.qual);
-         put(' ');
-         put(p.qual.pofs, p.kind);
-         put(' ');
-         put(p.tran);
-      end put;
+         Put(p.stem);
+         Put(' ');
+         Put(p.qual);
+         Put(' ');
+         Put(p.qual.pofs, p.kind);
+         Put(' ');
+         Put(p.tran);
+      end Put;
 
-      procedure get(s : in string; p : out unique_entry; last : out integer) is
-         l : integer := s'First - 1;
-         m : integer := 0;
+      procedure Get(s : in String; p : out unique_entry; last : out Integer) is
+         l : Integer := s'First - 1;
+         m : Integer := 0;
       begin
          m := l + max_stem_size;
          p.stem := s(l+1..m);
          l := l + 1;
-         -- m := l + quality_record_io.default_width; -- apparently redundant?
-         get(s(l+1..s'Last), p.qual, l);
+         -- m := l + quality_record_io.Default_Width; -- apparently redundant?
+         Get(s(l+1..s'Last), p.qual, l);
          l := l + 1;
-         -- m := l + kind_entry_io.default_width; -- apparently redundant?
-         get(s(l+1..s'Last), p.qual.pofs, p.kind, l);
+         -- m := l + kind_entry_io.Default_Width; -- apparently redundant?
+         Get(s(l+1..s'Last), p.qual.pofs, p.kind, l);
          l := l + 1;
          -- m := l + max_meaning_size; -- apparently redundant?
-         get(s(l+1..s'Last), p.tran, last);
-      end get;
+         Get(s(l+1..s'Last), p.tran, last);
+      end Get;
 
-      procedure put(s : out string; p : in unique_entry) is
-         l : integer := s'First - 1;
-         m : integer := 0;
+      procedure Put(s : out String; p : in unique_entry) is
+         l : Integer := s'First - 1;
+         m : Integer := 0;
       begin
          m := l + max_stem_size;
          s(l+1..m) := p.stem;
          l := m + 1;
          s(l) :=  ' ';
-         m := l + quality_record_io.default_width;
-         put(s(l+1..m), p.qual);
+         m := l + quality_record_io.Default_Width;
+         Put(s(l+1..m), p.qual);
          l := m + 1;
          s(l) :=  ' ';
-         m := l + kind_entry_io.default_width;
-         put(s(l+1..m), p.qual.pofs, p.kind);
+         m := l + kind_entry_io.Default_Width;
+         Put(s(l+1..m), p.qual.pofs, p.kind);
          l := m + 1;
          s(l) :=  ' ';
          m := m + max_meaning_size;
-         put(s(l+1..m), p.tran);
+         Put(s(l+1..m), p.tran);
          s(m+1..s'Last) := (others => ' ');
-      end put;
+      end Put;
 
    end unique_entry_io;
 
-   procedure load_uniques(unq : in out latin_uniques; file_name : in string) is
+   procedure load_uniques(unq : in out latin_uniques; file_name : in String) is
       use quality_record_io;
       use part_entry_io;
       use kind_entry_io;
       use translation_record_io;
       use dict_io;
 
-      uniques_file : text_io.file_type;
-      blanks : constant string(1..100) := (others => ' ');
-      line, stem_line : string(1..100) := (others => ' ');
-      last, l : integer := 0;
+      uniques_file : Text_IO.File_Type;
+      blanks : constant String(1..100) := (others => ' ');
+      line, stem_line : String(1..100) := (others => ' ');
+      last, l : Integer := 0;
       stem : stem_type := null_stem_type;
       qual : quality_record;
       kind : kind_entry;
@@ -865,15 +885,15 @@ package body line_stuff is
       tran : translation_record := null_translation_record;
       mnpc : mnpc_type := null_mnpc;
       mean : meaning_type := null_meaning_type;
-      m : dict_io.positive_count := 1;
+      m : dict_io.Positive_Count := 1;
 
-      number_of_uniques_entries : integer := 0;
+      number_of_uniques_entries : Integer := 0;
 
    begin
       --TEXT_IO.PUT_LINE("UNIQUES started");
-      text_io.open(uniques_file, text_io.in_file, file_name);
-      preface.set_col(1);
-      preface.put("UNIQUES file loading");
+      Text_IO.Open(uniques_file, Text_IO.In_File, file_name);
+      preface.Set_Col(1);
+      preface.Put("UNIQUES file loading");
 
       --    if DICT_IO.IS_OPEN(DICT_FILE(D_K))  then
       --      DICT_IO.DELETE(DICT_FILE(D_K));
@@ -881,23 +901,23 @@ package body line_stuff is
       --    DICT_IO.CREATE(DICT_FILE(D_K), DICT_IO.INOUT_FILE,  "");
       --         -- ADD_FILE_NAME_EXTENSION(DICT_FILE_NAME, DICTIONARY_KIND'IMAGE(D_K)));
 
-      while not end_of_file(uniques_file)  loop
+      while not End_Of_File(uniques_file)  loop
          stem_line := blanks;
-         get_line(uniques_file, stem_line, last);      --  STEM
+         Get_Line(uniques_file, stem_line, last);      --  STEM
          stem := head(trim(stem_line(1..last)), max_stem_size);
 
          line := blanks;
-         get_line(uniques_file, line, last);    --  QUAL, KIND, TRAN
-         get(line(1..last), qual, l);
-         get(line(l+1..last), qual.pofs, kind, l);
-         age_type_io.get(line(l+1..last), tran.age, l);
-         area_type_io.get(line(l+1..last), tran.area, l);
-         geo_type_io.get(line(l+1..last), tran.geo, l);
-         frequency_type_io.get(line(l+1..last), tran.freq, l);
-         source_type_io.get(line(l+1..last), tran.source, l);
+         Get_Line(uniques_file, line, last);    --  QUAL, KIND, TRAN
+         Get(line(1..last), qual, l);
+         Get(line(l+1..last), qual.pofs, kind, l);
+         age_type_io.Get(line(l+1..last), tran.age, l);
+         area_type_io.Get(line(l+1..last), tran.area, l);
+         geo_type_io.Get(line(l+1..last), tran.geo, l);
+         frequency_type_io.Get(line(l+1..last), tran.freq, l);
+         source_type_io.Get(line(l+1..last), tran.source, l);
 
          line := blanks;
-         get_line(uniques_file, line, l);         --  MEAN
+         Get_Line(uniques_file, line, l);         --  MEAN
          mean := head(trim(line(1..l)), max_meaning_size);
          --@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
          declare
@@ -951,27 +971,27 @@ package body line_stuff is
          end if;
 
          m := m + 1;
-         number_of_uniques_entries := integer(m) - 1;
+         number_of_uniques_entries := Integer(m) - 1;
 
       end loop;
-      close(uniques_file);
-      preface.set_col(33);
-      preface.put("--  "); preface.put(number_of_uniques_entries, 6);
-      preface.put(" entries");
-      preface.set_col(55); preface.put_line("--  Loaded correctly");
+      Close(uniques_file);
+      preface.Set_Col(33);
+      preface.Put("--  "); preface.Put(number_of_uniques_entries, 6);
+      preface.Put(" entries");
+      preface.Set_Col(55); preface.Put_Line("--  Loaded correctly");
    exception
-      when text_io.name_error  =>
-         preface.put_line("There is no UNIQUES file");
+      when Text_IO.Name_Error  =>
+         preface.Put_Line("There is no UNIQUES file");
       when others   =>
-         preface.new_line;
-         preface.put_line("LOAD_UNIQUES exception        !!!!!!!!!!!!!!!!!!!!!");
-         preface.put_line(stem_line(1..last));
-         preface.put_line(line(1..l));
-         close(uniques_file);
-         preface.set_col(33);
-         preface.put("--  "); preface.put(number_of_uniques_entries, 6);
-         preface.put(" entries");
-         preface.set_col(55); preface.put_line("--  Loaded before error");
+         preface.New_Line;
+         preface.Put_Line("LOAD_UNIQUES exception        !!!!!!!!!!!!!!!!!!!!!");
+         preface.Put_Line(stem_line(1..last));
+         preface.Put_Line(line(1..l));
+         Close(uniques_file);
+         preface.Set_Col(33);
+         preface.Put("--  "); preface.Put(number_of_uniques_entries, 6);
+         preface.Put(" entries");
+         preface.Set_Col(55); preface.Put_Line("--  Loaded before error");
          --raise;
    end load_uniques;
 
@@ -983,23 +1003,23 @@ begin
    --                                   DICTIONARY_KIND_IO.DEFAULT_WIDTH + 1 +
    --                                   MAX_MEANING_SIZE;
 
-   prefix_line_io.default_width := part_of_speech_type_io.default_width + 1 +
+   prefix_line_io.Default_Width := part_of_speech_type_io.Default_Width + 1 +
      max_stem_size + 1 +
      1 + 1 +
-     prefix_entry_io.default_width + 1 +
+     prefix_entry_io.Default_Width + 1 +
      max_meaning_size;
-   suffix_line_io.default_width := part_of_speech_type_io.default_width + 1 +
+   suffix_line_io.Default_Width := part_of_speech_type_io.Default_Width + 1 +
      max_stem_size + 1 +
      1 + 1 +
-     suffix_entry_io.default_width + 1 +
+     suffix_entry_io.Default_Width + 1 +
      max_meaning_size;
-   tackon_line_io.default_width := part_of_speech_type_io.default_width + 1 +
+   tackon_line_io.Default_Width := part_of_speech_type_io.Default_Width + 1 +
      max_stem_size + 1 +
-     tackon_entry_io.default_width + 1 +
+     tackon_entry_io.Default_Width + 1 +
      max_meaning_size;
 
-   unique_entry_io.default_width := max_stem_size + 1 +
-     inflection_record_io.default_width + 1 +
-     translation_record_io.default_width;
+   unique_entry_io.Default_Width := max_stem_size + 1 +
+     inflection_record_io.Default_Width + 1 +
+     translation_record_io.Default_Width;
 
 end line_stuff;

@@ -17,18 +17,18 @@
 with dictionary_package; use dictionary_package;
 package tricks_package is
 
-   procedure syncope(w : string;
-                     pa : in out parse_array; pa_last : in out integer);
+   procedure syncope(w : String;
+                     pa : in out parse_array; pa_last : in out Integer);
 
-   procedure try_tricks(w : string;
-                        pa : in out parse_array; pa_last : in out integer;
-                                                 line_number : integer; word_number : integer);
+   procedure try_tricks(w : String;
+                        pa : in out parse_array; pa_last : in out Integer;
+                                                 line_number : Integer; word_number : Integer);
 
-   procedure try_slury(w : string;
-                       pa : in out parse_array; pa_last : in out integer;
-                                                line_number : integer; word_number : integer);
+   procedure try_slury(w : String;
+                       pa : in out parse_array; pa_last : in out Integer;
+                                                line_number : Integer; word_number : Integer);
 
-   procedure roman_numerals(input_word : string;
-                            pa : in out parse_array; pa_last : in out integer);
+   procedure roman_numerals(Input_word : String;
+                            pa : in out parse_array; pa_last : in out Integer);
 
 end tricks_package;

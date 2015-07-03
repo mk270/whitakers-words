@@ -14,9 +14,9 @@
 -- All parts of the WORDS system, source code and data files, are made freely
 -- available to anyone who wishes to use them, for whatever purpose.
 
-with text_io;
-with strings_package; use strings_package;
-with latin_file_names; use latin_file_names;
+with Text_IO;
+with Strings_package; use Strings_package;
+with latIn_File_names; use latIn_File_names;
 with word_parameters; use word_parameters;
 with developer_parameters; use developer_parameters;
 with inflections_package; use inflections_package;
@@ -30,100 +30,102 @@ with banner; use banner;
 
 with parse; use parse;
 
-pragma elaborate(word_parameters);
+pragma Elaborate(word_parameters);
 
-procedure process_input(configuration : configuration_type;
-                        command_line : string := "")
+procedure process_Input(configuration : configuration_type;
+                        Command_Line : String := "")
 is
-   -- use inflections_package.integer_io;
+   -- use inflections_package.Integer_IO;
    -- use inflection_record_io;
-   use text_io;
+   use Text_IO;
 
-   procedure delete_if_open(filename : string; dict_name : dictionary_kind) is
+   procedure delete_if_Open(filename : String; dict_name : dictionary_kind) is
    begin
       begin
-         if dict_io.is_open(dict_file(dict_name)) then
-            dict_io.delete(dict_file(dict_name));
+         if dict_io.Is_Open(dict_file(dict_name)) then
+            dict_io.Delete(dict_file(dict_name));
          else
-            dict_io.open(dict_file(dict_name), dict_io.in_file,
+            dict_io.Open(dict_file(dict_name), dict_io.In_File,
               add_file_name_extension(dict_file_name, filename));
-            dict_io.delete(dict_file(dict_name));
+            dict_io.Delete(dict_file(dict_name));
          end if;
       exception when others => null;
       end;   --  not there, so don't have to DELETE
-   end delete_if_open;
+   end delete_if_Open;
 
-   -- get and handle a line of input
-   -- return value says whether there is more input, i.e. false -> quit
-   function get_input_line return boolean
+   -- Get and handle a line of Input
+   -- return value says whether there is more Input, i.e. False -> quit
+   function Get_Input_Line return Boolean
    is
-      blank_line : constant string(1..2500) := (others => ' ');
-      line : string(1 .. 2500) := (others => ' ');
-      l : integer := 0;
+      blank_line : constant String(1..2500) := (others => ' ');
+      line : String(1 .. 2500) := (others => ' ');
+      l : Integer := 0;
    begin
       --  Block to manipulate file of lines
-      if name(current_input) = name(standard_input) then
-         scroll_line_number := integer(text_io.line(text_io.standard_output));
-         preface.new_line;
-         preface.put("=>");
+      if Name(Current_Input) = Name(Standard_Input) then
+         scroll_line_number := Integer(Text_IO.Line(Text_IO.Standard_Output));
+         preface.New_Line;
+         preface.Put("=>");
       end if;
 
       line := blank_line;
-      get_line(line, l);
+      Get_Line(line, l);
       if (l = 0) or else (trim(line(1..l)) = "")  then
          --  Count blank lines
          --LINE_NUMBER := LINE_NUMBER + 1;
-         if name(current_input) = name(standard_input) then
+         if Name(Current_Input) = Name(Standard_Input) then
             --  INPUT is keyboard
-            preface.put("Blank exits =>");
-            get_line(line, l);
+            preface.Put("Blank exits =>");
+            Get_Line(line, l);
             -- Second try
             if (l = 0) or else (trim(line(1..l)) = "")  then
                -- Two in a row
-               return false;
+               return False;
             end if;
          else
             --  INPUT is file
 
             --LINE_NUMBER := LINE_NUMBER + 1;
             --  Count blank lines in file
-            if end_of_file(current_input) then
-               set_input(standard_input);
-               close(input);
+            if End_Of_File(Current_Input) then
+               Set_Input(Standard_Input);
+               Close(Input);
             end if;
          end if;
       end if;
 
       if trim(line(1..l)) /= "" then
-         -- Not a blank line so L(1) (in file input)
-         if line(1) = start_file_character  then
-            if name(current_input) /= name(standard_input) then
-               text_io.put_line("Cannot have file of words (@FILE) " &
+         -- Not a blank line so L(1) (in file Input)
+         if line(1) = start_file_Character  then
+            if Name(Current_Input) /= Name(Standard_Input) then
+               Text_IO.Put_Line("Cannot have file of words (@FILE) " &
                  "in an @FILE");
             else
-               text_io.open(input, text_io.in_file, trim(line(2..l)));
-               text_io.set_input(input);
+               Text_IO.Open(Input, Text_IO.In_File, trim(line(2..l)));
+               Text_IO.Set_Input(Input);
             end if;
-         elsif line(1) = change_parameters_character  and then
-           (name(current_input) = name(standard_input)) and then
-           not config.suppress_preface  then
+         elsif line(1) = change_parameters_Character  and then
+           (Name(Current_Input) = Name(Standard_Input)) and then
+           not config.suppress_preface
+         then
             change_parameters;
-         elsif line(1) = change_language_character  then
+         elsif line(1) = change_language_Character  then
             change_language(line(2));
          elsif
-           line(1) = change_developer_modes_character  and then
-           (name(current_input) = name(standard_input)) and then
-           not config.suppress_preface  then
+           line(1) = change_developer_modes_Character  and then
+           (Name(Current_Input) = Name(Standard_Input)) and then
+           not config.suppress_preface
+         then
             change_developer_modes;
          else
-            if name(current_input) /= name(standard_input) then
-               preface.new_line;
-               preface.put_line(line(1..l));
+            if Name(Current_Input) /= Name(Standard_Input) then
+               preface.New_Line;
+               preface.Put_Line(line(1..l));
             end if;
-            if words_mode(write_output_to_file)     then
+            if words_mode(Write_Output_to_file)     then
                if not config.suppress_preface     then
-                  new_line(output);
-                  text_io.put_line(output, line(1..l));
+                  New_Line(Output);
+                  Text_IO.Put_Line(Output, line(1..l));
                end if;
             end if;
             --  Count lines to be parsed
@@ -133,70 +135,72 @@ is
          end if;
       end if;
 
-      return true;
+      return True;
 
    exception
-      when name_error | use_error =>
-         if name(current_input) /= name(standard_input) then
-            set_input(standard_input);
-            close(input);
+      when Name_Error | Use_Error =>
+         if Name(Current_Input) /= Name(Standard_Input) then
+            Set_Input(Standard_Input);
+            Close(Input);
          end if;
-         put_line("An unknown or unacceptable file name. Try Again");
-         return true;
-      when end_error =>
+         Put_Line("An unknown or unacceptable file name. Try Again");
+         return True;
+      when End_Error =>
          --  The end of the input file resets to CON:
-         if name(current_input) /= name(standard_input) then
-            set_input(standard_input);
-            close(input);
-            if method = command_line_files  then raise give_up; end if;
-            return true;
+         if Name(Current_Input) /= Name(Standard_Input) then
+            Set_Input(Standard_Input);
+            Close(Input);
+            if method = Command_Line_files then
+               raise give_up;
+            end if;
+            return True;
          else
-            put_line("Raised END_ERROR, although in STANDARD_INPUT");
-            put_line("^Z is inappropriate keyboard input, " &
+            Put_Line("Raised END_ERROR, although in STANDARD_INPUT");
+            Put_Line("^Z is inappropriate keyboard Input, " &
               "WORDS should be terminated with a blank line");
             raise give_up;
          end if;
-      when status_error =>
-         --  The end of the input file resets to CON:
-         put_line("Raised STATUS_ERROR");
-         return false;
-   end get_input_line;
+      when Status_Error =>
+         --  The end of the Input file resets to CON:
+         Put_Line("Raised STATUS_ERROR");
+         return False;
+   end Get_Input_Line;
 
 begin
       --  PARSE
-   if method = command_line_input  then
-      if trim(command_line) /= ""  then
-         parse.parse_line(configuration, command_line);
+   if method = Command_Line_Input  then
+      if trim(Command_Line) /= ""  then
+         parse.parse_line(configuration, Command_Line);
       end if;
 
    else
-      banner.print_main_banner(start_file_character,
-        change_parameters_character, help_character);
+      banner.print_main_banner(start_file_Character,
+        change_parameters_Character, help_Character);
 
       if english_dictionary_available(general)  then
-         preface.put_line("English-to-Latin available");
-         preface.put_line(
-           change_language_character & "E changes to English-to-Latin, " &
-           change_language_character & "L changes back     [tilde E]");
+         preface.Put_Line("English-to-Latin available");
+         preface.Put_Line(
+           change_language_Character & "E changes to English-to-Latin, " &
+           change_language_Character & "L changes back     [tilde E]");
       end if;
 
       if configuration = only_meanings  then
          banner.print_mode_warning;
       end if;
 
-      while get_input_line loop
+      while Get_Input_Line loop
          null;
       end loop;
 
-   end if;     --  On command line input
+   end if;     --  On command line Input
 
    begin
-      stem_io.open(stem_file(local), stem_io.in_file,
+      stem_io.Open(stem_file(local), stem_io.In_File,
                    add_file_name_extension(stem_file_name,
                                            "LOCAL"));
       --  Failure to OPEN will raise an exception, to be handled below
-      if stem_io.is_open(stem_file(local)) then
-         stem_io.delete(stem_file(local));
+      if stem_io.Is_Open(stem_file(local)) then
+         stem_io.Delete(stem_file(local));
       end if;
    exception
       when others =>
@@ -204,16 +208,16 @@ begin
    end;
    --  The rest of this seems like overkill, it might have been done elsewhere
 
-   delete_if_open("LOCAL", local);
-   delete_if_open("ADDONS", addons);
-   delete_if_open("UNIQUE", unique);
+   delete_if_Open("LOCAL", local);
+   delete_if_Open("ADDONS", addons);
+   delete_if_Open("UNIQUE", unique);
 
 exception
-   when storage_error  =>    --  Have tried at least twice, fail
-      preface.put_line("Continuing STORAGE_ERROR Exception in PARSE");
-      preface.put_line("If insufficient memory in DOS, try removing TSRs");
+   when Storage_Error  =>    --  Have tried at least twice, fail
+      preface.Put_Line("Continuing STORAGE_ERROR Exception in PARSE");
+      preface.Put_Line("If insufficient memory in DOS, try removing TSRs");
    when give_up  =>
-      preface.put_line("Giving up!");
+      preface.Put_Line("Giving up!");
    when others  =>
-      preface.put_line("Unexpected exception raised in PARSE");
-end process_input;
+      preface.Put_Line("Unexpected exception raised in PARSE");
+end process_Input;
