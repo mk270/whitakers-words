@@ -47,16 +47,16 @@ package body line_stuff is
       procedure get_stem(s : in string;
                          stem : out stem_type; last : out integer) is
          i  : integer := 1;
-         l  : integer := s'first;
+         l  : integer := s'First;
       begin
          stem := null_stem_type;
          --  Squeeze left
-         while l <= s'last and then s(l) = ' '  loop
+         while l <= s'Last and then s(l) = ' '  loop
             l := l + 1;
          end loop;
          --  Count until the first blank
          --  Return that string
-         while l <= s'last and then s(l) /= ' '  loop
+         while l <= s'Last and then s(l) /= ' '  loop
             stem(i) := s(l);
             i := i + 1;
             l := l + 1;
@@ -405,13 +405,13 @@ package body line_stuff is
          delete(stem_file(d_k));
       end if;
       create(stem_file(d_k), inout_file, add_file_name_extension(stem_file_name,
-                                                                 dictionary_kind'image(d_k)));
+                                                                 dictionary_kind'Image(d_k)));
       --PUT_LINE("LOAD_STEM_FILE for LOC - Created STEM_FILE");
       if is_open(dict_file(d_k))  then
          delete(dict_file(d_k));
       end if;
       create(dict_file(d_k), inout_file, add_file_name_extension(dict_file_name,
-                                                                 dictionary_kind'image(d_k)));
+                                                                 dictionary_kind'Image(d_k)));
       --PUT_LINE("LOAD_STEM_FILE for LOC - Created DICT_FILE");
 
       --PUT_LINE("L_D_F  Start  M = " & INTEGER'IMAGE(INTEGER(M)));
@@ -501,7 +501,7 @@ package body line_stuff is
       end put;
 
       procedure get(s : in string; p : out tackon_line; last : out integer) is
-         l : integer := s'first - 1;
+         l : integer := s'First - 1;
          m : integer := 0;
       begin
          m := l + dictionary_kind_io.default_width;
@@ -519,7 +519,7 @@ package body line_stuff is
       end get;
 
       procedure put(s : out string; p : in tackon_line) is
-         l : integer := s'first - 1;
+         l : integer := s'First - 1;
          m : integer := 0;
       begin
          m := l + dictionary_kind_io.default_width;
@@ -536,7 +536,7 @@ package body line_stuff is
          s(l) := ' ';
          m := l + max_meaning_size;
          s(l+1..m) := p.mean;
-         s(m+1..s'last) := (others => ' ');
+         s(m+1..s'Last) := (others => ' ');
       end put;
 
    end tackon_line_io;
@@ -599,11 +599,11 @@ package body line_stuff is
       end put;
 
       procedure get(s : in string; p : out prefix_line; last : out integer) is
-         l : integer := s'first - 1;
+         l : integer := s'First - 1;
          m : integer := 0;
       begin
          m := l + dictionary_kind_io.default_width;
-         get(s(l+1..s'last), p.pofs, l);
+         get(s(l+1..s'Last), p.pofs, l);
          l := m;
          l := l + 1;
          m := l + max_stem_size;
@@ -614,7 +614,7 @@ package body line_stuff is
          p.connect := s(l+1);
          l := l + 1;
          m := l + prefix_entry_io.default_width;
-         get(s(l+1..s'last), p.entr, l);
+         get(s(l+1..s'Last), p.entr, l);
          l := m + 1;
          m := l + max_meaning_size;
          p.mean := s(l+1..m);
@@ -622,7 +622,7 @@ package body line_stuff is
       end get;
 
       procedure put(s : out string; p : in prefix_line) is
-         l : integer := s'first - 1;
+         l : integer := s'First - 1;
          m : integer := 0;
       begin
          m := l + dictionary_kind_io.default_width;
@@ -642,7 +642,7 @@ package body line_stuff is
          m := l + max_meaning_size;
          s(l+1..m) := p.mean;
          m := l + 1;
-         s(m+1..s'last) := (others => ' ');
+         s(m+1..s'Last) := (others => ' ');
       end put;
 
    end prefix_line_io;
@@ -705,11 +705,11 @@ package body line_stuff is
       end put;
 
       procedure get(s : in string; p : out suffix_line; last : out integer) is
-         l : integer := s'first - 1;
+         l : integer := s'First - 1;
          m : integer := 0;
       begin
          m := l + dictionary_kind_io.default_width;
-         get(s(l+1..s'last), p.pofs, l);
+         get(s(l+1..s'Last), p.pofs, l);
          l := m;
          l := l + 1;
          m := l + max_stem_size;
@@ -720,7 +720,7 @@ package body line_stuff is
          p.connect := s(l+1);
          l := l + 1;
          m := l + suffix_entry_io.default_width;
-         get(s(l+1..s'last), p.entr, l);
+         get(s(l+1..s'Last), p.entr, l);
          l := m + 1;
          m := l + max_meaning_size;
          p.mean := s(l+1..m);
@@ -728,7 +728,7 @@ package body line_stuff is
       end get;
 
       procedure put(s : out string; p : in suffix_line) is
-         l : integer := s'first - 1;
+         l : integer := s'First - 1;
          m : integer := 0;
       begin
          m := l + dictionary_kind_io.default_width;
@@ -749,7 +749,7 @@ package body line_stuff is
          s(l) :=  ' ';
          m := l + max_meaning_size;
          s(l+1..m) := p.mean;
-         s(m+1..s'last) := (others => ' ');
+         s(m+1..s'Last) := (others => ' ');
       end put;
 
    end suffix_line_io;
@@ -808,24 +808,24 @@ package body line_stuff is
       end put;
 
       procedure get(s : in string; p : out unique_entry; last : out integer) is
-         l : integer := s'first - 1;
+         l : integer := s'First - 1;
          m : integer := 0;
       begin
          m := l + max_stem_size;
          p.stem := s(l+1..m);
          l := l + 1;
          -- m := l + quality_record_io.default_width; -- apparently redundant?
-         get(s(l+1..s'last), p.qual, l);
+         get(s(l+1..s'Last), p.qual, l);
          l := l + 1;
          -- m := l + kind_entry_io.default_width; -- apparently redundant?
-         get(s(l+1..s'last), p.qual.pofs, p.kind, l);
+         get(s(l+1..s'Last), p.qual.pofs, p.kind, l);
          l := l + 1;
          -- m := l + max_meaning_size; -- apparently redundant?
-         get(s(l+1..s'last), p.tran, last);
+         get(s(l+1..s'Last), p.tran, last);
       end get;
 
       procedure put(s : out string; p : in unique_entry) is
-         l : integer := s'first - 1;
+         l : integer := s'First - 1;
          m : integer := 0;
       begin
          m := l + max_stem_size;
@@ -842,7 +842,7 @@ package body line_stuff is
          s(l) :=  ' ';
          m := m + max_meaning_size;
          put(s(l+1..m), p.tran);
-         s(m+1..s'last) := (others => ' ');
+         s(m+1..s'Last) := (others => ' ');
       end put;
 
    end unique_entry_io;

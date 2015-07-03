@@ -51,8 +51,8 @@ begin
    end if;
 
    if de.part.pofs = prep then
-      return trim(de.stems(1)) & "  " & part_of_speech_type'image(de.part.pofs) &
-        "  " & case_type'image(de.part.prep.obj);
+      return trim(de.stems(1)) & "  " & part_of_speech_type'Image(de.part.pofs) &
+        "  " & case_type'Image(de.part.prep.obj);
    end if;
 
    if de.stems(2) = null_stem_type  and
@@ -65,7 +65,7 @@ begin
      ((de.part.pofs = v)  and then (de.part.v.con = (9, 8))) or
      ((de.part.pofs = v)  and then (de.part.v.con = (9, 9))))
    then
-      return trim(de.stems(1)) & "  " & part_of_speech_type'image(de.part.pofs);
+      return trim(de.stems(1)) & "  " & part_of_speech_type'Image(de.part.pofs);
       --  For UNIQUES, CONJ, INTERJ, ...
    end if;
 
@@ -402,7 +402,7 @@ begin
                if de.part.v.con.var = 2  then
                   ox(1) := add(de.stems(1), "t");
                else
-                  if de.stems(1)(trim(de.stems(1))'last) = 'i'  then
+                  if de.stems(1)(trim(de.stems(1))'Last) = 'i'  then
                      ox(1) := add(de.stems(1), "t");
                   else
                      ox(1) := add(de.stems(1), "it");
@@ -622,7 +622,7 @@ begin
       add_up(", " & trim(ox(4)));
    end if;
 
-   add_to("  " & part_of_speech_type'image(de.part.pofs)& "  ");
+   add_to("  " & part_of_speech_type'Image(de.part.pofs)& "  ");
 
    if de.part.pofs = n  then
 
@@ -632,7 +632,7 @@ begin
          add_to(" (" & fst(de.part.n.decl.which) & ")");
       end if;
 
-      add_to(" " & gender_type'image(de.part.n.gender) & "  ");
+      add_to(" " & gender_type'Image(de.part.n.gender) & "  ");
    end if;
 
    if de.part.pofs = v then
@@ -647,7 +647,7 @@ begin
       end if;
 
       if de.part.v.kind in gen..perfdef then
-         add_to(" " & verb_kind_type'image(de.part.v.kind) & "  ");
+         add_to(" " & verb_kind_type'Image(de.part.v.kind) & "  ");
       end if;
 
    end if;

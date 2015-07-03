@@ -155,12 +155,12 @@ package body word_package is
 
    function ltu(s, t : string) return boolean is
    begin
-      for i in 1..s'length  loop   --  Not TRIMed, so same length
-         if equ(s(s'first+i-1), t(t'first+i-1))  then
+      for i in 1..s'Length  loop   --  Not TRIMed, so same length
+         if equ(s(s'First+i-1), t(t'First+i-1))  then
             null;
-         elsif gtu(s(s'first+i-1), t(t'first+i-1))  then
+         elsif gtu(s(s'First+i-1), t(t'First+i-1))  then
             return false;
-         elsif ltu(s(s'first+i-1), t(t'first+i-1))  then
+         elsif ltu(s(s'First+i-1), t(t'First+i-1))  then
             return true;
          end if;
       end loop;
@@ -169,12 +169,12 @@ package body word_package is
 
    function gtu(s, t : string) return boolean is
    begin
-      for i in 1..s'length  loop   --  Not TRIMed, so same length
-         if equ(s(s'first+i-1), t(t'first+i-1))  then
+      for i in 1..s'Length  loop   --  Not TRIMed, so same length
+         if equ(s(s'First+i-1), t(t'First+i-1))  then
             null;
-         elsif ltu(s(s'first+i-1), t(t'first+i-1))  then
+         elsif ltu(s(s'First+i-1), t(t'First+i-1))  then
             return false;
-         elsif gtu(s(s'first+i-1), t(t'first+i-1))  then
+         elsif gtu(s(s'First+i-1), t(t'First+i-1))  then
             return true;
          end if;
       end loop;
@@ -183,12 +183,12 @@ package body word_package is
 
    function equ(s, t : string) return boolean is
    begin
-      if s'length /= t'length  then
+      if s'Length /= t'Length  then
          return false;
       end if;
 
-      for i in 1..s'length  loop
-         if not equ(s(s'first+i-1), t(t'first+i-1))  then
+      for i in 1..s'Length  loop
+         if not equ(s(s'First+i-1), t(t'First+i-1))  then
             return false;
          end if;
       end loop;
@@ -204,12 +204,12 @@ package body word_package is
       unql : unique_list;   --  Unique list for a letter
    begin
       unique_found := false;
-      if sl(sl'first) = 'v'  then
+      if sl(sl'First) = 'v'  then
          unql := unq('u');   --  Unique list for a letter
-      elsif sl(sl'first) = 'j'  then
+      elsif sl(sl'First) = 'j'  then
          unql := unq('i');   --  Unique list for a letter
       else
-         unql := unq(sl(sl'first));   --  Unique list for a letter
+         unql := unq(sl(sl'First));   --  Unique list for a letter
       end if;
 
       --TEXT_IO.NEW_LINE;
@@ -248,8 +248,8 @@ package body word_package is
       use lel_section_io;
       use inflection_record_io;
       word : constant string := lower_case(trim(s));
-      last_of_word : constant character := word(word'last);
-      length_of_word   : constant integer := word'length;
+      last_of_word : constant character := word(word'Last);
+      length_of_word   : constant integer := word'Length;
       stem_length  : integer := 0;
       pr   : parse_record;
       m : integer := 1;
@@ -257,7 +257,7 @@ package body word_package is
    begin
       --TEXT_IO.NEW_LINE;
       --TEXT_IO.PUT_LINE("Called RUN_INFLECTIONS with =>" & WORD & "|");
-      if word'length = 0  then
+      if word'Length = 0  then
          sl(m) := null_parse_record;
          return;
       end if;
@@ -268,9 +268,9 @@ package body word_package is
       --  since the blank ending agrees with everything
       --  PACK/PRON have no blank endings
       if ((restriction /= pack_only) and (restriction /= qu_pron_only))  and then
-        (word'length <= max_stem_size)  then
+        (word'Length <= max_stem_size)  then
          for i in belf(0, ' ')..bell(0, ' ')  loop
-            pr := (word & null_stem_type(length_of_word+1..stem_type'length),
+            pr := (word & null_stem_type(length_of_word+1..stem_type'Length),
                    bel(i), default_dictionary_kind, null_mnpc);
             sl(m) := pr;
             m := m + 1;
@@ -308,16 +308,16 @@ package body word_package is
 
             for i in lelf(z, last_of_word)..lell(z, last_of_word) loop
                if equ(lower_case(lel(i).ending.suf(1..z)),
-                      lower_case(word(word'last-z+1..word'last)))  then
+                      lower_case(word(word'Last-z+1..word'Last)))  then
                   --  Add to list of possible ending records
                   --STEM_LENGTH := WORD'LENGTH - LEL(I).ENDING.SIZE;
-                  stem_length := word'length - z;
+                  stem_length := word'Length - z;
                   --PUT(STEM_LENGTH);
                   --TEXT_IO.PUT_LINE("#######################################################");
 
                   if stem_length <= max_stem_size  then  --  Reject too long words
                                                          --  Check if LEL IR agrees with PDL IR  !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-                     pr := (word(word'first..stem_length) &
+                     pr := (word(word'First..stem_length) &
                               null_stem_type(stem_length+1..max_stem_size),
                             lel(i), default_dictionary_kind, null_mnpc);
                      sl(m) := pr;
@@ -339,10 +339,10 @@ package body word_package is
    begin
       stem_io.open(stem_file(d_k), stem_io.in_file,
                    add_file_name_extension(stem_file_name,
-                                           dictionary_kind'image(d_k)));
+                                           dictionary_kind'Image(d_k)));
       dict_io.open(dict_file(d_k), dict_io.in_file,
                    add_file_name_extension(dict_file_name,
-                                           dictionary_kind'image(d_k)));
+                                           dictionary_kind'Image(d_k)));
       load_indices_from_indx_file(d_k);
       dictionary_available(d_k) := true;
 
@@ -359,10 +359,10 @@ package body word_package is
       --  any of the stems that are physically possible with Latin inflections
       use stem_io;
 
-      --type NAT_32 is range 0..2**31-1;   --###############
+      --type NAT_32 is Range 0..2**31-1;   --###############
       j, j1, j2, jj : stem_io.count := 0;
 
-      index_on : constant string := ssa(ssa'last);
+      index_on : constant string := ssa(ssa'Last);
       index_first, index_last : stem_io.count := 0;
       ds : dictionary_stem;
       first_try, second_try : boolean := true;
@@ -371,7 +371,7 @@ package body word_package is
          --  'v' could be represented by 'u', like the new Oxford Latin Dictionary
          --  Fixes the first two letters of a word/stem which can be done right
          s : constant string := lower_case(w);
-         ss : string(w'range) := w;
+         ss : string(w'Range) := w;
 
          function ui(c : character) return character  is
          begin
@@ -390,11 +390,11 @@ package body word_package is
 
       begin
 
-         if s'length = 1  then
-            ss(s'first) := ui(w(s'first));
+         if s'Length = 1  then
+            ss(s'First) := ui(w(s'First));
          else
-            ss(s'first)   := ui(w(s'first));
-            ss(s'first+1) := ui(w(s'first+1));
+            ss(s'First)   := ui(w(s'First));
+            ss(s'First+1) := ui(w(s'First+1));
          end if;
 
          return ss;
@@ -449,8 +449,8 @@ package body word_package is
          j2 := index_last;
 
          stem_array_loop:
-         for k in ssa'range  loop
-            if trim(ssa(k))'length > 1  then
+         for k in ssa'Range  loop
+            if trim(ssa(k))'Length > 1  then
                --  This may be checking for 0 and 1 letter SSAs which are done elsewhere
                if d_k = local  then    --  Special processing for unordered DICT.LOC
                   for j in j1..j2  loop       --  Sweep exaustively through the scope
@@ -542,7 +542,7 @@ package body word_package is
       --  Check all stems of the dictionary entry against the reduced stems
 
       --  Determine if there is a pure blank "  " stem
-      if len(ssa(ssa'first)) = 0    then   --  a size would help?
+      if len(ssa(ssa'First)) = 0    then   --  a size would help?
                                            --PUT("HIT on blank stem   I = ");PUT('1');
                                            --PUT("  STEM = ");PUT_LINE(BDL(1).STEM);
                                            --PDL := new PRUNED_DICTIONARY_ITEM'(BDL(1), GENERAL, PDL);
@@ -554,12 +554,12 @@ package body word_package is
       --  Determine if there is a blank stem  (SC = ' ')
       --  Prepare for the posibility that one stem is short but there are others
       fc := ' ';
-      if ssa(ssa'first)(1) = ' ' then
-         if ssa'length > 1  and then ssa(ssa'first+1)(2) = ' '  then
-            fc := ssa(ssa'first+1)(1);
+      if ssa(ssa'First)(1) = ' ' then
+         if ssa'Length > 1  and then ssa(ssa'First+1)(2) = ' '  then
+            fc := ssa(ssa'First+1)(1);
          end if;
-      elsif ssa(ssa'first)(2) = ' '  then
-         fc := ssa(ssa'first)(1);
+      elsif ssa(ssa'First)(2) = ' '  then
+         fc := ssa(ssa'First)(1);
       end if;
 
       --  If there is a single letter stem  (FC /= ' ') then
@@ -576,7 +576,7 @@ package body word_package is
          end loop;
       end if;
 
-      if ssa'length = 0  then
+      if ssa'Length = 0  then
          --        PUT_LINE("Empty stem array, don't bother searching");
          return;
          --      elsif LEN(SSA(SSA'LAST)) <= 1  then
@@ -590,7 +590,7 @@ package body word_package is
             if not is_open(stem_file(d_k))  then
                open(stem_file(d_k), stem_io.in_file,
                     add_file_name_extension(stem_file_name,
-                                            dictionary_kind'image(d_k)));
+                                            dictionary_kind'Image(d_k)));
             end if;
             dictionary_search(ssa, d_k, restriction);
             close(stem_file(d_k));  --??????
@@ -602,21 +602,21 @@ package body word_package is
    procedure change_language(c : character) is
    begin  if upper_case(c) = 'L'  then
       language := latin_to_english;
-      preface.put_line("Language changed to " & language_type'image(language));
+      preface.put_line("Language changed to " & language_type'Image(language));
    elsif upper_case(c) = 'E'  then
       if english_dictionary_available(general)  then
          language:= english_to_latin;
-         preface.put_line("Language changed to " & language_type'image(language));
+         preface.put_line("Language changed to " & language_type'Image(language));
          preface.put_line("Input a single English word (+ part of speech - N, ADJ, V, PREP, ...)");
       else
          preface.put_line("No English dictionary available");
       end if;
    else
-      preface.put_line("Bad LANGAUGE input - no change, remains " & language_type'image(language));
+      preface.put_line("Bad LANGAUGE input - no change, remains " & language_type'Image(language));
    end if;
    exception
       when others  =>
-         preface.put_line("Bad LANGAUGE input - no change, remains " & language_type'image(language));
+         preface.put_line("Bad LANGAUGE input - no change, remains " & language_type'Image(language));
    end change_language;
 
    procedure word(raw_word : in string;
@@ -641,7 +641,7 @@ package body word_package is
             return; end if;
             --PUT_LINE("ORDERing_STEMS");
 
-            for i in sl'range  loop
+            for i in sl'Range  loop
                exit when sl(i) = null_parse_record;
                sl_last := sl_last + 1;
             end loop;
@@ -700,7 +700,7 @@ package body word_package is
          else
 
             opr := null_parse_record;
-            for i in sl'range  loop
+            for i in sl'Range  loop
                if sl(i) /= null_parse_record  then
                   --PUT('*'); PUT(SL(I)); NEW_LINE;
 
@@ -866,14 +866,14 @@ package body word_package is
             --  SUFFIX and PREFIX either agree or don't exist (agrees with everything)
             ls := len(add_suffix(add_prefix(pdl(j).ds.stem, prefix), suffix));
             on_sl:
-            for i in sl'range loop
+            for i in sl'Range loop
                exit when sl(i) = null_parse_record;
 
                if ls  = len(sl(i).stem)  then
 
                   --  Scan through the whole unreduced stem list
                   --  Single out those stems that match (pruned) dictionary entries
-                  --^^^^^^^^^^^^^^^^^should be able to do this better with new arrangement
+                  --^^^^^^^^^^^^^^^^^should be able to do this better with new arRangement
 
                   --sl_key := sl(i).ir.key;
                   --sl_p := sl(i).ir.qual.pofs;
@@ -1133,7 +1133,7 @@ package body word_package is
             --PUT(NUMBER_OF_PREFIXES); PUT(INTEGER(SA'LENGTH)); PUT(SA'LAST); NEW_LINE;
             for i in 1..number_of_prefixes  loop       --  Loop through PREFIXES
                l :=  0;
-               for j in sa'range  loop                  --  Loop through stem array
+               for j in sa'Range  loop                  --  Loop through stem array
                   --PUT("J = "); PUT(J); PUT("   SA(J) = "); PUT(SA(J)); NEW_LINE;
                   if sa(j)(1) = prefixes(i).fix(1) then  --  Cuts down a little -- do better
                      if subtract_prefix(sa(j), prefixes(i)) /=
@@ -1183,7 +1183,7 @@ package body word_package is
          for i in 1..number_of_suffixes  loop       --  Loop through SUFFIXES
             l :=  0;                                 --  Take as many as fit
 
-            for j in sa'range  loop                  --  Loop through stem array
+            for j in sa'Range  loop                  --  Loop through stem array
                if subtract_suffix(sa(j), suffixes(i)) /=
                  head(sa(j), max_stem_size)  then
                   l := l + 1;            --  We have a hit, make new stem array item
@@ -1215,7 +1215,7 @@ package body word_package is
                      --PUT("SUFFIX MNPC  "); PUT(SUFFIXES(SUFFIX_HIT).MNPC); NEW_LINE;
                      pa(pa_last).d_k  := addons;
                      ---
-                     for i in sxx'range  loop
+                     for i in sxx'Range  loop
                         exit when sxx(i) = null_parse_record;
                         pa_last := pa_last + 1;
                         pa(pa_last) := sxx(i);
@@ -1236,7 +1236,7 @@ package body word_package is
                      pa(pa_last).mnpc := dict_io.count(suffixes(suffix_hit).mnpc);
                      pa(pa_last).d_k  := addons;
 
-                     for i in sxx'range  loop    --  Set this set of results
+                     for i in sxx'Range  loop    --  Set this set of results
                         exit when sxx(i) = null_parse_record;
                         pa_last := pa_last + 1;
                         pa(pa_last) := sxx(i);
@@ -1332,24 +1332,24 @@ package body word_package is
       begin
 
          over_packons:
-         for k in packons'range  loop    -- Do whole set, more than one may apply
+         for k in packons'Range  loop    -- Do whole set, more than one may apply
             --TEXT_IO.PUT_LINE("OVER_PACKONS   K = "& INTEGER'IMAGE(K) & "   PACKON = " & PACKONS(K).TACK);
             --  PACKON if the TACKON ENTRY is PRON
 
             for_each_packon:
             declare
                xword : constant string := subtract_tackon(input_word, packons(k));
-               word : string(1..xword'length) := xword;
-               packon_length : constant integer := trim(packons(k).tack)'length;
-               last_of_word : character := word(word'last);
-               length_of_word   : constant integer := word'length;
+               word : string(1..xword'Length) := xword;
+               packon_length : constant integer := trim(packons(k).tack)'Length;
+               last_of_word : character := word(word'Last);
+               length_of_word   : constant integer := word'Length;
             begin
                sl := sl_nulls;      --  Initialize SL to nulls
                if word  /= input_word  then
                   packon_first_hit := true;
 
                   if packons(k).tack(1..3) = "dam" and  last_of_word = 'n'  then
-                     word(word'last) := 'm';   --  Takes care of the m - > n shift with dam
+                     word(word'Last) := 'm';   --  Takes care of the m - > n shift with dam
                      last_of_word := 'm';
                      --PUT_LINE("PACKON = dam   and LAST_OF_WORD = n    => " & WORD);
                   end if;
@@ -1366,19 +1366,19 @@ package body word_package is
                         for i in pelf(z, last_of_word)..pell(z, last_of_word) loop
                            if (z <= length_of_word)  and then
                              ((equ(lel(i).ending.suf(1..z),
-                                   word(word'last-z+1..word'last)))  and
+                                   word(word'Last-z+1..word'Last)))  and
                                 (lel(i).qual.pron.decl <= packons(k).entr.base.pack.decl))  then
                               --  Have found an ending that is a possible match
                               --  And INFLECT agrees with PACKON.BASE
                               --PUT_LINE("INFLECTS HIT ------------------------------------------------------");
 
                               --  Add to list of possible ending records
-                              stem_length := word'length - z;
-                              pr := (head(word(word'first..stem_length), max_stem_size),
+                              stem_length := word'Length - z;
+                              pr := (head(word(word'First..stem_length), max_stem_size),
                                      lel(i), default_dictionary_kind, null_mnpc);
                               m := m + 1;
                               sl(m) := pr;
-                              ssa(1) := head(word(word'first.. word'first+stem_length-1),
+                              ssa(1) := head(word(word'First.. word'First+stem_length-1),
                                              max_stem_size);
                               --PUT_LINE("STEM_LENGTH = " & INTEGER'IMAGE(STEM_LENGTH));
                               --PUT_LINE("SSA(1) in PACKONS from real  INFLECTS ->" & SSA(1) & '|');
@@ -1460,8 +1460,8 @@ package body word_package is
       procedure process_qu_pronouns(input_word : string; qkey : stem_key_type := 0) is
 
          word : constant string := lower_case(trim(input_word));
-         last_of_word : constant character := word(word'last);
-         length_of_word   : constant integer := word'length;
+         last_of_word : constant character := word(word'Last);
+         length_of_word   : constant integer := word'Length;
          stem_length  : integer := 0;
          m : integer := 0;
          pr   : parse_record;
@@ -1485,15 +1485,15 @@ package body word_package is
                   if (z <= length_of_word)  and then
                     lel(i).key = qkey  and then
                     equ(lel(i).ending.suf(1..z),
-                        word(word'last-z+1..word'last))    then
+                        word(word'Last-z+1..word'Last))    then
                      --  Have found an ending that is a possible match
                      --  Add to list of possible ending records
-                     stem_length := word'length - z;
-                     pr := (head(word(word'first..stem_length), max_stem_size),
+                     stem_length := word'Length - z;
+                     pr := (head(word(word'First..stem_length), max_stem_size),
                             lel(i), default_dictionary_kind, null_mnpc);
                      m := m + 1;
                      sl(m) := pr;
-                     ssa(1) := head(word(word'first.. word'first+stem_length-1),
+                     ssa(1) := head(word(word'First.. word'First+stem_length-1),
                                     max_stem_size);
                      --  may get set several times
                   end if;
@@ -1692,21 +1692,21 @@ package body word_package is
                      pa(pa_last).mnpc := dict_io.count(tickons(i).mnpc);
                   end if;
 
-                  if q_word'length >= 3   and then   --  qui is shortest QU_PRON
-                    ((q_word(q_word'first..q_word'first+1) = "qu")  or
-                       (q_word(q_word'first..q_word'first+1) = "cu"))  then
-                     if q_word(q_word'first..q_word'first+1) = "qu"  then
+                  if q_word'Length >= 3   and then   --  qui is shortest QU_PRON
+                    ((q_word(q_word'First..q_word'First+1) = "qu")  or
+                       (q_word(q_word'First..q_word'First+1) = "cu"))  then
+                     if q_word(q_word'First..q_word'First+1) = "qu"  then
                         qkey := 1;
                         process_qu_pronouns(q_word, qkey);
-                     elsif q_word(q_word'first..q_word'first+1) = "cu"  then
+                     elsif q_word(q_word'First..q_word'First+1) = "cu"  then
                         qkey := 2;
                         process_qu_pronouns(q_word, qkey);
                      end if;
                      if pa_last <= pa_qstart + 1  and then
                        qkey > 0                    then    --  If did not find a PACKON
-                        if q_word(q_word'first..q_word'first+1) = "qu"  then
+                        if q_word(q_word'First..q_word'First+1) = "qu"  then
                            process_packons(q_word);
-                        elsif q_word(q_word'first..q_word'first+1) = "cu"  then
+                        elsif q_word(q_word'First..q_word'First+1) = "cu"  then
                            process_packons(q_word);
                         end if;
                      else
@@ -1716,10 +1716,10 @@ package body word_package is
                         exit;
                      end if;
 
-                  elsif input_word'length >= 6  then   --  aliqui as aliQU_PRON
-                     if input_word(input_word'first..input_word'first+4) = "aliqu"  then
+                  elsif input_word'Length >= 6  then   --  aliqui as aliQU_PRON
+                     if input_word(input_word'First..input_word'First+4) = "aliqu"  then
                         process_qu_pronouns(input_word, 1);
-                     elsif input_word(input_word'first..input_word'first+4) = "alicu"  then
+                     elsif input_word(input_word'First..input_word'First+4) = "alicu"  then
                         process_qu_pronouns(input_word, 2);
                      end if;
                   end if;

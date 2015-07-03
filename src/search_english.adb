@@ -127,13 +127,13 @@ procedure search_english(input_english_word : string; pofs : part_of_speech_type
 
             if de.part.pofs = n  then
                text_io.put(output, "  ");  decn_record_io.put(output, de.part.n.decl);
-               text_io.put(output, "  " & gender_type'image(de.part.n.gender) & "  ");
+               text_io.put(output, "  " & gender_type'Image(de.part.n.gender) & "  ");
             end if;
             if de.part.pofs = v then
                text_io.put(output, "  ");  decn_record_io.put(output, de.part.v.con);
             end if;
             if (de.part.pofs = v)  and then  (de.part.v.kind in gen..perfdef)  then
-               text_io.put(output, "  " & verb_kind_type'image(de.part.v.kind) & "  ");
+               text_io.put(output, "  " & verb_kind_type'Image(de.part.v.kind) & "  ");
             end if;
 
             if words_mdev(show_dictionary_codes)    then
@@ -153,7 +153,7 @@ procedure search_english(input_english_word : string; pofs : part_of_speech_type
 
             if words_mdev(show_dictionary_line)  then
                text_io.put(output, "("
-                             & trim(integer'image(output_array(i).n)) & ")");
+                             & trim(integer'Image(output_array(i).n)) & ")");
             end if;
 
             text_io.new_line(output);
@@ -248,6 +248,6 @@ begin
 exception
    when others  =>
       text_io.put_line("exception SEARCH NUMBER_OF_HITS = " &
-                         integer'image(number_of_hits));
+                         integer'Image(number_of_hits));
       raise;
 end search_english;

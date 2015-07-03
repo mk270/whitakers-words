@@ -35,16 +35,16 @@ package body strings_package is
    function lower_case(c : character) return character is
    begin
       if c in 'A'..'Z'  then
-         return character'val(character'pos(c) + 32);
+         return character'Val(character'Pos(c) + 32);
       else
          return c;
       end if;
    end lower_case;
 
    function lower_case(s : string) return string is
-      t : string(s'range);
+      t : string(s'Range);
    begin
-      for i in s'range  loop
+      for i in s'Range  loop
          t(i) := lower_case(s(i));
       end loop;
       return t;
@@ -53,16 +53,16 @@ package body strings_package is
    function upper_case(c : character) return character is
    begin
       if c in 'a'..'z'  then
-         return character'val(character'pos(c) - 32);
+         return character'Val(character'Pos(c) - 32);
       else
          return c;
       end if;
    end upper_case;
 
    function upper_case(s : string) return string is
-      t : string(s'range);
+      t : string(s'Range);
    begin
-      for i in s'range  loop
+      for i in s'Range  loop
          t(i) := upper_case(s(i));
       end loop;
       return t;
@@ -72,33 +72,33 @@ package body strings_package is
                  side   : in trim_end := both) return string is
       --  Removes leading and trailing blanks and returns a STRING staring at 1
       --  For a string of all blanks as input it returns NULL_STRING
-      t : string(1..source'length) := source;
-      first: natural := source'first;
-      last : natural := source'last;
+      t : string(1..source'Length) := source;
+      first: natural := source'First;
+      last : natural := source'Last;
 
    begin
       if side /= right  then
-         first := source'last + 1;
-         for i in source'range  loop
+         first := source'Last + 1;
+         for i in source'Range  loop
             if source(i) /= ' '  then
                first := i;
                exit;
             end if;
          end loop;
       else
-         first := source'first;
+         first := source'First;
       end if;
 
       if side /= left  then
-         last := source'first - 1;
-         for i in reverse source'range  loop
+         last := source'First - 1;
+         for i in reverse source'Range  loop
             if source(i) /= ' '  then
                last := i;
                exit;
             end if;
          end loop;
       else
-         last := source'last;
+         last := source'Last;
       end if;
 
       if first > last  then
@@ -111,13 +111,13 @@ package body strings_package is
 
    function head(source : in string;
                  count  : in natural) return string is
-      --  Truncates or fills a string to exactly N in length
+      --  Truncates or fills a string to exactly N in Length
       t : string(1..count) := (others => ' ');
    begin
-      if count < source'length  then
-         t(1..count) := source(source'first..source'first+count-1);
+      if count < source'Length  then
+         t(1..count) := source(source'First..source'First+count-1);
       else
-         t(1..source'length) := source(source'first..source'last);
+         t(1..source'Length) := source(source'First..source'Last);
       end if;
       return t;
    end head;
@@ -151,7 +151,7 @@ package body strings_package is
             exit file_loop;
          end if;
       end loop file_loop;
-      s(s'first..lx) := t(1..lx);
+      s(s'First..lx) := t(1..lx);
       last := lx;
    end get_non_comment_line;
 end strings_package;

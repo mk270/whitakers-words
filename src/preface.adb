@@ -45,7 +45,7 @@ package body preface is
       end if;
    end new_line;
 
-   procedure put(n : integer; width : text_io.field := integer'width) is
+   procedure put(n : integer; width : text_io.field := integer'Width) is
       package integer_io is new text_io.integer_io(integer);
    begin
       if not config.suppress_preface  then

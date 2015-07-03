@@ -192,7 +192,7 @@ is
 
    begin
 
-      for i in participle_glosses'range loop
+      for i in participle_glosses'Range loop
          if participle_glosses(i).key = parsed_verb.tense_voice_mood then
 
             if parsed_verb.tense_voice_mood = (perf, passive, ppl) then
@@ -260,7 +260,7 @@ is
       -- voice and mood are always as specified in parsed_verb.tense_voice_mood
       -- if tense is future, then there's a complicated thing to do
 
-      for i in participle_glosses_with_esse'range loop
+      for i in participle_glosses_with_esse'Range loop
          if participle_glosses_with_esse(i).key =
            parsed_verb.tense_voice_mood then
             declare
@@ -337,9 +337,9 @@ is
    begin
       if t = ""  then
          return verb_to_be'(matches => false);
-      elsif t(t'first) /= 's'  and
-        t(t'first) /= 'e'  and
-        t(t'first) /= 'f'      then
+      elsif t(t'First) /= 's'  and
+        t(t'First) /= 'e'  and
+        t(t'First) /= 'f'      then
          return verb_to_be'(matches => false);
       end if;
       for l in mood_type range ind..sub  loop
@@ -871,8 +871,8 @@ is
    exception
       when others  =>
          put_stat("Exception    at "
-           & head(integer'image(line_number), 8)
-           & head(integer'image(word_number), 4)
+           & head(integer'Image(line_number), 8)
+           & head(integer'Image(word_number), 4)
            & "   " & head(input_word, 28) & "   "  & input_line);
                raise;
 
@@ -880,7 +880,7 @@ is
 
    procedure parse_line(configuration : configuration_type;
                         input_line : string) is
-      l : integer := trim(input_line)'last;
+      l : integer := trim(input_line)'Last;
       line : string(1..2500) := (others => ' ');
       w : string(1..l) := (others => ' ');
    begin

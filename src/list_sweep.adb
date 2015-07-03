@@ -72,7 +72,7 @@ procedure list_sweep(pa : in out parse_array; pa_last : in out integer) is
                      allowed := false;
                      dict_io.read(dict_file(pr.d_k), de, pr.mnpc);
                      mean := de.mean;
-                     for j in meaning_type'first..meaning_type'last-2  loop
+                     for j in meaning_type'First..meaning_type'Last-2  loop
                         if mean(j..j+2) = "pl."  then
                            allowed := true;
                            exit;
@@ -105,8 +105,8 @@ procedure list_sweep(pa : in out parse_array; pa_last : in out integer) is
             begin
                if (pr.ir.qual.v = ((3, 1), (pres, active, imp), 2, s))  and
                  (pr.ir.ending.size = 0)  then    --  For this special case
-                  if stem'length >= 3  then
-                     last_three := stem(stem'last-2..stem'last);
+                  if stem'Length >= 3  then
+                     last_three := stem(stem'Last-2..stem'Last);
                      if (last_three = "dic")  or
                        (last_three = "duc")  or
                        (last_three = "fac")  or
@@ -231,7 +231,7 @@ procedure list_sweep(pa : in out parse_array; pa_last : in out integer) is
 
    procedure order_parse_array(sl: in out parse_array; diff_j : out integer) is
       hits : integer := 0;
-      sl_last : integer := sl'last;
+      sl_last : integer := sl'Last;
       sl_last_initial : constant integer := sl_last;
       sm : parse_record;
       has_noun_abbreviation      : boolean := false;
@@ -262,7 +262,7 @@ procedure list_sweep(pa : in out parse_array; pa_last : in out integer) is
 
    begin
 
-      if sl'length = 0              then
+      if sl'Length = 0              then
          -- ? diff_j := sl_last_initial - sl_last;
          return;
       end if;
@@ -312,7 +312,7 @@ procedure list_sweep(pa : in out parse_array; pa_last : in out integer) is
             --  not just in one fell swoop at the end !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
             inner_loop:
-            for i in sl'first..sl_last-1  loop
+            for i in sl'First..sl_last-1  loop
                --  Maybe <   =  on PR.STEM  -  will have to make up "<"   --  Actually STEM and PART  --  and check that later in print
                if sl(i+1).d_k  > sl(i).d_k   or else  --  Let DICT.LOC list first
 
@@ -366,7 +366,7 @@ procedure list_sweep(pa : in out parse_array; pa_last : in out integer) is
          --         end loop;
 
          --  Check to see if we can afford to TRIM, if there will be something left over
-         for i in sl'first..sl_last  loop
+         for i in sl'First..sl_last  loop
             --TEXT_IO.PUT_LINE("SCANNING FOR TRIM   I = " & INTEGER'IMAGE(I) & "  INFL AGE = " & AGE_TYPE'IMAGE(SL(I).IR.AGE));
             if sl(i).d_k in general..local  then
 
@@ -399,7 +399,7 @@ procedure list_sweep(pa : in out parse_array; pa_last : in out integer) is
          --  Kill not ALLOWED first, then check the remaining from the top
          --  I am assuming there is no trimming of FIXES for AGE/...
          i := sl_last;
-         while i >= sl'first  loop
+         while i >= sl'First  loop
             --  Remove not ALLOWED_STEM & null
             if not allowed_stem(sl(i)) or (pa(i) = null_parse_record) then
                --TEXT_IO.PUT_LINE("Not ALLOWED   SL_LAST = " & INTEGER'IMAGE(SL_LAST) & "  J = " & INTEGER'IMAGE(I));
@@ -412,7 +412,7 @@ procedure list_sweep(pa : in out parse_array; pa_last : in out integer) is
          end loop;
 
          i := sl_last;
-         while i >= sl'first  loop
+         while i >= sl'First  loop
             --TEXT_IO.PUT_LINE("TRIMMING FOR TRIM   I = " & INTEGER'IMAGE(I));
             if (not_only_archaic and words_mdev(omit_archaic)) and then
               sl(i).ir.age = a  then
@@ -431,7 +431,7 @@ procedure list_sweep(pa : in out parse_array; pa_last : in out integer) is
          end loop;
 
          i := sl_last;
-         while i >= sl'first  loop
+         while i >= sl'First  loop
             if (not_only_uncommon and words_mdev(omit_uncommon)) and then
               sl(i).ir.freq >= c  then      --  Remember A < C
                sl(i..sl_last-1) := sl(i+1..sl_last);
@@ -466,12 +466,12 @@ procedure list_sweep(pa : in out parse_array; pa_last : in out integer) is
          --  just to kill Roman numeral for three single letters
          --  Also strange in that code depends on dictionary knowledge
          i := sl_last;
-         while i >= sl'first  loop
+         while i >= sl'First  loop
             if has_noun_abbreviation    and then
               (all_caps and followed_by_period)  then
                if (sl(i).ir.qual.pofs /= n) or
                  (   (sl(i).ir.qual /= (n,  ((9, 8), x, x, m)))  and
-                 ( trim(sl(i).stem)'length = 1  and then
+                 ( trim(sl(i).stem)'Length = 1  and then
                  (sl(i).stem(1) = 'A'  or
                  sl(i).stem(1) = 'C'  or
                  sl(i).stem(1) = 'D'  or
@@ -499,7 +499,7 @@ procedure list_sweep(pa : in out parse_array; pa_last : in out integer) is
 
 begin                               --  LIST_SWEEP
 
-   if pa'length = 0              then
+   if pa'Length = 0              then
       return;
    end if;
 
@@ -513,7 +513,7 @@ begin                               --  LIST_SWEEP
             dict_io.read(dict_file(pa(i).d_k), de);
             if de.part.pofs = pron  and then
               de.part.pron.decl.which =1  then
-               pa(i).ir.qual.pron.decl.var := pronoun_kind_type'pos(de.part.pron.kind);
+               pa(i).ir.qual.pron.decl.var := pronoun_kind_type'Pos(de.part.pron.kind);
                --elsif DE.PART.POFS = PACK  and then
                -- DE.PART.PACK.DECL.WHICH =1  then
                -- PA(I).IR.QUAL.PACK.DECL.VAR := PRONOUN_KIND_TYPE'POS(DE.KIND.PRON_KIND);

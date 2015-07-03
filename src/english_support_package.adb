@@ -103,27 +103,27 @@ package body english_support_package is
       end put;
 
       procedure get(s : in string; p : out ewds_record; last : out integer) is
-         l : integer := s'first - 1;
+         l : integer := s'First - 1;
       begin
          p.w := s(l+1..l+eword_size);
          l := l + eword_size + 1;
          p.aux := s(l+1..l+aux_word_size);
          l := l + aux_word_size + 1;
-         get(s(l+1..s'last), p.n, l);
+         get(s(l+1..s'Last), p.n, l);
          l := l + 1;
-         get(s(l+1..s'last), p.pofs, l);
+         get(s(l+1..s'Last), p.pofs, l);
          l := l + 1;
-         get(s(l+1..s'last), p.freq, l);
+         get(s(l+1..s'Last), p.freq, l);
          l := l + 1;
-         get(s(l+1..s'last), p.semi, l);
+         get(s(l+1..s'Last), p.semi, l);
          l := l + 1;
-         get(s(l+1..s'last), p.kind, l);
+         get(s(l+1..s'Last), p.kind, l);
          l := l + 1;
-         get(s(l+1..s'last), p.rank, last);
+         get(s(l+1..s'Last), p.rank, Last);
       end get;
 
       procedure put(s : out string; p : in ewds_record) is
-         l : integer := s'first - 1;
+         l : integer := s'First - 1;
          m : integer := 0;
       begin
          m := l + eword_size;
@@ -152,7 +152,7 @@ package body english_support_package is
          m := l + priority_width;
          put(s(l+1..m), p.rank, nwidth);
 
-         s(m+1..s'last) := (others => ' ');
+         s(m+1..s'Last) := (others => ' ');
       end put;
 
    end ewds_record_io;

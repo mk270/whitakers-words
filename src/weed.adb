@@ -390,7 +390,7 @@ begin
    end if;
 
    if kill then
-      for i in w'range  loop
+      for i in w'Range  loop
          w(i) := '\';
       end loop;
    end if;

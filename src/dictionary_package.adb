@@ -92,15 +92,15 @@ package body dictionary_package is
       end put;
 
       procedure get(s : in string; pr : out parse_record; last : out integer) is
-         l : integer := s'first - 1;
+         l : integer := s'First - 1;
       begin
          stem_type_io.get(s, pr.stem, l);
          l := l + 1;
-         get(s(l+1..s'last), pr.ir, l);
+         get(s(l+1..s'Last), pr.ir, l);
          l := l + 1;
-         get(s(l+1..s'last), pr.d_k, l);
+         get(s(l+1..s'Last), pr.d_k, l);
          l := l + 1;
-         get(s(l+1..s'last), pr.mnpc, last);
+         get(s(l+1..s'Last), pr.mnpc, last);
       end get;
 
       procedure put(s : out string; pr : in parse_record) is
@@ -108,20 +108,20 @@ package body dictionary_package is
          m : integer := 0;
       begin
          m := l + max_stem_size;
-         s(s'first + l .. s'first - 1 + m) := pr.stem;
+         s(s'First + l .. s'First - 1 + m) := pr.stem;
          l := m + 1;
-         s(s'first - 1 + l) :=  ' ';
+         s(s'First - 1 + l) :=  ' ';
          m := l + inflection_record_io.default_width;
-         put(s(s'first + l .. s'first - 1 + m), pr.ir);
+         put(s(s'First + l .. s'First - 1 + m), pr.ir);
          l := m + 1;
-         s(s'first - 1 + l) :=  ' ';
+         s(s'First - 1 + l) :=  ' ';
          m := l + dictionary_kind_io.default_width;
-         put(s(s'first + l .. s'first - 1 + m), pr.d_k);
+         put(s(s'First + l .. s'First - 1 + m), pr.d_k);
          l := m + 1;
-         s(s'first - 1 + l) :=  ' ';
+         s(s'First - 1 + l) :=  ' ';
          m := l + mnpc_io_default_width;
-         put(s(s'first + l .. s'first - 1 + m), pr.mnpc);
-         s(m+1..s'last) := (others => ' ');
+         put(s(s'First + l .. s'First - 1 + m), pr.mnpc);
+         s(m+1..s'Last) := (others => ' ');
       end put;
 
    end parse_record_io;
@@ -169,17 +169,17 @@ package body dictionary_package is
       end put;
 
       procedure get(s : in string; n : out noun_entry; last : out integer) is
-         l : integer := s'first - 1;
+         l : integer := s'First - 1;
       begin
-         get(s(l+1..s'last), n.decl, l);
+         get(s(l+1..s'Last), n.decl, l);
          l := l + 1;
-         get(s(l+1..s'last), n.gender, l);
+         get(s(l+1..s'Last), n.gender, l);
          l := l + 1;
-         get(s(l+1..s'last), n.kind, last);
+         get(s(l+1..s'Last), n.kind, last);
       end get;
 
       procedure put(s : out string; n : in noun_entry) is
-         l : integer := s'first - 1;
+         l : integer := s'First - 1;
          m : integer := 0;
       begin
          m := l + decn_record_io.default_width;
@@ -192,7 +192,7 @@ package body dictionary_package is
          s(l) :=  ' ';
          m := l + noun_kind_type_io.default_width;
          put(s(l+1..m), n.kind);
-         s(m+1..s'last) := (others => ' ');
+         s(m+1..s'Last) := (others => ' ');
       end put;
 
    end noun_entry_io;
@@ -231,15 +231,15 @@ package body dictionary_package is
       end put;
 
       procedure get(s : in string; p : out pronoun_entry; last : out integer) is
-         l : integer := s'first - 1;
+         l : integer := s'First - 1;
       begin
-         get(s(l+1..s'last), p.decl, l);
+         get(s(l+1..s'Last), p.decl, l);
          l := l + 1;
-         get(s(l+1..s'last), p.kind, last);
+         get(s(l+1..s'Last), p.kind, last);
       end get;
 
       procedure put(s : out string; p : in pronoun_entry) is
-         l : integer := s'first - 1;
+         l : integer := s'First - 1;
          m : integer := 0;
       begin
          m := l + decn_record_io.default_width;
@@ -248,7 +248,7 @@ package body dictionary_package is
          s(l) :=  ' ';
          m := l + pronoun_kind_type_io.default_width;
          put(s(l+1..m), p.kind);
-         s(m+1..s'last) := (others => ' ');
+         s(m+1..s'Last) := (others => ' ');
       end put;
 
    end pronoun_entry_io;
@@ -287,15 +287,15 @@ package body dictionary_package is
       end put;
 
       procedure get(s : in string; p : out propack_entry; last : out integer) is
-         l : integer := s'first - 1;
+         l : integer := s'First - 1;
       begin
-         get(s(l+1..s'last), p.decl, l);
+         get(s(l+1..s'Last), p.decl, l);
          l := l + 1;
-         get(s(l+1..s'last), p.kind, last);
+         get(s(l+1..s'Last), p.kind, last);
       end get;
 
       procedure put(s : out string; p : in propack_entry) is
-         l : integer := s'first - 1;
+         l : integer := s'First - 1;
          m : integer := 0;
       begin
          m := l + decn_record_io.default_width;
@@ -304,7 +304,7 @@ package body dictionary_package is
          s(l) :=  ' ';
          m := l + pronoun_kind_type_io.default_width;
          put(s(l+1..m), p.kind);
-         s(m+1..s'last) := (others => ' ');
+         s(m+1..s'Last) := (others => ' ');
       end put;
 
    end propack_entry_io;
@@ -346,15 +346,15 @@ package body dictionary_package is
       end put;
 
       procedure get(s : in string; a : out adjective_entry; last : out integer) is
-         l : integer := s'first - 1;
+         l : integer := s'First - 1;
       begin
-         get(s(l+1..s'last), a.decl, l);
+         get(s(l+1..s'Last), a.decl, l);
          l := l + 1;
-         get(s(l+1..s'last), a.co, last);
+         get(s(l+1..s'Last), a.co, last);
       end get;
 
       procedure put(s : out string; a : in adjective_entry) is
-         l : integer := s'first - 1;
+         l : integer := s'First - 1;
          m : integer := 0;
       begin
          m := l + decn_record_io.default_width;
@@ -363,7 +363,7 @@ package body dictionary_package is
          s(l) :=  ' ';
          m := l + comparison_type_io.default_width;
          put(s(l+1..m), a.co);
-         s(m+1..s'last) := (others => ' ');
+         s(m+1..s'Last) := (others => ' ');
       end put;
 
    end adjective_entry_io;
@@ -413,21 +413,21 @@ package body dictionary_package is
       end put;
 
       procedure get(s : in string; num : out numeral_entry; last : out integer) is
-         l : integer := s'first - 1;
+         l : integer := s'First - 1;
       begin
          --TEXT_IO.PUT("+1");
-         get(s(l+1..s'last), num.decl, l);
+         get(s(l+1..s'Last), num.decl, l);
          --TEXT_IO.PUT("+2");
          l := l + 1;
-         get(s(l+1..s'last), num.sort, l);
+         get(s(l+1..s'Last), num.sort, l);
          --TEXT_IO.PUT("+3");
          l := l + 1;
-         get(s(l+1..s'last), num.value, last);
+         get(s(l+1..s'Last), num.value, last);
          --TEXT_IO.PUT("+4");
       end get;
 
       procedure put(s : out string; num : in numeral_entry) is
-         l : integer := s'first - 1;
+         l : integer := s'First - 1;
          m : integer := 0;
       begin
          m := l + decn_record_io.default_width;
@@ -441,7 +441,7 @@ package body dictionary_package is
          --M := L + NUMERAL_VALUE_TYPE_IO.DEFAULT_WIDTH;
          m := l + num_out_size;
          put(s(l+1..m), num.value);
-         s(m+1..s'last) := (others => ' ');
+         s(m+1..s'Last) := (others => ' ');
       end put;
 
    end numeral_entry_io;
@@ -470,18 +470,18 @@ package body dictionary_package is
       end put;
 
       procedure get(s : in string; a : out adverb_entry; last : out integer) is
-         l : constant integer := s'first - 1;
+         l : constant integer := s'First - 1;
       begin
-         get(s(l+1..s'last), a.co, last);
+         get(s(l+1..s'Last), a.co, last);
       end get;
 
       procedure put(s : out string; a : in adverb_entry) is
-         l : constant integer := s'first - 1;
+         l : constant integer := s'First - 1;
          m : integer := 0;
       begin
          m := l + comparison_type_io.default_width;
          put(s(l+1..m), a.co);
-         s(m+1..s'last) := (others => ' ');
+         s(m+1..s'Last) := (others => ' ');
       end put;
 
    end adverb_entry_io;
@@ -520,15 +520,15 @@ package body dictionary_package is
       end put;
 
       procedure get(s : in string; v : out verb_entry; last : out integer) is
-         l : integer := s'first - 1;
+         l : integer := s'First - 1;
       begin
-         get(s(l+1..s'last), v.con, l);
+         get(s(l+1..s'Last), v.con, l);
          l := l + 1;
-         get(s(l+1..s'last), v.kind, last);
+         get(s(l+1..s'Last), v.kind, last);
       end get;
 
       procedure put(s : out string; v : in verb_entry) is
-         l : integer := s'first - 1;
+         l : integer := s'First - 1;
          m : integer := 0;
       begin
          m := l + decn_record_io.default_width;
@@ -537,7 +537,7 @@ package body dictionary_package is
          s(l) :=  ' ';
          m := l + verb_kind_type_io.default_width;
          put(s(l+1..m), v.kind);
-         s(m+1..s'last) := (others => ' ');
+         s(m+1..s'Last) := (others => ' ');
       end put;
 
    end verb_entry_io;
@@ -571,12 +571,12 @@ package body dictionary_package is
       end get;
 
       procedure put(s : out string; p : in preposition_entry) is
-         l : constant integer := s'first - 1;
+         l : constant integer := s'First - 1;
          m : integer := 0;
       begin
          m := l + case_type_io.default_width;
          put(s(l+1..m), p.obj);
-         s(m+1..s'last) := (others => ' ');
+         s(m+1..s'Last) := (others => ' ');
       end put;
 
    end preposition_entry_io;
@@ -607,7 +607,7 @@ package body dictionary_package is
       end put;
 
       procedure get(s : in string; c : out conjunction_entry; last : out integer) is
-         l : constant integer := s'first - 1;
+         l : constant integer := s'First - 1;
       begin
          c := null_conjunction_entry;
          last := l;
@@ -617,7 +617,7 @@ package body dictionary_package is
       procedure put(s : out string; c : in conjunction_entry) is
          pragma Warnings (On, "formal parameter ""c"" is not referenced");
       begin
-         s(s'first..s'last) := (others => ' ');
+         s(s'First..s'Last) := (others => ' ');
       end put;
 
    end conjunction_entry_io;
@@ -648,7 +648,7 @@ package body dictionary_package is
       end put;
 
       procedure get(s : in string; i : out interjection_entry; last : out integer) is
-         l : constant integer := s'first - 1;
+         l : constant integer := s'First - 1;
       begin
          i := null_interjection_entry;
          last := l;
@@ -658,7 +658,7 @@ package body dictionary_package is
       procedure put(s : out string; i : in interjection_entry) is
          pragma Warnings (On, "formal parameter ""i"" is not referenced");
       begin
-         s(s'first..s'last) := (others => ' ');
+         s(s'First..s'Last) := (others => ' ');
       end put;
 
    end interjection_entry_io;
@@ -928,7 +928,7 @@ package body dictionary_package is
       end put;
 
       procedure get(s : in string; p : out part_entry; last : out integer) is
-         l : integer := s'first - 1;
+         l : integer := s'First - 1;
          ps : part_of_speech_type := x;
       begin
          last := l;      --  In case it is not set later
@@ -936,38 +936,38 @@ package body dictionary_package is
          l := l + 1;
          case ps is
             when n =>
-               get(s(l+1..s'last), noun, last);
+               get(s(l+1..s'Last), noun, last);
                p := (n, noun);
             when pron =>
-               get(s(l+1..s'last), pronoun, last);
+               get(s(l+1..s'Last), pronoun, last);
                p := (pron, pronoun);
             when pack =>
-               get(s(l+1..s'last), propack, last);
+               get(s(l+1..s'Last), propack, last);
                p := (pack, propack);
             when adj =>
-               get(s(l+1..s'last), adjective, last);
+               get(s(l+1..s'Last), adjective, last);
                p := (adj, adjective);
             when num =>
-               get(s(l+1..s'last), numeral, last);
+               get(s(l+1..s'Last), numeral, last);
                p := (num, numeral);
             when adv =>
-               get(s(l+1..s'last), adverb, last);
+               get(s(l+1..s'Last), adverb, last);
                p := (adv, adverb);
             when v =>
-               get(s(l+1..s'last), verb, last);
+               get(s(l+1..s'Last), verb, last);
                p := (v, verb);
             when vpar =>
                null;                --  No VAPR entry
             when supine =>
                null;                --  No SUPINE entry
             when prep =>
-               get(s(l+1..s'last), preposition, last);
+               get(s(l+1..s'Last), preposition, last);
                p := (prep, preposition);
             when conj =>
-               get(s(l+1..s'last), conjunction, last);
+               get(s(l+1..s'Last), conjunction, last);
                p := (conj, conjunction);
             when interj =>
-               get(s(l+1..s'last), interjection, last);
+               get(s(l+1..s'Last), interjection, last);
                p := (interj, interjection);
             when prefix =>
                p := (pofs => prefix);
@@ -981,7 +981,7 @@ package body dictionary_package is
       end get;
 
       procedure put(s : out string; p : in part_entry) is
-         l : integer := s'first - 1;
+         l : integer := s'First - 1;
          m : integer := 0;
       begin
          m := l + part_of_speech_type_io.default_width;
@@ -1213,34 +1213,34 @@ package body dictionary_package is
 
       procedure get(s : in string; ps : in part_of_speech_type;
                                    p : out kind_entry; last : out integer) is
-         l : constant integer := s'first - 1;
+         l : constant integer := s'First - 1;
       begin
          last := l;         --  In case it is not set later
          case ps is
             when n =>
-               get(s(l+1..s'last), noun_kind, last);
+               get(s(l+1..s'Last), noun_kind, last);
                p := (n, noun_kind);
             when pron =>
-               get(s(l+1..s'last), pronoun_kind, last);
+               get(s(l+1..s'Last), pronoun_kind, last);
                p := (pron, pronoun_kind);
             when pack =>
-               get(s(l+1..s'last), propack_kind, last);
+               get(s(l+1..s'Last), propack_kind, last);
                p := (pack, propack_kind);
             when adj =>
                p := (pofs => adj);
             when num =>
-               get(s(l+1..s'last), numeral_value, last);
+               get(s(l+1..s'Last), numeral_value, last);
                p := (num, numeral_value);
             when adv =>
                p := (pofs => adv);
             when v =>
-               get(s(l+1..s'last), verb_kind, last);
+               get(s(l+1..s'Last), verb_kind, last);
                p := (v, verb_kind);
             when vpar =>
-               get(s(l+1..s'last), vpar_kind, last);
+               get(s(l+1..s'Last), vpar_kind, last);
                p := (vpar, vpar_kind);
             when supine =>
-               get(s(l+1..s'last), supine_kind, last);
+               get(s(l+1..s'Last), supine_kind, last);
                p := (supine, supine_kind);
             when prep =>
                p := (pofs => prep);
@@ -1264,7 +1264,7 @@ package body dictionary_package is
       procedure put(s : out string;
                     ps : in part_of_speech_type; p : in kind_entry) is
          pragma Warnings (On, "formal parameter ""ps"" is not referenced");
-         l : constant integer := s'first - 1;
+         l : constant integer := s'First - 1;
          m : integer := 0;
       begin
          case p.pofs is
@@ -1292,7 +1292,7 @@ package body dictionary_package is
             when others =>
                null;
          end case;
-         s(m+1..s'last) := (others => ' ');
+         s(m+1..s'Last) := (others => ' ');
       end put;
 
    end kind_entry_io;
@@ -1369,21 +1369,21 @@ package body dictionary_package is
       end put;
 
       procedure get(s : in string; tr : out translation_record; last : out integer) is
-         l : integer := s'first - 1;
+         l : integer := s'First - 1;
       begin
-         get(s(l+1..s'last), tr.age, l);
+         get(s(l+1..s'Last), tr.age, l);
          --PUT(TR.AGE); TEXT_IO.PUT('-');
          l := l + 1;
-         get(s(l+1..s'last), tr.area, l);
+         get(s(l+1..s'Last), tr.area, l);
          --PUT(TR.AREA); TEXT_IO.PUT('-');
          l := l + 1;
-         get(s(l+1..s'last), tr.geo, l);
+         get(s(l+1..s'Last), tr.geo, l);
          --PUT(TR.GEO); TEXT_IO.PUT('-');
          l := l + 1;
-         get(s(l+1..s'last), tr.freq, l);
+         get(s(l+1..s'Last), tr.freq, l);
          --PUT(TR.FREQ); TEXT_IO.PUT('-');
          l := l + 1;
-         get(s(l+1..s'last), tr.source, last);
+         get(s(l+1..s'Last), tr.source, last);
          --PUT(TR.SOURCE); TEXT_IO.PUT('-');
          --L := M + 1;
          --M := L + MAX_MEANING_SIZE;
@@ -1396,7 +1396,7 @@ package body dictionary_package is
          m : integer := 0;
       begin
          m := l + age_type_io.default_width;
-         put(s(s'first + l .. m), tr.age);
+         put(s(s'First + l .. m), tr.age);
          l := m + 1;
          s(l) :=  ' ';
          m := l + area_type_io.default_width;
@@ -1404,7 +1404,7 @@ package body dictionary_package is
          l := m + 1;
          s(l) :=  ' ';
          m := l + geo_type_io.default_width;
-         put(s(s'first + l .. m), tr.geo);
+         put(s(s'First + l .. m), tr.geo);
          l := m + 1;
          s(l) :=  ' ';
          m := l + frequency_type_io.default_width;
@@ -1417,7 +1417,7 @@ package body dictionary_package is
          --S(L) :=  ' ';
          --M := L + MAX_MEANING_SIZE;
          --S(L+1..M) :=  TR.MEAN;
-         s(m+1..s'last) := (others => ' ');
+         s(m+1..s'Last) := (others => ' ');
       end put;
 
    end translation_record_io;
@@ -1493,19 +1493,19 @@ package body dictionary_package is
       end put;
 
       procedure get(s : in string; d : out dictionary_entry; last : out integer) is
-         l : integer := s'first - 1;
+         l : integer := s'First - 1;
          i : integer := 0;
       begin
          for i in stem_key_type range 1..4  loop
-            stem_type_io.get(s(l+1..s'last), d.stems(i), l);
+            stem_type_io.get(s(l+1..s'Last), d.stems(i), l);
          end loop;
-         get(s(l+1..s'last), d.part, l);
+         get(s(l+1..s'Last), d.part, l);
          --    L := L + 1;
          --    GET(S(L+1..S'LAST), D.PART.POFS, D.KIND, L);
          l := l + 1;
-         get(s(l+1..s'last), d.tran, l);
+         get(s(l+1..s'Last), d.tran, l);
          l := l + 1;
-         d.mean := head(s(l+1..s'last), max_meaning_size);
+         d.mean := head(s(l+1..s'Last), max_meaning_size);
          i := l+1;
          while s(i) = ' ' loop
             i := i + 1;
@@ -1519,7 +1519,7 @@ package body dictionary_package is
       end get;
 
       procedure put(s : out string; d : in dictionary_entry) is
-         l : integer := s'first - 1;
+         l : integer := s'First - 1;
          m : integer := 0;
       begin
          for i in stem_key_type range 1..4  loop
@@ -1542,7 +1542,7 @@ package body dictionary_package is
          s(l) :=  ' ';
          m := m + max_meaning_size;
          s(l+1..m) := d.mean;
-         s(m+1..s'last) := (others => ' ');
+         s(m+1..s'Last) := (others => ' ');
       end put;
 
    end dictionary_entry_io;
@@ -1560,17 +1560,17 @@ package body dictionary_package is
 begin     --  initialization of body of DICTIONARY_PACKAGE
    --TEXT_IO.PUT_LINE("Initializing DICTIONARY_PACKAGE");
 
-   dictionary_kind_io.default_width := dictionary_kind'width;
+   dictionary_kind_io.default_width := dictionary_kind'Width;
 
    --NUMERAL_VALUE_TYPE_IO.DEFAULT_WIDTH := 5;
 
-   area_type_io.default_width := area_type'width;
+   area_type_io.default_width := area_type'Width;
 
-   geo_type_io.default_width := geo_type'width;
+   geo_type_io.default_width := geo_type'Width;
 
-   frequency_type_io.default_width := frequency_type'width;
+   frequency_type_io.default_width := frequency_type'Width;
 
-   source_type_io.default_width := source_type'width;
+   source_type_io.default_width := source_type'Width;
 
    parse_record_io.default_width :=
      stem_type_io.default_width + 1 +
