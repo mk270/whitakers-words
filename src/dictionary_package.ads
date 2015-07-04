@@ -18,7 +18,7 @@
 --  Need to modify TRANS
 with Text_IO; use Text_IO;
 with Direct_IO;
-with inflections_package; use inflections_package;
+with Inflections_Package; use Inflections_Package;
 package Dictionary_Package is
    pragma Elaborate_Body;
 
@@ -149,7 +149,7 @@ package Dictionary_Package is
             when adj =>
                null;
             when num =>
-               num_value : numeral_value_type := 0;
+               num_value : Numeral_Value_Type := 0;
             when v =>
                v_kind : verb_kind_type := x;
             when vpar =>
@@ -229,7 +229,7 @@ package Dictionary_Package is
    type Pronoun_Entry is
       record
          -- NOTE: Seems like Decl is breaking of abbrev used
-         Decl  : Decn_Record := (0,0);
+         Decl  : Decn_Record := (0, 0);
          Kind  : Pronoun_Kind_Type := x;
       end record;
 
@@ -254,7 +254,7 @@ package Dictionary_Package is
    type Propack_Entry is
       record
          -- NOTE: Seems like Decl is breaking of abbrev used
-         Decl  : Decn_Record := (0,0);
+         Decl  : Decn_Record := (0, 0);
          Kind  : Pronoun_Kind_Type := x;
       end record;
 
@@ -301,22 +301,31 @@ package Dictionary_Package is
 
    ---------------------------------------------------------------------------
 
-   type numeral_entry is
+   type Numeral_Entry is
       record
-         decl  : Decn_Record := (0,0);
-         sort  : numeral_sort_type := x;
-         value : numeral_value_type := 0;
+         -- NOTE: Seems like Decl is breaking of abbrev used
+         Decl  : Decn_Record := (0, 0);
+         Sort  : Numeral_Sort_Type := x;
+         Value : Numeral_Value_Type := 0;
       end record;
 
-   package numeral_entry_io is
+   -- FIXME: These subprograms don't check if Is_Open (File)
+   package Numeral_Entry_IO is
       Default_Width : Natural;
-      procedure Get(f : in File_Type; num : out numeral_entry);
-      procedure Get(num : out numeral_entry);
-      procedure Put(f : in File_Type; num : in numeral_entry);
-      procedure Put(num : in numeral_entry);
-      procedure Get(s : in String; num : out numeral_entry; last : out Integer);
-      procedure Put(s : out String; num : in numeral_entry);
-   end numeral_entry_io;
+      procedure Get (File : in File_Type; Item : out Numeral_Entry);
+      procedure Get (Item : out Numeral_Entry);
+      procedure Put (File : in File_Type; Item : in Numeral_Entry);
+      procedure Put (Item : in Numeral_Entry);
+      -- TODO: Document meaning of Last
+      procedure Get
+         ( Source : in  String;
+           Target : out Numeral_Entry;
+           Last   : out Integer
+         );
+      procedure Put (Target : out String; Item : in Numeral_Entry);
+   end Numeral_Entry_IO;
+
+   ---------------------------------------------------------------------------
 
    type adverb_entry is
       record
@@ -406,7 +415,7 @@ package Dictionary_Package is
             when adj =>
                adj : Adjective_Entry;
             when num =>
-               num : numeral_entry;
+               num : Numeral_Entry;
             when adv =>
                adv : adverb_entry;
             when v =>

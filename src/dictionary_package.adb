@@ -51,83 +51,7 @@ package body Dictionary_Package is
 
    package body Adjective_Entry_IO is separate;
 
-   package body numeral_entry_io is
-      use Decn_Record_IO;
-      use numeral_sort_type_io;
-      use inflections_package.Integer_IO;
-      spacer : Character := ' ';
-
-      num_out_size : constant := 5;    --  Set in spec  !!!!!!!!!!!!!!!!!!!!!!!!!
-
-      procedure Get(f : in File_Type; num : out numeral_entry) is
-      begin
-         Get(f, num.decl);
-         Get(f, spacer);
-         Get(f, num.sort);
-         Get(f, spacer);
-         Get(f, num.value);
-      end Get;
-
-      procedure Get(num : out numeral_entry) is
-      begin
-         Get(num.decl);
-         Get(spacer);
-         Get(num.sort);
-         Get(spacer);
-         Get(num.value);
-      end Get;
-
-      procedure Put(f : in File_Type; num : in numeral_entry) is
-      begin
-         Put(f, num.decl);
-         Put(f, ' ');
-         Put(f, num.sort);
-         Put(f, ' ');
-         Put(f, num.value, num_out_size);
-      end Put;
-
-      procedure Put(num : in numeral_entry) is
-      begin
-         Put(num.decl);
-         Put(' ');
-         Put(num.sort);
-         Put(' ');
-         Put(num.value, num_out_size);
-      end Put;
-
-      procedure Get(s : in String; num : out numeral_entry; last : out Integer) is
-         l : Integer := s'First - 1;
-      begin
-         --TEXT_IO.PUT("+1");
-         Get(s(l+1..s'Last), num.decl, l);
-         --TEXT_IO.PUT("+2");
-         l := l + 1;
-         Get(s(l+1..s'Last), num.sort, l);
-         --TEXT_IO.PUT("+3");
-         l := l + 1;
-         Get(s(l+1..s'Last), num.value, last);
-         --TEXT_IO.PUT("+4");
-      end Get;
-
-      procedure Put(s : out String; num : in numeral_entry) is
-         l : Integer := s'First - 1;
-         m : Integer := 0;
-      begin
-         m := l + Decn_Record_IO.Default_Width;
-         Put(s(l+1..m), num.decl);
-         l := m + 1;
-         s(l) :=  ' ';
-         m := l + numeral_sort_type_io.Default_Width;
-         Put(s(l+1..m), num.sort);
-         l := m + 1;
-         s(l) :=  ' ';
-         --M := L + NUMERAL_VALUE_TYPE_IO.DEFAULT_WIDTH;
-         m := l + num_out_size;
-         Put(s(l+1..m), num.value);
-         s(m+1..s'Last) := (others => ' ');
-      end Put;
-
-   end numeral_entry_io;
+   package body Numeral_Entry_IO is separate;
 
    package body adverb_entry_io is
       use Comparison_Type_IO;
@@ -382,12 +306,12 @@ package body Dictionary_Package is
                   return True;
                end if;
             when num =>
-               if left.num.decl < right.num.decl  or else
-                 (left.num.decl = right.num.decl  and then
-                 left.num.sort < right.num.sort)  or else
-                 ((left.num.decl = right.num.decl)  and then
-                 (left.num.sort = right.num.sort)   and then
-                 left.num.value < right.num.value)
+               if left.num.Decl < right.num.Decl  or else
+                 (left.num.Decl = right.num.Decl  and then
+                 left.num.Sort < right.num.Sort)  or else
+                 ((left.num.Decl = right.num.Decl)  and then
+                 (left.num.Sort = right.num.Sort)   and then
+                 left.num.Value < right.num.Value)
                then
                   return True;
                end if;when adv =>
@@ -419,7 +343,7 @@ package body Dictionary_Package is
       use Pronoun_Entry_IO;
       use Propack_Entry_IO;
       use Adjective_Entry_IO;
-      use numeral_entry_io;
+      use Numeral_Entry_IO;
       use adverb_entry_io;
       use verb_entry_io;
       use preposition_entry_io;
@@ -431,7 +355,7 @@ package body Dictionary_Package is
       Pronoun : Pronoun_Entry;
       propack : Propack_Entry;
       adjective : Adjective_Entry;
-      numeral : numeral_entry;
+      numeral : Numeral_Entry;
       adverb : adverb_entry;
       verb : verb_entry;
       preposition : preposition_entry;
@@ -691,7 +615,7 @@ package body Dictionary_Package is
                m := l + Adjective_Entry_IO.Default_Width;
                Put(s(l+1..m), p.adj);
             when num =>
-               m := l + numeral_entry_io.Default_Width;
+               m := l + Numeral_Entry_IO.Default_Width;
                Put(s(l+1..m), p.num);
             when adv =>
                m := l + adverb_entry_io.Default_Width;
@@ -723,7 +647,7 @@ package body Dictionary_Package is
    package body kind_entry_io is
       use Noun_Kind_Type_IO;
       use Pronoun_Kind_Type_IO;
-      use inflections_package.Integer_IO;
+      use Inflections_Package.Integer_IO;
       use verb_kind_type_io;
 
       noun_kind  : Noun_Kind_Type;
@@ -732,7 +656,7 @@ package body Dictionary_Package is
       verb_kind : verb_kind_type;
       vpar_kind : verb_kind_type;
       supine_kind : verb_kind_type;
-      numeral_value : numeral_value_type;
+      numeral_value : Numeral_Value_Type;
 
       procedure Get(f : in File_Type;
                     ps : in part_of_speech_type; p : out kind_entry) is
@@ -1287,13 +1211,13 @@ begin     --  initialization of body of DICTIONARY_PACKAGE
    conjunction_entry_io.Default_Width := 0;
 
    interjection_entry_io.Default_Width := 0;
-   numeral_entry_io.Default_Width :=
+   Numeral_Entry_IO.Default_Width :=
      Decn_Record_IO.Default_Width + 1 +
-     numeral_sort_type_io.Default_Width + 1 +
+     Numeral_Sort_Type_IO.Default_Width + 1 +
      numeral_value_type_io_Default_Width;
 
    part_entry_io.Default_Width := part_of_speech_type_io.Default_Width + 1 +
-     numeral_entry_io.Default_Width;     --  Largest
+     Numeral_Entry_IO.Default_Width;     --  Largest
 
    --  Should make up a MAX of PART_ENTRY + KIND_ENTRY (same POFS) WIDTHS
 
