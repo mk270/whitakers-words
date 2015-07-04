@@ -53,19 +53,20 @@ package body Adverb_Entry_IO is
         Last   : out Integer
       )
    is
-      Low : constant Integer := Source'First - 1;
    begin
-      Comparison_Type_IO.Get (Source (Low + 1 .. Source'Last), Target.Co, Last);
+      Comparison_Type_IO.Get (Source, Target.Co, Last);
    end Get;
 
    ---------------------------------------------------------------------------
 
    procedure Put (Target : out String; Item : in Adverb_Entry) is
-      Low  : constant Integer := Target'First - 1;
-      High : Integer := 0;
+      -- Used to get upper bound of subbstring
+      High : Integer := Target'First + Comparison_Type_IO.Default_Width - 1;
    begin
-      High := Low + Comparison_Type_IO.Default_Width;
-      Comparison_Type_IO.Put (Target (Low + 1 .. High), Item.Co);
+      -- Put Comparison_Type
+      Comparison_Type_IO.Put (Target (Target'First .. High), Item.Co);
+
+      -- Fill remainder of string
       Target (High + 1 .. Target'Last) := (others => ' ');
    end Put;
 
