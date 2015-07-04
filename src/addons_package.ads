@@ -36,7 +36,7 @@ package addons_package is
                pron : Pronoun_Entry;
                --PRONOUN_KIND : PRONOUN_KIND_TYPE;
             when pack  =>
-               pack : propack_entry;
+               pack : Propack_Entry;
                --PROPACK_KIND : PRONOUN_KIND_TYPE;
             when adj  =>
                adj : adjective_entry;

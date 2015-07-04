@@ -1381,7 +1381,7 @@ package body word_package is
                            if (z <= length_of_word)  and then
                              ((equ(lel(i).ending.suf(1..z),
                                    word(word'Last-z+1..word'Last)))  and
-                                (lel(i).qual.pron.decl <= packons(k).entr.base.pack.decl))
+                                (lel(i).qual.pron.decl <= packons(k).entr.base.pack.Decl))
                            then
                               --  Have found an ending that is a possible match
                               --  And INFLECT agrees with PACKON.BASE
@@ -1428,7 +1428,7 @@ package body word_package is
                         if Trim (mean)(1..4) = "(w/-" and then  --  Does attached PACKON agree
                            Trim (mean)(5..4+packon_length) = Trim (packons(k).tack)
                         then
-                           if pdl(j).ds.part.pack.decl = sl(m).IR.qual.pron.decl then  --  or
+                           if pdl(j).ds.part.pack.Decl = sl(m).IR.qual.pron.decl then  --  or
                               if packon_first_hit then
                                  pa_last := pa_last + 1;
                                  pa(pa_last) := (packons(k).tack,
@@ -1445,7 +1445,7 @@ package body word_package is
                                                      qual => (
                                                               pofs => pron,
                                                               pron => (
-                                                                       pdl(j).ds.part.pack.decl,
+                                                                       pdl(j).ds.part.pack.Decl,
                                                                        sl(m).IR.qual.pron.cs,
                                                                        sl(m).IR.qual.pron.number,
                                                                        sl(m).IR.qual.pron.gender )),

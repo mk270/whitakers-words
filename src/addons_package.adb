@@ -146,9 +146,9 @@ package body addons_package is
                mean := Head(s(1..last), Max_Meaning_Size);
 
                if  tn.base.pofs= pack   and then
-                  (tn.base.pack.decl.which = 1 or
-                  tn.base.pack.decl.which = 2)  and then
-                  mean(1..9) = "PACKON w/"
+                  (tn.base.pack.Decl.which = 1 or
+                   tn.base.pack.Decl.which = 2)  and then
+                   mean(1..9) = "PACKON w/"
                then
                   pac := pac + 1;
                   packons (pac).pofs:= pofs;
@@ -382,7 +382,7 @@ package body addons_package is
    package body Target_entry_io is
       use Noun_Entry_IO;
       use Pronoun_Entry_IO;
-      use propack_entry_io;
+      use Propack_Entry_IO;
       use adjective_entry_io;
       use numeral_entry_io;
       use adverb_entry_io;
@@ -398,7 +398,7 @@ package body addons_package is
 
       noun  : Noun_Entry;
       pronoun : Pronoun_Entry;
-      propack : propack_entry;
+      propack : Propack_Entry;
       adjective : adjective_entry;
       numeral : numeral_entry;
       adverb : adverb_entry;
@@ -611,7 +611,7 @@ package body addons_package is
                --        M := L + PRONOUN_KIND_TYPE_IO.DEFAULT_WIDTH;
                --        PUT(S(L+1..M), P.PRONOUN_KIND);
             when pack =>
-               m := l + propack_entry_io.Default_Width;
+               m := l + Propack_Entry_IO.Default_Width;
                Put(s(l+1..m), p.pack);
                --        M := L + PRONOUN_KIND_TYPE_IO.DEFAULT_WIDTH;
                --        PUT(S(L+1..M), P.PROPACK_KIND);
