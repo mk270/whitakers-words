@@ -126,11 +126,12 @@ procedure search_english(Input_english_word : String; pofs : part_of_speech_type
             Text_IO.Put(Output, "   ");
 
             if de.part.pofs = n  then
-               Text_IO.Put(Output, "  ");  decn_record_io.Put(Output, de.part.n.decl);
-               Text_IO.Put(Output, "  " & gender_type'Image(de.part.n.gender) & "  ");
+               Text_IO.Put (Output, "  ");
+               Decn_Record_IO.Put (Output, de.part.n.Decl);
+               Text_IO.Put (Output, "  " & Gender_Type'Image(de.part.n.Gender) & "  ");
             end if;
             if de.part.pofs = v then
-               Text_IO.Put(Output, "  ");  decn_record_io.Put(Output, de.part.v.con);
+               Text_IO.Put(Output, "  ");  Decn_Record_IO.Put(Output, de.part.v.con);
             end if;
             if (de.part.pofs = v)  and then  (de.part.v.kind in gen..perfdef)  then
                Text_IO.Put(Output, "  " & verb_kind_type'Image(de.part.v.kind) & "  ");

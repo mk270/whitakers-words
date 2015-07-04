@@ -30,7 +30,7 @@ package addons_package is
       record
          case pofs is
             when n  =>
-               n : noun_entry;
+               n : Noun_Entry;
                --NOUN_KIND : NOUN_KIND_TYPE;
             when pron  =>
                pron : pronoun_entry;

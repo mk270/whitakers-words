@@ -769,7 +769,7 @@ package body word_package is
             end if;
          end "<=";
 
-         function "<=" (left, right : gender_type)   return Boolean is
+         function "<=" (left, right : Gender_Type)   return Boolean is
          begin
             if right = left               or else
                (right = c and left /= n)  or else
@@ -810,7 +810,7 @@ package body word_package is
                --PUT_LINE("No SUFFIX in REDUCE - Fall through to PREFIX check ");
                null;
             elsif
-               (pdl_p = n    and then pdl_part.n.decl = (9, 8)) or  --  No suffix for
+               (pdl_p = n    and then pdl_part.n.Decl = (9, 8)) or  --  No suffix for
                (pdl_p = adj  and then pdl_part.adj.decl = (9, 8)) -- abbreviations
             then
                --   Can be no suffix on abbreviation");
@@ -854,7 +854,7 @@ package body word_package is
                --PUT_LINE("No PREFIX in REDUCE - Fall through to MATCHing ");
                null;
             elsif
-              (pdl_p = n    and then pdl_part.n.decl = (9, 8)) or  --  No prefix for
+              (pdl_p = n    and then pdl_part.n.Decl = (9, 8)) or  --  No prefix for
               (pdl_p = adj  and then pdl_part.adj.decl = (9, 8)) or --  abbreviations
               (pdl_p = interj  or pdl_p = conj)  --  or INTERJ or CONJ
             then
@@ -896,8 +896,8 @@ package body word_package is
                     ( pdl_part.pofs  = eff_part(sl(i).IR.qual.pofs) )
                   then
                      if pdl_part.pofs = n                            and then
-                        pdl_part.n.decl <= sl(i).IR.qual.n.decl      and then
-                        pdl_part.n.gender <= sl(i).IR.qual.n.gender
+                        pdl_part.n.Decl <= sl(i).IR.qual.n.decl      and then
+                        pdl_part.n.Gender <= sl(i).IR.qual.n.gender
                      then
                         --  Need to transfer the gender of the noun dictionary item
                         m := m + 1;
@@ -906,10 +906,10 @@ package body word_package is
                                           qual => (
                                                    pofs => n,
                                                    n => (
-                                                         pdl_part.n.decl,
+                                                         pdl_part.n.Decl,
                                                          sl(i).IR.qual.n.cs,
                                                          sl(i).IR.qual.n.number,
-                                                         pdl_part.n.gender  )  ),
+                                                         pdl_part.n.Gender  )  ),
                                           key => sl(i).IR.key,
                                           ending => sl(i).IR.ending,
                                           age => sl(i).IR.age,
@@ -1606,7 +1606,7 @@ package body word_package is
                               case tackons(i).entr.base.pofs is
                                  when n       =>
                                     if pa(j).IR.qual.n.decl <=
-                                       tackons(i).entr.base.n.decl
+                                       tackons(i).entr.base.n.Decl
                                     then
                                        --  Ignore GEN and KIND
                                        tackon_hit := True;

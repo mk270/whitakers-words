@@ -74,26 +74,26 @@ package inflections_package is
    which_type_io_Default_Width : Integer := 1;
    variant_type_io_Default_Width : Integer := 1;
 
-   type decn_record is
+   type Decn_Record is
       record
          which        : which_type := 0;
          var          : variant_type := 0;
       end record;
 
-   function "<" (left, right : decn_record) return Boolean;
+   function "<" (left, right : Decn_Record) return Boolean;
 
-   package decn_record_io is
+   package Decn_Record_IO is
       Default_Width : Natural;
-      procedure Get(f : in File_Type; d : out decn_record);
-      procedure Get(d : out decn_record);
-      procedure Put(f : in File_Type; d : in decn_record);
-      procedure Put(d : in decn_record);
-      procedure Get(s : in String; d : out decn_record;
+      procedure Get(f : in File_Type; d : out Decn_Record);
+      procedure Get(d : out Decn_Record);
+      procedure Put(f : in File_Type; d : in Decn_Record);
+      procedure Put(d : in Decn_Record);
+      procedure Get(s : in String; d : out Decn_Record;
                                    last : out Integer);
-      procedure Put(s : out String; d : in decn_record);
-   end decn_record_io;
+      procedure Put(s : out String; d : in Decn_Record);
+   end Decn_Record_IO;
 
-   type gender_type is (
+   type Gender_Type is (
                         x,         --  all, none, or unknown
                         m,         --  Masculine
                         f,         --  Feminine
@@ -101,7 +101,7 @@ package inflections_package is
                         c          --  Common (masculine and/or feminine)
                        );
 
-   package gender_type_io is new Text_IO.enumeration_io(gender_type);
+   package Gender_Type_IO is new Text_IO.Enumeration_IO (Gender_Type);
 
    type case_type is (
                       x,         --  all, none, or unknown
@@ -201,7 +201,7 @@ package inflections_package is
       procedure Put(s : out String; t : in tense_voice_mood_record);
    end tense_voice_mood_record_io;
 
-   type noun_kind_type is (
+   type Noun_Kind_Type is (
                            x,            --  unknown, nondescript
                            s,            --  Singular "only"           --  not really used
                            m,            --  plural or Multiple "only" --  not really used
@@ -214,7 +214,7 @@ package inflections_package is
                            w             --  a place Where
                           );
 
-   package noun_kind_type_io is new Text_IO.enumeration_io(noun_kind_type);
+   package Noun_Kind_Type_IO is new Text_IO.enumeration_io(noun_kind_type);
 
    type pronoun_kind_type is (
                               x,            --  unknown, nondescript
@@ -258,10 +258,10 @@ package inflections_package is
 
    type noun_record is
       record
-         decl        : decn_record;
+         decl        : Decn_Record;
          cs          : case_type := x;
          number      : number_type := x;
-         gender      : gender_type := x;
+         gender      : Gender_Type := x;
       end record;
 
    package noun_record_io is
@@ -276,10 +276,10 @@ package inflections_package is
 
    type pronoun_record is
       record
-         decl        : decn_record;
+         decl        : Decn_Record;
          cs          : case_type := x;
          number      : number_type := x;
-         gender      : gender_type := x;
+         gender      : Gender_Type := x;
       end record;
 
    package pronoun_record_io is
@@ -294,10 +294,10 @@ package inflections_package is
 
    type propack_record is
       record
-         decl        : decn_record;
+         decl        : Decn_Record;
          cs          : case_type := x;
          number      : number_type := x;
-         gender      : gender_type := x;
+         gender      : Gender_Type := x;
       end record;
 
    package propack_record_io is
@@ -312,10 +312,10 @@ package inflections_package is
 
    type adjective_record is
       record
-         decl        : decn_record;
+         decl        : Decn_Record;
          cs          : case_type := x;
          number      : number_type := x;
-         gender      : gender_type := x;
+         gender      : Gender_Type := x;
          co          : comparison_type := x;
       end record;
 
@@ -331,10 +331,10 @@ package inflections_package is
 
    type numeral_record is
       record
-         decl        : decn_record;
+         decl        : Decn_Record;
          cs          : case_type := x;
          number      : number_type := x;
-         gender      : gender_type := x;
+         gender      : Gender_Type := x;
          sort        : numeral_sort_type := x;
       end record;
 
@@ -365,7 +365,7 @@ package inflections_package is
 
    type verb_record is
       record
-         con         : decn_record;
+         con         : Decn_Record;
          tense_voice_mood  : tense_voice_mood_record;
          person      : person_type := 0;
          number      : number_type := x;
@@ -383,10 +383,10 @@ package inflections_package is
 
    type vpar_record is
       record
-         con         : decn_record;
+         con         : Decn_Record;
          cs          : case_type := x;
          number      : number_type := x;
-         gender      : gender_type := x;
+         gender      : Gender_Type := x;
          tense_voice_mood  : tense_voice_mood_record;
       end record;
 
@@ -402,10 +402,10 @@ package inflections_package is
 
    type supine_record is
       record
-         con         : decn_record;
+         con         : Decn_Record;
          cs          : case_type := x;
          number      : number_type := x;
-         gender      : gender_type := x;
+         gender      : Gender_Type := x;
       end record;
 
    package supine_record_io is
@@ -688,14 +688,14 @@ package inflections_package is
 
    --  <=   means for this purpose "contained in"
    overriding function "<=" (left, right : part_of_speech_type) return Boolean;
-   function "<=" (left, right : decn_record) return Boolean;
-   overriding function "<=" (left, right : gender_type) return Boolean;
+   function "<=" (left, right : Decn_Record) return Boolean;
+   overriding function "<=" (left, right : Gender_Type) return Boolean;
    overriding function "<=" (left, right : case_type)   return Boolean;
    overriding function "<=" (left, right : number_type) return Boolean;
    overriding function "<=" (left, right : person_type) return Boolean;
    overriding function "<=" (left, right : comparison_type) return Boolean;
    function "<=" (left, right : tense_voice_mood_record)  return Boolean;
-   overriding function "<=" (left, right : noun_kind_type)   return Boolean;
+   overriding function "<=" (left, right : Noun_Kind_Type)   return Boolean;
    overriding function "<=" (left, right : pronoun_kind_type)   return Boolean;
    overriding function "<=" (left, right : stem_key_type)   return Boolean;  -- not verbs
    overriding function "<=" (left, right : age_type)   return Boolean;

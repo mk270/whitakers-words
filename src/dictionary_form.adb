@@ -58,7 +58,7 @@ begin
    if de.stems(2) = Null_Stem_Type  and
      de.stems(3) = Null_Stem_Type  and
      de.stems(4) = Null_Stem_Type       and not
-     (((de.part.pofs = n)  and then (de.part.n.decl.which = 9))  or
+     (((de.part.pofs = n)  and then (de.part.n.Decl.which = 9))  or
      ((de.part.pofs = adj)  and then
      ((de.part.adj.decl.which = 9) or
      (de.part.adj.co = comp or de.part.adj.co = super))   ) or
@@ -70,86 +70,86 @@ begin
    end if;
 
    if de.part.pofs = n    then
-      if de.part.n.decl.which = 1  then
-         if de.part.n.decl.var = 1  then
+      if de.part.n.Decl.which = 1  then
+         if de.part.n.Decl.var = 1  then
             ox(1) := add(de.stems(1), "a");
             ox(2) := add(de.stems(2), "ae");
-         elsif de.part.n.decl.var = 6  then
+         elsif de.part.n.Decl.var = 6  then
             ox(1) := add(de.stems(1), "e");
             ox(2) := add(de.stems(2), "es");
-         elsif de.part.n.decl.var = 7  then
+         elsif de.part.n.Decl.var = 7  then
             ox(1) := add(de.stems(1), "es");
             ox(2) := add(de.stems(2), "ae");
-         elsif de.part.n.decl.var = 8  then
+         elsif de.part.n.Decl.var = 8  then
             ox(1) := add(de.stems(1), "as");
             ox(2) := add(de.stems(2), "ae");
          end if;
 
-      elsif de.part.n.decl.which = 2  then
-         if de.part.n.decl.var = 1  then
+      elsif de.part.n.Decl.which = 2  then
+         if de.part.n.Decl.var = 1  then
             ox(1) := add(de.stems(1), "us");
             ox(2) := add(de.stems(2), "i");
-         elsif de.part.n.decl.var = 2  then
+         elsif de.part.n.Decl.var = 2  then
             ox(1) := add(de.stems(1), "um");
             ox(2) := add(de.stems(2), "i");
-         elsif de.part.n.decl.var = 3  then
+         elsif de.part.n.Decl.var = 3  then
             ox(1) := add(de.stems(1), "");
             ox(2) := add(de.stems(2), "i");
-         elsif de.part.n.decl.var = 4  then
-            if de.part.n.gender = n  then
+         elsif de.part.n.Decl.var = 4  then
+            if de.part.n.Gender = n  then
                ox(1) := add(de.stems(1), "um");
             else
                ox(1) := add(de.stems(1), "us");
             end if;
             ox(2) := add(de.stems(2), "(i)");
-         elsif de.part.n.decl.var = 5  then
+         elsif de.part.n.Decl.var = 5  then
             ox(1) := add(de.stems(1), "us");
             ox(2) := add(de.stems(2), "");
-         elsif de.part.n.decl.var = 6  then
+         elsif de.part.n.Decl.var = 6  then
             ox(1) := add(de.stems(1), "os");
             ox(2) := add(de.stems(2), "i");
-         elsif de.part.n.decl.var = 7  then
+         elsif de.part.n.Decl.var = 7  then
             ox(1) := add(de.stems(1), "os");
             ox(2) := add(de.stems(2), "i");
-         elsif de.part.n.decl.var = 8  then
+         elsif de.part.n.Decl.var = 8  then
             ox(1) := add(de.stems(1), "on");
             ox(2) := add(de.stems(2), "i");
-         elsif de.part.n.decl.var = 9  then
+         elsif de.part.n.Decl.var = 9  then
             ox(1) := add(de.stems(1), "us");
             ox(2) := add(de.stems(2), "i");
          end if;
 
-      elsif de.part.n.decl.which = 3  then
+      elsif de.part.n.Decl.which = 3  then
          ox(1) := add(de.stems(1), "");
-         if (de.part.n.decl.var = 7)  or
-            (de.part.n.decl.var = 9)
+         if (de.part.n.Decl.var = 7)  or
+            (de.part.n.Decl.var = 9)
          then
             ox(2) := add(de.stems(2), "os/is");
          else
             ox(2) := add(de.stems(2), "is");
          end if;
 
-      elsif de.part.n.decl.which = 4  then
-         if de.part.n.decl.var = 1  then
+      elsif de.part.n.Decl.which = 4  then
+         if de.part.n.Decl.var = 1  then
             ox(1) := add(de.stems(1), "us");
             ox(2) := add(de.stems(2), "us");
-         elsif de.part.n.decl.var = 2  then
+         elsif de.part.n.Decl.var = 2  then
             ox(1) := add(de.stems(1), "u");
             ox(2) := add(de.stems(2), "us");
-         elsif de.part.n.decl.var = 3  then
+         elsif de.part.n.Decl.var = 3  then
             ox(1) := add(de.stems(1), "us");
             ox(2) := add(de.stems(2), "u");
          end if;
 
-      elsif de.part.n.decl.which = 5  then
+      elsif de.part.n.Decl.which = 5  then
          ox(1) := add(de.stems(1), "es");
          ox(2) := add(de.stems(2), "ei");
 
-      elsif de.part.n.decl = (9, 8)  then
+      elsif de.part.n.Decl = (9, 8)  then
          ox(1) := add(de.stems(1), ".");
          ox(2) := add(null_ox, "abb.");
 
-      elsif de.part.n.decl = (9, 9)  then
+      elsif de.part.n.Decl = (9, 9)  then
          ox(1) := add(de.stems(1), "");
          ox(2) := add(null_ox, "undeclined");
 
@@ -628,15 +628,14 @@ begin
    add_to("  " & part_of_speech_type'Image(de.part.pofs)& "  ");
 
    if de.part.pofs = n  then
-
       --  For DICTPAGE
-      if de.part.n.decl.which in 1..5 and
-         de.part.n.decl.var  in 1..5
+      if de.part.n.Decl.which in 1..5 and
+         de.part.n.Decl.var  in 1..5
       then
-         add_to(" (" & fst(de.part.n.decl.which) & ")");
+         add_to (" (" & fst (de.part.n.Decl.which) & ")");
       end if;
 
-      add_to(" " & gender_type'Image(de.part.n.gender) & "  ");
+      add_to (" " & Gender_Type'Image (de.part.n.Gender) & "  ");
    end if;
 
    if de.part.pofs = v then

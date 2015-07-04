@@ -380,7 +380,7 @@ package body addons_package is
    --  package body SUFFIX_LINE_IO is separate;
 
    package body Target_entry_io is
-      use noun_entry_io;
+      use Noun_Entry_IO;
       use pronoun_entry_io;
       use propack_entry_io;
       use adjective_entry_io;
@@ -396,7 +396,7 @@ package body addons_package is
 
       spacer : Character := ' ';
 
-      noun  : noun_entry;
+      noun  : Noun_Entry;
       pronoun : pronoun_entry;
       propack : propack_entry;
       adjective : adjective_entry;
@@ -601,7 +601,7 @@ package body addons_package is
          s(l) :=  ' ';
          case p.pofs is
             when n =>
-               m := l + noun_entry_io.Default_Width;
+               m := l + Noun_Entry_IO.Default_Width;
                Put(s(l+1..m), p.n);
                --        M := L + NOUN_KIND_TYPE_IO.DEFAULT_WIDTH;
                --        PUT(S(L+1..M), P.NOUN_KIND);

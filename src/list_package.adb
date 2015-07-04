@@ -302,17 +302,17 @@ package body list_package is
                   out_String : String(1..quality_record_io.Default_Width);
                   passive_start  : constant Integer :=
                     part_of_speech_type_io.Default_Width + 1 +
-                    decn_record_io.Default_Width + 1 +
+                    Decn_Record_IO.Default_Width + 1 +
                     tense_type_io.Default_Width + 1;
                   passive_finish : constant Integer :=
                     passive_start +
                     voice_type_io.Default_Width;
                   ppl_start      : constant Integer :=
                     part_of_speech_type_io.Default_Width + 1 +
-                    decn_record_io.Default_Width + 1 +
+                    Decn_Record_IO.Default_Width + 1 +
                     case_type_io.Default_Width + 1 +
                     number_type_io.Default_Width + 1 +
-                    gender_type_io.Default_Width + 1 +
+                    Gender_Type_IO.Default_Width + 1 +
                     tense_type_io.Default_Width + 1;
                   ppl_finish : constant Integer :=
                     ppl_start +
