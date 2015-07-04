@@ -17,7 +17,7 @@
 with Text_IO;
 with direct_io;
 with Strings_Package; use Strings_Package;
-with inflections_package; use inflections_package;
+with Inflections_Package; use Inflections_Package;
 with Dictionary_Package; use Dictionary_Package;
 procedure sorter is
    --  This program sorts a file of lines (Strings) on 5 subStrings Mx..Nx

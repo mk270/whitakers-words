@@ -15,7 +15,7 @@
 -- available to anyone who wishes to use them, for whatever purpose.
 
 with Strings_Package; use Strings_Package;
-with inflections_package; use inflections_package;
+with Inflections_Package; use Inflections_Package;
 with Dictionary_Package; use Dictionary_Package;
 function dictionary_form(de : dictionary_entry) return String is
 
@@ -521,31 +521,31 @@ begin
          ox(3) := add(ox(3), " (ii)");
       end if;
 
-   elsif (de.part.pofs = num) and then (de.part.num.sort = x)  then
-      if de.part.num.decl.which = 1  then
-         if de.part.num.decl.var = 1  then
+   elsif (de.part.pofs = num) and then (de.part.num.Sort = x)  then
+      if de.part.num.Decl.which = 1  then
+         if de.part.num.Decl.var = 1  then
             ox(1) := add(de.stems(1), "us -a -um");
             ox(2) := add(de.stems(2), "us -a -um");
             ox(3) := add(de.stems(3), "i -ae -a");
             ox(4) := add(de.stems(4), "");
-         elsif de.part.num.decl.var = 2  then
+         elsif de.part.num.Decl.var = 2  then
             ox(1) := add(de.stems(1), "o -ae o");
             ox(2) := add(de.stems(2), "us -a -um");
             ox(3) := add(de.stems(3), "i -ae -a");
             ox(4) := add(de.stems(4), "");
-         elsif de.part.num.decl.var = 3  then
+         elsif de.part.num.Decl.var = 3  then
             ox(1) := add(de.stems(1), "es -es -ia");
             ox(2) := add(de.stems(2), "us -a -um");
             ox(3) := add(de.stems(3), "i -ae -a");
             ox(4) := add(de.stems(4), "");
-         elsif de.part.num.decl.var = 4  then
+         elsif de.part.num.Decl.var = 4  then
             ox(1) := add(de.stems(1), "i -ae -a");
             ox(2) := add(de.stems(2), "us -a -um");
             ox(3) := add(de.stems(3), "i -ae -a");
             ox(4) := add(de.stems(4), "ie(n)s");
          end if;
 
-      elsif de.part.num.decl.which = 2  then
+      elsif de.part.num.Decl.which = 2  then
          ox(1) := add(de.stems(1), "");
          ox(2) := add(de.stems(2), "us -a -um");
          ox(3) := add(de.stems(3), "i -ae -a");
@@ -553,37 +553,37 @@ begin
 
       end if;
 
-   elsif (de.part.pofs = num) and then (de.part.num.sort = card)  then
-      if de.part.num.decl.which = 1  then
-         if de.part.num.decl.var = 1  then
+   elsif (de.part.pofs = num) and then (de.part.num.Sort = card)  then
+      if de.part.num.Decl.which = 1  then
+         if de.part.num.Decl.var = 1  then
             ox(1) := add(de.stems(1), "us");
             ox(2) := add(de.stems(1), "a");
             ox(3) := add(de.stems(1), "um");
-         elsif de.part.num.decl.var = 2  then
+         elsif de.part.num.Decl.var = 2  then
             ox(1) := add(de.stems(1), "o");
             ox(2) := add(de.stems(1), "ae");
             ox(3) := add(de.stems(1), "o");
-         elsif de.part.num.decl.var = 3  then
+         elsif de.part.num.Decl.var = 3  then
             ox(1) := add(de.stems(1), "es");
             ox(2) := add(de.stems(1), "es");
             ox(3) := add(de.stems(1), "ia");
-         elsif de.part.num.decl.var = 4  then
+         elsif de.part.num.Decl.var = 4  then
             ox(1) := add(de.stems(1), "i");
             ox(2) := add(de.stems(1), "ae");
             ox(3) := add(de.stems(1), "a");
          end if;
 
-      elsif de.part.num.decl.which = 2  then
+      elsif de.part.num.Decl.which = 2  then
          ox(1) := add(de.stems(1), "");
 
       end if;
 
-   elsif (de.part.pofs = num) and then (de.part.num.sort = ord)  then
+   elsif (de.part.pofs = num) and then (de.part.num.Sort = ord)  then
       ox(1) := add(de.stems(1), "us");
       ox(2) := add(de.stems(1), "a");
       ox(3) := add(de.stems(1), "um");
 
-   elsif (de.part.pofs = num) and then (de.part.num.sort = dist)  then
+   elsif (de.part.pofs = num) and then (de.part.num.Sort = dist)  then
       ox(1) := add(de.stems(1), "i");
       ox(2) := add(de.stems(1), "ae");
       ox(3) := add(de.stems(1), "a");

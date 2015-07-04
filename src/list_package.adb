@@ -22,7 +22,7 @@ with uniques_package; use uniques_package;
 with word_support_package; use word_support_package;
 with developer_parameters; use developer_parameters;
 with word_package; use word_package;
-with inflections_package; use inflections_package;
+with Inflections_Package; use Inflections_Package;
 with dictionary_form;
 with Put_example_line;
 with list_sweep;
@@ -401,7 +401,7 @@ package body list_package is
          n : Integer := 0;
       begin
          if dm.de.part.pofs = num  then
-            n := dm.de.part.num.value;
+            n := dm.de.part.num.Value;
             if sr.ir.qual.pofs = num  then    --  Normal parse
                case sr.ir.qual.num.sort is
                   when card  =>
@@ -433,7 +433,7 @@ package body list_package is
             if words_mdev(do_pearse_codes) then
                Text_IO.Put(Output, "03 ");
             end if;
-            if dm.de.part.pofs = num  and then dm.de.part.num.value > 0  then
+            if dm.de.part.pofs = num  and then dm.de.part.num.Value > 0  then
                Text_IO.Put_Line(Output, constructed_meaning(sr, dm));    --  Constructed MEANING
             elsif dm.d_k = unique  then
                Put_meaning(Output, uniques_de(dm.MNPC).mean);
@@ -888,8 +888,8 @@ package body list_package is
             end if;
             Text_IO.Put(Output, raw_word);
             Text_IO.Set_Col(Output, 30);
-            inflections_package.Integer_IO.Put(Output, line_number, 7);
-            inflections_package.Integer_IO.Put(Output, word_number, 7);
+            Inflections_Package.Integer_IO.Put(Output, line_number, 7);
+            Inflections_Package.Integer_IO.Put(Output, word_number, 7);
             Text_IO.Put_Line(Output, "    ========   UNKNOWN    ");
             --TEXT_IO.NEW_LINE(OUTPUT);
          else              --  Just screen Output
@@ -914,8 +914,8 @@ package body list_package is
             end if;
             Text_IO.Put(unknowns, raw_word);
             Text_IO.Set_Col(unknowns, 30);
-            inflections_package.Integer_IO.Put(unknowns, line_number, 7);
-            inflections_package.Integer_IO.Put(unknowns, word_number, 7);
+            Inflections_Package.Integer_IO.Put(unknowns, line_number, 7);
+            Inflections_Package.Integer_IO.Put(unknowns, word_number, 7);
             Text_IO.Put_Line(unknowns, "    ========   UNKNOWN    ");
          end if;
       end if;

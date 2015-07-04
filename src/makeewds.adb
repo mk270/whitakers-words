@@ -17,7 +17,7 @@
 with Text_IO;
 with Strings_Package; use Strings_Package;
 with latIn_File_names; use latIn_File_names;
-with inflections_package; use inflections_package;
+with Inflections_Package; use Inflections_Package;
 with Dictionary_Package; use Dictionary_Package;
 with english_support_package; use english_support_package;
 with weed;
@@ -766,7 +766,7 @@ begin
                   ewr.semi := ewa(i).semi;
                   ewr.kind := ewa(i).kind;
                   ewr.rank := 80-frequency_type'Pos(ewr.freq)*10 + ewr.kind + (ewr.semi-1)*(-3);
-                  if ewr.freq = inflections_package.n  then
+                  if ewr.freq = Inflections_Package.n  then
                      ewr.rank := ewr.rank + 25;
                   end if;
 

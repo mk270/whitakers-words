@@ -16,7 +16,7 @@
 
 with Text_IO;
 with Direct_IO;
-with inflections_package; use inflections_package;
+with Inflections_Package; use Inflections_Package;
 with Dictionary_Package; use Dictionary_Package;
 package english_support_package is
 

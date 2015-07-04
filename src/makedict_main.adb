@@ -17,7 +17,7 @@
 with Text_IO;
 with Strings_Package; use Strings_Package;
 with latIn_File_names; use latIn_File_names;
-with inflections_package; use inflections_package;
+with Inflections_Package; use Inflections_Package;
 with Dictionary_Package; use Dictionary_Package;
 procedure makedict_main(porting : Boolean) is
    package Integer_IO is new Text_IO.Integer_IO(Integer);
@@ -223,7 +223,7 @@ begin
                   Integer_IO.Put(stemlist, Integer(j), 6); New_Line(stemlist);
                end if;
             elsif de.part.pofs = num  and then
-               de.part.num.sort = card
+               de.part.num.Sort = card
             then
                Put(stemlist, de.stems(1)); Put(stemlist, ' ');
                Put(stemlist, de.part); Put(stemlist, ' ');
@@ -232,7 +232,7 @@ begin
                Set_Col(stemlist, 50);
                Integer_IO.Put(stemlist, Integer(j), 6); New_Line(stemlist);
             elsif de.part.pofs = num  and then
-               de.part.num.sort = ord
+               de.part.num.Sort = ord
             then
                Put(stemlist, de.stems(1)); Put(stemlist, ' ');
                Put(stemlist, de.part); Put(stemlist, ' ');
@@ -241,7 +241,7 @@ begin
                Set_Col(stemlist, 50);
                Integer_IO.Put(stemlist, Integer(j), 6); New_Line(stemlist);
             elsif de.part.pofs = num  and then
-               de.part.num.sort = dist
+               de.part.num.Sort = dist
             then
                Put(stemlist, de.stems(1)); Put(stemlist, ' ');
                Put(stemlist, de.part); Put(stemlist, ' ');
@@ -250,7 +250,7 @@ begin
                Set_Col(stemlist, 50);
                Integer_IO.Put(stemlist, Integer(j), 6); New_Line(stemlist);
             elsif de.part.pofs = num  and then
-               de.part.num.sort = adverb
+               de.part.num.Sort = adverb
             then
                Put(stemlist, de.stems(1)); Put(stemlist, ' ');
                Put(stemlist, de.part); Put(stemlist, ' ');

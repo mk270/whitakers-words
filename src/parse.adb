@@ -39,7 +39,7 @@ with Text_IO;
 with Strings_Package; use Strings_Package;
 with word_parameters; use word_parameters;
 with developer_parameters; use developer_parameters;
-with inflections_package; use inflections_package;
+with Inflections_Package; use Inflections_Package;
 with Dictionary_Package; use Dictionary_Package;
 with addons_package; use addons_package;
 with word_support_package; use word_support_package;
@@ -53,7 +53,7 @@ with char_utils; use char_utils;
 pragma Elaborate (word_parameters);
 package body parse
 is
-   use inflections_package.Integer_IO;
+   use Inflections_Package.Integer_IO;
    use Inflection_Record_IO;
    use Text_IO;
 
@@ -74,7 +74,7 @@ is
       record
          ppl_on : Boolean;
          ppl_info : vpar_record;
-         compound_tvm : inflections_package.tense_voice_mood_record;
+         compound_tvm : Inflections_Package.tense_voice_mood_record;
          ppp_meaning : Meaning_Type;
       end record;
 
@@ -118,7 +118,7 @@ is
 
    type participle_gloss is
       record
-         key : inflections_package.tense_voice_mood_record;
+         key : Inflections_Package.tense_voice_mood_record;
          gloss : String(1 .. 78);
       end record;
 
@@ -738,7 +738,7 @@ is
                nw : String(1..2500) := (others => ' ');
                nk : Integer := 0;
 
-               compound_tvm   : inflections_package.tense_voice_mood_record;
+               compound_tvm   : Inflections_Package.tense_voice_mood_record;
                ppl_on : Boolean := False;
 
                sum_info : verb_record := ((5, 1), (x, active, x), 0, x);
@@ -1011,8 +1011,8 @@ is
             end if;
             Text_IO.Put(unknowns, Input_Line(j2..k));
             Text_IO.Set_Col(unknowns, 30);
-            inflections_package.Integer_IO.Put(unknowns, line_number, 5);
-            inflections_package.Integer_IO.Put(unknowns, word_number, 3);
+            Inflections_Package.Integer_IO.Put(unknowns, line_number, 5);
+            Inflections_Package.Integer_IO.Put(unknowns, word_number, 3);
             Text_IO.Put_Line(unknowns, "    ========   ERROR      ");
          end if;
          pa_last := 0;

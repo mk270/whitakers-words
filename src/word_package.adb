@@ -748,7 +748,7 @@ package body word_package is
          MNPC_part : MNPC_type := Null_MNPC;
          pdl_part : part_entry;
          com : Comparison_Type := x;
-         num_sort : numeral_sort_type := x;
+         num_sort : Numeral_Sort_Type := x;
          ls : Integer := 0;
          m : Integer := 0;
 
@@ -974,16 +974,16 @@ package body word_package is
                                    MNPC => MNPC_part);
 
                      elsif (pdl_part.pofs = num)                          and then
-                       (pdl_part.num.decl <= sl(i).IR.qual.num.decl)     and then
+                       (pdl_part.num.Decl <= sl(i).IR.qual.num.decl)     and then
                        (pdl_key         = sl(i).IR.key)
                      then
                         --PUT(" HIT  NUM    ");
-                        if pdl_part.num.sort = x  then
+                        if pdl_part.num.Sort = x  then
                            --  If the entry is X, generate a CO from KEY
                            num_sort:= num_sort_from_key(pdl_key);
                         else
                            --  Otherwise, the dictionary entry has a unique CO, use it
-                           num_sort := pdl_part.num.sort;
+                           num_sort := pdl_part.num.Sort;
                         end if;
                         m := m + 1;
                         sxx(m) := (Stem => subtract_prefix(sl(i).Stem, prefix),
@@ -991,7 +991,7 @@ package body word_package is
                                           qual => (
                                                    pofs => num,
                                                    num => (
-                                                           pdl_part.num.decl,
+                                                           pdl_part.num.Decl,
                                                            sl(i).IR.qual.num.cs,
                                                            sl(i).IR.qual.num.number,
                                                            sl(i).IR.qual.num.gender,

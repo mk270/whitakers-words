@@ -19,7 +19,7 @@ with Strings_Package; use Strings_Package;
 with latIn_File_names; use latIn_File_names;
 with word_parameters; use word_parameters;
 with developer_parameters; use developer_parameters;
-with inflections_package; use inflections_package;
+with Inflections_Package; use Inflections_Package;
 with Dictionary_Package; use Dictionary_Package;
 with word_support_package; use word_support_package;
 with preface;
@@ -35,7 +35,7 @@ pragma Elaborate(word_parameters);
 procedure process_Input(configuration : configuration_type;
                         Command_Line : String := "")
 is
-   -- use inflections_package.Integer_IO;
+   -- use Inflections_Package.Integer_IO;
    -- use Inflection_Record_IO;
    use Text_IO;
 

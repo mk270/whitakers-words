@@ -17,7 +17,7 @@
 with Text_IO;
 with Strings_Package; use Strings_Package;
 with latIn_File_names; use latIn_File_names;
-with inflections_package; use inflections_package;
+with Inflections_Package; use Inflections_Package;
 with Dictionary_Package; use Dictionary_Package;
 with word_support_package; use word_support_package;
 

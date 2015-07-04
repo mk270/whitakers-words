@@ -15,7 +15,7 @@
 -- available to anyone who wishes to use them, for whatever purpose.
 
 with Text_IO; use Text_IO;
-with inflections_package; use inflections_package;
+with Inflections_Package; use Inflections_Package;
 with Dictionary_Package; use Dictionary_Package;
 with addons_package; use addons_package;
 with uniques_package; use uniques_package;

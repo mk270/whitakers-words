@@ -16,7 +16,7 @@
 
 with Text_IO;
 with Direct_IO;
-with inflections_package; use inflections_package;
+with Inflections_Package; use Inflections_Package;
 with Dictionary_Package; use Dictionary_Package;
 package word_support_package is
 
@@ -62,7 +62,7 @@ package word_support_package is
 
    function adv_comp_from_key(key : stem_key_type) return Comparison_Type;
 
-   function num_sort_from_key(key : stem_key_type) return numeral_sort_type;
+   function num_sort_from_key(key : stem_key_type) return Numeral_Sort_Type;
 
    function eff_part(part : part_of_speech_type) return part_of_speech_type;
 

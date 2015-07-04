@@ -16,7 +16,7 @@
 
 with latIn_File_names; use latIn_File_names;
 with preface;
-package body inflections_package is
+package body Inflections_Package is
 
    function "<" (left, right : Decn_Record) return Boolean is
    begin
@@ -952,7 +952,7 @@ package body inflections_package is
       use case_type_io;
       use number_type_io;
       use Gender_Type_IO;
-      use numeral_sort_type_io;
+      use Numeral_Sort_Type_IO;
       spacer : Character := ' ';
 
       procedure Get(f : in File_Type; num : out numeral_record) is
@@ -1040,7 +1040,7 @@ package body inflections_package is
          Put(s(l+1..m), num.gender);
          l := m + 1;
          s(l) :=  ' ';
-         m := l + numeral_sort_type_io.Default_Width;
+         m := l + Numeral_Sort_Type_IO.Default_Width;
          Put(s(l+1..m), num.sort);
          s(m+1..s'Last) := (others => ' ');
       end Put;
@@ -2475,7 +2475,7 @@ begin  --  initialization of body of INFLECTIONS_PACKAGE
    Noun_Kind_Type_IO.Default_Width := Noun_Kind_Type'Width;
    Pronoun_Kind_Type_IO.Default_Width := Pronoun_Kind_Type'Width;
    verb_kind_type_io.Default_Width := verb_kind_type'Width;
-   numeral_sort_type_io.Default_Width := numeral_sort_type'Width;
+   Numeral_Sort_Type_IO.Default_Width := Numeral_Sort_Type'Width;
    age_type_io.Default_Width := age_type'Width;
    frequency_type_io.Default_Width := frequency_type'Width;
 
@@ -2533,7 +2533,7 @@ begin  --  initialization of body of INFLECTIONS_PACKAGE
      case_type_io.Default_Width + 1 +
      number_type_io.Default_Width + 1 +
      Gender_Type_IO.Default_Width + 1 +
-     numeral_sort_type_io.Default_Width;
+     Numeral_Sort_Type_IO.Default_Width;
    tackon_record_io.Default_Width := 0;
    prefix_record_io.Default_Width := 0;
    suffix_record_io.Default_Width := 0;
@@ -2547,4 +2547,4 @@ begin  --  initialization of body of INFLECTIONS_PACKAGE
      age_type_io.Default_Width + 1 +
      frequency_type_io.Default_Width;
 
-end inflections_package;
+end Inflections_Package;

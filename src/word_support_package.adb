@@ -56,7 +56,7 @@ package body word_support_package is
       end case;
    end adv_comp_from_key;
 
-   function num_sort_from_key(key : stem_key_type) return numeral_sort_type is
+   function num_sort_from_key(key : stem_key_type) return Numeral_Sort_Type is
    begin
       case key is
          when 1  => return card;
@@ -180,7 +180,7 @@ package body word_support_package is
 
    procedure load_indices_from_indx_file(d_k : Dictionary_Kind) is
       use Text_IO;
-      use inflections_package.Integer_IO;
+      use Inflections_Package.Integer_IO;
       use stem_io;
       use Count_io;
       ch : String(1..2);

@@ -34,7 +34,7 @@ package body line_stuff is
       sts : stems_type := null_stems_type;
       pt  : part_entry  := null_part_entry;
       tran : translation_record := null_translation_record;
-      value : constant numeral_value_type := 0;
+      value : constant Numeral_Value_Type := 0;
       mean : Meaning_Type := Null_Meaning_Type;
 
       fc1, fc2, fc3, fc4 : Character;
@@ -324,12 +324,12 @@ package body line_stuff is
             end if;
 
          elsif pt.pofs = num  then
-            if pt.num.sort = x  then   --  X for all KINDs
+            if pt.num.Sort = x  then   --  X for all KINDs
                if sts(1)(1) /= ' ' and then sts(1)(1..3) /= zzz_stem(1..3) then
                   dict(fc1) :=
                     new dictionary_item'(( (sts(1), blk_stem, blk_stem, blk_stem),
                                            --(NUM, (PT.NUM.DECL, CARD)), KIND, TRAN, MEAN),
-                                           (num, (pt.num.decl, card, value)), tran, mean),
+                                           (num, (pt.num.Decl, card, value)), tran, mean),
                                          dict(fc1));
                end if;
                if sts(2)(1) /= ' ' and then sts(2)(1..3) /= zzz_stem(1..3) then
@@ -343,39 +343,39 @@ package body line_stuff is
                   dict(fc3) :=
                     new dictionary_item'(( (zzz_stem, zzz_stem, sts(3), blk_stem),
                                            --(NUM, (PT.NUM.DECL, DIST)), KIND, TRAN, MEAN),
-                                           (num, (pt.num.decl, dist, value)), tran, mean),
+                                           (num, (pt.num.Decl, dist, value)), tran, mean),
                                          dict(fc3));
                end if;
                if sts(4)(1) /= ' ' and then sts(4)(1..3) /= zzz_stem(1..3) then
                   dict(fc4) :=
                     new dictionary_item'(( (zzz_stem, zzz_stem, zzz_stem, sts(4)),
                                            --(NUM, (PT.NUM.DECL, ADVERB)), KIND, TRAN, MEAN),
-                                           (num, (pt.num.decl, adverb, value)), tran, mean),
+                                           (num, (pt.num.Decl, adverb, value)), tran, mean),
                                          dict(fc4));
                end if;
-            elsif pt.num.sort = card  then
+            elsif pt.num.Sort = card  then
                dict(fc1) :=
                  new dictionary_item'(( (sts(1), blk_stem, blk_stem, blk_stem),
                                         --(NUM, (PT.NUM.DECL, CARD)), KIND, TRAN, MEAN),
-                                        (num, (pt.num.decl, card, value)), tran, mean),
+                                        (num, (pt.num.Decl, card, value)), tran, mean),
                                       dict(fc1));
-            elsif pt.num.sort = ord   then
+            elsif pt.num.Sort = ord   then
                dict(fc1) :=
                  new dictionary_item'(( (blk_stem, sts(1), blk_stem, blk_stem),
                                         --(NUM, (PT.NUM.DECL, ORD)), KIND, TRAN, MEAN),
-                                        (num, (pt.num.decl, ord, value)), tran, mean),
+                                        (num, (pt.num.Decl, ord, value)), tran, mean),
                                       dict(fc1));
-            elsif pt.num.sort = dist  then
+            elsif pt.num.Sort = dist  then
                dict(fc1) :=
                  new dictionary_item'(( (blk_stem, blk_stem, sts(1), blk_stem),
                                         --(NUM, (PT.NUM.DECL, DIST)), KIND, TRAN, MEAN),
-                                        (num, (pt.num.decl, dist, value)), tran, mean),
+                                        (num, (pt.num.Decl, dist, value)), tran, mean),
                                       dict(fc1));
-            elsif pt.num.sort = adverb  then
+            elsif pt.num.Sort = adverb  then
                dict(fc1) :=
                  new dictionary_item'(( (blk_stem, blk_stem, blk_stem, sts(1)),
                                         --(NUM, (PT.NUM.DECL, ADVERB)), KIND, TRAN, MEAN),
-                                        (num, (pt.num.decl, adverb, value)), tran, mean),
+                                        (num, (pt.num.Decl, adverb, value)), tran, mean),
                                       dict(fc1));
             end if;
 

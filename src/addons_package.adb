@@ -384,7 +384,7 @@ package body addons_package is
       use Pronoun_Entry_IO;
       use Propack_Entry_IO;
       use Adjective_Entry_IO;
-      use numeral_entry_io;
+      use Numeral_Entry_IO;
       use adverb_entry_io;
       use verb_entry_io;
       --  use KIND_ENTRY_IO;
@@ -400,7 +400,7 @@ package body addons_package is
       pronoun : Pronoun_Entry;
       propack : Propack_Entry;
       adjective : Adjective_Entry;
-      numeral : numeral_entry;
+      numeral : Numeral_Entry;
       adverb : adverb_entry;
       verb : verb_entry;
 
@@ -619,7 +619,7 @@ package body addons_package is
                m := l + Adjective_Entry_IO.Default_Width;
                Put(s(l+1..m), p.adj);
             when num =>
-               m := l + numeral_entry_io.Default_Width;
+               m := l + Numeral_Entry_IO.Default_Width;
                Put(s(l+1..m), p.num);
                --        M := L + NUMERAL_VALUE_TYPE_IO_DEFAULT_WIDTH;
                --        PUT(S(L+1..M), P.PRONOUN_KIND);
@@ -824,7 +824,7 @@ begin    --  Initiate body of ADDONS_PACKAGE
    prefix_entry_io.Default_Width := part_of_speech_type_io.Default_Width + 1 +
      part_of_speech_type_io.Default_Width;
    Target_entry_io.Default_Width := part_of_speech_type_io.Default_Width + 1 +
-     numeral_entry_io.Default_Width; --  Largest
+     Numeral_Entry_IO.Default_Width; --  Largest
 
    suffix_entry_io.Default_Width := part_of_speech_type_io.Default_Width + 1 +
      2 + 1 +

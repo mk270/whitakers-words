@@ -16,7 +16,7 @@
 
 with Text_IO; use Text_IO;
 with Direct_IO;
-package inflections_package is
+package Inflections_Package is
    pragma Elaborate_Body;
    package Integer_IO is new Text_IO.Integer_IO (Integer);
 
@@ -141,7 +141,7 @@ package inflections_package is
    package stem_key_type_io is new Text_IO.Integer_IO(stem_key_type);
    stem_key_type_io_Default_Width : Integer := 1;
 
-   type numeral_sort_type is (
+   type Numeral_Sort_Type is (
                               x,          --  all, none, or unknown
                               card,       --  CARDinal
                               ord,        --  ORDinal
@@ -149,8 +149,8 @@ package inflections_package is
                               adverb      --  numeral ADVERB
                              );
 
-   package numeral_sort_type_io is
-      new Text_IO.enumeration_io(numeral_sort_type);
+   package Numeral_Sort_Type_IO is
+      new Text_IO.Enumeration_IO (Numeral_Sort_Type);
 
    type tense_type is (
                        x,         --  all, none, or unknown
@@ -230,9 +230,9 @@ package inflections_package is
    package Pronoun_Kind_Type_IO is
       new Text_IO.enumeration_io(Pronoun_Kind_Type);
 
-   subtype numeral_value_type is Natural range 0..1000;
+   subtype Numeral_Value_Type is Natural range 0..1000;
 
-   numeral_value_type_io_Default_Width : Integer := 5;
+   Numeral_Value_Type_IO_Default_Width : Integer := 5;
 
    type verb_kind_type is (
                            x,         --  all, none, or unknown
@@ -335,7 +335,7 @@ package inflections_package is
          cs          : case_type := x;
          number      : number_type := x;
          gender      : Gender_Type := x;
-         sort        : numeral_sort_type := x;
+         sort        : Numeral_Sort_Type := x;
       end record;
 
    package numeral_record_io is
@@ -703,4 +703,4 @@ package inflections_package is
 
    give_up : exception;
 
-end inflections_package;
+end Inflections_Package;

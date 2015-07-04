@@ -16,7 +16,7 @@
 
 with Strings_Package; use Strings_Package;
 with word_parameters; use word_parameters;
-with inflections_package; use inflections_package;
+with Inflections_Package; use Inflections_Package;
 with Dictionary_Package; use Dictionary_Package;
 with uniques_package; use uniques_package;
 with developer_parameters; use developer_parameters;
@@ -293,7 +293,7 @@ procedure list_sweep(pa : in out Parse_Array; pa_last : in out Integer) is
                then
                   return (left.pron.decl.var < right.pron.decl.var);
                else
-                  return inflections_package."<"(left, right);
+                  return Inflections_Package."<"(left, right);
                end if;
             end "<";
 
@@ -305,7 +305,7 @@ procedure list_sweep(pa : in out Parse_Array; pa_last : in out Integer) is
                then
                   return (left.pron.decl.var = right.pron.decl.var);
                else
-                  return inflections_package."="(left, right);
+                  return Inflections_Package."="(left, right);
                end if;
             end equ;
 
@@ -349,7 +349,7 @@ procedure list_sweep(pa : in out Parse_Array; pa_last : in out Integer) is
                  equ(sl(i+1).IR.qual, sl(i).IR.qual)  and then
                  meaning(sl(i+1)) = meaning(sl(i))   and then
                  sl(i+1).IR.ending.size = sl(i).IR.ending.size  and then
-                 inflections_package."<"(sl(i+1).IR.qual, sl(i).IR.qual))
+                 Inflections_Package."<"(sl(i+1).IR.qual, sl(i).IR.qual))
                then
 
                   sm := sl(i);

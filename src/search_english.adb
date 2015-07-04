@@ -18,7 +18,7 @@ with Text_IO; use Text_IO;
 with Strings_Package; use Strings_Package;
 with config;
 with word_parameters; use word_parameters;
-with inflections_package; use inflections_package;
+with Inflections_Package; use Inflections_Package;
 with Dictionary_Package; use Dictionary_Package;
 with developer_parameters; use developer_parameters;
 with word_package; use word_package;

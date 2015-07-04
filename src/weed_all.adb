@@ -14,7 +14,7 @@
 -- All parts of the WORDS system, source code and data files, are made freely
 -- available to anyone who wishes to use them, for whatever purpose.
 
-with inflections_package; use inflections_package;
+with Inflections_Package; use Inflections_Package;
 procedure weed_all(w : in out String) is
    --  In contrast to the Latin phase where the prioritization takes is at runtime
    --  for the English most of the work is done beforehand

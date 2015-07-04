@@ -15,7 +15,7 @@
 -- available to anyone who wishes to use them, for whatever purpose.
 
 with Text_IO; use type Text_IO.File_Type;
-with inflections_package; use inflections_package;
+with Inflections_Package; use Inflections_Package;
 with Dictionary_Package; use Dictionary_Package;
 package addons_package is
    pragma Elaborate_Body;
@@ -41,7 +41,7 @@ package addons_package is
             when adj  =>
                adj : Adjective_Entry;
             when num  =>
-               num : numeral_entry;
+               num : Numeral_Entry;
                --NUMERAL_VALUE : NUMERAL_VALUE_TYPE;
             when adv  =>
                adv : adverb_entry;
