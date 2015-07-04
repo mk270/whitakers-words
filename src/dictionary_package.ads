@@ -276,21 +276,30 @@ package Dictionary_Package is
 
    ---------------------------------------------------------------------------
 
-   type adjective_entry is
+   type Adjective_Entry is
       record
-         decl : Decn_Record := (0, 0);
-         co   : comparison_type := x;
+         -- NOTE: Seems like Decl is breaking of abbrev used
+         Decl : Decn_Record := (0, 0);
+         Co   : Comparison_Type := x;
       end record;
 
-   package adjective_entry_io is
+   -- FIXME: These subprograms don't check if Is_Open (File)
+   package Adjective_Entry_IO is
       Default_Width : Natural;
-      procedure Get(f : in File_Type; a : out adjective_entry);
-      procedure Get(a : out adjective_entry);
-      procedure Put(f : in File_Type; a : in adjective_entry);
-      procedure Put(a : in adjective_entry);
-      procedure Get(s : in String; a : out adjective_entry; last : out Integer);
-      procedure Put(s : out String; a : in adjective_entry);
-   end adjective_entry_io;
+      procedure Get (File : in File_Type; Item : out Adjective_Entry);
+      procedure Get (Item : out Adjective_Entry);
+      procedure Put (File : in File_Type; Item : in Adjective_Entry);
+      procedure Put (Item : in Adjective_Entry);
+      -- TODO: Document meaning of Last
+      procedure Get
+         ( Source : in  String;
+           Target : out Adjective_Entry;
+           Last   : out Integer
+         );
+      procedure Put (Target : out String; Item : in Adjective_Entry);
+   end Adjective_Entry_IO;
+
+   ---------------------------------------------------------------------------
 
    type numeral_entry is
       record
@@ -311,7 +320,7 @@ package Dictionary_Package is
 
    type adverb_entry is
       record
-         co   : comparison_type := x;
+         co   : Comparison_Type := x;
       end record;
 
    package adverb_entry_io is
@@ -395,7 +404,7 @@ package Dictionary_Package is
             when pack =>
                pack : Propack_Entry;
             when adj =>
-               adj : adjective_entry;
+               adj : Adjective_Entry;
             when num =>
                num : numeral_entry;
             when adv =>

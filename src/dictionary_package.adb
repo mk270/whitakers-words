@@ -49,64 +49,7 @@ package body Dictionary_Package is
 
    package body Propack_Entry_IO is separate;
 
-   package body adjective_entry_io is
-      use Decn_Record_IO;
-      use Gender_Type_IO;
-      use case_type_io;
-      use number_type_io;
-      use comparison_type_io;
-      spacer : Character := ' ';
-
-      procedure Get(f : in File_Type; a : out adjective_entry) is
-      begin
-         Get(f, a.decl);
-         Get(f, spacer);
-         Get(f, a.co);
-      end Get;
-
-      procedure Get(a : out adjective_entry) is
-      begin
-         Get(a.decl);
-         Get(spacer);
-         Get(a.co);
-      end Get;
-
-      procedure Put(f : in File_Type; a : in adjective_entry) is
-      begin
-         Put(f, a.decl);
-         Put(f, ' ');
-         Put(f, a.co);
-      end Put;
-
-      procedure Put(a : in adjective_entry) is
-      begin
-         Put(a.decl);
-         Put(' ');
-         Put(a.co);
-      end Put;
-
-      procedure Get(s : in String; a : out adjective_entry; last : out Integer) is
-         l : Integer := s'First - 1;
-      begin
-         Get(s(l+1..s'Last), a.decl, l);
-         l := l + 1;
-         Get(s(l+1..s'Last), a.co, last);
-      end Get;
-
-      procedure Put(s : out String; a : in adjective_entry) is
-         l : Integer := s'First - 1;
-         m : Integer := 0;
-      begin
-         m := l + Decn_Record_IO.Default_Width;
-         Put(s(l+1..m), a.decl);
-         l := m + 1;
-         s(l) :=  ' ';
-         m := l + comparison_type_io.Default_Width;
-         Put(s(l+1..m), a.co);
-         s(m+1..s'Last) := (others => ' ');
-      end Put;
-
-   end adjective_entry_io;
+   package body Adjective_Entry_IO is separate;
 
    package body numeral_entry_io is
       use Decn_Record_IO;
@@ -187,7 +130,7 @@ package body Dictionary_Package is
    end numeral_entry_io;
 
    package body adverb_entry_io is
-      use comparison_type_io;
+      use Comparison_Type_IO;
 
       procedure Get(f : in File_Type; a : out adverb_entry) is
       begin
@@ -219,7 +162,7 @@ package body Dictionary_Package is
          l : constant Integer := s'First - 1;
          m : Integer := 0;
       begin
-         m := l + comparison_type_io.Default_Width;
+         m := l + Comparison_Type_IO.Default_Width;
          Put(s(l+1..m), a.co);
          s(m+1..s'Last) := (others => ' ');
       end Put;
@@ -432,9 +375,9 @@ package body Dictionary_Package is
                   return True;
                end if;
             when adj =>
-               if left.adj.decl < right.adj.decl   or else
-                 (left.adj.decl = right.adj.decl  and then
-                 left.adj.co < right.adj.co)
+               if left.adj.Decl < right.adj.Decl   or else
+                 (left.adj.Decl = right.adj.Decl  and then
+                 left.adj.Co < right.adj.Co)
                then
                   return True;
                end if;
@@ -475,7 +418,7 @@ package body Dictionary_Package is
       use Noun_Entry_IO;
       use Pronoun_Entry_IO;
       use Propack_Entry_IO;
-      use adjective_entry_io;
+      use Adjective_Entry_IO;
       use numeral_entry_io;
       use adverb_entry_io;
       use verb_entry_io;
@@ -487,7 +430,7 @@ package body Dictionary_Package is
       noun : Noun_Entry;
       Pronoun : Pronoun_Entry;
       propack : Propack_Entry;
-      adjective : adjective_entry;
+      adjective : Adjective_Entry;
       numeral : numeral_entry;
       adverb : adverb_entry;
       verb : verb_entry;
@@ -745,7 +688,7 @@ package body Dictionary_Package is
                m := l + Propack_Entry_IO.Default_Width;
                Put(s(l+1..m), p.pack);
             when adj =>
-               m := l + adjective_entry_io.Default_Width;
+               m := l + Adjective_Entry_IO.Default_Width;
                Put(s(l+1..m), p.adj);
             when num =>
                m := l + numeral_entry_io.Default_Width;
@@ -1332,11 +1275,11 @@ begin     --  initialization of body of DICTIONARY_PACKAGE
    Propack_Entry_IO.Default_Width :=
      Decn_Record_IO.Default_Width + 1 +
      Pronoun_Kind_Type_IO.Default_Width;
-   adjective_entry_io.Default_Width :=
+   Adjective_Entry_IO.Default_Width :=
      Decn_Record_IO.Default_Width + 1 +
-     comparison_type_io.Default_Width;
+     Comparison_Type_IO.Default_Width;
    adverb_entry_io.Default_Width :=
-     comparison_type_io.Default_Width;
+     Comparison_Type_IO.Default_Width;
    verb_entry_io.Default_Width :=
      Decn_Record_IO.Default_Width + 1 +
      verb_kind_type_io.Default_Width;
