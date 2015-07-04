@@ -1004,14 +1004,14 @@ package body word_package is
                                    MNPC => MNPC_part);
 
                      elsif (pdl_part.pofs = adv)                          and then
-                       ((pdl_part.adv.co   <= sl(i).IR.qual.adv.co  ) or
-                          ((sl(i).IR.qual.adv.co = x)  or (pdl_part.adv.co = x)))
+                       ((pdl_part.adv.Co   <= sl(i).IR.qual.adv.co  ) or
+                          ((sl(i).IR.qual.adv.co = x)  or (pdl_part.adv.Co = x)))
                      then
                         --PUT(" HIT  ADV   ");
                         --  Need to transfer the CO of the ADV dictionary item
-                        if pdl_part.adv.co in pos..super  then
+                        if pdl_part.adv.Co in pos..super  then
                            --  If the dictionary entry has a unique CO, use it
-                           com := pdl_part.adv.co;
+                           com := pdl_part.adv.Co;
                         else
                            --  The entry is X and we need to generate a COMP from the KEY
                            com := adv_comp_from_key(pdl_key);

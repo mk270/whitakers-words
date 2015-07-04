@@ -44,7 +44,7 @@ package addons_package is
                num : Numeral_Entry;
                --NUMERAL_VALUE : NUMERAL_VALUE_TYPE;
             when adv  =>
-               adv : adverb_entry;
+               adv : Adverb_Entry;
             when v  =>
                v : verb_entry;
                --VERB_KIND : VERB_KIND_TYPE;

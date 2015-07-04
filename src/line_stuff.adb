@@ -245,7 +245,7 @@ package body line_stuff is
             end if;
 
          elsif pt.pofs = adv  then
-            if pt.adv.co   = x  then   --  X for all KINDs
+            if pt.adv.Co   = x  then   --  X for all KINDs
                if (sts(2)(1) /= sts(1)(1) and then
                      sts(2)(1) /= ' '  and then
                      sts(2)(1..3) /= zzz_stem(1..3) ) or
@@ -256,33 +256,33 @@ package body line_stuff is
                   dict(fc1) :=
                     new dictionary_item'(( (sts(1), blk_stem, blk_stem, blk_stem),
                                            --(ADV, (CO => POS)), KIND, TRAN, MEAN), DICT(FC1));
-                                           (adv, (co => pos)), tran, mean), dict(fc1));
+                                           (adv, (Co => pos)), tran, mean), dict(fc1));
                   dict(fc2) :=
                     new dictionary_item'(( (sts(2), blk_stem, blk_stem, blk_stem),
                                            --(ADV, (CO => COMP)), KIND, TRAN, MEAN), DICT(FC2));
-                                           (adv, (co => comp)), tran, mean), dict(fc2));
+                                           (adv, (Co => comp)), tran, mean), dict(fc2));
                   dict(fc3) :=
                     new dictionary_item'(( (sts(3), blk_stem, blk_stem, blk_stem),
                                            --(ADV, (CO => SUPER)), KIND, TRAN, MEAN), DICT(FC3));
-                                           (adv, (co => super)), tran, mean), dict(fc3));
+                                           (adv, (Co => super)), tran, mean), dict(fc3));
                end if;
-            elsif pt.adv.co   = pos   then          --  just a specific KIND
+            elsif pt.adv.Co   = pos   then          --  just a specific KIND
                dict(fc1) :=
                  new dictionary_item'(( (sts(1), blk_stem, blk_stem, blk_stem),
                                         --(ADV, (CO => POS)), KIND, TRAN, MEAN),
-                                        (adv, (co => pos)), tran, mean),
+                                        (adv, (Co => pos)), tran, mean),
                                       dict(fc1));
-            elsif pt.adv.co   = comp  then
+            elsif pt.adv.Co   = comp  then
                dict(fc1) :=
                  new dictionary_item'(( (blk_stem, sts(1), blk_stem, blk_stem),
                                         --(ADV, (CO => COMP)), KIND, TRAN, MEAN),
-                                        (adv, (co => comp)), tran, mean),
+                                        (adv, (Co => comp)), tran, mean),
                                       dict(fc1));
-            elsif pt.adv.co   = super then
+            elsif pt.adv.Co   = super then
                dict(fc1) :=
                  new dictionary_item'(( (blk_stem, blk_stem, sts(1), blk_stem),
                                         --(ADV, (CO => SUPER)), KIND, TRAN, MEAN),
-                                        (adv, (co => super)), tran, mean),
+                                        (adv, (Co => super)), tran, mean),
                                       dict(fc1));
             else
                --DICT(FC1) := new DICTIONARY_ITEM'((STS, PT, KIND, TRAN, MEAN),
@@ -936,7 +936,7 @@ package body line_stuff is
                when num =>
                   part := (num, (qual.num.decl, qual.num.sort, kind.num_value));
                when adv =>
-                  part := (adv, (co => qual.adv.co));
+                  part := (adv, (Co => qual.adv.co));
                when v =>
                   part := (v, (qual.v.con, kind.v_kind));
                when others  =>

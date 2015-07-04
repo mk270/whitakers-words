@@ -347,7 +347,7 @@ begin
          raise not_found;
       end if;
 
-   elsif (de.part.pofs = adv) and then (de.part.adv.co = x)  then
+   elsif (de.part.pofs = adv) and then (de.part.adv.Co = x)  then
       ox(1) := add(de.stems(1), "");
       ox(2) := add(de.stems(2), "");
       ox(3) := add(de.stems(3), "");
