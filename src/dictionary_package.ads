@@ -141,7 +141,7 @@ package Dictionary_Package is
       record
          case pofs is
             when n =>
-               n_kind : noun_kind_type := x;
+               n_kind : Noun_Kind_Type := x;
             when pron =>
                pron_kind : pronoun_kind_type := x;
             when pack =>
@@ -198,26 +198,37 @@ package Dictionary_Package is
       procedure Put(s : out String; tr : in translation_record);
    end translation_record_io;
 
-   type noun_entry is
+   ---------------------------------------------------------------------------
+
+   type Noun_Entry is
       record
-         decl   : decn_record := (0, 0);
-         gender : gender_type := x;
-         kind   : noun_kind_type := x;
+         -- NOTE: Seems like Decl is breaking of abbrev used everywhere
+         Decl   : Decn_Record := (0, 0);
+         Gender : Gender_Type := x;
+         Kind   : Noun_Kind_Type := x;
       end record;
 
-   package noun_entry_io is
+   -- FIXME: These subprograms don't check if Is_Open (File)
+   package Noun_Entry_IO is
       Default_Width : Natural;
-      procedure Get(f : in File_Type; n : out noun_entry);
-      procedure Get(n : out noun_entry);
-      procedure Put(f : in File_Type; n : in noun_entry);
-      procedure Put(n : in noun_entry);
-      procedure Get(s : in String; n : out noun_entry; last : out Integer);
-      procedure Put(s : out String; n : in noun_entry);
-   end noun_entry_io;
+      procedure Get (File : in File_Type; Item: out Noun_Entry);
+      procedure Get (Item : out Noun_Entry);
+      procedure Put (File : in File_Type; Item : in Noun_Entry);
+      procedure Put (Item : in Noun_Entry);
+      -- TODO: Document meaning of Last
+      procedure Get
+         ( Source : in String;
+           Target : out Noun_Entry;
+           Last   : out Integer
+         );
+      procedure Put (Target: out String; Item : in Noun_Entry);
+   end Noun_Entry_IO;
+
+   ---------------------------------------------------------------------------
 
    type pronoun_entry is
       record
-         decl  : decn_record := (0,0);
+         decl  : Decn_Record := (0,0);
          kind : pronoun_kind_type := x;
       end record;
 
@@ -233,7 +244,7 @@ package Dictionary_Package is
 
    type propack_entry is
       record
-         decl  : decn_record := (0,0);
+         decl  : Decn_Record := (0,0);
          kind : pronoun_kind_type := x;
       end record;
 
@@ -249,7 +260,7 @@ package Dictionary_Package is
 
    type adjective_entry is
       record
-         decl : decn_record := (0, 0);
+         decl : Decn_Record := (0, 0);
          co   : comparison_type := x;
       end record;
 
@@ -265,7 +276,7 @@ package Dictionary_Package is
 
    type numeral_entry is
       record
-         decl  : decn_record := (0,0);
+         decl  : Decn_Record := (0,0);
          sort  : numeral_sort_type := x;
          value : numeral_value_type := 0;
       end record;
@@ -297,7 +308,7 @@ package Dictionary_Package is
 
    type verb_entry is
       record
-         con  : decn_record := (0,0);
+         con  : Decn_Record := (0,0);
          kind : verb_kind_type := x;
       end record;
 
@@ -360,7 +371,7 @@ package Dictionary_Package is
       record
          case pofs is
             when n =>
-               n : noun_entry;
+               n : Noun_Entry;
             when pron =>
                pron : pronoun_entry;
             when pack =>
@@ -430,6 +441,8 @@ package Dictionary_Package is
    subtype MNPC_type is Dict_IO.Count;
    Null_MNPC : Dict_IO.Count := Dict_IO.Count'First;
 
+   ---------------------------------------------------------------------------
+
    type Parse_Record is
       record
          Stem  : Stem_Type := Null_Stem_Type;
@@ -441,12 +454,14 @@ package Dictionary_Package is
    -- NOTE: Why this one is not constant?
    Null_Parse_Record : Parse_Record;
 
+   -- FIXME: These subprograms don't check if Is_Open (File)
    package Parse_Record_IO is
       Default_Width : Text_IO.Field;
       procedure Get (File : in Text_IO.File_Type; Item : out Parse_Record);
       procedure Get (Item : out Parse_Record);
       procedure Put (File : in Text_IO.File_Type; Item : in Parse_Record);
       procedure Put (Item : in Parse_Record);
+      -- TODO: Document meaning of Last
       procedure Get
          ( Source : in String;
            Target : out Parse_Record;
@@ -456,6 +471,8 @@ package Dictionary_Package is
    end Parse_Record_IO;
 
    type Parse_Array is array (Integer range <>) of Parse_Record;
+
+   ---------------------------------------------------------------------------
 
    function number_of_stems(p : part_of_speech_type) return stem_key_type;
 
