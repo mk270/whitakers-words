@@ -752,12 +752,12 @@ package body word_package is
          ls : Integer := 0;
          m : Integer := 0;
 
-         pdl_key : stem_key_type;
-         pdl_p   : part_of_speech_type;
-         --sl_key  : stem_key_type;
-         --sl_p    : part_of_speech_type;
+         pdl_key : Stem_Key_Type;
+         pdl_p   : Part_Of_Speech_Type;
+         --sl_key  : Stem_Key_Type;
+         --sl_p    : Part_Of_Speech_Type;
 
-         function "<=" (left, right : part_of_speech_type) return Boolean is
+         function "<=" (left, right : Part_Of_Speech_Type) return Boolean is
          begin
             if right = left  or else
                (left = pack and right = pron)  or else
@@ -781,7 +781,7 @@ package body word_package is
             end if;
          end "<=";
 
-         function "<=" (left, right : stem_key_type)   return Boolean is
+         function "<=" (left, right : Stem_Key_Type)   return Boolean is
          begin
             if right = left or else right = 0 then
                return True;
@@ -1472,7 +1472,7 @@ package body word_package is
          end loop over_packons;
       end process_packons;
 
-      procedure process_qu_pronouns(Input_word : String; qkey : stem_key_type := 0) is
+      procedure process_qu_pronouns(Input_word : String; qkey : Stem_Key_Type := 0) is
 
          word : constant String := Lower_Case (Trim (Input_word));
          last_of_word : constant Character := word(word'Last);
@@ -1684,7 +1684,7 @@ package body word_package is
          pa_qstart : constant Integer := pa_last;
          pa_start : constant Integer := pa_last;
          saved_mode_array : constant mode_array := words_mode;
-         qkey : stem_key_type := 0;
+         qkey : Stem_Key_Type := 0;
 
       begin       --  QU
          tickons(number_of_tickons+1) := null_prefix_item;

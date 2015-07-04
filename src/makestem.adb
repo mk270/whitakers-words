@@ -22,7 +22,7 @@ with Dictionary_Package; use Dictionary_Package;
 with word_support_package; use word_support_package;
 
 procedure makestem is
-   use stem_key_type_io;
+   use Stem_Key_Type_IO;
    use Count_io;
    use Text_IO;
    use stem_io;

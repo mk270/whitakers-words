@@ -24,7 +24,7 @@ package addons_package is
    null_fix_type : constant fix_type := Null_Stem_Type;
    max_fix_size : constant := Max_Stem_Size;
 
-   subtype Target_pofs_type is part_of_speech_type range x..v;
+   subtype Target_pofs_type is Part_Of_Speech_Type range x..v;
 
    type Target_entry(pofs: Target_pofs_type := x) is
       record
@@ -84,8 +84,8 @@ package addons_package is
 
    type prefix_entry is
       record
-         root    : part_of_speech_type := x;
-         Target  : part_of_speech_type := x;
+         root    : Part_Of_Speech_Type := x;
+         Target  : Part_Of_Speech_Type := x;
       end record;
 
    null_prefix_entry : prefix_entry;
@@ -102,10 +102,10 @@ package addons_package is
 
    type suffix_entry is
       record
-         root       : part_of_speech_type := x;
-         root_key   : stem_key_type := 0;
+         root       : Part_Of_Speech_Type := x;
+         root_key   : Stem_Key_Type := 0;
          Target     : Target_entry := null_Target_entry;
-         Target_key : stem_key_type := 0;
+         Target_key : Stem_Key_Type := 0;
       end record;
 
    null_suffix_entry : suffix_entry;
@@ -122,7 +122,7 @@ package addons_package is
 
    type tackon_item is
       record
-         pofs: part_of_speech_type := tackon;
+         pofs: Part_Of_Speech_Type := tackon;
          tack : Stem_Type := Null_Stem_Type;
          entr : tackon_entry := null_tackon_entry;
          MNPC : Integer := 0;
@@ -132,7 +132,7 @@ package addons_package is
 
    type prefix_item is
       record
-         pofs: part_of_speech_type := prefix;
+         pofs: Part_Of_Speech_Type := prefix;
          fix  : fix_type := null_fix_type;
          connect : Character := ' ';
          entr : prefix_entry := null_prefix_entry;
@@ -143,7 +143,7 @@ package addons_package is
 
    type suffix_item is
       record
-         pofs: part_of_speech_type := suffix;
+         pofs: Part_Of_Speech_Type := suffix;
          fix  : fix_type := null_fix_type;
          connect    : Character := ' ';
          entr : suffix_entry := null_suffix_entry;

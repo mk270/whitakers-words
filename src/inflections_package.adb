@@ -237,7 +237,7 @@ package body Inflections_Package is
          return left.pofs < right.pofs;
    end "<";
 
-   overriding function "<=" (left, right : part_of_speech_type) return Boolean is
+   overriding function "<=" (left, right : Part_Of_Speech_Type) return Boolean is
    begin
       if right = left  or else
         (left = pack and right = pron)  or else
@@ -339,7 +339,7 @@ package body Inflections_Package is
       end if;
    end "<=";
 
-   overriding function "<=" (left, right : stem_key_type)   return Boolean is
+   overriding function "<=" (left, right : Stem_Key_Type)   return Boolean is
    begin            --  Only works for 2 stem parts, not verbs
       if right = left or else right = 0 then
          return True;
@@ -1606,7 +1606,7 @@ package body Inflections_Package is
    end suffix_record_io;
 
    package body quality_record_io is
-      use part_of_speech_type_io;
+      use Part_Of_Speech_Type_IO;
       use noun_record_io;
       use pronoun_record_io;
       use propack_record_io;
@@ -1641,7 +1641,7 @@ package body Inflections_Package is
       suffx : suffix_record;
 
       procedure Get(f : in File_Type; p : out quality_record) is
-         ps : part_of_speech_type := x;
+         ps : Part_Of_Speech_Type := x;
       begin
          Get(f, ps);
          Get(f, spacer);
@@ -1698,7 +1698,7 @@ package body Inflections_Package is
       end Get;
 
       procedure Get(p : out quality_record) is
-         ps : part_of_speech_type := x;
+         ps : Part_Of_Speech_Type := x;
       begin
          Get(ps);
          Get(spacer);
@@ -1842,7 +1842,7 @@ package body Inflections_Package is
 
       procedure Get(s : in String; p : out quality_record; last : out Integer) is
          l : Integer := s'First - 1;
-         ps : part_of_speech_type := x;
+         ps : Part_Of_Speech_Type := x;
       begin
          Get(s, ps, l);
          last := l;         --  In case it is not set later
@@ -1907,7 +1907,7 @@ package body Inflections_Package is
          l : Integer := s'First - 1;
          m : Integer := 0;
       begin
-         m := l + part_of_speech_type_io.Default_Width;
+         m := l + Part_Of_Speech_Type_IO.Default_Width;
          Put(s(l+1..m), p.pofs);
          l := m + 1;
          s(l) :=  ' ';
@@ -2064,7 +2064,7 @@ package body Inflections_Package is
 
    package body Inflection_Record_IO is
       use quality_record_io;
-      use stem_key_type_io;
+      use Stem_Key_Type_IO;
       use ending_record_io;
       use age_type_io;
       use frequency_type_io;
@@ -2463,7 +2463,7 @@ package body Inflections_Package is
 begin  --  initialization of body of INFLECTIONS_PACKAGE
    --TEXT_IO.PUT_LINE("Initializing INFLECTIONS_PACKAGE");
 
-   part_of_speech_type_io.Default_Width := part_of_speech_type'Width;
+   Part_Of_Speech_Type_IO.Default_Width := Part_Of_Speech_Type'Width;
    Gender_Type_IO.Default_Width := Gender_Type'Width;
    case_type_io.Default_Width := case_type'Width;
    number_type_io.Default_Width := number_type'Width;
@@ -2537,7 +2537,7 @@ begin  --  initialization of body of INFLECTIONS_PACKAGE
    tackon_record_io.Default_Width := 0;
    prefix_record_io.Default_Width := 0;
    suffix_record_io.Default_Width := 0;
-   quality_record_io.Default_Width := part_of_speech_type_io.Default_Width + 1 +
+   quality_record_io.Default_Width := Part_Of_Speech_Type_IO.Default_Width + 1 +
      vpar_record_io.Default_Width; --  Largest
    ending_record_io.Default_Width := 3 + 1 +
      max_ending_size;

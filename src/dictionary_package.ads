@@ -23,7 +23,7 @@ package Dictionary_Package is
    pragma Elaborate_Body;
 
    zzz_stem  : constant Stem_Type := "zzz" & (4..Max_Stem_Size => ' ');
-   type stems_type is array (stem_key_type range 1..4) of Stem_Type;
+   type stems_type is array (Stem_Key_Type range 1..4) of Stem_Type;
    null_stems_type : constant stems_type := (others => Null_Stem_Type);
 
    type Dictionary_Kind is (x,            --  null
@@ -137,7 +137,7 @@ package Dictionary_Package is
 
    package source_type_io is new Text_IO.enumeration_io(source_type);
 
-   type kind_entry(pofs : part_of_speech_type := x) is
+   type kind_entry(pofs : Part_Of_Speech_Type := x) is
       record
          case pofs is
             when n =>
@@ -164,15 +164,15 @@ package Dictionary_Package is
    package kind_entry_io is
       Default_Width : Natural;
       procedure Get(f : in File_Type;
-                    ps : in part_of_speech_type; p : out kind_entry);
-      procedure Get(ps : in part_of_speech_type; p : out kind_entry);
+                    ps : in Part_Of_Speech_Type; p : out kind_entry);
+      procedure Get(ps : in Part_Of_Speech_Type; p : out kind_entry);
       procedure Put(f : in File_Type;
-                    ps : in part_of_speech_type; p : in kind_entry);
-      procedure Put(ps : in part_of_speech_type; p : in kind_entry);
-      procedure Get(s : in String; ps : in part_of_speech_type;
+                    ps : in Part_Of_Speech_Type; p : in kind_entry);
+      procedure Put(ps : in Part_Of_Speech_Type; p : in kind_entry);
+      procedure Get(s : in String; ps : in Part_Of_Speech_Type;
                                    p : out kind_entry; last : out Integer);
       procedure Put(s : out String;
-                    ps : in part_of_speech_type; p : in kind_entry);
+                    ps : in Part_Of_Speech_Type; p : in kind_entry);
    end kind_entry_io;
 
    null_kind_entry : kind_entry;
@@ -411,7 +411,7 @@ package Dictionary_Package is
       procedure Put(s : out String; i : in interjection_entry);
    end interjection_entry_io;
 
-   type part_entry(pofs : part_of_speech_type := x) is
+   type part_entry(pofs : Part_Of_Speech_Type := x) is
       record
          case pofs is
             when n =>
@@ -518,7 +518,7 @@ package Dictionary_Package is
 
    ---------------------------------------------------------------------------
 
-   function number_of_stems(p : part_of_speech_type) return stem_key_type;
+   function Number_Of_Stems (Part : Part_Of_Speech_Type) return Stem_Key_Type;
 
    overriding function "<=" (left, right : area_type) return Boolean;
 

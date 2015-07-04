@@ -670,13 +670,13 @@ is
                                 k : in Integer;
                                 l : in out Integer)
    is
-      pofs : part_of_speech_type := x;
+      pofs : Part_Of_Speech_Type := x;
    begin
       --  Extract from the rest of the line
       --  Should do AUX here !!!!!!!!!!!!!!!!!!!!!!!!
       --extract_pofs:
       begin
-         part_of_speech_type_io.Get(line(k+1..l), pofs, l);
+         Part_Of_Speech_Type_IO.Get(line(k+1..l), pofs, l);
       exception
          when others => pofs := x;
       end;

@@ -44,7 +44,7 @@ package Inflections_Package is
    subtype Meaning_Type is String (1 .. Max_Meaning_Size);
    Null_Meaning_Type : constant Meaning_Type := (others => ' ');
 
-   type part_of_speech_type is (
+   type Part_Of_Speech_Type is (
      x,         --  all, none, or unknown
      n,         --  Noun
      pron,      --  PRONoun
@@ -64,8 +64,8 @@ package Inflections_Package is
      suffix     --  SUFFIX --  here artificial for code
                                );
 
-   package part_of_speech_type_io is
-      new Text_IO.enumeration_io(part_of_speech_type);
+   package Part_Of_Speech_Type_IO is
+      new Text_IO.enumeration_io(Part_Of_Speech_Type);
 
    subtype which_type is Natural range 0..9;
 
@@ -136,10 +136,10 @@ package Inflections_Package is
 
    package Comparison_Type_IO is new Text_IO.Enumeration_IO (Comparison_Type);
 
-   type stem_key_type is new Natural range 0..9;
+   type Stem_Key_Type is new Natural range 0..9;
 
-   package stem_key_type_io is new Text_IO.Integer_IO(stem_key_type);
-   stem_key_type_io_Default_Width : Integer := 1;
+   package Stem_Key_Type_IO is new Text_IO.Integer_IO(Stem_Key_Type);
+   Stem_Key_Type_IO_Default_Width : Integer := 1;
 
    type Numeral_Sort_Type is (
                               x,          --  all, none, or unknown
@@ -516,7 +516,7 @@ package Inflections_Package is
       procedure Put(s : out String; p : in suffix_record);
    end suffix_record_io;
 
-   type quality_record(pofs : part_of_speech_type := x) is
+   type quality_record(pofs : Part_Of_Speech_Type := x) is
       record
          case pofs is
             when n =>
@@ -638,7 +638,7 @@ package Inflections_Package is
    type Inflection_Record is
       record
          qual   : quality_record   := null_quality_record;
-         key    : stem_key_type := 0;
+         key    : Stem_Key_Type := 0;
          ending : ending_record := null_ending_record;
          age    : age_type      := x;
          freq   : frequency_type      := x;
@@ -687,7 +687,7 @@ package Inflections_Package is
    procedure establish_inflections_section;
 
    --  <=   means for this purpose "contained in"
-   overriding function "<=" (left, right : part_of_speech_type) return Boolean;
+   overriding function "<=" (left, right : Part_Of_Speech_Type) return Boolean;
    function "<=" (left, right : Decn_Record) return Boolean;
    overriding function "<=" (left, right : Gender_Type) return Boolean;
    overriding function "<=" (left, right : case_type)   return Boolean;
@@ -697,7 +697,7 @@ package Inflections_Package is
    function "<=" (left, right : tense_voice_mood_record)  return Boolean;
    overriding function "<=" (left, right : Noun_Kind_Type)   return Boolean;
    overriding function "<=" (left, right : Pronoun_Kind_Type)   return Boolean;
-   overriding function "<=" (left, right : stem_key_type)   return Boolean;  -- not verbs
+   overriding function "<=" (left, right : Stem_Key_Type)   return Boolean;  -- not verbs
    overriding function "<=" (left, right : age_type)   return Boolean;
    overriding function "<=" (left, right : frequency_type)   return Boolean;
 

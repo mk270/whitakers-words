@@ -51,7 +51,7 @@ begin
    end if;
 
    if de.part.pofs = prep then
-      return Trim (de.stems(1)) & "  " & part_of_speech_type'Image(de.part.pofs) &
+      return Trim (de.stems(1)) & "  " & Part_Of_Speech_Type'Image(de.part.pofs) &
         "  " & case_type'Image(de.part.prep.obj);
    end if;
 
@@ -65,7 +65,7 @@ begin
      ((de.part.pofs = v)  and then (de.part.v.con = (9, 8))) or
      ((de.part.pofs = v)  and then (de.part.v.con = (9, 9))))
    then
-      return Trim (de.stems(1)) & "  " & part_of_speech_type'Image(de.part.pofs);
+      return Trim (de.stems(1)) & "  " & Part_Of_Speech_Type'Image(de.part.pofs);
       --  For UNIQUES, CONJ, INTERJ, ...
    end if;
 
@@ -625,7 +625,7 @@ begin
       add_up(", " & Trim (ox(4)));
    end if;
 
-   add_to("  " & part_of_speech_type'Image(de.part.pofs)& "  ");
+   add_to("  " & Part_Of_Speech_Type'Image(de.part.pofs)& "  ");
 
    if de.part.pofs = n  then
       --  For DICTPAGE

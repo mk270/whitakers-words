@@ -646,7 +646,7 @@ procedure sorter is
       --FS, GS : SECTION_TYPE := NO_SECTION;
       fs, gs : appendix_section_type := no_appendix_section;
       px, py : part_entry;       --  So I can X here
-      rx, ry : part_of_speech_type;   --  So I can X here
+      rx, ry : Part_Of_Speech_Type;   --  So I can X here
    begin
       if st = a  then
          as := Lower_Case (as);
@@ -710,8 +710,8 @@ procedure sorter is
          end if;
 
       elsif st = r  then
-         part_of_speech_type_io.Get(as, rx, last);
-         part_of_speech_type_io.Get(bs, ry, last);
+         Part_Of_Speech_Type_IO.Get(as, rx, last);
+         Part_Of_Speech_Type_IO.Get(bs, ry, last);
          if wt = i  then
             return rx < ry;
          else
@@ -752,7 +752,7 @@ procedure sorter is
       fn, gn : float := 0.0;
       fs, gs : appendix_section_type := no_appendix_section;
       px, py : part_entry;
-      rx, ry : part_of_speech_type;
+      rx, ry : Part_Of_Speech_Type;
    begin
       if st = a  then
          as := Lower_Case (as);
@@ -788,8 +788,8 @@ procedure sorter is
          return px = py;
 
       elsif st = r  then
-         part_of_speech_type_io.Get(as, rx, last);
-         part_of_speech_type_io.Get(bs, ry, last);
+         Part_Of_Speech_Type_IO.Get(as, rx, last);
+         Part_Of_Speech_Type_IO.Get(bs, ry, last);
          return rx = ry;
 
       elsif st = s  then

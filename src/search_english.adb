@@ -25,10 +25,10 @@ with word_package; use word_package;
 with english_support_package; use english_support_package;
 with dictionary_form;
 
-procedure search_english(Input_english_word : String; pofs : part_of_speech_type := x) is
+procedure search_english(Input_english_word : String; pofs : Part_Of_Speech_Type := x) is
    use ewds_direct_io;
    Input_word : eword := Lower_Case (Head(Input_english_word, eword_size));
-   Input_pofs : constant part_of_speech_type := pofs;
+   Input_pofs : constant Part_Of_Speech_Type := pofs;
 
    Output_array : ewds_array(1..500) := (others => null_ewds_record);
    number_of_hits : Integer := 0;

@@ -19,11 +19,11 @@ with developer_parameters; use developer_parameters;
 with preface;
 package body addons_package is
    use Text_IO;
-   use part_of_speech_type_io;
+   use Part_Of_Speech_Type_IO;
    use Target_entry_io;
    use part_entry_io;
    --use KIND_ENTRY_IO;
-   use stem_key_type_io;
+   use Stem_Key_Type_IO;
 
    function equ(c, d : Character) return Boolean is
    begin
@@ -62,7 +62,7 @@ package body addons_package is
       s : String(1..100);
       l, last, tic, pre, suf, tac, pac : Integer := 0;
       addons_file : Text_IO.File_Type;
-      pofs: part_of_speech_type;
+      pofs: Part_Of_Speech_Type;
       de : dictionary_entry := null_dictionary_entry;
       mean : Meaning_Type := Null_Meaning_Type;
       m : Integer := 1;
@@ -595,7 +595,7 @@ package body addons_package is
          l : Integer := s'First - 1;
          m : Integer := 0;
       begin
-         m := l + part_of_speech_type_io.Default_Width;
+         m := l + Part_Of_Speech_Type_IO.Default_Width;
          Put(s(l+1..m), p.pofs);
          l := m + 1;
          s(l) :=  ' ';
@@ -720,11 +720,11 @@ package body addons_package is
          l : Integer := s'First - 1;
          m : Integer := 0;
       begin
-         m := l + part_of_speech_type_io.Default_Width;
+         m := l + Part_Of_Speech_Type_IO.Default_Width;
          Put(s(l+1..m), p.root);
          l := m + 1;
          s(l) :=  ' ';
-         m := l + part_of_speech_type_io.Default_Width;
+         m := l + Part_Of_Speech_Type_IO.Default_Width;
          Put(s(l+1..m), p.Target);
          s(m+1..s'Last) := (others => ' ');
       end Put;
@@ -799,7 +799,7 @@ package body addons_package is
          l : Integer := s'First - 1;
          m : Integer := 0;
       begin
-         m := l + part_of_speech_type_io.Default_Width;
+         m := l + Part_Of_Speech_Type_IO.Default_Width;
          Put(s(l+1..m), p.root);
          l := m + 1;
          s(l) :=  ' ';
@@ -821,12 +821,12 @@ package body addons_package is
 begin    --  Initiate body of ADDONS_PACKAGE
          --TEXT_IO.PUT_LINE("Initializing ADDONS_PACKAGE");
 
-   prefix_entry_io.Default_Width := part_of_speech_type_io.Default_Width + 1 +
-     part_of_speech_type_io.Default_Width;
-   Target_entry_io.Default_Width := part_of_speech_type_io.Default_Width + 1 +
+   prefix_entry_io.Default_Width := Part_Of_Speech_Type_IO.Default_Width + 1 +
+     Part_Of_Speech_Type_IO.Default_Width;
+   Target_entry_io.Default_Width := Part_Of_Speech_Type_IO.Default_Width + 1 +
      Numeral_Entry_IO.Default_Width; --  Largest
 
-   suffix_entry_io.Default_Width := part_of_speech_type_io.Default_Width + 1 +
+   suffix_entry_io.Default_Width := Part_Of_Speech_Type_IO.Default_Width + 1 +
      2 + 1 +
      Target_entry_io.Default_Width + 1 +
      2;

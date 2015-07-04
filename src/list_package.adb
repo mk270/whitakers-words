@@ -29,7 +29,7 @@ with list_sweep;
 with Put_stat;
 package body list_package is
 
-   subtype xons is part_of_speech_type range tackon..suffix;
+   subtype xons is Part_Of_Speech_Type range tackon..suffix;
 
    type dictionary_MNPC_record is record
       d_k  : Dictionary_Kind := Default_Dictionary_Kind;
@@ -301,14 +301,14 @@ package body list_package is
                declare
                   out_String : String(1..quality_record_io.Default_Width);
                   passive_start  : constant Integer :=
-                    part_of_speech_type_io.Default_Width + 1 +
+                    Part_Of_Speech_Type_IO.Default_Width + 1 +
                     Decn_Record_IO.Default_Width + 1 +
                     tense_type_io.Default_Width + 1;
                   passive_finish : constant Integer :=
                     passive_start +
                     voice_type_io.Default_Width;
                   ppl_start      : constant Integer :=
-                    part_of_speech_type_io.Default_Width + 1 +
+                    Part_Of_Speech_Type_IO.Default_Width + 1 +
                     Decn_Record_IO.Default_Width + 1 +
                     case_type_io.Default_Width + 1 +
                     number_type_io.Default_Width + 1 +

@@ -38,7 +38,7 @@ package english_support_package is
          w    : eword := null_eword;
          aux  : auxword := null_auxword;
          n    : Integer := 0;
-         pofs : part_of_speech_type := x;
+         pofs : Part_Of_Speech_Type := x;
          freq : frequency_type := x;
          semi : Integer := 0;
          kind : Integer := 0;

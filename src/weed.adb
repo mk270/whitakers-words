@@ -16,7 +16,7 @@
 
 with Inflections_Package; use Inflections_Package;
 procedure weed(w : in out String;
-               pofs : in part_of_speech_type) is
+               pofs : in Part_Of_Speech_Type) is
 
    --  In contrast to the Latin phase where the prioritization takes is at runtime
    --  for the English most of the work is done beforehand

@@ -16,15 +16,15 @@
 
 with Strings_Package; use Strings_Package;
 package body Dictionary_Package is
-   use stem_key_type_io;
+   use Stem_Key_Type_IO;
 
    MNPC_IO_Default_Width : constant Natural := 6;
-   numeral_value_type_io_Default_Width : constant Natural := 5;
+   Numeral_Value_Type_IO_Default_Width : constant Natural := 5;
    --PART_WIDTH : NATURAL;
 
-   function number_of_stems(p : part_of_speech_type) return stem_key_type is
+   function Number_Of_Stems (Part : Part_Of_Speech_Type) return Stem_Key_Type is
    begin
-      case p is
+      case Part is
          when n       => return 2;
          when pron    => return 2;
          when pack    => return 2;
@@ -39,7 +39,7 @@ package body Dictionary_Package is
          when interj  => return 1;
          when others  => return 0;
       end case;
-   end number_of_stems;
+   end Number_Of_Stems;
 
    package body Parse_Record_IO is separate;
 
@@ -300,7 +300,7 @@ package body Dictionary_Package is
    end "<";
 
    package body part_entry_io is
-      use part_of_speech_type_io;
+      use Part_Of_Speech_Type_IO;
       use Noun_Entry_IO;
       use Pronoun_Entry_IO;
       use Propack_Entry_IO;
@@ -325,7 +325,7 @@ package body Dictionary_Package is
       interjection : interjection_entry;
 
       procedure Get(f : in File_Type; p : out part_entry) is
-         ps : part_of_speech_type := x;
+         ps : Part_Of_Speech_Type := x;
          c : constant Positive_Count := Col(f);
       begin
          Get(f, ps);
@@ -379,7 +379,7 @@ package body Dictionary_Package is
       end Get;
 
       procedure Get(p : out part_entry) is
-         ps : part_of_speech_type := x;
+         ps : Part_Of_Speech_Type := x;
       begin
          Get(ps);
          Get(spacer);
@@ -504,7 +504,7 @@ package body Dictionary_Package is
 
       procedure Get(s : in String; p : out part_entry; last : out Integer) is
          l : Integer := s'First - 1;
-         ps : part_of_speech_type := x;
+         ps : Part_Of_Speech_Type := x;
       begin
          last := l;      --  In case it is not set later
          Get(s, ps, l);
@@ -559,7 +559,7 @@ package body Dictionary_Package is
          l : Integer := s'First - 1;
          m : Integer := 0;
       begin
-         m := l + part_of_speech_type_io.Default_Width;
+         m := l + Part_Of_Speech_Type_IO.Default_Width;
          Put(s(l+1..m), p.pofs);
          l := m + 1;
          s(l) :=  ' ';
@@ -621,7 +621,7 @@ package body Dictionary_Package is
       numeral_value : Numeral_Value_Type;
 
       procedure Get(f : in File_Type;
-                    ps : in part_of_speech_type; p : out kind_entry) is
+                    ps : in Part_Of_Speech_Type; p : out kind_entry) is
       begin
          case ps is
             when n =>
@@ -676,7 +676,7 @@ package body Dictionary_Package is
          return;
       end Get;
 
-      procedure Get(ps : in part_of_speech_type; p : out kind_entry) is
+      procedure Get(ps : in Part_Of_Speech_Type; p : out kind_entry) is
       begin
          case ps is
             when n =>
@@ -733,7 +733,7 @@ package body Dictionary_Package is
 
       pragma Warnings (Off, "formal parameter ""ps"" is not referenced");
       procedure Put(f : in File_Type;
-                    ps : in part_of_speech_type; p : in kind_entry) is
+                    ps : in Part_Of_Speech_Type; p : in kind_entry) is
          pragma Warnings (On, "formal parameter ""ps"" is not referenced");
          c : constant Positive := Positive(Col(f));
       begin
@@ -745,7 +745,7 @@ package body Dictionary_Package is
             when pack =>
                Put(f, p.pack_kind);
             when num =>
-               Put(f, p.num_value, numeral_value_type_io_Default_Width);
+               Put(f, p.num_value, Numeral_Value_Type_IO_Default_Width);
             when v =>
                Put(f, p.v_kind);
             when vpar =>
@@ -760,7 +760,7 @@ package body Dictionary_Package is
       end Put;
 
       pragma Warnings (Off, "formal parameter ""ps"" is not referenced");
-      procedure Put(ps : in part_of_speech_type; p : in kind_entry) is
+      procedure Put(ps : in Part_Of_Speech_Type; p : in kind_entry) is
          pragma Warnings (On, "formal parameter ""ps"" is not referenced");
          c : constant Positive := Positive(Col);
       begin
@@ -772,7 +772,7 @@ package body Dictionary_Package is
             when pack =>
                Put(p.pack_kind);
             when num =>
-               Put(p.num_value, numeral_value_type_io_Default_Width);
+               Put(p.num_value, Numeral_Value_Type_IO_Default_Width);
             when v =>
                Put(p.v_kind);
             when vpar =>
@@ -786,7 +786,7 @@ package body Dictionary_Package is
          return;
       end Put;
 
-      procedure Get(s : in String; ps : in part_of_speech_type;
+      procedure Get(s : in String; ps : in Part_Of_Speech_Type;
                                    p : out kind_entry; last : out Integer) is
          l : constant Integer := s'First - 1;
       begin
@@ -837,7 +837,7 @@ package body Dictionary_Package is
 
       pragma Warnings (Off, "formal parameter ""ps"" is not referenced");
       procedure Put(s : out String;
-                    ps : in part_of_speech_type; p : in kind_entry) is
+                    ps : in Part_Of_Speech_Type; p : in kind_entry) is
          pragma Warnings (On, "formal parameter ""ps"" is not referenced");
          l : constant Integer := s'First - 1;
          m : Integer := 0;
@@ -853,7 +853,7 @@ package body Dictionary_Package is
                m := l + Pronoun_Kind_Type_IO.Default_Width;
                Put(s(l+1..m), p.pack_kind);
             when num =>
-               m := l + numeral_value_type_io_Default_Width;
+               m := l + Numeral_Value_Type_IO_Default_Width;
                Put(s(l+1..m), p.num_value);
             when v =>
                m := l + verb_kind_type_io.Default_Width;
@@ -1007,7 +1007,7 @@ package body Dictionary_Package is
 
       procedure Get(f : in File_Type; d : out dictionary_entry) is
       begin
-         for i in stem_key_type range 1..4  loop
+         for i in Stem_Key_Type range 1..4  loop
             Get(f, d.stems(i));
             Get(f, spacer);
          end loop;
@@ -1022,7 +1022,7 @@ package body Dictionary_Package is
 
       procedure Get(d : out dictionary_entry) is
       begin
-         for i in stem_key_type range 1..4  loop
+         for i in Stem_Key_Type range 1..4  loop
             Get(d.stems(i));
             Get(spacer);
          end loop;
@@ -1037,7 +1037,7 @@ package body Dictionary_Package is
 
       procedure Put(f : in File_Type; d : in dictionary_entry) is
       begin
-         for i in stem_key_type range 1..4  loop
+         for i in Stem_Key_Type range 1..4  loop
             Put(f, d.stems(i));
             Put(f, ' ');
          end loop;
@@ -1053,7 +1053,7 @@ package body Dictionary_Package is
 
       procedure Put(d : in dictionary_entry) is
       begin
-         for i in stem_key_type range 1..4  loop
+         for i in Stem_Key_Type range 1..4  loop
             Put(d.stems(i));
             Put(' ');
          end loop;
@@ -1071,7 +1071,7 @@ package body Dictionary_Package is
          l : Integer := s'First - 1;
          i : Integer := 0;
       begin
-         for i in stem_key_type range 1..4  loop
+         for i in Stem_Key_Type range 1..4  loop
             Stem_Type_IO.Get(s(l+1..s'Last), d.stems(i), l);
          end loop;
          Get(s(l+1..s'Last), d.part, l);
@@ -1097,7 +1097,7 @@ package body Dictionary_Package is
          l : Integer := s'First - 1;
          m : Integer := 0;
       begin
-         for i in stem_key_type range 1..4  loop
+         for i in Stem_Key_Type range 1..4  loop
             m := l + Max_Stem_Size;
             s(l+1..m) := d.stems(i);
             l := m + 1;
@@ -1176,9 +1176,9 @@ begin     --  initialization of body of DICTIONARY_PACKAGE
    Numeral_Entry_IO.Default_Width :=
      Decn_Record_IO.Default_Width + 1 +
      Numeral_Sort_Type_IO.Default_Width + 1 +
-     numeral_value_type_io_Default_Width;
+     Numeral_Value_Type_IO_Default_Width;
 
-   part_entry_io.Default_Width := part_of_speech_type_io.Default_Width + 1 +
+   part_entry_io.Default_Width := Part_Of_Speech_Type_IO.Default_Width + 1 +
      Numeral_Entry_IO.Default_Width;     --  Largest
 
    --  Should make up a MAX of PART_ENTRY + KIND_ENTRY (same POFS) WIDTHS

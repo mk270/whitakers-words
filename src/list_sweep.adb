@@ -564,7 +564,7 @@ begin                               --  LIST_SWEEP
       pw_on  : Boolean := False;
       p_first : Integer := 1;
       p_last  : Integer := 0;
-      subtype xons is part_of_speech_type range tackon..suffix;
+      subtype xons is Part_Of_Speech_Type range tackon..suffix;
 
    begin
 

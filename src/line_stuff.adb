@@ -100,7 +100,7 @@ package body line_stuff is
          sts := null_stems_type;
          ll := 1;
          --  Extract up to 4 stems
-         for i in 1..number_of_stems(pt.pofs)  loop   --  EXTRACT STEMS
+         for i in 1 .. Number_Of_Stems (pt.pofs)  loop   --  EXTRACT STEMS
             Get_stem(st_line(ll..last), sts(i), ll);
          end loop;
 
@@ -448,7 +448,7 @@ package body line_stuff is
             -- M_P_R := DLC(FC).DE.TRAN.MEAN;
             --DICT_IO.WRITE(DICT_FILE(D_K), M_P_R);   --@@@@@@@@@@@@@@@@@@@@@
             Dict_IO.Write(dict_file(d_k), dlc(fc).de);
-            for k in stem_key_type range 1..4  loop
+            for k in Stem_Key_Type range 1..4  loop
                if dlc(fc).de.stems(k) /= Null_Stem_Type  and
                  dlc(fc).de.stems(k) /= zzz_stem
                then
@@ -472,7 +472,7 @@ package body line_stuff is
    end load_stem_file;
 
    package body tackon_line_io is
-      use part_of_speech_type_io;
+      use Part_Of_Speech_Type_IO;
       use tackon_entry_io;
       spacer : Character := ' ';
 
@@ -562,7 +562,7 @@ package body line_stuff is
    end tackon_line_io;
 
    package body prefix_line_io is
-      use part_of_speech_type_io;
+      use Part_Of_Speech_Type_IO;
       use prefix_entry_io;
       spacer : Character := ' ';
 
@@ -668,7 +668,7 @@ package body line_stuff is
    end prefix_line_io;
 
    package body suffix_line_io is
-      use part_of_speech_type_io;
+      use Part_Of_Speech_Type_IO;
       use suffix_entry_io;
       spacer : Character := ' ';
 
@@ -1003,17 +1003,17 @@ begin
    --                                   DICTIONARY_KIND_IO.DEFAULT_WIDTH + 1 +
    --                                   MAX_MEANING_SIZE;
 
-   prefix_line_io.Default_Width := part_of_speech_type_io.Default_Width + 1 +
+   prefix_line_io.Default_Width := Part_Of_Speech_Type_IO.Default_Width + 1 +
      Max_Stem_Size + 1 +
      1 + 1 +
      prefix_entry_io.Default_Width + 1 +
      Max_Meaning_Size;
-   suffix_line_io.Default_Width := part_of_speech_type_io.Default_Width + 1 +
+   suffix_line_io.Default_Width := Part_Of_Speech_Type_IO.Default_Width + 1 +
      Max_Stem_Size + 1 +
      1 + 1 +
      suffix_entry_io.Default_Width + 1 +
      Max_Meaning_Size;
-   tackon_line_io.Default_Width := part_of_speech_type_io.Default_Width + 1 +
+   tackon_line_io.Default_Width := Part_Of_Speech_Type_IO.Default_Width + 1 +
      Max_Stem_Size + 1 +
      tackon_entry_io.Default_Width + 1 +
      Max_Meaning_Size;

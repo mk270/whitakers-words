@@ -39,7 +39,7 @@ package line_stuff is
 
    type tackon_line is
       record
-         pofs : part_of_speech_type := tackon;
+         pofs : Part_Of_Speech_Type := tackon;
          tack : Stem_Type := Null_Stem_Type;
          entr : tackon_entry := null_tackon_entry;
          mean : Meaning_Type := Null_Meaning_Type;
@@ -59,7 +59,7 @@ package line_stuff is
 
    type prefix_line is
       record
-         pofs : part_of_speech_type := prefix;
+         pofs : Part_Of_Speech_Type := prefix;
          fix  : fix_type := null_fix_type;
          connect : Character := ' ';
          entr : prefix_entry := null_prefix_entry;
@@ -80,7 +80,7 @@ package line_stuff is
 
    type suffix_line is
       record
-         pofs : part_of_speech_type := suffix;
+         pofs : Part_Of_Speech_Type := suffix;
          fix  : fix_type := null_fix_type;
          connect    : Character := ' ';
          entr : suffix_entry := null_suffix_entry;

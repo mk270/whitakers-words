@@ -27,7 +27,7 @@ package word_support_package is
       record
          stem : Stem_Type := Null_Stem_Type;
          part : part_entry := null_part_entry;
-         key  : stem_key_type := 0;
+         key  : Stem_Key_Type := 0;
          MNPC : Dict_IO.Count := Null_MNPC;
       end record;
 
@@ -58,13 +58,13 @@ package word_support_package is
    ddlf, ddll : dict_array_index('a'..'z', 'a'..'z', dictionary_file_kind) :=
      (others => (others => (others => 0)));
 
-   function adj_comp_from_key(key : stem_key_type) return Comparison_Type;
+   function adj_comp_from_key(key : Stem_Key_Type) return Comparison_Type;
 
-   function adv_comp_from_key(key : stem_key_type) return Comparison_Type;
+   function adv_comp_from_key(key : Stem_Key_Type) return Comparison_Type;
 
-   function num_sort_from_key(key : stem_key_type) return Numeral_Sort_Type;
+   function num_sort_from_key(key : Stem_Key_Type) return Numeral_Sort_Type;
 
-   function eff_part(part : part_of_speech_type) return part_of_speech_type;
+   function eff_part(part : Part_Of_Speech_Type) return Part_Of_Speech_Type;
 
    function len(s : String) return Integer;
 

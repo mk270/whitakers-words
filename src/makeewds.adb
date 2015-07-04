@@ -27,10 +27,10 @@ procedure makeewds is
    package Integer_IO is new Text_IO.Integer_IO(Integer);
    use Text_IO;
    use Integer_IO;
-   use stem_key_type_io;
+   use Stem_Key_Type_IO;
    use dictionary_entry_io;
    use part_entry_io;
-   use part_of_speech_type_io;
+   use Part_Of_Speech_Type_IO;
    use kind_entry_io;
    use translation_record_io;
    use age_type_io;
@@ -219,7 +219,7 @@ procedure makeewds is
    end add_hyphenated;
 
    procedure extract_words (s : in String;
-                            pofs : in part_of_speech_type;
+                            pofs : in Part_Of_Speech_Type;
                             n : out Integer;
                             ewa : out ewds_array) is
       -- i, j, js, k, l, m, im, ic : Integer := 0;

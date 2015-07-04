@@ -23,7 +23,7 @@ procedure makeinfl is
    package Integer_IO is new Text_IO.Integer_IO(Integer);
    use Text_IO;
    use Integer_IO;
-   use stem_key_type_io;
+   use Stem_Key_Type_IO;
    use Inflection_Record_IO;
    use quality_record_io;
    use ending_record_io;

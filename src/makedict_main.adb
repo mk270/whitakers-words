@@ -22,7 +22,7 @@ with Dictionary_Package; use Dictionary_Package;
 procedure makedict_main(porting : Boolean) is
    package Integer_IO is new Text_IO.Integer_IO(Integer);
    use Text_IO;
-   use stem_key_type_io;
+   use Stem_Key_Type_IO;
    use dictionary_entry_io;
    use part_entry_io;
    use kind_entry_io;
@@ -259,7 +259,7 @@ begin
                Set_Col(stemlist, 50);
                Integer_IO.Put(stemlist, Integer(j), 6); New_Line(stemlist);
             else
-               for i in stem_key_type range 1..4  loop
+               for i in Stem_Key_Type range 1..4  loop
                   if de.stems(i) /= zzz_stem  and
                      de.stems(i) /= Null_Stem_Type
                   then
@@ -293,7 +293,7 @@ begin
 
       if not porting  then
          --  Load ESSE
-         for i in stem_key_type range 1..4  loop
+         for i in Stem_Key_Type range 1..4  loop
             Put(stemlist, de.stems(i)); Put(stemlist, ' ');
             Put(stemlist, de.part); Put(stemlist, ' ');
             Set_Col(stemlist, 45);

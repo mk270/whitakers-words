@@ -25,7 +25,7 @@ package body word_support_package is
       return Trim (s)'Length;
    end len;
 
-   function eff_part(part : part_of_speech_type) return part_of_speech_type is
+   function eff_part(part : Part_Of_Speech_Type) return Part_Of_Speech_Type is
    begin
       if part = vpar   then
          return v;
@@ -36,7 +36,7 @@ package body word_support_package is
       end if;
    end eff_part;
 
-   function adj_comp_from_key(key : stem_key_type) return Comparison_Type is
+   function adj_comp_from_key(key : Stem_Key_Type) return Comparison_Type is
    begin
       case key is
          when 0 | 1 | 2  => return pos;
@@ -46,7 +46,7 @@ package body word_support_package is
       end case;
    end adj_comp_from_key;
 
-   function adv_comp_from_key(key : stem_key_type) return Comparison_Type is
+   function adv_comp_from_key(key : Stem_Key_Type) return Comparison_Type is
    begin
       case key is
          when 1  => return pos;
@@ -56,7 +56,7 @@ package body word_support_package is
       end case;
    end adv_comp_from_key;
 
-   function num_sort_from_key(key : stem_key_type) return Numeral_Sort_Type is
+   function num_sort_from_key(key : Stem_Key_Type) return Numeral_Sort_Type is
    begin
       case key is
          when 1  => return card;
