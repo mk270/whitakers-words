@@ -158,35 +158,35 @@ begin
       end if;     --  N
 
    elsif de.part.pofs = pron    then
-      if de.part.pron.decl.which = 1  then
+      if de.part.pron.Decl.which = 1  then
          raise not_found;
 
-      elsif de.part.pron.decl.which = 3  then
+      elsif de.part.pron.Decl.which = 3  then
          ox(1) := add(de.stems(1), "ic");
          ox(2) := add(de.stems(1), "aec");
-         if de.part.pron.decl.var = 1  then
+         if de.part.pron.Decl.var = 1  then
             ox(3) := add(de.stems(1), "oc");
-         elsif de.part.pron.decl.var = 2  then
+         elsif de.part.pron.Decl.var = 2  then
             ox(3) := add(de.stems(1), "uc");
          end if;
 
-      elsif de.part.pron.decl.which = 4  then
-         if de.part.pron.decl.var = 1  then
+      elsif de.part.pron.Decl.which = 4  then
+         if de.part.pron.Decl.var = 1  then
             ox(1) := add(de.stems(1), "s");
             ox(2) := add(de.stems(2), "a");
             ox(3) := add(de.stems(1), "d");
-         elsif de.part.pron.decl.var = 2  then
+         elsif de.part.pron.Decl.var = 2  then
             ox(1) := add(de.stems(1), "dem");
             ox(2) := add(de.stems(2), "adem");
             ox(3) := add(de.stems(1), "dem");
          end if;
 
-      elsif de.part.pron.decl.which = 6  then
+      elsif de.part.pron.Decl.which = 6  then
          ox(1) := add(de.stems(1), "e");
          ox(2) := add(de.stems(1), "a");
-         if de.part.pron.decl.var = 1  then
+         if de.part.pron.Decl.var = 1  then
             ox(3) := add(de.stems(1), "ud");
-         elsif de.part.pron.decl.var = 2  then
+         elsif de.part.pron.Decl.var = 2  then
             ox(3) := add(de.stems(1), "um");
          end if;
 
@@ -194,7 +194,7 @@ begin
          ox(1) := add(de.stems(1), ".");
          ox(2) := add(null_ox, "abb.");
 
-      elsif de.part.pron.decl = (9, 9)  then
+      elsif de.part.pron.Decl = (9, 9)  then
          ox(1) := add(de.stems(1), "");
          ox(2) := add(null_ox, "undeclined");
 

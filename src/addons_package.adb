@@ -381,7 +381,7 @@ package body addons_package is
 
    package body Target_entry_io is
       use Noun_Entry_IO;
-      use pronoun_entry_io;
+      use Pronoun_Entry_IO;
       use propack_entry_io;
       use adjective_entry_io;
       use numeral_entry_io;
@@ -397,7 +397,7 @@ package body addons_package is
       spacer : Character := ' ';
 
       noun  : Noun_Entry;
-      pronoun : pronoun_entry;
+      pronoun : Pronoun_Entry;
       propack : propack_entry;
       adjective : adjective_entry;
       numeral : numeral_entry;
@@ -606,7 +606,7 @@ package body addons_package is
                --        M := L + NOUN_KIND_TYPE_IO.DEFAULT_WIDTH;
                --        PUT(S(L+1..M), P.NOUN_KIND);
             when pron =>
-               m := l + pronoun_entry_io.Default_Width;
+               m := l + Pronoun_Entry_IO.Default_Width;
                Put(s(l+1..m), p.pron);
                --        M := L + PRONOUN_KIND_TYPE_IO.DEFAULT_WIDTH;
                --        PUT(S(L+1..M), P.PRONOUN_KIND);

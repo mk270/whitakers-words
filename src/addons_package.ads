@@ -33,7 +33,7 @@ package addons_package is
                n : Noun_Entry;
                --NOUN_KIND : NOUN_KIND_TYPE;
             when pron  =>
-               pron : pronoun_entry;
+               pron : Pronoun_Entry;
                --PRONOUN_KIND : PRONOUN_KIND_TYPE;
             when pack  =>
                pack : propack_entry;

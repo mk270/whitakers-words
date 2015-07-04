@@ -409,7 +409,7 @@ package body word_package is
             when regular    =>
                if not (ds.part.pofs = pack  or
                          (ds.part.pofs = pron  and then
-                            (ds.part.pron.decl.which = 1)))
+                            (ds.part.pron.Decl.which = 1)))
                then
                   pdl_index := pdl_index + 1;
                   pdl(pdl_index) := pruned_dictionary_item'(ds, d_k);
@@ -423,7 +423,7 @@ package body word_package is
 
             when qu_pron_only  =>
                if ds.part.pofs = pron  and then
-                 (ds.part.pron.decl.which = 1)
+                 (ds.part.pron.Decl.which = 1)
                then
                   pdl_index := pdl_index + 1;
                   pdl(pdl_index) := pruned_dictionary_item'(ds, d_k);
@@ -918,7 +918,7 @@ package body word_package is
                                    MNPC => MNPC_part);
 
                      elsif pdl_part.pofs = pron and then
-                           pdl_part.pron.decl <= sl(i).IR.qual.pron.decl
+                           pdl_part.pron.Decl <= sl(i).IR.qual.pron.decl
                      then
                         --PUT(" HIT  PRON  ");
                         --  Need to transfer the kind of the pronoun dictionary item
@@ -928,7 +928,7 @@ package body word_package is
                                           qual => (
                                                    pofs => pron,
                                                    pron => (
-                                                            pdl_part.pron.decl,
+                                                            pdl_part.pron.Decl,
                                                             sl(i).IR.qual.pron.cs,
                                                             sl(i).IR.qual.pron.number,
                                                             sl(i).IR.qual.pron.gender  )  ),
@@ -1529,14 +1529,14 @@ package body word_package is
 
             sl_loop:
             while sl(m) /= Null_Parse_Record  loop  --  Over all inflection hits
-               if pdl(j).ds.part.pron.decl = sl(m).IR.qual.pron.decl then
+               if pdl(j).ds.part.pron.Decl = sl(m).IR.qual.pron.decl then
                   pa_last := pa_last + 1;
                   pa(pa_last) := (Stem => sl(m).Stem,
                                   IR => (
                                          qual => (
                                                   pofs => pron,
                                                   pron => (
-                                                           pdl(j).ds.part.pron.decl,
+                                                           pdl(j).ds.part.pron.Decl,
                                                            sl(m).IR.qual.pron.cs,
                                                            sl(m).IR.qual.pron.number,
                                                            sl(m).IR.qual.pron.gender )),
@@ -1614,7 +1614,7 @@ package body word_package is
                                     end if;
                                  when pron    =>              --  Only one we have other than X
                                     if pa(j).IR.qual.pron.decl <=
-                                      tackons(i).entr.base.pron.decl  --and then
+                                      tackons(i).entr.base.pron.Decl  --and then
                                     then
                                        tackon_hit := True;
                                        tackon_on  := True;

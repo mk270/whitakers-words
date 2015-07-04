@@ -216,7 +216,7 @@ package inflections_package is
 
    package Noun_Kind_Type_IO is new Text_IO.enumeration_io(noun_kind_type);
 
-   type pronoun_kind_type is (
+   type Pronoun_Kind_Type is (
                               x,            --  unknown, nondescript
                               pers,         --  PERSonal
                               rel,          --  RELative
@@ -227,8 +227,8 @@ package inflections_package is
                               adject        --  ADJECTival
                              );
 
-   package pronoun_kind_type_io is
-      new Text_IO.enumeration_io(pronoun_kind_type);
+   package Pronoun_Kind_Type_IO is
+      new Text_IO.enumeration_io(Pronoun_Kind_Type);
 
    subtype numeral_value_type is Natural range 0..1000;
 
@@ -696,7 +696,7 @@ package inflections_package is
    overriding function "<=" (left, right : comparison_type) return Boolean;
    function "<=" (left, right : tense_voice_mood_record)  return Boolean;
    overriding function "<=" (left, right : Noun_Kind_Type)   return Boolean;
-   overriding function "<=" (left, right : pronoun_kind_type)   return Boolean;
+   overriding function "<=" (left, right : Pronoun_Kind_Type)   return Boolean;
    overriding function "<=" (left, right : stem_key_type)   return Boolean;  -- not verbs
    overriding function "<=" (left, right : age_type)   return Boolean;
    overriding function "<=" (left, right : frequency_type)   return Boolean;

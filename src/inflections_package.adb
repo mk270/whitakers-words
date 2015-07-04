@@ -330,7 +330,7 @@ package body inflections_package is
       end if;
    end "<=";
 
-   overriding function "<=" (left, right : pronoun_kind_type)   return Boolean is
+   overriding function "<=" (left, right : Pronoun_Kind_Type)   return Boolean is
    begin
       if right = left or else right = x then
          return True;
@@ -2473,7 +2473,7 @@ begin  --  initialization of body of INFLECTIONS_PACKAGE
    voice_type_io.Default_Width := voice_type'Width;
    mood_type_io.Default_Width := mood_type'Width;
    Noun_Kind_Type_IO.Default_Width := Noun_Kind_Type'Width;
-   pronoun_kind_type_io.Default_Width := pronoun_kind_type'Width;
+   Pronoun_Kind_Type_IO.Default_Width := Pronoun_Kind_Type'Width;
    verb_kind_type_io.Default_Width := verb_kind_type'Width;
    numeral_sort_type_io.Default_Width := numeral_sort_type'Width;
    age_type_io.Default_Width := age_type'Width;

@@ -531,9 +531,9 @@ begin                               --  LIST_SWEEP
             Dict_IO.Set_Index(dict_file(pa(i).D_K), pa(i).MNPC);
             Dict_IO.Read(dict_file(pa(i).D_K), de);
             if de.part.pofs = pron  and then
-              de.part.pron.decl.which = 1
+              de.part.pron.Decl.which = 1
             then
-               pa(i).IR.qual.pron.decl.var := pronoun_kind_type'Pos(de.part.pron.kind);
+               pa(i).IR.qual.pron.decl.var := Pronoun_Kind_Type'Pos (de.part.pron.Kind);
                --elsif DE.PART.POFS = PACK  and then
                -- DE.PART.PACK.DECL.WHICH =1  then
                -- PA(I).IR.QUAL.PACK.DECL.VAR := PRONOUN_KIND_TYPE'POS(DE.KIND.PRON_KIND);
