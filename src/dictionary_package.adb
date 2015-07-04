@@ -53,45 +53,7 @@ package body Dictionary_Package is
 
    package body Numeral_Entry_IO is separate;
 
-   package body adverb_entry_io is
-      use Comparison_Type_IO;
-
-      procedure Get(f : in File_Type; a : out adverb_entry) is
-      begin
-         Get(f, a.co);
-      end Get;
-
-      procedure Get(a : out adverb_entry) is
-      begin
-         Get(a.co);
-      end Get;
-
-      procedure Put(f : in File_Type; a : in adverb_entry) is
-      begin
-         Put(f, a.co);
-      end Put;
-
-      procedure Put(a : in adverb_entry) is
-      begin
-         Put(a.co);
-      end Put;
-
-      procedure Get(s : in String; a : out adverb_entry; last : out Integer) is
-         l : constant Integer := s'First - 1;
-      begin
-         Get(s(l+1..s'Last), a.co, last);
-      end Get;
-
-      procedure Put(s : out String; a : in adverb_entry) is
-         l : constant Integer := s'First - 1;
-         m : Integer := 0;
-      begin
-         m := l + Comparison_Type_IO.Default_Width;
-         Put(s(l+1..m), a.co);
-         s(m+1..s'Last) := (others => ' ');
-      end Put;
-
-   end adverb_entry_io;
+   package body Adverb_Entry_IO is separate;
 
    package body verb_entry_io is
       use Decn_Record_IO;
@@ -315,7 +277,7 @@ package body Dictionary_Package is
                then
                   return True;
                end if;when adv =>
-                  return left.adv.co < right.adv.co;
+                  return left.adv.Co < right.adv.Co;
             when v =>
                if (left.v.con < right.v.con)  or else
                  (left.v.con = right.v.con  and then
@@ -344,7 +306,7 @@ package body Dictionary_Package is
       use Propack_Entry_IO;
       use Adjective_Entry_IO;
       use Numeral_Entry_IO;
-      use adverb_entry_io;
+      use Adverb_Entry_IO;
       use verb_entry_io;
       use preposition_entry_io;
       use conjunction_entry_io;
@@ -356,7 +318,7 @@ package body Dictionary_Package is
       propack : Propack_Entry;
       adjective : Adjective_Entry;
       numeral : Numeral_Entry;
-      adverb : adverb_entry;
+      adverb : Adverb_Entry;
       verb : verb_entry;
       preposition : preposition_entry;
       conjunction : conjunction_entry;
@@ -618,7 +580,7 @@ package body Dictionary_Package is
                m := l + Numeral_Entry_IO.Default_Width;
                Put(s(l+1..m), p.num);
             when adv =>
-               m := l + adverb_entry_io.Default_Width;
+               m := l + Adverb_Entry_IO.Default_Width;
                Put(s(l+1..m), p.adv);
             when v =>
                m := l + verb_entry_io.Default_Width;
@@ -1202,7 +1164,7 @@ begin     --  initialization of body of DICTIONARY_PACKAGE
    Adjective_Entry_IO.Default_Width :=
      Decn_Record_IO.Default_Width + 1 +
      Comparison_Type_IO.Default_Width;
-   adverb_entry_io.Default_Width :=
+   Adverb_Entry_IO.Default_Width :=
      Comparison_Type_IO.Default_Width;
    verb_entry_io.Default_Width :=
      Decn_Record_IO.Default_Width + 1 +

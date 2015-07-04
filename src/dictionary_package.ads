@@ -327,20 +327,28 @@ package Dictionary_Package is
 
    ---------------------------------------------------------------------------
 
-   type adverb_entry is
+   type Adverb_Entry is
       record
-         co   : Comparison_Type := x;
+         Co   : Comparison_Type := x;
       end record;
 
-   package adverb_entry_io is
+   -- FIXME: These subprograms don't check if Is_Open (File)
+   package Adverb_Entry_IO is
       Default_Width : Natural;
-      procedure Get(f : in File_Type; a : out adverb_entry);
-      procedure Get(a : out adverb_entry);
-      procedure Put(f : in File_Type; a : in adverb_entry);
-      procedure Put(a : in adverb_entry);
-      procedure Get(s : in String; a : out adverb_entry; last : out Integer);
-      procedure Put(s : out String; a : in adverb_entry);
-   end adverb_entry_io;
+      procedure Get (File : in File_Type; Item : out Adverb_Entry);
+      procedure Get (Item : out Adverb_Entry);
+      procedure Put (File : in File_Type; Item : in Adverb_Entry);
+      procedure Put (Item : in Adverb_Entry);
+      -- TODO: Document meaning of Last
+      procedure Get
+         ( Source : in String;
+           Target : out Adverb_Entry;
+           Last   : out Integer
+         );
+      procedure Put (Target : out String; Item : in Adverb_Entry);
+   end Adverb_Entry_IO;
+
+   ---------------------------------------------------------------------------
 
    type verb_entry is
       record
@@ -417,7 +425,7 @@ package Dictionary_Package is
             when num =>
                num : Numeral_Entry;
             when adv =>
-               adv : adverb_entry;
+               adv : Adverb_Entry;
             when v =>
                v : verb_entry;
             when vpar =>
