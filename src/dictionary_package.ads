@@ -143,9 +143,9 @@ package Dictionary_Package is
             when n =>
                n_kind : Noun_Kind_Type := x;
             when pron =>
-               pron_kind : pronoun_kind_type := x;
+               pron_kind : Pronoun_Kind_Type := x;
             when pack =>
-               pack_kind : pronoun_kind_type := x;
+               pack_kind : Pronoun_Kind_Type := x;
             when adj =>
                null;
             when num =>
@@ -202,7 +202,7 @@ package Dictionary_Package is
 
    type Noun_Entry is
       record
-         -- NOTE: Seems like Decl is breaking of abbrev used everywhere
+         -- NOTE: Seems like Decl is breaking of abbrev used
          Decl   : Decn_Record := (0, 0);
          Gender : Gender_Type := x;
          Kind   : Noun_Kind_Type := x;
@@ -217,7 +217,7 @@ package Dictionary_Package is
       procedure Put (Item : in Noun_Entry);
       -- TODO: Document meaning of Last
       procedure Get
-         ( Source : in String;
+         ( Source : in  String;
            Target : out Noun_Entry;
            Last   : out Integer
          );
@@ -226,26 +226,35 @@ package Dictionary_Package is
 
    ---------------------------------------------------------------------------
 
-   type pronoun_entry is
+   type Pronoun_Entry is
       record
-         decl  : Decn_Record := (0,0);
-         kind : pronoun_kind_type := x;
+         -- NOTE: Seems like Decl is breaking of abbrev used
+         Decl  : Decn_Record := (0,0);
+         Kind  : Pronoun_Kind_Type := x;
       end record;
 
-   package pronoun_entry_io is
+   -- FIXME: These subprograms don't check if Is_Open (File)
+   package Pronoun_Entry_IO is
       Default_Width : Natural;
-      procedure Get(f : in File_Type; p : out pronoun_entry);
-      procedure Get(p : out pronoun_entry);
-      procedure Put(f : in File_Type; p : in pronoun_entry);
-      procedure Put(p : in pronoun_entry);
-      procedure Get(s : in String; p : out pronoun_entry; last : out Integer);
-      procedure Put(s : out String; p : in pronoun_entry);
-   end pronoun_entry_io;
+      procedure Get (File : in File_Type; Item : out Pronoun_Entry);
+      procedure Get (Item : out Pronoun_Entry);
+      procedure Put (File : in File_Type; Item : in Pronoun_Entry);
+      procedure Put (Item : in Pronoun_Entry);
+      -- TODO: Document meaning of Last
+      procedure Get
+         ( Source : in  String;
+           Target : out Pronoun_Entry;
+           Last   : out Integer
+         );
+      procedure Put (Target : out String; Item : in Pronoun_Entry);
+   end Pronoun_Entry_IO;
+
+   ---------------------------------------------------------------------------
 
    type propack_entry is
       record
          decl  : Decn_Record := (0,0);
-         kind : pronoun_kind_type := x;
+         kind : Pronoun_Kind_Type := x;
       end record;
 
    package propack_entry_io is
@@ -373,7 +382,7 @@ package Dictionary_Package is
             when n =>
                n : Noun_Entry;
             when pron =>
-               pron : pronoun_entry;
+               pron : Pronoun_Entry;
             when pack =>
                pack : propack_entry;
             when adj =>
@@ -451,7 +460,7 @@ package Dictionary_Package is
          MNPC  : Dict_IO.Count := Null_MNPC;
       end record;
 
-   -- NOTE: Why this one is not constant?
+   -- FIXME: Why this one is not constant?
    Null_Parse_Record : Parse_Record;
 
    -- FIXME: These subprograms don't check if Is_Open (File)

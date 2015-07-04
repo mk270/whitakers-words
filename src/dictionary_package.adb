@@ -45,65 +45,11 @@ package body Dictionary_Package is
 
    package body Noun_Entry_IO is separate;
 
-   package body pronoun_entry_io is
-      use Decn_Record_IO;
-      use pronoun_kind_type_io;
-      spacer : Character := ' ';
-
-      procedure Get(f : in File_Type; p : out pronoun_entry) is
-      begin
-         Get(f, p.decl);
-         Get(f, spacer);
-         Get(f, p.kind);
-      end Get;
-
-      procedure Get(p : out pronoun_entry) is
-      begin
-         Get(p.decl);
-         Get(spacer);
-         Get(p.kind);
-      end Get;
-
-      procedure Put(f : in File_Type; p : in pronoun_entry) is
-      begin
-         Put(f, p.decl);
-         Put(f, ' ');
-         Put(f, p.kind);
-      end Put;
-
-      procedure Put(p : in pronoun_entry) is
-      begin
-         Put(p.decl);
-         Put(' ');
-         Put(p.kind);
-      end Put;
-
-      procedure Get(s : in String; p : out pronoun_entry; last : out Integer) is
-         l : Integer := s'First - 1;
-      begin
-         Get(s(l+1..s'Last), p.decl, l);
-         l := l + 1;
-         Get(s(l+1..s'Last), p.kind, last);
-      end Get;
-
-      procedure Put(s : out String; p : in pronoun_entry) is
-         l : Integer := s'First - 1;
-         m : Integer := 0;
-      begin
-         m := l + Decn_Record_IO.Default_Width;
-         Put(s(l+1..m), p.decl);
-         l := m + 1;
-         s(l) :=  ' ';
-         m := l + pronoun_kind_type_io.Default_Width;
-         Put(s(l+1..m), p.kind);
-         s(m+1..s'Last) := (others => ' ');
-      end Put;
-
-   end pronoun_entry_io;
+   package body Pronoun_Entry_IO is separate;
 
    package body propack_entry_io is
       use Decn_Record_IO;
-      use pronoun_kind_type_io;
+      use Pronoun_Kind_Type_IO;
       spacer : Character := ' ';
 
       procedure Get(f : in File_Type; p : out propack_entry) is
@@ -150,7 +96,7 @@ package body Dictionary_Package is
          Put(s(l+1..m), p.decl);
          l := m + 1;
          s(l) :=  ' ';
-         m := l + pronoun_kind_type_io.Default_Width;
+         m := l + Pronoun_Kind_Type_IO.Default_Width;
          Put(s(l+1..m), p.kind);
          s(m+1..s'Last) := (others => ' ');
       end Put;
@@ -526,9 +472,9 @@ package body Dictionary_Package is
                   return True;
                end if;
             when pron =>
-               if left.pron.decl < right.pron.decl  or else
-                 (left.pron.decl = right.pron.decl  and then
-                 left.pron.kind < right.pron.kind)
+               if left.pron.Decl < right.pron.Decl  or else
+                 (left.pron.Decl = right.pron.Decl  and then
+                 left.pron.Kind < right.pron.Kind)
                then
                   return True;
                end if;
@@ -581,7 +527,7 @@ package body Dictionary_Package is
    package body part_entry_io is
       use part_of_speech_type_io;
       use Noun_Entry_IO;
-      use pronoun_entry_io;
+      use Pronoun_Entry_IO;
       use propack_entry_io;
       use adjective_entry_io;
       use numeral_entry_io;
@@ -593,7 +539,7 @@ package body Dictionary_Package is
       spacer : Character := ' ';
 
       noun : Noun_Entry;
-      pronoun : pronoun_entry;
+      Pronoun : Pronoun_Entry;
       propack : propack_entry;
       adjective : adjective_entry;
       numeral : numeral_entry;
@@ -614,8 +560,8 @@ package body Dictionary_Package is
                Get(f, noun);
                p := (n, noun);
             when pron =>
-               Get(f, pronoun);
-               p := (pron, pronoun);
+               Get(f, Pronoun);
+               p := (pron, Pronoun);
             when pack =>
                Get(f, propack);
                p := (pack, propack);
@@ -667,8 +613,8 @@ package body Dictionary_Package is
                Get(noun);
                p := (n, noun);
             when pron =>
-               Get(pronoun);
-               p := (pron, pronoun);
+               Get (Pronoun);
+               p := (pron, Pronoun);
             when pack =>
                Get(propack);
                p := (pack, propack);
@@ -793,8 +739,8 @@ package body Dictionary_Package is
                Get(s(l+1..s'Last), noun, last);
                p := (n, noun);
             when pron =>
-               Get(s(l+1..s'Last), pronoun, last);
-               p := (pron, pronoun);
+               Get(s(l+1..s'Last), Pronoun, last);
+               p := (pron, Pronoun);
             when pack =>
                Get(s(l+1..s'Last), propack, last);
                p := (pack, propack);
@@ -847,7 +793,7 @@ package body Dictionary_Package is
                m := l + Noun_Entry_IO.Default_Width;
                Put(s(l+1..m), p.n);
             when pron =>
-               m := l + pronoun_entry_io.Default_Width;
+               m := l + Pronoun_Entry_IO.Default_Width;
                Put(s(l+1..m), p.pron);
             when pack =>
                m := l + propack_entry_io.Default_Width;
@@ -887,13 +833,13 @@ package body Dictionary_Package is
 
    package body kind_entry_io is
       use Noun_Kind_Type_IO;
-      use pronoun_kind_type_io;
+      use Pronoun_Kind_Type_IO;
       use inflections_package.Integer_IO;
       use verb_kind_type_io;
 
       noun_kind  : Noun_Kind_Type;
-      pronoun_kind : pronoun_kind_type;
-      propack_kind : pronoun_kind_type;
+      pronoun_kind : Pronoun_Kind_Type;
+      propack_kind : Pronoun_Kind_Type;
       verb_kind : verb_kind_type;
       vpar_kind : verb_kind_type;
       supine_kind : verb_kind_type;
@@ -1126,10 +1072,10 @@ package body Dictionary_Package is
                m := l + Noun_Kind_Type_IO.Default_Width;
                Put(s(l+1..m), p.n_kind);
             when pron =>
-               m := l + pronoun_kind_type_io.Default_Width;
+               m := l + Pronoun_Kind_Type_IO.Default_Width;
                Put(s(l+1..m), p.pron_kind);
             when pack =>
-               m := l + pronoun_kind_type_io.Default_Width;
+               m := l + Pronoun_Kind_Type_IO.Default_Width;
                Put(s(l+1..m), p.pack_kind);
             when num =>
                m := l + numeral_value_type_io_Default_Width;
@@ -1434,12 +1380,12 @@ begin     --  initialization of body of DICTIONARY_PACKAGE
      Decn_Record_IO.Default_Width + 1 +
      Gender_Type_IO.Default_Width + 1 +
      Noun_Kind_Type_IO.Default_Width;
-   pronoun_entry_io.Default_Width :=
+   Pronoun_Entry_IO.Default_Width :=
      Decn_Record_IO.Default_Width + 1 +
-     pronoun_kind_type_io.Default_Width;
+     Pronoun_Kind_Type_IO.Default_Width;
    propack_entry_io.Default_Width :=
      Decn_Record_IO.Default_Width + 1 +
-     pronoun_kind_type_io.Default_Width;
+     Pronoun_Kind_Type_IO.Default_Width;
    adjective_entry_io.Default_Width :=
      Decn_Record_IO.Default_Width + 1 +
      comparison_type_io.Default_Width;
