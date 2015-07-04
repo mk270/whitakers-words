@@ -251,21 +251,30 @@ package Dictionary_Package is
 
    ---------------------------------------------------------------------------
 
-   type propack_entry is
+   type Propack_Entry is
       record
-         decl  : Decn_Record := (0,0);
-         kind : Pronoun_Kind_Type := x;
+         -- NOTE: Seems like Decl is breaking of abbrev used
+         Decl  : Decn_Record := (0,0);
+         Kind  : Pronoun_Kind_Type := x;
       end record;
 
-   package propack_entry_io is
+   -- FIXME: These subprograms don't check if Is_Open (File)
+   package Propack_Entry_IO is
       Default_Width : Natural;
-      procedure Get(f : in File_Type; p : out propack_entry);
-      procedure Get(p : out propack_entry);
-      procedure Put(f : in File_Type; p : in propack_entry);
-      procedure Put(p : in propack_entry);
-      procedure Get(s : in String; p : out propack_entry; last : out Integer);
-      procedure Put(s : out String; p : in propack_entry);
-   end propack_entry_io;
+      procedure Get (File : in  File_Type; Item : out Propack_Entry);
+      procedure Get (Item : out Propack_Entry);
+      procedure Put (File : in  File_Type; Item : in Propack_Entry);
+      procedure Put (Item : in  Propack_Entry);
+      -- TODO: Document meaning of Last
+      procedure Get
+         ( Source : in  String;
+           Target : out Propack_Entry;
+           Last   : out Integer
+         );
+      procedure Put (Target : out String; Item : in Propack_Entry);
+   end Propack_Entry_IO;
+
+   ---------------------------------------------------------------------------
 
    type adjective_entry is
       record
@@ -384,7 +393,7 @@ package Dictionary_Package is
             when pron =>
                pron : Pronoun_Entry;
             when pack =>
-               pack : propack_entry;
+               pack : Propack_Entry;
             when adj =>
                adj : adjective_entry;
             when num =>

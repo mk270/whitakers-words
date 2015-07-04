@@ -47,61 +47,7 @@ package body Dictionary_Package is
 
    package body Pronoun_Entry_IO is separate;
 
-   package body propack_entry_io is
-      use Decn_Record_IO;
-      use Pronoun_Kind_Type_IO;
-      spacer : Character := ' ';
-
-      procedure Get(f : in File_Type; p : out propack_entry) is
-      begin
-         Get(f, p.decl);
-         Get(f, spacer);
-         Get(f, p.kind);
-      end Get;
-
-      procedure Get(p : out propack_entry) is
-      begin
-         Get(p.decl);
-         Get(spacer);
-         Get(p.kind);
-      end Get;
-
-      procedure Put(f : in File_Type; p : in propack_entry) is
-      begin
-         Put(f, p.decl);
-         Put(f, ' ');
-         Put(f, p.kind);
-      end Put;
-
-      procedure Put(p : in propack_entry) is
-      begin
-         Put(p.decl);
-         Put(' ');
-         Put(p.kind);
-      end Put;
-
-      procedure Get(s : in String; p : out propack_entry; last : out Integer) is
-         l : Integer := s'First - 1;
-      begin
-         Get(s(l+1..s'Last), p.decl, l);
-         l := l + 1;
-         Get(s(l+1..s'Last), p.kind, last);
-      end Get;
-
-      procedure Put(s : out String; p : in propack_entry) is
-         l : Integer := s'First - 1;
-         m : Integer := 0;
-      begin
-         m := l + Decn_Record_IO.Default_Width;
-         Put(s(l+1..m), p.decl);
-         l := m + 1;
-         s(l) :=  ' ';
-         m := l + Pronoun_Kind_Type_IO.Default_Width;
-         Put(s(l+1..m), p.kind);
-         s(m+1..s'Last) := (others => ' ');
-      end Put;
-
-   end propack_entry_io;
+   package body Propack_Entry_IO is separate;
 
    package body adjective_entry_io is
       use Decn_Record_IO;
@@ -479,9 +425,9 @@ package body Dictionary_Package is
                   return True;
                end if;
             when pack =>
-               if left.pack.decl < right.pack.decl  or else
-                 (left.pack.decl = right.pack.decl  and then
-                 left.pack.kind < right.pack.kind)
+               if left.pack.Decl < right.pack.Decl  or else
+                 (left.pack.Decl = right.pack.Decl  and then
+                 left.pack.Kind < right.pack.Kind)
                then
                   return True;
                end if;
@@ -528,7 +474,7 @@ package body Dictionary_Package is
       use part_of_speech_type_io;
       use Noun_Entry_IO;
       use Pronoun_Entry_IO;
-      use propack_entry_io;
+      use Propack_Entry_IO;
       use adjective_entry_io;
       use numeral_entry_io;
       use adverb_entry_io;
@@ -540,7 +486,7 @@ package body Dictionary_Package is
 
       noun : Noun_Entry;
       Pronoun : Pronoun_Entry;
-      propack : propack_entry;
+      propack : Propack_Entry;
       adjective : adjective_entry;
       numeral : numeral_entry;
       adverb : adverb_entry;
@@ -796,7 +742,7 @@ package body Dictionary_Package is
                m := l + Pronoun_Entry_IO.Default_Width;
                Put(s(l+1..m), p.pron);
             when pack =>
-               m := l + propack_entry_io.Default_Width;
+               m := l + Propack_Entry_IO.Default_Width;
                Put(s(l+1..m), p.pack);
             when adj =>
                m := l + adjective_entry_io.Default_Width;
@@ -1383,7 +1329,7 @@ begin     --  initialization of body of DICTIONARY_PACKAGE
    Pronoun_Entry_IO.Default_Width :=
      Decn_Record_IO.Default_Width + 1 +
      Pronoun_Kind_Type_IO.Default_Width;
-   propack_entry_io.Default_Width :=
+   Propack_Entry_IO.Default_Width :=
      Decn_Record_IO.Default_Width + 1 +
      Pronoun_Kind_Type_IO.Default_Width;
    adjective_entry_io.Default_Width :=
