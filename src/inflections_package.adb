@@ -300,7 +300,7 @@ package body inflections_package is
       end if;
    end "<=";
 
-   overriding function "<=" (left, right : comparison_type) return Boolean is
+   overriding function "<=" (left, right : Comparison_Type) return Boolean is
    begin
       if right = left or else right = x then
          return True;
@@ -851,7 +851,7 @@ package body inflections_package is
       use Gender_Type_IO;
       use case_type_io;
       use number_type_io;
-      use comparison_type_io;
+      use Comparison_Type_IO;
       spacer : Character := ' ';
 
       procedure Get(f : in File_Type; a : out adjective_record) is
@@ -940,7 +940,7 @@ package body inflections_package is
          Put(s(l+1..m), a.gender);
          l := m + 1;
          s(l) :=  ' ';
-         m := l + comparison_type_io.Default_Width;
+         m := l + Comparison_Type_IO.Default_Width;
          Put(s(l+1..m), a.co);
          s(m+1..s'Last) := (others => ' ');
       end Put;
@@ -1048,7 +1048,7 @@ package body inflections_package is
    end numeral_record_io;
 
    package body adverb_record_io is
-      use comparison_type_io;
+      use Comparison_Type_IO;
 
       procedure Get(f : in File_Type; a : out adverb_record) is
       begin
@@ -1080,7 +1080,7 @@ package body inflections_package is
          l : constant Integer := s'First - 1;
          m : Integer := 0;
       begin
-         m := l + comparison_type_io.Default_Width;
+         m := l + Comparison_Type_IO.Default_Width;
          Put(s(l+1..m), a.co);
          s(m+1..s'Last) := (others => ' ');
       end Put;
@@ -2468,7 +2468,7 @@ begin  --  initialization of body of INFLECTIONS_PACKAGE
    case_type_io.Default_Width := case_type'Width;
    number_type_io.Default_Width := number_type'Width;
    person_type_io.Default_Width := 1;
-   comparison_type_io.Default_Width := comparison_type'Width;
+   Comparison_Type_IO.Default_Width := Comparison_Type'Width;
    tense_type_io.Default_Width := tense_type'Width;
    voice_type_io.Default_Width := voice_type'Width;
    mood_type_io.Default_Width := mood_type'Width;
@@ -2506,9 +2506,9 @@ begin  --  initialization of body of INFLECTIONS_PACKAGE
      case_type_io.Default_Width + 1 +
      number_type_io.Default_Width + 1 +
      Gender_Type_IO.Default_Width + 1 +
-     comparison_type_io.Default_Width;
+     Comparison_Type_IO.Default_Width;
    adverb_record_io.Default_Width :=
-     comparison_type_io.Default_Width;
+     Comparison_Type_IO.Default_Width;
    verb_record_io.Default_Width :=
      Decn_Record_IO.Default_Width + 1 +
      tense_voice_mood_record_io.Default_Width + 1 +

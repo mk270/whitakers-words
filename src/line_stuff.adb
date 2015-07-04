@@ -182,7 +182,7 @@ package body line_stuff is
             end if;
 
          elsif pt.pofs = adj  then
-            if pt.adj.co   = x  then   --  X for all KINDs
+            if pt.adj.Co   = x  then   --  X for all KINDs
                if (sts(2)(1) /= sts(1)(1) and then
                      sts(2)(1) /= ' '  and then
                      sts(2)(1..3) /= zzz_stem(1..3) ) or
@@ -195,47 +195,47 @@ package body line_stuff is
                then
                   dict(fc1) :=
                     new dictionary_item'(( (sts(1), blk_stem, blk_stem, blk_stem),
-                                           (adj, (pt.adj.decl, pos)),
+                                           (adj, (pt.adj.Decl, pos)),
                                            --KIND, TRAN, MEAN), DICT(FC1));
                                            tran, mean), dict(fc1));
                   dict(fc2) :=
                     new dictionary_item'( ( (zzz_stem, sts(2), blk_stem, blk_stem),
-                                            (adj, (pt.adj.decl, pos)),
+                                            (adj, (pt.adj.Decl, pos)),
                                             --KIND, TRAN, MEAN), DICT(FC2) );
                                             tran, mean), dict(fc2) );
                   dict(fc3) :=
                     new dictionary_item'(( (zzz_stem, zzz_stem, sts(3), blk_stem),
-                                           (adj, (pt.adj.decl, comp)),
+                                           (adj, (pt.adj.Decl, comp)),
                                            --KIND, TRAN, MEAN), DICT(FC3));
                                            tran, mean), dict(fc3));
                   dict(fc4) :=
                     new dictionary_item'(( (zzz_stem, zzz_stem, zzz_stem, sts(4)),
-                                           (adj, (pt.adj.decl, super)),
+                                           (adj, (pt.adj.Decl, super)),
                                            --KIND, TRAN, MEAN), DICT(FC4));
                                            tran, mean), dict(fc4));
                end if;
-            elsif pt.adj.co   = pos   then
+            elsif pt.adj.Co   = pos   then
                dict(fc1) :=
                  new dictionary_item'(( (sts(1), blk_stem, blk_stem, blk_stem),
                                         --(ADJ, (PT.ADJ.DECL, POS)), KIND, TRAN, MEAN),
-                                        (adj, (pt.adj.decl, pos)), tran, mean),
+                                        (adj, (pt.adj.Decl, pos)), tran, mean),
                                       dict(fc1));
                dict(fc2) :=
                  new dictionary_item'(((blk_stem,  sts(2), blk_stem, blk_stem),
                                        --(ADJ, (PT.ADJ.DECL, POS)), KIND, TRAN, MEAN),
-                                       (adj, (pt.adj.decl, pos)), tran, mean),
+                                       (adj, (pt.adj.Decl, pos)), tran, mean),
                                       dict(fc2));
-            elsif pt.adj.co   = comp  then
+            elsif pt.adj.Co   = comp  then
                dict(fc1) :=
                  new dictionary_item'(( (blk_stem, blk_stem, sts(1), blk_stem),
                                         --(ADJ, (PT.ADJ.DECL, COMP)), KIND, TRAN, MEAN),
-                                        (adj, (pt.adj.decl, comp)), tran, mean),
+                                        (adj, (pt.adj.Decl, comp)), tran, mean),
                                       dict(fc1));
-            elsif pt.adj.co   = super then
+            elsif pt.adj.Co   = super then
                dict(fc1) :=
                  new dictionary_item'(( (blk_stem, blk_stem, blk_stem, sts(1)),
                                         --(ADJ, (PT.ADJ.DECL, SUPER)), KIND, TRAN, MEAN),
-                                        (adj, (pt.adj.decl, super)), tran, mean),
+                                        (adj, (pt.adj.Decl, super)), tran, mean),
                                       dict(fc1));
 
             else

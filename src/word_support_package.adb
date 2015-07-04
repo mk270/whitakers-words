@@ -36,7 +36,7 @@ package body word_support_package is
       end if;
    end eff_part;
 
-   function adj_comp_from_key(key : stem_key_type) return comparison_type is
+   function adj_comp_from_key(key : stem_key_type) return Comparison_Type is
    begin
       case key is
          when 0 | 1 | 2  => return pos;
@@ -46,7 +46,7 @@ package body word_support_package is
       end case;
    end adj_comp_from_key;
 
-   function adv_comp_from_key(key : stem_key_type) return comparison_type is
+   function adv_comp_from_key(key : stem_key_type) return Comparison_Type is
    begin
       case key is
          when 1  => return pos;

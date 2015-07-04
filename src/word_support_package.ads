@@ -58,9 +58,9 @@ package word_support_package is
    ddlf, ddll : dict_array_index('a'..'z', 'a'..'z', dictionary_file_kind) :=
      (others => (others => (others => 0)));
 
-   function adj_comp_from_key(key : stem_key_type) return comparison_type;
+   function adj_comp_from_key(key : stem_key_type) return Comparison_Type;
 
-   function adv_comp_from_key(key : stem_key_type) return comparison_type;
+   function adv_comp_from_key(key : stem_key_type) return Comparison_Type;
 
    function num_sort_from_key(key : stem_key_type) return numeral_sort_type;
 

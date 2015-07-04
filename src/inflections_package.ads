@@ -127,14 +127,14 @@ package inflections_package is
    type person_type is range 0..3;
    package person_type_io is new Text_IO.Integer_IO(person_type);
 
-   type comparison_type is (
+   type Comparison_Type is (
                             x,         --  all, none, or unknown
                             pos,       --  POSitive
                             comp,      --  COMParative
                             super      --  SUPERlative
                            );
 
-   package comparison_type_io is new Text_IO.enumeration_io(comparison_type);
+   package Comparison_Type_IO is new Text_IO.Enumeration_IO (Comparison_Type);
 
    type stem_key_type is new Natural range 0..9;
 
@@ -316,7 +316,7 @@ package inflections_package is
          cs          : case_type := x;
          number      : number_type := x;
          gender      : Gender_Type := x;
-         co          : comparison_type := x;
+         co          : Comparison_Type := x;
       end record;
 
    package adjective_record_io is
@@ -350,7 +350,7 @@ package inflections_package is
 
    type adverb_record is
       record
-         co   : comparison_type := x;
+         co   : Comparison_Type := x;
       end record;
 
    package adverb_record_io is
@@ -693,7 +693,7 @@ package inflections_package is
    overriding function "<=" (left, right : case_type)   return Boolean;
    overriding function "<=" (left, right : number_type) return Boolean;
    overriding function "<=" (left, right : person_type) return Boolean;
-   overriding function "<=" (left, right : comparison_type) return Boolean;
+   overriding function "<=" (left, right : Comparison_Type) return Boolean;
    function "<=" (left, right : tense_voice_mood_record)  return Boolean;
    overriding function "<=" (left, right : Noun_Kind_Type)   return Boolean;
    overriding function "<=" (left, right : Pronoun_Kind_Type)   return Boolean;

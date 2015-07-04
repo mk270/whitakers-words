@@ -159,7 +159,7 @@ begin
                end if;
             elsif de.part.pofs = adj  and then
                --  POS taken care of by position
-               de.part.adj.co = comp
+               de.part.adj.Co = comp
             then
                Put(stemlist, de.stems(1)); Put(stemlist, ' ');
                Put(stemlist, de.part); Put(stemlist, ' ');
@@ -168,7 +168,7 @@ begin
                Set_Col(stemlist, 50);
                Integer_IO.Put(stemlist, Integer(j), 6); New_Line(stemlist);
             elsif de.part.pofs = adj  and then
-               de.part.adj.co = super
+               de.part.adj.Co = super
             then
                Put(stemlist, de.stems(1)); Put(stemlist, ' ');
                Put(stemlist, de.part); Put(stemlist, ' ');

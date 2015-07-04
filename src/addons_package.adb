@@ -383,7 +383,7 @@ package body addons_package is
       use Noun_Entry_IO;
       use Pronoun_Entry_IO;
       use Propack_Entry_IO;
-      use adjective_entry_io;
+      use Adjective_Entry_IO;
       use numeral_entry_io;
       use adverb_entry_io;
       use verb_entry_io;
@@ -399,7 +399,7 @@ package body addons_package is
       noun  : Noun_Entry;
       pronoun : Pronoun_Entry;
       propack : Propack_Entry;
-      adjective : adjective_entry;
+      adjective : Adjective_Entry;
       numeral : numeral_entry;
       adverb : adverb_entry;
       verb : verb_entry;
@@ -616,7 +616,7 @@ package body addons_package is
                --        M := L + PRONOUN_KIND_TYPE_IO.DEFAULT_WIDTH;
                --        PUT(S(L+1..M), P.PROPACK_KIND);
             when adj =>
-               m := l + adjective_entry_io.Default_Width;
+               m := l + Adjective_Entry_IO.Default_Width;
                Put(s(l+1..m), p.adj);
             when num =>
                m := l + numeral_entry_io.Default_Width;

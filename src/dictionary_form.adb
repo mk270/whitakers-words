@@ -60,8 +60,8 @@ begin
      de.stems(4) = Null_Stem_Type       and not
      (((de.part.pofs = n)  and then (de.part.n.Decl.which = 9))  or
      ((de.part.pofs = adj)  and then
-     ((de.part.adj.decl.which = 9) or
-     (de.part.adj.co = comp or de.part.adj.co = super))   ) or
+     ((de.part.adj.Decl.which = 9) or
+     (de.part.adj.Co = comp or de.part.adj.Co = super))   ) or
      ((de.part.pofs = v)  and then (de.part.v.con = (9, 8))) or
      ((de.part.pofs = v)  and then (de.part.v.con = (9, 9))))
    then
@@ -190,7 +190,7 @@ begin
             ox(3) := add(de.stems(1), "um");
          end if;
 
-      elsif de.part.adj.decl = (9, 8)  then
+      elsif de.part.adj.Decl = (9, 8)  then
          ox(1) := add(de.stems(1), ".");
          ox(2) := add(null_ox, "abb.");
 
@@ -208,34 +208,34 @@ begin
       --DICTIONARY_ENTRY_IO.PUT(DE);
       --TEXT_IO.NEW_LINE;
 
-      if de.part.adj.co = comp  then
+      if de.part.adj.Co = comp  then
          ox(1) := add(de.stems(1), "or");
          ox(2) := add(de.stems(1), "or");
          ox(3) := add(de.stems(1), "us");
-      elsif de.part.adj.co = super  then
+      elsif de.part.adj.Co = super  then
          ox(1) := add(de.stems(1), "mus");
          ox(2) := add(de.stems(1), "ma");
          ox(3) := add(de.stems(1), "mum");
 
-      elsif de.part.adj.co = pos  then
-         if de.part.adj.decl.which = 1  then
-            if de.part.adj.decl.var = 1  then
+      elsif de.part.adj.Co = pos  then
+         if de.part.adj.Decl.which = 1  then
+            if de.part.adj.Decl.var = 1  then
                ox(1) := add(de.stems(1), "us");
                ox(2) := add(de.stems(2), "a");
                ox(3) := add(de.stems(2), "um");
-            elsif de.part.adj.decl.var = 2  then
+            elsif de.part.adj.Decl.var = 2  then
                ox(1) := add(de.stems(1), "");
                ox(2) := add(de.stems(2), "a");
                ox(3) := add(de.stems(2), "um");
-            elsif de.part.adj.decl.var = 3  then
+            elsif de.part.adj.Decl.var = 3  then
                ox(1) := add(de.stems(1), "us");
                ox(2) := add(de.stems(2), "a");
                ox(3) := add(de.stems(2), "um (gen -ius)");
-            elsif de.part.adj.decl.var = 4  then
+            elsif de.part.adj.Decl.var = 4  then
                ox(1) := add(de.stems(1), "");
                ox(2) := add(de.stems(2), "a");
                ox(3) := add(de.stems(2), "um");
-            elsif de.part.adj.decl.var = 5  then
+            elsif de.part.adj.Decl.var = 5  then
                ox(1) := add(de.stems(1), "us");
                ox(2) := add(de.stems(2), "a");
                ox(3) := add(de.stems(2), "ud");
@@ -243,57 +243,57 @@ begin
                raise not_found;
             end if;
 
-         elsif de.part.adj.decl.which = 2  then
-            if de.part.adj.decl.var = 1  then
+         elsif de.part.adj.Decl.which = 2  then
+            if de.part.adj.Decl.var = 1  then
                ox(1) := add(null_ox, "-");
                ox(2) := add(de.stems(1), "e");
                ox(3) := add(null_ox, "-");
-            elsif de.part.adj.decl.var = 2  then
+            elsif de.part.adj.Decl.var = 2  then
                ox(1) := add(null_ox, "-");
                ox(2) := add(null_ox, "a");
                ox(3) := add(null_ox, "-");
-            elsif de.part.adj.decl.var = 3  then
+            elsif de.part.adj.Decl.var = 3  then
                ox(1) := add(de.stems(1), "es");
                ox(2) := add(de.stems(1), "es");
                ox(3) := add(de.stems(1), "es");
-            elsif de.part.adj.decl.var = 6  then
+            elsif de.part.adj.Decl.var = 6  then
                ox(1) := add(de.stems(1), "os");
                ox(2) := add(de.stems(1), "os");
                ox(3) := add(null_ox, "-");
-            elsif de.part.adj.decl.var = 7  then
+            elsif de.part.adj.Decl.var = 7  then
                ox(1) := add(de.stems(1), "os");
                ox(2) := add(null_ox, "-");
                ox(3) := add(null_ox, "-");
-            elsif de.part.adj.decl.var = 8  then
+            elsif de.part.adj.Decl.var = 8  then
                ox(1) := add(null_ox, "-");
                ox(2) := add(null_ox, "-");
                ox(3) := add(de.stems(2), "on");
             end if;
 
-         elsif de.part.adj.decl.which = 3  then
-            if de.part.adj.decl.var = 1  then
+         elsif de.part.adj.Decl.which = 3  then
+            if de.part.adj.Decl.var = 1  then
                ox(1) := add(de.stems(1), "");
                ox(2) := add(null_ox, "(gen.)");
                ox(3) := add(de.stems(2), "is");
-            elsif de.part.adj.decl.var = 2  then
+            elsif de.part.adj.Decl.var = 2  then
                ox(1) := add(de.stems(1), "is");
                ox(2) := add(de.stems(2), "is");
                ox(3) := add(de.stems(2), "e");
-            elsif de.part.adj.decl.var = 3  then
+            elsif de.part.adj.Decl.var = 3  then
                ox(1) := add(de.stems(1), "");
                ox(2) := add(de.stems(2), "is");
                ox(3) := add(de.stems(2), "e");
-            elsif de.part.adj.decl.var = 6  then
+            elsif de.part.adj.Decl.var = 6  then
                ox(1) := add(de.stems(1), "");
                ox(2) := add(null_ox, "(gen.)");
                ox(3) := add(de.stems(2), "os");
             end if;
 
-         elsif de.part.adj.decl = (9, 8)  then
+         elsif de.part.adj.Decl = (9, 8)  then
             ox(1) := add(de.stems(1), ".");
             ox(2) := add(null_ox, "abb.");
 
-         elsif de.part.adj.decl = (9, 9)  then
+         elsif de.part.adj.Decl = (9, 9)  then
             ox(1) := add(de.stems(1), "");
             ox(2) := add(null_ox, "undeclined");
 
@@ -301,39 +301,39 @@ begin
             raise not_found;
          end if;
 
-      elsif de.part.adj.co = x    then
-         if de.part.adj.decl.which = 1  then
-            if de.part.adj.decl.var = 1  then
+      elsif de.part.adj.Co = x    then
+         if de.part.adj.Decl.which = 1  then
+            if de.part.adj.Decl.var = 1  then
                ox(1) := add(de.stems(1), "us");
                ox(2) := add(de.stems(2), "a -um");
                ox(3) := add(de.stems(3), "or -or -us");
                ox(4) := add(de.stems(4), "mus -a -um");
-            elsif de.part.adj.decl.var = 2  then
+            elsif de.part.adj.Decl.var = 2  then
                ox(1) := add(de.stems(1), "");
                ox(2) := add(de.stems(2), "a -um");
                ox(3) := add(de.stems(3), "or -or -us");
                ox(4) := add(de.stems(4), "mus -a -um");
             end if;
 
-         elsif de.part.adj.decl.which = 3  then
-            if de.part.adj.decl.var = 1  then
+         elsif de.part.adj.Decl.which = 3  then
+            if de.part.adj.Decl.var = 1  then
                ox(1) := add(de.stems(1), "");
                ox(2) := add(de.stems(2), "is (gen.)");
                ox(3) := add(de.stems(3), "or -or -us");
                ox(4) := add(de.stems(4), "mus -a -um");
-            elsif de.part.adj.decl.var = 2  then
+            elsif de.part.adj.Decl.var = 2  then
                ox(1) := add(de.stems(1), "is");
                ox(2) := add(de.stems(2), "e");
                ox(3) := add(de.stems(3), "or -or -us");
                ox(4) := add(de.stems(4), "mus -a -um");
-            elsif de.part.adj.decl.var = 3  then
+            elsif de.part.adj.Decl.var = 3  then
                ox(1) := add(de.stems(1), "");
                ox(2) := add(de.stems(2), "is -e");
                ox(3) := add(de.stems(3), "or -or -us");
                ox(4) := add(de.stems(4), "mus -a -um");
             end if;
 
-         elsif de.part.adj.decl.which = 9  then
+         elsif de.part.adj.Decl.which = 9  then
             ox(1) := add(de.stems(1), "");
             ox(2) := add(null_ox, "undeclined");
             ox(3) := add(de.stems(3), "or -or -us");

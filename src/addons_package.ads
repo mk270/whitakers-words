@@ -39,7 +39,7 @@ package addons_package is
                pack : Propack_Entry;
                --PROPACK_KIND : PRONOUN_KIND_TYPE;
             when adj  =>
-               adj : adjective_entry;
+               adj : Adjective_Entry;
             when num  =>
                num : numeral_entry;
                --NUMERAL_VALUE : NUMERAL_VALUE_TYPE;

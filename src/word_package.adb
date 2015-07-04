@@ -747,7 +747,7 @@ package body word_package is
                                               suffix : in suffix_item := null_suffix_item) is
          MNPC_part : MNPC_type := Null_MNPC;
          pdl_part : part_entry;
-         com : comparison_type := x;
+         com : Comparison_Type := x;
          num_sort : numeral_sort_type := x;
          ls : Integer := 0;
          m : Integer := 0;
@@ -811,7 +811,7 @@ package body word_package is
                null;
             elsif
                (pdl_p = n    and then pdl_part.n.Decl = (9, 8)) or  --  No suffix for
-               (pdl_p = adj  and then pdl_part.adj.decl = (9, 8)) -- abbreviations
+               (pdl_p = adj  and then pdl_part.adj.Decl = (9, 8)) -- abbreviations
             then
                --   Can be no suffix on abbreviation");
                goto end_of_pdl_loop;
@@ -855,7 +855,7 @@ package body word_package is
                null;
             elsif
               (pdl_p = n    and then pdl_part.n.Decl = (9, 8)) or  --  No prefix for
-              (pdl_p = adj  and then pdl_part.adj.decl = (9, 8)) or --  abbreviations
+              (pdl_p = adj  and then pdl_part.adj.Decl = (9, 8)) or --  abbreviations
               (pdl_p = interj  or pdl_p = conj)  --  or INTERJ or CONJ
             then
                --PUT_LINE("In REDUCE_STEM_LIST   no prefix on abbreviationi, interj, conj");
@@ -940,17 +940,17 @@ package body word_package is
                                    MNPC => MNPC_part);
 
                      elsif (pdl_part.pofs = adj)                          and then
-                       (pdl_part.adj.decl <= sl(i).IR.qual.adj.decl)     and then
-                       ((sl(i).IR.qual.adj.co   <= pdl_part.adj.co  ) or
-                          ((sl(i).IR.qual.adj.co = x)  or (pdl_part.adj.co = x)))
+                       (pdl_part.adj.Decl <= sl(i).IR.qual.adj.decl)     and then
+                       ((sl(i).IR.qual.adj.co   <= pdl_part.adj.Co  ) or
+                          ((sl(i).IR.qual.adj.co = x)  or (pdl_part.adj.Co = x)))
                      then
                         --  Note the reversal on comparisom
                         --PUT(" HIT  ADJ   ");
                         --  Need to transfer the gender of the dictionary item
                         --  Need to transfer the CO of the ADJ dictionary item
-                        if pdl_part.adj.co in pos..super  then
+                        if pdl_part.adj.Co in pos..super  then
                            --  If the dictionary entry has a unique CO, use it
-                           com := pdl_part.adj.co;
+                           com := pdl_part.adj.Co;
                         else
                            --  Otherwise, the entry is X, generate a CO from KEY
                            com := adj_comp_from_key(pdl_key);
@@ -961,7 +961,7 @@ package body word_package is
                                           qual => (
                                                    pofs => adj,
                                                    adj => (
-                                                           pdl_part.adj.decl,
+                                                           pdl_part.adj.Decl,
                                                            sl(i).IR.qual.adj.cs,
                                                            sl(i).IR.qual.adj.number,
                                                            sl(i).IR.qual.adj.gender,
