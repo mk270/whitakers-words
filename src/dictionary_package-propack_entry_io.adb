@@ -16,8 +16,6 @@
 
 separate (Dictionary_Package)
 package body Propack_Entry_IO is
-   use Decn_Record_IO;
-   use Pronoun_Kind_Type_IO;
 
    ---------------------------------------------------------------------------
 
@@ -27,36 +25,36 @@ package body Propack_Entry_IO is
 
    procedure Get (File : in File_Type; Item : out Propack_Entry) is
    begin
-      Get (File, Item.Decl);
+      Decn_Record_IO.Get (File, Item.Decl);
       Get (File, Spacer);
-      Get (File, Item.Kind);
+      Pronoun_Kind_Type_IO.Get (File, Item.Kind);
    end Get;
 
    ---------------------------------------------------------------------------
 
    procedure Get (Item : out Propack_Entry) is
    begin
-      Get (Item.Decl);
+      Decn_Record_IO.Get (Item.Decl);
       Get (Spacer);
-      Get (Item.Kind);
+      Pronoun_Kind_Type_IO.Get (Item.Kind);
    end Get;
 
    ---------------------------------------------------------------------------
 
    procedure Put (File : in File_Type; Item : in Propack_Entry) is
    begin
-      Put (File, Item.Decl);
+      Decn_Record_IO.Put (File, Item.Decl);
       Put (File, ' ');
-      Put (File, Item.Kind);
+      Pronoun_Kind_Type_IO.Put (File, Item.Kind);
    end Put;
 
    ---------------------------------------------------------------------------
 
    procedure Put (Item : in Propack_Entry) is
    begin
-      Put (Item.Decl);
+      Decn_Record_IO.Put (Item.Decl);
       Put (' ');
-      Put (Item.Kind);
+      Pronoun_Kind_Type_IO.Put (Item.Kind);
    end Put;
 
    ---------------------------------------------------------------------------
@@ -70,9 +68,10 @@ package body Propack_Entry_IO is
       -- Used for computing lower bound of substring
       Low : Integer := Source'First - 1;
    begin
-      Get (Source (Low + 1 .. Source'Last), Target.Decl, Low);
+      Decn_Record_IO.Get (Source (Low + 1 .. Source'Last), Target.Decl, Low);
       Low := Low + 1;
-      Get (Source (Low + 1 .. Source'Last), Target.Kind, Last);
+      Pronoun_Kind_Type_IO.Get
+         ( Source (Low + 1 .. Source'Last), Target.Kind, Last );
    end Get;
 
    ---------------------------------------------------------------------------
@@ -84,13 +83,13 @@ package body Propack_Entry_IO is
    begin
       -- Put Decn_Record
       High := Low + Decn_Record_IO.Default_Width;
-      Put (Target (Low + 1 .. High), Item.Decl);
+      Decn_Record_IO.Put (Target (Low + 1 .. High), Item.Decl);
       Low := High + 1;
       Target (Low) :=  ' ';
 
       -- Put Pronoun_Kind_Type
       High := Low + Pronoun_Kind_Type_IO.Default_Width;
-      Put (Target (Low + 1 .. High), Item.Kind);
+      Pronoun_Kind_Type_IO.Put (Target (Low + 1 .. High), Item.Kind);
 
       -- Fill remainder of string
       Target (High + 1 .. Target'Last) := (others => ' ');
