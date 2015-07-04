@@ -14,7 +14,7 @@
 -- All parts of the WORDS system, source code and data files, are made freely
 -- available to anyone who wishes to use them, for whatever purpose.
 
-package body latIn_File_names is
+package body Latin_File_Names is
 
    function add_file_name_extension(name, extension : String) return String is
       --  This is the version that Creates a DOS file name
@@ -33,4 +33,4 @@ package body latIn_File_names is
       return name(name'First .. name_length) & '.' & extension(extension'First .. extension_length);
    end add_file_name_extension;
 
-end latIn_File_names;
+end Latin_File_Names;

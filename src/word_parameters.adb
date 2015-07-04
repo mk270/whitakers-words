@@ -15,7 +15,7 @@
 -- available to anyone who wishes to use them, for whatever purpose.
 
 with Strings_Package; use Strings_Package;
-with latIn_File_names; use latIn_File_names;
+with Latin_File_Names; use Latin_File_Names;
 with config; use config;
 with preface;
 pragma Elaborate (preface);

@@ -16,7 +16,7 @@
 
 with Text_IO;
 with Strings_Package; use Strings_Package;
-with latIn_File_names; use latIn_File_names;
+with Latin_File_Names; use Latin_File_Names;
 with Inflections_Package; use Inflections_Package;
 with IO_Exceptions;
 procedure makeinfl is

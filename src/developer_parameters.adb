@@ -16,7 +16,7 @@
 
 with Text_IO; use Text_IO;
 with Strings_Package; use Strings_Package;
-with latIn_File_names; use latIn_File_names;   --  Omit when Put name here
+with Latin_File_Names; use Latin_File_Names;   --  Omit when Put name here
 with word_parameters; use word_parameters;
 with Dictionary_Package; use Dictionary_Package;
 with preface;

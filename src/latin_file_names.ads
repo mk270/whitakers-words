@@ -14,7 +14,7 @@
 -- All parts of the WORDS system, source code and data files, are made freely
 -- available to anyone who wishes to use them, for whatever purpose.
 
-package latIn_File_names is
+package Latin_File_Names is
    --  In order to port the program LATIN to another system, the file names
    --  must be made consistent with that system.
    --  This package is withed into all units that declare external file names
@@ -68,4 +68,4 @@ package latIn_File_names is
    --  This is the function that Creates a file name legal for your system
    --  with a FILE_NAME defined above and a program specified extension
 
-end latIn_File_names;
+end Latin_File_Names;

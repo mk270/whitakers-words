@@ -20,7 +20,7 @@
 
 with word_support_package; use word_support_package;   --  for STEM_IO
 with Strings_Package; use Strings_Package;
-with latIn_File_names; use latIn_File_names;
+with Latin_File_Names; use Latin_File_Names;
 with preface;
 package body line_stuff is
 

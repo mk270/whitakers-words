@@ -14,7 +14,7 @@
 -- All parts of the WORDS system, source code and data files, are made freely
 -- available to anyone who wishes to use them, for whatever purpose.
 
-with latIn_File_names; use latIn_File_names;
+with Latin_File_Names; use Latin_File_Names;
 with Strings_Package; use Strings_Package;
 with config;
 with preface;
