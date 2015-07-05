@@ -55,61 +55,7 @@ package body Dictionary_Package is
 
    package body Adverb_Entry_IO is separate;
 
-   package body verb_entry_io is
-      use Decn_Record_IO;
-      use verb_kind_type_io;
-      spacer : Character := ' ';
-
-      procedure Get(f : in File_Type; v : out verb_entry) is
-      begin
-         Get(f, v.con);
-         Get(f, spacer);
-         Get(f, v.kind);
-      end Get;
-
-      procedure Get(v : out verb_entry) is
-      begin
-         Get(v.con);
-         Get(spacer);
-         Get(v.kind);
-      end Get;
-
-      procedure Put(f : in File_Type; v : in verb_entry) is
-      begin
-         Put(f, v.con);
-         Put(f, ' ');
-         Put(f, v.kind);
-      end Put;
-
-      procedure Put(v : in verb_entry) is
-      begin
-         Put(v.con);
-         Put(' ');
-         Put(v.kind);
-      end Put;
-
-      procedure Get(s : in String; v : out verb_entry; last : out Integer) is
-         l : Integer := s'First - 1;
-      begin
-         Get(s(l+1..s'Last), v.con, l);
-         l := l + 1;
-         Get(s(l+1..s'Last), v.kind, last);
-      end Get;
-
-      procedure Put(s : out String; v : in verb_entry) is
-         l : Integer := s'First - 1;
-         m : Integer := 0;
-      begin
-         m := l + Decn_Record_IO.Default_Width;
-         Put(s(l+1..m), v.con);
-         l := m + 1;
-         s(l) :=  ' ';
-         m := l + verb_kind_type_io.Default_Width;
-         Put(s(l+1..m), v.kind);
-         s(m+1..s'Last) := (others => ' ');
-      end Put;
-
-   end verb_entry_io;
+   package body Verb_Entry_IO is separate;
 
    package body preposition_entry_io is
       use case_type_io;
@@ -279,9 +225,9 @@ package body Dictionary_Package is
                end if;when adv =>
                   return left.adv.Co < right.adv.Co;
             when v =>
-               if (left.v.con < right.v.con)  or else
-                 (left.v.con = right.v.con  and then
-                 left.v.kind < right.v.kind)
+               if (left.v.Con < right.v.Con)  or else
+                 (left.v.Con = right.v.Con  and then
+                 left.v.Kind < right.v.Kind)
                then
                   return True;
                end if;
@@ -307,7 +253,7 @@ package body Dictionary_Package is
       use Adjective_Entry_IO;
       use Numeral_Entry_IO;
       use Adverb_Entry_IO;
-      use verb_entry_io;
+      use Verb_Entry_IO;
       use preposition_entry_io;
       use conjunction_entry_io;
       use interjection_entry_io;
@@ -319,7 +265,7 @@ package body Dictionary_Package is
       adjective : Adjective_Entry;
       numeral : Numeral_Entry;
       adverb : Adverb_Entry;
-      verb : verb_entry;
+      verb : Verb_Entry;
       preposition : preposition_entry;
       conjunction : conjunction_entry;
       interjection : interjection_entry;
@@ -583,7 +529,7 @@ package body Dictionary_Package is
                m := l + Adverb_Entry_IO.Default_Width;
                Put(s(l+1..m), p.adv);
             when v =>
-               m := l + verb_entry_io.Default_Width;
+               m := l + Verb_Entry_IO.Default_Width;
                Put(s(l+1..m), p.v);
             when vpar =>
                null;                --  No VAPR entryR
@@ -610,14 +556,14 @@ package body Dictionary_Package is
       use Noun_Kind_Type_IO;
       use Pronoun_Kind_Type_IO;
       use Inflections_Package.Integer_IO;
-      use verb_kind_type_io;
+      use Verb_Kind_Type_IO;
 
       noun_kind  : Noun_Kind_Type;
       pronoun_kind : Pronoun_Kind_Type;
       propack_kind : Pronoun_Kind_Type;
-      verb_kind : verb_kind_type;
-      vpar_kind : verb_kind_type;
-      supine_kind : verb_kind_type;
+      verb_kind : Verb_Kind_Type;
+      vpar_kind : Verb_Kind_Type;
+      supine_kind : Verb_Kind_Type;
       numeral_value : Numeral_Value_Type;
 
       procedure Get(f : in File_Type;
@@ -856,13 +802,13 @@ package body Dictionary_Package is
                m := l + Numeral_Value_Type_IO_Default_Width;
                Put(s(l+1..m), p.num_value);
             when v =>
-               m := l + verb_kind_type_io.Default_Width;
+               m := l + Verb_Kind_Type_IO.Default_Width;
                Put(s(l+1..m), p.v_kind);
             when vpar =>
-               m := l + verb_kind_type_io.Default_Width;
+               m := l + Verb_Kind_Type_IO.Default_Width;
                Put(s(l+1..m), p.vpar_kind);
             when supine =>
-               m := l + verb_kind_type_io.Default_Width;
+               m := l + Verb_Kind_Type_IO.Default_Width;
                Put(s(l+1..m), p.supine_kind);
             when others =>
                null;
@@ -1166,9 +1112,9 @@ begin     --  initialization of body of DICTIONARY_PACKAGE
      Comparison_Type_IO.Default_Width;
    Adverb_Entry_IO.Default_Width :=
      Comparison_Type_IO.Default_Width;
-   verb_entry_io.Default_Width :=
+   Verb_Entry_IO.Default_Width :=
      Decn_Record_IO.Default_Width + 1 +
-     verb_kind_type_io.Default_Width;
+     Verb_Kind_Type_IO.Default_Width;
    preposition_entry_io.Default_Width := 0;
    conjunction_entry_io.Default_Width := 0;
 

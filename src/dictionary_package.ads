@@ -151,11 +151,11 @@ package Dictionary_Package is
             when num =>
                num_value : Numeral_Value_Type := 0;
             when v =>
-               v_kind : verb_kind_type := x;
+               v_kind : Verb_Kind_Type := x;
             when vpar =>
-               vpar_kind : verb_kind_type := x;
+               vpar_kind : Verb_Kind_Type := x;
             when supine =>
-               supine_kind : verb_kind_type := x;
+               supine_kind : Verb_Kind_Type := x;
             when others =>
                null;
          end case;
@@ -341,7 +341,7 @@ package Dictionary_Package is
       procedure Put (Item : in Adverb_Entry);
       -- TODO: Document meaning of Last
       procedure Get
-         ( Source : in String;
+         ( Source : in  String;
            Target : out Adverb_Entry;
            Last   : out Integer
          );
@@ -350,21 +350,31 @@ package Dictionary_Package is
 
    ---------------------------------------------------------------------------
 
-   type verb_entry is
+   type Verb_Entry is
       record
-         con  : Decn_Record := (0,0);
-         kind : verb_kind_type := x;
+         -- NOTE: Other records use Decl as field name for Decn_Record,
+         --    should this one be changed into Decl for consistency?
+         Con  : Decn_Record := (0, 0);
+         Kind : Verb_Kind_Type := x;
       end record;
 
-   package verb_entry_io is
+   -- FIXME: These subprograms don't check if Is_Open (File)
+   package Verb_Entry_IO is
       Default_Width : Natural;
-      procedure Get(f : in File_Type; v : out verb_entry);
-      procedure Get(v : out verb_entry);
-      procedure Put(f : in File_Type; v : in verb_entry);
-      procedure Put(v : in verb_entry);
-      procedure Get(s : in String; v : out verb_entry; last : out Integer);
-      procedure Put(s : out String; v : in verb_entry);
-   end verb_entry_io;
+      procedure Get (File : in File_Type; Item : out Verb_Entry);
+      procedure Get (Item : out Verb_Entry);
+      procedure Put (File : in File_Type; Item : in Verb_Entry);
+      procedure Put (Item : in Verb_Entry);
+      -- TODO: Document meaning of Last
+      procedure Get
+         ( Source : in  String;
+           Target : out Verb_Entry;
+           Last   : out Integer
+         );
+      procedure Put (Target : out String; Item : in Verb_Entry);
+   end Verb_Entry_IO;
+
+   ---------------------------------------------------------------------------
 
    type preposition_entry is
       record
@@ -427,7 +437,7 @@ package Dictionary_Package is
             when adv =>
                adv : Adverb_Entry;
             when v =>
-               v : verb_entry;
+               v : Verb_Entry;
             when vpar =>
                null;        --  There will be no VPAR dictionary entries
             when supine =>
