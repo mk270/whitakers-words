@@ -60,7 +60,7 @@ package body Adverb_Entry_IO is
    ---------------------------------------------------------------------------
 
    procedure Put (Target : out String; Item : in Adverb_Entry) is
-      -- Used to get upper bound of subbstring
+      -- Used to get upper bound of substring
       High : constant Integer :=
          Target'First + Comparison_Type_IO.Default_Width - 1;
    begin
