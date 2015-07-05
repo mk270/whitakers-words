@@ -2474,7 +2474,7 @@ begin  --  initialization of body of INFLECTIONS_PACKAGE
    mood_type_io.Default_Width := mood_type'Width;
    Noun_Kind_Type_IO.Default_Width := Noun_Kind_Type'Width;
    Pronoun_Kind_Type_IO.Default_Width := Pronoun_Kind_Type'Width;
-   verb_kind_type_io.Default_Width := verb_kind_type'Width;
+   Verb_Kind_Type_IO.Default_Width := Verb_Kind_Type'Width;
    Numeral_Sort_Type_IO.Default_Width := Numeral_Sort_Type'Width;
    age_type_io.Default_Width := age_type'Width;
    frequency_type_io.Default_Width := frequency_type'Width;

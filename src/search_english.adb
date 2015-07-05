@@ -131,10 +131,10 @@ procedure search_english(Input_english_word : String; pofs : Part_Of_Speech_Type
                Text_IO.Put (Output, "  " & Gender_Type'Image(de.part.n.Gender) & "  ");
             end if;
             if de.part.pofs = v then
-               Text_IO.Put(Output, "  ");  Decn_Record_IO.Put(Output, de.part.v.con);
+               Text_IO.Put(Output, "  ");  Decn_Record_IO.Put(Output, de.part.v.Con);
             end if;
-            if (de.part.pofs = v)  and then  (de.part.v.kind in gen..perfdef)  then
-               Text_IO.Put(Output, "  " & verb_kind_type'Image(de.part.v.kind) & "  ");
+            if (de.part.pofs = v)  and then  (de.part.v.Kind in gen..perfdef)  then
+               Text_IO.Put(Output, "  " & Verb_Kind_Type'Image(de.part.v.Kind) & "  ");
             end if;
 
             if words_mdev(show_dictionary_codes)    then

@@ -62,8 +62,8 @@ begin
      ((de.part.pofs = adj)  and then
      ((de.part.adj.Decl.which = 9) or
      (de.part.adj.Co = comp or de.part.adj.Co = super))   ) or
-     ((de.part.pofs = v)  and then (de.part.v.con = (9, 8))) or
-     ((de.part.pofs = v)  and then (de.part.v.con = (9, 9))))
+     ((de.part.pofs = v)  and then (de.part.v.Con = (9, 8))) or
+     ((de.part.pofs = v)  and then (de.part.v.Con = (9, 9))))
    then
       return Trim (de.stems(1)) & "  " & Part_Of_Speech_Type'Image(de.part.pofs);
       --  For UNIQUES, CONJ, INTERJ, ...
@@ -354,19 +354,19 @@ begin
 
    elsif de.part.pofs = v    then
 
-      if de.part.v.kind = dep  then    --  all DEP
+      if de.part.v.Kind = dep  then    --  all DEP
          ox(3) := add(null_ox, "DEP");  --  Flag for later use
          ox(4) := add(de.stems(4), "us sum");
-         if de.part.v.con.which = 1  then
+         if de.part.v.Con.which = 1  then
             ox(1) := add(de.stems(1), "or");
             ox(2) := add(de.stems(2), "ari");
-         elsif de.part.v.con.which = 2  then
+         elsif de.part.v.Con.which = 2  then
             ox(1) := add(de.stems(1), "eor");
             ox(2) := add(de.stems(2), "eri");
-         elsif de.part.v.con.which = 3  then
+         elsif de.part.v.Con.which = 3  then
             ox(1) := add(de.stems(1), "or");
             --  Would be wrong for 3 3, but no 3 3 DEP
-            if de.part.v.con.var = 4  then
+            if de.part.v.Con.var = 4  then
                ox(2) := add(de.stems(2), "iri");
             else
                ox(2) := add(de.stems(2), "i");
@@ -378,13 +378,13 @@ begin
             raise not_found;
          end if;                      --  all DEP handled
 
-      elsif de.part.v.kind = perfdef  then   --  all PERFDEF handled
+      elsif de.part.v.Kind = perfdef  then   --  all PERFDEF handled
          ox(1) := add(de.stems(3), "i");
          ox(2) := add(de.stems(3), "isse");
          ox(3) := add(de.stems(4), "us");
          ox(4) := null_ox;  --  Flag for later use
 
-      elsif de.part.v.kind = impers  and then
+      elsif de.part.v.Kind = impers  and then
         ((de.stems(1)(1..3) = "zzz")  and   -- Recognize as PERFDEF IMPERS
         (de.stems(2)(1..3) = "zzz"))
       then
@@ -395,13 +395,13 @@ begin
 
       else                            --  Not DEP/PERFDEF/IMPERS
 
-         if de.part.v.kind = impers  then
-            if de.part.v.con.which = 1  then
+         if de.part.v.Kind = impers  then
+            if de.part.v.Con.which = 1  then
                ox(1) := add(de.stems(1), "at");
-            elsif de.part.v.con.which = 2  then
+            elsif de.part.v.Con.which = 2  then
                ox(1) := add(de.stems(1), "et");
-            elsif de.part.v.con.which = 3  then
-               if de.part.v.con.var = 2  then
+            elsif de.part.v.Con.which = 3  then
+               if de.part.v.Con.var = 2  then
                   ox(1) := add(de.stems(1), "t");
                else
                   if de.stems(1)(Trim (de.stems(1))'Last) = 'i'  then
@@ -410,13 +410,13 @@ begin
                      ox(1) := add(de.stems(1), "it");
                   end if;
                end if;
-            elsif de.part.v.con.which = 5  then
-               if de.part.v.con.var = 1  then
+            elsif de.part.v.Con.which = 5  then
+               if de.part.v.Con.var = 1  then
                   ox(1) := add(de.stems(1), "est");
                end if;
-            elsif de.part.v.con.which = 7  then
-               if de.part.v.con.var = 1  or
-                 de.part.v.con.var = 2
+            elsif de.part.v.Con.which = 7  then
+               if de.part.v.Con.var = 1  or
+                 de.part.v.Con.var = 2
                then
                   ox(1) := add(de.stems(1), "t");
                end if;
@@ -425,12 +425,12 @@ begin
          else
 
             --  OX 1
-            if de.part.v.con.which = 2  then
+            if de.part.v.Con.which = 2  then
                ox(1) := add(de.stems(1), "eo");
 
-            elsif de.part.v.con.which = 5  then
+            elsif de.part.v.Con.which = 5  then
                ox(1) := add(de.stems(1), "um");
-            elsif de.part.v.con = (7, 2)  then
+            elsif de.part.v.Con = (7, 2)  then
                ox(1) := add(de.stems(1), "am");
             else
                ox(1) := add(de.stems(1), "o");
@@ -440,74 +440,74 @@ begin
          end if;
 
          --  OX 2
-         if de.part.v.con.which = 1  then
+         if de.part.v.Con.which = 1  then
             ox(2) := add(de.stems(2), "are");
-         elsif de.part.v.con.which = 2  then
+         elsif de.part.v.Con.which = 2  then
             ox(2) := add(de.stems(2), "ere");
-         elsif de.part.v.con.which = 3  then
-            if de.part.v.con.var = 2  then
+         elsif de.part.v.Con.which = 3  then
+            if de.part.v.Con.var = 2  then
                ox(2) := add(de.stems(2), "re");
-            elsif de.part.v.con.var = 3  then
+            elsif de.part.v.Con.var = 3  then
                ox(2) := add(de.stems(2), "eri");
-            elsif de.part.v.con.var = 4  then
+            elsif de.part.v.Con.var = 4  then
                ox(2) := add(de.stems(2), "ire");
             else
                ox(2) := add(de.stems(2), "ere");
             end if;
             --            elsif DE.PART.V.CON.WHICH = 4  then
             --              OX(2) := ADD(DE.STEMS(2), "ire");
-         elsif de.part.v.con.which = 5  then
-            if de.part.v.con.var = 1  then
+         elsif de.part.v.Con.which = 5  then
+            if de.part.v.Con.var = 1  then
                ox(2) := add(de.stems(2), "esse");
-            elsif de.part.v.con.var = 2  then
+            elsif de.part.v.Con.var = 2  then
                ox(2) := add(de.stems(1), "e");  --  tricky, but it is 1
             end if;
-         elsif de.part.v.con.which = 6  then
-            if de.part.v.con.var = 1  then
+         elsif de.part.v.Con.which = 6  then
+            if de.part.v.Con.var = 1  then
                ox(2) := add(de.stems(2), "re");
-            elsif de.part.v.con.var = 2  then
+            elsif de.part.v.Con.var = 2  then
                ox(2) := add(de.stems(2), "le");
             end if;
-         elsif de.part.v.con.which = 7  then
-            if de.part.v.con.var = 3  then
+         elsif de.part.v.Con.which = 7  then
+            if de.part.v.Con.var = 3  then
                ox(2) := add(de.stems(2), "se");
             end if;
-         elsif de.part.v.con.which = 8  then
-            if de.part.v.con.var = 1  then
+         elsif de.part.v.Con.which = 8  then
+            if de.part.v.Con.var = 1  then
                ox(2) := add(de.stems(2), "are");
-            elsif de.part.v.con.var = 2  then
+            elsif de.part.v.Con.var = 2  then
                ox(2) := add(de.stems(2), "ere");
-            elsif de.part.v.con.var = 3  then
+            elsif de.part.v.Con.var = 3  then
                ox(2) := add(de.stems(2), "ere");
-            elsif de.part.v.con.var = 4  then
+            elsif de.part.v.Con.var = 4  then
                ox(2) := add(de.stems(2), "ire");
             else
                ox(2) := add(de.stems(2), "ere");
             end if;
-         elsif de.part.v.con = (9, 8)  then
+         elsif de.part.v.Con = (9, 8)  then
             ox(1) := add(de.stems(1), ".");
             ox(2) := add(null_ox, "abb.");
-         elsif de.part.v.con = (9, 9)  then
+         elsif de.part.v.Con = (9, 9)  then
             ox(1) := add(de.stems(1), "");
             ox(2) := add(null_ox, "undeclined");
 
          end if;                        --  OX(2) handled
 
          --  OX 3 & 4
-         if de.part.v.kind = impers  then
+         if de.part.v.Kind = impers  then
             if ox(3)(1..7) /= "PERFDEF" then
                ox(3) := add(de.stems(3), "it");
             end if;
             ox(4) := add(de.stems(4), "us est");
-         elsif de.part.v.kind  = semidep  then    --  Finalization correction
+         elsif de.part.v.Kind  = semidep  then    --  Finalization correction
             ox(4) := add(de.stems(4), "us sum");
-         elsif de.part.v.con = (5, 1)  then
+         elsif de.part.v.Con = (5, 1)  then
             ox(3) := add(de.stems(3), "i");
             ox(4) := add(de.stems(4), "urus");
-         elsif de.part.v.con.which = 8  then
+         elsif de.part.v.Con.which = 8  then
             ox(3) := add("", "additional");
             ox(4) := add("", "forms");
-         elsif de.part.v.con.which = 9  then
+         elsif de.part.v.Con.which = 9  then
             ox(3) := add(null_ox, "BLANK");  --  Flag for later use
             ox(4) := add(null_ox, "BLANK");  --  Flag for later use
          else
@@ -517,7 +517,7 @@ begin
 
       end if;                 --  On V KIND
 
-      if de.part.v.con = (6, 1)  then      --  Finalization correction
+      if de.part.v.Con = (6, 1)  then      --  Finalization correction
          ox(3) := add(ox(3), " (ii)");
       end if;
 
@@ -641,16 +641,16 @@ begin
    if de.part.pofs = v then
 
       --  For DICTPAGE
-      if de.part.v.con.which in 1..3 then
-         if de.part.v.con.var = 1 then
-            add_to(" (" & fst(de.part.v.con.which) & ")");
-         elsif  de.part.v.con = (3, 4)  then
+      if de.part.v.Con.which in 1..3 then
+         if de.part.v.Con.var = 1 then
+            add_to(" (" & fst(de.part.v.Con.which) & ")");
+         elsif  de.part.v.Con = (3, 4)  then
             add_to(" (" & fst(4) & ")");
          end if;
       end if;
 
-      if de.part.v.kind in gen..perfdef then
-         add_to(" " & verb_kind_type'Image(de.part.v.kind) & "  ");
+      if de.part.v.Kind in gen..perfdef then
+         add_to(" " & Verb_Kind_Type'Image(de.part.v.Kind) & "  ");
       end if;
 
    end if;

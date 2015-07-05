@@ -1033,7 +1033,7 @@ package body word_package is
                      elsif pdl_part.pofs = v then
                         --TEXT_IO.PUT_LINE("V found, now check CON");
                         if sl(i).IR.qual.pofs = v     and then
-                          (pdl_part.v.con <= sl(i).IR.qual.v.con)
+                          (pdl_part.v.Con <= sl(i).IR.qual.v.con)
                         then
                            --TEXT_IO.PUT(" HIT  V     ");
                            m := m + 1;
@@ -1042,7 +1042,7 @@ package body word_package is
                                              qual => (
                                                       pofs => v,
                                                       v => (
-                                                            pdl_part.v.con,
+                                                            pdl_part.v.Con,
                                                             sl(i).IR.qual.v.tense_voice_mood,
                                                             sl(i).IR.qual.v.person,
                                                             sl(i).IR.qual.v.number )  ),
@@ -1054,7 +1054,7 @@ package body word_package is
                                       MNPC => MNPC_part);
 
                         elsif sl(i).IR.qual.pofs = vpar   and then
-                           (pdl_part.v.con <= sl(i).IR.qual.vpar.con)
+                           (pdl_part.v.Con <= sl(i).IR.qual.vpar.con)
                         then
                            --PUT(" HIT  VPAR  ");
                            m := m + 1;
@@ -1063,7 +1063,7 @@ package body word_package is
                                              qual => (
                                                       pofs => vpar,
                                                       vpar => (
-                                                               pdl_part.v.con,
+                                                               pdl_part.v.Con,
                                                                sl(i).IR.qual.vpar.cs,
                                                                sl(i).IR.qual.vpar.number,
                                                                sl(i).IR.qual.vpar.gender,
@@ -1076,7 +1076,7 @@ package body word_package is
                                       MNPC => MNPC_part);
 
                         elsif sl(i).IR.qual.pofs = supine   and then
-                          (pdl_part.v.con <= sl(i).IR.qual.supine.con)
+                          (pdl_part.v.Con <= sl(i).IR.qual.supine.con)
                         then
                            --PUT(" HIT  SUPINE");
                            m := m + 1;
@@ -1085,7 +1085,7 @@ package body word_package is
                                              qual => (
                                                       pofs => supine,
                                                       supine => (
-                                                                 pdl_part.v.con,
+                                                                 pdl_part.v.Con,
                                                                  sl(i).IR.qual.supine.cs,
                                                                  sl(i).IR.qual.supine.number,
                                                                  sl(i).IR.qual.supine.gender)  ),

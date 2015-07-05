@@ -234,7 +234,7 @@ package Inflections_Package is
 
    Numeral_Value_Type_IO_Default_Width : Integer := 5;
 
-   type verb_kind_type is (
+   type Verb_Kind_Type is (
                            x,         --  all, none, or unknown
                            to_be,     --  only the verb TO BE (esse)
                            to_being,  --  compounds of the verb to be (esse)
@@ -253,8 +253,8 @@ package Inflections_Package is
                            --  having only perfect stem, but with present force
                           );
 
-   package verb_kind_type_io is
-      new Text_IO.enumeration_io(verb_kind_type);
+   package Verb_Kind_Type_IO is
+      new Text_IO.enumeration_io(Verb_Kind_Type);
 
    type noun_record is
       record

@@ -24,16 +24,16 @@ procedure Put_example_line(configuration : configuration_type;
                            Output : Text_IO.File_Type; ir : in Inflection_Record;
                                                        de : in dictionary_entry) is
    --      use LATIN_DEBUG;
-   vk : verb_kind_type;
+   vk : Verb_Kind_Type;
 
    procedure Put_verb_example(Output : Text_IO.File_Type; ir : in Inflection_Record;
-                                                          vk : in verb_kind_type) is
+                                                          vk : in Verb_Kind_Type) is
       person : constant person_type      := ir.qual.v.person;
       number : constant number_type      := ir.qual.v.number;
       tense  : constant tense_type       := ir.qual.v.tense_voice_mood.tense;
       mood   : constant mood_type        := ir.qual.v.tense_voice_mood.mood;
       voice  : voice_type       := ir.qual.v.tense_voice_mood.voice;
-      kind   : constant verb_kind_type   := vk;
+      kind   : constant Verb_Kind_Type   := vk;
       --  Nothing on  (part), gerund,
 
       function they return String is
@@ -325,7 +325,7 @@ begin    --  PUT_EXAMPLE_LINE
 
          when v =>
             --TEXT_IO.NEW_LINE(OUTPUT);        --  Verb info too much for same line
-            vk := de.part.v.kind;
+            vk := de.part.v.Kind;
             Text_IO.Set_Col(Output, 6);
             Put_verb_example(Output, ir, vk);
             Text_IO.New_Line(Output);

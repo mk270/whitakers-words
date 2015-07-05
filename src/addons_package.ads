@@ -46,7 +46,7 @@ package addons_package is
             when adv  =>
                adv : Adverb_Entry;
             when v  =>
-               v : verb_entry;
+               v : Verb_Entry;
                --VERB_KIND : VERB_KIND_TYPE;
             when others  =>
                null;

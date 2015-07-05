@@ -139,7 +139,7 @@ procedure list_sweep(pa : in out Parse_Array; pa_last : in out Integer) is
             end if;
 
             --  Check for V IMPERS and demand that only 3rd person    --  ???????
-            if de.part.v.kind = impers then
+            if de.part.v.Kind = impers then
                if pr.IR.qual.v.person = 3 then
                   null;
                else
@@ -149,7 +149,7 @@ procedure list_sweep(pa : in out Parse_Array; pa_last : in out Integer) is
             end if;
 
             --  Check for V DEP    and demand PASSIVE
-            if de.part.v.kind = dep then
+            if de.part.v.Kind = dep then
                --TEXT_IO.PUT("DEP  ");
                if (pr.IR.qual.v.tense_voice_mood.voice = active)  and
                  (pr.IR.qual.v.tense_voice_mood.mood = inf)  and
@@ -171,7 +171,7 @@ procedure list_sweep(pa : in out Parse_Array; pa_last : in out Integer) is
             end if;
 
             --  Check for V SEMIDEP    and demand PASSIVE ex Perf
-            if de.part.v.kind = semidep then
+            if de.part.v.Kind = semidep then
                if (pr.IR.qual.v.tense_voice_mood.voice = passive)  and
                  (pr.IR.qual.v.tense_voice_mood.tense in pres..fut)  and
                  (pr.IR.qual.v.tense_voice_mood.mood in ind..imp)
@@ -193,22 +193,22 @@ procedure list_sweep(pa : in out Parse_Array; pa_last : in out Integer) is
                if (pr.IR.qual.v.person = 1) and then
                   (pr.IR.qual.v.number = s)
                then
-                  if ((de.part.v.kind in x..intrans)  and
+                  if ((de.part.v.Kind in x..intrans)  and
                     (pr.IR.qual.v.tense_voice_mood = (pres, active, ind))) or else
-                    ((de.part.v.kind = dep)  and
+                    ((de.part.v.Kind = dep)  and
                     (pr.IR.qual.v.tense_voice_mood = (pres, passive, ind))) or else
-                    ((de.part.v.kind = semidep)  and
+                    ((de.part.v.Kind = semidep)  and
                     (pr.IR.qual.v.tense_voice_mood = (pres, active, ind)))
                   then
                      allowed := True;
-                  elsif (de.part.v.kind = perfdef)  and
+                  elsif (de.part.v.Kind = perfdef)  and
                      (pr.IR.qual.v.tense_voice_mood = (perf, active, ind))
                   then
                      allowed := True;
                   else
                      allowed := False;
                   end if;
-               elsif de.part.v.kind = impers then
+               elsif de.part.v.Kind = impers then
                   if (pr.IR.qual.v.person = 3)  and then
                     (pr.IR.qual.v.number = s)  and then
                     (pr.IR.qual.v.tense_voice_mood = (pres, active, ind))
