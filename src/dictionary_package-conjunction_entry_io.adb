@@ -39,17 +39,11 @@ package body Conjunction_Entry_IO is
 
    ---------------------------------------------------------------------------
 
-   procedure Put (File : in File_Type; Item : in Conjunction_Entry) is
-   begin
-      null;
-   end Put;
+   procedure Put (File : in File_Type; Item : in Conjunction_Entry) is null;
 
    ---------------------------------------------------------------------------
 
-   procedure Put (Item : in Conjunction_Entry) is
-   begin
-      null;
-   end Put;
+   procedure Put (Item : in Conjunction_Entry) is null;
 
    ---------------------------------------------------------------------------
 

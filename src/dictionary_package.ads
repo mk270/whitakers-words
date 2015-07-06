@@ -399,10 +399,7 @@ package Dictionary_Package is
 
    ---------------------------------------------------------------------------
 
-   type Conjunction_Entry is
-      record
-         null;
-      end record;
+   type Conjunction_Entry is null record;
 
    package Conjunction_Entry_IO is
       Default_Width : Natural;
