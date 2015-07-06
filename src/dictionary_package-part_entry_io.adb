@@ -193,7 +193,6 @@ package body Part_Entry_IO is
          when tackon .. suffix =>
             null;
       end case;
-      --PUT(F, STRING'((INTEGER(COL(F))..PART_ENTRY_IO.DEFAULT_WIDTH+C-1 => ' ')));
    end Put;
 
    ---------------------------------------------------------------------------
@@ -232,7 +231,6 @@ package body Part_Entry_IO is
          when x =>
             null;
       end case;
-      --PUT(STRING'((INTEGER(COL)..PART_ENTRY_IO.DEFAULT_WIDTH+C-1 => ' ')));
    end Put;
 
    ---------------------------------------------------------------------------
@@ -304,10 +302,13 @@ package body Part_Entry_IO is
       Low  : Integer := Target'First - 1;
       High : Integer := 0;
    begin
+      -- Put Part_Of_Speech_Type
       High := Low + Part_Of_Speech_Type_IO.Default_Width;
       Put (Target (Low + 1 .. High), Item.pofs);
       Low := High + 1;
       Target (Low) :=  ' ';
+
+      -- Put Part_Entry
       case Item.pofs is
          when n =>
             High := Low + Noun_Entry_IO.Default_Width;
@@ -348,7 +349,6 @@ package body Part_Entry_IO is
          when tackon .. suffix =>
             null;
       end case;
-      --S(M+1..S'LAST) := (others => ' ');
    end Put;
 
    ---------------------------------------------------------------------------

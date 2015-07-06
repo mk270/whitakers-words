@@ -482,6 +482,8 @@ package Dictionary_Package is
            Target : out Part_Entry;
            Last   : out Integer
          );
+      -- FIXME: There is possibility that remainder of Target is not filled with
+      --    ' ' in certain cases.
       procedure Put (Target : out String; Item : in Part_Entry);
    end Part_Entry_IO;
 
