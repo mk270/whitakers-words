@@ -418,7 +418,7 @@ package Dictionary_Package is
 
    ---------------------------------------------------------------------------
 
-   type Interjection_Entry is null;
+   type Interjection_Entry is null record;
 
    package Interjection_Entry_IO is
       Default_Width : Natural;
