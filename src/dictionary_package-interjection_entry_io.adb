@@ -23,9 +23,8 @@ package body Interjection_Entry_IO is
 
    ---------------------------------------------------------------------------
 
-   pragma Warnings (Off, "formal parameter ""File"" is not referenced");
    procedure Get (File : in File_Type; Item : out Interjection_Entry) is
-      pragma Warnings (On, "formal parameter ""File"" is not referenced");
+      pragma Unreferenced (File);
    begin
       Item := Null_Interjection_Entry;
    end Get;
@@ -61,9 +60,8 @@ package body Interjection_Entry_IO is
 
    ---------------------------------------------------------------------------
 
-   pragma Warnings (Off, "formal parameter ""Item"" is not referenced");
    procedure Put (Target : out String; Item : in Interjection_Entry) is
-      pragma Warnings (On, "formal parameter ""Item"" is not referenced");
+      pragma Unreferenced (Item);
    begin
       Target (Target'First .. Target'Last) := (others => ' ');
    end Put;
