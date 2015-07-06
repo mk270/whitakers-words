@@ -16,7 +16,8 @@
 
 --  Need KIND_ENTRY and IO
 --  Need to modify TRANS
-with Text_IO; use Text_IO;
+with Ada.Text_IO; use Ada.Text_IO;
+use Ada; -- FIXME: A stopgap measure until I drop use clause on Text_IO
 with Direct_IO;
 with Inflections_Package; use Inflections_Package;
 package Dictionary_Package is

@@ -40,6 +40,19 @@ package body Kind_Entry_IO is
         Item : out Kind_Entry
       )
    is
+
+      --------------------------------------------------------------------------
+      -- Small helper procedure
+      procedure Set_Col (File: Ada.Text_IO.File_Type) is
+      begin
+         Ada.Text_IO.Set_Col
+            ( File,
+              Col (File) + Positive_Count (Kind_Entry_IO.Default_Width)
+            );
+      end Set_Col;
+
+      --------------------------------------------------------------------------
+
    begin
       case POFS is
          when n =>
@@ -52,19 +65,13 @@ package body Kind_Entry_IO is
             Get (File, Propack_Kind);
             Item := (pack, Propack_Kind);
          when adj =>
-            Set_Col
-               ( File,
-                 Col (File) + Positive_Count (Kind_Entry_IO.Default_Width)
-               );
+            Set_Col (File);
             Item := (pofs => adj);
          when num =>
             Get (File, Numeral_Value);
             Item := (num, Numeral_Value);
          when adv =>
-            Set_Col
-               ( File,
-                 Col (File) + Positive_Count (Kind_Entry_IO.Default_Width)
-               );
+            Set_Col (File);
             Item := (pofs => adv);
          when v =>
             Get (File, Verb_Kind);
@@ -76,46 +83,25 @@ package body Kind_Entry_IO is
             Get (File, Supine_Kind);
             Item := (supine, Supine_Kind);
          when prep =>
-            Set_Col
-               ( File,
-                 Col (File) + Positive_Count (Kind_Entry_IO.Default_Width)
-               );
+            Set_Col (File);
             Item := (pofs => prep);
          when conj =>
-            Set_Col
-               ( File,
-                 Col (File) + Positive_Count (Kind_Entry_IO.Default_Width)
-               );
+            Set_Col (File);
             Item := (pofs => conj);
          when interj =>
-            Set_Col
-               ( File,
-                 Col (File) + Positive_Count (Kind_Entry_IO.Default_Width)
-               );
+            Set_Col (File);
             Item := (pofs => interj);
          when tackon =>
-            Set_Col
-               ( File,
-                 Col (File) + Positive_Count (Kind_Entry_IO.Default_Width)
-               );
+            Set_Col (File);
             Item := (pofs => tackon);
          when prefix =>
-            Set_Col
-               ( File,
-                 Col (File) + Positive_Count (Kind_Entry_IO.Default_Width)
-               );
+            Set_Col (File);
             Item := (pofs => prefix);
          when suffix =>
-            Set_Col
-               ( File,
-                 Col (File) + Positive_Count (Kind_Entry_IO.Default_Width)
-               );
+            Set_Col (File);
             Item := (pofs => suffix);
          when x =>
-            Set_Col
-               ( File,
-                 Col (File) + Positive_Count (Kind_Entry_IO.Default_Width)
-               );
+            Set_Col (File);
             Item := (pofs => x);
       end case;
    end Get;
@@ -185,7 +171,9 @@ package body Kind_Entry_IO is
       )
    is
       pragma Unreferenced (POFS);
-      Starting_Col : constant Positive := Positive (Col (File));
+      -- Used for computing bounds of substring for filling
+      Ending_Col : constant Positive :=
+         Kind_Entry_IO.Default_Width + Positive (Col (File)) - 1;
    begin
       case Item.pofs is
          when n =>
@@ -205,12 +193,7 @@ package body Kind_Entry_IO is
          when others =>
             null;
       end case;
-      Put
-         ( File,
-           String'(Integer (Col (File)) ..
-                   Kind_Entry_IO.Default_Width + Starting_Col - 1
-              => ' ')
-         );
+      Put (File, String'(Integer (Col (File)) .. Ending_Col => ' '));
    end Put;
 
    ---------------------------------------------------------------------------
@@ -218,7 +201,9 @@ package body Kind_Entry_IO is
    procedure Put (POFS : in Part_Of_Speech_Type; Item : in Kind_Entry)
    is
       pragma Unreferenced (POFS);
-      Starting_Col : constant Positive := Positive (Col);
+      -- Used for computing bounds of substring for filling
+      Ending_Col     : constant Positive :=
+         Kind_Entry_IO.Default_Width + Positive (Col) - 1;
    begin
       case Item.pofs is
          when n =>
@@ -238,11 +223,7 @@ package body Kind_Entry_IO is
          when others =>
             null;
       end case;
-      Put
-         ( String'(Integer (Col) ..
-                   Kind_Entry_IO.Default_Width + Starting_Col - 1
-              => ' ')
-         );
+      Put (String'(Integer (Col) .. Ending_Col => ' '));
    end Put;
 
    ---------------------------------------------------------------------------
