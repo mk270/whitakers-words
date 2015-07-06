@@ -37,7 +37,8 @@ package body Dictionary_Package is
          when prep    => return 1;
          when conj    => return 1;
          when interj  => return 1;
-         when others  => return 0;
+         when x       => return 0;
+         when tackon .. suffix => return 0;
       end case;
    end Number_Of_Stems;
 
