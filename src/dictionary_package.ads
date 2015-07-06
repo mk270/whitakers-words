@@ -418,20 +418,27 @@ package Dictionary_Package is
 
    ---------------------------------------------------------------------------
 
-   type interjection_entry is
+   type Interjection_Entry is
       record
          null;
       end record;
 
-   package interjection_entry_io is
+   package Interjection_Entry_IO is
       Default_Width : Natural;
-      procedure Get(f : in File_Type; i : out interjection_entry);
-      procedure Get(i : out interjection_entry);
-      procedure Put(f : in File_Type; i : in interjection_entry);
-      procedure Put(i : in interjection_entry);
-      procedure Get(s : in String; i : out interjection_entry; last : out Integer);
-      procedure Put(s : out String; i : in interjection_entry);
-   end interjection_entry_io;
+      procedure Get (File : in File_Type; Item : out Interjection_Entry);
+      procedure Get (Item : out Interjection_Entry);
+      procedure Put (File : in File_Type; Item : in Interjection_Entry);
+      procedure Put (Item : in Interjection_Entry);
+      -- TODO: Document meaning of Last
+      procedure Get
+         ( Source : in String;
+           Target : out Interjection_Entry;
+           Last   : out Integer
+         );
+      procedure Put (Target : out String; Item : in Interjection_Entry);
+   end Interjection_Entry_IO;
+
+   ---------------------------------------------------------------------------
 
    type part_entry(pofs : Part_Of_Speech_Type := x) is
       record
@@ -459,7 +466,7 @@ package Dictionary_Package is
             when conj =>
                conj : Conjunction_Entry;
             when interj =>
-               interj : interjection_entry;
+               interj : Interjection_Entry;
             when others =>
                null;
          end case;
