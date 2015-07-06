@@ -188,7 +188,9 @@ package body Part_Entry_IO is
             Put (File, Item.conj);
          when interj =>
             Put (File, Item.interj);
-         when others =>
+         when x =>
+            null;
+         when tackon .. suffix =>
             null;
       end case;
       --PUT(F, STRING'((INTEGER(COL(F))..PART_ENTRY_IO.DEFAULT_WIDTH+C-1 => ' ')));
@@ -225,7 +227,9 @@ package body Part_Entry_IO is
             Put (Item.conj);
          when interj =>
             Put (Item.interj);
-         when others =>
+         when tackon .. suffix =>
+            null;
+         when x =>
             null;
       end case;
       --PUT(STRING'((INTEGER(COL)..PART_ENTRY_IO.DEFAULT_WIDTH+C-1 => ' ')));
@@ -339,7 +343,9 @@ package body Part_Entry_IO is
          when interj =>
             High := Low + Interjection_Entry_IO.Default_Width;
             Put (Target (Low + 1 .. High), Item.interj);
-         when others =>
+         when x =>
+            null;
+         when tackon .. suffix =>
             null;
       end case;
       --S(M+1..S'LAST) := (others => ' ');
