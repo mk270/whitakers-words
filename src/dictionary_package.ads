@@ -137,7 +137,9 @@ package Dictionary_Package is
 
    package source_type_io is new Text_IO.enumeration_io(source_type);
 
-   type kind_entry(pofs : Part_Of_Speech_Type := x) is
+   ---------------------------------------------------------------------------
+   -- NOTE: Should n and v be changed to noun and verb for clarity?
+   type Kind_Entry (pofs : Part_Of_Speech_Type := x) is
       record
          case pofs is
             when n =>
@@ -161,21 +163,40 @@ package Dictionary_Package is
          end case;
       end record;
 
-   package kind_entry_io is
+   -- FIXME: These subprograms don't check if Is_Open (File)
+   -- TODO: Document the meaning of POFS
+   package Kind_Entry_IO is
       Default_Width : Natural;
-      procedure Get(f : in File_Type;
-                    ps : in Part_Of_Speech_Type; p : out kind_entry);
-      procedure Get(ps : in Part_Of_Speech_Type; p : out kind_entry);
-      procedure Put(f : in File_Type;
-                    ps : in Part_Of_Speech_Type; p : in kind_entry);
-      procedure Put(ps : in Part_Of_Speech_Type; p : in kind_entry);
-      procedure Get(s : in String; ps : in Part_Of_Speech_Type;
-                                   p : out kind_entry; last : out Integer);
-      procedure Put(s : out String;
-                    ps : in Part_Of_Speech_Type; p : in kind_entry);
-   end kind_entry_io;
+      procedure Get
+         ( File : in  File_Type;
+           POFS : in  Part_Of_Speech_Type;
+           Item : out Kind_Entry
+         );
+      procedure Get (POFS : in Part_Of_Speech_Type; Item : out Kind_Entry);
+      procedure Put
+         ( File : in File_Type;
+           POFS : in Part_Of_Speech_Type;
+           Item : in Kind_Entry
+         );
+      procedure Put (POFS : in Part_Of_Speech_Type; Item : in Kind_Entry);
+      -- TODO: Document meaning of Last
+      procedure Get
+         ( Source : in  String;
+           POFS   : in  Part_Of_Speech_Type;
+           Target : out Kind_Entry;
+           Last   : out Integer
+         );
+      procedure Put
+         ( Target : out String;
+           POFS   : in  Part_Of_Speech_Type;
+           Item   : in  Kind_Entry
+         );
+   end Kind_Entry_IO;
 
-   null_kind_entry : kind_entry;
+   -- FIXME: This one feels like it should be constant...
+   Null_Kind_Entry : Kind_Entry;
+
+   ---------------------------------------------------------------------------
 
    type translation_record is
       record
