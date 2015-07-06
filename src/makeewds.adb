@@ -31,7 +31,7 @@ procedure makeewds is
    use dictionary_entry_io;
    use Part_Entry_IO;
    use Part_Of_Speech_Type_IO;
-   use kind_entry_io;
+   use Kind_Entry_IO;
    use translation_record_io;
    use age_type_io;
    use area_type_io;

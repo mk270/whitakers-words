@@ -776,7 +776,7 @@ package body line_stuff is
 
    package body unique_entry_io is
       use quality_record_io;
-      use kind_entry_io;
+      use Kind_Entry_IO;
       use translation_record_io;
       spacer : Character;
 
@@ -837,7 +837,7 @@ package body line_stuff is
          -- m := l + quality_record_io.Default_Width; -- apparently redundant?
          Get(s(l+1..s'Last), p.qual, l);
          l := l + 1;
-         -- m := l + kind_entry_io.Default_Width; -- apparently redundant?
+         -- m := l + Kind_Entry_IO.Default_Width; -- apparently redundant?
          Get(s(l+1..s'Last), p.qual.pofs, p.kind, l);
          l := l + 1;
          -- m := l + Max_Meaning_Size; -- apparently redundant?
@@ -856,7 +856,7 @@ package body line_stuff is
          Put(s(l+1..m), p.qual);
          l := m + 1;
          s(l) :=  ' ';
-         m := l + kind_entry_io.Default_Width;
+         m := l + Kind_Entry_IO.Default_Width;
          Put(s(l+1..m), p.qual.pofs, p.kind);
          l := m + 1;
          s(l) :=  ' ';
@@ -870,7 +870,7 @@ package body line_stuff is
    procedure load_uniques(unq : in out latin_uniques; file_name : in String) is
       use quality_record_io;
       use Part_Entry_IO;
-      use kind_entry_io;
+      use Kind_Entry_IO;
       use translation_record_io;
       use Dict_IO;
 
@@ -880,7 +880,7 @@ package body line_stuff is
       last, l : Integer := 0;
       stem : Stem_Type := Null_Stem_Type;
       qual : quality_record;
-      kind : kind_entry;
+      kind : Kind_Entry;
       --PART : PART_ENTRY := NULL_PART_ENTRY;
       tran : translation_record := null_translation_record;
       MNPC : MNPC_type := Null_MNPC;

@@ -103,7 +103,7 @@ package line_stuff is
       record
          stem : Stem_Type          := Null_Stem_Type;
          qual : quality_record     := null_quality_record;
-         kind : kind_entry         := null_kind_entry;
+         kind : Kind_Entry         := Null_Kind_Entry;
          tran : translation_record := null_translation_record;
       end record;
 

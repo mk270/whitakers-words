@@ -25,7 +25,7 @@ procedure makedict_main(porting : Boolean) is
    use Stem_Key_Type_IO;
    use dictionary_entry_io;
    use Part_Entry_IO;
-   use kind_entry_io;
+   use Kind_Entry_IO;
    use translation_record_io;
    use age_type_io;
    use area_type_io;

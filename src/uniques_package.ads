@@ -25,7 +25,7 @@ package uniques_package is
       record
          stem : Stem_Type      := Null_Stem_Type;
          qual : quality_record := null_quality_record;
-         kind : kind_entry     := null_kind_entry;
+         kind : Kind_Entry     := Null_Kind_Entry;
          MNPC : Dict_IO.Count  := Null_MNPC;
          succ : unique_list;
       end record;
