@@ -32,7 +32,7 @@ package body line_stuff is
       dictionary_file : File_Type;
       blk_stem : constant Stem_Type := Null_Stem_Type;
       sts : stems_type := null_stems_type;
-      pt  : part_entry  := null_part_entry;
+      pt  : Part_Entry  := Null_Part_Entry;
       tran : translation_record := null_translation_record;
       value : constant Numeral_Value_Type := 0;
       mean : Meaning_Type := Null_Meaning_Type;
@@ -81,7 +81,7 @@ package body line_stuff is
          --TEXT_IO.PUT("1 ");
          Get_Non_Comment_Line (dictionary_file, line, l);           --  PART
          --TEXT_IO.PUT("2 ");
-         part_entry_io.Get(line(1..l), pt, ll);
+         Part_Entry_IO.Get(line(1..l), pt, ll);
          --TEXT_IO.PUT("3 ");
          ----  KIND_ENTRY_IO.GET(LINE(LL+1..L), PT.POFS, KIND, LL);
          --TEXT_IO.PUT("4 ");
@@ -869,7 +869,7 @@ package body line_stuff is
 
    procedure load_uniques(unq : in out latin_uniques; file_name : in String) is
       use quality_record_io;
-      use part_entry_io;
+      use Part_Entry_IO;
       use kind_entry_io;
       use translation_record_io;
       use Dict_IO;
@@ -922,7 +922,7 @@ package body line_stuff is
          --@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
          declare
             unique_de : dictionary_entry;
-            part      : part_entry         := null_part_entry;
+            part      : Part_Entry         := Null_Part_Entry;
          begin
             case part.pofs is
                when n  =>
@@ -940,7 +940,7 @@ package body line_stuff is
                when v =>
                   part := (v, (qual.v.con, kind.v_kind));
                when others  =>
-                  part := null_part_entry;
+                  part := Null_Part_Entry;
             end case;
 
             unique_de.stems := (stem,

@@ -29,7 +29,7 @@ procedure makeewds is
    use Integer_IO;
    use Stem_Key_Type_IO;
    use dictionary_entry_io;
-   use part_entry_io;
+   use Part_Entry_IO;
    use Part_Of_Speech_Type_IO;
    use kind_entry_io;
    use translation_record_io;

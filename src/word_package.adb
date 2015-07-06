@@ -746,7 +746,7 @@ package body word_package is
                                               prefix : in prefix_item := null_prefix_item;
                                               suffix : in suffix_item := null_suffix_item) is
          MNPC_part : MNPC_type := Null_MNPC;
-         pdl_part : part_entry;
+         pdl_part : Part_Entry;
          com : Comparison_Type := x;
          num_sort : Numeral_Sort_Type := x;
          ls : Integer := 0;

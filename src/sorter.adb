@@ -645,7 +645,7 @@ procedure sorter is
       fn, gn : float := 0.0;
       --FS, GS : SECTION_TYPE := NO_SECTION;
       fs, gs : appendix_section_type := no_appendix_section;
-      px, py : part_entry;       --  So I can X here
+      px, py : Part_Entry;       --  So I can X here
       rx, ry : Part_Of_Speech_Type;   --  So I can X here
    begin
       if st = a  then
@@ -701,8 +701,8 @@ procedure sorter is
          end if;
 
       elsif st = p  then
-         part_entry_io.Get(as, px, last);
-         part_entry_io.Get(bs, py, last);
+         Part_Entry_IO.Get(as, px, last);
+         Part_Entry_IO.Get(bs, py, last);
          if wt = i  then
             return px < py;
          else
@@ -751,7 +751,7 @@ procedure sorter is
       mn, nn : Integer := 0;
       fn, gn : float := 0.0;
       fs, gs : appendix_section_type := no_appendix_section;
-      px, py : part_entry;
+      px, py : Part_Entry;
       rx, ry : Part_Of_Speech_Type;
    begin
       if st = a  then
@@ -783,8 +783,8 @@ procedure sorter is
          return fn = gn;
 
       elsif st = p  then
-         part_entry_io.Get(as, px, last);
-         part_entry_io.Get(bs, py, last);
+         Part_Entry_IO.Get(as, px, last);
+         Part_Entry_IO.Get(bs, py, last);
          return px = py;
 
       elsif st = r  then

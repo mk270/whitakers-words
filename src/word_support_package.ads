@@ -26,7 +26,7 @@ package word_support_package is
    type dictionary_stem is
       record
          stem : Stem_Type := Null_Stem_Type;
-         part : part_entry := null_part_entry;
+         part : Part_Entry := Null_Part_Entry;
          key  : Stem_Key_Type := 0;
          MNPC : Dict_IO.Count := Null_MNPC;
       end record;

@@ -21,7 +21,7 @@ package body addons_package is
    use Text_IO;
    use Part_Of_Speech_Type_IO;
    use Target_entry_io;
-   use part_entry_io;
+   use Part_Entry_IO;
    --use KIND_ENTRY_IO;
    use Stem_Key_Type_IO;
 
