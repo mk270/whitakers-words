@@ -52,7 +52,7 @@ begin
 
    if de.part.pofs = prep then
       return Trim (de.stems(1)) & "  " & Part_Of_Speech_Type'Image(de.part.pofs) &
-        "  " & case_type'Image(de.part.prep.obj);
+        "  " & Case_Type'Image(de.part.prep.Obj);
    end if;
 
    if de.stems(2) = Null_Stem_Type  and

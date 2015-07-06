@@ -310,7 +310,7 @@ package body list_package is
                   ppl_start      : constant Integer :=
                     Part_Of_Speech_Type_IO.Default_Width + 1 +
                     Decn_Record_IO.Default_Width + 1 +
-                    case_type_io.Default_Width + 1 +
+                    Case_Type_IO.Default_Width + 1 +
                     number_type_io.Default_Width + 1 +
                     Gender_Type_IO.Default_Width + 1 +
                     tense_type_io.Default_Width + 1;

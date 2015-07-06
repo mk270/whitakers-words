@@ -103,7 +103,7 @@ package Inflections_Package is
 
    package Gender_Type_IO is new Text_IO.Enumeration_IO (Gender_Type);
 
-   type case_type is (
+   type Case_Type is (
                       x,         --  all, none, or unknown
                       nom,       --  NOMinative
                       voc,       --  VOCative
@@ -114,7 +114,7 @@ package Inflections_Package is
                       acc        --  ACCusitive
                      );
 
-   package case_type_io is new Text_IO.enumeration_io(case_type);
+   package Case_Type_IO is new Text_IO.enumeration_io(Case_Type);
 
    type number_type is (
                         x,         --  all, none, or unknown
@@ -259,7 +259,7 @@ package Inflections_Package is
    type noun_record is
       record
          decl        : Decn_Record;
-         cs          : case_type := x;
+         cs          : Case_Type := x;
          number      : number_type := x;
          gender      : Gender_Type := x;
       end record;
@@ -277,7 +277,7 @@ package Inflections_Package is
    type pronoun_record is
       record
          decl        : Decn_Record;
-         cs          : case_type := x;
+         cs          : Case_Type := x;
          number      : number_type := x;
          gender      : Gender_Type := x;
       end record;
@@ -295,7 +295,7 @@ package Inflections_Package is
    type propack_record is
       record
          decl        : Decn_Record;
-         cs          : case_type := x;
+         cs          : Case_Type := x;
          number      : number_type := x;
          gender      : Gender_Type := x;
       end record;
@@ -313,7 +313,7 @@ package Inflections_Package is
    type adjective_record is
       record
          decl        : Decn_Record;
-         cs          : case_type := x;
+         cs          : Case_Type := x;
          number      : number_type := x;
          gender      : Gender_Type := x;
          co          : Comparison_Type := x;
@@ -332,7 +332,7 @@ package Inflections_Package is
    type numeral_record is
       record
          decl        : Decn_Record;
-         cs          : case_type := x;
+         cs          : Case_Type := x;
          number      : number_type := x;
          gender      : Gender_Type := x;
          sort        : Numeral_Sort_Type := x;
@@ -384,7 +384,7 @@ package Inflections_Package is
    type vpar_record is
       record
          con         : Decn_Record;
-         cs          : case_type := x;
+         cs          : Case_Type := x;
          number      : number_type := x;
          gender      : Gender_Type := x;
          tense_voice_mood  : tense_voice_mood_record;
@@ -403,7 +403,7 @@ package Inflections_Package is
    type supine_record is
       record
          con         : Decn_Record;
-         cs          : case_type := x;
+         cs          : Case_Type := x;
          number      : number_type := x;
          gender      : Gender_Type := x;
       end record;
@@ -420,7 +420,7 @@ package Inflections_Package is
 
    type preposition_record is
       record
-         obj : case_type := x;
+         obj : Case_Type := x;
       end record;
 
    package preposition_record_io is
@@ -690,7 +690,7 @@ package Inflections_Package is
    overriding function "<=" (left, right : Part_Of_Speech_Type) return Boolean;
    function "<=" (left, right : Decn_Record) return Boolean;
    overriding function "<=" (left, right : Gender_Type) return Boolean;
-   overriding function "<=" (left, right : case_type)   return Boolean;
+   overriding function "<=" (left, right : Case_Type)   return Boolean;
    overriding function "<=" (left, right : number_type) return Boolean;
    overriding function "<=" (left, right : person_type) return Boolean;
    overriding function "<=" (left, right : Comparison_Type) return Boolean;

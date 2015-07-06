@@ -273,7 +273,7 @@ package body Inflections_Package is
       end if;
    end "<=";
 
-   overriding function "<=" (left, right : case_type) return Boolean is
+   overriding function "<=" (left, right : Case_Type) return Boolean is
    begin
       if right = left or else right = x then
          return True;
@@ -590,7 +590,7 @@ package body Inflections_Package is
 
    package body noun_record_io is
       use Decn_Record_IO;
-      use case_type_io;
+      use Case_Type_IO;
       use Gender_Type_IO;
       use number_type_io;
       spacer : Character := ' ';
@@ -659,7 +659,7 @@ package body Inflections_Package is
          Put(s(l+1..m), n.decl);
          l := m + 1;
          s(l) :=  ' ';
-         m := l + case_type_io.Default_Width;
+         m := l + Case_Type_IO.Default_Width;
          Put(s(l+1..m), n.cs);
          l := m + 1;
          s(l) :=  ' ';
@@ -676,7 +676,7 @@ package body Inflections_Package is
 
    package body pronoun_record_io is
       use Decn_Record_IO;
-      use case_type_io;
+      use Case_Type_IO;
       use Gender_Type_IO;
       use number_type_io;
       spacer : Character := ' ';
@@ -745,7 +745,7 @@ package body Inflections_Package is
          Put(s(l+1..m), p.decl);
          l := m + 1;
          s(l) :=  ' ';
-         m := l + case_type_io.Default_Width;
+         m := l + Case_Type_IO.Default_Width;
          Put(s(l+1..m), p.cs);
          l := m + 1;
          s(l) :=  ' ';
@@ -762,7 +762,7 @@ package body Inflections_Package is
 
    package body propack_record_io is
       use Decn_Record_IO;
-      use case_type_io;
+      use Case_Type_IO;
       use number_type_io;
       use Gender_Type_IO;
       spacer : Character := ' ';
@@ -831,7 +831,7 @@ package body Inflections_Package is
          Put(s(l+1..m), p.decl);
          l := m + 1;
          s(l) :=  ' ';
-         m := l + case_type_io.Default_Width;
+         m := l + Case_Type_IO.Default_Width;
          Put(s(l+1..m), p.cs);
          l := m + 1;
          s(l) :=  ' ';
@@ -849,7 +849,7 @@ package body Inflections_Package is
    package body adjective_record_io is
       use Decn_Record_IO;
       use Gender_Type_IO;
-      use case_type_io;
+      use Case_Type_IO;
       use number_type_io;
       use Comparison_Type_IO;
       spacer : Character := ' ';
@@ -928,7 +928,7 @@ package body Inflections_Package is
          Put(s(l+1..m), a.decl);
          l := m + 1;
          s(l) :=  ' ';
-         m := l + case_type_io.Default_Width;
+         m := l + Case_Type_IO.Default_Width;
          Put(s(l+1..m), a.cs);
          l := m + 1;
          s(l) :=  ' ';
@@ -949,7 +949,7 @@ package body Inflections_Package is
 
    package body numeral_record_io is
       use Decn_Record_IO;
-      use case_type_io;
+      use Case_Type_IO;
       use number_type_io;
       use Gender_Type_IO;
       use Numeral_Sort_Type_IO;
@@ -1028,7 +1028,7 @@ package body Inflections_Package is
          Put(s(l+1..m), num.decl);
          l := m + 1;
          s(l) :=  ' ';
-         m := l + case_type_io.Default_Width;
+         m := l + Case_Type_IO.Default_Width;
          Put(s(l+1..m), num.cs);
          l := m + 1;
          s(l) :=  ' ';
@@ -1175,7 +1175,7 @@ package body Inflections_Package is
 
    package body vpar_record_io is
       use Decn_Record_IO;
-      use case_type_io;
+      use Case_Type_IO;
       use number_type_io;
       use Gender_Type_IO;
       use tense_voice_mood_record_io;
@@ -1255,7 +1255,7 @@ package body Inflections_Package is
          Put(s(l+1..m), vp.con);
          l := m + 1;
          s(l) :=  ' ';
-         m := l + case_type_io.Default_Width;
+         m := l + Case_Type_IO.Default_Width;
          Put(s(l+1..m), vp.cs);
          l := m + 1;
          s(l) :=  ' ';
@@ -1276,7 +1276,7 @@ package body Inflections_Package is
 
    package body supine_record_io is
       use Decn_Record_IO;
-      use case_type_io;
+      use Case_Type_IO;
       use number_type_io;
       use Gender_Type_IO;
       spacer : Character := ' ';
@@ -1345,7 +1345,7 @@ package body Inflections_Package is
          Put(s(l+1..m), vp.con);
          l := m + 1;
          s(l) :=  ' ';
-         m := l + case_type_io.Default_Width;
+         m := l + Case_Type_IO.Default_Width;
          Put(s(l+1..m), vp.cs);
          l := m + 1;
          s(l) :=  ' ';
@@ -1361,7 +1361,7 @@ package body Inflections_Package is
    end supine_record_io;
 
    package body preposition_record_io is
-      use case_type_io;
+      use Case_Type_IO;
 
       procedure Get(f : in File_Type; p : out preposition_record) is
       begin
@@ -1393,7 +1393,7 @@ package body Inflections_Package is
          l : constant Integer := s'First - 1;
          m : Integer := 0;
       begin
-         m := l + case_type_io.Default_Width;
+         m := l + Case_Type_IO.Default_Width;
          Put(s(l+1..m), p.obj);
          s(m+1..s'Last) := (others => ' ');
       end Put;
@@ -2465,7 +2465,7 @@ begin  --  initialization of body of INFLECTIONS_PACKAGE
 
    Part_Of_Speech_Type_IO.Default_Width := Part_Of_Speech_Type'Width;
    Gender_Type_IO.Default_Width := Gender_Type'Width;
-   case_type_io.Default_Width := case_type'Width;
+   Case_Type_IO.Default_Width := Case_Type'Width;
    number_type_io.Default_Width := number_type'Width;
    person_type_io.Default_Width := 1;
    Comparison_Type_IO.Default_Width := Comparison_Type'Width;
@@ -2488,22 +2488,22 @@ begin  --  initialization of body of INFLECTIONS_PACKAGE
      mood_type_io.Default_Width;
    noun_record_io.Default_Width :=
      Decn_Record_IO.Default_Width + 1 +
-     case_type_io.Default_Width + 1 +
+     Case_Type_IO.Default_Width + 1 +
      number_type_io.Default_Width + 1 +
      Gender_Type_IO.Default_Width;
    pronoun_record_io.Default_Width :=
      Decn_Record_IO.Default_Width + 1 +
-     case_type_io.Default_Width + 1 +
+     Case_Type_IO.Default_Width + 1 +
      number_type_io.Default_Width + 1 +
      Gender_Type_IO.Default_Width;
    propack_record_io.Default_Width :=
      Decn_Record_IO.Default_Width + 1 +
-     case_type_io.Default_Width + 1 +
+     Case_Type_IO.Default_Width + 1 +
      number_type_io.Default_Width + 1 +
      Gender_Type_IO.Default_Width;
    adjective_record_io.Default_Width :=
      Decn_Record_IO.Default_Width + 1 +
-     case_type_io.Default_Width + 1 +
+     Case_Type_IO.Default_Width + 1 +
      number_type_io.Default_Width + 1 +
      Gender_Type_IO.Default_Width + 1 +
      Comparison_Type_IO.Default_Width;
@@ -2516,21 +2516,21 @@ begin  --  initialization of body of INFLECTIONS_PACKAGE
      number_type_io.Default_Width;
    vpar_record_io.Default_Width :=
      Decn_Record_IO.Default_Width + 1 +
-     case_type_io.Default_Width + 1 +
+     Case_Type_IO.Default_Width + 1 +
      number_type_io.Default_Width + 1 +
      Gender_Type_IO.Default_Width + 1 +
      tense_voice_mood_record_io.Default_Width;
    supine_record_io.Default_Width :=
      Decn_Record_IO.Default_Width + 1 +
-     case_type_io.Default_Width + 1 +
+     Case_Type_IO.Default_Width + 1 +
      number_type_io.Default_Width + 1 +
      Gender_Type_IO.Default_Width;
-   preposition_record_io.Default_Width := case_type_io.Default_Width;
+   preposition_record_io.Default_Width := Case_Type_IO.Default_Width;
    conjunction_record_io.Default_Width := 0;
    interjection_record_io.Default_Width := 0;
    numeral_record_io.Default_Width :=
      Decn_Record_IO.Default_Width + 1 +
-     case_type_io.Default_Width + 1 +
+     Case_Type_IO.Default_Width + 1 +
      number_type_io.Default_Width + 1 +
      Gender_Type_IO.Default_Width + 1 +
      Numeral_Sort_Type_IO.Default_Width;

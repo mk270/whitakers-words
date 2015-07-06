@@ -1098,7 +1098,7 @@ package body word_package is
                         end if;
 
                      elsif pdl_part.pofs = prep and then
-                       pdl_part.prep.obj = sl(i).IR.qual.prep.obj
+                       pdl_part.prep.Obj = sl(i).IR.qual.prep.obj
                      then
                         --PUT(" HIT  PREP  ");
                         m := m + 1;
