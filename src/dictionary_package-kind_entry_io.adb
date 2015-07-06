@@ -187,7 +187,9 @@ package body Kind_Entry_IO is
             Verb_Kind_Type_IO.Put (File, Item.vpar_kind);
          when supine =>
             Verb_Kind_Type_IO.Put (File, Item.supine_kind);
-         when others =>
+         when x | adj | adv =>
+            null;
+         when prep .. suffix =>
             null;
       end case;
       Put (File, String'(Integer (Col (File)) .. Ending_Col => ' '));
@@ -218,7 +220,9 @@ package body Kind_Entry_IO is
             Verb_Kind_Type_IO.Put (Item.vpar_kind);
          when supine =>
             Verb_Kind_Type_IO.Put (Item.supine_kind);
-         when others =>
+         when x | adj | adv =>
+            null;
+         when prep .. suffix =>
             null;
       end case;
       Put (String'(Integer (Col) .. Ending_Col => ' '));
@@ -324,7 +328,9 @@ package body Kind_Entry_IO is
          when supine =>
             High := Low + Verb_Kind_Type_IO.Default_Width;
             Verb_Kind_Type_IO.Put (Target (Low + 1 .. High), Item.supine_kind);
-         when others =>
+         when x | adj | adv =>
+            null;
+         when prep .. suffix =>
             null;
       end case;
 
