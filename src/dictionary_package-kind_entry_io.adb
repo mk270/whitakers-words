@@ -22,7 +22,8 @@ package body Kind_Entry_IO is
    use Verb_Kind_Type_IO;
 
    ---------------------------------------------------------------------------
-
+   -- Variables used when reading Part_Entry and for constructing
+   -- correct variant of Part_Entry.
    Noun_Kind      : Noun_Kind_Type;
    Pronoun_Kind   : Pronoun_Kind_Type;
    Propack_Kind   : Pronoun_Kind_Type;
@@ -177,14 +178,13 @@ package body Kind_Entry_IO is
 
    ---------------------------------------------------------------------------
 
-   pragma Warnings (Off, "formal parameter ""POFS"" is not referenced");
    procedure Put
       ( File : in File_Type;
         POFS : in Part_Of_Speech_Type;
         Item : in Kind_Entry
       )
    is
-      pragma Warnings (On, "formal parameter ""POFS"" is not referenced");
+      pragma Unreferenced (POFS);
       Starting_Col : constant Positive := Positive (Col (File));
    begin
       case Item.pofs is
@@ -207,17 +207,17 @@ package body Kind_Entry_IO is
       end case;
       Put
          ( File,
-           String'((Integer (Col (File)) ..
-                    Kind_Entry_IO.Default_Width + Starting_Col - 1
-              => ' '))
+           String'(Integer (Col (File)) ..
+                   Kind_Entry_IO.Default_Width + Starting_Col - 1
+              => ' ')
          );
    end Put;
 
    ---------------------------------------------------------------------------
 
-   pragma Warnings (Off, "formal parameter ""POFS"" is not referenced");
-   procedure Put (POFS : in Part_Of_Speech_Type; Item : in Kind_Entry) is
-      pragma Warnings (On, "formal parameter ""POFS"" is not referenced");
+   procedure Put (POFS : in Part_Of_Speech_Type; Item : in Kind_Entry)
+   is
+      pragma Unreferenced (POFS);
       Starting_Col : constant Positive := Positive (Col);
    begin
       case Item.pofs is
@@ -239,9 +239,9 @@ package body Kind_Entry_IO is
             null;
       end case;
       Put
-         ( String'((Integer (Col) ..
-                    Kind_Entry_IO.Default_Width + Starting_Col - 1
-              => ' '))
+         ( String'(Integer (Col) ..
+                   Kind_Entry_IO.Default_Width + Starting_Col - 1
+              => ' ')
          );
    end Put;
 
@@ -254,6 +254,7 @@ package body Kind_Entry_IO is
         Last   : out Integer
       )
    is
+      -- Used to get lower bound of substring
       Low : constant Integer := Source'First - 1;
    begin
       Last := Low;         --  In case it is not set later
@@ -302,14 +303,14 @@ package body Kind_Entry_IO is
 
    ---------------------------------------------------------------------------
 
-   pragma Warnings (Off, "formal parameter ""POFS"" is not referenced");
    procedure Put
       ( Target : out String;
         POFS   : in  Part_Of_Speech_Type;
         Item   : in  Kind_Entry
       )
    is
-      pragma Warnings (On, "formal parameter ""POFS"" is not referenced");
+      pragma Unreferenced (POFS);
+      -- Used to get bounds of substrings
       Low  : constant Integer := Target'First - 1;
       High : Integer := 0;
    begin
