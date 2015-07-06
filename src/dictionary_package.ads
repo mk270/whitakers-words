@@ -436,8 +436,8 @@ package Dictionary_Package is
    end Interjection_Entry_IO;
 
    ---------------------------------------------------------------------------
-
-   type part_entry(pofs : Part_Of_Speech_Type := x) is
+   -- NOTE: Should n and v be changed to noun and verb for clarity?
+   type Part_Entry (pofs : Part_Of_Speech_Type := x) is
       record
          case pofs is
             when n =>
@@ -469,24 +469,33 @@ package Dictionary_Package is
          end case;
       end record;
 
-   package part_entry_io is
+   -- FIXME: These subprograms don't check if Is_Open (File)
+   package Part_Entry_IO is
       Default_Width : Natural;
-      procedure Get(f : in File_Type; p : out part_entry);
-      procedure Get(p : out part_entry);
-      procedure Put(f : in File_Type; p : in part_entry);
-      procedure Put(p : in part_entry);
-      procedure Get(s : in String; p : out part_entry; last : out Integer);
-      procedure Put(s : out String; p : in part_entry);
-   end part_entry_io;
+      procedure Get (File : in File_Type; Item : out Part_Entry);
+      procedure Get (Item : out Part_Entry);
+      procedure Put (File : in File_Type; Item : in Part_Entry);
+      procedure Put (Item : in Part_Entry);
+      -- TODO: Document meaning of Last
+      procedure Get
+         ( Source : in  String;
+           Target : out Part_Entry;
+           Last   : out Integer
+         );
+      procedure Put (Target : out String; Item : in Part_Entry);
+   end Part_Entry_IO;
 
-   null_part_entry : part_entry;
+   -- FIXME: This one feels like it should be constant...
+   Null_Part_Entry : Part_Entry;
 
-   function "<" (left, right : part_entry) return Boolean;
+   ---------------------------------------------------------------------------
+
+   function "<" (left, right : Part_Entry) return Boolean;
 
    type dictionary_entry is
       record
          stems : stems_type         := null_stems_type;
-         part  : part_entry         := null_part_entry;
+         part  : Part_Entry         := Null_Part_Entry;
          --            KIND  : KIND_ENTRY         := NULL_KIND_ENTRY;
          tran  : translation_record := null_translation_record;
          mean  : Meaning_Type       := Null_Meaning_Type;

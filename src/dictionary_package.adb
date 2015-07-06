@@ -63,7 +63,7 @@ package body Dictionary_Package is
 
    package body Interjection_Entry_IO is separate;
 
-   function "<" (left, right : part_entry) return Boolean is
+   function "<" (left, right : Part_Entry) return Boolean is
    begin
       if left.pofs = right.pofs  then
          case left.pofs is
@@ -130,312 +130,7 @@ package body Dictionary_Package is
          return left.pofs < right.pofs;
    end "<";
 
-   package body part_entry_io is
-      use Part_Of_Speech_Type_IO;
-      use Noun_Entry_IO;
-      use Pronoun_Entry_IO;
-      use Propack_Entry_IO;
-      use Adjective_Entry_IO;
-      use Numeral_Entry_IO;
-      use Adverb_Entry_IO;
-      use Verb_Entry_IO;
-      use Preposition_Entry_IO;
-      use Conjunction_Entry_IO;
-      use Interjection_Entry_IO;
-      spacer : Character := ' ';
-
-      noun : Noun_Entry;
-      Pronoun : Pronoun_Entry;
-      propack : Propack_Entry;
-      adjective : Adjective_Entry;
-      numeral : Numeral_Entry;
-      adverb : Adverb_Entry;
-      verb : Verb_Entry;
-      preposition : Preposition_Entry;
-      conjunction : Conjunction_Entry;
-      interjection : Interjection_Entry;
-
-      procedure Get(f : in File_Type; p : out part_entry) is
-         ps : Part_Of_Speech_Type := x;
-         c : constant Positive_Count := Col(f);
-      begin
-         Get(f, ps);
-         Get(f, spacer);
-         case ps is
-            when n =>
-               Get(f, noun);
-               p := (n, noun);
-            when pron =>
-               Get(f, Pronoun);
-               p := (pron, Pronoun);
-            when pack =>
-               Get(f, propack);
-               p := (pack, propack);
-            when adj =>
-               Get(f, adjective);
-               p := (adj, adjective);
-            when num =>
-               Get(f, numeral);
-               p := (num, numeral);
-            when adv =>
-               Get(f, adverb);
-               p := (adv, adverb);
-            when v =>
-               Get(f, verb);
-               p := (v, verb);
-            when vpar =>
-               null;                --  No VAPR entry
-            when supine =>
-               null;                --  No SUPINE entry
-            when prep =>
-               Get(f, preposition);
-               p := (prep, preposition);
-            when conj =>
-               Get(f, conjunction);
-               p := (conj, conjunction);
-            when interj =>
-               Get(f, interjection);
-               p := (interj, interjection);
-            when prefix =>
-               p := (pofs => prefix);
-            when suffix =>
-               p := (pofs => suffix);
-            when tackon =>
-               p := (pofs => tackon);
-            when x =>
-               p := (pofs => x);
-         end case;
-         Set_Col(f, Positive_Count(part_entry_io.Default_Width)+c);
-         return;
-      end Get;
-
-      procedure Get(p : out part_entry) is
-         ps : Part_Of_Speech_Type := x;
-      begin
-         Get(ps);
-         Get(spacer);
-         case ps is
-            when n =>
-               Get(noun);
-               p := (n, noun);
-            when pron =>
-               Get (Pronoun);
-               p := (pron, Pronoun);
-            when pack =>
-               Get(propack);
-               p := (pack, propack);
-            when adj =>
-               Get(adjective);
-               p := (adj, adjective);
-            when num =>
-               Get(numeral);
-               p := (num, numeral);
-            when adv =>
-               Get(adverb);
-               p := (adv, adverb);
-            when v =>
-               Get(verb);
-               p := (v, verb);
-            when vpar =>
-               null;                --  No VAPR entry
-            when supine =>
-               null;                --  No SUPINE entry
-            when prep =>
-               Get(preposition);
-               p := (prep, preposition);
-            when conj =>
-               Get(conjunction);
-               p := (conj, conjunction);
-            when interj =>
-               Get(interjection);
-               p := (interj, interjection);
-            when prefix =>
-               p := (pofs => prefix);
-            when suffix =>
-               p := (pofs => suffix);
-            when tackon =>
-               p := (pofs => tackon);
-            when x =>
-               p := (pofs => x);
-         end case;
-         return;
-      end Get;
-
-      procedure Put(f : in File_Type; p : in part_entry) is
-      begin
-         Put(f, p.pofs);
-         Put(f, ' ');
-         case p.pofs is
-            when n =>
-               Put(f, p.n);
-            when pron =>
-               Put(f, p.pron);
-            when pack =>
-               Put(f, p.pack);
-            when adj =>
-               Put(f, p.adj);
-            when num =>
-               Put(f, p.num);
-            when adv =>
-               Put(f, p.adv);
-            when v =>
-               Put(f, p.v);
-            when vpar =>
-               null;                --  No VAPR entry
-            when supine =>
-               null;                --  No SUPINE entry
-            when prep =>
-               Put(f, p.prep);
-            when conj =>
-               Put(f, p.conj);
-            when interj =>
-               Put(f, p.interj);
-            when others =>
-               null;
-         end case;
-         --PUT(F, STRING'((INTEGER(COL(F))..PART_ENTRY_IO.DEFAULT_WIDTH+C-1 => ' ')));
-         return;
-      end Put;
-
-      procedure Put(p : in part_entry) is
-      begin
-         Put(p.pofs);
-         Put(' ');
-         case p.pofs is
-            when n =>
-               Put(p.n);
-            when pron =>
-               Put(p.pron);
-            when pack =>
-               Put(p.pack);
-            when adj =>
-               Put(p.adj);
-            when num =>
-               Put(p.num);
-            when adv =>
-               Put(p.adv);
-            when v =>
-               Put(p.v);
-            when vpar =>
-               null;                --  No VAPR entry
-            when supine =>
-               null;                --  No SUPINE entry
-            when prep =>
-               Put(p.prep);
-            when conj =>
-               Put(p.conj);
-            when interj =>
-               Put(p.interj);
-            when others =>
-               null;
-         end case;
-         --PUT(STRING'((INTEGER(COL)..PART_ENTRY_IO.DEFAULT_WIDTH+C-1 => ' ')));
-         return;
-      end Put;
-
-      procedure Get(s : in String; p : out part_entry; last : out Integer) is
-         l : Integer := s'First - 1;
-         ps : Part_Of_Speech_Type := x;
-      begin
-         last := l;      --  In case it is not set later
-         Get(s, ps, l);
-         l := l + 1;
-         case ps is
-            when n =>
-               Get(s(l+1..s'Last), noun, last);
-               p := (n, noun);
-            when pron =>
-               Get(s(l+1..s'Last), Pronoun, last);
-               p := (pron, Pronoun);
-            when pack =>
-               Get(s(l+1..s'Last), propack, last);
-               p := (pack, propack);
-            when adj =>
-               Get(s(l+1..s'Last), adjective, last);
-               p := (adj, adjective);
-            when num =>
-               Get(s(l+1..s'Last), numeral, last);
-               p := (num, numeral);
-            when adv =>
-               Get(s(l+1..s'Last), adverb, last);
-               p := (adv, adverb);
-            when v =>
-               Get(s(l+1..s'Last), verb, last);
-               p := (v, verb);
-            when vpar =>
-               null;                --  No VAPR entry
-            when supine =>
-               null;                --  No SUPINE entry
-            when prep =>
-               Get(s(l+1..s'Last), preposition, last);
-               p := (prep, preposition);
-            when conj =>
-               Get(s(l+1..s'Last), conjunction, last);
-               p := (conj, conjunction);
-            when interj =>
-               Get(s(l+1..s'Last), interjection, last);
-               p := (interj, interjection);
-            when prefix =>
-               p := (pofs => prefix);
-            when suffix =>
-               p := (pofs => suffix);
-            when tackon =>
-               p := (pofs => tackon);
-            when x =>
-               p := (pofs => x);
-         end case;
-      end Get;
-
-      procedure Put(s : out String; p : in part_entry) is
-         l : Integer := s'First - 1;
-         m : Integer := 0;
-      begin
-         m := l + Part_Of_Speech_Type_IO.Default_Width;
-         Put(s(l+1..m), p.pofs);
-         l := m + 1;
-         s(l) :=  ' ';
-         case p.pofs is
-            when n =>
-               m := l + Noun_Entry_IO.Default_Width;
-               Put(s(l+1..m), p.n);
-            when pron =>
-               m := l + Pronoun_Entry_IO.Default_Width;
-               Put(s(l+1..m), p.pron);
-            when pack =>
-               m := l + Propack_Entry_IO.Default_Width;
-               Put(s(l+1..m), p.pack);
-            when adj =>
-               m := l + Adjective_Entry_IO.Default_Width;
-               Put(s(l+1..m), p.adj);
-            when num =>
-               m := l + Numeral_Entry_IO.Default_Width;
-               Put(s(l+1..m), p.num);
-            when adv =>
-               m := l + Adverb_Entry_IO.Default_Width;
-               Put(s(l+1..m), p.adv);
-            when v =>
-               m := l + Verb_Entry_IO.Default_Width;
-               Put(s(l+1..m), p.v);
-            when vpar =>
-               null;                --  No VAPR entryR
-            when supine =>
-               null;                --  No SUPINE entry
-            when prep =>
-               m := l + Preposition_Entry_IO.Default_Width;
-               Put(s(l+1..m), p.prep);
-            when conj =>
-               m := l + Conjunction_Entry_IO.Default_Width;
-               Put(s(l+1..m), p.conj);
-            when interj =>
-               m := l + Interjection_Entry_IO.Default_Width;
-               Put(s(l+1..m), p.interj);
-            when others =>
-               null;
-         end case;
-         --S(M+1..S'LAST) := (others => ' ');
-      end Put;
-
-   end part_entry_io;
+   package body Part_Entry_IO is separate;
 
    package body kind_entry_io is
       use Noun_Kind_Type_IO;
@@ -829,7 +524,7 @@ package body Dictionary_Package is
    end translation_record_io;
 
    package body dictionary_entry_io is
-      use part_entry_io;
+      use Part_Entry_IO;
       use translation_record_io;
       --use KIND_ENTRY_IO;
 
@@ -876,7 +571,7 @@ package body Dictionary_Package is
          Put(f, d.part);
          --    PUT(F, ' ');
          --    PUT(F, D.PART.POFS, D.KIND);
-         Set_Col(f, Count(part_col + part_entry_io.Default_Width + 1));
+         Set_Col(f, Count(part_col + Part_Entry_IO.Default_Width + 1));
          Put(f, d.tran);
          Put(f, ' ');
          Put(f, d.mean);
@@ -892,7 +587,7 @@ package body Dictionary_Package is
          Put(d.part);
          --    PUT(' ');
          --    PUT(D.PART.POFS, D.KIND);
-         Set_Col(Count(part_col + part_entry_io.Default_Width + 1));
+         Set_Col(Count(part_col + Part_Entry_IO.Default_Width + 1));
          Put(d.tran);
          Put(' ');
          Put(d.mean);
@@ -935,13 +630,13 @@ package body Dictionary_Package is
             s(l) :=  ' ';
          end loop;
          part_col := l + 1;
-         m := l + part_entry_io.Default_Width;
+         m := l + Part_Entry_IO.Default_Width;
          Put(s(l+1..m), d.part);
          --    L := M + 1;
          --    S(L) :=  ' ';
          --    M := L + KIND_ENTRY_IO_DEFAULT_WIDTH;
          --    PUT(S(L+1..M), D.PART.POFS, D.KIND);
-         l := part_col + part_entry_io.Default_Width + 1;
+         l := part_col + Part_Entry_IO.Default_Width + 1;
          m := l + translation_record_io.Default_Width;
          Put(s(l+1..m), d.tran);
          l := m + 1;
@@ -1009,7 +704,7 @@ begin     --  initialization of body of DICTIONARY_PACKAGE
      Numeral_Sort_Type_IO.Default_Width + 1 +
      Numeral_Value_Type_IO_Default_Width;
 
-   part_entry_io.Default_Width := Part_Of_Speech_Type_IO.Default_Width + 1 +
+   Part_Entry_IO.Default_Width := Part_Of_Speech_Type_IO.Default_Width + 1 +
      Numeral_Entry_IO.Default_Width;     --  Largest
 
    --  Should make up a MAX of PART_ENTRY + KIND_ENTRY (same POFS) WIDTHS
@@ -1022,7 +717,7 @@ begin     --  initialization of body of DICTIONARY_PACKAGE
      source_type_io.Default_Width;
 
    dictionary_entry_io.Default_Width := 4 * (Max_Stem_Size + 1) +
-     part_entry_io.Default_Width + 1 +
+     Part_Entry_IO.Default_Width + 1 +
      translation_record_io.Default_Width + 1 +
      Max_Meaning_Size;
 
