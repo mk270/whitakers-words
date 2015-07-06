@@ -59,46 +59,7 @@ package body Dictionary_Package is
 
    package body Preposition_Entry_io is separate;
 
-   package body conjunction_entry_io is
-      null_conjunction_entry : conjunction_entry;
-
-      pragma Warnings (Off, "formal parameter ""f"" is not referenced");
-      procedure Get(f : in File_Type; c : out conjunction_entry) is
-         pragma Warnings (On, "formal parameter ""f"" is not referenced");
-      begin
-         c := null_conjunction_entry;
-      end Get;
-
-      procedure Get(c : out conjunction_entry) is
-      begin
-         c := null_conjunction_entry;
-      end Get;
-
-      procedure Put(f : in File_Type; c : in conjunction_entry) is
-      begin
-         null;
-      end Put;
-
-      procedure Put(c : in conjunction_entry) is
-      begin
-         null;
-      end Put;
-
-      procedure Get(s : in String; c : out conjunction_entry; last : out Integer) is
-         l : constant Integer := s'First - 1;
-      begin
-         c := null_conjunction_entry;
-         last := l;
-      end Get;
-
-      pragma Warnings (Off, "formal parameter ""c"" is not referenced");
-      procedure Put(s : out String; c : in conjunction_entry) is
-         pragma Warnings (On, "formal parameter ""c"" is not referenced");
-      begin
-         s(s'First..s'Last) := (others => ' ');
-      end Put;
-
-   end conjunction_entry_io;
+   package body Conjunction_Entry_IO is separate;
 
    package body interjection_entry_io is
       null_interjection_entry : interjection_entry;
@@ -218,7 +179,7 @@ package body Dictionary_Package is
       use Adverb_Entry_IO;
       use Verb_Entry_IO;
       use Preposition_Entry_IO;
-      use conjunction_entry_io;
+      use Conjunction_Entry_IO;
       use interjection_entry_io;
       spacer : Character := ' ';
 
@@ -230,7 +191,7 @@ package body Dictionary_Package is
       adverb : Adverb_Entry;
       verb : Verb_Entry;
       preposition : Preposition_Entry;
-      conjunction : conjunction_entry;
+      conjunction : Conjunction_Entry;
       interjection : interjection_entry;
 
       procedure Get(f : in File_Type; p : out part_entry) is
@@ -502,7 +463,7 @@ package body Dictionary_Package is
                m := l + Preposition_Entry_IO.Default_Width;
                Put(s(l+1..m), p.prep);
             when conj =>
-               m := l + conjunction_entry_io.Default_Width;
+               m := l + Conjunction_Entry_IO.Default_Width;
                Put(s(l+1..m), p.conj);
             when interj =>
                m := l + interjection_entry_io.Default_Width;
@@ -1079,7 +1040,7 @@ begin     --  initialization of body of DICTIONARY_PACKAGE
      Decn_Record_IO.Default_Width + 1 +
      Verb_Kind_Type_IO.Default_Width;
    Preposition_Entry_IO.Default_Width := 0;
-   conjunction_entry_io.Default_Width := 0;
+   Conjunction_Entry_IO.Default_Width := 0;
 
    interjection_entry_io.Default_Width := 0;
    Numeral_Entry_IO.Default_Width :=
