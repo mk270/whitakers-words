@@ -57,7 +57,7 @@ package body Dictionary_Package is
 
    package body Verb_Entry_IO is separate;
 
-   package body Preposition_Entry_io is separate;
+   package body Preposition_Entry_IO is separate;
 
    package body Conjunction_Entry_IO is separate;
 
