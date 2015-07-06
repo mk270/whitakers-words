@@ -18,7 +18,8 @@ separate (Dictionary_Package)
 package body Adjective_Entry_IO is
 
    ---------------------------------------------------------------------------
-
+   -- Throwaway variable used when reading Parse_Record for "getting rid" of
+   -- not needed separator character between different fields of record.
    Spacer : Character := ' ';
 
    ---------------------------------------------------------------------------
