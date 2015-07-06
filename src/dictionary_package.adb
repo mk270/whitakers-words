@@ -108,7 +108,8 @@ package body Dictionary_Package is
                  left.num.Value < right.num.Value)
                then
                   return True;
-               end if;when adv =>
+               end if;
+            when adv =>
                   return left.adv.Co < right.adv.Co;
             when v =>
                if (left.v.Con < right.v.Con)  or else
