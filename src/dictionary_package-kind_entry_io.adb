@@ -314,6 +314,7 @@ package body Kind_Entry_IO is
       Low  : constant Integer := Target'First - 1;
       High : Integer := 0;
    begin
+      -- Put Kind_Entry
       case Item.pofs is
          when n =>
             High := Low + Noun_Kind_Type_IO.Default_Width;
@@ -339,6 +340,8 @@ package body Kind_Entry_IO is
          when others =>
             null;
       end case;
+
+      -- Fill remainder of string
       Target (High + 1 .. Target'Last) := (others => ' ');
    end Put;
 
