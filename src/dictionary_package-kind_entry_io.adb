@@ -16,10 +16,6 @@
 
 separate (Dictionary_Package)
 package body Kind_Entry_IO is
-   use Noun_Kind_Type_IO;
-   use Pronoun_Kind_Type_IO;
-   use Inflections_Package.Integer_IO;
-   use Verb_Kind_Type_IO;
 
    ---------------------------------------------------------------------------
    -- Variables used when reading Part_Entry and for constructing
@@ -56,31 +52,31 @@ package body Kind_Entry_IO is
    begin
       case POFS is
          when n =>
-            Get (File, Noun_Kind);
+            Noun_Kind_Type_IO.Get (File, Noun_Kind);
             Item := (n, Noun_Kind);
          when pron =>
-            Get (File, Pronoun_Kind);
+            Pronoun_Kind_Type_IO.Get (File, Pronoun_Kind);
             Item := (pron, Pronoun_Kind);
          when pack =>
-            Get (File, Propack_Kind);
+            Pronoun_Kind_Type_IO.Get (File, Propack_Kind);
             Item := (pack, Propack_Kind);
          when adj =>
             Set_Col (File);
             Item := (pofs => adj);
          when num =>
-            Get (File, Numeral_Value);
+            Inflections_Package.Integer_IO.Get (File, Numeral_Value);
             Item := (num, Numeral_Value);
          when adv =>
             Set_Col (File);
             Item := (pofs => adv);
          when v =>
-            Get (File, Verb_Kind);
+            Verb_Kind_Type_IO.Get (File, Verb_Kind);
             Item := (v, Verb_Kind);
          when vpar =>
-            Get (File, Vpar_Kind);
+            Verb_Kind_Type_IO.Get (File, Vpar_Kind);
             Item := (vpar, Vpar_Kind);
          when supine =>
-            Get (File, Supine_Kind);
+            Verb_Kind_Type_IO.Get (File, Supine_Kind);
             Item := (supine, Supine_Kind);
          when prep =>
             Set_Col (File);
@@ -112,31 +108,31 @@ package body Kind_Entry_IO is
    begin
       case POFS is
          when n =>
-            Get (Noun_Kind);
+            Noun_Kind_Type_IO.Get (Noun_Kind);
             Item := (n, Noun_Kind);
          when pron =>
-            Get (Pronoun_Kind);
+            Pronoun_Kind_Type_IO.Get (Pronoun_Kind);
             Item := (pron, Pronoun_Kind);
          when pack =>
-            Get (Propack_Kind);
+            Pronoun_Kind_Type_IO.Get (Propack_Kind);
             Item := (pack, Propack_Kind);
          when adj =>
             Set_Col (Col + Positive_Count (Kind_Entry_IO.Default_Width));
             Item := (pofs => adj);
          when num =>
-            Get (Numeral_Value);
+            Inflections_Package.Integer_IO.Get (Numeral_Value);
             Item := (num, Numeral_Value);
          when adv =>
             Set_Col (Col + Positive_Count (Kind_Entry_IO.Default_Width));
             Item := (pofs => adv);
          when v =>
-            Get (Verb_Kind);
+            Verb_Kind_Type_IO.Get (Verb_Kind);
             Item := (v, Verb_Kind);
          when vpar =>
-            Get (Vpar_Kind);
+            Verb_Kind_Type_IO.Get (Vpar_Kind);
             Item := (vpar, Vpar_Kind);
          when supine =>
-            Get (Supine_Kind);
+            Verb_Kind_Type_IO.Get (Supine_Kind);
             Item := (supine, Supine_Kind);
          when prep =>
             Set_Col (Col + Positive_Count (Kind_Entry_IO.Default_Width));
@@ -177,19 +173,20 @@ package body Kind_Entry_IO is
    begin
       case Item.pofs is
          when n =>
-            Put (File, Item.n_kind);
+            Noun_Kind_Type_IO.Put (File, Item.n_kind);
          when pron =>
-            Put (File, Item.pron_kind);
+            Pronoun_Kind_Type_IO.Put (File, Item.pron_kind);
          when pack =>
-            Put (File, Item.pack_kind);
+            Pronoun_Kind_Type_IO.Put (File, Item.pack_kind);
          when num =>
-            Put (File, Item.num_value, Numeral_Value_Type_IO_Default_Width);
+            Inflections_Package.Integer_IO.Put
+               ( File, Item.num_value, Numeral_Value_Type_IO_Default_Width );
          when v =>
-            Put (File, Item.v_kind);
+            Verb_Kind_Type_IO.Put (File, Item.v_kind);
          when vpar =>
-            Put (File, Item.vpar_kind);
+            Verb_Kind_Type_IO.Put (File, Item.vpar_kind);
          when supine =>
-            Put (File, Item.supine_kind);
+            Verb_Kind_Type_IO.Put (File, Item.supine_kind);
          when others =>
             null;
       end case;
@@ -207,19 +204,20 @@ package body Kind_Entry_IO is
    begin
       case Item.pofs is
          when n =>
-            Put (Item.n_kind);
+            Noun_Kind_Type_IO.Put (Item.n_kind);
          when pron =>
-            Put (Item.pron_kind);
+            Pronoun_Kind_Type_IO.Put (Item.pron_kind);
          when pack =>
-            Put (Item.pack_kind);
+            Pronoun_Kind_Type_IO.Put (Item.pack_kind);
          when num =>
-            Put (Item.num_value, Numeral_Value_Type_IO_Default_Width);
+            Inflections_Package.Integer_IO.Put
+               ( Item.num_value, Numeral_Value_Type_IO_Default_Width );
          when v =>
-            Put (Item.v_kind);
+            Verb_Kind_Type_IO.Put (Item.v_kind);
          when vpar =>
-            Put (Item.vpar_kind);
+            Verb_Kind_Type_IO.Put (Item.vpar_kind);
          when supine =>
-            Put (Item.supine_kind);
+            Verb_Kind_Type_IO.Put (Item.supine_kind);
          when others =>
             null;
       end case;
@@ -241,29 +239,36 @@ package body Kind_Entry_IO is
       Last := Low;         --  In case it is not set later
       case POFS is
          when n =>
-            Get (Source (Low + 1 .. Source'Last), Noun_Kind, Last);
+            Noun_Kind_Type_IO.Get
+               ( Source (Low + 1 .. Source'Last), Noun_Kind, Last );
             Target := (n, Noun_Kind);
          when pron =>
-            Get (Source (Low + 1 .. Source'Last), Pronoun_Kind, Last);
+            Pronoun_Kind_Type_IO.Get
+               ( Source (Low + 1 .. Source'Last), Pronoun_Kind, Last );
             Target := (pron, Pronoun_Kind);
          when pack =>
-            Get (Source (Low + 1 .. Source'Last), Propack_Kind, Last);
+            Pronoun_Kind_Type_IO.Get
+               ( Source (Low + 1 .. Source'Last), Propack_Kind, Last );
             Target := (pack, Propack_Kind);
          when adj =>
             Target := (pofs => adj);
          when num =>
-            Get (Source (Low + 1 .. Source'Last), Numeral_Value, Last);
+            Inflections_Package.Integer_IO.Get
+               ( Source (Low + 1 .. Source'Last), Numeral_Value, Last );
             Target := (num, Numeral_Value);
          when adv =>
             Target := (pofs => adv);
          when v =>
-            Get (Source (Low + 1 .. Source'Last), Verb_Kind, Last);
+            Verb_Kind_Type_IO.Get
+               ( Source (Low + 1 .. Source'Last), Verb_Kind, Last );
             Target := (v, Verb_Kind);
          when vpar =>
-            Get (Source (Low + 1 .. Source'Last), Vpar_Kind, Last);
+            Verb_Kind_Type_IO.Get
+               ( Source (Low + 1 .. Source'Last), Vpar_Kind, Last );
             Target := (vpar, Vpar_Kind);
          when supine =>
-            Get (Source (Low + 1 .. Source'Last), Supine_Kind, Last);
+            Verb_Kind_Type_IO.Get
+               ( Source (Low + 1 .. Source'Last), Supine_Kind, Last );
             Target := (supine, Supine_Kind);
          when prep =>
             Target := (pofs => prep);
@@ -299,25 +304,26 @@ package body Kind_Entry_IO is
       case Item.pofs is
          when n =>
             High := Low + Noun_Kind_Type_IO.Default_Width;
-            Put (Target (Low + 1 .. High), Item.n_kind);
+            Noun_Kind_Type_IO.Put (Target (Low + 1 .. High), Item.n_kind);
          when pron =>
             High := Low + Pronoun_Kind_Type_IO.Default_Width;
-            Put (Target (Low + 1 .. High), Item.pron_kind);
+            Pronoun_Kind_Type_IO.Put (Target (Low + 1 .. High), Item.pron_kind);
          when pack =>
             High := Low + Pronoun_Kind_Type_IO.Default_Width;
-            Put (Target (Low + 1 .. High), Item.pack_kind);
+            Pronoun_Kind_Type_IO.Put (Target (Low + 1 .. High), Item.pack_kind);
          when num =>
             High := Low + Numeral_Value_Type_IO_Default_Width;
-            Put (Target (Low + 1 .. High), Item.num_value);
+            Inflections_Package.Integer_IO.Put
+               ( Target (Low + 1 .. High), Item.num_value );
          when v =>
             High := Low + Verb_Kind_Type_IO.Default_Width;
-            Put (Target (Low + 1 .. High), Item.v_kind);
+            Verb_Kind_Type_IO.Put (Target (Low + 1 .. High), Item.v_kind);
          when vpar =>
             High := Low + Verb_Kind_Type_IO.Default_Width;
-            Put (Target (Low + 1 .. High), Item.vpar_kind);
+            Verb_Kind_Type_IO.Put (Target (Low + 1 .. High), Item.vpar_kind);
          when supine =>
             High := Low + Verb_Kind_Type_IO.Default_Width;
-            Put (Target (Low + 1 .. High), Item.supine_kind);
+            Verb_Kind_Type_IO.Put (Target (Low + 1 .. High), Item.supine_kind);
          when others =>
             null;
       end case;
