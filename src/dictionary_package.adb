@@ -57,44 +57,7 @@ package body Dictionary_Package is
 
    package body Verb_Entry_IO is separate;
 
-   package body preposition_entry_io is
-      use case_type_io;
-
-      procedure Get(f : in File_Type; p : out preposition_entry) is
-      begin
-         Get(f, p.obj);
-      end Get;
-
-      procedure Get(p : out preposition_entry) is
-      begin
-         Get(p.obj);
-      end Get;
-
-      procedure Put(f : in File_Type; p : in preposition_entry) is
-      begin
-         Put(f, p.obj);
-      end Put;
-
-      procedure Put(p : in preposition_entry) is
-      begin
-         Put(p.obj);
-      end Put;
-
-      procedure Get(s : in String; p : out preposition_entry; last : out Integer) is
-      begin
-         Get(s, p.obj, last);
-      end Get;
-
-      procedure Put(s : out String; p : in preposition_entry) is
-         l : constant Integer := s'First - 1;
-         m : Integer := 0;
-      begin
-         m := l + case_type_io.Default_Width;
-         Put(s(l+1..m), p.obj);
-         s(m+1..s'Last) := (others => ' ');
-      end Put;
-
-   end preposition_entry_io;
+   package body Preposition_Entry_io is separate;
 
    package body conjunction_entry_io is
       null_conjunction_entry : conjunction_entry;
@@ -232,7 +195,7 @@ package body Dictionary_Package is
                   return True;
                end if;
             when prep =>
-               return left.prep.obj < right.prep.obj;
+               return left.prep.Obj < right.prep.Obj;
             when others =>
                null;
          end case;
@@ -254,7 +217,7 @@ package body Dictionary_Package is
       use Numeral_Entry_IO;
       use Adverb_Entry_IO;
       use Verb_Entry_IO;
-      use preposition_entry_io;
+      use Preposition_Entry_IO;
       use conjunction_entry_io;
       use interjection_entry_io;
       spacer : Character := ' ';
@@ -266,7 +229,7 @@ package body Dictionary_Package is
       numeral : Numeral_Entry;
       adverb : Adverb_Entry;
       verb : Verb_Entry;
-      preposition : preposition_entry;
+      preposition : Preposition_Entry;
       conjunction : conjunction_entry;
       interjection : interjection_entry;
 
@@ -536,7 +499,7 @@ package body Dictionary_Package is
             when supine =>
                null;                --  No SUPINE entry
             when prep =>
-               m := l + preposition_entry_io.Default_Width;
+               m := l + Preposition_Entry_IO.Default_Width;
                Put(s(l+1..m), p.prep);
             when conj =>
                m := l + conjunction_entry_io.Default_Width;
@@ -1115,7 +1078,7 @@ begin     --  initialization of body of DICTIONARY_PACKAGE
    Verb_Entry_IO.Default_Width :=
      Decn_Record_IO.Default_Width + 1 +
      Verb_Kind_Type_IO.Default_Width;
-   preposition_entry_io.Default_Width := 0;
+   Preposition_Entry_IO.Default_Width := 0;
    conjunction_entry_io.Default_Width := 0;
 
    interjection_entry_io.Default_Width := 0;

@@ -376,20 +376,28 @@ package Dictionary_Package is
 
    ---------------------------------------------------------------------------
 
-   type preposition_entry is
+   type Preposition_Entry is
       record
-         obj : case_type := x;
+         Obj : Case_Type := x;
       end record;
 
-   package preposition_entry_io is
+   -- FIXME: These subprograms don't check if Is_Open (File)
+   package Preposition_Entry_IO is
       Default_Width : Natural;
-      procedure Get(f : in File_Type; p : out preposition_entry);
-      procedure Get(p : out preposition_entry);
-      procedure Put(f : in File_Type; p : in preposition_entry);
-      procedure Put(p : in preposition_entry);
-      procedure Get(s : in String; p : out preposition_entry; last : out Integer);
-      procedure Put(s : out String; p : in preposition_entry);
-   end preposition_entry_io;
+      procedure Get (File : in File_Type; Item : out Preposition_Entry);
+      procedure Get (Item : out Preposition_Entry);
+      procedure Put (File : in File_Type; Item : in Preposition_Entry);
+      procedure Put (Item : in Preposition_Entry);
+      -- TODO: Document meaning of Last
+      procedure Get
+         ( Source : in  String;
+           Target : out Preposition_Entry;
+           Last : out Integer
+         );
+      procedure Put (Target : out String; Item : in Preposition_Entry);
+   end Preposition_Entry_IO;
+
+   ---------------------------------------------------------------------------
 
    type conjunction_entry is
       record
@@ -443,7 +451,7 @@ package Dictionary_Package is
             when supine =>
                null;        --  There will be no SUPINE dictionary entries
             when prep =>
-               prep : preposition_entry;
+               prep : Preposition_Entry;
             when conj =>
                conj : conjunction_entry;
             when interj =>
