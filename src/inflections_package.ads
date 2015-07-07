@@ -595,7 +595,7 @@ package Inflections_Package is
 
    null_ending_record : ending_record;
 
-   type age_type is (
+   type Age_Type is (
                      x,   --              --  In use throughout the ages/unknown -- the default
                      a,   --  archaic     --  Very early forms, obsolete by classical times
                      b,   --  early       --  Early Latin, pre-classical, used for effect/poetry
@@ -606,9 +606,9 @@ package Inflections_Package is
                      g,   --  scholar     --  Latin post 15th - Scholarly/Scientific   (16-18)
                      h    --  modern      --  Coined recently, words for new things (19-20)
                     );
-   package age_type_io is new Text_IO.enumeration_io(age_type);
+   package Age_Type_IO is new Text_IO.Enumeration_IO (Age_Type);
 
-   type frequency_type is (     --  For dictionary entries
+   type Frequency_Type is (     --  For dictionary entries
                                 x,    --              --  Unknown or unspecified
                                 a,    --  very freq   --  Very frequent, in all Elementry Latin books
                                 b,    --  frequent    --  Frequent, in top 10 percent
@@ -633,15 +633,15 @@ package Inflections_Package is
    --  M,    --              --  Presently not used
    --  N     --              --  Presently not used
 
-   package frequency_type_io is new Text_IO.enumeration_io(frequency_type);
+   package Frequency_Type_IO is new Text_IO.Enumeration_IO (Frequency_Type);
 
    type Inflection_Record is
       record
          qual   : quality_record   := null_quality_record;
          key    : Stem_Key_Type := 0;
          ending : ending_record := null_ending_record;
-         age    : age_type      := x;
-         freq   : frequency_type      := x;
+         age    : Age_Type      := x;
+         freq   : Frequency_Type      := x;
       end record;
 
    Null_Inflection_Record : Inflection_Record;
@@ -698,8 +698,8 @@ package Inflections_Package is
    overriding function "<=" (left, right : Noun_Kind_Type)   return Boolean;
    overriding function "<=" (left, right : Pronoun_Kind_Type)   return Boolean;
    overriding function "<=" (left, right : Stem_Key_Type)   return Boolean;  -- not verbs
-   overriding function "<=" (left, right : age_type)   return Boolean;
-   overriding function "<=" (left, right : frequency_type)   return Boolean;
+   overriding function "<=" (left, right : Age_Type)   return Boolean;
+   overriding function "<=" (left, right : Frequency_Type)   return Boolean;
 
    give_up : exception;
 

@@ -139,11 +139,12 @@ procedure search_english(Input_english_word : String; pofs : Part_Of_Speech_Type
 
             if words_mdev(show_dictionary_codes)    then
                Text_IO.Put(Output, " [");
-               age_type_io.Put(Output, de.tran.age);
-               area_type_io.Put(Output, de.tran.area);
-               geo_type_io.Put(Output, de.tran.geo);
-               frequency_type_io.Put(Output, de.tran.freq);
-               source_type_io.Put(Output, de.tran.source);
+               -- FIXME: Why noy Translation_Record_IO.Put ?
+               Age_Type_IO.Put(Output, de.tran.Age);
+               Area_Type_IO.Put(Output, de.tran.Area);
+               Geo_Type_IO.Put(Output, de.tran.Geo);
+               Frequency_Type_IO.Put(Output, de.tran.Freq);
+               Source_Type_IO.Put(Output, de.tran.Source);
                Text_IO.Put(Output, "]  ");
             end if;
 

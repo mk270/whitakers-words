@@ -348,7 +348,7 @@ package body Inflections_Package is
       end if;
    end "<=";
 
-   overriding function "<=" (left, right : age_type) return Boolean is
+   overriding function "<=" (left, right : Age_Type) return Boolean is
    begin
       if right = left or else right = x then
          return True;
@@ -357,7 +357,7 @@ package body Inflections_Package is
       end if;
    end "<=";
 
-   overriding function "<=" (left, right : frequency_type) return Boolean is
+   overriding function "<=" (left, right : Frequency_Type) return Boolean is
    begin
       if right = left or else right = x then
          return True;
@@ -2066,8 +2066,8 @@ package body Inflections_Package is
       use quality_record_io;
       use Stem_Key_Type_IO;
       use ending_record_io;
-      use age_type_io;
-      use frequency_type_io;
+      use Age_Type_IO;
+      use Frequency_Type_IO;
       spacer : Character := ' ';
 
       pe : Inflection_Record;
@@ -2476,8 +2476,8 @@ begin  --  initialization of body of INFLECTIONS_PACKAGE
    Pronoun_Kind_Type_IO.Default_Width := Pronoun_Kind_Type'Width;
    Verb_Kind_Type_IO.Default_Width := Verb_Kind_Type'Width;
    Numeral_Sort_Type_IO.Default_Width := Numeral_Sort_Type'Width;
-   age_type_io.Default_Width := age_type'Width;
-   frequency_type_io.Default_Width := frequency_type'Width;
+   Age_Type_IO.Default_Width := Age_Type'Width;
+   Frequency_Type_IO.Default_Width := Frequency_Type'Width;
 
    Decn_Record_IO.Default_Width :=
      1 + 1 +   --WHICH_TYPE_IO_DEFAULT_WIDTH + 1 +
@@ -2544,7 +2544,7 @@ begin  --  initialization of body of INFLECTIONS_PACKAGE
    Inflection_Record_IO.Default_Width := quality_record_io.Default_Width + 1 +
      1  + 1 +
      ending_record_io.Default_Width + 1 +
-     age_type_io.Default_Width + 1 +
-     frequency_type_io.Default_Width;
+     Age_Type_IO.Default_Width + 1 +
+     Frequency_Type_IO.Default_Width;
 
 end Inflections_Package;

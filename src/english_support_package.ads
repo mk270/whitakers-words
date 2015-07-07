@@ -39,7 +39,7 @@ package english_support_package is
          aux  : auxword := null_auxword;
          n    : Integer := 0;
          pofs : Part_Of_Speech_Type := x;
-         freq : frequency_type := x;
+         freq : Frequency_Type := x;
          semi : Integer := 0;
          kind : Integer := 0;
          rank : Integer := 0;

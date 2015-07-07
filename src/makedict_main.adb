@@ -26,12 +26,12 @@ procedure makedict_main(porting : Boolean) is
    use dictionary_entry_io;
    use Part_Entry_IO;
    use Kind_Entry_IO;
-   use translation_record_io;
-   use age_type_io;
-   use area_type_io;
-   use geo_type_io;
-   use frequency_type_io;
-   use source_type_io;
+   use Translation_Record_IO;
+   use Age_Type_IO;
+   use Area_Type_IO;
+   use Geo_Type_IO;
+   use Frequency_Type_IO;
+   use Source_Type_IO;
    use Dict_IO;
 
    be_ve : constant Verb_Entry := (Con => (5, 1), Kind => to_be);
@@ -100,11 +100,11 @@ begin
             de.stems(3) := s(start_stem_3..start_stem_3+Max_Stem_Size-1);
             de.stems(4) := s(start_stem_4..start_stem_4+Max_Stem_Size-1);
             Get(s(start_part..last), de.part, l);
-            Get(s(l+1..last), de.tran.age, l);
-            Get(s(l+1..last), de.tran.area, l);
-            Get(s(l+1..last), de.tran.geo, l);
-            Get(s(l+1..last), de.tran.freq, l);
-            Get(s(l+1..last), de.tran.source, l);
+            Get(s(l+1..last), de.tran.Age, l);
+            Get(s(l+1..last), de.tran.Area, l);
+            Get(s(l+1..last), de.tran.Geo, l);
+            Get(s(l+1..last), de.tran.Freq, l);
+            Get(s(l+1..last), de.tran.Source, l);
             de.mean := Head (s(l+2..last), Max_Meaning_Size);
             --  Note that this allows initial blanks
             --  L+2 skips over the SPACER, required because this is STRING, not ENUM

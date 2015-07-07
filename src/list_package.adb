@@ -43,7 +43,7 @@ package body list_package is
    mm : Integer := Max_Meaning_Size;
    i : Integer := 0;
 
-   inflection_frequency : constant array (frequency_type) of String(1..8) :=
+   inflection_frequency : constant array (Frequency_Type) of String(1..8) :=
      ("        ",  --  X
       "mostfreq",  --  A
       "sometime",  --  B
@@ -54,7 +54,7 @@ package body list_package is
       "inscript",  --  I
       "        ",  --  Not used
       "        " );
-   inflection_age : constant array (age_type) of String(1..8) :=
+   inflection_age : constant array (Age_Type) of String(1..8) :=
      ("Always  ",   --  X
       "Archaic ",   --  A
       "Early   ",   --  B
@@ -65,7 +65,7 @@ package body list_package is
       "Scholar ",   --  G
       "Modern  " ); --  H
 
-   dictionary_frequency : constant array (frequency_type) of String(1..8) :=
+   dictionary_frequency : constant array (Frequency_Type) of String(1..8) :=
      ("        ",  --  X
       "veryfreq",  --  A
       "frequent",  --  B
@@ -77,7 +77,7 @@ package body list_package is
       "graffiti",  --  J
       "Pliny   " );--  N
 
-   dictionary_age : constant array (age_type) of String(1..8) :=
+   dictionary_age : constant array (Age_Type) of String(1..8) :=
      ("        ",   --  X
       "Archaic ",   --  A
       "Early   ",   --  B
@@ -94,16 +94,16 @@ package body list_package is
    begin
 
       if words_mode(show_age)   or
-        (Trim (dictionary_age(de.tran.age))'Length /= 0)  --  Not X
+        (Trim (dictionary_age(de.tran.Age))'Length /= 0)  --  Not X
       then
-         Text_IO.Put(Output, "  " & Trim (dictionary_age(de.tran.age)));
+         Text_IO.Put(Output, "  " & Trim (dictionary_age(de.tran.Age)));
          hit := True;
       end if;
       if (words_mode(show_frequency) or
-            (de.tran.freq >= d))  and
-        (Trim (dictionary_frequency(de.tran.freq))'Length /= 0)
+            (de.tran.Freq >= d))  and
+        (Trim (dictionary_frequency(de.tran.Freq))'Length /= 0)
       then
-         Text_IO.Put(Output, "  " & Trim (dictionary_frequency(de.tran.freq)));
+         Text_IO.Put(Output, "  " & Trim (dictionary_frequency(de.tran.Freq)));
          hit := True;
       end if;
    end Put_dictionary_flags;
@@ -132,11 +132,12 @@ package body list_package is
         de.part.pofs not in xons
       then
          Text_IO.Put(Output, " [");
-         age_type_io.Put(Output, de.tran.age);
-         area_type_io.Put(Output, de.tran.area);
-         geo_type_io.Put(Output, de.tran.geo);
-         frequency_type_io.Put(Output, de.tran.freq);
-         source_type_io.Put(Output, de.tran.source);
+         -- FIXME: Why noy Translation_Record_IO.Put ?
+         Age_Type_IO.Put(Output, de.tran.Age);
+         Area_Type_IO.Put(Output, de.tran.Area);
+         Geo_Type_IO.Put(Output, de.tran.Geo);
+         Frequency_Type_IO.Put(Output, de.tran.Freq);
+         Source_Type_IO.Put(Output, de.tran.Source);
          Text_IO.Put(Output, "]  ");
          chit := True;
       end if;

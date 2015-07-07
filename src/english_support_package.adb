@@ -21,7 +21,7 @@ package body english_support_package is
    package body ewds_record_io is
       package Integer_IO is new Text_IO.Integer_IO(Integer);
       use Part_Of_Speech_Type_IO;
-      use frequency_type_io;
+      use Frequency_Type_IO;
       use Integer_IO;
       spacer : Character := ' ';
       nwidth : constant := 5;
@@ -140,7 +140,7 @@ package body english_support_package is
          m := l + Part_Of_Speech_Type_IO.Default_Width;
          Put(s(l+1..m), p.pofs);
          s(l) :=  ' ';
-         m := l + frequency_type_io.Default_Width;
+         m := l + Frequency_Type_IO.Default_Width;
          Put(s(l+1..m), p.freq);
          s(l) :=  ' ';
          m := l + priority_width;

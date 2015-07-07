@@ -104,7 +104,7 @@ package line_stuff is
          stem : Stem_Type          := Null_Stem_Type;
          qual : quality_record     := null_quality_record;
          kind : Kind_Entry         := Null_Kind_Entry;
-         tran : translation_record := null_translation_record;
+         tran : Translation_Record := Null_Translation_Record;
       end record;
 
    package unique_entry_io is

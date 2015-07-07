@@ -32,12 +32,12 @@ procedure makeewds is
    use Part_Entry_IO;
    use Part_Of_Speech_Type_IO;
    use Kind_Entry_IO;
-   use translation_record_io;
-   use age_type_io;
-   use area_type_io;
-   use geo_type_io;
-   use frequency_type_io;
-   use source_type_io;
+   use Translation_Record_IO;
+   use Age_Type_IO;
+   use Area_Type_IO;
+   use Geo_Type_IO;
+   use Frequency_Type_IO;
+   use Source_Type_IO;
    use ewds_record_io;
 
    porting  : constant Boolean := False;
@@ -717,11 +717,11 @@ begin
             --PUT('%'); PUT(INTEGER'IMAGE(L)); PUT(INTEGER'IMAGE(LAST));
             --PUT('&'); PUT(S(L+1..LAST)); PUT('3');
             --GET(S(L+1..LAST), DE.PART.POFS, DE.KIND, L);
-            Get(s(l+1..last), de.tran.age, l);
-            Get(s(l+1..last), de.tran.area, l);
-            Get(s(l+1..last), de.tran.geo, l);
-            Get(s(l+1..last), de.tran.freq, l);
-            Get(s(l+1..last), de.tran.source, l);
+            Get(s(l+1..last), de.tran.Age, l);
+            Get(s(l+1..last), de.tran.Area, l);
+            Get(s(l+1..last), de.tran.Geo, l);
+            Get(s(l+1..last), de.tran.Freq, l);
+            Get(s(l+1..last), de.tran.Source, l);
             de.mean := Head (s(l+2..last), Max_Meaning_Size);
             --  Note that this allows initial blanks
             --  L+2 skips over the SPACER, required because this is STRING, not ENUM
@@ -762,10 +762,10 @@ begin
                   ewr.aux := Head ("",  aux_word_size);
                   ewr.n := line_number;
                   ewr.pofs := de.part.pofs;
-                  ewr.freq := de.tran.freq;
+                  ewr.freq := de.tran.Freq;
                   ewr.semi := ewa(i).semi;
                   ewr.kind := ewa(i).kind;
-                  ewr.rank := 80-frequency_type'Pos(ewr.freq)*10 + ewr.kind + (ewr.semi-1)*(-3);
+                  ewr.rank := 80-Frequency_Type'Pos(ewr.freq)*10 + ewr.kind + (ewr.semi-1)*(-3);
                   if ewr.freq = Inflections_Package.n  then
                      ewr.rank := ewr.rank + 25;
                   end if;

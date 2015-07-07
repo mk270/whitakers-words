@@ -27,8 +27,8 @@ procedure makeinfl is
    use Inflection_Record_IO;
    use quality_record_io;
    use ending_record_io;
-   use age_type_io;
-   use frequency_type_io;
+   use Age_Type_IO;
+   use Frequency_Type_IO;
    use lel_section_io;
 
    porting : constant Boolean := True;    --FALSE for WAKEINFL;

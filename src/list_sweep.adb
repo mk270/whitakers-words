@@ -386,17 +386,17 @@ procedure list_sweep(pa : in out Parse_Array; pa_last : in out Integer) is
                --DICTIONARY_ENTRY_IO.PUT(DE); TEXT_IO.NEW_LINE;
 
                if ((sl(i).IR.age = x) or else (sl(i).IR.age > a))  and
-                 ((de.tran.age = x) or else (de.tran.age > a))
+                 ((de.tran.Age = x) or else (de.tran.Age > a))
                then
                   not_only_archaic := True;
                end if;
                if ((sl(i).IR.age = x) or else (sl(i).IR.age < f))  and     --  Or E????
-                 ((de.tran.age = x) or else (de.tran.age < f))     --  Or E????
+                 ((de.tran.Age = x) or else (de.tran.Age < f))     --  Or E????
                then
                   not_only_medieval := True;
                end if;
                if ((sl(i).IR.freq = x) or else (sl(i).IR.freq < c))   and  --  A/X < C   --  C for inflections is uncommon  !!!!
-                 ((de.tran.freq = x) or else (de.tran.freq < d))  --     --  E for DICTLINE is uncommon  !!!!
+                 ((de.tran.Freq = x) or else (de.tran.Freq < d))  --     --  E for DICTLINE is uncommon  !!!!
                then
                   not_only_uncommon := True;
                end if;

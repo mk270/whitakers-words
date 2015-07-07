@@ -33,7 +33,7 @@ package body line_stuff is
       blk_stem : constant Stem_Type := Null_Stem_Type;
       sts : stems_type := null_stems_type;
       pt  : Part_Entry  := Null_Part_Entry;
-      tran : translation_record := null_translation_record;
+      tran : Translation_Record := Null_Translation_Record;
       value : constant Numeral_Value_Type := 0;
       mean : Meaning_Type := Null_Meaning_Type;
 
@@ -85,7 +85,7 @@ package body line_stuff is
          --TEXT_IO.PUT("3 ");
          ----  KIND_ENTRY_IO.GET(LINE(LL+1..L), PT.POFS, KIND, LL);
          --TEXT_IO.PUT("4 ");
-         translation_record_io.Get(line(ll+1..l), tran, lll);
+         Translation_Record_IO.Get(line(ll+1..l), tran, lll);
          --TEXT_IO.PUT("5 ");
          --TEXT_IO.PUT_LINE("READ PART");
 
@@ -777,7 +777,7 @@ package body line_stuff is
    package body unique_entry_io is
       use quality_record_io;
       use Kind_Entry_IO;
-      use translation_record_io;
+      use Translation_Record_IO;
       spacer : Character;
 
       procedure Get(f : in File_Type; p : out unique_entry) is
@@ -871,7 +871,7 @@ package body line_stuff is
       use quality_record_io;
       use Part_Entry_IO;
       use Kind_Entry_IO;
-      use translation_record_io;
+      use Translation_Record_IO;
       use Dict_IO;
 
       uniques_file : Text_IO.File_Type;
@@ -882,7 +882,7 @@ package body line_stuff is
       qual : quality_record;
       kind : Kind_Entry;
       --PART : PART_ENTRY := NULL_PART_ENTRY;
-      tran : translation_record := null_translation_record;
+      tran : Translation_Record := Null_Translation_Record;
       MNPC : MNPC_type := Null_MNPC;
       mean : Meaning_Type := Null_Meaning_Type;
       m : Dict_IO.Positive_Count := 1;
@@ -910,11 +910,12 @@ package body line_stuff is
          Get_Line(uniques_file, line, last);    --  QUAL, KIND, TRAN
          Get(line(1..last), qual, l);
          Get(line(l+1..last), qual.pofs, kind, l);
-         age_type_io.Get(line(l+1..last), tran.age, l);
-         area_type_io.Get(line(l+1..last), tran.area, l);
-         geo_type_io.Get(line(l+1..last), tran.geo, l);
-         frequency_type_io.Get(line(l+1..last), tran.freq, l);
-         source_type_io.Get(line(l+1..last), tran.source, l);
+         -- FIXME: Why not Translation_Record_IO.Get ?
+         Age_Type_IO.Get(line(l+1..last), tran.Age, l);
+         Area_Type_IO.Get(line(l+1..last), tran.Area, l);
+         Geo_Type_IO.Get(line(l+1..last), tran.Geo, l);
+         Frequency_Type_IO.Get(line(l+1..last), tran.Freq, l);
+         Source_Type_IO.Get(line(l+1..last), tran.Source, l);
 
          line := blanks;
          Get_Line(uniques_file, line, l);         --  MEAN
@@ -1020,6 +1021,6 @@ begin
 
    unique_entry_io.Default_Width := Max_Stem_Size + 1 +
      Inflection_Record_IO.Default_Width + 1 +
-     translation_record_io.Default_Width;
+     Translation_Record_IO.Default_Width;
 
 end line_stuff;
