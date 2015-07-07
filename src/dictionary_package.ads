@@ -24,8 +24,8 @@ package Dictionary_Package is
    pragma Elaborate_Body;
 
    zzz_stem  : constant Stem_Type := "zzz" & (4..Max_Stem_Size => ' ');
-   type stems_type is array (Stem_Key_Type range 1..4) of Stem_Type;
-   null_stems_type : constant stems_type := (others => Null_Stem_Type);
+   type Stems_Type is array (Stem_Key_Type range 1..4) of Stem_Type;
+   Null_Stems_Type : constant Stems_Type := (others => Null_Stem_Type);
 
    type Dictionary_Kind is (x,            --  null
      addons,       --  For FIXES
@@ -522,36 +522,47 @@ package Dictionary_Package is
    -- FIXME: This one feels like it should be constant...
    Null_Part_Entry : Part_Entry;
 
-   ---------------------------------------------------------------------------
-
    function "<" (left, right : Part_Entry) return Boolean;
 
-   type dictionary_entry is
+   ---------------------------------------------------------------------------
+
+   type Dictionary_Entry is
       record
-         stems : stems_type         := null_stems_type;
-         part  : Part_Entry         := Null_Part_Entry;
+         Stems : Stems_Type         := Null_Stems_Type;
+         Part  : Part_Entry         := Null_Part_Entry;
          --            KIND  : KIND_ENTRY         := NULL_KIND_ENTRY;
-         tran  : Translation_Record := Null_Translation_Record;
-         mean  : Meaning_Type       := Null_Meaning_Type;
+         Tran  : Translation_Record := Null_Translation_Record;
+         Mean  : Meaning_Type       := Null_Meaning_Type;
       end record;
 
-   package dictionary_entry_io is
+   -- FIXME: These subprograms don't check if Is_Open (File)
+   package Dictionary_Entry_IO is
       Default_Width : Field;
-      procedure Get(f : in File_Type; d : out dictionary_entry);
-      procedure Get(d : out dictionary_entry);
-      procedure Put(f : in File_Type; d : in dictionary_entry);
-      procedure Put(d : in dictionary_entry);
-      procedure Get(s : in String; d : out dictionary_entry; last : out Integer);
-      procedure Put(s : out String; d : in dictionary_entry);
-   end dictionary_entry_io;
+      procedure Get (File : in File_Type; Item : out Dictionary_Entry);
+      procedure Get (Item : out Dictionary_Entry);
+      procedure Put (File : in File_Type; Item : in Dictionary_Entry);
+      procedure Put (Item : in Dictionary_Entry);
+      -- TODO: Document meaning of Last
+      -- FIXME: In cases where Source ends with 'a' .. 'z' or 'A' .. 'Z' there
+      --    is possibility of Last not being set.
+      procedure Get
+         ( Source : in  String;
+           Target : out Dictionary_Entry;
+           Last   : out Integer
+         );
+      procedure Put (Target : out String; Item : in Dictionary_Entry);
+   end Dictionary_Entry_IO;
 
-   null_dictionary_entry : dictionary_entry;
+   -- FIXME: This one feels like it should be constant...
+   Null_Dictionary_Entry : Dictionary_Entry;
 
-   package Dict_IO is new direct_io(dictionary_entry);
-   dict_file : array (Dictionary_Kind) of Dict_IO.File_Type;
+   package Dict_IO is new Direct_IO (Dictionary_Entry);
+   Dict_File : array (Dictionary_Kind) of Dict_IO.File_Type;
+
+   ---------------------------------------------------------------------------
 
    package MNPC_IO is new Text_IO.Integer_IO (Dict_IO.Count);
-   subtype MNPC_type is Dict_IO.Count;
+   subtype MNPC_Type is Dict_IO.Count;
    Null_MNPC : Dict_IO.Count := Dict_IO.Count'First;
 
    ---------------------------------------------------------------------------

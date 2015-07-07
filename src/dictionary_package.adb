@@ -138,130 +138,7 @@ package body Dictionary_Package is
 
    package body Translation_Record_IO is separate;
 
-   package body dictionary_entry_io is
-      use Part_Entry_IO;
-      use Translation_Record_IO;
-      --use KIND_ENTRY_IO;
-
-      spacer : Character := ' ';
-      part_col : Natural := 0;
-
-      procedure Get(f : in File_Type; d : out dictionary_entry) is
-      begin
-         for i in Stem_Key_Type range 1..4  loop
-            Get(f, d.stems(i));
-            Get(f, spacer);
-         end loop;
-         Get(f, d.part);
-         --    GET(F, SPACER);
-         --    GET(F, D.PART.POFS, D.KIND);
-         Get(f, spacer);
-         Get(f, d.tran);
-         Get(f, spacer);
-         Get(f, d.mean);
-      end Get;
-
-      procedure Get(d : out dictionary_entry) is
-      begin
-         for i in Stem_Key_Type range 1..4  loop
-            Get(d.stems(i));
-            Get(spacer);
-         end loop;
-         Get(d.part);
-         --    GET(SPACER);
-         --    GET(D.PART.POFS, D.KIND);
-         Get(spacer);
-         Get(d.tran);
-         Get(spacer);
-         Get(d.mean);
-      end Get;
-
-      procedure Put(f : in File_Type; d : in dictionary_entry) is
-      begin
-         for i in Stem_Key_Type range 1..4  loop
-            Put(f, d.stems(i));
-            Put(f, ' ');
-         end loop;
-         part_col := Natural(Col(f));
-         Put(f, d.part);
-         --    PUT(F, ' ');
-         --    PUT(F, D.PART.POFS, D.KIND);
-         Set_Col(f, Count(part_col + Part_Entry_IO.Default_Width + 1));
-         Put(f, d.tran);
-         Put(f, ' ');
-         Put(f, d.mean);
-      end Put;
-
-      procedure Put(d : in dictionary_entry) is
-      begin
-         for i in Stem_Key_Type range 1..4  loop
-            Put(d.stems(i));
-            Put(' ');
-         end loop;
-         part_col := Natural(Col);
-         Put(d.part);
-         --    PUT(' ');
-         --    PUT(D.PART.POFS, D.KIND);
-         Set_Col(Count(part_col + Part_Entry_IO.Default_Width + 1));
-         Put(d.tran);
-         Put(' ');
-         Put(d.mean);
-      end Put;
-
-      procedure Get(s : in String; d : out dictionary_entry; last : out Integer) is
-         l : Integer := s'First - 1;
-         i : Integer := 0;
-      begin
-         for i in Stem_Key_Type range 1..4  loop
-            Stem_Type_IO.Get(s(l+1..s'Last), d.stems(i), l);
-         end loop;
-         Get(s(l+1..s'Last), d.part, l);
-         --    L := L + 1;
-         --    GET(S(L+1..S'LAST), D.PART.POFS, D.KIND, L);
-         l := l + 1;
-         Get(s(l+1..s'Last), d.tran, l);
-         l := l + 1;
-         d.mean := Head(s(l+1..s'Last), Max_Meaning_Size);
-         i := l+1;
-         while s(i) = ' ' loop
-            i := i + 1;
-         end loop;
-         while (s(i) not in 'A'..'Z') and
-           (s(i) not in 'a'..'z')     loop
-            last := i;
-            i := i + 1;
-            exit;
-         end loop;
-      end Get;
-
-      procedure Put(s : out String; d : in dictionary_entry) is
-         l : Integer := s'First - 1;
-         m : Integer := 0;
-      begin
-         for i in Stem_Key_Type range 1..4  loop
-            m := l + Max_Stem_Size;
-            s(l+1..m) := d.stems(i);
-            l := m + 1;
-            s(l) :=  ' ';
-         end loop;
-         part_col := l + 1;
-         m := l + Part_Entry_IO.Default_Width;
-         Put(s(l+1..m), d.part);
-         --    L := M + 1;
-         --    S(L) :=  ' ';
-         --    M := L + KIND_ENTRY_IO_DEFAULT_WIDTH;
-         --    PUT(S(L+1..M), D.PART.POFS, D.KIND);
-         l := part_col + Part_Entry_IO.Default_Width + 1;
-         m := l + Translation_Record_IO.Default_Width;
-         Put(s(l+1..m), d.tran);
-         l := m + 1;
-         s(l) :=  ' ';
-         m := m + Max_Meaning_Size;
-         s(l+1..m) := d.mean;
-         s(m+1..s'Last) := (others => ' ');
-      end Put;
-
-   end dictionary_entry_io;
+   package body Dictionary_Entry_IO is separate;
 
    overriding function "<=" (left, right : Area_Type) return Boolean is
    begin
@@ -331,7 +208,7 @@ begin     --  initialization of body of DICTIONARY_PACKAGE
      Frequency_Type_IO.Default_Width + 1 +
      Source_Type_IO.Default_Width;
 
-   dictionary_entry_io.Default_Width := 4 * (Max_Stem_Size + 1) +
+   Dictionary_Entry_IO.Default_Width := 4 * (Max_Stem_Size + 1) +
      Part_Entry_IO.Default_Width + 1 +
      Translation_Record_IO.Default_Width + 1 +
      Max_Meaning_Size;
