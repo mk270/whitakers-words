@@ -16,69 +16,55 @@
 
 separate (Dictionary_Package)
 package body Translation_Record_IO is
-   use Age_Type_IO;
-   use Area_Type_IO;
-   use Geo_Type_IO;
-   use Frequency_Type_IO;
-   use Source_Type_IO;
 
    ---------------------------------------------------------------------------
 
    Spacer : Character := ' ';
-   --LINE : STRING(1..250);
 
    ---------------------------------------------------------------------------
 
    procedure Get (File : in Ada.Text_IO.File_Type; Item: out Translation_Record)
    is
    begin
-      Get (File, Item.Age);
+      Age_Type_IO.Get (File, Item.Age);
       Get (File, Spacer);
-      Get (File, Item.Area);
+      Area_Type_IO.Get (File, Item.Area);
       Get (File, Spacer);
-      Get (File, Item.Geo);
+      Geo_Type_IO.Get (File, Item.Geo);
       Get (File, Spacer);
-      Get (File, Item.Freq);
+      Frequency_Type_IO.Get (File, Item.Freq);
       Get (File, Spacer);
-      Get (File, Item.Source);
-      --GET(F, SPACER);
-      --GET_LINE(F, LINE, LAST);
-      --TR.MEAN := HEAD(LINE(1..LAST), MAX_MEANING_SIZE);
+      Source_Type_IO.Get (File, Item.Source);
    end Get;
 
    ---------------------------------------------------------------------------
 
    procedure Get (Item : out Translation_Record) is
    begin
-      Get (Item.Age);
+      Age_Type_IO.Get (Item.Age);
       Get (Spacer);
-      Get (Item.Area);
+      Area_Type_IO.Get (Item.Area);
       Get (Spacer);
-      Get (Item.Geo);
+      Geo_Type_IO.Get (Item.Geo);
       Get (Spacer);
-      Get (Item.Freq);
+      Frequency_Type_IO.Get (Item.Freq);
       Get (Spacer);
-      Get (Item.Source);
-      --GET(SPACER);
-      --GET_LINE(LINE, LAST);
-      --TR.MEAN := HEAD(LINE(1..LAST), MAX_MEANING_SIZE);
+      Source_Type_IO.Get (Item.Source);
    end Get;
 
    ---------------------------------------------------------------------------
 
    procedure Put (File : in Text_IO.File_Type; Item : in Translation_Record) is
    begin
-      Put (File, Item.Age);
+      Age_Type_IO.Put (File, Item.Age);
       Put (File, ' ');
-      Put (File, Item.Area);
+      Area_Type_IO.Put (File, Item.Area);
       Put (File, ' ');
-      Put (File, Item.Geo);
+      Geo_Type_IO.Put (File, Item.Geo);
       Put (File, ' ');
-      Put (File, Item.Freq);
+      Frequency_Type_IO.Put (File, Item.Freq);
       Put (File, ' ');
-      Put (File, Item.Source);
-      --PUT(F, ' ');
-      --PUT(F, TR.MEAN);
+      Source_Type_IO.Put (File, Item.Source);
    end Put;
 
    ---------------------------------------------------------------------------
@@ -94,8 +80,6 @@ package body Translation_Record_IO is
       Frequency_Type_IO.Put (Item.Freq);
       Text_IO.Put (' ');
       Source_Type_IO.Put (Item.Source);
-      --TEXT_IO.PUT(' ');
-      --TEXT_IO.PUT(TR.MEAN);
    end Put;
 
    ---------------------------------------------------------------------------
@@ -109,24 +93,15 @@ package body Translation_Record_IO is
       -- Used to compute lower bound of string
       Low : Integer := Source'First - 1;
    begin
-      Get (Source (Low + 1 .. Source'Last), Target.Age, Low);
-      --PUT(TR.AGE); TEXT_IO.PUT('-');
+      Age_Type_IO.Get (Source (Low + 1 .. Source'Last), Target.Age, Low);
       Low := Low + 1;
-      Get (Source (Low + 1 .. Source'Last), Target.Area, Low);
-      --PUT(TR.AREA); TEXT_IO.PUT('-');
+      Area_Type_IO.Get (Source (Low + 1 .. Source'Last), Target.Area, Low);
       Low := Low + 1;
-      Get (Source (Low + 1 .. Source'Last), Target.Geo, Low);
-      --PUT(TR.GEO); TEXT_IO.PUT('-');
+      Geo_Type_IO.Get (Source (Low + 1 .. Source'Last), Target.Geo, Low);
       Low := Low + 1;
-      Get (Source (Low + 1 .. Source'Last), Target.Freq, Low);
-      --PUT(TR.FREQ); TEXT_IO.PUT('-');
+      Frequency_Type_IO.Get (Source (Low + 1 .. Source'Last), Target.Freq, Low);
       Low := Low + 1;
-      Get (Source (Low + 1 .. Source'Last), Target.Source, Last);
-      --PUT(TR.SOURCE); TEXT_IO.PUT('-');
-      --L := M + 1;
-      --M := L + MAX_MEANING_SIZE;
-      --TR.MEAN := HEAD(S(L+1..S'LAST), MAX_MEANING_SIZE);
-      --LAST := M;
+      Source_Type_IO.Get (Source (Low + 1 .. Source'Last), Target.Source, Last);
    end Get;
 
    ---------------------------------------------------------------------------
@@ -139,35 +114,31 @@ package body Translation_Record_IO is
    begin
       -- Put Age_Type
       High := Low + Age_Type_IO.Default_Width;
-      Put (Target (Target'First + Low .. High), Item.Age);
+      Age_Type_IO.Put (Target (Target'First + Low .. High), Item.Age);
       Low := High + 1;
       Target (Low) :=  ' ';
 
       -- Put Area_Type
       High := Low + Area_Type_IO.Default_Width;
-      Put (Target (Low + 1 .. High), Item.Area);
+      Area_Type_IO.Put (Target (Low + 1 .. High), Item.Area);
       Low := High + 1;
       Target (Low) :=  ' ';
 
       -- Put Geo_Type
       High := Low + Geo_Type_IO.Default_Width;
-      Put (Target (Target'First + Low .. High), Item.Geo);
+      Geo_Type_IO.Put (Target (Target'First + Low .. High), Item.Geo);
       Low := High + 1;
       Target (Low) :=  ' ';
 
       -- Put Frequency_Type
       High := Low + Frequency_Type_IO.Default_Width;
-      Put (Target (Low + 1 .. High), Item.Freq);
+      Frequency_Type_IO.Put (Target (Low + 1 .. High), Item.Freq);
       Low := High + 1;
       Target (Low) :=  ' ';
 
       -- Put Source_Type
       High := Low + Source_Type_IO.Default_Width;
-      Put (Target (Low + 1 .. High), Item.Source);
-      --L := M + 1;
-      --S(L) :=  ' ';
-      --M := L + MAX_MEANING_SIZE;
-      --S(L+1..M) :=  TR.MEAN;
+      Source_Type_IO.Put (Target (Low + 1 .. High), Item.Source);
 
       -- Fill remainder of string
       Target (High + 1 .. Target'Last) := (others => ' ');
