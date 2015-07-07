@@ -32,8 +32,6 @@ package body Dictionary_Entry_IO is
       end loop;
 
       Part_Entry_IO.Get (File, Item.Part);
-      --    GET(F, SPACER);
-      --    GET(F, D.PART.POFS, D.KIND);
       Get (File, Spacer);
       Translation_Record_IO.Get (File, Item.Tran);
       Get (File, Spacer);
@@ -50,8 +48,6 @@ package body Dictionary_Entry_IO is
       end loop;
 
       Part_Entry_IO.Get (Item.Part);
-      --    GET(SPACER);
-      --    GET(D.PART.POFS, D.KIND);
       Get (Spacer);
       Translation_Record_IO.Get (Item.Tran);
       Get (Spacer);
@@ -69,8 +65,6 @@ package body Dictionary_Entry_IO is
 
       Part_Col := Natural (Col (File));
       Part_Entry_IO.Put (File, Item.Part);
-      --    PUT(F, ' ');
-      --    PUT(F, D.PART.POFS, D.KIND);
       Set_Col (File, Count (Part_Col + Part_Entry_IO.Default_Width + 1));
       Translation_Record_IO.Put (File, Item.Tran);
       Put (File, ' ');
@@ -88,8 +82,6 @@ package body Dictionary_Entry_IO is
 
       Part_Col := Natural (Col);
       Part_Entry_IO.Put (Item.Part);
-      --    PUT(' ');
-      --    PUT(D.PART.POFS, D.KIND);
       Set_Col (Count (Part_Col + Part_Entry_IO.Default_Width + 1));
       Translation_Record_IO.Put (Item.Tran);
       Put (' ');
@@ -118,8 +110,6 @@ package body Dictionary_Entry_IO is
       end loop;
 
       Part_Entry_IO.Get (Source (Low + 1 .. Source'Last), Target.Part, Low);
-      --    L := L + 1;
-      --    GET(S(L+1..S'LAST), D.PART.POFS, D.KIND, L);
       Low := Low + 1;
       Translation_Record_IO.Get
          ( Source (Low + 1 .. Source'Last),
@@ -134,14 +124,7 @@ package body Dictionary_Entry_IO is
          High := High + 1;
       end loop;
 
-      while (Source (High) not in 'A'..'Z') and
-            (Source (High) not in 'a'..'z')
-      loop
-         Last := High;
-         High := High + 1;
-         -- FIXME: WTF???
-         exit;
-      end loop;
+      Last := High;
    end Get;
 
    ---------------------------------------------------------------------------
@@ -164,10 +147,6 @@ package body Dictionary_Entry_IO is
       Part_Col := Low + 1;
       High := Low + Part_Entry_IO.Default_Width;
       Part_Entry_IO.Put (Target (Low + 1 .. High), Item.Part);
-      --    L := M + 1;
-      --    S(L) :=  ' ';
-      --    M := L + KIND_ENTRY_IO_DEFAULT_WIDTH;
-      --    PUT(S(L+1..M), D.PART.POFS, D.KIND);
 
       -- Put Translation_Record
       Low  := Part_Col + Part_Entry_IO.Default_Width + 1;

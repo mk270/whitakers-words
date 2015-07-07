@@ -543,8 +543,6 @@ package Dictionary_Package is
       procedure Put (File : in File_Type; Item : in Dictionary_Entry);
       procedure Put (Item : in Dictionary_Entry);
       -- TODO: Document meaning of Last
-      -- FIXME: In cases where Source ends with 'a' .. 'z' or 'A' .. 'Z' there
-      --    is possibility of Last not being set.
       procedure Get
          ( Source : in  String;
            Target : out Dictionary_Entry;
