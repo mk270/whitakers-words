@@ -35,7 +35,7 @@ package uniques_package is
 
    unq : latin_uniques := null_latin_uniques;
 
-   type uniques_de_array is array (Dict_IO.Positive_Count range <>) of dictionary_entry;
-   uniques_de : uniques_de_array(1..100) := (others => null_dictionary_entry);
+   type uniques_de_array is array (Dict_IO.Positive_Count range <>) of Dictionary_Entry;
+   uniques_de : uniques_de_array(1..100) := (others => Null_Dictionary_Entry);
 
 end uniques_package;

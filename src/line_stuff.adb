@@ -31,7 +31,7 @@ package body line_stuff is
 
       dictionary_file : File_Type;
       blk_stem : constant Stem_Type := Null_Stem_Type;
-      sts : stems_type := null_stems_type;
+      sts : Stems_Type := Null_Stems_Type;
       pt  : Part_Entry  := Null_Part_Entry;
       tran : Translation_Record := Null_Translation_Record;
       value : constant Numeral_Value_Type := 0;
@@ -97,7 +97,7 @@ package body line_stuff is
          --  different dictionary entries  --  Do this in LOAD and in DICT.DIC
          --TEXT_IO.PUT_LINE("GETTING STEMS IN LOAD_DICTIONARY");
 
-         sts := null_stems_type;
+         sts := Null_Stems_Type;
          ll := 1;
          --  Extract up to 4 stems
          for i in 1 .. Number_Of_Stems (pt.pofs)  loop   --  EXTRACT STEMS
@@ -426,10 +426,10 @@ package body line_stuff is
       Create(stem_file(d_k), Inout_File, add_file_name_extension(stem_file_name,
                                                                  Dictionary_Kind'Image(d_k)));
       --PUT_LINE("LOAD_STEM_FILE for LOC - Created STEM_FILE");
-      if Is_Open(dict_file(d_k))  then
-         Delete(dict_file(d_k));
+      if Is_Open(Dict_File(d_k))  then
+         Delete(Dict_File(d_k));
       end if;
-      Create(dict_file(d_k), Inout_File, add_file_name_extension(dict_file_name,
+      Create(Dict_File(d_k), Inout_File, add_file_name_extension(dict_file_name,
                                                                  Dictionary_Kind'Image(d_k)));
       --PUT_LINE("LOAD_STEM_FILE for LOC - Created DICT_FILE");
 
@@ -442,21 +442,21 @@ package body line_stuff is
          ddll(fc, 'a', d_k) := 0;
          while dlc(fc) /= null  loop
             --PUT_LINE("L_D_F  Setting Dictfile index M = " & INTEGER'IMAGE(INTEGER(M)));
-            Dict_IO.Set_Index(dict_file(d_k), m);
+            Dict_IO.Set_Index(Dict_File(d_k), m);
             -- %%%%%%%%%%%!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!%%%%%%%%%%%%%%%%%%%%%%%
             --PUT_LINE(DLC(FC).DE.TRAN.MEAN);
             -- M_P_R := DLC(FC).DE.TRAN.MEAN;
             --DICT_IO.WRITE(DICT_FILE(D_K), M_P_R);   --@@@@@@@@@@@@@@@@@@@@@
-            Dict_IO.Write(dict_file(d_k), dlc(fc).de);
+            Dict_IO.Write(Dict_File(d_k), dlc(fc).de);
             for k in Stem_Key_Type range 1..4  loop
-               if dlc(fc).de.stems(k) /= Null_Stem_Type  and
-                 dlc(fc).de.stems(k) /= zzz_stem
+               if dlc(fc).de.Stems(k) /= Null_Stem_Type  and
+                 dlc(fc).de.Stems(k) /= zzz_stem
                then
                   --LATIN_DEBUG.PUT(DLC(FC).DE.STEMS(K)); LATIN_DEBUG.PUT("  ..  ");
                   --LATIN_DEBUG.PUT(DLC(FC).DE.PART); LATIN_DEBUG.PUT("  ..  "); LATIN_DEBUG.PUT(K);
                   --LATIN_DEBUG.PUT("  ..  "); LATIN_DEBUG.PUT(INTEGER(M)); LATIN_DEBUG.NEW_LINE;
                   Write(stem_file(d_k),
-                        (dlc(fc).de.stems(k), dlc(fc).de.part, k, m));
+                        (dlc(fc).de.Stems(k), dlc(fc).de.Part, k, m));
                   ddll(fc, 'a', d_k) := i;
                   --LATIN_DEBUG.PUT_LINE("L_D_F DDLL(FC, 'a', D_K) := I  = " & INTEGER'IMAGE(I));
                   i := i + 1;
@@ -883,7 +883,7 @@ package body line_stuff is
       kind : Kind_Entry;
       --PART : PART_ENTRY := NULL_PART_ENTRY;
       tran : Translation_Record := Null_Translation_Record;
-      MNPC : MNPC_type := Null_MNPC;
+      MNPC : MNPC_Type := Null_MNPC;
       mean : Meaning_Type := Null_Meaning_Type;
       m : Dict_IO.Positive_Count := 1;
 
@@ -922,7 +922,7 @@ package body line_stuff is
          mean := Head(Trim (line(1..l)), Max_Meaning_Size);
          --@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
          declare
-            unique_de : dictionary_entry;
+            unique_de : Dictionary_Entry;
             part      : Part_Entry         := Null_Part_Entry;
          begin
             case part.pofs is
@@ -944,12 +944,12 @@ package body line_stuff is
                   part := Null_Part_Entry;
             end case;
 
-            unique_de.stems := (stem,
+            unique_de.Stems := (stem,
                                 Null_Stem_Type, Null_Stem_Type, Null_Stem_Type);
-            unique_de.part  :=  part;
+            unique_de.Part  :=  part;
             --UNIQUE_DE.KIND  :=  KIND;
-            unique_de.tran  :=  tran;
-            unique_de.mean  :=  mean;
+            unique_de.Tran  :=  tran;
+            unique_de.Mean  :=  mean;
 
             --        DICT_IO.SET_INDEX(DICT_FILE(D_K), M);
             --        DICT_IO.WRITE(DICT_FILE(D_K), UNIQUE_DE);

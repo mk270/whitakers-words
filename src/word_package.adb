@@ -343,7 +343,7 @@ package body word_package is
       stem_io.Open(stem_file(d_k), stem_io.In_File,
                    add_file_name_extension(stem_file_name,
                                            Dictionary_Kind'Image(d_k)));
-      Dict_IO.Open(dict_file(d_k), Dict_IO.In_File,
+      Dict_IO.Open(Dict_File(d_k), Dict_IO.In_File,
                    add_file_name_extension(dict_file_name,
                                            Dictionary_Kind'Image(d_k)));
       load_indices_from_indx_file(d_k);
@@ -745,7 +745,7 @@ package body word_package is
                                               --procedure REDUCE_STEM_LIST(SL : in SAL; SXX : out SAL;
                                               prefix : in prefix_item := null_prefix_item;
                                               suffix : in suffix_item := null_suffix_item) is
-         MNPC_part : MNPC_type := Null_MNPC;
+         MNPC_part : MNPC_Type := Null_MNPC;
          pdl_part : Part_Entry;
          com : Comparison_Type := x;
          num_sort : Numeral_Sort_Type := x;
@@ -1337,7 +1337,7 @@ package body word_package is
          stem_length  : Integer := 0;
          pr   : Parse_Record;
          m : Integer := 1;
-         de : dictionary_entry;
+         de : Dictionary_Entry;
          mean : Meaning_Type;
          packon_first_hit : Boolean := False;
          sl : sal := (others => Null_Parse_Record);
@@ -1419,9 +1419,9 @@ package body word_package is
                      while sl(m) /= Null_Parse_Record  loop  --  Over all inflection hits
                                                              --  if this stem is possible
                                                              --  call up the meaning to check for "(w/-"
-                        Dict_IO.Set_Index(dict_file(pdl(j).d_k), pdl(j).ds.MNPC);
-                        Dict_IO.Read(dict_file(pdl(j).d_k), de);
-                        mean := de.mean;
+                        Dict_IO.Set_Index(Dict_File(pdl(j).d_k), pdl(j).ds.MNPC);
+                        Dict_IO.Read(Dict_File(pdl(j).d_k), de);
+                        mean := de.Mean;
 
                         -- there is no way this condition can be True;
                         -- packon_length - 1 /= packon_length
@@ -1559,7 +1559,7 @@ package body word_package is
          tackon_hit : Boolean := False;
          tackon_on  : Boolean := False;
          j : Integer := 0;
-         de : dictionary_entry := null_dictionary_entry;
+         de : Dictionary_Entry := Null_Dictionary_Entry;
          mean : Meaning_Type := Null_Meaning_Type;
          entering_pa_last : constant Integer := pa_last;
          start_of_loop : constant Integer := 5;    --  4 enclitics     --  Hard number  !!!!!!!!!!!!!!!
@@ -1598,9 +1598,9 @@ package body word_package is
                               null;
                               tackon_on  := False;
                            elsif pa(j).IR.qual.pofs = tackons(i).entr.base.pofs  then
-                              Dict_IO.Set_Index(dict_file(pa(j).D_K), pa(j).MNPC);
-                              Dict_IO.Read(dict_file(pa(j).D_K), de);
-                              mean := de.mean;
+                              Dict_IO.Set_Index(Dict_File(pa(j).D_K), pa(j).MNPC);
+                              Dict_IO.Read(Dict_File(pa(j).D_K), de);
+                              mean := de.Mean;
 
                               --  check PART
                               case tackons(i).entr.base.pofs is

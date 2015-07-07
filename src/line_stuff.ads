@@ -26,7 +26,7 @@ package line_stuff is
    type dictionary_list is access dictionary_item;
    type dictionary_item is
       record
-         de   : dictionary_entry := null_dictionary_entry;
+         de   : Dictionary_Entry := Null_Dictionary_Entry;
          succ : dictionary_list;
       end record;
 

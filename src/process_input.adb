@@ -42,12 +42,12 @@ is
    procedure delete_if_Open(filename : String; dict_name : Dictionary_Kind) is
    begin
       begin
-         if Dict_IO.Is_Open(dict_file(dict_name)) then
-            Dict_IO.Delete(dict_file(dict_name));
+         if Dict_IO.Is_Open(Dict_File(dict_name)) then
+            Dict_IO.Delete(Dict_File(dict_name));
          else
-            Dict_IO.Open(dict_file(dict_name), Dict_IO.In_File,
+            Dict_IO.Open(Dict_File(dict_name), Dict_IO.In_File,
               add_file_name_extension(dict_file_name, filename));
-            Dict_IO.Delete(dict_file(dict_name));
+            Dict_IO.Delete(Dict_File(dict_name));
          end if;
       exception when others => null;
       end;   --  not there, so don't have to DELETE

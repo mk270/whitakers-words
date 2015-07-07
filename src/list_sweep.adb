@@ -31,7 +31,7 @@ procedure list_sweep(pa : in out Parse_Array; pa_last : in out Integer) is
    use Dict_IO;
 
    pr, opr : Parse_Record := Null_Parse_Record;
-   de : dictionary_entry := null_dictionary_entry;
+   de : Dictionary_Entry := Null_Dictionary_Entry;
    i, j, jj : Integer := 0;
    diff_j : Integer := 0;
 
@@ -48,7 +48,7 @@ procedure list_sweep(pa : in out Parse_Array; pa_last : in out Integer) is
          return True;
       end if;
 
-      Dict_IO.Read(dict_file(pr.D_K), de, pr.MNPC);
+      Dict_IO.Read(Dict_File(pr.D_K), de, pr.MNPC);
 
       --  NOUN CHECKS
       case  pr.IR.qual.pofs is
@@ -64,12 +64,12 @@ procedure list_sweep(pa : in out Parse_Array; pa_last : in out Integer) is
 
                   search_for_pl:
                   declare
-                     de : dictionary_entry;
+                     de : Dictionary_Entry;
                      mean : Meaning_Type := Null_Meaning_Type;
                   begin
                      allowed := False;
-                     Dict_IO.Read(dict_file(pr.D_K), de, pr.MNPC);
-                     mean := de.mean;
+                     Dict_IO.Read(Dict_File(pr.D_K), de, pr.MNPC);
+                     mean := de.Mean;
                      for j in Meaning_Type'First..Meaning_Type'Last-2  loop
                         if mean(j..j+2) = "pl."  then
                            allowed := True;
@@ -139,7 +139,7 @@ procedure list_sweep(pa : in out Parse_Array; pa_last : in out Integer) is
             end if;
 
             --  Check for V IMPERS and demand that only 3rd person    --  ???????
-            if de.part.v.Kind = impers then
+            if de.Part.v.Kind = impers then
                if pr.IR.qual.v.person = 3 then
                   null;
                else
@@ -149,7 +149,7 @@ procedure list_sweep(pa : in out Parse_Array; pa_last : in out Integer) is
             end if;
 
             --  Check for V DEP    and demand PASSIVE
-            if de.part.v.Kind = dep then
+            if de.Part.v.Kind = dep then
                --TEXT_IO.PUT("DEP  ");
                if (pr.IR.qual.v.tense_voice_mood.voice = active)  and
                  (pr.IR.qual.v.tense_voice_mood.mood = inf)  and
@@ -171,7 +171,7 @@ procedure list_sweep(pa : in out Parse_Array; pa_last : in out Integer) is
             end if;
 
             --  Check for V SEMIDEP    and demand PASSIVE ex Perf
-            if de.part.v.Kind = semidep then
+            if de.Part.v.Kind = semidep then
                if (pr.IR.qual.v.tense_voice_mood.voice = passive)  and
                  (pr.IR.qual.v.tense_voice_mood.tense in pres..fut)  and
                  (pr.IR.qual.v.tense_voice_mood.mood in ind..imp)
@@ -193,22 +193,22 @@ procedure list_sweep(pa : in out Parse_Array; pa_last : in out Integer) is
                if (pr.IR.qual.v.person = 1) and then
                   (pr.IR.qual.v.number = s)
                then
-                  if ((de.part.v.Kind in x..intrans)  and
+                  if ((de.Part.v.Kind in x..intrans)  and
                     (pr.IR.qual.v.tense_voice_mood = (pres, active, ind))) or else
-                    ((de.part.v.Kind = dep)  and
+                    ((de.Part.v.Kind = dep)  and
                     (pr.IR.qual.v.tense_voice_mood = (pres, passive, ind))) or else
-                    ((de.part.v.Kind = semidep)  and
+                    ((de.Part.v.Kind = semidep)  and
                     (pr.IR.qual.v.tense_voice_mood = (pres, active, ind)))
                   then
                      allowed := True;
-                  elsif (de.part.v.Kind = perfdef)  and
+                  elsif (de.Part.v.Kind = perfdef)  and
                      (pr.IR.qual.v.tense_voice_mood = (perf, active, ind))
                   then
                      allowed := True;
                   else
                      allowed := False;
                   end if;
-               elsif de.part.v.Kind = impers then
+               elsif de.Part.v.Kind = impers then
                   if (pr.IR.qual.v.person = 3)  and then
                     (pr.IR.qual.v.number = s)  and then
                     (pr.IR.qual.v.tense_voice_mood = (pres, active, ind))
@@ -245,17 +245,17 @@ procedure list_sweep(pa : in out Parse_Array; pa_last : in out Integer) is
       sm : Parse_Record;
       has_noun_abbreviation      : Boolean := False;
 
-      function depr (pr : Parse_Record) return dictionary_entry is
-         de : dictionary_entry;
+      function depr (pr : Parse_Record) return Dictionary_Entry is
+         de : Dictionary_Entry;
       begin
          --TEXT_IO.PUT("DEPR  "); PARSE_RECORD_IO.PUT(PR); TEXT_IO.NEW_LINE;
          if pr.MNPC = Null_MNPC  then
-            return null_dictionary_entry;
+            return Null_Dictionary_Entry;
          else
             if pr.D_K in general..local  then
                --if PR.MNPC /= OMNPC  then
-               Dict_IO.Set_Index(dict_file(pr.D_K), pr.MNPC);
-               Dict_IO.Read(dict_file(pr.D_K), de);
+               Dict_IO.Set_Index(Dict_File(pr.D_K), pr.MNPC);
+               Dict_IO.Read(Dict_File(pr.D_K), de);
                --OMNPC := PR.MNPC;
                --ODE := DE;
                --else
@@ -311,7 +311,7 @@ procedure list_sweep(pa : in out Parse_Array; pa_last : in out Integer) is
 
             function meaning (pr : Parse_Record) return Meaning_Type is
             begin
-               return depr(pr).mean;
+               return depr(pr).Mean;
             end meaning;
 
          begin
@@ -380,23 +380,23 @@ procedure list_sweep(pa : in out Parse_Array; pa_last : in out Integer) is
             --TEXT_IO.PUT_LINE("SCANNING FOR TRIM   I = " & INTEGER'IMAGE(I) & "  INFL AGE = " & AGE_TYPE'IMAGE(SL(I).IR.AGE));
             if sl(i).D_K in general..local  then
 
-               Dict_IO.Set_Index(dict_file(sl(i).D_K), sl(i).MNPC);
+               Dict_IO.Set_Index(Dict_File(sl(i).D_K), sl(i).MNPC);
                --TEXT_IO.PUT(INTEGER'IMAGE(INTEGER(SL(I).MNPC)));
-               Dict_IO.Read(dict_file(sl(i).D_K), de);
+               Dict_IO.Read(Dict_File(sl(i).D_K), de);
                --DICTIONARY_ENTRY_IO.PUT(DE); TEXT_IO.NEW_LINE;
 
                if ((sl(i).IR.age = x) or else (sl(i).IR.age > a))  and
-                 ((de.tran.Age = x) or else (de.tran.Age > a))
+                 ((de.Tran.Age = x) or else (de.Tran.Age > a))
                then
                   not_only_archaic := True;
                end if;
                if ((sl(i).IR.age = x) or else (sl(i).IR.age < f))  and     --  Or E????
-                 ((de.tran.Age = x) or else (de.tran.Age < f))     --  Or E????
+                 ((de.Tran.Age = x) or else (de.Tran.Age < f))     --  Or E????
                then
                   not_only_medieval := True;
                end if;
                if ((sl(i).IR.freq = x) or else (sl(i).IR.freq < c))   and  --  A/X < C   --  C for inflections is uncommon  !!!!
-                 ((de.tran.Freq = x) or else (de.tran.Freq < d))  --     --  E for DICTLINE is uncommon  !!!!
+                 ((de.Tran.Freq = x) or else (de.Tran.Freq < d))  --     --  E for DICTLINE is uncommon  !!!!
                then
                   not_only_uncommon := True;
                end if;
@@ -524,16 +524,16 @@ begin                               --  LIST_SWEEP
 
    reset_pronoun_kind:
    declare
-      de : dictionary_entry;
+      de : Dictionary_Entry;
    begin
       for i in 1..pa_last  loop
          if pa(i).D_K = general  then
-            Dict_IO.Set_Index(dict_file(pa(i).D_K), pa(i).MNPC);
-            Dict_IO.Read(dict_file(pa(i).D_K), de);
-            if de.part.pofs = pron  and then
-              de.part.pron.Decl.which = 1
+            Dict_IO.Set_Index(Dict_File(pa(i).D_K), pa(i).MNPC);
+            Dict_IO.Read(Dict_File(pa(i).D_K), de);
+            if de.Part.pofs = pron  and then
+              de.Part.pron.Decl.which = 1
             then
-               pa(i).IR.qual.pron.decl.var := Pronoun_Kind_Type'Pos (de.part.pron.Kind);
+               pa(i).IR.qual.pron.decl.var := Pronoun_Kind_Type'Pos (de.Part.pron.Kind);
                --elsif DE.PART.POFS = PACK  and then
                -- DE.PART.PACK.DECL.WHICH =1  then
                -- PA(I).IR.QUAL.PACK.DECL.VAR := PRONOUN_KIND_TYPE'POS(DE.KIND.PRON_KIND);

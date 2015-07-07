@@ -33,11 +33,11 @@ package body list_package is
 
    type dictionary_MNPC_record is record
       d_k  : Dictionary_Kind := Default_Dictionary_Kind;
-      MNPC : MNPC_type := Null_MNPC;
-      de   : dictionary_entry := null_dictionary_entry;
+      MNPC : MNPC_Type := Null_MNPC;
+      de   : Dictionary_Entry := Null_Dictionary_Entry;
    end record;
    null_dictionary_MNPC_record : constant dictionary_MNPC_record
-     := (x, Null_MNPC, null_dictionary_entry);
+     := (x, Null_MNPC, Null_Dictionary_Entry);
 
    max_meaning_print_size : constant := 79;
    mm : Integer := Max_Meaning_Size;
@@ -89,21 +89,21 @@ package body list_package is
       "Modern  " ); --  H
 
    procedure Put_dictionary_flags(Output : Text_IO.File_Type;
-                                  de     : dictionary_entry;
+                                  de     : Dictionary_Entry;
                                   hit    : out Boolean) is
    begin
 
       if words_mode(show_age)   or
-        (Trim (dictionary_age(de.tran.Age))'Length /= 0)  --  Not X
+        (Trim (dictionary_age(de.Tran.Age))'Length /= 0)  --  Not X
       then
-         Text_IO.Put(Output, "  " & Trim (dictionary_age(de.tran.Age)));
+         Text_IO.Put(Output, "  " & Trim (dictionary_age(de.Tran.Age)));
          hit := True;
       end if;
       if (words_mode(show_frequency) or
-            (de.tran.Freq >= d))  and
-        (Trim (dictionary_frequency(de.tran.Freq))'Length /= 0)
+            (de.Tran.Freq >= d))  and
+        (Trim (dictionary_frequency(de.Tran.Freq))'Length /= 0)
       then
-         Text_IO.Put(Output, "  " & Trim (dictionary_frequency(de.tran.Freq)));
+         Text_IO.Put(Output, "  " & Trim (dictionary_frequency(de.Tran.Freq)));
          hit := True;
       end if;
    end Put_dictionary_flags;
@@ -111,7 +111,7 @@ package body list_package is
    procedure Put_dictionary_form(Output : Text_IO.File_Type;
                                  d_k    : Dictionary_Kind;
                                  MNPC   : Dict_IO.Count;
-                                 de     : dictionary_entry) is
+                                 de     : Dictionary_Entry) is
       chit, dhit, ehit, fhit, lhit : Boolean := False;   --  Things on this line?
       dictionary_line_number : constant Integer := Integer(MNPC);
       --DE : DICTIONARY_ENTRY := DM.DE;
@@ -129,15 +129,15 @@ package body list_package is
       end if;
 
       if words_mdev(show_dictionary_codes) and then
-        de.part.pofs not in xons
+        de.Part.pofs not in xons
       then
          Text_IO.Put(Output, " [");
          -- FIXME: Why noy Translation_Record_IO.Put ?
-         Age_Type_IO.Put(Output, de.tran.Age);
-         Area_Type_IO.Put(Output, de.tran.Area);
-         Geo_Type_IO.Put(Output, de.tran.Geo);
-         Frequency_Type_IO.Put(Output, de.tran.Freq);
-         Source_Type_IO.Put(Output, de.tran.Source);
+         Age_Type_IO.Put(Output, de.Tran.Age);
+         Area_Type_IO.Put(Output, de.Tran.Area);
+         Geo_Type_IO.Put(Output, de.Tran.Geo);
+         Frequency_Type_IO.Put(Output, de.Tran.Freq);
+         Source_Type_IO.Put(Output, de.Tran.Source);
          Text_IO.Put(Output, "]  ");
          chit := True;
       end if;
@@ -241,7 +241,7 @@ package body list_package is
       --MEANING_ARRAY_SIZE : constant := 5;
       --MEANING_ARRAY : array (1..MEANING_ARRAY_SIZE) of MEANING_TYPE;
 
-      dea : dictionary_entry := null_dictionary_entry;
+      dea : Dictionary_Entry := Null_Dictionary_Entry;
 
       w : constant String := raw_word;
       j, j1, j2, k : Integer := 0;
@@ -326,13 +326,13 @@ package body list_package is
                   if dm.d_k in general..local then  --  UNIQUES has no DE
 
                      if (sr.ir.qual.pofs = v)    and then
-                       (dm.de.part.v.Kind = dep)       and then
+                       (dm.de.Part.v.Kind = dep)       and then
                        (sr.ir.qual.v.tense_voice_mood.mood in ind..inf)
                      then
                         --TEXT_IO.PUT_LINE("START PRINT MODIFIED QUAL   V" );
                         out_String(passive_start+1..passive_finish) := passive_blank;
                      elsif (sr.ir.qual.pofs = vpar)    and then
-                       (dm.de.part.v.Kind = dep)    and then
+                       (dm.de.Part.v.Kind = dep)    and then
                        (sr.ir.qual.vpar.tense_voice_mood.mood = ppl)
                      then
                         --TEXT_IO.PUT_LINE("START PRINT MODIFIED QUAL   VPAR" );
@@ -401,8 +401,8 @@ package body list_package is
          s : String(1..Max_Meaning_Size) := Null_Meaning_Type;
          n : Integer := 0;
       begin
-         if dm.de.part.pofs = num  then
-            n := dm.de.part.num.Value;
+         if dm.de.Part.pofs = num  then
+            n := dm.de.Part.num.Value;
             if sr.ir.qual.pofs = num  then    --  Normal parse
                case sr.ir.qual.num.sort is
                   when card  =>
@@ -434,13 +434,13 @@ package body list_package is
             if words_mdev(do_pearse_codes) then
                Text_IO.Put(Output, "03 ");
             end if;
-            if dm.de.part.pofs = num  and then dm.de.part.num.Value > 0  then
+            if dm.de.Part.pofs = num  and then dm.de.Part.num.Value > 0  then
                Text_IO.Put_Line(Output, constructed_meaning(sr, dm));    --  Constructed MEANING
             elsif dm.d_k = unique  then
-               Put_meaning(Output, uniques_de(dm.MNPC).mean);
+               Put_meaning(Output, uniques_de(dm.MNPC).Mean);
                Text_IO.New_Line(Output);
             else
-               Put_meaning(Output, Trim_bar(dm.de.mean));
+               Put_meaning(Output, Trim_bar(dm.de.Mean));
                Text_IO.New_Line(Output);
             end if;
          else
@@ -650,8 +650,8 @@ package body list_package is
                         j := j + 1;             --  J indexes the number of MNPCA arrays - Next MNPCA
                         --TEXT_IO.PUT_LINE("Shifting J for N  I = " & INTEGER'IMAGE(I) & "   J = " & INTEGER'IMAGE(J));
                         sraa(j)(k) := (pa(i).Stem, pa(i).IR);
-                        Dict_IO.Set_Index(dict_file(pa(i).D_K), pa(i).MNPC);
-                        Dict_IO.Read(dict_file(pa(i).D_K), dea);
+                        Dict_IO.Set_Index(Dict_File(pa(i).D_K), pa(i).MNPC);
+                        Dict_IO.Read(Dict_File(pa(i).D_K), dea);
                         dm := (pa(i).D_K, pa(i).MNPC, dea);
                         dma(j) := dm;
                         odm := dm;
@@ -676,8 +676,8 @@ package body list_package is
                         k := 1;                  --  K indexes within the MNPCA array --  Initialize
                         j := j + 1;             --  J indexes the number of MNPCA arrays - Next MNPCA
                         sraa(j)(k) := (pa(i).Stem, pa(i).IR);
-                        Dict_IO.Set_Index(dict_file(pa(i).D_K), pa(i).MNPC);
-                        Dict_IO.Read(dict_file(pa(i).D_K), dea);
+                        Dict_IO.Set_Index(Dict_File(pa(i).D_K), pa(i).MNPC);
+                        Dict_IO.Read(Dict_File(pa(i).D_K), dea);
                         dm := (pa(i).D_K, pa(i).MNPC, dea);
                         dma(j) := dm;
                         odm := dm;
@@ -699,8 +699,8 @@ package body list_package is
                         k := 1;                  --  K indexes within the MNPCA array --  Initialize
                         j := j + 1;             --  J indexes the number of MNPCA arrays - Next MNPCA
                         sraa(j)(k) := (pa(i).Stem, pa(i).IR);
-                        Dict_IO.Set_Index(dict_file(pa(i).D_K), pa(i).MNPC);
-                        Dict_IO.Read(dict_file(pa(i).D_K), dea);
+                        Dict_IO.Set_Index(Dict_File(pa(i).D_K), pa(i).MNPC);
+                        Dict_IO.Read(Dict_File(pa(i).D_K), dea);
                         dm := (pa(i).D_K, pa(i).MNPC, dea);
                         dma(j) := dm;
                         odm := dm;
@@ -723,8 +723,8 @@ package body list_package is
                         k := 1;                  --  K indexes within the MNPCA array --  Initialize
                         j := j + 1;             --  J indexes the number of MNPCA arrays - Next MNPCA
                         sraa(j)(k) := (pa(i).Stem, pa(i).IR);
-                        Dict_IO.Set_Index(dict_file(pa(i).D_K), pa(i).MNPC);
-                        Dict_IO.Read(dict_file(pa(i).D_K), dea);
+                        Dict_IO.Set_Index(Dict_File(pa(i).D_K), pa(i).MNPC);
+                        Dict_IO.Read(Dict_File(pa(i).D_K), dea);
                         dm := (pa(i).D_K, pa(i).MNPC, dea);
                         dma(j) := dm;
                         odm := dm;
@@ -750,7 +750,7 @@ package body list_package is
                         --DICT_IO.SET_INDEX(DICT_FILE(PA(I).D_K), PA(I).MNPC);
                         --DICT_IO.READ(DICT_FILE(PA(I).D_K), DEA);
 
-                        dea := null_dictionary_entry;
+                        dea := Null_Dictionary_Entry;
                         dm := (pa(i).D_K, pa(i).MNPC, dea);
                         dma(j) := dm;
                         odm := dm;
@@ -759,8 +759,8 @@ package body list_package is
                         k := 1;                  --  K indexes within the MNPCA array --  Initialize
                         j := j + 1;             --  J indexes the number of MNPCA arrays - Next MNPCA
                         sraa(j)(k) := (pa(i).Stem, pa(i).IR);
-                        Dict_IO.Set_Index(dict_file(pa(i).D_K), pa(i).MNPC);
-                        Dict_IO.Read(dict_file(pa(i).D_K), dea);
+                        Dict_IO.Set_Index(Dict_File(pa(i).D_K), pa(i).MNPC);
+                        Dict_IO.Read(Dict_File(pa(i).D_K), dea);
                         dm := (pa(i).D_K, pa(i).MNPC, dea);
                         dma(j) := dm;
                         odm := dm;
@@ -789,8 +789,8 @@ package body list_package is
                         --TEXT_IO.PUT_LINE("Shifting J for VPAR I = " & INTEGER'IMAGE(I) & "   J = " & INTEGER'IMAGE(J));
                         sraa(j)(k) := (pa(i).Stem, pa(i).IR);
                         if pa(i).D_K /= ppp  then
-                           Dict_IO.Set_Index(dict_file(pa(i).D_K), pa(i).MNPC);
-                           Dict_IO.Read(dict_file(pa(i).D_K), dea);
+                           Dict_IO.Set_Index(Dict_File(pa(i).D_K), pa(i).MNPC);
+                           Dict_IO.Read(Dict_File(pa(i).D_K), dea);
                         end if;     --  use previous DEA
                         dm := (pa(i).D_K, pa(i).MNPC, dea);
                         dma(j) := dm;
@@ -823,13 +823,13 @@ package body list_package is
                         sraa(j)(k) := (pa(i).Stem, pa(i).IR);
                         if pa(i).MNPC /= Null_MNPC  then
                            if pa(i).D_K = addons  then
-                              dea :=  null_dictionary_entry;   --  Fix for ADDONS in MEANS, not DICT_IO
+                              dea :=  Null_Dictionary_Entry;   --  Fix for ADDONS in MEANS, not DICT_IO
                            else
-                              Dict_IO.Set_Index(dict_file(pa(i).D_K), pa(i).MNPC);
-                              Dict_IO.Read(dict_file(pa(i).D_K), dea);
+                              Dict_IO.Set_Index(Dict_File(pa(i).D_K), pa(i).MNPC);
+                              Dict_IO.Read(Dict_File(pa(i).D_K), dea);
                            end if;
                         else                       --  Has no dictionary to read
-                           dea:= null_dictionary_entry;
+                           dea:= Null_Dictionary_Entry;
                         end if;
                         dm := (pa(i).D_K, pa(i).MNPC, dea);
                         dma(j) := dm;
@@ -865,7 +865,7 @@ package body list_package is
             sraa := null_sraa;
             dma := null_dma;
             sraa(1)(1) := (pa(1).Stem, pa(1).IR);
-            dma(1) := (nnn, 0, null_dictionary_entry);
+            dma(1) := (nnn, 0, Null_Dictionary_Entry);
          elsif  words_mode(ignore_unknown_caps)  and all_caps  then
             nnn_meaning := Head(
                                 "Assume this is capitalized proper name/abbr, under MODE IGNORE_UNKNOWN_CAPS ",
@@ -877,7 +877,7 @@ package body list_package is
             sraa := null_sraa;
             dma := null_dma;
             sraa(1)(1) := (pa(1).Stem, pa(1).IR);
-            dma(1) := (nnn, 0, null_dictionary_entry);
+            dma(1) := (nnn, 0, Null_Dictionary_Entry);
          end if;
       end if;
 
@@ -989,7 +989,7 @@ package body list_package is
          Putting_meaning:
          begin
             if dma(j).d_k in general..unique then
-               if dma(j).de.mean /= dma(j+1).de.mean then
+               if dma(j).de.Mean /= dma(j+1).de.Mean then
                   --  This if handles simple multiple MEAN with same IR and FORM
                   --  by anticipating duplicates and waiting until change
                   Put_meaning_line(sraa(j)(1), dma(j));
@@ -1032,14 +1032,14 @@ package body list_package is
    procedure list_entry(Output   : Text_IO.File_Type;
                         d_k      : Dictionary_Kind;
                         mn       : Dict_IO.Count) is
-      de : dictionary_entry;
+      de : Dictionary_Entry;
    begin
-      Dict_IO.Read(dict_file(d_k), de, mn);
+      Dict_IO.Read(Dict_File(d_k), de, mn);
       Text_IO.Put(Output, "=>  ");
       --TEXT_IO.PUT_LINE(OUTPUT, DICTIONARY_FORM(DE));
       Put_dictionary_form(Output, d_k, mn, de);
       Text_IO.Put_Line(Output,
-                       Trim (Head(de.mean, mm)));  --  so it wont line wrap/Put CR
+                       Trim (Head(de.Mean, mm)));  --  so it wont line wrap/Put CR
 
    end list_entry;
 

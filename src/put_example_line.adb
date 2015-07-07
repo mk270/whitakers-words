@@ -22,7 +22,7 @@ with word_parameters; use word_parameters;
 --with LATIN_DEBUG;
 procedure Put_example_line(configuration : configuration_type;
                            Output : Text_IO.File_Type; ir : in Inflection_Record;
-                                                       de : in dictionary_entry) is
+                                                       de : in Dictionary_Entry) is
    --      use LATIN_DEBUG;
    vk : Verb_Kind_Type;
 
@@ -325,7 +325,7 @@ begin    --  PUT_EXAMPLE_LINE
 
          when v =>
             --TEXT_IO.NEW_LINE(OUTPUT);        --  Verb info too much for same line
-            vk := de.part.v.Kind;
+            vk := de.Part.v.Kind;
             Text_IO.Set_Col(Output, 6);
             Put_verb_example(Output, ir, vk);
             Text_IO.New_Line(Output);
