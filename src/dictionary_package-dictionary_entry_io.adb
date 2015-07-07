@@ -16,9 +16,6 @@
 
 separate (Dictionary_Package)
 package body Dictionary_Entry_IO is
-   use Part_Entry_IO;
-   use Translation_Record_IO;
-   --use KIND_ENTRY_IO;
 
    ---------------------------------------------------------------------------
 
@@ -34,11 +31,11 @@ package body Dictionary_Entry_IO is
          Get (File, Spacer);
       end loop;
 
-      Get(File, Item.Part);
+      Part_Entry_IO.Get (File, Item.Part);
       --    GET(F, SPACER);
       --    GET(F, D.PART.POFS, D.KIND);
       Get (File, Spacer);
-      Get (File, Item.Tran);
+      Translation_Record_IO.Get (File, Item.Tran);
       Get (File, Spacer);
       Get (File, Item.Mean);
    end Get;
@@ -52,11 +49,11 @@ package body Dictionary_Entry_IO is
          Get (Spacer);
       end loop;
 
-      Get (Item.Part);
+      Part_Entry_IO.Get (Item.Part);
       --    GET(SPACER);
       --    GET(D.PART.POFS, D.KIND);
       Get (Spacer);
-      Get (Item.Tran);
+      Translation_Record_IO.Get (Item.Tran);
       Get (Spacer);
       Get (Item.Mean);
    end Get;
@@ -71,11 +68,11 @@ package body Dictionary_Entry_IO is
       end loop;
 
       Part_Col := Natural (Col (File));
-      Put (File, Item.Part);
+      Part_Entry_IO.Put (File, Item.Part);
       --    PUT(F, ' ');
       --    PUT(F, D.PART.POFS, D.KIND);
       Set_Col (File, Count (Part_Col + Part_Entry_IO.Default_Width + 1));
-      Put (File, Item.Tran);
+      Translation_Record_IO.Put (File, Item.Tran);
       Put (File, ' ');
       Put (File, Item.Mean);
    end Put;
@@ -90,11 +87,11 @@ package body Dictionary_Entry_IO is
       end loop;
 
       Part_Col := Natural (Col);
-      Put (Item.Part);
+      Part_Entry_IO.Put (Item.Part);
       --    PUT(' ');
       --    PUT(D.PART.POFS, D.KIND);
       Set_Col (Count (Part_Col + Part_Entry_IO.Default_Width + 1));
-      Put (Item.Tran);
+      Translation_Record_IO.Put (Item.Tran);
       Put (' ');
       Put (Item.Mean);
    end Put;
@@ -120,11 +117,15 @@ package body Dictionary_Entry_IO is
             );
       end loop;
 
-      Get (Source (Low + 1 .. Source'Last), Target.Part, Low);
+      Part_Entry_IO.Get (Source (Low + 1 .. Source'Last), Target.Part, Low);
       --    L := L + 1;
       --    GET(S(L+1..S'LAST), D.PART.POFS, D.KIND, L);
       Low := Low + 1;
-      Get (Source (Low + 1 .. Source'Last), Target.Tran, Low);
+      Translation_Record_IO.Get
+         ( Source (Low + 1 .. Source'Last),
+           Target.Tran,
+           Low
+         );
       Low := Low + 1;
       Target.Mean := Head (Source (Low + 1 .. Source'Last), Max_Meaning_Size);
 
@@ -162,7 +163,7 @@ package body Dictionary_Entry_IO is
       -- Put Part_Entry
       Part_Col := Low + 1;
       High := Low + Part_Entry_IO.Default_Width;
-      Put (Target (Low + 1 .. High), Item.Part);
+      Part_Entry_IO.Put (Target (Low + 1 .. High), Item.Part);
       --    L := M + 1;
       --    S(L) :=  ' ';
       --    M := L + KIND_ENTRY_IO_DEFAULT_WIDTH;
@@ -171,7 +172,7 @@ package body Dictionary_Entry_IO is
       -- Put Translation_Record
       Low  := Part_Col + Part_Entry_IO.Default_Width + 1;
       High := Low + Translation_Record_IO.Default_Width;
-      Put (Target (Low + 1 .. High), Item.Tran);
+      Translation_Record_IO.Put (Target (Low + 1 .. High), Item.Tran);
 
       -- Put Meaning_Type
       Low := High + 1;
