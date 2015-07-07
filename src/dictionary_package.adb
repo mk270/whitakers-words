@@ -136,134 +136,11 @@ package body Dictionary_Package is
 
    package body Kind_Entry_IO is separate;
 
-   package body translation_record_io is
-      use age_type_io;
-      use area_type_io;
-      use geo_type_io;
-      use frequency_type_io;
-      use source_type_io;
-      spacer : Character := ' ';
-      --LINE : STRING(1..250);
-
-      procedure Get(f : in Text_IO.File_Type; tr: out translation_record) is
-      begin
-         Get(f, tr.age);
-         Get(f, spacer);
-         Get(f, tr.area);
-         Get(f, spacer);
-         Get(f, tr.geo);
-         Get(f, spacer);
-         Get(f, tr.freq);
-         Get(f, spacer);
-         Get(f, tr.source);
-         --GET(F, SPACER);
-         --GET_LINE(F, LINE, LAST);
-         --TR.MEAN := HEAD(LINE(1..LAST), MAX_MEANING_SIZE);
-      end Get;
-
-      procedure Get(tr : out translation_record) is
-      begin
-         Get(tr.age);
-         Get(spacer);
-         Get(tr.area);
-         Get(spacer);
-         Get(tr.geo);
-         Get(spacer);
-         Get(tr.freq);
-         Get(spacer);
-         Get(tr.source);
-         --GET(SPACER);
-         --GET_LINE(LINE, LAST);
-         --TR.MEAN := HEAD(LINE(1..LAST), MAX_MEANING_SIZE);
-      end Get;
-
-      procedure Put(f : in Text_IO.File_Type; tr : in translation_record) is
-      begin
-         Put(f, tr.age);
-         Put(f, ' ');
-         Put(f, tr.area);
-         Put(f, ' ');
-         Put(f, tr.geo);
-         Put(f, ' ');
-         Put(f, tr.freq);
-         Put(f, ' ');
-         Put(f, tr.source);
-         --PUT(F, ' ');
-         --PUT(F, TR.MEAN);
-      end Put;
-
-      procedure Put(tr : in translation_record) is
-      begin
-         age_type_io.Put(tr.age);
-         Text_IO.Put(' ');
-         area_type_io.Put(tr.area);
-         Text_IO.Put(' ');
-         geo_type_io.Put(tr.geo);
-         Text_IO.Put(' ');
-         frequency_type_io.Put(tr.freq);
-         Text_IO.Put(' ');
-         source_type_io.Put(tr.source);
-         --TEXT_IO.PUT(' ');
-         --TEXT_IO.PUT(TR.MEAN);
-      end Put;
-
-      procedure Get(s : in String; tr : out translation_record; last : out Integer) is
-         l : Integer := s'First - 1;
-      begin
-         Get(s(l+1..s'Last), tr.age, l);
-         --PUT(TR.AGE); TEXT_IO.PUT('-');
-         l := l + 1;
-         Get(s(l+1..s'Last), tr.area, l);
-         --PUT(TR.AREA); TEXT_IO.PUT('-');
-         l := l + 1;
-         Get(s(l+1..s'Last), tr.geo, l);
-         --PUT(TR.GEO); TEXT_IO.PUT('-');
-         l := l + 1;
-         Get(s(l+1..s'Last), tr.freq, l);
-         --PUT(TR.FREQ); TEXT_IO.PUT('-');
-         l := l + 1;
-         Get(s(l+1..s'Last), tr.source, last);
-         --PUT(TR.SOURCE); TEXT_IO.PUT('-');
-         --L := M + 1;
-         --M := L + MAX_MEANING_SIZE;
-         --TR.MEAN := HEAD(S(L+1..S'LAST), MAX_MEANING_SIZE);
-         --LAST := M;
-      end Get;
-
-      procedure Put(s : out String; tr : in translation_record) is
-         l : Integer := 0;
-         m : Integer := 0;
-      begin
-         m := l + age_type_io.Default_Width;
-         Put(s(s'First + l .. m), tr.age);
-         l := m + 1;
-         s(l) :=  ' ';
-         m := l + area_type_io.Default_Width;
-         Put(s(l+1..m), tr.area);
-         l := m + 1;
-         s(l) :=  ' ';
-         m := l + geo_type_io.Default_Width;
-         Put(s(s'First + l .. m), tr.geo);
-         l := m + 1;
-         s(l) :=  ' ';
-         m := l + frequency_type_io.Default_Width;
-         Put(s(l+1..m), tr.freq);
-         l := m + 1;
-         s(l) :=  ' ';
-         m := l + source_type_io.Default_Width;
-         Put(s(l+1..m), tr.source);
-         --L := M + 1;
-         --S(L) :=  ' ';
-         --M := L + MAX_MEANING_SIZE;
-         --S(L+1..M) :=  TR.MEAN;
-         s(m+1..s'Last) := (others => ' ');
-      end Put;
-
-   end translation_record_io;
+   package body Translation_Record_IO is separate;
 
    package body dictionary_entry_io is
       use Part_Entry_IO;
-      use translation_record_io;
+      use Translation_Record_IO;
       --use KIND_ENTRY_IO;
 
       spacer : Character := ' ';
@@ -375,7 +252,7 @@ package body Dictionary_Package is
          --    M := L + KIND_ENTRY_IO_DEFAULT_WIDTH;
          --    PUT(S(L+1..M), D.PART.POFS, D.KIND);
          l := part_col + Part_Entry_IO.Default_Width + 1;
-         m := l + translation_record_io.Default_Width;
+         m := l + Translation_Record_IO.Default_Width;
          Put(s(l+1..m), d.tran);
          l := m + 1;
          s(l) :=  ' ';
@@ -386,7 +263,7 @@ package body Dictionary_Package is
 
    end dictionary_entry_io;
 
-   overriding function "<=" (left, right : area_type) return Boolean is
+   overriding function "<=" (left, right : Area_Type) return Boolean is
    begin
       if right = left or else right = x then
          return True;
@@ -402,13 +279,13 @@ begin     --  initialization of body of DICTIONARY_PACKAGE
 
    --NUMERAL_VALUE_TYPE_IO.DEFAULT_WIDTH := 5;
 
-   area_type_io.Default_Width := area_type'Width;
+   Area_Type_IO.Default_Width := Area_Type'Width;
 
-   geo_type_io.Default_Width := geo_type'Width;
+   Geo_Type_IO.Default_Width := Geo_Type'Width;
 
-   frequency_type_io.Default_Width := frequency_type'Width;
+   Frequency_Type_IO.Default_Width := Frequency_Type'Width;
 
-   source_type_io.Default_Width := source_type'Width;
+   Source_Type_IO.Default_Width := Source_Type'Width;
 
    Parse_Record_IO.Default_Width :=
      Stem_Type_IO.Default_Width + 1 +
@@ -447,16 +324,16 @@ begin     --  initialization of body of DICTIONARY_PACKAGE
 
    --  Should make up a MAX of PART_ENTRY + KIND_ENTRY (same POFS) WIDTHS
 
-   translation_record_io.Default_Width :=
-     age_type_io.Default_Width + 1 +
-     area_type_io.Default_Width + 1 +
-     geo_type_io.Default_Width + 1 +
-     frequency_type_io.Default_Width + 1 +
-     source_type_io.Default_Width;
+   Translation_Record_IO.Default_Width :=
+     Age_Type_IO.Default_Width + 1 +
+     Area_Type_IO.Default_Width + 1 +
+     Geo_Type_IO.Default_Width + 1 +
+     Frequency_Type_IO.Default_Width + 1 +
+     Source_Type_IO.Default_Width;
 
    dictionary_entry_io.Default_Width := 4 * (Max_Stem_Size + 1) +
      Part_Entry_IO.Default_Width + 1 +
-     translation_record_io.Default_Width + 1 +
+     Translation_Record_IO.Default_Width + 1 +
      Max_Meaning_Size;
 
    --TEXT_IO.PUT_LINE("Initialized  DICTIONARY_PACKAGE");

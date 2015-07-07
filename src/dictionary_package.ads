@@ -1,6 +1,6 @@
 -- WORDS, a Latin dictionary, by Colonel William Whitaker (USAF, Retired)
 --
--- Copyright William A. Whitaker (1936â€“2010)
+-- Copyright William A. Whitaker (1936-2010)
 --
 -- This is a free program, which means it is proper to copy it and pass
 -- it on to your friends. Consider it a developmental item for which
@@ -50,93 +50,93 @@ package Dictionary_Package is
      False, False, False, False);
    --  Start out as FALSE and set to TRUE when the DICT is loaded
 
-   type area_type is (
-     x,      --  All or none
-     a,      --  Agriculture, Flora, Fauna, Land, Equipment, Rural
-     b,      --  Biological, Medical, Body Parts
-     d,      --  Drama, Music, Theater, Art, Painting, Sculpture
-     e,      --  Ecclesiastic, Biblical, Religious
-     g,      --  Grammar, Retoric, Logic, Literature, Schools
-     l,      --  Legal, Government, Tax, Financial, Political, Titles
-     p,      --  Poetic
-     s,      --  Science, Philosophy, Mathematics, Units/Measures
-     t,      --  Technical, Architecture, Topography, Surveying
-     w,      --  War, Military, Naval, Ships, Armor
-     y       --  Mythology
-                     );
+   type Area_Type is
+      ( x,      --  All or none
+        a,      --  Agriculture, Flora, Fauna, Land, Equipment, Rural
+        b,      --  Biological, Medical, Body Parts
+        d,      --  Drama, Music, Theater, Art, Painting, Sculpture
+        e,      --  Ecclesiastic, Biblical, Religious
+        g,      --  Grammar, Retoric, Logic, Literature, Schools
+        l,      --  Legal, Government, Tax, Financial, Political, Titles
+        p,      --  Poetic
+        s,      --  Science, Philosophy, Mathematics, Units/Measures
+        t,      --  Technical, Architecture, Topography, Surveying
+        w,      --  War, Military, Naval, Ships, Armor
+        y       --  Mythology
+      );
 
-   package area_type_io is new Text_IO.enumeration_io(area_type);
+   package Area_Type_IO is new Text_IO.Enumeration_IO (Area_Type);
 
-   type geo_type is (
-     x,      --  All or none
-     a,      --  Africa
-     b,      --  Britian
-     c,      --  China
-     d,      --  Scandinavia
-     e,      --  Egypt
-     f,      --  France, Gaul
-     g,      --  Germany
-     h,      --  Greece
-     i,      --  Italy, Rome
-     j,      --  India
-     k,      --  Balkans
-     n,      --  Netherlands
-     p,      --  Persia
-     q,      --  Near East
-     r,      --  Russia
-     s,      --  Spain, Iberia
-     u       --  Eastern Europe
-                    );
+   type Geo_Type is
+      ( x,      --  All or none
+        a,      --  Africa
+        b,      --  Britian
+        c,      --  China
+        d,      --  Scandinavia
+        e,      --  Egypt
+        f,      --  France, Gaul
+        g,      --  Germany
+        h,      --  Greece
+        i,      --  Italy, Rome
+        j,      --  India
+        k,      --  Balkans
+        n,      --  Netherlands
+        p,      --  Persia
+        q,      --  Near East
+        r,      --  Russia
+        s,      --  Spain, Iberia
+        u       --  Eastern Europe
+      );
 
-   package geo_type_io is new Text_IO.enumeration_io(geo_type);
+   package Geo_Type_IO is new Text_IO.Enumeration_IO (Geo_Type);
 
-   type source_type is (
-     x,      --  General or unknown or too common to say
-     a,
-     b,      --  C.H.Beeson, A Primer of Medieval Latin, 1925 (Bee)
-     c,      --  Charles Beard, Cassell's Latin Dictionary 1892 (Cas)
-     d,      --  J.N.Adams, Latin Sexual Vocabulary, 1982 (Sex)
-     e,      --  L.F.Stelten, Dictionary of Eccles. Latin, 1995 (Ecc)
-     f,      --  Roy J. Deferrari, Dictionary of St. Thomas Aquinas, 1960 (DeF)
-     g,      --  Gildersleeve + Lodge, Latin Grammar 1895 (G+L)
-     h,      --  Collatinus Dictionary by Yves Ouvrard
-     i,      --  Leverett, F.P., Lexicon of the Latin Language, Boston 1845
-     j,      --  Bracton: De Legibus Et Consuetudinibus Angliæ
-     k,      --  Calepinus Novus, modern Latin, by Guy Licoppe (Cal)
-     l,      --  Lewis, C.S., Elementary Latin Dictionary 1891
-     m,      --  Latham, Revised Medieval Word List, 1980 (Latham)
-     n,      --  Lynn Nelson, Wordlist (Nel)
-     o,      --  Oxford Latin Dictionary, 1982 (OLD)
-     p,      --  Souter, A Glossary of Later Latin to 600 A.D., Oxford 1949 (Souter)
-     q,      --  Other, cited or unspecified dictionaries
-     r,      --  Plater + White, A Grammar of the Vulgate, Oxford 1926 (Plater)
-     s,      --  Lewis and Short, A Latin Dictionary, 1879 (L+S)
-     t,      --  Found in a translation  --  no dictionary reference
-     u,      --
-     v,      --  Vademecum in opus Saxonis - Franz Blatt (Saxo)
-     w,      --  My personal guess, mostly obvious extrapolation (Whitaker or W)
-     y,      --  Temp special code
-     z       --  Sent by user --  no dictionary reference, Mostly John White of Blitz Latin
+   type Source_Type is
+      ( x,      --  General or unknown or too common to say
+        a,
+        b,      --  C.H.Beeson, A Primer of Medieval Latin, 1925 (Bee)
+        c,      --  Charles Beard, Cassell's Latin Dictionary 1892 (Cas)
+        d,      --  J.N.Adams, Latin Sexual Vocabulary, 1982 (Sex)
+        e,      --  L.F.Stelten, Dictionary of Eccles. Latin, 1995 (Ecc)
+        f,      --  Roy J. Deferrari, Dictionary of St. Thomas Aquinas, 1960 (DeF)
+        g,      --  Gildersleeve + Lodge, Latin Grammar 1895 (G+L)
+        h,      --  Collatinus Dictionary by Yves Ouvrard
+        i,      --  Leverett, F.P., Lexicon of the Latin Language, Boston 1845
+        j,      --  Bracton: De Legibus Et Consuetudinibus Angliæ
+        k,      --  Calepinus Novus, modern Latin, by Guy Licoppe (Cal)
+        l,      --  Lewis, C.S., Elementary Latin Dictionary 1891
+        m,      --  Latham, Revised Medieval Word List, 1980 (Latham)
+        n,      --  Lynn Nelson, Wordlist (Nel)
+        o,      --  Oxford Latin Dictionary, 1982 (OLD)
+        p,      --  Souter, A Glossary of Later Latin to 600 A.D., Oxford 1949 (Souter)
+        q,      --  Other, cited or unspecified dictionaries
+        r,      --  Plater + White, A Grammar of the Vulgate, Oxford 1926 (Plater)
+        s,      --  Lewis and Short, A Latin Dictionary, 1879 (L+S)
+        t,      --  Found in a translation  --  no dictionary reference
+        u,      --
+        v,      --  Vademecum in opus Saxonis - Franz Blatt (Saxo)
+        w,      --  My personal guess, mostly obvious extrapolation (Whitaker or W)
+        y,      --  Temp special code
+        z       --  Sent by user --  no dictionary reference, Mostly John White of Blitz Latin
 
-     --  Consulted but used only indirectly
-     --  Liddell + Scott Greek-English Lexicon (Lid)
-     --  Oxford English Dictionary 2002 (OED)
+        --  Consulted but used only indirectly
+        --  Liddell + Scott Greek-English Lexicon (Lid)
+        --  Oxford English Dictionary 2002 (OED)
 
-     --  Consulted but used only occasionally, seperately referenced
-     --  D.A. Kidd, Collins Latin Gem Dictionary, 1957 (Col)
-     --  Allen + Greenough, New Latin Grammar, 1888 (A+G)
-     --  Harrington/Pucci/Elliott, Medieval Latin 2nd Ed 1997 (Harr)
-     --  C.C./C.L. Scanlon Latin Grammar/Second Latin, TAN 1976 (SCANLON)
-     --  W. M. Lindsay, Short Historical Latin Grammar, 1895 (Lindsay)
-     --  Du Cange
-     --  Oxford English Dictionary (OED)
+        --  Consulted but used only occasionally, seperately referenced
+        --  D.A. Kidd, Collins Latin Gem Dictionary, 1957 (Col)
+        --  Allen + Greenough, New Latin Grammar, 1888 (A+G)
+        --  Harrington/Pucci/Elliott, Medieval Latin 2nd Ed 1997 (Harr)
+        --  C.C./C.L. Scanlon Latin Grammar/Second Latin, TAN 1976 (SCANLON)
+        --  W. M. Lindsay, Short Historical Latin Grammar, 1895 (Lindsay)
+        --  Du Cange
+        --  Oxford English Dictionary (OED)
 
-     --  Note that the WORDS dictionary is not just a copy of source info, but the
-     --  indicated SOURCE is a main reference/check point used to derive the entry
+        --  Note that the WORDS dictionary is not just a copy of source info, but the
+        --  indicated SOURCE is a main reference/check point used to derive the entry
 
-                       );
+      );
 
-   package source_type_io is new Text_IO.enumeration_io(source_type);
+   package Source_Type_IO is new Text_IO.Enumeration_IO (Source_Type);
 
    ---------------------------------------------------------------------------
    -- NOTE: Should n and v be changed to noun and verb for clarity?
@@ -199,26 +199,36 @@ package Dictionary_Package is
 
    ---------------------------------------------------------------------------
 
-   type translation_record is
+   type Translation_Record is
       record
-         age  : age_type := x;
-         area : area_type := x;
-         geo  : geo_type := x;
-         freq : frequency_type := x;
-         source : source_type := x;
+         Age  : Age_Type       := x;
+         Area : Area_Type      := x;
+         Geo  : Geo_Type       := x;
+         Freq : Frequency_Type := x;
+         Source : Source_Type  := x;
       end record;
 
-   null_translation_record : translation_record;
+   -- FIXME: This one feels like it should be constant...
+   Null_Translation_Record : Translation_Record;
 
-   package translation_record_io is
+   -- FIXME: These subprograms don't check if Is_Open (File)
+   package Translation_Record_IO is
       Default_Width : Text_IO.Field;
-      procedure Get(f : in Text_IO.File_Type; tr : out translation_record);
-      procedure Get(tr : out translation_record);
-      procedure Put(f : in Text_IO.File_Type; tr : in translation_record);
-      procedure Put(tr : in translation_record);
-      procedure Get(s : in String; tr : out translation_record; last : out Integer);
-      procedure Put(s : out String; tr : in translation_record);
-   end translation_record_io;
+      procedure Get
+         ( File : in  Text_IO.File_Type;
+           Item : out Translation_Record
+         );
+      procedure Get (Item : out Translation_Record);
+      procedure Put (File : in Text_IO.File_Type; Item : in Translation_Record);
+      procedure Put (Item : in Translation_Record);
+      -- TODO: Document meaning of Last
+      procedure Get
+         ( Source : in  String;
+           Target : out Translation_Record;
+           Last   : out Integer
+         );
+      procedure Put (Target : out String; Item : in Translation_Record);
+   end Translation_Record_IO;
 
    ---------------------------------------------------------------------------
 
@@ -521,7 +531,7 @@ package Dictionary_Package is
          stems : stems_type         := null_stems_type;
          part  : Part_Entry         := Null_Part_Entry;
          --            KIND  : KIND_ENTRY         := NULL_KIND_ENTRY;
-         tran  : translation_record := null_translation_record;
+         tran  : Translation_Record := Null_Translation_Record;
          mean  : Meaning_Type       := Null_Meaning_Type;
       end record;
 
@@ -579,6 +589,6 @@ package Dictionary_Package is
 
    function Number_Of_Stems (Part : Part_Of_Speech_Type) return Stem_Key_Type;
 
-   overriding function "<=" (left, right : area_type) return Boolean;
+   overriding function "<=" (left, right : Area_Type) return Boolean;
 
 end Dictionary_Package;
