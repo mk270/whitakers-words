@@ -217,8 +217,7 @@ package Dictionary_Package is
          );
    end Kind_Entry_IO;
 
-   -- FIXME: This one feels like it should be constant...
-   Null_Kind_Entry : Kind_Entry;
+   Null_Kind_Entry : constant Kind_Entry := (pofs => x);
 
    ---------------------------------------------------------------------------
 
@@ -231,8 +230,7 @@ package Dictionary_Package is
          Source : Source_Type  := x;
       end record;
 
-   -- FIXME: This one feels like it should be constant...
-   Null_Translation_Record : Translation_Record;
+   Null_Translation_Record : constant Translation_Record := (x, x, x, x, x);
 
    -- FIXME: These subprograms don't check if Is_Open (File)
    package Translation_Record_IO is
@@ -571,8 +569,7 @@ package Dictionary_Package is
       procedure Put (Target : out String; Item : in Part_Entry);
    end Part_Entry_IO;
 
-   -- FIXME: This one feels like it should be constant...
-   Null_Part_Entry : Part_Entry;
+   Null_Part_Entry : constant Part_Entry := (pofs => x);
 
    -- FIXME: In some cases may result in erroneous execution due to no return
    --    (ie. Left.pofs = Right.pofs and then Left.pofs = x)
@@ -584,7 +581,6 @@ package Dictionary_Package is
       record
          Stems : Stems_Type         := Null_Stems_Type;
          Part  : Part_Entry         := Null_Part_Entry;
-         --            KIND  : KIND_ENTRY         := NULL_KIND_ENTRY;
          Tran  : Translation_Record := Null_Translation_Record;
          Mean  : Meaning_Type       := Null_Meaning_Type;
       end record;
@@ -611,8 +607,10 @@ package Dictionary_Package is
       procedure Put (Target : out String; Item : in Dictionary_Entry);
    end Dictionary_Entry_IO;
 
-   -- FIXME: This one feels like it should be constant...
-   Null_Dictionary_Entry : Dictionary_Entry;
+   Null_Dictionary_Entry : constant Dictionary_Entry :=
+      ( Null_Stems_Type, Null_Part_Entry,
+        Null_Translation_Record, Null_Meaning_Type
+      );
 
    package Dict_IO is new Ada.Direct_IO (Dictionary_Entry);
    Dict_File : array (Dictionary_Kind) of Dict_IO.File_Type;
@@ -621,7 +619,7 @@ package Dictionary_Package is
 
    package MNPC_IO is new Ada.Text_IO.Integer_IO (Dict_IO.Count);
    subtype MNPC_Type is Dict_IO.Count;
-   Null_MNPC : Dict_IO.Count := Dict_IO.Count'First;
+   Null_MNPC : constant Dict_IO.Count := Dict_IO.Count'First;
 
    ---------------------------------------------------------------------------
 
@@ -633,8 +631,10 @@ package Dictionary_Package is
          MNPC  : Dict_IO.Count := Null_MNPC;
       end record;
 
-   -- FIXME: Why this one is not constant?
-   Null_Parse_Record : Parse_Record;
+   Null_Parse_Record : constant Parse_Record :=
+      ( Null_Stem_Type, Null_Inflection_Record,
+        Default_Dictionary_Kind, Null_MNPC
+      );
 
    -- FIXME: These subprograms don't check if Is_Open (File)
    package Parse_Record_IO is
