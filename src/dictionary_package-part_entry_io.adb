@@ -22,29 +22,30 @@ package body Part_Entry_IO is
    use type Ada.Text_IO.Positive_Count;
 
    ---------------------------------------------------------------------------
-   -- Throwaway variable used when reading Parse_Record for "getting rid" of
-   -- not needed separator character between different fields of record.
-   Spacer : Character := ' ';
 
-   -- Variables used when reading Part_Entry and for constructing
-   -- correct variant of Part_Entry.
-   Noun           : Noun_Entry;
-   Pronoun        : Pronoun_Entry;
-   Propack        : Propack_Entry;
-   Adjective      : Adjective_Entry;
-   Numeral        : Numeral_Entry;
-   Adverb         : Adverb_Entry;
-   Verb           : Verb_Entry;
-   Preposition    : Preposition_Entry;
-   Conjunction    : Conjunction_Entry;
-   Interjection   : Interjection_Entry;
-
-   ---------------------------------------------------------------------------
-
-   procedure Get (File : in Ada.Text_IO.File_Type; Item : out Part_Entry) is
+   procedure Get (File : in Ada.Text_IO.File_Type; Item : out Part_Entry)
+   is
       POFS         : Part_Of_Speech_Type := x;
       Starting_Col : constant Ada.Text_IO.Positive_Count :=
          Ada.Text_IO.Col (File);
+      Spacer : Character;
+      pragma Unreferenced (Spacer);
+
+      --------------------------------------------------------------------------
+
+      Noun           : Noun_Entry;
+      Pronoun        : Pronoun_Entry;
+      Propack        : Propack_Entry;
+      Adjective      : Adjective_Entry;
+      Numeral        : Numeral_Entry;
+      Adverb         : Adverb_Entry;
+      Verb           : Verb_Entry;
+      Preposition    : Preposition_Entry;
+      Conjunction    : Conjunction_Entry;
+      Interjection   : Interjection_Entry;
+
+      --------------------------------------------------------------------------
+
    begin
       Part_Of_Speech_Type_IO.Get (File, POFS);
       Ada.Text_IO.Get (File, Spacer);
@@ -101,8 +102,27 @@ package body Part_Entry_IO is
 
    ---------------------------------------------------------------------------
 
-   procedure Get (Item : out Part_Entry) is
+   procedure Get (Item : out Part_Entry)
+   is
       POFS : Part_Of_Speech_Type := x;
+      Spacer : Character;
+      pragma Unreferenced (Spacer);
+
+      --------------------------------------------------------------------------
+
+      Noun           : Noun_Entry;
+      Pronoun        : Pronoun_Entry;
+      Propack        : Propack_Entry;
+      Adjective      : Adjective_Entry;
+      Numeral        : Numeral_Entry;
+      Adverb         : Adverb_Entry;
+      Verb           : Verb_Entry;
+      Preposition    : Preposition_Entry;
+      Conjunction    : Conjunction_Entry;
+      Interjection   : Interjection_Entry;
+
+      --------------------------------------------------------------------------
+
    begin
       Part_Of_Speech_Type_IO.Get (POFS);
       Ada.Text_IO.Get (Spacer);
@@ -240,6 +260,22 @@ package body Part_Entry_IO is
       Low  : Integer := Source'First - 1;
       -- Used to know which variant of Part_Entry shall be constructed
       POFS : Part_Of_Speech_Type := x;
+
+      --------------------------------------------------------------------------
+
+      Noun           : Noun_Entry;
+      Pronoun        : Pronoun_Entry;
+      Propack        : Propack_Entry;
+      Adjective      : Adjective_Entry;
+      Numeral        : Numeral_Entry;
+      Adverb         : Adverb_Entry;
+      Verb           : Verb_Entry;
+      Preposition    : Preposition_Entry;
+      Conjunction    : Conjunction_Entry;
+      Interjection   : Interjection_Entry;
+
+      --------------------------------------------------------------------------
+
    begin
       Last := Low;   --  In case it is not set later
       Part_Of_Speech_Type_IO.Get (Source, POFS, Low);

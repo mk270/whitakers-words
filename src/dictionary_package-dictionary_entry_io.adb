@@ -19,13 +19,10 @@ package body Dictionary_Entry_IO is
 
    ---------------------------------------------------------------------------
 
-   Spacer   : Character := ' ';
-   Part_Col : Natural   := 0;
-
-   ---------------------------------------------------------------------------
-
    procedure Get (File : in Ada.Text_IO.File_Type; Item : out Dictionary_Entry)
    is
+      Spacer : Character;
+      pragma Unreferenced (Spacer);
    begin
       for K in Stem_Key_Type range 1 .. 4 loop
          Stem_Type_IO.Get (File, Item.Stems (K));
@@ -41,7 +38,10 @@ package body Dictionary_Entry_IO is
 
    ---------------------------------------------------------------------------
 
-   procedure Get (Item : out Dictionary_Entry) is
+   procedure Get (Item : out Dictionary_Entry)
+   is
+      Spacer : Character;
+      pragma Unreferenced (Spacer);
    begin
       for K in Stem_Key_Type range 1 .. 4 loop
          Stem_Type_IO.Get (Item.Stems (K));
@@ -59,6 +59,7 @@ package body Dictionary_Entry_IO is
 
    procedure Put (File : in Ada.Text_IO.File_Type; Item : in Dictionary_Entry)
    is
+      Part_Col : Natural   := 0;
    begin
       for K in Stem_Key_Type range 1 .. 4 loop
          Stem_Type_IO.Put (File, Item.Stems (K));
@@ -78,7 +79,9 @@ package body Dictionary_Entry_IO is
 
    ---------------------------------------------------------------------------
 
-   procedure Put (Item : in Dictionary_Entry) is
+   procedure Put (Item : in Dictionary_Entry)
+   is
+      Part_Col : Natural   := 0;
    begin
       for K in Stem_Key_Type range 1 .. 4 loop
          Stem_Type_IO.Put (Item.Stems (K));
@@ -138,8 +141,9 @@ package body Dictionary_Entry_IO is
    procedure Put (Target : out String; Item : in Dictionary_Entry)
    is
       -- Used for computing bounds of substrings
-      Low  : Integer := Target'First - 1;
-      High : Integer := 0;
+      Low      : Integer := Target'First - 1;
+      High     : Integer := 0;
+      Part_Col : Natural   := 0;
    begin
       -- Put Stem_Types
       for K in Stem_Key_Type range 1 .. 4 loop

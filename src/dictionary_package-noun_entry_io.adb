@@ -19,11 +19,10 @@ package body Noun_Entry_IO is
 
    ---------------------------------------------------------------------------
 
-   Spacer : Character := ' ';
-
-   ---------------------------------------------------------------------------
-
-   procedure Get (File : in Ada.Text_IO.File_Type; Item : out Noun_Entry) is
+   procedure Get (File : in Ada.Text_IO.File_Type; Item : out Noun_Entry)
+   is
+      Spacer : Character;
+      pragma Unreferenced (Spacer);
    begin
       Decn_Record_IO.Get (File, Item.Decl);
       Ada.Text_IO.Get (File, Spacer);
@@ -34,7 +33,10 @@ package body Noun_Entry_IO is
 
    ---------------------------------------------------------------------------
 
-   procedure Get (Item : out Noun_Entry) is
+   procedure Get (Item : out Noun_Entry)
+   is
+      Spacer : Character;
+      pragma Unreferenced (Spacer);
    begin
       Decn_Record_IO.Get (Item.Decl);
       Ada.Text_IO.Get (Spacer);

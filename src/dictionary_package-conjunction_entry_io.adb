@@ -19,7 +19,7 @@ package body Conjunction_Entry_IO is
 
    ---------------------------------------------------------------------------
 
-   Null_Conjunction_Entry : Conjunction_Entry;
+   Null_Conjunction_Entry : constant Conjunction_Entry := (null record);
 
    ---------------------------------------------------------------------------
 

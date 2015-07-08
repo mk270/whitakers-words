@@ -22,17 +22,6 @@ package body Kind_Entry_IO is
    use type Ada.Text_IO.Positive_Count;
 
    ---------------------------------------------------------------------------
-   -- Variables used when reading Part_Entry and for constructing
-   -- correct variant of Part_Entry.
-   Noun_Kind      : Noun_Kind_Type;
-   Pronoun_Kind   : Pronoun_Kind_Type;
-   Propack_Kind   : Pronoun_Kind_Type;
-   Verb_Kind      : Verb_Kind_Type;
-   Vpar_Kind      : Verb_Kind_Type;
-   Supine_Kind    : Verb_Kind_Type;
-   Numeral_Value  : Numeral_Value_Type;
-
-   ---------------------------------------------------------------------------
 
    procedure Get
       ( File : in  Ada.Text_IO.File_Type;
@@ -40,6 +29,16 @@ package body Kind_Entry_IO is
         Item : out Kind_Entry
       )
    is
+
+      --------------------------------------------------------------------------
+      -- Helper variables
+      Noun_Kind      : Noun_Kind_Type;
+      Pronoun_Kind   : Pronoun_Kind_Type;
+      Propack_Kind   : Pronoun_Kind_Type;
+      Verb_Kind      : Verb_Kind_Type;
+      Vpar_Kind      : Verb_Kind_Type;
+      Supine_Kind    : Verb_Kind_Type;
+      Numeral_Value  : Numeral_Value_Type;
 
       --------------------------------------------------------------------------
       -- Small helper procedure
@@ -109,7 +108,20 @@ package body Kind_Entry_IO is
 
    ---------------------------------------------------------------------------
 
-   procedure Get (POFS : in Part_Of_Speech_Type; Item : out Kind_Entry) is
+   procedure Get (POFS : in Part_Of_Speech_Type; Item : out Kind_Entry)
+   is
+      --------------------------------------------------------------------------
+      -- Helper variables
+      Noun_Kind      : Noun_Kind_Type;
+      Pronoun_Kind   : Pronoun_Kind_Type;
+      Propack_Kind   : Pronoun_Kind_Type;
+      Verb_Kind      : Verb_Kind_Type;
+      Vpar_Kind      : Verb_Kind_Type;
+      Supine_Kind    : Verb_Kind_Type;
+      Numeral_Value  : Numeral_Value_Type;
+
+      --------------------------------------------------------------------------
+
    begin
       case POFS is
          when n =>
@@ -272,6 +284,18 @@ package body Kind_Entry_IO is
         Last   : out Integer
       )
    is
+
+      --------------------------------------------------------------------------
+      -- Helper variables
+      Noun_Kind      : Noun_Kind_Type;
+      Pronoun_Kind   : Pronoun_Kind_Type;
+      Propack_Kind   : Pronoun_Kind_Type;
+      Verb_Kind      : Verb_Kind_Type;
+      Vpar_Kind      : Verb_Kind_Type;
+      Supine_Kind    : Verb_Kind_Type;
+      Numeral_Value  : Numeral_Value_Type;
+
+      --------------------------------------------------------------------------
       -- Used to get lower bound of substring
       Low : constant Integer := Source'First - 1;
    begin

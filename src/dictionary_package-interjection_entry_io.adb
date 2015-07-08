@@ -19,7 +19,7 @@ package body Interjection_Entry_IO is
 
    ---------------------------------------------------------------------------
 
-   Null_Interjection_Entry : Interjection_Entry;
+   Null_Interjection_Entry : constant Interjection_Entry := (null record);
 
    ---------------------------------------------------------------------------
 

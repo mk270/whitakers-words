@@ -19,12 +19,10 @@ package body Translation_Record_IO is
 
    ---------------------------------------------------------------------------
 
-   Spacer : Character := ' ';
-
-   ---------------------------------------------------------------------------
-
    procedure Get (File : in Ada.Text_IO.File_Type; Item: out Translation_Record)
    is
+      Spacer : Character;
+      pragma Unreferenced (Spacer);
    begin
       Age_Type_IO.Get (File, Item.Age);
       Ada.Text_IO.Get (File, Spacer);
@@ -39,7 +37,10 @@ package body Translation_Record_IO is
 
    ---------------------------------------------------------------------------
 
-   procedure Get (Item : out Translation_Record) is
+   procedure Get (Item : out Translation_Record)
+   is
+      Spacer : Character;
+      pragma Unreferenced (Spacer);
    begin
       Age_Type_IO.Get (Item.Age);
       Ada.Text_IO.Get (Spacer);

@@ -18,14 +18,11 @@ separate (Dictionary_Package)
 package body Adjective_Entry_IO is
 
    ---------------------------------------------------------------------------
-   -- Throwaway variable used when reading Parse_Record for "getting rid" of
-   -- not needed separator character between different fields of record.
-   Spacer : Character := ' ';
-
-   ---------------------------------------------------------------------------
 
    procedure Get (File : in Ada.Text_IO.File_Type; Item : out Adjective_Entry)
    is
+      Spacer : Character;
+      pragma Unreferenced (Spacer);
    begin
       Decn_Record_IO.Get (File, Item.Decl);
       Ada.Text_IO.Get (File, Spacer);
@@ -35,6 +32,8 @@ package body Adjective_Entry_IO is
    ---------------------------------------------------------------------------
 
    procedure Get (Item : out Adjective_Entry) is
+      Spacer : Character;
+      pragma Unreferenced (Spacer);
    begin
       Decn_Record_IO.Get (Item.Decl);
       Ada.Text_IO.Get (Spacer);

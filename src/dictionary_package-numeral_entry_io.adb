@@ -16,18 +16,17 @@
 
 separate (Dictionary_Package)
 package body Numeral_Entry_IO is
-   use Inflections_Package.Integer_IO;
 
    ---------------------------------------------------------------------------
-
-   Spacer : Character := ' ';
-
    -- FIXME: Why is this one set here?
-   Num_Out_Size : constant := 5; -- NOTE: Set in spec
+   Num_Out_Size : constant := 5; -- NOTE: Maybe set this in spec?
 
    ---------------------------------------------------------------------------
 
-   procedure Get (File : in Ada.Text_IO.File_Type; Item : out Numeral_Entry) is
+   procedure Get (File : in Ada.Text_IO.File_Type; Item : out Numeral_Entry)
+   is
+      Spacer : Character := ' ';
+      pragma Unreferenced (Spacer);
    begin
       Decn_Record_IO.Get (File, Item.Decl);
       Ada.Text_IO.Get (File, Spacer);
@@ -38,13 +37,16 @@ package body Numeral_Entry_IO is
 
    ---------------------------------------------------------------------------
 
-   procedure Get (Item : out Numeral_Entry) is
+   procedure Get (Item : out Numeral_Entry)
+   is
+      Spacer : Character := ' ';
+      pragma Unreferenced (Spacer);
    begin
       Decn_Record_IO.Get (Item.Decl);
       Ada.Text_IO.Get (Spacer);
       Numeral_Sort_Type_IO.Get (Item.Sort);
       Ada.Text_IO.Get (Spacer);
-      Get (Item.Value);
+      Inflections_Package.Integer_IO.Get (Item.Value);
    end Get;
 
    ---------------------------------------------------------------------------
