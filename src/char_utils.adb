@@ -18,55 +18,28 @@ package body Char_Utils is
 
    ---------------------------------------------------------------------------
 
-   function Is_Member
-      ( Needle   : Character;
-        Haystack : Character_Array
-      ) return Boolean
-   is
-   begin
-      for C in Haystack'Range loop
-         if Haystack (C) = Needle then
-            return True;
-         end if;
-      end loop;
-      return False;
-   end Is_Member;
-
-   ---------------------------------------------------------------------------
-
    function Is_Punctuation (C : Character) return Boolean
    is
-      Permitted : constant Character_Array :=
-        (
-        ' ',
-        ',',
-        '-',
-        ';',
-        ':',
-        '.',
-        '(',
-        '[',
-        '{',
-        '<',
-        ')',
-        ']',
-        '}',
-        '>'
+      Permitted : constant array (Character) of Boolean :=
+        ( ' ' => True, ',' => True, '-' => True, ';' => True, ':' => True,
+          '.' => True, '(' => True, '[' => True, '{' => True, '<' => True,
+          ')' => True, ']' => True, '}' => True, '>' => True,
+          others => False
         );
    begin
-      return Is_Member (C, Permitted);
+      return Permitted (C);
    end Is_Punctuation;
 
    ---------------------------------------------------------------------------
 
    function Is_Alpha_Etc (C : Character) return Boolean
    is
+      Alpha_Etc : constant array (Character) of Boolean :=
+         ( 'A' .. 'Z' => True, 'a' .. 'z' => True, '-' => True, '.' => True,
+           others => False
+         );
    begin
-      return
-        C in 'A' .. 'Z' or
-        C in 'a' .. 'z' or
-        C = '-' or
-        C = '.';
+      return Alpha_Etc (C);
    end Is_Alpha_Etc;
 
    ---------------------------------------------------------------------------

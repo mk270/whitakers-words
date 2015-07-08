@@ -17,16 +17,7 @@
 package Char_Utils is
 
    ---------------------------------------------------------------------------
-
-   type Character_Array is array (Integer range <>) of Character;
-
-   ---------------------------------------------------------------------------
-
-   function Is_Member
-      ( Needle   : Character;
-        Haystack : Character_Array
-      ) return Boolean;
-
+   -- Is C one of: " ,-;:.([{<)]}>"
    function Is_Punctuation (C : Character) return Boolean;
 
    -- Is C alphabetic, or '.' or '-' ?
