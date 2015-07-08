@@ -121,7 +121,11 @@ package body Dictionary_Package is
                end if;
             when prep =>
                return Left.prep.Obj < Right.prep.Obj;
-            when others =>
+            when vpar .. supine =>
+               null;
+            when x =>
+               null;
+            when conj .. suffix =>
                null;
          end case;
       else

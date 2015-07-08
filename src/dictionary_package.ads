@@ -174,7 +174,7 @@ package Dictionary_Package is
                pron_kind : Pronoun_Kind_Type := x;
             when pack =>
                pack_kind : Pronoun_Kind_Type := x;
-            when adj =>
+            when adj | adv | x =>
                null;
             when num =>
                num_value : Numeral_Value_Type := 0;
@@ -184,7 +184,7 @@ package Dictionary_Package is
                vpar_kind : Verb_Kind_Type := x;
             when supine =>
                supine_kind : Verb_Kind_Type := x;
-            when others =>
+            when prep .. suffix =>
                null;
          end case;
       end record;
@@ -548,7 +548,9 @@ package Dictionary_Package is
                conj : Conjunction_Entry;
             when interj =>
                interj : Interjection_Entry;
-            when others =>
+            when tackon .. suffix =>
+               null;
+            when x =>
                null;
          end case;
       end record;
@@ -574,6 +576,8 @@ package Dictionary_Package is
    -- FIXME: This one feels like it should be constant...
    Null_Part_Entry : Part_Entry;
 
+   -- FIXME: In some cases may result in erroneous execution due to no return
+   --    (ie. Left.pofs = Right.pofs and then Left.pofs = x)
    function "<" (Left, Right : Part_Entry) return Boolean;
 
    ---------------------------------------------------------------------------
