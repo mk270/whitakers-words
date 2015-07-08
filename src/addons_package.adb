@@ -21,7 +21,7 @@ package body addons_package is
    use Text_IO;
    use Part_Of_Speech_Type_IO;
    use Target_entry_io;
-   use part_entry_io;
+   use Part_Entry_IO;
    --use KIND_ENTRY_IO;
    use Stem_Key_Type_IO;
 
@@ -63,7 +63,7 @@ package body addons_package is
       l, last, tic, pre, suf, tac, pac : Integer := 0;
       addons_file : Text_IO.File_Type;
       pofs: Part_Of_Speech_Type;
-      de : dictionary_entry := null_dictionary_entry;
+      de : Dictionary_Entry := Null_Dictionary_Entry;
       mean : Meaning_Type := Null_Meaning_Type;
       m : Integer := 1;
       --TG : TARGET_ENTRY;
@@ -131,14 +131,14 @@ package body addons_package is
       --
       while not End_Of_File(addons_file)  loop
 
-         de := null_dictionary_entry;
+         de := Null_Dictionary_Entry;
          Get_no_comment_line(addons_file, s, last);
          --TEXT_IO.PUT_LINE(S(1..LAST));
          Get(s(1..last), pofs, l);
          case pofs is
             when tackon  =>
                ts := Head(Trim (s(l+1..last)), Max_Stem_Size);
-               de.stems(1) := ts;
+               de.Stems(1) := ts;
 
                Get_Line(addons_file, s, last);
                Get(s(1..last), tn, l);
@@ -205,7 +205,7 @@ package body addons_package is
                   prefixes(pre).connect  := pm.connect;
                   prefixes(pre).entr := pm.entr;
                   --            DICT_IO.SET_INDEX(DICT_FILE(D_K), M);
-                  de.mean := mean;
+                  de.Mean := mean;
                   --            DICT_IO.WRITE(DICT_FILE(D_K), DE);
                   --            --DICT_IO.WRITE(DICT_FILE(D_K), MEAN);
                   prefixes(pre).MNPC := m;

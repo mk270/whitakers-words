@@ -19,38 +19,40 @@ package body Noun_Entry_IO is
 
    ---------------------------------------------------------------------------
 
-   Spacer : Character := ' ';
-
-   ---------------------------------------------------------------------------
-
-   procedure Get (File : in File_Type; Item : out Noun_Entry) is
+   procedure Get (File : in Ada.Text_IO.File_Type; Item : out Noun_Entry)
+   is
+      Spacer : Character;
+      pragma Unreferenced (Spacer);
    begin
       Decn_Record_IO.Get (File, Item.Decl);
-      Get (File, Spacer);
+      Ada.Text_IO.Get (File, Spacer);
       Gender_Type_IO.Get (File, Item.Gender);
-      Get (File, Spacer);
+      Ada.Text_IO.Get (File, Spacer);
       Noun_Kind_Type_IO.Get (File, Item.Kind);
    end Get;
 
    ---------------------------------------------------------------------------
 
-   procedure Get (Item : out Noun_Entry) is
+   procedure Get (Item : out Noun_Entry)
+   is
+      Spacer : Character;
+      pragma Unreferenced (Spacer);
    begin
       Decn_Record_IO.Get (Item.Decl);
-      Get (Spacer);
+      Ada.Text_IO.Get (Spacer);
       Gender_Type_IO.Get (Item.Gender);
-      Get (Spacer);
+      Ada.Text_IO.Get (Spacer);
       Noun_Kind_Type_IO.Get (Item.Kind);
    end Get;
 
    ---------------------------------------------------------------------------
 
-   procedure Put (File : in File_Type; Item : in Noun_Entry) is
+   procedure Put (File : in Ada.Text_IO.File_Type; Item : in Noun_Entry) is
    begin
       Decn_Record_IO.Put (File, Item.Decl);
-      Put (File, ' ');
+      Ada.Text_IO.Put (File, ' ');
       Gender_Type_IO.Put (File, Item.Gender);
-      Put (File, ' ');
+      Ada.Text_IO.Put (File, ' ');
       Noun_Kind_Type_IO.Put (File, Item.Kind);
    end Put;
 
@@ -59,9 +61,9 @@ package body Noun_Entry_IO is
    procedure Put (Item : in Noun_Entry) is
    begin
       Decn_Record_IO.Put (Item.Decl);
-      Put (' ');
+      Ada.Text_IO.Put (' ');
       Gender_Type_IO.Put (Item.Gender);
-      Put (' ');
+      Ada.Text_IO.Put (' ');
       Noun_Kind_Type_IO.Put (Item.Kind);
    end Put;
 

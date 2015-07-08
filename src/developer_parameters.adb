@@ -458,7 +458,7 @@ package body developer_parameters is
               add_file_name_extension(dictionary_file_name, "LOCAL"));
             --  Need to carry LOC through consistently on LOAD_D and LOAD_D_FILE
             load_stem_file(local);
-            dictionary_available(local) := True;
+            Dictionary_Available(local) := True;
             exit;       --  If everything OK, otherwise loop back and try again
          end;
 

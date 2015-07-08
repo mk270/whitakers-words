@@ -26,7 +26,7 @@ package line_stuff is
    type dictionary_list is access dictionary_item;
    type dictionary_item is
       record
-         de   : dictionary_entry := null_dictionary_entry;
+         de   : Dictionary_Entry := Null_Dictionary_Entry;
          succ : dictionary_list;
       end record;
 
@@ -103,8 +103,8 @@ package line_stuff is
       record
          stem : Stem_Type          := Null_Stem_Type;
          qual : quality_record     := null_quality_record;
-         kind : kind_entry         := null_kind_entry;
-         tran : translation_record := null_translation_record;
+         kind : Kind_Entry         := Null_Kind_Entry;
+         tran : Translation_Record := Null_Translation_Record;
       end record;
 
    package unique_entry_io is

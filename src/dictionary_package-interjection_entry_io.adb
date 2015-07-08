@@ -15,62 +15,66 @@
 -- available to anyone who wishes to use them, for whatever purpose.
 
 separate (Dictionary_Package)
-package body Preposition_Entry_IO is
+package body Interjection_Entry_IO is
 
    ---------------------------------------------------------------------------
 
-   procedure Get (File : in Ada.Text_IO.File_Type; Item : out Preposition_Entry)
-   is
-   begin
-      Case_Type_IO.Get (File, Item.Obj);
-   end Get;
-
-   ---------------------------------------------------------------------------
-
-   procedure Get (Item : out Preposition_Entry) is
-   begin
-      Case_Type_IO.Get (Item.Obj);
-   end Get;
-
-   ---------------------------------------------------------------------------
-
-   procedure Put (File : in Ada.Text_IO.File_Type; Item : in Preposition_Entry)
-   is
-   begin
-      Case_Type_IO.Put (File, Item.Obj);
-   end Put;
-
-   ---------------------------------------------------------------------------
-
-   procedure Put (Item : in Preposition_Entry) is
-   begin
-      Case_Type_IO.Put (Item.Obj);
-   end Put;
+   Null_Interjection_Entry : constant Interjection_Entry := (null record);
 
    ---------------------------------------------------------------------------
 
    procedure Get
-      ( Source : in  String;
-        Target : out Preposition_Entry;
-        Last   : out Integer
+      ( File : in  Ada.Text_IO.File_Type;
+        Item : out Interjection_Entry
       )
    is
+      pragma Unreferenced (File);
    begin
-      Case_Type_IO.Get (Source, Target.Obj, Last);
+      Item := Null_Interjection_Entry;
    end Get;
 
    ---------------------------------------------------------------------------
 
-   procedure Put (Target : out String; Item : in Preposition_Entry) is
-      -- Used to get bounds of substring
-      Low  : constant Integer := Target'First - 1;
-      High : Integer := 0;
+   procedure Get (Item : out Interjection_Entry) is
    begin
-      High := Low + Case_Type_IO.Default_Width;
-      Case_Type_IO.Put (Target (Low + 1 .. High), Item.Obj);
-      Target (High + 1 .. Target'Last) := (others => ' ');
+      Item := Null_Interjection_Entry;
+   end Get;
+
+   ---------------------------------------------------------------------------
+
+   procedure Put (File : in Ada.Text_IO.File_Type; Item : in Interjection_Entry)
+   is
+   begin
+      null;
+   end Put;
+   ---------------------------------------------------------------------------
+
+   procedure Put (Item : in Interjection_Entry) is
+   begin
+      null;
+   end Put;
+   ---------------------------------------------------------------------------
+
+   procedure Get
+      ( Source : in String;
+        Target : out Interjection_Entry;
+        Last   : out Integer
+      )
+   is
+      Low : constant Integer := Source'First - 1;
+   begin
+      Target := Null_Interjection_Entry;
+      Last := Low;
+   end Get;
+
+   ---------------------------------------------------------------------------
+
+   procedure Put (Target : out String; Item : in Interjection_Entry) is
+      pragma Unreferenced (Item);
+   begin
+      Target (Target'First .. Target'Last) := (others => ' ');
    end Put;
 
    ---------------------------------------------------------------------------
 
-end Preposition_Entry_IO;
+end Interjection_Entry_IO;

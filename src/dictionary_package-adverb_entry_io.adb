@@ -19,7 +19,7 @@ package body Adverb_Entry_IO is
 
    ---------------------------------------------------------------------------
 
-   procedure Get (File : in File_Type; Item : out Adverb_Entry) is
+   procedure Get (File : in Ada.Text_IO.File_Type; Item : out Adverb_Entry) is
    begin
       Comparison_Type_IO.Get (File, Item.Co);
    end Get;
@@ -33,7 +33,7 @@ package body Adverb_Entry_IO is
 
    ---------------------------------------------------------------------------
 
-   procedure Put (File : in File_Type; Item : in Adverb_Entry) is
+   procedure Put (File : in Ada.Text_IO.File_Type; Item : in Adverb_Entry) is
    begin
       Comparison_Type_IO.Put (File, Item.Co);
    end Put;

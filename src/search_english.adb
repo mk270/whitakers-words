@@ -86,7 +86,7 @@ procedure search_english(Input_english_word : String; pofs : Part_Of_Speech_Type
    end sort_Output_array;
 
    procedure dump_Output_array(Output : in Text_IO.File_Type) is
-      de : dictionary_entry := null_dictionary_entry;
+      de : Dictionary_Entry := Null_Dictionary_Entry;
       number_to_show : Integer := number_of_hits;
       one_screen : constant Integer := 6;
    begin
@@ -121,34 +121,35 @@ procedure search_english(Input_english_word : String; pofs : Part_Of_Speech_Type
                end if;
             end do_pause;
 
-            Dict_IO.Read(dict_file(general), de, Dict_IO.Count(Output_array(i).n));
+            Dict_IO.Read(Dict_File(general), de, Dict_IO.Count(Output_array(i).n));
             Put(Output, dictionary_form(de));
             Text_IO.Put(Output, "   ");
 
-            if de.part.pofs = n  then
+            if de.Part.pofs = n  then
                Text_IO.Put (Output, "  ");
-               Decn_Record_IO.Put (Output, de.part.n.Decl);
-               Text_IO.Put (Output, "  " & Gender_Type'Image(de.part.n.Gender) & "  ");
+               Decn_Record_IO.Put (Output, de.Part.n.Decl);
+               Text_IO.Put (Output, "  " & Gender_Type'Image(de.Part.n.Gender) & "  ");
             end if;
-            if de.part.pofs = v then
-               Text_IO.Put(Output, "  ");  Decn_Record_IO.Put(Output, de.part.v.Con);
+            if de.Part.pofs = v then
+               Text_IO.Put(Output, "  ");  Decn_Record_IO.Put(Output, de.Part.v.Con);
             end if;
-            if (de.part.pofs = v)  and then  (de.part.v.Kind in gen..perfdef)  then
-               Text_IO.Put(Output, "  " & Verb_Kind_Type'Image(de.part.v.Kind) & "  ");
+            if (de.Part.pofs = v)  and then  (de.Part.v.Kind in gen..perfdef)  then
+               Text_IO.Put(Output, "  " & Verb_Kind_Type'Image(de.Part.v.Kind) & "  ");
             end if;
 
             if words_mdev(show_dictionary_codes)    then
                Text_IO.Put(Output, " [");
-               age_type_io.Put(Output, de.tran.age);
-               area_type_io.Put(Output, de.tran.area);
-               geo_type_io.Put(Output, de.tran.geo);
-               frequency_type_io.Put(Output, de.tran.freq);
-               source_type_io.Put(Output, de.tran.source);
+               -- FIXME: Why noy Translation_Record_IO.Put ?
+               Age_Type_IO.Put(Output, de.Tran.Age);
+               Area_Type_IO.Put(Output, de.Tran.Area);
+               Geo_Type_IO.Put(Output, de.Tran.Geo);
+               Frequency_Type_IO.Put(Output, de.Tran.Freq);
+               Source_Type_IO.Put(Output, de.Tran.Source);
                Text_IO.Put(Output, "]  ");
             end if;
 
             if words_mdev(show_dictionary) then
-               Text_IO.Put(Output, ext(d_k) & ">");
+               Text_IO.Put(Output, Ext(d_k) & ">");
             end if;
             --TEXT_IO.PUT_LINE("DUMP_OUTPUT SHOW");
 
@@ -161,7 +162,7 @@ procedure search_english(Input_english_word : String; pofs : Part_Of_Speech_Type
 
             --TEXT_IO.PUT_LINE("DUMP_OUTPUT MEAN");
 
-            Text_IO.Put(Output, Trim (de.mean));
+            Text_IO.Put(Output, Trim (de.Mean));
             Text_IO.New_Line(Output);
 
          end loop;

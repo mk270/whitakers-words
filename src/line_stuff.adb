@@ -31,9 +31,9 @@ package body line_stuff is
 
       dictionary_file : File_Type;
       blk_stem : constant Stem_Type := Null_Stem_Type;
-      sts : stems_type := null_stems_type;
-      pt  : part_entry  := null_part_entry;
-      tran : translation_record := null_translation_record;
+      sts : Stems_Type := Null_Stems_Type;
+      pt  : Part_Entry  := Null_Part_Entry;
+      tran : Translation_Record := Null_Translation_Record;
       value : constant Numeral_Value_Type := 0;
       mean : Meaning_Type := Null_Meaning_Type;
 
@@ -81,11 +81,11 @@ package body line_stuff is
          --TEXT_IO.PUT("1 ");
          Get_Non_Comment_Line (dictionary_file, line, l);           --  PART
          --TEXT_IO.PUT("2 ");
-         part_entry_io.Get(line(1..l), pt, ll);
+         Part_Entry_IO.Get(line(1..l), pt, ll);
          --TEXT_IO.PUT("3 ");
          ----  KIND_ENTRY_IO.GET(LINE(LL+1..L), PT.POFS, KIND, LL);
          --TEXT_IO.PUT("4 ");
-         translation_record_io.Get(line(ll+1..l), tran, lll);
+         Translation_Record_IO.Get(line(ll+1..l), tran, lll);
          --TEXT_IO.PUT("5 ");
          --TEXT_IO.PUT_LINE("READ PART");
 
@@ -97,7 +97,7 @@ package body line_stuff is
          --  different dictionary entries  --  Do this in LOAD and in DICT.DIC
          --TEXT_IO.PUT_LINE("GETTING STEMS IN LOAD_DICTIONARY");
 
-         sts := null_stems_type;
+         sts := Null_Stems_Type;
          ll := 1;
          --  Extract up to 4 stems
          for i in 1 .. Number_Of_Stems (pt.pofs)  loop   --  EXTRACT STEMS
@@ -146,14 +146,14 @@ package body line_stuff is
          if pt.pofs = n  then
             if sts(2)(1) /= sts(1)(1)  and then
                sts(2)(1) /= ' '        and then
-               sts(2)(1..3) /= zzz_stem(1..3)
+               sts(2)(1..3) /= ZZZ_Stem(1..3)
             then
                dict(fc1) :=
-                 new dictionary_item'(( (sts(1), zzz_stem, blk_stem, blk_stem),
+                 new dictionary_item'(( (sts(1), ZZZ_Stem, blk_stem, blk_stem),
                                         --PT, KIND, TRAN, MEAN), DICT(FC1));
                                         pt, tran, mean), dict(fc1));
                dict(fc2) :=
-                 new dictionary_item'( ( (zzz_stem, sts(2), blk_stem, blk_stem),
+                 new dictionary_item'( ( (ZZZ_Stem, sts(2), blk_stem, blk_stem),
                                          --PT, KIND, TRAN, MEAN), DICT(FC2) );
                                          pt, tran, mean), dict(fc2) );
             else
@@ -165,14 +165,14 @@ package body line_stuff is
          elsif pt.pofs = pron or pt.pofs = pack then
             if sts(2)(1) /= sts(1)(1)  and then
                sts(2)(1) /= ' '        and then
-               sts(2)(1..3) /= zzz_stem(1..3)
+               sts(2)(1..3) /= ZZZ_Stem(1..3)
             then
                dict(fc1) :=
-                 new dictionary_item'(( (sts(1), zzz_stem, blk_stem, blk_stem),
+                 new dictionary_item'(( (sts(1), ZZZ_Stem, blk_stem, blk_stem),
                                         --PT, KIND, TRAN, MEAN), DICT(FC1));
                                         pt, tran, mean), dict(fc1));
                dict(fc2) :=
-                 new dictionary_item'( ( (zzz_stem, sts(2), blk_stem, blk_stem),
+                 new dictionary_item'( ( (ZZZ_Stem, sts(2), blk_stem, blk_stem),
                                          --PT, KIND, TRAN, MEAN), DICT(FC2) );
                                          pt, tran, mean), dict(fc2) );
             else
@@ -185,13 +185,13 @@ package body line_stuff is
             if pt.adj.Co   = x  then   --  X for all KINDs
                if (sts(2)(1) /= sts(1)(1) and then
                      sts(2)(1) /= ' '  and then
-                     sts(2)(1..3) /= zzz_stem(1..3) ) or
+                     sts(2)(1..3) /= ZZZ_Stem(1..3) ) or
                  (sts(3)(1) /= sts(1)(1) and then
                     sts(3)(1) /= ' '  and then
-                    sts(3)(1..3) /= zzz_stem(1..3) ) or
+                    sts(3)(1..3) /= ZZZ_Stem(1..3) ) or
                  (sts(4)(1) /= sts(1)(1) and then
                     sts(4)(1) /= ' '  and then
-                    sts(4)(1..3) /= zzz_stem(1..3) )
+                    sts(4)(1..3) /= ZZZ_Stem(1..3) )
                then
                   dict(fc1) :=
                     new dictionary_item'(( (sts(1), blk_stem, blk_stem, blk_stem),
@@ -199,17 +199,17 @@ package body line_stuff is
                                            --KIND, TRAN, MEAN), DICT(FC1));
                                            tran, mean), dict(fc1));
                   dict(fc2) :=
-                    new dictionary_item'( ( (zzz_stem, sts(2), blk_stem, blk_stem),
+                    new dictionary_item'( ( (ZZZ_Stem, sts(2), blk_stem, blk_stem),
                                             (adj, (pt.adj.Decl, pos)),
                                             --KIND, TRAN, MEAN), DICT(FC2) );
                                             tran, mean), dict(fc2) );
                   dict(fc3) :=
-                    new dictionary_item'(( (zzz_stem, zzz_stem, sts(3), blk_stem),
+                    new dictionary_item'(( (ZZZ_Stem, ZZZ_Stem, sts(3), blk_stem),
                                            (adj, (pt.adj.Decl, comp)),
                                            --KIND, TRAN, MEAN), DICT(FC3));
                                            tran, mean), dict(fc3));
                   dict(fc4) :=
-                    new dictionary_item'(( (zzz_stem, zzz_stem, zzz_stem, sts(4)),
+                    new dictionary_item'(( (ZZZ_Stem, ZZZ_Stem, ZZZ_Stem, sts(4)),
                                            (adj, (pt.adj.Decl, super)),
                                            --KIND, TRAN, MEAN), DICT(FC4));
                                            tran, mean), dict(fc4));
@@ -248,10 +248,10 @@ package body line_stuff is
             if pt.adv.Co   = x  then   --  X for all KINDs
                if (sts(2)(1) /= sts(1)(1) and then
                      sts(2)(1) /= ' '  and then
-                     sts(2)(1..3) /= zzz_stem(1..3) ) or
+                     sts(2)(1..3) /= ZZZ_Stem(1..3) ) or
                  (sts(3)(1) /= sts(1)(1) and then
                     sts(3)(1) /= ' '  and then
-                    sts(3)(1..3) /= zzz_stem(1..3) )
+                    sts(3)(1..3) /= ZZZ_Stem(1..3) )
                then
                   dict(fc1) :=
                     new dictionary_item'(( (sts(1), blk_stem, blk_stem, blk_stem),
@@ -293,28 +293,28 @@ package body line_stuff is
          elsif pt.pofs = v  then
             if (sts(2)(1) /= sts(1)(1) and then
                   sts(2)(1) /= ' '  and then
-                  sts(2)(1..3) /= zzz_stem(1..3) ) or
+                  sts(2)(1..3) /= ZZZ_Stem(1..3) ) or
               (sts(3)(1) /= sts(1)(1) and then
                  sts(3)(1) /= ' '  and then
-                 sts(3)(1..3) /= zzz_stem(1..3) ) or
+                 sts(3)(1..3) /= ZZZ_Stem(1..3) ) or
               (sts(4)(1) /= sts(1)(1) and then
                  sts(4)(1) /= ' '  and then
-                 sts(4)(1..3) /= zzz_stem(1..3) )
+                 sts(4)(1..3) /= ZZZ_Stem(1..3) )
             then
                dict(fc1) :=
-                 new dictionary_item'(( (sts(1), zzz_stem, zzz_stem, zzz_stem),
+                 new dictionary_item'(( (sts(1), ZZZ_Stem, ZZZ_Stem, ZZZ_Stem),
                                         --PT, KIND, TRAN, MEAN), DICT(FC1) );
                                         pt, tran, mean), dict(fc1) );
                dict(fc2) :=
-                 new dictionary_item'(( (zzz_stem, sts(2), zzz_stem, zzz_stem),
+                 new dictionary_item'(( (ZZZ_Stem, sts(2), ZZZ_Stem, ZZZ_Stem),
                                         --PT, KIND, TRAN, MEAN), DICT(FC2));
                                         pt, tran, mean), dict(fc2));
                dict(fc3) :=
-                 new dictionary_item'(( (zzz_stem, zzz_stem, sts(3), zzz_stem),
+                 new dictionary_item'(( (ZZZ_Stem, ZZZ_Stem, sts(3), ZZZ_Stem),
                                         --PT, KIND, TRAN, MEAN), DICT(FC3));
                                         pt, tran, mean), dict(fc3));
                dict(fc4) :=
-                 new dictionary_item'(( (zzz_stem, zzz_stem, zzz_stem, sts(4)),
+                 new dictionary_item'(( (ZZZ_Stem, ZZZ_Stem, ZZZ_Stem, sts(4)),
                                         --PT, KIND, TRAN, MEAN), DICT(FC4));
                                         pt, tran, mean), dict(fc4));
             else
@@ -325,30 +325,30 @@ package body line_stuff is
 
          elsif pt.pofs = num  then
             if pt.num.Sort = x  then   --  X for all KINDs
-               if sts(1)(1) /= ' ' and then sts(1)(1..3) /= zzz_stem(1..3) then
+               if sts(1)(1) /= ' ' and then sts(1)(1..3) /= ZZZ_Stem(1..3) then
                   dict(fc1) :=
                     new dictionary_item'(( (sts(1), blk_stem, blk_stem, blk_stem),
                                            --(NUM, (PT.NUM.DECL, CARD)), KIND, TRAN, MEAN),
                                            (num, (pt.num.Decl, card, value)), tran, mean),
                                          dict(fc1));
                end if;
-               if sts(2)(1) /= ' ' and then sts(2)(1..3) /= zzz_stem(1..3) then
+               if sts(2)(1) /= ' ' and then sts(2)(1..3) /= ZZZ_Stem(1..3) then
                   dict(fc2) :=
-                    new dictionary_item'(( (zzz_stem, sts(2), blk_stem, blk_stem),
+                    new dictionary_item'(( (ZZZ_Stem, sts(2), blk_stem, blk_stem),
                                            --(NUM, ((0, 0), ORD)), KIND, TRAN, MEAN),
                                            (num, ((0, 0), ord, value)), tran, mean),
                                          dict(fc2));
                end if;
-               if sts(3)(1) /= ' ' and then sts(3)(1..3) /= zzz_stem(1..3) then
+               if sts(3)(1) /= ' ' and then sts(3)(1..3) /= ZZZ_Stem(1..3) then
                   dict(fc3) :=
-                    new dictionary_item'(( (zzz_stem, zzz_stem, sts(3), blk_stem),
+                    new dictionary_item'(( (ZZZ_Stem, ZZZ_Stem, sts(3), blk_stem),
                                            --(NUM, (PT.NUM.DECL, DIST)), KIND, TRAN, MEAN),
                                            (num, (pt.num.Decl, dist, value)), tran, mean),
                                          dict(fc3));
                end if;
-               if sts(4)(1) /= ' ' and then sts(4)(1..3) /= zzz_stem(1..3) then
+               if sts(4)(1) /= ' ' and then sts(4)(1..3) /= ZZZ_Stem(1..3) then
                   dict(fc4) :=
-                    new dictionary_item'(( (zzz_stem, zzz_stem, zzz_stem, sts(4)),
+                    new dictionary_item'(( (ZZZ_Stem, ZZZ_Stem, ZZZ_Stem, sts(4)),
                                            --(NUM, (PT.NUM.DECL, ADVERB)), KIND, TRAN, MEAN),
                                            (num, (pt.num.Decl, adverb, value)), tran, mean),
                                          dict(fc4));
@@ -426,10 +426,10 @@ package body line_stuff is
       Create(stem_file(d_k), Inout_File, add_file_name_extension(stem_file_name,
                                                                  Dictionary_Kind'Image(d_k)));
       --PUT_LINE("LOAD_STEM_FILE for LOC - Created STEM_FILE");
-      if Is_Open(dict_file(d_k))  then
-         Delete(dict_file(d_k));
+      if Is_Open(Dict_File(d_k))  then
+         Delete(Dict_File(d_k));
       end if;
-      Create(dict_file(d_k), Inout_File, add_file_name_extension(dict_file_name,
+      Create(Dict_File(d_k), Inout_File, add_file_name_extension(dict_file_name,
                                                                  Dictionary_Kind'Image(d_k)));
       --PUT_LINE("LOAD_STEM_FILE for LOC - Created DICT_FILE");
 
@@ -442,21 +442,21 @@ package body line_stuff is
          ddll(fc, 'a', d_k) := 0;
          while dlc(fc) /= null  loop
             --PUT_LINE("L_D_F  Setting Dictfile index M = " & INTEGER'IMAGE(INTEGER(M)));
-            Dict_IO.Set_Index(dict_file(d_k), m);
+            Dict_IO.Set_Index(Dict_File(d_k), m);
             -- %%%%%%%%%%%!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!%%%%%%%%%%%%%%%%%%%%%%%
             --PUT_LINE(DLC(FC).DE.TRAN.MEAN);
             -- M_P_R := DLC(FC).DE.TRAN.MEAN;
             --DICT_IO.WRITE(DICT_FILE(D_K), M_P_R);   --@@@@@@@@@@@@@@@@@@@@@
-            Dict_IO.Write(dict_file(d_k), dlc(fc).de);
+            Dict_IO.Write(Dict_File(d_k), dlc(fc).de);
             for k in Stem_Key_Type range 1..4  loop
-               if dlc(fc).de.stems(k) /= Null_Stem_Type  and
-                 dlc(fc).de.stems(k) /= zzz_stem
+               if dlc(fc).de.Stems(k) /= Null_Stem_Type  and
+                 dlc(fc).de.Stems(k) /= ZZZ_Stem
                then
                   --LATIN_DEBUG.PUT(DLC(FC).DE.STEMS(K)); LATIN_DEBUG.PUT("  ..  ");
                   --LATIN_DEBUG.PUT(DLC(FC).DE.PART); LATIN_DEBUG.PUT("  ..  "); LATIN_DEBUG.PUT(K);
                   --LATIN_DEBUG.PUT("  ..  "); LATIN_DEBUG.PUT(INTEGER(M)); LATIN_DEBUG.NEW_LINE;
                   Write(stem_file(d_k),
-                        (dlc(fc).de.stems(k), dlc(fc).de.part, k, m));
+                        (dlc(fc).de.Stems(k), dlc(fc).de.Part, k, m));
                   ddll(fc, 'a', d_k) := i;
                   --LATIN_DEBUG.PUT_LINE("L_D_F DDLL(FC, 'a', D_K) := I  = " & INTEGER'IMAGE(I));
                   i := i + 1;
@@ -776,8 +776,8 @@ package body line_stuff is
 
    package body unique_entry_io is
       use quality_record_io;
-      use kind_entry_io;
-      use translation_record_io;
+      use Kind_Entry_IO;
+      use Translation_Record_IO;
       spacer : Character;
 
       procedure Get(f : in File_Type; p : out unique_entry) is
@@ -837,7 +837,7 @@ package body line_stuff is
          -- m := l + quality_record_io.Default_Width; -- apparently redundant?
          Get(s(l+1..s'Last), p.qual, l);
          l := l + 1;
-         -- m := l + kind_entry_io.Default_Width; -- apparently redundant?
+         -- m := l + Kind_Entry_IO.Default_Width; -- apparently redundant?
          Get(s(l+1..s'Last), p.qual.pofs, p.kind, l);
          l := l + 1;
          -- m := l + Max_Meaning_Size; -- apparently redundant?
@@ -856,7 +856,7 @@ package body line_stuff is
          Put(s(l+1..m), p.qual);
          l := m + 1;
          s(l) :=  ' ';
-         m := l + kind_entry_io.Default_Width;
+         m := l + Kind_Entry_IO.Default_Width;
          Put(s(l+1..m), p.qual.pofs, p.kind);
          l := m + 1;
          s(l) :=  ' ';
@@ -869,9 +869,9 @@ package body line_stuff is
 
    procedure load_uniques(unq : in out latin_uniques; file_name : in String) is
       use quality_record_io;
-      use part_entry_io;
-      use kind_entry_io;
-      use translation_record_io;
+      use Part_Entry_IO;
+      use Kind_Entry_IO;
+      use Translation_Record_IO;
       use Dict_IO;
 
       uniques_file : Text_IO.File_Type;
@@ -880,10 +880,10 @@ package body line_stuff is
       last, l : Integer := 0;
       stem : Stem_Type := Null_Stem_Type;
       qual : quality_record;
-      kind : kind_entry;
+      kind : Kind_Entry;
       --PART : PART_ENTRY := NULL_PART_ENTRY;
-      tran : translation_record := null_translation_record;
-      MNPC : MNPC_type := Null_MNPC;
+      tran : Translation_Record := Null_Translation_Record;
+      MNPC : MNPC_Type := Null_MNPC;
       mean : Meaning_Type := Null_Meaning_Type;
       m : Dict_IO.Positive_Count := 1;
 
@@ -910,19 +910,20 @@ package body line_stuff is
          Get_Line(uniques_file, line, last);    --  QUAL, KIND, TRAN
          Get(line(1..last), qual, l);
          Get(line(l+1..last), qual.pofs, kind, l);
-         age_type_io.Get(line(l+1..last), tran.age, l);
-         area_type_io.Get(line(l+1..last), tran.area, l);
-         geo_type_io.Get(line(l+1..last), tran.geo, l);
-         frequency_type_io.Get(line(l+1..last), tran.freq, l);
-         source_type_io.Get(line(l+1..last), tran.source, l);
+         -- FIXME: Why not Translation_Record_IO.Get ?
+         Age_Type_IO.Get(line(l+1..last), tran.Age, l);
+         Area_Type_IO.Get(line(l+1..last), tran.Area, l);
+         Geo_Type_IO.Get(line(l+1..last), tran.Geo, l);
+         Frequency_Type_IO.Get(line(l+1..last), tran.Freq, l);
+         Source_Type_IO.Get(line(l+1..last), tran.Source, l);
 
          line := blanks;
          Get_Line(uniques_file, line, l);         --  MEAN
          mean := Head(Trim (line(1..l)), Max_Meaning_Size);
          --@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
          declare
-            unique_de : dictionary_entry;
-            part      : part_entry         := null_part_entry;
+            unique_de : Dictionary_Entry;
+            part      : Part_Entry         := Null_Part_Entry;
          begin
             case part.pofs is
                when n  =>
@@ -940,15 +941,15 @@ package body line_stuff is
                when v =>
                   part := (v, (qual.v.con, kind.v_kind));
                when others  =>
-                  part := null_part_entry;
+                  part := Null_Part_Entry;
             end case;
 
-            unique_de.stems := (stem,
+            unique_de.Stems := (stem,
                                 Null_Stem_Type, Null_Stem_Type, Null_Stem_Type);
-            unique_de.part  :=  part;
+            unique_de.Part  :=  part;
             --UNIQUE_DE.KIND  :=  KIND;
-            unique_de.tran  :=  tran;
-            unique_de.mean  :=  mean;
+            unique_de.Tran  :=  tran;
+            unique_de.Mean  :=  mean;
 
             --        DICT_IO.SET_INDEX(DICT_FILE(D_K), M);
             --        DICT_IO.WRITE(DICT_FILE(D_K), UNIQUE_DE);
@@ -1020,6 +1021,6 @@ begin
 
    unique_entry_io.Default_Width := Max_Stem_Size + 1 +
      Inflection_Record_IO.Default_Width + 1 +
-     translation_record_io.Default_Width;
+     Translation_Record_IO.Default_Width;
 
 end line_stuff;

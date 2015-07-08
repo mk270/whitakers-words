@@ -28,16 +28,16 @@ procedure makeewds is
    use Text_IO;
    use Integer_IO;
    use Stem_Key_Type_IO;
-   use dictionary_entry_io;
-   use part_entry_io;
+   use Dictionary_Entry_IO;
+   use Part_Entry_IO;
    use Part_Of_Speech_Type_IO;
-   use kind_entry_io;
-   use translation_record_io;
-   use age_type_io;
-   use area_type_io;
-   use geo_type_io;
-   use frequency_type_io;
-   use source_type_io;
+   use Kind_Entry_IO;
+   use Translation_Record_IO;
+   use Age_Type_IO;
+   use Area_Type_IO;
+   use Geo_Type_IO;
+   use Frequency_Type_IO;
+   use Source_Type_IO;
    use ewds_record_io;
 
    porting  : constant Boolean := False;
@@ -58,7 +58,7 @@ procedure makeewds is
    n : Integer := 0;
 
    Input, Output, check : Text_IO.File_Type;
-   de : dictionary_entry;
+   de : Dictionary_Entry;
 
    s, line : line_type := (others => ' ');
    blank_line : constant line_type := (others => ' ');
@@ -706,23 +706,24 @@ begin
 
          form_de:
          begin
-            de.stems(1) := s(start_stem_1..Max_Stem_Size);
+            de.Stems(1) := s(start_stem_1..Max_Stem_Size);
             --NEW_LINE; PUT(DE.STEMS(1));
-            de.stems(2) := s(start_stem_2..start_stem_2+Max_Stem_Size-1);
-            de.stems(3) := s(start_stem_3..start_stem_3+Max_Stem_Size-1);
-            de.stems(4) := s(start_stem_4..start_stem_4+Max_Stem_Size-1);
+            de.Stems(2) := s(start_stem_2..start_stem_2+Max_Stem_Size-1);
+            de.Stems(3) := s(start_stem_3..start_stem_3+Max_Stem_Size-1);
+            de.Stems(4) := s(start_stem_4..start_stem_4+Max_Stem_Size-1);
             --PUT('#'); PUT(INTEGER'IMAGE(L)); PUT(INTEGER'IMAGE(LAST));
             --PUT('@');
-            Get(s(start_part..last), de.part, l);
+            Get(s(start_part..last), de.Part, l);
             --PUT('%'); PUT(INTEGER'IMAGE(L)); PUT(INTEGER'IMAGE(LAST));
             --PUT('&'); PUT(S(L+1..LAST)); PUT('3');
             --GET(S(L+1..LAST), DE.PART.POFS, DE.KIND, L);
-            Get(s(l+1..last), de.tran.age, l);
-            Get(s(l+1..last), de.tran.area, l);
-            Get(s(l+1..last), de.tran.geo, l);
-            Get(s(l+1..last), de.tran.freq, l);
-            Get(s(l+1..last), de.tran.source, l);
-            de.mean := Head (s(l+2..last), Max_Meaning_Size);
+            -- FIXME: Why not Translation_Record_IO.Put ?
+            Get(s(l+1..last), de.Tran.Age, l);
+            Get(s(l+1..last), de.Tran.Area, l);
+            Get(s(l+1..last), de.Tran.Geo, l);
+            Get(s(l+1..last), de.Tran.Freq, l);
+            Get(s(l+1..last), de.Tran.Source, l);
+            de.Mean := Head (s(l+2..last), Max_Meaning_Size);
             --  Note that this allows initial blanks
             --  L+2 skips over the SPACER, required because this is STRING, not ENUM
 
@@ -737,12 +738,12 @@ begin
 
          line_number := line_number + 1;
 
-         if de.part.pofs = v and then de.part.v.Con.which = 8 then
+         if de.Part.pofs = v and then de.Part.v.Con.which = 8 then
             --  V 8 is a kludge for variant forms of verbs that have regular forms elsewhere
             null;
          else
             --  Extract words
-            extract_words(add_hyphenated(Trim (de.mean)), de.part.pofs, n, ewa);
+            extract_words(add_hyphenated(Trim (de.Mean)), de.Part.pofs, n, ewa);
 
             --      EWORD_SIZE    : constant := 38;
             --      AUX_WORD_SIZE : constant := 9;
@@ -761,11 +762,11 @@ begin
                   ewr.w := Head (Trim (ewa(i).w), eword_size);
                   ewr.aux := Head ("",  aux_word_size);
                   ewr.n := line_number;
-                  ewr.pofs := de.part.pofs;
-                  ewr.freq := de.tran.freq;
+                  ewr.pofs := de.Part.pofs;
+                  ewr.freq := de.Tran.Freq;
                   ewr.semi := ewa(i).semi;
                   ewr.kind := ewa(i).kind;
-                  ewr.rank := 80-frequency_type'Pos(ewr.freq)*10 + ewr.kind + (ewr.semi-1)*(-3);
+                  ewr.rank := 80-Frequency_Type'Pos(ewr.freq)*10 + ewr.kind + (ewr.semi-1)*(-3);
                   if ewr.freq = Inflections_Package.n  then
                      ewr.rank := ewr.rank + 25;
                   end if;
@@ -813,7 +814,7 @@ begin
                      Put(check, ' ');
                      Put(check, ewr.rank, 5);
                      Put(check, ' ');
-                     Put(check, de.mean);
+                     Put(check, de.Mean);
 
                      New_Line(check);
                   end if;

@@ -42,12 +42,12 @@ is
    procedure delete_if_Open(filename : String; dict_name : Dictionary_Kind) is
    begin
       begin
-         if Dict_IO.Is_Open(dict_file(dict_name)) then
-            Dict_IO.Delete(dict_file(dict_name));
+         if Dict_IO.Is_Open(Dict_File(dict_name)) then
+            Dict_IO.Delete(Dict_File(dict_name));
          else
-            Dict_IO.Open(dict_file(dict_name), Dict_IO.In_File,
+            Dict_IO.Open(Dict_File(dict_name), Dict_IO.In_File,
               add_file_name_extension(dict_file_name, filename));
-            Dict_IO.Delete(dict_file(dict_name));
+            Dict_IO.Delete(Dict_File(dict_name));
          end if;
       exception when others => null;
       end;   --  not there, so don't have to DELETE
@@ -177,7 +177,7 @@ begin
       banner.print_main_banner(start_file_Character,
         change_parameters_Character, help_Character);
 
-      if english_dictionary_available(general)  then
+      if English_Dictionary_Available(general)  then
          preface.Put_Line("English-to-Latin available");
          preface.Put_Line(
            change_language_Character & "E changes to English-to-Latin, " &

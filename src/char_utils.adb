@@ -14,52 +14,34 @@
 -- All parts of the WORDS system, source code and data files, are made freely
 -- available to anyone who wishes to use them, for whatever purpose.
 
-package body char_utils
-is
-   function is_member(needle : Character;
-                      haystack : Character_array)
-                     return Boolean
-   is
-   begin
-      for c in haystack'First .. haystack'Last loop
-         if haystack(c) = needle then
-            return True;
-         end if;
-      end loop;
-      return False;
-   end is_member;
+package body Char_Utils is
 
-   function is_punctuation(c : Character) return Boolean
+   ---------------------------------------------------------------------------
+
+   function Is_Punctuation (C : Character) return Boolean
    is
-      permitted : constant Character_array :=
-        (
-        ' ',
-        ',',
-        '-',
-        ';',
-        ':',
-        '.',
-        '(',
-        '[',
-        '{',
-        '<',
-        ')',
-        ']',
-        '}',
-        '>'
+      Permitted : constant array (Character) of Boolean :=
+        ( ' ' => True, ',' => True, '-' => True, ';' => True, ':' => True,
+          '.' => True, '(' => True, '[' => True, '{' => True, '<' => True,
+          ')' => True, ']' => True, '}' => True, '>' => True,
+          others => False
         );
    begin
-      return is_member(c, permitted);
-   end is_punctuation;
+      return Permitted (C);
+   end Is_Punctuation;
 
-   function is_alpha_etc(c : Character) return Boolean
+   ---------------------------------------------------------------------------
+
+   function Is_Alpha_Etc (C : Character) return Boolean
    is
+      Alpha_Etc : constant array (Character) of Boolean :=
+         ( 'A' .. 'Z' => True, 'a' .. 'z' => True, '-' => True, '.' => True,
+           others => False
+         );
    begin
-      return
-        c in 'A' .. 'Z' or
-        c in 'a' .. 'z' or
-        c = '-' or
-        c = '.';
-   end is_alpha_etc;
+      return Alpha_Etc (C);
+   end Is_Alpha_Etc;
 
-end char_utils;
+   ---------------------------------------------------------------------------
+
+end Char_Utils;

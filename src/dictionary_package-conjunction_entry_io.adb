@@ -19,13 +19,13 @@ package body Conjunction_Entry_IO is
 
    ---------------------------------------------------------------------------
 
-   Null_Conjunction_Entry : Conjunction_Entry;
+   Null_Conjunction_Entry : constant Conjunction_Entry := (null record);
 
    ---------------------------------------------------------------------------
 
-   pragma Warnings (Off, "formal parameter ""File"" is not referenced");
-   procedure Get (File : in File_Type; Item : out Conjunction_Entry) is
-      pragma Warnings (On, "formal parameter ""File"" is not referenced");
+   procedure Get (File : in Ada.Text_IO.File_Type; Item : out Conjunction_Entry)
+   is
+      pragma Unreferenced (File);
    begin
       Item := Null_Conjunction_Entry;
    end Get;
@@ -39,7 +39,8 @@ package body Conjunction_Entry_IO is
 
    ---------------------------------------------------------------------------
 
-   procedure Put (File : in File_Type; Item : in Conjunction_Entry) is
+   procedure Put (File : in Ada.Text_IO.File_Type; Item : in Conjunction_Entry)
+   is
    begin
       null;
    end Put;
@@ -50,7 +51,6 @@ package body Conjunction_Entry_IO is
    begin
       null;
    end Put;
-
    ---------------------------------------------------------------------------
 
    procedure Get
@@ -67,9 +67,8 @@ package body Conjunction_Entry_IO is
 
    ---------------------------------------------------------------------------
 
-   pragma Warnings (Off, "formal parameter ""Item"" is not referenced");
    procedure Put (Target : out String; Item : in Conjunction_Entry) is
-      pragma Warnings (On, "formal parameter ""Item"" is not referenced");
+      pragma Unreferenced (Item);
    begin
       Target (Target'First .. Target'Last) := (others => ' ');
    end Put;

@@ -16,45 +16,47 @@
 
 separate (Dictionary_Package)
 package body Numeral_Entry_IO is
-   use Inflections_Package.Integer_IO;
 
    ---------------------------------------------------------------------------
-
-   Spacer : Character := ' ';
-
    -- FIXME: Why is this one set here?
-   Num_Out_Size : constant := 5; -- NOTE: Set in spec
+   Num_Out_Size : constant := 5; -- NOTE: Maybe set this in spec?
 
    ---------------------------------------------------------------------------
 
-   procedure Get (File : in File_Type; Item : out Numeral_Entry) is
+   procedure Get (File : in Ada.Text_IO.File_Type; Item : out Numeral_Entry)
+   is
+      Spacer : Character := ' ';
+      pragma Unreferenced (Spacer);
    begin
       Decn_Record_IO.Get (File, Item.Decl);
-      Get (File, Spacer);
+      Ada.Text_IO.Get (File, Spacer);
       Numeral_Sort_Type_IO.Get (File, Item.Sort);
-      Get (File, Spacer);
+      Ada.Text_IO.Get (File, Spacer);
       Inflections_Package.Integer_IO.Get (File, Item.Value);
    end Get;
 
    ---------------------------------------------------------------------------
 
-   procedure Get (Item : out Numeral_Entry) is
+   procedure Get (Item : out Numeral_Entry)
+   is
+      Spacer : Character := ' ';
+      pragma Unreferenced (Spacer);
    begin
       Decn_Record_IO.Get (Item.Decl);
-      Get (Spacer);
+      Ada.Text_IO.Get (Spacer);
       Numeral_Sort_Type_IO.Get (Item.Sort);
-      Get (Spacer);
-      Get (Item.Value);
+      Ada.Text_IO.Get (Spacer);
+      Inflections_Package.Integer_IO.Get (Item.Value);
    end Get;
 
    ---------------------------------------------------------------------------
 
-   procedure Put (File : in File_Type; Item : in Numeral_Entry) is
+   procedure Put (File : in Ada.Text_IO.File_Type; Item : in Numeral_Entry) is
    begin
       Decn_Record_IO.Put (File, Item.Decl);
-      Put (File, ' ');
+      Ada.Text_IO.Put (File, ' ');
       Numeral_Sort_Type_IO.Put (File, Item.Sort);
-      Put (File, ' ');
+      Ada.Text_IO.Put (File, ' ');
       Inflections_Package.Integer_IO.Put (File, Item.Value, Num_Out_Size);
    end Put;
 
@@ -63,9 +65,9 @@ package body Numeral_Entry_IO is
    procedure Put (Item : in Numeral_Entry) is
    begin
       Decn_Record_IO.Put (Item.Decl);
-      Put (' ');
+      Ada.Text_IO.Put (' ');
       Numeral_Sort_Type_IO.Put (Item.Sort);
-      Put (' ');
+      Ada.Text_IO.Put (' ');
       Inflections_Package.Integer_IO.Put (Item.Value, Num_Out_Size);
    end Put;
 

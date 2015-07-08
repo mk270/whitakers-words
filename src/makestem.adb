@@ -27,7 +27,7 @@ procedure makestem is
    use Text_IO;
    use stem_io;
    use MNPC_IO;
-   use part_entry_io;
+   use Part_Entry_IO;
 
    d_k : Dictionary_Kind := xxx;   --  ######################
 

@@ -25,7 +25,7 @@ package uniques_package is
       record
          stem : Stem_Type      := Null_Stem_Type;
          qual : quality_record := null_quality_record;
-         kind : kind_entry     := null_kind_entry;
+         kind : Kind_Entry     := Null_Kind_Entry;
          MNPC : Dict_IO.Count  := Null_MNPC;
          succ : unique_list;
       end record;
@@ -35,7 +35,7 @@ package uniques_package is
 
    unq : latin_uniques := null_latin_uniques;
 
-   type uniques_de_array is array (Dict_IO.Positive_Count range <>) of dictionary_entry;
-   uniques_de : uniques_de_array(1..100) := (others => null_dictionary_entry);
+   type uniques_de_array is array (Dict_IO.Positive_Count range <>) of Dictionary_Entry;
+   uniques_de : uniques_de_array(1..100) := (others => Null_Dictionary_Entry);
 
 end uniques_package;

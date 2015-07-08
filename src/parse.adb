@@ -48,7 +48,7 @@ with list_package; use list_package;
 with tricks_package; use tricks_package;
 with Put_stat;
 with search_english;
-with char_utils; use char_utils;
+with Char_Utils; use Char_Utils;
 
 pragma Elaborate (word_parameters);
 package body parse
@@ -750,7 +750,7 @@ is
                begin
                   for i in k+2..l  loop
                      --  Although I have removed punctuation above, it may not always be so
-                     exit when is_punctuation(line(i));
+                     exit when Is_Punctuation (line (i));
                      j3 := j3 + 1;
                      nw(j3) := line(i);
                      nk := i;
@@ -899,7 +899,7 @@ is
       --  Someday I ought to be interested in punctuation and numbers, but not now
       --      eliminate_not_letters:
       for i in 1..l  loop
-         if is_alpha_etc(line(i)) then
+         if Is_Alpha_Etc (line (i)) then
             null;
          else
             line(i) := ' ';
