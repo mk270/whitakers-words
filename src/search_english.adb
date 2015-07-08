@@ -149,7 +149,7 @@ procedure search_english(Input_english_word : String; pofs : Part_Of_Speech_Type
             end if;
 
             if words_mdev(show_dictionary) then
-               Text_IO.Put(Output, ext(d_k) & ">");
+               Text_IO.Put(Output, Ext(d_k) & ">");
             end if;
             --TEXT_IO.PUT_LINE("DUMP_OUTPUT SHOW");
 

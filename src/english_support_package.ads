@@ -63,7 +63,7 @@ package english_support_package is
       procedure Put(s : out String; p : in ewds_record);
    end ewds_record_io;
 
-   english_dictionary_available : array (Dictionary_Kind) of Boolean := (False,
+   English_Dictionary_Available : array (Dictionary_Kind) of Boolean := (False,
                                                                          False, False, False, False, False, False,  --  don't SEARCH
                                                                          False, False, False, False);
 

@@ -103,7 +103,7 @@ package body word_support_package is
       k : Integer := 0;
    begin
 
-      if dictionary_available(general)  then
+      if Dictionary_Available(general)  then
          --  The blanks are on the GENERAL dictionary
          loading_bdl_from_disk:
          declare
@@ -140,7 +140,7 @@ package body word_support_package is
 
       --  Now load the stems of just one letter
       for d_k in general..Dictionary_Kind'Last loop
-         if dictionary_available(d_k)  then
+         if Dictionary_Available(d_k)  then
             exit when d_k = local;
             --TEXT_IO.PUT_LINE("OPENING BDL STEMFILE " & EXT(D_K));
             if not Is_Open(stem_file(d_k))  then

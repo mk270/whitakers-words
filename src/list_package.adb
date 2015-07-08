@@ -143,7 +143,7 @@ package body list_package is
       end if;
 
       if words_mdev(show_dictionary) then
-         Text_IO.Put(Output, ext(d_k) & ">");
+         Text_IO.Put(Output, Ext(d_k) & ">");
          ehit := True;
       end if;
 
@@ -1091,7 +1091,7 @@ package body list_package is
 
    begin
 
-      if dictionary_available(d_k)  then
+      if Dictionary_Available(d_k)  then
          if not Is_Open(stem_file(d_k))  then
             Open(stem_file(d_k), stem_io.In_File,
                  add_file_name_extension(stem_file_name,

@@ -347,11 +347,11 @@ package body word_package is
                    add_file_name_extension(dict_file_name,
                                            Dictionary_Kind'Image(d_k)));
       load_indices_from_indx_file(d_k);
-      dictionary_available(d_k) := True;
+      Dictionary_Available(d_k) := True;
 
    exception
       when others  =>
-         dictionary_available(d_k) := False;
+         Dictionary_Available(d_k) := False;
    end try_to_load_dictionary;
 
    procedure dictionary_search(ssa : stem_array_type;
@@ -591,7 +591,7 @@ package body word_package is
       end if;
 
       for d_k in Dictionary_Kind  loop
-         if dictionary_available(d_k)  then
+         if Dictionary_Available(d_k)  then
             if not Is_Open(stem_file(d_k))  then
                Open(stem_file(d_k), stem_io.In_File,
                     add_file_name_extension(stem_file_name,
@@ -609,7 +609,7 @@ package body word_package is
       language := latin_to_english;
       preface.Put_Line("Language changed to " & language_type'Image(language));
    elsif Upper_Case (c) = 'E'  then
-      if english_dictionary_available(general)  then
+      if English_Dictionary_Available(general)  then
          language:= english_to_latin;
          preface.Put_Line("Language changed to " & language_type'Image(language));
          preface.Put_Line("InPut a single English word (+ part of speech - N, ADJ, V, PREP, ...)");
@@ -1821,10 +1821,10 @@ package body word_package is
                          add_file_name_extension(dictionary_file_name, "LOCAL"));
          --  Need to carry LOC through consistently on LOAD_D and LOAD_D_FILE
          load_stem_file(local);
-         dictionary_available(local) := True;
+         Dictionary_Available(local) := True;
       exception
          when others  =>
-            dictionary_available(local) := False;
+            Dictionary_Available(local) := False;
       end load_local;
 
       load_uniques(unq, uniques_full_name);
@@ -1833,9 +1833,9 @@ package body word_package is
 
       load_bdl_from_disk;
 
-      if not (dictionary_available(general)  or
-                dictionary_available(special)  or
-                dictionary_available(local))
+      if not (Dictionary_Available(general)  or
+                Dictionary_Available(special)  or
+                Dictionary_Available(local))
       then
          preface.Put_Line("There are no main dictionaries - program will not do much");
          preface.Put_Line("Check that there are dictionary files in this subdirectory");
@@ -1844,14 +1844,14 @@ package body word_package is
 
       try_to_load_english_words:
       begin
-         english_dictionary_available(general) := False;
+         English_Dictionary_Available(general) := False;
          ewds_direct_io.Open(ewds_file, ewds_direct_io.In_File, "EWDSFILE.GEN");
 
-         english_dictionary_available(general) := True;
+         English_Dictionary_Available(general) := True;
       exception
          when others  =>
             preface.Put_Line("No English available");
-            english_dictionary_available(general) := False;
+            English_Dictionary_Available(general) := False;
       end try_to_load_english_words;
 
    end initialize_word_package;

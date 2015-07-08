@@ -124,7 +124,7 @@ begin
          if not porting  then
             if de.Part.pofs = n    and then
                de.Stems(1) = de.Stems(2)     and then
-               de.Stems(1) /= zzz_stem
+               de.Stems(1) /= ZZZ_Stem
             then
                Put(stemlist, de.Stems(1)); Put(stemlist, ' ');
                Put(stemlist, de.Part); Put(stemlist, ' ');
@@ -134,7 +134,7 @@ begin
                Integer_IO.Put(stemlist, Integer(j), 6); New_Line(stemlist);
             elsif de.Part.pofs = adj  and then
                de.Stems(1) = de.Stems(2)     and then
-               de.Stems(1) /= zzz_stem
+               de.Stems(1) /= ZZZ_Stem
             then
                Put(stemlist, de.Stems(1)); Put(stemlist, ' ');
                Put(stemlist, de.Part); Put(stemlist, ' ');
@@ -142,7 +142,7 @@ begin
                Integer_IO.Put(stemlist, 0, 2); Put(stemlist, ' ');
                Set_Col(stemlist, 50);
                Integer_IO.Put(stemlist, Integer(j), 6); New_Line(stemlist);
-               if de.Stems(3) /= Null_Stem_Type  and de.Stems(3) /= zzz_stem  then
+               if de.Stems(3) /= Null_Stem_Type  and de.Stems(3) /= ZZZ_Stem  then
                   Put(stemlist, de.Stems(3)); Put(stemlist, ' ');
                   Put(stemlist, de.Part); Put(stemlist, ' ');
                   Set_Col(stemlist, 45);
@@ -150,7 +150,7 @@ begin
                   Set_Col(stemlist, 50);
                   Integer_IO.Put(stemlist, Integer(j), 6); New_Line(stemlist);
                end if;
-               if de.Stems(4) /= Null_Stem_Type  and de.Stems(4) /= zzz_stem  then
+               if de.Stems(4) /= Null_Stem_Type  and de.Stems(4) /= ZZZ_Stem  then
                   Put(stemlist, de.Stems(4)); Put(stemlist, ' ');
                   Put(stemlist, de.Part); Put(stemlist, ' ');
                   Set_Col(stemlist, 45);
@@ -198,7 +198,7 @@ begin
                Integer_IO.Put(stemlist, Integer(j), 6); New_Line(stemlist);
             elsif de.Part.pofs = v    and then
                de.Stems(1) = de.Stems(2)     and then
-               de.Stems(1) /= zzz_stem
+               de.Stems(1) /= ZZZ_Stem
             then
                Put(stemlist, de.Stems(1)); Put(stemlist, ' ');
                Put(stemlist, de.Part); Put(stemlist, ' ');
@@ -206,7 +206,7 @@ begin
                Integer_IO.Put(stemlist, 0, 2); Put(stemlist, ' ');
                Set_Col(stemlist, 50);
                Integer_IO.Put(stemlist, Integer(j), 6); New_Line(stemlist);
-               if de.Stems(3) /= Null_Stem_Type  and de.Stems(3) /= zzz_stem  then
+               if de.Stems(3) /= Null_Stem_Type  and de.Stems(3) /= ZZZ_Stem  then
                   Put(stemlist, de.Stems(3)); Put(stemlist, ' ');
                   Put(stemlist, de.Part); Put(stemlist, ' ');
                   Set_Col(stemlist, 45);
@@ -215,7 +215,7 @@ begin
                   Integer_IO.Put(stemlist, Integer(j), 6); New_Line(stemlist);
                end if;
 
-               if de.Stems(4) /= Null_Stem_Type  and de.Stems(4) /= zzz_stem  then
+               if de.Stems(4) /= Null_Stem_Type  and de.Stems(4) /= ZZZ_Stem  then
                   Put(stemlist, de.Stems(4)); Put(stemlist, ' ');
                   Put(stemlist, de.Part); Put(stemlist, ' ');
                   Set_Col(stemlist, 45);
@@ -261,7 +261,7 @@ begin
                Integer_IO.Put(stemlist, Integer(j), 6); New_Line(stemlist);
             else
                for i in Stem_Key_Type range 1..4  loop
-                  if de.Stems(i) /= zzz_stem  and
+                  if de.Stems(i) /= ZZZ_Stem  and
                      de.Stems(i) /= Null_Stem_Type
                   then
                      Put(stemlist, de.Stems(i)); Put(stemlist, ' ');

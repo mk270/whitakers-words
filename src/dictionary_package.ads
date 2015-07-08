@@ -21,34 +21,47 @@ use Ada; -- FIXME: A stopgap measure until I drop use clause on Text_IO
 with Direct_IO;
 with Inflections_Package; use Inflections_Package;
 package Dictionary_Package is
+
+   ---------------------------------------------------------------------------
+
    pragma Elaborate_Body;
 
-   zzz_stem  : constant Stem_Type := "zzz" & (4..Max_Stem_Size => ' ');
-   type Stems_Type is array (Stem_Key_Type range 1..4) of Stem_Type;
+   ---------------------------------------------------------------------------
+
+   ZZZ_Stem  : constant Stem_Type := "zzz" & (4 .. Max_Stem_Size => ' ');
+   type Stems_Type is array (Stem_Key_Type range 1 .. 4) of Stem_Type;
    Null_Stems_Type : constant Stems_Type := (others => Null_Stem_Type);
 
-   type Dictionary_Kind is (x,            --  null
-     addons,       --  For FIXES
-     xxx,          --  TRICKS
-     yyy,          --  Syncope
-     nnn,          --  Unknown Name
-     rrr,          --  Roman Numerals
-     ppp,          --  Compounds
-     general, special, local, unique);
+   ---------------------------------------------------------------------------
+
+   type Dictionary_Kind is
+      ( x,            --  null
+        addons,       --  For FIXES
+        xxx,          --  TRICKS
+        yyy,          --  Syncope
+        nnn,          --  Unknown Name
+        rrr,          --  Roman Numerals
+        ppp,          --  Compounds
+        general,
+        special,
+        local,
+        unique
+      );
 
    package Dictionary_Kind_IO is new Text_IO.Enumeration_IO (Dictionary_Kind);
 
-   ext : array (Dictionary_Kind) of String(1..3) := ("X  ", "ADD", "XXX", "YYY",
-     "NNN", "RRR", "PPP",
-     "GEN", "SPE", "LOC",
-     "UNI");
+   Ext : array (Dictionary_Kind) of String (1 .. 3) :=
+      ( "X  ", "ADD", "XXX", "YYY", "NNN", "RRR", "PPP",
+        "GEN", "SPE", "LOC", "UNI"
+      );
 
    Default_Dictionary_Kind : Dictionary_Kind := x;
 
-   dictionary_available : array (Dictionary_Kind) of Boolean := (False,
-     False, False, False, False, False, False,  --  don't SEARCH
-     False, False, False, False);
-   --  Start out as FALSE and set to TRUE when the DICT is loaded
+   Dictionary_Available : array (Dictionary_Kind) of Boolean :=
+      ( others => False );
+   --  Start out as False and set to True when the Dict is loaded
+
+   ---------------------------------------------------------------------------
 
    type Area_Type is
       ( x,      --  All or none
@@ -65,7 +78,11 @@ package Dictionary_Package is
         y       --  Mythology
       );
 
+   overriding function "<=" (Left, Right : Area_Type) return Boolean;
+
    package Area_Type_IO is new Text_IO.Enumeration_IO (Area_Type);
+
+   ---------------------------------------------------------------------------
 
    type Geo_Type is
       ( x,      --  All or none
@@ -90,33 +107,37 @@ package Dictionary_Package is
 
    package Geo_Type_IO is new Text_IO.Enumeration_IO (Geo_Type);
 
+   ---------------------------------------------------------------------------
+
    type Source_Type is
-      ( x,      --  General or unknown or too common to say
+      ( x,  --  General or unknown or too common to say
         a,
-        b,      --  C.H.Beeson, A Primer of Medieval Latin, 1925 (Bee)
-        c,      --  Charles Beard, Cassell's Latin Dictionary 1892 (Cas)
-        d,      --  J.N.Adams, Latin Sexual Vocabulary, 1982 (Sex)
-        e,      --  L.F.Stelten, Dictionary of Eccles. Latin, 1995 (Ecc)
-        f,      --  Roy J. Deferrari, Dictionary of St. Thomas Aquinas, 1960 (DeF)
-        g,      --  Gildersleeve + Lodge, Latin Grammar 1895 (G+L)
-        h,      --  Collatinus Dictionary by Yves Ouvrard
-        i,      --  Leverett, F.P., Lexicon of the Latin Language, Boston 1845
-        j,      --  Bracton: De Legibus Et Consuetudinibus Angliæ
-        k,      --  Calepinus Novus, modern Latin, by Guy Licoppe (Cal)
-        l,      --  Lewis, C.S., Elementary Latin Dictionary 1891
-        m,      --  Latham, Revised Medieval Word List, 1980 (Latham)
-        n,      --  Lynn Nelson, Wordlist (Nel)
-        o,      --  Oxford Latin Dictionary, 1982 (OLD)
-        p,      --  Souter, A Glossary of Later Latin to 600 A.D., Oxford 1949 (Souter)
-        q,      --  Other, cited or unspecified dictionaries
-        r,      --  Plater + White, A Grammar of the Vulgate, Oxford 1926 (Plater)
-        s,      --  Lewis and Short, A Latin Dictionary, 1879 (L+S)
-        t,      --  Found in a translation  --  no dictionary reference
-        u,      --
-        v,      --  Vademecum in opus Saxonis - Franz Blatt (Saxo)
-        w,      --  My personal guess, mostly obvious extrapolation (Whitaker or W)
-        y,      --  Temp special code
-        z       --  Sent by user --  no dictionary reference, Mostly John White of Blitz Latin
+        b,  --  C.H.Beeson, A Primer of Medieval Latin, 1925 (Bee)
+        c,  --  Charles Beard, Cassell's Latin Dictionary 1892 (Cas)
+        d,  --  J.N.Adams, Latin Sexual Vocabulary, 1982 (Sex)
+        e,  --  L.F.Stelten, Dictionary of Eccles. Latin, 1995 (Ecc)
+        f,  --  Roy J. Deferrari, Dictionary of St. Thomas Aquinas, 1960 (DeF)
+        g,  --  Gildersleeve + Lodge, Latin Grammar 1895 (G+L)
+        h,  --  Collatinus Dictionary by Yves Ouvrard
+        i,  --  Leverett, F.P., Lexicon of the Latin Language, Boston 1845
+        j,  --  Bracton: De Legibus Et Consuetudinibus Angliæ
+        k,  --  Calepinus Novus, modern Latin, by Guy Licoppe (Cal)
+        l,  --  Lewis, C.S., Elementary Latin Dictionary 1891
+        m,  --  Latham, Revised Medieval Word List, 1980 (Latham)
+        n,  --  Lynn Nelson, Wordlist (Nel)
+        o,  --  Oxford Latin Dictionary, 1982 (OLD)
+        p,  --  Souter, A Glossary of Later Latin to 600 A.D.,
+            --    Oxford 1949 (Souter)
+        q,  --  Other, cited or unspecified dictionaries
+        r,  --  Plater + White, A Grammar of the Vulgate, Oxford 1926 (Plater)
+        s,  --  Lewis and Short, A Latin Dictionary, 1879 (L+S)
+        t,  --  Found in a translation  --  no dictionary reference
+        u,  --
+        v,  --  Vademecum in opus Saxonis - Franz Blatt (Saxo)
+        w,  --  My personal guess, mostly obvious extrapolation (Whitaker or W)
+        y,  --  Temp special code
+        z   --  Sent by user -- no dictionary reference,
+            --    Mostly John White of Blitz Latin
 
         --  Consulted but used only indirectly
         --  Liddell + Scott Greek-English Lexicon (Lid)
@@ -131,8 +152,9 @@ package Dictionary_Package is
         --  Du Cange
         --  Oxford English Dictionary (OED)
 
-        --  Note that the WORDS dictionary is not just a copy of source info, but the
-        --  indicated SOURCE is a main reference/check point used to derive the entry
+        --  NOTE that the WORDS dictionary is not just a copy of source info,
+        --  but the indicated SOURCE is a main reference/check point used to
+        --  derive the entry
 
       );
 
@@ -522,7 +544,7 @@ package Dictionary_Package is
    -- FIXME: This one feels like it should be constant...
    Null_Part_Entry : Part_Entry;
 
-   function "<" (left, right : Part_Entry) return Boolean;
+   function "<" (Left, Right : Part_Entry) return Boolean;
 
    ---------------------------------------------------------------------------
 
@@ -598,6 +620,6 @@ package Dictionary_Package is
 
    function Number_Of_Stems (Part : Part_Of_Speech_Type) return Stem_Key_Type;
 
-   overriding function "<=" (left, right : Area_Type) return Boolean;
+   ---------------------------------------------------------------------------
 
 end Dictionary_Package;

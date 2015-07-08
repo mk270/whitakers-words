@@ -18,9 +18,13 @@ with Strings_Package; use Strings_Package;
 package body Dictionary_Package is
    use Stem_Key_Type_IO;
 
+   ---------------------------------------------------------------------------
+
    MNPC_IO_Default_Width : constant Natural := 6;
    Numeral_Value_Type_IO_Default_Width : constant Natural := 5;
    --PART_WIDTH : NATURAL;
+
+   ---------------------------------------------------------------------------
 
    function Number_Of_Stems (Part : Part_Of_Speech_Type) return Stem_Key_Type is
    begin
@@ -62,82 +66,86 @@ package body Dictionary_Package is
 
    ---------------------------------------------------------------------------
 
-   function "<" (left, right : Part_Entry) return Boolean is
+   function "<" (Left, Right : Part_Entry) return Boolean is
    begin
-      if left.pofs = right.pofs  then
-         case left.pofs is
+      if Left.pofs = Right.pofs  then
+         case Left.pofs is
             when n =>
-               if left.n.Decl < right.n.Decl  or else
-                 (left.n.Decl = right.n.Decl  and then
-                 left.n.Gender < right.n.Gender)  or else
-                 ((left.n.Decl = right.n.Decl  and
-                 left.n.Gender = right.n.Gender)  and then
-                 left.n.Kind < right.n.Kind)
+               if Left.n.Decl < Right.n.Decl  or else
+                 (Left.n.Decl = Right.n.Decl  and then
+                 Left.n.Gender < Right.n.Gender)  or else
+                 ((Left.n.Decl = Right.n.Decl  and
+                 Left.n.Gender = Right.n.Gender)  and then
+                 Left.n.Kind < Right.n.Kind)
                then
                   return True;
                end if;
             when pron =>
-               if left.pron.Decl < right.pron.Decl  or else
-                 (left.pron.Decl = right.pron.Decl  and then
-                 left.pron.Kind < right.pron.Kind)
+               if Left.pron.Decl < Right.pron.Decl  or else
+                 (Left.pron.Decl = Right.pron.Decl  and then
+                 Left.pron.Kind < Right.pron.Kind)
                then
                   return True;
                end if;
             when pack =>
-               if left.pack.Decl < right.pack.Decl  or else
-                 (left.pack.Decl = right.pack.Decl  and then
-                 left.pack.Kind < right.pack.Kind)
+               if Left.pack.Decl < Right.pack.Decl  or else
+                 (Left.pack.Decl = Right.pack.Decl  and then
+                 Left.pack.Kind < Right.pack.Kind)
                then
                   return True;
                end if;
             when adj =>
-               if left.adj.Decl < right.adj.Decl   or else
-                 (left.adj.Decl = right.adj.Decl  and then
-                 left.adj.Co < right.adj.Co)
+               if Left.adj.Decl < Right.adj.Decl   or else
+                 (Left.adj.Decl = Right.adj.Decl  and then
+                 Left.adj.Co < Right.adj.Co)
                then
                   return True;
                end if;
             when num =>
-               if left.num.Decl < right.num.Decl  or else
-                 (left.num.Decl = right.num.Decl  and then
-                 left.num.Sort < right.num.Sort)  or else
-                 ((left.num.Decl = right.num.Decl)  and then
-                 (left.num.Sort = right.num.Sort)   and then
-                 left.num.Value < right.num.Value)
+               if Left.num.Decl < Right.num.Decl  or else
+                 (Left.num.Decl = Right.num.Decl  and then
+                 Left.num.Sort < Right.num.Sort)  or else
+                 ((Left.num.Decl = Right.num.Decl)  and then
+                 (Left.num.Sort = Right.num.Sort)   and then
+                 Left.num.Value < Right.num.Value)
                then
                   return True;
                end if;
             when adv =>
-                  return left.adv.Co < right.adv.Co;
+                  return Left.adv.Co < Right.adv.Co;
             when v =>
-               if (left.v.Con < right.v.Con)  or else
-                 (left.v.Con = right.v.Con  and then
-                 left.v.Kind < right.v.Kind)
+               if (Left.v.Con < Right.v.Con)  or else
+                 (Left.v.Con = Right.v.Con  and then
+                 Left.v.Kind < Right.v.Kind)
                then
                   return True;
                end if;
             when prep =>
-               return left.prep.Obj < right.prep.Obj;
+               return Left.prep.Obj < Right.prep.Obj;
             when others =>
                null;
          end case;
       else
-         return left.pofs < right.pofs;
+         return Left.pofs < Right.pofs;
       end if;
       return False;
    exception
       when Constraint_Error  =>
-         return left.pofs < right.pofs;
+         return Left.pofs < Right.pofs;
    end "<";
 
-   overriding function "<=" (left, right : Area_Type) return Boolean is
+   ---------------------------------------------------------------------------
+
+   overriding function "<=" (Left, Right : Area_Type) return Boolean is
    begin
-      if right = left or else right = x then
+      if Right = Left or else Right = x then
          return True;
       else
          return False;
       end if;
    end "<=";
+
+   ---------------------------------------------------------------------------
 
 begin     --  initialization of body of DICTIONARY_PACKAGE
    --TEXT_IO.PUT_LINE("Initializing DICTIONARY_PACKAGE");

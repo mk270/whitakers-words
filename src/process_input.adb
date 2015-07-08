@@ -177,7 +177,7 @@ begin
       banner.print_main_banner(start_file_Character,
         change_parameters_Character, help_Character);
 
-      if english_dictionary_available(general)  then
+      if English_Dictionary_Available(general)  then
          preface.Put_Line("English-to-Latin available");
          preface.Put_Line(
            change_language_Character & "E changes to English-to-Latin, " &
