@@ -148,64 +148,73 @@ package body Dictionary_Package is
    end "<=";
 
    ---------------------------------------------------------------------------
+   -- Used to initialize Dictionary_Package by setting various variables.
+   -- FIXME: Make AT LEAST some of these initializations to happen in spec,
+   --   thus eliminating risks of someone modifying them and in result breaking
+   --   every nested package.
+   procedure Initialize
+   is
+   begin
+      Dictionary_Kind_IO.Default_Width := Dictionary_Kind'Width;
+
+      Area_Type_IO.Default_Width := Area_Type'Width;
+
+      Geo_Type_IO.Default_Width := Geo_Type'Width;
+
+      Frequency_Type_IO.Default_Width := Frequency_Type'Width;
+
+      Source_Type_IO.Default_Width := Source_Type'Width;
+
+      Parse_Record_IO.Default_Width :=
+        Stem_Type_IO.Default_Width + 1 +
+        Inflection_Record_IO.Default_Width + 1 +
+        Dictionary_Kind_IO.Default_Width + 1 +
+        MNPC_IO_Default_Width;
+      Noun_Entry_IO.Default_Width :=
+        Decn_Record_IO.Default_Width + 1 +
+        Gender_Type_IO.Default_Width + 1 +
+        Noun_Kind_Type_IO.Default_Width;
+      Pronoun_Entry_IO.Default_Width :=
+        Decn_Record_IO.Default_Width + 1 +
+        Pronoun_Kind_Type_IO.Default_Width;
+      Propack_Entry_IO.Default_Width :=
+        Decn_Record_IO.Default_Width + 1 +
+        Pronoun_Kind_Type_IO.Default_Width;
+      Adjective_Entry_IO.Default_Width :=
+        Decn_Record_IO.Default_Width + 1 +
+        Comparison_Type_IO.Default_Width;
+      Adverb_Entry_IO.Default_Width :=
+        Comparison_Type_IO.Default_Width;
+      Verb_Entry_IO.Default_Width :=
+        Decn_Record_IO.Default_Width + 1 +
+        Verb_Kind_Type_IO.Default_Width;
+      Preposition_Entry_IO.Default_Width := 0;
+      Conjunction_Entry_IO.Default_Width := 0;
+
+      Interjection_Entry_IO.Default_Width := 0;
+      Numeral_Entry_IO.Default_Width :=
+        Decn_Record_IO.Default_Width + 1 +
+        Numeral_Sort_Type_IO.Default_Width + 1 +
+        Numeral_Value_Type_IO_Default_Width;
+
+      Part_Entry_IO.Default_Width := Part_Of_Speech_Type_IO.Default_Width + 1 +
+        Numeral_Entry_IO.Default_Width;     --  Largest
+
+      Translation_Record_IO.Default_Width :=
+        Age_Type_IO.Default_Width + 1 +
+        Area_Type_IO.Default_Width + 1 +
+        Geo_Type_IO.Default_Width + 1 +
+        Frequency_Type_IO.Default_Width + 1 +
+        Source_Type_IO.Default_Width;
+
+      Dictionary_Entry_IO.Default_Width := 4 * (Max_Stem_Size + 1) +
+        Part_Entry_IO.Default_Width + 1 +
+        Translation_Record_IO.Default_Width + 1 +
+        Max_Meaning_Size;
+   end Initialize;
+
+   ---------------------------------------------------------------------------
 
 begin
-
-   Dictionary_Kind_IO.Default_Width := Dictionary_Kind'Width;
-
-   Area_Type_IO.Default_Width := Area_Type'Width;
-
-   Geo_Type_IO.Default_Width := Geo_Type'Width;
-
-   Frequency_Type_IO.Default_Width := Frequency_Type'Width;
-
-   Source_Type_IO.Default_Width := Source_Type'Width;
-
-   Parse_Record_IO.Default_Width :=
-     Stem_Type_IO.Default_Width + 1 +
-     Inflection_Record_IO.Default_Width + 1 +
-     Dictionary_Kind_IO.Default_Width + 1 +
-     MNPC_IO_Default_Width;
-   Noun_Entry_IO.Default_Width :=
-     Decn_Record_IO.Default_Width + 1 +
-     Gender_Type_IO.Default_Width + 1 +
-     Noun_Kind_Type_IO.Default_Width;
-   Pronoun_Entry_IO.Default_Width :=
-     Decn_Record_IO.Default_Width + 1 +
-     Pronoun_Kind_Type_IO.Default_Width;
-   Propack_Entry_IO.Default_Width :=
-     Decn_Record_IO.Default_Width + 1 +
-     Pronoun_Kind_Type_IO.Default_Width;
-   Adjective_Entry_IO.Default_Width :=
-     Decn_Record_IO.Default_Width + 1 +
-     Comparison_Type_IO.Default_Width;
-   Adverb_Entry_IO.Default_Width :=
-     Comparison_Type_IO.Default_Width;
-   Verb_Entry_IO.Default_Width :=
-     Decn_Record_IO.Default_Width + 1 +
-     Verb_Kind_Type_IO.Default_Width;
-   Preposition_Entry_IO.Default_Width := 0;
-   Conjunction_Entry_IO.Default_Width := 0;
-
-   Interjection_Entry_IO.Default_Width := 0;
-   Numeral_Entry_IO.Default_Width :=
-     Decn_Record_IO.Default_Width + 1 +
-     Numeral_Sort_Type_IO.Default_Width + 1 +
-     Numeral_Value_Type_IO_Default_Width;
-
-   Part_Entry_IO.Default_Width := Part_Of_Speech_Type_IO.Default_Width + 1 +
-     Numeral_Entry_IO.Default_Width;     --  Largest
-
-   Translation_Record_IO.Default_Width :=
-     Age_Type_IO.Default_Width + 1 +
-     Area_Type_IO.Default_Width + 1 +
-     Geo_Type_IO.Default_Width + 1 +
-     Frequency_Type_IO.Default_Width + 1 +
-     Source_Type_IO.Default_Width;
-
-   Dictionary_Entry_IO.Default_Width := 4 * (Max_Stem_Size + 1) +
-     Part_Entry_IO.Default_Width + 1 +
-     Translation_Record_IO.Default_Width + 1 +
-     Max_Meaning_Size;
-
+   Initialize;
 end Dictionary_Package;
