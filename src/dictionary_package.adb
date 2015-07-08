@@ -42,27 +42,25 @@ package body Dictionary_Package is
       end case;
    end Number_Of_Stems;
 
+   ---------------------------------------------------------------------------
+
    package body Parse_Record_IO is separate;
-
    package body Noun_Entry_IO is separate;
-
    package body Pronoun_Entry_IO is separate;
-
    package body Propack_Entry_IO is separate;
-
    package body Adjective_Entry_IO is separate;
-
    package body Numeral_Entry_IO is separate;
-
    package body Adverb_Entry_IO is separate;
-
    package body Verb_Entry_IO is separate;
-
    package body Preposition_Entry_IO is separate;
-
    package body Conjunction_Entry_IO is separate;
-
    package body Interjection_Entry_IO is separate;
+   package body Part_Entry_IO is separate;
+   package body Kind_Entry_IO is separate;
+   package body Translation_Record_IO is separate;
+   package body Dictionary_Entry_IO is separate;
+
+   ---------------------------------------------------------------------------
 
    function "<" (left, right : Part_Entry) return Boolean is
    begin
@@ -131,14 +129,6 @@ package body Dictionary_Package is
       when Constraint_Error  =>
          return left.pofs < right.pofs;
    end "<";
-
-   package body Part_Entry_IO is separate;
-
-   package body Kind_Entry_IO is separate;
-
-   package body Translation_Record_IO is separate;
-
-   package body Dictionary_Entry_IO is separate;
 
    overriding function "<=" (left, right : Area_Type) return Boolean is
    begin
