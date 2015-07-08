@@ -14,17 +14,24 @@
 -- All parts of the WORDS system, source code and data files, are made freely
 -- available to anyone who wishes to use them, for whatever purpose.
 
-package char_utils
-is
-   type Character_array is array (Integer range <>) of Character;
+package Char_Utils is
 
-   function is_member(needle : Character;
-                      haystack : Character_array)
-                     return Boolean;
+   ---------------------------------------------------------------------------
 
-   function is_punctuation(c : Character) return Boolean;
+   type Character_Array is array (Integer range <>) of Character;
 
-   -- is c alphabetic, or '.' or '-' ?
-   function is_alpha_etc(c : Character) return Boolean;
+   ---------------------------------------------------------------------------
 
-end char_utils;
+   function Is_Member
+      ( Needle   : Character;
+        Haystack : Character_Array
+      ) return Boolean;
+
+   function Is_Punctuation (C : Character) return Boolean;
+
+   -- Is C alphabetic, or '.' or '-' ?
+   function Is_Alpha_Etc (C : Character) return Boolean;
+
+   ---------------------------------------------------------------------------
+
+end Char_Utils;

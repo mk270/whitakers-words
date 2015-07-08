@@ -14,24 +14,29 @@
 -- All parts of the WORDS system, source code and data files, are made freely
 -- available to anyone who wishes to use them, for whatever purpose.
 
-package body char_utils
-is
-   function is_member(needle : Character;
-                      haystack : Character_array)
-                     return Boolean
+package body Char_Utils is
+
+   ---------------------------------------------------------------------------
+
+   function Is_Member
+      ( Needle   : Character;
+        Haystack : Character_Array
+      ) return Boolean
    is
    begin
-      for c in haystack'First .. haystack'Last loop
-         if haystack(c) = needle then
+      for C in Haystack'Range loop
+         if Haystack (C) = Needle then
             return True;
          end if;
       end loop;
       return False;
-   end is_member;
+   end Is_Member;
 
-   function is_punctuation(c : Character) return Boolean
+   ---------------------------------------------------------------------------
+
+   function Is_Punctuation (C : Character) return Boolean
    is
-      permitted : constant Character_array :=
+      Permitted : constant Character_Array :=
         (
         ' ',
         ',',
@@ -49,17 +54,21 @@ is
         '>'
         );
    begin
-      return is_member(c, permitted);
-   end is_punctuation;
+      return Is_Member (C, Permitted);
+   end Is_Punctuation;
 
-   function is_alpha_etc(c : Character) return Boolean
+   ---------------------------------------------------------------------------
+
+   function Is_Alpha_Etc (C : Character) return Boolean
    is
    begin
       return
-        c in 'A' .. 'Z' or
-        c in 'a' .. 'z' or
-        c = '-' or
-        c = '.';
-   end is_alpha_etc;
+        C in 'A' .. 'Z' or
+        C in 'a' .. 'z' or
+        C = '-' or
+        C = '.';
+   end Is_Alpha_Etc;
 
-end char_utils;
+   ---------------------------------------------------------------------------
+
+end Char_Utils;
