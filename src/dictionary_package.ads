@@ -14,8 +14,6 @@
 -- All parts of the WORDS system, source code and data files, are made freely
 -- available to anyone who wishes to use them, for whatever purpose.
 
---  Need KIND_ENTRY and IO
---  Need to modify TRANS
 with Ada.Text_IO;
 with Ada.Direct_IO;
 with Inflections_Package; use Inflections_Package;
@@ -57,9 +55,9 @@ package Dictionary_Package is
 
    Default_Dictionary_Kind : Dictionary_Kind := x;
 
+   --  Starts out as False and set to True when the Dict is loaded
    Dictionary_Available : array (Dictionary_Kind) of Boolean :=
       ( others => False );
-   --  Start out as False and set to True when the Dict is loaded
 
    ---------------------------------------------------------------------------
 

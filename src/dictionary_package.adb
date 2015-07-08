@@ -21,7 +21,6 @@ package body Dictionary_Package is
 
    MNPC_IO_Default_Width : constant Natural := 6;
    Numeral_Value_Type_IO_Default_Width : constant Natural := 5;
-   --PART_WIDTH : NATURAL;
 
    ---------------------------------------------------------------------------
 
@@ -150,12 +149,9 @@ package body Dictionary_Package is
 
    ---------------------------------------------------------------------------
 
-begin     --  initialization of body of DICTIONARY_PACKAGE
-   --TEXT_IO.PUT_LINE("Initializing DICTIONARY_PACKAGE");
+begin
 
    Dictionary_Kind_IO.Default_Width := Dictionary_Kind'Width;
-
-   --NUMERAL_VALUE_TYPE_IO.DEFAULT_WIDTH := 5;
 
    Area_Type_IO.Default_Width := Area_Type'Width;
 
@@ -200,8 +196,6 @@ begin     --  initialization of body of DICTIONARY_PACKAGE
    Part_Entry_IO.Default_Width := Part_Of_Speech_Type_IO.Default_Width + 1 +
      Numeral_Entry_IO.Default_Width;     --  Largest
 
-   --  Should make up a MAX of PART_ENTRY + KIND_ENTRY (same POFS) WIDTHS
-
    Translation_Record_IO.Default_Width :=
      Age_Type_IO.Default_Width + 1 +
      Area_Type_IO.Default_Width + 1 +
@@ -214,5 +208,4 @@ begin     --  initialization of body of DICTIONARY_PACKAGE
      Translation_Record_IO.Default_Width + 1 +
      Max_Meaning_Size;
 
-   --TEXT_IO.PUT_LINE("Initialized  DICTIONARY_PACKAGE");
 end Dictionary_Package;
