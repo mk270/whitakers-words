@@ -24,18 +24,19 @@ package body Dictionary_Entry_IO is
 
    ---------------------------------------------------------------------------
 
-   procedure Get (File : in File_Type; Item : out Dictionary_Entry) is
+   procedure Get (File : in Ada.Text_IO.File_Type; Item : out Dictionary_Entry)
+   is
    begin
       for K in Stem_Key_Type range 1 .. 4 loop
-         Get (File, Item.Stems (K));
-         Get (File, Spacer);
+         Stem_Type_IO.Get (File, Item.Stems (K));
+         Ada.Text_IO.Get (File, Spacer);
       end loop;
 
       Part_Entry_IO.Get (File, Item.Part);
-      Get (File, Spacer);
+      Ada.Text_IO.Get (File, Spacer);
       Translation_Record_IO.Get (File, Item.Tran);
-      Get (File, Spacer);
-      Get (File, Item.Mean);
+      Ada.Text_IO.Get (File, Spacer);
+      Ada.Text_IO.Get (File, Item.Mean);
    end Get;
 
    ---------------------------------------------------------------------------
@@ -43,32 +44,36 @@ package body Dictionary_Entry_IO is
    procedure Get (Item : out Dictionary_Entry) is
    begin
       for K in Stem_Key_Type range 1 .. 4 loop
-         Get (Item.Stems (K));
-         Get (Spacer);
+         Stem_Type_IO.Get (Item.Stems (K));
+         Ada.Text_IO.Get (Spacer);
       end loop;
 
       Part_Entry_IO.Get (Item.Part);
-      Get (Spacer);
+      Ada.Text_IO.Get (Spacer);
       Translation_Record_IO.Get (Item.Tran);
-      Get (Spacer);
-      Get (Item.Mean);
+      Ada.Text_IO.Get (Spacer);
+      Ada.Text_IO.Get (Item.Mean);
    end Get;
 
    ---------------------------------------------------------------------------
 
-   procedure Put (File : in File_Type; Item : in Dictionary_Entry) is
+   procedure Put (File : in Ada.Text_IO.File_Type; Item : in Dictionary_Entry)
+   is
    begin
       for K in Stem_Key_Type range 1 .. 4 loop
-         Put (File, Item.Stems (K));
-         Put (File, ' ');
+         Stem_Type_IO.Put (File, Item.Stems (K));
+         Ada.Text_IO.Put (File, ' ');
       end loop;
 
-      Part_Col := Natural (Col (File));
+      Part_Col := Natural (Ada.Text_IO.Col (File));
       Part_Entry_IO.Put (File, Item.Part);
-      Set_Col (File, Count (Part_Col + Part_Entry_IO.Default_Width + 1));
+      Ada.Text_IO.Set_Col
+         ( File,
+           Ada.Text_IO.Count (Part_Col + Part_Entry_IO.Default_Width + 1)
+         );
       Translation_Record_IO.Put (File, Item.Tran);
-      Put (File, ' ');
-      Put (File, Item.Mean);
+      Ada.Text_IO.Put (File, ' ');
+      Ada.Text_IO.Put (File, Item.Mean);
    end Put;
 
    ---------------------------------------------------------------------------
@@ -76,16 +81,17 @@ package body Dictionary_Entry_IO is
    procedure Put (Item : in Dictionary_Entry) is
    begin
       for K in Stem_Key_Type range 1 .. 4 loop
-         Put (Item.Stems (K));
-         Put (' ');
+         Stem_Type_IO.Put (Item.Stems (K));
+         Ada.Text_IO.Put (' ');
       end loop;
 
-      Part_Col := Natural (Col);
+      Part_Col := Natural (Ada.Text_IO.Col);
       Part_Entry_IO.Put (Item.Part);
-      Set_Col (Count (Part_Col + Part_Entry_IO.Default_Width + 1));
+      Ada.Text_IO.Set_Col
+         ( Ada.Text_IO.Count (Part_Col + Part_Entry_IO.Default_Width + 1) );
       Translation_Record_IO.Put (Item.Tran);
-      Put (' ');
-      Put (Item.Mean);
+      Ada.Text_IO.Put (' ');
+      Ada.Text_IO.Put (Item.Mean);
    end Put;
 
    ---------------------------------------------------------------------------

@@ -23,7 +23,8 @@ package body Conjunction_Entry_IO is
 
    ---------------------------------------------------------------------------
 
-   procedure Get (File : in File_Type; Item : out Conjunction_Entry) is
+   procedure Get (File : in Ada.Text_IO.File_Type; Item : out Conjunction_Entry)
+   is
       pragma Unreferenced (File);
    begin
       Item := Null_Conjunction_Entry;
@@ -38,7 +39,8 @@ package body Conjunction_Entry_IO is
 
    ---------------------------------------------------------------------------
 
-   procedure Put (File : in File_Type; Item : in Conjunction_Entry) is null;
+   procedure Put (File : in Ada.Text_IO.File_Type; Item : in Conjunction_Entry)
+      is null;
 
    ---------------------------------------------------------------------------
 

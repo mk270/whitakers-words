@@ -23,7 +23,11 @@ package body Interjection_Entry_IO is
 
    ---------------------------------------------------------------------------
 
-   procedure Get (File : in File_Type; Item : out Interjection_Entry) is
+   procedure Get
+      ( File : in  Ada.Text_IO.File_Type;
+        Item : out Interjection_Entry
+      )
+   is
       pragma Unreferenced (File);
    begin
       Item := Null_Interjection_Entry;
@@ -38,7 +42,8 @@ package body Interjection_Entry_IO is
 
    ---------------------------------------------------------------------------
 
-   procedure Put (File : in File_Type; Item : in Interjection_Entry) is null;
+   procedure Put (File : in Ada.Text_IO.File_Type; Item : in Interjection_Entry)
+      is null;
 
    ---------------------------------------------------------------------------
 

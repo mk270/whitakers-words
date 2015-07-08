@@ -24,10 +24,10 @@ package body Verb_Entry_IO is
 
    ---------------------------------------------------------------------------
 
-   procedure Get (File : in File_Type; Item : out Verb_Entry) is
+   procedure Get (File : in Ada.Text_IO.File_Type; Item : out Verb_Entry) is
    begin
       Decn_Record_IO.Get (File, Item.Con);
-      Get (File, Spacer);
+      Ada.Text_IO.Get (File, Spacer);
       Verb_Kind_Type_IO.Get (File, Item.Kind);
    end Get;
 
@@ -36,16 +36,16 @@ package body Verb_Entry_IO is
    procedure Get (Item : out Verb_Entry) is
    begin
       Decn_Record_IO.Get (Item.Con);
-      Get (Spacer);
+      Ada.Text_IO.Get (Spacer);
       Verb_Kind_Type_IO.Get (Item.Kind);
    end Get;
 
    ---------------------------------------------------------------------------
 
-   procedure Put (File : in File_Type; Item : in Verb_Entry) is
+   procedure Put (File : in Ada.Text_IO.File_Type; Item : in Verb_Entry) is
    begin
       Decn_Record_IO.Put (File, Item.Con);
-      Put (File, ' ');
+      Ada.Text_IO.Put (File, ' ');
       Verb_Kind_Type_IO.Put (File, Item.Kind);
    end Put;
 
@@ -54,7 +54,7 @@ package body Verb_Entry_IO is
    procedure Put (Item : in Verb_Entry) is
    begin
       Decn_Record_IO.Put (Item.Con);
-      Put (' ');
+      Ada.Text_IO.Put (' ');
       Verb_Kind_Type_IO.Put (Item.Kind);
    end Put;
 

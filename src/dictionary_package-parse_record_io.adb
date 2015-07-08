@@ -24,14 +24,14 @@ package body Parse_Record_IO is
 
    ---------------------------------------------------------------------------
 
-   procedure Get (File : in Text_IO.File_Type; Item : out Parse_Record) is
+   procedure Get (File : in Ada.Text_IO.File_Type; Item : out Parse_Record) is
    begin
-      Get (File, Item.Stem);
-      Get (File, Spacer);
+      Stem_Type_IO.Get (File, Item.Stem);
+      Ada.Text_IO.Get (File, Spacer);
       Inflection_Record_IO.Get (File, Item.IR);
-      Get (File, Spacer);
+      Ada.Text_IO.Get (File, Spacer);
       Dictionary_Kind_IO.Get (File, Item.D_K);
-      Get (File, Spacer);
+      Ada.Text_IO.Get (File, Spacer);
       MNPC_IO.Get (File, Item.MNPC);
    end Get;
 
@@ -39,25 +39,25 @@ package body Parse_Record_IO is
 
    procedure Get (Item : out Parse_Record) is
    begin
-      Get (Item.Stem);
-      Get (Spacer);
+      Stem_Type_IO.Get (Item.Stem);
+      Ada.Text_IO.Get (Spacer);
       Inflection_Record_IO.Get (Item.IR);
-      Get (Spacer);
+      Ada.Text_IO.Get (Spacer);
       Dictionary_Kind_IO.Get (Item.D_K);
-      Get (Spacer);
+      Ada.Text_IO.Get (Spacer);
       MNPC_IO.Get (Item.MNPC);
    end Get;
 
    ---------------------------------------------------------------------------
 
-   procedure Put (File : in Text_IO.File_Type; Item : in Parse_Record) is
+   procedure Put (File : in Ada.Text_IO.File_Type; Item : in Parse_Record) is
    begin
-      Put (File, Item.Stem);
-      Put (File, ' ');
+      Stem_Type_IO.Put (File, Item.Stem);
+      Ada.Text_IO.Put (File, ' ');
       Inflection_Record_IO.Put (File, Item.IR);
-      Put (File, ' ');
+      Ada.Text_IO.Put (File, ' ');
       Dictionary_Kind_IO.Put (File, Item.D_K);
-      Put (File, ' ');
+      Ada.Text_IO.Put (File, ' ');
       MNPC_IO.Put (File, Item.MNPC);
    end Put;
 
@@ -65,12 +65,12 @@ package body Parse_Record_IO is
 
    procedure Put (Item : in Parse_Record) is
    begin
-      Text_IO.Put (Item.Stem);
-      Text_IO.Put (' ');
+      Stem_Type_IO.Put (Item.Stem);
+      Ada.Text_IO.Put (' ');
       Inflection_Record_IO.Put (Item.IR);
-      Text_IO.Put (' ');
+      Ada.Text_IO.Put (' ');
       Dictionary_Kind_IO.Put (Item.D_K);
-      Text_IO.Put (' ');
+      Ada.Text_IO.Put (' ');
       MNPC_IO.Put (Item.MNPC);
    end Put;
 

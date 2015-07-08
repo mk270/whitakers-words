@@ -16,7 +16,6 @@
 
 with Strings_Package; use Strings_Package;
 package body Dictionary_Package is
-   use Stem_Key_Type_IO;
 
    ---------------------------------------------------------------------------
 

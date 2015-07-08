@@ -24,10 +24,11 @@ package body Adjective_Entry_IO is
 
    ---------------------------------------------------------------------------
 
-   procedure Get (File : in File_Type; Item : out Adjective_Entry) is
+   procedure Get (File : in Ada.Text_IO.File_Type; Item : out Adjective_Entry)
+   is
    begin
       Decn_Record_IO.Get (File, Item.Decl);
-      Get (File, Spacer);
+      Ada.Text_IO.Get (File, Spacer);
       Comparison_Type_IO.Get (File, Item.Co);
    end Get;
 
@@ -36,16 +37,16 @@ package body Adjective_Entry_IO is
    procedure Get (Item : out Adjective_Entry) is
    begin
       Decn_Record_IO.Get (Item.Decl);
-      Get (Spacer);
+      Ada.Text_IO.Get (Spacer);
       Comparison_Type_IO.Get (Item.Co);
    end Get;
 
    ---------------------------------------------------------------------------
 
-   procedure Put (File : in File_Type; Item : in Adjective_Entry) is
+   procedure Put (File : in Ada.Text_IO.File_Type; Item : in Adjective_Entry) is
    begin
       Decn_Record_IO.Put (File, Item.Decl);
-      Put (File, ' ');
+      Ada.Text_IO.Put (File, ' ');
       Comparison_Type_IO.Put (File, Item.Co);
    end Put;
 
@@ -54,7 +55,7 @@ package body Adjective_Entry_IO is
    procedure Put (Item : in Adjective_Entry) is
    begin
       Decn_Record_IO.Put (Item.Decl);
-      Put (' ');
+      Ada.Text_IO.Put (' ');
       Comparison_Type_IO.Put (Item.Co);
    end Put;
 

@@ -19,7 +19,8 @@ package body Preposition_Entry_IO is
 
    ---------------------------------------------------------------------------
 
-   procedure Get (File : in File_Type; Item : out Preposition_Entry) is
+   procedure Get (File : in Ada.Text_IO.File_Type; Item : out Preposition_Entry)
+   is
    begin
       Case_Type_IO.Get (File, Item.Obj);
    end Get;
@@ -33,7 +34,8 @@ package body Preposition_Entry_IO is
 
    ---------------------------------------------------------------------------
 
-   procedure Put (File : in File_Type; Item : in Preposition_Entry) is
+   procedure Put (File : in Ada.Text_IO.File_Type; Item : in Preposition_Entry)
+   is
    begin
       Case_Type_IO.Put (File, Item.Obj);
    end Put;

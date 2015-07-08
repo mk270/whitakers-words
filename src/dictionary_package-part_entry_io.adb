@@ -18,6 +18,10 @@ separate (Dictionary_Package)
 package body Part_Entry_IO is
 
    ---------------------------------------------------------------------------
+
+   use type Ada.Text_IO.Positive_Count;
+
+   ---------------------------------------------------------------------------
    -- Throwaway variable used when reading Parse_Record for "getting rid" of
    -- not needed separator character between different fields of record.
    Spacer : Character := ' ';
@@ -37,12 +41,13 @@ package body Part_Entry_IO is
 
    ---------------------------------------------------------------------------
 
-   procedure Get (File : in File_Type; Item : out Part_Entry) is
+   procedure Get (File : in Ada.Text_IO.File_Type; Item : out Part_Entry) is
       POFS         : Part_Of_Speech_Type := x;
-      Starting_Col : constant Positive_Count := Col (File);
+      Starting_Col : constant Ada.Text_IO.Positive_Count :=
+         Ada.Text_IO.Col (File);
    begin
       Part_Of_Speech_Type_IO.Get (File, POFS);
-      Get (File, Spacer);
+      Ada.Text_IO.Get (File, Spacer);
       case POFS is
          when n =>
             Noun_Entry_IO.Get (File, Noun);
@@ -87,9 +92,10 @@ package body Part_Entry_IO is
          when x =>
             Item := (pofs => x);
       end case;
-      Set_Col
+      Ada.Text_IO.Set_Col
          ( File,
-           Positive_Count (Part_Entry_IO.Default_Width) + Starting_Col
+           Ada.Text_IO.Positive_Count
+              (Part_Entry_IO.Default_Width) + Starting_Col
          );
    end Get;
 
@@ -99,7 +105,7 @@ package body Part_Entry_IO is
       POFS : Part_Of_Speech_Type := x;
    begin
       Part_Of_Speech_Type_IO.Get (POFS);
-      Get (Spacer);
+      Ada.Text_IO.Get (Spacer);
       case POFS is
          when n =>
             Noun_Entry_IO.Get (Noun);
@@ -148,10 +154,10 @@ package body Part_Entry_IO is
 
    ---------------------------------------------------------------------------
 
-   procedure Put (File : in File_Type; Item : in Part_Entry) is
+   procedure Put (File : in Ada.Text_IO.File_Type; Item : in Part_Entry) is
    begin
       Part_Of_Speech_Type_IO.Put (File, Item.pofs);
-      Put (File, ' ');
+      Ada.Text_IO.Put (File, ' ');
       case Item.pofs is
          when n =>
             Noun_Entry_IO.Put (File, Item.n);
@@ -189,7 +195,7 @@ package body Part_Entry_IO is
    procedure Put (Item : in Part_Entry) is
    begin
       Part_Of_Speech_Type_IO.Put (Item.pofs);
-      Put (' ');
+      Ada.Text_IO.Put (' ');
       case Item.pofs is
          when n =>
             Noun_Entry_IO.Put (Item.n);

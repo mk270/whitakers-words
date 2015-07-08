@@ -27,13 +27,13 @@ package body Translation_Record_IO is
    is
    begin
       Age_Type_IO.Get (File, Item.Age);
-      Get (File, Spacer);
+      Ada.Text_IO.Get (File, Spacer);
       Area_Type_IO.Get (File, Item.Area);
-      Get (File, Spacer);
+      Ada.Text_IO.Get (File, Spacer);
       Geo_Type_IO.Get (File, Item.Geo);
-      Get (File, Spacer);
+      Ada.Text_IO.Get (File, Spacer);
       Frequency_Type_IO.Get (File, Item.Freq);
-      Get (File, Spacer);
+      Ada.Text_IO.Get (File, Spacer);
       Source_Type_IO.Get (File, Item.Source);
    end Get;
 
@@ -42,28 +42,29 @@ package body Translation_Record_IO is
    procedure Get (Item : out Translation_Record) is
    begin
       Age_Type_IO.Get (Item.Age);
-      Get (Spacer);
+      Ada.Text_IO.Get (Spacer);
       Area_Type_IO.Get (Item.Area);
-      Get (Spacer);
+      Ada.Text_IO.Get (Spacer);
       Geo_Type_IO.Get (Item.Geo);
-      Get (Spacer);
+      Ada.Text_IO.Get (Spacer);
       Frequency_Type_IO.Get (Item.Freq);
-      Get (Spacer);
+      Ada.Text_IO.Get (Spacer);
       Source_Type_IO.Get (Item.Source);
    end Get;
 
    ---------------------------------------------------------------------------
 
-   procedure Put (File : in Text_IO.File_Type; Item : in Translation_Record) is
+   procedure Put (File : in Ada.Text_IO.File_Type; Item : in Translation_Record)
+   is
    begin
       Age_Type_IO.Put (File, Item.Age);
-      Put (File, ' ');
+      Ada.Text_IO.Put (File, ' ');
       Area_Type_IO.Put (File, Item.Area);
-      Put (File, ' ');
+      Ada.Text_IO.Put (File, ' ');
       Geo_Type_IO.Put (File, Item.Geo);
-      Put (File, ' ');
+      Ada.Text_IO.Put (File, ' ');
       Frequency_Type_IO.Put (File, Item.Freq);
-      Put (File, ' ');
+      Ada.Text_IO.Put (File, ' ');
       Source_Type_IO.Put (File, Item.Source);
    end Put;
 
@@ -72,13 +73,13 @@ package body Translation_Record_IO is
    procedure Put (Item : in Translation_Record) is
    begin
       Age_Type_IO.Put (Item.Age);
-      Text_IO.Put (' ');
+      Ada.Text_IO.Put (' ');
       Area_Type_IO.Put (Item.Area);
-      Text_IO.Put (' ');
+      Ada.Text_IO.Put (' ');
       Geo_Type_IO.Put (Item.Geo);
-      Text_IO.Put (' ');
+      Ada.Text_IO.Put (' ');
       Frequency_Type_IO.Put (Item.Freq);
-      Text_IO.Put (' ');
+      Ada.Text_IO.Put (' ');
       Source_Type_IO.Put (Item.Source);
    end Put;
 

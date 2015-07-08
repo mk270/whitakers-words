@@ -16,9 +16,8 @@
 
 --  Need KIND_ENTRY and IO
 --  Need to modify TRANS
-with Ada.Text_IO; use Ada.Text_IO;
-use Ada; -- FIXME: A stopgap measure until I drop use clause on Text_IO
-with Direct_IO;
+with Ada.Text_IO;
+with Ada.Direct_IO;
 with Inflections_Package; use Inflections_Package;
 package Dictionary_Package is
 
@@ -48,7 +47,8 @@ package Dictionary_Package is
         unique
       );
 
-   package Dictionary_Kind_IO is new Text_IO.Enumeration_IO (Dictionary_Kind);
+   package Dictionary_Kind_IO is new
+      Ada.Text_IO.Enumeration_IO (Dictionary_Kind);
 
    Ext : array (Dictionary_Kind) of String (1 .. 3) :=
       ( "X  ", "ADD", "XXX", "YYY", "NNN", "RRR", "PPP",
@@ -80,7 +80,8 @@ package Dictionary_Package is
 
    overriding function "<=" (Left, Right : Area_Type) return Boolean;
 
-   package Area_Type_IO is new Text_IO.Enumeration_IO (Area_Type);
+   package Area_Type_IO is new
+      Ada.Text_IO.Enumeration_IO (Area_Type);
 
    ---------------------------------------------------------------------------
 
@@ -105,7 +106,8 @@ package Dictionary_Package is
         u       --  Eastern Europe
       );
 
-   package Geo_Type_IO is new Text_IO.Enumeration_IO (Geo_Type);
+   package Geo_Type_IO is new
+      Ada.Text_IO.Enumeration_IO (Geo_Type);
 
    ---------------------------------------------------------------------------
 
@@ -158,7 +160,8 @@ package Dictionary_Package is
 
       );
 
-   package Source_Type_IO is new Text_IO.Enumeration_IO (Source_Type);
+   package Source_Type_IO is new
+      Ada.Text_IO.Enumeration_IO (Source_Type);
 
    ---------------------------------------------------------------------------
    -- NOTE: Should n and v be changed to noun and verb for clarity?
@@ -191,13 +194,13 @@ package Dictionary_Package is
    package Kind_Entry_IO is
       Default_Width : Natural;
       procedure Get
-         ( File : in  File_Type;
+         ( File : in  Ada.Text_IO.File_Type;
            POFS : in  Part_Of_Speech_Type;
            Item : out Kind_Entry
          );
       procedure Get (POFS : in Part_Of_Speech_Type; Item : out Kind_Entry);
       procedure Put
-         ( File : in File_Type;
+         ( File : in Ada.Text_IO.File_Type;
            POFS : in Part_Of_Speech_Type;
            Item : in Kind_Entry
          );
@@ -235,13 +238,16 @@ package Dictionary_Package is
 
    -- FIXME: These subprograms don't check if Is_Open (File)
    package Translation_Record_IO is
-      Default_Width : Text_IO.Field;
+      Default_Width : Ada.Text_IO.Field;
       procedure Get
-         ( File : in  Text_IO.File_Type;
+         ( File : in  Ada.Text_IO.File_Type;
            Item : out Translation_Record
          );
       procedure Get (Item : out Translation_Record);
-      procedure Put (File : in Text_IO.File_Type; Item : in Translation_Record);
+      procedure Put
+         ( File : in Ada.Text_IO.File_Type;
+           Item : in Translation_Record
+         );
       procedure Put (Item : in Translation_Record);
       -- TODO: Document meaning of Last
       procedure Get
@@ -265,9 +271,9 @@ package Dictionary_Package is
    -- FIXME: These subprograms don't check if Is_Open (File)
    package Noun_Entry_IO is
       Default_Width : Natural;
-      procedure Get (File : in File_Type; Item: out Noun_Entry);
+      procedure Get (File : in Ada.Text_IO.File_Type; Item: out Noun_Entry);
       procedure Get (Item : out Noun_Entry);
-      procedure Put (File : in File_Type; Item : in Noun_Entry);
+      procedure Put (File : in Ada.Text_IO.File_Type; Item : in Noun_Entry);
       procedure Put (Item : in Noun_Entry);
       -- TODO: Document meaning of Last
       procedure Get
@@ -290,9 +296,9 @@ package Dictionary_Package is
    -- FIXME: These subprograms don't check if Is_Open (File)
    package Pronoun_Entry_IO is
       Default_Width : Natural;
-      procedure Get (File : in File_Type; Item : out Pronoun_Entry);
+      procedure Get (File : in Ada.Text_IO.File_Type; Item : out Pronoun_Entry);
       procedure Get (Item : out Pronoun_Entry);
-      procedure Put (File : in File_Type; Item : in Pronoun_Entry);
+      procedure Put (File : in Ada.Text_IO.File_Type; Item : in Pronoun_Entry);
       procedure Put (Item : in Pronoun_Entry);
       -- TODO: Document meaning of Last
       procedure Get
@@ -315,9 +321,9 @@ package Dictionary_Package is
    -- FIXME: These subprograms don't check if Is_Open (File)
    package Propack_Entry_IO is
       Default_Width : Natural;
-      procedure Get (File : in  File_Type; Item : out Propack_Entry);
+      procedure Get (File : in Ada.Text_IO.File_Type; Item : out Propack_Entry);
       procedure Get (Item : out Propack_Entry);
-      procedure Put (File : in  File_Type; Item : in Propack_Entry);
+      procedure Put (File : in Ada.Text_IO.File_Type; Item : in Propack_Entry);
       procedure Put (Item : in  Propack_Entry);
       -- TODO: Document meaning of Last
       procedure Get
@@ -340,9 +346,15 @@ package Dictionary_Package is
    -- FIXME: These subprograms don't check if Is_Open (File)
    package Adjective_Entry_IO is
       Default_Width : Natural;
-      procedure Get (File : in File_Type; Item : out Adjective_Entry);
+      procedure Get
+         ( File : in Ada.Text_IO.File_Type;
+           Item : out Adjective_Entry
+         );
       procedure Get (Item : out Adjective_Entry);
-      procedure Put (File : in File_Type; Item : in Adjective_Entry);
+      procedure Put
+         ( File : in Ada.Text_IO.File_Type;
+           Item : in Adjective_Entry
+         );
       procedure Put (Item : in Adjective_Entry);
       -- TODO: Document meaning of Last
       procedure Get
@@ -366,9 +378,9 @@ package Dictionary_Package is
    -- FIXME: These subprograms don't check if Is_Open (File)
    package Numeral_Entry_IO is
       Default_Width : Natural;
-      procedure Get (File : in File_Type; Item : out Numeral_Entry);
+      procedure Get (File : in Ada.Text_IO.File_Type; Item : out Numeral_Entry);
       procedure Get (Item : out Numeral_Entry);
-      procedure Put (File : in File_Type; Item : in Numeral_Entry);
+      procedure Put (File : in Ada.Text_IO.File_Type; Item : in Numeral_Entry);
       procedure Put (Item : in Numeral_Entry);
       -- TODO: Document meaning of Last
       procedure Get
@@ -389,9 +401,9 @@ package Dictionary_Package is
    -- FIXME: These subprograms don't check if Is_Open (File)
    package Adverb_Entry_IO is
       Default_Width : Natural;
-      procedure Get (File : in File_Type; Item : out Adverb_Entry);
+      procedure Get (File : in Ada.Text_IO.File_Type; Item : out Adverb_Entry);
       procedure Get (Item : out Adverb_Entry);
-      procedure Put (File : in File_Type; Item : in Adverb_Entry);
+      procedure Put (File : in Ada.Text_IO.File_Type; Item : in Adverb_Entry);
       procedure Put (Item : in Adverb_Entry);
       -- TODO: Document meaning of Last
       procedure Get
@@ -415,9 +427,9 @@ package Dictionary_Package is
    -- FIXME: These subprograms don't check if Is_Open (File)
    package Verb_Entry_IO is
       Default_Width : Natural;
-      procedure Get (File : in File_Type; Item : out Verb_Entry);
+      procedure Get (File : in Ada.Text_IO.File_Type; Item : out Verb_Entry);
       procedure Get (Item : out Verb_Entry);
-      procedure Put (File : in File_Type; Item : in Verb_Entry);
+      procedure Put (File : in Ada.Text_IO.File_Type; Item : in Verb_Entry);
       procedure Put (Item : in Verb_Entry);
       -- TODO: Document meaning of Last
       procedure Get
@@ -438,9 +450,15 @@ package Dictionary_Package is
    -- FIXME: These subprograms don't check if Is_Open (File)
    package Preposition_Entry_IO is
       Default_Width : Natural;
-      procedure Get (File : in File_Type; Item : out Preposition_Entry);
+      procedure Get
+         ( File : in Ada.Text_IO.File_Type;
+           Item : out Preposition_Entry
+         );
       procedure Get (Item : out Preposition_Entry);
-      procedure Put (File : in File_Type; Item : in Preposition_Entry);
+      procedure Put
+         ( File : in Ada.Text_IO.File_Type;
+           Item : in Preposition_Entry
+         );
       procedure Put (Item : in Preposition_Entry);
       -- TODO: Document meaning of Last
       procedure Get
@@ -457,9 +475,15 @@ package Dictionary_Package is
 
    package Conjunction_Entry_IO is
       Default_Width : Natural;
-      procedure Get (File : in File_Type; Item : out Conjunction_Entry);
+      procedure Get
+         ( File : in Ada.Text_IO.File_Type;
+           Item : out Conjunction_Entry
+         );
       procedure Get (Item : out Conjunction_Entry);
-      procedure Put (File : in File_Type; Item : in Conjunction_Entry);
+      procedure Put
+         ( File : in Ada.Text_IO.File_Type;
+           Item : in Conjunction_Entry
+         );
       procedure Put (Item : in Conjunction_Entry);
       -- TODO: Document meaning of Last
       procedure Get
@@ -476,9 +500,15 @@ package Dictionary_Package is
 
    package Interjection_Entry_IO is
       Default_Width : Natural;
-      procedure Get (File : in File_Type; Item : out Interjection_Entry);
+      procedure Get
+         ( File : in Ada.Text_IO.File_Type;
+           Item : out Interjection_Entry
+         );
       procedure Get (Item : out Interjection_Entry);
-      procedure Put (File : in File_Type; Item : in Interjection_Entry);
+      procedure Put
+         ( File : in Ada.Text_IO.File_Type;
+           Item : in Interjection_Entry
+         );
       procedure Put (Item : in Interjection_Entry);
       -- TODO: Document meaning of Last
       procedure Get
@@ -526,9 +556,9 @@ package Dictionary_Package is
    -- FIXME: These subprograms don't check if Is_Open (File)
    package Part_Entry_IO is
       Default_Width : Natural;
-      procedure Get (File : in File_Type; Item : out Part_Entry);
+      procedure Get (File : in Ada.Text_IO.File_Type; Item : out Part_Entry);
       procedure Get (Item : out Part_Entry);
-      procedure Put (File : in File_Type; Item : in Part_Entry);
+      procedure Put (File : in Ada.Text_IO.File_Type; Item : in Part_Entry);
       procedure Put (Item : in Part_Entry);
       -- TODO: Document meaning of Last
       procedure Get
@@ -559,10 +589,16 @@ package Dictionary_Package is
 
    -- FIXME: These subprograms don't check if Is_Open (File)
    package Dictionary_Entry_IO is
-      Default_Width : Field;
-      procedure Get (File : in File_Type; Item : out Dictionary_Entry);
+      Default_Width : Ada.Text_IO.Field;
+      procedure Get
+         ( File : in Ada.Text_IO.File_Type;
+           Item : out Dictionary_Entry
+         );
       procedure Get (Item : out Dictionary_Entry);
-      procedure Put (File : in File_Type; Item : in Dictionary_Entry);
+      procedure Put
+         ( File : in Ada.Text_IO.File_Type;
+           Item : in Dictionary_Entry
+         );
       procedure Put (Item : in Dictionary_Entry);
       -- TODO: Document meaning of Last
       procedure Get
@@ -576,12 +612,12 @@ package Dictionary_Package is
    -- FIXME: This one feels like it should be constant...
    Null_Dictionary_Entry : Dictionary_Entry;
 
-   package Dict_IO is new Direct_IO (Dictionary_Entry);
+   package Dict_IO is new Ada.Direct_IO (Dictionary_Entry);
    Dict_File : array (Dictionary_Kind) of Dict_IO.File_Type;
 
    ---------------------------------------------------------------------------
 
-   package MNPC_IO is new Text_IO.Integer_IO (Dict_IO.Count);
+   package MNPC_IO is new Ada.Text_IO.Integer_IO (Dict_IO.Count);
    subtype MNPC_Type is Dict_IO.Count;
    Null_MNPC : Dict_IO.Count := Dict_IO.Count'First;
 
@@ -600,10 +636,10 @@ package Dictionary_Package is
 
    -- FIXME: These subprograms don't check if Is_Open (File)
    package Parse_Record_IO is
-      Default_Width : Text_IO.Field;
-      procedure Get (File : in Text_IO.File_Type; Item : out Parse_Record);
+      Default_Width : Ada.Text_IO.Field;
+      procedure Get (File : in Ada.Text_IO.File_Type; Item : out Parse_Record);
       procedure Get (Item : out Parse_Record);
-      procedure Put (File : in Text_IO.File_Type; Item : in Parse_Record);
+      procedure Put (File : in Ada.Text_IO.File_Type; Item : in Parse_Record);
       procedure Put (Item : in Parse_Record);
       -- TODO: Document meaning of Last
       procedure Get

@@ -18,6 +18,10 @@ separate (Dictionary_Package)
 package body Kind_Entry_IO is
 
    ---------------------------------------------------------------------------
+
+   use type Ada.Text_IO.Positive_Count;
+
+   ---------------------------------------------------------------------------
    -- Variables used when reading Part_Entry and for constructing
    -- correct variant of Part_Entry.
    Noun_Kind      : Noun_Kind_Type;
@@ -31,7 +35,7 @@ package body Kind_Entry_IO is
    ---------------------------------------------------------------------------
 
    procedure Get
-      ( File : in  File_Type;
+      ( File : in  Ada.Text_IO.File_Type;
         POFS : in  Part_Of_Speech_Type;
         Item : out Kind_Entry
       )
@@ -43,7 +47,8 @@ package body Kind_Entry_IO is
       begin
          Ada.Text_IO.Set_Col
             ( File,
-              Col (File) + Positive_Count (Kind_Entry_IO.Default_Width)
+              Ada.Text_IO.Col (File) +
+                 Ada.Text_IO.Positive_Count (Kind_Entry_IO.Default_Width)
             );
       end Set_Col;
 
@@ -117,13 +122,19 @@ package body Kind_Entry_IO is
             Pronoun_Kind_Type_IO.Get (Propack_Kind);
             Item := (pack, Propack_Kind);
          when adj =>
-            Set_Col (Col + Positive_Count (Kind_Entry_IO.Default_Width));
+            Ada.Text_IO.Set_Col
+               ( Ada.Text_IO.Col +
+                 Ada.Text_IO.Positive_Count (Kind_Entry_IO.Default_Width)
+               );
             Item := (pofs => adj);
          when num =>
             Inflections_Package.Integer_IO.Get (Numeral_Value);
             Item := (num, Numeral_Value);
          when adv =>
-            Set_Col (Col + Positive_Count (Kind_Entry_IO.Default_Width));
+            Ada.Text_IO.Set_Col
+               ( Ada.Text_IO.Col +
+                 Ada.Text_IO.Positive_Count (Kind_Entry_IO.Default_Width)
+               );
             Item := (pofs => adv);
          when v =>
             Verb_Kind_Type_IO.Get (Verb_Kind);
@@ -135,25 +146,46 @@ package body Kind_Entry_IO is
             Verb_Kind_Type_IO.Get (Supine_Kind);
             Item := (supine, Supine_Kind);
          when prep =>
-            Set_Col (Col + Positive_Count (Kind_Entry_IO.Default_Width));
+            Ada.Text_IO.Set_Col
+               ( Ada.Text_IO.Col +
+                 Ada.Text_IO.Positive_Count (Kind_Entry_IO.Default_Width)
+               );
             Item := (pofs => prep);
          when conj =>
-            Set_Col (Col + Positive_Count (Kind_Entry_IO.Default_Width));
+            Ada.Text_IO.Set_Col
+               ( Ada.Text_IO.Col +
+                 Ada.Text_IO.Positive_Count (Kind_Entry_IO.Default_Width)
+               );
             Item := (pofs => conj);
          when interj =>
-            Set_Col (Col + Positive_Count (Kind_Entry_IO.Default_Width));
+            Ada.Text_IO.Set_Col
+               ( Ada.Text_IO.Col +
+                 Ada.Text_IO.Positive_Count (Kind_Entry_IO.Default_Width)
+               );
             Item := (pofs => interj);
          when tackon =>
-            Set_Col (Col + Positive_Count (Kind_Entry_IO.Default_Width));
+            Ada.Text_IO.Set_Col
+               ( Ada.Text_IO.Col +
+                 Ada.Text_IO.Positive_Count (Kind_Entry_IO.Default_Width)
+               );
             Item := (pofs => tackon);
          when prefix =>
-            Set_Col (Col + Positive_Count (Kind_Entry_IO.Default_Width));
+            Ada.Text_IO.Set_Col
+               ( Ada.Text_IO.Col +
+                 Ada.Text_IO.Positive_Count (Kind_Entry_IO.Default_Width)
+               );
             Item := (pofs => prefix);
          when suffix =>
-            Set_Col (Col + Positive_Count (Kind_Entry_IO.Default_Width));
+            Ada.Text_IO.Set_Col
+               ( Ada.Text_IO.Col +
+                 Ada.Text_IO.Positive_Count (Kind_Entry_IO.Default_Width)
+               );
             Item := (pofs => suffix);
          when x =>
-            Set_Col (Col + Positive_Count (Kind_Entry_IO.Default_Width));
+            Ada.Text_IO.Set_Col
+               ( Ada.Text_IO.Col +
+                 Ada.Text_IO.Positive_Count (Kind_Entry_IO.Default_Width)
+               );
             Item := (pofs => x);
       end case;
    end Get;
@@ -161,7 +193,7 @@ package body Kind_Entry_IO is
    ---------------------------------------------------------------------------
 
    procedure Put
-      ( File : in File_Type;
+      ( File : in Ada.Text_IO.File_Type;
         POFS : in Part_Of_Speech_Type;
         Item : in Kind_Entry
       )
@@ -169,7 +201,7 @@ package body Kind_Entry_IO is
       pragma Unreferenced (POFS);
       -- Used for computing bounds of substring for filling
       Ending_Col : constant Positive :=
-         Kind_Entry_IO.Default_Width + Positive (Col (File)) - 1;
+         Kind_Entry_IO.Default_Width + Positive (Ada.Text_IO.Col (File)) - 1;
    begin
       case Item.pofs is
          when n =>
@@ -192,7 +224,10 @@ package body Kind_Entry_IO is
          when prep .. suffix =>
             null;
       end case;
-      Put (File, String'(Integer (Col (File)) .. Ending_Col => ' '));
+      Ada.Text_IO.Put
+         ( File,
+           String'(Integer (Ada.Text_IO.Col (File)) .. Ending_Col => ' ')
+         );
    end Put;
 
    ---------------------------------------------------------------------------
@@ -202,7 +237,7 @@ package body Kind_Entry_IO is
       pragma Unreferenced (POFS);
       -- Used for computing bounds of substring for filling
       Ending_Col     : constant Positive :=
-         Kind_Entry_IO.Default_Width + Positive (Col) - 1;
+         Kind_Entry_IO.Default_Width + Positive (Ada.Text_IO.Col) - 1;
    begin
       case Item.pofs is
          when n =>
@@ -225,7 +260,7 @@ package body Kind_Entry_IO is
          when prep .. suffix =>
             null;
       end case;
-      Put (String'(Integer (Col) .. Ending_Col => ' '));
+      Ada.Text_IO.Put (String'(Integer (Ada.Text_IO.Col) .. Ending_Col => ' '));
    end Put;
 
    ---------------------------------------------------------------------------
