@@ -14,12 +14,12 @@
 -- All parts of the WORDS system, source code and data files, are made freely
 -- available to anyone who wishes to use them, for whatever purpose.
 
-with text_io;
+with Text_IO;
 package developer_parameters is
 
    --  These are a few strange declarations to be used in diagnostics;
-   sra_max, sraa_max, dma_max : integer := 0;
-   pa_last_max, final_pa_last_max : integer := 0;
+   sra_max, sraa_max, dma_max : Integer := 0;
+   pa_last_max, final_pa_last_max : Integer := 0;
 
    --  This package defines a number of parameters that areused in the program
    --  The default values are set in the body, so that they may be changed easily
@@ -28,24 +28,24 @@ package developer_parameters is
    --  They are all text files and human readable
 
    --  DEVELOPER MODE_FILE is used by the program to remember values
-   mdev_file : text_io.file_type;
-   mdev_full_name : constant string := "WORD.MDV";
+   mdev_file : Text_IO.File_Type;
+   mdev_full_name : constant String := "WORD.MDV";
 
    --  Debug not currently in use
-   --  --  DBG collects debug output for one entry at a time
+   --  --  DBG collects debug Output for one entry at a time
    --  DBG : TEXT_IO.FILE_TYPE;
    --  DEBUG_FULL_NAME : constant STRING := "WORD.DBG";
 
    --  STATS collects statistics on the program, stems used, inflections, etc.
-   stats : text_io.file_type;
-   stats_full_name : constant string := "WORD.STA";
+   stats : Text_IO.File_Type;
+   stats_full_name : constant String := "WORD.STA";
 
    type mdev_type is (
      --               HAVE_DEBUG_FILE,      --  No longer in use
      --               WRITE_DEBUG_FILE,
 
      have_statistics_file,
-     write_statistics_file,
+     Write_statistics_file,
 
      show_dictionary,
      show_dictionary_line,
@@ -75,22 +75,22 @@ package developer_parameters is
      do_i_for_j,
      do_u_for_v,
 
-     pause_in_screen_output,
+     pause_in_screen_Output,
      no_screen_activity,
 
      update_local_dictionary,
      update_meanings,
 
-     minimize_output         );
+     minimize_Output         );
 
-   package mdev_type_io is new text_io.enumeration_io(mdev_type);
+   package mdev_type_io is new Text_IO.enumeration_io(mdev_type);
 
-   type mdev_array is array (mdev_type) of boolean;
+   type mdev_array is array (mdev_type) of Boolean;
 
    words_mdev : mdev_array;        --  Initialized in body
 
-   start_file_character               : character := '@';
-   change_developer_modes_character   : character := '!';
+   start_file_Character               : Character := '@';
+   change_developer_modes_Character   : Character := '!';
 
    procedure change_developer_modes;
 

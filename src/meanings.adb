@@ -19,6 +19,6 @@ with config; use config;
 procedure meanings is
 begin
    --  The language shift in argumants must take place here
-   --  since later parsing of line ignores non-letter characters
+   --  since later parsing of line ignores non-letter Characters
    words_main(only_meanings);
 end meanings;

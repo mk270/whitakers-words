@@ -26,16 +26,16 @@ package uniques_package is
          stem : stem_type      := null_stem_type;
          qual : quality_record := null_quality_record;
          kind : kind_entry     := null_kind_entry;
-         mnpc : dict_io.count  := null_mnpc;
+         mnpc : dict_io.Count  := null_mnpc;
          succ : unique_list;
       end record;
 
-   type latin_uniques is array (character range 'a'..'z') of unique_list;
+   type latin_uniques is array (Character range 'a'..'z') of unique_list;
    null_latin_uniques : latin_uniques := (others => null);
 
    unq : latin_uniques := null_latin_uniques;
 
-   type uniques_de_array is array (dict_io.positive_count range <>) of dictionary_entry;
+   type uniques_de_array is array (dict_io.Positive_Count range <>) of dictionary_entry;
    uniques_de : uniques_de_array(1..100) := (others => null_dictionary_entry);
 
 end uniques_package;

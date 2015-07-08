@@ -16,11 +16,11 @@
 
 --  Need KIND_ENTRY and IO
 --  Need to modify TRANS
-with text_io; use text_io;
-with direct_io;
+with Text_IO; use Text_IO;
+with Direct_IO;
 with inflections_package; use inflections_package;
 package dictionary_package is
-   pragma elaborate_body;
+   pragma Elaborate_Body;
 
    zzz_stem  : constant stem_type := "zzz" & (4..max_stem_size => ' ');
    type stems_type is array (stem_key_type range 1..4) of stem_type;
@@ -35,18 +35,18 @@ package dictionary_package is
      ppp,          --  Compounds
      general, special, local, unique);
 
-   package dictionary_kind_io is new text_io.enumeration_io(dictionary_kind);
+   package dictionary_kind_io is new Text_IO.enumeration_io(dictionary_kind);
 
-   ext : array (dictionary_kind) of string(1..3) := ("X  ", "ADD", "XXX", "YYY",
+   ext : array (dictionary_kind) of String(1..3) := ("X  ", "ADD", "XXX", "YYY",
      "NNN", "RRR", "PPP",
      "GEN", "SPE", "LOC",
      "UNI");
 
    default_dictionary_kind : dictionary_kind := x;
 
-   dictionary_available : array (dictionary_kind) of boolean := (false,
-     false, false, false, false, false, false,  --  don't SEARCH
-     false, false, false, false);
+   dictionary_available : array (dictionary_kind) of Boolean := (False,
+     False, False, False, False, False, False,  --  don't SEARCH
+     False, False, False, False);
    --  Start out as FALSE and set to TRUE when the DICT is loaded
 
    type area_type is (
@@ -64,7 +64,7 @@ package dictionary_package is
      y       --  Mythology
                      );
 
-   package area_type_io is new text_io.enumeration_io(area_type);
+   package area_type_io is new Text_IO.enumeration_io(area_type);
 
    type geo_type is (
      x,      --  All or none
@@ -87,7 +87,7 @@ package dictionary_package is
      u       --  Eastern Europe
                     );
 
-   package geo_type_io is new text_io.enumeration_io(geo_type);
+   package geo_type_io is new Text_IO.enumeration_io(geo_type);
 
    type source_type is (
      x,      --  General or unknown or too common to say
@@ -135,7 +135,7 @@ package dictionary_package is
 
                        );
 
-   package source_type_io is new text_io.enumeration_io(source_type);
+   package source_type_io is new Text_IO.enumeration_io(source_type);
 
    type kind_entry(pofs : part_of_speech_type := x) is
       record
@@ -162,16 +162,16 @@ package dictionary_package is
       end record;
 
    package kind_entry_io is
-      default_width : natural;
-      procedure get(f : in file_type;
+      Default_Width : Natural;
+      procedure Get(f : in File_Type;
                     ps : in part_of_speech_type; p : out kind_entry);
-      procedure get(ps : in part_of_speech_type; p : out kind_entry);
-      procedure put(f : in file_type;
+      procedure Get(ps : in part_of_speech_type; p : out kind_entry);
+      procedure Put(f : in File_Type;
                     ps : in part_of_speech_type; p : in kind_entry);
-      procedure put(ps : in part_of_speech_type; p : in kind_entry);
-      procedure get(s : in string; ps : in part_of_speech_type;
-                                   p : out kind_entry; last : out integer);
-      procedure put(s : out string;
+      procedure Put(ps : in part_of_speech_type; p : in kind_entry);
+      procedure Get(s : in String; ps : in part_of_speech_type;
+                                   p : out kind_entry; last : out Integer);
+      procedure Put(s : out String;
                     ps : in part_of_speech_type; p : in kind_entry);
    end kind_entry_io;
 
@@ -189,13 +189,13 @@ package dictionary_package is
    null_translation_record : translation_record;
 
    package translation_record_io is
-      default_width : text_io.field;
-      procedure get(f : in text_io.file_type; tr : out translation_record);
-      procedure get(tr : out translation_record);
-      procedure put(f : in text_io.file_type; tr : in translation_record);
-      procedure put(tr : in translation_record);
-      procedure get(s : in string; tr : out translation_record; last : out integer);
-      procedure put(s : out string; tr : in translation_record);
+      Default_Width : Text_IO.Field;
+      procedure Get(f : in Text_IO.File_Type; tr : out translation_record);
+      procedure Get(tr : out translation_record);
+      procedure Put(f : in Text_IO.File_Type; tr : in translation_record);
+      procedure Put(tr : in translation_record);
+      procedure Get(s : in String; tr : out translation_record; last : out Integer);
+      procedure Put(s : out String; tr : in translation_record);
    end translation_record_io;
 
    type noun_entry is
@@ -206,13 +206,13 @@ package dictionary_package is
       end record;
 
    package noun_entry_io is
-      default_width : natural;
-      procedure get(f : in file_type; n : out noun_entry);
-      procedure get(n : out noun_entry);
-      procedure put(f : in file_type; n : in noun_entry);
-      procedure put(n : in noun_entry);
-      procedure get(s : in string; n : out noun_entry; last : out integer);
-      procedure put(s : out string; n : in noun_entry);
+      Default_Width : Natural;
+      procedure Get(f : in File_Type; n : out noun_entry);
+      procedure Get(n : out noun_entry);
+      procedure Put(f : in File_Type; n : in noun_entry);
+      procedure Put(n : in noun_entry);
+      procedure Get(s : in String; n : out noun_entry; last : out Integer);
+      procedure Put(s : out String; n : in noun_entry);
    end noun_entry_io;
 
    type pronoun_entry is
@@ -222,13 +222,13 @@ package dictionary_package is
       end record;
 
    package pronoun_entry_io is
-      default_width : natural;
-      procedure get(f : in file_type; p : out pronoun_entry);
-      procedure get(p : out pronoun_entry);
-      procedure put(f : in file_type; p : in pronoun_entry);
-      procedure put(p : in pronoun_entry);
-      procedure get(s : in string; p : out pronoun_entry; last : out integer);
-      procedure put(s : out string; p : in pronoun_entry);
+      Default_Width : Natural;
+      procedure Get(f : in File_Type; p : out pronoun_entry);
+      procedure Get(p : out pronoun_entry);
+      procedure Put(f : in File_Type; p : in pronoun_entry);
+      procedure Put(p : in pronoun_entry);
+      procedure Get(s : in String; p : out pronoun_entry; last : out Integer);
+      procedure Put(s : out String; p : in pronoun_entry);
    end pronoun_entry_io;
 
    type propack_entry is
@@ -238,13 +238,13 @@ package dictionary_package is
       end record;
 
    package propack_entry_io is
-      default_width : natural;
-      procedure get(f : in file_type; p : out propack_entry);
-      procedure get(p : out propack_entry);
-      procedure put(f : in file_type; p : in propack_entry);
-      procedure put(p : in propack_entry);
-      procedure get(s : in string; p : out propack_entry; last : out integer);
-      procedure put(s : out string; p : in propack_entry);
+      Default_Width : Natural;
+      procedure Get(f : in File_Type; p : out propack_entry);
+      procedure Get(p : out propack_entry);
+      procedure Put(f : in File_Type; p : in propack_entry);
+      procedure Put(p : in propack_entry);
+      procedure Get(s : in String; p : out propack_entry; last : out Integer);
+      procedure Put(s : out String; p : in propack_entry);
    end propack_entry_io;
 
    type adjective_entry is
@@ -254,13 +254,13 @@ package dictionary_package is
       end record;
 
    package adjective_entry_io is
-      default_width : natural;
-      procedure get(f : in file_type; a : out adjective_entry);
-      procedure get(a : out adjective_entry);
-      procedure put(f : in file_type; a : in adjective_entry);
-      procedure put(a : in adjective_entry);
-      procedure get(s : in string; a : out adjective_entry; last : out integer);
-      procedure put(s : out string; a : in adjective_entry);
+      Default_Width : Natural;
+      procedure Get(f : in File_Type; a : out adjective_entry);
+      procedure Get(a : out adjective_entry);
+      procedure Put(f : in File_Type; a : in adjective_entry);
+      procedure Put(a : in adjective_entry);
+      procedure Get(s : in String; a : out adjective_entry; last : out Integer);
+      procedure Put(s : out String; a : in adjective_entry);
    end adjective_entry_io;
 
    type numeral_entry is
@@ -271,13 +271,13 @@ package dictionary_package is
       end record;
 
    package numeral_entry_io is
-      default_width : natural;
-      procedure get(f : in file_type; num : out numeral_entry);
-      procedure get(num : out numeral_entry);
-      procedure put(f : in file_type; num : in numeral_entry);
-      procedure put(num : in numeral_entry);
-      procedure get(s : in string; num : out numeral_entry; last : out integer);
-      procedure put(s : out string; num : in numeral_entry);
+      Default_Width : Natural;
+      procedure Get(f : in File_Type; num : out numeral_entry);
+      procedure Get(num : out numeral_entry);
+      procedure Put(f : in File_Type; num : in numeral_entry);
+      procedure Put(num : in numeral_entry);
+      procedure Get(s : in String; num : out numeral_entry; last : out Integer);
+      procedure Put(s : out String; num : in numeral_entry);
    end numeral_entry_io;
 
    type adverb_entry is
@@ -286,13 +286,13 @@ package dictionary_package is
       end record;
 
    package adverb_entry_io is
-      default_width : natural;
-      procedure get(f : in file_type; a : out adverb_entry);
-      procedure get(a : out adverb_entry);
-      procedure put(f : in file_type; a : in adverb_entry);
-      procedure put(a : in adverb_entry);
-      procedure get(s : in string; a : out adverb_entry; last : out integer);
-      procedure put(s : out string; a : in adverb_entry);
+      Default_Width : Natural;
+      procedure Get(f : in File_Type; a : out adverb_entry);
+      procedure Get(a : out adverb_entry);
+      procedure Put(f : in File_Type; a : in adverb_entry);
+      procedure Put(a : in adverb_entry);
+      procedure Get(s : in String; a : out adverb_entry; last : out Integer);
+      procedure Put(s : out String; a : in adverb_entry);
    end adverb_entry_io;
 
    type verb_entry is
@@ -302,13 +302,13 @@ package dictionary_package is
       end record;
 
    package verb_entry_io is
-      default_width : natural;
-      procedure get(f : in file_type; v : out verb_entry);
-      procedure get(v : out verb_entry);
-      procedure put(f : in file_type; v : in verb_entry);
-      procedure put(v : in verb_entry);
-      procedure get(s : in string; v : out verb_entry; last : out integer);
-      procedure put(s : out string; v : in verb_entry);
+      Default_Width : Natural;
+      procedure Get(f : in File_Type; v : out verb_entry);
+      procedure Get(v : out verb_entry);
+      procedure Put(f : in File_Type; v : in verb_entry);
+      procedure Put(v : in verb_entry);
+      procedure Get(s : in String; v : out verb_entry; last : out Integer);
+      procedure Put(s : out String; v : in verb_entry);
    end verb_entry_io;
 
    type preposition_entry is
@@ -317,13 +317,13 @@ package dictionary_package is
       end record;
 
    package preposition_entry_io is
-      default_width : natural;
-      procedure get(f : in file_type; p : out preposition_entry);
-      procedure get(p : out preposition_entry);
-      procedure put(f : in file_type; p : in preposition_entry);
-      procedure put(p : in preposition_entry);
-      procedure get(s : in string; p : out preposition_entry; last : out integer);
-      procedure put(s : out string; p : in preposition_entry);
+      Default_Width : Natural;
+      procedure Get(f : in File_Type; p : out preposition_entry);
+      procedure Get(p : out preposition_entry);
+      procedure Put(f : in File_Type; p : in preposition_entry);
+      procedure Put(p : in preposition_entry);
+      procedure Get(s : in String; p : out preposition_entry; last : out Integer);
+      procedure Put(s : out String; p : in preposition_entry);
    end preposition_entry_io;
 
    type conjunction_entry is
@@ -332,13 +332,13 @@ package dictionary_package is
       end record;
 
    package conjunction_entry_io is
-      default_width : natural;
-      procedure get(f : in file_type; c : out conjunction_entry);
-      procedure get(c : out conjunction_entry);
-      procedure put(f : in file_type; c : in conjunction_entry);
-      procedure put(c : in conjunction_entry);
-      procedure get(s : in string; c : out conjunction_entry; last : out integer);
-      procedure put(s : out string; c : in conjunction_entry);
+      Default_Width : Natural;
+      procedure Get(f : in File_Type; c : out conjunction_entry);
+      procedure Get(c : out conjunction_entry);
+      procedure Put(f : in File_Type; c : in conjunction_entry);
+      procedure Put(c : in conjunction_entry);
+      procedure Get(s : in String; c : out conjunction_entry; last : out Integer);
+      procedure Put(s : out String; c : in conjunction_entry);
    end conjunction_entry_io;
 
    type interjection_entry is
@@ -347,13 +347,13 @@ package dictionary_package is
       end record;
 
    package interjection_entry_io is
-      default_width : natural;
-      procedure get(f : in file_type; i : out interjection_entry);
-      procedure get(i : out interjection_entry);
-      procedure put(f : in file_type; i : in interjection_entry);
-      procedure put(i : in interjection_entry);
-      procedure get(s : in string; i : out interjection_entry; last : out integer);
-      procedure put(s : out string; i : in interjection_entry);
+      Default_Width : Natural;
+      procedure Get(f : in File_Type; i : out interjection_entry);
+      procedure Get(i : out interjection_entry);
+      procedure Put(f : in File_Type; i : in interjection_entry);
+      procedure Put(i : in interjection_entry);
+      procedure Get(s : in String; i : out interjection_entry; last : out Integer);
+      procedure Put(s : out String; i : in interjection_entry);
    end interjection_entry_io;
 
    type part_entry(pofs : part_of_speech_type := x) is
@@ -389,18 +389,18 @@ package dictionary_package is
       end record;
 
    package part_entry_io is
-      default_width : natural;
-      procedure get(f : in file_type; p : out part_entry);
-      procedure get(p : out part_entry);
-      procedure put(f : in file_type; p : in part_entry);
-      procedure put(p : in part_entry);
-      procedure get(s : in string; p : out part_entry; last : out integer);
-      procedure put(s : out string; p : in part_entry);
+      Default_Width : Natural;
+      procedure Get(f : in File_Type; p : out part_entry);
+      procedure Get(p : out part_entry);
+      procedure Put(f : in File_Type; p : in part_entry);
+      procedure Put(p : in part_entry);
+      procedure Get(s : in String; p : out part_entry; last : out Integer);
+      procedure Put(s : out String; p : in part_entry);
    end part_entry_io;
 
    null_part_entry : part_entry;
 
-   function "<" (left, right : part_entry) return boolean;
+   function "<" (left, right : part_entry) return Boolean;
 
    type dictionary_entry is
       record
@@ -412,48 +412,48 @@ package dictionary_package is
       end record;
 
    package dictionary_entry_io is
-      default_width : field;
-      procedure get(f : in file_type; d : out dictionary_entry);
-      procedure get(d : out dictionary_entry);
-      procedure put(f : in file_type; d : in dictionary_entry);
-      procedure put(d : in dictionary_entry);
-      procedure get(s : in string; d : out dictionary_entry; last : out integer);
-      procedure put(s : out string; d : in dictionary_entry);
+      Default_Width : Field;
+      procedure Get(f : in File_Type; d : out dictionary_entry);
+      procedure Get(d : out dictionary_entry);
+      procedure Put(f : in File_Type; d : in dictionary_entry);
+      procedure Put(d : in dictionary_entry);
+      procedure Get(s : in String; d : out dictionary_entry; last : out Integer);
+      procedure Put(s : out String; d : in dictionary_entry);
    end dictionary_entry_io;
 
    null_dictionary_entry : dictionary_entry;
 
    package dict_io is new direct_io(dictionary_entry);
-   dict_file : array (dictionary_kind) of dict_io.file_type;
+   dict_file : array (dictionary_kind) of dict_io.File_Type;
 
-   package mnpc_io is new text_io.integer_io(dict_io.count);
-   subtype mnpc_type is dict_io.count;
-   null_mnpc : dict_io.count := dict_io.count'first;
+   package mnpc_io is new Text_IO.Integer_IO(dict_io.Count);
+   subtype mnpc_type is dict_io.Count;
+   null_mnpc : dict_io.Count := dict_io.Count'First;
 
    type parse_record is
       record
          stem  : stem_type := null_stem_type;
          ir    : inflection_record := null_inflection_record;
          d_k   : dictionary_kind := default_dictionary_kind;
-         mnpc  : dict_io.count := null_mnpc;
+         mnpc  : dict_io.Count := null_mnpc;
       end record;
 
    null_parse_record : parse_record;
 
    package parse_record_io is
-      default_width : text_io.field;
-      procedure get(f : in text_io.file_type; pr : out parse_record);
-      procedure get(pr : out parse_record);
-      procedure put(f : in text_io.file_type; pr : in parse_record);
-      procedure put(pr : in parse_record);
-      procedure get(s : in string; pr : out parse_record; last : out integer);
-      procedure put(s : out string; pr : in parse_record);
+      Default_Width : Text_IO.Field;
+      procedure Get(f : in Text_IO.File_Type; pr : out parse_record);
+      procedure Get(pr : out parse_record);
+      procedure Put(f : in Text_IO.File_Type; pr : in parse_record);
+      procedure Put(pr : in parse_record);
+      procedure Get(s : in String; pr : out parse_record; last : out Integer);
+      procedure Put(s : out String; pr : in parse_record);
    end parse_record_io;
 
-   type parse_array is array (integer range <>) of parse_record;
+   type parse_array is array (Integer range <>) of parse_record;
 
    function number_of_stems(p : part_of_speech_type) return stem_key_type;
 
-   function "<=" (left, right : area_type) return boolean;
+   overriding function "<=" (left, right : area_type) return Boolean;
 
 end dictionary_package;

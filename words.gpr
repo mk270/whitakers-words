@@ -15,7 +15,7 @@ project Words is
 
    package Compiler is
       Default_Ada := ("-gnatwa", "-Wall");
-      Style := ("-gnaty3bfhux");
+      Style := ("-gnaty3aAbefhiklnOprSux");
       for Default_Switches ("Ada") use Default_Ada & Style;
    end Compiler;
 end Words;

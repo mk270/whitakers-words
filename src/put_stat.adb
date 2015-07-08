@@ -14,11 +14,11 @@
 -- All parts of the WORDS system, source code and data files, are made freely
 -- available to anyone who wishes to use them, for whatever purpose.
 
-with text_io;
+with Text_IO;
 with developer_parameters; use developer_parameters;
-procedure put_stat(s : string) is
+procedure Put_stat(s : String) is
 begin
-   if text_io.is_open(stats) then
-      text_io.put_line(stats, s);
+   if Text_IO.Is_Open(stats) then
+      Text_IO.Put_Line(stats, s);
    end if;
-end put_stat;
+end Put_stat;

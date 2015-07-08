@@ -14,11 +14,11 @@
 -- All parts of the WORDS system, source code and data files, are made freely
 -- available to anyone who wishes to use them, for whatever purpose.
 
-with text_io; use text_io;
-with direct_io;
+with Text_IO; use Text_IO;
+with Direct_IO;
 package inflections_package is
-   pragma elaborate_body;
-   package integer_io is new text_io.integer_io(integer);
+   pragma Elaborate_Body;
+   package Integer_IO is new Text_IO.Integer_IO(Integer);
 
    --  Generally simple/enumeration types have names ending in _TYPE
    --            complex/record     types have names ending in _RECORD
@@ -27,21 +27,21 @@ package inflections_package is
    max_stem_size    : constant := 18;
    max_meaning_size : constant := 80;
 
-   subtype stem_type is string(1..max_stem_size);
+   subtype stem_type is String(1..max_stem_size);
    null_stem_type : constant stem_type := (others => ' ');
 
    package stem_type_io is
-      default_width : natural := max_stem_size;
-      procedure get(f : in file_type; d : out stem_type);
-      procedure get(d : out stem_type);
-      procedure put(f : in file_type; d : in stem_type);
-      procedure put(d : in stem_type);
-      procedure get(s : in string; d : out stem_type;
-                                   last : out integer);
-      procedure put(s : out string; d : in stem_type);
+      Default_Width : Natural := max_stem_size;
+      procedure Get(f : in File_Type; d : out stem_type);
+      procedure Get(d : out stem_type);
+      procedure Put(f : in File_Type; d : in stem_type);
+      procedure Put(d : in stem_type);
+      procedure Get(s : in String; d : out stem_type;
+                                   last : out Integer);
+      procedure Put(s : out String; d : in stem_type);
    end stem_type_io;
 
-   subtype meaning_type is string(1..max_meaning_size);
+   subtype meaning_type is String(1..max_meaning_size);
    null_meaning_type : constant meaning_type := (others => ' ');
 
    type part_of_speech_type is (
@@ -58,21 +58,21 @@ package inflections_package is
      prep,      --  PREPosition
      conj,      --  CONJunction
      interj,    --  INTERJection
-     -- keep tackon/prefix/suffix together, as they are used in range queries
+     -- keep tackon/prefix/suffix toGether, as they are used in range queries
      tackon,    --  TACKON --  artificial for code
      prefix,    --  PREFIX --  here artificial for code
      suffix     --  SUFFIX --  here artificial for code
                                );
 
    package part_of_speech_type_io is
-      new text_io.enumeration_io(part_of_speech_type);
+      new Text_IO.enumeration_io(part_of_speech_type);
 
-   subtype which_type is natural range 0..9;
+   subtype which_type is Natural range 0..9;
 
-   subtype variant_type is natural range 0..9;
+   subtype variant_type is Natural range 0..9;
 
-   which_type_io_default_width : integer := 1;
-   variant_type_io_default_width : integer := 1;
+   which_type_io_Default_Width : Integer := 1;
+   variant_type_io_Default_Width : Integer := 1;
 
    type decn_record is
       record
@@ -80,17 +80,17 @@ package inflections_package is
          var          : variant_type := 0;
       end record;
 
-   function "<" (left, right : decn_record) return boolean;
+   function "<" (left, right : decn_record) return Boolean;
 
    package decn_record_io is
-      default_width : natural;
-      procedure get(f : in file_type; d : out decn_record);
-      procedure get(d : out decn_record);
-      procedure put(f : in file_type; d : in decn_record);
-      procedure put(d : in decn_record);
-      procedure get(s : in string; d : out decn_record;
-                                   last : out integer);
-      procedure put(s : out string; d : in decn_record);
+      Default_Width : Natural;
+      procedure Get(f : in File_Type; d : out decn_record);
+      procedure Get(d : out decn_record);
+      procedure Put(f : in File_Type; d : in decn_record);
+      procedure Put(d : in decn_record);
+      procedure Get(s : in String; d : out decn_record;
+                                   last : out Integer);
+      procedure Put(s : out String; d : in decn_record);
    end decn_record_io;
 
    type gender_type is (
@@ -101,7 +101,7 @@ package inflections_package is
                         c          --  Common (masculine and/or feminine)
                        );
 
-   package gender_type_io is new text_io.enumeration_io(gender_type);
+   package gender_type_io is new Text_IO.enumeration_io(gender_type);
 
    type case_type is (
                       x,         --  all, none, or unknown
@@ -114,7 +114,7 @@ package inflections_package is
                       acc        --  ACCusitive
                      );
 
-   package case_type_io is new text_io.enumeration_io(case_type);
+   package case_type_io is new Text_IO.enumeration_io(case_type);
 
    type number_type is (
                         x,         --  all, none, or unknown
@@ -122,10 +122,10 @@ package inflections_package is
                         p          --  Plural
                        );
 
-   package number_type_io is new text_io.enumeration_io(number_type);
+   package number_type_io is new Text_IO.enumeration_io(number_type);
 
    type person_type is range 0..3;
-   package person_type_io is new text_io.integer_io(person_type);
+   package person_type_io is new Text_IO.Integer_IO(person_type);
 
    type comparison_type is (
                             x,         --  all, none, or unknown
@@ -134,12 +134,12 @@ package inflections_package is
                             super      --  SUPERlative
                            );
 
-   package comparison_type_io is new text_io.enumeration_io(comparison_type);
+   package comparison_type_io is new Text_IO.enumeration_io(comparison_type);
 
-   type stem_key_type is new natural range 0..9;
+   type stem_key_type is new Natural range 0..9;
 
-   package stem_key_type_io is new text_io.integer_io(stem_key_type);
-   stem_key_type_io_default_width : integer := 1;
+   package stem_key_type_io is new Text_IO.Integer_IO(stem_key_type);
+   stem_key_type_io_Default_Width : Integer := 1;
 
    type numeral_sort_type is (
                               x,          --  all, none, or unknown
@@ -150,7 +150,7 @@ package inflections_package is
                              );
 
    package numeral_sort_type_io is
-      new text_io.enumeration_io(numeral_sort_type);
+      new Text_IO.enumeration_io(numeral_sort_type);
 
    type tense_type is (
                        x,         --  all, none, or unknown
@@ -162,7 +162,7 @@ package inflections_package is
                        futp       --  FUTure Perfect
                       );
 
-   package tense_type_io is new text_io.enumeration_io(tense_type);
+   package tense_type_io is new Text_IO.enumeration_io(tense_type);
 
    type voice_type is (
                        x,         --  all, none, or unknown
@@ -170,7 +170,7 @@ package inflections_package is
                        passive    --  PASSIVE
                       );
 
-   package voice_type_io is new text_io.enumeration_io(voice_type);
+   package voice_type_io is new Text_IO.enumeration_io(voice_type);
 
    type mood_type is (
                       x,         --  all, none, or unknown
@@ -181,7 +181,7 @@ package inflections_package is
                       ppl        --  ParticiPLe
                      );
 
-   package mood_type_io is new text_io.enumeration_io(mood_type);
+   package mood_type_io is new Text_IO.enumeration_io(mood_type);
 
    type tense_voice_mood_record is
       record
@@ -191,14 +191,14 @@ package inflections_package is
       end record;
 
    package tense_voice_mood_record_io is
-      default_width : natural;
-      procedure get(f : in file_type; t : out tense_voice_mood_record);
-      procedure get(t : out tense_voice_mood_record);
-      procedure put(f : in file_type; t : in tense_voice_mood_record);
-      procedure put(t : in tense_voice_mood_record);
-      procedure get(s : in string; t : out tense_voice_mood_record;
-                                   last : out integer);
-      procedure put(s : out string; t : in tense_voice_mood_record);
+      Default_Width : Natural;
+      procedure Get(f : in File_Type; t : out tense_voice_mood_record);
+      procedure Get(t : out tense_voice_mood_record);
+      procedure Put(f : in File_Type; t : in tense_voice_mood_record);
+      procedure Put(t : in tense_voice_mood_record);
+      procedure Get(s : in String; t : out tense_voice_mood_record;
+                                   last : out Integer);
+      procedure Put(s : out String; t : in tense_voice_mood_record);
    end tense_voice_mood_record_io;
 
    type noun_kind_type is (
@@ -214,7 +214,7 @@ package inflections_package is
                            w             --  a place Where
                           );
 
-   package noun_kind_type_io is new text_io.enumeration_io(noun_kind_type);
+   package noun_kind_type_io is new Text_IO.enumeration_io(noun_kind_type);
 
    type pronoun_kind_type is (
                               x,            --  unknown, nondescript
@@ -228,11 +228,11 @@ package inflections_package is
                              );
 
    package pronoun_kind_type_io is
-      new text_io.enumeration_io(pronoun_kind_type);
+      new Text_IO.enumeration_io(pronoun_kind_type);
 
-   subtype numeral_value_type is natural range 0..1000;
+   subtype numeral_value_type is Natural range 0..1000;
 
-   numeral_value_type_io_default_width : integer := 5;
+   numeral_value_type_io_Default_Width : Integer := 5;
 
    type verb_kind_type is (
                            x,         --  all, none, or unknown
@@ -254,7 +254,7 @@ package inflections_package is
                           );
 
    package verb_kind_type_io is
-      new text_io.enumeration_io(verb_kind_type);
+      new Text_IO.enumeration_io(verb_kind_type);
 
    type noun_record is
       record
@@ -265,13 +265,13 @@ package inflections_package is
       end record;
 
    package noun_record_io is
-      default_width : natural;
-      procedure get(f : in file_type; n : out noun_record);
-      procedure get(n : out noun_record);
-      procedure put(f : in file_type; n : in noun_record);
-      procedure put(n : in noun_record);
-      procedure get(s : in string; n : out noun_record; last : out integer);
-      procedure put(s : out string; n : in noun_record);
+      Default_Width : Natural;
+      procedure Get(f : in File_Type; n : out noun_record);
+      procedure Get(n : out noun_record);
+      procedure Put(f : in File_Type; n : in noun_record);
+      procedure Put(n : in noun_record);
+      procedure Get(s : in String; n : out noun_record; last : out Integer);
+      procedure Put(s : out String; n : in noun_record);
    end noun_record_io;
 
    type pronoun_record is
@@ -283,13 +283,13 @@ package inflections_package is
       end record;
 
    package pronoun_record_io is
-      default_width : natural;
-      procedure get(f : in file_type; p : out pronoun_record);
-      procedure get(p : out pronoun_record);
-      procedure put(f : in file_type; p : in pronoun_record);
-      procedure put(p : in pronoun_record);
-      procedure get(s : in string; p : out pronoun_record; last : out integer);
-      procedure put(s : out string; p : in pronoun_record);
+      Default_Width : Natural;
+      procedure Get(f : in File_Type; p : out pronoun_record);
+      procedure Get(p : out pronoun_record);
+      procedure Put(f : in File_Type; p : in pronoun_record);
+      procedure Put(p : in pronoun_record);
+      procedure Get(s : in String; p : out pronoun_record; last : out Integer);
+      procedure Put(s : out String; p : in pronoun_record);
    end pronoun_record_io;
 
    type propack_record is
@@ -301,13 +301,13 @@ package inflections_package is
       end record;
 
    package propack_record_io is
-      default_width : natural;
-      procedure get(f : in file_type; p : out propack_record);
-      procedure get(p : out propack_record);
-      procedure put(f : in file_type; p : in propack_record);
-      procedure put(p : in propack_record);
-      procedure get(s : in string; p : out propack_record; last : out integer);
-      procedure put(s : out string; p : in propack_record);
+      Default_Width : Natural;
+      procedure Get(f : in File_Type; p : out propack_record);
+      procedure Get(p : out propack_record);
+      procedure Put(f : in File_Type; p : in propack_record);
+      procedure Put(p : in propack_record);
+      procedure Get(s : in String; p : out propack_record; last : out Integer);
+      procedure Put(s : out String; p : in propack_record);
    end propack_record_io;
 
    type adjective_record is
@@ -320,13 +320,13 @@ package inflections_package is
       end record;
 
    package adjective_record_io is
-      default_width : natural;
-      procedure get(f : in file_type; a : out adjective_record);
-      procedure get(a : out adjective_record);
-      procedure put(f : in file_type; a : in adjective_record);
-      procedure put(a : in adjective_record);
-      procedure get(s : in string; a : out adjective_record; last : out integer);
-      procedure put(s : out string; a : in adjective_record);
+      Default_Width : Natural;
+      procedure Get(f : in File_Type; a : out adjective_record);
+      procedure Get(a : out adjective_record);
+      procedure Put(f : in File_Type; a : in adjective_record);
+      procedure Put(a : in adjective_record);
+      procedure Get(s : in String; a : out adjective_record; last : out Integer);
+      procedure Put(s : out String; a : in adjective_record);
    end adjective_record_io;
 
    type numeral_record is
@@ -339,13 +339,13 @@ package inflections_package is
       end record;
 
    package numeral_record_io is
-      default_width : natural;
-      procedure get(f : in file_type; num : out numeral_record);
-      procedure get(num : out numeral_record);
-      procedure put(f : in file_type; num : in numeral_record);
-      procedure put(num : in numeral_record);
-      procedure get(s : in string; num : out numeral_record; last : out integer);
-      procedure put(s : out string; num : in numeral_record);
+      Default_Width : Natural;
+      procedure Get(f : in File_Type; num : out numeral_record);
+      procedure Get(num : out numeral_record);
+      procedure Put(f : in File_Type; num : in numeral_record);
+      procedure Put(num : in numeral_record);
+      procedure Get(s : in String; num : out numeral_record; last : out Integer);
+      procedure Put(s : out String; num : in numeral_record);
    end numeral_record_io;
 
    type adverb_record is
@@ -354,13 +354,13 @@ package inflections_package is
       end record;
 
    package adverb_record_io is
-      default_width : natural;
-      procedure get(f : in file_type; a : out adverb_record);
-      procedure get(a : out adverb_record);
-      procedure put(f : in file_type; a : in adverb_record);
-      procedure put(a : in adverb_record);
-      procedure get(s : in string; a : out adverb_record; last : out integer);
-      procedure put(s : out string; a : in adverb_record);
+      Default_Width : Natural;
+      procedure Get(f : in File_Type; a : out adverb_record);
+      procedure Get(a : out adverb_record);
+      procedure Put(f : in File_Type; a : in adverb_record);
+      procedure Put(a : in adverb_record);
+      procedure Get(s : in String; a : out adverb_record; last : out Integer);
+      procedure Put(s : out String; a : in adverb_record);
    end adverb_record_io;
 
    type verb_record is
@@ -372,13 +372,13 @@ package inflections_package is
       end record;
 
    package verb_record_io is
-      default_width : natural;
-      procedure get(f : in file_type; v : out verb_record);
-      procedure get(v : out verb_record);
-      procedure put(f : in file_type; v : in verb_record);
-      procedure put(v : in verb_record);
-      procedure get(s : in string; v : out verb_record; last : out integer);
-      procedure put(s : out string; v : in verb_record);
+      Default_Width : Natural;
+      procedure Get(f : in File_Type; v : out verb_record);
+      procedure Get(v : out verb_record);
+      procedure Put(f : in File_Type; v : in verb_record);
+      procedure Put(v : in verb_record);
+      procedure Get(s : in String; v : out verb_record; last : out Integer);
+      procedure Put(s : out String; v : in verb_record);
    end verb_record_io;
 
    type vpar_record is
@@ -391,13 +391,13 @@ package inflections_package is
       end record;
 
    package vpar_record_io is
-      default_width : natural;
-      procedure get(f : in file_type; vp : out vpar_record);
-      procedure get(vp : out vpar_record);
-      procedure put(f : in file_type; vp : in vpar_record);
-      procedure put(vp : in vpar_record);
-      procedure get(s : in string; vp : out vpar_record; last : out integer);
-      procedure put(s : out string; vp : in vpar_record);
+      Default_Width : Natural;
+      procedure Get(f : in File_Type; vp : out vpar_record);
+      procedure Get(vp : out vpar_record);
+      procedure Put(f : in File_Type; vp : in vpar_record);
+      procedure Put(vp : in vpar_record);
+      procedure Get(s : in String; vp : out vpar_record; last : out Integer);
+      procedure Put(s : out String; vp : in vpar_record);
    end vpar_record_io;
 
    type supine_record is
@@ -409,13 +409,13 @@ package inflections_package is
       end record;
 
    package supine_record_io is
-      default_width : natural;
-      procedure get(f : in file_type; vp : out supine_record);
-      procedure get(vp : out supine_record);
-      procedure put(f : in file_type; vp : in supine_record);
-      procedure put(vp : in supine_record);
-      procedure get(s : in string; vp : out supine_record; last : out integer);
-      procedure put(s : out string; vp : in supine_record);
+      Default_Width : Natural;
+      procedure Get(f : in File_Type; vp : out supine_record);
+      procedure Get(vp : out supine_record);
+      procedure Put(f : in File_Type; vp : in supine_record);
+      procedure Put(vp : in supine_record);
+      procedure Get(s : in String; vp : out supine_record; last : out Integer);
+      procedure Put(s : out String; vp : in supine_record);
    end supine_record_io;
 
    type preposition_record is
@@ -424,13 +424,13 @@ package inflections_package is
       end record;
 
    package preposition_record_io is
-      default_width : natural;
-      procedure get(f : in file_type; p : out preposition_record);
-      procedure get(p : out preposition_record);
-      procedure put(f : in file_type; p : in preposition_record);
-      procedure put(p : in preposition_record);
-      procedure get(s : in string; p : out preposition_record; last : out integer);
-      procedure put(s : out string; p : in preposition_record);
+      Default_Width : Natural;
+      procedure Get(f : in File_Type; p : out preposition_record);
+      procedure Get(p : out preposition_record);
+      procedure Put(f : in File_Type; p : in preposition_record);
+      procedure Put(p : in preposition_record);
+      procedure Get(s : in String; p : out preposition_record; last : out Integer);
+      procedure Put(s : out String; p : in preposition_record);
    end preposition_record_io;
 
    type conjunction_record is
@@ -439,13 +439,13 @@ package inflections_package is
       end record;
 
    package conjunction_record_io is
-      default_width : natural;
-      procedure get(f : in file_type; c : out conjunction_record);
-      procedure get(c : out conjunction_record);
-      procedure put(f : in file_type; c : in conjunction_record);
-      procedure put(c : in conjunction_record);
-      procedure get(s : in string; c : out conjunction_record; last : out integer);
-      procedure put(s : out string; c : in conjunction_record);
+      Default_Width : Natural;
+      procedure Get(f : in File_Type; c : out conjunction_record);
+      procedure Get(c : out conjunction_record);
+      procedure Put(f : in File_Type; c : in conjunction_record);
+      procedure Put(c : in conjunction_record);
+      procedure Get(s : in String; c : out conjunction_record; last : out Integer);
+      procedure Put(s : out String; c : in conjunction_record);
    end conjunction_record_io;
 
    type interjection_record is
@@ -454,16 +454,16 @@ package inflections_package is
       end record;
 
    package interjection_record_io is
-      default_width : natural;
-      procedure get(f : in file_type; i : out interjection_record);
-      procedure get(i : out interjection_record);
-      procedure put(f : in file_type; i : in interjection_record);
-      procedure put(i : in interjection_record);
-      procedure get(s : in string; i : out interjection_record; last : out integer);
-      procedure put(s : out string; i : in interjection_record);
+      Default_Width : Natural;
+      procedure Get(f : in File_Type; i : out interjection_record);
+      procedure Get(i : out interjection_record);
+      procedure Put(f : in File_Type; i : in interjection_record);
+      procedure Put(i : in interjection_record);
+      procedure Get(s : in String; i : out interjection_record; last : out Integer);
+      procedure Put(s : out String; i : in interjection_record);
    end interjection_record_io;
 
-   --  TACKON, PREFIX, SUFFIX are nulls put in to allow easy printing later
+   --  TACKON, PREFIX, SUFFIX are nulls Put in to allow easy printing later
 
    type tackon_record is
       record
@@ -473,13 +473,13 @@ package inflections_package is
    null_tackon_record : tackon_record;
 
    package tackon_record_io is
-      default_width : natural;
-      procedure get(f : in file_type; i : out tackon_record);
-      procedure get(i : out tackon_record);
-      procedure put(f : in file_type; i : in tackon_record);
-      procedure put(i : in tackon_record);
-      procedure get(s : in string; i : out tackon_record; last : out integer);
-      procedure put(s : out string; i : in tackon_record);
+      Default_Width : Natural;
+      procedure Get(f : in File_Type; i : out tackon_record);
+      procedure Get(i : out tackon_record);
+      procedure Put(f : in File_Type; i : in tackon_record);
+      procedure Put(i : in tackon_record);
+      procedure Get(s : in String; i : out tackon_record; last : out Integer);
+      procedure Put(s : out String; i : in tackon_record);
    end tackon_record_io;
 
    type prefix_record is
@@ -490,13 +490,13 @@ package inflections_package is
    null_prefix_record : prefix_record;
 
    package prefix_record_io is
-      default_width : natural;
-      procedure get(f : in file_type; p : out prefix_record);
-      procedure get(p : out prefix_record);
-      procedure put(f : in file_type; p : in prefix_record);
-      procedure put(p : in prefix_record);
-      procedure get(s : in string; p : out prefix_record; last : out integer);
-      procedure put(s : out string; p : in prefix_record);
+      Default_Width : Natural;
+      procedure Get(f : in File_Type; p : out prefix_record);
+      procedure Get(p : out prefix_record);
+      procedure Put(f : in File_Type; p : in prefix_record);
+      procedure Put(p : in prefix_record);
+      procedure Get(s : in String; p : out prefix_record; last : out Integer);
+      procedure Put(s : out String; p : in prefix_record);
    end prefix_record_io;
 
    type suffix_record is
@@ -507,13 +507,13 @@ package inflections_package is
    null_suffix_record : suffix_record;
 
    package suffix_record_io is
-      default_width : natural;
-      procedure get(f : in file_type; p : out suffix_record);
-      procedure get(p : out suffix_record);
-      procedure put(f : in file_type; p : in suffix_record);
-      procedure put(p : in suffix_record);
-      procedure get(s : in string; p : out suffix_record; last : out integer);
-      procedure put(s : out string; p : in suffix_record);
+      Default_Width : Natural;
+      procedure Get(f : in File_Type; p : out suffix_record);
+      procedure Get(p : out suffix_record);
+      procedure Put(f : in File_Type; p : in suffix_record);
+      procedure Put(p : in suffix_record);
+      procedure Get(s : in String; p : out suffix_record; last : out Integer);
+      procedure Put(s : out String; p : in suffix_record);
    end suffix_record_io;
 
    type quality_record(pofs : part_of_speech_type := x) is
@@ -556,26 +556,26 @@ package inflections_package is
 
    null_quality_record : quality_record;
 
-   function "<" (left, right : quality_record) return boolean;
+   function "<" (left, right : quality_record) return Boolean;
 
    package quality_record_io is
-      default_width : natural;
-      procedure get(f : in file_type; p : out quality_record);
-      procedure get(p : out quality_record);
-      procedure put(f : in file_type; p : in quality_record);
-      procedure put(p : in quality_record);
-      procedure get(s : in string; p : out quality_record; last : out integer);
-      procedure put(s : out string; p : in quality_record);
+      Default_Width : Natural;
+      procedure Get(f : in File_Type; p : out quality_record);
+      procedure Get(p : out quality_record);
+      procedure Put(f : in File_Type; p : in quality_record);
+      procedure Put(p : in quality_record);
+      procedure Get(s : in String; p : out quality_record; last : out Integer);
+      procedure Put(s : out String; p : in quality_record);
    end quality_record_io;
 
-   type quality_array is array (integer range <>) of quality_record;
+   type quality_array is array (Integer range <>) of quality_record;
 
    max_ending_size : constant := 7;
-   subtype ending_size_type is integer range 0..max_ending_size;
+   subtype ending_size_type is Integer range 0..max_ending_size;
 
-   ending_size_type_io_default_width : integer := 3;
+   ending_size_type_io_Default_Width : Integer := 3;
 
-   subtype ending is string(1..max_ending_size);
+   subtype ending is String(1..max_ending_size);
 
    type ending_record is
       record
@@ -584,13 +584,13 @@ package inflections_package is
       end record;
 
    package ending_record_io is
-      default_width : natural;
-      procedure get(f : in file_type; x : out ending_record);
-      procedure get(x : out ending_record);
-      procedure put(f : in file_type; x : in ending_record);
-      procedure put(x : in ending_record);
-      procedure get(s : in string; x : out ending_record; last : out integer);
-      procedure put(s : out string; x : in ending_record);
+      Default_Width : Natural;
+      procedure Get(f : in File_Type; x : out ending_record);
+      procedure Get(x : out ending_record);
+      procedure Put(f : in File_Type; x : in ending_record);
+      procedure Put(x : in ending_record);
+      procedure Get(s : in String; x : out ending_record; last : out Integer);
+      procedure Put(s : out String; x : in ending_record);
    end ending_record_io;
 
    null_ending_record : ending_record;
@@ -606,7 +606,7 @@ package inflections_package is
                      g,   --  scholar     --  Latin post 15th - Scholarly/Scientific   (16-18)
                      h    --  modern      --  Coined recently, words for new things (19-20)
                     );
-   package age_type_io is new text_io.enumeration_io(age_type);
+   package age_type_io is new Text_IO.enumeration_io(age_type);
 
    type frequency_type is (     --  For dictionary entries
                                 x,    --              --  Unknown or unspecified
@@ -633,7 +633,7 @@ package inflections_package is
    --  M,    --              --  Presently not used
    --  N     --              --  Presently not used
 
-   package frequency_type_io is new text_io.enumeration_io(frequency_type);
+   package frequency_type_io is new Text_IO.enumeration_io(frequency_type);
 
    type inflection_record is
       record
@@ -647,25 +647,25 @@ package inflections_package is
    null_inflection_record : inflection_record;
 
    package inflection_record_io is
-      default_width : natural;
-      procedure get(f : in file_type; p : out inflection_record);
-      procedure get(p : out inflection_record);
-      procedure put(f : in file_type; p : in inflection_record);
-      procedure put(p : in inflection_record);
-      procedure get(s : in string; p : out inflection_record; last : out integer);
-      procedure put(s : out string; p : in inflection_record);
+      Default_Width : Natural;
+      procedure Get(f : in File_Type; p : out inflection_record);
+      procedure Get(p : out inflection_record);
+      procedure Put(f : in File_Type; p : in inflection_record);
+      procedure Put(p : in inflection_record);
+      procedure Get(s : in String; p : out inflection_record; last : out Integer);
+      procedure Put(s : out String; p : in inflection_record);
    end inflection_record_io;
 
-   --  This implies a knowledge of the inflections last character
-   subtype inflections_section_1 is character range 'a'..'i';
-   subtype inflections_section_2 is character range 'm'..'r';
-   subtype inflections_section_3 is character range 's'..'s';
-   subtype inflections_section_4 is character range 't'..'u';
+   --  This implies a knowledge of the inflections last Character
+   subtype inflections_section_1 is Character range 'a'..'i';
+   subtype inflections_section_2 is Character range 'm'..'r';
+   subtype inflections_section_3 is Character range 's'..'s';
+   subtype inflections_section_4 is Character range 't'..'u';
 
-   size_of_blank_inflections   : constant integer :=  80;    --  ############
-   size_of_inflections_section : constant integer := 570;    --  ############
+   size_of_blank_inflections   : constant Integer :=  80;    --  ############
+   size_of_inflections_section : constant Integer := 570;    --  ############
 
-   type inflection_array is array (positive range <>) of inflection_record;
+   type inflection_array is array (Positive range <>) of inflection_record;
    subtype lel_section is inflection_array(1..size_of_inflections_section);
    package lel_section_io is new direct_io(lel_section);
 
@@ -673,8 +673,8 @@ package inflections_package is
 
    lel : lel_section;
 
-   type inflection_array_index is array (integer range <>,
-                                         character range <>) of integer;
+   type inflection_array_index is array (Integer range <>,
+                                         Character range <>) of Integer;
 
    belf, bell : inflection_array_index(0..0, ' '..' ') := (0 => (others => 0));
    lelf, lell : inflection_array_index(1..max_ending_size,
@@ -682,25 +682,24 @@ package inflections_package is
    pelf, pell : inflection_array_index(1..max_ending_size,
                                        'a'..'z') := (others => (others => 0));
 
-   number_of_inflections : integer := 0;
+   number_of_inflections : Integer := 0;
 
    procedure establish_inflections_section;
 
    --  <=   means for this purpose "contained in"
-
-   function "<=" (left, right : part_of_speech_type) return boolean;
-   function "<=" (left, right : decn_record) return boolean;
-   function "<=" (left, right : gender_type) return boolean;
-   function "<=" (left, right : case_type)   return boolean;
-   function "<=" (left, right : number_type) return boolean;
-   function "<=" (left, right : person_type) return boolean;
-   function "<=" (left, right : comparison_type) return boolean;
-   function "<=" (left, right : tense_voice_mood_record)  return boolean;
-   function "<=" (left, right : noun_kind_type)   return boolean;
-   function "<=" (left, right : pronoun_kind_type)   return boolean;
-   function "<=" (left, right : stem_key_type)   return boolean;  -- not verbs
-   function "<=" (left, right : age_type)   return boolean;
-   function "<=" (left, right : frequency_type)   return boolean;
+   overriding function "<=" (left, right : part_of_speech_type) return Boolean;
+   function "<=" (left, right : decn_record) return Boolean;
+   overriding function "<=" (left, right : gender_type) return Boolean;
+   overriding function "<=" (left, right : case_type)   return Boolean;
+   overriding function "<=" (left, right : number_type) return Boolean;
+   overriding function "<=" (left, right : person_type) return Boolean;
+   overriding function "<=" (left, right : comparison_type) return Boolean;
+   function "<=" (left, right : tense_voice_mood_record)  return Boolean;
+   overriding function "<=" (left, right : noun_kind_type)   return Boolean;
+   overriding function "<=" (left, right : pronoun_kind_type)   return Boolean;
+   overriding function "<=" (left, right : stem_key_type)   return Boolean;  -- not verbs
+   overriding function "<=" (left, right : age_type)   return Boolean;
+   overriding function "<=" (left, right : frequency_type)   return Boolean;
 
    give_up : exception;
 

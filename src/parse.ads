@@ -18,5 +18,5 @@ with config; use config;
 
 package parse is
    procedure parse_line(configuration : configuration_type;
-                        input_line : string);
+                        Input_Line : String);
 end parse;

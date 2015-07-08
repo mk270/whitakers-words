@@ -14,9 +14,9 @@
 -- All parts of the WORDS system, source code and data files, are made freely
 -- available to anyone who wishes to use them, for whatever purpose.
 
-with text_io;
-with strings_package; use strings_package;
-with latin_file_names; use latin_file_names;
+with Text_IO;
+with Strings_package; use Strings_package;
+with latIn_File_names; use latIn_File_names;
 with inflections_package; use inflections_package;
 with dictionary_package; use dictionary_package;
 with english_support_package; use english_support_package;
@@ -24,9 +24,9 @@ with weed;
 with weed_all;
 with dictionary_form;
 procedure makeewds is
-   package integer_io is new text_io.integer_io(integer);
-   use text_io;
-   use integer_io;
+   package Integer_IO is new Text_IO.Integer_IO(Integer);
+   use Text_IO;
+   use Integer_IO;
    use stem_key_type_io;
    use dictionary_entry_io;
    use part_entry_io;
@@ -40,8 +40,8 @@ procedure makeewds is
    use source_type_io;
    use ewds_record_io;
 
-   porting  : constant boolean := false;
-   checking : constant boolean := true;
+   porting  : constant Boolean := False;
+   checking : constant Boolean := True;
 
    d_k : dictionary_kind := xxx;       --  ######################
 
@@ -51,18 +51,18 @@ procedure makeewds is
    start_stem_4  : constant := start_stem_3 + max_stem_size + 1;
    start_part    : constant := start_stem_4 + max_stem_size + 1;
 
-   line_number : integer := 0;
+   line_number : Integer := 0;
 
-   subtype line_type is string(1..400);
+   subtype line_type is String(1..400);
 
-   n : integer := 0;
+   n : Integer := 0;
 
-   input, output, check : text_io.file_type;
+   Input, Output, check : Text_IO.File_Type;
    de : dictionary_entry;
 
    s, line : line_type := (others => ' ');
    blank_line : constant line_type := (others => ' ');
-   l, last : integer := 0;
+   l, last : Integer := 0;
 
    ewa : ewds_array(1..40) := (others => null_ewds_record);
 
@@ -73,23 +73,23 @@ procedure makeewds is
    --  However this is difficult code for an old man, EXTRACT was hard when I was a bit younger
    --  And I cannot remember anything about it.  Separating them out makes it much easier to test
 
-   function add_hyphenated(s : string) return string is
+   function add_hyphenated(s : String) return String is
 
       --------  I tried to do something with hyphenated but so far it does not work  ----------
 
       --  Find hyphenated words and add them to MEAN with a / connector, right before the parse
       --  so one has both the individual words (may be more than two) and a single combined word
       --  counting-board -> counting board/countingboard
-      t : string (1..max_meaning_size*2 + 20) := (others => ' ');   --  Cannot be bigger
-      word_start : integer := 1;
-      word_end   : integer := 0;
-      i, j, jmax : integer := 0;
-      hyphenated : boolean := false;
+      t : String (1..max_meaning_size*2 + 20) := (others => ' ');   --  Cannot be bigger
+      word_start : Integer := 1;
+      word_end   : Integer := 0;
+      i, j, jmax : Integer := 0;
+      hyphenated : Boolean := False;
 
    begin
       --PUT_LINE("S    " & INTEGER'IMAGE(LINE_NUMBER) & "   " & INTEGER'IMAGE(S'FIRST) & "  " & INTEGER'IMAGE(S'LAST));
       --PUT_LINE(S);
-      while i < s'last  loop
+      while i < s'Last  loop
          i := i + 1;
          j := j + 1;
          word_end := 0;
@@ -165,7 +165,8 @@ procedure makeewds is
               s(i) = '+'  or
               s(i) = '*'  or
               s(i) = '"'  or
-              s(i) = '('      then
+              s(i) = '('
+            then
                word_end := i - 1;
 
                --PUT_LINE(INTEGER'IMAGE(LINE_NUMBER) & "    NNN " & S(I) & "  " & INTEGER'IMAGE(I) & "  "
@@ -181,7 +182,7 @@ procedure makeewds is
                         jmax := jmax + 1;
                      end if;
                   end loop;
-                  hyphenated := false;
+                  hyphenated := False;
                end if;
 
             end if;
@@ -198,7 +199,7 @@ procedure makeewds is
 
          end if;  --  On '|'
 
-         --  Set up the output to return
+         --  Set up the Output to return
          --PUT('|' & INTEGER'IMAGE(J) & '/' & INTEGER'IMAGE(I));
          t(j) := s(i);
          jmax := jmax + 1;
@@ -210,26 +211,26 @@ procedure makeewds is
 
    exception
       when others =>
-         put_line("ADD_HYPHENATED  Exception    LINE = " &
-                    integer'image(line_number));
-         put_line(s);
-         put(de); new_line;
+         Put_Line("ADD_HYPHENATED  Exception    LINE = " &
+                    Integer'Image(line_number));
+         Put_Line(s);
+         Put(de); New_Line;
          return t(1..jmax);
    end add_hyphenated;
 
-   procedure extract_words (s : in string;
+   procedure extract_words (s : in String;
                             pofs : in part_of_speech_type;
-                            n : out integer;
+                            n : out Integer;
                             ewa : out ewds_array) is
-      -- i, j, js, k, l, m, im, ic : integer := 0;
-      j, k, l, m, im, ic : integer := 0;
-      end_semi : constant integer := 1;
+      -- i, j, js, k, l, m, im, ic : Integer := 0;
+      j, k, l, m, im, ic : Integer := 0;
+      end_semi : constant Integer := 1;
       --  Have to expand type to take care of hyphenated
-      subtype x_meaning_type is string(1..max_meaning_size*2+20);
+      subtype x_meaning_type is String(1..max_meaning_size*2+20);
       null_x_meaning_type : constant x_meaning_type := (others => ' ');
       semi, comma : x_meaning_type := null_x_meaning_type;
 
-      ww : integer := 0;    --  For debug
+      ww : Integer := 0;    --  For debug
    begin
       --NEW_LINE(2);
       --PUT_LINE("MEAN  " & INTEGER'IMAGE(LINE_NUMBER) & "  =>" & S);
@@ -246,11 +247,11 @@ procedure makeewds is
       ewa(n) := null_ewds_record;
 
       -- Slightly disparage extension
-      if s(s'first) = '|' then
+      if s(s'First) = '|' then
          k := 3;
       end if;
 
-      while l <= s'last loop  --  loop over MEAN
+      while l <= s'Last loop  --  loop over MEAN
          if s(l) = ' ' then  --  Clear initial blanks
             l := l + 1;
          end if;
@@ -270,22 +271,22 @@ procedure makeewds is
                k := k + 1;
                --PUT('+');
                l := l + 1;  --  Clear ;
-               exit;
+               exit extract_semi;
             elsif s(l) = '('  then  --  Skip (...)  !
             --PUT('[');
                while s(l) /= ')'   loop
                   --PUT('+');
                   --PUT(INTEGER'IMAGE(L));
                   --PUT(S(L));
-                  exit when l = s'last;  -- Run out
+                  exit when l = s'Last;  -- Run out
                   l := l + 1;
                end loop;
                --              L := L + 1;    --  Clear the ')'
                --PUT('^');
                --PUT(INTEGER'IMAGE(L));
                --PUT(S(L));
-               if l > s'last  then
-                  l := s'last;
+               if l > s'Last then
+                  l := s'Last;
                else
                   if  s(l) = ';'  then  --  );
                      exit extract_semi;
@@ -293,24 +294,24 @@ procedure makeewds is
                end if;
                --PUT(']');
 
-               if l >= s'last  then  --  Ends in )
+               if l >= s'Last then  --  Ends in )
                   --  PUT('!');
-                  exit;
+                  exit extract_semi;
                end if;
                --PUT('+');
                --L := L + 1;    --  Clear the ')'
-            elsif l = s'last  then
+            elsif l = s'Last then
                --PUT('|');
                l := l + 1;     --  To end the loop
-               exit;
+               exit extract_semi;
 
-               else
-                  semi(im) := s(l);
-                  im := im + 1;
-               end if;
-               --PUT('+');
-               --IM := IM + 1;  --  To next character
-               l := l + 1;  --  To next character
+            else
+               semi(im) := s(l);
+               im := im + 1;
+            end if;
+            --PUT('+');
+            --IM := IM + 1;  --  To next Character
+            l := l + 1;  --  To next Character
          end loop extract_semi;
 
          ww := 10;
@@ -323,12 +324,12 @@ procedure makeewds is
 
          process_semi:
          declare
-            st : constant string := trim(semi);
-            sm : constant string(st'first..st'last) := st;
+            st : constant String := trim(semi);
+            sm : constant String(st'First..st'Last) := st;
          begin
-            if st'length > 0  then
+            if st'Length > 0  then
                comma := null_x_meaning_type;
-               im := sm'first;
+               im := sm'First;
                m := 0;
 
                --I := SM'FIRST;
@@ -342,7 +343,7 @@ procedure makeewds is
                ic := 1;
                loop_over_semi:
 
-               while im <= sm'last  loop
+               while im <= sm'Last loop
                   comma := null_x_meaning_type;
                   ww := 20;
                   find_comma:
@@ -353,11 +354,11 @@ procedure makeewds is
                            im := im + 1;
                         end loop;
                         im := im + 1;    --  Clear the ')'
-                        --        IM := IM + 1;    --  Go to next character
+                        --        IM := IM + 1;    --  Go to next Character
                         --PUT_LINE("Cleared (+" & "  IM = " & INTEGER'IMAGE(IM));
                         if im >= end_semi  then
                            --PUT_LINE("exit on SM'LAST  "  & INTEGER'IMAGE(SM'LAST) & "  I = " & INTEGER'IMAGE(IM));
-                           exit;
+                           exit find_comma;
                         end if;
                         --PUT_LINE("No exit on SM'LAST  "  & INTEGER'IMAGE(SM'LAST) & "  I = " & INTEGER'IMAGE(IM) & "|" & SM(IM) & "|");
                         if  (sm(im) = ';') or (sm(im) = ',')   then
@@ -366,7 +367,7 @@ procedure makeewds is
                            m := m + 1;
                            ic := 1;
                            im := im + 1;       --  Clear ;,
-                           exit;
+                           exit find_comma;
                         elsif sm(im) = ' '  then
                            --PUT_LINE("Found blank -  IM = " & INTEGER'IMAGE(IM));
                            im := im + 1;
@@ -386,13 +387,13 @@ procedure makeewds is
                            m := m + 1;
                            ic := 1;
                            im := im + 1;       --  Clear ;
-                           exit;
+                           exit find_comma;
                         elsif sm(im) = ' '  then
                            im := im + 1;
                         end if;
                      end if;          --  But could be 2 =>!
                      --PUT_LINE("Through ()[] I = " & INTEGER'IMAGE(I));
-                     exit when im > sm'last;
+                     exit find_comma when im > sm'Last;
 
                      --PUT(INTEGER'IMAGE(IM) & " ) " & SM(IM));
                      if sm(im) = ','  then
@@ -400,16 +401,13 @@ procedure makeewds is
                         m := m + 1;
                         ic := 1;
                         im := im + 1;       --  Clear ,
-                        exit;
-                     elsif
-                        im >= sm'last  or
-                        im = s'last
-                     then
+                        exit find_comma;
+                     elsif im >= sm'Last or im = s'Last then
                         --  Foumd COMMA
                         comma(ic) := sm(im);
                         m := m + 1;
                         ic := 1;
-                        exit;
+                        exit find_comma;
                      else
                         comma(ic) := sm(im);
                         im := im + 1;
@@ -426,29 +424,29 @@ procedure makeewds is
 
                   process_comma:
                   declare
-                     ct : constant string := trim(comma);
-                     cs : string(ct'first..ct'last) := ct;
-                     pure : boolean := true;
-                     w_start, w_end : integer := 0;
+                     ct : constant String := trim(comma);
+                     cs : String(ct'First..ct'Last) := ct;
+                     pure : Boolean := True;
+                     w_start, w_end : Integer := 0;
                   begin
                      ww := 31;
                      --PUT_LINE("PROCESS COMMA " & INTEGER'IMAGE(LINE_NUMBER) & INTEGER'IMAGE(CT'FIRST) & INTEGER'IMAGE(CT'LAST) &  "=>" & TRIM(COMMA));
-                     if ct'length > 0  then   --  Is COMMA non empty
+                     if ct'Length > 0 then    --  Is COMMA non empty
                                               --  Are there any blanks?
                                               --  If not then it is a pure word
                                               --  Or words with /
-                        for ip in cs'range  loop
+                        for ip in cs'Range loop
                            if cs(ip) = ' '  then
-                              pure := false;
+                              pure := False;
                            end if;
                         end loop;
 
                         ww := 32;
 
                         --  Check for WEED words and eliminate them
-                        w_start := cs'first;
-                        w_end   := cs'last;
-                        for iw in cs'range  loop
+                        w_start := cs'First;
+                        w_end   := cs'Last;
+                        for iw in cs'Range loop
                            --PUT('-');
                            --PUT(CS(IW));
                            if (cs(iw) = '(')  or
@@ -469,24 +467,23 @@ procedure makeewds is
                                  (cs(iw) = '!')  or
                                  (cs(iw) = ')')  or
                                  (cs(iw) = ']')  or
-                                 (iw = cs'last)
+                                 (iw = cs'Last)
                               then
                                  --PUT_LINE("HIT  "  & CS(IW) & "  IW = " & INTEGER'IMAGE(IW) & "  CS'LAST = " & INTEGER'IMAGE(CS'LAST));
                                  ww := 35;
-                                 if iw = cs'last  then
+                                 if iw = cs'Last then
                                     w_end := iw;
-                                 elsif iw /= cs'first  then
+                                 elsif iw /= cs'First then
                                     w_end := iw - 1;
                                  end if;
 
                                  ww := 36;
                                  --  KLUDGE
-                                 if cs(w_start) = '"'     then
+                                 if cs(w_start) = '"' then
                                     ww := 361;
                                     w_start := w_start + 1;
                                     ww := 362;
-                                 elsif
-                                    cs(w_end) = '"'  then
+                                 elsif cs(w_end) = '"' then
                                     ww := 364;
                                     w_end := w_end - 1;
                                     ww := 365;
@@ -508,136 +505,136 @@ procedure makeewds is
                               ww := 38;
                            end if;
                            ww := 39;
-                           end loop;          --  On CS'RANGE
+                        end loop;          --  On CS'RANGE
 
-                           --PUT_LINE(INTEGER'IMAGE(LINE_NUMBER) & "WEED done");
+                        --PUT_LINE(INTEGER'IMAGE(LINE_NUMBER) & "WEED done");
 
-                           ww := 40;
-                           --  Main process of COMMA
-                           ic := 1;
-                           j := 1;
-                           while  ic <= cs'last  loop
-                              --PUT(CS(IC));
+                        ww := 40;
+                        --  Main process of COMMA
+                        ic := 1;
+                        j := 1;
+                        while  ic <= cs'Last  loop
+                           --PUT(CS(IC));
 
-                              if cs(ic) = '"'  or      --  Skip all "
-                                 cs(ic) = '('  or      --  Skip initial (
-                                 --CS(IC) = '-'  or      --  Skip hyphen -> one word!
-                                 cs(ic) = '?'  or      --  Ignore ?
-                                 cs(ic) = '~'  or      --  Ignore about ~
-                                 cs(ic) = '*'  or
-                                 cs(ic) = '%'  or      --  Ignore percent unless word
-                                 cs(ic) = '.'  or      --  Ignore ...
-                                 cs(ic) = '\'  or      --  Ignore weed
-                                 (cs(ic) in '0'..'9')
-                              then --  Skip numbers
-                                 ic := ic + 1;
-                                 ww := 50;
-                                 ----PUT('-');
-                              else
-                                 if
-                                 --            S(IC) = ','  or       --  Terminators
-                                 --            S(IC) = '.'  or       --  Would be typo
-                                 --            S(IC) = ';'  or       --  Should catch at SEMI
-                                    cs(ic) = '/'  or
-                                    cs(ic) = ' '  or
-                                    cs(ic) = '''  or    --  Ignore all ' incl 's  ???
-                                    cs(ic) = '-'  or    --  Hyphen causes 2 words  XXX
-                                    cs(ic) = '+'  or    --  Plus causes 2 words
-                                    cs(ic) = '_'  or    --  Underscore causes 2 words
-                                    cs(ic) = '='  or    --  = space/terminates
-                                    cs(ic) = '>'  or
-                                    cs(ic) = ')'  or
-                                    cs(ic) = ']'  or
-                                    cs(ic) = '!'  or
-                                    cs(ic) = '?'  or
-                                    cs(ic) = '+'  or
-                                    cs(ic) = ':'  or
-                                    cs(ic) = ']'
-                                 then  --  Found word
-                                    ww := 60;
-                                    --PUT('/');
-                                    ewa(n).semi := k;
-                                    if pure  then
-                                       if k = 1  then
-                                          ewa(n).kind := 15;
-                                       else
-                                          ewa(n).kind := 10;
-                                       end if;
+                           if cs(ic) = '"'  or      --  Skip all "
+                              cs(ic) = '('  or      --  Skip initial (
+                              --CS(IC) = '-'  or      --  Skip hyphen -> one word!
+                              cs(ic) = '?'  or      --  Ignore ?
+                              cs(ic) = '~'  or      --  Ignore about ~
+                              cs(ic) = '*'  or
+                              cs(ic) = '%'  or      --  Ignore percent unless word
+                              cs(ic) = '.'  or      --  Ignore ...
+                              cs(ic) = '\'  or      --  Ignore weed
+                              (cs(ic) in '0'..'9')
+                           then --  Skip numbers
+                              ic := ic + 1;
+                              ww := 50;
+                              ----PUT('-');
+                           else
+                              if
+                              --            S(IC) = ','  or       --  Terminators
+                              --            S(IC) = '.'  or       --  Would be typo
+                              --            S(IC) = ';'  or       --  Should catch at SEMI
+                                 cs(ic) = '/'  or
+                                 cs(ic) = ' '  or
+                                 cs(ic) = '''  or    --  Ignore all ' incl 's  ???
+                                 cs(ic) = '-'  or    --  Hyphen causes 2 words  XXX
+                                 cs(ic) = '+'  or    --  Plus causes 2 words
+                                 cs(ic) = '_'  or    --  Underscore causes 2 words
+                                 cs(ic) = '='  or    --  = space/terminates
+                                 cs(ic) = '>'  or
+                                 cs(ic) = ')'  or
+                                 cs(ic) = ']'  or
+                                 cs(ic) = '!'  or
+                                 cs(ic) = '?'  or
+                                 cs(ic) = '+'  or
+                                 cs(ic) = ':'  or
+                                 cs(ic) = ']'
+                              then  --  Found word
+                                 ww := 60;
+                                 --PUT('/');
+                                 ewa(n).semi := k;
+                                 if pure  then
+                                    if k = 1  then
+                                       ewa(n).kind := 15;
                                     else
-                                       ewa(n).kind := 0;
+                                       ewa(n).kind := 10;
                                     end if;
-                                    ww := 70;
-                                    --PUT_LINE("====1  K J = " & INTEGER'IMAGE(K) & "  " & INTEGER'IMAGE(J) & "  ." & EWA(N).W(1..J-1) & ".");
-                                    n := n + 1;       --  Start new word in COMMA
-                                    ic := ic + 1;
-                                    j := 1;
-                                    ewa(n) := null_ewds_record;
-
-                                 elsif ic = cs'last then --  Order of if important
-                                                         --  End, Found word
-                                                         --PUT('!');
-                                    ewa(n).w(j) := cs(ic);
-                                    ewa(n).semi := k;
-                                    if pure  then
-                                       if k = 1  then
-                                          ewa(n).kind := 15;
-                                       else
-                                          ewa(n).kind := 10;
-                                       end if;
-                                    else
-                                       ewa(n).kind := 0;
-                                    end if;
-                                    --PUT_LINE("====2  K J = " & INTEGER'IMAGE(K) & "  " & INTEGER'IMAGE(J) & "  ." & EWA(N).W(1..J) & ".");
-                                    n := n + 1;       --  Start new word/COMMA
-
-                                    ewa(n) := null_ewds_record;
-                                    exit;
                                  else
-                                    ww := 80;
-                                    --PUT('+');
-                                    ewa(n).w(j) := cs(ic);
-                                    j := j + 1;
-                                    ic := ic + 1;
+                                    ewa(n).kind := 0;
                                  end if;
+                                 ww := 70;
+                                 --PUT_LINE("====1  K J = " & INTEGER'IMAGE(K) & "  " & INTEGER'IMAGE(J) & "  ." & EWA(N).W(1..J-1) & ".");
+                                 n := n + 1;       --  Start new word in COMMA
+                                 ic := ic + 1;
+                                 j := 1;
+                                 ewa(n) := null_ewds_record;
+
+                              elsif ic = cs'Last then --  Order of if important
+                                                      --  End, Found word
+                                                      --PUT('!');
+                                 ewa(n).w(j) := cs(ic);
+                                 ewa(n).semi := k;
+                                 if pure  then
+                                    if k = 1  then
+                                       ewa(n).kind := 15;
+                                    else
+                                       ewa(n).kind := 10;
+                                    end if;
+                                 else
+                                    ewa(n).kind := 0;
+                                 end if;
+                                 --PUT_LINE("====2  K J = " & INTEGER'IMAGE(K) & "  " & INTEGER'IMAGE(J) & "  ." & EWA(N).W(1..J) & ".");
+                                 n := n + 1;       --  Start new word/COMMA
+
+                                 ewa(n) := null_ewds_record;
+                                 exit;
+                              else
+                                 ww := 80;
+                                 --PUT('+');
+                                 ewa(n).w(j) := cs(ic);
+                                 j := j + 1;
+                                 ic := ic + 1;
                               end if;
-                              ww := 90;
-                           end loop;
+                           end if;
+                           ww := 90;
+                        end loop;
 
-                        end if;  -- On COMMA being empty
-                     end process_comma;
-                     --PUT_LINE("COMMA Processed ");
+                     end if;  -- On COMMA being empty
+                  end process_comma;
+                  --PUT_LINE("COMMA Processed ");
 
-                  end loop loop_over_semi;
+               end loop loop_over_semi;
 
-                  --PUT_LINE("LOOP OVER SEMI Processed ");
+               --PUT_LINE("LOOP OVER SEMI Processed ");
 
-               end if;    -- On ST'LENGTH > 0
-               --PUT_LINE("LOOP OVER SEMI after ST'LENGTH  0 ");
-            end process_semi;
+            end if;    -- On ST'LENGTH > 0
+            --PUT_LINE("LOOP OVER SEMI after ST'LENGTH  0 ");
+         end process_semi;
 
-            --PUT_LINE("SEMI Processed ");
-            -- I = "  & INTEGER'IMAGE(I)
-            --& "  S(I) = " & S(I)
-            --);
-            if (l < s'last)  and then  (s(l) = ';')  then             --  ??????
-               --PUT_LINE("Clear  L = " & INTEGER'IMAGE(L));
+         --PUT_LINE("SEMI Processed ");
+         -- I = "  & INTEGER'IMAGE(I)
+         --& "  S(I) = " & S(I)
+         --);
+         if (l < s'Last) and then (s(l) = ';') then             --  ??????
+            --PUT_LINE("Clear  L = " & INTEGER'IMAGE(L));
+            l := l + 1;
+         end if;
+
+         -- investigate this:
+         -- js := l;    --  Odd but necessary    ?????
+         for j in l .. s'Last loop
+            exit when j = s'Last;
+            if s(j) = ' ' then
                l := l + 1;
+            else
+               exit;
             end if;
+         end loop;
 
-            -- investigate this:
-            -- js := l;    --  Odd but necessary    ?????
-            for j in l..s'last  loop
-               exit when j = s'last;
-               if s(j) = ' '  then
-                  l := l + 1;
-               else
-                  exit;
-               end if;
-            end loop;
+         --PUT_LINE("SEMI Processed Completely   L = "  & INTEGER'IMAGE(L)  & "  S'LAST = " & INTEGER'IMAGE(S'LAST));
 
-            --PUT_LINE("SEMI Processed Completely   L = "  & INTEGER'IMAGE(L)  & "  S'LAST = " & INTEGER'IMAGE(S'LAST));
-
-            exit when l >= s'last;
+         exit when l >= s'Last;
       end loop;   --  loop over MEAN
 
       --PUT_LINE("SEMI loop Processed");
@@ -649,95 +646,98 @@ procedure makeewds is
       end if;
    exception
       when others =>
-         if (s(s'last) /= ')') or  (s(s'last) /= ']')  then    --  KLUDGE
-            new_line;
-            put_line("Extract Exception    WW = " & integer'image(ww) & "    LINE = " &
-                       integer'image(line_number));
-            put_line(s);
-            put(de); new_line;
+         if (s(s'Last) /= ')') or  (s(s'Last) /= ']') then    --  KLUDGE
+            New_Line;
+            Put_Line("Extract Exception    WW = " & Integer'Image(ww) & "    LINE = " &
+                       Integer'Image(line_number));
+            Put_Line(s);
+            Put(de); New_Line;
          end if;
    end extract_words;
 
 begin
-   put_line(
+   Put_Line(
             "Takes a DICTLINE.D_K and produces a EWDSLIST.D_K ");
-   put("What dictionary to list, GENERAL or SPECIAL  =>");
-   get_line(line, last);
+   Put("What dictionary to list, GENERAL or SPECIAL  =>");
+   Get_Line(line, last);
    if last > 0  then
       if trim(line(1..last))(1) = 'G'  or else
-        trim(line(1..last))(1) = 'g'     then
+         trim(line(1..last))(1) = 'g'
+      then
          d_k := general;
          --  LINE_NUMBER := LINE_NUMBER + 1;  --  Because of ESSE DICTFILE line  --  no longer
       elsif trim(line(1..last))(1) = 'S'  or else
-        trim(line(1..last))(1) = 's'     then
+         trim(line(1..last))(1) = 's'
+      then
          d_k := special;
       else
-         put_line("No such dictionary");
-         raise text_io.data_error;
+         Put_Line("No such dictionary");
+         raise Text_IO.Data_Error;
       end if;
    end if;
 
    --PUT_LINE("OPENING   " &
    --     ADD_FILE_NAME_EXTENSION(DICT_LINE_NAME, DICTIONARY_KIND'IMAGE(D_K)));
 
-   open(input, in_file, add_file_name_extension(dict_line_name,
-                                                dictionary_kind'image(d_k)));
+   Open(Input, In_File, add_file_name_extension(dict_line_name,
+                                                dictionary_kind'Image(d_k)));
    --PUT_LINE("OPEN");
 
    if not porting  then
       --PUT_LINE("CREATING");
 
-      create(output, out_file, add_file_name_extension("EWDSLIST",
-                                                       dictionary_kind'image(d_k)));
+      Create(Output, Out_File, add_file_name_extension("EWDSLIST",
+                                                       dictionary_kind'Image(d_k)));
 
-      if checking  then create(check, out_file, "CHECKEWD.");  end if;
+      if checking  then
+         Create (check, Out_File, "CHECKEWD.");
+      end if;
 
       --PUT_LINE("CREATED");
    end if;
 
    --  Now do the rest
    over_lines:
-   while not end_of_file(input) loop
+   while not End_Of_File(Input) loop
       s := blank_line;
-      get_line(input, s, last);
+      Get_Line(Input, s, last);
       if trim(s(1..last)) /= ""  then       --  If non-blank line
          l := 0;
 
-      form_de:
-      begin
-         de.stems(1) := s(start_stem_1..max_stem_size);
-         --NEW_LINE; PUT(DE.STEMS(1));
-         de.stems(2) := s(start_stem_2..start_stem_2+max_stem_size-1);
-         de.stems(3) := s(start_stem_3..start_stem_3+max_stem_size-1);
-         de.stems(4) := s(start_stem_4..start_stem_4+max_stem_size-1);
-         --PUT('#'); PUT(INTEGER'IMAGE(L)); PUT(INTEGER'IMAGE(LAST));
-         --PUT('@');
-         get(s(start_part..last), de.part, l);
-         --PUT('%'); PUT(INTEGER'IMAGE(L)); PUT(INTEGER'IMAGE(LAST));
-         --PUT('&'); PUT(S(L+1..LAST)); PUT('3');
-         --GET(S(L+1..LAST), DE.PART.POFS, DE.KIND, L);
-         get(s(l+1..last), de.tran.age, l);
-         get(s(l+1..last), de.tran.area, l);
-         get(s(l+1..last), de.tran.geo, l);
-         get(s(l+1..last), de.tran.freq, l);
-         get(s(l+1..last), de.tran.source, l);
-         de.mean := head(s(l+2..last), max_meaning_size);
-         --  Note that this allows initial blanks
-         --  L+2 skips over the SPACER, required because this is STRING, not ENUM
+         form_de:
+         begin
+            de.stems(1) := s(start_stem_1..max_stem_size);
+            --NEW_LINE; PUT(DE.STEMS(1));
+            de.stems(2) := s(start_stem_2..start_stem_2+max_stem_size-1);
+            de.stems(3) := s(start_stem_3..start_stem_3+max_stem_size-1);
+            de.stems(4) := s(start_stem_4..start_stem_4+max_stem_size-1);
+            --PUT('#'); PUT(INTEGER'IMAGE(L)); PUT(INTEGER'IMAGE(LAST));
+            --PUT('@');
+            Get(s(start_part..last), de.part, l);
+            --PUT('%'); PUT(INTEGER'IMAGE(L)); PUT(INTEGER'IMAGE(LAST));
+            --PUT('&'); PUT(S(L+1..LAST)); PUT('3');
+            --GET(S(L+1..LAST), DE.PART.POFS, DE.KIND, L);
+            Get(s(l+1..last), de.tran.age, l);
+            Get(s(l+1..last), de.tran.area, l);
+            Get(s(l+1..last), de.tran.geo, l);
+            Get(s(l+1..last), de.tran.freq, l);
+            Get(s(l+1..last), de.tran.source, l);
+            de.mean := head(s(l+2..last), max_meaning_size);
+            --  Note that this allows initial blanks
+            --  L+2 skips over the SPACER, required because this is STRING, not ENUM
 
          exception
             when others =>
-               new_line;
-               put_line("GET Exception  LAST = " & integer'image(last));
-               put_line(s(1..last));
-               integer_io.put(line_number); new_line;
-               put(de); new_line;
+               New_Line;
+               Put_Line("GET Exception  LAST = " & Integer'Image(last));
+               Put_Line(s(1..last));
+               Integer_IO.Put(line_number); New_Line;
+               Put(de); New_Line;
          end form_de;
 
          line_number := line_number + 1;
 
-         if de.part.pofs = v  and then
-            de.part.v.con.which = 8  then
+         if de.part.pofs = v and then de.part.v.con.which = 8 then
             --  V 8 is a kludge for variant forms of verbs that have regular forms elsewhere
             null;
          else
@@ -757,7 +757,7 @@ begin
             --        end record;
 
             for i in 1..n  loop
-               if trim(ewa(i).w)'length /= 0  then
+               if trim(ewa(i).w)'Length /= 0 then
                   ewr.w := head(trim(ewa(i).w), eword_size);
                   ewr.aux := head("",  aux_word_size);
                   ewr.n := line_number;
@@ -765,56 +765,57 @@ begin
                   ewr.freq := de.tran.freq;
                   ewr.semi := ewa(i).semi;
                   ewr.kind := ewa(i).kind;
-                  ewr.rank := 80-frequency_type'pos(ewr.freq)*10 + ewr.kind + (ewr.semi-1)*(-3);
+                  ewr.rank := 80-frequency_type'Pos(ewr.freq)*10 + ewr.kind + (ewr.semi-1)*(-3);
                   if ewr.freq = inflections_package.n  then
                      ewr.rank := ewr.rank + 25;
                   end if;
 
                   --PUT(EWA(I)); NEW_LINE;
                   --PUT(EWR); NEW_LINE;
-                  put(output, ewr);
+                  Put(Output, ewr);
 
                   -- SET_COL(OUTPUT, 71);
                   -- INTEGER_IO.PUT(OUTPUT, I, 2);
 
-                  new_line(output);
+                  New_Line(Output);
 
                   if checking  then
                      --  Now make the CHECK file
 
-                     put(check, ewr.w);
-                     set_col(check, 25);
+                     Put(check, ewr.w);
+                     Set_Col(check, 25);
                      declare
-                        df : constant string := dictionary_form(de);
-                        ii : integer := 1;
+                        df : constant String := dictionary_form(de);
+                        ii : Integer := 1;
                      begin
-                        if df'length > 0  then
+                        if df'Length > 0  then
                            while df(ii) /= ' '  and
-                              df(ii) /= '.'  and
-                              df(ii) /= ','  loop
-                              put(check, df(ii));
+                              df(ii) /= '.'     and
+                              df(ii) /= ','
+                           loop
+                              Put(check, df(ii));
                               ii := ii+ 1;
                               exit when ii = 19;
                            end loop;
                         end if;
                      end;
 
-                     set_col(check, 44);
-                     put(check, ewr.n, 6);
-                     put(check, ' ');
-                     put(check, ewr.pofs);
-                     put(check, ' ');
-                     put(check, ewr.freq);
-                     put(check, ' ');
-                     put(check, ewr.semi, 5);
-                     put(check, ' ');
-                     put(check, ewr.kind, 5);
-                     put(check, ' ');
-                     put(check, ewr.rank, 5);
-                     put(check, ' ');
-                     put(check, de.mean);
+                     Set_Col(check, 44);
+                     Put(check, ewr.n, 6);
+                     Put(check, ' ');
+                     Put(check, ewr.pofs);
+                     Put(check, ' ');
+                     Put(check, ewr.freq);
+                     Put(check, ' ');
+                     Put(check, ewr.semi, 5);
+                     Put(check, ' ');
+                     Put(check, ewr.kind, 5);
+                     Put(check, ' ');
+                     Put(check, ewr.rank, 5);
+                     Put(check, ' ');
+                     Put(check, de.mean);
 
-                     new_line(check);
+                     New_Line(check);
                   end if;
                end if;
             end loop;
@@ -822,23 +823,23 @@ begin
       end if;
    end loop over_lines;
 
-   put_line("NUMBER_OF_LINES = " & integer'image(line_number));
+   Put_Line("NUMBER_OF_LINES = " & Integer'Image(line_number));
 
    if not porting  then
-      close(output);
+      Close(Output);
       if checking  then
-         close(check);
+         Close(check);
       end if;
    end if;
 
 exception
-   when text_io.data_error  =>
+   when Text_IO.Data_Error  =>
       null;
    when others =>
-      put_line(s(1..last));
-      integer_io.put(line_number); new_line;
-      close(output);
+      Put_Line(s(1..last));
+      Integer_IO.Put(line_number); New_Line;
+      Close(Output);
       if checking  then
-         close(check);
+         Close(check);
       end if;
 end makeewds;

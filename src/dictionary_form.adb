@@ -14,31 +14,31 @@
 -- All parts of the WORDS system, source code and data files, are made freely
 -- available to anyone who wishes to use them, for whatever purpose.
 
-with strings_package; use strings_package;
+with Strings_package; use Strings_package;
 with inflections_package; use inflections_package;
 with dictionary_package; use dictionary_package;
-function dictionary_form(de : dictionary_entry) return string is
+function dictionary_form(de : dictionary_entry) return String is
 
-   null_ox : constant string(1..24) := (others => ' ');
-   ox : array (1..4) of string (1..24) := (others => null_ox);
-   form : string(1..100) := (others => ' ');
+   null_ox : constant String(1..24) := (others => ' ');
+   ox : array (1..4) of String (1..24) := (others => null_ox);
+   form : String(1..100) := (others => ' ');
 
-   fst: constant array (which_type range 1..5) of string(1..3) :=
+   fst: constant array (which_type range 1..5) of String(1..3) :=
      ("1st", "2nd", "3rd", "4th", "5th");
 
    not_found : exception;
 
-   function add(stem, infl : string) return string is
+   function add(stem, infl : String) return String is
    begin
       return head(trim(stem) & trim(infl), 24);
    end add;
 
-   procedure add_up(factor : string) is
+   procedure add_up(factor : String) is
    begin
       form := head(trim(form) & trim(factor), 100);
    end add_up;
 
-   procedure add_to(factor : string) is
+   procedure add_to(factor : String) is
    begin
       form := head(trim(form) & factor, 100);
    end add_to;
@@ -51,8 +51,8 @@ begin
    end if;
 
    if de.part.pofs = prep then
-      return trim(de.stems(1)) & "  " & part_of_speech_type'image(de.part.pofs) &
-        "  " & case_type'image(de.part.prep.obj);
+      return trim(de.stems(1)) & "  " & part_of_speech_type'Image(de.part.pofs) &
+        "  " & case_type'Image(de.part.prep.obj);
    end if;
 
    if de.stems(2) = null_stem_type  and
@@ -65,7 +65,7 @@ begin
      ((de.part.pofs = v)  and then (de.part.v.con = (9, 8))) or
      ((de.part.pofs = v)  and then (de.part.v.con = (9, 9))))
    then
-      return trim(de.stems(1)) & "  " & part_of_speech_type'image(de.part.pofs);
+      return trim(de.stems(1)) & "  " & part_of_speech_type'Image(de.part.pofs);
       --  For UNIQUES, CONJ, INTERJ, ...
    end if;
 
@@ -122,7 +122,8 @@ begin
       elsif de.part.n.decl.which = 3  then
          ox(1) := add(de.stems(1), "");
          if (de.part.n.decl.var = 7)  or
-           (de.part.n.decl.var = 9)  then
+            (de.part.n.decl.var = 9)
+         then
             ox(2) := add(de.stems(2), "os/is");
          else
             ox(2) := add(de.stems(2), "is");
@@ -385,7 +386,8 @@ begin
 
       elsif de.part.v.kind = impers  and then
         ((de.stems(1)(1..3) = "zzz")  and   -- Recognize as PERFDEF IMPERS
-        (de.stems(2)(1..3) = "zzz"))  then
+        (de.stems(2)(1..3) = "zzz"))
+      then
          ox(1) := add(de.stems(3), "it");
          ox(2) := add(de.stems(3), "isse");
          ox(3) := add(de.stems(4), "us est");
@@ -402,7 +404,7 @@ begin
                if de.part.v.con.var = 2  then
                   ox(1) := add(de.stems(1), "t");
                else
-                  if de.stems(1)(trim(de.stems(1))'last) = 'i'  then
+                  if de.stems(1)(trim(de.stems(1))'Last) = 'i'  then
                      ox(1) := add(de.stems(1), "t");
                   else
                      ox(1) := add(de.stems(1), "it");
@@ -414,7 +416,8 @@ begin
                end if;
             elsif de.part.v.con.which = 7  then
                if de.part.v.con.var = 1  or
-                 de.part.v.con.var = 2  then
+                 de.part.v.con.var = 2
+               then
                   ox(1) := add(de.stems(1), "t");
                end if;
             end if;
@@ -591,7 +594,7 @@ begin
 
    --TEXT_IO.PUT_LINE(OX(1) & "+" & OX(2) & "+" & OX(3) & "+" & OX(4));
 
-   --  Now clean up and output
+   --  Now clean up and Output
    --  Several flags have been set which modify OX's
    if ox(1)(1..3) = "zzz"  then
       add_up(" - ");
@@ -622,17 +625,18 @@ begin
       add_up(", " & trim(ox(4)));
    end if;
 
-   add_to("  " & part_of_speech_type'image(de.part.pofs)& "  ");
+   add_to("  " & part_of_speech_type'Image(de.part.pofs)& "  ");
 
    if de.part.pofs = n  then
 
       --  For DICTPAGE
       if de.part.n.decl.which in 1..5 and
-        de.part.n.decl.var  in 1..5 then
+         de.part.n.decl.var  in 1..5
+      then
          add_to(" (" & fst(de.part.n.decl.which) & ")");
       end if;
 
-      add_to(" " & gender_type'image(de.part.n.gender) & "  ");
+      add_to(" " & gender_type'Image(de.part.n.gender) & "  ");
    end if;
 
    if de.part.pofs = v then
@@ -647,7 +651,7 @@ begin
       end if;
 
       if de.part.v.kind in gen..perfdef then
-         add_to(" " & verb_kind_type'image(de.part.v.kind) & "  ");
+         add_to(" " & verb_kind_type'Image(de.part.v.kind) & "  ");
       end if;
 
    end if;

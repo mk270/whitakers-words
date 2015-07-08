@@ -14,19 +14,19 @@
 -- All parts of the WORDS system, source code and data files, are made freely
 -- available to anyone who wishes to use them, for whatever purpose.
 
-with text_io;
+with Text_IO;
 with inflections_package; use inflections_package;
 with dictionary_package; use dictionary_package;
 with config; use config;
 with word_parameters; use word_parameters;
 --with LATIN_DEBUG;
-procedure put_example_line(configuration : configuration_type;
-                           output : text_io.file_type; ir : in inflection_record;
+procedure Put_example_line(configuration : configuration_type;
+                           Output : Text_IO.File_Type; ir : in inflection_record;
                                                        de : in dictionary_entry) is
    --      use LATIN_DEBUG;
    vk : verb_kind_type;
 
-   procedure put_verb_example(output : text_io.file_type; ir : in inflection_record;
+   procedure Put_verb_example(Output : Text_IO.File_Type; ir : in inflection_record;
                                                           vk : in verb_kind_type) is
       person : constant person_type      := ir.qual.v.person;
       number : constant number_type      := ir.qual.v.number;
@@ -36,7 +36,7 @@ procedure put_example_line(configuration : configuration_type;
       kind   : constant verb_kind_type   := vk;
       --  Nothing on  (part), gerund,
 
-      function they return string is
+      function they return String is
       begin
          if kind = impers  then
             return "it ";
@@ -51,7 +51,8 @@ procedure put_example_line(configuration : configuration_type;
          end if;
 
          if mood = sub and tense = pres  and
-           person = 1 and number = p  then
+           person = 1 and number = p
+         then
             return "let us ";   --  G&L 263 1
          end if;
 
@@ -80,7 +81,7 @@ procedure put_example_line(configuration : configuration_type;
          end if;
       end they;
 
-      function shall return string is
+      function shall return String is
       begin            --  ACTIVE only  !!!!!!!!!!!!!!!!
          if tense = fut or tense = futp then
             if (mood = ind) or (mood = sub)  then
@@ -117,7 +118,7 @@ procedure put_example_line(configuration : configuration_type;
          end if;
       end shall;
 
-      function have return string is
+      function have return String is
       begin
          if tense in pres..fut  then
             return "";
@@ -142,7 +143,7 @@ procedure put_example_line(configuration : configuration_type;
          end if;
       end have;
 
-      function been return string is
+      function been return String is
       begin
          if voice = passive  then
             if mood = ind  then
@@ -193,7 +194,7 @@ procedure put_example_line(configuration : configuration_type;
          end if;
       end been;
 
-      function ed return string is
+      function ed return String is
       begin
          if mood = imp  then
             if voice = active  then
@@ -246,7 +247,7 @@ procedure put_example_line(configuration : configuration_type;
          end if;
       end ed;
 
-      function sub return string is
+      function sub return String is
       begin
          if mood = sub  then
             return "may/must/should ";
@@ -262,9 +263,9 @@ procedure put_example_line(configuration : configuration_type;
          voice := active;    --  Should only have allowed PASSIVE at this point
       end if;
 
-      text_io.put(output, they & sub & shall & have & been & "~" & ed);
+      Text_IO.Put(Output, they & sub & shall & have & been & "~" & ed);
 
-   end put_verb_example;
+   end Put_verb_example;
 
 begin    --  PUT_EXAMPLE_LINE
 
@@ -274,23 +275,23 @@ begin    --  PUT_EXAMPLE_LINE
          when n =>
             case ir.qual.n.cs is
                when gen =>
-                  text_io.put(output, "~'s; of ~");
-                  text_io.new_line(output);
+                  Text_IO.Put(Output, "~'s; of ~");
+                  Text_IO.New_Line(Output);
                when abl =>
-                  text_io.new_line(output);      --  Info too much for same line
-                  text_io.set_col(output, 6);
-                  text_io.put(output,
+                  Text_IO.New_Line(Output);      --  Info too much for same line
+                  Text_IO.Set_Col(Output, 6);
+                  Text_IO.Put(Output,
                               "from _ (separ); because of ~ (cause); than ~ (compar); of ~ (circumstance)");
-                  text_io.new_line(output);
+                  Text_IO.New_Line(Output);
                when dat =>
-                  text_io.new_line(output);      --  Info too much for same line
-                  text_io.set_col(output, 6);
-                  text_io.put(output,
+                  Text_IO.New_Line(Output);      --  Info too much for same line
+                  Text_IO.Set_Col(Output, 6);
+                  Text_IO.Put(Output,
                               "for _ (purpose, reference); to ~ (w/adjectives); to ~ (double dative)");
-                  text_io.new_line(output);
+                  Text_IO.New_Line(Output);
                when loc =>
-                  text_io.put(output, "at ~ (place where)");
-                  text_io.new_line(output);
+                  Text_IO.Put(Output, "at ~ (place where)");
+                  Text_IO.New_Line(Output);
                when others  =>
                   null;
                   --TEXT_IO.NEW_LINE(OUTPUT);
@@ -299,11 +300,11 @@ begin    --  PUT_EXAMPLE_LINE
          when adj =>
             case ir.qual.adj.co is
                when comp  =>
-                  text_io.put(output, "~er; more/too _");
-                  text_io.new_line(output);
+                  Text_IO.Put(Output, "~er; more/too _");
+                  Text_IO.New_Line(Output);
                when super =>
-                  text_io.put(output, "~est; most/very");
-                  text_io.new_line(output);
+                  Text_IO.Put(Output, "~est; most/very");
+                  Text_IO.New_Line(Output);
                when others  =>
                   null;
                   --TEXT_IO.NEW_LINE(OUTPUT);
@@ -312,11 +313,11 @@ begin    --  PUT_EXAMPLE_LINE
          when adv =>
             case ir.qual.adv.co is
                when comp  =>
-                  text_io.put(output, "more/too ~(ly)");
-                  text_io.new_line(output);
+                  Text_IO.Put(Output, "more/too ~(ly)");
+                  Text_IO.New_Line(Output);
                when super =>
-                  text_io.put(output, "most/very ~(ly)");
-                  text_io.new_line(output);
+                  Text_IO.Put(Output, "most/very ~(ly)");
+                  Text_IO.New_Line(Output);
                when others  =>
                   null;
                   --TEXT_IO.NEW_LINE(OUTPUT);
@@ -325,45 +326,45 @@ begin    --  PUT_EXAMPLE_LINE
          when v =>
             --TEXT_IO.NEW_LINE(OUTPUT);        --  Verb info too much for same line
             vk := de.part.v.kind;
-            text_io.set_col(output, 6);
-            put_verb_example(output, ir, vk);
-            text_io.new_line(output);
+            Text_IO.Set_Col(Output, 6);
+            Put_verb_example(Output, ir, vk);
+            Text_IO.New_Line(Output);
 
          when vpar =>
             --    TEXT_IO.NEW_LINE(OUTPUT);        --  Verb info too much for same line
             case ir.qual.vpar.tense_voice_mood.tense is
                when perf  =>
-                  text_io.put(output,
+                  Text_IO.Put(Output,
                               "~ed  PERF PASSIVE PPL often used as ADJ or N (amatus => belov.ed)");
-                  text_io.new_line(output);
+                  Text_IO.New_Line(Output);
                when pres  =>
-                  text_io.put(output,
+                  Text_IO.Put(Output,
                               "~ing  PRES ACTIVE PPL often used as ADJ or N (lov.ing, curl.y)");
-                  text_io.new_line(output);
+                  Text_IO.New_Line(Output);
                when fut   =>
                   if ir.qual.vpar.tense_voice_mood.voice = active  then
-                     text_io.put(output,
+                     Text_IO.Put(Output,
                                  "about/going/intending/destined to ~  FUT ACTIVE PPL often used as ADJ or N ");
-                     text_io.new_line(output);
+                     Text_IO.New_Line(Output);
                   else
                      case ir.qual.vpar.cs is
                         when gen =>
-                           text_io.put(output,
+                           Text_IO.Put(Output,
                                        "to(/must) be ~ed  FUT PASSIVE PPL, often used as gerund or gerundive (of ~ing)");
                         when dat =>
-                           text_io.put(output,
+                           Text_IO.Put(Output,
                                        "to(/must) be ~ed  FUT PASSIVE PPL, often used as gerund or gerundive (to/for ~ing)");
                         when abl =>
-                           text_io.put(output,
+                           Text_IO.Put(Output,
                                        "to(/must) be ~ed  FUT PASSIVE PPL, often used as gerund or gerundive (by/in ~ing)");
                         when acc =>
-                           text_io.put(output,
+                           Text_IO.Put(Output,
                                        "to(/must) be ~ed  FUT PASSIVE PPL, often used as gerund or gerundive (for ~ing/to ~)");
                         when others =>
-                           text_io.put(output,
+                           Text_IO.Put(Output,
                                        "to(/must) be ~ed  FUT PASSIVE PPL, often used as gerund or gerundive (~ing)");
                      end case;
-                     text_io.new_line(output);
+                     Text_IO.New_Line(Output);
                   end if;
                when others  =>
                   null;
@@ -373,13 +374,13 @@ begin    --  PUT_EXAMPLE_LINE
          when supine =>
             --TEXT_IO.NEW_LINE(OUTPUT);
             if ir.qual.supine.cs = acc  then
-               text_io.put(output,
+               Text_IO.Put(Output,
                            "to ~  expresses purpose of verb of motion; may take a direct object");
-               text_io.new_line(output);
+               Text_IO.New_Line(Output);
             elsif ir.qual.supine.cs = abl  then
-               text_io.put(output,
+               Text_IO.Put(Output,
                            "to ~  after ADJ indicating aspect/respect in which something is/is done");
-               text_io.new_line(output);
+               Text_IO.New_Line(Output);
             end if;
 
          when others  =>
@@ -392,4 +393,4 @@ begin    --  PUT_EXAMPLE_LINE
       --TEXT_IO.NEW_LINE(OUTPUT);
    end if;
 
-end put_example_line;
+end Put_example_line;

@@ -14,24 +14,25 @@
 -- All parts of the WORDS system, source code and data files, are made freely
 -- available to anyone who wishes to use them, for whatever purpose.
 
-with text_io;
+with Text_IO;
 with english_support_package; use english_support_package;
 procedure makeefil is
-   use text_io;
+   use Text_IO;
    use ewds_direct_io;
-   ewds_list : text_io.file_type;
+   ewds_list : Text_IO.File_Type;
    ewds, new_ewds : ewds_record := null_ewds_record;
 begin
-   text_io.open(ewds_list, text_io.in_file, "EWDSLIST.GEN");
-   create(ewds_file, out_file, "EWDSFILE.GEN");
+   Text_IO.Open(ewds_list, Text_IO.In_File, "EWDSLIST.GEN");
+   Create(ewds_file, Out_File, "EWDSFILE.GEN");
 
-   while not text_io.end_of_file(ewds_list)  loop
-      ewds_record_io.get(ewds_list, new_ewds);
-      text_io.skip_line(ewds_list);
+   while not Text_IO.End_Of_File(ewds_list)  loop
+      ewds_record_io.Get(ewds_list, new_ewds);
+      Text_IO.Skip_Line(ewds_list);
 
       --  Eliminate doubles    --  If sort is OK
       if ewds.w = new_ewds.w  and  --  AUX ????
-        ewds.n = new_ewds.n  then
+         ewds.n = new_ewds.n
+      then
          -- PUT_LINE("DOUBLES   ");
          -- EWDS_RECORD_IO.PUT(EWDS); NEW_LINE;
          -- EWDS_RECORD_IO.PUT(NEW_EWDS); NEW_LINE;
@@ -48,19 +49,19 @@ begin
 
       else
 
-         write(ewds_file, ewds);
+         Write(ewds_file, ewds);
          ewds := new_ewds;
          number_of_ewords := number_of_ewords + 1;
       end if;
       --PUT('.');
    end loop;
-   close(ewds_file);
-   text_io.new_line;
-   text_io.put_line("NUMBER_OF_EWORDS = " & integer'image(number_of_ewords));
+   Close(ewds_file);
+   Text_IO.New_Line;
+   Text_IO.Put_Line("NUMBER_OF_EWORDS = " & Integer'Image(number_of_ewords));
 exception
    when others =>
-      close(ewds_file);
-      text_io.new_line;
-      text_io.put_line("MAKEEFIL terminated on an exception");
-      text_io.put_line("NUMBER_OF_EWORDS = " & integer'image(number_of_ewords));
+      Close(ewds_file);
+      Text_IO.New_Line;
+      Text_IO.Put_Line("MAKEEFIL terminated on an exception");
+      Text_IO.Put_Line("NUMBER_OF_EWORDS = " & Integer'Image(number_of_ewords));
 end makeefil;
