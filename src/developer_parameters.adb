@@ -466,6 +466,18 @@ package body developer_parameters is
 
    end update_local_dictionary_file;
 
+   -- Is C one of: '!' .. '/', ':' .. '@', '[' .. '`', '{' .. '~'
+   function Is_Special_Graphical (C : Character) return Boolean
+   is
+      Special_Graphical : constant array (Character) of Boolean :=
+         ( '!' .. '/' => True, ':' .. '@' => True,
+           '[' .. '`' => True, '{' .. '~' => True,
+           others => False
+         );
+   begin
+      return Special_Graphical (C);
+   end Is_Special_Graphical;
+
    procedure Put_mdevs is
       use mdev_type_io;
       use reply_type_io;
@@ -507,10 +519,7 @@ package body developer_parameters is
 
       Get_Line(mdev_file, line, last);
       if line(1..20) = "START_FILE_CHARACTER"  then
-         if ((line(35) in '!'..'/')  or
-           (line(35) in ':'..'@')  or
-           (line(35) in '['..'`')  or
-           (line(35) in '{'..'~'))  and
+         if Is_Special_Graphical (line (35)) and
            (line(35) /= change_parameters_Character)  and
            (line(35) /= change_developer_modes_Character)
          then
@@ -525,10 +534,7 @@ package body developer_parameters is
 
       Get_Line(mdev_file, line, last);
       if line(1..27) = "CHANGE_PARAMETERS_CHARACTER"  then
-         if ((line(35) in '!'..'/')  or
-           (line(35) in ':'..'@')  or
-           (line(35) in '['..'`')  or
-           (line(35) in '{'..'~'))  and
+         if Is_Special_Graphical (line (35)) and
            (line(35) /= start_file_Character)  and
            (line(35) /= change_developer_modes_Character)
          then
@@ -543,10 +549,7 @@ package body developer_parameters is
 
       Get_Line(mdev_file, line, last);
       if line(1..32) = "CHANGE_DEVELOPER_MODES_CHARACTER"  then
-         if ((line(35) in '!'..'/')  or
-           (line(35) in ':'..'@')  or
-           (line(35) in '['..'`')  or
-           (line(35) in '{'..'~'))  and
+         if Is_Special_Graphical (line (35)) and
            (line(35) /= start_file_Character)  and
            (line(35) /= change_parameters_Character)
          then
@@ -732,10 +735,7 @@ package body developer_parameters is
       Put(" =>");
       Get_Line(l1, ll);
       if ll /= 0  then
-         if ((l1(1) in '!'..'/')  or
-           (l1(1) in ':'..'@')  or
-           (l1(1) in '['..'`')  or
-           (l1(1) in '{'..'~'))  and
+         if Is_Special_Graphical (l1 (1)) and
            (l1(1) /= change_parameters_Character)  and
            (l1(1) /= change_developer_modes_Character)
          then
@@ -752,10 +752,7 @@ package body developer_parameters is
       Put(" =>");
       Get_Line(l1, ll);
       if ll /= 0  then
-         if ((l1(1) in '!'..'/')  or
-           (l1(1) in ':'..'@')  or
-           (l1(1) in '['..'`')  or
-           (l1(1) in '{'..'~'))  and
+         if Is_Special_Graphical (l1 (1)) and
            (l1(1) /= start_file_Character)  and
            (l1(1) /= change_developer_modes_Character)
          then
@@ -773,10 +770,7 @@ package body developer_parameters is
       Put(" =>");
       Get_Line(l1, ll);
       if ll /= 0  then
-         if ((l1(1) in '!'..'/')  or
-           (l1(1) in ':'..'@')  or
-           (l1(1) in '['..'`')  or
-           (l1(1) in '{'..'~'))  and
+         if Is_Special_Graphical (l1 (1)) and
            (l1(1) /= start_file_Character)  and
            (l1(1) /= change_language_Character)  and
            (l1(1) /= change_parameters_Character)
