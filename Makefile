@@ -1,11 +1,8 @@
 PROGRAMMES := bin/words bin/makedict bin/makestem bin/makeefil bin/makeewds bin/makeinfl bin/meanings
 
-all: programmes data
+all: $(PROGRAMMES) data
 
-bin/%:
-	gnatmake -D obj ${@:bin/%=src/%} -o $@
-
-programmes: src/*.adb src/*.ads
+$(PROGRAMMES):
 	gprbuild -Pwords
 
 DICTFILE.GEN: DICTLINE.GEN bin/makedict
