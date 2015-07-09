@@ -21,6 +21,7 @@ with Inflections_Package; use Inflections_Package;
 with Dictionary_Package; use Dictionary_Package;
 with word_support_package; use word_support_package;
 with Char_Utils;
+with Utils.General;
 
 procedure makestem is
    use Stem_Key_Type_IO;
@@ -80,23 +81,7 @@ procedure makestem is
 
 begin
    Put_Line("Creates STEMFILE.D_K and INDXFILE.D_K from STEMLIST.D_K");
-
-   Put("What dictionary to load, GENERAL or SPECIAL  =>");
-   Get_Line(line, last);
-   if last > 0  then
-      if Trim (line(1..last))(1) = 'G'  or else
-         Trim (line(1..last))(1) = 'g'
-      then
-         d_k := general;
-      elsif Trim (line(1..last))(1) = 'S'  or else
-         Trim (line(1..last))(1) = 's'
-      then
-         d_k := special;
-      else
-         Put_Line("No such dictionary");
-         raise Text_IO.Data_Error;
-      end if;
-   end if;
+   Utils.General.Load_Dictionary (line, last, d_k);
 
    Open(   stem_list(d_k), In_File,
            add_file_name_extension(stem_list_name,

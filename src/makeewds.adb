@@ -23,6 +23,7 @@ with english_support_package; use english_support_package;
 with weed;
 with weed_all;
 with dictionary_form;
+with Utils.General;
 procedure makeewds is
    package Integer_IO is new Text_IO.Integer_IO(Integer);
    use Text_IO;
@@ -656,25 +657,8 @@ procedure makeewds is
    end extract_words;
 
 begin
-   Put_Line(
-            "Takes a DICTLINE.D_K and produces a EWDSLIST.D_K ");
-   Put("What dictionary to list, GENERAL or SPECIAL  =>");
-   Get_Line(line, last);
-   if last > 0  then
-      if Trim (line(1..last))(1) = 'G'  or else
-         Trim (line(1..last))(1) = 'g'
-      then
-         d_k := general;
-         --  LINE_NUMBER := LINE_NUMBER + 1;  --  Because of ESSE DICTFILE line  --  no longer
-      elsif Trim (line(1..last))(1) = 'S'  or else
-         Trim (line(1..last))(1) = 's'
-      then
-         d_k := special;
-      else
-         Put_Line("No such dictionary");
-         raise Text_IO.Data_Error;
-      end if;
-   end if;
+   Put_Line ("Takes a DICTLINE.D_K and produces a EWDSLIST.D_K ");
+   Utils.General.Load_Dictionary (line, last, d_k);
 
    --PUT_LINE("OPENING   " &
    --     ADD_FILE_NAME_EXTENSION(DICT_LINE_NAME, DICTIONARY_KIND'IMAGE(D_K)));

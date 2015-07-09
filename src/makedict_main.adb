@@ -19,6 +19,7 @@ with Strings_Package; use Strings_Package;
 with Latin_File_Names; use Latin_File_Names;
 with Inflections_Package; use Inflections_Package;
 with Dictionary_Package; use Dictionary_Package;
+with Utils.General;
 procedure makedict_main(porting : Boolean) is
    package Integer_IO is new Text_IO.Integer_IO(Integer);
    use Text_IO;
@@ -59,22 +60,7 @@ procedure makedict_main(porting : Boolean) is
 begin
    Put_Line("Takes a DICTLINE.D_K and produces a STEMLIST.D_K and DICTFILE.D_K");
    Put_Line("This version inserts ESSE when D_K = GEN");
-   Put("What dictionary to list, GENERAL or SPECIAL  (Reply G or S) =>");
-   Get_Line(line, last);
-   if last > 0  then
-      if Trim (line(1..last))(1) = 'G' or else
-         Trim (line(1..last))(1) = 'g'
-      then
-         d_k := general;
-      elsif Trim (line(1..last))(1) = 'S' or else
-         Trim (line(1..last))(1) = 's'
-      then
-         d_k := special;
-      else
-         Put_Line("No such dictionary");
-         raise Text_IO.Data_Error;
-      end if;
-   end if;
+   Utils.General.Load_Dictionary (line, last, d_k);
 
    Open(Input, In_File, add_file_name_extension(dict_line_name,
                                                 Dictionary_Kind'Image(d_k)));
