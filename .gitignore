@@ -2,6 +2,7 @@
 auto.cgpr
 obj/
 bin/
+lib/
 DICTFILE.GEN
 INDXFILE.GEN
 INFLECTS.SEC
