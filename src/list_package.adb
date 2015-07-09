@@ -14,20 +14,21 @@
 -- All parts of the WORDS system, source code and data files, are made freely
 -- available to anyone who wishes to use them, for whatever purpose.
 
-with Strings_Package; use Strings_Package;
-with Latin_File_Names; use Latin_File_Names;
+with Latin_Utils.Strings_Package; use Latin_Utils.Strings_Package;
+with Latin_Utils.Latin_File_Names; use Latin_Utils.Latin_File_Names;
 with word_parameters; use word_parameters;
 with addons_package; use addons_package;
 with uniques_package; use uniques_package;
 with word_support_package; use word_support_package;
 with developer_parameters; use developer_parameters;
 with word_package; use word_package;
-with Inflections_Package; use Inflections_Package;
+with Latin_Utils.Inflections_Package; use Latin_Utils.Inflections_Package;
 with Char_Utils;
 with dictionary_form;
 with Put_example_line;
 with list_sweep;
 with Put_stat;
+use Latin_Utils;
 package body list_package is
 
    subtype xons is Part_Of_Speech_Type range tackon..suffix;

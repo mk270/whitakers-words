@@ -15,7 +15,7 @@
 -- available to anyone who wishes to use them, for whatever purpose.
 
 with Ada.Text_IO;
-with Strings_Package;
+with Latin_Utils.Strings_Package;
 
 package body Latin_Utils.General is
 
@@ -24,10 +24,10 @@ package body Latin_Utils.General is
    procedure Load_Dictionary
       ( Line : in out String;
         Last : in out Integer;
-        D_K  :    out Dictionary_Package.Dictionary_Kind
+        D_K  :    out Latin_Utils.Dictionary_Package.Dictionary_Kind
       )
    is
-      use Strings_Package;
+      use Latin_Utils.Strings_Package;
    begin
       Ada.Text_IO.Put
          ( "What dictionary to use, GENERAL or SPECIAL (Reply G or S) =>" );
@@ -36,11 +36,11 @@ package body Latin_Utils.General is
          if Trim (Line (Line'First .. Last))(1) = 'G' or else
             Trim (Line (Line'First .. Last))(1) = 'g'
          then
-            D_K := Dictionary_Package.general;
+            D_K := Latin_Utils.Dictionary_Package.general;
          elsif Trim (Line (Line'First .. Last))(1) = 'S' or else
                Trim (Line (Line'First .. Last))(1) = 's'
          then
-            D_K := Dictionary_Package.special;
+            D_K := Latin_Utils.Dictionary_Package.special;
          else
             Ada.Text_IO.Put_Line ("No such dictionary");
             raise Ada.Text_IO.Data_Error;

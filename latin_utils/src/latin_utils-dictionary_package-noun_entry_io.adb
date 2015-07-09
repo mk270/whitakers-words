@@ -14,68 +14,64 @@
 -- All parts of the WORDS system, source code and data files, are made freely
 -- available to anyone who wishes to use them, for whatever purpose.
 
-separate (Dictionary_Package)
-package body Numeral_Entry_IO is
-
-   ---------------------------------------------------------------------------
-   -- FIXME: Why is this one set here?
-   Num_Out_Size : constant := 5; -- NOTE: Maybe set this in spec?
+separate (Latin_Utils.Dictionary_Package)
+package body Noun_Entry_IO is
 
    ---------------------------------------------------------------------------
 
-   procedure Get (File : in Ada.Text_IO.File_Type; Item : out Numeral_Entry)
+   procedure Get (File : in Ada.Text_IO.File_Type; Item : out Noun_Entry)
    is
-      Spacer : Character := ' ';
+      Spacer : Character;
       pragma Unreferenced (Spacer);
    begin
       Decn_Record_IO.Get (File, Item.Decl);
       Ada.Text_IO.Get (File, Spacer);
-      Numeral_Sort_Type_IO.Get (File, Item.Sort);
+      Gender_Type_IO.Get (File, Item.Gender);
       Ada.Text_IO.Get (File, Spacer);
-      Inflections_Package.Integer_IO.Get (File, Item.Value);
+      Noun_Kind_Type_IO.Get (File, Item.Kind);
    end Get;
 
    ---------------------------------------------------------------------------
 
-   procedure Get (Item : out Numeral_Entry)
+   procedure Get (Item : out Noun_Entry)
    is
-      Spacer : Character := ' ';
+      Spacer : Character;
       pragma Unreferenced (Spacer);
    begin
       Decn_Record_IO.Get (Item.Decl);
       Ada.Text_IO.Get (Spacer);
-      Numeral_Sort_Type_IO.Get (Item.Sort);
+      Gender_Type_IO.Get (Item.Gender);
       Ada.Text_IO.Get (Spacer);
-      Inflections_Package.Integer_IO.Get (Item.Value);
+      Noun_Kind_Type_IO.Get (Item.Kind);
    end Get;
 
    ---------------------------------------------------------------------------
 
-   procedure Put (File : in Ada.Text_IO.File_Type; Item : in Numeral_Entry) is
+   procedure Put (File : in Ada.Text_IO.File_Type; Item : in Noun_Entry) is
    begin
       Decn_Record_IO.Put (File, Item.Decl);
       Ada.Text_IO.Put (File, ' ');
-      Numeral_Sort_Type_IO.Put (File, Item.Sort);
+      Gender_Type_IO.Put (File, Item.Gender);
       Ada.Text_IO.Put (File, ' ');
-      Inflections_Package.Integer_IO.Put (File, Item.Value, Num_Out_Size);
+      Noun_Kind_Type_IO.Put (File, Item.Kind);
    end Put;
 
    ---------------------------------------------------------------------------
 
-   procedure Put (Item : in Numeral_Entry) is
+   procedure Put (Item : in Noun_Entry) is
    begin
       Decn_Record_IO.Put (Item.Decl);
       Ada.Text_IO.Put (' ');
-      Numeral_Sort_Type_IO.Put (Item.Sort);
+      Gender_Type_IO.Put (Item.Gender);
       Ada.Text_IO.Put (' ');
-      Inflections_Package.Integer_IO.Put (Item.Value, Num_Out_Size);
+      Noun_Kind_Type_IO.Put (Item.Kind);
    end Put;
 
    ---------------------------------------------------------------------------
 
    procedure Get
-      ( Source : in  String;
-        Target : out Numeral_Entry;
+      ( Source : in String;
+        Target : out Noun_Entry;
         Last   : out Integer
       )
    is
@@ -84,16 +80,15 @@ package body Numeral_Entry_IO is
    begin
       Decn_Record_IO.Get (Source (Low + 1 .. Source'Last), Target.Decl, Low);
       Low := Low + 1;
-      Numeral_Sort_Type_IO.Get
-         ( Source (Low + 1 .. Source'Last), Target.Sort, Low );
+      Gender_Type_IO.Get (Source (Low + 1 .. Source'Last), Target.Gender, Low);
       Low := Low + 1;
-      Inflections_Package.Integer_IO.Get
-         ( Source (Low + 1 .. Source'Last), Target.Value, Last );
+      Noun_Kind_Type_IO.Get
+         ( Source (Low + 1 .. Source'Last), Target.Kind, Last );
    end Get;
 
    ---------------------------------------------------------------------------
 
-   procedure Put (Target : out String; Item : in Numeral_Entry)
+   procedure Put (Target : out String; Item : in Noun_Entry)
    is
       -- These variables are used for computing bounds of substrings
       Low  : Integer := Target'First - 1;
@@ -105,16 +100,15 @@ package body Numeral_Entry_IO is
       Low := High + 1;
       Target (Low) :=  ' ';
 
-      -- Put Numeral_Sort_Type
-      High := Low + Numeral_Sort_Type_IO.Default_Width;
-      Numeral_Sort_Type_IO.Put (Target (Low + 1 .. High), Item.Sort);
+      -- Put Gender_Type
+      High := Low + Gender_Type_IO.Default_Width;
+      Gender_Type_IO.Put (Target (Low + 1 .. High), Item.Gender);
       Low := High + 1;
       Target (Low) :=  ' ';
 
-      -- Put Integer
-      -- High := Low + Numeral_Value_Type_IO.Default_Width;
-      High := Low + Num_Out_Size;
-      Inflections_Package.Integer_IO.Put (Target (Low + 1 .. High), Item.Value);
+      -- Put Noun_Kind_Type
+      High := Low + Noun_Kind_Type_IO.Default_Width;
+      Noun_Kind_Type_IO.Put (Target (Low + 1 .. High), Item.Kind);
 
       -- Fill remainder of string
       Target (High + 1 .. Target'Last) := (others => ' ');
@@ -122,4 +116,4 @@ package body Numeral_Entry_IO is
 
    ---------------------------------------------------------------------------
 
-end Numeral_Entry_IO;
+end Noun_Entry_IO;

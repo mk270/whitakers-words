@@ -36,11 +36,11 @@
 --  shadowed twice in nested declare blocks
 
 with Text_IO;
-with Strings_Package; use Strings_Package;
+with Latin_Utils.Strings_Package; use Latin_Utils.Strings_Package;
 with word_parameters; use word_parameters;
 with developer_parameters; use developer_parameters;
-with Inflections_Package; use Inflections_Package;
-with Dictionary_Package; use Dictionary_Package;
+with Latin_Utils.Inflections_Package; use Latin_Utils.Inflections_Package;
+with Latin_Utils.Dictionary_Package; use Latin_Utils.Dictionary_Package;
 with addons_package; use addons_package;
 with word_support_package; use word_support_package;
 with word_package; use word_package;
@@ -49,6 +49,7 @@ with tricks_package; use tricks_package;
 with Put_stat;
 with search_english;
 with Char_Utils; use Char_Utils;
+use Latin_Utils;
 
 pragma Elaborate (word_parameters);
 package body parse

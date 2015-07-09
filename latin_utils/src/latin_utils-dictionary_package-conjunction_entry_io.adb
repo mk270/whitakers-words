@@ -14,62 +14,60 @@
 -- All parts of the WORDS system, source code and data files, are made freely
 -- available to anyone who wishes to use them, for whatever purpose.
 
-separate (Dictionary_Package)
-package body Interjection_Entry_IO is
+separate (Latin_Utils.Dictionary_Package)
+package body Conjunction_Entry_IO is
 
    ---------------------------------------------------------------------------
 
-   Null_Interjection_Entry : constant Interjection_Entry := (null record);
+   Null_Conjunction_Entry : constant Conjunction_Entry := (null record);
 
    ---------------------------------------------------------------------------
 
-   procedure Get
-      ( File : in  Ada.Text_IO.File_Type;
-        Item : out Interjection_Entry
-      )
+   procedure Get (File : in Ada.Text_IO.File_Type; Item : out Conjunction_Entry)
    is
       pragma Unreferenced (File);
    begin
-      Item := Null_Interjection_Entry;
+      Item := Null_Conjunction_Entry;
    end Get;
 
    ---------------------------------------------------------------------------
 
-   procedure Get (Item : out Interjection_Entry) is
+   procedure Get (Item : out Conjunction_Entry) is
    begin
-      Item := Null_Interjection_Entry;
+      Item := Null_Conjunction_Entry;
    end Get;
 
    ---------------------------------------------------------------------------
 
-   procedure Put (File : in Ada.Text_IO.File_Type; Item : in Interjection_Entry)
+   procedure Put (File : in Ada.Text_IO.File_Type; Item : in Conjunction_Entry)
    is
    begin
       null;
    end Put;
+
    ---------------------------------------------------------------------------
 
-   procedure Put (Item : in Interjection_Entry) is
+   procedure Put (Item : in Conjunction_Entry) is
    begin
       null;
    end Put;
    ---------------------------------------------------------------------------
 
    procedure Get
-      ( Source : in String;
-        Target : out Interjection_Entry;
+      ( Source : in  String;
+        Target : out Conjunction_Entry;
         Last   : out Integer
       )
    is
       Low : constant Integer := Source'First - 1;
    begin
-      Target := Null_Interjection_Entry;
+      Target := Null_Conjunction_Entry;
       Last := Low;
    end Get;
 
    ---------------------------------------------------------------------------
 
-   procedure Put (Target : out String; Item : in Interjection_Entry) is
+   procedure Put (Target : out String; Item : in Conjunction_Entry) is
       pragma Unreferenced (Item);
    begin
       Target (Target'First .. Target'Last) := (others => ' ');
@@ -77,4 +75,4 @@ package body Interjection_Entry_IO is
 
    ---------------------------------------------------------------------------
 
-end Interjection_Entry_IO;
+end Conjunction_Entry_IO;

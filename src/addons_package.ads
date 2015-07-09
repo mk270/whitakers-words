@@ -15,8 +15,9 @@
 -- available to anyone who wishes to use them, for whatever purpose.
 
 with Text_IO; use type Text_IO.File_Type;
-with Inflections_Package; use Inflections_Package;
-with Dictionary_Package; use Dictionary_Package;
+with Latin_Utils.Inflections_Package; use Latin_Utils.Inflections_Package;
+with Latin_Utils.Dictionary_Package; use Latin_Utils.Dictionary_Package;
+use Latin_Utils;
 package addons_package is
    pragma Elaborate_Body;
 

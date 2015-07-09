@@ -19,10 +19,10 @@
 -- whether this is a bug
 
 with word_support_package; use word_support_package;   --  for STEM_IO
-with Strings_Package; use Strings_Package;
-with Latin_File_Names; use Latin_File_Names;
+with Latin_Utils.Strings_Package; use Latin_Utils.Strings_Package;
+with Latin_Utils.Latin_File_Names; use Latin_Utils.Latin_File_Names;
 with Char_Utils;
-with preface;
+with Latin_Utils.Preface;
 package body line_stuff is
 
    procedure load_dictionary(dict : in out dictionary;
@@ -70,7 +70,7 @@ package body line_stuff is
    begin
 
       Open(dictionary_file, In_File, dictionary_file_name);
-      preface.Put("Dictionary loading");
+      Preface.Put("Dictionary loading");
 
       while not End_Of_File(dictionary_file)  loop
          --TEXT_IO.PUT_LINE("GETTING");
@@ -371,20 +371,20 @@ package body line_stuff is
          number_of_dictionary_entries := number_of_dictionary_entries + 1;
       end loop;
       Close(dictionary_file);
-      preface.Set_Col(33); preface.Put("--  ");
-      preface.Put(number_of_dictionary_entries, 6);
-      preface.Put(" entries"); preface.Set_Col(55);
-      preface.Put_Line("--  Loaded correctly");
+      Preface.Set_Col(33); Preface.Put("--  ");
+      Preface.Put(number_of_dictionary_entries, 6);
+      Preface.Put(" entries"); Preface.Set_Col(55);
+      Preface.Put_Line("--  Loaded correctly");
    exception
       when others   =>
-         preface.Put_Line("    LOAD_DICTIONARY exception        !!!!!!!!!!");
-         preface.Put_Line(st_line(1..last));
-         preface.Put_Line(line(1..l));
+         Preface.Put_Line("    LOAD_DICTIONARY exception        !!!!!!!!!!");
+         Preface.Put_Line(st_line(1..last));
+         Preface.Put_Line(line(1..l));
          Close(dictionary_file);
-         preface.Set_Col(33); preface.Put("--  ");
-         preface.Put(number_of_dictionary_entries, 6);
-         preface.Put(" entries"); preface.Set_Col(55);
-         preface.Put_Line("--  Loaded anyway   ");
+         Preface.Set_Col(33); Preface.Put("--  ");
+         Preface.Put(number_of_dictionary_entries, 6);
+         Preface.Put(" entries"); Preface.Set_Col(55);
+         Preface.Put_Line("--  Loaded anyway   ");
    end load_dictionary;
 
    procedure load_stem_file(d_k : Dictionary_Kind)  is
@@ -875,8 +875,8 @@ package body line_stuff is
    begin
       --TEXT_IO.PUT_LINE("UNIQUES started");
       Text_IO.Open(uniques_file, Text_IO.In_File, file_name);
-      preface.Set_Col(1);
-      preface.Put("UNIQUES file loading");
+      Preface.Set_Col(1);
+      Preface.Put("UNIQUES file loading");
 
       --    if DICT_IO.IS_OPEN(DICT_FILE(D_K))  then
       --      DICT_IO.DELETE(DICT_FILE(D_K));
@@ -959,23 +959,23 @@ package body line_stuff is
 
       end loop;
       Close(uniques_file);
-      preface.Set_Col(33);
-      preface.Put("--  "); preface.Put(number_of_uniques_entries, 6);
-      preface.Put(" entries");
-      preface.Set_Col(55); preface.Put_Line("--  Loaded correctly");
+      Preface.Set_Col(33);
+      Preface.Put("--  "); Preface.Put(number_of_uniques_entries, 6);
+      Preface.Put(" entries");
+      Preface.Set_Col(55); Preface.Put_Line("--  Loaded correctly");
    exception
       when Text_IO.Name_Error  =>
-         preface.Put_Line("There is no UNIQUES file");
+         Preface.Put_Line("There is no UNIQUES file");
       when others   =>
-         preface.New_Line;
-         preface.Put_Line("LOAD_UNIQUES exception        !!!!!!!!!!!!!!!!!!!!!");
-         preface.Put_Line(stem_line(1..last));
-         preface.Put_Line(line(1..l));
+         Preface.New_Line;
+         Preface.Put_Line("LOAD_UNIQUES exception        !!!!!!!!!!!!!!!!!!!!!");
+         Preface.Put_Line(stem_line(1..last));
+         Preface.Put_Line(line(1..l));
          Close(uniques_file);
-         preface.Set_Col(33);
-         preface.Put("--  "); preface.Put(number_of_uniques_entries, 6);
-         preface.Put(" entries");
-         preface.Set_Col(55); preface.Put_Line("--  Loaded before error");
+         Preface.Set_Col(33);
+         Preface.Put("--  "); Preface.Put(number_of_uniques_entries, 6);
+         Preface.Put(" entries");
+         Preface.Set_Col(55); Preface.Put_Line("--  Loaded before error");
          --raise;
    end load_uniques;
 

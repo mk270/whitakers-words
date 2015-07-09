@@ -1,0 +1,55 @@
+project Latin_Utils is
+ 
+   Version := "0.1";
+   Name    := "latin_utils";
+ 
+   for Languages use ("Ada");
+   for Source_Dirs use ("latin_utils/src");
+   for Object_Dir use "latin_utils/obj";
+   for Exec_Dir use ".";
+   for Source_Files use
+      ( "latin_utils.ads",
+        "latin_utils-config.ads",
+        "latin_utils-dictionary_package.ads",
+        "latin_utils-dictionary_package.adb",
+        "latin_utils-dictionary_package-adjective_entry_io.adb",
+        "latin_utils-dictionary_package-adverb_entry_io.adb",
+        "latin_utils-dictionary_package-conjunction_entry_io.adb",
+        "latin_utils-dictionary_package-dictionary_entry_io.adb",
+        "latin_utils-dictionary_package-interjection_entry_io.adb",
+        "latin_utils-dictionary_package-kind_entry_io.adb",
+        "latin_utils-dictionary_package-noun_entry_io.adb",
+        "latin_utils-dictionary_package-numeral_entry_io.adb",
+        "latin_utils-dictionary_package-parse_record_io.adb",
+        "latin_utils-dictionary_package-part_entry_io.adb",
+        "latin_utils-dictionary_package-preposition_entry_io.adb",
+        "latin_utils-dictionary_package-pronoun_entry_io.adb",
+        "latin_utils-dictionary_package-propack_entry_io.adb",
+        "latin_utils-dictionary_package-translation_record_io.adb",
+        "latin_utils-dictionary_package-verb_entry_io.adb",
+        "latin_utils-general.ads",
+        "latin_utils-general.adb",
+        "latin_utils-inflections_package.ads",
+        "latin_utils-inflections_package.adb",
+        "latin_utils-latin_file_names.ads",
+        "latin_utils-latin_file_names.adb",
+        "latin_utils-preface.ads",
+        "latin_utils-preface.adb",
+        "latin_utils-strings_package.ads",
+        "latin_utils-strings_package.adb"
+      );
+ 
+   for Library_Name use Name;
+   for Library_Dir use "lib";
+   for Library_Kind use "dynamic";
+   for Library_Version use "lib" & Name & ".so." & Version;
+ 
+   package Compiler is
+      Default_Ada :=
+         ( "-gnatwa", "-Wall", "-fstack-check", "-gnato", "-gnateE",
+           "-gnata", "-gnatU", "-gnatf", "-gnat05"
+         );
+      Style := ("-gnaty3aAbefhiklnOprSux");
+      for Default_Switches ("Ada") use Default_Ada & Style;
+   end Compiler;
+end Latin_Utils;

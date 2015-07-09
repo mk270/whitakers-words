@@ -14,7 +14,7 @@
 -- All parts of the WORDS system, source code and data files, are made freely
 -- available to anyone who wishes to use them, for whatever purpose.
 
-with Inflections_Package; use Inflections_Package;
+with Latin_Utils.Inflections_Package; use Latin_Utils.Inflections_Package;
 procedure weed(w : in out String;
                pofs : in Part_Of_Speech_Type) is
 

@@ -16,8 +16,8 @@
 
 with Ada.Text_IO;
 with Ada.Direct_IO;
-with Inflections_Package; use Inflections_Package;
-package Dictionary_Package is
+with Latin_Utils.Inflections_Package; use Latin_Utils.Inflections_Package;
+package Latin_Utils.Dictionary_Package is
 
    ---------------------------------------------------------------------------
 
@@ -660,4 +660,4 @@ package Dictionary_Package is
 
    ---------------------------------------------------------------------------
 
-end Dictionary_Package;
+end Latin_Utils.Dictionary_Package;

@@ -15,8 +15,8 @@
 -- available to anyone who wishes to use them, for whatever purpose.
 
 with Text_IO;
-with Dictionary_Package; use Dictionary_Package;
-with config; use config;
+with Latin_Utils.Dictionary_Package; use Latin_Utils.Dictionary_Package;
+with Latin_Utils.Config; use Latin_Utils.Config;
 package list_package is
 
    --  SCROLL_LINE_NUMBER : INTEGER := 0;

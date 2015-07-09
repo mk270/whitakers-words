@@ -15,15 +15,16 @@
 -- available to anyone who wishes to use them, for whatever purpose.
 
 with Text_IO; use Text_IO;
-with Strings_Package; use Strings_Package;
-with config;
+with Latin_Utils.Strings_Package; use Latin_Utils.Strings_Package;
+with Latin_Utils.Config;
 with word_parameters; use word_parameters;
-with Inflections_Package; use Inflections_Package;
-with Dictionary_Package; use Dictionary_Package;
+with Latin_Utils.Inflections_Package; use Latin_Utils.Inflections_Package;
+with Latin_Utils.Dictionary_Package; use Latin_Utils.Dictionary_Package;
 with developer_parameters; use developer_parameters;
 with word_package; use word_package;
 with english_support_package; use english_support_package;
 with dictionary_form;
+use Latin_Utils;
 
 procedure search_english(Input_english_word : String; pofs : Part_Of_Speech_Type := x) is
    use ewds_direct_io;
@@ -114,7 +115,7 @@ procedure search_english(Input_english_word : String; pofs : Part_Of_Speech_Type
             do_pause:
             begin
                if Integer(Text_IO.Line(Output)) >
-                  scroll_line_number + config.Output_screen_size
+                  scroll_line_number + Config.Output_screen_size
                then
                   pause(Output);
                   scroll_line_number := Integer(Text_IO.Line(Output));

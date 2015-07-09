@@ -15,7 +15,7 @@
 -- available to anyone who wishes to use them, for whatever purpose.
 
 with words_main;
-with config; use config;
+with Latin_Utils.Config; use Latin_Utils.Config;
 procedure meanings is
 begin
    --  The language shift in argumants must take place here

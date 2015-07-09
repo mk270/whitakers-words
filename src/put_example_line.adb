@@ -15,9 +15,9 @@
 -- available to anyone who wishes to use them, for whatever purpose.
 
 with Text_IO;
-with Inflections_Package; use Inflections_Package;
-with Dictionary_Package; use Dictionary_Package;
-with config; use config;
+with Latin_Utils.Inflections_Package; use Latin_Utils.Inflections_Package;
+with Latin_Utils.Dictionary_Package; use Latin_Utils.Dictionary_Package;
+with Latin_Utils.Config; use Latin_Utils.Config;
 with word_parameters; use word_parameters;
 --with LATIN_DEBUG;
 procedure Put_example_line(configuration : configuration_type;

@@ -16,7 +16,7 @@
 
 with Text_IO; use Text_IO;
 with Direct_IO;
-package Inflections_Package is
+package Latin_Utils.Inflections_Package is
    pragma Elaborate_Body;
    package Integer_IO is new Text_IO.Integer_IO (Integer);
 
@@ -703,4 +703,4 @@ package Inflections_Package is
 
    give_up : exception;
 
-end Inflections_Package;
+end Latin_Utils.Inflections_Package;

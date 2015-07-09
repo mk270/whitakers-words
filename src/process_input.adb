@@ -15,18 +15,19 @@
 -- available to anyone who wishes to use them, for whatever purpose.
 
 with Text_IO;
-with Strings_Package; use Strings_Package;
-with Latin_File_Names; use Latin_File_Names;
+with Latin_Utils.Strings_Package; use Latin_Utils.Strings_Package;
+with Latin_Utils.Latin_File_Names; use Latin_Utils.Latin_File_Names;
 with word_parameters; use word_parameters;
 with developer_parameters; use developer_parameters;
-with Inflections_Package; use Inflections_Package;
-with Dictionary_Package; use Dictionary_Package;
+with Latin_Utils.Inflections_Package; use Latin_Utils.Inflections_Package;
+with Latin_Utils.Dictionary_Package; use Latin_Utils.Dictionary_Package;
 with word_support_package; use word_support_package;
-with preface;
+with Latin_Utils.Preface;
 with word_package; use word_package;
-with config; use config;
+with Latin_Utils.Config; use Latin_Utils.Config;
 with english_support_package; use english_support_package;
 with banner; use banner;
+use Latin_Utils;
 
 with parse; use parse;
 
@@ -64,8 +65,8 @@ is
       --  Block to manipulate file of lines
       if Name(Current_Input) = Name(Standard_Input) then
          scroll_line_number := Integer(Text_IO.Line(Text_IO.Standard_Output));
-         preface.New_Line;
-         preface.Put("=>");
+         Preface.New_Line;
+         Preface.Put("=>");
       end if;
 
       line := blank_line;
@@ -75,7 +76,7 @@ is
          --LINE_NUMBER := LINE_NUMBER + 1;
          if Name(Current_Input) = Name(Standard_Input) then
             --  INPUT is keyboard
-            preface.Put("Blank exits =>");
+            Preface.Put("Blank exits =>");
             Get_Line(line, l);
             -- Second try
             if (l = 0) or else (Trim (line(1..l)) = "")  then
@@ -106,7 +107,7 @@ is
             end if;
          elsif line(1) = change_parameters_Character  and then
            (Name(Current_Input) = Name(Standard_Input)) and then
-           not config.suppress_preface
+           not Config.suppress_preface
          then
             change_parameters;
          elsif line(1) = change_language_Character  then
@@ -114,16 +115,16 @@ is
          elsif
            line(1) = change_developer_modes_Character  and then
            (Name(Current_Input) = Name(Standard_Input)) and then
-           not config.suppress_preface
+           not Config.suppress_preface
          then
             change_developer_modes;
          else
             if Name(Current_Input) /= Name(Standard_Input) then
-               preface.New_Line;
-               preface.Put_Line(line(1..l));
+               Preface.New_Line;
+               Preface.Put_Line(line(1..l));
             end if;
             if words_mode(Write_Output_to_file)     then
-               if not config.suppress_preface     then
+               if not Config.suppress_preface     then
                   New_Line(Output);
                   Text_IO.Put_Line(Output, line(1..l));
                end if;
@@ -178,8 +179,8 @@ begin
         change_parameters_Character, help_Character);
 
       if English_Dictionary_Available(general)  then
-         preface.Put_Line("English-to-Latin available");
-         preface.Put_Line(
+         Preface.Put_Line("English-to-Latin available");
+         Preface.Put_Line(
            change_language_Character & "E changes to English-to-Latin, " &
            change_language_Character & "L changes back     [tilde E]");
       end if;
@@ -214,10 +215,10 @@ begin
 
 exception
    when Storage_Error  =>    --  Have tried at least twice, fail
-      preface.Put_Line("Continuing STORAGE_ERROR Exception in PARSE");
-      preface.Put_Line("If insufficient memory in DOS, try removing TSRs");
+      Preface.Put_Line("Continuing STORAGE_ERROR Exception in PARSE");
+      Preface.Put_Line("If insufficient memory in DOS, try removing TSRs");
    when give_up  =>
-      preface.Put_Line("Giving up!");
+      Preface.Put_Line("Giving up!");
    when others  =>
-      preface.Put_Line("Unexpected exception raised in PARSE");
+      Preface.Put_Line("Unexpected exception raised in PARSE");
 end process_Input;

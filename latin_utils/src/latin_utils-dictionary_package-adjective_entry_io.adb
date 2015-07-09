@@ -14,84 +14,82 @@
 -- All parts of the WORDS system, source code and data files, are made freely
 -- available to anyone who wishes to use them, for whatever purpose.
 
-separate (Dictionary_Package)
-package body Verb_Entry_IO is
+separate (Latin_Utils.Dictionary_Package)
+package body Adjective_Entry_IO is
 
    ---------------------------------------------------------------------------
 
-   procedure Get (File : in Ada.Text_IO.File_Type; Item : out Verb_Entry)
+   procedure Get (File : in Ada.Text_IO.File_Type; Item : out Adjective_Entry)
    is
       Spacer : Character;
       pragma Unreferenced (Spacer);
    begin
-      Decn_Record_IO.Get (File, Item.Con);
+      Decn_Record_IO.Get (File, Item.Decl);
       Ada.Text_IO.Get (File, Spacer);
-      Verb_Kind_Type_IO.Get (File, Item.Kind);
+      Comparison_Type_IO.Get (File, Item.Co);
    end Get;
 
    ---------------------------------------------------------------------------
 
-   procedure Get (Item : out Verb_Entry)
-   is
+   procedure Get (Item : out Adjective_Entry) is
       Spacer : Character;
       pragma Unreferenced (Spacer);
    begin
-      Decn_Record_IO.Get (Item.Con);
+      Decn_Record_IO.Get (Item.Decl);
       Ada.Text_IO.Get (Spacer);
-      Verb_Kind_Type_IO.Get (Item.Kind);
+      Comparison_Type_IO.Get (Item.Co);
    end Get;
 
    ---------------------------------------------------------------------------
 
-   procedure Put (File : in Ada.Text_IO.File_Type; Item : in Verb_Entry) is
+   procedure Put (File : in Ada.Text_IO.File_Type; Item : in Adjective_Entry) is
    begin
-      Decn_Record_IO.Put (File, Item.Con);
+      Decn_Record_IO.Put (File, Item.Decl);
       Ada.Text_IO.Put (File, ' ');
-      Verb_Kind_Type_IO.Put (File, Item.Kind);
+      Comparison_Type_IO.Put (File, Item.Co);
    end Put;
 
    ---------------------------------------------------------------------------
 
-   procedure Put (Item : in Verb_Entry) is
+   procedure Put (Item : in Adjective_Entry) is
    begin
-      Decn_Record_IO.Put (Item.Con);
+      Decn_Record_IO.Put (Item.Decl);
       Ada.Text_IO.Put (' ');
-      Verb_Kind_Type_IO.Put (Item.Kind);
+      Comparison_Type_IO.Put (Item.Co);
    end Put;
 
    ---------------------------------------------------------------------------
 
    procedure Get
       ( Source : in  String;
-        Target : out Verb_Entry;
+        Target : out Adjective_Entry;
         Last   : out Integer
       )
    is
-      -- Used to get lower bound of substring
+      -- Used for computing lower bound of substring
       Low : Integer := Source'First - 1;
    begin
-      Decn_Record_IO.Get (Source (Low + 1 .. Source'Last), Target.Con, Low);
+      Decn_Record_IO.Get (Source (Low + 1 .. Source'Last), Target.Decl, Low);
       Low := Low + 1;
-      Verb_Kind_Type_IO.Get
-         ( Source (Low + 1 .. Source'Last), Target.Kind, Last );
+      Comparison_Type_IO.Get (Source (Low + 1 .. Source'Last), Target.Co, Last);
    end Get;
 
    ---------------------------------------------------------------------------
 
-   procedure Put (Target : out String; Item : in Verb_Entry) is
-      -- Used to get bounds of substring
+   procedure Put (Target : out String; Item : in Adjective_Entry) is
+      -- These variables are used for computing bounds of substrings
       Low  : Integer := Target'First - 1;
       High : Integer := 0;
    begin
       -- Put Decn_Record
       High := Low + Decn_Record_IO.Default_Width;
-      Decn_Record_IO.Put (Target (Low + 1 .. High), Item.Con);
+      Decn_Record_IO.Put (Target (Low + 1 .. High), Item.Decl);
       Low := High + 1;
       Target (Low) :=  ' ';
 
-      -- Put Verb_Kind_Type
-      High := Low + Verb_Kind_Type_IO.Default_Width;
-      Verb_Kind_Type_IO.Put (Target (Low + 1 .. High), Item.Kind);
+      -- Put Comparison_Type
+      High := Low + Comparison_Type_IO.Default_Width;
+      Comparison_Type_IO.Put (Target (Low + 1 .. High), Item.Co);
 
       -- Fill remainder of string
       Target (High + 1 .. Target'Last) := (others => ' ');
@@ -99,4 +97,4 @@ package body Verb_Entry_IO is
 
    ---------------------------------------------------------------------------
 
-end Verb_Entry_IO;
+end Adjective_Entry_IO;

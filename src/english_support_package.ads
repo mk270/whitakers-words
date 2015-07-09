@@ -16,8 +16,8 @@
 
 with Text_IO;
 with Direct_IO;
-with Inflections_Package; use Inflections_Package;
-with Dictionary_Package; use Dictionary_Package;
+with Latin_Utils.Inflections_Package; use Latin_Utils.Inflections_Package;
+with Latin_Utils.Dictionary_Package; use Latin_Utils.Dictionary_Package;
 package english_support_package is
 
    eword_size    : constant := 24;

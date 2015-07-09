@@ -17,7 +17,7 @@
 with Ada.Characters.Handling;
 with Ada.Strings.Fixed;
 with Text_IO; use Text_IO;
-package body Strings_Package is
+package body Latin_Utils.Strings_Package is
 
    ---------------------------------------------------------------------------
 
@@ -111,4 +111,4 @@ package body Strings_Package is
 
    ---------------------------------------------------------------------------
 
-end Strings_Package;
+end Latin_Utils.Strings_Package;

@@ -14,16 +14,25 @@
 -- All parts of the WORDS system, source code and data files, are made freely
 -- available to anyone who wishes to use them, for whatever purpose.
 
-   ---------------------------------------------------------------------------
-   -- Main package of library-like utilities used all over the WORDS.
-   ---------------------------------------------------------------------------
-
-package Latin_Utils is
+with Latin_Utils.Dictionary_Package;
 
    ---------------------------------------------------------------------------
+   -- The purpose of this package is to provide common functionality used across
+   -- multiple main files that doesn't fit in other files due to dependency
+   -- graphs and/or functionality.
+   ---------------------------------------------------------------------------
 
-   pragma Pure (Utils);
+package Latin_Utils.General is
+
+   ---------------------------------------------------------------------------
+   -- Interactively loads dictionary (either special or general)
+   -- Used by makedict_main, makeewds, makestem
+   procedure Load_Dictionary
+      ( Line : in out String;
+        Last : in out Integer;
+        D_K  :    out Latin_Utils.Dictionary_Package.Dictionary_Kind
+      );
 
    ---------------------------------------------------------------------------
 
-end Latin_Utils;
+end Latin_Utils.General;

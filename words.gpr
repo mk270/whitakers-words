@@ -1,3 +1,4 @@
+with "latin_utils.gpr";
 project Words is
    for Exec_Dir use "bin";
    for Source_Dirs use ("src");

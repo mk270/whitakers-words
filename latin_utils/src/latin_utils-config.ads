@@ -14,11 +14,18 @@
 -- All parts of the WORDS system, source code and data files, are made freely
 -- available to anyone who wishes to use them, for whatever purpose.
 
-with Text_IO;
-package preface is
-   procedure Put(s: String);
-   procedure Set_Col(pc : Text_IO.Positive_Count);
-   procedure Put_Line(s : String);
-   procedure New_Line(spacing  : Text_IO.Positive_Count := 1);
-   procedure Put(n : Integer; width : Text_IO.Field := Integer'Width);
-end preface;
+package Latin_Utils.Config is
+
+   Output_screen_size : Integer := 20;
+
+   type configuration_type is (developer_version, user_version, only_meanings);
+
+   type method_type is (interactive, Command_Line_Input, Command_Line_files);
+   method : method_type := interactive;
+
+   type language_type is (latin_to_english, english_to_latin);
+   language : language_type := latin_to_english;
+
+   suppress_preface : Boolean := False;
+
+end Latin_Utils.Config;

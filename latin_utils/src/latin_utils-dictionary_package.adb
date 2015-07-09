@@ -14,8 +14,8 @@
 -- All parts of the WORDS system, source code and data files, are made freely
 -- available to anyone who wishes to use them, for whatever purpose.
 
-with Strings_Package; use Strings_Package;
-package body Dictionary_Package is
+with Latin_Utils.Strings_Package; use Latin_Utils.Strings_Package;
+package body Latin_Utils.Dictionary_Package is
 
    ---------------------------------------------------------------------------
 
@@ -148,7 +148,7 @@ package body Dictionary_Package is
    end "<=";
 
    ---------------------------------------------------------------------------
-   -- Used to initialize Dictionary_Package by setting various variables.
+   -- Used to initialize Latin_Utils Dictionary_Package by setting various variables.
    -- FIXME: Make AT LEAST some of these initializations to happen in spec,
    --   thus eliminating risks of someone modifying them and in result breaking
    --   every nested package.
@@ -217,4 +217,4 @@ package body Dictionary_Package is
 
 begin
    Initialize;
-end Dictionary_Package;
+end Latin_Utils.Dictionary_Package;

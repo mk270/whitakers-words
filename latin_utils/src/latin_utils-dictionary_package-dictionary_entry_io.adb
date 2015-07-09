@@ -14,7 +14,7 @@
 -- All parts of the WORDS system, source code and data files, are made freely
 -- available to anyone who wishes to use them, for whatever purpose.
 
-separate (Dictionary_Package)
+separate (Latin_Utils.Dictionary_Package)
 package body Dictionary_Entry_IO is
 
    ---------------------------------------------------------------------------

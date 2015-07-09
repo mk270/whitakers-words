@@ -15,10 +15,10 @@
 -- available to anyone who wishes to use them, for whatever purpose.
 
 with Text_IO;
-with Strings_Package; use Strings_Package;
-with Latin_File_Names; use Latin_File_Names;
-with Inflections_Package; use Inflections_Package;
-with Dictionary_Package; use Dictionary_Package;
+with Latin_Utils.Strings_Package; use Latin_Utils.Strings_Package;
+with Latin_Utils.Latin_File_Names; use Latin_Utils.Latin_File_Names;
+with Latin_Utils.Inflections_Package; use Latin_Utils.Inflections_Package;
+with Latin_Utils.Dictionary_Package; use Latin_Utils.Dictionary_Package;
 with word_support_package; use word_support_package;
 with Char_Utils;
 with Latin_Utils.General;

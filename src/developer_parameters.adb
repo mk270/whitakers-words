@@ -15,13 +15,14 @@
 -- available to anyone who wishes to use them, for whatever purpose.
 
 with Text_IO; use Text_IO;
-with Strings_Package; use Strings_Package;
-with Latin_File_Names; use Latin_File_Names;   --  Omit when Put name here
+with Latin_Utils.Strings_Package; use Latin_Utils.Strings_Package;
+with Latin_Utils.Latin_File_Names; use Latin_Utils.Latin_File_Names;   --  Omit when Put name here
 with word_parameters; use word_parameters;
-with Dictionary_Package; use Dictionary_Package;
-with preface;
+with Latin_Utils.Dictionary_Package; use Latin_Utils.Dictionary_Package;
+with Latin_Utils.Preface;
 with line_stuff; use line_stuff;
-pragma Elaborate(preface);
+use Latin_Utils;
+pragma Elaborate(Latin_Utils.Preface);
 package body developer_parameters is
 
    type help_type is array (Natural range <>) of String(1..70);
@@ -816,7 +817,7 @@ package body developer_parameters is
       begin
          --  Read the MDEV file
          Get_mdevs;
-         preface.Put_Line("MDEV_FILE found - Using those MDEVs and parameters");
+         Preface.Put_Line("MDEV_FILE found - Using those MDEVs and parameters");
       exception
          --  If there is any problem
          --  Put that the MDEV file is corrupted and the options are:
@@ -826,8 +827,8 @@ package body developer_parameters is
          when Name_Error  =>
             words_mdev := default_mdev_array;
          when bad_mdev_file  =>
-            preface.Put_Line("MDEV_FILE exists, but empty or corupted - Default MDEVs used");
-            preface.Put_Line("You can set new parameters with CHANGE PARAMETERS and save.");
+            Preface.Put_Line("MDEV_FILE exists, but empty or corupted - Default MDEVs used");
+            Preface.Put_Line("You can set new parameters with CHANGE PARAMETERS and save.");
             words_mdev := default_mdev_array;
       end do_mdev_file;
 
@@ -837,7 +838,7 @@ package body developer_parameters is
       --  end if;
       if not Is_Open(stats) and then words_mdev(have_statistics_file)  then
          Create(stats, Out_File, stats_full_name);
-         preface.Put_Line("WORD.STA Created at Initialization");
+         Preface.Put_Line("WORD.STA Created at Initialization");
       end if;
 
    end initialize_developer_parameters;

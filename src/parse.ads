@@ -14,7 +14,7 @@
 -- All parts of the WORDS system, source code and data files, are made freely
 -- available to anyone who wishes to use them, for whatever purpose.
 
-with config; use config;
+with Latin_Utils.Config; use Latin_Utils.Config;
 
 package parse is
    procedure parse_line(configuration : configuration_type;

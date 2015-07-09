@@ -14,9 +14,9 @@
 -- All parts of the WORDS system, source code and data files, are made freely
 -- available to anyone who wishes to use them, for whatever purpose.
 
-with Strings_Package; use Strings_Package;
+with Latin_Utils.Strings_Package; use Latin_Utils.Strings_Package;
 with developer_parameters; use developer_parameters;
-with preface;
+with Latin_Utils.Preface;
 package body addons_package is
    use Text_IO;
    use Part_Of_Speech_Type_IO;
@@ -119,8 +119,8 @@ package body addons_package is
 
    begin
       Open(addons_file, In_File, file_name);
-      preface.Put("ADDONS");
-      preface.Put(" loading ");
+      Preface.Put("ADDONS");
+      Preface.Put(" loading ");
 
       --    if DICT_IO.IS_OPEN(DICT_FILE(D_K))  then
       --      DICT_IO.DELETE(DICT_FILE(D_K));
@@ -251,13 +251,13 @@ package body addons_package is
 
       end loop;
 
-      preface.Put(tac, 1); preface.Put("+");
-      preface.Put(pac, 2); preface.Put(" TACKONS ");
-      preface.Put(tic, 1); preface.Put("+");
-      preface.Put(pre, 3); preface.Put(" PREFIXES ");
-      preface.Put(suf, 3); preface.Put(" SUFFIXES ");
+      Preface.Put(tac, 1); Preface.Put("+");
+      Preface.Put(pac, 2); Preface.Put(" TACKONS ");
+      Preface.Put(tic, 1); Preface.Put("+");
+      Preface.Put(pre, 3); Preface.Put(" PREFIXES ");
+      Preface.Put(suf, 3); Preface.Put(" SUFFIXES ");
 
-      preface.Set_Col(60); preface.Put_Line("--  Loaded correctly");
+      Preface.Set_Col(60); Preface.Put_Line("--  Loaded correctly");
       Close(addons_file);
 
       --for I in MEANS'RANGE  loop
@@ -266,15 +266,15 @@ package body addons_package is
 
    exception
       when Text_IO.Name_Error  =>
-         preface.Put_Line("No ADDONS file ");
+         Preface.Put_Line("No ADDONS file ");
          null;
       when Text_IO.Data_Error  =>
-         preface.Put_Line(s(1..last));
-         preface.Put_Line("No further ADDONS read ");
+         Preface.Put_Line(s(1..last));
+         Preface.Put_Line("No further ADDONS read ");
          Close(addons_file);
       when others      =>
-         preface.Put_Line("Exception in LOAD_ADDONS");
-         preface.Put_Line(s(1..last));
+         Preface.Put_Line("Exception in LOAD_ADDONS");
+         Preface.Put_Line(s(1..last));
    end load_addons;
 
    function subtract_tackon(w : String; x : tackon_item) return String is

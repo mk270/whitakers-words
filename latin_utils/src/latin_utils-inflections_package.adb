@@ -14,9 +14,10 @@
 -- All parts of the WORDS system, source code and data files, are made freely
 -- available to anyone who wishes to use them, for whatever purpose.
 
-with Latin_File_Names; use Latin_File_Names;
-with preface;
-package body Inflections_Package is
+with Latin_Utils.Latin_File_Names; use Latin_Utils.Latin_File_Names;
+with Latin_Utils.Preface;
+use Latin_Utils;
+package body Latin_Utils.Inflections_Package is
 
    function "<" (left, right : Decn_Record) return Boolean is
    begin
@@ -2443,13 +2444,13 @@ package body Inflections_Package is
       end load_lel_indexes;
 
    begin
-      preface.Put("INFLECTION_ARRAY being loaded");
-      preface.Set_Col(33);
-      preface.Put("--  ");
+      Preface.Put("INFLECTION_ARRAY being loaded");
+      Preface.Set_Col(33);
+      Preface.Put("--  ");
       load_lel_indexes;                    --  Makes indexes from array
-      preface.Put(number_of_inflections, 6);
-      preface.Put(" entries");
-      preface.Set_Col(55); preface.Put_Line("--  Loaded correctly");
+      Preface.Put(number_of_inflections, 6);
+      Preface.Put(" entries");
+      Preface.Set_Col(55); Preface.Put_Line("--  Loaded correctly");
    exception
       when Text_IO.Name_Error  =>
          New_Line;
@@ -2547,4 +2548,4 @@ begin  --  initialization of body of INFLECTIONS_PACKAGE
      Age_Type_IO.Default_Width + 1 +
      Frequency_Type_IO.Default_Width;
 
-end Inflections_Package;
+end Latin_Utils.Inflections_Package;

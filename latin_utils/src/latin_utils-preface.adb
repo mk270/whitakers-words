@@ -14,33 +14,34 @@
 -- All parts of the WORDS system, source code and data files, are made freely
 -- available to anyone who wishes to use them, for whatever purpose.
 
-with config;
-package body preface is
+with Latin_Utils.Config;
+use Latin_Utils;
+package body Latin_Utils.Preface is
 
    procedure Put(s : String) is
    begin
-      if not config.suppress_preface  then
+      if not Config.suppress_preface  then
          Text_IO.Put(Text_IO.Current_Output, s);
       end if;
    end Put;
 
    procedure Set_Col(pc : Text_IO.Positive_Count) is
    begin
-      if not config.suppress_preface  then
+      if not Config.suppress_preface  then
          Text_IO.Set_Col(Text_IO.Current_Output, pc);
       end if;
    end Set_Col;
 
    procedure Put_Line(s : String) is
    begin
-      if not config.suppress_preface  then
+      if not Config.suppress_preface  then
          Text_IO.Put_Line(Text_IO.Current_Output, s);
       end if;
    end Put_Line;
 
    procedure New_Line(spacing  : Text_IO.Positive_Count := 1) is
    begin
-      if not config.suppress_preface  then
+      if not Config.suppress_preface  then
          Text_IO.New_Line(Text_IO.Current_Output, spacing);
       end if;
    end New_Line;
@@ -48,9 +49,9 @@ package body preface is
    procedure Put(n : Integer; width : Text_IO.Field := Integer'Width) is
       package Integer_IO is new Text_IO.Integer_IO(Integer);
    begin
-      if not config.suppress_preface  then
+      if not Config.suppress_preface  then
          Integer_IO.Put(Text_IO.Current_Output, n, width);
       end if;
    end Put;
 
-end preface;
+end Latin_Utils.Preface;

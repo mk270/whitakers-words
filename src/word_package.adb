@@ -15,12 +15,12 @@
 -- available to anyone who wishes to use them, for whatever purpose.
 
 with addons_package; use addons_package;
-with Latin_File_Names; use Latin_File_Names;
-with Strings_Package; use Strings_Package;
-with config;  use config;
+with Latin_Utils.Latin_File_Names; use Latin_Utils.Latin_File_Names;
+with Latin_Utils.Strings_Package; use Latin_Utils.Strings_Package;
+with Latin_Utils.Config;  use Latin_Utils.Config;
 with uniques_package; use uniques_package;
 with word_parameters; use word_parameters;
-with preface;
+with Latin_Utils.Preface;
 with developer_parameters; use developer_parameters;
 with line_stuff; use line_stuff;
 with english_support_package; use english_support_package;
@@ -607,21 +607,21 @@ package body word_package is
    procedure change_language(c : Character) is
    begin  if Upper_Case (c) = 'L'  then
       language := latin_to_english;
-      preface.Put_Line("Language changed to " & language_type'Image(language));
+      Preface.Put_Line("Language changed to " & language_type'Image(language));
    elsif Upper_Case (c) = 'E'  then
       if English_Dictionary_Available(general)  then
          language:= english_to_latin;
-         preface.Put_Line("Language changed to " & language_type'Image(language));
-         preface.Put_Line("InPut a single English word (+ part of speech - N, ADJ, V, PREP, ...)");
+         Preface.Put_Line("Language changed to " & language_type'Image(language));
+         Preface.Put_Line("InPut a single English word (+ part of speech - N, ADJ, V, PREP, ...)");
       else
-         preface.Put_Line("No English dictionary available");
+         Preface.Put_Line("No English dictionary available");
       end if;
    else
-      preface.Put_Line("Bad LANGAUGE Input - no change, remains " & language_type'Image(language));
+      Preface.Put_Line("Bad LANGAUGE Input - no change, remains " & language_type'Image(language));
    end if;
    exception
       when others  =>
-         preface.Put_Line("Bad LANGAUGE Input - no change, remains " & language_type'Image(language));
+         Preface.Put_Line("Bad LANGAUGE Input - no change, remains " & language_type'Image(language));
    end change_language;
 
    procedure word(raw_word : in String;
@@ -1815,7 +1815,7 @@ package body word_package is
             Text_IO.Close(dummy);
          end check_for_local_dictionary;
          --  If the above does not exception out, we can load LOC
-         preface.Put("LOCAL ");
+         Preface.Put("LOCAL ");
          dict_loc := null_dictionary;
          load_dictionary(dict_loc,
                          add_file_name_extension(dictionary_file_name, "LOCAL"));
@@ -1837,9 +1837,9 @@ package body word_package is
                 Dictionary_Available(special)  or
                 Dictionary_Available(local))
       then
-         preface.Put_Line("There are no main dictionaries - program will not do much");
-         preface.Put_Line("Check that there are dictionary files in this subdirectory");
-         preface.Put_Line("Except DICT.LOC that means DICTFILE, INDXFILE, STEMFILE");
+         Preface.Put_Line("There are no main dictionaries - program will not do much");
+         Preface.Put_Line("Check that there are dictionary files in this subdirectory");
+         Preface.Put_Line("Except DICT.LOC that means DICTFILE, INDXFILE, STEMFILE");
       end if;
 
       try_to_load_english_words:
@@ -1850,7 +1850,7 @@ package body word_package is
          English_Dictionary_Available(general) := True;
       exception
          when others  =>
-            preface.Put_Line("No English available");
+            Preface.Put_Line("No English available");
             English_Dictionary_Available(general) := False;
       end try_to_load_english_words;
 

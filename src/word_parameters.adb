@@ -14,11 +14,12 @@
 -- All parts of the WORDS system, source code and data files, are made freely
 -- available to anyone who wishes to use them, for whatever purpose.
 
-with Strings_Package; use Strings_Package;
-with Latin_File_Names; use Latin_File_Names;
-with config; use config;
-with preface;
-pragma Elaborate (preface);
+with Latin_Utils.Strings_Package; use Latin_Utils.Strings_Package;
+with Latin_Utils.Latin_File_Names; use Latin_Utils.Latin_File_Names;
+with Latin_Utils.Config; use Latin_Utils.Config;
+with Latin_Utils.Preface;
+use Latin_Utils;
+pragma Elaborate (Latin_Utils.Preface);
 package body word_parameters is
    use Text_IO;
 
@@ -444,7 +445,7 @@ package body word_parameters is
       begin
          --  Read the mode file
          Get_modes; --(WORDS_MODE);
-         preface.Put_Line("MODE_FILE found - Using those modes and parameters");
+         Preface.Put_Line("MODE_FILE found - Using those modes and parameters");
       exception
          --  If there is any problem
          --  Put that the mode file is corrupted and the options are:
@@ -468,11 +469,11 @@ package body word_parameters is
       then
          Text_IO.Create(Output, Text_IO.Out_File, Output_full_name);
          --TEXT_IO.PUT_LINE("WORD.OUT Created at Initialization");
-         preface.Put_Line("WORD.OUT Created at Initialization");
+         Preface.Put_Line("WORD.OUT Created at Initialization");
       end if;
       if not Text_IO.Is_Open(unknowns) and then words_mode(Write_unknowns_to_file)  then
          Text_IO.Create(unknowns, Text_IO.Out_File, unknowns_full_name);
-         preface.Put_Line("WORD.UNK Created at Initialization");
+         Preface.Put_Line("WORD.UNK Created at Initialization");
       end if;
    end initialize_word_parameters;
 

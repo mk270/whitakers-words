@@ -23,7 +23,7 @@
 
 with Ada.Strings;
 with Ada.Text_IO;
-package Strings_Package is
+package Latin_Utils.Strings_Package is
 
    ---------------------------------------------------------------------------
    -- Correct values: Left, Right, Both
@@ -69,4 +69,4 @@ package Strings_Package is
 
    ---------------------------------------------------------------------------
 
-end Strings_Package;
+end Latin_Utils.Strings_Package;

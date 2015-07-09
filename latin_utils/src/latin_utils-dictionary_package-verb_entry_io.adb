@@ -14,101 +14,84 @@
 -- All parts of the WORDS system, source code and data files, are made freely
 -- available to anyone who wishes to use them, for whatever purpose.
 
-separate (Dictionary_Package)
-package body Noun_Entry_IO is
+separate (Latin_Utils.Dictionary_Package)
+package body Verb_Entry_IO is
 
    ---------------------------------------------------------------------------
 
-   procedure Get (File : in Ada.Text_IO.File_Type; Item : out Noun_Entry)
+   procedure Get (File : in Ada.Text_IO.File_Type; Item : out Verb_Entry)
    is
       Spacer : Character;
       pragma Unreferenced (Spacer);
    begin
-      Decn_Record_IO.Get (File, Item.Decl);
+      Decn_Record_IO.Get (File, Item.Con);
       Ada.Text_IO.Get (File, Spacer);
-      Gender_Type_IO.Get (File, Item.Gender);
-      Ada.Text_IO.Get (File, Spacer);
-      Noun_Kind_Type_IO.Get (File, Item.Kind);
+      Verb_Kind_Type_IO.Get (File, Item.Kind);
    end Get;
 
    ---------------------------------------------------------------------------
 
-   procedure Get (Item : out Noun_Entry)
+   procedure Get (Item : out Verb_Entry)
    is
       Spacer : Character;
       pragma Unreferenced (Spacer);
    begin
-      Decn_Record_IO.Get (Item.Decl);
+      Decn_Record_IO.Get (Item.Con);
       Ada.Text_IO.Get (Spacer);
-      Gender_Type_IO.Get (Item.Gender);
-      Ada.Text_IO.Get (Spacer);
-      Noun_Kind_Type_IO.Get (Item.Kind);
+      Verb_Kind_Type_IO.Get (Item.Kind);
    end Get;
 
    ---------------------------------------------------------------------------
 
-   procedure Put (File : in Ada.Text_IO.File_Type; Item : in Noun_Entry) is
+   procedure Put (File : in Ada.Text_IO.File_Type; Item : in Verb_Entry) is
    begin
-      Decn_Record_IO.Put (File, Item.Decl);
+      Decn_Record_IO.Put (File, Item.Con);
       Ada.Text_IO.Put (File, ' ');
-      Gender_Type_IO.Put (File, Item.Gender);
-      Ada.Text_IO.Put (File, ' ');
-      Noun_Kind_Type_IO.Put (File, Item.Kind);
+      Verb_Kind_Type_IO.Put (File, Item.Kind);
    end Put;
 
    ---------------------------------------------------------------------------
 
-   procedure Put (Item : in Noun_Entry) is
+   procedure Put (Item : in Verb_Entry) is
    begin
-      Decn_Record_IO.Put (Item.Decl);
+      Decn_Record_IO.Put (Item.Con);
       Ada.Text_IO.Put (' ');
-      Gender_Type_IO.Put (Item.Gender);
-      Ada.Text_IO.Put (' ');
-      Noun_Kind_Type_IO.Put (Item.Kind);
+      Verb_Kind_Type_IO.Put (Item.Kind);
    end Put;
 
    ---------------------------------------------------------------------------
 
    procedure Get
-      ( Source : in String;
-        Target : out Noun_Entry;
+      ( Source : in  String;
+        Target : out Verb_Entry;
         Last   : out Integer
       )
    is
-      -- Used for computing lower bound of substring
+      -- Used to get lower bound of substring
       Low : Integer := Source'First - 1;
    begin
-      Decn_Record_IO.Get (Source (Low + 1 .. Source'Last), Target.Decl, Low);
+      Decn_Record_IO.Get (Source (Low + 1 .. Source'Last), Target.Con, Low);
       Low := Low + 1;
-      Gender_Type_IO.Get (Source (Low + 1 .. Source'Last), Target.Gender, Low);
-      Low := Low + 1;
-      Noun_Kind_Type_IO.Get
+      Verb_Kind_Type_IO.Get
          ( Source (Low + 1 .. Source'Last), Target.Kind, Last );
    end Get;
 
    ---------------------------------------------------------------------------
 
-   procedure Put (Target : out String; Item : in Noun_Entry)
-   is
-      -- These variables are used for computing bounds of substrings
+   procedure Put (Target : out String; Item : in Verb_Entry) is
+      -- Used to get bounds of substring
       Low  : Integer := Target'First - 1;
       High : Integer := 0;
    begin
       -- Put Decn_Record
       High := Low + Decn_Record_IO.Default_Width;
-      Decn_Record_IO.Put (Target (Low + 1 .. High), Item.Decl);
+      Decn_Record_IO.Put (Target (Low + 1 .. High), Item.Con);
       Low := High + 1;
       Target (Low) :=  ' ';
 
-      -- Put Gender_Type
-      High := Low + Gender_Type_IO.Default_Width;
-      Gender_Type_IO.Put (Target (Low + 1 .. High), Item.Gender);
-      Low := High + 1;
-      Target (Low) :=  ' ';
-
-      -- Put Noun_Kind_Type
-      High := Low + Noun_Kind_Type_IO.Default_Width;
-      Noun_Kind_Type_IO.Put (Target (Low + 1 .. High), Item.Kind);
+      -- Put Verb_Kind_Type
+      High := Low + Verb_Kind_Type_IO.Default_Width;
+      Verb_Kind_Type_IO.Put (Target (Low + 1 .. High), Item.Kind);
 
       -- Fill remainder of string
       Target (High + 1 .. Target'Last) := (others => ' ');
@@ -116,4 +99,4 @@ package body Noun_Entry_IO is
 
    ---------------------------------------------------------------------------
 
-end Noun_Entry_IO;
+end Verb_Entry_IO;

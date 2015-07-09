@@ -14,12 +14,12 @@
 -- All parts of the WORDS system, source code and data files, are made freely
 -- available to anyone who wishes to use them, for whatever purpose.
 
-separate (Dictionary_Package)
-package body Propack_Entry_IO is
+separate (Latin_Utils.Dictionary_Package)
+package body Pronoun_Entry_IO is
 
    ---------------------------------------------------------------------------
 
-   procedure Get (File : in Ada.Text_IO.File_Type; Item : out Propack_Entry)
+   procedure Get (File : in Ada.Text_IO.File_Type; Item : out Pronoun_Entry)
    is
       Spacer : Character;
       pragma Unreferenced (Spacer);
@@ -31,7 +31,7 @@ package body Propack_Entry_IO is
 
    ---------------------------------------------------------------------------
 
-   procedure Get (Item : out Propack_Entry)
+   procedure Get (Item : out Pronoun_Entry)
    is
       Spacer : Character;
       pragma Unreferenced (Spacer);
@@ -43,7 +43,7 @@ package body Propack_Entry_IO is
 
    ---------------------------------------------------------------------------
 
-   procedure Put (File : in Ada.Text_IO.File_Type; Item : in Propack_Entry) is
+   procedure Put (File : in Ada.Text_IO.File_Type; Item : in Pronoun_Entry) is
    begin
       Decn_Record_IO.Put (File, Item.Decl);
       Ada.Text_IO.Put (File, ' ');
@@ -52,7 +52,7 @@ package body Propack_Entry_IO is
 
    ---------------------------------------------------------------------------
 
-   procedure Put (Item : in Propack_Entry) is
+   procedure Put (Item : in Pronoun_Entry) is
    begin
       Decn_Record_IO.Put (Item.Decl);
       Ada.Text_IO.Put (' ');
@@ -63,7 +63,7 @@ package body Propack_Entry_IO is
 
    procedure Get
       ( Source : in  String;
-        Target : out Propack_Entry;
+        Target : out Pronoun_Entry;
         Last   : out Integer
       )
    is
@@ -78,7 +78,7 @@ package body Propack_Entry_IO is
 
    ---------------------------------------------------------------------------
 
-   procedure Put (Target : out String; Item : in Propack_Entry) is
+   procedure Put (Target : out String; Item : in Pronoun_Entry) is
       -- These variables are used for computing bounds of substrings
       Low  : Integer := Target'First - 1;
       High : Integer := 0;
@@ -99,4 +99,4 @@ package body Propack_Entry_IO is
 
    ---------------------------------------------------------------------------
 
-end Propack_Entry_IO;
+end Pronoun_Entry_IO;

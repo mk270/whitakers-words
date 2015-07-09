@@ -14,10 +14,11 @@
 -- All parts of the WORDS system, source code and data files, are made freely
 -- available to anyone who wishes to use them, for whatever purpose.
 
-with Latin_File_Names; use Latin_File_Names;
-with Strings_Package; use Strings_Package;
-with config;
-with preface;
+with Latin_Utils.Latin_File_Names; use Latin_Utils.Latin_File_Names;
+with Latin_Utils.Strings_Package; use Latin_Utils.Strings_Package;
+with Latin_Utils.Config;
+with Latin_Utils.Preface;
+use Latin_Utils;
 package body word_support_package is
 
    function len(s : String) return Integer is
@@ -204,8 +205,8 @@ package body word_support_package is
                                    Dictionary_Kind'Image(d_k)));
       --"INDXFILE." & EXT(D_K)); --  $$$$$$$$$$$$
 
-      preface.Put(Dictionary_Kind'Image(d_k));
-      preface.Put(" Dictionary loading");
+      Preface.Put(Dictionary_Kind'Image(d_k));
+      Preface.Put(" Dictionary loading");
 
       if d_k = general  then
          Get_Line(indx_file(d_k), s, last);
@@ -237,12 +238,12 @@ package body word_support_package is
          end if;
       end loop;
       Close(indx_file(d_k));
-      preface.Set_Col(33); preface.Put("--  ");
-      if not config.suppress_preface  then
+      Preface.Set_Col(33); Preface.Put("--  ");
+      if not Config.suppress_preface  then
          Put(number_of_non_blank_stems, 6);
       end if;   --  Kludge for when TEXT_IO.COUNT too small
-      preface.Put(" stems");
-      preface.Set_Col(55); preface.Put_Line("--  Loaded correctly");
+      Preface.Put(" stems");
+      Preface.Set_Col(55); Preface.Put_Line("--  Loaded correctly");
    end load_indices_from_indx_file;
 
 end word_support_package;
