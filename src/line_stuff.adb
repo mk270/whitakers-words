@@ -21,6 +21,7 @@
 with word_support_package; use word_support_package;   --  for STEM_IO
 with Strings_Package; use Strings_Package;
 with Latin_File_Names; use Latin_File_Names;
+with Char_Utils;
 with preface;
 package body line_stuff is
 
@@ -119,30 +120,12 @@ package body line_stuff is
          fc2 := Lower_Case (sts(2)(1));
          fc3 := Lower_Case (sts(3)(1));
          fc4 := Lower_Case (sts(4)(1));
-         if fc1 = 'v' then
-            fc1 := 'u';
-         end if;
-         if fc1 = 'j' then
-            fc1 := 'i';
-         end if;
-         if fc2 = 'v' then
-            fc2 := 'u';
-         end if;
-         if fc2 = 'j' then
-            fc2 := 'i';
-         end if;
-         if fc3 = 'v' then
-            fc3 := 'u';
-         end if;
-         if fc3 = 'j' then
-            fc3 := 'i';
-         end if;
-         if fc4 = 'v' then
-            fc4 := 'u';
-         end if;
-         if fc4 = 'j' then
-            fc4 := 'i';
-         end if;
+
+         Char_Utils.V_To_U_And_J_To_I (fc1);
+         Char_Utils.V_To_U_And_J_To_I (fc2);
+         Char_Utils.V_To_U_And_J_To_I (fc3);
+         Char_Utils.V_To_U_And_J_To_I (fc4);
+
          if pt.pofs = n  then
             if sts(2)(1) /= sts(1)(1)  and then
                sts(2)(1) /= ' '        and then

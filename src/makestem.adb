@@ -20,6 +20,7 @@ with Latin_File_Names; use Latin_File_Names;
 with Inflections_Package; use Inflections_Package;
 with Dictionary_Package; use Dictionary_Package;
 with word_support_package; use word_support_package;
+with Char_Utils;
 
 procedure makestem is
    use Stem_Key_Type_IO;
@@ -178,18 +179,8 @@ begin
             fc := Lower_Case (line(1));
             sc := Lower_Case (line(2));
             --------------------------------------------------------------------
-            if fc = 'v' then
-               fc := 'u';
-            end if;
-            if sc = 'v' then
-               sc := 'u';
-            end if;
-            if fc = 'j' then
-               fc := 'i';
-            end if;
-            if sc = 'j' then
-               sc := 'i';
-            end if;
+            Char_Utils.V_To_U_And_J_To_I (fc);
+            Char_Utils.V_To_U_And_J_To_I (sc);
             --------------------------------------------------------------------
             i := i + 1;
 

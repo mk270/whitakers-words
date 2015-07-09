@@ -23,6 +23,7 @@ with word_support_package; use word_support_package;
 with developer_parameters; use developer_parameters;
 with word_package; use word_package;
 with Inflections_Package; use Inflections_Package;
+with Char_Utils;
 with dictionary_form;
 with Put_example_line;
 with list_sweep;
@@ -1062,30 +1063,13 @@ package body list_package is
          s : constant String := Lower_Case (w);
          ss : String(w'Range) := w;
 
-         function ui(c : Character) return Character  is
-         begin
-            if c = 'v' then
-               return 'u';
-            elsif c = 'V' then
-               return 'U';
-            elsif c = 'j' then
-               return 'i';
-            elsif c = 'J' then
-               return 'I';
-            else
-               return c;
-            end if;
-         end ui;
-
       begin
-
          if s'Length = 1  then
-            ss(s'First) := ui(w(s'First));
+            ss (s'First) := Char_Utils.V_To_U_And_J_To_I (w (s'First));
          else
-            ss(s'First)   := ui(w(s'First));
-            ss(s'First+1) := ui(w(s'First+1));
+            ss (s'First)   := Char_Utils.V_To_U_And_J_To_I (w (s'First));
+            ss (s'First+1) := Char_Utils.V_To_U_And_J_To_I (w (s'First+1));
          end if;
-
          return ss;
       end first_two;
 

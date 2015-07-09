@@ -44,4 +44,27 @@ package body Char_Utils is
 
    ---------------------------------------------------------------------------
 
+   function V_To_U_And_J_To_I (C : Character) return Character
+   is
+      Convert_P : constant array (Character) of Character :=
+         ( 'V' => 'U', 'v' => 'u',
+           'J' => 'I', 'j' => 'i',
+            others => ' '
+         );
+   begin
+      if Convert_P (C) /= ' ' then
+         return Convert_P (C);
+      else
+         return C;
+      end if;
+   end V_To_U_And_J_To_I;
+
+   procedure V_To_U_And_J_To_I (C : in out Character)
+   is
+   begin
+      C := V_To_U_And_J_To_I (C);
+   end V_To_U_And_J_To_I;
+
+   ---------------------------------------------------------------------------
+
 end Char_Utils;
