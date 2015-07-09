@@ -22,7 +22,7 @@ with Dictionary_Package;
    -- graphs and/or functionality.
    ---------------------------------------------------------------------------
 
-package Utils.General is
+package Latin_Utils.General is
 
    ---------------------------------------------------------------------------
    -- Interactively loads dictionary (either special or general)
@@ -35,4 +35,4 @@ package Utils.General is
 
    ---------------------------------------------------------------------------
 
-end Utils.General;
+end Latin_Utils.General;

@@ -23,7 +23,7 @@ with english_support_package; use english_support_package;
 with weed;
 with weed_all;
 with dictionary_form;
-with Utils.General;
+with Latin_Utils.General;
 procedure makeewds is
    package Integer_IO is new Text_IO.Integer_IO(Integer);
    use Text_IO;
@@ -658,7 +658,7 @@ procedure makeewds is
 
 begin
    Put_Line ("Takes a DICTLINE.D_K and produces a EWDSLIST.D_K ");
-   Utils.General.Load_Dictionary (line, last, d_k);
+   Latin_Utils.General.Load_Dictionary (line, last, d_k);
 
    --PUT_LINE("OPENING   " &
    --     ADD_FILE_NAME_EXTENSION(DICT_LINE_NAME, DICTIONARY_KIND'IMAGE(D_K)));

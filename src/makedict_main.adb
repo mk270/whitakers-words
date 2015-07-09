@@ -19,7 +19,7 @@ with Strings_Package; use Strings_Package;
 with Latin_File_Names; use Latin_File_Names;
 with Inflections_Package; use Inflections_Package;
 with Dictionary_Package; use Dictionary_Package;
-with Utils.General;
+with Latin_Utils.General;
 procedure makedict_main(porting : Boolean) is
    package Integer_IO is new Text_IO.Integer_IO(Integer);
    use Text_IO;
@@ -60,7 +60,7 @@ procedure makedict_main(porting : Boolean) is
 begin
    Put_Line("Takes a DICTLINE.D_K and produces a STEMLIST.D_K and DICTFILE.D_K");
    Put_Line("This version inserts ESSE when D_K = GEN");
-   Utils.General.Load_Dictionary (line, last, d_k);
+   Latin_Utils.General.Load_Dictionary (line, last, d_k);
 
    Open(Input, In_File, add_file_name_extension(dict_line_name,
                                                 Dictionary_Kind'Image(d_k)));

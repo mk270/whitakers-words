@@ -17,7 +17,7 @@
 with Ada.Text_IO;
 with Strings_Package;
 
-package body Utils.General is
+package body Latin_Utils.General is
 
    ---------------------------------------------------------------------------
 
@@ -50,4 +50,4 @@ package body Utils.General is
 
    ---------------------------------------------------------------------------
 
-end Utils.General;
+end Latin_Utils.General;

@@ -21,7 +21,7 @@ with Inflections_Package; use Inflections_Package;
 with Dictionary_Package; use Dictionary_Package;
 with word_support_package; use word_support_package;
 with Char_Utils;
-with Utils.General;
+with Latin_Utils.General;
 
 procedure makestem is
    use Stem_Key_Type_IO;
@@ -81,7 +81,7 @@ procedure makestem is
 
 begin
    Put_Line("Creates STEMFILE.D_K and INDXFILE.D_K from STEMLIST.D_K");
-   Utils.General.Load_Dictionary (line, last, d_k);
+   Latin_Utils.General.Load_Dictionary (line, last, d_k);
 
    Open(   stem_list(d_k), In_File,
            add_file_name_extension(stem_list_name,

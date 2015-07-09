@@ -18,7 +18,7 @@
    -- Main package of library-like utilities used all over the WORDS.
    ---------------------------------------------------------------------------
 
-package Utils is
+package Latin_Utils is
 
    ---------------------------------------------------------------------------
 
@@ -26,4 +26,4 @@ package Utils is
 
    ---------------------------------------------------------------------------
 
-end Utils;
+end Latin_Utils;
