@@ -15,7 +15,7 @@
 -- available to anyone who wishes to use them, for whatever purpose.
 
 with Ada.Text_IO; use Ada.Text_IO;
-with Direct_IO;
+with Ada.Direct_IO;
 package Latin_Utils.Inflections_Package is
    pragma Elaborate_Body;
    package Integer_IO is new Ada.Text_IO.Integer_IO (Integer);
