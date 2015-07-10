@@ -836,7 +836,7 @@ may be appropriate, if there is a line with a late AGE code or an indication
 of a modern dictionary source (e.g,. Cal), the user should take this into consideration.
 <BR><BR>
 
-<H5>Signs and Abbreviations in Meaning</H5></A>
+### Signs and Abbreviations in Meaning
 
 , [comma] is used to separate meanings that are similar.  The philosophy
 has been to list a number of synonyms just to key the reader in making his
