@@ -101,9 +101,9 @@ A verb dictionary record has the structure:
 
 Thus, an entry corresponding to 'amo amare amavi amatus' is:
 
-<PRE><TT>am am amav amat
-V 1 1 X            X X X X X
-love, like; fall in love with; be fond of; have a tendency to</TT></PRE>
+    am am amav amat
+    V 1 1 X            X X X X X
+    love, like; fall in love with; be fond of; have a tendency to
 
 
 
@@ -112,20 +112,19 @@ meaning.  'portas' could be the accusitive plural of 'gate', or the second
 person, singular, present indicative active of 'carry'.  In both cases the
 stem is 'port'.  All possibilities are reported.
 
-<PRE><TT>portas
-port.as V 1 1 PRES IND ACTIVE 2 S X
-carry, bring
+    portas
+    port.as V 1 1 PRES IND ACTIVE 2 S X
+    carry, bring
 
-port.as N 1 1 ACC P F T
-gate, entrance; city gates; door; avenue;</TT></PRE>
+    port.as N 1 1 ACC P F T
+    gate, entrance; city gates; door; avenue;
 
 
 And note that the same stem (port) has other uses (portus = harbor).
 
-
-<PRE><TT>portum
-port.um N 4 1 ACC S M T
-port, harbor; refuge, haven, place of refuge</TT></PRE>
+    portum
+    port.um N 4 1 ACC S M T
+    port, harbor; refuge, haven, place of refuge
 
 
 PLEASE NOTE: It is certainly possible for the program to find a valid
@@ -211,125 +210,123 @@ programs can handle these, each in it own unique way).  WORDS uses capital
 letters to express some such differences, which method is system independent
 in present usage.
 
-<PRE><TT>
- type PART_OF_SPEECH_TYPE
-          X,         --  all, none, or unknown
-          N,         --  Noun
-          PRON,      --  PRONoun
-          PACK,      --  PACKON -- artificial for code
-          ADJ,       --  ADJective
-          NUM,       --  NUMeral
-          ADV,       --  ADVerb
-          V,         --  Verb
-          VPAR,      --  Verb PARticiple
-          SUPINE,    --  SUPINE
-          PREP,      --  PREPosition
-          CONJ,      --  CONJunction
-          INTERJ,    --  INTERJection
-          TACKON,    --  TACKON --  artificial for code
-          PREFIX,    --  PREFIX --  here artificial for code
-          SUFFIX     --  SUFFIX --  here artificial for code
 
-  type GENDER_TYPE
-          X,         --  all, none, or unknown
-          M,         --  Masculine
-          F,         --  Feminine
-          N,         --  Neuter
-          C          --  Common (masculine and/or feminine)
+     type PART_OF_SPEECH_TYPE
+              X,         --  all, none, or unknown
+              N,         --  Noun
+              PRON,      --  PRONoun
+              PACK,      --  PACKON -- artificial for code
+              ADJ,       --  ADJective
+              NUM,       --  NUMeral
+              ADV,       --  ADVerb
+              V,         --  Verb
+              VPAR,      --  Verb PARticiple
+              SUPINE,    --  SUPINE
+              PREP,      --  PREPosition
+              CONJ,      --  CONJunction
+              INTERJ,    --  INTERJection
+              TACKON,    --  TACKON --  artificial for code
+              PREFIX,    --  PREFIX --  here artificial for code
+              SUFFIX     --  SUFFIX --  here artificial for code
 
-  type CASE_TYPE
-          X,         --  all, none, or unknown
-          NOM,       --  NOMinative
-          VOC,       --  VOCative
-          GEN,       --  GENitive
-          LOC,       --  LOCative
-          DAT,       --  DATive
-          ABL,       --  ABLative
-          ACC        --  ACCusitive
+      type GENDER_TYPE
+              X,         --  all, none, or unknown
+              M,         --  Masculine
+              F,         --  Feminine
+              N,         --  Neuter
+              C          --  Common (masculine and/or feminine)
 
-  type NUMBER_TYPE
-          X,         --  all, none, or unknown
-          S,         --  Singular
-          P          --  Plural
+      type CASE_TYPE
+              X,         --  all, none, or unknown
+              NOM,       --  NOMinative
+              VOC,       --  VOCative
+              GEN,       --  GENitive
+              LOC,       --  LOCative
+              DAT,       --  DATive
+              ABL,       --  ABLative
+              ACC        --  ACCusitive
 
-  type PERSON_TYPE is range 0..3;
+      type NUMBER_TYPE
+              X,         --  all, none, or unknown
+              S,         --  Singular
+              P          --  Plural
 
-  type COMPARISON_TYPE
-          X,         --  all, none, or unknown
-          POS,       --  POSitive
-          COMP,      --  COMParative
-          SUPER      --  SUPERlative
+      type PERSON_TYPE is range 0..3;
 
-  type NUMERAL_SORT_TYPE
-         X,          --  all, none, or unknown
-         CARD,       --  CARDinal
-         ORD,        --  ORDinal
-         DIST,       --  DISTributive
-         ADVERB      --  numeral ADVERB
+      type COMPARISON_TYPE
+              X,         --  all, none, or unknown
+              POS,       --  POSitive
+              COMP,      --  COMParative
+              SUPER      --  SUPERlative
 
-  type TENSE_TYPE
-          X,         --  all, none, or unknown
-          PRES,      --  PRESent
-          IMPF,      --  IMPerFect
-          FUT,       --  FUTure
-          PERF,      --  PERFect
-          PLUP,      --  PLUPerfect
-          FUTP       --  FUTure Perfect
+      type NUMERAL_SORT_TYPE
+             X,          --  all, none, or unknown
+             CARD,       --  CARDinal
+             ORD,        --  ORDinal
+             DIST,       --  DISTributive
+             ADVERB      --  numeral ADVERB
 
-  type VOICE_TYPE
-          X,         --  all, none, or unknown
-          ACTIVE,    --  ACTIVE
-          PASSIVE    --  PASSIVE
+      type TENSE_TYPE
+              X,         --  all, none, or unknown
+              PRES,      --  PRESent
+              IMPF,      --  IMPerFect
+              FUT,       --  FUTure
+              PERF,      --  PERFect
+              PLUP,      --  PLUPerfect
+              FUTP       --  FUTure Perfect
 
-  type MOOD_TYPE
-          X,         --  all, none, or unknown
-          IND,       --  INDicative
-          SUB,       --  SUBjunctive
-          IMP,       --  IMPerative
-          INF,       --  INFinative
-          PPL        --  ParticiPLe
+      type VOICE_TYPE
+              X,         --  all, none, or unknown
+              ACTIVE,    --  ACTIVE
+              PASSIVE    --  PASSIVE
 
-  type NOUN_KIND_TYPE
-          X,            --  unknown, nondescript
-          S,            --  Singular "only"           --  not really used
-          M,            --  plural or Multiple "only" --  not really used
-          A,            --  Abstract idea
-          G,            --  Group/collective Name -- Roman(s)
-          N,            --  proper Name
-          P,            --  a Person
-          T,            --  a Thing
-          L,            --  Locale, name of country/city
-          W             --  a place Where
+      type MOOD_TYPE
+              X,         --  all, none, or unknown
+              IND,       --  INDicative
+              SUB,       --  SUBjunctive
+              IMP,       --  IMPerative
+              INF,       --  INFinative
+              PPL        --  ParticiPLe
 
-  type PRONOUN_KIND_TYPE
-          X,            --  unknown, nondescript
-          PERS,         --  PERSonal
-          REL,          --  RELative
-          REFLEX,       --  REFLEXive
-          DEMONS,       --  DEMONStrative
-          INTERR,       --  INTERRogative
-          INDEF,        --  INDEFinite
-          ADJECT        --  ADJECTival
+      type NOUN_KIND_TYPE
+              X,            --  unknown, nondescript
+              S,            --  Singular "only"           --  not really used
+              M,            --  plural or Multiple "only" --  not really used
+              A,            --  Abstract idea
+              G,            --  Group/collective Name -- Roman(s)
+              N,            --  proper Name
+              P,            --  a Person
+              T,            --  a Thing
+              L,            --  Locale, name of country/city
+              W             --  a place Where
 
-   type VERB_KIND_TYPE
-          X,         --  all, none, or unknown
-          TO_BE,     --  only the verb TO BE (esse)
-          TO_BEING,  --  compounds of the verb to be (esse)
-          GEN,       --  verb taking the GENitive
-          DAT,       --  verb taking the DATive
-          ABL,       --  verb taking the ABLative
-          TRANS,     --  TRANSitive verb
-          INTRANS,   --  INTRANSitive verb
-          IMPERS,    --  IMPERSonal verb (implied subject 'it', 'they', 'God')
-                     --  agent implied in action, subject in predicate
-          DEP,       --  DEPonent verb
-                     --  only passive form but with active meaning
-          SEMIDEP,   --  SEMIDEPonent verb (forms perfect as deponent)
-                     --  (perfect passive has active force)
-          PERFDEF    --  PERFect DEFinite verb
-                     --  having only perfect stem, but with present force
+      type PRONOUN_KIND_TYPE
+              X,            --  unknown, nondescript
+              PERS,         --  PERSonal
+              REL,          --  RELative
+              REFLEX,       --  REFLEXive
+              DEMONS,       --  DEMONStrative
+              INTERR,       --  INTERRogative
+              INDEF,        --  INDEFinite
+              ADJECT        --  ADJECTival
 
-</TT></PRE>
+       type VERB_KIND_TYPE
+              X,         --  all, none, or unknown
+              TO_BE,     --  only the verb TO BE (esse)
+              TO_BEING,  --  compounds of the verb to be (esse)
+              GEN,       --  verb taking the GENitive
+              DAT,       --  verb taking the DATive
+              ABL,       --  verb taking the ABLative
+              TRANS,     --  TRANSitive verb
+              INTRANS,   --  INTRANSitive verb
+              IMPERS,    --  IMPERSonal verb (implied subject 'it', 'they', 'God')
+                         --  agent implied in action, subject in predicate
+              DEP,       --  DEPonent verb
+                         --  only passive form but with active meaning
+              SEMIDEP,   --  SEMIDEPonent verb (forms perfect as deponent)
+                         --  (perfect passive has active force)
+              PERFDEF    --  PERFect DEFinite verb
+                         --  having only perfect stem, but with present force
 
 
 The KIND_TYPEs represent various aspects of a word which may be useful to
