@@ -3,9 +3,7 @@ layout: default
 title: Programme description
 ---
 
-<A NAME="PROGRAM DESCRIPTION">
-<H3><CENTER>PROGRAM DESCRIPTION</CENTER>
-</H3></A> <BR>
+# Programme description
 
 
 A effect of the program is to derive the structure and meaning of
@@ -195,9 +193,8 @@ common example) and infer a meaning.  If all else fails, a portion of the
 possible dictionary stems can be listed, from which the user can draw in
 making his own guess.  <BR>
 
-<A NAME="Codes in Inflection Line">
 
-<H4>Codes in Inflection Line</H4></A>
+## Codes in Inflection Line
 
 For completeness, the enumeration codes used in the output are listed here
 from the Ada statements.  Simple numbers are used for person, declension,
@@ -383,8 +380,7 @@ But an active form would be recognized if input, especially if the text is medie
 NUMERAL KIND and VALUE are used by the program in constructing the meaning line.
 <BR>
 
-<A NAME="Help for Parameters">
-<H4>Help for Parameters</H4></A>
+## Help for Parameters
 
 
 One can CHANGE_PARAMETERS by inputting a '#' [number sign] character (ASCII
@@ -868,10 +864,10 @@ SAVE_PARAMETERS_HELP
    default parameters used, until a proper parameter file in written by
    the program.  Since one may want to make temporary changes during a
    run, but revert to the usual set, the default is N(o).
+
 </TT></PRE>
 
-<A NAME="Special Cases">
-<H4>Special Cases</H4></A>
+## Special Cases
 
 Some adjectives have no conventional positive forms (either missing or
 undeclined), or the POS forms have more than one COMP/SUPER.  In these few
@@ -881,8 +877,7 @@ different numbered declensions, the special form is given a declension of
 (0, 0).  An additional consequence is that the dictionary form in output
 is only for the COMP/SUPER, and does not reflect all comparisons.
 
-<A NAME="Uniques">
-<H4>Uniques</H4></A>
+## Uniques
 
 There are some irregular situations which are not convenient to handle
 through the general algorithms.  For these a UNIQUES file and procedure
@@ -892,8 +887,7 @@ algorithms provide better coverage.  The user will not see much
 difference, except in that no dictionary forms are available for these
 unique words.
 
-<A NAME="Tricks">
-<H4>Tricks</H4></A>
+## Tricks
 
 There are a number of situations in Latin writing where certain
 modifications or conventions regularly are found.  While often found,
@@ -950,8 +944,7 @@ the program will become more useful in that area, the default has been
 set to Yes, reflecting the philosophy early in the development
 for classical Latin.
 
-<A NAME="Trimming of uncommon results">
-<H4>Trimming of uncommon results</H4></A>
+## Trimming of uncommon results
 
 Trimming has an impact on output.  If TRIM_OUTPUT parameter is set, and
 specific parameters set in the MDEV, the program will deprecate those
