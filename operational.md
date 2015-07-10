@@ -806,8 +806,6 @@ rigor was not always maintained, therefore the rules
 below are generally, but not universally, observed.
 Evolution of the dictionary is bringing it more closely
 in line with these rules.
-<BR><BR>
-
 
 <P>A decision was made to include as many meanings and synonyms as
 convenient.  The OLD will sometimes list a dozen or more meaning
@@ -834,7 +832,6 @@ on the age.  If one is reading a text written recently in modern Latin, one must
 consider hints about the meaning.  While the classical meaning, the WORDS default,
 may be appropriate, if there is a line with a late AGE code or an indication
 of a modern dictionary source (e.g,. Cal), the user should take this into consideration.
-<BR><BR>
 
 ### Signs and Abbreviations in Meaning
 
