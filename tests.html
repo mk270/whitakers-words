@@ -1,0 +1,183 @@
+<HTML>
+
+<HEAD>
+<TITLE>WORDS 1.97F (LATIN-ENGLISH DICTIONARY) PROGRAM DOCUMENTATION</TITLE>
+</HEAD>
+<BODY>
+
+
+<H1><CENTER>WORDS Version 1.97FC</CENTER>
+<CENTER>LATIN-ENGLISH DICTIONARY PROGRAM</CENTER></H1>
+
+<BR><BR>
+
+<A HREF="#SUMMARY"><B>SUMMARY</B></A><BR>
+<BR>
+<A HREF="installation.html"><B>INSTALLATION</B></A><BR>
+<A HREF="installation.html#Is There a Problem">Is There a Problem?</A><BR>
+<BR>
+
+<A HREF="introduction.html"><B>INTRODUCTION</B></A><BR>
+<BR>
+<A HREF="operational.html#OPERATIONAL DESCRIPTION"><B>OPERATIONAL DESCRIPTION</B></A><BR>
+<A HREF="operational.html#Program Operation">Program Operation</A><BR>
+<A HREF="operational.html#Modes of Operation">Modes of Operation</A><BR>
+<A HREF="operational.html#Command Line Operation">Command Line Operation</A><BR>
+<A HREF="operational.html#Latin-to-English Examples">Latin-to-English Examples</A><BR>
+<A HREF="operational.html#English-to-Latin Examples">English-to-Latin Examples</A><BR>
+<A HREF="operational.html#Design of the Meaning Line">Design of the Meaning Line</A><BR>
+<A HREF="operational.html#Signs and Abbreviations in Meaning">Signs and Abbreviations in Meaning</A><BR>
+<BR>
+<A HREF="programme.html"><B>PROGRAM DESCRIPTION</B></A><BR>
+<A HREF="programme.html#Codes in Inflection Line">Codes in Inflection Line</A><BR>
+<A HREF="programme.html#Help for Parameters">Help for Parameters</A><BR>
+<A HREF="programme.html#Special Cases">Special Cases</A><BR>
+<A HREF="programme.html#Uniques">Uniques</A><BR>
+<A HREF="programme.html#Tricks">Tricks</A><BR>
+<A HREF="programme.html#Trimming of uncommon results">Trimming of uncommon results</A><BR>
+<BR>
+<A HREF="philosophy.html#GUIDING PHILOSOPHY"><B>GUIDING PHILOSOPHY</B></A><BR>
+<A HREF="philosophy.html#Purpose">Purpose</A> <BR>
+<A HREF="philosophy.html#Method">Method</A><BR>
+<A HREF="philosophy.html#Word Meanings">Word Meanings</A><BR>
+<A HREF="philosophy.html#Proper Names">Proper Names</A><BR>
+<A HREF="philosophy.html#Letter Conventions (u/v, i/j, w)">Letter Conventions (u/v, i/j, w)</A><BR>
+<BR>
+<A HREF="dictionary.html#DICTIONARY"><B>DICTIONARY</B></A><BR>
+<A HREF="dictionary.html#Dictionary Codes">Dictionary Codes</A><BR>
+<A HREF="dictionary.html#AGE">AGE</A><BR>
+<A HREF="dictionary.html#AREA">AREA</A><BR>
+<A HREF="dictionary.html#GEO">GEO</A><BR>
+<A HREF="dictionary.html#FREQ">FREQ</A><BR>
+<A HREF="dictionary.html#SOURCE">SOURCE</A><BR>
+<A HREF="dictionary.html#Current Distribution of DICTLINE Flags">
+Current Distribution of DICTLINE Flags</A><BR>
+<A HREF="dictionary.html#Dictionary Conventions">Dictionary Conventions</A><BR>
+<A HREF="dictionary.html#Evolution of the Dictionary">Evolution of the Dictionary</A><BR>
+<A HREF="dictionary.html#Text Dictionary - DICTPAGE.TXT">Text Dictionary - DICTPAGE.TXT</A><BR>
+<A HREF="dictionary.html#Latin Spellchecking - Text Processor List - LISTALL.ZIP">
+Latin Spellchecking - Text Processor List - LISTALL.ZIP</A><BR>
+<BR>
+<A HREF="inflections.html"><B>INFLECTIONS</B></A><BR>
+<BR>
+<A HREF="english_to_latin.html"><B>ENGLISH to LATIN</B></A><BR>
+<A HREF="english_to_latin.html#English Parsing of Meanings">English Parsing of Meanings</A><BR>
+<A HREF="english_to_latin.html#Ordering English-to-Latin Output">Ordering English-to-Latin Output</A><BR>
+<BR>
+<A HREF="#TESTS AND STATUS"><B>TESTS AND STATUS</B></A><BR>
+<A HREF="#Testing">Testing</A><BR>
+<A HREF="#Current Status and Future Plans">Current Status and Future Plans</A><BR>
+<BR>
+<A HREF="#USER MODIFICATIONS"><B>USER MODIFICATIONS</B></A><BR>
+<A HREF="#Writing DICT.LOC and UNIQUES.LAT">Writing DICT.LOC and UNIQUES.LAT</A><BR>
+<A HREF="#DICT.LOC">DICT.LOC</A><BR>
+<A HREF="#UNIQUES.LAT">UNIQUES.LAT</A><BR>
+
+<BR>
+<A HREF="developers.html"><B>DEVELOPERS AND REHOSTING</B></A><BR>
+<A HREF="developers.html#Program source code and data">Program source code and data</A><BR>
+<A HREF="developers.html#License">License</A><BR>
+<A HREF="developers.html#Rehosting WORDS">Rehosting WORDS</A><BR>
+<A HREF="developers.html#Feedback">Feedback</A><BR>
+<BR><BR>
+
+
+
+<A NAME="TESTS AND STATUS">
+<H3><CENTER>TESTS AND STATUS</CENTER>
+</H3></A> <BR>
+
+<A NAME="Testing">
+<H4>Testing</H4></A>
+
+<P>
+The program has been run against common classical texts.  Initially
+this was mostly a check of the process and reliability of the program.  It
+is now possible to run real texts and get valid statistics.  Relatively
+few texts have been run multiple times in order to understand exactly
+where failure occured and to regression test the solutions.  Such testing
+has taken place on texts totaling well over a million words.  The best
+results come from those which have been run the most times.  Caesar and
+the Vulgate are essentially without unknowns (excluding proper names.,
+Seutonius and Virgil are at the 0.1% level, Varro and Pliny have somewhat
+more than 1% unknowns due to their specialized vocabulary.  While this is
+a mechanical test and does not assure that the form and meaning reported
+by the program is always correct, the actual number of misses found by
+limited detailed examination is vanishingly small.
+
+<P>
+A far larger test (with feedback) has been made by John White in the development
+of his Blitz Latin.  While not using WORDS, he has a program from much the
+same basis, incorporating approximately the WORDS dictionary.  He has run
+a much larger set of texts, including both classical and medieval, to the
+extent of 20 million Latin words, and provided significant unknowns
+to be included in WORDS.
+
+<P>
+The hardest test is against another dictionary.  While getting a 97+% hit
+rate on long classical texts, a run against a large dictionary might fall
+to 85-90%, the missing words being in those letters which the update has
+not reached.  This is to be expected, since we both have the 10000 most
+common words and have made somewhat different additions beyond that.  So
+large electronic wordlists are a check on the program, and have been reserved
+for that purpose, not simply incorporated as such.
+
+<P>We have gone so far that this is no longer significant and wordlists can be
+integrated.  The only real impact has been the inclusion of modern Latin words
+which come from such lists, and not from scans of texts.
+
+<BR>
+<BR>
+
+
+
+<H5>English-to-Latin Tests</H5>
+
+<P>So far there have been no formal validation of the English-to-Latin capability.
+There have been numerous individual checks and anacdotal testing, as well
+as some mechnical performance tests, but nothing fundemental.
+
+<P>The first test proposed is to take a small English-to-Latin dictionary,
+say from the back of an introductory textbook, and check that the Latin
+suggested for each entry is found in the top six returned by WORDS.
+It is expected that there will be a high corespondence (to be shown).
+Taking a much larger example may give a different result.
+It may be that the Latin words chosen by WORDS are not the same as
+the paper dictionary.
+
+<BR><BR>
+
+
+<A NAME="Current Status and Future Plans">
+
+<H4>Current Status and Future Plans</H4></A>
+<P>
+The present phase of refinement has incorporated the Oxford Latin
+Dictionary and Lewis and Short entries into <B>D</B> (about a fourth).
+Periodically, when I need a change of task, I run a major author
+to check the
+effectiveness of the code.  I may then include some words which turn up
+frequently as unknowns, but this is done as the spirit moves me.  Smaller
+sections of later authors may also be processed, giving some growth in
+medieval Latin entries.  Recently I have worked the Vulgate of St. Jerome.
+
+<P>John White in support of his Blitz Latin program has run a very large
+body of Latin text, including much medieval legal documents.  He provides
+input to the dictionary as he finds significant unknowns.
+
+<P>
+I will continue to refine the dictionary and the program.  The major goal
+is to complete the inclusion of OLD and L+S, and this may take years.
+Along the way, and later, I will expand to medieval Latin.  I am not so
+unrealistic as to believe that I will 'finish', indeed, this is a hobby
+and there is no advantage to finishing.
+<P>
+An eventual outcome would be to have some institution, with real Latin
+capability, provide an exhaustive and authoritative program of this
+nature.  Until then, I and other individuals will make available our
+programs.  <BR>
+<BR><BR>
+
+
+</BODY>
+</HTML>

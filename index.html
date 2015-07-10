@@ -64,9 +64,9 @@ Latin Spellchecking - Text Processor List - LISTALL.ZIP</A><BR>
 <A HREF="english_to_latin.html#English Parsing of Meanings">English Parsing of Meanings</A><BR>
 <A HREF="english_to_latin.html#Ordering English-to-Latin Output">Ordering English-to-Latin Output</A><BR>
 <BR>
-<A HREF="#TESTS AND STATUS"><B>TESTS AND STATUS</B></A><BR>
-<A HREF="#Testing">Testing</A><BR>
-<A HREF="#Current Status and Future Plans">Current Status and Future Plans</A><BR>
+<A HREF="tests.html"><B>TESTS AND STATUS</B></A><BR>
+<A HREF="tests.html#Testing">Testing</A><BR>
+<A HREF="tests.html#Current Status and Future Plans">Current Status and Future Plans</A><BR>
 <BR>
 <A HREF="#USER MODIFICATIONS"><B>USER MODIFICATIONS</B></A><BR>
 <A HREF="#Writing DICT.LOC and UNIQUES.LAT">Writing DICT.LOC and UNIQUES.LAT</A><BR>
@@ -104,103 +104,6 @@ is now a large dictionary by any measure and can be helpful to advanced
 users.  The dictionary will continue to grow - slowly.  <BR>
 <BR>
 
-
-
-
-<A NAME="TESTS AND STATUS">
-<H3><CENTER>TESTS AND STATUS</CENTER>
-</H3></A> <BR>
-
-<A NAME="Testing">
-<H4>Testing</H4></A>
-
-<P>
-The program has been run against common classical texts.  Initially
-this was mostly a check of the process and reliability of the program.  It
-is now possible to run real texts and get valid statistics.  Relatively
-few texts have been run multiple times in order to understand exactly
-where failure occured and to regression test the solutions.  Such testing
-has taken place on texts totaling well over a million words.  The best
-results come from those which have been run the most times.  Caesar and
-the Vulgate are essentially without unknowns (excluding proper names.,
-Seutonius and Virgil are at the 0.1% level, Varro and Pliny have somewhat
-more than 1% unknowns due to their specialized vocabulary.  While this is
-a mechanical test and does not assure that the form and meaning reported
-by the program is always correct, the actual number of misses found by
-limited detailed examination is vanishingly small.
-
-<P>
-A far larger test (with feedback) has been made by John White in the development
-of his Blitz Latin.  While not using WORDS, he has a program from much the
-same basis, incorporating approximately the WORDS dictionary.  He has run
-a much larger set of texts, including both classical and medieval, to the
-extent of 20 million Latin words, and provided significant unknowns
-to be included in WORDS.
-
-<P>
-The hardest test is against another dictionary.  While getting a 97+% hit
-rate on long classical texts, a run against a large dictionary might fall
-to 85-90%, the missing words being in those letters which the update has
-not reached.  This is to be expected, since we both have the 10000 most
-common words and have made somewhat different additions beyond that.  So
-large electronic wordlists are a check on the program, and have been reserved
-for that purpose, not simply incorporated as such.
-
-<P>We have gone so far that this is no longer significant and wordlists can be
-integrated.  The only real impact has been the inclusion of modern Latin words
-which come from such lists, and not from scans of texts.
-
-<BR>
-<BR>
-
-
-
-<H5>English-to-Latin Tests</H5>
-
-<P>So far there have been no formal validation of the English-to-Latin capability.
-There have been numerous individual checks and anacdotal testing, as well
-as some mechnical performance tests, but nothing fundemental.
-
-<P>The first test proposed is to take a small English-to-Latin dictionary,
-say from the back of an introductory textbook, and check that the Latin
-suggested for each entry is found in the top six returned by WORDS.
-It is expected that there will be a high corespondence (to be shown).
-Taking a much larger example may give a different result.
-It may be that the Latin words chosen by WORDS are not the same as
-the paper dictionary.
-
-<BR><BR>
-
-
-<A NAME="Current Status and Future Plans">
-
-<H4>Current Status and Future Plans</H4></A>
-<P>
-The present phase of refinement has incorporated the Oxford Latin
-Dictionary and Lewis and Short entries into <B>D</B> (about a fourth).
-Periodically, when I need a change of task, I run a major author
-to check the
-effectiveness of the code.  I may then include some words which turn up
-frequently as unknowns, but this is done as the spirit moves me.  Smaller
-sections of later authors may also be processed, giving some growth in
-medieval Latin entries.  Recently I have worked the Vulgate of St. Jerome.
-
-<P>John White in support of his Blitz Latin program has run a very large
-body of Latin text, including much medieval legal documents.  He provides
-input to the dictionary as he finds significant unknowns.
-
-<P>
-I will continue to refine the dictionary and the program.  The major goal
-is to complete the inclusion of OLD and L+S, and this may take years.
-Along the way, and later, I will expand to medieval Latin.  I am not so
-unrealistic as to believe that I will 'finish', indeed, this is a hobby
-and there is no advantage to finishing.
-<P>
-An eventual outcome would be to have some institution, with real Latin
-capability, provide an exhaustive and authoritative program of this
-nature.  Until then, I and other individuals will make available our
-programs.  <BR>
-<BR><BR>
 
 <A NAME="USER MODIFICATIONS">
 <H3><CENTER>USER MODIFICATIONS</CENTER>
