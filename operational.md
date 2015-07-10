@@ -72,8 +72,7 @@ the parameter UNKNOWNS_ONLY is set, the output serves as a sort of a Latin
 spell checker.  Those words it cannot match may just not be in the
 dictionary, but alternatively they may be typos.  A WORD.UNK file of
 unknowns can be generated.
-<BR>
-<BR>
+
 ## Program Operation
 
 
