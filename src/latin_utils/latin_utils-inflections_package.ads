@@ -65,7 +65,7 @@ package Latin_Utils.Inflections_Package is
                                );
 
    package Part_Of_Speech_Type_IO is
-      new Ada.Text_IO.enumeration_io(Part_Of_Speech_Type);
+      new Ada.Text_IO.Enumeration_IO(Part_Of_Speech_Type);
 
    subtype which_type is Natural range 0..9;
 
@@ -114,7 +114,7 @@ package Latin_Utils.Inflections_Package is
                       acc        --  ACCusitive
                      );
 
-   package Case_Type_IO is new Ada.Text_IO.enumeration_io(Case_Type);
+   package Case_Type_IO is new Ada.Text_IO.Enumeration_IO(Case_Type);
 
    type number_type is (
                         x,         --  all, none, or unknown
@@ -122,7 +122,7 @@ package Latin_Utils.Inflections_Package is
                         p          --  Plural
                        );
 
-   package number_type_io is new Ada.Text_IO.enumeration_io(number_type);
+   package number_type_io is new Ada.Text_IO.Enumeration_IO(number_type);
 
    type person_type is range 0..3;
    package person_type_io is new Ada.Text_IO.Integer_IO(person_type);
@@ -162,7 +162,7 @@ package Latin_Utils.Inflections_Package is
                        futp       --  FUTure Perfect
                       );
 
-   package tense_type_io is new Ada.Text_IO.enumeration_io(tense_type);
+   package tense_type_io is new Ada.Text_IO.Enumeration_IO(tense_type);
 
    type voice_type is (
                        x,         --  all, none, or unknown
@@ -170,7 +170,7 @@ package Latin_Utils.Inflections_Package is
                        passive    --  PASSIVE
                       );
 
-   package voice_type_io is new Ada.Text_IO.enumeration_io(voice_type);
+   package voice_type_io is new Ada.Text_IO.Enumeration_IO(voice_type);
 
    type mood_type is (
                       x,         --  all, none, or unknown
@@ -181,7 +181,7 @@ package Latin_Utils.Inflections_Package is
                       ppl        --  ParticiPLe
                      );
 
-   package mood_type_io is new Ada.Text_IO.enumeration_io(mood_type);
+   package mood_type_io is new Ada.Text_IO.Enumeration_IO(mood_type);
 
    type tense_voice_mood_record is
       record
@@ -214,7 +214,7 @@ package Latin_Utils.Inflections_Package is
                            w             --  a place Where
                           );
 
-   package Noun_Kind_Type_IO is new Ada.Text_IO.enumeration_io(noun_kind_type);
+   package Noun_Kind_Type_IO is new Ada.Text_IO.Enumeration_IO(noun_kind_type);
 
    type Pronoun_Kind_Type is (
                               x,            --  unknown, nondescript
@@ -228,7 +228,7 @@ package Latin_Utils.Inflections_Package is
                              );
 
    package Pronoun_Kind_Type_IO is
-      new Ada.Text_IO.enumeration_io(Pronoun_Kind_Type);
+      new Ada.Text_IO.Enumeration_IO(Pronoun_Kind_Type);
 
    subtype Numeral_Value_Type is Natural range 0..1000;
 
@@ -254,7 +254,7 @@ package Latin_Utils.Inflections_Package is
                           );
 
    package Verb_Kind_Type_IO is
-      new Ada.Text_IO.enumeration_io(Verb_Kind_Type);
+      new Ada.Text_IO.Enumeration_IO(Verb_Kind_Type);
 
    type noun_record is
       record
