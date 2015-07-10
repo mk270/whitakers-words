@@ -658,7 +658,7 @@ of this file is over 2 MB.
 The purpose of such a list is to provide data for conventional
 word processor spell checking.
 
-Currently there are some ommissions.
+Currently there are some omissions.
 
 1) Latin has a widely used enclitic, -que, also -ne and -ve.
 In principle these could be tacked on to almost any word.
