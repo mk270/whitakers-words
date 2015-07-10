@@ -367,68 +367,7 @@ package body Latin_Utils.Inflections_Package is
       end if;
    end "<=";
 
-   package body Stem_Type_IO is
-      procedure Get(f : in File_Type; d : out Stem_Type) is
-         c : Character := ' ';
-      begin
-         d := Null_Stem_Type;
-         for i in 1..Stem_Type_IO.Default_Width  loop
-            Get(f, c);
-            if (c not in 'A'..'Z') and (c not in 'a'..'z')  then
-               exit;
-            else
-               d(i) := c;
-            end if;
-         end loop;
-      end Get;
-
-      procedure Get(d : out Stem_Type) is
-         c : Character := ' ';
-      begin
-         d := Null_Stem_Type;
-         for i in 1..Stem_Type_IO.Default_Width loop
-            Ada.Text_IO.Get(c);
-            if (c not in 'A'..'Z') and (c not in 'a'..'z') then
-               exit;
-            else
-               d(i) := c;
-            end if;
-         end loop;
-      end Get;
-
-      procedure Put(f : in File_Type; d : in Stem_Type) is
-      begin
-         Ada.Text_IO.Put(f, d);
-      end Put;
-
-      procedure Put(d : in Stem_Type) is
-      begin
-         Ada.Text_IO.Put(d);
-      end Put;
-
-      procedure Get(s : in String; d : out Stem_Type;
-                                   last : out Integer) is
-         c : Character;
-      begin
-         d := Null_Stem_Type;
-         last := 0;
-         for i in 1..Stem_Type_IO.Default_Width  loop
-            c := s(i);
-            if (c not in 'A'..'Z') and (c not in 'a'..'z')  then
-               exit;
-            else
-               d(i) := c;
-               last := i;
-            end if;
-         end loop;
-      end Get;
-
-      procedure Put(s : out String; d : in Stem_Type) is
-      begin
-         s(s'First..s'First+Stem_Type_IO.Default_Width-1) := d;
-      end Put;
-
-   end Stem_Type_IO;
+   package body Stem_Type_IO is separate;
 
    package body Decn_Record_IO is
       --  This package will carry the documentation for all the following packages

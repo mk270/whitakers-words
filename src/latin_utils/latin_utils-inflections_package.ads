@@ -30,15 +30,20 @@ package Latin_Utils.Inflections_Package is
    subtype Stem_Type is String (1 .. Max_Stem_Size);
    Null_Stem_Type : constant Stem_Type := (others => ' ');
 
+   -- FIXME: These subprograms don't check if Is_Open (File)
    package Stem_Type_IO is
       Default_Width : Natural := Max_Stem_Size;
-      procedure Get(f : in File_Type; d : out Stem_Type);
-      procedure Get(d : out Stem_Type);
-      procedure Put(f : in File_Type; d : in Stem_Type);
-      procedure Put(d : in Stem_Type);
-      procedure Get(s : in String; d : out Stem_Type;
-                                   last : out Integer);
-      procedure Put(s : out String; d : in Stem_Type);
+      procedure Get (File : in File_Type; Item : out Stem_Type);
+      procedure Get (Item : out Stem_Type);
+      procedure Put (File : in File_Type; Item : in Stem_Type);
+      procedure Put (Item : in Stem_Type);
+      -- TODO: Document meaning of Last
+      procedure Get
+         ( Source : in  String;
+           Target : out Stem_Type;
+           Last   : out Integer
+         );
+      procedure Put (Target : out String; Item : in Stem_Type);
    end Stem_Type_IO;
 
    subtype Meaning_Type is String (1 .. Max_Meaning_Size);

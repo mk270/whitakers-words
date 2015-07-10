@@ -31,6 +31,7 @@ project Latin_Utils is
         "latin_utils-general.adb",
         "latin_utils-inflections_package.ads",
         "latin_utils-inflections_package.adb",
+        "latin_utils-inflections_package-stem_type_io.adb",
         "latin_utils-latin_file_names.ads",
         "latin_utils-latin_file_names.adb",
         "latin_utils-preface.ads",
