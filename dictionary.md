@@ -441,8 +441,7 @@ extensively used.  Others have only been used for an occasional check
 </TT></PRE>
 
 
-Current Distribution of DICTLINE Flags
---------------------------------------
+## Current Distribution of DICTLINE Flags
 
 <PRE><TT>
 Number of lines in DICTLINE GENERAL  1.97F    39187
@@ -535,8 +534,7 @@ Z         158
 
 
 
-Dictionary Conventions
-----------------------
+## Dictionary Conventions
 
 There are a few special conventions in setting codes.
 
@@ -565,8 +563,7 @@ meanings to an entry already encountered, usually the entry immediately
 before when the sort is for that reason.  This is only of concern to those
 dealing with the raw dictionary who have asked.  <BR>
 
-Evolution of the Dictionary
----------------------------
+## Evolution of the Dictionary
 
 The stem list was originally put together from what might be called
 'common knowledge', those words that most Latin texts have.  The first
@@ -600,8 +597,8 @@ all great dictionaries.  First stage refinement has proceeded through DI.
 <BR>
 <BR>
 
-Text Dictionary - DICTPAGE.TXT
-------------------------------
+## Text Dictionary - DICTPAGE.TXT
+
 
 In response to many requests, a simple ASCII text list has been created of
 the WORDS dictionary, in what might be called the paper dictionary form.
@@ -618,8 +615,8 @@ To make it possible to search on-line, the file is not compressed and so is
 about 3 MB.
 <BR><BR>
 
-Latin Spellchecking - Text Processor List - LISTALL.ZIP
--------------------------------------------------------
+## Latin Spellchecking - Text Processor List - LISTALL.ZIP
+
 
 I have done a lot of Latin spell checking directly with WORDS.
 All you have to do is put the text in a file,
