@@ -40,17 +40,18 @@ common words and have made somewhat different additions beyond that.  So
 large electronic wordlists are a check on the program, and have been reserved
 for that purpose, not simply incorporated as such.
 
-<P>We have gone so far that this is no longer significant and wordlists can be
+We have gone so far that this is no longer significant and wordlists can be
 integrated.  The only real impact has been the inclusion of modern Latin words
 which come from such lists, and not from scans of texts.
 
-<H5>English-to-Latin Tests</H5>
+English-to-Latin Tests
+----------------------
 
-<P>So far there have been no formal validation of the English-to-Latin capability.
+So far there have been no formal validation of the English-to-Latin capability.
 There have been numerous individual checks and anacdotal testing, as well
 as some mechnical performance tests, but nothing fundemental.
 
-<P>The first test proposed is to take a small English-to-Latin dictionary,
+The first test proposed is to take a small English-to-Latin dictionary,
 say from the back of an introductory textbook, and check that the Latin
 suggested for each entry is found in the top six returned by WORDS.
 It is expected that there will be a high corespondence (to be shown).
@@ -58,15 +59,12 @@ Taking a much larger example may give a different result.
 It may be that the Latin words chosen by WORDS are not the same as
 the paper dictionary.
 
-<BR><BR>
-
-
 Current Status and Future Plans
 -------------------------------
 
 
 The present phase of refinement has incorporated the Oxford Latin
-Dictionary and Lewis and Short entries into <B>D</B> (about a fourth).
+Dictionary and Lewis and Short entries into *D* (about a fourth).
 Periodically, when I need a change of task, I run a major author
 to check the
 effectiveness of the code.  I may then include some words which turn up
