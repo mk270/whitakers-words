@@ -3,11 +3,7 @@ layout: default
 title: Operational description
 ---
 
-<A NAME="OPERATIONAL DESCRIPTION">
-
-<H3><CENTER>OPERATIONAL DESCRIPTION</CENTER>
-</H3></A> <BR>
-
+# Operational description
 
 This write up is rudimentary and assumes that the user is experienced with
 computers, and as an example assumes a PC with a Windows OS.
@@ -78,8 +74,7 @@ dictionary, but alternatively they may be typos.  A WORD.UNK file of
 unknowns can be generated.
 <BR>
 <BR>
-<A NAME="Program Operation">
-<H4>Program Operation</H4></A>
+## Program Operation
 
 
 To start the program, in the subdirectory that contains all the files,
@@ -117,8 +112,7 @@ nevertheless they are available for special applications.
 Two successive returns with no text will terminate the program (except in
 text being read from an @ disk file.)
 
-<A NAME="Modes of Operation">
-<H4>Modes of Operation</H4></A>
+## Modes of Operation
 
 <P>The mode of operation of WORDS can be specialized by setting some combination
 of available parameters.  Here are a couple of example situations.
@@ -152,8 +146,7 @@ the same situation.
 
 
 
-<A NAME="Command Line Operation">
-<H4>Command Line Operation</H4></A>
+## Command Line Operation
 
 
 The main mode of usage for WORDS is a simple call, followed by screen interaction.
@@ -233,8 +226,7 @@ the situation.
 
 
 
-<A NAME="Latin-to-English Examples">
-<H4>Latin-to-English Examples</H4></A>
+## Latin-to-English Examples
 
 Following are annotated examples of output.  Examination of these will
 give a good idea of the system.  The present version may not match these
@@ -627,8 +619,7 @@ supplemented by it with possible specialized meanings.  <BR>
 
 
 
-<A NAME="English-to-Latin Examples">
-<H4>English-to-Latin Examples</H4></A>
+## English-to-Latin Examples
 
 <P>~E (tilde E/e plus Enter/CR)
 changes mode from Latin-to-English to English-to-Latin.  ~L changes back.
@@ -789,8 +780,7 @@ adjaceo means live near, judaizo means live in the Jewish manner keeping the law
 These sorts of meanings are often conveyed in Latin by a single word,
 while in English one might just use live and a modifing word or phrase.
 
-<A NAME="Design of the Meaning Line">
-<H4>Design of the Meaning Line</H4></A>
+## Design of the Meaning Line
 
 <P>The role and complexity of the WORDS meaning line has evolved over time.
 Initially it reflected an elementry, back-of-the-book,  textbook dictionary
@@ -847,7 +837,6 @@ may be appropriate, if there is a line with a late AGE code or an indication
 of a modern dictionary source (e.g,. Cal), the user should take this into consideration.
 <BR><BR>
 
-<A NAME="Signs and Abbreviations in Meaning">
 <H5>Signs and Abbreviations in Meaning</H5></A>
 
 , [comma] is used to separate meanings that are similar.  The philosophy
