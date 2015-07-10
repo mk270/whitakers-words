@@ -3,10 +3,8 @@ layout: default
 title: Guiding philosophy
 ---
 
-<A NAME="GUIDING PHILOSOPHY">
 <H3><CENTER>GUIDING PHILOSOPHY</CENTER></H3></A>
 
-<A NAME="Purpose">
 <H4>Purpose</H4></A>
 <P>
 The dictionary is intended as a help to someone who knows roughly enough
@@ -57,7 +55,6 @@ are documented herein.  Nevertheless some may be inappropriate, in spite of
 good intentions.
 <BR>
 
-<A NAME="Method">
 
 <H4>Method</H4></A>
 <P>
@@ -291,7 +288,6 @@ reader to convert words.  A computer dictionary ought to relieve the
 reader as much as possible.  The present program may be a far way from
 complete, but it's goal is to strive for that.
 
-<A NAME="Word Meanings">
 <H4>Word Meanings</H4></A>
 <P>
 The meanings listed are generally those in the literature/dictionaries.
@@ -370,7 +366,6 @@ If they cannot figure it out, I certainly cannot.
 Such a source entry is usually omitted ftom WORDS.
 
 
-<A NAME="Proper Names">
 <H4>Proper Names</H4></A>
 <P>
 Only a very few proper names are included, many just for test purposes,
@@ -387,7 +382,6 @@ that any capitalized unknown word is a proper name, and to ignore it.
 Also, one can make up a local dictionary of names for one's particular
 application.
 
-<A NAME="Letter Conventions (u/v, i/j, w)">
 <H4>Letter Conventions (u/v, i/j, w)</H4></A>
 
 <H5>U and/or V</H5>
