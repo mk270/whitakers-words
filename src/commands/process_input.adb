@@ -14,7 +14,7 @@
 -- All parts of the WORDS system, source code and data files, are made freely
 -- available to anyone who wishes to use them, for whatever purpose.
 
-with Text_IO;
+with Ada.Text_IO;
 with Latin_Utils.Strings_Package; use Latin_Utils.Strings_Package;
 with Latin_Utils.Latin_File_Names; use Latin_Utils.Latin_File_Names;
 with word_parameters; use word_parameters;
@@ -38,7 +38,7 @@ procedure process_Input(configuration : configuration_type;
 is
    -- use Inflections_Package.Integer_IO;
    -- use Inflection_Record_IO;
-   use Text_IO;
+   use Ada.Text_IO;
 
    procedure delete_if_Open(filename : String; dict_name : Dictionary_Kind) is
    begin
@@ -64,7 +64,7 @@ is
    begin
       --  Block to manipulate file of lines
       if Name(Current_Input) = Name(Standard_Input) then
-         scroll_line_number := Integer(Text_IO.Line(Text_IO.Standard_Output));
+         scroll_line_number := Integer(Ada.Text_IO.Line(Ada.Text_IO.Standard_Output));
          Preface.New_Line;
          Preface.Put("=>");
       end if;
@@ -99,11 +99,11 @@ is
          -- Not a blank line so L(1) (in file Input)
          if line(1) = start_file_Character  then
             if Name(Current_Input) /= Name(Standard_Input) then
-               Text_IO.Put_Line("Cannot have file of words (@FILE) " &
+               Ada.Text_IO.Put_Line("Cannot have file of words (@FILE) " &
                  "in an @FILE");
             else
-               Text_IO.Open(Input, Text_IO.In_File, Trim (line(2..l)));
-               Text_IO.Set_Input(Input);
+               Ada.Text_IO.Open(Input, Ada.Text_IO.In_File, Trim (line(2..l)));
+               Ada.Text_IO.Set_Input(Input);
             end if;
          elsif line(1) = change_parameters_Character  and then
            (Name(Current_Input) = Name(Standard_Input)) and then
@@ -126,7 +126,7 @@ is
             if words_mode(Write_Output_to_file)     then
                if not Config.suppress_preface     then
                   New_Line(Output);
-                  Text_IO.Put_Line(Output, line(1..l));
+                  Ada.Text_IO.Put_Line(Output, line(1..l));
                end if;
             end if;
             --  Count lines to be parsed

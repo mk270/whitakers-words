@@ -14,7 +14,7 @@
 -- All parts of the WORDS system, source code and data files, are made freely
 -- available to anyone who wishes to use them, for whatever purpose.
 
-with Text_IO;
+with Ada.Text_IO;
 with Latin_Utils.Strings_Package; use Latin_Utils.Strings_Package;
 with Latin_Utils.Latin_File_Names; use Latin_Utils.Latin_File_Names;
 with Latin_Utils.Inflections_Package; use Latin_Utils.Inflections_Package;
@@ -26,7 +26,7 @@ with Latin_Utils.General;
 procedure makestem is
    use Stem_Key_Type_IO;
    use Count_io;
-   use Text_IO;
+   use Ada.Text_IO;
    use stem_io;
    use MNPC_IO;
    use Part_Entry_IO;
@@ -255,7 +255,7 @@ begin
 
    for i in Character'('a')..Character'('z')  loop
       for j in Character'(' ')..Character'(' ')  loop
-         Text_IO.Put(indx_file(d_k), (i, j));
+         Ada.Text_IO.Put(indx_file(d_k), (i, j));
          Put(indx_file(d_k), ' ');
          Put(indx_file(d_k), bdlf(i, j, d_k));
          Put(indx_file(d_k), ' ');
@@ -267,7 +267,7 @@ begin
 
    for i in Character'('a')..Character'('z')  loop
       for j in Character'('a')..Character'('z')  loop
-         Text_IO.Put(indx_file(d_k), (i, j));
+         Ada.Text_IO.Put(indx_file(d_k), (i, j));
          Put(indx_file(d_k), ' ');
          Put(indx_file(d_k), ddlf(i, j, d_k));
          Put(indx_file(d_k), ' ');

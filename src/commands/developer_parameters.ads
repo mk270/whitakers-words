@@ -14,7 +14,7 @@
 -- All parts of the WORDS system, source code and data files, are made freely
 -- available to anyone who wishes to use them, for whatever purpose.
 
-with Text_IO;
+with Ada.Text_IO;
 package developer_parameters is
 
    --  These are a few strange declarations to be used in diagnostics;
@@ -28,7 +28,7 @@ package developer_parameters is
    --  They are all text files and human readable
 
    --  DEVELOPER MODE_FILE is used by the program to remember values
-   mdev_file : Text_IO.File_Type;
+   mdev_file : Ada.Text_IO.File_Type;
    mdev_full_name : constant String := "WORD.MDV";
 
    --  Debug not currently in use
@@ -37,7 +37,7 @@ package developer_parameters is
    --  DEBUG_FULL_NAME : constant STRING := "WORD.DBG";
 
    --  STATS collects statistics on the program, stems used, inflections, etc.
-   stats : Text_IO.File_Type;
+   stats : Ada.Text_IO.File_Type;
    stats_full_name : constant String := "WORD.STA";
 
    type mdev_type is (
@@ -83,7 +83,7 @@ package developer_parameters is
 
      minimize_Output         );
 
-   package mdev_type_io is new Text_IO.enumeration_io(mdev_type);
+   package mdev_type_io is new Ada.Text_IO.enumeration_io(mdev_type);
 
    type mdev_array is array (mdev_type) of Boolean;
 

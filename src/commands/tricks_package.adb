@@ -14,7 +14,7 @@
 -- All parts of the WORDS system, source code and data files, are made freely
 -- available to anyone who wishes to use them, for whatever purpose.
 
-with Text_IO;
+with Ada.Text_IO;
 with Latin_Utils.Strings_Package; use Latin_Utils.Strings_Package;
 with word_parameters; use word_parameters;
 with developer_parameters; use developer_parameters;
@@ -99,7 +99,7 @@ package body tricks_package is
    function roman_number(st : String) return Natural is
       --  Determines and returns the value of a Roman numeral, or 0 if invalid
 
-      use Text_IO;
+      use Ada.Text_IO;
       total : Natural := 0;
       invalid : exception;
       j : Integer := 0;
@@ -359,7 +359,7 @@ package body tricks_package is
       --  Determines and returns the value of a Roman numeral, or 0 if invalid
       --  This seems to allow all of Caesar's.   Actually there are no rules
       --  if you look at some of the 12-15 century stuff
-      use Text_IO;
+      use Ada.Text_IO;
       total : Integer := 0;
       decremented_from : Integer := 0;
 
@@ -1614,7 +1614,7 @@ package body tricks_package is
          pa_last := pa_save;
          pa(pa_last+1) := Null_Parse_Record;     --  Just to clear the trys
 
-         Text_IO.Put_Line(    --  ERROR_FILE,
+         Ada.Text_IO.Put_Line(    --  ERROR_FILE,
            "Exception in TRY_TRICKS processing " & w);
    end try_tricks;
 
@@ -1908,7 +1908,7 @@ package body tricks_package is
          pa_last := pa_save;
          pa(pa_last+1) := Null_Parse_Record;     --  Just to clear the trys
 
-         Text_IO.Put_Line(    --  ERROR_FILE,
+         Ada.Text_IO.Put_Line(    --  ERROR_FILE,
            "Exception in TRY_SLURY processing " & w);
    end try_slury;
 

@@ -14,7 +14,7 @@
 -- All parts of the WORDS system, source code and data files, are made freely
 -- available to anyone who wishes to use them, for whatever purpose.
 
-with Text_IO;
+with Ada.Text_IO;
 with direct_io;
 with Strings_Package; use Strings_Package;
 with Inflections_Package; use Inflections_Package;
@@ -23,13 +23,13 @@ procedure sorter is
    --  This program sorts a file of lines (Strings) on 5 subStrings Mx..Nx
    --  Sort by Stringwise (different cases), numeric, or POS enumeration
 
-   package Boolean_IO is new Text_IO.enumeration_io(Boolean);
+   package Boolean_IO is new Ada.Text_IO.enumeration_io(Boolean);
    use Boolean_IO;
-   package Integer_IO is new Text_IO.Integer_IO(Integer);
+   package Integer_IO is new Ada.Text_IO.Integer_IO(Integer);
    use Integer_IO;
-   package float_io is new Text_IO.float_io(float);
+   package float_io is new Ada.Text_IO.float_io(float);
    use float_io;
-   use Text_IO;
+   use Ada.Text_IO;
 
    name_length : constant := 80;
    st, enter_line : String(1..name_length) := (others => ' ');
@@ -55,15 +55,15 @@ procedure sorter is
    p_line : text_type := blank_text;
 
    type sort_type is (a, c, g, u, n, f, p, r, s);
-   package sort_type_io is new Text_IO.enumeration_io(sort_type);
+   package sort_type_io is new Ada.Text_IO.enumeration_io(sort_type);
    use sort_type_io;
 
    type way_type is (i, d);
-   package way_type_io is new Text_IO.enumeration_io(way_type);
+   package way_type_io is new Ada.Text_IO.enumeration_io(way_type);
    use way_type_io;
 
-   Input  : Text_IO.File_Type;
-   Output : Text_IO.File_Type;
+   Input  : Ada.Text_IO.File_Type;
+   Output : Ada.Text_IO.File_Type;
    work   : line_io.File_Type;
 
    m1, m2, m3, m4, m5 : Natural := 1;
@@ -89,7 +89,7 @@ procedure sorter is
 
    type appendix_type is (none, a, b, c, d, e, f, g, h, i, j, k, l, m,
                           n, o, p, q, r, s, t, u, v, w, x, y, z);
-   package appendix_io is new Text_IO.enumeration_io(appendix_type);
+   package appendix_io is new Ada.Text_IO.enumeration_io(appendix_type);
 
    type appendix_section_type is    record
       appendix : appendix_type := none;
@@ -99,10 +99,10 @@ procedure sorter is
    no_appendix_section : constant appendix_section_type :=
      (none, (0, 0, 0, 0, 0));
 
-   procedure Put(Output : Text_IO.File_Type; s : section_type) is
+   procedure Put(Output : Ada.Text_IO.File_Type; s : section_type) is
       level : Integer := 0;
 
-      procedure Put_level(Output : Text_IO.File_Type; l : Integer) is
+      procedure Put_level(Output : Ada.Text_IO.File_Type; l : Integer) is
       begin
          if l > 9999  then
             Put(Output, "****");
@@ -263,10 +263,10 @@ procedure sorter is
       last := l;
       return;
    exception
-      when Text_IO.end_error =>
+      when Ada.Text_IO.end_error =>
          last := l;
          return;
-      when Text_IO.Data_Error =>
+      when Ada.Text_IO.Data_Error =>
          last := l;
          return;
       when others =>
@@ -316,7 +316,7 @@ procedure sorter is
 
    end "<";
 
-   procedure Put(Output : Text_IO.File_Type; s : appendix_section_type) is
+   procedure Put(Output : Ada.Text_IO.File_Type; s : appendix_section_type) is
       use appendix_io;
    begin
       Put(Output, s.appendix);
@@ -366,10 +366,10 @@ procedure sorter is
       --PUT("F");
       return;
    exception
-      when Text_IO.end_error =>
+      when Ada.Text_IO.end_error =>
          last := l;
          return;
-      when Text_IO.Data_Error =>
+      when Ada.Text_IO.Data_Error =>
          last := l;
          return;
       when others =>
@@ -736,9 +736,9 @@ procedure sorter is
 
    exception
       when others  =>
-         Text_IO.Put_Line("exception in SLT    showing LEFT and RIGHT");
-         Text_IO.Put_Line(x & "&");
-         Text_IO.Put_Line(y & "|");
+         Ada.Text_IO.Put_Line("exception in SLT    showing LEFT and RIGHT");
+         Ada.Text_IO.Put_Line(x & "&");
+         Ada.Text_IO.Put_Line(y & "|");
          raise;
 
    end slt;
@@ -803,9 +803,9 @@ procedure sorter is
 
    exception
       when others  =>
-         Text_IO.Put_Line("exception in LT    showing LEFT and RIGHT");
-         Text_IO.Put_Line(x & "|");
-         Text_IO.Put_Line(y & "|");
+         Ada.Text_IO.Put_Line("exception in LT    showing LEFT and RIGHT");
+         Ada.Text_IO.Put_Line(x & "|");
+         Ada.Text_IO.Put_Line(y & "|");
          raise;
 
    end sort_equal;
@@ -847,13 +847,13 @@ procedure sorter is
       return False;
    exception
       when others =>
-         Text_IO.Put_Line("exception in LT    showing LEFT and RIGHT");
-         Text_IO.Put_Line(left & "|");
-         Text_IO.Put_Line(right & "|");
+         Ada.Text_IO.Put_Line("exception in LT    showing LEFT and RIGHT");
+         Ada.Text_IO.Put_Line(left & "|");
+         Ada.Text_IO.Put_Line(right & "|");
          raise;
    end lt;
 
-   procedure Open_file_for_Input(Input : in out Text_IO.File_Type;
+   procedure Open_file_for_Input(Input : in out Ada.Text_IO.File_Type;
                                  prompt : String := "File for Input => ") is
       last : Natural := 0;
    begin
@@ -875,7 +875,7 @@ procedure sorter is
 
    end Open_file_for_Input;
 
-   procedure Create_file_for_Output(Output : in out Text_IO.File_Type;
+   procedure Create_file_for_Output(Output : in out Ada.Text_IO.File_Type;
                                     prompt : String := "File for Output => ") is
       name : String(1..80) := (others => ' ');
       last : Natural := 0;
@@ -950,7 +950,7 @@ begin
          raise;
       when entry_finished =>
          null;
-      when Text_IO.Data_Error  | Text_IO.end_error  =>
+      when Ada.Text_IO.Data_Error  | Ada.Text_IO.end_error  =>
          null;
    end;
 
@@ -989,7 +989,7 @@ line_heapsort:
        i, j : line_io.Positive_Count;
 
     begin
-       Text_IO.Put_Line("SIZE OF WORK = " & Integer'Image(Integer(size(work))));
+       Ada.Text_IO.Put_Line("SIZE OF WORK = " & Integer'Image(Integer(size(work))));
    main:
        loop
 
@@ -1062,14 +1062,14 @@ exception
    when program_error  =>
       Put_Line("SORT terminated on a PROGRAM_ERROR");
       Close(Output);
-   when Text_IO.Data_Error =>     --Terminate on primary start or size = 0
+   when Ada.Text_IO.Data_Error =>     --Terminate on primary start or size = 0
       Put_Line("SORT terminated on a DATA_ERROR");
       Put_Line(line_text);
       Close(Output);
    when Constraint_Error =>       --Terminate on blank line for file name
       Put_Line("SORT terminated on a CONSTRAINT_ERROR");
       Close(Output);
-   when Text_IO.device_error  =>     --Ran out of space to Write Output file
+   when Ada.Text_IO.device_error  =>     --Ran out of space to Write Output file
       Put_Line("SORT terminated on a DEVICE_ERROR");
       delete(Output);
       Create_file_for_Output(Output, "Wherelse to Put the Output => ");

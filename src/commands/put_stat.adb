@@ -14,11 +14,11 @@
 -- All parts of the WORDS system, source code and data files, are made freely
 -- available to anyone who wishes to use them, for whatever purpose.
 
-with Text_IO;
+with Ada.Text_IO;
 with developer_parameters; use developer_parameters;
 procedure Put_stat(s : String) is
 begin
-   if Text_IO.Is_Open(stats) then
-      Text_IO.Put_Line(stats, s);
+   if Ada.Text_IO.Is_Open(stats) then
+      Ada.Text_IO.Put_Line(stats, s);
    end if;
 end Put_stat;

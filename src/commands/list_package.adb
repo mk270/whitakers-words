@@ -90,7 +90,7 @@ package body list_package is
       "NeoLatin",   --  G
       "Modern  " ); --  H
 
-   procedure Put_dictionary_flags(Output : Text_IO.File_Type;
+   procedure Put_dictionary_flags(Output : Ada.Text_IO.File_Type;
                                   de     : Dictionary_Entry;
                                   hit    : out Boolean) is
    begin
@@ -98,19 +98,19 @@ package body list_package is
       if words_mode(show_age)   or
         (Trim (dictionary_age(de.Tran.Age))'Length /= 0)  --  Not X
       then
-         Text_IO.Put(Output, "  " & Trim (dictionary_age(de.Tran.Age)));
+         Ada.Text_IO.Put(Output, "  " & Trim (dictionary_age(de.Tran.Age)));
          hit := True;
       end if;
       if (words_mode(show_frequency) or
             (de.Tran.Freq >= d))  and
         (Trim (dictionary_frequency(de.Tran.Freq))'Length /= 0)
       then
-         Text_IO.Put(Output, "  " & Trim (dictionary_frequency(de.Tran.Freq)));
+         Ada.Text_IO.Put(Output, "  " & Trim (dictionary_frequency(de.Tran.Freq)));
          hit := True;
       end if;
    end Put_dictionary_flags;
 
-   procedure Put_dictionary_form(Output : Text_IO.File_Type;
+   procedure Put_dictionary_form(Output : Ada.Text_IO.File_Type;
                                  d_k    : Dictionary_Kind;
                                  MNPC   : Dict_IO.Count;
                                  de     : Dictionary_Entry) is
@@ -121,11 +121,11 @@ package body list_package is
    begin                               --  PUT_DICTIONARY_FORM
       if words_mode(do_dictionary_forms)  then
          if words_mdev(do_pearse_codes) then
-            Text_IO.Put(Output, "02 ");
+            Ada.Text_IO.Put(Output, "02 ");
             dhit := True;
          end if;
          if dictionary_form(de)'Length /= 0  then
-            Text_IO.Put(Output, dictionary_form(de) & "  ");
+            Ada.Text_IO.Put(Output, dictionary_form(de) & "  ");
             dhit := True;
          end if;
       end if;
@@ -133,25 +133,25 @@ package body list_package is
       if words_mdev(show_dictionary_codes) and then
         de.Part.pofs not in xons
       then
-         Text_IO.Put(Output, " [");
+         Ada.Text_IO.Put(Output, " [");
          -- FIXME: Why noy Translation_Record_IO.Put ?
          Age_Type_IO.Put(Output, de.Tran.Age);
          Area_Type_IO.Put(Output, de.Tran.Area);
          Geo_Type_IO.Put(Output, de.Tran.Geo);
          Frequency_Type_IO.Put(Output, de.Tran.Freq);
          Source_Type_IO.Put(Output, de.Tran.Source);
-         Text_IO.Put(Output, "]  ");
+         Ada.Text_IO.Put(Output, "]  ");
          chit := True;
       end if;
 
       if words_mdev(show_dictionary) then
-         Text_IO.Put(Output, Ext(d_k) & ">");
+         Ada.Text_IO.Put(Output, Ext(d_k) & ">");
          ehit := True;
       end if;
 
       if words_mdev(show_dictionary_line)  then
          if dictionary_line_number > 0  then
-            Text_IO.Put(Output, "("
+            Ada.Text_IO.Put(Output, "("
                           & Trim (Integer'Image(dictionary_line_number)) & ")");
             lhit := True;
          end if;
@@ -160,19 +160,19 @@ package body list_package is
       Put_dictionary_flags(Output, de, fhit);
 
       if chit or dhit or ehit or fhit or lhit then
-         Text_IO.New_Line(Output);
+         Ada.Text_IO.New_Line(Output);
       end if;
       --end if;
 
    end Put_dictionary_form;
 
    procedure list_stems(configuration : configuration_type;
-                        Output   : Text_IO.File_Type;
+                        Output   : Ada.Text_IO.File_Type;
                         raw_word : String;
                         Input_Line : String;
                         pa       : in out Parse_Array;
                         pa_last  : in out Integer) is
-      use Text_IO;
+      use Ada.Text_IO;
       use Dict_IO;
 
       --  The main WORD processing has been to produce an array of PARSE_RECORD
@@ -258,13 +258,13 @@ package body list_package is
                   (sr.ir.age /= x))  and     --  Warn even if not to show AGE
               Trim (inflection_age(sr.ir.age))'Length /= 0
             then
-               Text_IO.Put(Output, "  " & inflection_age(sr.ir.age));
+               Ada.Text_IO.Put(Output, "  " & inflection_age(sr.ir.age));
             end if;
             if (words_mode(show_frequency)  or
                   (sr.ir.freq >= c))  and    --  Warn regardless
               Trim (inflection_frequency(sr.ir.freq))'Length /= 0
             then
-               Text_IO.Put(Output, "  " & inflection_frequency(sr.ir.freq));
+               Ada.Text_IO.Put(Output, "  " & inflection_frequency(sr.ir.freq));
             end if;
          end Put_inflection_flags;
 
@@ -273,29 +273,29 @@ package body list_package is
          if not words_mode(do_only_meanings) and
             not (configuration = only_meanings)
          then
-            Text_IO.Set_Col(Output, 1);
+            Ada.Text_IO.Set_Col(Output, 1);
             if words_mdev(do_pearse_codes) then
                if dm.d_k = addons  then
-                  Text_IO.Put(Output, "05 ");
+                  Ada.Text_IO.Put(Output, "05 ");
                elsif dm.d_k in xxx..yyy  then
-                  Text_IO.Put(Output, "06 ");
+                  Ada.Text_IO.Put(Output, "06 ");
                else
-                  Text_IO.Put(Output, "01 ");
+                  Ada.Text_IO.Put(Output, "01 ");
                end if;
             end if;
 
             --TEXT_IO.PUT(OUTPUT, CAP_STEM(TRIM(SR.STEM)));
-            Text_IO.Put(Output, (Trim (sr.stem)));
+            Ada.Text_IO.Put(Output, (Trim (sr.stem)));
             if sr.ir.ending.size > 0  then
-               Text_IO.Put(Output, ".");
+               Ada.Text_IO.Put(Output, ".");
                --TEXT_IO.PUT(OUTPUT, TRIM(CAP_ENDING(SR.IR.ENDING.SUF)));
-               Text_IO.Put(Output, Trim ((sr.ir.ending.suf)));
+               Ada.Text_IO.Put(Output, Trim ((sr.ir.ending.suf)));
             end if;
 
             if words_mdev(do_pearse_codes) then
-               Text_IO.Set_Col(Output, 25);
+               Ada.Text_IO.Set_Col(Output, 25);
             else
-               Text_IO.Set_Col(Output, 22);
+               Ada.Text_IO.Set_Col(Output, 22);
             end if;
 
             if sr.ir /= Null_Inflection_Record  then
@@ -342,7 +342,7 @@ package body list_package is
                      end if;
                   end if;
 
-                  Text_IO.Put(Output, out_String);
+                  Ada.Text_IO.Put(Output, out_String);
                   --TEXT_IO.PUT_LINE("PRINT MODIFIED QUAL 4" );
                end print_modified_qual;
 
@@ -353,10 +353,10 @@ package body list_package is
                --                 INFLECTIONS_PACKAGE.INTEGER_IO.PUT(OUTPUT, DM.DE.KIND.NUM_VALUE);
                --               end if;
                Put_inflection_flags;
-               Text_IO.New_Line(Output);
+               Ada.Text_IO.New_Line(Output);
                Put_example_line(configuration, Output, sr.ir, dm.de);    --  Only full when DO_EXAMPLES
             else
-               Text_IO.New_Line(Output);
+               Ada.Text_IO.New_Line(Output);
             end if;
          end if;
       end Put_inflection;
@@ -390,11 +390,11 @@ package body list_package is
          end if;
       end Trim_bar;
 
-      procedure Put_meaning(Output : Text_IO.File_Type;
+      procedure Put_meaning(Output : Ada.Text_IO.File_Type;
                             raw_meaning : String) is
          --  Handles the MM screen line limit and TRIM_BAR, then TRIMs
       begin
-         Text_IO.Put(Output, Trim (Head(Trim_bar(raw_meaning), mm)));
+         Ada.Text_IO.Put(Output, Trim (Head(Trim_bar(raw_meaning), mm)));
       end Put_meaning;
 
       function constructed_meaning(sr : Stem_Inflection_Record;
@@ -434,71 +434,71 @@ package body list_package is
       begin
          if dm.d_k not in addons..ppp  then
             if words_mdev(do_pearse_codes) then
-               Text_IO.Put(Output, "03 ");
+               Ada.Text_IO.Put(Output, "03 ");
             end if;
             if dm.de.Part.pofs = num  and then dm.de.Part.num.Value > 0  then
-               Text_IO.Put_Line(Output, constructed_meaning(sr, dm));    --  Constructed MEANING
+               Ada.Text_IO.Put_Line(Output, constructed_meaning(sr, dm));    --  Constructed MEANING
             elsif dm.d_k = unique  then
                Put_meaning(Output, uniques_de(dm.MNPC).Mean);
-               Text_IO.New_Line(Output);
+               Ada.Text_IO.New_Line(Output);
             else
                Put_meaning(Output, Trim_bar(dm.de.Mean));
-               Text_IO.New_Line(Output);
+               Ada.Text_IO.New_Line(Output);
             end if;
          else
             if dm.d_k = rrr  then
                if rrr_meaning /= Null_Meaning_Type   then
                   --PUT_DICTIONARY_FLAGS;
                   if words_mdev(do_pearse_codes) then
-                     Text_IO.Put(Output, "03 ");
+                     Ada.Text_IO.Put(Output, "03 ");
                   end if;
                   Put_meaning(Output, rrr_meaning);      --  Roman Numeral
                   rrr_meaning := Null_Meaning_Type;
-                  Text_IO.New_Line(Output);
+                  Ada.Text_IO.New_Line(Output);
                end if;
             elsif dm.d_k = nnn then
                if nnn_meaning /= Null_Meaning_Type  then
                   --PUT_DICTIONARY_FLAGS;
                   if words_mdev(do_pearse_codes) then
-                     Text_IO.Put(Output, "03 ");
+                     Ada.Text_IO.Put(Output, "03 ");
                   end if;
                   Put_meaning(Output, nnn_meaning);  --  Unknown Name
                   nnn_meaning := Null_Meaning_Type;
-                  Text_IO.New_Line(Output);
+                  Ada.Text_IO.New_Line(Output);
                end if;
             elsif dm.d_k = xxx  then
                if xxx_meaning /= Null_Meaning_Type  then
                   if words_mdev(do_pearse_codes) then
-                     Text_IO.Put(Output, "06 ");
+                     Ada.Text_IO.Put(Output, "06 ");
                   end if;
                   Put_meaning(Output, xxx_meaning);  --  TRICKS
                   xxx_meaning := Null_Meaning_Type;
-                  Text_IO.New_Line(Output);
+                  Ada.Text_IO.New_Line(Output);
                end if;
             elsif dm.d_k = yyy  then
                if yyy_meaning /= Null_Meaning_Type  then
                   if words_mdev(do_pearse_codes) then
-                     Text_IO.Put(Output, "06 ");
+                     Ada.Text_IO.Put(Output, "06 ");
                   end if;
                   Put_meaning(Output, yyy_meaning);  --  Syncope
                   yyy_meaning := Null_Meaning_Type;
-                  Text_IO.New_Line(Output);
+                  Ada.Text_IO.New_Line(Output);
                end if;
             elsif dm.d_k = ppp  then
                if ppp_meaning /= Null_Meaning_Type  then
                   if words_mdev(do_pearse_codes) then
-                     Text_IO.Put(Output, "06 ");
+                     Ada.Text_IO.Put(Output, "06 ");
                   end if;
                   Put_meaning(Output, ppp_meaning); --  Compounds
                   ppp_meaning := Null_Meaning_Type;
-                  Text_IO.New_Line(Output);
+                  Ada.Text_IO.New_Line(Output);
                end if;
             elsif dm.d_k = addons  then
                if words_mdev(do_pearse_codes) then
-                  Text_IO.Put(Output, "06 ");
+                  Ada.Text_IO.Put(Output, "06 ");
                end if;
                Put_meaning(Output, means(Integer(dm.MNPC)));
-               Text_IO.New_Line(Output);
+               Ada.Text_IO.New_Line(Output);
             end if;
          end if;
       end Put_meaning_line;
@@ -510,7 +510,7 @@ package body list_package is
       --  (or all of a class) it must fix up the rest of the parse array,
       --  e.g., it must clean out dangling prefixes and suffixes
 
-      if Text_IO.Name (Output) = Text_IO.Name (Text_IO.Standard_Output)  then
+      if Ada.Text_IO.Name (Output) = Ada.Text_IO.Name (Ada.Text_IO.Standard_Output)  then
          --  to keep from overflowing screen line or even adding blank line
          mm := max_meaning_print_size;
       else
@@ -887,21 +887,21 @@ package body list_package is
 
          if  words_mode(Write_Output_to_file)      then
             if words_mdev(do_pearse_codes) then
-               Text_IO.Put(Output, "04 ");
+               Ada.Text_IO.Put(Output, "04 ");
             end if;
-            Text_IO.Put(Output, raw_word);
-            Text_IO.Set_Col(Output, 30);
+            Ada.Text_IO.Put(Output, raw_word);
+            Ada.Text_IO.Set_Col(Output, 30);
             Inflections_Package.Integer_IO.Put(Output, line_number, 7);
             Inflections_Package.Integer_IO.Put(Output, word_number, 7);
-            Text_IO.Put_Line(Output, "    ========   UNKNOWN    ");
+            Ada.Text_IO.Put_Line(Output, "    ========   UNKNOWN    ");
             --TEXT_IO.NEW_LINE(OUTPUT);
          else              --  Just screen Output
             if words_mdev(do_pearse_codes) then
-               Text_IO.Put("04 ");
+               Ada.Text_IO.Put("04 ");
             end if;
-            Text_IO.Put(raw_word);
-            Text_IO.Set_Col(30);
-            Text_IO.Put_Line("    ========   UNKNOWN    ");
+            Ada.Text_IO.Put(raw_word);
+            Ada.Text_IO.Set_Col(30);
+            Ada.Text_IO.Put_Line("    ========   UNKNOWN    ");
             --TEXT_IO.NEW_LINE;
          end if;
 
@@ -909,17 +909,17 @@ package body list_package is
             if words_mdev(include_unknown_context) or
               words_mdev(do_only_initial_word)
             then
-               Text_IO.Put_Line(Input_Line);
-               Text_IO.Put_Line(unknowns, Input_Line);
+               Ada.Text_IO.Put_Line(Input_Line);
+               Ada.Text_IO.Put_Line(unknowns, Input_Line);
             end if;
             if words_mdev(do_pearse_codes) then
-               Text_IO.Put(unknowns, "04 ");
+               Ada.Text_IO.Put(unknowns, "04 ");
             end if;
-            Text_IO.Put(unknowns, raw_word);
-            Text_IO.Set_Col(unknowns, 30);
+            Ada.Text_IO.Put(unknowns, raw_word);
+            Ada.Text_IO.Set_Col(unknowns, 30);
             Inflections_Package.Integer_IO.Put(unknowns, line_number, 7);
             Inflections_Package.Integer_IO.Put(unknowns, word_number, 7);
-            Text_IO.Put_Line(unknowns, "    ========   UNKNOWN    ");
+            Ada.Text_IO.Put_Line(unknowns, "    ========   UNKNOWN    ");
          end if;
       end if;
 
@@ -969,7 +969,7 @@ package body list_package is
 
                Put_inflection(sraa(j)(k), dma(j));
                if sraa(j)(k).stem(1..3) = "PPL"  then
-                  Text_IO.Put_Line(Output, Head(ppp_meaning, mm));
+                  Ada.Text_IO.Put_Line(Output, Head(ppp_meaning, mm));
                end if;
             end loop Put_inflection_array_j;
             osra := sraa(j);
@@ -1004,12 +1004,12 @@ package body list_package is
          do_pause:
          begin
             if i = pa_last  then
-               Text_IO.New_Line(Output);
-            elsif Integer(Text_IO.Line(Output)) >
+               Ada.Text_IO.New_Line(Output);
+            elsif Integer(Ada.Text_IO.Line(Output)) >
                   scroll_line_number + Output_screen_size
             then
                pause(Output);
-               scroll_line_number := Integer(Text_IO.Line(Output));
+               scroll_line_number := Integer(Ada.Text_IO.Line(Output));
             end if;
          end do_pause;
          --TEXT_IO.PUT_LINE("End of OUTPUT_LOOP with J = " & INTEGER'IMAGE(J));
@@ -1021,26 +1021,26 @@ package body list_package is
       if Trimmed then
          Put(Output, '*');
       end if;
-      Text_IO.New_Line(Output);
+      Ada.Text_IO.New_Line(Output);
 
    exception
       when others  =>
-         Text_IO.Put_Line("Unexpected exception in LIST_STEMS processing " & raw_word);
+         Ada.Text_IO.Put_Line("Unexpected exception in LIST_STEMS processing " & raw_word);
          Put_stat("EXCEPTION LS at "
                     & Head(Integer'Image(line_number), 8) & Head(Integer'Image(word_number), 4)
                     & "   " & Head(w, 20) & "   "  & pa(i).Stem);
    end list_stems;
 
-   procedure list_entry(Output   : Text_IO.File_Type;
+   procedure list_entry(Output   : Ada.Text_IO.File_Type;
                         d_k      : Dictionary_Kind;
                         mn       : Dict_IO.Count) is
       de : Dictionary_Entry;
    begin
       Dict_IO.Read(Dict_File(d_k), de, mn);
-      Text_IO.Put(Output, "=>  ");
+      Ada.Text_IO.Put(Output, "=>  ");
       --TEXT_IO.PUT_LINE(OUTPUT, DICTIONARY_FORM(DE));
       Put_dictionary_form(Output, d_k, mn, de);
-      Text_IO.Put_Line(Output,
+      Ada.Text_IO.Put_Line(Output,
                        Trim (Head(de.Mean, mm)));  --  so it wont line wrap/Put CR
 
    end list_entry;
@@ -1160,7 +1160,7 @@ package body list_package is
       --TEXT_IO.PUT_LINE("Leaving LIST_NEIGHBORHOOD    UNKNOWN_SEARCH");
    end unknown_search;
 
-   procedure list_neighborhood(Output : Text_IO.File_Type;
+   procedure list_neighborhood(Output : Ada.Text_IO.File_Type;
                                Input_word : String) is
 
       d_k : constant Dictionary_Kind := general;
@@ -1169,7 +1169,7 @@ package body list_package is
    begin
       --TEXT_IO.PUT_LINE("Entering LIST_NEIGHBORHOOD");
 
-      if Text_IO.Name(Output) = Text_IO.Name(Text_IO.Standard_Output) then
+      if Ada.Text_IO.Name(Output) = Ada.Text_IO.Name(Ada.Text_IO.Standard_Output) then
          mm := max_meaning_print_size;   --  to keep from overflowing screen line
       else
          mm := Max_Meaning_Size;
@@ -1178,7 +1178,7 @@ package body list_package is
       unknown_search(Head(Input_word, Max_Stem_Size), unk_MNPC);
       --TEXT_IO.PUT_LINE("UNK_MNPC = " & INTEGER'IMAGE(INTEGER(UNK_MNPC)));
       if Integer(unk_MNPC) > 0  then
-         Text_IO.Put_Line(Output,
+         Ada.Text_IO.Put_Line(Output,
                           "----------  Entries in GENEAL Dictionary around the UNKNOWN  ----------");
          pause(Output);
          for mn in Dict_IO.Count(Integer(unk_MNPC)-5)..

@@ -14,7 +14,7 @@
 -- All parts of the WORDS system, source code and data files, are made freely
 -- available to anyone who wishes to use them, for whatever purpose.
 
-with Text_IO;
+with Ada.Text_IO;
 package word_parameters is
    --  This package defines a number of parameters that areused in the program
    --  The default values are set in the body, so that they may be changed easily
@@ -27,13 +27,13 @@ package word_parameters is
    --  They are all text files and human readable
 
    --  MODE_FILE is used by the program to remember MODE values between runs
-   mode_file : Text_IO.File_Type;
+   mode_file : Ada.Text_IO.File_Type;
 
    --  OUTPUT is used to Write out and save the results of a run
-   Output : Text_IO.File_Type;
-   Input  : Text_IO.File_Type;
+   Output : Ada.Text_IO.File_Type;
+   Input  : Ada.Text_IO.File_Type;
    --  UNKNOWNS is used to record the words that the program fails to find
-   unknowns : Text_IO.File_Type;
+   unknowns : Ada.Text_IO.File_Type;
 
    --  This is a flag to tell if there has been Trim ming for this word
    Trimmed : Boolean := False;
@@ -57,7 +57,7 @@ package word_parameters is
      do_stems_for_unknown
                      );
 
-   package mode_type_io is new Text_IO.enumeration_io(mode_type);
+   package mode_type_io is new Ada.Text_IO.enumeration_io(mode_type);
 
    type mode_array is array (mode_type) of Boolean;
 

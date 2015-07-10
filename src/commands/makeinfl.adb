@@ -14,14 +14,14 @@
 -- All parts of the WORDS system, source code and data files, are made freely
 -- available to anyone who wishes to use them, for whatever purpose.
 
-with Text_IO;
+with Ada.Text_IO;
 with Latin_Utils.Strings_Package; use Latin_Utils.Strings_Package;
 with Latin_Utils.Latin_File_Names; use Latin_Utils.Latin_File_Names;
 with Latin_Utils.Inflections_Package; use Latin_Utils.Inflections_Package;
 with IO_Exceptions;
 procedure makeinfl is
-   package Integer_IO is new Text_IO.Integer_IO(Integer);
-   use Text_IO;
+   package Integer_IO is new Ada.Text_IO.Integer_IO(Integer);
+   use Ada.Text_IO;
    use Integer_IO;
    use Stem_Key_Type_IO;
    use Inflection_Record_IO;
@@ -36,14 +36,14 @@ procedure makeinfl is
    m : Integer := 0;
    n1, n2, n3, n4, n5 : Integer := 0;
 
-   Output : Text_IO.File_Type;
+   Output : Ada.Text_IO.File_Type;
    inflections_sections_file : lel_section_io.File_Type;
 
    procedure file_inflections_sections is
       --  Reads the INFLECTS. file and prepares an inflections list
       --  Then it Writes that list into an array
       --  Loads the inflection array into a file for later retrieval
-      inflections_file : Text_IO.File_Type;
+      inflections_file : Ada.Text_IO.File_Type;
       inflections_sections_file : lel_section_io.File_Type;
       ir : Inflection_Record;
       line : String(1..100) := (others => ' ');
@@ -85,7 +85,7 @@ procedure makeinfl is
 
          l_i := null_latin_inflections;
          Open(inflections_file, In_File, inflections_full_name);
-         Text_IO.Put("INFLECTIONS file loading");
+         Ada.Text_IO.Put("INFLECTIONS file loading");
          while not End_Of_File(inflections_file)  loop
 
             read_a_line:
@@ -241,17 +241,17 @@ procedure makeinfl is
    begin
       load_inflections_list;
 
-      Text_IO.Set_Col(33);
-      Text_IO.Put("--  ");
+      Ada.Text_IO.Set_Col(33);
+      Ada.Text_IO.Put("--  ");
       Integer_IO.Put(number_of_inflections);
-      Text_IO.Put_Line(" entries    --  Loaded correctly");
+      Ada.Text_IO.Put_Line(" entries    --  Loaded correctly");
 
       list_to_lel_file;                     --  Load arrays to file
-      Text_IO.Put_Line("File INFLECTS.SEC  --  Loaded");
+      Ada.Text_IO.Put_Line("File INFLECTS.SEC  --  Loaded");
 
    exception
       when others =>
-         Text_IO.Put_Line("Exception in FILE_INFLECTIONS_SECTIONS");
+         Ada.Text_IO.Put_Line("Exception in FILE_INFLECTIONS_SECTIONS");
    end file_inflections_sections;
 
 begin

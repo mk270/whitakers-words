@@ -14,7 +14,7 @@
 -- All parts of the WORDS system, source code and data files, are made freely
 -- available to anyone who wishes to use them, for whatever purpose.
 
-with Text_IO; use type Text_IO.File_Type;
+with Ada.Text_IO; use type Ada.Text_IO.File_Type;
 with Latin_Utils.Inflections_Package; use Latin_Utils.Inflections_Package;
 with Latin_Utils.Dictionary_Package; use Latin_Utils.Dictionary_Package;
 use Latin_Utils;
@@ -58,9 +58,9 @@ package addons_package is
 
    package Target_entry_io is
       Default_Width : Natural;
-      procedure Get(f : in Text_IO.File_Type; p : out Target_entry);
+      procedure Get(f : in Ada.Text_IO.File_Type; p : out Target_entry);
       procedure Get(p : out Target_entry);
-      procedure Put(f : in Text_IO.File_Type; p : in Target_entry);
+      procedure Put(f : in Ada.Text_IO.File_Type; p : in Target_entry);
       procedure Put(p : in Target_entry);
       procedure Get(s : in String; p : out Target_entry; last : out Integer);
       procedure Put(s : out String; p : in Target_entry);
@@ -75,9 +75,9 @@ package addons_package is
 
    package tackon_entry_io is
       Default_Width : Natural;
-      procedure Get(f : in Text_IO.File_Type; i : out tackon_entry);
+      procedure Get(f : in Ada.Text_IO.File_Type; i : out tackon_entry);
       procedure Get(i : out tackon_entry);
-      procedure Put(f : in Text_IO.File_Type; i : in tackon_entry);
+      procedure Put(f : in Ada.Text_IO.File_Type; i : in tackon_entry);
       procedure Put(i : in tackon_entry);
       procedure Get(s : in String; i : out tackon_entry; last : out Integer);
       procedure Put(s : out String; i : in tackon_entry);
@@ -93,9 +93,9 @@ package addons_package is
 
    package prefix_entry_io is
       Default_Width : Natural;
-      procedure Get(f : in Text_IO.File_Type; p : out prefix_entry);
+      procedure Get(f : in Ada.Text_IO.File_Type; p : out prefix_entry);
       procedure Get(p : out prefix_entry);
-      procedure Put(f : in Text_IO.File_Type; p : in prefix_entry);
+      procedure Put(f : in Ada.Text_IO.File_Type; p : in prefix_entry);
       procedure Put(p : in prefix_entry);
       procedure Get(s : in String; p : out prefix_entry; last : out Integer);
       procedure Put(s : out String; p : in prefix_entry);
@@ -113,9 +113,9 @@ package addons_package is
 
    package suffix_entry_io is
       Default_Width : Natural;
-      procedure Get(f : in Text_IO.File_Type; p : out suffix_entry);
+      procedure Get(f : in Ada.Text_IO.File_Type; p : out suffix_entry);
       procedure Get(p : out suffix_entry);
-      procedure Put(f : in Text_IO.File_Type; p : in suffix_entry);
+      procedure Put(f : in Ada.Text_IO.File_Type; p : in suffix_entry);
       procedure Put(p : in suffix_entry);
       procedure Get(s : in String; p : out suffix_entry; last : out Integer);
       procedure Put(s : out String; p : in suffix_entry);

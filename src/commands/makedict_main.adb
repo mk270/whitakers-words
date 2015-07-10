@@ -14,15 +14,15 @@
 -- All parts of the WORDS system, source code and data files, are made freely
 -- available to anyone who wishes to use them, for whatever purpose.
 
-with Text_IO;
+with Ada.Text_IO;
 with Latin_Utils.Strings_Package; use Latin_Utils.Strings_Package;
 with Latin_Utils.Latin_File_Names; use Latin_Utils.Latin_File_Names;
 with Latin_Utils.Inflections_Package; use Latin_Utils.Inflections_Package;
 with Latin_Utils.Dictionary_Package; use Latin_Utils.Dictionary_Package;
 with Latin_Utils.General;
 procedure makedict_main(porting : Boolean) is
-   package Integer_IO is new Text_IO.Integer_IO(Integer);
-   use Text_IO;
+   package Integer_IO is new Ada.Text_IO.Integer_IO(Integer);
+   use Ada.Text_IO;
    use Stem_Key_Type_IO;
    use Dictionary_Entry_IO;
    use Part_Entry_IO;
@@ -46,7 +46,7 @@ procedure makedict_main(porting : Boolean) is
    start_part    : constant := start_stem_4 + Max_Stem_Size + 1;
 
    dictfile : Dict_IO.File_Type;
-   Input, stemlist : Text_IO.File_Type;
+   Input, stemlist : Ada.Text_IO.File_Type;
    de : Dictionary_Entry;
 
    blank_line : constant String(1..400) := (others => ' ');
@@ -298,7 +298,7 @@ begin
    end if;
 
 exception
-   when Text_IO.Data_Error  =>
+   when Ada.Text_IO.Data_Error  =>
       null;
    when others =>
       Put_Line(s(1..last));

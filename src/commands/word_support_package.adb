@@ -127,15 +127,15 @@ package body word_support_package is
             Close(stem_file(d_k));
          exception
             when Name_Error =>
-               Text_IO.Put_Line("LOADING BDL FROM DISK had NAME_ERROR on " &
+               Ada.Text_IO.Put_Line("LOADING BDL FROM DISK had NAME_ERROR on " &
                                   add_file_name_extension(stem_file_name,
                                                           Dictionary_Kind'Image(d_k)));
-               Text_IO.Put_Line("The will be no blank stems loaded");
+               Ada.Text_IO.Put_Line("The will be no blank stems loaded");
             when Use_Error =>
-               Text_IO.Put_Line("LOADING BDL FROM DISK had USE_ERROR on " &
+               Ada.Text_IO.Put_Line("LOADING BDL FROM DISK had USE_ERROR on " &
                                   add_file_name_extension(stem_file_name,
                                                           Dictionary_Kind'Image(d_k)));
-               Text_IO.Put_Line("There will be no blank stems loaded");
+               Ada.Text_IO.Put_Line("There will be no blank stems loaded");
          end loading_bdl_from_disk;
       end if;
 
@@ -180,7 +180,7 @@ package body word_support_package is
    end load_bdl_from_disk;
 
    procedure load_indices_from_indx_file(d_k : Dictionary_Kind) is
-      use Text_IO;
+      use Ada.Text_IO;
       use Inflections_Package.Integer_IO;
       use stem_io;
       use Count_io;
@@ -200,7 +200,7 @@ package body word_support_package is
       end max;
 
    begin
-      Open(indx_file(d_k), Text_IO.In_File,
+      Open(indx_file(d_k), Ada.Text_IO.In_File,
            add_file_name_extension(indx_file_name,
                                    Dictionary_Kind'Image(d_k)));
       --"INDXFILE." & EXT(D_K)); --  $$$$$$$$$$$$

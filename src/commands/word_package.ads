@@ -14,7 +14,7 @@
 -- All parts of the WORDS system, source code and data files, are made freely
 -- available to anyone who wishes to use them, for whatever purpose.
 
-with Text_IO;
+with Ada.Text_IO;
 with Latin_Utils.Inflections_Package; use Latin_Utils.Inflections_Package;
 use Latin_Utils;
 with Latin_Utils.Dictionary_Package; use Latin_Utils.Dictionary_Package;
@@ -58,7 +58,7 @@ package word_package is
    scroll_line_number : Integer := 0;
    Output_scroll_count : Integer := 0;
 
-   procedure pause(Output : Text_IO.File_Type);
+   procedure pause(Output : Ada.Text_IO.File_Type);
 
    function min(a, b : Integer) return Integer;
 

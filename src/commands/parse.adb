@@ -35,7 +35,7 @@
 --  there are some instances of variables shadowed, e.g., "j" was
 --  shadowed twice in nested declare blocks
 
-with Text_IO;
+with Ada.Text_IO;
 with Latin_Utils.Strings_Package; use Latin_Utils.Strings_Package;
 with word_parameters; use word_parameters;
 with developer_parameters; use developer_parameters;
@@ -56,7 +56,7 @@ package body parse
 is
    use Inflections_Package.Integer_IO;
    use Inflection_Record_IO;
-   use Text_IO;
+   use Ada.Text_IO;
 
    -- the scope of most of these variables is over-broad
    Storage_Error_count : Integer := 0;
@@ -991,9 +991,9 @@ is
       --   Have STORAGE_ERROR check in WORD too  ?????????????
       when Storage_Error  =>    --  I want to again, at least twice
          if words_mdev(do_pearse_codes) then
-            Text_IO.Put("00 ");
+            Ada.Text_IO.Put("00 ");
          end if;
-         Text_IO.Put_Line(    --  ERROR_FILE,
+         Ada.Text_IO.Put_Line(    --  ERROR_FILE,
                               "STORAGE_ERROR Exception in WORDS, try again");
          Storage_Error_count := Storage_Error_count + 1;
          if Storage_Error_count >= 4 then
@@ -1004,17 +1004,17 @@ is
          pa_last := 0;
          raise;
       when others  =>    --  I want to try to Get on with the next line
-         Text_IO.Put_Line(    --  ERROR_FILE,
+         Ada.Text_IO.Put_Line(    --  ERROR_FILE,
            "Exception in PARSE_LINE processing " & Input_Line);
          if words_mode(Write_unknowns_to_file)  then
             if words_mdev(do_pearse_codes) then
-               Text_IO.Put(unknowns, "00 ");
+               Ada.Text_IO.Put(unknowns, "00 ");
             end if;
-            Text_IO.Put(unknowns, Input_Line(j2..k));
-            Text_IO.Set_Col(unknowns, 30);
+            Ada.Text_IO.Put(unknowns, Input_Line(j2..k));
+            Ada.Text_IO.Set_Col(unknowns, 30);
             Inflections_Package.Integer_IO.Put(unknowns, line_number, 5);
             Inflections_Package.Integer_IO.Put(unknowns, word_number, 3);
-            Text_IO.Put_Line(unknowns, "    ========   ERROR      ");
+            Ada.Text_IO.Put_Line(unknowns, "    ========   ERROR      ");
          end if;
          pa_last := 0;
    end parse_line;

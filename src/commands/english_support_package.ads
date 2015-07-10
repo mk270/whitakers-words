@@ -14,7 +14,7 @@
 -- All parts of the WORDS system, source code and data files, are made freely
 -- available to anyone who wishes to use them, for whatever purpose.
 
-with Text_IO;
+with Ada.Text_IO;
 with Direct_IO;
 with Latin_Utils.Inflections_Package; use Latin_Utils.Inflections_Package;
 with Latin_Utils.Dictionary_Package; use Latin_Utils.Dictionary_Package;
@@ -54,9 +54,9 @@ package english_support_package is
 
    package ewds_record_io is
       Default_Width : Natural;
-      procedure Get(f : in Text_IO.File_Type; p : out ewds_record);
+      procedure Get(f : in Ada.Text_IO.File_Type; p : out ewds_record);
       procedure Get(p : out ewds_record);
-      procedure Put(f : in Text_IO.File_Type; p : in ewds_record);
+      procedure Put(f : in Ada.Text_IO.File_Type; p : in ewds_record);
       procedure Put(p : in ewds_record);
       procedure Get(s : in String; p : out ewds_record;
                                    last : out Integer);

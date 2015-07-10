@@ -14,20 +14,20 @@
 -- All parts of the WORDS system, source code and data files, are made freely
 -- available to anyone who wishes to use them, for whatever purpose.
 
-with Text_IO;
+with Ada.Text_IO;
 with english_support_package; use english_support_package;
 procedure makeefil is
-   use Text_IO;
+   use Ada.Text_IO;
    use ewds_direct_io;
-   ewds_list : Text_IO.File_Type;
+   ewds_list : Ada.Text_IO.File_Type;
    ewds, new_ewds : ewds_record := null_ewds_record;
 begin
-   Text_IO.Open(ewds_list, Text_IO.In_File, "EWDSLIST.GEN");
+   Ada.Text_IO.Open(ewds_list, Ada.Text_IO.In_File, "EWDSLIST.GEN");
    Create(ewds_file, Out_File, "EWDSFILE.GEN");
 
-   while not Text_IO.End_Of_File(ewds_list)  loop
+   while not Ada.Text_IO.End_Of_File(ewds_list)  loop
       ewds_record_io.Get(ewds_list, new_ewds);
-      Text_IO.Skip_Line(ewds_list);
+      Ada.Text_IO.Skip_Line(ewds_list);
 
       --  Eliminate doubles    --  If sort is OK
       if ewds.w = new_ewds.w  and  --  AUX ????
@@ -56,12 +56,12 @@ begin
       --PUT('.');
    end loop;
    Close(ewds_file);
-   Text_IO.New_Line;
-   Text_IO.Put_Line("NUMBER_OF_EWORDS = " & Integer'Image(number_of_ewords));
+   Ada.Text_IO.New_Line;
+   Ada.Text_IO.Put_Line("NUMBER_OF_EWORDS = " & Integer'Image(number_of_ewords));
 exception
    when others =>
       Close(ewds_file);
-      Text_IO.New_Line;
-      Text_IO.Put_Line("MAKEEFIL terminated on an exception");
-      Text_IO.Put_Line("NUMBER_OF_EWORDS = " & Integer'Image(number_of_ewords));
+      Ada.Text_IO.New_Line;
+      Ada.Text_IO.Put_Line("MAKEEFIL terminated on an exception");
+      Ada.Text_IO.Put_Line("NUMBER_OF_EWORDS = " & Integer'Image(number_of_ewords));
 end makeefil;

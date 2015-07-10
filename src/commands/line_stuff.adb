@@ -857,7 +857,7 @@ package body line_stuff is
       use Translation_Record_IO;
       use Dict_IO;
 
-      uniques_file : Text_IO.File_Type;
+      uniques_file : Ada.Text_IO.File_Type;
       blanks : constant String(1..100) := (others => ' ');
       line, stem_line : String(1..100) := (others => ' ');
       last, l : Integer := 0;
@@ -874,7 +874,7 @@ package body line_stuff is
 
    begin
       --TEXT_IO.PUT_LINE("UNIQUES started");
-      Text_IO.Open(uniques_file, Text_IO.In_File, file_name);
+      Ada.Text_IO.Open(uniques_file, Ada.Text_IO.In_File, file_name);
       Preface.Set_Col(1);
       Preface.Put("UNIQUES file loading");
 
@@ -964,7 +964,7 @@ package body line_stuff is
       Preface.Put(" entries");
       Preface.Set_Col(55); Preface.Put_Line("--  Loaded correctly");
    exception
-      when Text_IO.Name_Error  =>
+      when Ada.Text_IO.Name_Error  =>
          Preface.Put_Line("There is no UNIQUES file");
       when others   =>
          Preface.New_Line;

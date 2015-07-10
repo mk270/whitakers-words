@@ -21,14 +21,14 @@ with Latin_Utils.Preface;
 use Latin_Utils;
 pragma Elaborate (Latin_Utils.Preface);
 package body word_parameters is
-   use Text_IO;
+   use Ada.Text_IO;
 
    type help_type is array (Natural range <>) of String(1..70);
    blank_help_line : constant String(1..70) := (others => ' ');
    no_help : constant help_type := (2..1 => blank_help_line);
 
    type reply_type is (n, y);
-   package reply_type_io is new Text_IO.enumeration_io(reply_type);
+   package reply_type_io is new Ada.Text_IO.enumeration_io(reply_type);
    reply : constant array (Boolean) of reply_type := (n, y);
    mode_of_reply : constant array (reply_type) of Boolean := (False, True);
 
@@ -464,15 +464,15 @@ package body word_parameters is
       end do_mode_file;
 
       if ((method = interactive) or (method = Command_Line_Input)) and then
-        (not Text_IO.Is_Open(Output)) and then
+        (not Ada.Text_IO.Is_Open(Output)) and then
         (words_mode(have_Output_file))
       then
-         Text_IO.Create(Output, Text_IO.Out_File, Output_full_name);
+         Ada.Text_IO.Create(Output, Ada.Text_IO.Out_File, Output_full_name);
          --TEXT_IO.PUT_LINE("WORD.OUT Created at Initialization");
          Preface.Put_Line("WORD.OUT Created at Initialization");
       end if;
-      if not Text_IO.Is_Open(unknowns) and then words_mode(Write_unknowns_to_file)  then
-         Text_IO.Create(unknowns, Text_IO.Out_File, unknowns_full_name);
+      if not Ada.Text_IO.Is_Open(unknowns) and then words_mode(Write_unknowns_to_file)  then
+         Ada.Text_IO.Create(unknowns, Ada.Text_IO.Out_File, unknowns_full_name);
          Preface.Put_Line("WORD.UNK Created at Initialization");
       end if;
    end initialize_word_parameters;

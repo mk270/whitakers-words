@@ -14,7 +14,7 @@
 -- All parts of the WORDS system, source code and data files, are made freely
 -- available to anyone who wishes to use them, for whatever purpose.
 
-with Text_IO; use Text_IO;
+with Ada.Text_IO; use Ada.Text_IO;
 with Latin_Utils.Strings_Package; use Latin_Utils.Strings_Package;
 with Latin_Utils.Latin_File_Names; use Latin_Utils.Latin_File_Names;   --  Omit when Put name here
 with word_parameters; use word_parameters;
@@ -30,7 +30,7 @@ package body developer_parameters is
    no_help : constant help_type := (2..1 => blank_help_line);
 
    type reply_type is (n, y);
-   package reply_type_io is new Text_IO.enumeration_io(reply_type);
+   package reply_type_io is new Ada.Text_IO.enumeration_io(reply_type);
    reply : constant array (Boolean) of reply_type := (n, y);
    mdev_of_reply : constant array (reply_type) of Boolean := (False, True);
 
@@ -440,12 +440,12 @@ package body developer_parameters is
    begin
       loop
 
-         Text_IO.Put("STEMS =>");
+         Ada.Text_IO.Put("STEMS =>");
          Get_Line(stem_line, sl);
          if sl > 0  then  --  if no Input for stems, then just skip the entry
-            Text_IO.Put("PART  =>");
+            Ada.Text_IO.Put("PART  =>");
             Get_Line(part_line, pl);
-            Text_IO.Put("MEAN =>");
+            Ada.Text_IO.Put("MEAN =>");
             Get_Line(mean_line, ml);
          else
             exit;       --  on no entry, just CR

@@ -16,17 +16,17 @@
 
 package body english_support_package is
    --use EWDS_DIRECT_IO;
-   use Text_IO;
+   use Ada.Text_IO;
 
    package body ewds_record_io is
-      package Integer_IO is new Text_IO.Integer_IO(Integer);
+      package Integer_IO is new Ada.Text_IO.Integer_IO(Integer);
       use Part_Of_Speech_Type_IO;
       use Frequency_Type_IO;
       use Integer_IO;
       spacer : Character := ' ';
       nwidth : constant := 5;
 
-      procedure Get(f : in Text_IO.File_Type; p : out ewds_record) is
+      procedure Get(f : in Ada.Text_IO.File_Type; p : out ewds_record) is
       begin
          Get(f, p.w);
          Get(f, spacer);
@@ -64,7 +64,7 @@ package body english_support_package is
          Get(p.rank);
       end Get;
 
-      procedure Put(f : in Text_IO.File_Type; p : in ewds_record) is
+      procedure Put(f : in Ada.Text_IO.File_Type; p : in ewds_record) is
       begin
          Put(f, p.w);
          Put(f, ' ');

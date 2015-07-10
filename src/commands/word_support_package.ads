@@ -14,7 +14,7 @@
 -- All parts of the WORDS system, source code and data files, are made freely
 -- available to anyone who wishes to use them, for whatever purpose.
 
-with Text_IO;
+with Ada.Text_IO;
 with Direct_IO;
 with Latin_Utils.Inflections_Package; use Latin_Utils.Inflections_Package;
 with Latin_Utils.Dictionary_Package; use Latin_Utils.Dictionary_Package;
@@ -32,15 +32,15 @@ package word_support_package is
       end record;
 
    package stem_io is new direct_io(dictionary_stem);
-   package Count_io is new Text_IO.Integer_IO(stem_io.Count);
+   package Count_io is new Ada.Text_IO.Integer_IO(stem_io.Count);
 
    subtype dictionary_file_kind is Dictionary_Kind range general..local;
    default_dictionary_file_kind : dictionary_file_kind := general;
 
    stem_file : array (dictionary_file_kind) of stem_io.File_Type;
 
-   stem_list : array (dictionary_file_kind) of Text_IO.File_Type;
-   indx_file : array (dictionary_file_kind) of Text_IO.File_Type;
+   stem_list : array (dictionary_file_kind) of Ada.Text_IO.File_Type;
+   indx_file : array (dictionary_file_kind) of Ada.Text_IO.File_Type;
 
    type dict_array is array (Positive range <>) of dictionary_stem;
    bdl : dict_array(1..100);

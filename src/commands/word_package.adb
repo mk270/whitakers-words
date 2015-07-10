@@ -28,30 +28,30 @@ package body word_package is
 
    inflections_sections_file : lel_section_io.File_Type;
 
-   procedure pause(Output : Text_IO.File_Type) is
+   procedure pause(Output : Ada.Text_IO.File_Type) is
       pause_line : String(1..300);
       pause_last : Integer := 0;
    begin
       if words_mdev(pause_in_screen_Output)  then
          if method = interactive  then
-            if Text_IO.Name(Output) =
-              Text_IO.Name(Text_IO.Standard_Output)
+            if Ada.Text_IO.Name(Output) =
+              Ada.Text_IO.Name(Ada.Text_IO.Standard_Output)
             then
-               Text_IO.Put_Line(Text_IO.Standard_Output,
+               Ada.Text_IO.Put_Line(Ada.Text_IO.Standard_Output,
                  "                          MORE - hit RETURN/ENTER to continue");
-               Text_IO.Get_Line(Text_IO.Standard_Input, pause_line, pause_last);
+               Ada.Text_IO.Get_Line(Ada.Text_IO.Standard_Input, pause_line, pause_last);
             end if;
          elsif method = Command_Line_Input  then
-            Text_IO.Put_Line(Text_IO.Standard_Output,
+            Ada.Text_IO.Put_Line(Ada.Text_IO.Standard_Output,
               "                          MORE - hit RETURN/ENTER to continue");
-            Text_IO.Get_Line(Text_IO.Standard_Input, pause_line, pause_last);
+            Ada.Text_IO.Get_Line(Ada.Text_IO.Standard_Input, pause_line, pause_last);
          elsif method = Command_Line_files  then
             null;                       --  Do not PAUSE
          end if;
       end if;
    exception
       when others  =>
-         Text_IO.Put_Line("Unexpected exception in PAUSE");
+         Ada.Text_IO.Put_Line("Unexpected exception in PAUSE");
    end pause;
 
    function min(a, b : Integer) return Integer is
@@ -1771,20 +1771,20 @@ package body word_package is
       end if;
    exception
       when Storage_Error =>
-         Text_IO.Put_Line(Text_IO.Standard_Output,
+         Ada.Text_IO.Put_Line(Ada.Text_IO.Standard_Output,
                           "STORAGE_ERROR exception in WORD while processing =>"
                             & raw_word);
          pa_last := pa_save;
          if words_mode(Write_unknowns_to_file)  then
-            Text_IO.Put(unknowns, raw_word);
-            Text_IO.Set_Col(unknowns, 21);
-            Text_IO.Put_Line(unknowns, "========   STORAGE_ERROR  ");
+            Ada.Text_IO.Put(unknowns, raw_word);
+            Ada.Text_IO.Set_Col(unknowns, 21);
+            Ada.Text_IO.Put_Line(unknowns, "========   STORAGE_ERROR  ");
          end if;
       when others =>
          if words_mode(Write_unknowns_to_file)  then
-            Text_IO.Put(unknowns, raw_word);
-            Text_IO.Set_Col(unknowns, 21);
-            Text_IO.Put_Line(unknowns, "========   ERROR  ");
+            Ada.Text_IO.Put(unknowns, raw_word);
+            Ada.Text_IO.Set_Col(unknowns, 21);
+            Ada.Text_IO.Put_Line(unknowns, "========   ERROR  ");
          end if;
          pa_last := pa_save;
    end word;
@@ -1806,13 +1806,13 @@ package body word_package is
          --  First check if there is a LOC dictionary
          check_for_local_dictionary:
          declare
-            dummy : Text_IO.File_Type;
+            dummy : Ada.Text_IO.File_Type;
          begin
-            Text_IO.Open(dummy, Text_IO.In_File,
+            Ada.Text_IO.Open(dummy, Ada.Text_IO.In_File,
                          add_file_name_extension(dictionary_file_name,
                                                  "LOCAL"));
             --  Failure to OPEN will raise an exception, to be handled below
-            Text_IO.Close(dummy);
+            Ada.Text_IO.Close(dummy);
          end check_for_local_dictionary;
          --  If the above does not exception out, we can load LOC
          Preface.Put("LOCAL ");

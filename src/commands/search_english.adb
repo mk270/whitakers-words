@@ -14,7 +14,7 @@
 -- All parts of the WORDS system, source code and data files, are made freely
 -- available to anyone who wishes to use them, for whatever purpose.
 
-with Text_IO; use Text_IO;
+with Ada.Text_IO; use Ada.Text_IO;
 with Latin_Utils.Strings_Package; use Latin_Utils.Strings_Package;
 with Latin_Utils.Config;
 with word_parameters; use word_parameters;
@@ -86,14 +86,14 @@ procedure search_english(Input_english_word : String; pofs : Part_Of_Speech_Type
       end loop hit_loop;
    end sort_Output_array;
 
-   procedure dump_Output_array(Output : in Text_IO.File_Type) is
+   procedure dump_Output_array(Output : in Ada.Text_IO.File_Type) is
       de : Dictionary_Entry := Null_Dictionary_Entry;
       number_to_show : Integer := number_of_hits;
       one_screen : constant Integer := 6;
    begin
       --TEXT_IO.PUT_LINE("DUMP_OUTPUT");
       if number_of_hits = 0  then
-         Text_IO.Put_Line(Output, "No Match");
+         Ada.Text_IO.Put_Line(Output, "No Match");
       else
          sort_Output_array;
 
@@ -110,61 +110,61 @@ procedure search_english(Input_english_word : String; pofs : Part_Of_Speech_Type
          end if;
 
          for i in 1..number_to_show  loop
-            Text_IO.New_Line(Output);
+            Ada.Text_IO.New_Line(Output);
 
             do_pause:
             begin
-               if Integer(Text_IO.Line(Output)) >
+               if Integer(Ada.Text_IO.Line(Output)) >
                   scroll_line_number + Config.Output_screen_size
                then
                   pause(Output);
-                  scroll_line_number := Integer(Text_IO.Line(Output));
+                  scroll_line_number := Integer(Ada.Text_IO.Line(Output));
                end if;
             end do_pause;
 
             Dict_IO.Read(Dict_File(general), de, Dict_IO.Count(Output_array(i).n));
             Put(Output, dictionary_form(de));
-            Text_IO.Put(Output, "   ");
+            Ada.Text_IO.Put(Output, "   ");
 
             if de.Part.pofs = n  then
-               Text_IO.Put (Output, "  ");
+               Ada.Text_IO.Put (Output, "  ");
                Decn_Record_IO.Put (Output, de.Part.n.Decl);
-               Text_IO.Put (Output, "  " & Gender_Type'Image(de.Part.n.Gender) & "  ");
+               Ada.Text_IO.Put (Output, "  " & Gender_Type'Image(de.Part.n.Gender) & "  ");
             end if;
             if de.Part.pofs = v then
-               Text_IO.Put(Output, "  ");  Decn_Record_IO.Put(Output, de.Part.v.Con);
+               Ada.Text_IO.Put(Output, "  ");  Decn_Record_IO.Put(Output, de.Part.v.Con);
             end if;
             if (de.Part.pofs = v)  and then  (de.Part.v.Kind in gen..perfdef)  then
-               Text_IO.Put(Output, "  " & Verb_Kind_Type'Image(de.Part.v.Kind) & "  ");
+               Ada.Text_IO.Put(Output, "  " & Verb_Kind_Type'Image(de.Part.v.Kind) & "  ");
             end if;
 
             if words_mdev(show_dictionary_codes)    then
-               Text_IO.Put(Output, " [");
+               Ada.Text_IO.Put(Output, " [");
                -- FIXME: Why noy Translation_Record_IO.Put ?
                Age_Type_IO.Put(Output, de.Tran.Age);
                Area_Type_IO.Put(Output, de.Tran.Area);
                Geo_Type_IO.Put(Output, de.Tran.Geo);
                Frequency_Type_IO.Put(Output, de.Tran.Freq);
                Source_Type_IO.Put(Output, de.Tran.Source);
-               Text_IO.Put(Output, "]  ");
+               Ada.Text_IO.Put(Output, "]  ");
             end if;
 
             if words_mdev(show_dictionary) then
-               Text_IO.Put(Output, Ext(d_k) & ">");
+               Ada.Text_IO.Put(Output, Ext(d_k) & ">");
             end if;
             --TEXT_IO.PUT_LINE("DUMP_OUTPUT SHOW");
 
             if words_mdev(show_dictionary_line)  then
-               Text_IO.Put(Output, "("
+               Ada.Text_IO.Put(Output, "("
                              & Trim (Integer'Image(Output_array(i).n)) & ")");
             end if;
 
-            Text_IO.New_Line(Output);
+            Ada.Text_IO.New_Line(Output);
 
             --TEXT_IO.PUT_LINE("DUMP_OUTPUT MEAN");
 
-            Text_IO.Put(Output, Trim (de.Mean));
-            Text_IO.New_Line(Output);
+            Ada.Text_IO.Put(Output, Trim (de.Mean));
+            Ada.Text_IO.New_Line(Output);
 
          end loop;
          --TEXT_IO.PUT_LINE("DUMP_OUTPUT TRIMMED");
@@ -250,7 +250,7 @@ begin
    end if;
 exception
    when others  =>
-      Text_IO.Put_Line("exception SEARCH NUMBER_OF_HITS = " &
+      Ada.Text_IO.Put_Line("exception SEARCH NUMBER_OF_HITS = " &
                          Integer'Image(number_of_hits));
       raise;
 end search_english;

@@ -14,7 +14,7 @@
 -- All parts of the WORDS system, source code and data files, are made freely
 -- available to anyone who wishes to use them, for whatever purpose.
 
-with Text_IO;
+with Ada.Text_IO;
 with Latin_Utils.Dictionary_Package; use Latin_Utils.Dictionary_Package;
 with Latin_Utils.Config; use Latin_Utils.Config;
 package list_package is
@@ -24,19 +24,19 @@ package list_package is
    --
 
    procedure list_stems(configuration : configuration_type;
-                        Output   : Text_IO.File_Type;
+                        Output   : Ada.Text_IO.File_Type;
                         raw_word : String;
                         Input_Line : String;
                         pa       : in out Parse_Array;
                         pa_last  : in out Integer);
 
-   procedure list_entry(Output   : Text_IO.File_Type;
+   procedure list_entry(Output   : Ada.Text_IO.File_Type;
                         d_k      : Dictionary_Kind;
                         mn       : Dict_IO.Count);
 
    procedure unknown_search(unknown       :  in String;
                             unknown_count : out Dict_IO.Count);
 
-   procedure list_neighborhood(Output : Text_IO.File_Type; Input_word : String);
+   procedure list_neighborhood(Output : Ada.Text_IO.File_Type; Input_word : String);
 
 end list_package;

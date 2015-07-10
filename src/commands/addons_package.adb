@@ -18,7 +18,7 @@ with Latin_Utils.Strings_Package; use Latin_Utils.Strings_Package;
 with developer_parameters; use developer_parameters;
 with Latin_Utils.Preface;
 package body addons_package is
-   use Text_IO;
+   use Ada.Text_IO;
    use Part_Of_Speech_Type_IO;
    use Target_entry_io;
    use Part_Entry_IO;
@@ -61,7 +61,7 @@ package body addons_package is
 
       s : String(1..100);
       l, last, tic, pre, suf, tac, pac : Integer := 0;
-      addons_file : Text_IO.File_Type;
+      addons_file : Ada.Text_IO.File_Type;
       pofs: Part_Of_Speech_Type;
       de : Dictionary_Entry := Null_Dictionary_Entry;
       mean : Meaning_Type := Null_Meaning_Type;
@@ -71,7 +71,7 @@ package body addons_package is
       pm : prefix_item;
       ts : Stem_Type;
 
-      procedure Get_no_comment_line(f : in Text_IO.File_Type;
+      procedure Get_no_comment_line(f : in Ada.Text_IO.File_Type;
                                     s : out String; last : out Integer) is
          t : String(1..250) := (others => ' ');
          l : Integer := 0;
@@ -244,9 +244,9 @@ package body addons_package is
                number_of_suffixes := suf;
 
             when others  =>
-               Text_IO.Put_Line("Bad ADDON    !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-               Text_IO.Put_Line(s(1..last));
-               raise Text_IO.Data_Error;
+               Ada.Text_IO.Put_Line("Bad ADDON    !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+               Ada.Text_IO.Put_Line(s(1..last));
+               raise Ada.Text_IO.Data_Error;
          end case;
 
       end loop;
@@ -265,10 +265,10 @@ package body addons_package is
       --end loop;
 
    exception
-      when Text_IO.Name_Error  =>
+      when Ada.Text_IO.Name_Error  =>
          Preface.Put_Line("No ADDONS file ");
          null;
-      when Text_IO.Data_Error  =>
+      when Ada.Text_IO.Data_Error  =>
          Preface.Put_Line(s(1..last));
          Preface.Put_Line("No further ADDONS read ");
          Close(addons_file);

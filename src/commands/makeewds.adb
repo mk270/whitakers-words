@@ -14,7 +14,7 @@
 -- All parts of the WORDS system, source code and data files, are made freely
 -- available to anyone who wishes to use them, for whatever purpose.
 
-with Text_IO;
+with Ada.Text_IO;
 with Latin_Utils.Strings_Package; use Latin_Utils.Strings_Package;
 with Latin_Utils.Latin_File_Names; use Latin_Utils.Latin_File_Names;
 with Latin_Utils.Inflections_Package; use Latin_Utils.Inflections_Package;
@@ -26,8 +26,8 @@ with dictionary_form;
 with Latin_Utils.General;
 use Latin_Utils;
 procedure makeewds is
-   package Integer_IO is new Text_IO.Integer_IO(Integer);
-   use Text_IO;
+   package Integer_IO is new Ada.Text_IO.Integer_IO(Integer);
+   use Ada.Text_IO;
    use Integer_IO;
    use Stem_Key_Type_IO;
    use Dictionary_Entry_IO;
@@ -59,7 +59,7 @@ procedure makeewds is
 
    n : Integer := 0;
 
-   Input, Output, check : Text_IO.File_Type;
+   Input, Output, check : Ada.Text_IO.File_Type;
    de : Dictionary_Entry;
 
    s, line : line_type := (others => ' ');
@@ -819,7 +819,7 @@ begin
    end if;
 
 exception
-   when Text_IO.Data_Error  =>
+   when Ada.Text_IO.Data_Error  =>
       null;
    when others =>
       Put_Line(s(1..last));
