@@ -3,14 +3,12 @@ layout: default
 title: Tests and status
 ---
 
-<A NAME="TESTS AND STATUS">
-<H3><CENTER>TESTS AND STATUS</CENTER>
-</H3></A> <BR>
+Tests and status
+================
 
-<A NAME="Testing">
-<H4>Testing</H4></A>
+Testing
+-------
 
-<P>
 The program has been run against common classical texts.  Initially
 this was mostly a check of the process and reliability of the program.  It
 is now possible to run real texts and get valid statistics.  Relatively
@@ -46,11 +44,6 @@ for that purpose, not simply incorporated as such.
 integrated.  The only real impact has been the inclusion of modern Latin words
 which come from such lists, and not from scans of texts.
 
-<BR>
-<BR>
-
-
-
 <H5>English-to-Latin Tests</H5>
 
 <P>So far there have been no formal validation of the English-to-Latin capability.
@@ -68,9 +61,9 @@ the paper dictionary.
 <BR><BR>
 
 
-<A NAME="Current Status and Future Plans">
+Current Status and Future Plans
+-------------------------------
 
-<H4>Current Status and Future Plans</H4></A>
 
 The present phase of refinement has incorporated the Oxford Latin
 Dictionary and Lewis and Short entries into <B>D</B> (about a fourth).
@@ -81,7 +74,7 @@ frequently as unknowns, but this is done as the spirit moves me.  Smaller
 sections of later authors may also be processed, giving some growth in
 medieval Latin entries.  Recently I have worked the Vulgate of St. Jerome.
 
-<P>John White in support of his Blitz Latin program has run a very large
+John White in support of his Blitz Latin program has run a very large
 body of Latin text, including much medieval legal documents.  He provides
 input to the dictionary as he finds significant unknowns.
 
@@ -95,6 +88,4 @@ and there is no advantage to finishing.
 An eventual outcome would be to have some institution, with real Latin
 capability, provide an exhaustive and authoritative program of this
 nature.  Until then, I and other individuals will make available our
-programs.  <BR>
-<BR><BR>
-
+programs.
