@@ -448,7 +448,13 @@ begin
             if de.Part.v.Con.var = 2  then
                ox(2) := add(de.Stems(2), "re");
             elsif de.Part.v.Con.var = 3  then
-               ox(2) := add(de.Stems(2), "eri");
+               -- Special case for fio, fieri: it follows the usual
+               -- conjugation everywhere except for present infinitive
+               if Trim(de.Stems(2)) = "f" then
+                  ox(2) := add(de.Stems(2), "ieri");
+               else
+                  ox(2) := add(de.Stems(2), "eri");
+               end if;
             elsif de.Part.v.Con.var = 4  then
                ox(2) := add(de.Stems(2), "ire");
             else
