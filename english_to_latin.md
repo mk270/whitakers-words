@@ -3,12 +3,10 @@ layout: default
 title: English to Latin
 ---
 
-<A NAME="ENGLISH to LATIN">
-<H3><CENTER>ENGLISH to LATIN</CENTER>
-</H3></A> <BR>
+# English to Latin
 
 
-<P>A fairly new application for the WORDS dictionary has been an attempt to
+A fairly new application for the WORDS dictionary has been an attempt to
 go English to Latin.
 Up to now there is no satisfactory computer facility for this.
 The best on the net is a search of the Perseus dictionary,
@@ -18,7 +16,7 @@ and DICTPAGE.TXT is a convenient form for that purpose.
 In the present release of WORDS, a primitive English-to-Latin
 facility has been implemented, based on this inverted dictionary method.
 
-<P>However, except for very simple situations,
+However, except for very simple situations,
 the resulting raw output can be excessive and often spurious.
 It is necessary to TRIM the output for the general user.
 In order to do this, one needs to be able to computer parse the MEAN field
@@ -30,14 +28,14 @@ These rules are new and certainly have not been applied throughout
 the dictionary yet, further,
 they may change in the future if more powerful ordering algorithms evolve.
 
-<P>The primary rule is that nothing should surprise or
+The primary rule is that nothing should surprise or
 inconvenience the casual user of WORDS.
 Further, for system independence,
 the MEAN line should be readable by anyone in ASCII,
 without special characters or fonts.
 
 
-<P>I have just begun to work on an English-to-Latin capability.
+I have just begun to work on an English-to-Latin capability.
 Initially this is just a inversion of the WORDS Latin dictionary,
 extracting all the English words in the MEAN field of the WORDS dictionary
 and associating these with the corresponding Latin entry.
@@ -47,7 +45,7 @@ one should take a set of English words and find the Latin equivalent,
 not the reverse.
 Nevertheless, WORDS now has some primitive capability.
 
-<P>The raw inversion produces almost 200_000 English words.
+The raw inversion produces almost 200_000 English words.
 WEEDing them by the present algorithms (eliminate a, the, to, ...,
 and a number of common modifiers when included in meanings not of
 their part of speach)
@@ -57,13 +55,13 @@ less than the number of Latin entries!
 This probably reflects more on dictionary makers than on the languages.
 
 
-<P>English is certainly a far richer lanaguage than Latin, measured
+English is certainly a far richer lanaguage than Latin, measured
 by the number of individual words.
 WORDS has about 40_000 Latin entries, and the corresponding inversion to
 English yields only 22_000 unique English words.
 
 
-<P>The reason seens to be that,
+The reason seens to be that,
 while English may have lots of words for love or hate,
 in making up a Latin
 dictionary one will opt to give a simple translation.
@@ -73,17 +71,17 @@ a dictionary compiller will usually take the simplest English word
 that provides the reader with the meaning.   That is what the reader usually wants.
 
 
-<P>Starting from an English basis to produce an English-to-Latin dictinoary
+Starting from an English basis to produce an English-to-Latin dictinoary
 gives an entirely different outcome.
 In that case, the full power of English can be invoked,
 and it is the Latin that will seem simple by comparison.
 
-<P>In many cases, an English-to-Latin dictionary bound in the same volume
+In many cases, an English-to-Latin dictionary bound in the same volume
 as a Latin-to-English will have been
 developed by a different author, and sometimes they are not consistent.
 At least the inversion procedure assures basic consistency.
 
-<P>One problem with the inversion method is that one needs
+One problem with the inversion method is that one needs
 to weed out a lot of the chaff before presenting to the user.
 And even then there are a lot of choices for the user.
 GOLD occurs 120 times; COPPER, 57 times: ABANDON, 24 times,
@@ -92,7 +90,7 @@ Further trimming has to get very severe!
 
 
 
-<P>If the program is run with TRIM_OUTPUT parameter set
+If the program is run with TRIM_OUTPUT parameter set
 (this parameter works on both Latin and English output),
 the six highest priority (by FREQ or whatever the current algorithm is)
 will be listed.  This should serve for the general user.
@@ -100,7 +98,7 @@ Turning off this parameter allows the program to list all instances
 found in the Latin dictionary,
 which were not removed by WEEDing in the data preparation.
 
-<P>Finally there is the problem that most paper Latin dictionaries harken back
+Finally there is the problem that most paper Latin dictionaries harken back
 to the 19th century or earlier, even those published more recently.
 Their base English may not be current.
 Take a purely hypothetical example.  On the first page of every English-Latin
@@ -117,13 +115,13 @@ as to what other words might be tried, if the immediate result does not
 seem satisfactory.
 
 
-<P>One important point is that the program mechanically searches the Latin dictionary.
+One important point is that the program mechanically searches the Latin dictionary.
 If one is looking for a adjective, presently one will find all adjectives for which the
 MEAN contains the search word, no more.  However one should be aware that
 participles of appropriate verbs can also serve as adjectives and may be
 a better choice.
 
-<P>At the present time there is no complex constrution/deconstruction
+At the present time there is no complex constrution/deconstruction
 of the English input.  Thus if the input is 'kill', only Latin entries
 with the exact word 'kill' in their MEAN will be selected.  The suffixed words
 'kills'/'killing'/'killed'/'killer'/etc. will not be found.  They must
@@ -143,7 +141,7 @@ This would be value added over simple search by the program.
 <BR>
 
 
-<P>Puncuation in meanings is now formalized, in order
+Puncuation in meanings is now formalized, in order
 to allow computer processing of the text.
 Diviation from these rules would make parsing
 of the English very difficult, so they must be enforced.
@@ -151,7 +149,7 @@ There is nothing which will mislead the user,
 but it goes beyond standard text practice.
 
 
-<P>The semicolon separator has greater significance.
+The semicolon separator has greater significance.
 Various groups of meanings may have varying frequency or likelihood.
 The most likely are placed first and thereby prioritized.
 Within a semicolon group (SEMI) of meaning/synonyms separated by commas or slashes,
@@ -160,11 +158,11 @@ Where possible, a PURE word (e.g., 'perhaps') should lead,
 followed by compound meanings (e.g., 'it may be').
 There is much work to do before this ordering is complete.
 
-<P>Any PURE meaning (one not involving modifiers) set off by
+Any PURE meaning (one not involving modifiers) set off by
 commas or slashes, is assigned a high priority on output that
 a modified/compound meaning in the same MEAN SEMI.
 
-<P>Semicolons seperate meaning groups that have a different
+Semicolons seperate meaning groups that have a different
 flavor/sense.
 Initially the interpretation and selection among these were left
 to the user, as in paper dictionaries.
@@ -175,7 +173,7 @@ among different groups, where this inferrence can be made.
 This ideal is not yet rigorously enforced, even in recent entries,
 and less so in those earlier in the update.
 
-<P>Commas separate meanings that are roughly equivalent -
+Commas separate meanings that are roughly equivalent -
 synomyns. In parsing, a COMMA consistes of the words between commas.
 There is no inherent logical order within a SEMI, however,
 to support another application for the dictionary,
@@ -184,28 +182,28 @@ it is desirable to be able to pick a single,
 simple, modern English word that is most likely to be the translation.
 This should be the first word of the meaning.
 
-<P>Question marks and exclamation points may appear as
+Question marks and exclamation points may appear as
 an integral part of the meaning.  They do not replace
 the comma/semicolon separator, as in normal text.
 
-<P>The soldius/slash (/) does the work of 'or' in many cases.
+The soldius/slash (/) does the work of 'or' in many cases.
 It is used solely to conserve space,
 to compress the meaning line to no more than 80 characters.
 It separates (generally close) synonyms and
 also alternative options (jump up/out = jump up; jump out).
 
-<P>Plus (+) is used in the dictionary, as well as in this documentation,
+Plus (+) is used in the dictionary, as well as in this documentation,
 in place of ampersand, for compatibility with HTML.
 It s a full separator, between two words, each recognized separately.
 
-<P>Hyphen (-) should be is used in the dictionary only to break
+Hyphen (-) should be is used in the dictionary only to break
 into two words in the parse, each recognized separately.
 Thus, book-keeper will appear in the English pharse as two words.
 But it is likely that a user looking for an accountant would search
 for bookkeeper, rather than book or keeper.
 The dictionary has not yet been scrubbed for this situation.
 
-<P>Parentheses set off both possible supporting words
+Parentheses set off both possible supporting words
 (go (down) = go; go down) and explanatory information.
 Since parenthesized words are excluded from the extraction process,
 they are a way to further reduce clutter in the English dictionary.
@@ -214,7 +212,7 @@ can be excluded from the English dictionary tables by parenthesizing.
 (NOTE: two sets of parentheses not separated by a comma or semicolon
 can cause processing troubles and should be avoided.)
 
-<P>Square brackets enclose translation examples or idioms,
+Square brackets enclose translation examples or idioms,
 a Latin expression to English equivalent.
 The English translation of the Latin is introduced by =>.
 The parser expects this (=>) token.
@@ -225,7 +223,7 @@ will fail on the Latin and there are an inconveniently large
 number of these examples.
 Brackets should never be use where parentheses are appropriate.
 
-<P>Generally, articles (a, an, the) are omitted in meanings.
+Generally, articles (a, an, the) are omitted in meanings.
 While this compresses the line, it also reflects the fact
 that Latin does not distinguish between those uses.
 To define agricola as 'a' farmer would disparage the possiblity
@@ -233,12 +231,12 @@ of the proper translation being 'the' farmer.  Most dictionaries
 report nouns without an article.  This one go further and
 avoids the use of articles almost everywhere.
 
-<P>Some dictionaries prefix verb meanings with TO.
+Some dictionaries prefix verb meanings with TO.
 This is superfulous, except in the case of a list of meanings
 not distinguished by part of speech (to cut, a cut), not
 the situation for this dictionary.
 
-<P>Vertical bars at the begining indicate continuation meaning lines.
+Vertical bars at the begining indicate continuation meaning lines.
 There may be several continuation lines,
 numbered/ordered by the number of leading vertical bars.
 For words with a large number of meanings,
@@ -258,7 +256,7 @@ The STEMS and PART are identical for the base (no |) and all extensions.
 They are all the same word, however they may have different flags,
 that is, there may be different meanings for different AGE or AREA.
 
-<P>The bar is a code for MEAN continuation seen only in the raw DICTLINE.
+The bar is a code for MEAN continuation seen only in the raw DICTLINE.
 Bars are removed before WORDS output and are not visible to the user.
 There are also some entries with identical STEMS and PART which are
 really different words,
@@ -267,7 +265,7 @@ These will not be | coded and will be reported separately in output.
 {NOTE: The vertical bar should not appear anywhere in meanings except
 at the begining as a continuation flag.)
 
-<P>Correct use of symbols/codes in MEAN is very important.
+Correct use of symbols/codes in MEAN is very important.
 One must not use them 'free form'.
 They are used in the parsing of MEAN and inproper use can defeat a processing program.
 While some main programs have many built-in checks,
@@ -284,7 +282,7 @@ and may or may not not give a report on the failure.
 <BR>
 
 
-<P>Essentially we start by associating English words in the dictionary entry meaning
+Essentially we start by associating English words in the dictionary entry meaning
 with the entry number (line number in DICTLINE).
 The list of English words (EWDSLIST) is sorted so that all occurances of a particular word are together.
 Then, upon inquiry, a list of the associated Latin dictionary entries is output.
@@ -292,7 +290,7 @@ Unfortunately this list could be large (a hundred or more for some common words)
 The task is to order the list and reduce the output to a few most likely
 
 
-<P>Priorities for display are based on frequencies.  Besides the basic
+Priorities for display are based on frequencies.  Besides the basic
 FREQ assigned to the entry, it is presumed that the frequency is
 greater for those meanings in the first SEMIs, with gradually
 decreasing frequency assigned to later SEMIs and to bar flagged continuations.
@@ -304,14 +302,14 @@ but it is subject to modification in future versions.
 
 
 
-<P>Each English word found is given a numerical RANK/priority/weight based on the algorithm below.
+Each English word found is given a numerical RANK/priority/weight based on the algorithm below.
 The numerical values of each consideration are added or subtracted to give the priority of the entry.
 
 
 
 <H5>FREQ</H5>
 
-<P>The obvious choice for frequency weights might be the comparative paper dictionary citations,
+The obvious choice for frequency weights might be the comparative paper dictionary citations,
 which would be roughly:
 
 <PRE><TT>
@@ -323,7 +321,7 @@ E=> 3
 F=> 1</TT></PRE>
 
 
-<P>However these would weight the A frequency so heavily
+However these would weight the A frequency so heavily
 that it would be impossible to overcome with anything
 that could be applied to lower frequencies.  So we must reject this scale
 for a more managable set:
@@ -338,11 +336,11 @@ F=>20
 etc.</TT></PRE>
 
 
-<P>(N is special case, add 25 after formula)
+(N is special case, add 25 after formula)
 
 <H5>Compounds</H5>
 
-<P>Compound words ('very tall' vs. 'tall') are often useful,
+Compound words ('very tall' vs. 'tall') are often useful,
 indeed the user may be looking for components to make up a compound translation,
 however generally they should be disparaged relative to the pure/simple word.
 A compound A FREQ might be no better than a pure D.
@@ -357,17 +355,17 @@ Which SEMI (a SEMI is a part of MEAN set off by semicolons)<BR>
 
 -3 per SEMI  after 1
 
-<P>Further, a word on a continuation line is disparaged by 3 SEMIs (-9).
+Further, a word on a continuation line is disparaged by 3 SEMIs (-9).
 
 
-<P>The words in the first SEMI are enhanced in the expectation that they are
+The words in the first SEMI are enhanced in the expectation that they are
 the primary meaning.  This follows the tenuous idea that there is a single simple
 translation for each English word.  At least the first SEMI is emphasized. <BR>
 <BR>
 
 If PURE and 1st SEMI => 5<BR>
 
-<P>Priority = FREQ value + Compound value + SEMI value + Continuation value + First SEMI value <BR>
+Priority = FREQ value + Compound value + SEMI value + Continuation value + First SEMI value <BR>
 <BR>
 
 
