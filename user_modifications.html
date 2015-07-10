@@ -3,27 +3,28 @@ layout: default
 title: User modifications
 ---
 
-<A NAME="USER MODIFICATIONS">
-<H3><CENTER>USER MODIFICATIONS</CENTER>
-</H3></A>
-<BR>
-<A NAME="Writing DICT.LOC and UNIQUES.LAT">
-<H4>Writing DICT.LOC and UNIQUES.LAT</H4></A>
-<P>
+User modifications
+==================
+
+Writing DICT.LOC and UNIQUES.LAT
+--------------------------------
+
+
 To make the dictionary files used by the program is not difficult, but it
 takes several auxiliary programs for checking and ordering which are best
 handled by one center.  These are available to anyone who needs them, but
 it is better that any general additions to the dictionary be handled
 centrally that they can be included in the public release for everyone.
-<P>
+
 However, it is possible for a user to enhance the dictionary for special
 situations.  This may be accomplished either by providing new dictionary
 entries in a DICT.LOC file, those to be processed in the regular manner,
 or to add a unique (single case/number/gender/...) in a text file called
-UNIQUES.  <A NAME="DICT.LOC">
+UNIQUES.
 
-<H4>DICT.LOC</H4></A>
-<P>
+DICT.LOC
+--------
+
 A dictionary entry for WORDS (in the simplest, editable form as read in a
 DICT.LOC) is
 
@@ -34,12 +35,11 @@ water;
 
 </TT></PRE>
 
-<P>
 For a noun there are two stems.  The definition of STEM is inherent in
 the coding of inflections in the program.  Different grammars have
 different definitions.  There is no formal connection with any other
 usage.
-<P>
+
 To these stems are applied, as appropriate, the endings
 
 <PRE><TT>
@@ -51,12 +51,10 @@ ACC      am      as
 ABL      a       is
 </TT></PRE>
 
-<P>
 Or rather, the input word is analyzed for possible endings, and when these
 are subtracted a match is sought with the dictionary stems.  A file
 (INFLECTS.LAT) gives all the endings.
 
-<P>
 In this example, the first line
 <PRE><TT>
 aqu   aqu
@@ -67,7 +65,6 @@ contains the two noun stems for the word found in printed dictionaries as
 aqua, -ae
 </TT></PRE>
 
-<P>
 The second line
 
 <PRE><TT>
@@ -80,7 +77,6 @@ geographic and application area of the word, its frequency of use, and the
 dictionary source of the entry.  None of this is necessary in a DICT.LOC
 although something must be filled in and X X X X X is always satisfactory.
 
-<P>
 The last line is the English definition.  It can be as long as 80
 characters.
 
@@ -88,46 +84,46 @@ characters.
 water;
 </TT></PRE>
 
-<P>
+
 The case and exact spacing of the stems and codes is unimportant, as long
 as they are separated by at least one blank.
-<P>
+
 The PART_OF_SPEECH_TYPE that you are most interested in are (X, N, ADJ,
 ADV, V).  X is always a valid entry.  It stands for none, or all, or
 unknown.  0 has the same function for numeric types.
-<P>
+
 The others in the type (PRON, PACK, VPAR, SUPINE, PREP, CONJ, INTERJ, NUM,
 TACKON, PREFIX, SUFFIX) are either less interesting or artificial, used
 only internally to the code.
-<P>
+
 A noun or a verb has a DECN_RECORD consisting of two small integers.  The
 first is the declension/conjugation, and the second is a variant within
 that.
-<P>
+
 N 1 1 is the conventional first declension.  But there are variants (6, 7,
 8) which model Greek-line declensions.  (Greek-like variant start at 6);
-<P>
+
 N 2 1 is the regular -us, -i second declension.
-<P>
+
 N 2 2 is the regular -um, -i neuter form.
-<P>
+
 There is a N 2 3 for 'r' forms like puer, pueri.  In this case there is
 the possibility of a difference in stems (ager, agri has stems coded as
 ager, agr).
-<P>
+
 Again there are Greek-like variants (6, 7, 8, 9).
-<P>
+
 N 3 1 is regular third declension (lex, legis - lex, leg) for masculine
 and feminine.
-<P>
+
 N 3 2 is for neuter (iter, itineris - iter, itiner).
-<P>
+
 Variants 3 and 4 are for I-stems.  And so it goes.
-<P>
+
 Each noun has a GENDER_TYPE (X, M, F, N, C).  X for unknown (something I
 avoid for gender - guess if you have to) or all genders (useful in the
 code but not in a dictionary), and C for common (M + F).
-<P>
+
 There is also a
 
 <PRE><TT>
@@ -140,9 +136,9 @@ NOUN_KIND_TYPE (X,            --  unknown, nondescript
 </TT></PRE>
 which you probably do not care about either.  Most entries will all be
 Thing.
-<P>
+
 Other codes are enumerated in the body of this document.
-<P>
+
 Verbs are done likewise, but there are four stems, as described below.  An
 example is
 
@@ -152,11 +148,11 @@ V 1 1 X    X X X A O
 love;
 </TT></PRE>
 
-<P>
+
 Now comes the hard part.  When starting from a dictionary one has all the
 information to decide the values.  Just having a single instance of the
 word lacks a lot.  Consider some examples from a user.
-<P>
+
 Elytris is surely from the Greek for sheath.  The question is how
 Latinized did it get.  I suspect that by the 17th century it was
 completely Latinized.  Even in classical times there was very little left
@@ -164,21 +160,21 @@ in the way of Greek forms ( elythris (or -es), elythris (N 3 3) but it
 could be a Greek-like form (N 3 9).  I do not even know what case I
 started with, if NOM, then it must be -is, -is, if GEN then -es, -is is
 reasonable.  Then again, if it is DAT P we might have a N 1 1.
-<P>
+
 All this seems very uncertain, and, in the absence of a real dictionary
 entry, it is.  However you can make the choices such that the result (the
 output of the code) matches exactly what you have.  If you have more
 information, lots of examples, the uncertainty shrinks.  If you have just
 a single isolated example, there are limits.  (But if you do 100 and have
 more information about some, you can make better guesses about the rest.)
-<P>
+
 Next we need a gender.  It may not make much difference (if M or F, or C)
 in this case, but sometimes it matters.  You might be able to figure that
 out from the text.
-<P>
+
 It is a thing (T), but X will work for your purposes.  For the rest, X X X
 X X works fine.
-<P>
+
 So we have
 
 <PRE><TT>
@@ -187,7 +183,7 @@ N   3 3  F T       X X X X X
 elytra, wing cover of beetles
 </TT></PRE>
 
-<P>
+
 sat, I happen to know is an abbreviated form of satis, so it is easy.  If
 you want the adverb form, as you indicate:
 
@@ -197,10 +193,10 @@ ADV POS     X X X X X
 sufficiently, adequately; quite, well enough; fairly, (moderately)
 </TT></PRE>
 
-<P>
+
 Adverbs have a comparison parameter (X, POS, COMP, SUPER).  Most will be
 POS.
-<P>
+
 It also is an indeclinable (N 9 9) substantive:
 
 <PRE><TT>
@@ -210,7 +206,7 @@ enough, sufficient; enough and some to spare; one of sufficient power
 
 </TT></PRE>
 
-<P>
+
 Deplanata seems to be a 1-2 declension adjective, the -us, -a, -um form.
 It also seems to derived from the verb deplanto (V 1 1) - break off/sever
 (branch/shoot).
@@ -221,9 +217,9 @@ ADJ 1 1 POS     X X X X X
 broken off/severed (branch/shoot); (flattened)
 </TT></PRE>
 
-<P>
+
 Adjectives have a DECN and a comparison.
-<P>
+
 The following were not at the time in the dictionary, but were in the OLD.
 
 <PRE><TT>
@@ -258,7 +254,7 @@ ADJ  1 1 POS    X X X X X
 bricks; resembling bricks (esp. color); having hard covering/shell (animals)
 </TT></PRE>
 
-<P>
+
 This one had no classical correspondence.
 
 <PRE><TT>
@@ -267,15 +263,14 @@ ADJ 1 1  POS     X X X X X
 brown
 </TT></PRE>
 
-<P>
+
 There is one other remark.  It is probably wise to include in the
 definition a more complete English meaning.  Just saying the meaning of appendiculatus is
 appendiculate is not as interesting as it might be.
-<P>
-All the inflections are in a file called INFLECTS.LAT now a part of the
-general distribution of <A HREF="http://www.erols.com/whitaker/wordsall.zip">source code and data files</A>.  <BR>
 
-<P>
+All the inflections are in a file called INFLECTS.LAT now a part of the
+general distribution of [source code and data files](https://github.com/mk270/whitakers-words/).
+
 Here is a quick reference for the most common types.
 
 <PRE><TT>
@@ -411,9 +406,9 @@ Here is a quick reference for the most common types.
 </TT></PRE>
 
 
-<A NAME="UNIQUES.LAT">
-<H4>UNIQUES.LAT</H4></A>
-<P>
+UNIQUES.LAT
+-----------
+
 There are a few Latin words that cannot be represented with the scheme of
 stems and endings used by the program.  For these very few cases, the
 program invokes a unique procedure.  The file UNIQUES.  contains a list of
@@ -423,7 +418,7 @@ will be very few occasions to do so, indeed, the tendency has been that
 better processing has allowed uniques to be removed.  If a user finds an
 important word that should be included, please communicate that to the
 author.
-<P>
+
 The UNIQUES record is essentially the form as one might have it in output
 if the word was processed normally.  In addition there are some additional
 fields that the program presently expects.  While these could be
@@ -444,16 +439,16 @@ and then the five X's or, more properly, the dictionary codes.
 N 3 1 ACC S F T  0 0                            X        X  X  X  B  O
 </TT></PRE>
 
-<P>
+
 These pro forma codes are absolutely necessary, but have no further
 impact.
-<P>
+
 The program is written in Ada and uses Ada techniques.  Ada is designed
 for high reliability systems (there is no claim the WORDS was developed
 with all the other safeguards that that implies!) as a consequence is
 unforgiving.  The exact form is required.  If you want to be sloppy you
 have to deliberately program that in.
-<P>
+
 The following examples, and an examination of the UNIQUES.LAT file, should
 allow the user to insert any unique necessary.
 
@@ -474,8 +469,4 @@ cette
 V    3 1 PRES ACTIVE IMP  2 P TRANS    0 0      X        X  X  X  B  O
 give/bring here!/hand over, come (now/here); tell/show us, out with it! behold!
 </TT></PRE>
-
-<P>
-<BR>
-<BR>
 
