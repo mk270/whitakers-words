@@ -3,11 +3,9 @@ layout: default
 title: Dictionary
 ---
 
-Dictionary
-==========
+# Dictionary
 
-Dictionary Codes
-----------------
+## Dictionary Codes
 
 
 Several codes are associated with each dictionary entry (e.g., AGE,
