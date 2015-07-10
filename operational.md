@@ -842,7 +842,7 @@ translation.
 ; [semicolon] is used to separate sets of meanings that differ in intent.
 This is just a general tendency and is not always rigorously enforced.
 
-: [colon] is used with an AREA code to specify a single special meaning
+\: [colon] is used with an AREA code to specify a single special meaning
 appropriate for that AREA in a series of general meanings.  For example,
 L: has the same impact as (legal) before or after a defination in meaning.
 This supplements the use of the AREA code in the set of flags, which
