@@ -35,7 +35,6 @@ can be made to work with Ada 83 also by replacing just tha short driver routine.
 This a console program (keyboard entry), without fancy Windows GUI, and has
 thereby been made system independent.
 
-<P>
 There are four supporting programs
 
   * makedict.adb
