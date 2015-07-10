@@ -131,14 +131,7 @@ It may be desirable in the future to provide such additional capabilities.
 This would be value added over simple search by the program.
 
 
-
-<BR>
-<BR>
-
-
-<A NAME="English Parsing of Meanings">
-<H4>English Parsing of Meanings</H4></A>
-<BR>
+## English Parsing of Meanings
 
 
 Puncuation in meanings is now formalized, in order
@@ -277,10 +270,7 @@ output will only lose a part of the strange MEAN, affecting only the English mod
 and may or may not not give a report on the failure.
 
 
-<A NAME="Ordering English-to-Latin Output">
-<H4>Ordering English-to-Latin Output</H4></A>
-<BR>
-
+## Ordering English-to-Latin Output
 
 Essentially we start by associating English words in the dictionary entry meaning
 with the entry number (line number in DICTLINE).
