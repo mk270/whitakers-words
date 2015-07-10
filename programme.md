@@ -7,7 +7,7 @@ title: Programme description
 <H3><CENTER>PROGRAM DESCRIPTION</CENTER>
 </H3></A> <BR>
 
-<P>
+
 A effect of the program is to derive the structure and meaning of
 individual Latin words.  A procedure was devised to: examine the ending of
 a word, compare it with the standard endings, derive the possible stems
@@ -18,7 +18,7 @@ it tries with a large set of prefixes and suffixes, and various tackons
 (e.g., -que), finally it tries various 'tricks' (e.g., 'ae' may be
 replaced by 'e', 'inp...' by 'imp...', syncope, etc.), and it reports any
 resulting matches as possible interpretations.
-<P>
+
 With the input of a word, or several words in a line, the program returns
 information about the possible accedience, if it can find an agreeable
 stem in its dictionary.
@@ -27,7 +27,7 @@ stem in its dictionary.
 am.o               V       1  1 PRES ACTIVE  IND  1 S
 love, like; fall in love with; be fond of; have a tendency to</TT></PRE>
 
-<P>
+
 To support this method, an INFLECT.SEC data file was constructed
 containing possible Latin endings encoded by a structure that identifies
 the part of speech, declension, conjugation, gender, person, number, etc.
@@ -39,14 +39,14 @@ in the plural) are not used in the search.  However, it is convenient to
 combine several identical endings with a general encoding (e.g., the
 endings of the perfect tenses are the same for all verbs, and are so
 encoded, not replicated for every conjugation and variant).
-<P>
+
 Many of the distinguishing differences identifying conjugations come from
 the voiced length of stem vowels (e.g., between the present, imperfect and
 future tenses of a third conjugation I-stem verb and a fourth conjugation
 verb).  These aural differences, the features that make Latin 'sound
 right' to one who speaks it, are not relevant in the analysis of written
 endings.
-<P>
+
 The endings for the verb conjugations are the result of trying to minimize
 the number of individual endings records, while yet keeping the structure
 of the inflections data file fairly readable.  There is no claim that the
@@ -56,7 +56,7 @@ conjugations in text books, it can only be viewed as some fuzzy
 intermediate step along a path to a mathematically minimal number of
 encoded verb endings.  Later versions of the program might improve the
 system.
-<P>
+
 There are some egregious liberties taken in the encoding.  With the
 inclusion of two present stems, the third conjugation I-stem verbs may
 share the endings of the regular third conjugation.  The fourth
@@ -65,7 +65,7 @@ variant of the third conjugation (3, 4), but this is
 replaced for the user in output by 4 1. There is an artificial fifth
 conjugation for esse and others, a sixth for eo, and a seventh for other
 irregularities.
-<P>
+
 As an example, a verb ending record has the structure:
 <BR>PART -- the part code for a verb = V;
 <BR>CONjugation -- consisting of two parts:
@@ -80,17 +80,17 @@ As an example, a verb ending record has the structure:
 <BR>SIZE -- number of characters - range 0..9;
 <BR>ENDING -- the ending as a string of SIZE characters;
 <BR>AGE and FREQ flags which are not usually visible to the user.
-<P>
+
 Thus, the entry for the ending appropriate to 'amo' (with STEM = am) is:
 
 <PRE><TT>V 1 1 PRES IND ACTIVE 1 S X 1 o</TT></PRE>
 
-<P>
+
 The elements are straightforward and generally use the
 abbreviations that are common in any Latin text.  An X or 0 represents the
 'don't know' or 'don't care' for enumeration or numeric types.  Details
 are documented below in the CODES section.
-<P>
+
 A verb dictionary record has the structure:
 <BR>STEMS -- for a verb there are 4 stems;
 <BR>PART --  part code for a verb = V
@@ -99,7 +99,7 @@ A verb dictionary record has the structure:
 <BR>KIND -- enumeration type of verb - range TO_BE..PERFDEF + X;
 <BR>AGE, AREA, GEO, FREQ, and SOURCE flags
 <BR>MEANING -- text for English translations (up to 80 characters).
-<P>
+
 Thus, an entry corresponding to 'amo amare amavi amatus' is:
 
 <PRE><TT>am am amav amat
@@ -107,7 +107,7 @@ V 1 1 X            X X X X X
 love, like; fall in love with; be fond of; have a tendency to</TT></PRE>
 
 
-<P>
+
 Endings may not uniquely determine which stem, and therefore the right
 meaning.  'portas' could be the accusitive plural of 'gate', or the second
 person, singular, present indicative active of 'carry'.  In both cases the
@@ -120,7 +120,7 @@ carry, bring
 port.as N 1 1 ACC P F T
 gate, entrance; city gates; door; avenue;</TT></PRE>
 
-<P>
+
 And note that the same stem (port) has other uses (portus = harbor).
 
 
@@ -128,14 +128,14 @@ And note that the same stem (port) has other uses (portus = harbor).
 port.um N 4 1 ACC S M T
 port, harbor; refuge, haven, place of refuge</TT></PRE>
 
-<P>
+
 PLEASE NOTE: It is certainly possible for the program to find a valid
 Latin construction that fits the input word and to have that
 interpretation be entirely wrong in the context.  It is even possible to
 interpret a number, in Roman numerals, as a word!  (But the number would
 be reported also.)
 
-<P>
+
 For the case of defective verbs, the process does not necessarily have to
 be precise.  Since the purpose is only to translate from Latin, even if
 there are unused forms included in the algorithm these will not come up
@@ -143,7 +143,7 @@ in any real Latin text.  The endings for the verb conjugations are the
 result of trying to minimize the number of individual endings records,
 while keeping the structure of the base INFLECTIONS data file fairly
 readable.
-<P>
+
 In general the program will try to construct a match with the inflections
 and the dictionaries.  There are some specific checks to reject
 certain mathematically correct combinations that do not appear in the
@@ -158,7 +158,7 @@ not have been approved of by Cicero.  It is also possible that such
 reasonable, if 'improper', constructs might occur in later writings by
 less educated, or just different, authors.  Certainly English shows this
 sort of variation over time.
-<P>
+
 If the exact stem is not found in the dictionary, there are rules for the
 construction of words which any student would try.  The simplest situation
 is a known stem to which a prefix or suffix has been attached.  The method used
@@ -171,7 +171,7 @@ in about 40% of the instances in which there is a hit, the derivation is
 correct but the interpretation takes some imagination.  In something less
 than 10% of the cases, the inferred fix is just wrong, so the user must
 take some care to see if the interpretation makes any sense.
-<P>
+
 This method is complicated by the tendency for prefixes to be modified
 upon attachment (ab+fero = aufero, sub+fero = suffero).  The program's
 'tricks' take many such instances into account.  Ideally, one should look
@@ -184,11 +184,11 @@ To first order, the procedure ignores such hints and may report this word in
 both forms, as well as a verb participle.  However, it can use certain
 generally applicable rules, like the superlative characteristic 'issim',
 to further guess.
-<P>
+
 In addition, there is the capability to examine the word for such common
 techniques as syncope, the omission of the 've' or 'vi' in certain verb
 perfect forms (audivissem = audissem).
-<P>
+
 If the dictionary can not identify a matching stem, it may be possible to
 derive a stem from 'nearby' stems (an adverb from an adjective is the most
 common example) and infer a meaning.  If all else fails, a portion of the
@@ -198,14 +198,14 @@ making his own guess.  <BR>
 <A NAME="Codes in Inflection Line">
 
 <H4>Codes in Inflection Line</H4></A>
-<P>
+
 For completeness, the enumeration codes used in the output are listed here
 from the Ada statements.  Simple numbers are used for person, declension,
 conjugations, and their variants.  Not all the facilities implied by these
 values are developed or used in the program or the dictionary.  This list
 is only for Version 1.97E.  Other versions may be somewhat different.  This
 may make their dictionaries incompatible with the present program.
-<P>
+
 NOTE: in print dictionaries certain information is conveyed by font
 encoding, e.g., the use of bold face or italics.  There is no system
 independent method of displaying such on computers (although individual
@@ -333,7 +333,7 @@ in present usage.
 
 </TT></PRE>
 
-<P>
+
 The KIND_TYPEs represent various aspects of a word which may be useful to
 some program, not necessarily the present one.  They were put in for
 various reasons, and later versions may change the selection and use.
@@ -341,10 +341,10 @@ Some of the KIND flags are never used.  In some cases more than one KIND
 flag might be appropriate, but only one is selected.  Some seemed to be a
 good idea at one time, but have not since proved out.  The lists above are
 just for completeness.
-<P>
+
 NOUN KIND is used in trimming (when set) the output and removing possibly
 spurious cases (locative for a person, but preserving the vocative).
-<P>
+
 VERB KIND allows examples (when set) to give a more reasonable meaning.  A
 DEP flag allows the example to reflect active meaning for passive form.
 It also allows the dictionary form to be constructed properly from stems.
@@ -379,14 +379,14 @@ A better way might be to include the perfect form but still have the DEP flag,
 thereby allow the trimming in most cases. This has not been done yet.
 But an active form would be recognized if input, especially if the text is medieval.
 
-<P>
+
 NUMERAL KIND and VALUE are used by the program in constructing the meaning line.
 <BR>
 
 <A NAME="Help for Parameters">
 <H4>Help for Parameters</H4></A>
 
-<P>
+
 One can CHANGE_PARAMETERS by inputting a '#' [number sign] character (ASCII
 35) as the input word, followed by a return.  (Note that this has changed
 from early versions in which '?' was used.) Each parameter is listed and
@@ -402,7 +402,7 @@ changes made to that point.
 <P>Some parameters may not function in the English mode, nor is the documentation
 necessarily complete,
 
-<P>
+
 The various help displays are listed here:
 
 <PRE><TT>
@@ -585,7 +585,7 @@ SAVE_PARAMETERS_HELP
 
 </TT></PRE>
 
-<P>
+
 There is also a set of DEVELOPER_PARAMETERS that are unlikely to be of
 interest to the normal user.  Some of these facilities may be disconnected
 or not work for other reasons.  Additional parameters may be included
@@ -872,7 +872,7 @@ SAVE_PARAMETERS_HELP
 
 <A NAME="Special Cases">
 <H4>Special Cases</H4></A>
-<P>
+
 Some adjectives have no conventional positive forms (either missing or
 undeclined), or the POS forms have more than one COMP/SUPER.  In these few
 cases, the individual COMP or SUPER form is entered separately.  Since it
@@ -883,7 +883,7 @@ is only for the COMP/SUPER, and does not reflect all comparisons.
 
 <A NAME="Uniques">
 <H4>Uniques</H4></A>
-<P>
+
 There are some irregular situations which are not convenient to handle
 through the general algorithms.  For these a UNIQUES file and procedure
 was established.  The number of these special cases is less than one
@@ -894,7 +894,7 @@ unique words.
 
 <A NAME="Tricks">
 <H4>Tricks</H4></A>
-<P>
+
 There are a number of situations in Latin writing where certain
 modifications or conventions regularly are found.  While often found,
 these are not the normal classical forms.  If a conventional match is not
@@ -915,7 +915,7 @@ contracted to 'is...'.  A nonterminal 'ii' is often replaced by just 'i';
 including 'ji', since in this program and dictionary all 'j' are made 'i'.
 A 'cl' could be a 'cul'.  A 'vul' could be a 'vol'.  and many others,
 including a procedure to try to break the input word into two.
-<P>
+
 Various manipulations of 'u' and 'v' are possible: 'v' could be replaced
 by 'u', like the new Oxford Latin Dictionary, leading 'U' could be
 replaced by 'V', checking capitalization, all 'U's could have been
@@ -925,13 +925,13 @@ surprisingly good, but philosophically baseless and certainly failed in a
 number of cases.  The present version simply considers 'u' and 'v' as the
 same letter in parsing the word.  However, the dictionary entries make the
 distinction and this is reflected in the output.
-<P>
+
 Various combinations of these tricks are attempted, and each try that
 results in a possible hit is run against the full dictionary, which can
 make these efforts time consuming.  That is a good reason to make the
 dictionary as large as possible, rather than counting on a smaller number
 of roots and doing the maximum word formation.
-<P>
+
 Finally, while the program could succeed on a word that requires two or
 three of these tricks to work in combination, there are limits.  Some
 words for which all the modifications are supported will fail, if there
@@ -939,7 +939,7 @@ are just too many.  In fact, it is probably better that that be the case,
 otherwise one will generate too many false positives.  Testing so far does
 not seem to show excessive zeal on the part of the program, but the user
 should examine the results, especially when several tricks are involved.
-<P>
+
 There is a basic conflict here.  At the state of the 1.97E dictionary there
 are so few words that both fail the main program and are caught by tricks
 that this option could be defaulted to No.  However, one could argue that
@@ -952,7 +952,7 @@ for classical Latin.
 
 <A NAME="Trimming of uncommon results">
 <H4>Trimming of uncommon results</H4></A>
-<P>
+
 Trimming has an impact on output.  If TRIM_OUTPUT parameter is set, and
 specific parameters set in the MDEV, the program will deprecate those
 possible forms which come from archaic or medieval (non-classical) stems
@@ -961,7 +961,7 @@ It will report such if no classical/common solutions are found.  The
 default is set for this, expecting that most users are students and
 unlikely to encounter rare forms.  Other users can set the parameters
 appropriately for their situation.
-<P>
+
 This capability is preliminary.  It is just becoming useful in that the
 factors are set for about half the dictionary entries.  There are still a
 large number of entries and inflections that are not set and will continue
