@@ -1,0 +1,155 @@
+<HTML>
+
+<HEAD>
+<TITLE>WORDS 1.97F (LATIN-ENGLISH DICTIONARY) PROGRAM DOCUMENTATION</TITLE>
+</HEAD>
+<BODY>
+
+
+<H1><CENTER>WORDS Version 1.97FC</CENTER>
+<CENTER>LATIN-ENGLISH DICTIONARY PROGRAM</CENTER></H1>
+
+<BR><BR>
+
+<A HREF="#SUMMARY"><B>SUMMARY</B></A><BR>
+<BR>
+<A HREF="#INSTALLATION"><B>INSTALLATION</B></A><BR>
+<A HREF="#Is There a Problem">Is There a Problem?</A><BR>
+<BR>
+
+<A HREF="introduction.html"><B>INTRODUCTION</B></A><BR>
+<BR>
+<A HREF="operational.html#OPERATIONAL DESCRIPTION"><B>OPERATIONAL DESCRIPTION</B></A><BR>
+<A HREF="operational.html#Program Operation">Program Operation</A><BR>
+<A HREF="operational.html#Modes of Operation">Modes of Operation</A><BR>
+<A HREF="operational.html#Command Line Operation">Command Line Operation</A><BR>
+<A HREF="operational.html#Latin-to-English Examples">Latin-to-English Examples</A><BR>
+<A HREF="operational.html#English-to-Latin Examples">English-to-Latin Examples</A><BR>
+<A HREF="operational.html#Design of the Meaning Line">Design of the Meaning Line</A><BR>
+<A HREF="operational.html#Signs and Abbreviations in Meaning">Signs and Abbreviations in Meaning</A><BR>
+<BR>
+<A HREF="#PROGRAM DESCRIPTION"><B>PROGRAM DESCRIPTION</B></A><BR>
+<A HREF="#Codes in Inflection Line">Codes in Inflection Line</A><BR>
+<A HREF="#Help for Parameters">Help for Parameters</A><BR>
+<A HREF="#Special Cases">Special Cases</A><BR>
+<A HREF="#Uniques">Uniques</A><BR>
+<A HREF="#Tricks">Tricks</A><BR>
+<A HREF="#Trimming of uncommon results">Trimming of uncommon results</A><BR>
+<BR>
+<A HREF="#GUIDING PHILOSOPHY"><B>GUIDING PHILOSOPHY</B></A><BR>
+<A HREF="#Purpose">Purpose</A> <BR>
+<A HREF="#Method">Method</A><BR>
+<A HREF="#Word Meanings">Word Meanings</A><BR>
+<A HREF="#Proper Names">Proper Names</A><BR>
+<A HREF="#Letter Conventions (u/v, i/j, w)">Letter Conventions (u/v, i/j, w)</A><BR>
+<BR>
+<A HREF="#DICTIONARY"><B>DICTIONARY</B></A><BR>
+<A HREF="#Dictionary Codes">Dictionary Codes</A><BR>
+<A HREF="#AGE">AGE</A><BR>
+<A HREF="#AREA">AREA</A><BR>
+<A HREF="#GEO">GEO</A><BR>
+<A HREF="#FREQ">FREQ</A><BR>
+<A HREF="#SOURCE">SOURCE</A><BR>
+<A HREF="#Current Distribution of DICTLINE Flags">
+Current Distribution of DICTLINE Flags</A><BR>
+<A HREF="#Dictionary Conventions">Dictionary Conventions</A><BR>
+<A HREF="#Evolution of the Dictionary">Evolution of the Dictionary</A><BR>
+<A HREF="#Text Dictionary - DICTPAGE.TXT">Text Dictionary - DICTPAGE.TXT</A><BR>
+<A HREF="#Latin Spellchecking - Text Processor List - LISTALL.ZIP">
+Latin Spellchecking - Text Processor List - LISTALL.ZIP</A><BR>
+<BR>
+<A HREF="#INFLECTIONS"><B>INFLECTIONS</B></A><BR>
+<BR>
+<A HREF="#ENGLISH to LATIN"><B>ENGLISH to LATIN</B></A><BR>
+<A HREF="#English Parsing of Meanings">English Parsing of Meanings</A><BR>
+<A HREF="#Ordering English-to-Latin Output">Ordering English-to-Latin Output</A><BR>
+<BR>
+<A HREF="#TESTS AND STATUS"><B>TESTS AND STATUS</B></A><BR>
+<A HREF="#Testing">Testing</A><BR>
+<A HREF="#Current Status and Future Plans">Current Status and Future Plans</A><BR>
+<BR>
+<A HREF="#USER MODIFICATIONS"><B>USER MODIFICATIONS</B></A><BR>
+<A HREF="#Writing DICT.LOC and UNIQUES.LAT">Writing DICT.LOC and UNIQUES.LAT</A><BR>
+<A HREF="#DICT.LOC">DICT.LOC</A><BR>
+<A HREF="#UNIQUES.LAT">UNIQUES.LAT</A><BR>
+
+<BR>
+<A HREF="developers.html"><B>DEVELOPERS AND REHOSTING</B></A><BR>
+<A HREF="developers.html#Program source code and data">Program source code and data</A><BR>
+<A HREF="developers.html#License">License</A><BR>
+<A HREF="developers.html#Rehosting WORDS">Rehosting WORDS</A><BR>
+<A HREF="developers.html#Feedback">Feedback</A><BR>
+<BR><BR>
+
+
+<A NAME="INSTALLATION">
+<H2><CENTER>INSTALLATION</CENTER>
+</H2></A> <BR>
+
+<P>
+The WORDS program, with its accompanying data files should run on any
+machine for which it is adapted, any monitor.  Simply download the
+self-extracting EXE files or the compressed file for the appropriate
+system and execute/decompress it in your chosen subdirectory on the hard
+disk, creating the necessary files.  Then call/run WORDS, or do as instructed
+in any README.
+
+<P>The load includes SPQR.ICO, a possible icon for WORDS,
+but just that, only an icon.
+You have to install the program as per the directions
+(put the downloaded files in a folder,
+run them to expand to the WORDS system, then run from that folder).
+However, If you are Windows-wise, you can use Explorer and
+make a shortcut and put it on the desktop.
+Windows will make a generic icon,
+but you can change it (using Properties)
+to whatever other icon you can find, for instance,
+the one included with the package.  Or not.
+Make sure that the Properties on the icon
+has as Target the WORDS.EXE
+in the folder in which the system is loaded.
+
+<P>
+See the particular page for each specific system.  <BR>
+<A HREF="http://www.erols.com/whitaker/wordsdos.htm"><B>DOS</B></A><BR>
+<A HREF="http://www.erols.com/whitaker/wordsw95.htm"><B>Windows 95/NT/98/2000/XP</B></A><BR>
+<A HREF="http://www.erols.com/whitaker/wordslux.htm"><B>Linux and FreeBSD</B></A><BR>
+<A HREF="http://www.erols.com/whitaker/wordsos2.htm"><B>OS/2</B></A><BR>
+<A HREF="http://www.erols.com/whitaker/wordsmac.htm"><B>MAC OS X</B></A><BR>
+<BR><BR>
+
+<A NAME="Is There a Problem">
+<H4>Is There a Problem?</H4></A>
+
+<P>Did you download the two appropriate file(s) to your hard disk,
+as listed in the download page for your system?
+
+<P>Can you verify that they are there and full size (megabytes as indicated)?
+
+<P>Did you execute/run/unzip these programs?
+
+<P>If self-extracted, were you asked where to put the generated files?
+(Maybe a default C:\WORDS)?
+If not, did you put them in the folder/subdirectory from which you wish to operate?
+
+<P>Can you verify that the full set of files (about 10 MB) was generated in that folder/subdirectory,
+or wherever you chose? At least
+WORDS.EXE, INFLECT.SEC, UNIQUES.LAT, ADDONS.LAT, STEMFILE.GEN, INDXFILE.GEN, and DICTFILE.GEN,
+plus documentation.
+
+<P>Did you run/execute WORDS in that folder/subdirectory?  e.g. <BR>
+<B>C:\WORDS</B>
+
+<P>If when you try to run there is no WORDS.EXE (or equivalent),
+the system should let you know.<BR>
+If there is no INFLECTS.SEC, the program will say so and abort immediately.<BR>
+If there are no dictionary files, the program will tell you, but will start
+(you can get Roman numerals!).<BR>
+If there is no ADDONS.LAT or UNIQUES.LAT, the program will tell you,
+and if they are there it will tell you how many.<BR>
+
+<BR><BR>
+
+
+</BODY>
+</HTML>
