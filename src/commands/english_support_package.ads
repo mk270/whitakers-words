@@ -50,7 +50,7 @@ package english_support_package is
 
    type ewds_array is array (Positive range <>) of ewds_record;
 
-   package ewds_direct_io is new direct_io(ewds_record);
+   package ewds_direct_io is new Ada.Direct_IO(ewds_record);
 
    package ewds_record_io is
       Default_Width : Natural;

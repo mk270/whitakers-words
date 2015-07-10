@@ -31,7 +31,7 @@ package word_support_package is
          MNPC : Dict_IO.Count := Null_MNPC;
       end record;
 
-   package stem_io is new direct_io(dictionary_stem);
+   package stem_io is new Ada.Direct_IO(dictionary_stem);
    package Count_io is new Ada.Text_IO.Integer_IO(stem_io.Count);
 
    subtype dictionary_file_kind is Dictionary_Kind range general..local;

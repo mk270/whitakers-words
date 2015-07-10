@@ -667,7 +667,7 @@ package Latin_Utils.Inflections_Package is
 
    type inflection_array is array (Positive range <>) of Inflection_Record;
    subtype lel_section is inflection_array(1..size_of_inflections_section);
-   package lel_section_io is new direct_io(lel_section);
+   package lel_section_io is new Ada.Direct_IO(lel_section);
 
    bel : inflection_array(1..size_of_blank_inflections);
 
