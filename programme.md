@@ -191,7 +191,7 @@ If the dictionary can not identify a matching stem, it may be possible to
 derive a stem from 'nearby' stems (an adverb from an adjective is the most
 common example) and infer a meaning.  If all else fails, a portion of the
 possible dictionary stems can be listed, from which the user can draw in
-making his own guess.  <BR>
+making his own guess.
 
 
 ## Codes in Inflection Line
