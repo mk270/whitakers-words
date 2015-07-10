@@ -7,7 +7,7 @@ Organisation
 ============
 
 There is an effort to establish an organisation to carry on the maintenance
-of WORDS, both the dictionary and the programme. The original author
+of WORDS, both the dictionary and the software. The original author
 suggested the following:
 
 
