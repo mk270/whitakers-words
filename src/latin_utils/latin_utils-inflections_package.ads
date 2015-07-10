@@ -14,11 +14,11 @@
 -- All parts of the WORDS system, source code and data files, are made freely
 -- available to anyone who wishes to use them, for whatever purpose.
 
-with Text_IO; use Text_IO;
+with Ada.Text_IO; use Ada.Text_IO;
 with Direct_IO;
 package Latin_Utils.Inflections_Package is
    pragma Elaborate_Body;
-   package Integer_IO is new Text_IO.Integer_IO (Integer);
+   package Integer_IO is new Ada.Text_IO.Integer_IO (Integer);
 
    --  Generally simple/enumeration types have names ending in _TYPE
    --            complex/record     types have names ending in _RECORD
@@ -65,7 +65,7 @@ package Latin_Utils.Inflections_Package is
                                );
 
    package Part_Of_Speech_Type_IO is
-      new Text_IO.enumeration_io(Part_Of_Speech_Type);
+      new Ada.Text_IO.enumeration_io(Part_Of_Speech_Type);
 
    subtype which_type is Natural range 0..9;
 
@@ -101,7 +101,7 @@ package Latin_Utils.Inflections_Package is
                         c          --  Common (masculine and/or feminine)
                        );
 
-   package Gender_Type_IO is new Text_IO.Enumeration_IO (Gender_Type);
+   package Gender_Type_IO is new Ada.Text_IO.Enumeration_IO (Gender_Type);
 
    type Case_Type is (
                       x,         --  all, none, or unknown
@@ -114,7 +114,7 @@ package Latin_Utils.Inflections_Package is
                       acc        --  ACCusitive
                      );
 
-   package Case_Type_IO is new Text_IO.enumeration_io(Case_Type);
+   package Case_Type_IO is new Ada.Text_IO.enumeration_io(Case_Type);
 
    type number_type is (
                         x,         --  all, none, or unknown
@@ -122,10 +122,10 @@ package Latin_Utils.Inflections_Package is
                         p          --  Plural
                        );
 
-   package number_type_io is new Text_IO.enumeration_io(number_type);
+   package number_type_io is new Ada.Text_IO.enumeration_io(number_type);
 
    type person_type is range 0..3;
-   package person_type_io is new Text_IO.Integer_IO(person_type);
+   package person_type_io is new Ada.Text_IO.Integer_IO(person_type);
 
    type Comparison_Type is (
                             x,         --  all, none, or unknown
@@ -134,11 +134,11 @@ package Latin_Utils.Inflections_Package is
                             super      --  SUPERlative
                            );
 
-   package Comparison_Type_IO is new Text_IO.Enumeration_IO (Comparison_Type);
+   package Comparison_Type_IO is new Ada.Text_IO.Enumeration_IO (Comparison_Type);
 
    type Stem_Key_Type is new Natural range 0..9;
 
-   package Stem_Key_Type_IO is new Text_IO.Integer_IO(Stem_Key_Type);
+   package Stem_Key_Type_IO is new Ada.Text_IO.Integer_IO(Stem_Key_Type);
    Stem_Key_Type_IO_Default_Width : Integer := 1;
 
    type Numeral_Sort_Type is (
@@ -150,7 +150,7 @@ package Latin_Utils.Inflections_Package is
                              );
 
    package Numeral_Sort_Type_IO is
-      new Text_IO.Enumeration_IO (Numeral_Sort_Type);
+      new Ada.Text_IO.Enumeration_IO (Numeral_Sort_Type);
 
    type tense_type is (
                        x,         --  all, none, or unknown
@@ -162,7 +162,7 @@ package Latin_Utils.Inflections_Package is
                        futp       --  FUTure Perfect
                       );
 
-   package tense_type_io is new Text_IO.enumeration_io(tense_type);
+   package tense_type_io is new Ada.Text_IO.enumeration_io(tense_type);
 
    type voice_type is (
                        x,         --  all, none, or unknown
@@ -170,7 +170,7 @@ package Latin_Utils.Inflections_Package is
                        passive    --  PASSIVE
                       );
 
-   package voice_type_io is new Text_IO.enumeration_io(voice_type);
+   package voice_type_io is new Ada.Text_IO.enumeration_io(voice_type);
 
    type mood_type is (
                       x,         --  all, none, or unknown
@@ -181,7 +181,7 @@ package Latin_Utils.Inflections_Package is
                       ppl        --  ParticiPLe
                      );
 
-   package mood_type_io is new Text_IO.enumeration_io(mood_type);
+   package mood_type_io is new Ada.Text_IO.enumeration_io(mood_type);
 
    type tense_voice_mood_record is
       record
@@ -214,7 +214,7 @@ package Latin_Utils.Inflections_Package is
                            w             --  a place Where
                           );
 
-   package Noun_Kind_Type_IO is new Text_IO.enumeration_io(noun_kind_type);
+   package Noun_Kind_Type_IO is new Ada.Text_IO.enumeration_io(noun_kind_type);
 
    type Pronoun_Kind_Type is (
                               x,            --  unknown, nondescript
@@ -228,7 +228,7 @@ package Latin_Utils.Inflections_Package is
                              );
 
    package Pronoun_Kind_Type_IO is
-      new Text_IO.enumeration_io(Pronoun_Kind_Type);
+      new Ada.Text_IO.enumeration_io(Pronoun_Kind_Type);
 
    subtype Numeral_Value_Type is Natural range 0..1000;
 
@@ -254,7 +254,7 @@ package Latin_Utils.Inflections_Package is
                           );
 
    package Verb_Kind_Type_IO is
-      new Text_IO.enumeration_io(Verb_Kind_Type);
+      new Ada.Text_IO.enumeration_io(Verb_Kind_Type);
 
    type noun_record is
       record
@@ -606,7 +606,7 @@ package Latin_Utils.Inflections_Package is
                      g,   --  scholar     --  Latin post 15th - Scholarly/Scientific   (16-18)
                      h    --  modern      --  Coined recently, words for new things (19-20)
                     );
-   package Age_Type_IO is new Text_IO.Enumeration_IO (Age_Type);
+   package Age_Type_IO is new Ada.Text_IO.Enumeration_IO (Age_Type);
 
    type Frequency_Type is (     --  For dictionary entries
                                 x,    --              --  Unknown or unspecified
@@ -633,7 +633,7 @@ package Latin_Utils.Inflections_Package is
    --  M,    --              --  Presently not used
    --  N     --              --  Presently not used
 
-   package Frequency_Type_IO is new Text_IO.Enumeration_IO (Frequency_Type);
+   package Frequency_Type_IO is new Ada.Text_IO.Enumeration_IO (Frequency_Type);
 
    type Inflection_Record is
       record

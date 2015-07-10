@@ -14,11 +14,11 @@
 -- All parts of the WORDS system, source code and data files, are made freely
 -- available to anyone who wishes to use them, for whatever purpose.
 
-with Text_IO;
+with Ada.Text_IO;
 package Latin_Utils.Preface is
    procedure Put(s: String);
-   procedure Set_Col(pc : Text_IO.Positive_Count);
+   procedure Set_Col(pc : Ada.Text_IO.Positive_Count);
    procedure Put_Line(s : String);
-   procedure New_Line(spacing  : Text_IO.Positive_Count := 1);
-   procedure Put(n : Integer; width : Text_IO.Field := Integer'Width);
+   procedure New_Line(spacing  : Ada.Text_IO.Positive_Count := 1);
+   procedure Put(n : Integer; width : Ada.Text_IO.Field := Integer'Width);
 end Latin_Utils.Preface;

@@ -16,7 +16,7 @@
 
 with Ada.Characters.Handling;
 with Ada.Strings.Fixed;
-with Text_IO; use Text_IO;
+with Ada.Text_IO; use Ada.Text_IO;
 package body Latin_Utils.Strings_Package is
 
    ---------------------------------------------------------------------------
@@ -75,7 +75,7 @@ package body Latin_Utils.Strings_Package is
    ---------------------------------------------------------------------------
 
    procedure Get_Non_Comment_Line
-      ( File : in  Text_IO.File_Type;
+      ( File : in  Ada.Text_IO.File_Type;
         Item : out String;
         Last : out Integer
       ) is
@@ -86,8 +86,8 @@ package body Latin_Utils.Strings_Package is
       Last := 0;
 
       File_Loop:
-      while not Text_IO.End_Of_File (File) loop  --  Loop until data - Finish on EOF
-         Text_IO.Get_Line (File, Line, Length);
+      while not Ada.Text_IO.End_Of_File (File) loop  --  Loop until data - Finish on EOF
+         Ada.Text_IO.Get_Line (File, Line, Length);
          if Head (Trim (Line), 250)(1 .. 2) = "  "  or
             Head (Trim (Line), 250)(1 .. 2) = "--"
          then

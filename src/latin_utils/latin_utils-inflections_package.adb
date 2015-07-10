@@ -387,7 +387,7 @@ package body Latin_Utils.Inflections_Package is
       begin
          d := Null_Stem_Type;
          for i in 1..Stem_Type_IO.Default_Width loop
-            Text_IO.Get(c);
+            Ada.Text_IO.Get(c);
             if (c not in 'A'..'Z') and (c not in 'a'..'z') then
                exit;
             else
@@ -398,12 +398,12 @@ package body Latin_Utils.Inflections_Package is
 
       procedure Put(f : in File_Type; d : in Stem_Type) is
       begin
-         Text_IO.Put(f, d);
+         Ada.Text_IO.Put(f, d);
       end Put;
 
       procedure Put(d : in Stem_Type) is
       begin
-         Text_IO.Put(d);
+         Ada.Text_IO.Put(d);
       end Put;
 
       procedure Get(s : in String; d : out Stem_Type;
@@ -2037,7 +2037,7 @@ package body Latin_Utils.Inflections_Package is
          end if;
       exception
          when others =>
-            Text_IO.Put_Line("ENDING ERRROR " & s);
+            Ada.Text_IO.Put_Line("ENDING ERRROR " & s);
       end Get;
 
       procedure Put(s : out String; x : in ending_record) is
@@ -2452,7 +2452,7 @@ package body Latin_Utils.Inflections_Package is
       Preface.Put(" entries");
       Preface.Set_Col(55); Preface.Put_Line("--  Loaded correctly");
    exception
-      when Text_IO.Name_Error  =>
+      when Ada.Text_IO.Name_Error  =>
          New_Line;
          Put_Line("There is no " & inflections_sections_name & " file.");
          Put_Line("The program cannot work without one.");
