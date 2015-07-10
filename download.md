@@ -8,8 +8,8 @@ Downloads
 
 You may download runnable copies of Whitaker's WORDS here:
 
-* [http://archives.nd.edu/whitaker/wordsdos.htm](Windows)
-* [http://archives.nd.edu/whitaker/words-1.97.sit](MacOS X)
+* [Windows](http://archives.nd.edu/whitaker/wordsdos.htm)
+* [MacOS X](http://archives.nd.edu/whitaker/words-1.97.sit)
 
 The preservation efforts for Whitaker's WORDS are currently focused on
 keeping the underlying programme source code working; the links above
