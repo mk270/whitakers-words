@@ -113,33 +113,33 @@ text being read from an @ disk file.)
 
 ## Modes of Operation
 
-<P>The mode of operation of WORDS can be specialized by setting some combination
+The mode of operation of WORDS can be specialized by setting some combination
 of available parameters.  Here are a couple of example situations.
 
-<P>If you want only meanings to show up, set the # parameter
+If you want only meanings to show up, set the # parameter
 <BR>
 DO_ONLY_MEANINGS => Yes
 <BR>
-<P>If you do not even want to see the dictionary form (principle parts) set
+If you do not even want to see the dictionary form (principle parts) set
 # parameter
 <BR>
 DO_DICTIONARY_FORM => No
 <BR>
-<P>If you want to accept only the dictionary entry (amo, but not amas), set
+If you want to accept only the dictionary entry (amo, but not amas), set
 the ! parameter (this is the tricky one, requiring two parameters set)
 <BR>
 DO_ONLY_INITIAL_WORD => Yes
 <BR>
-<P>This will ten require you to input one enrty per line, which is not
+This will ten require you to input one enrty per line, which is not
 unreasonable for a dictionary look-up process.  Then you will be offered
 another, otherwise unavailable, option
 <BR>
 FOR_WORD_LIST_CHECK => Yes
 <BR>
-<P>There are a large number of other options.  The user is invited
+There are a large number of other options.  The user is invited
 to consider all the options if needing anything more than the basic parse.
 
-<P>Of course, for both sets of parameters, you will want to go to the end
+Of course, for both sets of parameters, you will want to go to the end
 of the parameter setting menu and save this set so you can restart with
 the same situation.
 
@@ -249,7 +249,7 @@ The stem is given as 'agricol' and the ending is
 'arum'.  The stem is normal in this case, but is a product of the program,
 and may not always correspond to conventional usage.
 
-<P>On the next line is given the expansion of the form that one might find
+On the next line is given the expansion of the form that one might find
 in a paper dictionary, the nominitive and genitive (agricola, agricolae).
 The [XAXBO] is an internal code of the program and is documented below as Dictionary Codes.
 Several codes are associated with each dictionary entry (presently AGE, AREA, GEO, FREQ, SOURCE).
@@ -259,12 +259,12 @@ that this word is found frequently in texts, in the top 10 percent.
 The O says it has been verified in the Oxford Latin Dictionary.
 The A says it is an agrigultural word.
 
-<P>The declension/conjugation numbers for nouns and verbs are
+The declension/conjugation numbers for nouns and verbs are
 essentially arbitary (but will be familiar to Latin students).
 The variants are complete inventions.
 They have no real meaning, just codes for the program.
 
-<P>(In the case of adjectives, they are even more arbitary,
+(In the case of adjectives, they are even more arbitary,
 although a Latin student might see how I came by them.
 Again they are only codes for the program.
 The initial release of the program did not put these out,
@@ -328,7 +328,7 @@ ille, illa, illud  PRON   [XXXAX]
 that; those (pl.); also DEMONST; that person/thing; the well known; the former;
 *
 </TT></PRE>
-<P>The asterisk means that there are other, less probable forms which have been
+The asterisk means that there are other, less probable forms which have been
 trimmed, but which may be recovered by running with the TRIM parameter reset.
 
 <PRE><TT>=>hic
@@ -402,7 +402,7 @@ bonus, bona -um, melior -or -us, optimus -a -um  ADJ   [XXXAO]
 good, honest, brave, noble, kind, pleasant, right, useful; valid; healthy;
 </TT></PRE>
 
-<P>Here is an adjective or and adverb, both are SUPERlative.
+Here is an adjective or and adverb, both are SUPERlative.
 
 <PRE><TT>=>monuissemus
 monu.issemus         V      2 1 PLUP ACTIVE  SUB 1 P
@@ -547,7 +547,7 @@ VII                  NUM    2 0 X   X X CARD
 </TT></PRE>
 
 
-<P>Beyond simple dictionary entry words, the program
+Beyond simple dictionary entry words, the program
 can construct additional words with prefixes, suffixes and other ADDONS.
 
 <PRE><TT>=>populusque
@@ -559,7 +559,7 @@ people, nation, State; public/populace/multitude/crowd; a following;
 members of a society/sex; region/district (L+S); army (Bee);
 </TT></PRE>
 
-<P>Here the input word is recognized as a combination of a base word
+Here the input word is recognized as a combination of a base word
 and an enclitic (-que) tacked on.  This particular enclitic is
 extremely common and its omission, or the omission of the process
 that handles it, would result in an very large number of UNKNOWNs
@@ -574,7 +574,7 @@ christ.us            N      2 1 NOM S M
 Christus, Christi  N    M   [XEXAO]
 Christ;</TT></PRE>
 
-<P>Here there is a prefix and a base.  The user must make the combination
+Here there is a prefix and a base.  The user must make the combination
 into a word or phrase.
 
 
@@ -583,7 +583,7 @@ dictionaries.  For the verb, it will be a present meaning, even when the
 tense given is perfect.  For a noun, it will be the singular, and the user
 must interpret when the form is plural.
 
-<P>For an adjective, the positive meaning is given,
+For an adjective, the positive meaning is given,
 even if a comparative or superlative form is output.
 The user is invited to expand to
 comparative (-er) and superlative (-est).
@@ -595,7 +595,7 @@ in that it expects the user to observe the FORM to interpret the meaning,
 but it is consisent with ordinary dictionary practice.
 
 
-<P>Initially there were more defective adjective entries.
+Initially there were more defective adjective entries.
 I had accepted assertions in OLD or L+S and others like
 'comparative does not exist'.
 Later on I went over to the position that
@@ -603,7 +603,7 @@ even if theCicero did not use it, someone might.
 I started generating COMP and SUPER where it seemed reasonable.
 One can also count on a suffix to correct most omissions, and it will.
 
-<P>Sometimes a word is constructed from a suffix and a stem of a different
+Sometimes a word is constructed from a suffix and a stem of a different
 part of speech.
 Thus an adverb may be constructed from its adjective.
 It will show the base adjective meaning and an indication of how to
@@ -620,17 +620,17 @@ supplemented by it with possible specialized meanings.  <BR>
 
 ## English-to-Latin Examples
 
-<P>~E (tilde E/e plus Enter/CR)
+~E (tilde E/e plus Enter/CR)
 changes mode from Latin-to-English to English-to-Latin.  ~L changes back.
 
-<P>A single input English word is followed by the desired part of speech.
+A single input English word is followed by the desired part of speech.
 Omitting the part of speech defaults to all, which is not recommended
 for any word which can be ambiguous.  Since the program is looking for a
 part of speech, it would be inconvenient to support the input of several
 English words on a line.  While a (@) file of words can be processed in the
 English mode, it must be one word per line.
 
-<P>Output looks much like a paper dictionary entry, with form, part of speech,
+Output looks much like a paper dictionary entry, with form, part of speech,
 gender, etc.  Also included are the WORDS coded declension/conjugation and the
 TRANS flags, which give age, frequency and source, information for the user
 in selecting the best trnslation.  The output may also contain a vertical bar
@@ -769,7 +769,7 @@ ruin, destruction, military destruction; overthrow;
 </TT></PRE>
 
 
-<P>While six prioritized translations may seem like enough,
+While six prioritized translations may seem like enough,
 and they will likely cover the needs of a student, the full set
 (setting # parameter to not TRIM) contains much valuable information
 for the advanced translator.  For instance for the verb live vivo
@@ -781,7 +781,7 @@ while in English one might just use live and a modifing word or phrase.
 
 ## Design of the Meaning Line
 
-<P>The role and complexity of the WORDS meaning line has evolved over time.
+The role and complexity of the WORDS meaning line has evolved over time.
 Initially it reflected an elementry, back-of-the-book,  textbook dictionary
 with a single word or two for each entry.
 Nevertheless, the size of the MEAN element was set at 80 characters
@@ -793,21 +793,21 @@ characters of the century-old IBM card was chosen.
 They will likely appear on printed output.)
 
 
-<P>With expansion of the dictionary beyond a few thousand elementary seentries
+With expansion of the dictionary beyond a few thousand elementary seentries
 and the extensive inclusion of the Oxford dictionaries,
 a much larger set of possible interpretations surfaced for many words,
 filling and exceeding the 80 character limit.
 A certain disipline was introduced to structure the line.
 
 
-<P>Through the many phases of development of the
+Through the many phases of development of the
 dictionary, standards were developed and modified and
 rigor was not always maintained, therefore the rules
 below are generally, but not universally, observed.
 Evolution of the dictionary is bringing it more closely
 in line with these rules.
 
-<P>A decision was made to include as many meanings and synonyms as
+A decision was made to include as many meanings and synonyms as
 convenient.  The OLD will sometimes list a dozen or more meaning
 groups with notably different senses, each with several similiar meanings.
 Presumably these different meanings were the product of different
@@ -826,7 +826,7 @@ apply it to a discription of Mother Teressa.
 Also one should be warned if an otherwise simple word also is used as a rude
 reference to female anatomy.
 
-<P>There are a couple of other factors that may influence the user in determining
+There are a couple of other factors that may influence the user in determining
 the appropriate meaning from the list.  Some words have different meanings depending
 on the age.  If one is reading a text written recently in modern Latin, one must
 consider hints about the meaning.  While the classical meaning, the WORDS default,
