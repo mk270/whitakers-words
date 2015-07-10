@@ -561,7 +561,7 @@ that run beyond the conventional 80 characters.  One or more vertical bars
 leading the meaning allows tools to recognize that they are additional
 meanings to an entry already encountered, usually the entry immediately
 before when the sort is for that reason.  This is only of concern to those
-dealing with the raw dictionary who have asked.  <BR>
+dealing with the raw dictionary who have asked.
 
 ## Evolution of the Dictionary
 
@@ -594,8 +594,7 @@ spelling.
 
 The refinement is proceeding one letter at a time, as is the tradition for
 all great dictionaries.  First stage refinement has proceeded through DI.
-<BR>
-<BR>
+
 
 ## Text Dictionary - DICTPAGE.TXT
 
@@ -613,7 +612,6 @@ which may be searched from the user's browser,
 or best downloaded and searched by any editor off-line.
 To make it possible to search on-line, the file is not compressed and so is
 about 3 MB.
-<BR><BR>
 
 ## Latin Spellchecking - Text Processor List - LISTALL.ZIP
 
@@ -723,4 +721,4 @@ All the above factors are applied by processes in the WORDS program.
 Running WORDS looking for UNKNOWNS will give a superior spell check,
 but the list can be useful in conjunction with common editors.
 Experience will determine its effectiveness.
-<BR><BR>
+
