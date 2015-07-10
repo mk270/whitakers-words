@@ -21,9 +21,9 @@ With the input of a word, or several words in a line, the program returns
 information about the possible accedience, if it can find an agreeable
 stem in its dictionary.
 
-<PRE><TT>=>amo
-am.o               V       1  1 PRES ACTIVE  IND  1 S
-love, like; fall in love with; be fond of; have a tendency to</TT></PRE>
+    =>amo
+    am.o               V       1  1 PRES ACTIVE  IND  1 S
+    love, like; fall in love with; be fond of; have a tendency to
 
 
 To support this method, an INFLECT.SEC data file was constructed
@@ -65,24 +65,24 @@ conjugation for esse and others, a sixth for eo, and a seventh for other
 irregularities.
 
 As an example, a verb ending record has the structure:
-<BR>PART -- the part code for a verb = V;
-<BR>CONjugation -- consisting of two parts:
-<BR>WHICH -- a conjugation identifier - range 0..9 and
-<BR>VAR -- a variant identifier on WHICH - range 0..9;
-<BR>TENSE -- an enumeration type - range PRES..FUTP + X;
-<BR>VOICE -- an enumeration type - range ACTIVE..PASSIVE + X;
-<BR>MOOD -- an enumeration type - range IND..PPL + X;
-<BR>PERSON -- person, first to third - range 1..3 + 0;
-<BR>NUMBER -- an enumeration type - range S..P + X;
-<BR>KEY -- which stem to be used - range 1..4;
-<BR>SIZE -- number of characters - range 0..9;
-<BR>ENDING -- the ending as a string of SIZE characters;
-<BR>AGE and FREQ flags which are not usually visible to the user.
+
+* PART -- the part code for a verb = V;
+* CONjugation -- consisting of two parts:
+* WHICH -- a conjugation identifier - range 0..9 and
+* VAR -- a variant identifier on WHICH - range 0..9;
+* TENSE -- an enumeration type - range PRES..FUTP + X;
+* VOICE -- an enumeration type - range ACTIVE..PASSIVE + X;
+* MOOD -- an enumeration type - range IND..PPL + X;
+* PERSON -- person, first to third - range 1..3 + 0;
+* NUMBER -- an enumeration type - range S..P + X;
+* KEY -- which stem to be used - range 1..4;
+* SIZE -- number of characters - range 0..9;
+* ENDING -- the ending as a string of SIZE characters;
+* AGE and FREQ flags which are not usually visible to the user.
 
 Thus, the entry for the ending appropriate to 'amo' (with STEM = am) is:
 
-<PRE><TT>V 1 1 PRES IND ACTIVE 1 S X 1 o</TT></PRE>
-
+    V 1 1 PRES IND ACTIVE 1 S X 1 o
 
 The elements are straightforward and generally use the
 abbreviations that are common in any Latin text.  An X or 0 represents the
@@ -358,13 +358,13 @@ neither is in used to form compounds.  IMPERS is used to weed out person
 and forms inappropriate to an impersonal verb, and to insert a special
 meaning distinct from a general form associated with the same verb stem.
 
-<P>There is a problem in that all values for this parameter are not orthogonal.
+There is a problem in that all values for this parameter are not orthogonal.
 DEP is a different sort of thing from INTRANS.  There ought to be a
 KIND_1 and KIND_2 to separate the different classes.  However, this would
 be overkill considering the use made of this parameter, so far.
 
 
-<P>There is a more difficult DEP problem.
+There is a more difficult DEP problem.
 'Good Latin' requires that the DEP be recognized and
 processed to eliminate active forms.
 In some cases there are dictionary examples, mostly medieval,
@@ -378,7 +378,6 @@ But an active form would be recognized if input, especially if the text is medie
 
 
 NUMERAL KIND and VALUE are used by the program in constructing the meaning line.
-<BR>
 
 ## Help for Parameters
 
@@ -957,5 +956,3 @@ This capability is preliminary.  It is just becoming useful in that the
 factors are set for about half the dictionary entries.  There are still a
 large number of entries and inflections that are not set and will continue
 to be reported until determination of rarity is made.
-<BR>
-<BR>
