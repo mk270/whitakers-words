@@ -3,6 +3,19 @@ layout: default
 title: Plan
 ---
 
+Organisation
+============
+
+There is an effort to establish an organisation to carry on the maintenance
+of WORDS, both the dictionary and the programme. The original author
+suggested the following:
+
+
+> An eventual outcome would be to have some institution, with real Latin
+> capability, provide an exhaustive and authoritative program of this
+> nature.  Until then, I and other individuals will make available our
+> programs.
+
 Code cleanup
 ============
 
@@ -57,6 +70,13 @@ Dictionary sourcing
 
 A corrections and updates mechanism will be provided. William Whitaker, the
 original author, intended to include a lot more words than are presently
-available.
+available:
+
+> I will continue to refine the dictionary and the program.  The major goal
+> is to complete the inclusion of OLD and L+S, and this may take years.
+> Along the way, and later, I will expand to medieval Latin.  I am not so
+> unrealistic as to believe that I will 'finish', indeed, this is a hobby
+> and there is no advantage to finishing.
+
 
 Martin Keegan, originally written June 2015

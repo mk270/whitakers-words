@@ -77,13 +77,3 @@ body of Latin text, including much medieval legal documents.  He provides
 input to the dictionary as he finds significant unknowns.
 
 
-I will continue to refine the dictionary and the program.  The major goal
-is to complete the inclusion of OLD and L+S, and this may take years.
-Along the way, and later, I will expand to medieval Latin.  I am not so
-unrealistic as to believe that I will 'finish', indeed, this is a hobby
-and there is no advantage to finishing.
-
-An eventual outcome would be to have some institution, with real Latin
-capability, provide an exhaustive and authoritative program of this
-nature.  Until then, I and other individuals will make available our
-programs.
