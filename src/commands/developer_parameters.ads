@@ -83,7 +83,7 @@ package developer_parameters is
 
      minimize_Output         );
 
-   package mdev_type_io is new Ada.Text_IO.enumeration_io(mdev_type);
+   package mdev_type_io is new Ada.Text_IO.Enumeration_IO(mdev_type);
 
    type mdev_array is array (mdev_type) of Boolean;
 
