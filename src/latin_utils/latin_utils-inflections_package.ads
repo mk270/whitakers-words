@@ -90,12 +90,14 @@ package Latin_Utils.Inflections_Package is
 
    function "<" (left, right : Decn_Record) return Boolean;
 
+   -- FIXME: These subprograms don't check if Is_Open (File)
    package Decn_Record_IO is
       Default_Width : Natural;
       procedure Get (File : in File_Type; Item : out Decn_Record);
       procedure Get (Item : out Decn_Record);
       procedure Put (File : in File_Type; Item : in Decn_Record);
       procedure Put (Item : in Decn_Record);
+      -- TODO: Document meaning of Last
       procedure Get
          ( Source : in String;
            Target : out Decn_Record;
