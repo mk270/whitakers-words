@@ -1413,16 +1413,17 @@ package body word_package is
                   --  Now have a PDL, scan for agreement
 
                   pdl_loop:
-                      for j in 1..pdl_index  loop
-                         --  Go through all dictionary hits to see
-                         --PUT_LINE("PACKON  PDL_INDEX  "); PUT(PDL(J).DS.STEM); PUT(PDL(J).DS.PART); NEW_LINE;
-                         --  M used here wher I is used in REDUCE, maybe make consistent
+                  for j in 1..pdl_index  loop
+                     --  Go through all dictionary hits to see
+                     --PUT_LINE("PACKON  PDL_INDEX  "); PUT(PDL(J).DS.STEM); PUT(PDL(J).DS.PART); NEW_LINE;
+                     --  M used here wher I is used in REDUCE, maybe make consistent
                      m := 1;
 
                      sl_loop:
-                     while sl(m) /= Null_Parse_Record  loop  --  Over all inflection hits
-                                                             --  if this stem is possible
-                                                             --  call up the meaning to check for "(w/-"
+                     while sl(m) /= Null_Parse_Record  loop
+                        --  Over all inflection hits
+                        --  if this stem is possible
+                        --  call up the meaning to check for "(w/-"
                         Dict_IO.Set_Index(Dict_File(pdl(j).d_k), pdl(j).ds.MNPC);
                         Dict_IO.Read(Dict_File(pdl(j).d_k), de);
                         mean := de.Mean;
@@ -1430,35 +1431,34 @@ package body word_package is
                         -- there is no way this condition can be True;
                         -- packon_length - 1 /= packon_length
                         if Trim (mean)(1..4) = "(w/-" and then  --  Does attached PACKON agree
-                           Trim (mean)(5..4+packon_length) = Trim (packons(k).tack)
+                          Trim (mean)(5..4+packon_length) = Trim (packons(k).tack)
                         then
                            if pdl(j).ds.part.pack.Decl = sl(m).IR.qual.pron.decl then  --  or
                               if packon_first_hit then
                                  pa_last := pa_last + 1;
                                  pa(pa_last) := (packons(k).tack,
-                                                 ((tackon, null_tackon_record), 0,
-                                                  null_ending_record, x, x),
-                                                 addons,
-                                                 Dict_IO.Count((packons(k).MNPC)));
+                                   ((tackon, null_tackon_record), 0,
+                                   null_ending_record, x, x),
+                                   addons,
+                                   Dict_IO.Count((packons(k).MNPC)));
                                  packon_first_hit := False;
-
                               end if;
                               pa_last := pa_last + 1;
                               pa(pa_last) := (Stem => sl(m).Stem,
-                                              IR => (
-                                                     qual => (
-                                                              pofs => pron,
-                                                              pron => (
-                                                                       pdl(j).ds.part.pack.Decl,
-                                                                       sl(m).IR.qual.pron.cs,
-                                                                       sl(m).IR.qual.pron.number,
-                                                                       sl(m).IR.qual.pron.gender )),
-                                                     key => sl(m).IR.key,
-                                                     ending => sl(m).IR.ending,
-                                                     age => sl(m).IR.age,
-                                                     freq => sl(m).IR.freq),
-                                              D_K => pdl(j).d_k,
-                                              MNPC => pdl(j).ds.MNPC);
+                                IR => (
+                                qual => (
+                                pofs => pron,
+                                pron => (
+                                pdl(j).ds.part.pack.Decl,
+                                sl(m).IR.qual.pron.cs,
+                                sl(m).IR.qual.pron.number,
+                                sl(m).IR.qual.pron.gender )),
+                                key => sl(m).IR.key,
+                                ending => sl(m).IR.ending,
+                                age => sl(m).IR.age,
+                                freq => sl(m).IR.freq),
+                                D_K => pdl(j).d_k,
+                                MNPC => pdl(j).ds.MNPC);
                               --end if;
                            end if;
                         end if;
