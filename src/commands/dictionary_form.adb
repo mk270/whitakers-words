@@ -434,9 +434,7 @@ begin
                ox(1) := add(de.Stems(1), "am");
             else
                ox(1) := add(de.Stems(1), "o");
-            end if;                      --  /= IMPERS handled
-                                         --end if;
-                                         --  OX(1) handled
+            end if;
          end if;
 
          --  OX 2
