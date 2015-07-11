@@ -547,10 +547,11 @@ package body word_package is
       --  Check all stems of the dictionary entry against the reduced stems
 
       --  Determine if there is a pure blank "  " stem
-      if len(ssa(ssa'First)) = 0    then   --  a size would help?
-                                           --PUT("HIT on blank stem   I = ");PUT('1');
-                                           --PUT("  STEM = ");PUT_LINE(BDL(1).STEM);
-                                           --PDL := new PRUNED_DICTIONARY_ITEM'(BDL(1), GENERAL, PDL);
+      if len(ssa(ssa'First)) = 0    then
+         --  a size would help?
+         --PUT("HIT on blank stem   I = ");PUT('1');
+         --PUT("  STEM = ");PUT_LINE(BDL(1).STEM);
+         --PDL := new PRUNED_DICTIONARY_ITEM'(BDL(1), GENERAL, PDL);
          pdl_index := pdl_index + 1;
          pdl(pdl_index) := pruned_dictionary_item'(bdl(1), general);
       end if;
@@ -1306,9 +1307,10 @@ package body word_package is
                --------------
                if sxx(1) = Null_Parse_Record  then        --  We could not find a match with suffix
                   apply_suffix(ssa(1..ssa_max), sx, sxx, pa, pa_last);
-                  if sxx(1) = Null_Parse_Record  then        --  We could not find a match with suffix
-                                                             ----So try prefixes, Generate a new SAA array, search again
-                                                             ----Need to use the new SSA, modified to include suffixes
+                  if sxx(1) = Null_Parse_Record  then
+                     --  We could not find a match with suffix
+                     ----So try prefixes, Generate a new SAA array, search again
+                     ----Need to use the new SSA, modified to include suffixes
                      apply_prefix(ssa(1..ssa_max), null_suffix_item, sx, sxx, pa, pa_last);
                      --TEXT_IO.PUT_LINE("PREFIXES applied  PA_LAST = " & INTEGER'IMAGE(PA_LAST));
                      --------------
@@ -1320,9 +1322,10 @@ package body word_package is
                   --------------
                   if words_mode(do_fixes)  then
                      apply_suffix(ssa(1..ssa_max), sx, sxx, pa, pa_last);
-                     if sxx(1) = Null_Parse_Record  then        --  We could not find a match with suffix
-                                                                ----So try prefixes, Generate a new SAA array, search again
-                                                                ----Need to use the new SSA, modified to include suffixes
+                     if sxx(1) = Null_Parse_Record  then
+                        --  We could not find a match with suffix
+                        ----So try prefixes, Generate a new SAA array, search again
+                        ----Need to use the new SSA, modified to include suffixes
                         apply_prefix(ssa(1..ssa_max), null_suffix_item,
                                      sx, sxx, pa, pa_last);
                      end if;   --  Suffix failed
@@ -1410,9 +1413,10 @@ package body word_package is
                   --  Now have a PDL, scan for agreement
 
                   pdl_loop:
-                  for j in 1..pdl_index  loop  --  Go through all dictionary hits to see
-                                               --PUT_LINE("PACKON  PDL_INDEX  "); PUT(PDL(J).DS.STEM); PUT(PDL(J).DS.PART); NEW_LINE;
-                                               --  M used here wher I is used in REDUCE, maybe make consistent
+                      for j in 1..pdl_index  loop
+                         --  Go through all dictionary hits to see
+                         --PUT_LINE("PACKON  PDL_INDEX  "); PUT(PDL(J).DS.STEM); PUT(PDL(J).DS.PART); NEW_LINE;
+                         --  M used here wher I is used in REDUCE, maybe make consistent
                      m := 1;
 
                      sl_loop:
