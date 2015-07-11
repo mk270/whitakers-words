@@ -224,7 +224,6 @@ is
 
    -- this function should be merged with the one above
    function Get_pas_participle(parsed_verb : vpar_record;
-                               sum_info : verb_record;
                                Trimmed_next_word : String;
                                default_ppl_on : Boolean;
                                default_compound_tvm : tense_voice_mood_record;
@@ -404,7 +403,6 @@ is
 
    -- parts of these three do_clear_* functions should be factored together
    procedure do_clear_pas_ppl(next_word : in String;
-                              sum_info : in verb_record;
                               compound_tvm : out tense_voice_mood_record;
                               ppl_on : in out Boolean;
                               ppl_info : out vpar_record)
@@ -421,7 +419,7 @@ is
             declare
                Trimmed_next_word : constant String := next_word;
                part : constant participle :=
-                 Get_pas_participle(pa(j5).IR.qual.vpar, sum_info,
+                 Get_pas_participle(pa(j5).IR.qual.vpar,
                    Trimmed_next_word, ppl_on, compound_tvm, ppp_meaning,
                    ppl_info);
             begin
@@ -831,7 +829,7 @@ is
 
                   if k = nk  then
                      --  There was a PPL hit
-                     do_clear_pas_ppl(next_word, sum_info, compound_tvm,
+                     do_clear_pas_ppl(next_word, compound_tvm,
                        ppl_on, ppl_info);
 
                      pa_last := pa_last + 1;
