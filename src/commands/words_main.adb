@@ -120,8 +120,9 @@ begin
          three_Arguments:                                --  or multiwords in-line
          declare
             arg1 : constant String := Trim (Ada.Command_Line.Argument(1));
-            arg2 : constant String := Trim (Ada.Command_Line.Argument(2));
-            arg3 : constant String := Trim (Ada.Command_Line.Argument(3));
+            -- we probably don't need to define these for their side-effects
+            -- arg2 : constant String := Trim (Ada.Command_Line.Argument(2));
+            -- arg3 : constant String := Trim (Ada.Command_Line.Argument(3));
          begin
             if arg1(1) = change_language_Character  then
                if arg1'Length > 1 then
