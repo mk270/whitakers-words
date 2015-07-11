@@ -51,7 +51,7 @@ project Latin_Utils is
          ( "-gnatwa", "-Wall", "-fstack-check", "-gnato", "-gnateE",
            "-gnata", "-gnatU", "-gnatf", "-gnat05"
          );
-      Style := ("-gnaty3aAbefhiklnOprSux");
+      Style := ("-gnaty3aAbefhiklnOM80prtSux");
       for Default_Switches ("Ada") use Default_Ada & Style;
    end Compiler;
 end Latin_Utils;
