@@ -1564,7 +1564,6 @@ package body word_package is
          tackon_on  : Boolean := False;
          j : Integer := 0;
          de : Dictionary_Entry := Null_Dictionary_Entry;
-         mean : Meaning_Type := Null_Meaning_Type;
          entering_pa_last : constant Integer := pa_last;
          start_of_loop : constant Integer := 5;    --  4 enclitics     --  Hard number  !!!!!!!!!!!!!!!
          end_of_loop : constant Integer := number_of_tackons;
@@ -1604,7 +1603,6 @@ package body word_package is
                            elsif pa(j).IR.qual.pofs = tackons(i).entr.base.pofs  then
                               Dict_IO.Set_Index(Dict_File(pa(j).D_K), pa(j).MNPC);
                               Dict_IO.Read(Dict_File(pa(j).D_K), de);
-                              mean := de.Mean;
 
                               --  check PART
                               case tackons(i).entr.base.pofs is

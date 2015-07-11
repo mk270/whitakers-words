@@ -273,7 +273,7 @@ procedure list_sweep(pa : in out Parse_Array; pa_last : in out Integer) is
    begin
 
       if sl'Length = 0 then
-         -- ? diff_j := sl_last_initial - sl_last;
+         diff_j := sl_last_initial - sl_last;
          return;
       end if;
 
