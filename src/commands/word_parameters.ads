@@ -57,7 +57,7 @@ package word_parameters is
      do_stems_for_unknown
                      );
 
-   package mode_type_io is new Ada.Text_IO.enumeration_io(mode_type);
+   package mode_type_io is new Ada.Text_IO.Enumeration_IO(mode_type);
 
    type mode_array is array (mode_type) of Boolean;
 

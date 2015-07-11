@@ -214,7 +214,7 @@ package Latin_Utils.Inflections_Package is
                            w             --  a place Where
                           );
 
-   package Noun_Kind_Type_IO is new Ada.Text_IO.Enumeration_IO(noun_kind_type);
+   package Noun_Kind_Type_IO is new Ada.Text_IO.Enumeration_IO(Noun_Kind_Type);
 
    type Pronoun_Kind_Type is (
                               x,            --  unknown, nondescript

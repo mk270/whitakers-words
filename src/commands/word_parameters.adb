@@ -28,7 +28,7 @@ package body word_parameters is
    no_help : constant help_type := (2..1 => blank_help_line);
 
    type reply_type is (n, y);
-   package reply_type_io is new Ada.Text_IO.enumeration_io(reply_type);
+   package reply_type_io is new Ada.Text_IO.Enumeration_IO(reply_type);
    reply : constant array (Boolean) of reply_type := (n, y);
    mode_of_reply : constant array (reply_type) of Boolean := (False, True);
 
