@@ -28,8 +28,8 @@ procedure Put_example_line(configuration : configuration_type;
 
    procedure Put_verb_example(Output : Ada.Text_IO.File_Type; ir : in Inflection_Record;
                                                           vk : in Verb_Kind_Type) is
-      person : constant person_type      := ir.qual.v.person;
-      number : constant number_type      := ir.qual.v.number;
+      person : constant Person_Type      := ir.qual.v.person;
+      number : constant Number_Type      := ir.qual.v.number;
       tense  : constant tense_type       := ir.qual.v.tense_voice_mood.tense;
       mood   : constant mood_type        := ir.qual.v.tense_voice_mood.mood;
       voice  : voice_type       := ir.qual.v.tense_voice_mood.voice;

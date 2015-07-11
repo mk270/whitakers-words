@@ -18,17 +18,21 @@ with Latin_Utils.Latin_File_Names; use Latin_Utils.Latin_File_Names;
 with Latin_Utils.Preface;
 package body Latin_Utils.Inflections_Package is
 
-   function "<" (left, right : Decn_Record) return Boolean is
+   ---------------------------------------------------------------------------
+
+   function "<" (Left, Right : Decn_Record) return Boolean is
    begin
-      if left.Which < right.Which  or else
-        (left.Which = right.Which  and then
-           left.Var < right.Var)
+      if Left.Which < Right.Which  or else
+        (Left.Which = Right.Which  and then
+           Left.Var < Right.Var)
       then
          return True;
       else
          return False;
       end if;
    end "<";
+
+   ---------------------------------------------------------------------------
 
    function "<" (left, right : quality_record) return Boolean is
    begin
@@ -282,7 +286,7 @@ package body Latin_Utils.Inflections_Package is
       end if;
    end "<=";
 
-   overriding function "<=" (left, right : number_type) return Boolean is
+   overriding function "<=" (left, right : Number_Type) return Boolean is
    begin
       if right = left or else right = x then
          return True;
@@ -291,7 +295,7 @@ package body Latin_Utils.Inflections_Package is
       end if;
    end "<=";
 
-   overriding function "<=" (left, right : person_type) return Boolean is
+   overriding function "<=" (left, right : Person_Type) return Boolean is
    begin
       if right = left or else right = 0 then
          return True;
@@ -446,7 +450,7 @@ package body Latin_Utils.Inflections_Package is
       use Decn_Record_IO;
       use Case_Type_IO;
       use Gender_Type_IO;
-      use number_type_io;
+      use Number_Type_IO;
       spacer : Character := ' ';
 
       procedure Get(f : in File_Type; n : out noun_record) is
@@ -517,7 +521,7 @@ package body Latin_Utils.Inflections_Package is
          Put(s(l+1..m), n.cs);
          l := m + 1;
          s(l) :=  ' ';
-         m := l + number_type_io.Default_Width;
+         m := l + Number_Type_IO.Default_Width;
          Put(s(l+1..m), n.number);
          l := m + 1;
          s(l) :=  ' ';
@@ -532,7 +536,7 @@ package body Latin_Utils.Inflections_Package is
       use Decn_Record_IO;
       use Case_Type_IO;
       use Gender_Type_IO;
-      use number_type_io;
+      use Number_Type_IO;
       spacer : Character := ' ';
 
       procedure Get(f : in File_Type; p : out pronoun_record) is
@@ -603,7 +607,7 @@ package body Latin_Utils.Inflections_Package is
          Put(s(l+1..m), p.cs);
          l := m + 1;
          s(l) :=  ' ';
-         m := l + number_type_io.Default_Width;
+         m := l + Number_Type_IO.Default_Width;
          Put(s(l+1..m), p.number);
          l := m + 1;
          s(l) :=  ' ';
@@ -617,7 +621,7 @@ package body Latin_Utils.Inflections_Package is
    package body propack_record_io is
       use Decn_Record_IO;
       use Case_Type_IO;
-      use number_type_io;
+      use Number_Type_IO;
       use Gender_Type_IO;
       spacer : Character := ' ';
 
@@ -689,7 +693,7 @@ package body Latin_Utils.Inflections_Package is
          Put(s(l+1..m), p.cs);
          l := m + 1;
          s(l) :=  ' ';
-         m := l + number_type_io.Default_Width;
+         m := l + Number_Type_IO.Default_Width;
          Put(s(l+1..m), p.number);
          l := m + 1;
          s(l) :=  ' ';
@@ -704,7 +708,7 @@ package body Latin_Utils.Inflections_Package is
       use Decn_Record_IO;
       use Gender_Type_IO;
       use Case_Type_IO;
-      use number_type_io;
+      use Number_Type_IO;
       use Comparison_Type_IO;
       spacer : Character := ' ';
 
@@ -786,7 +790,7 @@ package body Latin_Utils.Inflections_Package is
          Put(s(l+1..m), a.cs);
          l := m + 1;
          s(l) :=  ' ';
-         m := l + number_type_io.Default_Width;
+         m := l + Number_Type_IO.Default_Width;
          Put(s(l+1..m), a.number);
          l := m + 1;
          s(l) :=  ' ';
@@ -804,7 +808,7 @@ package body Latin_Utils.Inflections_Package is
    package body numeral_record_io is
       use Decn_Record_IO;
       use Case_Type_IO;
-      use number_type_io;
+      use Number_Type_IO;
       use Gender_Type_IO;
       use Numeral_Sort_Type_IO;
       spacer : Character := ' ';
@@ -886,7 +890,7 @@ package body Latin_Utils.Inflections_Package is
          Put(s(l+1..m), num.cs);
          l := m + 1;
          s(l) :=  ' ';
-         m := l + number_type_io.Default_Width;
+         m := l + Number_Type_IO.Default_Width;
          Put(s(l+1..m), num.number);
          l := m + 1;
          s(l) :=  ' ';
@@ -944,8 +948,8 @@ package body Latin_Utils.Inflections_Package is
    package body verb_record_io is
       use Decn_Record_IO;
       use tense_voice_mood_record_io;
-      use person_type_io;
-      use number_type_io;
+      use Person_Type_IO;
+      use Number_Type_IO;
       spacer : Character := ' ';
 
       procedure Get(f : in File_Type; v : out verb_record) is
@@ -1016,11 +1020,11 @@ package body Latin_Utils.Inflections_Package is
          Put(s(l+1..m), v.tense_voice_mood);
          l := m + 1;
          s(l) :=  ' ';
-         m := l + person_type_io.Default_Width;
+         m := l + Person_Type_IO.Default_Width;
          Put(s(l+1..m), v.person);
          l := m + 1;
          s(l) :=  ' ';
-         m := l + number_type_io.Default_Width;
+         m := l + Number_Type_IO.Default_Width;
          Put(s(l+1..m), v.number);
          s(m+1..s'Last) := (others => ' ');
       end Put;
@@ -1030,7 +1034,7 @@ package body Latin_Utils.Inflections_Package is
    package body vpar_record_io is
       use Decn_Record_IO;
       use Case_Type_IO;
-      use number_type_io;
+      use Number_Type_IO;
       use Gender_Type_IO;
       use tense_voice_mood_record_io;
       spacer : Character := ' ';
@@ -1113,7 +1117,7 @@ package body Latin_Utils.Inflections_Package is
          Put(s(l+1..m), vp.cs);
          l := m + 1;
          s(l) :=  ' ';
-         m := l + number_type_io.Default_Width;
+         m := l + Number_Type_IO.Default_Width;
          Put(s(l+1..m), vp.number);
          l := m + 1;
          s(l) :=  ' ';
@@ -1131,7 +1135,7 @@ package body Latin_Utils.Inflections_Package is
    package body supine_record_io is
       use Decn_Record_IO;
       use Case_Type_IO;
-      use number_type_io;
+      use Number_Type_IO;
       use Gender_Type_IO;
       spacer : Character := ' ';
 
@@ -1203,7 +1207,7 @@ package body Latin_Utils.Inflections_Package is
          Put(s(l+1..m), vp.cs);
          l := m + 1;
          s(l) :=  ' ';
-         m := l + number_type_io.Default_Width;
+         m := l + Number_Type_IO.Default_Width;
          Put(s(l+1..m), vp.number);
          l := m + 1;
          s(l) :=  ' ';
@@ -2320,8 +2324,8 @@ begin  --  initialization of body of INFLECTIONS_PACKAGE
    Part_Of_Speech_Type_IO.Default_Width := Part_Of_Speech_Type'Width;
    Gender_Type_IO.Default_Width := Gender_Type'Width;
    Case_Type_IO.Default_Width := Case_Type'Width;
-   number_type_io.Default_Width := number_type'Width;
-   person_type_io.Default_Width := 1;
+   Number_Type_IO.Default_Width := Number_Type'Width;
+   Person_Type_IO.Default_Width := 1;
    Comparison_Type_IO.Default_Width := Comparison_Type'Width;
    tense_type_io.Default_Width := tense_type'Width;
    voice_type_io.Default_Width := voice_type'Width;
@@ -2343,22 +2347,22 @@ begin  --  initialization of body of INFLECTIONS_PACKAGE
    noun_record_io.Default_Width :=
      Decn_Record_IO.Default_Width + 1 +
      Case_Type_IO.Default_Width + 1 +
-     number_type_io.Default_Width + 1 +
+     Number_Type_IO.Default_Width + 1 +
      Gender_Type_IO.Default_Width;
    pronoun_record_io.Default_Width :=
      Decn_Record_IO.Default_Width + 1 +
      Case_Type_IO.Default_Width + 1 +
-     number_type_io.Default_Width + 1 +
+     Number_Type_IO.Default_Width + 1 +
      Gender_Type_IO.Default_Width;
    propack_record_io.Default_Width :=
      Decn_Record_IO.Default_Width + 1 +
      Case_Type_IO.Default_Width + 1 +
-     number_type_io.Default_Width + 1 +
+     Number_Type_IO.Default_Width + 1 +
      Gender_Type_IO.Default_Width;
    adjective_record_io.Default_Width :=
      Decn_Record_IO.Default_Width + 1 +
      Case_Type_IO.Default_Width + 1 +
-     number_type_io.Default_Width + 1 +
+     Number_Type_IO.Default_Width + 1 +
      Gender_Type_IO.Default_Width + 1 +
      Comparison_Type_IO.Default_Width;
    adverb_record_io.Default_Width :=
@@ -2366,18 +2370,18 @@ begin  --  initialization of body of INFLECTIONS_PACKAGE
    verb_record_io.Default_Width :=
      Decn_Record_IO.Default_Width + 1 +
      tense_voice_mood_record_io.Default_Width + 1 +
-     person_type_io.Default_Width + 1 +
-     number_type_io.Default_Width;
+     Person_Type_IO.Default_Width + 1 +
+     Number_Type_IO.Default_Width;
    vpar_record_io.Default_Width :=
      Decn_Record_IO.Default_Width + 1 +
      Case_Type_IO.Default_Width + 1 +
-     number_type_io.Default_Width + 1 +
+     Number_Type_IO.Default_Width + 1 +
      Gender_Type_IO.Default_Width + 1 +
      tense_voice_mood_record_io.Default_Width;
    supine_record_io.Default_Width :=
      Decn_Record_IO.Default_Width + 1 +
      Case_Type_IO.Default_Width + 1 +
-     number_type_io.Default_Width + 1 +
+     Number_Type_IO.Default_Width + 1 +
      Gender_Type_IO.Default_Width;
    preposition_record_io.Default_Width := Case_Type_IO.Default_Width;
    conjunction_record_io.Default_Width := 0;
@@ -2385,7 +2389,7 @@ begin  --  initialization of body of INFLECTIONS_PACKAGE
    numeral_record_io.Default_Width :=
      Decn_Record_IO.Default_Width + 1 +
      Case_Type_IO.Default_Width + 1 +
-     number_type_io.Default_Width + 1 +
+     Number_Type_IO.Default_Width + 1 +
      Gender_Type_IO.Default_Width + 1 +
      Numeral_Sort_Type_IO.Default_Width;
    tackon_record_io.Default_Width := 0;

@@ -17,9 +17,13 @@
 with Ada.Text_IO; use Ada.Text_IO;
 with Ada.Direct_IO;
 package Latin_Utils.Inflections_Package is
+
+   ---------------------------------------------------------------------------
+
    pragma Elaborate_Body;
    package Integer_IO is new Ada.Text_IO.Integer_IO (Integer);
 
+   ---------------------------------------------------------------------------
    --  Generally simple/enumeration types have names ending in _TYPE
    --            complex/record     types have names ending in _RECORD
    --            array              types have names ending in _ARRAY
@@ -30,6 +34,7 @@ package Latin_Utils.Inflections_Package is
    subtype Stem_Type is String (1 .. Max_Stem_Size);
    Null_Stem_Type : constant Stem_Type := (others => ' ');
 
+   ---------------------------------------------------------------------------
    -- FIXME: These subprograms don't check if Is_Open (File)
    package Stem_Type_IO is
       Default_Width : constant Natural := Max_Stem_Size;
@@ -46,39 +51,41 @@ package Latin_Utils.Inflections_Package is
       procedure Put (Target : out String; Item : in Stem_Type);
    end Stem_Type_IO;
 
+   ---------------------------------------------------------------------------
+
    subtype Meaning_Type is String (1 .. Max_Meaning_Size);
    Null_Meaning_Type : constant Meaning_Type := (others => ' ');
 
-   type Part_Of_Speech_Type is (
-     x,         --  all, none, or unknown
-     n,         --  Noun
-     pron,      --  PRONoun
-     pack,      --  PACKON -- artificial for code
-     adj,       --  ADJective
-     num,       --  NUMeral
-     adv,       --  ADVerb
-     v,         --  Verb
-     vpar,      --  Verb PARticiple
-     supine,    --  SUPINE
-     prep,      --  PREPosition
-     conj,      --  CONJunction
-     interj,    --  INTERJection
-     -- keep tackon/prefix/suffix together, as they are used in range queries
-     tackon,    --  TACKON --  artificial for code
-     prefix,    --  PREFIX --  here artificial for code
-     suffix     --  SUFFIX --  here artificial for code
-                               );
+   type Part_Of_Speech_Type is
+      ( x,         --  all, none, or unknown
+        n,         --  Noun
+        pron,      --  PRONoun
+        pack,      --  PACKON -- artificial for code
+        adj,       --  ADJective
+        num,       --  NUMeral
+        adv,       --  ADVerb
+        v,         --  Verb
+        vpar,      --  Verb PARticiple
+        supine,    --  SUPINE
+        prep,      --  PREPosition
+        conj,      --  CONJunction
+        interj,    --  INTERJection
+        -- keep tackon/prefix/suffix together, as they are used in range queries
+        tackon,    --  TACKON --  artificial for code
+        prefix,    --  PREFIX --  here artificial for code
+        suffix     --  SUFFIX --  here artificial for code
+      );
 
    package Part_Of_Speech_Type_IO is
-      new Ada.Text_IO.Enumeration_IO(Part_Of_Speech_Type);
+      new Ada.Text_IO.Enumeration_IO (Part_Of_Speech_Type);
 
    ---------------------------------------------------------------------------
 
    subtype Which_Type   is Natural range 0..9;
    subtype Variant_Type is Natural range 0..9;
 
-   which_type_io_Default_Width : Integer := 1;
-   variant_type_io_Default_Width : Integer := 1;
+   Which_Type_IO_Default_Width   : Integer := 1;
+   Variant_Type_IO_Default_Width : Integer := 1;
 
    ---------------------------------------------------------------------------
 
@@ -88,7 +95,7 @@ package Latin_Utils.Inflections_Package is
          Var          : Variant_Type := 0;
       end record;
 
-   function "<" (left, right : Decn_Record) return Boolean;
+   function "<" (Left, Right : Decn_Record) return Boolean;
 
    -- FIXME: These subprograms don't check if Is_Open (File)
    package Decn_Record_IO is
@@ -108,39 +115,47 @@ package Latin_Utils.Inflections_Package is
 
    ---------------------------------------------------------------------------
 
-   type Gender_Type is (
-                        x,         --  all, none, or unknown
-                        m,         --  Masculine
-                        f,         --  Feminine
-                        n,         --  Neuter
-                        c          --  Common (masculine and/or feminine)
-                       );
+   type Gender_Type is
+      ( x, --  all, none, or unknown
+        m, --  Masculine
+        f, --  Feminine
+        n, --  Neuter
+        c  --  Common (masculine and/or feminine)
+       );
 
    package Gender_Type_IO is new Ada.Text_IO.Enumeration_IO (Gender_Type);
 
-   type Case_Type is (
-                      x,         --  all, none, or unknown
-                      nom,       --  NOMinative
-                      voc,       --  VOCative
-                      gen,       --  GENitive
-                      loc,       --  LOCative
-                      dat,       --  DATive
-                      abl,       --  ABLative
-                      acc        --  ACCusitive
-                     );
+   ---------------------------------------------------------------------------
 
-   package Case_Type_IO is new Ada.Text_IO.Enumeration_IO(Case_Type);
+   type Case_Type is
+      ( x,   --  all, none, or unknown
+        nom, --  NOMinative
+        voc, --  VOCative
+        gen, --  GENitive
+        loc, --  LOCative
+        dat, --  DATive
+        abl, --  ABLative
+        acc  --  ACCusitive
+      );
 
-   type number_type is (
-                        x,         --  all, none, or unknown
-                        s,         --  Singular
-                        p          --  Plural
-                       );
+   package Case_Type_IO is new Ada.Text_IO.Enumeration_IO (Case_Type);
 
-   package number_type_io is new Ada.Text_IO.Enumeration_IO(number_type);
+   ---------------------------------------------------------------------------
 
-   type person_type is range 0..3;
-   package person_type_io is new Ada.Text_IO.Integer_IO(person_type);
+   type Number_Type is
+      ( x, --  all, none, or unknown
+        s, --  Singular
+        p  --  Plural
+      );
+
+   package Number_Type_IO is new Ada.Text_IO.Enumeration_IO (Number_Type);
+
+   ---------------------------------------------------------------------------
+
+   type Person_Type is range 0 .. 3;
+   package Person_Type_IO is new Ada.Text_IO.Integer_IO (Person_Type);
+
+   ---------------------------------------------------------------------------
 
    type Comparison_Type is (
                             x,         --  all, none, or unknown
@@ -275,7 +290,7 @@ package Latin_Utils.Inflections_Package is
       record
          decl        : Decn_Record;
          cs          : Case_Type := x;
-         number      : number_type := x;
+         number      : Number_Type := x;
          gender      : Gender_Type := x;
       end record;
 
@@ -293,7 +308,7 @@ package Latin_Utils.Inflections_Package is
       record
          decl        : Decn_Record;
          cs          : Case_Type := x;
-         number      : number_type := x;
+         number      : Number_Type := x;
          gender      : Gender_Type := x;
       end record;
 
@@ -311,7 +326,7 @@ package Latin_Utils.Inflections_Package is
       record
          decl        : Decn_Record;
          cs          : Case_Type := x;
-         number      : number_type := x;
+         number      : Number_Type := x;
          gender      : Gender_Type := x;
       end record;
 
@@ -329,7 +344,7 @@ package Latin_Utils.Inflections_Package is
       record
          decl        : Decn_Record;
          cs          : Case_Type := x;
-         number      : number_type := x;
+         number      : Number_Type := x;
          gender      : Gender_Type := x;
          co          : Comparison_Type := x;
       end record;
@@ -348,7 +363,7 @@ package Latin_Utils.Inflections_Package is
       record
          decl        : Decn_Record;
          cs          : Case_Type := x;
-         number      : number_type := x;
+         number      : Number_Type := x;
          gender      : Gender_Type := x;
          sort        : Numeral_Sort_Type := x;
       end record;
@@ -382,8 +397,8 @@ package Latin_Utils.Inflections_Package is
       record
          con         : Decn_Record;
          tense_voice_mood  : tense_voice_mood_record;
-         person      : person_type := 0;
-         number      : number_type := x;
+         person      : Person_Type := 0;
+         number      : Number_Type := x;
       end record;
 
    package verb_record_io is
@@ -400,7 +415,7 @@ package Latin_Utils.Inflections_Package is
       record
          con         : Decn_Record;
          cs          : Case_Type := x;
-         number      : number_type := x;
+         number      : Number_Type := x;
          gender      : Gender_Type := x;
          tense_voice_mood  : tense_voice_mood_record;
       end record;
@@ -419,7 +434,7 @@ package Latin_Utils.Inflections_Package is
       record
          con         : Decn_Record;
          cs          : Case_Type := x;
-         number      : number_type := x;
+         number      : Number_Type := x;
          gender      : Gender_Type := x;
       end record;
 
@@ -706,8 +721,8 @@ package Latin_Utils.Inflections_Package is
    function "<=" (left, right : Decn_Record) return Boolean;
    overriding function "<=" (left, right : Gender_Type) return Boolean;
    overriding function "<=" (left, right : Case_Type)   return Boolean;
-   overriding function "<=" (left, right : number_type) return Boolean;
-   overriding function "<=" (left, right : person_type) return Boolean;
+   overriding function "<=" (left, right : Number_Type) return Boolean;
+   overriding function "<=" (left, right : Person_Type) return Boolean;
    overriding function "<=" (left, right : Comparison_Type) return Boolean;
    function "<=" (left, right : tense_voice_mood_record)  return Boolean;
    overriding function "<=" (left, right : Noun_Kind_Type)   return Boolean;
