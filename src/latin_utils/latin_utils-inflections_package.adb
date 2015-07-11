@@ -20,9 +20,9 @@ package body Latin_Utils.Inflections_Package is
 
    function "<" (left, right : Decn_Record) return Boolean is
    begin
-      if left.which < right.which  or else
-        (left.which = right.which  and then
-           left.var < right.var)
+      if left.Which < right.Which  or else
+        (left.Which = right.Which  and then
+           left.Var < right.Var)
       then
          return True;
       else
@@ -35,18 +35,18 @@ package body Latin_Utils.Inflections_Package is
       if left.pofs = right.pofs  then
          case left.pofs is
             when n =>
-               if left.n.decl.which < right.n.decl.which  or else
-                 (left.n.decl.which = right.n.decl.which  and then
-                    left.n.decl.var < right.n.decl.var)  or else
-                 (left.n.decl.which = right.n.decl.which  and then
-                    left.n.decl.var = right.n.decl.var  and then
+               if left.n.decl.Which < right.n.decl.Which  or else
+                 (left.n.decl.Which = right.n.decl.Which  and then
+                    left.n.decl.Var < right.n.decl.Var)  or else
+                 (left.n.decl.Which = right.n.decl.Which  and then
+                    left.n.decl.Var = right.n.decl.Var  and then
                     left.n.number < right.n.number) or else
-                 (left.n.decl.which = right.n.decl.which  and then
-                    left.n.decl.var = right.n.decl.var  and then
+                 (left.n.decl.Which = right.n.decl.Which  and then
+                    left.n.decl.Var = right.n.decl.Var  and then
                     left.n.number = right.n.number and then
                     left.n.cs < right.n.cs) or else
-                 (left.n.decl.which = right.n.decl.which  and then
-                    left.n.decl.var = right.n.decl.var  and then
+                 (left.n.decl.Which = right.n.decl.Which  and then
+                    left.n.decl.Var = right.n.decl.Var  and then
                     left.n.number = right.n.number and then
                     left.n.cs = right.n.cs and then
                     left.n.gender < right.n.gender)
@@ -54,18 +54,18 @@ package body Latin_Utils.Inflections_Package is
                   return True;
                end if;
             when pron =>
-               if left.pron.decl.which < right.pron.decl.which  or else
-                 (left.pron.decl.which = right.pron.decl.which  and then
-                    left.pron.decl.var < right.pron.decl.var)  or else
-                 (left.pron.decl.which = right.pron.decl.which  and then
-                    left.pron.decl.var = right.pron.decl.var  and then
+               if left.pron.decl.Which < right.pron.decl.Which  or else
+                 (left.pron.decl.Which = right.pron.decl.Which  and then
+                    left.pron.decl.Var < right.pron.decl.Var)  or else
+                 (left.pron.decl.Which = right.pron.decl.Which  and then
+                    left.pron.decl.Var = right.pron.decl.Var  and then
                     left.pron.number < right.pron.number) or else
-                 (left.pron.decl.which = right.pron.decl.which  and then
-                    left.pron.decl.var = right.pron.decl.var  and then
+                 (left.pron.decl.Which = right.pron.decl.Which  and then
+                    left.pron.decl.Var = right.pron.decl.Var  and then
                     left.pron.number = right.pron.number and then
                     left.pron.cs < right.pron.cs) or else
-                 (left.pron.decl.which = right.pron.decl.which  and then
-                    left.pron.decl.var = right.pron.decl.var  and then
+                 (left.pron.decl.Which = right.pron.decl.Which  and then
+                    left.pron.decl.Var = right.pron.decl.Var  and then
                     left.pron.number = right.pron.number and then
                     left.pron.cs = right.pron.cs and then
                     left.pron.gender < right.pron.gender)
@@ -73,18 +73,18 @@ package body Latin_Utils.Inflections_Package is
                   return True;
                end if;
             when pack =>
-               if left.pack.decl.which < right.pack.decl.which  or else
-                 (left.pack.decl.which = right.pack.decl.which  and then
-                    left.pack.decl.var < right.pack.decl.var)  or else
-                 (left.pack.decl.which = right.pack.decl.which  and then
-                    left.pack.decl.var = right.pack.decl.var  and then
+               if left.pack.decl.Which < right.pack.decl.Which  or else
+                 (left.pack.decl.Which = right.pack.decl.Which  and then
+                    left.pack.decl.Var < right.pack.decl.Var)  or else
+                 (left.pack.decl.Which = right.pack.decl.Which  and then
+                    left.pack.decl.Var = right.pack.decl.Var  and then
                     left.pack.number < right.pack.number) or else
-                 (left.pack.decl.which = right.pack.decl.which  and then
-                    left.pack.decl.var = right.pack.decl.var  and then
+                 (left.pack.decl.Which = right.pack.decl.Which  and then
+                    left.pack.decl.Var = right.pack.decl.Var  and then
                     left.pack.number = right.pack.number and then
                     left.pack.cs < right.pack.cs) or else
-                 (left.pack.decl.which = right.pack.decl.which  and then
-                    left.pack.decl.var = right.pack.decl.var  and then
+                 (left.pack.decl.Which = right.pack.decl.Which  and then
+                    left.pack.decl.Var = right.pack.decl.Var  and then
                     left.pack.number = right.pack.number and then
                     left.pack.cs = right.pack.cs and then
                     left.pack.gender < right.pack.gender)
@@ -92,23 +92,23 @@ package body Latin_Utils.Inflections_Package is
                   return True;
                end if;
             when adj =>
-               if left.adj.decl.which < right.adj.decl.which  or else
-                 (left.adj.decl.which = right.adj.decl.which  and then
-                    left.adj.decl.var < right.adj.decl.var)  or else
-                 (left.adj.decl.which = right.adj.decl.which  and then
-                    left.adj.decl.var = right.adj.decl.var  and then
+               if left.adj.decl.Which < right.adj.decl.Which  or else
+                 (left.adj.decl.Which = right.adj.decl.Which  and then
+                    left.adj.decl.Var < right.adj.decl.Var)  or else
+                 (left.adj.decl.Which = right.adj.decl.Which  and then
+                    left.adj.decl.Var = right.adj.decl.Var  and then
                     left.adj.number < right.adj.number) or else
-                 (left.adj.decl.which = right.adj.decl.which  and then
-                    left.adj.decl.var = right.adj.decl.var  and then
+                 (left.adj.decl.Which = right.adj.decl.Which  and then
+                    left.adj.decl.Var = right.adj.decl.Var  and then
                     left.adj.number = right.adj.number and then
                     left.adj.cs < right.adj.cs) or else
-                 (left.adj.decl.which = right.adj.decl.which  and then
-                    left.adj.decl.var = right.adj.decl.var  and then
+                 (left.adj.decl.Which = right.adj.decl.Which  and then
+                    left.adj.decl.Var = right.adj.decl.Var  and then
                     left.adj.number = right.adj.number and then
                     left.adj.cs = right.adj.cs and then
                     left.adj.gender < right.adj.gender)  or else
-                 (left.adj.decl.which = right.adj.decl.which  and then
-                    left.adj.decl.var = right.adj.decl.var  and then
+                 (left.adj.decl.Which = right.adj.decl.Which  and then
+                    left.adj.decl.Var = right.adj.decl.Var  and then
                     left.adj.number = right.adj.number and then
                     left.adj.cs = right.adj.cs and then
                     left.adj.gender = right.adj.gender  and then
@@ -119,29 +119,29 @@ package body Latin_Utils.Inflections_Package is
             when adv =>
                return left.adv.co < right.adv.co;
             when v =>
-               if (left.v.con.which < right.v.con.which)  or else
-                 (left.v.con.which = right.v.con.which  and then
-                    left.v.con.var < right.v.con.var)  or else
-                 (left.v.con.which = right.v.con.which  and then
-                    left.v.con.var = right.v.con.var  and then
+               if (left.v.con.Which < right.v.con.Which)  or else
+                 (left.v.con.Which = right.v.con.Which  and then
+                    left.v.con.Var < right.v.con.Var)  or else
+                 (left.v.con.Which = right.v.con.Which  and then
+                    left.v.con.Var = right.v.con.Var  and then
                     left.v.number < right.v.number) or else
-                 (left.v.con.which = right.v.con.which  and then
-                    left.v.con.var = right.v.con.var  and then
+                 (left.v.con.Which = right.v.con.Which  and then
+                    left.v.con.Var = right.v.con.Var  and then
                     left.v.number = right.v.number and then
                     left.v.tense_voice_mood.tense < right.v.tense_voice_mood.tense) or else
-                 (left.v.con.which = right.v.con.which  and then
-                    left.v.con.var = right.v.con.var  and then
+                 (left.v.con.Which = right.v.con.Which  and then
+                    left.v.con.Var = right.v.con.Var  and then
                     left.v.number = right.v.number and then
                     left.v.tense_voice_mood.tense = right.v.tense_voice_mood.tense and then
                     left.v.tense_voice_mood.voice < right.v.tense_voice_mood.voice) or else
-                 (left.v.con.which = right.v.con.which  and then
-                    left.v.con.var = right.v.con.var  and then
+                 (left.v.con.Which = right.v.con.Which  and then
+                    left.v.con.Var = right.v.con.Var  and then
                     left.v.number = right.v.number and then
                     left.v.tense_voice_mood.tense = right.v.tense_voice_mood.tense and then
                     left.v.tense_voice_mood.voice = right.v.tense_voice_mood.voice and then
                     left.v.tense_voice_mood.mood   < right.v.tense_voice_mood.mood )  or else
-                 (left.v.con.which = right.v.con.which  and then
-                    left.v.con.var = right.v.con.var  and then
+                 (left.v.con.Which = right.v.con.Which  and then
+                    left.v.con.Var = right.v.con.Var  and then
                     left.v.number = right.v.number and then
                     left.v.tense_voice_mood.tense = right.v.tense_voice_mood.tense and then
                     left.v.tense_voice_mood.voice = right.v.tense_voice_mood.voice and then
@@ -151,18 +151,18 @@ package body Latin_Utils.Inflections_Package is
                   return True;
                end if;
             when vpar =>
-               if left.vpar.con.which < right.vpar.con.which  or else
-                 (left.vpar.con.which = right.vpar.con.which  and then
-                    left.vpar.con.var < right.vpar.con.var)  or else
-                 (left.vpar.con.which = right.vpar.con.which  and then
-                    left.vpar.con.var = right.vpar.con.var  and then
+               if left.vpar.con.Which < right.vpar.con.Which  or else
+                 (left.vpar.con.Which = right.vpar.con.Which  and then
+                    left.vpar.con.Var < right.vpar.con.Var)  or else
+                 (left.vpar.con.Which = right.vpar.con.Which  and then
+                    left.vpar.con.Var = right.vpar.con.Var  and then
                     left.vpar.number < right.vpar.number) or else
-                 (left.vpar.con.which = right.vpar.con.which  and then
-                    left.vpar.con.var = right.vpar.con.var  and then
+                 (left.vpar.con.Which = right.vpar.con.Which  and then
+                    left.vpar.con.Var = right.vpar.con.Var  and then
                     left.vpar.number = right.vpar.number and then
                     left.vpar.cs < right.vpar.cs) or else
-                 (left.vpar.con.which = right.vpar.con.which  and then
-                    left.vpar.con.var = right.vpar.con.var  and then
+                 (left.vpar.con.Which = right.vpar.con.Which  and then
+                    left.vpar.con.Var = right.vpar.con.Var  and then
                     left.vpar.number = right.vpar.number and then
                     left.vpar.cs = right.vpar.cs and then
                     left.vpar.gender < right.vpar.gender)
@@ -170,18 +170,18 @@ package body Latin_Utils.Inflections_Package is
                   return True;
                end if;
             when supine =>
-               if left.supine.con.which < right.supine.con.which  or else
-                 (left.supine.con.which = right.supine.con.which  and then
-                    left.supine.con.var < right.supine.con.var)  or else
-                 (left.supine.con.which = right.supine.con.which  and then
-                    left.supine.con.var = right.supine.con.var  and then
+               if left.supine.con.Which < right.supine.con.Which  or else
+                 (left.supine.con.Which = right.supine.con.Which  and then
+                    left.supine.con.Var < right.supine.con.Var)  or else
+                 (left.supine.con.Which = right.supine.con.Which  and then
+                    left.supine.con.Var = right.supine.con.Var  and then
                     left.supine.number < right.supine.number) or else
-                 (left.supine.con.which = right.supine.con.which  and then
-                    left.supine.con.var = right.supine.con.var  and then
+                 (left.supine.con.Which = right.supine.con.Which  and then
+                    left.supine.con.Var = right.supine.con.Var  and then
                     left.supine.number = right.supine.number and then
                     left.supine.cs < right.supine.cs) or else
-                 (left.supine.con.which = right.supine.con.which  and then
-                    left.supine.con.var = right.supine.con.var  and then
+                 (left.supine.con.Which = right.supine.con.Which  and then
+                    left.supine.con.Var = right.supine.con.Var  and then
                     left.supine.number = right.supine.number and then
                     left.supine.cs = right.supine.cs and then
                     left.supine.gender < right.supine.gender)
@@ -195,23 +195,23 @@ package body Latin_Utils.Inflections_Package is
             when interj =>
                null;
             when num =>
-               if left.num.decl.which < right.num.decl.which  or else
-                 (left.num.decl.which = right.num.decl.which  and then
-                    left.num.decl.var < right.num.decl.var)  or else
-                 (left.num.decl.which = right.num.decl.which  and then
-                    left.num.decl.var = right.num.decl.var  and then
+               if left.num.decl.Which < right.num.decl.Which  or else
+                 (left.num.decl.Which = right.num.decl.Which  and then
+                    left.num.decl.Var < right.num.decl.Var)  or else
+                 (left.num.decl.Which = right.num.decl.Which  and then
+                    left.num.decl.Var = right.num.decl.Var  and then
                     left.num.number < right.num.number) or else
-                 (left.num.decl.which = right.num.decl.which  and then
-                    left.num.decl.var = right.num.decl.var  and then
+                 (left.num.decl.Which = right.num.decl.Which  and then
+                    left.num.decl.Var = right.num.decl.Var  and then
                     left.num.number = right.num.number and then
                     left.num.cs < right.num.cs) or else
-                 (left.num.decl.which = right.num.decl.which  and then
-                    left.num.decl.var = right.num.decl.var  and then
+                 (left.num.decl.Which = right.num.decl.Which  and then
+                    left.num.decl.Var = right.num.decl.Var  and then
                     left.num.number = right.num.number and then
                     left.num.cs = right.num.cs and then
                     left.num.gender < right.num.gender)  or else
-                 (left.num.decl.which = right.num.decl.which  and then
-                    left.num.decl.var = right.num.decl.var  and then
+                 (left.num.decl.Which = right.num.decl.Which  and then
+                    left.num.decl.Var = right.num.decl.Var  and then
                     left.num.number = right.num.number and then
                     left.num.cs = right.num.cs and then
                     left.num.gender = right.num.gender  and then
@@ -252,8 +252,8 @@ package body Latin_Utils.Inflections_Package is
    function "<=" (left, right : Decn_Record) return Boolean is
    begin
       if right = left  or else
-        (right = Decn_Record'(0, 0)  and left.which /= 9)  or else
-        right = Decn_Record'(left.which, 0)
+        (right = Decn_Record'(0, 0)  and left.Which /= 9)  or else
+        right = Decn_Record'(left.Which, 0)
       then
          return True;
       else
@@ -2220,8 +2220,8 @@ package body Latin_Utils.Inflections_Package is
             n4_loop:
             loop
                exit c4_loop when  lel(i).qual.pofs = pron  and then
-                 (lel(i).qual.pron.decl.which = 1  or
-                    lel(i).qual.pron.decl.which = 2);
+                 (lel(i).qual.pron.decl.Which = 1  or
+                    lel(i).qual.pron.decl.Which = 2);
 
                n := lel(i).ending.size;
 

@@ -724,7 +724,7 @@ begin
 
          line_number := line_number + 1;
 
-         if de.Part.pofs = v and then de.Part.v.Con.which = 8 then
+         if de.Part.pofs = v and then de.Part.v.Con.Which = 8 then
             --  V 8 is a kludge for variant forms of verbs that have regular forms elsewhere
             null;
          else

@@ -290,9 +290,9 @@ procedure list_sweep(pa : in out Parse_Array; pa_last : in out Integer) is
             begin
                if left.pofs = right.pofs  and then
                  left.pofs = pron        and then
-                 left.pron.decl.which = 1
+                 left.pron.decl.Which = 1
                then
-                  return (left.pron.decl.var < right.pron.decl.var);
+                  return (left.pron.decl.Var < right.pron.decl.Var);
                else
                   return Inflections_Package."<"(left, right);
                end if;
@@ -302,9 +302,9 @@ procedure list_sweep(pa : in out Parse_Array; pa_last : in out Integer) is
             begin
                if left.pofs = right.pofs  and then
                  left.pofs = pron        and then
-                 left.pron.decl.which = 1
+                 left.pron.decl.Which = 1
                then
-                  return (left.pron.decl.var = right.pron.decl.var);
+                  return (left.pron.decl.Var = right.pron.decl.Var);
                else
                   return Inflections_Package."="(left, right);
                end if;
@@ -532,9 +532,9 @@ begin                               --  LIST_SWEEP
             Dict_IO.Set_Index(Dict_File(pa(i).D_K), pa(i).MNPC);
             Dict_IO.Read(Dict_File(pa(i).D_K), de);
             if de.Part.pofs = pron  and then
-              de.Part.pron.Decl.which = 1
+              de.Part.pron.Decl.Which = 1
             then
-               pa(i).IR.qual.pron.decl.var := Pronoun_Kind_Type'Pos (de.Part.pron.Kind);
+               pa(i).IR.qual.pron.decl.Var := Pronoun_Kind_Type'Pos (de.Part.pron.Kind);
                --elsif DE.PART.POFS = PACK  and then
                -- DE.PART.PACK.DECL.WHICH =1  then
                -- PA(I).IR.QUAL.PACK.DECL.VAR := PRONOUN_KIND_TYPE'POS(DE.KIND.PRON_KIND);
@@ -663,9 +663,9 @@ begin                               --  LIST_SWEEP
    for i in 1..pa_last  loop
       --  Destroy the artificial VAR for PRON 1 X
       if pa(i).IR.qual.pofs = pron  and then
-        pa(i).IR.qual.pron.decl.which =1
+        pa(i).IR.qual.pron.decl.Which =1
       then
-         pa(i).IR.qual.pron.decl.var := 0;
+         pa(i).IR.qual.pron.decl.Var := 0;
       end if;
 
       if pa(i).IR.qual.pofs = v   then
