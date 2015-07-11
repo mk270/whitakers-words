@@ -32,7 +32,7 @@ package Latin_Utils.Inflections_Package is
 
    -- FIXME: These subprograms don't check if Is_Open (File)
    package Stem_Type_IO is
-      Default_Width : Natural := Max_Stem_Size;
+      Default_Width : constant Natural := Max_Stem_Size;
       procedure Get (File : in File_Type; Item : out Stem_Type);
       procedure Get (Item : out Stem_Type);
       procedure Put (File : in File_Type; Item : in Stem_Type);
@@ -63,7 +63,7 @@ package Latin_Utils.Inflections_Package is
      prep,      --  PREPosition
      conj,      --  CONJunction
      interj,    --  INTERJection
-     -- keep tackon/prefix/suffix toGether, as they are used in range queries
+     -- keep tackon/prefix/suffix together, as they are used in range queries
      tackon,    --  TACKON --  artificial for code
      prefix,    --  PREFIX --  here artificial for code
      suffix     --  SUFFIX --  here artificial for code
@@ -72,31 +72,39 @@ package Latin_Utils.Inflections_Package is
    package Part_Of_Speech_Type_IO is
       new Ada.Text_IO.Enumeration_IO(Part_Of_Speech_Type);
 
-   subtype which_type is Natural range 0..9;
+   ---------------------------------------------------------------------------
 
-   subtype variant_type is Natural range 0..9;
+   subtype Which_Type   is Natural range 0..9;
+   subtype Variant_Type is Natural range 0..9;
 
    which_type_io_Default_Width : Integer := 1;
    variant_type_io_Default_Width : Integer := 1;
 
+   ---------------------------------------------------------------------------
+
    type Decn_Record is
       record
-         which        : which_type := 0;
-         var          : variant_type := 0;
+         Which        : Which_Type   := 0;
+         Var          : Variant_Type := 0;
       end record;
 
    function "<" (left, right : Decn_Record) return Boolean;
 
    package Decn_Record_IO is
       Default_Width : Natural;
-      procedure Get(f : in File_Type; d : out Decn_Record);
-      procedure Get(d : out Decn_Record);
-      procedure Put(f : in File_Type; d : in Decn_Record);
-      procedure Put(d : in Decn_Record);
-      procedure Get(s : in String; d : out Decn_Record;
-                                   last : out Integer);
-      procedure Put(s : out String; d : in Decn_Record);
+      procedure Get (File : in File_Type; Item : out Decn_Record);
+      procedure Get (Item : out Decn_Record);
+      procedure Put (File : in File_Type; Item : in Decn_Record);
+      procedure Put (Item : in Decn_Record);
+      procedure Get
+         ( Source : in String;
+           Target : out Decn_Record;
+           Last   : out Integer
+         );
+      procedure Put (Target : out String; Item : in Decn_Record);
    end Decn_Record_IO;
+
+   ---------------------------------------------------------------------------
 
    type Gender_Type is (
                         x,         --  all, none, or unknown

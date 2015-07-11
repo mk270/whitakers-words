@@ -16,7 +16,6 @@
 
 with Latin_Utils.Latin_File_Names; use Latin_Utils.Latin_File_Names;
 with Latin_Utils.Preface;
-use Latin_Utils;
 package body Latin_Utils.Inflections_Package is
 
    function "<" (left, right : Decn_Record) return Boolean is
@@ -369,92 +368,7 @@ package body Latin_Utils.Inflections_Package is
 
    package body Stem_Type_IO is separate;
 
-   package body Decn_Record_IO is
-      --  This package will carry the documentation for all the following packages
-      --  Must have "use" for _IO for each of the components of the record
-      use Integer_IO;
-      --  This is a dummy used to GET the space Character PUT between components
-      spacer : Character := ' ';
-
-      --  The standard 6 procedures are defined as in TEXT_IO
-
-      procedure Get(f : in File_Type; d : out Decn_Record) is
-         --  Get from a file
-      begin
-         --  Get the first component
-         Get(f, d.which);
-         --  Then Get (and ignore) space Character which is Put between components
-         Get(f, spacer);
-         --  Get the next component
-         Get(f, d.var);
-      end Get;
-
-      procedure Get(d : out Decn_Record) is
-         --  Get from the current Input, in the same manner
-      begin
-         Get(d.which);
-         Get(spacer);
-         Get(d.var);
-      end Get;
-
-      procedure Put(f : in File_Type; d : in Decn_Record) is
-         --  Put to a file
-      begin
-         --  Put the first component, with whatever Put is applicable (and use'd)
-         Put(f, d.which, 1);
-         --  Put the blank Character between components
-         Put(f, ' ');
-         --  Put the next component
-         Put(f, d.var, 1);
-      end Put;
-
-      procedure Put(d : in Decn_Record) is
-         --  Likewise for Put to current Output
-      begin
-         Put(d.which, 1);
-         Put(' ');
-         Put(d.var, 1);
-      end Put;
-
-      procedure Get(s : in String;
-                    d : out Decn_Record; last : out Integer) is
-         --  Get from a String
-         --  Initialize the String position parameter
-         --  Make it First-1 so the first String specification looks like later ones
-         l : Integer := s'First - 1;
-      begin
-         --  Get with the use'd _IO package the first component
-         Get(s(l+1..s'Last), d.which, l);
-         --  The L is the last position read, so add one to skip the spacer
-         l := l + 1;
-         --  Get the next component
-         Get(s(l+1..s'Last), d.var, last);
-      end Get;
-
-      procedure Put(s : out String; d : in Decn_Record) is
-         l : Integer := s'First - 1;
-         m : Integer := 0;
-      begin
-         --  Make a place the DEFAULT_WIDTH of the component  to be Put
-         --  The DEFAULT_WIDTH has been set for these _IO packages to be
-         --  the LONGEST component width, not the normal Ada default
-         m := l + 1; --  But WHICH is to be PUT WIDTH 1
-         --  Put onto the subString that is exactly the DEFAULT (LONGEST) size
-         Put(s(l+1..m), d.which);
-         --  Advance the position by 1 to the position to make the blank
-         l := m + 1;
-         --  Write the blank
-         s(l) :=  ' ';
-         --  Calculate the next subString, of DEFAULT_WIDTH for next component
-         m := l + 1;
-         --  Put the next component
-         Put(s(l+1..m), d.var);
-         --  The following may be necessary to fill the out String
-         --  but usually the out String has been specified exactly
-         s(m+1..s'Last) := (others => ' ');
-      end Put;
-
-   end Decn_Record_IO;
+   package body Decn_Record_IO is separate;
 
    package body tense_voice_mood_record_io is
       use tense_type_io;
