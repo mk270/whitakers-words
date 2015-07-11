@@ -29,6 +29,6 @@ clean_data:
 	rm -f -- $(GENERATED_DATA_FILES)
 
 clean:
-	rm -f -- obj/commands/* bin/*
+	rm -f -- obj/commands/* obj/latin_utils/* bin/* lib/*
 	rm -f -- CHECKEWD.
 	rm -f -- DICTFILE.GEN STEMFILE.GEN INDXFILE.GEN EWDSLIST.GEN INFLECTS.SEC
