@@ -433,10 +433,11 @@ procedure makeewds is
                   begin
                      ww := 31;
                      --PUT_LINE("PROCESS COMMA " & INTEGER'IMAGE(LINE_NUMBER) & INTEGER'IMAGE(CT'FIRST) & INTEGER'IMAGE(CT'LAST) &  "=>" & TRIM(COMMA));
-                     if ct'Length > 0 then    --  Is COMMA non empty
-                                              --  Are there any blanks?
-                                              --  If not then it is a pure word
-                                              --  Or words with /
+                     if ct'Length > 0 then
+                        --  Is COMMA non empty
+                        --  Are there any blanks?
+                        --  If not then it is a pure word
+                        --  Or words with /
                         for ip in cs'Range loop
                            if cs(ip) = ' '  then
                               pure := False;
