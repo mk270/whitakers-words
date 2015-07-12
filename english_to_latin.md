@@ -297,7 +297,7 @@ The numerical values of each consideration are added or subtracted to give the p
 
 
 
-<H5>FREQ</H5>
+## FREQ
 
 The obvious choice for frequency weights might be the comparative paper dictionary citations,
 which would be roughly:
@@ -330,7 +330,7 @@ for a more managable set:
 
 (N is special case, add 25 after formula)
 
-<H5>Compounds</H5>
+### Compounds
 
 Compound words ('very tall' vs. 'tall') are often useful,
 indeed the user may be looking for components to make up a compound translation,
