@@ -102,7 +102,7 @@ Finally there is the problem that most paper Latin dictionaries harken back
 to the 19th century or earlier, even those published more recently.
 Their base English may not be current.
 Take a purely hypothetical example.  On the first page of every English-Latin
-dictionary is <B>abase</B>.  This is a good 18th century word.  Today one is
+dictionary is *abase*.  This is a good 18th century word.  Today one is
 more likely to see humble, degrade or humiliate, and those are the words the
 user is more likely to request.  But the dictionaries from which WORDS draws
 may be fonder of abase as the meaning of a Latin word which could serve for

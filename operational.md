@@ -637,8 +637,7 @@ make the adverb in English.  The user must make the proper interpretation.
 In some cases an adjective will be found that is a participle of a verb
 that is also found.  The participle meaning, as inferred by the user from
 the verb meaning, is not superseded by the explicit adjective entry, but
-supplemented by it with possible specialized meanings.  <BR>
- <BR>
+supplemented by it with possible specialized meanings.
 
 
 

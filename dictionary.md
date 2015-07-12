@@ -77,17 +77,18 @@ program, is still Latin, not Etruscan or Greek.  Medieval Latin is that
 which was written by scholars as the universal Latin, not versions of
 early French or Italian.
 
-<PRE><TT>  type AGE_TYPE is (
-    X,   --              --  In use throughout the ages/unknown -- the default
-    A,   --  archaic     --  Very early forms, obsolete by classical times
-    B,   --  early       --  Early Latin, pre-classical, used for effect/poetry
-    C,   --  classical   --  Limited to classical (~150 BC - 200 AD)
-    D,   --  late        --  Late, post-classical (3rd-5th centuries)
-    E,   --  later       --  Latin not in use in Classical times (6-10) Christian
-    F,   --  medieval    --  Medieval (11th-15th centuries)
-    G,   --  scholar     --  Latin post 15th - Scholarly/Scientific   (16-18)
-    H    --  modern      --  Coined recently, words for new things (19-20)
-                             );</TT></PRE>
+      type AGE_TYPE is (
+        X,   --              --  In use throughout the ages/unknown -- the default
+        A,   --  archaic     --  Very early forms, obsolete by classical times
+        B,   --  early       --  Early Latin, pre-classical, used for effect/poetry
+        C,   --  classical   --  Limited to classical (~150 BC - 200 AD)
+        D,   --  late        --  Late, post-classical (3rd-5th centuries)
+        E,   --  later       --  Latin not in use in Classical times (6-10) Christian
+        F,   --  medieval    --  Medieval (11th-15th centuries)
+        G,   --  scholar     --  Latin post 15th - Scholarly/Scientific   (16-18)
+        H    --  modern      --  Coined recently, words for new things (19-20)
+                                 );
+
 ### AREA
 
 While the reader can make his own interpretation of the area of
@@ -102,47 +103,49 @@ The area need not apply to all the meanings, just that there is some part
 of the meaning that is specialized to or applies specifically to that area
 and so is called out.
 
-<PRE><TT>type AREA_TYPE is (
-                        X,      --  All or none
-                        A,      --  Agriculture, Flora, Fauna, Land, Equipment, Rural
-                        B,      --  Biological, Medical, Body Parts
-                        D,      --  Drama, Music, Theater, Art, Painting, Sculpture
-                        E,      --  Ecclesiastic, Biblical, Religious
-                        G,      --  Grammar, Retoric, Logic, Literature, Schools
-                        L,      --  Legal, Government, Tax, Financial, Political, Titles
-                        P,      --  Poetic
-                        S,      --  Science, Philosophy, Mathematics, Units/Measures
-                        T,      --  Technical, Architecture, Topography, Surveying
-                        W,      --  War, Military, Naval, Ships, Armor
-                        Y       --  Mythology
-                             );</TT></PRE>
+    type AREA_TYPE is (
+                            X,      --  All or none
+                            A,      --  Agriculture, Flora, Fauna, Land, Equipment, Rural
+                            B,      --  Biological, Medical, Body Parts
+                            D,      --  Drama, Music, Theater, Art, Painting, Sculpture
+                            E,      --  Ecclesiastic, Biblical, Religious
+                            G,      --  Grammar, Retoric, Logic, Literature, Schools
+                            L,      --  Legal, Government, Tax, Financial, Political, Titles
+                            P,      --  Poetic
+                            S,      --  Science, Philosophy, Mathematics, Units/Measures
+                            T,      --  Technical, Architecture, Topography, Surveying
+                            W,      --  War, Military, Naval, Ships, Armor
+                            Y       --  Mythology
+                                 );
+
 ### GEO
 
 This code was included to enable the program to distinguish between
 different usages of a word depending on where it was used or what country
 was the subject of the text.  This is a dual usage, origin or subject.
 
-<PRE><TT>type GEO_TYPE is (
-                       X,      --  All or none
-                       A,      --  Africa
-                       B,      --  Britian
-                       C,      --  China
-                       D,      --  Scandinavia
-                       E,      --  Egypt
-                       F,      --  France, Gaul
-                       G,      --  Germany
-                       H,      --  Greece
-                       I,      --  Italy, Rome
-                       J,      --  India
-                       K,      --  Balkans
-                       N,      --  Netherlands
-                       P,      --  Persia
-                       Q,      --  Near East
-                       R,      --  Russia
-                       S,      --  Spain, Iberia
-                       U       --  Eastern Europe
-                       );
-</TT></PRE>
+    type GEO_TYPE is (
+                           X,      --  All or none
+                           A,      --  Africa
+                           B,      --  Britian
+                           C,      --  China
+                           D,      --  Scandinavia
+                           E,      --  Egypt
+                           F,      --  France, Gaul
+                           G,      --  Germany
+                           H,      --  Greece
+                           I,      --  Italy, Rome
+                           J,      --  India
+                           K,      --  Balkans
+                           N,      --  Netherlands
+                           P,      --  Persia
+                           Q,      --  Near East
+                           R,      --  Russia
+                           S,      --  Spain, Iberia
+                           U       --  Eastern Europe
+                           );
+    
+
 
 ### FREQ
 
@@ -253,35 +256,37 @@ often uncertain whether a particular usage is appropriately listed as a
 noun, as an adjective, or as adjective used as a substantive.  The present
 dictionary, in blessed innocence, records all forms without bias.
 
-<PRE><TT>    type FREQUENCY_TYPE is (     --  For dictionary entries
-    X,    --              --  Unknown or unspecified
-    A,    --  very freq   --  Very frequent, in all Elementry Latin books, top 1000+ words
-    B,    --  frequent    --  Frequent, next 2000+ words
-    C,    --  common      --  For Dictionary, in top 10,000 words
-    D,    --  lesser      --  For Dictionary, in top 20,000 words
-    E,    --  uncommon    --  2 or 3 citations
-    F,    --  very rare   --  Having only single citation in OLD or L+S
-    I,    --  inscription --  Only citation is inscription
-    M,    --  graffiti    --  Presently not much used
-    N     --  Pliny       --  Things that appear only in Pliny Natural History
-                      );</TT></PRE>
+        type FREQUENCY_TYPE is (     --  For dictionary entries
+        X,    --              --  Unknown or unspecified
+        A,    --  very freq   --  Very frequent, in all Elementry Latin books, top 1000+ words
+        B,    --  frequent    --  Frequent, next 2000+ words
+        C,    --  common      --  For Dictionary, in top 10,000 words
+        D,    --  lesser      --  For Dictionary, in top 20,000 words
+        E,    --  uncommon    --  2 or 3 citations
+        F,    --  very rare   --  Having only single citation in OLD or L+S
+        I,    --  inscription --  Only citation is inscription
+        M,    --  graffiti    --  Presently not much used
+        N     --  Pliny       --  Things that appear only in Pliny Natural History
+                          );
+
 
 
 For inflections, the same type is used with different weights
 
-<PRE><TT>
---  X,    --              --  Unknown or unspecified
---  A,    --  most freq   --  Very frequent, the most common
---  B,    --  sometimes   --  sometimes, a not unusual VARIANT
---  C,    --  uncommon    --  occasionally seen
---  D,    --  infrequent  --  recognizable variant, but unlikely
---  E,    --  rare        --  for a few cases, very unlikely
---  F,    --  very rare   --  singular examples,
---  I,    --              --  Presently not used
---  M,    --              --  Presently not used
---  N     --              --  Presently not used
+    
+    --  X,    --              --  Unknown or unspecified
+    --  A,    --  most freq   --  Very frequent, the most common
+    --  B,    --  sometimes   --  sometimes, a not unusual VARIANT
+    --  C,    --  uncommon    --  occasionally seen
+    --  D,    --  infrequent  --  recognizable variant, but unlikely
+    --  E,    --  rare        --  for a few cases, very unlikely
+    --  F,    --  very rare   --  singular examples,
+    --  I,    --              --  Presently not used
+    --  M,    --              --  Presently not used
+    --  N     --              --  Presently not used
+    
+    
 
-</TT></PRE>
 
 ### SOURCE
 
@@ -400,137 +405,139 @@ extensively used.  Others have only been used for an occasional check
 
 
 
-<PRE><TT>  type SOURCE_TYPE is (
-    X,      --  General or unknown or too common to say
-    A,
-    B,      --  C.H.Beeson, A Primer of Medieval Latin, 1925 (Bee)
-    C,      --  Charles Beard, Cassell's Latin Dictionary 1892 (CAS)
-    D,      --  J.N.Adams, Latin Sexual Vocabulary, 1982 (Sex)
-    E,      --  L.F.Stelten, Dictionary of Eccles. Latin, 1995 (Ecc)
-    F,      --  Roy J. Deferrari, Dictionary of St. Thomas Aquinas, 1960 (DeF)
-    G,      --  Gildersleeve + Lodge, Latin Grammar 1895 (G+L)
-    H,      --  Collatinus Dictionary by Yves Ouvrard
-    I,      --  Leverett, F.P., Lexicon of the Latin Language, Boston 1845
-    J,
-    K,      --  Calepinus Novus, modern Latin, by Guy Licoppe (Cal)
-    L,      --  Lewis, C.S., Elementary Latin Dictionary 1891
-    M,      --  Latham, Revised Medieval Word List, 1980
-    N,      --  Lynn Nelson, Wordlist
-    O,      --  Oxford Latin Dictionary, 1982 (OLD)
-    P,      --  Souter, A Glossary of Later Latin to 600 A.D., Oxford 1949
-    Q,      --  Other, cited or unspecified dictionaries
-    R,      --  Plater & White, A Grammar of the Vulgate, Oxford 1926
-    S,      --  Lewis and Short, A Latin Dictionary, 1879 (L+S)
-    T,      --  Found in a translation  --  no dictionary reference
-    U,      --  Du Cange
-    V,      --  Vademecum in opus Saxonis - Franz Blatt (Saxo)
-    W,      --  My personal guess
-    Y,      --  Temp special code
-    Z       --  Sent by user --  no dictionary reference
-            --  Mostly John White of Blitz Latin
+      type SOURCE_TYPE is (
+        X,      --  General or unknown or too common to say
+        A,
+        B,      --  C.H.Beeson, A Primer of Medieval Latin, 1925 (Bee)
+        C,      --  Charles Beard, Cassell's Latin Dictionary 1892 (CAS)
+        D,      --  J.N.Adams, Latin Sexual Vocabulary, 1982 (Sex)
+        E,      --  L.F.Stelten, Dictionary of Eccles. Latin, 1995 (Ecc)
+        F,      --  Roy J. Deferrari, Dictionary of St. Thomas Aquinas, 1960 (DeF)
+        G,      --  Gildersleeve + Lodge, Latin Grammar 1895 (G+L)
+        H,      --  Collatinus Dictionary by Yves Ouvrard
+        I,      --  Leverett, F.P., Lexicon of the Latin Language, Boston 1845
+        J,
+        K,      --  Calepinus Novus, modern Latin, by Guy Licoppe (Cal)
+        L,      --  Lewis, C.S., Elementary Latin Dictionary 1891
+        M,      --  Latham, Revised Medieval Word List, 1980
+        N,      --  Lynn Nelson, Wordlist
+        O,      --  Oxford Latin Dictionary, 1982 (OLD)
+        P,      --  Souter, A Glossary of Later Latin to 600 A.D., Oxford 1949
+        Q,      --  Other, cited or unspecified dictionaries
+        R,      --  Plater & White, A Grammar of the Vulgate, Oxford 1926
+        S,      --  Lewis and Short, A Latin Dictionary, 1879 (L+S)
+        T,      --  Found in a translation  --  no dictionary reference
+        U,      --  Du Cange
+        V,      --  Vademecum in opus Saxonis - Franz Blatt (Saxo)
+        W,      --  My personal guess
+        Y,      --  Temp special code
+        Z       --  Sent by user --  no dictionary reference
+                --  Mostly John White of Blitz Latin
+    
+        --  Consulted but used only indirectly
+        --  Liddell + Scott Greek-English Lexicon
+    
+        --  Consulted but used only occasionally, seperately referenced
+        --  Allen + Greenough, New Latin Grammar, 1888 (A+G)
+        --  Harrington/Pucci/Elliott, Medieval Latin 2nd Ed 1997 (Harr)
+        --  C.C./C.L. Scanlon Latin Grammar/Second Latin, TAN 1976 (SCANLON)
+        --  W. M. Lindsay, Short Historical Latin Grammar, 1895 (Lindsay)
+                            );
+    
 
-    --  Consulted but used only indirectly
-    --  Liddell + Scott Greek-English Lexicon
-
-    --  Consulted but used only occasionally, seperately referenced
-    --  Allen + Greenough, New Latin Grammar, 1888 (A+G)
-    --  Harrington/Pucci/Elliott, Medieval Latin 2nd Ed 1997 (Harr)
-    --  C.C./C.L. Scanlon Latin Grammar/Second Latin, TAN 1976 (SCANLON)
-    --  W. M. Lindsay, Short Historical Latin Grammar, 1895 (Lindsay)
-                        );
-</TT></PRE>
 
 
 ## Current Distribution of DICTLINE Flags
 
-<PRE><TT>
-Number of lines in DICTLINE GENERAL  1.97F    39187
+    
+    Number of lines in DICTLINE GENERAL  1.97F    39187
+    
+    AGE
+    X         28858
+    A         61
+    B         446
+    C         58
+    D         3937
+    E         1718
+    F         1996
+    G         1920
+    H         193
+    
+    AREA
+    X         29181
+    A         2955
+    B         912
+    D         410
+    E         1916
+    G         504
+    L         1221
+    P         181
+    S         730
+    T         382
+    W         722
+    Y         73
+    
+    GEO
+    X         38147
+    A         64
+    B         52
+    C         1
+    D         3
+    E         49
+    F         67
+    G         20
+    H         278
+    I         141
+    J         4
+    K         6
+    N         8
+    P         9
+    Q         312
+    R         1
+    S         25
+    U         0
+    
+    FREQ
+    X         11
+    A         2133
+    B         2711
+    C         10757
+    D         2678
+    E         11218
+    F         7982
+    I         424
+    M         0
+    N         1273
+    
+    SOURCE
+    X         7554
+    A         0
+    B         41
+    C         1751
+    D         14
+    E         1417
+    F         119
+    G         59
+    H         0
+    I         4
+    J         116
+    K         2100
+    L         60
+    M         759
+    N         84
+    O         16039
+    P         296
+    Q         24
+    R         12
+    S         8094
+    T         88
+    U         0
+    V         47
+    W         316
+    Y         35
+    Z         158
+    
 
-AGE
-X         28858
-A         61
-B         446
-C         58
-D         3937
-E         1718
-F         1996
-G         1920
-H         193
-
-AREA
-X         29181
-A         2955
-B         912
-D         410
-E         1916
-G         504
-L         1221
-P         181
-S         730
-T         382
-W         722
-Y         73
-
-GEO
-X         38147
-A         64
-B         52
-C         1
-D         3
-E         49
-F         67
-G         20
-H         278
-I         141
-J         4
-K         6
-N         8
-P         9
-Q         312
-R         1
-S         25
-U         0
-
-FREQ
-X         11
-A         2133
-B         2711
-C         10757
-D         2678
-E         11218
-F         7982
-I         424
-M         0
-N         1273
-
-SOURCE
-X         7554
-A         0
-B         41
-C         1751
-D         14
-E         1417
-F         119
-G         59
-H         0
-I         4
-J         116
-K         2100
-L         60
-M         759
-N         84
-O         16039
-P         296
-Q         24
-R         12
-S         8094
-T         88
-U         0
-V         47
-W         316
-Y         35
-Z         158
-</TT></PRE>
 
 
 

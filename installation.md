@@ -34,7 +34,6 @@ See the particular page for each specific system.  <BR>
 <A HREF="http://www.erols.com/whitaker/wordslux.htm"><B>Linux and FreeBSD</B></A><BR>
 <A HREF="http://www.erols.com/whitaker/wordsos2.htm"><B>OS/2</B></A><BR>
 <A HREF="http://www.erols.com/whitaker/wordsmac.htm"><B>MAC OS X</B></A><BR>
-<BR><BR>
 
 Is There a Problem?
 -------------------
