@@ -178,14 +178,15 @@ With the
 understanding that adjustments can be made when additional information is
 available, the initial numeric criteria are:
 
-<PRE>
-A   full column or more, more than 50 citations - very frequent
-B   half column, more than 20 citations - frequent
-C   more then 5 citations - common
-D   4-5 citations - lesser
-E   2-3 citations - uncommon
-F   only 1 citation - very rare
-</PRE>
+    
+    A   full column or more, more than 50 citations - very frequent
+    B   half column, more than 20 citations - frequent
+    C   more then 5 citations - common
+    D   4-5 citations - lesser
+    E   2-3 citations - uncommon
+    F   only 1 citation - very rare
+    
+
 
 
 
