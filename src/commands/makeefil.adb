@@ -22,20 +22,20 @@ procedure makeefil is
    ewds_list : Ada.Text_IO.File_Type;
    ewds, new_ewds : ewds_record := null_ewds_record;
 begin
-   Ada.Text_IO.Open(ewds_list, Ada.Text_IO.In_File, "EWDSLIST.GEN");
-   Create(ewds_file, Out_File, "EWDSFILE.GEN");
+   Ada.Text_IO.Open (ewds_list, Ada.Text_IO.In_File, "EWDSLIST.GEN");
+   Create (ewds_file, Out_File, "EWDSFILE.GEN");
 
-   while not Ada.Text_IO.End_Of_File(ewds_list)  loop
-      ewds_record_io.Get(ewds_list, new_ewds);
-      Ada.Text_IO.Skip_Line(ewds_list);
+   while not Ada.Text_IO.End_Of_File (ewds_list)  loop
+      ewds_record_io.Get (ewds_list, new_ewds);
+      Ada.Text_IO.Skip_Line (ewds_list);
 
       --  Eliminate doubles    --  If sort is OK
       if ewds.w = new_ewds.w  and  --  AUX ????
-         ewds.n = new_ewds.n
+        ewds.n = new_ewds.n
       then
-         -- PUT_LINE("DOUBLES   ");
-         -- EWDS_RECORD_IO.PUT(EWDS); NEW_LINE;
-         -- EWDS_RECORD_IO.PUT(NEW_EWDS); NEW_LINE;
+         -- PUT_LINE ("DOUBLES   ");
+         -- EWDS_RECORD_IO.PUT (EWDS); NEW_LINE;
+         -- EWDS_RECORD_IO.PUT (NEW_EWDS); NEW_LINE;
 
          if ewds.kind > new_ewds.kind  then  --  Large KIND = high priority
             null;
@@ -49,19 +49,19 @@ begin
 
       else
 
-         Write(ewds_file, ewds);
+         Write (ewds_file, ewds);
          ewds := new_ewds;
          number_of_ewords := number_of_ewords + 1;
       end if;
-      --PUT('.');
+      --PUT ('.');
    end loop;
-   Close(ewds_file);
+   Close (ewds_file);
    Ada.Text_IO.New_Line;
-   Ada.Text_IO.Put_Line("NUMBER_OF_EWORDS = " & Integer'Image(number_of_ewords));
+   Ada.Text_IO.Put_Line ("NUMBER_OF_EWORDS = " & Integer'Image (number_of_ewords));
 exception
    when others =>
-      Close(ewds_file);
+      Close (ewds_file);
       Ada.Text_IO.New_Line;
-      Ada.Text_IO.Put_Line("MAKEEFIL terminated on an exception");
-      Ada.Text_IO.Put_Line("NUMBER_OF_EWORDS = " & Integer'Image(number_of_ewords));
+      Ada.Text_IO.Put_Line ("MAKEEFIL terminated on an exception");
+      Ada.Text_IO.Put_Line ("NUMBER_OF_EWORDS = " & Integer'Image (number_of_ewords));
 end makeefil;
