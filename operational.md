@@ -233,11 +233,12 @@ examples exactly - things are changing - but the principle is there.  A
 recent modification is the output of dictionary forms or 'principal parts'
 (shown below for some examples).
 
-<PRE><TT>=>agricolarum
-agricol.arum         N      1 1 GEN P M
-agricola, agricolae  N    M   [XAXBO]
-farmer, cultivator, gardener, agriculturist; plowman, countryman, peasant;
-</TT></PRE>
+    =>agricolarum
+    agricol.arum         N      1 1 GEN P M
+    agricola, agricolae  N    M   [XAXBO]
+    farmer, cultivator, gardener, agriculturist; plowman, countryman, peasant;
+
+
 
 
 This is a simple first declension noun, and a unique interpretation.  The
@@ -276,32 +277,34 @@ They only agree in case, number, and gender (NOM S N),
 which are listed in the output.)
 
 
-<PRE><TT>=>feminae
-femin.ae             N      1 1 GEN S F
-femin.ae             N      1 1 DAT S F
-femin.ae             N      1 1 NOM P F
-femin.ae             N      1 1 VOC P F
-femina, feminae  N    F   [XXXAX]
-woman; female;
-</TT></PRE>
+    =>feminae
+    femin.ae             N      1 1 GEN S F
+    femin.ae             N      1 1 DAT S F
+    femin.ae             N      1 1 NOM P F
+    femin.ae             N      1 1 VOC P F
+    femina, feminae  N    F   [XXXAX]
+    woman; female;
+
+
 
 
 This word has several possible interpretations in case and number
 (Singular and Plural).  The gender is Feminine.  Presumably, the user can
 examine the adjoining words and reduce the set of possibilities.
 
-<PRE><TT>=>cornu
-corn.u               N      4 1 ABL S F
-cornus, cornus  N    F   [XXXCO]
-cornel-cherry-tree (Cornus mas); cornel wood; javelin (of cornel wood);
-corn.u               N      4 2 NOM S N
-corn.u               N      4 2 DAT S N
-corn.u               N      4 2 ABL S N
-corn.u               N      4 2 ACC S N
-cornu, cornus  N    N   [XXXAO]
-horn; hoof; beak/tusk/claw; bow; horn/trumpet; end, wing of army; mountain top;
-*
-</TT></PRE>
+    =>cornu
+    corn.u               N      4 1 ABL S F
+    cornus, cornus  N    F   [XXXCO]
+    cornel-cherry-tree (Cornus mas); cornel wood; javelin (of cornel wood);
+    corn.u               N      4 2 NOM S N
+    corn.u               N      4 2 DAT S N
+    corn.u               N      4 2 ABL S N
+    corn.u               N      4 2 ACC S N
+    cornu, cornus  N    N   [XXXAO]
+    horn; hoof; beak/tusk/claw; bow; horn/trumpet; end, wing of army; mountain top;
+    *
+
+
 
 
 Here is an example of another declension and two variants.  The
@@ -311,53 +314,57 @@ The horn parse is very frequent (A), while the cornel option (C) is
 less so but still common.
 
 
-<PRE><TT>=>ego
-ego                  PRON   5 1 NOM S C
- [XXXAX]
-I, me; myself;</TT></PRE>
+    =>ego
+    ego                  PRON   5 1 NOM S C
+     [XXXAX]
+    I, me; myself;
+
 
 
 A pronoun is much like a noun.  The gender is common (C), that is, it may
 be masculine or feminine.  For some odd words, especially including pronouns,
 there is no dictionary form given.
 
-<PRE><TT>=>illud
-ill.ud               PRON   6 1 NOM S N
-ill.ud               PRON   6 1 ACC S N
-ille, illa, illud  PRON   [XXXAX]
-that; those (pl.); also DEMONST; that person/thing; the well known; the former;
-*
-</TT></PRE>
+    =>illud
+    ill.ud               PRON   6 1 NOM S N
+    ill.ud               PRON   6 1 ACC S N
+    ille, illa, illud  PRON   [XXXAX]
+    that; those (pl.); also DEMONST; that person/thing; the well known; the former;
+    *
+
+
 The asterisk means that there are other, less probable forms which have been
 trimmed, but which may be recovered by running with the TRIM parameter reset.
 
-<PRE><TT>=>hic
-h.ic                 PRON   3 1 NOM S M
-hic, haec, hoc  PRON   [XXXAX]
-this; these (pl.); also DEMONST;
-hic                  ADV    POS
-hic                 ADV   [XXXCX]
-here, in this place; in the present circumstances;</TT></PRE>
+    =>hic
+    h.ic                 PRON   3 1 NOM S M
+    hic, haec, hoc  PRON   [XXXAX]
+    this; these (pl.); also DEMONST;
+    hic                  ADV    POS
+    hic                 ADV   [XXXCX]
+    here, in this place; in the present circumstances;
+
 
 
 In this case there is a adjectival/demonstrative pronoun, or it may be an
 adverb.  The POS means that the comparison of the adverb is positive.
 
-<PRE><TT>=>bonum
-bon.um               N      2 1 ACC S M
-bonus, boni  N    M   [XXXCO]
-good/moral/honest/brave man; man of honor, gentleman; better/rich people (pl.);
-bon.um               N      2 2 NOM S N
-bon.um               N      2 2 ACC S N
-bonum, boni  N    N   [XXXAO]
-good, good thing, profit, advantage; goods (pl.), possessions, wealth, estate;
-bon.um               ADJ    1 1 NOM S N POS
-bon.um               ADJ    1 1 ACC S M POS
-bon.um               ADJ    1 1 ACC S N POS
-bonus, bona -um, melior -or -us, optimus -a -um  ADJ   [XXXAO]
-good, honest, brave, noble, kind, pleasant, right, useful; valid; healthy;
-*
-</TT></PRE>
+    =>bonum
+    bon.um               N      2 1 ACC S M
+    bonus, boni  N    M   [XXXCO]
+    good/moral/honest/brave man; man of honor, gentleman; better/rich people (pl.);
+    bon.um               N      2 2 NOM S N
+    bon.um               N      2 2 ACC S N
+    bonum, boni  N    N   [XXXAO]
+    good, good thing, profit, advantage; goods (pl.), possessions, wealth, estate;
+    bon.um               ADJ    1 1 NOM S N POS
+    bon.um               ADJ    1 1 ACC S M POS
+    bon.um               ADJ    1 1 ACC S N POS
+    bonus, bona -um, melior -or -us, optimus -a -um  ADJ   [XXXAO]
+    good, honest, brave, noble, kind, pleasant, right, useful; valid; healthy;
+    *
+
+
 
 
 Here we have an adjective, but it might also be a noun.  The
@@ -367,70 +374,76 @@ The user must generate form this the meanings for other comparisons.
 Check the comparison value before deciding on the real meaning.
 Again, there is an asterisk, indicating further inflected forms were trimmed out.
 
-<PRE><TT>=>facile
-facil.e              ADJ    3 2 NOM S N POS
-facil.e              ADJ    3 2 ABL S X POS
-facil.e              ADJ    3 2 ACC S N POS
-facilis, facile, facilior -or -us, facillimus -a -um  ADJ   [XXXAX]
-easy, easy to do, without difficulty, ready, quick, good natured, courteous;
-facile               ADV    POS
-facile, facilius, facillime  ADV   [XXXBO]
-easily, readily, without difficulty; generally, often; willingly; heedlessly;
-*
-</TT></PRE>
+    =>facile
+    facil.e              ADJ    3 2 NOM S N POS
+    facil.e              ADJ    3 2 ABL S X POS
+    facil.e              ADJ    3 2 ACC S N POS
+    facilis, facile, facilior -or -us, facillimus -a -um  ADJ   [XXXAX]
+    easy, easy to do, without difficulty, ready, quick, good natured, courteous;
+    facile               ADV    POS
+    facile, facilius, facillime  ADV   [XXXBO]
+    easily, readily, without difficulty; generally, often; willingly; heedlessly;
+    *
+
+
 
 
 Here is an adjective or and adverb.  Although they are related in meaning,
 they are different words.
 
-<PRE><TT>=>acerrimus
-acerri.mus           ADJ    3 3 NOM S M SUPER
-acer, acris -e, acrior -or -us, acerrimus -a -um  ADJ   [XXXAO]
-sharp, bitter, pointed, piercing, shrill; sagacious, keen; severe, vigorous;
-</TT></PRE>
+    =>acerrimus
+    acerri.mus           ADJ    3 3 NOM S M SUPER
+    acer, acris -e, acrior -or -us, acerrimus -a -um  ADJ   [XXXAO]
+    sharp, bitter, pointed, piercing, shrill; sagacious, keen; severe, vigorous;
+
+
 
 
 Here we have an adjective in the SUPERlative.  The meanings are all
 POSitive and the user must add the -est by himself.
 
-<PRE><TT>=>optime
-optime               ADV    SUPER
-bene, melius, optime  ADV   [XXXAO]
-well, very, quite, rightly, agreeably, cheaply, in good style; better; best;
-opti.me              ADJ    1 1 VOC S M SUPER
-bonus, bona -um, melior -or -us, optimus -a -um  ADJ   [XXXAO]
-good, honest, brave, noble, kind, pleasant, right, useful; valid; healthy;
-</TT></PRE>
+    =>optime
+    optime               ADV    SUPER
+    bene, melius, optime  ADV   [XXXAO]
+    well, very, quite, rightly, agreeably, cheaply, in good style; better; best;
+    opti.me              ADJ    1 1 VOC S M SUPER
+    bonus, bona -um, melior -or -us, optimus -a -um  ADJ   [XXXAO]
+    good, honest, brave, noble, kind, pleasant, right, useful; valid; healthy;
+
+
 
 Here is an adjective or and adverb, both are SUPERlative.
 
-<PRE><TT>=>monuissemus
-monu.issemus         V      2 1 PLUP ACTIVE  SUB 1 P
-moneo, monere, monui, monitus  V   [XXXAX]
-remind, advise, warn; teach; admonish; foretell, presage;
-</TT></PRE>
+    =>monuissemus
+    monu.issemus         V      2 1 PLUP ACTIVE  SUB 1 P
+    moneo, monere, monui, monitus  V   [XXXAX]
+    remind, advise, warn; teach; admonish; foretell, presage;
+
+
 
 
 Here is a verb for which the form is PLUPerfect, ACTIVE, SUBjunctive, 1st
 person, Plural.  It is 2nd conjugation, variant 1.
 
-<PRE><TT>=>amat
-am.at                V      1 1 PRES ACTIVE  IND 3 S
-amo, amare, amavi, amatus  V   [XXXAO]
-love, like; fall in love with; be fond of; have a tendency to;
-</TT></PRE>
+    =>amat
+    am.at                V      1 1 PRES ACTIVE  IND 3 S
+    amo, amare, amavi, amatus  V   [XXXAO]
+    love, like; fall in love with; be fond of; have a tendency to;
+
+
 
 
 Another regular verb, PRESent, ACTIVE, INDicative.
 
-<PRE><TT>=>amatus
-amat.us              VPAR   1 1 NOM S M PERF PASSIVE PPL
-amo, amare, amavi, amatus  V   [XXXAO]
-love, like; fall in love with; be fond of; have a tendency to;
-amat.us              ADJ    1 1 NOM S M POS
-amatus, amata, amatum  ADJ   [XXXEO]    uncommon
-loved, beloved;
-</TT></PRE>
+    =>amatus
+    amat.us              VPAR   1 1 NOM S M PERF PASSIVE PPL
+    amo, amare, amavi, amatus  V   [XXXAO]
+    love, like; fall in love with; be fond of; have a tendency to;
+    amat.us              ADJ    1 1 NOM S M POS
+    amatus, amata, amatum  ADJ   [XXXEO]    uncommon
+    loved, beloved;
+
+
 
 
 Here we have the PERFect, PASSIVE ParticiPLe, in the NOMinative, Singular,
@@ -440,52 +453,56 @@ dictionary entry.  Sometimes there may be a special or idiomatic meaning
 not obvious from the verb, or the meaning may stray from the original.
 In this case, the verb is very frequent, but the use as a adjective is uncommon.
 
-<PRE><TT>=>amatu
-amat.u               SUPINE 1 1 ABL S N
-amo, amare, amavi, amatus  V   [XXXAO]
-love, like; fall in love with; be fond of; have a tendency to;
-</TT></PRE>
+    =>amatu
+    amat.u               SUPINE 1 1 ABL S N
+    amo, amare, amavi, amatus  V   [XXXAO]
+    love, like; fall in love with; be fond of; have a tendency to;
+
+
 
 
 Here is the SUPINE of the verb in the ABLative Singular.
 
-<PRE><TT>=>orietur
-ori.etur             V      4 1 FUT          IND 3 S
-orior, oriri, oritus sum  V    DEP   [XXXAO]
-rise (sun/river); arise/emerge, crop up; get up (wake); begin; originate from;
-be born/created; be born of, decend/spring from; proceed/be derived (from);
-ori.etur             V      3 1 FUT          IND 3 S
-orior, ori, ortus sum  V    DEP   [XXXBO]
-rise (sun/river); arise/emerge, crop up; get up (wake); begin; originate from;
-be born/created; be born of, decend/spring from; proceed/be derived (from);
-</TT></PRE>
+    =>orietur
+    ori.etur             V      4 1 FUT          IND 3 S
+    orior, oriri, oritus sum  V    DEP   [XXXAO]
+    rise (sun/river); arise/emerge, crop up; get up (wake); begin; originate from;
+    be born/created; be born of, decend/spring from; proceed/be derived (from);
+    ori.etur             V      3 1 FUT          IND 3 S
+    orior, ori, ortus sum  V    DEP   [XXXBO]
+    rise (sun/river); arise/emerge, crop up; get up (wake); begin; originate from;
+    be born/created; be born of, decend/spring from; proceed/be derived (from);
+
+
 
 
 For DEPondent verbs the passive form is to be translated as if it were
 active voice, so there is no VOICE given in the output.
 
-<PRE><TT>=>ab
-ab                   PREP   ABL
-ab  PREP  ABL   [XXXAO]
-by (agent), from (departure, cause, remote origin/time); after (reference);
-</TT></PRE>
+    =>ab
+    ab                   PREP   ABL
+    ab  PREP  ABL   [XXXAO]
+    by (agent), from (departure, cause, remote origin/time); after (reference);
+
+
 
 
 Here is a PREPosition that takes an ABLative for an object.
 
-<PRE><TT>=>sine
-sin.e                N      2 2 NOM P N
-sin.e                N      2 2 ACC P N
-sinum, sini  N    N   [XXXCX]
-bowl for serving wine, etc;
-sin.e                V      3 1 PRES ACTIVE  IMP 2 S
-sino, sinere, sivi, situs  V   [XXXAX]
-allow, permit;
-sine                 PREP   ABL
-sine  PREP  ABL   [XXXAX]
-without;
-*
-</TT></PRE>
+    =>sine
+    sin.e                N      2 2 NOM P N
+    sin.e                N      2 2 ACC P N
+    sinum, sini  N    N   [XXXCX]
+    bowl for serving wine, etc;
+    sin.e                V      3 1 PRES ACTIVE  IMP 2 S
+    sino, sinere, sivi, situs  V   [XXXAX]
+    allow, permit;
+    sine                 PREP   ABL
+    sine  PREP  ABL   [XXXAX]
+    without;
+    *
+
+
 
 
 Here is a PREPosition that might also be a Verb or a Noun.
@@ -495,45 +512,49 @@ Just be reminded that the frequency given for a verb is for the
 sum of all the couple of hundred forms of the verb, not just
 the one form that is parsed.
 
-<PRE><TT>=>contra
-contra               ADV    POS
-contra              ADV   [XXXAO]
-facing, face-to-face, in the eyes; towards/up to; across; in opposite direction;
-against, opposite, opposed/hostile/contrary/in reply to; directly over/level;
-otherwise, differently; conversely; on the contrary; vice versa;
-contra               PREP   ACC
-contra  PREP  ACC   [XXXAO]
-against, facing, opposite; weighed against; as against; in resistance/reply to;
-contrary to, not in conformance with; the reverse of; otherwise than;
-towards/up to, in direction of;  directly over/level with; to detriment of;
-</TT></PRE>
+    =>contra
+    contra               ADV    POS
+    contra              ADV   [XXXAO]
+    facing, face-to-face, in the eyes; towards/up to; across; in opposite direction;
+    against, opposite, opposed/hostile/contrary/in reply to; directly over/level;
+    otherwise, differently; conversely; on the contrary; vice versa;
+    contra               PREP   ACC
+    contra  PREP  ACC   [XXXAO]
+    against, facing, opposite; weighed against; as against; in resistance/reply to;
+    contrary to, not in conformance with; the reverse of; otherwise than;
+    towards/up to, in direction of;  directly over/level with; to detriment of;
+
+
 
 
 Here is a PREPosition that might also be an ADVerb.  This is a very common
 situation, with the meanings being much the same.
 
-<PRE><TT>=>et
-et                   CONJ
-et                  CONJ   [XXXAX]
-and, and even; also, even;  (et ... et = both ... and);
-</TT></PRE>
+    =>et
+    et                   CONJ
+    et                  CONJ   [XXXAX]
+    and, and even; also, even;  (et ... et = both ... and);
+
+
 
 
 Here is a straight CONJunction.
 
-<PRE><TT>=>vae
-vae                  INTERJ
-vae                 INTERJ   [XXXBX]
-alas, woe, ah; oh dear;  (Vae, puto deus fio - Vespasian); Bah!, Curses!;
-</TT></PRE>
+    =>vae
+    vae                  INTERJ
+    vae                 INTERJ   [XXXBX]
+    alas, woe, ah; oh dear;  (Vae, puto deus fio - Vespasian); Bah!, Curses!;
+
+
 
 
 Here is a straight INTERJection.
 
-<PRE><TT>=>septem
-septem               NUM    2 0 X   X X CARD
-septem, septimus -a -um, septeni -ae -a, septie(n)s  NUM   [XXXAX]
- 7 - (CARD answers 'how many');</TT></PRE>
+    =>septem
+    septem               NUM    2 0 X   X X CARD
+    septem, septimus -a -um, septeni -ae -a, septie(n)s  NUM   [XXXAX]
+     7 - (CARD answers 'how many');
+
 
 
 Numbers are recognized as such and given a value.
@@ -541,23 +562,25 @@ An additional provision is the attempt to recognize and display the value
 of Roman numerals, even combinations of appropriate letters that do not
 parse conventionally to a value but may be ill-formed Roman numerals.
 
-<PRE><TT>=>VII
-VII                  NUM    2 0 X   X X CARD
-7  as a ROMAN NUMERAL;
-</TT></PRE>
+    =>VII
+    VII                  NUM    2 0 X   X X CARD
+    7  as a ROMAN NUMERAL;
+
+
 
 
 Beyond simple dictionary entry words, the program
 can construct additional words with prefixes, suffixes and other ADDONS.
 
-<PRE><TT>=>populusque
-que                  TACKON
--que = and (enclitic, translated before attached word); completes plerus/uter;
-popul.us             N      2 1 NOM S M
-populus, populi  N    M   [XXXAO]
-people, nation, State; public/populace/multitude/crowd; a following;
-members of a society/sex; region/district (L+S); army (Bee);
-</TT></PRE>
+    =>populusque
+    que                  TACKON
+    -que = and (enclitic, translated before attached word); completes plerus/uter;
+    popul.us             N      2 1 NOM S M
+    populus, populi  N    M   [XXXAO]
+    people, nation, State; public/populace/multitude/crowd; a following;
+    members of a society/sex; region/district (L+S); army (Bee);
+
+
 
 Here the input word is recognized as a combination of a base word
 and an enclitic (-que) tacked on.  This particular enclitic is
@@ -567,12 +590,13 @@ in the output.
 
 
 
-<PRE><TT>=>pseudochristus
-pseudo               PREFIX
-false, fallacious, deceitful; sperious; imitation of;
-christ.us            N      2 1 NOM S M
-Christus, Christi  N    M   [XEXAO]
-Christ;</TT></PRE>
+    =>pseudochristus
+    pseudo               PREFIX
+    false, fallacious, deceitful; sperious; imitation of;
+    christ.us            N      2 1 NOM S M
+    Christus, Christi  N    M   [XEXAO]
+    Christ;
+
 
 Here there is a prefix and a base.  The user must make the combination
 into a word or phrase.
@@ -640,133 +664,134 @@ phase of WORDS to get the full set of meanings so that no unintended conflicts
 appear.
 
 
-<PRE><TT>
-love v
 
-amo, amare, amavi, amatus  V     1 1 [XXXAO]
-love, like; fall in love with; be fond of; have a tendency to;
+    love v
 
-diligo, diligere, dilexi, dilectus  V     3 1 [XXXAX]
-select, pick, single out; love, value, esteem; approve, aspire to, appreciate;
+    amo, amare, amavi, amatus  V     1 1 [XXXAO]
+    love, like; fall in love with; be fond of; have a tendency to;
 
-amo, amare, additional, forms  V     9 1 [BXXEO]
-love, like; fall in love with; be fond of; have a tendency to;
+    diligo, diligere, dilexi, dilectus  V     3 1 [XXXAX]
+    select, pick, single out; love, value, esteem; approve, aspire to, appreciate;
 
-ardeo, ardere, arsi, arsus  V     2 1 [XXXAO]
-be on fire; burn, blaze; flash; glow, sparkle; rage; be in a turmoil/love;
+    amo, amare, additional, forms  V     9 1 [BXXEO]
+    love, like; fall in love with; be fond of; have a tendency to;
 
-adamo, adamare, adamavi, adamatus  V     1 1  TRANS   [XXXBO]
-fall in love/lust with; love passionately/adulterously; admire greatly; covet;
+    ardeo, ardere, arsi, arsus  V     2 1 [XXXAO]
+    be on fire; burn, blaze; flash; glow, sparkle; rage; be in a turmoil/love;
 
-deamo, deamare, deamavi, deamatus  V     1 1  TRANS   [XXXCO]
-love dearly; be passionately/desperately in love with; be delighted with/obliged
-*
+    adamo, adamare, adamavi, adamatus  V     1 1  TRANS   [XXXBO]
+    fall in love/lust with; love passionately/adulterously; admire greatly; covet;
 
-in prep
+    deamo, deamare, deamavi, deamatus  V     1 1  TRANS   [XXXCO]
+    love dearly; be passionately/desperately in love with; be delighted with/obliged
+    *
 
-in  PREP  ABL    [XXXAX]
-in, on, at (space); in accordance with/regard to/the case of; within (time);
+    in prep
 
-ante  PREP  ACC    [XXXAO]
-in front/presence of, in view; before (space/time/degree); over against, facing;
+    in  PREP  ABL    [XXXAX]
+    in, on, at (space); in accordance with/regard to/the case of; within (time);
 
-super  PREP  ABL    [XXXAX]
-over (space), above, upon, in addition to; during (time); concerning; beyond;
+    ante  PREP  ACC    [XXXAO]
+    in front/presence of, in view; before (space/time/degree); over against, facing;
 
-in  PREP  ACC    [XXXAX]
-into; about, in the mist of; according to, after (manner); for; to, among;
+    super  PREP  ABL    [XXXAX]
+    over (space), above, upon, in addition to; during (time); concerning; beyond;
 
-prae  PREP  ABL    [XXXAX]
-before, in front; in view of, because of;
+    in  PREP  ACC    [XXXAX]
+    into; about, in the mist of; according to, after (manner); for; to, among;
 
-praeter  PREP  ACC    [XXXAX]
-besides, except, contrary to; beyond (rank), in front of, before; more than;
-*
+    prae  PREP  ABL    [XXXAX]
+    before, in front; in view of, because of;
 
-in
+    praeter  PREP  ACC    [XXXAX]
+    besides, except, contrary to; beyond (rank), in front of, before; more than;
+    *
 
-intro               ADV    [XXXAX]
-within, in; to the inside, indoors;
+    in
 
-in  PREP  ABL    [XXXAX]
-in, on, at (space); in accordance with/regard to/the case of; within (time);
+    intro               ADV    [XXXAX]
+    within, in; to the inside, indoors;
 
-gener, generi  N     2 3  M   [XXXBX]
-son-in-law;
+    in  PREP  ABL    [XXXAX]
+    in, on, at (space); in accordance with/regard to/the case of; within (time);
 
-baro, baronis  N     3 1  M   [XXXBL]
-baron; magnate; tenant-in-chief (of crown/earl); burgess; official; husband;
+    gener, generi  N     2 3  M   [XXXBX]
+    son-in-law;
 
-sororius, sorori(i)  N     2 4  M   [XXXCX]
-sister's husband, brother-in-law;
+    baro, baronis  N     3 1  M   [XXXBL]
+    baron; magnate; tenant-in-chief (of crown/earl); burgess; official; husband;
 
-socrus, socrus  N     4 1  M   [XXXCX]
-father-in-law; spouse's grandfather/great grandfather;
-*
+    sororius, sorori(i)  N     2 4  M   [XXXCX]
+    sister's husband, brother-in-law;
 
-kill v
+    socrus, socrus  N     4 1  M   [XXXCX]
+    father-in-law; spouse's grandfather/great grandfather;
+    *
 
-occido, occidere, occidi, occisus  V     3 1 [XXXAX]
-kill, murder, slaughter, slay; cut/knock down; weary, be the death/ruin of;
+    kill v
 
-interficio, interficere, interfeci, interfectus  V     3 1 [XWXAX]
-kill; destroy;
+    occido, occidere, occidi, occisus  V     3 1 [XXXAX]
+    kill, murder, slaughter, slay; cut/knock down; weary, be the death/ruin of;
 
-consumo, consumere, consumpsi, consumptus  V     3 1  TRANS   [XXXAO]
-burn up, destroy/kill; put end to; reduce/wear away; annul; extinguish (right);
+    interficio, interficere, interfeci, interfectus  V     3 1 [XWXAX]
+    kill; destroy;
 
-perago, peragere, peregi, peractus  V     3 1 [XXXAX]
-disturb; finish; kill; carry through to the end, complete;
+    consumo, consumere, consumpsi, consumptus  V     3 1  TRANS   [XXXAO]
+    burn up, destroy/kill; put end to; reduce/wear away; annul; extinguish (right);
 
-dejicio, dejicere, dejeci, dejectus  V     3 1  TRANS   [XXXAS]
-|overthrow, bring down, depose; kill, destroy; shoot/strike down; fell (victim);
+    perago, peragere, peregi, peractus  V     3 1 [XXXAX]
+    disturb; finish; kill; carry through to the end, complete;
 
-deicio, deicere, dejeci, dejectus  V     3 1  TRANS   [XXXAO]
-|overthrow, bring down, depose; kill, destroy; shoot/strike down; fell (victim);
-*
+    dejicio, dejicere, dejeci, dejectus  V     3 1  TRANS   [XXXAS]
+    |overthrow, bring down, depose; kill, destroy; shoot/strike down; fell (victim);
 
-death n
+    deicio, deicere, dejeci, dejectus  V     3 1  TRANS   [XXXAO]
+    |overthrow, bring down, depose; kill, destroy; shoot/strike down; fell (victim);
+    *
 
-mors, mortis  N     3 3  F   [XXXAX]
-death; corpse; annihilation;
+    death n
 
-fatum, fati  N     2 2  N   [XPXAX]
-utterance, oracle; fate, destiny; natural term of life; doom, death, calamity;
+    mors, mortis  N     3 3  F   [XXXAX]
+    death; corpse; annihilation;
 
-funus, funeris  N     3 2  N   [XXXAX]
-burial, funeral; funeral rites; ruin; corpse; death;
+    fatum, fati  N     2 2  N   [XPXAX]
+    utterance, oracle; fate, destiny; natural term of life; doom, death, calamity;
 
-nex, necis  N     3 1  F   [XXXBX]
-death; murder;
+    funus, funeris  N     3 2  N   [XXXAX]
+    burial, funeral; funeral rites; ruin; corpse; death;
 
-letum, leti  N     2 2  N   [XXXBX]
-death, ruin, annihilation; death and destruction;
+    nex, necis  N     3 1  F   [XXXBX]
+    death; murder;
 
-Orcus, Orci  N     2 1  M   [XXXBX]
-god of the underworld, Dis; death; the underworld;
-*
+    letum, leti  N     2 2  N   [XXXBX]
+    death, ruin, annihilation; death and destruction;
 
-destruction n
+    Orcus, Orci  N     2 1  M   [XXXBX]
+    god of the underworld, Dis; death; the underworld;
+    *
 
-cinis, cineris  N     3 1  C   [XXXAO]
-ashes; embers, spent love/hate; ruin, destruction; the grave/dead, cremation;
+    destruction n
 
-pestis, pestis  N     3 3  F   [XXXBX]
-plague, pestilence, curse, destruction;
+    cinis, cineris  N     3 1  C   [XXXAO]
+    ashes; embers, spent love/hate; ruin, destruction; the grave/dead, cremation;
 
-exitium, exiti(i)  N     2 4  N   [XXXBX]
-destruction, ruin; death; mischief;
+    pestis, pestis  N     3 3  F   [XXXBX]
+    plague, pestilence, curse, destruction;
 
-ruina, ruinae  N     1 1  F   [XXXBX]
-fall; catastrophe; collapse, destruction;
+    exitium, exiti(i)  N     2 4  N   [XXXBX]
+    destruction, ruin; death; mischief;
 
-interitus, interitus  N     4 1  M   [XXXBX]
-ruin; violent/untimely death, extinction; destruction, dissolution;
+    ruina, ruinae  N     1 1  F   [XXXBX]
+    fall; catastrophe; collapse, destruction;
 
-excidium, excidi(i)  N     2 4  N   [XXXCX]
-ruin, destruction, military destruction; overthrow;
-*
-</TT></PRE>
+    interitus, interitus  N     4 1  M   [XXXBX]
+    ruin; violent/untimely death, extinction; destruction, dissolution;
+
+    excidium, excidi(i)  N     2 4  N   [XXXCX]
+    ruin, destruction, military destruction; overthrow;
+    *
+
+
 
 
 While six prioritized translations may seem like enough,
@@ -851,14 +876,14 @@ implies that all or most of the meanings are associated with that area.
 
 / [solidus] means 'or' or gives an alternative word.  It sometimes
 replaces the comma and is often used to compress the meaning into a short
-line.  
+line.
 
 
 (...) [parentheses] set off and optional word or modifier, e.g., '(nearly)
 white' means 'white' or 'nearly white', (matter in) dispute means either
 the matter in dispute or the dispute itself.  They are also used to set
 off an explanation, further information about the word or meaning, or an
-example of a translation or a word combination.  
+example of a translation or a word combination.
 
 
 ?  [question mark] in a meaning implies a doubt about the interpretation,
@@ -866,23 +891,23 @@ or even about the existence of the word at all.  For the purposes of this
 program, it does not matter much.  If the dubious word does not exist, no
 one will ask for it.  If it appears in his text, the reader is warned that
 the interpretation may be questionable to some degree, but is what is
-available.  May indicate somewhat more doubt than (perh.).  
+available.  May indicate somewhat more doubt than (perh.).
 
 
 ~ [tilde] stands for the stem or word in question.  Usually it does not
 have an ending affixed, as is the convention in other dictionaries, but
 represents the word with whatever ending is proper.  It is just a space
-saving shorthand or abbreviation.  
+saving shorthand or abbreviation.
 
 
 {~ [tilde] also is the flag for changing the language base.  ~E (plus Enter/CR)
 changes from Latin-to-English to English-to-Latin.  ~L changes back.)
 
 
-=&gt; in meaning this indicates a translation example.  
+=&gt; in meaning this indicates a translation example.
 
 
-abb.  abbreviation.  
+abb.  abbreviation.
 
 
 (Dif) - [Diferrari] is used to indicate an additional meaning taken from A
@@ -890,33 +915,33 @@ Latin-English Dictionary of St. Thomas Aquinas by Roy J. Diferrari.  This
 is singled out because of the importance of Aquinas.  The reference is to
 be applied from the last semicolon before the mark.  It is likely that the
 meaning diverges from the base by being medieval and ecclesiastical, but
-not so overwhelming as to deserve a separate entry.  
+not so overwhelming as to deserve a separate entry.
 
 
 (Douay) is used to designate those words for which the meaning has been
 derived or modified by examination of the Douay translation of the Latin
-Vulgate Bible of St Jerome.  
+Vulgate Bible of St Jerome.
 
 
 (eccl.) ecclesiastical - designating a special church meaning in a list of
 conventional meanings, an additional meaning not sufficient to justify a
-separate entry with an ecclesiastical code.  
+separate entry with an ecclesiastical code.
 
 
 esp.  [especially] - indicates a significant association, but is only
-advisory.  
+advisory.
 
 
 (King James) or (KJames) is used to designate those words for which the
 meaning has been derived or modified by examination of the King James
-Bible in connection with the Latin Vulgate Bible of St Jerome.  
+Bible in connection with the Latin Vulgate Bible of St Jerome.
 
 
 (KLUDGE) This indicates that the particular form is distorted in order to
 make it come out correctly.  This usually takes the form of a special
 conjugational form applied to a few words, not applicable to other words
 of the same conjugation or declension.  The user can expect the form and
-meaning to be correct, but the numerical coding will be odd.  
+meaning to be correct, but the numerical coding will be odd.
 
 
 (L+S) [Lewis and Short] is used to indicate that the meaning starting from
@@ -935,7 +960,7 @@ there.  There are cases where OLD and L+S give somewhat different
 spellings and meanings for the 'same' word (same in the sense that both
 dictionaries point to the same citation).  In these cases a combination of
 meanings are given for both entries with the (L+S) code distinction and
-the entries of different spelling or declension have the SOURCE coded.  
+the entries of different spelling or declension have the SOURCE coded.
 
 
 NT [New Testament] is a reference in the Bible.
@@ -946,7 +971,7 @@ attributed.  While it is usually true that if a classical word has other
 than OLD as the listed source then it does not appear in that form in OLD,
 this is not always the case.  On occasion some other dictionary gives a
 much better or more complete and understandable definition and the honor
-of source is thereto given.  
+of source is thereto given.
 
 
 OT [Old Testament] is a reference in the Bible.
@@ -963,7 +988,7 @@ the user is encouraged to refer to it.
 
 
 perh.  [perhaps] - denotes an additional uncertainty, but not as strong as
-(?).  
+(?).
 
 
 (pl.) [plural] means that the Latin word is believed by scholars to be
@@ -977,15 +1002,15 @@ program does not necessarily exclude a singular form in the output.  While it ma
 true that in good, classical Latin it is never used in the singular, this
 does not mean that some text somewhere might not use the singular, nor
 that it is uncommon in later Latin. The TRIM_OUTPUT option may cause only plural
-forms to appear, with no TRIM_OUTPUT the singular will be shown. 
+forms to appear, with no TRIM_OUTPUT the singular will be shown.
 
 
 prob.  [probably] - denotes some uncertainty, but not as much as
-(perh.).  
+(perh.).
 
 
 pure Latin ...  indicates a pure Latin term for a word which is derived
-from another language (almost certainly Greek).  
+from another language (almost certainly Greek).
 
 
 (rude) - indicates that this meaning was used in a rude, vulgar, coarse,
@@ -994,14 +1019,14 @@ is likely from graffiti or epigrams, or in plays in which the dialogue is
 to indicate that the characters are low or crude.  Meanings given by the
 program for these words are more polite, and the user is invited to
 substitute the current street language or obscenity of his choice to get
-the flavor of text.  
+the flavor of text.
 
 
 (sg.) [singular] means that the Latin word is believed by scholars to be
 used always in the singular.  If it appears in the beginning of the
 meaning, before the first comma, it applies to all the meanings.  If it
 appears later, it applies only to that and later meanings.  For the
-purpose of this program, this is only advisory.  
+purpose of this program, this is only advisory.
 
 
 usu.  [usually] is weakly advisory.  (usu.  pl.) is even weaker than (pl.)

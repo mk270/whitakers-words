@@ -302,13 +302,14 @@ The numerical values of each consideration are added or subtracted to give the p
 The obvious choice for frequency weights might be the comparative paper dictionary citations,
 which would be roughly:
 
-<PRE><TT>
-A=>50
-B=>25
-C=>10
-D=> 5
-E=> 3
-F=> 1</TT></PRE>
+
+    A=>50
+    B=>25
+    C=>10
+    D=> 5
+    E=> 3
+    F=> 1
+
 
 
 However these would weight the A frequency so heavily
@@ -316,14 +317,15 @@ that it would be impossible to overcome with anything
 that could be applied to lower frequencies.  So we must reject this scale
 for a more managable set:
 
-<PRE><TT>
-A=>70
-B=>60
-C=>50
-D=>40
-E=>30
-F=>20
-etc.</TT></PRE>
+
+    A=>70
+    B=>60
+    C=>50
+    D=>40
+    E=>30
+    F=>20
+    etc.
+
 
 
 (N is special case, add 25 after formula)
@@ -361,11 +363,10 @@ Priority = FREQ value + Compound value + SEMI value + Continuation value + First
 
 Example: for lamp - lanum N 3 2 N
 
-<PRE><TT>
-FREQ A => 70
-Compound No => 10
-Semi 2 => -3
-Continuattion Line No => 0
-Pure 1st No => 0
-RANK/priority => 77</TT></PRE>
 
+    FREQ A => 70
+    Compound No => 10
+    Semi 2 => -3
+    Continuattion Line No => 0
+    Pure 1st No => 0
+    RANK/priority => 77

@@ -28,12 +28,13 @@ DICT.LOC
 A dictionary entry for WORDS (in the simplest, editable form as read in a
 DICT.LOC) is
 
-<PRE><TT>
-aqu   aqu
-N    1 1 F T     X X X X X
-water;
 
-</TT></PRE>
+    aqu   aqu
+    N    1 1 F T     X X X X X
+    water;
+
+
+
 
 For a noun there are two stems.  The definition of STEM is inherent in
 the coding of inflections in the program.  Different grammars have
@@ -42,34 +43,38 @@ usage.
 
 To these stems are applied, as appropriate, the endings
 
-<PRE><TT>
-         S       P
-NOM      a       ae
-GEN      ae      arum
-DAT      ae      is
-ACC      am      as
-ABL      a       is
-</TT></PRE>
+
+             S       P
+    NOM      a       ae
+    GEN      ae      arum
+    DAT      ae      is
+    ACC      am      as
+    ABL      a       is
+
+
 
 Or rather, the input word is analyzed for possible endings, and when these
 are subtracted a match is sought with the dictionary stems.  A file
 (INFLECTS.LAT) gives all the endings.
 
 In this example, the first line
-<PRE><TT>
-aqu   aqu
-</TT></PRE>
+
+    aqu   aqu
+
+
 contains the two noun stems for the word found in printed dictionaries as
 
-<PRE><TT>
-aqua, -ae
-</TT></PRE>
+
+    aqua, -ae
+
+
 
 The second line
 
-<PRE><TT>
-N    1 1 F T     X X X X X
-</TT></PRE>
+
+    N    1 1 F T     X X X X X
+
+
 says it is a noun (N), of the first declension, first variant, is feminine
 (F), and is a thing (T), as opposed to a person, location, etc.  The X X X
 X X represents coding about the age in which it is applicable, the
@@ -80,9 +85,10 @@ although something must be filled in and X X X X X is always satisfactory.
 The last line is the English definition.  It can be as long as 80
 characters.
 
-<PRE><TT>
-water;
-</TT></PRE>
+
+    water;
+
+
 
 
 The case and exact spacing of the stems and codes is unimportant, as long
@@ -126,14 +132,15 @@ code but not in a dictionary), and C for common (M + F).
 
 There is also a
 
-<PRE><TT>
-NOUN_KIND_TYPE (X,            --  unknown, nondescript
-                N,            --  proper Name
-                L,            --  Locale, country, city
-                W,            --  a place Where
-                P,            --  a Person type
-                T)            --  a Thing
-</TT></PRE>
+
+    NOUN_KIND_TYPE (X,            --  unknown, nondescript
+                    N,            --  proper Name
+                    L,            --  Locale, country, city
+                    W,            --  a place Where
+                    P,            --  a Person type
+                    T)            --  a Thing
+
+
 which you probably do not care about either.  Most entries will all be
 Thing.
 
@@ -142,11 +149,12 @@ Other codes are enumerated in the body of this document.
 Verbs are done likewise, but there are four stems, as described below.  An
 example is
 
-<PRE><TT>
-am  am  amav  amat
-V 1 1 X    X X X A O
-love;
-</TT></PRE>
+
+    am  am  amav  amat
+    V 1 1 X    X X X A O
+    love;
+
+
 
 
 Now comes the hard part.  When starting from a dictionary one has all the
@@ -177,21 +185,23 @@ X X works fine.
 
 So we have
 
-<PRE><TT>
-elythris   elythr
-N   3 3  F T       X X X X X
-elytra, wing cover of beetles
-</TT></PRE>
+
+    elythris   elythr
+    N   3 3  F T       X X X X X
+    elytra, wing cover of beetles
+
+
 
 
 sat, I happen to know is an abbreviated form of satis, so it is easy.  If
 you want the adverb form, as you indicate:
 
-<PRE><TT>
-Sat
-ADV POS     X X X X X
-sufficiently, adequately; quite, well enough; fairly, (moderately)
-</TT></PRE>
+
+    Sat
+    ADV POS     X X X X X
+    sufficiently, adequately; quite, well enough; fairly, (moderately)
+
+
 
 
 Adverbs have a comparison parameter (X, POS, COMP, SUPER).  Most will be
@@ -199,69 +209,73 @@ POS.
 
 It also is an indeclinable (N 9 9) substantive:
 
-<PRE><TT>
-sat
-N 9 9 N T     X X X X X
-enough, sufficient; enough and some to spare; one of sufficient power
 
-</TT></PRE>
+    sat
+    N 9 9 N T     X X X X X
+    enough, sufficient; enough and some to spare; one of sufficient power
+
+
+
 
 
 Deplanata seems to be a 1-2 declension adjective, the -us, -a, -um form.
 It also seems to derived from the verb deplanto (V 1 1) - break off/sever
 (branch/shoot).
 
-<PRE><TT>
-deplanat   deplanat
-ADJ 1 1 POS     X X X X X
-broken off/severed (branch/shoot); (flattened)
-</TT></PRE>
+
+    deplanat   deplanat
+    ADJ 1 1 POS     X X X X X
+    broken off/severed (branch/shoot); (flattened)
+
+
 
 
 Adjectives have a DECN and a comparison.
 
 The following were not at the time in the dictionary, but were in the OLD.
 
-<PRE><TT>
-alat  alat
-ADJ 1 1 POS     X X X X X
-winged, having wings; having a broad/expanded margin
+
+    alat  alat
+    ADJ 1 1 POS     X X X X X
+    winged, having wings; having a broad/expanded margin
 
 
-(punct - ul - at  -> hole/prick/puncture - small - having)
+    (punct - ul - at  -> hole/prick/puncture - small - having)
 
-punctulat   punctulat
-ADJ 1 1 POS    X X X X X
-punctured; having small holes/pricks/stabs/punctures
+    punctulat   punctulat
+    ADJ 1 1 POS    X X X X X
+    punctured; having small holes/pricks/stabs/punctures
 
-appendiculat   appendiculat
-ADJ 1 1 POS    X X X X X
-appendiculate; having/fringed by small appendages/bodies
-
-
-acetabul   acetabul
-N 2 2 N T     X X X X X
-small cup (vinegar), 1/8 pint; cupped part (plant); sucker; socket, (cavity)
+    appendiculat   appendiculat
+    ADJ 1 1 POS    X X X X X
+    appendiculate; having/fringed by small appendages/bodies
 
 
-ruf  ruf
-ADJ   1 1 POS     X X X X X
-red (various); tawny; red-haired (persons); strong yellow/moderate orange
+    acetabul   acetabul
+    N 2 2 N T     X X X X X
+    small cup (vinegar), 1/8 pint; cupped part (plant); sucker; socket, (cavity)
 
 
-testace   testace
-ADJ  1 1 POS    X X X X X
-bricks; resembling bricks (esp. color); having hard covering/shell (animals)
-</TT></PRE>
+    ruf  ruf
+    ADJ   1 1 POS     X X X X X
+    red (various); tawny; red-haired (persons); strong yellow/moderate orange
+
+
+    testace   testace
+    ADJ  1 1 POS    X X X X X
+    bricks; resembling bricks (esp. color); having hard covering/shell (animals)
+
+
 
 
 This one had no classical correspondence.
 
-<PRE><TT>
-brunne   brunne
-ADJ 1 1  POS     X X X X X
-brown
-</TT></PRE>
+
+    brunne   brunne
+    ADJ 1 1  POS     X X X X X
+    brown
+
+
 
 
 There is one other remark.  It is probably wise to include in the
@@ -273,137 +287,138 @@ general distribution of [source code and data files](https://github.com/mk270/wh
 
 Here is a quick reference for the most common types.
 
-<PRE><TT>
-
---  All first declension nouns  - N 1 1
---  Ex: aqua aquae  =>  aqu aqu
-
---  Second declension nouns in "us"  - N 2 1
---  Ex: amicus amici  =>  amic amic
-
---  Second declension neuter nouns - N 2 2
---  Ex: verbum verbi  =>  verb verb
-
---  Second declension nouns in "er" whether of not the "er" in base - N 2 3
---  Ex; puer pueri  =>  puer puer
---  Ex: ager agri   =>  ager agr
-
---  Early (BC) 2nd declension nouns in ius/ium (not filius-like)  - N 2 4
---  for the most part formed GEN S in 'i', not 'ii'   --  G+L 33 R 1
---  Dictionaries often show as ...(i)i
---  N 2 4 uses GENDER discrimination to reduce to single VAR
---  Ex: radius rad(i)i  => radi radi        M
---  Ex: atrium atr(i)i  =>  atri atri       N
-
---  Third declension M or F nouns whose stems end in a consonant - N 3 1
---  Ex: miles militis  =>  miles milit
---  Ex: lex legis  =>  lex leg
---  Ex: frater fratris  =>  frater fratr
---  Ex: soror sororis  =>  soror soror
---  All third declension that have the endings -udo, -io, -tas, -x
---  Ex: pulcritudo pulcritudinis  =>  plucritudo pulcritudin
---  Ex: legio legionis  =>  legio legion
---  Ex: varietas varietatis  =>  varietas varietat
---  Ex: radix radicis  =>  radix  radic
-
---  Third declension  N nouns with stems ending in a consonant - N 3 2
---  Ex: nomen nomenis  =>  nomen nomen
---  Ex: iter itineris =>  iter itiner
---  Ex: tempus temporis  =>  tempus  tempor
-
---  Third declension nouns  I-stems (M + F)     - N 3 3
---  Ex: hostis hostis  =>  hostis host
---  Ex: finis finis  =>  finis fin
---  Consonant i-stems
---  Ex: urbs urbis  =>  urbs urb
---  Ex: mons montis  =>  mons mont
---  Also use this for present participles (-ns) used as substantives in M + F
-
---  Third declension nouns  I-stems (N)    - N 3 4
---  Ex: mare amris  =>  mare mar                       --  ending in "e"
---  Ex: animal animalis  =>  animal animal             --  ending in "al"
---  Ex: exemplar exemplaris  =>  exemplar exemplar     --  ending in "ar"
---  Also use this for present participles (-ns) used as substantives in N
-
---  Fourth declension nouns M + F in "us"  - N 4 1
---  Ex: passus passus  =>  pass pass
---  Ex: manus manus  =>  man man
-
---  Fourth declension nouns N in "u"  - N 4 2
---  Ex: genu genus  =>  gen gen
---  Ex: cornu cornus  =>  corn corn
-
---  All fifth declension nouns  - N 5 1
---  Ex: dies diei  =>  di di
---  Ex: res rei  =>  r r
 
 
+    --  All first declension nouns  - N 1 1
+    --  Ex: aqua aquae  =>  aqu aqu
 
---  Adjectives will mostly only be POS and have only the first two stems
---  ADJ X have four stems, zzz stands for any unknown/non-existent stem
+    --  Second declension nouns in "us"  - N 2 1
+    --  Ex: amicus amici  =>  amic amic
 
---  Adjectives of first and second declension (-us in NOM S M)  - ADJ 1 1
---  Two stems for POS, third is for COMP, fourth for SUPER
---  Ex: malus mala malum  => mal mal pei pessi
---  Ex: altus alta altum  => alt alt alti altissi
+    --  Second declension neuter nouns - N 2 2
+    --  Ex: verbum verbi  =>  verb verb
 
---  Adjectives of first and second declension (-er) - ADJ 1 2
---  Ex: miser misera miserum  =>  miser miser miseri miserri
---  Ex: sacer sacra sacrum  =>  sacer sacr zzz  sacerri     --  no COMP
---  Ex: pulcher pulchri  =>  pulcher pulchr pulchri pulcherri
+    --  Second declension nouns in "er" whether of not the "er" in base - N 2 3
+    --  Ex; puer pueri  =>  puer puer
+    --  Ex: ager agri   =>  ager agr
 
---  Adjectives of third declension - one ending  - ADJ 3 1
---  Ex: audax (gen) audacis  =>  audax audac audaci audacissi
---  Ex: prudens prudentis  =>  prudens prudent prudenti prudentissi
+    --  Early (BC) 2nd declension nouns in ius/ium (not filius-like)  - N 2 4
+    --  for the most part formed GEN S in 'i', not 'ii'   --  G+L 33 R 1
+    --  Dictionaries often show as ...(i)i
+    --  N 2 4 uses GENDER discrimination to reduce to single VAR
+    --  Ex: radius rad(i)i  => radi radi        M
+    --  Ex: atrium atr(i)i  =>  atri atri       N
 
---  Adjectives of third declension - two endings   - ADJ 3 2
---  Ex: brevis breve  =>  brev brev brevi brevissi
---  Ex: facil facil   =>  facil facil facili facilli
+    --  Third declension M or F nouns whose stems end in a consonant - N 3 1
+    --  Ex: miles militis  =>  miles milit
+    --  Ex: lex legis  =>  lex leg
+    --  Ex: frater fratris  =>  frater fratr
+    --  Ex: soror sororis  =>  soror soror
+    --  All third declension that have the endings -udo, -io, -tas, -x
+    --  Ex: pulcritudo pulcritudinis  =>  plucritudo pulcritudin
+    --  Ex: legio legionis  =>  legio legion
+    --  Ex: varietas varietatis  =>  varietas varietat
+    --  Ex: radix radicis  =>  radix  radic
 
---  Adjectives of third declension - three endings  - ADJ 3 3
---  Ex: celer celeris  celere  =>  celer celer celeri celerri
---  Ex: acer acris acre  =>  acer acr acri acerri
+    --  Third declension  N nouns with stems ending in a consonant - N 3 2
+    --  Ex: nomen nomenis  =>  nomen nomen
+    --  Ex: iter itineris =>  iter itiner
+    --  Ex: tempus temporis  =>  tempus  tempor
+
+    --  Third declension nouns  I-stems (M + F)     - N 3 3
+    --  Ex: hostis hostis  =>  hostis host
+    --  Ex: finis finis  =>  finis fin
+    --  Consonant i-stems
+    --  Ex: urbs urbis  =>  urbs urb
+    --  Ex: mons montis  =>  mons mont
+    --  Also use this for present participles (-ns) used as substantives in M + F
+
+    --  Third declension nouns  I-stems (N)    - N 3 4
+    --  Ex: mare amris  =>  mare mar                       --  ending in "e"
+    --  Ex: animal animalis  =>  animal animal             --  ending in "al"
+    --  Ex: exemplar exemplaris  =>  exemplar exemplar     --  ending in "ar"
+    --  Also use this for present participles (-ns) used as substantives in N
+
+    --  Fourth declension nouns M + F in "us"  - N 4 1
+    --  Ex: passus passus  =>  pass pass
+    --  Ex: manus manus  =>  man man
+
+    --  Fourth declension nouns N in "u"  - N 4 2
+    --  Ex: genu genus  =>  gen gen
+    --  Ex: cornu cornus  =>  corn corn
+
+    --  All fifth declension nouns  - N 5 1
+    --  Ex: dies diei  =>  di di
+    --  Ex: res rei  =>  r r
 
 
+
+    --  Adjectives will mostly only be POS and have only the first two stems
+    --  ADJ X have four stems, zzz stands for any unknown/non-existent stem
+
+    --  Adjectives of first and second declension (-us in NOM S M)  - ADJ 1 1
+    --  Two stems for POS, third is for COMP, fourth for SUPER
+    --  Ex: malus mala malum  => mal mal pei pessi
+    --  Ex: altus alta altum  => alt alt alti altissi
+
+    --  Adjectives of first and second declension (-er) - ADJ 1 2
+    --  Ex: miser misera miserum  =>  miser miser miseri miserri
+    --  Ex: sacer sacra sacrum  =>  sacer sacr zzz  sacerri     --  no COMP
+    --  Ex: pulcher pulchri  =>  pulcher pulchr pulchri pulcherri
+
+    --  Adjectives of third declension - one ending  - ADJ 3 1
+    --  Ex: audax (gen) audacis  =>  audax audac audaci audacissi
+    --  Ex: prudens prudentis  =>  prudens prudent prudenti prudentissi
+
+    --  Adjectives of third declension - two endings   - ADJ 3 2
+    --  Ex: brevis breve  =>  brev brev brevi brevissi
+    --  Ex: facil facil   =>  facil facil facili facilli
+
+    --  Adjectives of third declension - three endings  - ADJ 3 3
+    --  Ex: celer celeris  celere  =>  celer celer celeri celerri
+    --  Ex: acer acris acre  =>  acer acr acri acerri
 
 
 
 
 
---  Verbs are mostly TRANS or INTRANS, but X works fine
---  Depondent verbs must have DEP
---  Verbs have four stems
---  The first stem is the first principal part (dictionary entry) - less 'o'
---  For 2nd decl, the 'e' is omitted, for 3rd decl i-stem, the 'i' is included
---  Third principal part always ends in 'i', this is omitted in stem
---  Fourth part in dictionary ends in -us (or -um), this is omitted
---  DEP verbs omit (have zzz) the third stem
 
---  Verbs of the first conjugation  --  V 1 1
---  Ex: voco vocare vocavi vocatus  =>  voc voc vocav vocat
---  Ex: porto portave portavi portatus  =>  port port portav portat
 
---  Verbs of the second conjugation   -  V 2 1
---  The characteristic 'e' is in the inflection, not carried in the stem
---  Ex:  moneo monere monui monitum  =>  mon mon monu monit
---  Ex:  habeo habere habui habitus  =>  hab hab habu habit
---  Ex:  deleo delere delevi deletus  =>  del del delev delet
---  Ex:  iubeo iubere iussi iussus  =>   iub iub iuss iuss
---  Ex:  video videre vidi visus  =>  vid vid vid vis
+    --  Verbs are mostly TRANS or INTRANS, but X works fine
+    --  Depondent verbs must have DEP
+    --  Verbs have four stems
+    --  The first stem is the first principal part (dictionary entry) - less 'o'
+    --  For 2nd decl, the 'e' is omitted, for 3rd decl i-stem, the 'i' is included
+    --  Third principal part always ends in 'i', this is omitted in stem
+    --  Fourth part in dictionary ends in -us (or -um), this is omitted
+    --  DEP verbs omit (have zzz) the third stem
 
---  Verbs of the third conjugation, variant 1  - V 3 1
---  Ex: rego regere rexi rectum  =>  reg reg rex rect
---  Ex: pono ponere posui positus  =>  pon pon posu posit
---  Ex: capio capere cepi captus  => capi cap cep capt   --  I-stem too w/KEY
+    --  Verbs of the first conjugation  --  V 1 1
+    --  Ex: voco vocare vocavi vocatus  =>  voc voc vocav vocat
+    --  Ex: porto portave portavi portatus  =>  port port portav portat
 
---  Verbs of the fourth conjugation are coded as a variant of third - V 3 4
---  Ex: audio audire audivi auditus  =>  audi aud audiv audit
+    --  Verbs of the second conjugation   -  V 2 1
+    --  The characteristic 'e' is in the inflection, not carried in the stem
+    --  Ex:  moneo monere monui monitum  =>  mon mon monu monit
+    --  Ex:  habeo habere habui habitus  =>  hab hab habu habit
+    --  Ex:  deleo delere delevi deletus  =>  del del delev delet
+    --  Ex:  iubeo iubere iussi iussus  =>   iub iub iuss iuss
+    --  Ex:  video videre vidi visus  =>  vid vid vid vis
 
---  Verbs like to be - coded as V 5 1
---  Ex: sum esse fui futurus  =>  s . fu fut
---  Ex: adsum adesse adfui adfuturus  =>  ads ad adfu adfut
+    --  Verbs of the third conjugation, variant 1  - V 3 1
+    --  Ex: rego regere rexi rectum  =>  reg reg rex rect
+    --  Ex: pono ponere posui positus  =>  pon pon posu posit
+    --  Ex: capio capere cepi captus  => capi cap cep capt   --  I-stem too w/KEY
 
-</TT></PRE>
+    --  Verbs of the fourth conjugation are coded as a variant of third - V 3 4
+    --  Ex: audio audire audivi auditus  =>  audi aud audiv audit
+
+    --  Verbs like to be - coded as V 5 1
+    --  Ex: sum esse fui futurus  =>  s . fu fut
+    --  Ex: adsum adesse adfui adfuturus  =>  ads ad adfu adfut
+
+
+
 
 
 UNIQUES.LAT
@@ -425,19 +440,22 @@ fields that the program presently expects.  While these could be
 eliminated, it is convenient for the program not to make the UNIQUES a
 special case.  So a noun form
 
-<PRE><TT>
-N 3 1 ACC S F T
-</TT></PRE>
+
+    N 3 1 ACC S F T
+
+
 is followed by two zeros and an X
 
-<PRE><TT>
-N 3 1 ACC S F T  0 0                            X        X  X  X  B  O
-</TT></PRE>
+
+    N 3 1 ACC S F T  0 0                            X        X  X  X  B  O
+
+
 and then the five X's or, more properly, the dictionary codes.
 
-<PRE><TT>
-N 3 1 ACC S F T  0 0                            X        X  X  X  B  O
-</TT></PRE>
+
+    N 3 1 ACC S F T  0 0                            X        X  X  X  B  O
+
+
 
 
 These pro forma codes are absolutely necessary, but have no further
@@ -452,21 +470,19 @@ have to deliberately program that in.
 The following examples, and an examination of the UNIQUES.LAT file, should
 allow the user to insert any unique necessary.
 
-<PRE><TT>
-requiem
-N 3 1 ACC S F T  0 0                            X        X  X  X  B  O
-rest (from labor), respite; intermission, pause, break; amusement, hobby;
-bobus
-N 3 1 DAT P C T  0 0                            X        X  X  X  C  X
-ox, bull; cow; cattle (pl.)
-quicquid
-PRON 1 6 NOM S N INDEF   0 0                    X        X  X  X  B  X
-whatever, whatsoever; everything which; each one; each; everything; anything
-mavis
-V     6 2 PRES  ACTIVE  IND  2 S X 0 0          X        X  X  X  B  X
-prefer
-cette
-V    3 1 PRES ACTIVE IMP  2 P TRANS    0 0      X        X  X  X  B  O
-give/bring here!/hand over, come (now/here); tell/show us, out with it! behold!
-</TT></PRE>
 
+    requiem
+    N 3 1 ACC S F T  0 0                            X        X  X  X  B  O
+    rest (from labor), respite; intermission, pause, break; amusement, hobby;
+    bobus
+    N 3 1 DAT P C T  0 0                            X        X  X  X  C  X
+    ox, bull; cow; cattle (pl.)
+    quicquid
+    PRON 1 6 NOM S N INDEF   0 0                    X        X  X  X  B  X
+    whatever, whatsoever; everything which; each one; each; everything; anything
+    mavis
+    V     6 2 PRES  ACTIVE  IND  2 S X 0 0          X        X  X  X  B  X
+    prefer
+    cette
+    V    3 1 PRES ACTIVE IMP  2 P TRANS    0 0      X        X  X  X  B  O
+    give/bring here!/hand over, come (now/here); tell/show us, out with it! behold!
