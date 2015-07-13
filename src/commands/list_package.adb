@@ -516,7 +516,8 @@ package body list_package is
       --  (or all of a class) it must fix up the rest of the parse array,
       --  e.g., it must clean out dangling prefixes and suffixes
 
-      if Ada.Text_IO.Name (Output) = Ada.Text_IO.Name (Ada.Text_IO.Standard_Output)  then
+      if Ada.Text_IO.Name (Output) =
+        Ada.Text_IO.Name (Ada.Text_IO.Standard_Output)  then
          --  to keep from overflowing screen line or even adding blank line
          mm := max_meaning_print_size;
       else
@@ -532,7 +533,6 @@ package body list_package is
          end if;
       end loop;
 
-      --TEXT_IO.PUT_LINE ("In the ADJ -> ADV kludge  Checked to see if there is an ADV");
       if (not there_is_an_adverb) and (words_mode (do_fixes))  then
          --TEXT_IO.PUT_LINE ("In the ADJ -> ADV kludge  There is no ADV");
          for i in reverse pa'First .. pa_last  loop
@@ -547,14 +547,16 @@ package body list_package is
 
                while j >=  pa'First  loop  --Back through other ADJ cases
                   if pa (j).IR.qual.pofs /= Adj  then
-                     j2 := j;                          --  J2 is first (reverse) that is not ADJ
+                     j2 := j;
+                     --  J2 is first (reverse) that is not ADJ
                      exit;
                   end if;
                   j := j - 1;
                end loop;
                while j >=  pa'First  loop  --  Sweep up associated fixes
                   if pa (j).IR.qual.pofs not in xons  then
-                     j1 := j;                      --  J1 is first (reverse) that is not XONS
+                     j1 := j;
+                     --  J1 is first (reverse) that is not XONS
                      exit;
                   end if;
                   j := j - 1;
@@ -563,17 +565,17 @@ package body list_package is
                for j in j1 + 1 .. j2  loop
                   pa (pa_last + j - j1 + 1) := pa (j);
                end loop;
-               --TEXT_IO.PUT_LINE ("In the ADJ -> ADV kludge  Ready to add PA for ADV");
+
                pa_last := pa_last + j2 - j1 + 1;
                pa (pa_last) := pa (j2 + 1);
-               --TEXT_IO.PUT_LINE ("In the ADJ -> ADV kludge  Adding SUFFIX E ADV");
+
                pa (pa_last) := ("e                 ",
                  ((Suffix, null_suffix_record), 0, null_ending_record, x, b),
                  ppp, Null_MNPC);
                --PARSE_RECORD_IO.PUT (PA (PA_LAST)); TEXT_IO.NEW_LINE;
                pa_last := pa_last + 1;
                if pa (j2 + 1).IR.qual.Adj.co = Pos   then
-                  --TEXT_IO.PUT_LINE ("In the ADJ -> ADV kludge  Adding POS for ADV");
+
                   pa (pa_last) := (pa (j2 + 1).Stem,
                     ((pofs => Adv, adv => (co => pa (j2 + 1).IR.qual.Adj.co)),
                     key => 0, ending => (1, "e      "), age => x, freq => b),
@@ -591,18 +593,17 @@ package body list_package is
                     pa (j2 + 1).D_K,
                     pa (j2 + 1).MNPC);
                   ppp_meaning :=
-                    Head ("-estly; -estily; most -ly, very -ly  Converting ADJ to ADV",
+                    Head("-estly; -estily; most -ly, very -ly  Converting ADJ to ADV",
                     Max_Meaning_Size);
                end if;
-               --TEXT_IO.PUT_LINE ("In the ADJ -> ADV kludge  Done adding PA for ADV");
             end if;           --  PA (I).IR.QUAL.POFS = ADJ
          end loop;
       end if;           --  not THERE_IS_AN_ADVERB
-                        -- TEXT_IO.PUT_LINE ("In the ADJ -> ADV kludge  FINISHED");
 
       list_sweep (pa (1 .. pa_last), pa_last);
 
-      if  words_mdev (Write_statistics_file)    then      --  Omit rest of Output
+      if  words_mdev (Write_statistics_file)    then
+         --  Omit rest of Output
          for i in 1 .. pa_last  loop                       --  Just to PUT_STAT
             if pa (i).D_K = addons then
                if pa (i).IR.qual.pofs = Prefix  then
