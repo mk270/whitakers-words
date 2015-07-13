@@ -169,10 +169,12 @@ package Latin_Utils.Inflections_Package is
 
    ---------------------------------------------------------------------------
 
-   type Stem_Key_Type is new Natural range 0..9;
+   type Stem_Key_Type is new Natural range 0 .. 9;
 
-   package Stem_Key_Type_IO is new Ada.Text_IO.Integer_IO(Stem_Key_Type);
-   Stem_Key_Type_IO_Default_Width : Integer := 1;
+   package Stem_Key_Type_IO is new Ada.Text_IO.Integer_IO (Stem_Key_Type);
+   Stem_Key_Type_IO_Default_Width : constant Integer := 1;
+
+   ---------------------------------------------------------------------------
 
    type Numeral_Sort_Type is (
                               x,          --  all, none, or unknown
