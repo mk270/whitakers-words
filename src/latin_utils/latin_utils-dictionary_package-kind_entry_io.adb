@@ -147,7 +147,7 @@ package body Kind_Entry_IO is
                ( Ada.Text_IO.Col +
                  Ada.Text_IO.Positive_Count (Kind_Entry_IO.Default_Width)
                );
-            Item := (pofs => adv);
+            Item := (pofs => Adv);
          when V =>
             Verb_Kind_Type_IO.Get (Verb_Kind);
             Item := (V, Verb_Kind);
