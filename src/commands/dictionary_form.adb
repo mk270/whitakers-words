@@ -50,106 +50,106 @@ begin
       return "";
    end if;
 
-   if de.Part.pofs = prep then
+   if de.Part.pofs = Prep then
       return Trim (de.Stems(1)) & "  " & Part_Of_Speech_Type'Image(de.Part.pofs) &
-        "  " & Case_Type'Image(de.Part.prep.Obj);
+        "  " & Case_Type'Image(de.Part.Prep.Obj);
    end if;
 
    if de.Stems(2) = Null_Stem_Type  and
      de.Stems(3) = Null_Stem_Type  and
      de.Stems(4) = Null_Stem_Type       and not
-     (((de.Part.pofs = n)  and then (de.Part.n.Decl.Which = 9))  or
-     ((de.Part.pofs = adj)  and then
-     ((de.Part.adj.Decl.Which = 9) or
-     (de.Part.adj.Co = comp or de.Part.adj.Co = super))   ) or
-     ((de.Part.pofs = v)  and then (de.Part.v.Con = (9, 8))) or
-     ((de.Part.pofs = v)  and then (de.Part.v.Con = (9, 9))))
+     (((de.Part.pofs = N)  and then (de.Part.N.Decl.Which = 9))  or
+     ((de.Part.pofs = Adj)  and then
+     ((de.Part.Adj.Decl.Which = 9) or
+     (de.Part.Adj.Co = comp or de.Part.Adj.Co = super))   ) or
+     ((de.Part.pofs = V)  and then (de.Part.V.Con = (9, 8))) or
+     ((de.Part.pofs = V)  and then (de.Part.V.Con = (9, 9))))
    then
       return Trim (de.Stems(1)) & "  " & Part_Of_Speech_Type'Image(de.Part.pofs);
       --  For UNIQUES, CONJ, INTERJ, ...
    end if;
 
-   if de.Part.pofs = n    then
-      if de.Part.n.Decl.Which = 1  then
-         if de.Part.n.Decl.Var = 1  then
+   if de.Part.pofs = N    then
+      if de.Part.N.Decl.Which = 1  then
+         if de.Part.N.Decl.Var = 1  then
             ox(1) := add(de.Stems(1), "a");
             ox(2) := add(de.Stems(2), "ae");
-         elsif de.Part.n.Decl.Var = 6  then
+         elsif de.Part.N.Decl.Var = 6  then
             ox(1) := add(de.Stems(1), "e");
             ox(2) := add(de.Stems(2), "es");
-         elsif de.Part.n.Decl.Var = 7  then
+         elsif de.Part.N.Decl.Var = 7  then
             ox(1) := add(de.Stems(1), "es");
             ox(2) := add(de.Stems(2), "ae");
-         elsif de.Part.n.Decl.Var = 8  then
+         elsif de.Part.N.Decl.Var = 8  then
             ox(1) := add(de.Stems(1), "as");
             ox(2) := add(de.Stems(2), "ae");
          end if;
 
-      elsif de.Part.n.Decl.Which = 2  then
-         if de.Part.n.Decl.Var = 1  then
+      elsif de.Part.N.Decl.Which = 2  then
+         if de.Part.N.Decl.Var = 1  then
             ox(1) := add(de.Stems(1), "us");
             ox(2) := add(de.Stems(2), "i");
-         elsif de.Part.n.Decl.Var = 2  then
+         elsif de.Part.N.Decl.Var = 2  then
             ox(1) := add(de.Stems(1), "um");
             ox(2) := add(de.Stems(2), "i");
-         elsif de.Part.n.Decl.Var = 3  then
+         elsif de.Part.N.Decl.Var = 3  then
             ox(1) := add(de.Stems(1), "");
             ox(2) := add(de.Stems(2), "i");
-         elsif de.Part.n.Decl.Var = 4  then
-            if de.Part.n.Gender = n  then
+         elsif de.Part.N.Decl.Var = 4  then
+            if de.Part.N.Gender = n  then
                ox(1) := add(de.Stems(1), "um");
             else
                ox(1) := add(de.Stems(1), "us");
             end if;
             ox(2) := add(de.Stems(2), "(i)");
-         elsif de.Part.n.Decl.Var = 5  then
+         elsif de.Part.N.Decl.Var = 5  then
             ox(1) := add(de.Stems(1), "us");
             ox(2) := add(de.Stems(2), "");
-         elsif de.Part.n.Decl.Var = 6  then
+         elsif de.Part.N.Decl.Var = 6  then
             ox(1) := add(de.Stems(1), "os");
             ox(2) := add(de.Stems(2), "i");
-         elsif de.Part.n.Decl.Var = 7  then
+         elsif de.Part.N.Decl.Var = 7  then
             ox(1) := add(de.Stems(1), "os");
             ox(2) := add(de.Stems(2), "i");
-         elsif de.Part.n.Decl.Var = 8  then
+         elsif de.Part.N.Decl.Var = 8  then
             ox(1) := add(de.Stems(1), "on");
             ox(2) := add(de.Stems(2), "i");
-         elsif de.Part.n.Decl.Var = 9  then
+         elsif de.Part.N.Decl.Var = 9  then
             ox(1) := add(de.Stems(1), "us");
             ox(2) := add(de.Stems(2), "i");
          end if;
 
-      elsif de.Part.n.Decl.Which = 3  then
+      elsif de.Part.N.Decl.Which = 3  then
          ox(1) := add(de.Stems(1), "");
-         if (de.Part.n.Decl.Var = 7)  or
-            (de.Part.n.Decl.Var = 9)
+         if (de.Part.N.Decl.Var = 7)  or
+            (de.Part.N.Decl.Var = 9)
          then
             ox(2) := add(de.Stems(2), "os/is");
          else
             ox(2) := add(de.Stems(2), "is");
          end if;
 
-      elsif de.Part.n.Decl.Which = 4  then
-         if de.Part.n.Decl.Var = 1  then
+      elsif de.Part.N.Decl.Which = 4  then
+         if de.Part.N.Decl.Var = 1  then
             ox(1) := add(de.Stems(1), "us");
             ox(2) := add(de.Stems(2), "us");
-         elsif de.Part.n.Decl.Var = 2  then
+         elsif de.Part.N.Decl.Var = 2  then
             ox(1) := add(de.Stems(1), "u");
             ox(2) := add(de.Stems(2), "us");
-         elsif de.Part.n.Decl.Var = 3  then
+         elsif de.Part.N.Decl.Var = 3  then
             ox(1) := add(de.Stems(1), "us");
             ox(2) := add(de.Stems(2), "u");
          end if;
 
-      elsif de.Part.n.Decl.Which = 5  then
+      elsif de.Part.N.Decl.Which = 5  then
          ox(1) := add(de.Stems(1), "es");
          ox(2) := add(de.Stems(2), "ei");
 
-      elsif de.Part.n.Decl = (9, 8)  then
+      elsif de.Part.N.Decl = (9, 8)  then
          ox(1) := add(de.Stems(1), ".");
          ox(2) := add(null_ox, "abb.");
 
-      elsif de.Part.n.Decl = (9, 9)  then
+      elsif de.Part.N.Decl = (9, 9)  then
          ox(1) := add(de.Stems(1), "");
          ox(2) := add(null_ox, "undeclined");
 
@@ -157,44 +157,44 @@ begin
          raise not_found;
       end if;     --  N
 
-   elsif de.Part.pofs = pron    then
-      if de.Part.pron.Decl.Which = 1  then
+   elsif de.Part.pofs = Pron    then
+      if de.Part.Pron.Decl.Which = 1  then
          raise not_found;
 
-      elsif de.Part.pron.Decl.Which = 3  then
+      elsif de.Part.Pron.Decl.Which = 3  then
          ox(1) := add(de.Stems(1), "ic");
          ox(2) := add(de.Stems(1), "aec");
-         if de.Part.pron.Decl.Var = 1  then
+         if de.Part.Pron.Decl.Var = 1  then
             ox(3) := add(de.Stems(1), "oc");
-         elsif de.Part.pron.Decl.Var = 2  then
+         elsif de.Part.Pron.Decl.Var = 2  then
             ox(3) := add(de.Stems(1), "uc");
          end if;
 
-      elsif de.Part.pron.Decl.Which = 4  then
-         if de.Part.pron.Decl.Var = 1  then
+      elsif de.Part.Pron.Decl.Which = 4  then
+         if de.Part.Pron.Decl.Var = 1  then
             ox(1) := add(de.Stems(1), "s");
             ox(2) := add(de.Stems(2), "a");
             ox(3) := add(de.Stems(1), "d");
-         elsif de.Part.pron.Decl.Var = 2  then
+         elsif de.Part.Pron.Decl.Var = 2  then
             ox(1) := add(de.Stems(1), "dem");
             ox(2) := add(de.Stems(2), "adem");
             ox(3) := add(de.Stems(1), "dem");
          end if;
 
-      elsif de.Part.pron.Decl.Which = 6  then
+      elsif de.Part.Pron.Decl.Which = 6  then
          ox(1) := add(de.Stems(1), "e");
          ox(2) := add(de.Stems(1), "a");
-         if de.Part.pron.Decl.Var = 1  then
+         if de.Part.Pron.Decl.Var = 1  then
             ox(3) := add(de.Stems(1), "ud");
-         elsif de.Part.pron.Decl.Var = 2  then
+         elsif de.Part.Pron.Decl.Var = 2  then
             ox(3) := add(de.Stems(1), "um");
          end if;
 
-      elsif de.Part.adj.Decl = (9, 8)  then
+      elsif de.Part.Adj.Decl = (9, 8)  then
          ox(1) := add(de.Stems(1), ".");
          ox(2) := add(null_ox, "abb.");
 
-      elsif de.Part.pron.Decl = (9, 9)  then
+      elsif de.Part.Pron.Decl = (9, 9)  then
          ox(1) := add(de.Stems(1), "");
          ox(2) := add(null_ox, "undeclined");
 
@@ -202,40 +202,40 @@ begin
          raise not_found;
       end if;      --  PRON
 
-   elsif de.Part.pofs = adj  then
+   elsif de.Part.pofs = Adj  then
 
       --TEXT_IO.NEW_LINE;
       --DICTIONARY_ENTRY_IO.PUT(DE);
       --TEXT_IO.NEW_LINE;
 
-      if de.Part.adj.Co = comp  then
+      if de.Part.Adj.Co = comp  then
          ox(1) := add(de.Stems(1), "or");
          ox(2) := add(de.Stems(1), "or");
          ox(3) := add(de.Stems(1), "us");
-      elsif de.Part.adj.Co = super  then
+      elsif de.Part.Adj.Co = super  then
          ox(1) := add(de.Stems(1), "mus");
          ox(2) := add(de.Stems(1), "ma");
          ox(3) := add(de.Stems(1), "mum");
 
-      elsif de.Part.adj.Co = pos  then
-         if de.Part.adj.Decl.Which = 1  then
-            if de.Part.adj.Decl.Var = 1  then
+      elsif de.Part.Adj.Co = pos  then
+         if de.Part.Adj.Decl.Which = 1  then
+            if de.Part.Adj.Decl.Var = 1  then
                ox(1) := add(de.Stems(1), "us");
                ox(2) := add(de.Stems(2), "a");
                ox(3) := add(de.Stems(2), "um");
-            elsif de.Part.adj.Decl.Var = 2  then
+            elsif de.Part.Adj.Decl.Var = 2  then
                ox(1) := add(de.Stems(1), "");
                ox(2) := add(de.Stems(2), "a");
                ox(3) := add(de.Stems(2), "um");
-            elsif de.Part.adj.Decl.Var = 3  then
+            elsif de.Part.Adj.Decl.Var = 3  then
                ox(1) := add(de.Stems(1), "us");
                ox(2) := add(de.Stems(2), "a");
                ox(3) := add(de.Stems(2), "um (gen -ius)");
-            elsif de.Part.adj.Decl.Var = 4  then
+            elsif de.Part.Adj.Decl.Var = 4  then
                ox(1) := add(de.Stems(1), "");
                ox(2) := add(de.Stems(2), "a");
                ox(3) := add(de.Stems(2), "um");
-            elsif de.Part.adj.Decl.Var = 5  then
+            elsif de.Part.Adj.Decl.Var = 5  then
                ox(1) := add(de.Stems(1), "us");
                ox(2) := add(de.Stems(2), "a");
                ox(3) := add(de.Stems(2), "ud");
@@ -243,57 +243,57 @@ begin
                raise not_found;
             end if;
 
-         elsif de.Part.adj.Decl.Which = 2  then
-            if de.Part.adj.Decl.Var = 1  then
+         elsif de.Part.Adj.Decl.Which = 2  then
+            if de.Part.Adj.Decl.Var = 1  then
                ox(1) := add(null_ox, "-");
                ox(2) := add(de.Stems(1), "e");
                ox(3) := add(null_ox, "-");
-            elsif de.Part.adj.Decl.Var = 2  then
+            elsif de.Part.Adj.Decl.Var = 2  then
                ox(1) := add(null_ox, "-");
                ox(2) := add(null_ox, "a");
                ox(3) := add(null_ox, "-");
-            elsif de.Part.adj.Decl.Var = 3  then
+            elsif de.Part.Adj.Decl.Var = 3  then
                ox(1) := add(de.Stems(1), "es");
                ox(2) := add(de.Stems(1), "es");
                ox(3) := add(de.Stems(1), "es");
-            elsif de.Part.adj.Decl.Var = 6  then
+            elsif de.Part.Adj.Decl.Var = 6  then
                ox(1) := add(de.Stems(1), "os");
                ox(2) := add(de.Stems(1), "os");
                ox(3) := add(null_ox, "-");
-            elsif de.Part.adj.Decl.Var = 7  then
+            elsif de.Part.Adj.Decl.Var = 7  then
                ox(1) := add(de.Stems(1), "os");
                ox(2) := add(null_ox, "-");
                ox(3) := add(null_ox, "-");
-            elsif de.Part.adj.Decl.Var = 8  then
+            elsif de.Part.Adj.Decl.Var = 8  then
                ox(1) := add(null_ox, "-");
                ox(2) := add(null_ox, "-");
                ox(3) := add(de.Stems(2), "on");
             end if;
 
-         elsif de.Part.adj.Decl.Which = 3  then
-            if de.Part.adj.Decl.Var = 1  then
+         elsif de.Part.Adj.Decl.Which = 3  then
+            if de.Part.Adj.Decl.Var = 1  then
                ox(1) := add(de.Stems(1), "");
                ox(2) := add(null_ox, "(gen.)");
                ox(3) := add(de.Stems(2), "is");
-            elsif de.Part.adj.Decl.Var = 2  then
+            elsif de.Part.Adj.Decl.Var = 2  then
                ox(1) := add(de.Stems(1), "is");
                ox(2) := add(de.Stems(2), "is");
                ox(3) := add(de.Stems(2), "e");
-            elsif de.Part.adj.Decl.Var = 3  then
+            elsif de.Part.Adj.Decl.Var = 3  then
                ox(1) := add(de.Stems(1), "");
                ox(2) := add(de.Stems(2), "is");
                ox(3) := add(de.Stems(2), "e");
-            elsif de.Part.adj.Decl.Var = 6  then
+            elsif de.Part.Adj.Decl.Var = 6  then
                ox(1) := add(de.Stems(1), "");
                ox(2) := add(null_ox, "(gen.)");
                ox(3) := add(de.Stems(2), "os");
             end if;
 
-         elsif de.Part.adj.Decl = (9, 8)  then
+         elsif de.Part.Adj.Decl = (9, 8)  then
             ox(1) := add(de.Stems(1), ".");
             ox(2) := add(null_ox, "abb.");
 
-         elsif de.Part.adj.Decl = (9, 9)  then
+         elsif de.Part.Adj.Decl = (9, 9)  then
             ox(1) := add(de.Stems(1), "");
             ox(2) := add(null_ox, "undeclined");
 
@@ -301,39 +301,39 @@ begin
             raise not_found;
          end if;
 
-      elsif de.Part.adj.Co = x    then
-         if de.Part.adj.Decl.Which = 1  then
-            if de.Part.adj.Decl.Var = 1  then
+      elsif de.Part.Adj.Co = x    then
+         if de.Part.Adj.Decl.Which = 1  then
+            if de.Part.Adj.Decl.Var = 1  then
                ox(1) := add(de.Stems(1), "us");
                ox(2) := add(de.Stems(2), "a -um");
                ox(3) := add(de.Stems(3), "or -or -us");
                ox(4) := add(de.Stems(4), "mus -a -um");
-            elsif de.Part.adj.Decl.Var = 2  then
+            elsif de.Part.Adj.Decl.Var = 2  then
                ox(1) := add(de.Stems(1), "");
                ox(2) := add(de.Stems(2), "a -um");
                ox(3) := add(de.Stems(3), "or -or -us");
                ox(4) := add(de.Stems(4), "mus -a -um");
             end if;
 
-         elsif de.Part.adj.Decl.Which = 3  then
-            if de.Part.adj.Decl.Var = 1  then
+         elsif de.Part.Adj.Decl.Which = 3  then
+            if de.Part.Adj.Decl.Var = 1  then
                ox(1) := add(de.Stems(1), "");
                ox(2) := add(de.Stems(2), "is (gen.)");
                ox(3) := add(de.Stems(3), "or -or -us");
                ox(4) := add(de.Stems(4), "mus -a -um");
-            elsif de.Part.adj.Decl.Var = 2  then
+            elsif de.Part.Adj.Decl.Var = 2  then
                ox(1) := add(de.Stems(1), "is");
                ox(2) := add(de.Stems(2), "e");
                ox(3) := add(de.Stems(3), "or -or -us");
                ox(4) := add(de.Stems(4), "mus -a -um");
-            elsif de.Part.adj.Decl.Var = 3  then
+            elsif de.Part.Adj.Decl.Var = 3  then
                ox(1) := add(de.Stems(1), "");
                ox(2) := add(de.Stems(2), "is -e");
                ox(3) := add(de.Stems(3), "or -or -us");
                ox(4) := add(de.Stems(4), "mus -a -um");
             end if;
 
-         elsif de.Part.adj.Decl.Which = 9  then
+         elsif de.Part.Adj.Decl.Which = 9  then
             ox(1) := add(de.Stems(1), "");
             ox(2) := add(null_ox, "undeclined");
             ox(3) := add(de.Stems(3), "or -or -us");
@@ -347,26 +347,26 @@ begin
          raise not_found;
       end if;
 
-   elsif (de.Part.pofs = adv) and then (de.Part.adv.Co = x)  then
+   elsif (de.Part.pofs = Adv) and then (de.Part.Adv.Co = x)  then
       ox(1) := add(de.Stems(1), "");
       ox(2) := add(de.Stems(2), "");
       ox(3) := add(de.Stems(3), "");
 
-   elsif de.Part.pofs = v    then
+   elsif de.Part.pofs = V    then
 
-      if de.Part.v.Kind = dep  then    --  all DEP
+      if de.Part.V.Kind = dep  then    --  all DEP
          ox(3) := add(null_ox, "DEP");  --  Flag for later use
          ox(4) := add(de.Stems(4), "us sum");
-         if de.Part.v.Con.Which = 1  then
+         if de.Part.V.Con.Which = 1  then
             ox(1) := add(de.Stems(1), "or");
             ox(2) := add(de.Stems(2), "ari");
-         elsif de.Part.v.Con.Which = 2  then
+         elsif de.Part.V.Con.Which = 2  then
             ox(1) := add(de.Stems(1), "eor");
             ox(2) := add(de.Stems(2), "eri");
-         elsif de.Part.v.Con.Which = 3  then
+         elsif de.Part.V.Con.Which = 3  then
             ox(1) := add(de.Stems(1), "or");
             --  Would be wrong for 3 3, but no 3 3 DEP
-            if de.Part.v.Con.Var = 4  then
+            if de.Part.V.Con.Var = 4  then
                ox(2) := add(de.Stems(2), "iri");
             else
                ox(2) := add(de.Stems(2), "i");
@@ -378,13 +378,13 @@ begin
             raise not_found;
          end if;                      --  all DEP handled
 
-      elsif de.Part.v.Kind = perfdef  then   --  all PERFDEF handled
+      elsif de.Part.V.Kind = perfdef  then   --  all PERFDEF handled
          ox(1) := add(de.Stems(3), "i");
          ox(2) := add(de.Stems(3), "isse");
          ox(3) := add(de.Stems(4), "us");
          ox(4) := null_ox;  --  Flag for later use
 
-      elsif de.Part.v.Kind = impers  and then
+      elsif de.Part.V.Kind = impers  and then
         ((de.Stems(1)(1..3) = "zzz")  and   -- Recognize as PERFDEF IMPERS
         (de.Stems(2)(1..3) = "zzz"))
       then
@@ -395,13 +395,13 @@ begin
 
       else                            --  Not DEP/PERFDEF/IMPERS
 
-         if de.Part.v.Kind = impers  then
-            if de.Part.v.Con.Which = 1  then
+         if de.Part.V.Kind = impers  then
+            if de.Part.V.Con.Which = 1  then
                ox(1) := add(de.Stems(1), "at");
-            elsif de.Part.v.Con.Which = 2  then
+            elsif de.Part.V.Con.Which = 2  then
                ox(1) := add(de.Stems(1), "et");
-            elsif de.Part.v.Con.Which = 3  then
-               if de.Part.v.Con.Var = 2  then
+            elsif de.Part.V.Con.Which = 3  then
+               if de.Part.V.Con.Var = 2  then
                   ox(1) := add(de.Stems(1), "t");
                else
                   if de.Stems(1)(Trim (de.Stems(1))'Last) = 'i'  then
@@ -410,13 +410,13 @@ begin
                      ox(1) := add(de.Stems(1), "it");
                   end if;
                end if;
-            elsif de.Part.v.Con.Which = 5  then
-               if de.Part.v.Con.Var = 1  then
+            elsif de.Part.V.Con.Which = 5  then
+               if de.Part.V.Con.Var = 1  then
                   ox(1) := add(de.Stems(1), "est");
                end if;
-            elsif de.Part.v.Con.Which = 7  then
-               if de.Part.v.Con.Var = 1  or
-                 de.Part.v.Con.Var = 2
+            elsif de.Part.V.Con.Which = 7  then
+               if de.Part.V.Con.Var = 1  or
+                 de.Part.V.Con.Var = 2
                then
                   ox(1) := add(de.Stems(1), "t");
                end if;
@@ -425,12 +425,12 @@ begin
          else
 
             --  OX 1
-            if de.Part.v.Con.Which = 2  then
+            if de.Part.V.Con.Which = 2  then
                ox(1) := add(de.Stems(1), "eo");
 
-            elsif de.Part.v.Con.Which = 5  then
+            elsif de.Part.V.Con.Which = 5  then
                ox(1) := add(de.Stems(1), "um");
-            elsif de.Part.v.Con = (7, 2)  then
+            elsif de.Part.V.Con = (7, 2)  then
                ox(1) := add(de.Stems(1), "am");
             else
                ox(1) := add(de.Stems(1), "o");
@@ -438,14 +438,14 @@ begin
          end if;
 
          --  OX 2
-         if de.Part.v.Con.Which = 1  then
+         if de.Part.V.Con.Which = 1  then
             ox(2) := add(de.Stems(2), "are");
-         elsif de.Part.v.Con.Which = 2  then
+         elsif de.Part.V.Con.Which = 2  then
             ox(2) := add(de.Stems(2), "ere");
-         elsif de.Part.v.Con.Which = 3  then
-            if de.Part.v.Con.Var = 2  then
+         elsif de.Part.V.Con.Which = 3  then
+            if de.Part.V.Con.Var = 2  then
                ox(2) := add(de.Stems(2), "re");
-            elsif de.Part.v.Con.Var = 3  then
+            elsif de.Part.V.Con.Var = 3  then
                -- Special case for fio, fieri: it follows the usual
                -- conjugation everywhere except for present infinitive
                if Trim(de.Stems(2)) = "f" then
@@ -453,65 +453,65 @@ begin
                else
                   ox(2) := add(de.Stems(2), "eri");
                end if;
-            elsif de.Part.v.Con.Var = 4  then
+            elsif de.Part.V.Con.Var = 4  then
                ox(2) := add(de.Stems(2), "ire");
             else
                ox(2) := add(de.Stems(2), "ere");
             end if;
             --            elsif DE.PART.V.CON.WHICH = 4  then
             --              OX(2) := ADD(DE.STEMS(2), "ire");
-         elsif de.Part.v.Con.Which = 5  then
-            if de.Part.v.Con.Var = 1  then
+         elsif de.Part.V.Con.Which = 5  then
+            if de.Part.V.Con.Var = 1  then
                ox(2) := add(de.Stems(2), "esse");
-            elsif de.Part.v.Con.Var = 2  then
+            elsif de.Part.V.Con.Var = 2  then
                ox(2) := add(de.Stems(1), "e");  --  tricky, but it is 1
             end if;
-         elsif de.Part.v.Con.Which = 6  then
-            if de.Part.v.Con.Var = 1  then
+         elsif de.Part.V.Con.Which = 6  then
+            if de.Part.V.Con.Var = 1  then
                ox(2) := add(de.Stems(2), "re");
-            elsif de.Part.v.Con.Var = 2  then
+            elsif de.Part.V.Con.Var = 2  then
                ox(2) := add(de.Stems(2), "le");
             end if;
-         elsif de.Part.v.Con.Which = 7  then
-            if de.Part.v.Con.Var = 3  then
+         elsif de.Part.V.Con.Which = 7  then
+            if de.Part.V.Con.Var = 3  then
                ox(2) := add(de.Stems(2), "se");
             end if;
-         elsif de.Part.v.Con.Which = 8  then
-            if de.Part.v.Con.Var = 1  then
+         elsif de.Part.V.Con.Which = 8  then
+            if de.Part.V.Con.Var = 1  then
                ox(2) := add(de.Stems(2), "are");
-            elsif de.Part.v.Con.Var = 2  then
+            elsif de.Part.V.Con.Var = 2  then
                ox(2) := add(de.Stems(2), "ere");
-            elsif de.Part.v.Con.Var = 3  then
+            elsif de.Part.V.Con.Var = 3  then
                ox(2) := add(de.Stems(2), "ere");
-            elsif de.Part.v.Con.Var = 4  then
+            elsif de.Part.V.Con.Var = 4  then
                ox(2) := add(de.Stems(2), "ire");
             else
                ox(2) := add(de.Stems(2), "ere");
             end if;
-         elsif de.Part.v.Con = (9, 8)  then
+         elsif de.Part.V.Con = (9, 8)  then
             ox(1) := add(de.Stems(1), ".");
             ox(2) := add(null_ox, "abb.");
-         elsif de.Part.v.Con = (9, 9)  then
+         elsif de.Part.V.Con = (9, 9)  then
             ox(1) := add(de.Stems(1), "");
             ox(2) := add(null_ox, "undeclined");
 
          end if;                        --  OX(2) handled
 
          --  OX 3 & 4
-         if de.Part.v.Kind = impers  then
+         if de.Part.V.Kind = impers  then
             if ox(3)(1..7) /= "PERFDEF" then
                ox(3) := add(de.Stems(3), "it");
             end if;
             ox(4) := add(de.Stems(4), "us est");
-         elsif de.Part.v.Kind  = semidep  then    --  Finalization correction
+         elsif de.Part.V.Kind  = semidep  then    --  Finalization correction
             ox(4) := add(de.Stems(4), "us sum");
-         elsif de.Part.v.Con = (5, 1)  then
+         elsif de.Part.V.Con = (5, 1)  then
             ox(3) := add(de.Stems(3), "i");
             ox(4) := add(de.Stems(4), "urus");
-         elsif de.Part.v.Con.Which = 8  then
+         elsif de.Part.V.Con.Which = 8  then
             ox(3) := add("", "additional");
             ox(4) := add("", "forms");
-         elsif de.Part.v.Con.Which = 9  then
+         elsif de.Part.V.Con.Which = 9  then
             ox(3) := add(null_ox, "BLANK");  --  Flag for later use
             ox(4) := add(null_ox, "BLANK");  --  Flag for later use
          else
@@ -521,35 +521,35 @@ begin
 
       end if;                 --  On V KIND
 
-      if de.Part.v.Con = (6, 1)  then      --  Finalization correction
+      if de.Part.V.Con = (6, 1)  then      --  Finalization correction
          ox(3) := add(ox(3), " (ii)");
       end if;
 
-   elsif (de.Part.pofs = num) and then (de.Part.num.Sort = x)  then
-      if de.Part.num.Decl.Which = 1  then
-         if de.Part.num.Decl.Var = 1  then
+   elsif (de.Part.pofs = Num) and then (de.Part.Num.Sort = x)  then
+      if de.Part.Num.Decl.Which = 1  then
+         if de.Part.Num.Decl.Var = 1  then
             ox(1) := add(de.Stems(1), "us -a -um");
             ox(2) := add(de.Stems(2), "us -a -um");
             ox(3) := add(de.Stems(3), "i -ae -a");
             ox(4) := add(de.Stems(4), "");
-         elsif de.Part.num.Decl.Var = 2  then
+         elsif de.Part.Num.Decl.Var = 2  then
             ox(1) := add(de.Stems(1), "o -ae o");
             ox(2) := add(de.Stems(2), "us -a -um");
             ox(3) := add(de.Stems(3), "i -ae -a");
             ox(4) := add(de.Stems(4), "");
-         elsif de.Part.num.Decl.Var = 3  then
+         elsif de.Part.Num.Decl.Var = 3  then
             ox(1) := add(de.Stems(1), "es -es -ia");
             ox(2) := add(de.Stems(2), "us -a -um");
             ox(3) := add(de.Stems(3), "i -ae -a");
             ox(4) := add(de.Stems(4), "");
-         elsif de.Part.num.Decl.Var = 4  then
+         elsif de.Part.Num.Decl.Var = 4  then
             ox(1) := add(de.Stems(1), "i -ae -a");
             ox(2) := add(de.Stems(2), "us -a -um");
             ox(3) := add(de.Stems(3), "i -ae -a");
             ox(4) := add(de.Stems(4), "ie(n)s");
          end if;
 
-      elsif de.Part.num.Decl.Which = 2  then
+      elsif de.Part.Num.Decl.Which = 2  then
          ox(1) := add(de.Stems(1), "");
          ox(2) := add(de.Stems(2), "us -a -um");
          ox(3) := add(de.Stems(3), "i -ae -a");
@@ -557,37 +557,37 @@ begin
 
       end if;
 
-   elsif (de.Part.pofs = num) and then (de.Part.num.Sort = card)  then
-      if de.Part.num.Decl.Which = 1  then
-         if de.Part.num.Decl.Var = 1  then
+   elsif (de.Part.pofs = Num) and then (de.Part.Num.Sort = card)  then
+      if de.Part.Num.Decl.Which = 1  then
+         if de.Part.Num.Decl.Var = 1  then
             ox(1) := add(de.Stems(1), "us");
             ox(2) := add(de.Stems(1), "a");
             ox(3) := add(de.Stems(1), "um");
-         elsif de.Part.num.Decl.Var = 2  then
+         elsif de.Part.Num.Decl.Var = 2  then
             ox(1) := add(de.Stems(1), "o");
             ox(2) := add(de.Stems(1), "ae");
             ox(3) := add(de.Stems(1), "o");
-         elsif de.Part.num.Decl.Var = 3  then
+         elsif de.Part.Num.Decl.Var = 3  then
             ox(1) := add(de.Stems(1), "es");
             ox(2) := add(de.Stems(1), "es");
             ox(3) := add(de.Stems(1), "ia");
-         elsif de.Part.num.Decl.Var = 4  then
+         elsif de.Part.Num.Decl.Var = 4  then
             ox(1) := add(de.Stems(1), "i");
             ox(2) := add(de.Stems(1), "ae");
             ox(3) := add(de.Stems(1), "a");
          end if;
 
-      elsif de.Part.num.Decl.Which = 2  then
+      elsif de.Part.Num.Decl.Which = 2  then
          ox(1) := add(de.Stems(1), "");
 
       end if;
 
-   elsif (de.Part.pofs = num) and then (de.Part.num.Sort = ord)  then
+   elsif (de.Part.pofs = Num) and then (de.Part.Num.Sort = ord)  then
       ox(1) := add(de.Stems(1), "us");
       ox(2) := add(de.Stems(1), "a");
       ox(3) := add(de.Stems(1), "um");
 
-   elsif (de.Part.pofs = num) and then (de.Part.num.Sort = dist)  then
+   elsif (de.Part.pofs = Num) and then (de.Part.Num.Sort = dist)  then
       ox(1) := add(de.Stems(1), "i");
       ox(2) := add(de.Stems(1), "ae");
       ox(3) := add(de.Stems(1), "a");
@@ -631,30 +631,30 @@ begin
 
    add_to("  " & Part_Of_Speech_Type'Image(de.Part.pofs)& "  ");
 
-   if de.Part.pofs = n  then
+   if de.Part.pofs = N  then
       --  For DICTPAGE
-      if de.Part.n.Decl.Which in 1..5 and
-         de.Part.n.Decl.Var  in 1..5
+      if de.Part.N.Decl.Which in 1..5 and
+         de.Part.N.Decl.Var  in 1..5
       then
-         add_to (" (" & fst (de.Part.n.Decl.Which) & ")");
+         add_to (" (" & fst (de.Part.N.Decl.Which) & ")");
       end if;
 
-      add_to (" " & Gender_Type'Image (de.Part.n.Gender) & "  ");
+      add_to (" " & Gender_Type'Image (de.Part.N.Gender) & "  ");
    end if;
 
-   if de.Part.pofs = v then
+   if de.Part.pofs = V then
 
       --  For DICTPAGE
-      if de.Part.v.Con.Which in 1..3 then
-         if de.Part.v.Con.Var = 1 then
-            add_to(" (" & fst(de.Part.v.Con.Which) & ")");
-         elsif  de.Part.v.Con = (3, 4)  then
+      if de.Part.V.Con.Which in 1..3 then
+         if de.Part.V.Con.Var = 1 then
+            add_to(" (" & fst(de.Part.V.Con.Which) & ")");
+         elsif  de.Part.V.Con = (3, 4)  then
             add_to(" (" & fst(4) & ")");
          end if;
       end if;
 
-      if de.Part.v.Kind in gen..perfdef then
-         add_to(" " & Verb_Kind_Type'Image(de.Part.v.Kind) & "  ");
+      if de.Part.V.Kind in gen..perfdef then
+         add_to(" " & Verb_Kind_Type'Image(de.Part.V.Kind) & "  ");
       end if;
 
    end if;

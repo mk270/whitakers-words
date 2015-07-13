@@ -373,18 +373,18 @@ is
    begin
       while j4 >= 1  loop
          --  Sweep backwards to kill empty suffixes
-         if pa(j4).IR.qual.pofs in tackon .. suffix
+         if pa(j4).IR.qual.pofs in Tackon .. Suffix
            and then ppl_on
          then
             null;
 
-         elsif pa(j4).IR.qual.pofs = vpar and then
-            pa(j4).IR.qual.vpar.cs = nom  and then
-            pa(j4).IR.qual.vpar.number = sum_info.number
+         elsif pa(j4).IR.qual.pofs = Vpar and then
+            pa(j4).IR.qual.Vpar.cs = nom  and then
+            pa(j4).IR.qual.Vpar.number = sum_info.number
          then
             declare
                part : constant participle :=
-                 Get_pas_nom_participle(pa(j4).IR.qual.vpar, sum_info,
+                 Get_pas_nom_participle(pa(j4).IR.qual.Vpar, sum_info,
                    ppl_on, compound_tvm, ppp_meaning, ppl_info);
             begin
                ppl_on := part.ppl_on;
@@ -411,15 +411,15 @@ is
    begin
       while j5 >= 1  loop
          --  Sweep backwards to kill empty suffixes
-         if pa(j5).IR.qual.pofs in tackon .. suffix
+         if pa(j5).IR.qual.pofs in Tackon .. Suffix
             and then ppl_on
          then
             null;
-         elsif pa(j5).IR.qual.pofs = vpar   then
+         elsif pa(j5).IR.qual.pofs = Vpar   then
             declare
                Trimmed_next_word : constant String := next_word;
                part : constant participle :=
-                 Get_pas_participle(pa(j5).IR.qual.vpar,
+                 Get_pas_participle(pa(j5).IR.qual.Vpar,
                    Trimmed_next_word, ppl_on, compound_tvm, ppp_meaning,
                    ppl_info);
             begin
@@ -446,25 +446,25 @@ is
    begin
       while j6 >= 1  loop
          --  Sweep backwards to kill empty suffixes
-         if pa(j6).IR.qual.pofs in tackon .. suffix
+         if pa(j6).IR.qual.pofs in Tackon .. Suffix
            and then ppl_on
          then
             null;
 
-         elsif pa(j6).IR.qual.pofs = supine  and then
-           pa(j6).IR.qual.supine.cs = acc
+         elsif pa(j6).IR.qual.pofs = Supine  and then
+           pa(j6).IR.qual.Supine.cs = acc
          then
 
             ppl_on := True;
-            supine_info := (pa(j6).IR.qual.supine.con,
-              pa(j6).IR.qual.supine.cs,
-              pa(j6).IR.qual.supine.number,
-              pa(j6).IR.qual.supine.gender);
+            supine_info := (pa(j6).IR.qual.Supine.con,
+              pa(j6).IR.qual.Supine.cs,
+              pa(j6).IR.qual.Supine.number,
+              pa(j6).IR.qual.Supine.gender);
 
             pa_last := pa_last + 1;
             pa(pa_last) :=
               (Head("SUPINE + iri", Max_Stem_Size),
-              ((v,
+              ((V,
               (supine_info.con,
               (fut, passive, inf),
               0,
@@ -548,8 +548,8 @@ is
                --  Do not SYNCOPE if there is a verb TO_BE or compound already there
                --  I do this here and below, it might be combined but it workd now
                for i in 1..pa_last  loop
-                  if pa(i).IR.qual.pofs = v and then
-                    pa(i).IR.qual.v.con = (5, 1)
+                  if pa(i).IR.qual.pofs = V and then
+                    pa(i).IR.qual.V.con = (5, 1)
                   then
                      no_syncope := True;
                   end if;
@@ -570,7 +570,7 @@ is
                   pa(entering_pa_last+2..pa_last) :=
                     pa(entering_pa_last+1..pa_last-1);
                   pa(entering_pa_last+1) := (tackons(i).tack,
-                    ((tackon, null_tackon_record), 0, null_ending_record, x, x),
+                    ((Tackon, null_tackon_record), 0, null_ending_record, x, x),
                     addons, Dict_IO.Count(tackons(i).MNPC));
 
                   have_done_enclitic := True;
@@ -606,7 +606,7 @@ is
                   trpa(entering_trpa_last+2..trpa_last) :=
                     trpa(entering_trpa_last+1..trpa_last-1);
                   trpa(entering_trpa_last+1) := (tackons(i).tack,
-                    ((tackon, null_tackon_record), 0, null_ending_record, x, x),
+                    ((Tackon, null_tackon_record), 0, null_ending_record, x, x),
                     addons, Dict_IO.Count(tackons(i).MNPC));
                end if;
                return;
@@ -634,8 +634,8 @@ is
 
       --  Do not SYNCOPE if there is a verb TO_BE or compound already there
       for i in 1..pa_last  loop
-         if pa(i).IR.qual.pofs = v and then
-           pa(i).IR.qual.v.con = (5, 1)
+         if pa(i).IR.qual.pofs = V and then
+           pa(i).IR.qual.V.con = (5, 1)
          then
             no_syncope := True;
          end if;
@@ -669,7 +669,7 @@ is
                                 k : in Integer;
                                 l : in out Integer)
    is
-      pofs : Part_Of_Speech_Type := x;
+      pofs : Part_Of_Speech_Type := X;
    begin
       --  Extract from the rest of the line
       --  Should do AUX here !!!!!!!!!!!!!!!!!!!!!!!!
@@ -677,7 +677,7 @@ is
       begin
          Part_Of_Speech_Type_IO.Get(line(k+1..l), pofs, l);
       exception
-         when others => pofs := x;
+         when others => pofs := X;
       end;
 
       search_english(Input_word, pofs);
@@ -782,12 +782,12 @@ is
                   --  On NEXT_WORD = sum, esse, iri
 
                   for i in 1..pa_last  loop    --  Check for PPL
-                     if pa(i).IR.qual.pofs = vpar and then
-                       pa(i).IR.qual.vpar.cs = nom  and then
-                       pa(i).IR.qual.vpar.number = sum_info.number  and then
-                       ( (pa(i).IR.qual.vpar.tense_voice_mood = (perf, passive, ppl)) or
-                       (pa(i).IR.qual.vpar.tense_voice_mood = (fut,  active,  ppl)) or
-                       (pa(i).IR.qual.vpar.tense_voice_mood = (fut,  passive, ppl)) )
+                     if pa(i).IR.qual.pofs = Vpar and then
+                       pa(i).IR.qual.Vpar.cs = nom  and then
+                       pa(i).IR.qual.Vpar.number = sum_info.number  and then
+                       ( (pa(i).IR.qual.Vpar.tense_voice_mood = (perf, passive, ppl)) or
+                       (pa(i).IR.qual.Vpar.tense_voice_mood = (fut,  active,  ppl)) or
+                       (pa(i).IR.qual.Vpar.tense_voice_mood = (fut,  passive, ppl)) )
                      then
 
                         --  There is at least one hit, fix PA, and advance J over the sum
@@ -803,7 +803,7 @@ is
                      pa_last := pa_last + 1;
                      pa(pa_last) :=
                        (Head("PPL+" & next_word, Max_Stem_Size),
-                       ((v,
+                       ((V,
                        (ppl_info.con,
                        compound_tvm,
                        sum_info.person,
@@ -815,11 +815,11 @@ is
                elsif is_esse(next_word) or is_fuisse(next_word)  then     --  On NEXT_WORD
 
                   for i in 1..pa_last  loop    --  Check for PPL
-                     if pa(i).IR.qual.pofs = vpar and then
-                       (((pa(i).IR.qual.vpar.tense_voice_mood = (perf, passive, ppl)) and
+                     if pa(i).IR.qual.pofs = Vpar and then
+                       (((pa(i).IR.qual.Vpar.tense_voice_mood = (perf, passive, ppl)) and
                        is_esse(next_word)) or
-                       ((pa(i).IR.qual.vpar.tense_voice_mood = (fut,  active,  ppl)) or
-                       (pa(i).IR.qual.vpar.tense_voice_mood = (fut,  passive, ppl))) )
+                       ((pa(i).IR.qual.Vpar.tense_voice_mood = (fut,  active,  ppl)) or
+                       (pa(i).IR.qual.Vpar.tense_voice_mood = (fut,  passive, ppl))) )
                      then
 
                         --  There is at least one hit, fix PA, and advance J over the sum
@@ -835,7 +835,7 @@ is
                      pa_last := pa_last + 1;
                      pa(pa_last) :=
                        (Head("PPL+" & next_word, Max_Stem_Size),
-                       ((v,
+                       ((V,
                        (ppl_info.con,
                        compound_tvm,
                        0,
@@ -849,8 +849,8 @@ is
                   --  Look ahead for sum
 
                   for j in 1..pa_last  loop    --  Check for SUPINE
-                     if pa(j).IR.qual.pofs = supine   and then
-                       pa(j).IR.qual.supine.cs = acc
+                     if pa(j).IR.qual.pofs = Supine   and then
+                       pa(j).IR.qual.Supine.cs = acc
                      then
                         --  There is at least one hit, fix PA, and advance J over the iri
                         k := nk;

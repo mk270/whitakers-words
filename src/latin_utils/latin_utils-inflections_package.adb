@@ -38,198 +38,194 @@ package body Latin_Utils.Inflections_Package is
    begin
       if left.pofs = right.pofs  then
          case left.pofs is
-            when n =>
-               if left.n.decl.Which < right.n.decl.Which  or else
-                 (left.n.decl.Which = right.n.decl.Which  and then
-                    left.n.decl.Var < right.n.decl.Var)  or else
-                 (left.n.decl.Which = right.n.decl.Which  and then
-                    left.n.decl.Var = right.n.decl.Var  and then
-                    left.n.number < right.n.number) or else
-                 (left.n.decl.Which = right.n.decl.Which  and then
-                    left.n.decl.Var = right.n.decl.Var  and then
-                    left.n.number = right.n.number and then
-                    left.n.cs < right.n.cs) or else
-                 (left.n.decl.Which = right.n.decl.Which  and then
-                    left.n.decl.Var = right.n.decl.Var  and then
-                    left.n.number = right.n.number and then
-                    left.n.cs = right.n.cs and then
-                    left.n.gender < right.n.gender)
+            when N =>
+               if left.N.decl.Which < right.N.decl.Which  or else
+                 (left.N.decl.Which = right.N.decl.Which  and then
+                    left.N.decl.Var < right.N.decl.Var)  or else
+                 (left.N.decl.Which = right.N.decl.Which  and then
+                    left.N.decl.Var = right.N.decl.Var  and then
+                    left.N.number < right.N.number) or else
+                 (left.N.decl.Which = right.N.decl.Which  and then
+                    left.N.decl.Var = right.N.decl.Var  and then
+                    left.N.number = right.N.number and then
+                    left.N.cs < right.N.cs) or else
+                 (left.N.decl.Which = right.N.decl.Which  and then
+                    left.N.decl.Var = right.N.decl.Var  and then
+                    left.N.number = right.N.number and then
+                    left.N.cs = right.N.cs and then
+                    left.N.gender < right.N.gender)
                then
                   return True;
                end if;
-            when pron =>
-               if left.pron.decl.Which < right.pron.decl.Which  or else
-                 (left.pron.decl.Which = right.pron.decl.Which  and then
-                    left.pron.decl.Var < right.pron.decl.Var)  or else
-                 (left.pron.decl.Which = right.pron.decl.Which  and then
-                    left.pron.decl.Var = right.pron.decl.Var  and then
-                    left.pron.number < right.pron.number) or else
-                 (left.pron.decl.Which = right.pron.decl.Which  and then
-                    left.pron.decl.Var = right.pron.decl.Var  and then
-                    left.pron.number = right.pron.number and then
-                    left.pron.cs < right.pron.cs) or else
-                 (left.pron.decl.Which = right.pron.decl.Which  and then
-                    left.pron.decl.Var = right.pron.decl.Var  and then
-                    left.pron.number = right.pron.number and then
-                    left.pron.cs = right.pron.cs and then
-                    left.pron.gender < right.pron.gender)
+            when Pron =>
+               if left.Pron.decl.Which < right.Pron.decl.Which  or else
+                 (left.Pron.decl.Which = right.Pron.decl.Which  and then
+                    left.Pron.decl.Var < right.Pron.decl.Var)  or else
+                 (left.Pron.decl.Which = right.Pron.decl.Which  and then
+                    left.Pron.decl.Var = right.Pron.decl.Var  and then
+                    left.Pron.number < right.Pron.number) or else
+                 (left.Pron.decl.Which = right.Pron.decl.Which  and then
+                    left.Pron.decl.Var = right.Pron.decl.Var  and then
+                    left.Pron.number = right.Pron.number and then
+                    left.Pron.cs < right.Pron.cs) or else
+                 (left.Pron.decl.Which = right.Pron.decl.Which  and then
+                    left.Pron.decl.Var = right.Pron.decl.Var  and then
+                    left.Pron.number = right.Pron.number and then
+                    left.Pron.cs = right.Pron.cs and then
+                    left.Pron.gender < right.Pron.gender)
                then
                   return True;
                end if;
-            when pack =>
-               if left.pack.decl.Which < right.pack.decl.Which  or else
-                 (left.pack.decl.Which = right.pack.decl.Which  and then
-                    left.pack.decl.Var < right.pack.decl.Var)  or else
-                 (left.pack.decl.Which = right.pack.decl.Which  and then
-                    left.pack.decl.Var = right.pack.decl.Var  and then
-                    left.pack.number < right.pack.number) or else
-                 (left.pack.decl.Which = right.pack.decl.Which  and then
-                    left.pack.decl.Var = right.pack.decl.Var  and then
-                    left.pack.number = right.pack.number and then
-                    left.pack.cs < right.pack.cs) or else
-                 (left.pack.decl.Which = right.pack.decl.Which  and then
-                    left.pack.decl.Var = right.pack.decl.Var  and then
-                    left.pack.number = right.pack.number and then
-                    left.pack.cs = right.pack.cs and then
-                    left.pack.gender < right.pack.gender)
+            when Pack =>
+               if left.Pack.decl.Which < right.Pack.decl.Which  or else
+                 (left.Pack.decl.Which = right.Pack.decl.Which  and then
+                    left.Pack.decl.Var < right.Pack.decl.Var)  or else
+                 (left.Pack.decl.Which = right.Pack.decl.Which  and then
+                    left.Pack.decl.Var = right.Pack.decl.Var  and then
+                    left.Pack.number < right.Pack.number) or else
+                 (left.Pack.decl.Which = right.Pack.decl.Which  and then
+                    left.Pack.decl.Var = right.Pack.decl.Var  and then
+                    left.Pack.number = right.Pack.number and then
+                    left.Pack.cs < right.Pack.cs) or else
+                 (left.Pack.decl.Which = right.Pack.decl.Which  and then
+                    left.Pack.decl.Var = right.Pack.decl.Var  and then
+                    left.Pack.number = right.Pack.number and then
+                    left.Pack.cs = right.Pack.cs and then
+                    left.Pack.gender < right.Pack.gender)
                then
                   return True;
                end if;
-            when adj =>
-               if left.adj.decl.Which < right.adj.decl.Which  or else
-                 (left.adj.decl.Which = right.adj.decl.Which  and then
-                    left.adj.decl.Var < right.adj.decl.Var)  or else
-                 (left.adj.decl.Which = right.adj.decl.Which  and then
-                    left.adj.decl.Var = right.adj.decl.Var  and then
-                    left.adj.number < right.adj.number) or else
-                 (left.adj.decl.Which = right.adj.decl.Which  and then
-                    left.adj.decl.Var = right.adj.decl.Var  and then
-                    left.adj.number = right.adj.number and then
-                    left.adj.cs < right.adj.cs) or else
-                 (left.adj.decl.Which = right.adj.decl.Which  and then
-                    left.adj.decl.Var = right.adj.decl.Var  and then
-                    left.adj.number = right.adj.number and then
-                    left.adj.cs = right.adj.cs and then
-                    left.adj.gender < right.adj.gender)  or else
-                 (left.adj.decl.Which = right.adj.decl.Which  and then
-                    left.adj.decl.Var = right.adj.decl.Var  and then
-                    left.adj.number = right.adj.number and then
-                    left.adj.cs = right.adj.cs and then
-                    left.adj.gender = right.adj.gender  and then
-                    left.adj.co < right.adj.co)
+            when Adj =>
+               if left.Adj.decl.Which < right.Adj.decl.Which  or else
+                 (left.Adj.decl.Which = right.Adj.decl.Which  and then
+                    left.Adj.decl.Var < right.Adj.decl.Var)  or else
+                 (left.Adj.decl.Which = right.Adj.decl.Which  and then
+                    left.Adj.decl.Var = right.Adj.decl.Var  and then
+                    left.Adj.number < right.Adj.number) or else
+                 (left.Adj.decl.Which = right.Adj.decl.Which  and then
+                    left.Adj.decl.Var = right.Adj.decl.Var  and then
+                    left.Adj.number = right.Adj.number and then
+                    left.Adj.cs < right.Adj.cs) or else
+                 (left.Adj.decl.Which = right.Adj.decl.Which  and then
+                    left.Adj.decl.Var = right.Adj.decl.Var  and then
+                    left.Adj.number = right.Adj.number and then
+                    left.Adj.cs = right.Adj.cs and then
+                    left.Adj.gender < right.Adj.gender)  or else
+                 (left.Adj.decl.Which = right.Adj.decl.Which  and then
+                    left.Adj.decl.Var = right.Adj.decl.Var  and then
+                    left.Adj.number = right.Adj.number and then
+                    left.Adj.cs = right.Adj.cs and then
+                    left.Adj.gender = right.Adj.gender  and then
+                    left.Adj.co < right.Adj.co)
                then
                   return True;
                end if;
-            when adv =>
-               return left.adv.co < right.adv.co;
-            when v =>
-               if (left.v.con.Which < right.v.con.Which)  or else
-                 (left.v.con.Which = right.v.con.Which  and then
-                    left.v.con.Var < right.v.con.Var)  or else
-                 (left.v.con.Which = right.v.con.Which  and then
-                    left.v.con.Var = right.v.con.Var  and then
-                    left.v.number < right.v.number) or else
-                 (left.v.con.Which = right.v.con.Which  and then
-                    left.v.con.Var = right.v.con.Var  and then
-                    left.v.number = right.v.number and then
-                    left.v.tense_voice_mood.tense < right.v.tense_voice_mood.tense) or else
-                 (left.v.con.Which = right.v.con.Which  and then
-                    left.v.con.Var = right.v.con.Var  and then
-                    left.v.number = right.v.number and then
-                    left.v.tense_voice_mood.tense = right.v.tense_voice_mood.tense and then
-                    left.v.tense_voice_mood.voice < right.v.tense_voice_mood.voice) or else
-                 (left.v.con.Which = right.v.con.Which  and then
-                    left.v.con.Var = right.v.con.Var  and then
-                    left.v.number = right.v.number and then
-                    left.v.tense_voice_mood.tense = right.v.tense_voice_mood.tense and then
-                    left.v.tense_voice_mood.voice = right.v.tense_voice_mood.voice and then
-                    left.v.tense_voice_mood.mood   < right.v.tense_voice_mood.mood )  or else
-                 (left.v.con.Which = right.v.con.Which  and then
-                    left.v.con.Var = right.v.con.Var  and then
-                    left.v.number = right.v.number and then
-                    left.v.tense_voice_mood.tense = right.v.tense_voice_mood.tense and then
-                    left.v.tense_voice_mood.voice = right.v.tense_voice_mood.voice and then
-                    left.v.tense_voice_mood.mood   = right.v.tense_voice_mood.mood   and then
-                    left.v.person < right.v.person)
+            when Adv =>
+               return left.Adv.co < right.Adv.co;
+            when V =>
+               if (left.V.con.Which < right.V.con.Which)  or else
+                 (left.V.con.Which = right.V.con.Which  and then
+                    left.V.con.Var < right.V.con.Var)  or else
+                 (left.V.con.Which = right.V.con.Which  and then
+                    left.V.con.Var = right.V.con.Var  and then
+                    left.V.number < right.V.number) or else
+                 (left.V.con.Which = right.V.con.Which  and then
+                    left.V.con.Var = right.V.con.Var  and then
+                    left.V.number = right.V.number and then
+                    left.V.tense_voice_mood.tense < right.V.tense_voice_mood.tense) or else
+                 (left.V.con.Which = right.V.con.Which  and then
+                    left.V.con.Var = right.V.con.Var  and then
+                    left.V.number = right.V.number and then
+                    left.V.tense_voice_mood.tense = right.V.tense_voice_mood.tense and then
+                    left.V.tense_voice_mood.voice < right.V.tense_voice_mood.voice) or else
+                 (left.V.con.Which = right.V.con.Which  and then
+                    left.V.con.Var = right.V.con.Var  and then
+                    left.V.number = right.V.number and then
+                    left.V.tense_voice_mood.tense = right.V.tense_voice_mood.tense and then
+                    left.V.tense_voice_mood.voice = right.V.tense_voice_mood.voice and then
+                    left.V.tense_voice_mood.mood   < right.V.tense_voice_mood.mood )  or else
+                 (left.V.con.Which = right.V.con.Which  and then
+                    left.V.con.Var = right.V.con.Var  and then
+                    left.V.number = right.V.number and then
+                    left.V.tense_voice_mood.tense = right.V.tense_voice_mood.tense and then
+                    left.V.tense_voice_mood.voice = right.V.tense_voice_mood.voice and then
+                    left.V.tense_voice_mood.mood   = right.V.tense_voice_mood.mood   and then
+                    left.V.person < right.V.person)
                then
                   return True;
                end if;
-            when vpar =>
-               if left.vpar.con.Which < right.vpar.con.Which  or else
-                 (left.vpar.con.Which = right.vpar.con.Which  and then
-                    left.vpar.con.Var < right.vpar.con.Var)  or else
-                 (left.vpar.con.Which = right.vpar.con.Which  and then
-                    left.vpar.con.Var = right.vpar.con.Var  and then
-                    left.vpar.number < right.vpar.number) or else
-                 (left.vpar.con.Which = right.vpar.con.Which  and then
-                    left.vpar.con.Var = right.vpar.con.Var  and then
-                    left.vpar.number = right.vpar.number and then
-                    left.vpar.cs < right.vpar.cs) or else
-                 (left.vpar.con.Which = right.vpar.con.Which  and then
-                    left.vpar.con.Var = right.vpar.con.Var  and then
-                    left.vpar.number = right.vpar.number and then
-                    left.vpar.cs = right.vpar.cs and then
-                    left.vpar.gender < right.vpar.gender)
+            when Vpar =>
+               if left.Vpar.con.Which < right.Vpar.con.Which  or else
+                 (left.Vpar.con.Which = right.Vpar.con.Which  and then
+                    left.Vpar.con.Var < right.Vpar.con.Var)  or else
+                 (left.Vpar.con.Which = right.Vpar.con.Which  and then
+                    left.Vpar.con.Var = right.Vpar.con.Var  and then
+                    left.Vpar.number < right.Vpar.number) or else
+                 (left.Vpar.con.Which = right.Vpar.con.Which  and then
+                    left.Vpar.con.Var = right.Vpar.con.Var  and then
+                    left.Vpar.number = right.Vpar.number and then
+                    left.Vpar.cs < right.Vpar.cs) or else
+                 (left.Vpar.con.Which = right.Vpar.con.Which  and then
+                    left.Vpar.con.Var = right.Vpar.con.Var  and then
+                    left.Vpar.number = right.Vpar.number and then
+                    left.Vpar.cs = right.Vpar.cs and then
+                    left.Vpar.gender < right.Vpar.gender)
                then
                   return True;
                end if;
-            when supine =>
-               if left.supine.con.Which < right.supine.con.Which  or else
-                 (left.supine.con.Which = right.supine.con.Which  and then
-                    left.supine.con.Var < right.supine.con.Var)  or else
-                 (left.supine.con.Which = right.supine.con.Which  and then
-                    left.supine.con.Var = right.supine.con.Var  and then
-                    left.supine.number < right.supine.number) or else
-                 (left.supine.con.Which = right.supine.con.Which  and then
-                    left.supine.con.Var = right.supine.con.Var  and then
-                    left.supine.number = right.supine.number and then
-                    left.supine.cs < right.supine.cs) or else
-                 (left.supine.con.Which = right.supine.con.Which  and then
-                    left.supine.con.Var = right.supine.con.Var  and then
-                    left.supine.number = right.supine.number and then
-                    left.supine.cs = right.supine.cs and then
-                    left.supine.gender < right.supine.gender)
+            when Supine =>
+               if left.Supine.con.Which < right.Supine.con.Which  or else
+                 (left.Supine.con.Which = right.Supine.con.Which  and then
+                    left.Supine.con.Var < right.Supine.con.Var)  or else
+                 (left.Supine.con.Which = right.Supine.con.Which  and then
+                    left.Supine.con.Var = right.Supine.con.Var  and then
+                    left.Supine.number < right.Supine.number) or else
+                 (left.Supine.con.Which = right.Supine.con.Which  and then
+                    left.Supine.con.Var = right.Supine.con.Var  and then
+                    left.Supine.number = right.Supine.number and then
+                    left.Supine.cs < right.Supine.cs) or else
+                 (left.Supine.con.Which = right.Supine.con.Which  and then
+                    left.Supine.con.Var = right.Supine.con.Var  and then
+                    left.Supine.number = right.Supine.number and then
+                    left.Supine.cs = right.Supine.cs and then
+                    left.Supine.gender < right.Supine.gender)
                then
                   return True;
                end if;
-            when prep =>
-               return left.prep.obj < right.prep.obj;
-            when conj =>
+            when Prep =>
+               return left.Prep.obj < right.Prep.obj;
+            when Conj =>
                null;
-            when interj =>
+            when Interj =>
                null;
-            when num =>
-               if left.num.decl.Which < right.num.decl.Which  or else
-                 (left.num.decl.Which = right.num.decl.Which  and then
-                    left.num.decl.Var < right.num.decl.Var)  or else
-                 (left.num.decl.Which = right.num.decl.Which  and then
-                    left.num.decl.Var = right.num.decl.Var  and then
-                    left.num.number < right.num.number) or else
-                 (left.num.decl.Which = right.num.decl.Which  and then
-                    left.num.decl.Var = right.num.decl.Var  and then
-                    left.num.number = right.num.number and then
-                    left.num.cs < right.num.cs) or else
-                 (left.num.decl.Which = right.num.decl.Which  and then
-                    left.num.decl.Var = right.num.decl.Var  and then
-                    left.num.number = right.num.number and then
-                    left.num.cs = right.num.cs and then
-                    left.num.gender < right.num.gender)  or else
-                 (left.num.decl.Which = right.num.decl.Which  and then
-                    left.num.decl.Var = right.num.decl.Var  and then
-                    left.num.number = right.num.number and then
-                    left.num.cs = right.num.cs and then
-                    left.num.gender = right.num.gender  and then
-                    left.num.sort < right.num.sort)
+            when Num =>
+               if left.Num.decl.Which < right.Num.decl.Which  or else
+                 (left.Num.decl.Which = right.Num.decl.Which  and then
+                    left.Num.decl.Var < right.Num.decl.Var)  or else
+                 (left.Num.decl.Which = right.Num.decl.Which  and then
+                    left.Num.decl.Var = right.Num.decl.Var  and then
+                    left.Num.number < right.Num.number) or else
+                 (left.Num.decl.Which = right.Num.decl.Which  and then
+                    left.Num.decl.Var = right.Num.decl.Var  and then
+                    left.Num.number = right.Num.number and then
+                    left.Num.cs < right.Num.cs) or else
+                 (left.Num.decl.Which = right.Num.decl.Which  and then
+                    left.Num.decl.Var = right.Num.decl.Var  and then
+                    left.Num.number = right.Num.number and then
+                    left.Num.cs = right.Num.cs and then
+                    left.Num.gender < right.Num.gender)  or else
+                 (left.Num.decl.Which = right.Num.decl.Which  and then
+                    left.Num.decl.Var = right.Num.decl.Var  and then
+                    left.Num.number = right.Num.number and then
+                    left.Num.cs = right.Num.cs and then
+                    left.Num.gender = right.Num.gender  and then
+                    left.Num.sort < right.Num.sort)
                then
                   return True;
                end if;
-            when tackon =>
+            when Tackon .. Suffix =>
                null;
-            when prefix =>
-               null;
-            when suffix =>
-               null;
-            when others =>
+            when X =>
                null;
          end case;
       else
@@ -244,8 +240,8 @@ package body Latin_Utils.Inflections_Package is
    overriding function "<=" (left, right : Part_Of_Speech_Type) return Boolean is
    begin
       if right = left  or else
-        (left = pack and right = pron)  or else
-         right = x
+        (left = Pack and right = Pron)  or else
+         right = X
       then
          return True;
       else
@@ -1499,115 +1495,115 @@ package body Latin_Utils.Inflections_Package is
       suffx : suffix_record;
 
       procedure Get(f : in File_Type; p : out quality_record) is
-         ps : Part_Of_Speech_Type := x;
+         ps : Part_Of_Speech_Type := X;
       begin
          Get(f, ps);
          Get(f, spacer);
          case ps is
-            when n =>
+            when N =>
                Get(f, noun);
-               p := (n, noun);
-            when pron =>
+               p := (N, noun);
+            when Pron =>
                Get(f, pronoun);
-               p := (pron, pronoun);
-            when pack =>
+               p := (Pron, pronoun);
+            when Pack =>
                Get(f, propack);
-               p := (pack, propack);
-            when adj =>
+               p := (Pack, propack);
+            when Adj =>
                Get(f, adjective);
-               p := (adj, adjective);
-            when num =>
+               p := (Adj, adjective);
+            when Num =>
                Get(f, numeral);
-               p := (num, numeral);
-            when adv =>
+               p := (Num, numeral);
+            when Adv =>
                Get(f, adverb);
-               p := (adv, adverb);
-            when v =>
+               p := (Adv, adverb);
+            when V =>
                Get(f, verb);
-               p := (v, verb);
-            when vpar =>
+               p := (V, verb);
+            when Vpar =>
                Get(f, vparticiple);
-               p := (vpar, vparticiple);
-            when supine =>
+               p := (Vpar, vparticiple);
+            when Supine =>
                Get(f, supin);
-               p := (supine, supin);
-            when prep =>
+               p := (Supine, supin);
+            when Prep =>
                Get(f, preposition);
-               p := (prep, preposition);
-            when conj =>
+               p := (Prep, preposition);
+            when Conj =>
                Get(f, conjunction);
-               p := (conj, conjunction);
-            when interj =>
+               p := (Conj, conjunction);
+            when Interj =>
                Get(f, interjection);
-               p := (interj, interjection);
-            when tackon =>
+               p := (Interj, interjection);
+            when Tackon =>
                Get(f, tackn);
-               p := (tackon, tackn);
-            when prefix =>
+               p := (Tackon, tackn);
+            when Prefix =>
                Get(f, prefx);
-               p := (prefix, prefx);
-            when suffix =>
+               p := (Prefix, prefx);
+            when Suffix =>
                Get(f, suffx);
-               p := (suffix, suffx);
-            when x =>
-               p := (pofs => x);
+               p := (Suffix, suffx);
+            when X =>
+               p := (pofs => X);
          end case;
          return;
       end Get;
 
       procedure Get(p : out quality_record) is
-         ps : Part_Of_Speech_Type := x;
+         ps : Part_Of_Speech_Type := X;
       begin
-         Get(ps);
-         Get(spacer);
+         Get (ps);
+         Get (spacer);
          case ps is
-            when n =>
-               Get(noun);
-               p := (n, noun);
-            when pron =>
-               Get(pronoun);
-               p := (pron, pronoun);
-            when pack =>
-               Get(propack);
-               p := (pack, propack);
-            when adj =>
+            when N =>
+               Get (noun);
+               p := (N, noun);
+            when Pron =>
+               Get (pronoun);
+               p := (Pron, pronoun);
+            when Pack =>
+               Get (propack);
+               p := (Pack, propack);
+            when Adj =>
                Get(adjective);
-               p := (adj, adjective);
-            when num =>
+               p := (Adj, adjective);
+            when Num =>
                Get(numeral);
-               p := (num, numeral);
-            when adv =>
+               p := (Num, numeral);
+            when Adv =>
                Get(adverb);
-               p := (adv, adverb);
-            when v =>
+               p := (Adv, adverb);
+            when V =>
                Get(verb);
-               p := (v, verb);
-            when vpar =>
+               p := (V, verb);
+            when Vpar =>
                Get(vparticiple);
-               p := (vpar, vparticiple);
-            when supine =>
+               p := (Vpar, vparticiple);
+            when Supine =>
                Get(supin);
-               p := (supine, supin);
-            when prep =>
+               p := (Supine, supin);
+            when Prep =>
                Get(preposition);
-               p := (prep, preposition);
-            when conj =>
+               p := (Prep, preposition);
+            when Conj =>
                Get(conjunction);
-               p := (conj, conjunction);
-            when interj =>
+               p := (Conj, conjunction);
+            when Interj =>
                Get(interjection);
-               p := (interj, interjection);
-            when tackon =>
+               p := (Interj, interjection);
+            when Tackon =>
                Get(tackn);
-               p := (tackon, tackn);
-            when prefix =>
+               p := (Tackon, tackn);
+            when Prefix =>
                Get(prefx);
-               p := (prefix, prefx);
-            when suffix =>
+               p := (Prefix, prefx);
+            when Suffix =>
                Get(suffx);
-               p := (suffix, suffx);
-            when x =>
-               p := (pofs => x);
+               p := (Suffix, suffx);
+            when X =>
+               p := (pofs => X);
          end case;
          return;
       end Get;
@@ -1618,36 +1614,36 @@ package body Latin_Utils.Inflections_Package is
          Put(f, p.pofs);
          Put(f, ' ');
          case p.pofs is
-            when n =>
-               Put(f, p.n);
-            when pron =>
-               Put(f, p.pron);
-            when pack =>
-               Put(f, p.pack);
-            when adj =>
-               Put(f, p.adj);
-            when num =>
-               Put(f, p.num);
-            when adv =>
-               Put(f, p.adv);
-            when v =>
-               Put(f, p.v);
-            when vpar =>
-               Put(f, p.vpar);
-            when supine =>
-               Put(f, p.supine);
-            when prep =>
-               Put(f, p.prep);
-            when conj =>
-               Put(f, p.conj);
-            when interj =>
-               Put(f, p.interj);
-            when tackon =>
-               Put(f, p.tackon);
-            when prefix =>
-               Put(f, p.prefix);
-            when suffix =>
-               Put(f, p.suffix);
+            when N =>
+               Put(f, p.N);
+            when Pron =>
+               Put(f, p.Pron);
+            when Pack =>
+               Put(f, p.Pack);
+            when Adj =>
+               Put(f, p.Adj);
+            when Num =>
+               Put(f, p.Num);
+            when Adv =>
+               Put(f, p.Adv);
+            when V =>
+               Put(f, p.V);
+            when Vpar =>
+               Put(f, p.Vpar);
+            when Supine =>
+               Put(f, p.Supine);
+            when Prep =>
+               Put(f, p.Prep);
+            when Conj =>
+               Put(f, p.Conj);
+            when Interj =>
+               Put(f, p.Interj);
+            when Tackon =>
+               Put(f, p.Tackon);
+            when Prefix =>
+               Put(f, p.Prefix);
+            when Suffix =>
+               Put(f, p.Suffix);
             when others =>
                null;
          end case;
@@ -1661,36 +1657,36 @@ package body Latin_Utils.Inflections_Package is
          Put(p.pofs);
          Put(' ');
          case p.pofs is
-            when n =>
-               Put(p.n);
-            when pron =>
-               Put(p.pron);
-            when pack =>
-               Put(p.pack);
-            when adj =>
-               Put(p.adj);
-            when num =>
-               Put(p.num);
-            when adv =>
-               Put(p.adv);
-            when v =>
-               Put(p.v);
-            when vpar =>
-               Put(p.vpar);
-            when supine =>
-               Put(p.supine);
-            when prep =>
-               Put(p.prep);
-            when conj =>
-               Put(p.conj);
-            when interj =>
-               Put(p.interj);
-            when tackon =>
-               Put(p.tackon);
-            when prefix =>
-               Put(p.prefix);
-            when suffix =>
-               Put(p.suffix);
+            when N =>
+               Put(p.N);
+            when Pron =>
+               Put(p.Pron);
+            when Pack =>
+               Put(p.Pack);
+            when Adj =>
+               Put(p.Adj);
+            when Num =>
+               Put(p.Num);
+            when Adv =>
+               Put(p.Adv);
+            when V =>
+               Put(p.V);
+            when Vpar =>
+               Put(p.Vpar);
+            when Supine =>
+               Put(p.Supine);
+            when Prep =>
+               Put(p.Prep);
+            when Conj =>
+               Put(p.Conj);
+            when Interj =>
+               Put(p.Interj);
+            when Tackon =>
+               Put(p.Tackon);
+            when Prefix =>
+               Put(p.Prefix);
+            when Suffix =>
+               Put(p.Suffix);
             when others =>
                null;
          end case;
@@ -1700,59 +1696,59 @@ package body Latin_Utils.Inflections_Package is
 
       procedure Get(s : in String; p : out quality_record; last : out Integer) is
          l : Integer := s'First - 1;
-         ps : Part_Of_Speech_Type := x;
+         ps : Part_Of_Speech_Type := X;
       begin
          Get(s, ps, l);
          last := l;         --  In case it is not set later
          l := l + 1;
          case ps is
-            when n =>
+            when N =>
                Get(s(l+1..s'Last), noun, last);
-               p := (n, noun);
-            when pron =>
+               p := (N, noun);
+            when Pron =>
                Get(s(l+1..s'Last), pronoun, last);
-               p := (pron, pronoun);
-            when pack =>
+               p := (Pron, pronoun);
+            when Pack =>
                Get(s(l+1..s'Last), propack, last);
-               p := (pack, propack);
-            when adj =>
+               p := (Pack, propack);
+            when Adj =>
                Get(s(l+1..s'Last), adjective, last);
-               p := (adj, adjective);
-            when num =>
+               p := (Adj, adjective);
+            when Num =>
                Get(s(l+1..s'Last), numeral, last);
-               p := (num, numeral);
-            when adv =>
+               p := (Num, numeral);
+            when Adv =>
                Get(s(l+1..s'Last), adverb, last);
-               p := (adv, adverb);
-            when v =>
+               p := (Adv, adverb);
+            when V =>
                Get(s(l+1..s'Last), verb, last);
-               p := (v, verb);
-            when vpar =>
+               p := (V, verb);
+            when Vpar =>
                Get(s(l+1..s'Last), vparticiple, last);
-               p := (vpar, vparticiple);
-            when supine =>
+               p := (Vpar, vparticiple);
+            when Supine =>
                Get(s(l+1..s'Last), supin, last);
-               p := (supine, supin);
-            when prep =>
+               p := (Supine, supin);
+            when Prep =>
                Get(s(l+1..s'Last), preposition, last);
-               p := (prep, preposition);
-            when conj =>
+               p := (Prep, preposition);
+            when Conj =>
                Get(s(l+1..s'Last), conjunction, last);
-               p := (conj, conjunction);
-            when interj =>
+               p := (Conj, conjunction);
+            when Interj =>
                Get(s(l+1..s'Last), interjection, last);
-               p := (interj, interjection);
-            when tackon =>
+               p := (Interj, interjection);
+            when Tackon =>
                Get(s(l+1..s'Last), tackn, last);
-               p := (tackon, tackn);
-            when prefix =>
+               p := (Tackon, tackn);
+            when Prefix =>
                Get(s(l+1..s'Last), prefx, last);
-               p := (prefix, prefx);
-            when suffix =>
+               p := (Prefix, prefx);
+            when Suffix =>
                Get(s(l+1..s'Last), suffx, last);
-               p := (suffix, suffx);
-            when x =>
-               p := (pofs => x);
+               p := (Suffix, suffx);
+            when X =>
+               p := (pofs => X);
          end case;
          return;
       end Get;
@@ -1770,51 +1766,51 @@ package body Latin_Utils.Inflections_Package is
          l := m + 1;
          s(l) :=  ' ';
          case p.pofs is
-            when n =>
+            when N =>
                m := l + noun_record_io.Default_Width;
-               Put(s(l+1..m), p.n);
-            when pron =>
+               Put(s(l+1..m), p.N);
+            when Pron =>
                m := l + pronoun_record_io.Default_Width;
-               Put(s(l+1..m), p.pron);
-            when pack =>
+               Put(s(l+1..m), p.Pron);
+            when Pack =>
                m := l + propack_record_io.Default_Width;
-               Put(s(l+1..m), p.pack);
-            when adj =>
+               Put(s(l+1..m), p.Pack);
+            when Adj =>
                m := l + adjective_record_io.Default_Width;
-               Put(s(l+1..m), p.adj);
-            when num =>
+               Put(s(l+1..m), p.Adj);
+            when Num =>
                m := l + numeral_record_io.Default_Width;
-               Put(s(l+1..m), p.num);
-            when adv =>
+               Put(s(l+1..m), p.Num);
+            when Adv =>
                m := l + adverb_record_io.Default_Width;
-               Put(s(l+1..m), p.adv);
-            when v =>
+               Put(s(l+1..m), p.Adv);
+            when V =>
                m := l + verb_record_io.Default_Width;
-               Put(s(l+1..m), p.v);
-            when vpar =>
+               Put(s(l+1..m), p.V);
+            when Vpar =>
                m := l + vpar_record_io.Default_Width;
-               Put(s(l+1..m), p.vpar);
-            when supine =>
+               Put(s(l+1..m), p.Vpar);
+            when Supine =>
                m := l + supine_record_io.Default_Width;
-               Put(s(l+1..m), p.supine);
-            when prep =>
+               Put(s(l+1..m), p.Supine);
+            when Prep =>
                m := l + preposition_record_io.Default_Width;
-               Put(s(l+1..m), p.prep);
-            when conj =>
+               Put(s(l+1..m), p.Prep);
+            when Conj =>
                m := l + conjunction_record_io.Default_Width;
-               Put(s(l+1..m), p.conj);
-            when interj =>
+               Put(s(l+1..m), p.Conj);
+            when Interj =>
                m := l + interjection_record_io.Default_Width;
-               Put(s(l+1..m), p.interj);
-            when tackon =>
+               Put(s(l+1..m), p.Interj);
+            when Tackon =>
                m := l + tackon_record_io.Default_Width;
-               Put(s(l+1..m), p.tackon);
-            when prefix =>
+               Put(s(l+1..m), p.Tackon);
+            when Prefix =>
                m := l + prefix_record_io.Default_Width;
-               Put(s(l+1..m), p.prefix);
-            when suffix =>
+               Put(s(l+1..m), p.Prefix);
+            when Suffix =>
                m := l + suffix_record_io.Default_Width;
-               Put(s(l+1..m), p.suffix);
+               Put(s(l+1..m), p.Suffix);
             when others =>
                null;
          end case;
@@ -2223,9 +2219,9 @@ package body Latin_Utils.Inflections_Package is
          loop
             n4_loop:
             loop
-               exit c4_loop when  lel(i).qual.pofs = pron  and then
-                 (lel(i).qual.pron.decl.Which = 1  or
-                    lel(i).qual.pron.decl.Which = 2);
+               exit c4_loop when  lel(i).qual.pofs = Pron  and then
+                 (lel(i).qual.Pron.decl.Which = 1  or
+                    lel(i).qual.Pron.decl.Which = 2);
 
                n := lel(i).ending.size;
 

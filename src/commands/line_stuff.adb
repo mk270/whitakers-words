@@ -126,7 +126,7 @@ package body line_stuff is
          Char_Utils.V_To_U_And_J_To_I (fc3);
          Char_Utils.V_To_U_And_J_To_I (fc4);
 
-         if pt.pofs = n  then
+         if pt.pofs = N  then
             if sts(2)(1) /= sts(1)(1)  and then
                sts(2)(1) /= ' '        and then
                sts(2)(1..3) /= ZZZ_Stem(1..3)
@@ -145,7 +145,7 @@ package body line_stuff is
                                                  dict(fc1));
             end if;
 
-         elsif pt.pofs = pron or pt.pofs = pack then
+         elsif pt.pofs = Pron or pt.pofs = Pack then
             if sts(2)(1) /= sts(1)(1)  and then
                sts(2)(1) /= ' '        and then
                sts(2)(1..3) /= ZZZ_Stem(1..3)
@@ -164,8 +164,8 @@ package body line_stuff is
                                                  dict(fc1));
             end if;
 
-         elsif pt.pofs = adj  then
-            if pt.adj.Co   = x  then   --  X for all KINDs
+         elsif pt.pofs = Adj then
+            if pt.Adj.Co = x then   --  X for all KINDs
                if (sts(2)(1) /= sts(1)(1) and then
                      sts(2)(1) /= ' '  and then
                      sts(2)(1..3) /= ZZZ_Stem(1..3) ) or
@@ -178,47 +178,47 @@ package body line_stuff is
                then
                   dict(fc1) :=
                     new dictionary_item'(( (sts(1), blk_stem, blk_stem, blk_stem),
-                                           (adj, (pt.adj.Decl, pos)),
+                                           (Adj, (pt.Adj.Decl, pos)),
                                            --KIND, TRAN, MEAN), DICT(FC1));
                                            tran, mean), dict(fc1));
                   dict(fc2) :=
                     new dictionary_item'( ( (ZZZ_Stem, sts(2), blk_stem, blk_stem),
-                                            (adj, (pt.adj.Decl, pos)),
+                                            (Adj, (pt.Adj.Decl, pos)),
                                             --KIND, TRAN, MEAN), DICT(FC2) );
                                             tran, mean), dict(fc2) );
                   dict(fc3) :=
                     new dictionary_item'(( (ZZZ_Stem, ZZZ_Stem, sts(3), blk_stem),
-                                           (adj, (pt.adj.Decl, comp)),
+                                           (Adj, (pt.Adj.Decl, comp)),
                                            --KIND, TRAN, MEAN), DICT(FC3));
                                            tran, mean), dict(fc3));
                   dict(fc4) :=
                     new dictionary_item'(( (ZZZ_Stem, ZZZ_Stem, ZZZ_Stem, sts(4)),
-                                           (adj, (pt.adj.Decl, super)),
+                                           (Adj, (pt.Adj.Decl, super)),
                                            --KIND, TRAN, MEAN), DICT(FC4));
                                            tran, mean), dict(fc4));
                end if;
-            elsif pt.adj.Co   = pos   then
+            elsif pt.Adj.Co = pos then
                dict(fc1) :=
                  new dictionary_item'(( (sts(1), blk_stem, blk_stem, blk_stem),
                                         --(ADJ, (PT.ADJ.DECL, POS)), KIND, TRAN, MEAN),
-                                        (adj, (pt.adj.Decl, pos)), tran, mean),
+                                        (Adj, (pt.Adj.Decl, pos)), tran, mean),
                                       dict(fc1));
                dict(fc2) :=
                  new dictionary_item'(((blk_stem,  sts(2), blk_stem, blk_stem),
                                        --(ADJ, (PT.ADJ.DECL, POS)), KIND, TRAN, MEAN),
-                                       (adj, (pt.adj.Decl, pos)), tran, mean),
+                                       (Adj, (pt.Adj.Decl, pos)), tran, mean),
                                       dict(fc2));
-            elsif pt.adj.Co   = comp  then
+            elsif pt.Adj.Co = comp then
                dict(fc1) :=
                  new dictionary_item'(( (blk_stem, blk_stem, sts(1), blk_stem),
                                         --(ADJ, (PT.ADJ.DECL, COMP)), KIND, TRAN, MEAN),
-                                        (adj, (pt.adj.Decl, comp)), tran, mean),
+                                        (Adj, (pt.Adj.Decl, comp)), tran, mean),
                                       dict(fc1));
-            elsif pt.adj.Co   = super then
+            elsif pt.Adj.Co   = super then
                dict(fc1) :=
                  new dictionary_item'(( (blk_stem, blk_stem, blk_stem, sts(1)),
                                         --(ADJ, (PT.ADJ.DECL, SUPER)), KIND, TRAN, MEAN),
-                                        (adj, (pt.adj.Decl, super)), tran, mean),
+                                        (Adj, (pt.Adj.Decl, super)), tran, mean),
                                       dict(fc1));
 
             else
@@ -227,8 +227,8 @@ package body line_stuff is
                                                  dict(fc1));
             end if;
 
-         elsif pt.pofs = adv  then
-            if pt.adv.Co   = x  then   --  X for all KINDs
+         elsif pt.pofs = Adv  then
+            if pt.Adv.Co   = x  then   --  X for all KINDs
                if (sts(2)(1) /= sts(1)(1) and then
                      sts(2)(1) /= ' '  and then
                      sts(2)(1..3) /= ZZZ_Stem(1..3) ) or
@@ -239,33 +239,33 @@ package body line_stuff is
                   dict(fc1) :=
                     new dictionary_item'(( (sts(1), blk_stem, blk_stem, blk_stem),
                                            --(ADV, (CO => POS)), KIND, TRAN, MEAN), DICT(FC1));
-                                           (adv, (Co => pos)), tran, mean), dict(fc1));
+                                           (Adv, (Co => pos)), tran, mean), dict(fc1));
                   dict(fc2) :=
                     new dictionary_item'(( (sts(2), blk_stem, blk_stem, blk_stem),
                                            --(ADV, (CO => COMP)), KIND, TRAN, MEAN), DICT(FC2));
-                                           (adv, (Co => comp)), tran, mean), dict(fc2));
+                                           (Adv, (Co => comp)), tran, mean), dict(fc2));
                   dict(fc3) :=
                     new dictionary_item'(( (sts(3), blk_stem, blk_stem, blk_stem),
                                            --(ADV, (CO => SUPER)), KIND, TRAN, MEAN), DICT(FC3));
-                                           (adv, (Co => super)), tran, mean), dict(fc3));
+                                           (Adv, (Co => super)), tran, mean), dict(fc3));
                end if;
-            elsif pt.adv.Co   = pos   then          --  just a specific KIND
+            elsif pt.Adv.Co = pos then          --  just a specific KIND
                dict(fc1) :=
                  new dictionary_item'(( (sts(1), blk_stem, blk_stem, blk_stem),
                                         --(ADV, (CO => POS)), KIND, TRAN, MEAN),
-                                        (adv, (Co => pos)), tran, mean),
+                                        (Adv, (Co => pos)), tran, mean),
                                       dict(fc1));
-            elsif pt.adv.Co   = comp  then
+            elsif pt.Adv.Co = comp then
                dict(fc1) :=
                  new dictionary_item'(( (blk_stem, sts(1), blk_stem, blk_stem),
                                         --(ADV, (CO => COMP)), KIND, TRAN, MEAN),
-                                        (adv, (Co => comp)), tran, mean),
+                                        (Adv, (Co => comp)), tran, mean),
                                       dict(fc1));
-            elsif pt.adv.Co   = super then
+            elsif pt.Adv.Co = super then
                dict(fc1) :=
                  new dictionary_item'(( (blk_stem, blk_stem, sts(1), blk_stem),
                                         --(ADV, (CO => SUPER)), KIND, TRAN, MEAN),
-                                        (adv, (Co => super)), tran, mean),
+                                        (Adv, (Co => super)), tran, mean),
                                       dict(fc1));
             else
                --DICT(FC1) := new DICTIONARY_ITEM'((STS, PT, KIND, TRAN, MEAN),
@@ -273,7 +273,7 @@ package body line_stuff is
                                                  dict(fc1));
             end if;
 
-         elsif pt.pofs = v  then
+         elsif pt.pofs = V  then
             if (sts(2)(1) /= sts(1)(1) and then
                   sts(2)(1) /= ' '  and then
                   sts(2)(1..3) /= ZZZ_Stem(1..3) ) or
@@ -306,59 +306,59 @@ package body line_stuff is
                                                  dict(fc1));
             end if;
 
-         elsif pt.pofs = num  then
-            if pt.num.Sort = x  then   --  X for all KINDs
+         elsif pt.pofs = Num  then
+            if pt.Num.Sort = x  then   --  X for all KINDs
                if sts(1)(1) /= ' ' and then sts(1)(1..3) /= ZZZ_Stem(1..3) then
                   dict(fc1) :=
                     new dictionary_item'(( (sts(1), blk_stem, blk_stem, blk_stem),
                                            --(NUM, (PT.NUM.DECL, CARD)), KIND, TRAN, MEAN),
-                                           (num, (pt.num.Decl, card, value)), tran, mean),
+                                           (Num, (pt.Num.Decl, card, value)), tran, mean),
                                          dict(fc1));
                end if;
                if sts(2)(1) /= ' ' and then sts(2)(1..3) /= ZZZ_Stem(1..3) then
                   dict(fc2) :=
                     new dictionary_item'(( (ZZZ_Stem, sts(2), blk_stem, blk_stem),
                                            --(NUM, ((0, 0), ORD)), KIND, TRAN, MEAN),
-                                           (num, ((0, 0), ord, value)), tran, mean),
+                                           (Num, ((0, 0), ord, value)), tran, mean),
                                          dict(fc2));
                end if;
                if sts(3)(1) /= ' ' and then sts(3)(1..3) /= ZZZ_Stem(1..3) then
                   dict(fc3) :=
                     new dictionary_item'(( (ZZZ_Stem, ZZZ_Stem, sts(3), blk_stem),
                                            --(NUM, (PT.NUM.DECL, DIST)), KIND, TRAN, MEAN),
-                                           (num, (pt.num.Decl, dist, value)), tran, mean),
+                                           (Num, (pt.Num.Decl, dist, value)), tran, mean),
                                          dict(fc3));
                end if;
                if sts(4)(1) /= ' ' and then sts(4)(1..3) /= ZZZ_Stem(1..3) then
                   dict(fc4) :=
                     new dictionary_item'(( (ZZZ_Stem, ZZZ_Stem, ZZZ_Stem, sts(4)),
                                            --(NUM, (PT.NUM.DECL, ADVERB)), KIND, TRAN, MEAN),
-                                           (num, (pt.num.Decl, adverb, value)), tran, mean),
+                                           (Num, (pt.Num.Decl, adverb, value)), tran, mean),
                                          dict(fc4));
                end if;
-            elsif pt.num.Sort = card  then
+            elsif pt.Num.Sort = card  then
                dict(fc1) :=
                  new dictionary_item'(( (sts(1), blk_stem, blk_stem, blk_stem),
                                         --(NUM, (PT.NUM.DECL, CARD)), KIND, TRAN, MEAN),
-                                        (num, (pt.num.Decl, card, value)), tran, mean),
+                                        (Num, (pt.Num.Decl, card, value)), tran, mean),
                                       dict(fc1));
-            elsif pt.num.Sort = ord   then
+            elsif pt.Num.Sort = ord   then
                dict(fc1) :=
                  new dictionary_item'(( (blk_stem, sts(1), blk_stem, blk_stem),
                                         --(NUM, (PT.NUM.DECL, ORD)), KIND, TRAN, MEAN),
-                                        (num, (pt.num.Decl, ord, value)), tran, mean),
+                                        (Num, (pt.Num.Decl, ord, value)), tran, mean),
                                       dict(fc1));
-            elsif pt.num.Sort = dist  then
+            elsif pt.Num.Sort = dist  then
                dict(fc1) :=
                  new dictionary_item'(( (blk_stem, blk_stem, sts(1), blk_stem),
                                         --(NUM, (PT.NUM.DECL, DIST)), KIND, TRAN, MEAN),
-                                        (num, (pt.num.Decl, dist, value)), tran, mean),
+                                        (Num, (pt.Num.Decl, dist, value)), tran, mean),
                                       dict(fc1));
-            elsif pt.num.Sort = adverb  then
+            elsif pt.Num.Sort = adverb  then
                dict(fc1) :=
                  new dictionary_item'(( (blk_stem, blk_stem, blk_stem, sts(1)),
                                         --(NUM, (PT.NUM.DECL, ADVERB)), KIND, TRAN, MEAN),
-                                        (num, (pt.num.Decl, adverb, value)), tran, mean),
+                                        (Num, (pt.Num.Decl, adverb, value)), tran, mean),
                                       dict(fc1));
             end if;
 
@@ -909,20 +909,20 @@ package body line_stuff is
             part      : Part_Entry         := Null_Part_Entry;
          begin
             case part.pofs is
-               when n  =>
-                  part := (n, (qual.n.decl, qual.n.gender, kind.n_kind));
-               when pron =>
-                  part := (pron, (qual.pron.decl, kind.pron_kind));
-               when pack =>
-                  part := (pack, (qual.pack.decl, kind.pack_kind));
-               when adj =>
-                  part := (adj, (qual.adj.decl, qual.adj.co));
-               when num =>
-                  part := (num, (qual.num.decl, qual.num.sort, kind.num_value));
-               when adv =>
-                  part := (adv, (Co => qual.adv.co));
-               when v =>
-                  part := (v, (qual.v.con, kind.v_kind));
+               when N  =>
+                  part := (N, (qual.N.decl, qual.N.gender, kind.n_kind));
+               when Pron =>
+                  part := (Pron, (qual.Pron.decl, kind.pron_kind));
+               when Pack =>
+                  part := (Pack, (qual.Pack.decl, kind.pack_kind));
+               when Adj =>
+                  part := (Adj, (qual.Adj.decl, qual.Adj.co));
+               when Num =>
+                  part := (Num, (qual.Num.decl, qual.Num.sort, kind.num_value));
+               when Adv =>
+                  part := (Adv, (Co => qual.Adv.co));
+               when V =>
+                  part := (V, (qual.V.con, kind.v_kind));
                when others  =>
                   part := Null_Part_Entry;
             end case;

@@ -28,10 +28,10 @@ package body word_support_package is
 
    function eff_part(part : Part_Of_Speech_Type) return Part_Of_Speech_Type is
    begin
-      if part = vpar   then
-         return v;
-      elsif part = supine  then
-         return v;
+      if part = Vpar   then
+         return V;
+      elsif part = Supine  then
+         return V;
       else
          return part;
       end if;

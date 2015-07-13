@@ -55,54 +55,54 @@ package body Kind_Entry_IO is
 
    begin
       case POFS is
-         when n =>
+         when N =>
             Noun_Kind_Type_IO.Get (File, Noun_Kind);
-            Item := (n, Noun_Kind);
-         when pron =>
+            Item := (N, Noun_Kind);
+         when Pron =>
             Pronoun_Kind_Type_IO.Get (File, Pronoun_Kind);
-            Item := (pron, Pronoun_Kind);
-         when pack =>
+            Item := (Pron, Pronoun_Kind);
+         when Pack =>
             Pronoun_Kind_Type_IO.Get (File, Propack_Kind);
-            Item := (pack, Propack_Kind);
-         when adj =>
+            Item := (Pack, Propack_Kind);
+         when Adj =>
             Set_Col (File);
-            Item := (pofs => adj);
-         when num =>
+            Item := (pofs => Adj);
+         when Num =>
             Inflections_Package.Integer_IO.Get (File, Numeral_Value);
-            Item := (num, Numeral_Value);
-         when adv =>
+            Item := (Num, Numeral_Value);
+         when Adv =>
             Set_Col (File);
-            Item := (pofs => adv);
-         when v =>
+            Item := (pofs => Adv);
+         when V =>
             Verb_Kind_Type_IO.Get (File, Verb_Kind);
-            Item := (v, Verb_Kind);
-         when vpar =>
+            Item := (V, Verb_Kind);
+         when Vpar =>
             Verb_Kind_Type_IO.Get (File, Vpar_Kind);
-            Item := (vpar, Vpar_Kind);
-         when supine =>
+            Item := (Vpar, Vpar_Kind);
+         when Supine =>
             Verb_Kind_Type_IO.Get (File, Supine_Kind);
-            Item := (supine, Supine_Kind);
-         when prep =>
+            Item := (Supine, Supine_Kind);
+         when Prep =>
             Set_Col (File);
-            Item := (pofs => prep);
-         when conj =>
+            Item := (pofs => Prep);
+         when Conj =>
             Set_Col (File);
-            Item := (pofs => conj);
-         when interj =>
+            Item := (pofs => Conj);
+         when Interj =>
             Set_Col (File);
-            Item := (pofs => interj);
-         when tackon =>
+            Item := (pofs => Interj);
+         when Tackon =>
             Set_Col (File);
-            Item := (pofs => tackon);
-         when prefix =>
+            Item := (pofs => Tackon);
+         when Prefix =>
             Set_Col (File);
-            Item := (pofs => prefix);
-         when suffix =>
+            Item := (pofs => Prefix);
+         when Suffix =>
             Set_Col (File);
-            Item := (pofs => suffix);
-         when x =>
+            Item := (pofs => Suffix);
+         when X =>
             Set_Col (File);
-            Item := (pofs => x);
+            Item := (pofs => X);
       end case;
    end Get;
 
@@ -124,81 +124,81 @@ package body Kind_Entry_IO is
 
    begin
       case POFS is
-         when n =>
+         when N =>
             Noun_Kind_Type_IO.Get (Noun_Kind);
-            Item := (n, Noun_Kind);
-         when pron =>
+            Item := (N, Noun_Kind);
+         when Pron =>
             Pronoun_Kind_Type_IO.Get (Pronoun_Kind);
-            Item := (pron, Pronoun_Kind);
-         when pack =>
+            Item := (Pron, Pronoun_Kind);
+         when Pack =>
             Pronoun_Kind_Type_IO.Get (Propack_Kind);
-            Item := (pack, Propack_Kind);
-         when adj =>
+            Item := (Pack, Propack_Kind);
+         when Adj =>
             Ada.Text_IO.Set_Col
                ( Ada.Text_IO.Col +
                  Ada.Text_IO.Positive_Count (Kind_Entry_IO.Default_Width)
                );
-            Item := (pofs => adj);
-         when num =>
+            Item := (pofs => Adj);
+         when Num =>
             Inflections_Package.Integer_IO.Get (Numeral_Value);
-            Item := (num, Numeral_Value);
-         when adv =>
+            Item := (Num, Numeral_Value);
+         when Adv =>
             Ada.Text_IO.Set_Col
                ( Ada.Text_IO.Col +
                  Ada.Text_IO.Positive_Count (Kind_Entry_IO.Default_Width)
                );
             Item := (pofs => adv);
-         when v =>
+         when V =>
             Verb_Kind_Type_IO.Get (Verb_Kind);
-            Item := (v, Verb_Kind);
-         when vpar =>
+            Item := (V, Verb_Kind);
+         when Vpar =>
             Verb_Kind_Type_IO.Get (Vpar_Kind);
-            Item := (vpar, Vpar_Kind);
-         when supine =>
+            Item := (Vpar, Vpar_Kind);
+         when Supine =>
             Verb_Kind_Type_IO.Get (Supine_Kind);
-            Item := (supine, Supine_Kind);
-         when prep =>
+            Item := (Supine, Supine_Kind);
+         when Prep =>
             Ada.Text_IO.Set_Col
                ( Ada.Text_IO.Col +
                  Ada.Text_IO.Positive_Count (Kind_Entry_IO.Default_Width)
                );
-            Item := (pofs => prep);
-         when conj =>
+            Item := (pofs => Prep);
+         when Conj =>
             Ada.Text_IO.Set_Col
                ( Ada.Text_IO.Col +
                  Ada.Text_IO.Positive_Count (Kind_Entry_IO.Default_Width)
                );
-            Item := (pofs => conj);
-         when interj =>
+            Item := (pofs => Conj);
+         when Interj =>
             Ada.Text_IO.Set_Col
                ( Ada.Text_IO.Col +
                  Ada.Text_IO.Positive_Count (Kind_Entry_IO.Default_Width)
                );
-            Item := (pofs => interj);
-         when tackon =>
+            Item := (pofs => Interj);
+         when Tackon =>
             Ada.Text_IO.Set_Col
                ( Ada.Text_IO.Col +
                  Ada.Text_IO.Positive_Count (Kind_Entry_IO.Default_Width)
                );
-            Item := (pofs => tackon);
-         when prefix =>
+            Item := (pofs => Tackon);
+         when Prefix =>
             Ada.Text_IO.Set_Col
                ( Ada.Text_IO.Col +
                  Ada.Text_IO.Positive_Count (Kind_Entry_IO.Default_Width)
                );
-            Item := (pofs => prefix);
-         when suffix =>
+            Item := (pofs => Prefix);
+         when Suffix =>
             Ada.Text_IO.Set_Col
                ( Ada.Text_IO.Col +
                  Ada.Text_IO.Positive_Count (Kind_Entry_IO.Default_Width)
                );
-            Item := (pofs => suffix);
-         when x =>
+            Item := (pofs => Suffix);
+         when X =>
             Ada.Text_IO.Set_Col
                ( Ada.Text_IO.Col +
                  Ada.Text_IO.Positive_Count (Kind_Entry_IO.Default_Width)
                );
-            Item := (pofs => x);
+            Item := (pofs => X);
       end case;
    end Get;
 
@@ -216,24 +216,24 @@ package body Kind_Entry_IO is
          Kind_Entry_IO.Default_Width + Positive (Ada.Text_IO.Col (File)) - 1;
    begin
       case Item.pofs is
-         when n =>
+         when N =>
             Noun_Kind_Type_IO.Put (File, Item.n_kind);
-         when pron =>
+         when Pron =>
             Pronoun_Kind_Type_IO.Put (File, Item.pron_kind);
-         when pack =>
+         when Pack =>
             Pronoun_Kind_Type_IO.Put (File, Item.pack_kind);
-         when num =>
+         when Num =>
             Inflections_Package.Integer_IO.Put
                ( File, Item.num_value, Numeral_Value_Type_IO_Default_Width );
-         when v =>
+         when V =>
             Verb_Kind_Type_IO.Put (File, Item.v_kind);
-         when vpar =>
+         when Vpar =>
             Verb_Kind_Type_IO.Put (File, Item.vpar_kind);
-         when supine =>
+         when Supine =>
             Verb_Kind_Type_IO.Put (File, Item.supine_kind);
-         when x | adj | adv =>
+         when X | Adj | Adv =>
             null;
-         when prep .. suffix =>
+         when Prep .. Suffix =>
             null;
       end case;
       Ada.Text_IO.Put
@@ -252,24 +252,24 @@ package body Kind_Entry_IO is
          Kind_Entry_IO.Default_Width + Positive (Ada.Text_IO.Col) - 1;
    begin
       case Item.pofs is
-         when n =>
+         when N =>
             Noun_Kind_Type_IO.Put (Item.n_kind);
-         when pron =>
+         when Pron =>
             Pronoun_Kind_Type_IO.Put (Item.pron_kind);
-         when pack =>
+         when Pack =>
             Pronoun_Kind_Type_IO.Put (Item.pack_kind);
-         when num =>
+         when Num =>
             Inflections_Package.Integer_IO.Put
                ( Item.num_value, Numeral_Value_Type_IO_Default_Width );
-         when v =>
+         when V =>
             Verb_Kind_Type_IO.Put (Item.v_kind);
-         when vpar =>
+         when Vpar =>
             Verb_Kind_Type_IO.Put (Item.vpar_kind);
-         when supine =>
+         when Supine =>
             Verb_Kind_Type_IO.Put (Item.supine_kind);
-         when x | adj | adv =>
+         when X | Adj | Adv =>
             null;
-         when prep .. suffix =>
+         when Prep .. Suffix =>
             null;
       end case;
       Ada.Text_IO.Put (String'(Integer (Ada.Text_IO.Col) .. Ending_Col => ' '));
@@ -301,52 +301,52 @@ package body Kind_Entry_IO is
    begin
       Last := Low;         --  In case it is not set later
       case POFS is
-         when n =>
+         when N =>
             Noun_Kind_Type_IO.Get
                ( Source (Low + 1 .. Source'Last), Noun_Kind, Last );
-            Target := (n, Noun_Kind);
-         when pron =>
+            Target := (N, Noun_Kind);
+         when Pron =>
             Pronoun_Kind_Type_IO.Get
                ( Source (Low + 1 .. Source'Last), Pronoun_Kind, Last );
-            Target := (pron, Pronoun_Kind);
-         when pack =>
+            Target := (Pron, Pronoun_Kind);
+         when Pack =>
             Pronoun_Kind_Type_IO.Get
                ( Source (Low + 1 .. Source'Last), Propack_Kind, Last );
-            Target := (pack, Propack_Kind);
-         when adj =>
-            Target := (pofs => adj);
-         when num =>
+            Target := (Pack, Propack_Kind);
+         when Adj =>
+            Target := (pofs => Adj);
+         when Num =>
             Inflections_Package.Integer_IO.Get
                ( Source (Low + 1 .. Source'Last), Numeral_Value, Last );
-            Target := (num, Numeral_Value);
-         when adv =>
-            Target := (pofs => adv);
-         when v =>
+            Target := (Num, Numeral_Value);
+         when Adv =>
+            Target := (pofs => Adv);
+         when V =>
             Verb_Kind_Type_IO.Get
                ( Source (Low + 1 .. Source'Last), Verb_Kind, Last );
-            Target := (v, Verb_Kind);
-         when vpar =>
+            Target := (V, Verb_Kind);
+         when Vpar =>
             Verb_Kind_Type_IO.Get
                ( Source (Low + 1 .. Source'Last), Vpar_Kind, Last );
-            Target := (vpar, Vpar_Kind);
-         when supine =>
+            Target := (Vpar, Vpar_Kind);
+         when Supine =>
             Verb_Kind_Type_IO.Get
                ( Source (Low + 1 .. Source'Last), Supine_Kind, Last );
-            Target := (supine, Supine_Kind);
-         when prep =>
-            Target := (pofs => prep);
-         when conj =>
-            Target := (pofs => conj);
-         when interj =>
-            Target := (pofs => interj);
-         when tackon =>
-            Target := (pofs => tackon);
-         when prefix =>
-            Target := (pofs => prefix);
-         when suffix =>
-            Target := (pofs => suffix);
-         when x =>
-            Target := (pofs => x);
+            Target := (Supine, Supine_Kind);
+         when Prep =>
+            Target := (pofs => Prep);
+         when Conj =>
+            Target := (pofs => Conj);
+         when Interj =>
+            Target := (pofs => Interj);
+         when Tackon =>
+            Target := (pofs => Tackon);
+         when Prefix =>
+            Target := (pofs => Prefix);
+         when Suffix =>
+            Target := (pofs => Suffix);
+         when X =>
+            Target := (pofs => X);
       end case;
    end Get;
 
@@ -365,31 +365,31 @@ package body Kind_Entry_IO is
    begin
       -- Put Kind_Entry
       case Item.pofs is
-         when n =>
+         when N =>
             High := Low + Noun_Kind_Type_IO.Default_Width;
             Noun_Kind_Type_IO.Put (Target (Low + 1 .. High), Item.n_kind);
-         when pron =>
+         when Pron =>
             High := Low + Pronoun_Kind_Type_IO.Default_Width;
             Pronoun_Kind_Type_IO.Put (Target (Low + 1 .. High), Item.pron_kind);
-         when pack =>
+         when Pack =>
             High := Low + Pronoun_Kind_Type_IO.Default_Width;
             Pronoun_Kind_Type_IO.Put (Target (Low + 1 .. High), Item.pack_kind);
-         when num =>
+         when Num =>
             High := Low + Numeral_Value_Type_IO_Default_Width;
             Inflections_Package.Integer_IO.Put
                ( Target (Low + 1 .. High), Item.num_value );
-         when v =>
+         when V =>
             High := Low + Verb_Kind_Type_IO.Default_Width;
             Verb_Kind_Type_IO.Put (Target (Low + 1 .. High), Item.v_kind);
-         when vpar =>
+         when Vpar =>
             High := Low + Verb_Kind_Type_IO.Default_Width;
             Verb_Kind_Type_IO.Put (Target (Low + 1 .. High), Item.vpar_kind);
-         when supine =>
+         when Supine =>
             High := Low + Verb_Kind_Type_IO.Default_Width;
             Verb_Kind_Type_IO.Put (Target (Low + 1 .. High), Item.supine_kind);
-         when x | adj | adv =>
+         when X | Adj | Adv =>
             null;
-         when prep .. suffix =>
+         when Prep .. Suffix =>
             null;
       end case;
 

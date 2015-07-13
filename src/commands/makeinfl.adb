@@ -134,9 +134,9 @@ procedure makeinfl is
             for n in reverse 1 .. max_ending_size  loop
                while ilc (n, ch) /= null  loop
                   if   not
-                    (ilc (n, ch).ir.qual.pofs = pron  and then
-                    (ilc (n, ch).ir.qual.pron.decl.Which = 1  or
-                    ilc (n, ch).ir.qual.pron.decl.Which = 2))
+                    (ilc (n, ch).ir.qual.pofs = Pron  and then
+                    (ilc (n, ch).ir.qual.Pron.decl.Which = 1  or
+                    ilc (n, ch).ir.qual.Pron.decl.Which = 2))
                   then
                      if ch in inflections_section_1  then
                         j1 := j1 + 1;
@@ -156,9 +156,9 @@ procedure makeinfl is
             for n in reverse 1 .. max_ending_size  loop
                while ilc (n, ch) /= null  loop
                   if   not
-                    (ilc (n, ch).ir.qual.pofs = pron  and then
-                    (ilc (n, ch).ir.qual.pron.decl.Which = 1  or
-                    ilc (n, ch).ir.qual.pron.decl.Which = 2))
+                    (ilc (n, ch).ir.qual.pofs = Pron  and then
+                    (ilc (n, ch).ir.qual.Pron.decl.Which = 1  or
+                    ilc (n, ch).ir.qual.Pron.decl.Which = 2))
                   then
                      if ch in inflections_section_2  then
                         j2 := j2 + 1;
@@ -178,9 +178,9 @@ procedure makeinfl is
             for n in reverse 1 .. max_ending_size  loop
                while ilc (n, ch) /= null  loop
                   if   not
-                    (ilc (n, ch).ir.qual.pofs = pron  and then
-                    (ilc (n, ch).ir.qual.pron.decl.Which = 1  or
-                    ilc (n, ch).ir.qual.pron.decl.Which = 2))
+                    (ilc (n, ch).ir.qual.pofs = Pron  and then
+                    (ilc (n, ch).ir.qual.Pron.decl.Which = 1  or
+                    ilc (n, ch).ir.qual.Pron.decl.Which = 2))
                   then
                      if ch in inflections_section_3  then
                         j3 := j3 + 1;
@@ -200,9 +200,9 @@ procedure makeinfl is
             for n in reverse 1 .. max_ending_size  loop
                while ilc (n, ch) /= null  loop
                   if   not
-                    (ilc (n, ch).ir.qual.pofs = pron  and then
-                    (ilc (n, ch).ir.qual.pron.decl.Which = 1  or
-                    ilc (n, ch).ir.qual.pron.decl.Which = 2))
+                    (ilc (n, ch).ir.qual.pofs = Pron  and then
+                    (ilc (n, ch).ir.qual.Pron.decl.Which = 1  or
+                    ilc (n, ch).ir.qual.Pron.decl.Which = 2))
                   then
                      if ch in inflections_section_4 then
                         j4 := j4 + 1;
@@ -219,9 +219,9 @@ procedure makeinfl is
          for ch in Character range 'a' .. 'z'  loop
             for n in reverse 1 .. max_ending_size  loop
                while ilc (n, ch) /= null  loop
-                  if ilc (n, ch).ir.qual.pofs = pron  and then
-                    (ilc (n, ch).ir.qual.pron.decl.Which = 1  or
-                    ilc (n, ch).ir.qual.pron.decl.Which = 2)
+                  if ilc (n, ch).ir.qual.pofs = Pron  and then
+                    (ilc (n, ch).ir.qual.Pron.decl.Which = 1  or
+                    ilc (n, ch).ir.qual.Pron.decl.Which = 2)
                   then  --  2 no longer PACK
                      j4 := j4 + 1;
                      lel (j4) := ilc (n, ch).ir;

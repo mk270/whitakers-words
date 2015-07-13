@@ -407,23 +407,23 @@ package body word_package is
       begin
          case restriction is
             when regular    =>
-               if not (ds.part.pofs = pack  or
-                         (ds.part.pofs = pron  and then
-                            (ds.part.pron.Decl.Which = 1)))
+               if not (ds.part.pofs = Pack  or
+                         (ds.part.pofs = Pron  and then
+                            (ds.part.Pron.Decl.Which = 1)))
                then
                   pdl_index := pdl_index + 1;
                   pdl(pdl_index) := pruned_dictionary_item'(ds, d_k);
                end if;
 
             when pack_only  =>
-               if ds.part.pofs = pack  then
+               if ds.part.pofs = Pack  then
                   pdl_index := pdl_index + 1;
                   pdl(pdl_index) := pruned_dictionary_item'(ds, d_k);
                end if;
 
             when qu_pron_only  =>
-               if ds.part.pofs = pron  and then
-                 (ds.part.pron.Decl.Which = 1)
+               if ds.part.pofs = Pron  and then
+                 (ds.part.Pron.Decl.Which = 1)
                then
                   pdl_index := pdl_index + 1;
                   pdl(pdl_index) := pruned_dictionary_item'(ds, d_k);
@@ -761,8 +761,8 @@ package body word_package is
          function "<=" (left, right : Part_Of_Speech_Type) return Boolean is
          begin
             if right = left  or else
-               (left = pack and right = pron)  or else
-               right = x
+               (left = Pack and right = Pron)  or else
+               right = X
             then
                return True;
             else
@@ -811,8 +811,8 @@ package body word_package is
                --PUT_LINE("No SUFFIX in REDUCE - Fall through to PREFIX check ");
                null;
             elsif
-               (pdl_p = n    and then pdl_part.n.Decl = (9, 8)) or  --  No suffix for
-               (pdl_p = adj  and then pdl_part.adj.Decl = (9, 8)) -- abbreviations
+               (pdl_p = N    and then pdl_part.N.Decl = (9, 8)) or  --  No suffix for
+               (pdl_p = Adj  and then pdl_part.Adj.Decl = (9, 8)) -- abbreviations
             then
                --   Can be no suffix on abbreviation");
                goto end_of_pdl_loop;
@@ -820,23 +820,23 @@ package body word_package is
                if pdl_p <= suffix.entr.root  and then     --  Does SUFFIX agree in ROOT
                  ((pdl_key <= suffix.entr.root_key)  or else
                     ((pdl_key = 0) and then
-                       ((pdl_p = n) or (pdl_p = adj) or (pdl_p = v)) and then
+                       ((pdl_p = N) or (pdl_p = Adj) or (pdl_p = V)) and then
                        ((suffix.entr.root_key = 1) or (suffix.entr.root_key = 2))))
                then
                   --PUT_LINE("HIT HIT HIT HIT HIT HIT HIT HIT HIT     SUFFIX SUFFIX    in REDUCE");
                   case suffix.entr.Target.pofs is      --  Transform PDL_PART to TARGET
-                     when n =>
-                        pdl_part := (n, suffix.entr.Target.n);
-                     when pron =>
-                        pdl_part := (pron, suffix.entr.Target.pron);
-                     when adj =>
-                        pdl_part := (adj, suffix.entr.Target.adj);
-                     when num =>
-                        pdl_part := (num, suffix.entr.Target.num);
-                     when adv =>
-                        pdl_part := (adv, suffix.entr.Target.adv);
-                     when v =>
-                        pdl_part := (v, suffix.entr.Target.v);
+                     when N =>
+                        pdl_part := (N, suffix.entr.Target.n);
+                     when Pron =>
+                        pdl_part := (Pron, suffix.entr.Target.pron);
+                     when Adj =>
+                        pdl_part := (Adj, suffix.entr.Target.adj);
+                     when Num =>
+                        pdl_part := (Num, suffix.entr.Target.num);
+                     when Adv =>
+                        pdl_part := (Adv, suffix.entr.Target.adv);
+                     when V =>
+                        pdl_part := (V, suffix.entr.Target.v);
                      when others  =>
                         null;        --  No others so far, except X = all
                   end case;
@@ -855,9 +855,9 @@ package body word_package is
                --PUT_LINE("No PREFIX in REDUCE - Fall through to MATCHing ");
                null;
             elsif
-              (pdl_p = n    and then pdl_part.n.Decl = (9, 8)) or  --  No prefix for
-              (pdl_p = adj  and then pdl_part.adj.Decl = (9, 8)) or --  abbreviations
-              (pdl_p = interj  or pdl_p = conj)  --  or INTERJ or CONJ
+              (pdl_p = N    and then pdl_part.N.Decl = (9, 8)) or  --  No prefix for
+              (pdl_p = Adj  and then pdl_part.Adj.Decl = (9, 8)) or --  abbreviations
+              (pdl_p = Interj  or pdl_p = Conj)  --  or INTERJ or CONJ
             then
                --PUT_LINE("In REDUCE_STEM_LIST   no prefix on abbreviationi, interj, conj");
                goto end_of_pdl_loop;
@@ -866,7 +866,7 @@ package body word_package is
                  (pdl_part.pofs = prefix.entr.root)  --  or part mod by suf
                then
                   null;
-               elsif prefix.entr.root = x then  --   or ROOT = X
+               elsif prefix.entr.root = X then  --   or ROOT = X
                   null;
                else
                   goto end_of_pdl_loop;
@@ -891,26 +891,26 @@ package body word_package is
                   if (
                       ((pdl_key <= sl(i).IR.key) )  or else
                         ((pdl_key = 0)  and then
-                           (((pdl_p = n) or (pdl_p = adj) or (pdl_p = v)) and then
+                           (((pdl_p = N) or (pdl_p = Adj) or (pdl_p = V)) and then
                               ((sl(i).IR.key = 1) or (sl(i).IR.key = 2)) ))
                      )  and then   --  and KEY
                     ( pdl_part.pofs  = eff_part(sl(i).IR.qual.pofs) )
                   then
-                     if pdl_part.pofs = n                            and then
-                        pdl_part.n.Decl <= sl(i).IR.qual.n.decl      and then
-                        pdl_part.n.Gender <= sl(i).IR.qual.n.gender
+                     if pdl_part.pofs = N                            and then
+                        pdl_part.N.Decl <= sl(i).IR.qual.N.decl      and then
+                        pdl_part.N.Gender <= sl(i).IR.qual.N.gender
                      then
                         --  Need to transfer the gender of the noun dictionary item
                         m := m + 1;
                         sxx(m) := (Stem => subtract_prefix(sl(i).Stem, prefix),
                                    IR => (
                                           qual => (
-                                                   pofs => n,
-                                                   n => (
-                                                         pdl_part.n.Decl,
-                                                         sl(i).IR.qual.n.cs,
-                                                         sl(i).IR.qual.n.number,
-                                                         pdl_part.n.Gender  )  ),
+                                                   pofs => N,
+                                                   N => (
+                                                         pdl_part.N.Decl,
+                                                         sl(i).IR.qual.N.cs,
+                                                         sl(i).IR.qual.N.number,
+                                                         pdl_part.N.Gender  )  ),
                                           key => sl(i).IR.key,
                                           ending => sl(i).IR.ending,
                                           age => sl(i).IR.age,
@@ -918,8 +918,8 @@ package body word_package is
                                    D_K => pdl(j).d_k,
                                    MNPC => MNPC_part);
 
-                     elsif pdl_part.pofs = pron and then
-                           pdl_part.pron.Decl <= sl(i).IR.qual.pron.decl
+                     elsif pdl_part.pofs = Pron and then
+                           pdl_part.Pron.Decl <= sl(i).IR.qual.Pron.decl
                      then
                         --PUT(" HIT  PRON  ");
                         --  Need to transfer the kind of the pronoun dictionary item
@@ -927,12 +927,12 @@ package body word_package is
                         sxx(m) := (Stem => subtract_prefix(sl(i).Stem, prefix),
                                    IR => (
                                           qual => (
-                                                   pofs => pron,
-                                                   pron => (
-                                                            pdl_part.pron.Decl,
-                                                            sl(i).IR.qual.pron.cs,
-                                                            sl(i).IR.qual.pron.number,
-                                                            sl(i).IR.qual.pron.gender  )  ),
+                                                   pofs => Pron,
+                                                   Pron => (
+                                                            pdl_part.Pron.Decl,
+                                                            sl(i).IR.qual.Pron.cs,
+                                                            sl(i).IR.qual.Pron.number,
+                                                            sl(i).IR.qual.Pron.gender  )  ),
                                           key => sl(i).IR.key,
                                           ending => sl(i).IR.ending,
                                           age => sl(i).IR.age,
@@ -940,18 +940,18 @@ package body word_package is
                                    D_K => pdl(j).d_k,
                                    MNPC => MNPC_part);
 
-                     elsif (pdl_part.pofs = adj)                          and then
-                       (pdl_part.adj.Decl <= sl(i).IR.qual.adj.decl)     and then
-                       ((sl(i).IR.qual.adj.co   <= pdl_part.adj.Co  ) or
-                          ((sl(i).IR.qual.adj.co = x)  or (pdl_part.adj.Co = x)))
+                     elsif (pdl_part.pofs = Adj)                          and then
+                       (pdl_part.Adj.Decl <= sl(i).IR.qual.Adj.decl)     and then
+                       ((sl(i).IR.qual.Adj.co   <= pdl_part.Adj.Co  ) or
+                          ((sl(i).IR.qual.Adj.co = x)  or (pdl_part.Adj.Co = x)))
                      then
                         --  Note the reversal on comparisom
                         --PUT(" HIT  ADJ   ");
                         --  Need to transfer the gender of the dictionary item
                         --  Need to transfer the CO of the ADJ dictionary item
-                        if pdl_part.adj.Co in pos..super  then
+                        if pdl_part.Adj.Co in pos..super  then
                            --  If the dictionary entry has a unique CO, use it
-                           com := pdl_part.adj.Co;
+                           com := pdl_part.Adj.Co;
                         else
                            --  Otherwise, the entry is X, generate a CO from KEY
                            com := adj_comp_from_key(pdl_key);
@@ -960,12 +960,12 @@ package body word_package is
                         sxx(m) := (Stem => subtract_prefix(sl(i).Stem, prefix),
                                    IR => (
                                           qual => (
-                                                   pofs => adj,
-                                                   adj => (
-                                                           pdl_part.adj.Decl,
-                                                           sl(i).IR.qual.adj.cs,
-                                                           sl(i).IR.qual.adj.number,
-                                                           sl(i).IR.qual.adj.gender,
+                                                   pofs => Adj,
+                                                   Adj => (
+                                                           pdl_part.Adj.Decl,
+                                                           sl(i).IR.qual.Adj.cs,
+                                                           sl(i).IR.qual.Adj.number,
+                                                           sl(i).IR.qual.Adj.gender,
                                                            com )  ),
                                           key => sl(i).IR.key,
                                           ending => sl(i).IR.ending,
@@ -974,28 +974,28 @@ package body word_package is
                                    D_K => pdl(j).d_k,
                                    MNPC => MNPC_part);
 
-                     elsif (pdl_part.pofs = num)                          and then
-                       (pdl_part.num.Decl <= sl(i).IR.qual.num.decl)     and then
+                     elsif (pdl_part.pofs = Num)                          and then
+                       (pdl_part.Num.Decl <= sl(i).IR.qual.Num.decl)     and then
                        (pdl_key         = sl(i).IR.key)
                      then
                         --PUT(" HIT  NUM    ");
-                        if pdl_part.num.Sort = x  then
+                        if pdl_part.Num.Sort = x  then
                            --  If the entry is X, generate a CO from KEY
                            num_sort:= num_sort_from_key(pdl_key);
                         else
                            --  Otherwise, the dictionary entry has a unique CO, use it
-                           num_sort := pdl_part.num.Sort;
+                           num_sort := pdl_part.Num.Sort;
                         end if;
                         m := m + 1;
                         sxx(m) := (Stem => subtract_prefix(sl(i).Stem, prefix),
                                    IR => (
                                           qual => (
-                                                   pofs => num,
-                                                   num => (
-                                                           pdl_part.num.Decl,
-                                                           sl(i).IR.qual.num.cs,
-                                                           sl(i).IR.qual.num.number,
-                                                           sl(i).IR.qual.num.gender,
+                                                   pofs => Num,
+                                                   Num => (
+                                                           pdl_part.Num.Decl,
+                                                           sl(i).IR.qual.Num.cs,
+                                                           sl(i).IR.qual.Num.number,
+                                                           sl(i).IR.qual.Num.gender,
                                                            num_sort)  ),
                                           key => sl(i).IR.key,
                                           ending => sl(i).IR.ending,
@@ -1004,15 +1004,15 @@ package body word_package is
                                    D_K => pdl(j).d_k,
                                    MNPC => MNPC_part);
 
-                     elsif (pdl_part.pofs = adv)                          and then
-                       ((pdl_part.adv.Co   <= sl(i).IR.qual.adv.co  ) or
-                          ((sl(i).IR.qual.adv.co = x)  or (pdl_part.adv.Co = x)))
+                     elsif (pdl_part.pofs = Adv)                          and then
+                       ((pdl_part.Adv.Co   <= sl(i).IR.qual.Adv.co  ) or
+                          ((sl(i).IR.qual.Adv.co = x)  or (pdl_part.Adv.Co = x)))
                      then
                         --PUT(" HIT  ADV   ");
                         --  Need to transfer the CO of the ADV dictionary item
-                        if pdl_part.adv.Co in pos..super  then
+                        if pdl_part.Adv.Co in pos..super  then
                            --  If the dictionary entry has a unique CO, use it
-                           com := pdl_part.adv.Co;
+                           com := pdl_part.Adv.Co;
                         else
                            --  The entry is X and we need to generate a COMP from the KEY
                            com := adv_comp_from_key(pdl_key);
@@ -1021,8 +1021,8 @@ package body word_package is
                         sxx(m) := (Stem => subtract_prefix(sl(i).Stem, prefix),
                                    IR => (
                                           qual => (
-                                                   pofs => adv,
-                                                   adv => (
+                                                   pofs => Adv,
+                                                   Adv => (
                                                            co => com)  ),
                                           key => sl(i).IR.key,
                                           ending => sl(i).IR.ending,
@@ -1031,22 +1031,22 @@ package body word_package is
                                    D_K => pdl(j).d_k,
                                    MNPC => MNPC_part);
 
-                     elsif pdl_part.pofs = v then
+                     elsif pdl_part.pofs = V then
                         --TEXT_IO.PUT_LINE("V found, now check CON");
-                        if sl(i).IR.qual.pofs = v     and then
-                          (pdl_part.v.Con <= sl(i).IR.qual.v.con)
+                        if sl(i).IR.qual.pofs = V     and then
+                          (pdl_part.V.Con <= sl(i).IR.qual.V.con)
                         then
                            --TEXT_IO.PUT(" HIT  V     ");
                            m := m + 1;
                            sxx(m) := (Stem => subtract_prefix(sl(i).Stem, prefix),
                                       IR => (
                                              qual => (
-                                                      pofs => v,
-                                                      v => (
-                                                            pdl_part.v.Con,
-                                                            sl(i).IR.qual.v.tense_voice_mood,
-                                                            sl(i).IR.qual.v.person,
-                                                            sl(i).IR.qual.v.number )  ),
+                                                      pofs => V,
+                                                      V => (
+                                                            pdl_part.V.Con,
+                                                            sl(i).IR.qual.V.tense_voice_mood,
+                                                            sl(i).IR.qual.V.person,
+                                                            sl(i).IR.qual.V.number )  ),
                                              key => sl(i).IR.key,
                                              ending => sl(i).IR.ending,
                                              age => sl(i).IR.age,
@@ -1054,21 +1054,21 @@ package body word_package is
                                       D_K => pdl(j).d_k,
                                       MNPC => MNPC_part);
 
-                        elsif sl(i).IR.qual.pofs = vpar   and then
-                           (pdl_part.v.Con <= sl(i).IR.qual.vpar.con)
+                        elsif sl(i).IR.qual.pofs = Vpar   and then
+                           (pdl_part.V.Con <= sl(i).IR.qual.Vpar.con)
                         then
                            --PUT(" HIT  VPAR  ");
                            m := m + 1;
                            sxx(m) := (Stem => subtract_prefix(sl(i).Stem, prefix),
                                       IR => (
                                              qual => (
-                                                      pofs => vpar,
-                                                      vpar => (
-                                                               pdl_part.v.Con,
-                                                               sl(i).IR.qual.vpar.cs,
-                                                               sl(i).IR.qual.vpar.number,
-                                                               sl(i).IR.qual.vpar.gender,
-                                                               sl(i).IR.qual.vpar.tense_voice_mood )  ),
+                                                      pofs => Vpar,
+                                                      Vpar => (
+                                                               pdl_part.V.Con,
+                                                               sl(i).IR.qual.Vpar.cs,
+                                                               sl(i).IR.qual.Vpar.number,
+                                                               sl(i).IR.qual.Vpar.gender,
+                                                               sl(i).IR.qual.Vpar.tense_voice_mood )  ),
                                              key => sl(i).IR.key,
                                              ending => sl(i).IR.ending,
                                              age => sl(i).IR.age,
@@ -1076,20 +1076,20 @@ package body word_package is
                                       D_K => pdl(j).d_k,
                                       MNPC => MNPC_part);
 
-                        elsif sl(i).IR.qual.pofs = supine   and then
-                          (pdl_part.v.Con <= sl(i).IR.qual.supine.con)
+                        elsif sl(i).IR.qual.pofs = Supine   and then
+                          (pdl_part.V.Con <= sl(i).IR.qual.Supine.con)
                         then
                            --PUT(" HIT  SUPINE");
                            m := m + 1;
                            sxx(m) := (Stem => subtract_prefix(sl(i).Stem, prefix),
                                       IR => (
                                              qual => (
-                                                      pofs => supine,
-                                                      supine => (
-                                                                 pdl_part.v.Con,
-                                                                 sl(i).IR.qual.supine.cs,
-                                                                 sl(i).IR.qual.supine.number,
-                                                                 sl(i).IR.qual.supine.gender)  ),
+                                                      pofs => Supine,
+                                                      Supine => (
+                                                                 pdl_part.V.Con,
+                                                                 sl(i).IR.qual.Supine.cs,
+                                                                 sl(i).IR.qual.Supine.number,
+                                                                 sl(i).IR.qual.Supine.gender)  ),
                                              key => sl(i).IR.key,
                                              ending => sl(i).IR.ending,
                                              age => sl(i).IR.age,
@@ -1098,21 +1098,21 @@ package body word_package is
                                       MNPC => MNPC_part);
                         end if;
 
-                     elsif pdl_part.pofs = prep and then
-                       pdl_part.prep.Obj = sl(i).IR.qual.prep.obj
+                     elsif pdl_part.pofs = Prep and then
+                       pdl_part.Prep.Obj = sl(i).IR.qual.Prep.obj
                      then
                         --PUT(" HIT  PREP  ");
                         m := m + 1;
                         sxx(m) := (subtract_prefix(sl(i).Stem, prefix), sl(i).IR,
                                    pdl(j).d_k, MNPC_part);
 
-                     elsif pdl_part.pofs = conj then
+                     elsif pdl_part.pofs = Conj then
                         --PUT(" HIT  CONJ  ");
                         m := m + 1;
                         sxx(m) := (subtract_prefix(sl(i).Stem, prefix), sl(i).IR,
                                    pdl(j).d_k, MNPC_part);
 
-                     elsif pdl_part.pofs = interj then
+                     elsif pdl_part.pofs = Interj then
                         --PUT(" HIT  INTERJ ");
                         m := m + 1;
                         sxx(m) := (subtract_prefix(sl(i).Stem, prefix), sl(i).IR,
@@ -1175,7 +1175,7 @@ package body word_package is
                      if sxx(1) /= Null_Parse_Record  then   --  There is reduced stem result
                         pa_last := pa_last + 1;        --  So add prefix line to parse array
                         pa(pa_last).IR :=
-                          ((prefix, null_prefix_record), 0, null_ending_record, x, x);
+                          ((Prefix, null_prefix_record), 0, null_ending_record, x, x);
                         pa(pa_last).Stem := Head(prefixes(i).fix, Max_Stem_Size);
                         pa(pa_last).MNPC := Dict_IO.Count(prefixes(i).MNPC);
                         pa(pa_last).D_K  := addons;
@@ -1225,7 +1225,7 @@ package body word_package is
                      pa_last := pa_last + 1;        --  So add suffix line to parse array
                      --PUT_LINE("REDUCE_STEM_LIST is not null so add suffix to parse array");
                      pa(pa_last).IR :=
-                       ((suffix, null_suffix_record), 0, null_ending_record, x, x);
+                       ((Suffix, null_suffix_record), 0, null_ending_record, x, x);
                      pa(pa_last).Stem := Head(suffixes(suffix_hit).fix, Max_Stem_Size);
                      --  Maybe it would better if suffix.fix was of stem size
                      pa(pa_last).MNPC := Dict_IO.Count(suffixes(suffix_hit).MNPC);
@@ -1247,7 +1247,7 @@ package body word_package is
                      pa_last := pa_last + 1;        --  So add suffix line to parse array
                      --PUT_LINE("REDUCE_STEM_LIST is not null so add suffix to parse array");
                      pa(pa_last).IR :=
-                       ((suffix, null_suffix_record), 0, null_ending_record, x, x);
+                       ((Suffix, null_suffix_record), 0, null_ending_record, x, x);
                      pa(pa_last).Stem := Head(suffixes(suffix_hit).fix, Max_Stem_Size);
                      pa(pa_last).MNPC := Dict_IO.Count(suffixes(suffix_hit).MNPC);
                      pa(pa_last).D_K  := addons;
@@ -1384,7 +1384,7 @@ package body word_package is
                            if (z <= length_of_word)  and then
                              ((equ(lel(i).ending.suf(1..z),
                                    word(word'Last-z+1..word'Last)))  and
-                                (lel(i).qual.pron.decl <= packons(k).entr.base.pack.Decl))
+                                (lel(i).qual.Pron.decl <= packons(k).entr.base.pack.Decl))
                            then
                               --  Have found an ending that is a possible match
                               --  And INFLECT agrees with PACKON.BASE
@@ -1433,11 +1433,11 @@ package body word_package is
                         if Trim (mean)(1..4) = "(w/-" and then  --  Does attached PACKON agree
                           Trim (mean)(5..4+packon_length) = Trim (packons(k).tack)
                         then
-                           if pdl(j).ds.part.pack.Decl = sl(m).IR.qual.pron.decl then  --  or
+                           if pdl(j).ds.part.Pack.Decl = sl(m).IR.qual.Pron.decl then  --  or
                               if packon_first_hit then
                                  pa_last := pa_last + 1;
                                  pa(pa_last) := (packons(k).tack,
-                                   ((tackon, null_tackon_record), 0,
+                                   ((Tackon, null_tackon_record), 0,
                                    null_ending_record, x, x),
                                    addons,
                                    Dict_IO.Count((packons(k).MNPC)));
@@ -1447,12 +1447,12 @@ package body word_package is
                               pa(pa_last) := (Stem => sl(m).Stem,
                                 IR => (
                                 qual => (
-                                pofs => pron,
-                                pron => (
-                                pdl(j).ds.part.pack.Decl,
-                                sl(m).IR.qual.pron.cs,
-                                sl(m).IR.qual.pron.number,
-                                sl(m).IR.qual.pron.gender )),
+                                pofs => Pron,
+                                Pron => (
+                                pdl(j).ds.part.Pack.Decl,
+                                sl(m).IR.qual.Pron.cs,
+                                sl(m).IR.qual.Pron.number,
+                                sl(m).IR.qual.Pron.gender )),
                                 key => sl(m).IR.key,
                                 ending => sl(m).IR.ending,
                                 age => sl(m).IR.age,
@@ -1533,17 +1533,17 @@ package body word_package is
 
             sl_loop:
             while sl(m) /= Null_Parse_Record  loop  --  Over all inflection hits
-               if pdl(j).ds.part.pron.Decl = sl(m).IR.qual.pron.decl then
+               if pdl(j).ds.part.Pron.Decl = sl(m).IR.qual.Pron.decl then
                   pa_last := pa_last + 1;
                   pa(pa_last) := (Stem => sl(m).Stem,
                                   IR => (
                                          qual => (
-                                                  pofs => pron,
-                                                  pron => (
-                                                           pdl(j).ds.part.pron.Decl,
-                                                           sl(m).IR.qual.pron.cs,
-                                                           sl(m).IR.qual.pron.number,
-                                                           sl(m).IR.qual.pron.gender )),
+                                                  pofs => Pron,
+                                                  Pron => (
+                                                           pdl(j).ds.part.Pron.Decl,
+                                                           sl(m).IR.qual.Pron.cs,
+                                                           sl(m).IR.qual.Pron.number,
+                                                           sl(m).IR.qual.Pron.gender )),
                                          key => sl(m).IR.key,
                                          ending => sl(m).IR.ending,
                                          age => sl(m).IR.age,
@@ -1581,7 +1581,7 @@ package body word_package is
                   word(less, pa, pa_last);
 
                   if pa_last > entering_pa_last  then      --  we have a possible word
-                     if tackons(i).entr.base.pofs = x  then
+                     if tackons(i).entr.base.pofs = X  then
                         tackon_hit := True;
                         tackon_on  := False;
                      else
@@ -1593,10 +1593,10 @@ package body word_package is
                            --  although we only have TACKONs for X or PRON or ADJ - so far
                            --  and there are no fixes for PRON - so far
 
-                           if pa(j).IR.qual.pofs = prefix and then tackon_on then
+                           if pa(j).IR.qual.pofs = Prefix and then tackon_on then
                               null;          --  check PART
                               tackon_on  := False;
-                           elsif pa(j).IR.qual.pofs = suffix and then tackon_on then
+                           elsif pa(j).IR.qual.pofs = Suffix and then tackon_on then
                               --  check PART
                               null;
                               tackon_on  := False;
@@ -1606,16 +1606,16 @@ package body word_package is
 
                               --  check PART
                               case tackons(i).entr.base.pofs is
-                                 when n       =>
-                                    if pa(j).IR.qual.n.decl <=
+                                 when N       =>
+                                    if pa(j).IR.qual.N.decl <=
                                        tackons(i).entr.base.n.Decl
                                     then
                                        --  Ignore GEN and KIND
                                        tackon_hit := True;
                                        tackon_on  := True;
                                     end if;
-                                 when pron    =>              --  Only one we have other than X
-                                    if pa(j).IR.qual.pron.decl <=
+                                 when Pron    =>              --  Only one we have other than X
+                                    if pa(j).IR.qual.Pron.decl <=
                                       tackons(i).entr.base.pron.Decl  --and then
                                     then
                                        tackon_hit := True;
@@ -1625,7 +1625,7 @@ package body word_package is
                                        pa_last := pa_last - 1;
 
                                     end if;
-                                 when adj     =>
+                                 when Adj     =>
                                     --  Forego all checks, even on DECL of ADJ
                                     --  -cumque is the only one I have now
                                     --  if  .......
@@ -1658,7 +1658,7 @@ package body word_package is
                         pa(entering_pa_last+2..pa_last) :=
                           pa(entering_pa_last+1..pa_last-1);
                         pa(entering_pa_last+1) := (tackons(i).tack,
-                                                   ((tackon, null_tackon_record), 0,
+                                                   ((Tackon, null_tackon_record), 0,
                                                     null_ending_record, x, x),
                                                    addons,
                                                    Dict_IO.Count((tackons(i).MNPC)));
@@ -1706,7 +1706,7 @@ package body word_package is
                                                          --TEXT_IO.PUT_LINE("ADDING TICKON PA    " & TICKONS(I).FIX);
                      pa_last := pa_last + 1;        --  So add prefix line to parse array
                      pa(pa_last).Stem := Head(tickons(i).fix, Max_Stem_Size);
-                     pa(pa_last).IR := ((prefix, null_prefix_record), 0, null_ending_record, x, x);
+                     pa(pa_last).IR := ((Prefix, null_prefix_record), 0, null_ending_record, x, x);
                      pa(pa_last).D_K  := addons;
                      pa(pa_last).MNPC := Dict_IO.Count(tickons(i).MNPC);
                   end if;

@@ -38,7 +38,7 @@ package english_support_package is
          w    : eword := null_eword;
          aux  : auxword := null_auxword;
          n    : Integer := 0;
-         pofs : Part_Of_Speech_Type := x;
+         pofs : Part_Of_Speech_Type := X;
          freq : Frequency_Type := x;
          semi : Integer := 0;
          kind : Integer := 0;
@@ -46,7 +46,7 @@ package english_support_package is
       end record;
 
    null_ewds_record : ewds_record := ((others => ' '),
-                                      (others => ' '), 0, x, x, 0, 0, 0);
+                                      (others => ' '), 0, X, x, 0, 0, 0);
 
    type ewds_array is array (Positive range <>) of ewds_record;
 

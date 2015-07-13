@@ -31,7 +31,7 @@ procedure weed(w : in out String;
 begin
 
    --  Conjunctions
-   if (pofs /= conj) and then
+   if (pofs /= Conj) and then
      (w = "and"   or
         w = "or"    or
         w = "but"   or
@@ -42,7 +42,7 @@ begin
    end if;
 
    --  Prepositions
-   if (pofs /= prep) and then
+   if (pofs /= Prep) and then
      (w = "of"    or
         w = "to"    or
         w = "in"    or
@@ -76,7 +76,7 @@ begin
    end if;
 
    if
-     (pofs /= n) and then
+     (pofs /= N) and then
      (--  General nouns
       w = "person"   or
         w = "man"      or
@@ -174,7 +174,7 @@ begin
 
    if
 
-     (pofs /= adj) and then
+     (pofs /= Adj) and then
      (--Adjectives
 
       w = "some"   or
@@ -210,7 +210,7 @@ begin
 
    if
 
-     (pofs /= adj) and then
+     (pofs /= Adj) and then
      (--More Adjectives
       w = "more"   or
         w = "military"  or
@@ -238,7 +238,7 @@ begin
 
    if
 
-     (pofs /= adv) and then
+     (pofs /= Adv) and then
      (
       w = "up"    or
         w = "out"   or
@@ -273,8 +273,8 @@ begin
    end if;
 
    if
-     (pofs /= pron) and then
-     (pofs /= pack) and then
+     (pofs /= Pron) and then
+     (pofs /= Pack) and then
      (
 
       --  Pronouns and indefinites
@@ -334,7 +334,7 @@ begin
    end if;
 
    if
-     (pofs /= v) and then
+     (pofs /= V) and then
      (--  Verbs
       w = "take"   or
       w = "make"  or

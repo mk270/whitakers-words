@@ -25,7 +25,7 @@ package body Part_Entry_IO is
 
    procedure Get (File : in Ada.Text_IO.File_Type; Item : out Part_Entry)
    is
-      POFS         : Part_Of_Speech_Type := x;
+      POFS         : Part_Of_Speech_Type := X;
       Starting_Col : constant Ada.Text_IO.Positive_Count :=
          Ada.Text_IO.Col (File);
       Spacer : Character;
@@ -50,48 +50,48 @@ package body Part_Entry_IO is
       Part_Of_Speech_Type_IO.Get (File, POFS);
       Ada.Text_IO.Get (File, Spacer);
       case POFS is
-         when n =>
+         when N =>
             Noun_Entry_IO.Get (File, Noun);
-            Item := (n, Noun);
-         when pron =>
+            Item := (N, Noun);
+         when Pron =>
             Pronoun_Entry_IO.Get (File, Pronoun);
-            Item := (pron, Pronoun);
-         when pack =>
+            Item := (Pron, Pronoun);
+         when Pack =>
             Propack_Entry_IO.Get (File, Propack);
-            Item := (pack, Propack);
-         when adj =>
+            Item := (Pack, Propack);
+         when Adj =>
             Adjective_Entry_IO.Get (File, Adjective);
-            Item := (adj, Adjective);
-         when num =>
+            Item := (Adj, Adjective);
+         when Num =>
             Numeral_Entry_IO.Get (File, Numeral);
-            Item := (num, Numeral);
-         when adv =>
+            Item := (Num, Numeral);
+         when Adv =>
             Adverb_Entry_IO.Get (File, Adverb);
-            Item := (adv, Adverb);
-         when v =>
+            Item := (Adv, Adverb);
+         when V =>
             Verb_Entry_IO.Get (File, Verb);
-            Item := (v, Verb);
-         when vpar =>
+            Item := (V, Verb);
+         when Vpar =>
             null;                --  No VAPR entry
-         when supine =>
+         when Supine =>
             null;                --  No SUPINE entry
-         when prep =>
+         when Prep =>
             Preposition_Entry_IO.Get (File, Preposition);
-            Item := (prep, Preposition);
-         when conj =>
+            Item := (Prep, Preposition);
+         when Conj =>
             Conjunction_Entry_IO.Get (File, Conjunction);
-            Item := (conj, Conjunction);
-         when interj =>
+            Item := (Conj, Conjunction);
+         when Interj =>
             Interjection_Entry_IO.Get (File, Interjection);
-            Item := (interj, Interjection);
-         when prefix =>
-            Item := (pofs => prefix);
-         when suffix =>
-            Item := (pofs => suffix);
-         when tackon =>
-            Item := (pofs => tackon);
-         when x =>
-            Item := (pofs => x);
+            Item := (Interj, Interjection);
+         when Prefix =>
+            Item := (pofs => Prefix);
+         when Suffix =>
+            Item := (pofs => Suffix);
+         when Tackon =>
+            Item := (pofs => Tackon);
+         when X =>
+            Item := (pofs => X);
       end case;
       Ada.Text_IO.Set_Col
          ( File,
@@ -104,7 +104,7 @@ package body Part_Entry_IO is
 
    procedure Get (Item : out Part_Entry)
    is
-      POFS : Part_Of_Speech_Type := x;
+      POFS : Part_Of_Speech_Type := X;
       Spacer : Character;
       pragma Unreferenced (Spacer);
 
@@ -127,48 +127,48 @@ package body Part_Entry_IO is
       Part_Of_Speech_Type_IO.Get (POFS);
       Ada.Text_IO.Get (Spacer);
       case POFS is
-         when n =>
+         when N =>
             Noun_Entry_IO.Get (Noun);
-            Item := (n, Noun);
-         when pron =>
+            Item := (N, Noun);
+         when Pron =>
             Pronoun_Entry_IO.Get (Pronoun);
-            Item := (pron, Pronoun);
-         when pack =>
+            Item := (Pron, Pronoun);
+         when Pack =>
             Propack_Entry_IO.Get (Propack);
-            Item := (pack, Propack);
-         when adj =>
+            Item := (Pack, Propack);
+         when Adj =>
             Adjective_Entry_IO.Get (Adjective);
-            Item := (adj, Adjective);
-         when num =>
+            Item := (Adj, Adjective);
+         when Num =>
             Numeral_Entry_IO.Get (Numeral);
-            Item := (num, Numeral);
-         when adv =>
+            Item := (Num, Numeral);
+         when Adv =>
             Adverb_Entry_IO.Get (Adverb);
-            Item := (adv, Adverb);
-         when v =>
+            Item := (Adv, Adverb);
+         when V =>
             Verb_Entry_IO.Get (Verb);
-            Item := (v, Verb);
-         when vpar =>
+            Item := (V, Verb);
+         when Vpar =>
             null;                --  No VAPR entry
-         when supine =>
+         when Supine =>
             null;                --  No SUPINE entry
-         when prep =>
+         when Prep =>
             Preposition_Entry_IO.Get (Preposition);
-            Item := (prep, Preposition);
-         when conj =>
+            Item := (Prep, Preposition);
+         when Conj =>
             Conjunction_Entry_IO.Get (Conjunction);
-            Item := (conj, Conjunction);
-         when interj =>
+            Item := (Conj, Conjunction);
+         when Interj =>
             Interjection_Entry_IO.Get (Interjection);
-            Item := (interj, Interjection);
-         when prefix =>
-            Item := (pofs => prefix);
-         when suffix =>
-            Item := (pofs => suffix);
-         when tackon =>
-            Item := (pofs => tackon);
-         when x =>
-            Item := (pofs => x);
+            Item := (Interj, Interjection);
+         when Prefix =>
+            Item := (pofs => Prefix);
+         when Suffix =>
+            Item := (pofs => Suffix);
+         when Tackon =>
+            Item := (pofs => Tackon);
+         when X =>
+            Item := (pofs => X);
       end case;
    end Get;
 
@@ -179,33 +179,33 @@ package body Part_Entry_IO is
       Part_Of_Speech_Type_IO.Put (File, Item.pofs);
       Ada.Text_IO.Put (File, ' ');
       case Item.pofs is
-         when n =>
-            Noun_Entry_IO.Put (File, Item.n);
-         when pron =>
-            Pronoun_Entry_IO.Put (File, Item.pron);
-         when pack =>
-            Propack_Entry_IO.Put (File, Item.pack);
-         when adj =>
-            Adjective_Entry_IO.Put (File, Item.adj);
-         when num =>
-            Numeral_Entry_IO.Put (File, Item.num);
-         when adv =>
-            Adverb_Entry_IO.Put (File, Item.adv);
-         when v =>
-            Verb_Entry_IO.Put (File, Item.v);
-         when vpar =>
+         when N =>
+            Noun_Entry_IO.Put (File, Item.N);
+         when Pron =>
+            Pronoun_Entry_IO.Put (File, Item.Pron);
+         when Pack =>
+            Propack_Entry_IO.Put (File, Item.Pack);
+         when Adj =>
+            Adjective_Entry_IO.Put (File, Item.Adj);
+         when Num =>
+            Numeral_Entry_IO.Put (File, Item.Num);
+         when Adv =>
+            Adverb_Entry_IO.Put (File, Item.Adv);
+         when V =>
+            Verb_Entry_IO.Put (File, Item.V);
+         when Vpar =>
             null;                --  No VAPR entry
-         when supine =>
+         when Supine =>
             null;                --  No SUPINE entry
-         when prep =>
-            Preposition_Entry_IO.Put (File, Item.prep);
-         when conj =>
-            Conjunction_Entry_IO.Put (File, Item.conj);
-         when interj =>
-            Interjection_Entry_IO.Put (File, Item.interj);
-         when x =>
+         when Prep =>
+            Preposition_Entry_IO.Put (File, Item.Prep);
+         when Conj =>
+            Conjunction_Entry_IO.Put (File, Item.Conj);
+         when Interj =>
+            Interjection_Entry_IO.Put (File, Item.Interj);
+         when X =>
             null;
-         when tackon .. suffix =>
+         when Tackon .. Suffix =>
             null;
       end case;
    end Put;
@@ -217,33 +217,33 @@ package body Part_Entry_IO is
       Part_Of_Speech_Type_IO.Put (Item.pofs);
       Ada.Text_IO.Put (' ');
       case Item.pofs is
-         when n =>
-            Noun_Entry_IO.Put (Item.n);
-         when pron =>
-            Pronoun_Entry_IO.Put (Item.pron);
-         when pack =>
-            Propack_Entry_IO.Put (Item.pack);
-         when adj =>
-            Adjective_Entry_IO.Put (Item.adj);
-         when num =>
-            Numeral_Entry_IO.Put (Item.num);
-         when adv =>
-            Adverb_Entry_IO.Put (Item.adv);
-         when v =>
-            Verb_Entry_IO.Put (Item.v);
-         when vpar =>
+         when N =>
+            Noun_Entry_IO.Put (Item.N);
+         when Pron =>
+            Pronoun_Entry_IO.Put (Item.Pron);
+         when Pack =>
+            Propack_Entry_IO.Put (Item.Pack);
+         when Adj =>
+            Adjective_Entry_IO.Put (Item.Adj);
+         when Num =>
+            Numeral_Entry_IO.Put (Item.Num);
+         when Adv =>
+            Adverb_Entry_IO.Put (Item.Adv);
+         when V =>
+            Verb_Entry_IO.Put (Item.V);
+         when Vpar =>
             null;                --  No VAPR entry
-         when supine =>
+         when Supine =>
             null;                --  No SUPINE entry
-         when prep =>
-            Preposition_Entry_IO.Put (Item.prep);
-         when conj =>
-            Conjunction_Entry_IO.Put (Item.conj);
-         when interj =>
-            Interjection_Entry_IO.Put (Item.interj);
-         when tackon .. suffix =>
+         when Prep =>
+            Preposition_Entry_IO.Put (Item.Prep);
+         when Conj =>
+            Conjunction_Entry_IO.Put (Item.Conj);
+         when Interj =>
+            Interjection_Entry_IO.Put (Item.Interj);
+         when Tackon .. Suffix =>
             null;
-         when x =>
+         when X =>
             null;
       end case;
    end Put;
@@ -259,7 +259,7 @@ package body Part_Entry_IO is
       -- Used to get lower bound of substring
       Low  : Integer := Source'First - 1;
       -- Used to know which variant of Part_Entry shall be constructed
-      POFS : Part_Of_Speech_Type := x;
+      POFS : Part_Of_Speech_Type := X;
 
       --------------------------------------------------------------------------
 
@@ -281,55 +281,55 @@ package body Part_Entry_IO is
       Part_Of_Speech_Type_IO.Get (Source, POFS, Low);
       Low := Low + 1;
       case POFS is
-         when n =>
+         when N =>
             Noun_Entry_IO.Get (Source (Low + 1 .. Source'Last), Noun, Last);
-            Target := (n, Noun);
-         when pron =>
+            Target := (N, Noun);
+         when Pron =>
             Pronoun_Entry_IO.Get
                ( Source (Low + 1 .. Source'Last), Pronoun, Last );
-            Target := (pron, Pronoun);
-         when pack =>
+            Target := (Pron, Pronoun);
+         when Pack =>
             Propack_Entry_IO.Get
                ( Source (Low + 1 .. Source'Last), Propack, Last );
-            Target := (pack, Propack);
-         when adj =>
+            Target := (Pack, Propack);
+         when Adj =>
             Adjective_Entry_IO.Get
                ( Source (Low + 1 .. Source'Last), Adjective, Last );
-            Target := (adj, Adjective);
-         when num =>
+            Target := (Adj, Adjective);
+         when Num =>
             Numeral_Entry_IO.Get
                ( Source (Low + 1 .. Source'Last), Numeral, Last );
-            Target := (num, Numeral);
-         when adv =>
+            Target := (Num, Numeral);
+         when Adv =>
             Adverb_Entry_IO.Get (Source (Low + 1 .. Source'Last), Adverb, Last);
-            Target := (adv, Adverb);
-         when v =>
+            Target := (Adv, Adverb);
+         when V =>
             Verb_Entry_IO.Get (Source (Low + 1 .. Source'Last), Verb, Last);
-            Target := (v, Verb);
-         when vpar =>
+            Target := (V, Verb);
+         when Vpar =>
             null;                --  No VAPR entry
-         when supine =>
+         when Supine =>
             null;                --  No SUPINE entry
-         when prep =>
+         when Prep =>
             Preposition_Entry_IO.Get
                ( Source (Low + 1 .. Source'Last), Preposition, Last );
-            Target := (prep, Preposition);
-         when conj =>
+            Target := (Prep, Preposition);
+         when Conj =>
             Conjunction_Entry_IO.Get
                ( Source (Low + 1 .. Source'Last), Conjunction, Last );
-            Target := (conj, Conjunction);
-         when interj =>
+            Target := (Conj, Conjunction);
+         when Interj =>
             Interjection_Entry_IO.Get
                ( Source (Low + 1 .. Source'Last), Interjection, Last );
-            Target := (interj, Interjection);
-         when prefix =>
-            Target := (pofs => prefix);
-         when suffix =>
-            Target := (pofs => suffix);
-         when tackon =>
-            Target := (pofs => tackon);
-         when x =>
-            Target := (pofs => x);
+            Target := (Interj, Interjection);
+         when Prefix =>
+            Target := (pofs => Prefix);
+         when Suffix =>
+            Target := (pofs => Suffix);
+         when Tackon =>
+            Target := (pofs => Tackon);
+         when X =>
+            Target := (pofs => X);
       end case;
    end Get;
 
@@ -348,43 +348,43 @@ package body Part_Entry_IO is
 
       -- Put Part_Entry
       case Item.pofs is
-         when n =>
+         when N =>
             High := Low + Noun_Entry_IO.Default_Width;
-            Noun_Entry_IO.Put (Target (Low + 1 .. High), Item.n);
-         when pron =>
+            Noun_Entry_IO.Put (Target (Low + 1 .. High), Item.N);
+         when Pron =>
             High := Low + Pronoun_Entry_IO.Default_Width;
-            Pronoun_Entry_IO.Put (Target (Low + 1 .. High), Item.pron);
-         when pack =>
+            Pronoun_Entry_IO.Put (Target (Low + 1 .. High), Item.Pron);
+         when Pack =>
             High := Low + Propack_Entry_IO.Default_Width;
-            Propack_Entry_IO.Put (Target (Low + 1 .. High), Item.pack);
-         when adj =>
+            Propack_Entry_IO.Put (Target (Low + 1 .. High), Item.Pack);
+         when Adj =>
             High := Low + Adjective_Entry_IO.Default_Width;
-            Adjective_Entry_IO.Put (Target (Low + 1 .. High), Item.adj);
-         when num =>
+            Adjective_Entry_IO.Put (Target (Low + 1 .. High), Item.Adj);
+         when Num =>
             High := Low + Numeral_Entry_IO.Default_Width;
-            Numeral_Entry_IO.Put (Target (Low + 1 .. High), Item.num);
-         when adv =>
+            Numeral_Entry_IO.Put (Target (Low + 1 .. High), Item.Num);
+         when Adv =>
             High := Low + Adverb_Entry_IO.Default_Width;
-            Adverb_Entry_IO.Put (Target (Low + 1 .. High), Item.adv);
-         when v =>
+            Adverb_Entry_IO.Put (Target (Low + 1 .. High), Item.Adv);
+         when V =>
             High := Low + Verb_Entry_IO.Default_Width;
-            Verb_Entry_IO.Put (Target (Low + 1 .. High), Item.v);
-         when vpar =>
+            Verb_Entry_IO.Put (Target (Low + 1 .. High), Item.V);
+         when Vpar =>
             null;                --  No VAPR entry
-         when supine =>
+         when Supine =>
             null;                --  No SUPINE entry
-         when prep =>
+         when Prep =>
             High := Low + Preposition_Entry_IO.Default_Width;
-            Preposition_Entry_IO.Put (Target (Low + 1 .. High), Item.prep);
-         when conj =>
+            Preposition_Entry_IO.Put (Target (Low + 1 .. High), Item.Prep);
+         when Conj =>
             High := Low + Conjunction_Entry_IO.Default_Width;
-            Conjunction_Entry_IO.Put (Target (Low + 1 .. High), Item.conj);
-         when interj =>
+            Conjunction_Entry_IO.Put (Target (Low + 1 .. High), Item.Conj);
+         when Interj =>
             High := Low + Interjection_Entry_IO.Default_Width;
-            Interjection_Entry_IO.Put (Target (Low + 1 .. High), Item.interj);
-         when x =>
+            Interjection_Entry_IO.Put (Target (Low + 1 .. High), Item.Interj);
+         when X =>
             null;
-         when tackon .. suffix =>
+         when Tackon .. Suffix =>
             null;
       end case;
    end Put;

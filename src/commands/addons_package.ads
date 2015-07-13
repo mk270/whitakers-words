@@ -25,28 +25,28 @@ package addons_package is
    null_fix_type : constant fix_type := Null_Stem_Type;
    max_fix_size : constant := Max_Stem_Size;
 
-   subtype Target_pofs_type is Part_Of_Speech_Type range x..v;
+   subtype Target_pofs_type is Part_Of_Speech_Type range X .. V;
 
-   type Target_entry(pofs: Target_pofs_type := x) is
+   type Target_entry(pofs: Target_pofs_type := X) is
       record
          case pofs is
-            when n  =>
+            when N  =>
                n : Noun_Entry;
                --NOUN_KIND : NOUN_KIND_TYPE;
-            when pron  =>
+            when Pron  =>
                pron : Pronoun_Entry;
                --PRONOUN_KIND : PRONOUN_KIND_TYPE;
-            when pack  =>
+            when Pack  =>
                pack : Propack_Entry;
                --PROPACK_KIND : PRONOUN_KIND_TYPE;
-            when adj  =>
+            when Adj  =>
                adj : Adjective_Entry;
-            when num  =>
+            when Num  =>
                num : Numeral_Entry;
                --NUMERAL_VALUE : NUMERAL_VALUE_TYPE;
-            when adv  =>
+            when Adv  =>
                adv : Adverb_Entry;
-            when v  =>
+            when V  =>
                v : Verb_Entry;
                --VERB_KIND : VERB_KIND_TYPE;
             when others  =>
@@ -85,8 +85,8 @@ package addons_package is
 
    type prefix_entry is
       record
-         root    : Part_Of_Speech_Type := x;
-         Target  : Part_Of_Speech_Type := x;
+         root    : Part_Of_Speech_Type := X;
+         Target  : Part_Of_Speech_Type := X;
       end record;
 
    null_prefix_entry : prefix_entry;
@@ -103,7 +103,7 @@ package addons_package is
 
    type suffix_entry is
       record
-         root       : Part_Of_Speech_Type := x;
+         root       : Part_Of_Speech_Type := X;
          root_key   : Stem_Key_Type := 0;
          Target     : Target_entry := null_Target_entry;
          Target_key : Stem_Key_Type := 0;
@@ -123,7 +123,7 @@ package addons_package is
 
    type tackon_item is
       record
-         pofs: Part_Of_Speech_Type := tackon;
+         pofs: Part_Of_Speech_Type := Tackon;
          tack : Stem_Type := Null_Stem_Type;
          entr : tackon_entry := null_tackon_entry;
          MNPC : Integer := 0;
@@ -133,7 +133,7 @@ package addons_package is
 
    type prefix_item is
       record
-         pofs: Part_Of_Speech_Type := prefix;
+         pofs: Part_Of_Speech_Type := Prefix;
          fix  : fix_type := null_fix_type;
          connect : Character := ' ';
          entr : prefix_entry := null_prefix_entry;
@@ -144,7 +144,7 @@ package addons_package is
 
    type suffix_item is
       record
-         pofs: Part_Of_Speech_Type := suffix;
+         pofs: Part_Of_Speech_Type := Suffix;
          fix  : fix_type := null_fix_type;
          connect    : Character := ' ';
          entr : suffix_entry := null_suffix_entry;

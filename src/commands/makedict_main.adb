@@ -108,7 +108,7 @@ begin
          Write(dictfile, de, j);
 
          if not porting  then
-            if de.Part.pofs = n    and then
+            if de.Part.pofs = N    and then
                de.Stems(1) = de.Stems(2)     and then
                de.Stems(1) /= ZZZ_Stem
             then
@@ -118,7 +118,7 @@ begin
                Integer_IO.Put(stemlist, 0, 2); Put(stemlist, ' ');
                Set_Col(stemlist, 50);
                Integer_IO.Put(stemlist, Integer(j), 6); New_Line(stemlist);
-            elsif de.Part.pofs = adj  and then
+            elsif de.Part.pofs = Adj  and then
                de.Stems(1) = de.Stems(2)     and then
                de.Stems(1) /= ZZZ_Stem
             then
@@ -144,9 +144,9 @@ begin
                   Set_Col(stemlist, 50);
                   Integer_IO.Put(stemlist, Integer(j), 6); New_Line(stemlist);
                end if;
-            elsif de.Part.pofs = adj  and then
+            elsif de.Part.pofs = Adj  and then
                --  POS taken care of by position
-               de.Part.adj.Co = comp
+               de.Part.Adj.Co = comp
             then
                Put(stemlist, de.Stems(1)); Put(stemlist, ' ');
                Put(stemlist, de.Part); Put(stemlist, ' ');
@@ -154,8 +154,8 @@ begin
                Integer_IO.Put(stemlist, 3, 2); Put(stemlist, ' ');
                Set_Col(stemlist, 50);
                Integer_IO.Put(stemlist, Integer(j), 6); New_Line(stemlist);
-            elsif de.Part.pofs = adj  and then
-               de.Part.adj.Co = super
+            elsif de.Part.pofs = Adj  and then
+               de.Part.Adj.Co = super
             then
                Put(stemlist, de.Stems(1)); Put(stemlist, ' ');
                Put(stemlist, de.Part); Put(stemlist, ' ');
@@ -163,9 +163,9 @@ begin
                Integer_IO.Put(stemlist, 4, 2); Put(stemlist, ' ');
                Set_Col(stemlist, 50);
                Integer_IO.Put(stemlist, Integer(j), 6); New_Line(stemlist);
-            elsif de.Part.pofs = adv  and then
+            elsif de.Part.pofs = Adv  and then
                --  POS taken care of by position
-               de.Part.adv.Co = comp
+               de.Part.Adv.Co = comp
             then
                Put(stemlist, de.Stems(1)); Put(stemlist, ' ');
                Put(stemlist, de.Part); Put(stemlist, ' ');
@@ -173,8 +173,8 @@ begin
                Integer_IO.Put(stemlist, 2, 2); Put(stemlist, ' ');
                Set_Col(stemlist, 50);
                Integer_IO.Put(stemlist, Integer(j), 6); New_Line(stemlist);
-            elsif de.Part.pofs = adv  and then
-               de.Part.adv.Co = super
+            elsif de.Part.pofs = Adv  and then
+               de.Part.Adv.Co = super
             then
                Put(stemlist, de.Stems(1)); Put(stemlist, ' ');
                Put(stemlist, de.Part); Put(stemlist, ' ');
@@ -182,7 +182,7 @@ begin
                Integer_IO.Put(stemlist, 3, 2); Put(stemlist, ' ');
                Set_Col(stemlist, 50);
                Integer_IO.Put(stemlist, Integer(j), 6); New_Line(stemlist);
-            elsif de.Part.pofs = v    and then
+            elsif de.Part.pofs = V    and then
                de.Stems(1) = de.Stems(2)     and then
                de.Stems(1) /= ZZZ_Stem
             then
@@ -209,8 +209,8 @@ begin
                   Set_Col(stemlist, 50);
                   Integer_IO.Put(stemlist, Integer(j), 6); New_Line(stemlist);
                end if;
-            elsif de.Part.pofs = num  and then
-               de.Part.num.Sort = card
+            elsif de.Part.pofs = Num  and then
+               de.Part.Num.Sort = card
             then
                Put(stemlist, de.Stems(1)); Put(stemlist, ' ');
                Put(stemlist, de.Part); Put(stemlist, ' ');
@@ -218,8 +218,8 @@ begin
                Integer_IO.Put(stemlist, 1, 2); Put(stemlist, ' ');
                Set_Col(stemlist, 50);
                Integer_IO.Put(stemlist, Integer(j), 6); New_Line(stemlist);
-            elsif de.Part.pofs = num  and then
-               de.Part.num.Sort = ord
+            elsif de.Part.pofs = Num  and then
+               de.Part.Num.Sort = ord
             then
                Put(stemlist, de.Stems(1)); Put(stemlist, ' ');
                Put(stemlist, de.Part); Put(stemlist, ' ');
@@ -227,8 +227,8 @@ begin
                Integer_IO.Put(stemlist, 2, 2); Put(stemlist, ' ');
                Set_Col(stemlist, 50);
                Integer_IO.Put(stemlist, Integer(j), 6); New_Line(stemlist);
-            elsif de.Part.pofs = num  and then
-               de.Part.num.Sort = dist
+            elsif de.Part.pofs = Num  and then
+               de.Part.Num.Sort = dist
             then
                Put(stemlist, de.Stems(1)); Put(stemlist, ' ');
                Put(stemlist, de.Part); Put(stemlist, ' ');
@@ -236,8 +236,8 @@ begin
                Integer_IO.Put(stemlist, 3, 2); Put(stemlist, ' ');
                Set_Col(stemlist, 50);
                Integer_IO.Put(stemlist, Integer(j), 6); New_Line(stemlist);
-            elsif de.Part.pofs = num  and then
-               de.Part.num.Sort = adverb
+            elsif de.Part.pofs = Num  and then
+               de.Part.Num.Sort = adverb
             then
                Put(stemlist, de.Stems(1)); Put(stemlist, ' ');
                Put(stemlist, de.Part); Put(stemlist, ' ');
@@ -273,7 +273,7 @@ begin
       de.Stems(4) := "fut               ";
       --DE.PART := (PART => V,  CON => (5, 10));
       --DE.PART := (V, ((5, 1)));
-      de.Part := (v, be_ve);
+      de.Part := (V, be_ve);
       --DE.KIND := (V, TO_BE);
       de.Tran := (x, x, x, a, x);
       de.Mean := mean_to_be;

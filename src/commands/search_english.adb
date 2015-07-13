@@ -26,7 +26,7 @@ with english_support_package; use english_support_package;
 with dictionary_form;
 use Latin_Utils;
 
-procedure search_english(Input_english_word : String; pofs : Part_Of_Speech_Type := x) is
+procedure search_english(Input_english_word : String; pofs : Part_Of_Speech_Type := X) is
    use ewds_direct_io;
    Input_word : eword := Lower_Case (Head(Input_english_word, eword_size));
    Input_pofs : constant Part_Of_Speech_Type := pofs;
@@ -126,16 +126,16 @@ procedure search_english(Input_english_word : String; pofs : Part_Of_Speech_Type
             Put(Output, dictionary_form(de));
             Ada.Text_IO.Put(Output, "   ");
 
-            if de.Part.pofs = n  then
+            if de.Part.pofs = N  then
                Ada.Text_IO.Put (Output, "  ");
-               Decn_Record_IO.Put (Output, de.Part.n.Decl);
-               Ada.Text_IO.Put (Output, "  " & Gender_Type'Image(de.Part.n.Gender) & "  ");
+               Decn_Record_IO.Put (Output, de.Part.N.Decl);
+               Ada.Text_IO.Put (Output, "  " & Gender_Type'Image(de.Part.N.Gender) & "  ");
             end if;
-            if de.Part.pofs = v then
-               Ada.Text_IO.Put(Output, "  ");  Decn_Record_IO.Put(Output, de.Part.v.Con);
+            if de.Part.pofs = V then
+               Ada.Text_IO.Put(Output, "  ");  Decn_Record_IO.Put(Output, de.Part.V.Con);
             end if;
-            if (de.Part.pofs = v)  and then  (de.Part.v.Kind in gen..perfdef)  then
-               Ada.Text_IO.Put(Output, "  " & Verb_Kind_Type'Image(de.Part.v.Kind) & "  ");
+            if (de.Part.pofs = V)  and then  (de.Part.V.Kind in gen..perfdef)  then
+               Ada.Text_IO.Put(Output, "  " & Verb_Kind_Type'Image(de.Part.V.Kind) & "  ");
             end if;
 
             if words_mdev(show_dictionary_codes)    then

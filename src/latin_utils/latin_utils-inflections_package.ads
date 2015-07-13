@@ -57,23 +57,23 @@ package Latin_Utils.Inflections_Package is
    Null_Meaning_Type : constant Meaning_Type := (others => ' ');
 
    type Part_Of_Speech_Type is
-      ( x,         --  all, none, or unknown
-        n,         --  Noun
-        pron,      --  PRONoun
-        pack,      --  PACKON -- artificial for code
-        adj,       --  ADJective
-        num,       --  NUMeral
-        adv,       --  ADVerb
-        v,         --  Verb
-        vpar,      --  Verb PARticiple
-        supine,    --  SUPINE
-        prep,      --  PREPosition
-        conj,      --  CONJunction
-        interj,    --  INTERJection
+      ( X,         --  all, none, or unknown
+        N,         --  Noun
+        Pron,      --  PRONoun
+        Pack,      --  PACKON -- artificial for code
+        Adj,       --  ADJective
+        Num,       --  NUMeral
+        Adv,       --  ADVerb
+        V,         --  Verb
+        Vpar,      --  Verb PARticiple
+        Supine,    --  SUPINE
+        Prep,      --  PREPosition
+        Conj,      --  CONJunction
+        Interj,    --  INTERJection
         -- keep tackon/prefix/suffix together, as they are used in range queries
-        tackon,    --  TACKON --  artificial for code
-        prefix,    --  PREFIX --  here artificial for code
-        suffix     --  SUFFIX --  here artificial for code
+        Tackon,    --  TACKON --  artificial for code
+        Prefix,    --  PREFIX --  here artificial for code
+        Suffix     --  SUFFIX --  here artificial for code
       );
 
    package Part_Of_Speech_Type_IO is
@@ -546,46 +546,47 @@ package Latin_Utils.Inflections_Package is
       procedure Put(s : out String; p : in suffix_record);
    end suffix_record_io;
 
-   type quality_record(pofs : Part_Of_Speech_Type := x) is
+   type quality_record(pofs : Part_Of_Speech_Type := X) is
       record
          case pofs is
-            when n =>
-               n : noun_record;
-            when pron =>
-               pron : pronoun_record;
-            when pack =>
-               pack : propack_record;
-            when adj =>
-               adj : adjective_record;
-            when num =>
-               num : numeral_record;
-            when adv =>
-               adv : adverb_record;
-            when v =>
-               v : verb_record;
-            when vpar =>
-               vpar : vpar_record;
-            when supine =>
-               supine : supine_record;
-            when prep =>
-               prep : preposition_record;
-            when conj =>
-               conj : conjunction_record;
-            when interj =>
-               interj : interjection_record;
-            when tackon =>
-               tackon : tackon_record;
-            when prefix =>
-               prefix : prefix_record;
-            when suffix =>
-               suffix : suffix_record;
-            when others =>
+            when N =>
+               N : noun_record;
+            when Pron =>
+               Pron : pronoun_record;
+            when Pack =>
+               Pack : propack_record;
+            when Adj =>
+               Adj : adjective_record;
+            when Num =>
+               Num : numeral_record;
+            when Adv =>
+               Adv : adverb_record;
+            when V =>
+               V : verb_record;
+            when Vpar =>
+               Vpar : vpar_record;
+            when Supine =>
+               Supine : supine_record;
+            when Prep =>
+               Prep : preposition_record;
+            when Conj =>
+               Conj : conjunction_record;
+            when Interj =>
+               Interj : interjection_record;
+            when Tackon =>
+               Tackon : tackon_record;
+            when Prefix =>
+               Prefix : prefix_record;
+            when Suffix =>
+               Suffix : suffix_record;
+            when X =>
                null;
          end case;
       end record;
 
    null_quality_record : quality_record;
 
+   -- FIXME results in erroneous execution in case of Tackon .. Suffix
    function "<" (left, right : quality_record) return Boolean;
 
    package quality_record_io is

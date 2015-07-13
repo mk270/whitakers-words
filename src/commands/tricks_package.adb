@@ -334,7 +334,7 @@ package body tricks_package is
          pa(pa_last) := (Stem => Head (w, Max_Stem_Size),
            IR => (
            qual => (
-           pofs => num,
+           pofs => Num,
            num => (
            decl   => (2, 0),
            cs     => x,
@@ -428,7 +428,7 @@ package body tricks_package is
          pa_last := pa_save;     --  No luck, or it would have exited above
       end loop;
       if pa_last > pa_save + 1  and then
-        pa(pa_last).IR.qual.pofs = v and then
+        pa(pa_last).IR.qual.pofs = V and then
         --PA(PA_LAST).IR.QUAL.V.CON = (3, 4)/(6, 1) and then
         pa(pa_last).IR.key = 3
       then          --  Perfect system
@@ -466,7 +466,7 @@ package body tricks_package is
       end loop;
       --  Loop over the resulting solutions
       if pa_last > pa_save + 1  and then
-        pa(pa_last).IR.qual.pofs = v and then
+        pa(pa_last).IR.qual.pofs = V and then
         pa(pa_last).IR.key = 3
       then          --  Perfect system
          yyy_meaning := Head(
@@ -501,7 +501,7 @@ package body tricks_package is
       end loop;
 
       if pa_last > pa_save + 1  and then
-        pa(pa_last).IR.qual.pofs = v and then
+        pa(pa_last).IR.qual.pofs = V and then
         pa(pa_last).IR.key = 3
       then          --  Perfect system
          yyy_meaning := Head(
@@ -530,7 +530,7 @@ package body tricks_package is
          pa_last := pa_save;     --  No luck, or it would have exited above
       end loop;
       if pa_last > pa_save + 1  and then
-        pa(pa_last).IR.qual.pofs = v and then
+        pa(pa_last).IR.qual.pofs = V and then
         pa(pa_last).IR.key = 3
       then          --  Perfect system
          yyy_meaning := Head(
@@ -562,7 +562,7 @@ package body tricks_package is
       end loop;
       --  Loop over the resulting solutions
       if pa_last > pa_save + 1  and then
-        pa(pa_last).IR.qual.pofs = v and then
+        pa(pa_last).IR.qual.pofs = V and then
         pa(pa_last).IR.key = 3
       then          --  Perfect system
          yyy_meaning := Head(
@@ -621,7 +621,7 @@ package body tricks_package is
               xxx, Null_MNPC);
             tword(x2 & s(s'First+x1'Length..s'Last), pa, pa_last);
             if (pa_last > pa_save + 1)   and then
-              (pa(pa_last-1).IR.qual.pofs /= tackon)
+              (pa(pa_last-1).IR.qual.pofs /= Tackon)
             then
                if explanation = ""  then
                   xxx_meaning := Head(
@@ -658,7 +658,7 @@ package body tricks_package is
             --TEXT_IO.PUT_LINE("Trying " & X2 & S(S'FIRST+X1'LENGTH..S'LAST));
             tword(x2 & s(s'First+x1'Length..s'Last), pa, pa_last);
             if (pa_last > pa_save + 1)   and then
-              (pa(pa_last-1).IR.qual.pofs /= tackon)
+              (pa(pa_last-1).IR.qual.pofs /= Tackon)
             then
                --TEXT_IO.PUT_LINE("FLIPF worked");
                if explanation = ""  then
@@ -690,7 +690,7 @@ package body tricks_package is
             --TEXT_IO.PUT_LINE("Trying " & X1 & S(S'FIRST+X2'LENGTH..S'LAST));
             tword(x1 & s(s'First+x2'Length..s'Last), pa, pa_last);
             if (pa_last > pa_save + 1)   and then
-              (pa(pa_last-1).IR.qual.pofs /= tackon)
+              (pa(pa_last-1).IR.qual.pofs /= Tackon)
             then
                --TEXT_IO.PUT_LINE("FFLOP worked");
                if explanation = ""  then
@@ -725,7 +725,7 @@ package body tricks_package is
                  xxx, Null_MNPC);
                tword(s(s'First..i-1) & x2 & s(i+x1'Length..s'Last), pa, pa_last);
                if (pa_last > pa_save + 1)   and then
-                 (pa(pa_last-1).IR.qual.pofs /= tackon)
+                 (pa(pa_last-1).IR.qual.pofs /= Tackon)
                then
                   if explanation = ""  then
                      xxx_meaning := Head(
@@ -761,11 +761,11 @@ package body tricks_package is
             if pa_last > pa_save + 1 then
                i := pa_last;
                while i > pa_save + 1  loop
-                  if pa(i).IR.qual.pofs = adj  and then
-                    pa(i).IR.qual.adj.decl = (1, 1)  and then
-                    ((pa(i).IR.qual.adj.cs = dat) or
-                    (pa(i).IR.qual.adj.cs = abl))   and then
-                    pa(i).IR.qual.adj.number = p
+                  if pa(i).IR.qual.pofs = Adj  and then
+                    pa(i).IR.qual.Adj.decl = (1, 1)  and then
+                    ((pa(i).IR.qual.Adj.cs = dat) or
+                    (pa(i).IR.qual.Adj.cs = abl))   and then
+                    pa(i).IR.qual.Adj.number = p
                   then
                      null;       --  Only for ADJ 1 1 DAT/ABL P
                   else
@@ -811,7 +811,7 @@ package body tricks_package is
                tword(s(s'First..i) & s(i) & s(i+1..s'Last), pa, pa_last);
                --TEXT_IO.PUT_LINE(S(S'FIRST..I) & S(I) & S(I+1..S'LAST));
                if (pa_last > pa_save + 1)   and then
-                 (pa(pa_last-1).IR.qual.pofs /= tackon)
+                 (pa(pa_last-1).IR.qual.pofs /= Tackon)
                then
                   if explanation = ""  then
                      xxx_meaning := Head(
@@ -904,7 +904,7 @@ package body tricks_package is
                   if pa_last > pa_save + 1 then
                      i_mid := i;
                      for j in pa_save+1..pa_last  loop
-                        if pa(j).IR.qual.pofs = num  then
+                        if pa(j).IR.qual.pofs = Num  then
                            num_hit_one := True;
                            exit;
                         end if;
@@ -935,10 +935,10 @@ package body tricks_package is
             pa_second := pa_last;
             words_no_syncope(s(i_mid+1..s'Last), pa, pa_last);
             if (pa_last > pa_second)   and then       --  No + 1 since XXX taken care of above
-              (pa(pa_last-1).IR.qual.pofs /= tackon)
+              (pa(pa_last-1).IR.qual.pofs /= Tackon)
             then
                for j in pa_second..pa_last  loop
-                  if pa(j).IR.qual.pofs = num  then
+                  if pa(j).IR.qual.pofs = Num  then
                      num_hit_two := True;
                      exit;
                   end if;
@@ -954,7 +954,7 @@ package body tricks_package is
                      --  Clear out any non-NUM if we are in TRIM
                      for j in pa_save+1..pa_last  loop
                         if pa(j).D_K in general..unique  and then
-                          pa(j).IR.qual.pofs /= num
+                          pa(j).IR.qual.pofs /= Num
                         then
                            pa(j..pa_last-1) := pa(j+1..pa_last);
                            pa_last := pa_last - 1;
@@ -1186,9 +1186,9 @@ package body tricks_package is
                tword("i" & s(s'First..s'Last), pa, pa_last);
             end if;
             if (pa_last > pa_save + 1)   and then
-              (pa(pa_last-1).IR.qual.pofs /= tackon)  and then
-              pa(pa_last).IR.qual.pofs = v and then
-              pa(pa_last).IR.qual.v.con = (6, 1)
+              (pa(pa_last-1).IR.qual.pofs /= Tackon)  and then
+              pa(pa_last).IR.qual.pofs = V and then
+              pa(pa_last).IR.qual.V.con = (6, 1)
             then  --    Check it is V 6 1 eo
                xxx_meaning := Head(
                  "Some forms of eo stem 'i' grates with an 'is...' ending, so 'is' -> 'iis' "
@@ -1591,7 +1591,7 @@ package body tricks_package is
          pa(pa_last) := (Stem => Head(w, Max_Stem_Size),
            IR => (
            qual => (
-           pofs => num,
+           pofs => Num,
            num => (
            decl   => (2, 0),
            cs     => x,
@@ -1650,7 +1650,7 @@ package body tricks_package is
               xxx, Null_MNPC);
             tword(x2 & s(s'First+x1'Length..s'Last), pa, pa_last);
             if (pa_last > pa_save + 1)   and then
-              (pa(pa_last-1).IR.qual.pofs /= tackon)
+              (pa(pa_last-1).IR.qual.pofs /= Tackon)
             then
                if explanation = ""  then
                   xxx_meaning := Head(
@@ -1685,7 +1685,7 @@ package body tricks_package is
               xxx, Null_MNPC);
             tword(x2 & s(s'First+x1'Length..s'Last), pa, pa_last);
             if (pa_last > pa_save + 1)   and then
-              (pa(pa_last-1).IR.qual.pofs /= tackon)
+              (pa(pa_last-1).IR.qual.pofs /= Tackon)
             then
                if explanation = ""  then
                   xxx_meaning := Head(
@@ -1711,7 +1711,7 @@ package body tricks_package is
               xxx, Null_MNPC);
             tword(x1 & s(s'First+x2'Length..s'Last), pa, pa_last);
             if (pa_last > pa_save + 1)   and then
-              (pa(pa_last-1).IR.qual.pofs /= tackon)
+              (pa(pa_last-1).IR.qual.pofs /= Tackon)
             then
                if explanation = ""  then
                   xxx_meaning := Head(
@@ -1746,7 +1746,7 @@ package body tricks_package is
                  xxx, Null_MNPC);
                tword(x1(x1'First..sl-1) & s(s'First+sl) & s(s'First+sl..s'Last), pa, pa_last);
                if (pa_last > pa_save + 1)   and then
-                 (pa(pa_last-1).IR.qual.pofs /= tackon)
+                 (pa(pa_last-1).IR.qual.pofs /= Tackon)
                then
                   if explanation = ""  then
                      xxx_meaning := Head(
@@ -1773,7 +1773,7 @@ package body tricks_package is
                  xxx, Null_MNPC);
                tword(x1 & s(s'First+sl..s'Last), pa, pa_last);
                if (pa_last > pa_save + 1)   and then
-                 (pa(pa_last-1).IR.qual.pofs /= tackon)
+                 (pa(pa_last-1).IR.qual.pofs /= Tackon)
                then
                   if explanation = ""  then
                      xxx_meaning := Head(

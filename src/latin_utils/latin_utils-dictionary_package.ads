@@ -162,26 +162,26 @@ package Latin_Utils.Dictionary_Package is
 
    ---------------------------------------------------------------------------
    -- NOTE: Should n and v be changed to noun and verb for clarity?
-   type Kind_Entry (pofs : Part_Of_Speech_Type := x) is
+   type Kind_Entry (pofs : Part_Of_Speech_Type := X) is
       record
          case pofs is
-            when n =>
+            when N =>
                n_kind : Noun_Kind_Type := x;
-            when pron =>
+            when Pron =>
                pron_kind : Pronoun_Kind_Type := x;
-            when pack =>
+            when Pack =>
                pack_kind : Pronoun_Kind_Type := x;
-            when adj | adv | x =>
+            when Adj | Adv | X =>
                null;
-            when num =>
+            when Num =>
                num_value : Numeral_Value_Type := 0;
-            when v =>
+            when V =>
                v_kind : Verb_Kind_Type := x;
-            when vpar =>
+            when Vpar =>
                vpar_kind : Verb_Kind_Type := x;
-            when supine =>
+            when Supine =>
                supine_kind : Verb_Kind_Type := x;
-            when prep .. suffix =>
+            when Prep .. Suffix =>
                null;
          end case;
       end record;
@@ -216,7 +216,7 @@ package Latin_Utils.Dictionary_Package is
          );
    end Kind_Entry_IO;
 
-   Null_Kind_Entry : constant Kind_Entry := (pofs => x);
+   Null_Kind_Entry : constant Kind_Entry := (pofs => X);
 
    ---------------------------------------------------------------------------
 
@@ -516,36 +516,36 @@ package Latin_Utils.Dictionary_Package is
 
    ---------------------------------------------------------------------------
    -- NOTE: Should n and v be changed to noun and verb for clarity?
-   type Part_Entry (pofs : Part_Of_Speech_Type := x) is
+   type Part_Entry (pofs : Part_Of_Speech_Type := X) is
       record
          case pofs is
-            when n =>
-               n : Noun_Entry;
-            when pron =>
-               pron : Pronoun_Entry;
-            when pack =>
-               pack : Propack_Entry;
-            when adj =>
-               adj : Adjective_Entry;
-            when num =>
-               num : Numeral_Entry;
-            when adv =>
-               adv : Adverb_Entry;
-            when v =>
-               v : Verb_Entry;
-            when vpar =>
+            when N =>
+               N : Noun_Entry;
+            when Pron =>
+               Pron : Pronoun_Entry;
+            when Pack =>
+               Pack : Propack_Entry;
+            when Adj =>
+               Adj : Adjective_Entry;
+            when Num =>
+               Num : Numeral_Entry;
+            when Adv =>
+               Adv : Adverb_Entry;
+            when V =>
+               V : Verb_Entry;
+            when Vpar =>
                null;        --  There will be no VPAR dictionary entries
-            when supine =>
+            when Supine =>
                null;        --  There will be no SUPINE dictionary entries
-            when prep =>
-               prep : Preposition_Entry;
-            when conj =>
-               conj : Conjunction_Entry;
-            when interj =>
-               interj : Interjection_Entry;
-            when tackon .. suffix =>
+            when Prep =>
+               Prep : Preposition_Entry;
+            when Conj =>
+               Conj : Conjunction_Entry;
+            when Interj =>
+               Interj : Interjection_Entry;
+            when Tackon .. Suffix =>
                null;
-            when x =>
+            when X =>
                null;
          end case;
       end record;
@@ -568,7 +568,7 @@ package Latin_Utils.Dictionary_Package is
       procedure Put (Target : out String; Item : in Part_Entry);
    end Part_Entry_IO;
 
-   Null_Part_Entry : constant Part_Entry := (pofs => x);
+   Null_Part_Entry : constant Part_Entry := (pofs => X);
 
    -- FIXME: In some cases may result in erroneous execution due to no return
    --    (ie. Left.pofs = Right.pofs and then Left.pofs = x)

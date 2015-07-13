@@ -27,20 +27,20 @@ package body Latin_Utils.Dictionary_Package is
    function Number_Of_Stems (Part : Part_Of_Speech_Type) return Stem_Key_Type is
    begin
       case Part is
-         when n       => return 2;
-         when pron    => return 2;
-         when pack    => return 2;
-         when adj     => return 4;
-         when num     => return 4;
-         when adv     => return 3;
-         when v       => return 4;
-         when vpar    => return 0;
-         when supine  => return 0;
-         when prep    => return 1;
-         when conj    => return 1;
-         when interj  => return 1;
-         when x       => return 0;
-         when tackon .. suffix => return 0;
+         when N       => return 2;
+         when Pron    => return 2;
+         when Pack    => return 2;
+         when Adj     => return 4;
+         when Num     => return 4;
+         when Adv     => return 3;
+         when V       => return 4;
+         when Vpar    => return 0;
+         when Supine  => return 0;
+         when Prep    => return 1;
+         when Conj    => return 1;
+         when Interj  => return 1;
+         when X       => return 0;
+         when Tackon .. Suffix => return 0;
       end case;
    end Number_Of_Stems;
 
@@ -68,63 +68,63 @@ package body Latin_Utils.Dictionary_Package is
    begin
       if Left.pofs = Right.pofs  then
          case Left.pofs is
-            when n =>
-               if Left.n.Decl < Right.n.Decl  or else
-                 (Left.n.Decl = Right.n.Decl  and then
-                 Left.n.Gender < Right.n.Gender)  or else
-                 ((Left.n.Decl = Right.n.Decl  and
-                 Left.n.Gender = Right.n.Gender)  and then
-                 Left.n.Kind < Right.n.Kind)
+            when N =>
+               if Left.N.Decl < Right.N.Decl  or else
+                 (Left.N.Decl = Right.N.Decl  and then
+                 Left.N.Gender < Right.N.Gender)  or else
+                 ((Left.N.Decl = Right.N.Decl  and
+                 Left.N.Gender = Right.N.Gender)  and then
+                 Left.N.Kind < Right.N.Kind)
                then
                   return True;
                end if;
-            when pron =>
-               if Left.pron.Decl < Right.pron.Decl  or else
-                 (Left.pron.Decl = Right.pron.Decl  and then
-                 Left.pron.Kind < Right.pron.Kind)
+            when Pron =>
+               if Left.Pron.Decl < Right.Pron.Decl  or else
+                 (Left.Pron.Decl = Right.Pron.Decl  and then
+                 Left.Pron.Kind < Right.Pron.Kind)
                then
                   return True;
                end if;
-            when pack =>
-               if Left.pack.Decl < Right.pack.Decl  or else
-                 (Left.pack.Decl = Right.pack.Decl  and then
-                 Left.pack.Kind < Right.pack.Kind)
+            when Pack =>
+               if Left.Pack.Decl < Right.Pack.Decl  or else
+                 (Left.Pack.Decl = Right.Pack.Decl  and then
+                 Left.Pack.Kind < Right.Pack.Kind)
                then
                   return True;
                end if;
-            when adj =>
-               if Left.adj.Decl < Right.adj.Decl   or else
-                 (Left.adj.Decl = Right.adj.Decl  and then
-                 Left.adj.Co < Right.adj.Co)
+            when Adj =>
+               if Left.Adj.Decl < Right.Adj.Decl   or else
+                 (Left.Adj.Decl = Right.Adj.Decl  and then
+                 Left.Adj.Co < Right.Adj.Co)
                then
                   return True;
                end if;
-            when num =>
-               if Left.num.Decl < Right.num.Decl  or else
-                 (Left.num.Decl = Right.num.Decl  and then
-                 Left.num.Sort < Right.num.Sort)  or else
-                 ((Left.num.Decl = Right.num.Decl)  and then
-                 (Left.num.Sort = Right.num.Sort)   and then
-                 Left.num.Value < Right.num.Value)
+            when Num =>
+               if Left.Num.Decl < Right.Num.Decl  or else
+                 (Left.Num.Decl = Right.Num.Decl  and then
+                 Left.Num.Sort < Right.Num.Sort)  or else
+                 ((Left.Num.Decl = Right.Num.Decl)  and then
+                 (Left.Num.Sort = Right.Num.Sort)   and then
+                 Left.Num.Value < Right.Num.Value)
                then
                   return True;
                end if;
-            when adv =>
-                  return Left.adv.Co < Right.adv.Co;
-            when v =>
-               if (Left.v.Con < Right.v.Con)  or else
-                 (Left.v.Con = Right.v.Con  and then
-                 Left.v.Kind < Right.v.Kind)
+            when Adv =>
+               return Left.Adv.Co < Right.Adv.Co;
+            when V =>
+               if (Left.V.Con < Right.V.Con)  or else
+                 (Left.V.Con = Right.V.Con  and then
+                 Left.V.Kind < Right.V.Kind)
                then
                   return True;
                end if;
-            when prep =>
-               return Left.prep.Obj < Right.prep.Obj;
-            when vpar .. supine =>
+            when Prep =>
+               return Left.Prep.Obj < Right.Prep.Obj;
+            when Vpar .. Supine =>
                null;
-            when x =>
+            when X =>
                null;
-            when conj .. suffix =>
+            when Conj .. Suffix =>
                null;
          end case;
       else

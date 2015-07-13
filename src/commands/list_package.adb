@@ -31,7 +31,7 @@ with Put_stat;
 use Latin_Utils;
 package body list_package is
 
-   subtype xons is Part_Of_Speech_Type range tackon..suffix;
+   subtype xons is Part_Of_Speech_Type range Tackon .. Suffix;
 
    type dictionary_MNPC_record is record
       d_k  : Dictionary_Kind := Default_Dictionary_Kind;
@@ -327,15 +327,15 @@ package body list_package is
                   quality_record_io.Put(out_String, sr.ir.qual);
                   if dm.d_k in general..local then  --  UNIQUES has no DE
 
-                     if (sr.ir.qual.pofs = v)    and then
-                       (dm.de.Part.v.Kind = dep)       and then
-                       (sr.ir.qual.v.tense_voice_mood.mood in ind..inf)
+                     if (sr.ir.qual.pofs = V)    and then
+                       (dm.de.Part.V.Kind = dep)       and then
+                       (sr.ir.qual.V.tense_voice_mood.mood in ind..inf)
                      then
                         --TEXT_IO.PUT_LINE("START PRINT MODIFIED QUAL   V" );
                         out_String(passive_start+1..passive_finish) := passive_blank;
-                     elsif (sr.ir.qual.pofs = vpar)    and then
-                       (dm.de.Part.v.Kind = dep)    and then
-                       (sr.ir.qual.vpar.tense_voice_mood.mood = ppl)
+                     elsif (sr.ir.qual.pofs = Vpar)    and then
+                       (dm.de.Part.V.Kind = dep)    and then
+                       (sr.ir.qual.Vpar.tense_voice_mood.mood = ppl)
                      then
                         --TEXT_IO.PUT_LINE("START PRINT MODIFIED QUAL   VPAR" );
                         out_String(ppl_start+1..ppl_finish) := passive_blank;
@@ -403,10 +403,10 @@ package body list_package is
          s : String(1..Max_Meaning_Size) := Null_Meaning_Type;
          n : Integer := 0;
       begin
-         if dm.de.Part.pofs = num  then
-            n := dm.de.Part.num.Value;
-            if sr.ir.qual.pofs = num  then    --  Normal parse
-               case sr.ir.qual.num.sort is
+         if dm.de.Part.pofs = Num  then
+            n := dm.de.Part.Num.Value;
+            if sr.ir.qual.pofs = Num  then    --  Normal parse
+               case sr.ir.qual.Num.sort is
                   when card  =>
                      s := Head(Integer'Image(n) &  " - (CARD answers 'how many');", Max_Meaning_Size);
                   when ord   =>
@@ -436,7 +436,7 @@ package body list_package is
             if words_mdev(do_pearse_codes) then
                Ada.Text_IO.Put(Output, "03 ");
             end if;
-            if dm.de.Part.pofs = num  and then dm.de.Part.num.Value > 0  then
+            if dm.de.Part.pofs = Num  and then dm.de.Part.Num.Value > 0  then
                Ada.Text_IO.Put_Line(Output, constructed_meaning(sr, dm));    --  Constructed MEANING
             elsif dm.d_k = unique  then
                Put_meaning(Output, uniques_de(dm.MNPC).Mean);
@@ -520,7 +520,7 @@ package body list_package is
       -------  The gimick of adding an ADV if there is only ADJ VOC  ----
       --TEXT_IO.PUT_LINE("About to do the ADJ -> ADV kludge");
       for i in pa'First..pa_last  loop
-         if pa(i).IR.qual.pofs = adv   then
+         if pa(i).IR.qual.pofs = Adv   then
             there_is_an_adverb := True;
             exit;
          end if;
@@ -529,18 +529,18 @@ package body list_package is
       --TEXT_IO.PUT_LINE("In the ADJ -> ADV kludge  Checked to see if there is an ADV");
       if (not there_is_an_adverb) and (words_mode(do_fixes))  then
          --TEXT_IO.PUT_LINE("In the ADJ -> ADV kludge  There is no ADV");
-         for i in reverse pa'First..pa_last  loop
-            if pa(i).IR.qual.pofs = adj and then
-              (pa(i).IR.qual.adj = ((1, 1), voc, s, m, pos)    or
-                 ((pa(i).IR.qual.adj.cs = voc)   and
-                    (pa(i).IR.qual.adj.number = s)   and
-                    (pa(i).IR.qual.adj.gender = m)   and
-                    (pa(i).IR.qual.adj.co = super)))
+         for i in reverse pa'First .. pa_last  loop
+            if pa(i).IR.qual.pofs = Adj and then
+              (pa(i).IR.qual.Adj = ((1, 1), voc, s, m, pos)    or
+                 ((pa(i).IR.qual.Adj.cs = voc)   and
+                    (pa(i).IR.qual.Adj.number = s)   and
+                    (pa(i).IR.qual.Adj.gender = m)   and
+                    (pa(i).IR.qual.Adj.co = super)))
             then
                j := i;
 
                while j >=  pa'First  loop  --Back through other ADJ cases
-                  if pa(j).IR.qual.pofs /= adj  then
+                  if pa(j).IR.qual.pofs /= Adj  then
                      j2 := j;                          --  J2 is first (reverse) that is not ADJ
                      exit;
                   end if;
@@ -562,14 +562,14 @@ package body list_package is
                pa(pa_last) := pa(j2+1);
                --TEXT_IO.PUT_LINE("In the ADJ -> ADV kludge  Adding SUFFIX E ADV");
                pa(pa_last) := ("e                 ",
-                               ((suffix, null_suffix_record), 0, null_ending_record, x, b),
+                               ((Suffix, null_suffix_record), 0, null_ending_record, x, b),
                                ppp, Null_MNPC);
                --PARSE_RECORD_IO.PUT(PA(PA_LAST)); TEXT_IO.NEW_LINE;
                pa_last := pa_last + 1;
-               if pa(j2+1).IR.qual.adj.co = pos   then
+               if pa(j2+1).IR.qual.Adj.co = pos   then
                   --TEXT_IO.PUT_LINE("In the ADJ -> ADV kludge  Adding POS for ADV");
                   pa(pa_last) := (pa(j2+1).Stem,
-                                  ((pofs => adv, adv => (co => pa(j2+1).IR.qual.adj.co)),
+                                  ((pofs => Adv, adv => (co => pa(j2+1).IR.qual.Adj.co)),
                                    key => 0, ending => (1, "e      "), age => x, freq => b),
                                   pa(j2+1).D_K,
                                   pa(j2+1).MNPC);
@@ -578,9 +578,9 @@ package body list_package is
                     Head("-ly; -ily;  Converting ADJ to ADV",
                          Max_Meaning_Size);
 
-               elsif pa(j2+1).IR.qual.adj.co = super  then
+               elsif pa(j2+1).IR.qual.Adj.co = super  then
                   pa(pa_last) := (pa(j2+1).Stem,
-                                  ((pofs => adv, adv => (co => pa(j2+1).IR.qual.adj.co)),
+                                  ((pofs => Adv, adv => (co => pa(j2+1).IR.qual.Adj.co)),
                                    key => 0, ending => (2, "me     "), age => x, freq => b),
                                   pa(j2+1).D_K,
                                   pa(j2+1).MNPC);
@@ -599,15 +599,15 @@ package body list_package is
       if  words_mdev(Write_statistics_file)    then      --  Omit rest of Output
          for i in 1..pa_last  loop                       --  Just to PUT_STAT
             if pa(i).D_K = addons then
-               if pa(i).IR.qual.pofs = prefix  then
+               if pa(i).IR.qual.pofs = Prefix  then
                   Put_stat("ADDON PREFIX at "
                              & Head(Integer'Image(line_number), 8) & Head(Integer'Image(word_number), 4)
                              & "   " & Head(w, 20) & "   "  & pa(i).Stem & "  " & Integer'Image(Integer(pa(i).MNPC)));
-               elsif pa(i).IR.qual.pofs = suffix  then
+               elsif pa(i).IR.qual.pofs = Suffix  then
                   Put_stat("ADDON SUFFIX at "
                              & Head(Integer'Image(line_number), 8) & Head(Integer'Image(word_number), 4)
                              & "   " & Head(w, 20) & "   "  & pa(i).Stem & "  " & Integer'Image(Integer(pa(i).MNPC)));
-               elsif pa(i).IR.qual.pofs = tackon  then
+               elsif pa(i).IR.qual.pofs = Tackon  then
                   Put_stat("ADDON TACKON at "
                              & Head(Integer'Image(line_number), 8) & Head(Integer'Image(word_number), 4)
                              & "   " & Head(w, 20) & "   "  & pa(i).Stem & "  " & Integer'Image(Integer(pa(i).MNPC)));
@@ -639,11 +639,11 @@ package body list_package is
             i := i + 1;
          else
             case pa(i).IR.qual.pofs  is
-               when n  =>
+               when N =>
                   osra := null_sra;
                   --ODM := NULL_DICTIONARY_MNPC_RECORD;
                   --DM := NULL_DICTIONARY_MNPC_RECORD;
-                  while (pa(i).IR.qual.pofs = n) and (i <= pa_last) loop
+                  while (pa(i).IR.qual.pofs = N) and (i <= pa_last) loop
                      --TEXT_IO.PUT_LINE("Starting loop for N    I = " & INTEGER'IMAGE(I) & "   K = " & INTEGER'IMAGE(K));
                      if pa(i).MNPC  /= odm.MNPC  then   --  Encountering new MNPC
                         osra := sra;
@@ -667,11 +667,11 @@ package body list_package is
                      i := i + 1;              --  I cycles over full PA array
                   end loop;
 
-               when pron  =>
+               when Pron =>
                   osra := null_sra;
                   --ODM := NULL_DICTIONARY_MNPC_RECORD;
                   --DM := NULL_DICTIONARY_MNPC_RECORD;
-                  while pa(i).IR.qual.pofs = pron   and
+                  while pa(i).IR.qual.pofs = Pron   and
                     i <= pa_last                   loop
                      if pa(i).MNPC  /= odm.MNPC  then   --  Encountering new MNPC
                         osra := sra;
@@ -691,11 +691,11 @@ package body list_package is
                      i := i + 1;              --  I cycles over full PA array
                   end loop;
 
-               when pack  =>
+               when Pack =>
                   osra := null_sra;
                   --ODM := NULL_DICTIONARY_MNPC_RECORD;
                   --DM := NULL_DICTIONARY_MNPC_RECORD;
-                  while pa(i).IR.qual.pofs = pack and i <= pa_last loop
+                  while pa(i).IR.qual.pofs = Pack and i <= pa_last loop
                      if pa(i).MNPC  /= odm.MNPC  then   --  Encountering new MNPC
                         osra := sra;
                         k := 1;                  --  K indexes within the MNPCA array --  Initialize
@@ -714,11 +714,11 @@ package body list_package is
                      i := i + 1;              --  I cycles over full PA array
                   end loop;
 
-               when adj  =>
+               when Adj =>
                   osra := null_sra;
                   --ODM := NULL_DICTIONARY_MNPC_RECORD;
                   --DM := NULL_DICTIONARY_MNPC_RECORD;
-                  while pa(i).IR.qual.pofs = adj and i <= pa_last loop
+                  while pa(i).IR.qual.pofs = Adj and i <= pa_last loop
                      --TEXT_IO.PUT_LINE("SRAA - ADJ");
                      if pa(i).MNPC  /= odm.MNPC  then   --  Encountering new MNPC
                         osra := sra;
@@ -738,11 +738,11 @@ package body list_package is
                      i := i + 1;              --  I cycles over full PA array
                   end loop;
 
-               when num  =>
+               when Num  =>
                   osra := null_sra;
                   --ODM := NULL_DICTIONARY_MNPC_RECORD;
                   --DM := NULL_DICTIONARY_MNPC_RECORD;
-                  while pa(i).IR.qual.pofs = num   and
+                  while pa(i).IR.qual.pofs = Num   and
                     i <= pa_last                   loop
                      if pa(i).D_K = rrr then        --  Roman numeral
                         osra := sra;
@@ -774,13 +774,13 @@ package body list_package is
                      i := i + 1;              --  I cycles over full PA array
                   end loop;
 
-               when v | vpar | supine  =>
+               when V | Vpar | Supine  =>
                   osra := null_sra;
                   --ODM := NULL_DICTIONARY_MNPC_RECORD;
                   --DM := NULL_DICTIONARY_MNPC_RECORD;
-                  while (pa(i).IR.qual.pofs = v      or
-                           pa(i).IR.qual.pofs = vpar   or
-                           pa(i).IR.qual.pofs = supine)   and
+                  while (pa(i).IR.qual.pofs = V      or
+                           pa(i).IR.qual.pofs = Vpar   or
+                           pa(i).IR.qual.pofs = Supine)   and
                     i <= pa_last                   loop
                      --TEXT_IO.PUT_LINE("Starting loop for VPAR I = " & INTEGER'IMAGE(I) & "   K = " & INTEGER'IMAGE(K));
                      if (pa(i).MNPC  /= odm.MNPC) and (pa(i).D_K /= ppp)   then   --  Encountering new MNPC
@@ -861,7 +861,7 @@ package body list_package is
                                 "Assume this is capitalized proper name/abbr, under MODE IGNORE_UNKNOWN_NAME ",
                                 Max_Meaning_Size);
             pa(1) := (Head(raw_word, Max_Stem_Size),
-                      ((n, ((0, 0), x, x, x)), 0, null_ending_record, x, x),
+                      ((N, ((0, 0), x, x, x)), 0, null_ending_record, x, x),
                       nnn, Null_MNPC);
             pa_last := 1;    --  So LIST_NEIGHBORHOOD will not be called
             sraa := null_sraa;
@@ -873,7 +873,7 @@ package body list_package is
                                 "Assume this is capitalized proper name/abbr, under MODE IGNORE_UNKNOWN_CAPS ",
                                 Max_Meaning_Size);
             pa(1) := (Head(raw_word, Max_Stem_Size),
-                      ((n, ((0, 0), x, x, x)), 0, null_ending_record, x, x),
+                      ((N, ((0, 0), x, x, x)), 0, null_ending_record, x, x),
                       nnn, Null_MNPC);
             pa_last := 1;
             sraa := null_sraa;
