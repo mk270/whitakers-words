@@ -720,7 +720,7 @@ begin
 
             line_number := line_number + 1;
 
-            if de.Part.pofs = v and then de.Part.v.Con.which = 8 then
+            if de.Part.pofs = v and then de.Part.v.Con.Which = 8 then
                --  V 8 is a kludge for variant forms of verbs that have regular forms elsewhere
                null;
             else
@@ -752,6 +752,79 @@ begin
                      if ewr.freq = Inflections_Package.n  then
                         ewr.rank := ewr.rank + 25;
                      end if;
+   over_lines:
+   while not End_Of_File(Input) loop
+      s := blank_line;
+      Get_Line(Input, s, last);
+      if Trim (s(1..last)) /= ""  then       --  If non-blank line
+         l := 0;
+
+         form_de:
+         begin
+            de.Stems(1) := s(start_stem_1..Max_Stem_Size);
+            --NEW_LINE; PUT(DE.STEMS(1));
+            de.Stems(2) := s(start_stem_2..start_stem_2+Max_Stem_Size-1);
+            de.Stems(3) := s(start_stem_3..start_stem_3+Max_Stem_Size-1);
+            de.Stems(4) := s(start_stem_4..start_stem_4+Max_Stem_Size-1);
+            --PUT('#'); PUT(INTEGER'IMAGE(L)); PUT(INTEGER'IMAGE(LAST));
+            --PUT('@');
+            Get(s(start_part..last), de.Part, l);
+            --PUT('%'); PUT(INTEGER'IMAGE(L)); PUT(INTEGER'IMAGE(LAST));
+            --PUT('&'); PUT(S(L+1..LAST)); PUT('3');
+            --GET(S(L+1..LAST), DE.PART.POFS, DE.KIND, L);
+            -- FIXME: Why not Translation_Record_IO.Put ?
+            Get(s(l+1..last), de.Tran.Age, l);
+            Get(s(l+1..last), de.Tran.Area, l);
+            Get(s(l+1..last), de.Tran.Geo, l);
+            Get(s(l+1..last), de.Tran.Freq, l);
+            Get(s(l+1..last), de.Tran.Source, l);
+            de.Mean := Head (s(l+2..last), Max_Meaning_Size);
+            --  Note that this allows initial blanks
+            --  L+2 skips over the SPACER, required because this is STRING, not ENUM
+
+         exception
+            when others =>
+               New_Line;
+               Put_Line("GET Exception  LAST = " & Integer'Image(last));
+               Put_Line(s(1..last));
+               Integer_IO.Put(line_number); New_Line;
+               Put(de); New_Line;
+         end form_de;
+
+         line_number := line_number + 1;
+
+         if de.Part.pofs = v and then de.Part.v.Con.Which = 8 then
+            --  V 8 is a kludge for variant forms of verbs that have regular forms elsewhere
+            null;
+         else
+            --  Extract words
+            extract_words(add_hyphenated(Trim (de.Mean)), de.Part.pofs, n, ewa);
+
+            --      EWORD_SIZE    : constant := 38;
+            --      AUX_WORD_SIZE : constant := 9;
+            --      LINE_NUMBER_WIDTH : constant := 10;
+            --
+            --      type EWDS_RECORD is
+            --        record
+            --          POFS : PART_OF_SPEECH_TYPE := X;
+            --          W    : STRING(1..EWORD_SIZE);
+            --          AUX  : STRING(1..AUX_WORD_SIZE);
+            --          N    : INTEGER;
+            --        end record;
+
+            for i in 1..n  loop
+               if Trim (ewa(i).w)'Length /= 0 then
+                  ewr.w := Head (Trim (ewa(i).w), eword_size);
+                  ewr.aux := Head ("",  aux_word_size);
+                  ewr.n := line_number;
+                  ewr.pofs := de.Part.pofs;
+                  ewr.freq := de.Tran.Freq;
+                  ewr.semi := ewa(i).semi;
+                  ewr.kind := ewa(i).kind;
+                  ewr.rank := 80-Frequency_Type'Pos(ewr.freq)*10 + ewr.kind + (ewr.semi-1)*(-3);
+                  if ewr.freq = Inflections_Package.n  then
+                     ewr.rank := ewr.rank + 25;
+                  end if;
 
                      --PUT (EWA (I)); NEW_LINE;
                      --PUT (EWR); NEW_LINE;

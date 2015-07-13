@@ -301,8 +301,8 @@ is
    function is_sum(t : String) return verb_to_be is
       sa : constant array (mood_type range ind..sub,
         tense_type range pres..futp,
-        number_type range s..p,
-        person_type range 1..3)
+        Number_Type range s .. p,
+        Person_Type range 1 .. 3)
         of String(1..9) :=
         (
         (         --  IND
@@ -346,8 +346,8 @@ is
       end if;
       for l in mood_type range ind..sub  loop
          for k in tense_type range pres..futp  loop
-            for j in number_type range s..p  loop
-               for i in person_type range 1..3  loop
+            for j in Number_Type range s .. p loop
+               for i in Person_Type range 1 .. 3  loop
                   if Trim (t) = Trim (sa(l, k, j, i))  then
                      return verb_to_be'(
                           matches => True,

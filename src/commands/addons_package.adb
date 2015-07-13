@@ -143,8 +143,8 @@ package body addons_package is
                mean := Head(s(1..last), Max_Meaning_Size);
 
                if  tn.base.pofs= pack   and then
-                  (tn.base.pack.Decl.which = 1 or
-                   tn.base.pack.Decl.which = 2)  and then
+                  (tn.base.pack.Decl.Which = 1 or
+                   tn.base.pack.Decl.Which = 2)  and then
                    mean(1..9) = "PACKON w/"
                then
                   pac := pac + 1;

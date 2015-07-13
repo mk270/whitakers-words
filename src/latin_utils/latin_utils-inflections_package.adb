@@ -16,14 +16,15 @@
 
 with Latin_Utils.Latin_File_Names; use Latin_Utils.Latin_File_Names;
 with Latin_Utils.Preface;
-use Latin_Utils;
 package body Latin_Utils.Inflections_Package is
 
-   function "<" (left, right : Decn_Record) return Boolean is
+   ---------------------------------------------------------------------------
+
+   function "<" (Left, Right : Decn_Record) return Boolean is
    begin
-      if left.which < right.which  or else
-        (left.which = right.which  and then
-           left.var < right.var)
+      if Left.Which < Right.Which  or else
+        (Left.Which = Right.Which  and then
+           Left.Var < Right.Var)
       then
          return True;
       else
@@ -31,23 +32,25 @@ package body Latin_Utils.Inflections_Package is
       end if;
    end "<";
 
+   ---------------------------------------------------------------------------
+
    function "<" (left, right : quality_record) return Boolean is
    begin
       if left.pofs = right.pofs  then
          case left.pofs is
             when n =>
-               if left.n.decl.which < right.n.decl.which  or else
-                 (left.n.decl.which = right.n.decl.which  and then
-                    left.n.decl.var < right.n.decl.var)  or else
-                 (left.n.decl.which = right.n.decl.which  and then
-                    left.n.decl.var = right.n.decl.var  and then
+               if left.n.decl.Which < right.n.decl.Which  or else
+                 (left.n.decl.Which = right.n.decl.Which  and then
+                    left.n.decl.Var < right.n.decl.Var)  or else
+                 (left.n.decl.Which = right.n.decl.Which  and then
+                    left.n.decl.Var = right.n.decl.Var  and then
                     left.n.number < right.n.number) or else
-                 (left.n.decl.which = right.n.decl.which  and then
-                    left.n.decl.var = right.n.decl.var  and then
+                 (left.n.decl.Which = right.n.decl.Which  and then
+                    left.n.decl.Var = right.n.decl.Var  and then
                     left.n.number = right.n.number and then
                     left.n.cs < right.n.cs) or else
-                 (left.n.decl.which = right.n.decl.which  and then
-                    left.n.decl.var = right.n.decl.var  and then
+                 (left.n.decl.Which = right.n.decl.Which  and then
+                    left.n.decl.Var = right.n.decl.Var  and then
                     left.n.number = right.n.number and then
                     left.n.cs = right.n.cs and then
                     left.n.gender < right.n.gender)
@@ -55,18 +58,18 @@ package body Latin_Utils.Inflections_Package is
                   return True;
                end if;
             when pron =>
-               if left.pron.decl.which < right.pron.decl.which  or else
-                 (left.pron.decl.which = right.pron.decl.which  and then
-                    left.pron.decl.var < right.pron.decl.var)  or else
-                 (left.pron.decl.which = right.pron.decl.which  and then
-                    left.pron.decl.var = right.pron.decl.var  and then
+               if left.pron.decl.Which < right.pron.decl.Which  or else
+                 (left.pron.decl.Which = right.pron.decl.Which  and then
+                    left.pron.decl.Var < right.pron.decl.Var)  or else
+                 (left.pron.decl.Which = right.pron.decl.Which  and then
+                    left.pron.decl.Var = right.pron.decl.Var  and then
                     left.pron.number < right.pron.number) or else
-                 (left.pron.decl.which = right.pron.decl.which  and then
-                    left.pron.decl.var = right.pron.decl.var  and then
+                 (left.pron.decl.Which = right.pron.decl.Which  and then
+                    left.pron.decl.Var = right.pron.decl.Var  and then
                     left.pron.number = right.pron.number and then
                     left.pron.cs < right.pron.cs) or else
-                 (left.pron.decl.which = right.pron.decl.which  and then
-                    left.pron.decl.var = right.pron.decl.var  and then
+                 (left.pron.decl.Which = right.pron.decl.Which  and then
+                    left.pron.decl.Var = right.pron.decl.Var  and then
                     left.pron.number = right.pron.number and then
                     left.pron.cs = right.pron.cs and then
                     left.pron.gender < right.pron.gender)
@@ -74,18 +77,18 @@ package body Latin_Utils.Inflections_Package is
                   return True;
                end if;
             when pack =>
-               if left.pack.decl.which < right.pack.decl.which  or else
-                 (left.pack.decl.which = right.pack.decl.which  and then
-                    left.pack.decl.var < right.pack.decl.var)  or else
-                 (left.pack.decl.which = right.pack.decl.which  and then
-                    left.pack.decl.var = right.pack.decl.var  and then
+               if left.pack.decl.Which < right.pack.decl.Which  or else
+                 (left.pack.decl.Which = right.pack.decl.Which  and then
+                    left.pack.decl.Var < right.pack.decl.Var)  or else
+                 (left.pack.decl.Which = right.pack.decl.Which  and then
+                    left.pack.decl.Var = right.pack.decl.Var  and then
                     left.pack.number < right.pack.number) or else
-                 (left.pack.decl.which = right.pack.decl.which  and then
-                    left.pack.decl.var = right.pack.decl.var  and then
+                 (left.pack.decl.Which = right.pack.decl.Which  and then
+                    left.pack.decl.Var = right.pack.decl.Var  and then
                     left.pack.number = right.pack.number and then
                     left.pack.cs < right.pack.cs) or else
-                 (left.pack.decl.which = right.pack.decl.which  and then
-                    left.pack.decl.var = right.pack.decl.var  and then
+                 (left.pack.decl.Which = right.pack.decl.Which  and then
+                    left.pack.decl.Var = right.pack.decl.Var  and then
                     left.pack.number = right.pack.number and then
                     left.pack.cs = right.pack.cs and then
                     left.pack.gender < right.pack.gender)
@@ -93,23 +96,23 @@ package body Latin_Utils.Inflections_Package is
                   return True;
                end if;
             when adj =>
-               if left.adj.decl.which < right.adj.decl.which  or else
-                 (left.adj.decl.which = right.adj.decl.which  and then
-                    left.adj.decl.var < right.adj.decl.var)  or else
-                 (left.adj.decl.which = right.adj.decl.which  and then
-                    left.adj.decl.var = right.adj.decl.var  and then
+               if left.adj.decl.Which < right.adj.decl.Which  or else
+                 (left.adj.decl.Which = right.adj.decl.Which  and then
+                    left.adj.decl.Var < right.adj.decl.Var)  or else
+                 (left.adj.decl.Which = right.adj.decl.Which  and then
+                    left.adj.decl.Var = right.adj.decl.Var  and then
                     left.adj.number < right.adj.number) or else
-                 (left.adj.decl.which = right.adj.decl.which  and then
-                    left.adj.decl.var = right.adj.decl.var  and then
+                 (left.adj.decl.Which = right.adj.decl.Which  and then
+                    left.adj.decl.Var = right.adj.decl.Var  and then
                     left.adj.number = right.adj.number and then
                     left.adj.cs < right.adj.cs) or else
-                 (left.adj.decl.which = right.adj.decl.which  and then
-                    left.adj.decl.var = right.adj.decl.var  and then
+                 (left.adj.decl.Which = right.adj.decl.Which  and then
+                    left.adj.decl.Var = right.adj.decl.Var  and then
                     left.adj.number = right.adj.number and then
                     left.adj.cs = right.adj.cs and then
                     left.adj.gender < right.adj.gender)  or else
-                 (left.adj.decl.which = right.adj.decl.which  and then
-                    left.adj.decl.var = right.adj.decl.var  and then
+                 (left.adj.decl.Which = right.adj.decl.Which  and then
+                    left.adj.decl.Var = right.adj.decl.Var  and then
                     left.adj.number = right.adj.number and then
                     left.adj.cs = right.adj.cs and then
                     left.adj.gender = right.adj.gender  and then
@@ -120,29 +123,29 @@ package body Latin_Utils.Inflections_Package is
             when adv =>
                return left.adv.co < right.adv.co;
             when v =>
-               if (left.v.con.which < right.v.con.which)  or else
-                 (left.v.con.which = right.v.con.which  and then
-                    left.v.con.var < right.v.con.var)  or else
-                 (left.v.con.which = right.v.con.which  and then
-                    left.v.con.var = right.v.con.var  and then
+               if (left.v.con.Which < right.v.con.Which)  or else
+                 (left.v.con.Which = right.v.con.Which  and then
+                    left.v.con.Var < right.v.con.Var)  or else
+                 (left.v.con.Which = right.v.con.Which  and then
+                    left.v.con.Var = right.v.con.Var  and then
                     left.v.number < right.v.number) or else
-                 (left.v.con.which = right.v.con.which  and then
-                    left.v.con.var = right.v.con.var  and then
+                 (left.v.con.Which = right.v.con.Which  and then
+                    left.v.con.Var = right.v.con.Var  and then
                     left.v.number = right.v.number and then
                     left.v.tense_voice_mood.tense < right.v.tense_voice_mood.tense) or else
-                 (left.v.con.which = right.v.con.which  and then
-                    left.v.con.var = right.v.con.var  and then
+                 (left.v.con.Which = right.v.con.Which  and then
+                    left.v.con.Var = right.v.con.Var  and then
                     left.v.number = right.v.number and then
                     left.v.tense_voice_mood.tense = right.v.tense_voice_mood.tense and then
                     left.v.tense_voice_mood.voice < right.v.tense_voice_mood.voice) or else
-                 (left.v.con.which = right.v.con.which  and then
-                    left.v.con.var = right.v.con.var  and then
+                 (left.v.con.Which = right.v.con.Which  and then
+                    left.v.con.Var = right.v.con.Var  and then
                     left.v.number = right.v.number and then
                     left.v.tense_voice_mood.tense = right.v.tense_voice_mood.tense and then
                     left.v.tense_voice_mood.voice = right.v.tense_voice_mood.voice and then
                     left.v.tense_voice_mood.mood   < right.v.tense_voice_mood.mood )  or else
-                 (left.v.con.which = right.v.con.which  and then
-                    left.v.con.var = right.v.con.var  and then
+                 (left.v.con.Which = right.v.con.Which  and then
+                    left.v.con.Var = right.v.con.Var  and then
                     left.v.number = right.v.number and then
                     left.v.tense_voice_mood.tense = right.v.tense_voice_mood.tense and then
                     left.v.tense_voice_mood.voice = right.v.tense_voice_mood.voice and then
@@ -152,18 +155,18 @@ package body Latin_Utils.Inflections_Package is
                   return True;
                end if;
             when vpar =>
-               if left.vpar.con.which < right.vpar.con.which  or else
-                 (left.vpar.con.which = right.vpar.con.which  and then
-                    left.vpar.con.var < right.vpar.con.var)  or else
-                 (left.vpar.con.which = right.vpar.con.which  and then
-                    left.vpar.con.var = right.vpar.con.var  and then
+               if left.vpar.con.Which < right.vpar.con.Which  or else
+                 (left.vpar.con.Which = right.vpar.con.Which  and then
+                    left.vpar.con.Var < right.vpar.con.Var)  or else
+                 (left.vpar.con.Which = right.vpar.con.Which  and then
+                    left.vpar.con.Var = right.vpar.con.Var  and then
                     left.vpar.number < right.vpar.number) or else
-                 (left.vpar.con.which = right.vpar.con.which  and then
-                    left.vpar.con.var = right.vpar.con.var  and then
+                 (left.vpar.con.Which = right.vpar.con.Which  and then
+                    left.vpar.con.Var = right.vpar.con.Var  and then
                     left.vpar.number = right.vpar.number and then
                     left.vpar.cs < right.vpar.cs) or else
-                 (left.vpar.con.which = right.vpar.con.which  and then
-                    left.vpar.con.var = right.vpar.con.var  and then
+                 (left.vpar.con.Which = right.vpar.con.Which  and then
+                    left.vpar.con.Var = right.vpar.con.Var  and then
                     left.vpar.number = right.vpar.number and then
                     left.vpar.cs = right.vpar.cs and then
                     left.vpar.gender < right.vpar.gender)
@@ -171,18 +174,18 @@ package body Latin_Utils.Inflections_Package is
                   return True;
                end if;
             when supine =>
-               if left.supine.con.which < right.supine.con.which  or else
-                 (left.supine.con.which = right.supine.con.which  and then
-                    left.supine.con.var < right.supine.con.var)  or else
-                 (left.supine.con.which = right.supine.con.which  and then
-                    left.supine.con.var = right.supine.con.var  and then
+               if left.supine.con.Which < right.supine.con.Which  or else
+                 (left.supine.con.Which = right.supine.con.Which  and then
+                    left.supine.con.Var < right.supine.con.Var)  or else
+                 (left.supine.con.Which = right.supine.con.Which  and then
+                    left.supine.con.Var = right.supine.con.Var  and then
                     left.supine.number < right.supine.number) or else
-                 (left.supine.con.which = right.supine.con.which  and then
-                    left.supine.con.var = right.supine.con.var  and then
+                 (left.supine.con.Which = right.supine.con.Which  and then
+                    left.supine.con.Var = right.supine.con.Var  and then
                     left.supine.number = right.supine.number and then
                     left.supine.cs < right.supine.cs) or else
-                 (left.supine.con.which = right.supine.con.which  and then
-                    left.supine.con.var = right.supine.con.var  and then
+                 (left.supine.con.Which = right.supine.con.Which  and then
+                    left.supine.con.Var = right.supine.con.Var  and then
                     left.supine.number = right.supine.number and then
                     left.supine.cs = right.supine.cs and then
                     left.supine.gender < right.supine.gender)
@@ -196,23 +199,23 @@ package body Latin_Utils.Inflections_Package is
             when interj =>
                null;
             when num =>
-               if left.num.decl.which < right.num.decl.which  or else
-                 (left.num.decl.which = right.num.decl.which  and then
-                    left.num.decl.var < right.num.decl.var)  or else
-                 (left.num.decl.which = right.num.decl.which  and then
-                    left.num.decl.var = right.num.decl.var  and then
+               if left.num.decl.Which < right.num.decl.Which  or else
+                 (left.num.decl.Which = right.num.decl.Which  and then
+                    left.num.decl.Var < right.num.decl.Var)  or else
+                 (left.num.decl.Which = right.num.decl.Which  and then
+                    left.num.decl.Var = right.num.decl.Var  and then
                     left.num.number < right.num.number) or else
-                 (left.num.decl.which = right.num.decl.which  and then
-                    left.num.decl.var = right.num.decl.var  and then
+                 (left.num.decl.Which = right.num.decl.Which  and then
+                    left.num.decl.Var = right.num.decl.Var  and then
                     left.num.number = right.num.number and then
                     left.num.cs < right.num.cs) or else
-                 (left.num.decl.which = right.num.decl.which  and then
-                    left.num.decl.var = right.num.decl.var  and then
+                 (left.num.decl.Which = right.num.decl.Which  and then
+                    left.num.decl.Var = right.num.decl.Var  and then
                     left.num.number = right.num.number and then
                     left.num.cs = right.num.cs and then
                     left.num.gender < right.num.gender)  or else
-                 (left.num.decl.which = right.num.decl.which  and then
-                    left.num.decl.var = right.num.decl.var  and then
+                 (left.num.decl.Which = right.num.decl.Which  and then
+                    left.num.decl.Var = right.num.decl.Var  and then
                     left.num.number = right.num.number and then
                     left.num.cs = right.num.cs and then
                     left.num.gender = right.num.gender  and then
@@ -253,8 +256,8 @@ package body Latin_Utils.Inflections_Package is
    function "<=" (left, right : Decn_Record) return Boolean is
    begin
       if right = left  or else
-        (right = Decn_Record'(0, 0)  and left.which /= 9)  or else
-        right = Decn_Record'(left.which, 0)
+        (right = Decn_Record'(0, 0)  and left.Which /= 9)  or else
+        right = Decn_Record'(left.Which, 0)
       then
          return True;
       else
@@ -283,7 +286,7 @@ package body Latin_Utils.Inflections_Package is
       end if;
    end "<=";
 
-   overriding function "<=" (left, right : number_type) return Boolean is
+   overriding function "<=" (left, right : Number_Type) return Boolean is
    begin
       if right = left or else right = x then
          return True;
@@ -292,7 +295,7 @@ package body Latin_Utils.Inflections_Package is
       end if;
    end "<=";
 
-   overriding function "<=" (left, right : person_type) return Boolean is
+   overriding function "<=" (left, right : Person_Type) return Boolean is
    begin
       if right = left or else right = 0 then
          return True;
@@ -367,155 +370,9 @@ package body Latin_Utils.Inflections_Package is
       end if;
    end "<=";
 
-   package body Stem_Type_IO is
-      procedure Get(f : in File_Type; d : out Stem_Type) is
-         c : Character := ' ';
-      begin
-         d := Null_Stem_Type;
-         for i in 1..Stem_Type_IO.Default_Width  loop
-            Get(f, c);
-            if (c not in 'A'..'Z') and (c not in 'a'..'z')  then
-               exit;
-            else
-               d(i) := c;
-            end if;
-         end loop;
-      end Get;
+   package body Stem_Type_IO is separate;
 
-      procedure Get(d : out Stem_Type) is
-         c : Character := ' ';
-      begin
-         d := Null_Stem_Type;
-         for i in 1..Stem_Type_IO.Default_Width loop
-            Ada.Text_IO.Get(c);
-            if (c not in 'A'..'Z') and (c not in 'a'..'z') then
-               exit;
-            else
-               d(i) := c;
-            end if;
-         end loop;
-      end Get;
-
-      procedure Put(f : in File_Type; d : in Stem_Type) is
-      begin
-         Ada.Text_IO.Put(f, d);
-      end Put;
-
-      procedure Put(d : in Stem_Type) is
-      begin
-         Ada.Text_IO.Put(d);
-      end Put;
-
-      procedure Get(s : in String; d : out Stem_Type;
-                                   last : out Integer) is
-         c : Character;
-      begin
-         d := Null_Stem_Type;
-         last := 0;
-         for i in 1..Stem_Type_IO.Default_Width  loop
-            c := s(i);
-            if (c not in 'A'..'Z') and (c not in 'a'..'z')  then
-               exit;
-            else
-               d(i) := c;
-               last := i;
-            end if;
-         end loop;
-      end Get;
-
-      procedure Put(s : out String; d : in Stem_Type) is
-      begin
-         s(s'First..s'First+Stem_Type_IO.Default_Width-1) := d;
-      end Put;
-
-   end Stem_Type_IO;
-
-   package body Decn_Record_IO is
-      --  This package will carry the documentation for all the following packages
-      --  Must have "use" for _IO for each of the components of the record
-      use Integer_IO;
-      --  This is a dummy used to GET the space Character PUT between components
-      spacer : Character := ' ';
-
-      --  The standard 6 procedures are defined as in TEXT_IO
-
-      procedure Get(f : in File_Type; d : out Decn_Record) is
-         --  Get from a file
-      begin
-         --  Get the first component
-         Get(f, d.which);
-         --  Then Get (and ignore) space Character which is Put between components
-         Get(f, spacer);
-         --  Get the next component
-         Get(f, d.var);
-      end Get;
-
-      procedure Get(d : out Decn_Record) is
-         --  Get from the current Input, in the same manner
-      begin
-         Get(d.which);
-         Get(spacer);
-         Get(d.var);
-      end Get;
-
-      procedure Put(f : in File_Type; d : in Decn_Record) is
-         --  Put to a file
-      begin
-         --  Put the first component, with whatever Put is applicable (and use'd)
-         Put(f, d.which, 1);
-         --  Put the blank Character between components
-         Put(f, ' ');
-         --  Put the next component
-         Put(f, d.var, 1);
-      end Put;
-
-      procedure Put(d : in Decn_Record) is
-         --  Likewise for Put to current Output
-      begin
-         Put(d.which, 1);
-         Put(' ');
-         Put(d.var, 1);
-      end Put;
-
-      procedure Get(s : in String;
-                    d : out Decn_Record; last : out Integer) is
-         --  Get from a String
-         --  Initialize the String position parameter
-         --  Make it First-1 so the first String specification looks like later ones
-         l : Integer := s'First - 1;
-      begin
-         --  Get with the use'd _IO package the first component
-         Get(s(l+1..s'Last), d.which, l);
-         --  The L is the last position read, so add one to skip the spacer
-         l := l + 1;
-         --  Get the next component
-         Get(s(l+1..s'Last), d.var, last);
-      end Get;
-
-      procedure Put(s : out String; d : in Decn_Record) is
-         l : Integer := s'First - 1;
-         m : Integer := 0;
-      begin
-         --  Make a place the DEFAULT_WIDTH of the component  to be Put
-         --  The DEFAULT_WIDTH has been set for these _IO packages to be
-         --  the LONGEST component width, not the normal Ada default
-         m := l + 1; --  But WHICH is to be PUT WIDTH 1
-         --  Put onto the subString that is exactly the DEFAULT (LONGEST) size
-         Put(s(l+1..m), d.which);
-         --  Advance the position by 1 to the position to make the blank
-         l := m + 1;
-         --  Write the blank
-         s(l) :=  ' ';
-         --  Calculate the next subString, of DEFAULT_WIDTH for next component
-         m := l + 1;
-         --  Put the next component
-         Put(s(l+1..m), d.var);
-         --  The following may be necessary to fill the out String
-         --  but usually the out String has been specified exactly
-         s(m+1..s'Last) := (others => ' ');
-      end Put;
-
-   end Decn_Record_IO;
+   package body Decn_Record_IO is separate;
 
    package body tense_voice_mood_record_io is
       use tense_type_io;
@@ -593,7 +450,7 @@ package body Latin_Utils.Inflections_Package is
       use Decn_Record_IO;
       use Case_Type_IO;
       use Gender_Type_IO;
-      use number_type_io;
+      use Number_Type_IO;
       spacer : Character := ' ';
 
       procedure Get(f : in File_Type; n : out noun_record) is
@@ -664,7 +521,7 @@ package body Latin_Utils.Inflections_Package is
          Put(s(l+1..m), n.cs);
          l := m + 1;
          s(l) :=  ' ';
-         m := l + number_type_io.Default_Width;
+         m := l + Number_Type_IO.Default_Width;
          Put(s(l+1..m), n.number);
          l := m + 1;
          s(l) :=  ' ';
@@ -679,7 +536,7 @@ package body Latin_Utils.Inflections_Package is
       use Decn_Record_IO;
       use Case_Type_IO;
       use Gender_Type_IO;
-      use number_type_io;
+      use Number_Type_IO;
       spacer : Character := ' ';
 
       procedure Get(f : in File_Type; p : out pronoun_record) is
@@ -750,7 +607,7 @@ package body Latin_Utils.Inflections_Package is
          Put(s(l+1..m), p.cs);
          l := m + 1;
          s(l) :=  ' ';
-         m := l + number_type_io.Default_Width;
+         m := l + Number_Type_IO.Default_Width;
          Put(s(l+1..m), p.number);
          l := m + 1;
          s(l) :=  ' ';
@@ -764,7 +621,7 @@ package body Latin_Utils.Inflections_Package is
    package body propack_record_io is
       use Decn_Record_IO;
       use Case_Type_IO;
-      use number_type_io;
+      use Number_Type_IO;
       use Gender_Type_IO;
       spacer : Character := ' ';
 
@@ -836,7 +693,7 @@ package body Latin_Utils.Inflections_Package is
          Put(s(l+1..m), p.cs);
          l := m + 1;
          s(l) :=  ' ';
-         m := l + number_type_io.Default_Width;
+         m := l + Number_Type_IO.Default_Width;
          Put(s(l+1..m), p.number);
          l := m + 1;
          s(l) :=  ' ';
@@ -851,7 +708,7 @@ package body Latin_Utils.Inflections_Package is
       use Decn_Record_IO;
       use Gender_Type_IO;
       use Case_Type_IO;
-      use number_type_io;
+      use Number_Type_IO;
       use Comparison_Type_IO;
       spacer : Character := ' ';
 
@@ -933,7 +790,7 @@ package body Latin_Utils.Inflections_Package is
          Put(s(l+1..m), a.cs);
          l := m + 1;
          s(l) :=  ' ';
-         m := l + number_type_io.Default_Width;
+         m := l + Number_Type_IO.Default_Width;
          Put(s(l+1..m), a.number);
          l := m + 1;
          s(l) :=  ' ';
@@ -951,7 +808,7 @@ package body Latin_Utils.Inflections_Package is
    package body numeral_record_io is
       use Decn_Record_IO;
       use Case_Type_IO;
-      use number_type_io;
+      use Number_Type_IO;
       use Gender_Type_IO;
       use Numeral_Sort_Type_IO;
       spacer : Character := ' ';
@@ -1033,7 +890,7 @@ package body Latin_Utils.Inflections_Package is
          Put(s(l+1..m), num.cs);
          l := m + 1;
          s(l) :=  ' ';
-         m := l + number_type_io.Default_Width;
+         m := l + Number_Type_IO.Default_Width;
          Put(s(l+1..m), num.number);
          l := m + 1;
          s(l) :=  ' ';
@@ -1091,8 +948,8 @@ package body Latin_Utils.Inflections_Package is
    package body verb_record_io is
       use Decn_Record_IO;
       use tense_voice_mood_record_io;
-      use person_type_io;
-      use number_type_io;
+      use Person_Type_IO;
+      use Number_Type_IO;
       spacer : Character := ' ';
 
       procedure Get(f : in File_Type; v : out verb_record) is
@@ -1163,11 +1020,11 @@ package body Latin_Utils.Inflections_Package is
          Put(s(l+1..m), v.tense_voice_mood);
          l := m + 1;
          s(l) :=  ' ';
-         m := l + person_type_io.Default_Width;
+         m := l + Person_Type_IO.Default_Width;
          Put(s(l+1..m), v.person);
          l := m + 1;
          s(l) :=  ' ';
-         m := l + number_type_io.Default_Width;
+         m := l + Number_Type_IO.Default_Width;
          Put(s(l+1..m), v.number);
          s(m+1..s'Last) := (others => ' ');
       end Put;
@@ -1177,7 +1034,7 @@ package body Latin_Utils.Inflections_Package is
    package body vpar_record_io is
       use Decn_Record_IO;
       use Case_Type_IO;
-      use number_type_io;
+      use Number_Type_IO;
       use Gender_Type_IO;
       use tense_voice_mood_record_io;
       spacer : Character := ' ';
@@ -1260,7 +1117,7 @@ package body Latin_Utils.Inflections_Package is
          Put(s(l+1..m), vp.cs);
          l := m + 1;
          s(l) :=  ' ';
-         m := l + number_type_io.Default_Width;
+         m := l + Number_Type_IO.Default_Width;
          Put(s(l+1..m), vp.number);
          l := m + 1;
          s(l) :=  ' ';
@@ -1278,7 +1135,7 @@ package body Latin_Utils.Inflections_Package is
    package body supine_record_io is
       use Decn_Record_IO;
       use Case_Type_IO;
-      use number_type_io;
+      use Number_Type_IO;
       use Gender_Type_IO;
       spacer : Character := ' ';
 
@@ -1350,7 +1207,7 @@ package body Latin_Utils.Inflections_Package is
          Put(s(l+1..m), vp.cs);
          l := m + 1;
          s(l) :=  ' ';
-         m := l + number_type_io.Default_Width;
+         m := l + Number_Type_IO.Default_Width;
          Put(s(l+1..m), vp.number);
          l := m + 1;
          s(l) :=  ' ';
@@ -2367,8 +2224,8 @@ package body Latin_Utils.Inflections_Package is
             n4_loop:
             loop
                exit c4_loop when  lel(i).qual.pofs = pron  and then
-                 (lel(i).qual.pron.decl.which = 1  or
-                    lel(i).qual.pron.decl.which = 2);
+                 (lel(i).qual.pron.decl.Which = 1  or
+                    lel(i).qual.pron.decl.Which = 2);
 
                n := lel(i).ending.size;
 
@@ -2467,8 +2324,8 @@ begin  --  initialization of body of INFLECTIONS_PACKAGE
    Part_Of_Speech_Type_IO.Default_Width := Part_Of_Speech_Type'Width;
    Gender_Type_IO.Default_Width := Gender_Type'Width;
    Case_Type_IO.Default_Width := Case_Type'Width;
-   number_type_io.Default_Width := number_type'Width;
-   person_type_io.Default_Width := 1;
+   Number_Type_IO.Default_Width := Number_Type'Width;
+   Person_Type_IO.Default_Width := 1;
    Comparison_Type_IO.Default_Width := Comparison_Type'Width;
    tense_type_io.Default_Width := tense_type'Width;
    voice_type_io.Default_Width := voice_type'Width;
@@ -2490,22 +2347,22 @@ begin  --  initialization of body of INFLECTIONS_PACKAGE
    noun_record_io.Default_Width :=
      Decn_Record_IO.Default_Width + 1 +
      Case_Type_IO.Default_Width + 1 +
-     number_type_io.Default_Width + 1 +
+     Number_Type_IO.Default_Width + 1 +
      Gender_Type_IO.Default_Width;
    pronoun_record_io.Default_Width :=
      Decn_Record_IO.Default_Width + 1 +
      Case_Type_IO.Default_Width + 1 +
-     number_type_io.Default_Width + 1 +
+     Number_Type_IO.Default_Width + 1 +
      Gender_Type_IO.Default_Width;
    propack_record_io.Default_Width :=
      Decn_Record_IO.Default_Width + 1 +
      Case_Type_IO.Default_Width + 1 +
-     number_type_io.Default_Width + 1 +
+     Number_Type_IO.Default_Width + 1 +
      Gender_Type_IO.Default_Width;
    adjective_record_io.Default_Width :=
      Decn_Record_IO.Default_Width + 1 +
      Case_Type_IO.Default_Width + 1 +
-     number_type_io.Default_Width + 1 +
+     Number_Type_IO.Default_Width + 1 +
      Gender_Type_IO.Default_Width + 1 +
      Comparison_Type_IO.Default_Width;
    adverb_record_io.Default_Width :=
@@ -2513,18 +2370,18 @@ begin  --  initialization of body of INFLECTIONS_PACKAGE
    verb_record_io.Default_Width :=
      Decn_Record_IO.Default_Width + 1 +
      tense_voice_mood_record_io.Default_Width + 1 +
-     person_type_io.Default_Width + 1 +
-     number_type_io.Default_Width;
+     Person_Type_IO.Default_Width + 1 +
+     Number_Type_IO.Default_Width;
    vpar_record_io.Default_Width :=
      Decn_Record_IO.Default_Width + 1 +
      Case_Type_IO.Default_Width + 1 +
-     number_type_io.Default_Width + 1 +
+     Number_Type_IO.Default_Width + 1 +
      Gender_Type_IO.Default_Width + 1 +
      tense_voice_mood_record_io.Default_Width;
    supine_record_io.Default_Width :=
      Decn_Record_IO.Default_Width + 1 +
      Case_Type_IO.Default_Width + 1 +
-     number_type_io.Default_Width + 1 +
+     Number_Type_IO.Default_Width + 1 +
      Gender_Type_IO.Default_Width;
    preposition_record_io.Default_Width := Case_Type_IO.Default_Width;
    conjunction_record_io.Default_Width := 0;
@@ -2532,7 +2389,7 @@ begin  --  initialization of body of INFLECTIONS_PACKAGE
    numeral_record_io.Default_Width :=
      Decn_Record_IO.Default_Width + 1 +
      Case_Type_IO.Default_Width + 1 +
-     number_type_io.Default_Width + 1 +
+     Number_Type_IO.Default_Width + 1 +
      Gender_Type_IO.Default_Width + 1 +
      Numeral_Sort_Type_IO.Default_Width;
    tackon_record_io.Default_Width := 0;

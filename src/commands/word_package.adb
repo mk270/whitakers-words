@@ -409,7 +409,7 @@ package body word_package is
             when regular    =>
                if not (ds.part.pofs = pack  or
                          (ds.part.pofs = pron  and then
-                            (ds.part.pron.Decl.which = 1)))
+                            (ds.part.pron.Decl.Which = 1)))
                then
                   pdl_index := pdl_index + 1;
                   pdl(pdl_index) := pruned_dictionary_item'(ds, d_k);
@@ -423,7 +423,7 @@ package body word_package is
 
             when qu_pron_only  =>
                if ds.part.pofs = pron  and then
-                 (ds.part.pron.Decl.which = 1)
+                 (ds.part.pron.Decl.Which = 1)
                then
                   pdl_index := pdl_index + 1;
                   pdl(pdl_index) := pruned_dictionary_item'(ds, d_k);
