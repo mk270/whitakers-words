@@ -57,7 +57,7 @@ package Latin_Utils.Inflections_Package is
    Null_Meaning_Type : constant Meaning_Type := (others => ' ');
 
    type Part_Of_Speech_Type is
-     ( X,         --  all, none, or unknown
+     (X,         --  all, none, or unknown
      N,         --  Noun
      Pron,      --  PRONoun
      Pack,      --  PACKON -- artificial for code
@@ -70,7 +70,7 @@ package Latin_Utils.Inflections_Package is
      Prep,      --  PREPosition
      Conj,      --  CONJunction
      Interj,    --  INTERJection
-                -- keep tackon/prefix/suffix together, as they are used in range queries
+     -- keep tackon/prefix/suffix together, as they are used in range queries
      Tackon,    --  TACKON --  artificial for code
      Prefix,    --  PREFIX --  here artificial for code
      Suffix     --  SUFFIX --  here artificial for code
@@ -106,7 +106,7 @@ package Latin_Utils.Inflections_Package is
       procedure Put (Item : in Decn_Record);
       -- TODO: Document meaning of Last
       procedure Get
-        ( Source : in String;
+        (Source : in String;
           Target : out Decn_Record;
           Last   : out Integer
         );
@@ -116,7 +116,7 @@ package Latin_Utils.Inflections_Package is
    ---------------------------------------------------------------------------
 
    type Gender_Type is
-     ( X, --  all, none, or unknown
+     (X, --  all, none, or unknown
      M, --  Masculine
      F, --  Feminine
      N, --  Neuter
@@ -128,7 +128,7 @@ package Latin_Utils.Inflections_Package is
    ---------------------------------------------------------------------------
 
    type Case_Type is
-     ( X,   --  all, none, or unknown
+     (X,   --  all, none, or unknown
      Nom, --  NOMinative
      Voc, --  VOCative
      Gen, --  GENitive
@@ -143,7 +143,7 @@ package Latin_Utils.Inflections_Package is
    ---------------------------------------------------------------------------
 
    type Number_Type is
-     ( X, --  all, none, or unknown
+     (X, --  all, none, or unknown
      S, --  Singular
      P  --  Plural
      );
@@ -158,7 +158,7 @@ package Latin_Utils.Inflections_Package is
    ---------------------------------------------------------------------------
 
    type Comparison_Type is
-     ( X,    --  all, none, or unknown
+     (X,    --  all, none, or unknown
      Pos,  --  POSitive
      Comp, --  COMParative
      Super --  SUPERlative
@@ -177,7 +177,7 @@ package Latin_Utils.Inflections_Package is
    ---------------------------------------------------------------------------
 
    type Numeral_Sort_Type is
-     ( X,     --  all, none, or unknown
+     (X,     --  all, none, or unknown
      Card,  --  CARDinal
      Ord,   --  ORDinal
      Dist,  --  DISTributive
@@ -190,7 +190,7 @@ package Latin_Utils.Inflections_Package is
    ---------------------------------------------------------------------------
 
    type Tense_Type is
-     ( X,    --  all, none, or unknown
+     (X,    --  all, none, or unknown
      Pres, --  PRESent
      Impf, --  IMPerFect
      Fut,  --  FUTure
@@ -204,7 +204,7 @@ package Latin_Utils.Inflections_Package is
    ---------------------------------------------------------------------------
 
    type Voice_Type is
-     ( X,      --  all, none, or unknown
+     (X,      --  all, none, or unknown
      Active, --  ACTIVE
      Passive --  PASSIVE
      );
@@ -214,7 +214,7 @@ package Latin_Utils.Inflections_Package is
    ---------------------------------------------------------------------------
 
    type Mood_Type is
-     ( X,         --  all, none, or unknown
+     (X,         --  all, none, or unknown
      Ind,       --  INDicative
      Sub,       --  SUBjunctive
      Imp,       --  IMPerative
@@ -287,13 +287,16 @@ package Latin_Utils.Inflections_Package is
      trans,     --  TRANSitive verb
      intrans,   --  INTRANSitive verb
      impers,    --  IMPERSonal verb (implied subject 'it', 'they', 'God')
-                --  agent implied in action, subject in predicate
+     --  agent implied in action, subject in predicate
+
      dep,       --  DEPonent verb
-                --  only passive form but with active meaning
+     --  only passive form but with active meaning
+
      semidep,   --  SEMIDEPonent verb (forms perfect as deponent)
-                --  (perfect passive has active force)
-     perfdef    --  PERFect DEFinite verb
-                --  having only perfect stem, but with present force
+     --  (perfect passive has active force)
+
+     perfdef
+   --  PERFect DEFinite verb, having only perfect stem, but with present force
                           );
 
    package Verb_Kind_Type_IO is
@@ -368,7 +371,9 @@ package Latin_Utils.Inflections_Package is
       procedure Get (a : out adjective_record);
       procedure Put (f : in File_Type; a : in adjective_record);
       procedure Put (a : in adjective_record);
-      procedure Get (s : in String; a : out adjective_record; last : out Integer);
+      procedure Get (s : in String;
+                     a : out adjective_record;
+                     last : out Integer);
       procedure Put (s : out String; a : in adjective_record);
    end adjective_record_io;
 
@@ -387,7 +392,9 @@ package Latin_Utils.Inflections_Package is
       procedure Get (num : out numeral_record);
       procedure Put (f : in File_Type; num : in numeral_record);
       procedure Put (num : in numeral_record);
-      procedure Get (s : in String; num : out numeral_record; last : out Integer);
+      procedure Get (s : in String;
+                     num : out numeral_record;
+                     last : out Integer);
       procedure Put (s : out String; num : in numeral_record);
    end numeral_record_io;
 
@@ -472,7 +479,9 @@ package Latin_Utils.Inflections_Package is
       procedure Get (p : out preposition_record);
       procedure Put (f : in File_Type; p : in preposition_record);
       procedure Put (p : in preposition_record);
-      procedure Get (s : in String; p : out preposition_record; last : out Integer);
+      procedure Get (s : in String;
+                     p : out preposition_record;
+                     last : out Integer);
       procedure Put (s : out String; p : in preposition_record);
    end preposition_record_io;
 
@@ -487,7 +496,9 @@ package Latin_Utils.Inflections_Package is
       procedure Get (c : out conjunction_record);
       procedure Put (f : in File_Type; c : in conjunction_record);
       procedure Put (c : in conjunction_record);
-      procedure Get (s : in String; c : out conjunction_record; last : out Integer);
+      procedure Get (s : in String;
+                     c : out conjunction_record;
+                     last : out Integer);
       procedure Put (s : out String; c : in conjunction_record);
    end conjunction_record_io;
 
@@ -502,7 +513,9 @@ package Latin_Utils.Inflections_Package is
       procedure Get (i : out interjection_record);
       procedure Put (f : in File_Type; i : in interjection_record);
       procedure Put (i : in interjection_record);
-      procedure Get (s : in String; i : out interjection_record; last : out Integer);
+      procedure Get (s : in String;
+                     i : out interjection_record;
+                     last : out Integer);
       procedure Put (s : out String; i : in interjection_record);
    end interjection_record_io;
 
@@ -645,14 +658,14 @@ package Latin_Utils.Inflections_Package is
      b,   --  early       --  Early Latin, pre-classical, used for effect/poetry
      c,   --  classical   --  Limited to classical (~150 BC - 200 AD)
      d,   --  late        --  Late, post-classical (3rd-5th centuries)
-     e,   --  later       --  Latin not in use in Classical times (6-10), Christian
+     e,   --  later       --  Latin not in use in Classical times (6-10), X'ian
      f,   --  medieval    --  Medieval (11th-15th centuries)
      g,   --  scholar     --  Latin post 15th - Scholarly/Scientific   (16-18)
      h    --  modern      --  Coined recently, words for new things (19-20)
                     );
    package Age_Type_IO is new Ada.Text_IO.Enumeration_IO (Age_Type);
 
-   type Frequency_Type is (     --  For dictionary entries
+   type Frequency_Type is (    --  For dictionary entries
      x,    --              --  Unknown or unspecified
      a,    --  very freq   --  Very frequent, in all Elementry Latin books
      b,    --  frequent    --  Frequent, in top 10 percent
@@ -662,7 +675,7 @@ package Latin_Utils.Inflections_Package is
      f,    --  very rare   --  Having only single citation in OLD or L+S
      i,    --  inscription --  Only citation is inscription
      m,    --  graffiti    --  Presently not much used
-     n     --  Pliny       --  Things that appear (almost) only in Pliny Natural History
+     n     --  Pliny       --  Appearing (almost) only in Pliny Natural History
                           );
 
    --  For inflections, the same type is used with different weights
@@ -696,7 +709,9 @@ package Latin_Utils.Inflections_Package is
       procedure Get (p : out Inflection_Record);
       procedure Put (f : in File_Type; p : in Inflection_Record);
       procedure Put (p : in Inflection_Record);
-      procedure Get (s : in String; p : out Inflection_Record; last : out Integer);
+      procedure Get (s : in String;
+                     p : out Inflection_Record;
+                     last : out Integer);
       procedure Put (s : out String; p : in Inflection_Record);
    end Inflection_Record_IO;
 
@@ -720,7 +735,8 @@ package Latin_Utils.Inflections_Package is
    type inflection_array_index is array (Integer range <>,
      Character range <>) of Integer;
 
-   belf, bell : inflection_array_index (0 .. 0, ' ' .. ' ') := (0 => (others => 0));
+   belf, bell : inflection_array_index (0 .. 0, ' ' .. ' ') :=
+     (0 => (others => 0));
    lelf, lell : inflection_array_index (1 .. max_ending_size,
      'a' .. 'z') := (others => (others => 0));
    pelf, pell : inflection_array_index (1 .. max_ending_size,
@@ -741,7 +757,9 @@ package Latin_Utils.Inflections_Package is
    function "<=" (left, right : tense_voice_mood_record)  return Boolean;
    overriding function "<=" (left, right : Noun_Kind_Type)   return Boolean;
    overriding function "<=" (left, right : Pronoun_Kind_Type)   return Boolean;
-   overriding function "<=" (left, right : Stem_Key_Type)   return Boolean;  -- not verbs
+   overriding function "<=" (left, right : Stem_Key_Type)   return Boolean;
+   -- not verbs
+
    overriding function "<=" (left, right : Age_Type)   return Boolean;
    overriding function "<=" (left, right : Frequency_Type)   return Boolean;
 

@@ -1220,7 +1220,11 @@ package body Latin_Utils.Inflections_Package is
          Put (vp.gender);
       end Put;
 
-      procedure Get (s : in String; vp : out supine_record; last : out Integer) is
+      procedure Get
+        (s    : in String;
+         vp   : out supine_record;
+         last : out Integer)
+      is
          l : Integer := s'First - 1;
       begin
          Get (s (l + 1 .. s'Last), vp.con, l);
@@ -1278,7 +1282,11 @@ package body Latin_Utils.Inflections_Package is
          Put (p.obj);
       end Put;
 
-      procedure Get (s : in String; p : out preposition_record; last : out Integer) is
+      procedure Get
+        (s    : in String;
+         p    : out preposition_record;
+         last : out Integer)
+      is
          l : constant Integer := s'First - 1;
       begin
          Get (s (l + 1 .. s'Last), p.obj, last);
@@ -1321,11 +1329,16 @@ package body Latin_Utils.Inflections_Package is
          null;
       end Put;
 
-      procedure Get (s : in String; c : out conjunction_record; last : out Integer) is
+      procedure Get
+        (s    : in String;
+         c    : out conjunction_record;
+         last : out Integer)
+      is
          l : constant Integer := s'First - 1;
       begin
          c := null_conjunction_record;
-         last := l - 1;  --  LAST did not even Get to S'FIRST, since nothing to read
+         last := l - 1;
+         --  LAST did not even Get to S'FIRST, since nothing to read
       end Get;
 
       pragma Warnings (Off, "formal parameter ""c"" is not referenced");
@@ -1363,7 +1376,11 @@ package body Latin_Utils.Inflections_Package is
          null;
       end Put;
 
-      procedure Get (s : in String; i : out interjection_record; last : out Integer) is
+      procedure Get
+        (s    : in String;
+         i    : out interjection_record;
+         last : out Integer)
+      is
          l : constant Integer := s'First - 1;
       begin
          i := null_interjection_record;
@@ -1404,7 +1421,11 @@ package body Latin_Utils.Inflections_Package is
          null;
       end Put;
 
-      procedure Get (s : in String; i : out tackon_record; last : out Integer) is
+      procedure Get
+        (s    : in String;
+         i    : out tackon_record;
+         last : out Integer)
+      is
          l : constant Integer := s'First - 1;
       begin
          i := null_tackon_record;
@@ -1444,7 +1465,11 @@ package body Latin_Utils.Inflections_Package is
          null;
       end Put;
 
-      procedure Get (s : in String; p : out prefix_record; last : out Integer) is
+      procedure Get
+        (s    : in String;
+         p    : out prefix_record;
+         last : out Integer)
+      is
          l : constant Integer := s'First - 1;
       begin
          p := null_prefix_record;
@@ -1484,7 +1509,11 @@ package body Latin_Utils.Inflections_Package is
          null;
       end Put;
 
-      procedure Get (s : in String; p : out suffix_record; last : out Integer) is
+      procedure Get
+        (s : in String;
+         p : out suffix_record;
+         last : out Integer)
+      is
          l : constant Integer := s'First - 1;
       begin
          p := null_suffix_record;
@@ -1688,7 +1717,9 @@ package body Latin_Utils.Inflections_Package is
             when others =>
                null;
          end case;
-         Put (f, String'((Integer (Col (f)) .. quality_record_io.Default_Width + c - 1 => ' ')));
+         Put (f, String'((
+           Integer (Col (f)) .. quality_record_io.Default_Width + c - 1
+           => ' ')));
          return;
       end Put;
 
@@ -1736,7 +1767,11 @@ package body Latin_Utils.Inflections_Package is
          return;
       end Put;
 
-      procedure Get (s : in String; p : out quality_record; last : out Integer) is
+      procedure Get
+        (s : in String;
+         p : out quality_record;
+         last : out Integer)
+      is
          l : Integer := s'First - 1;
          ps : Part_Of_Speech_Type := X;
       begin
@@ -1909,7 +1944,11 @@ package body Latin_Utils.Inflections_Package is
          Put (x.suf (1 .. x.size) & blanks (x.size + 1 .. max_ending_size));
       end Put;
 
-      procedure Get (s : in String; x : out ending_record; last : out Integer) is
+      procedure Get
+        (s : in String;
+         x : out ending_record;
+         last : out Integer)
+      is
          l : Integer := s'First - 1;
       begin
          sf := blanks;
@@ -2020,7 +2059,11 @@ package body Latin_Utils.Inflections_Package is
          Put (p.freq);
       end Put;
 
-      procedure Get (s : in String; p : out Inflection_Record; last : out Integer) is
+      procedure Get
+        (s    : in String;
+         p    : out Inflection_Record;
+         last : out Integer)
+      is
          l : Integer := s'First - 1;
       begin
          last := 0;
@@ -2064,8 +2107,10 @@ package body Latin_Utils.Inflections_Package is
    end Inflection_Record_IO;
 
    procedure establish_inflections_section  is
-      --  Loads the inflection array from the file prepared in FILE_INFLECTIONS_SECTION
-      --  If N = 0 (an artifical flag for the section for blank inflections = 5)
+      --  Loads the inflection array from the file prepared in
+      --  FILE_INFLECTIONS_SECTION
+      --  If N = 0 (an artifical flag for the section for blank
+      --  inflections = 5)
       --  comPutes the LELL .. LELF indices for use in WORD
       use Inflection_Record_IO;
       use lel_section_io;
@@ -2111,9 +2156,9 @@ package body Latin_Utils.Inflections_Package is
          xch := ch;
          lelf (n, ch) := i;
 
-     c1_loop:
+         c1_loop :
          loop
-        n1_loop:
+            n1_loop :
             loop
                exit c1_loop when lel (i) = Null_Inflection_Record;
 
@@ -2159,9 +2204,9 @@ package body Latin_Utils.Inflections_Package is
          xch := ch;
          lelf (n, ch) := i;
 
-     c2_loop:
+         c2_loop :
          loop
-        n2_loop:
+            n2_loop :
             loop
                exit c2_loop when lel (i) = Null_Inflection_Record;
 
@@ -2208,9 +2253,9 @@ package body Latin_Utils.Inflections_Package is
          xch := ch;
          lelf (n, ch) := i;
 
-     c3_loop:
+         c3_loop :
          loop
-        n3_loop:
+            n3_loop :
             loop
                exit c3_loop when lel (i) = Null_Inflection_Record;
 
@@ -2257,9 +2302,9 @@ package body Latin_Utils.Inflections_Package is
          xch := ch;
          lelf (n, ch) := i;
 
-     c4_loop:
+         c4_loop :
          loop
-        n4_loop:
+            n4_loop :
             loop
                exit c4_loop when  lel (i).qual.pofs = Pron  and then
                  (lel (i).qual.Pron.decl.Which = 1  or
@@ -2302,9 +2347,9 @@ package body Latin_Utils.Inflections_Package is
             pelf (n,  ch) := i;
             pell (n,  ch) := 0;
 
-        c_p_loop:
+            c_p_loop :
             loop
-           n_p_loop:
+               n_p_loop :
                loop
                   exit c_p_loop when lel (i) = Null_Inflection_Record;
 
@@ -2351,13 +2396,15 @@ package body Latin_Utils.Inflections_Package is
          New_Line;
          Put_Line ("There is no " & inflections_sections_name & " file.");
          Put_Line ("The program cannot work without one.");
-         Put_Line ("Make sure you are in the subdirectory containing the files");
+         Put_Line ("Make sure you are in the"
+           & " subdirectory containing the files");
          Put_Line ("for inflections, dictionary, addons and uniques.");
          raise give_up;
    end establish_inflections_section;
 
-begin  --  initialization of body of INFLECTIONS_PACKAGE
-       --TEXT_IO.PUT_LINE ("Initializing INFLECTIONS_PACKAGE");
+begin
+   --  initialization of body of INFLECTIONS_PACKAGE
+   --TEXT_IO.PUT_LINE ("Initializing INFLECTIONS_PACKAGE");
 
    Part_Of_Speech_Type_IO.Default_Width := Part_Of_Speech_Type'Width;
    Gender_Type_IO.Default_Width := Gender_Type'Width;
