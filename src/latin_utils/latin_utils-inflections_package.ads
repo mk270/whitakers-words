@@ -44,10 +44,10 @@ package Latin_Utils.Inflections_Package is
       procedure Put (Item : in Stem_Type);
       -- TODO: Document meaning of Last
       procedure Get
-         ( Source : in  String;
-           Target : out Stem_Type;
-           Last   : out Integer
-         );
+        ( Source : in  String;
+          Target : out Stem_Type;
+          Last   : out Integer
+        );
       procedure Put (Target : out String; Item : in Stem_Type);
    end Stem_Type_IO;
 
@@ -57,32 +57,32 @@ package Latin_Utils.Inflections_Package is
    Null_Meaning_Type : constant Meaning_Type := (others => ' ');
 
    type Part_Of_Speech_Type is
-      ( X,         --  all, none, or unknown
-        N,         --  Noun
-        Pron,      --  PRONoun
-        Pack,      --  PACKON -- artificial for code
-        Adj,       --  ADJective
-        Num,       --  NUMeral
-        Adv,       --  ADVerb
-        V,         --  Verb
-        Vpar,      --  Verb PARticiple
-        Supine,    --  SUPINE
-        Prep,      --  PREPosition
-        Conj,      --  CONJunction
-        Interj,    --  INTERJection
-        -- keep tackon/prefix/suffix together, as they are used in range queries
-        Tackon,    --  TACKON --  artificial for code
-        Prefix,    --  PREFIX --  here artificial for code
-        Suffix     --  SUFFIX --  here artificial for code
-      );
+     ( X,         --  all, none, or unknown
+     N,         --  Noun
+     Pron,      --  PRONoun
+     Pack,      --  PACKON -- artificial for code
+     Adj,       --  ADJective
+     Num,       --  NUMeral
+     Adv,       --  ADVerb
+     V,         --  Verb
+     Vpar,      --  Verb PARticiple
+     Supine,    --  SUPINE
+     Prep,      --  PREPosition
+     Conj,      --  CONJunction
+     Interj,    --  INTERJection
+                -- keep tackon/prefix/suffix together, as they are used in range queries
+     Tackon,    --  TACKON --  artificial for code
+     Prefix,    --  PREFIX --  here artificial for code
+     Suffix     --  SUFFIX --  here artificial for code
+     );
 
    package Part_Of_Speech_Type_IO is
       new Ada.Text_IO.Enumeration_IO (Part_Of_Speech_Type);
 
    ---------------------------------------------------------------------------
 
-   subtype Which_Type   is Natural range 0..9;
-   subtype Variant_Type is Natural range 0..9;
+   subtype Which_Type   is Natural range 0 .. 9;
+   subtype Variant_Type is Natural range 0 .. 9;
 
    Which_Type_IO_Default_Width   : Integer := 1;
    Variant_Type_IO_Default_Width : Integer := 1;
@@ -106,47 +106,47 @@ package Latin_Utils.Inflections_Package is
       procedure Put (Item : in Decn_Record);
       -- TODO: Document meaning of Last
       procedure Get
-         ( Source : in String;
-           Target : out Decn_Record;
-           Last   : out Integer
-         );
+        ( Source : in String;
+          Target : out Decn_Record;
+          Last   : out Integer
+        );
       procedure Put (Target : out String; Item : in Decn_Record);
    end Decn_Record_IO;
 
    ---------------------------------------------------------------------------
 
    type Gender_Type is
-      ( X, --  all, none, or unknown
-        M, --  Masculine
-        F, --  Feminine
-        N, --  Neuter
-        C  --  Common (masculine and/or feminine)
-       );
+     ( X, --  all, none, or unknown
+     M, --  Masculine
+     F, --  Feminine
+     N, --  Neuter
+     C  --  Common (masculine and/or feminine)
+     );
 
    package Gender_Type_IO is new Ada.Text_IO.Enumeration_IO (Gender_Type);
 
    ---------------------------------------------------------------------------
 
    type Case_Type is
-      ( X,   --  all, none, or unknown
-        Nom, --  NOMinative
-        Voc, --  VOCative
-        Gen, --  GENitive
-        Loc, --  LOCative
-        Dat, --  DATive
-        Abl, --  ABLative
-        Acc  --  ACCusitive
-      );
+     ( X,   --  all, none, or unknown
+     Nom, --  NOMinative
+     Voc, --  VOCative
+     Gen, --  GENitive
+     Loc, --  LOCative
+     Dat, --  DATive
+     Abl, --  ABLative
+     Acc  --  ACCusitive
+     );
 
    package Case_Type_IO is new Ada.Text_IO.Enumeration_IO (Case_Type);
 
    ---------------------------------------------------------------------------
 
    type Number_Type is
-      ( X, --  all, none, or unknown
-        S, --  Singular
-        P  --  Plural
-      );
+     ( X, --  all, none, or unknown
+     S, --  Singular
+     P  --  Plural
+     );
 
    package Number_Type_IO is new Ada.Text_IO.Enumeration_IO (Number_Type);
 
@@ -158,14 +158,14 @@ package Latin_Utils.Inflections_Package is
    ---------------------------------------------------------------------------
 
    type Comparison_Type is
-      ( X,    --  all, none, or unknown
-        Pos,  --  POSitive
-        Comp, --  COMParative
-        Super --  SUPERlative
-      );
+     ( X,    --  all, none, or unknown
+     Pos,  --  POSitive
+     Comp, --  COMParative
+     Super --  SUPERlative
+     );
 
    package Comparison_Type_IO is new
-      Ada.Text_IO.Enumeration_IO (Comparison_Type);
+     Ada.Text_IO.Enumeration_IO (Comparison_Type);
 
    ---------------------------------------------------------------------------
 
@@ -177,12 +177,12 @@ package Latin_Utils.Inflections_Package is
    ---------------------------------------------------------------------------
 
    type Numeral_Sort_Type is
-      ( X,     --  all, none, or unknown
-        Card,  --  CARDinal
-        Ord,   --  ORDinal
-        Dist,  --  DISTributive
-        Adverb --  numeral ADVERB
-      );
+     ( X,     --  all, none, or unknown
+     Card,  --  CARDinal
+     Ord,   --  ORDinal
+     Dist,  --  DISTributive
+     Adverb --  numeral ADVERB
+     );
 
    package Numeral_Sort_Type_IO is
       new Ada.Text_IO.Enumeration_IO (Numeral_Sort_Type);
@@ -190,37 +190,37 @@ package Latin_Utils.Inflections_Package is
    ---------------------------------------------------------------------------
 
    type Tense_Type is
-      ( X,    --  all, none, or unknown
-        Pres, --  PRESent
-        Impf, --  IMPerFect
-        Fut,  --  FUTure
-        Perf, --  PERFect
-        Plup, --  PLUPerfect
-        Futp  --  FUTure Perfect
-      );
+     ( X,    --  all, none, or unknown
+     Pres, --  PRESent
+     Impf, --  IMPerFect
+     Fut,  --  FUTure
+     Perf, --  PERFect
+     Plup, --  PLUPerfect
+     Futp  --  FUTure Perfect
+     );
 
    package Tense_Type_IO is new Ada.Text_IO.Enumeration_IO (Tense_Type);
 
    ---------------------------------------------------------------------------
 
    type Voice_Type is
-      ( X,      --  all, none, or unknown
-        Active, --  ACTIVE
-        Passive --  PASSIVE
-      );
+     ( X,      --  all, none, or unknown
+     Active, --  ACTIVE
+     Passive --  PASSIVE
+     );
 
    package Voice_Type_IO is new Ada.Text_IO.Enumeration_IO (Voice_Type);
 
    ---------------------------------------------------------------------------
 
    type Mood_Type is
-      ( X,         --  all, none, or unknown
-        Ind,       --  INDicative
-        Sub,       --  SUBjunctive
-        Imp,       --  IMPerative
-        Inf,       --  INFinative
-        Ppl        --  ParticiPLe
-      );
+     ( X,         --  all, none, or unknown
+     Ind,       --  INDicative
+     Sub,       --  SUBjunctive
+     Imp,       --  IMPerative
+     Inf,       --  INFinative
+     Ppl        --  ParticiPLe
+     );
 
    package Mood_Type_IO is new Ada.Text_IO.Enumeration_IO (Mood_Type);
 
@@ -235,69 +235,69 @@ package Latin_Utils.Inflections_Package is
 
    package tense_voice_mood_record_io is
       Default_Width : Natural;
-      procedure Get(f : in File_Type; t : out tense_voice_mood_record);
-      procedure Get(t : out tense_voice_mood_record);
-      procedure Put(f : in File_Type; t : in tense_voice_mood_record);
-      procedure Put(t : in tense_voice_mood_record);
-      procedure Get(s : in String; t : out tense_voice_mood_record;
-                                   last : out Integer);
-      procedure Put(s : out String; t : in tense_voice_mood_record);
+      procedure Get (f : in File_Type; t : out tense_voice_mood_record);
+      procedure Get (t : out tense_voice_mood_record);
+      procedure Put (f : in File_Type; t : in tense_voice_mood_record);
+      procedure Put (t : in tense_voice_mood_record);
+      procedure Get (s : in String; t : out tense_voice_mood_record;
+                                    last : out Integer);
+      procedure Put (s : out String; t : in tense_voice_mood_record);
    end tense_voice_mood_record_io;
 
    type Noun_Kind_Type is (
-                           x,            --  unknown, nondescript
-                           s,            --  Singular "only"           --  not really used
-                           m,            --  plural or Multiple "only" --  not really used
-                           a,            --  Abstract idea
-                           g,            --  Group/collective Name -- Roman(s)
-                           n,            --  proper Name
-                           p,            --  a Person
-                           t,            --  a Thing
-                           l,            --  Locale, name of country/city
-                           w             --  a place Where
+     x,            --  unknown, nondescript
+     s,            --  Singular "only"           --  not really used
+     m,            --  plural or Multiple "only" --  not really used
+     a,            --  Abstract idea
+     g,            --  Group/collective Name -- Roman (s)
+     n,            --  proper Name
+     p,            --  a Person
+     t,            --  a Thing
+     l,            --  Locale, name of country/city
+     w             --  a place Where
                           );
 
-   package Noun_Kind_Type_IO is new Ada.Text_IO.Enumeration_IO(Noun_Kind_Type);
+   package Noun_Kind_Type_IO is new Ada.Text_IO.Enumeration_IO (Noun_Kind_Type);
 
    type Pronoun_Kind_Type is (
-                              x,            --  unknown, nondescript
-                              pers,         --  PERSonal
-                              rel,          --  RELative
-                              reflex,       --  REFLEXive
-                              demons,       --  DEMONStrative
-                              interr,       --  INTERRogative
-                              indef,        --  INDEFinite
-                              adject        --  ADJECTival
+     x,            --  unknown, nondescript
+     pers,         --  PERSonal
+     rel,          --  RELative
+     reflex,       --  REFLEXive
+     demons,       --  DEMONStrative
+     interr,       --  INTERRogative
+     indef,        --  INDEFinite
+     adject        --  ADJECTival
                              );
 
    package Pronoun_Kind_Type_IO is
-      new Ada.Text_IO.Enumeration_IO(Pronoun_Kind_Type);
+      new Ada.Text_IO.Enumeration_IO (Pronoun_Kind_Type);
 
-   subtype Numeral_Value_Type is Natural range 0..1000;
+   subtype Numeral_Value_Type is Natural range 0 .. 1000;
 
    Numeral_Value_Type_IO_Default_Width : Integer := 5;
 
    type Verb_Kind_Type is (
-                           x,         --  all, none, or unknown
-                           to_be,     --  only the verb TO BE (esse)
-                           to_being,  --  compounds of the verb to be (esse)
-                           gen,       --  verb taking the GENitive
-                           dat,       --  verb taking the DATive
-                           abl,       --  verb taking the ABLative
-                           trans,     --  TRANSitive verb
-                           intrans,   --  INTRANSitive verb
-                           impers,    --  IMPERSonal verb (implied subject 'it', 'they', 'God')
-                           --  agent implied in action, subject in predicate
-                           dep,       --  DEPonent verb
-                           --  only passive form but with active meaning
-                           semidep,   --  SEMIDEPonent verb (forms perfect as deponent)
-                           --  (perfect passive has active force)
-                           perfdef    --  PERFect DEFinite verb
-                           --  having only perfect stem, but with present force
+     x,         --  all, none, or unknown
+     to_be,     --  only the verb TO BE (esse)
+     to_being,  --  compounds of the verb to be (esse)
+     gen,       --  verb taking the GENitive
+     dat,       --  verb taking the DATive
+     abl,       --  verb taking the ABLative
+     trans,     --  TRANSitive verb
+     intrans,   --  INTRANSitive verb
+     impers,    --  IMPERSonal verb (implied subject 'it', 'they', 'God')
+                --  agent implied in action, subject in predicate
+     dep,       --  DEPonent verb
+                --  only passive form but with active meaning
+     semidep,   --  SEMIDEPonent verb (forms perfect as deponent)
+                --  (perfect passive has active force)
+     perfdef    --  PERFect DEFinite verb
+                --  having only perfect stem, but with present force
                           );
 
    package Verb_Kind_Type_IO is
-      new Ada.Text_IO.Enumeration_IO(Verb_Kind_Type);
+      new Ada.Text_IO.Enumeration_IO (Verb_Kind_Type);
 
    type noun_record is
       record
@@ -309,12 +309,12 @@ package Latin_Utils.Inflections_Package is
 
    package noun_record_io is
       Default_Width : Natural;
-      procedure Get(f : in File_Type; n : out noun_record);
-      procedure Get(n : out noun_record);
-      procedure Put(f : in File_Type; n : in noun_record);
-      procedure Put(n : in noun_record);
-      procedure Get(s : in String; n : out noun_record; last : out Integer);
-      procedure Put(s : out String; n : in noun_record);
+      procedure Get (f : in File_Type; n : out noun_record);
+      procedure Get (n : out noun_record);
+      procedure Put (f : in File_Type; n : in noun_record);
+      procedure Put (n : in noun_record);
+      procedure Get (s : in String; n : out noun_record; last : out Integer);
+      procedure Put (s : out String; n : in noun_record);
    end noun_record_io;
 
    type pronoun_record is
@@ -327,12 +327,12 @@ package Latin_Utils.Inflections_Package is
 
    package pronoun_record_io is
       Default_Width : Natural;
-      procedure Get(f : in File_Type; p : out pronoun_record);
-      procedure Get(p : out pronoun_record);
-      procedure Put(f : in File_Type; p : in pronoun_record);
-      procedure Put(p : in pronoun_record);
-      procedure Get(s : in String; p : out pronoun_record; last : out Integer);
-      procedure Put(s : out String; p : in pronoun_record);
+      procedure Get (f : in File_Type; p : out pronoun_record);
+      procedure Get (p : out pronoun_record);
+      procedure Put (f : in File_Type; p : in pronoun_record);
+      procedure Put (p : in pronoun_record);
+      procedure Get (s : in String; p : out pronoun_record; last : out Integer);
+      procedure Put (s : out String; p : in pronoun_record);
    end pronoun_record_io;
 
    type propack_record is
@@ -345,12 +345,12 @@ package Latin_Utils.Inflections_Package is
 
    package propack_record_io is
       Default_Width : Natural;
-      procedure Get(f : in File_Type; p : out propack_record);
-      procedure Get(p : out propack_record);
-      procedure Put(f : in File_Type; p : in propack_record);
-      procedure Put(p : in propack_record);
-      procedure Get(s : in String; p : out propack_record; last : out Integer);
-      procedure Put(s : out String; p : in propack_record);
+      procedure Get (f : in File_Type; p : out propack_record);
+      procedure Get (p : out propack_record);
+      procedure Put (f : in File_Type; p : in propack_record);
+      procedure Put (p : in propack_record);
+      procedure Get (s : in String; p : out propack_record; last : out Integer);
+      procedure Put (s : out String; p : in propack_record);
    end propack_record_io;
 
    type adjective_record is
@@ -364,12 +364,12 @@ package Latin_Utils.Inflections_Package is
 
    package adjective_record_io is
       Default_Width : Natural;
-      procedure Get(f : in File_Type; a : out adjective_record);
-      procedure Get(a : out adjective_record);
-      procedure Put(f : in File_Type; a : in adjective_record);
-      procedure Put(a : in adjective_record);
-      procedure Get(s : in String; a : out adjective_record; last : out Integer);
-      procedure Put(s : out String; a : in adjective_record);
+      procedure Get (f : in File_Type; a : out adjective_record);
+      procedure Get (a : out adjective_record);
+      procedure Put (f : in File_Type; a : in adjective_record);
+      procedure Put (a : in adjective_record);
+      procedure Get (s : in String; a : out adjective_record; last : out Integer);
+      procedure Put (s : out String; a : in adjective_record);
    end adjective_record_io;
 
    type numeral_record is
@@ -383,12 +383,12 @@ package Latin_Utils.Inflections_Package is
 
    package numeral_record_io is
       Default_Width : Natural;
-      procedure Get(f : in File_Type; num : out numeral_record);
-      procedure Get(num : out numeral_record);
-      procedure Put(f : in File_Type; num : in numeral_record);
-      procedure Put(num : in numeral_record);
-      procedure Get(s : in String; num : out numeral_record; last : out Integer);
-      procedure Put(s : out String; num : in numeral_record);
+      procedure Get (f : in File_Type; num : out numeral_record);
+      procedure Get (num : out numeral_record);
+      procedure Put (f : in File_Type; num : in numeral_record);
+      procedure Put (num : in numeral_record);
+      procedure Get (s : in String; num : out numeral_record; last : out Integer);
+      procedure Put (s : out String; num : in numeral_record);
    end numeral_record_io;
 
    type adverb_record is
@@ -398,12 +398,12 @@ package Latin_Utils.Inflections_Package is
 
    package adverb_record_io is
       Default_Width : Natural;
-      procedure Get(f : in File_Type; a : out adverb_record);
-      procedure Get(a : out adverb_record);
-      procedure Put(f : in File_Type; a : in adverb_record);
-      procedure Put(a : in adverb_record);
-      procedure Get(s : in String; a : out adverb_record; last : out Integer);
-      procedure Put(s : out String; a : in adverb_record);
+      procedure Get (f : in File_Type; a : out adverb_record);
+      procedure Get (a : out adverb_record);
+      procedure Put (f : in File_Type; a : in adverb_record);
+      procedure Put (a : in adverb_record);
+      procedure Get (s : in String; a : out adverb_record; last : out Integer);
+      procedure Put (s : out String; a : in adverb_record);
    end adverb_record_io;
 
    type verb_record is
@@ -416,12 +416,12 @@ package Latin_Utils.Inflections_Package is
 
    package verb_record_io is
       Default_Width : Natural;
-      procedure Get(f : in File_Type; v : out verb_record);
-      procedure Get(v : out verb_record);
-      procedure Put(f : in File_Type; v : in verb_record);
-      procedure Put(v : in verb_record);
-      procedure Get(s : in String; v : out verb_record; last : out Integer);
-      procedure Put(s : out String; v : in verb_record);
+      procedure Get (f : in File_Type; v : out verb_record);
+      procedure Get (v : out verb_record);
+      procedure Put (f : in File_Type; v : in verb_record);
+      procedure Put (v : in verb_record);
+      procedure Get (s : in String; v : out verb_record; last : out Integer);
+      procedure Put (s : out String; v : in verb_record);
    end verb_record_io;
 
    type vpar_record is
@@ -435,12 +435,12 @@ package Latin_Utils.Inflections_Package is
 
    package vpar_record_io is
       Default_Width : Natural;
-      procedure Get(f : in File_Type; vp : out vpar_record);
-      procedure Get(vp : out vpar_record);
-      procedure Put(f : in File_Type; vp : in vpar_record);
-      procedure Put(vp : in vpar_record);
-      procedure Get(s : in String; vp : out vpar_record; last : out Integer);
-      procedure Put(s : out String; vp : in vpar_record);
+      procedure Get (f : in File_Type; vp : out vpar_record);
+      procedure Get (vp : out vpar_record);
+      procedure Put (f : in File_Type; vp : in vpar_record);
+      procedure Put (vp : in vpar_record);
+      procedure Get (s : in String; vp : out vpar_record; last : out Integer);
+      procedure Put (s : out String; vp : in vpar_record);
    end vpar_record_io;
 
    type supine_record is
@@ -453,12 +453,12 @@ package Latin_Utils.Inflections_Package is
 
    package supine_record_io is
       Default_Width : Natural;
-      procedure Get(f : in File_Type; vp : out supine_record);
-      procedure Get(vp : out supine_record);
-      procedure Put(f : in File_Type; vp : in supine_record);
-      procedure Put(vp : in supine_record);
-      procedure Get(s : in String; vp : out supine_record; last : out Integer);
-      procedure Put(s : out String; vp : in supine_record);
+      procedure Get (f : in File_Type; vp : out supine_record);
+      procedure Get (vp : out supine_record);
+      procedure Put (f : in File_Type; vp : in supine_record);
+      procedure Put (vp : in supine_record);
+      procedure Get (s : in String; vp : out supine_record; last : out Integer);
+      procedure Put (s : out String; vp : in supine_record);
    end supine_record_io;
 
    type preposition_record is
@@ -468,12 +468,12 @@ package Latin_Utils.Inflections_Package is
 
    package preposition_record_io is
       Default_Width : Natural;
-      procedure Get(f : in File_Type; p : out preposition_record);
-      procedure Get(p : out preposition_record);
-      procedure Put(f : in File_Type; p : in preposition_record);
-      procedure Put(p : in preposition_record);
-      procedure Get(s : in String; p : out preposition_record; last : out Integer);
-      procedure Put(s : out String; p : in preposition_record);
+      procedure Get (f : in File_Type; p : out preposition_record);
+      procedure Get (p : out preposition_record);
+      procedure Put (f : in File_Type; p : in preposition_record);
+      procedure Put (p : in preposition_record);
+      procedure Get (s : in String; p : out preposition_record; last : out Integer);
+      procedure Put (s : out String; p : in preposition_record);
    end preposition_record_io;
 
    type conjunction_record is
@@ -483,12 +483,12 @@ package Latin_Utils.Inflections_Package is
 
    package conjunction_record_io is
       Default_Width : Natural;
-      procedure Get(f : in File_Type; c : out conjunction_record);
-      procedure Get(c : out conjunction_record);
-      procedure Put(f : in File_Type; c : in conjunction_record);
-      procedure Put(c : in conjunction_record);
-      procedure Get(s : in String; c : out conjunction_record; last : out Integer);
-      procedure Put(s : out String; c : in conjunction_record);
+      procedure Get (f : in File_Type; c : out conjunction_record);
+      procedure Get (c : out conjunction_record);
+      procedure Put (f : in File_Type; c : in conjunction_record);
+      procedure Put (c : in conjunction_record);
+      procedure Get (s : in String; c : out conjunction_record; last : out Integer);
+      procedure Put (s : out String; c : in conjunction_record);
    end conjunction_record_io;
 
    type interjection_record is
@@ -498,12 +498,12 @@ package Latin_Utils.Inflections_Package is
 
    package interjection_record_io is
       Default_Width : Natural;
-      procedure Get(f : in File_Type; i : out interjection_record);
-      procedure Get(i : out interjection_record);
-      procedure Put(f : in File_Type; i : in interjection_record);
-      procedure Put(i : in interjection_record);
-      procedure Get(s : in String; i : out interjection_record; last : out Integer);
-      procedure Put(s : out String; i : in interjection_record);
+      procedure Get (f : in File_Type; i : out interjection_record);
+      procedure Get (i : out interjection_record);
+      procedure Put (f : in File_Type; i : in interjection_record);
+      procedure Put (i : in interjection_record);
+      procedure Get (s : in String; i : out interjection_record; last : out Integer);
+      procedure Put (s : out String; i : in interjection_record);
    end interjection_record_io;
 
    --  TACKON, PREFIX, SUFFIX are nulls Put in to allow easy printing later
@@ -517,12 +517,12 @@ package Latin_Utils.Inflections_Package is
 
    package tackon_record_io is
       Default_Width : Natural;
-      procedure Get(f : in File_Type; i : out tackon_record);
-      procedure Get(i : out tackon_record);
-      procedure Put(f : in File_Type; i : in tackon_record);
-      procedure Put(i : in tackon_record);
-      procedure Get(s : in String; i : out tackon_record; last : out Integer);
-      procedure Put(s : out String; i : in tackon_record);
+      procedure Get (f : in File_Type; i : out tackon_record);
+      procedure Get (i : out tackon_record);
+      procedure Put (f : in File_Type; i : in tackon_record);
+      procedure Put (i : in tackon_record);
+      procedure Get (s : in String; i : out tackon_record; last : out Integer);
+      procedure Put (s : out String; i : in tackon_record);
    end tackon_record_io;
 
    type prefix_record is
@@ -534,12 +534,12 @@ package Latin_Utils.Inflections_Package is
 
    package prefix_record_io is
       Default_Width : Natural;
-      procedure Get(f : in File_Type; p : out prefix_record);
-      procedure Get(p : out prefix_record);
-      procedure Put(f : in File_Type; p : in prefix_record);
-      procedure Put(p : in prefix_record);
-      procedure Get(s : in String; p : out prefix_record; last : out Integer);
-      procedure Put(s : out String; p : in prefix_record);
+      procedure Get (f : in File_Type; p : out prefix_record);
+      procedure Get (p : out prefix_record);
+      procedure Put (f : in File_Type; p : in prefix_record);
+      procedure Put (p : in prefix_record);
+      procedure Get (s : in String; p : out prefix_record; last : out Integer);
+      procedure Put (s : out String; p : in prefix_record);
    end prefix_record_io;
 
    type suffix_record is
@@ -551,15 +551,15 @@ package Latin_Utils.Inflections_Package is
 
    package suffix_record_io is
       Default_Width : Natural;
-      procedure Get(f : in File_Type; p : out suffix_record);
-      procedure Get(p : out suffix_record);
-      procedure Put(f : in File_Type; p : in suffix_record);
-      procedure Put(p : in suffix_record);
-      procedure Get(s : in String; p : out suffix_record; last : out Integer);
-      procedure Put(s : out String; p : in suffix_record);
+      procedure Get (f : in File_Type; p : out suffix_record);
+      procedure Get (p : out suffix_record);
+      procedure Put (f : in File_Type; p : in suffix_record);
+      procedure Put (p : in suffix_record);
+      procedure Get (s : in String; p : out suffix_record; last : out Integer);
+      procedure Put (s : out String; p : in suffix_record);
    end suffix_record_io;
 
-   type quality_record(pofs : Part_Of_Speech_Type := X) is
+   type quality_record (pofs : Part_Of_Speech_Type := X) is
       record
          case pofs is
             when N =>
@@ -604,22 +604,22 @@ package Latin_Utils.Inflections_Package is
 
    package quality_record_io is
       Default_Width : Natural;
-      procedure Get(f : in File_Type; p : out quality_record);
-      procedure Get(p : out quality_record);
-      procedure Put(f : in File_Type; p : in quality_record);
-      procedure Put(p : in quality_record);
-      procedure Get(s : in String; p : out quality_record; last : out Integer);
-      procedure Put(s : out String; p : in quality_record);
+      procedure Get (f : in File_Type; p : out quality_record);
+      procedure Get (p : out quality_record);
+      procedure Put (f : in File_Type; p : in quality_record);
+      procedure Put (p : in quality_record);
+      procedure Get (s : in String; p : out quality_record; last : out Integer);
+      procedure Put (s : out String; p : in quality_record);
    end quality_record_io;
 
    type quality_array is array (Integer range <>) of quality_record;
 
    max_ending_size : constant := 7;
-   subtype ending_size_type is Integer range 0..max_ending_size;
+   subtype ending_size_type is Integer range 0 .. max_ending_size;
 
    ending_size_type_io_Default_Width : Integer := 3;
 
-   subtype ending is String(1..max_ending_size);
+   subtype ending is String (1 .. max_ending_size);
 
    type ending_record is
       record
@@ -629,40 +629,40 @@ package Latin_Utils.Inflections_Package is
 
    package ending_record_io is
       Default_Width : Natural;
-      procedure Get(f : in File_Type; x : out ending_record);
-      procedure Get(x : out ending_record);
-      procedure Put(f : in File_Type; x : in ending_record);
-      procedure Put(x : in ending_record);
-      procedure Get(s : in String; x : out ending_record; last : out Integer);
-      procedure Put(s : out String; x : in ending_record);
+      procedure Get (f : in File_Type; x : out ending_record);
+      procedure Get (x : out ending_record);
+      procedure Put (f : in File_Type; x : in ending_record);
+      procedure Put (x : in ending_record);
+      procedure Get (s : in String; x : out ending_record; last : out Integer);
+      procedure Put (s : out String; x : in ending_record);
    end ending_record_io;
 
    null_ending_record : ending_record;
 
    type Age_Type is (
-                     x,   --              --  In use throughout the ages/unknown -- the default
-                     a,   --  archaic     --  Very early forms, obsolete by classical times
-                     b,   --  early       --  Early Latin, pre-classical, used for effect/poetry
-                     c,   --  classical   --  Limited to classical (~150 BC - 200 AD)
-                     d,   --  late        --  Late, post-classical (3rd-5th centuries)
-                     e,   --  later       --  Latin not in use in Classical times (6-10), Christian
-                     f,   --  medieval    --  Medieval (11th-15th centuries)
-                     g,   --  scholar     --  Latin post 15th - Scholarly/Scientific   (16-18)
-                     h    --  modern      --  Coined recently, words for new things (19-20)
+     x,   --              --  In use throughout the ages/unknown -- the default
+     a,   --  archaic     --  Very early forms, obsolete by classical times
+     b,   --  early       --  Early Latin, pre-classical, used for effect/poetry
+     c,   --  classical   --  Limited to classical (~150 BC - 200 AD)
+     d,   --  late        --  Late, post-classical (3rd-5th centuries)
+     e,   --  later       --  Latin not in use in Classical times (6-10), Christian
+     f,   --  medieval    --  Medieval (11th-15th centuries)
+     g,   --  scholar     --  Latin post 15th - Scholarly/Scientific   (16-18)
+     h    --  modern      --  Coined recently, words for new things (19-20)
                     );
    package Age_Type_IO is new Ada.Text_IO.Enumeration_IO (Age_Type);
 
    type Frequency_Type is (     --  For dictionary entries
-                                x,    --              --  Unknown or unspecified
-                                a,    --  very freq   --  Very frequent, in all Elementry Latin books
-                                b,    --  frequent    --  Frequent, in top 10 percent
-                                c,    --  common      --  For Dictionary, in top 10,000 words
-                                d,    --  lesser      --  For Dictionary, in top 20,000 words
-                                e,    --  uncommon    --  2 or 3 citations
-                                f,    --  very rare   --  Having only single citation in OLD or L+S
-                                i,    --  inscription --  Only citation is inscription
-                                m,    --  graffiti    --  Presently not much used
-                                n     --  Pliny       --  Things that appear (almost) only in Pliny Natural History
+     x,    --              --  Unknown or unspecified
+     a,    --  very freq   --  Very frequent, in all Elementry Latin books
+     b,    --  frequent    --  Frequent, in top 10 percent
+     c,    --  common      --  For Dictionary, in top 10,000 words
+     d,    --  lesser      --  For Dictionary, in top 20,000 words
+     e,    --  uncommon    --  2 or 3 citations
+     f,    --  very rare   --  Having only single citation in OLD or L+S
+     i,    --  inscription --  Only citation is inscription
+     m,    --  graffiti    --  Presently not much used
+     n     --  Pliny       --  Things that appear (almost) only in Pliny Natural History
                           );
 
    --  For inflections, the same type is used with different weights
@@ -692,39 +692,39 @@ package Latin_Utils.Inflections_Package is
 
    package Inflection_Record_IO is
       Default_Width : Natural;
-      procedure Get(f : in File_Type; p : out Inflection_Record);
-      procedure Get(p : out Inflection_Record);
-      procedure Put(f : in File_Type; p : in Inflection_Record);
-      procedure Put(p : in Inflection_Record);
-      procedure Get(s : in String; p : out Inflection_Record; last : out Integer);
-      procedure Put(s : out String; p : in Inflection_Record);
+      procedure Get (f : in File_Type; p : out Inflection_Record);
+      procedure Get (p : out Inflection_Record);
+      procedure Put (f : in File_Type; p : in Inflection_Record);
+      procedure Put (p : in Inflection_Record);
+      procedure Get (s : in String; p : out Inflection_Record; last : out Integer);
+      procedure Put (s : out String; p : in Inflection_Record);
    end Inflection_Record_IO;
 
    --  This implies a knowledge of the inflections last Character
-   subtype inflections_section_1 is Character range 'a'..'i';
-   subtype inflections_section_2 is Character range 'm'..'r';
-   subtype inflections_section_3 is Character range 's'..'s';
-   subtype inflections_section_4 is Character range 't'..'u';
+   subtype inflections_section_1 is Character range 'a' .. 'i';
+   subtype inflections_section_2 is Character range 'm' .. 'r';
+   subtype inflections_section_3 is Character range 's' .. 's';
+   subtype inflections_section_4 is Character range 't' .. 'u';
 
    size_of_blank_inflections   : constant Integer :=  80;    --  ############
    size_of_inflections_section : constant Integer := 570;    --  ############
 
    type inflection_array is array (Positive range <>) of Inflection_Record;
-   subtype lel_section is inflection_array(1..size_of_inflections_section);
-   package lel_section_io is new Ada.Direct_IO(lel_section);
+   subtype lel_section is inflection_array (1 .. size_of_inflections_section);
+   package lel_section_io is new Ada.Direct_IO (lel_section);
 
-   bel : inflection_array(1..size_of_blank_inflections);
+   bel : inflection_array (1 .. size_of_blank_inflections);
 
    lel : lel_section;
 
    type inflection_array_index is array (Integer range <>,
-                                         Character range <>) of Integer;
+     Character range <>) of Integer;
 
-   belf, bell : inflection_array_index(0..0, ' '..' ') := (0 => (others => 0));
-   lelf, lell : inflection_array_index(1..max_ending_size,
-                                       'a'..'z') := (others => (others => 0));
-   pelf, pell : inflection_array_index(1..max_ending_size,
-                                       'a'..'z') := (others => (others => 0));
+   belf, bell : inflection_array_index (0 .. 0, ' ' .. ' ') := (0 => (others => 0));
+   lelf, lell : inflection_array_index (1 .. max_ending_size,
+     'a' .. 'z') := (others => (others => 0));
+   pelf, pell : inflection_array_index (1 .. max_ending_size,
+     'a' .. 'z') := (others => (others => 0));
 
    number_of_inflections : Integer := 0;
 
