@@ -38,7 +38,7 @@ package body word_package is
               Ada.Text_IO.Name (Ada.Text_IO.Standard_Output)
             then
                Ada.Text_IO.Put_Line (Ada.Text_IO.Standard_Output,
-                 "                          MORE - hit RETURN/ENTER to continue");
+               "                          MORE - hit RETURN/ENTER to continue");
                Ada.Text_IO.Get_Line
                  (Ada.Text_IO.Standard_Input, pause_line, pause_last);
             end if;
@@ -628,11 +628,12 @@ package body word_package is
         ("Language changed to " & language_type'Image (language));
    elsif Upper_Case (c) = 'E'  then
       if English_Dictionary_Available (general)  then
-         language:= english_to_latin;
+         language := english_to_latin;
          Preface.Put_Line
            ("Language changed to " & language_type'Image (language));
          Preface.Put_Line
-           ("InPut a single English word (+ part of speech - N, ADJ, V, PREP, . .. )");
+           ("InPut a single English word (+ part of speech - " &
+            "N, ADJ, V, PREP, . .. )");
       else
          Preface.Put_Line ("No English dictionary available");
       end if;
@@ -677,11 +678,11 @@ package body word_package is
          --PUT_LINE ("In ORDER  SL_LAST = " & INTEGER'IMAGE (SL_LAST));
 
          --  Bubble sort since this list should usually be very small (1-5)
-     hit_loop:
+         hit_loop :
          loop
             hits := 0;
 
-        switch:
+            switch :
             begin
                --  Need to remove duplicates in ARRAY_STEMS
                --  This sort is very sloppy
@@ -690,22 +691,27 @@ package body word_package is
                --  results from different approaches not just in one fell
                --  swoop at the end !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                inner_loop :
-               for i in 1 .. sl_last-1  loop
-                  if sl (i+1) /= Null_Parse_Record  then
-                     if (sl (i+1).MNPC < sl (i).MNPC)  or else
-                       (sl (i+1).MNPC = sl (i).MNPC   and then
-                       sl (i+1).IR.ending.size < sl (i).IR.ending.size)  or else
-                       (sl (i+1).MNPC = sl (i).MNPC   and then
-                       sl (i+1).IR.ending.size = sl (i).IR.ending.size  and then
-                       sl (i+1).IR.qual < sl (i).IR.qual)  or else
-                       (sl (i+1).MNPC = sl (i).MNPC   and then
-                       sl (i+1).IR.ending.size = sl (i).IR.ending.size  and then
-                       sl (i+1).IR.qual = sl (i).IR.qual   and then
-                       sl (i+1).D_K  < sl (i).D_K)
+               for i in 1 .. sl_last - 1  loop
+                  if sl (i + 1) /= Null_Parse_Record  then
+                     -- the following condition is absurd and should be
+                     -- rewritten
+                     if (sl (i + 1).MNPC < sl (i).MNPC) or else
+                       (sl (i + 1).MNPC = sl (i).MNPC and then
+                       sl (i + 1).IR.ending.size <
+                         sl (i).IR.ending.size) or else
+                       (sl (i + 1).MNPC = sl (i).MNPC and then
+                       sl (i + 1).IR.ending.size =
+                         sl (i).IR.ending.size and then
+                       sl (i + 1).IR.qual < sl (i).IR.qual) or else
+                       (sl (i + 1).MNPC = sl (i).MNPC and then
+                       sl (i + 1).IR.ending.size =
+                         sl (i).IR.ending.size and then
+                       sl (i + 1).IR.qual = sl (i).IR.qual and then
+                       sl (i + 1).D_K  < sl (i).D_K)
                      then
                         sm := sl (i);
-                        sl (i) := sl (i+1);
-                        sl (i+1) := sm;
+                        sl (i) := sl (i + 1);
+                        sl (i + 1) := sm;
                         hits := hits + 1;
                      end if;
                   else
@@ -719,8 +725,10 @@ package body word_package is
          sx := sl;
       end order_stems;
 
-      procedure array_stems (sx : in sal;
-                             pa : in out Parse_Array; pa_last : in out Integer) is
+      procedure array_stems
+        (sx : in sal;
+         pa : in out Parse_Array; pa_last : in out Integer)
+      is
          sl : constant sal := sx;
          opr : Parse_Record := Null_Parse_Record;
       begin
@@ -734,7 +742,7 @@ package body word_package is
                if sl (i) /= Null_Parse_Record  then
                   --PUT ('*'); PUT (SL (I)); NEW_LINE;
 
-              supress_key_check:
+                  supress_key_check :
                   declare
                      function "<=" (a, b : Parse_Record) return Boolean is
                         use Dict_IO;
@@ -765,11 +773,14 @@ package body word_package is
          end if;
       end array_stems;
 
-      procedure reduce_stem_list (sl : in sal; sxx : in out sal;
-                                               --  Need in out if want to print it at the end
-                                               --procedure REDUCE_STEM_LIST (SL : in SAL; SXX : out SAL;
-                                               prefix : in prefix_item := null_prefix_item;
-                                               suffix : in suffix_item := null_suffix_item) is
+      procedure reduce_stem_list
+        (sl : in sal;
+         sxx : in out sal;
+         --  Need in out if want to print it at the end
+         --procedure REDUCE_STEM_LIST (SL : in SAL; SXX : out SAL;
+         prefix : in prefix_item := null_prefix_item;
+         suffix : in suffix_item := null_suffix_item)
+      is
          MNPC_part : MNPC_Type := Null_MNPC;
          pdl_part : Part_Entry;
          com : Comparison_Type := X;
@@ -816,11 +827,12 @@ package body word_package is
          end "<=";
 
       begin
-         sxx := (others => Null_Parse_Record);  --  Essentially initializing
-                                                --  For the reduced dictionary list PDL
+         sxx := (others => Null_Parse_Record);
+         --  Essentially initializing
+         --  For the reduced dictionary list PDL
          m := 0;
 
-     on_pdl:
+         on_pdl :
          for j in 1 .. pdl_index  loop
 
             pdl_part := pdl (j).ds.part;
@@ -831,12 +843,13 @@ package body word_package is
             pdl_p  := pdl (j).ds.part.pofs;  --  Used only for FIX logic below
 
             --  If there is no SUFFIX then carry on
-            if suffix = null_suffix_item then  --  No suffix working, fall through
-                                               --PUT_LINE ("No SUFFIX in REDUCE - Fall through to PREFIX check ");
+            if suffix = null_suffix_item then
+               --  No suffix working, fall through
                null;
             elsif
-              (pdl_p = N    and then pdl_part.N.Decl = (9, 8)) or  --  No suffix for
-              (pdl_p = Adj  and then pdl_part.Adj.Decl = (9, 8)) -- abbreviations
+              --  No suffix for abbreviations
+              (pdl_p = N    and then pdl_part.N.Decl = (9, 8)) or
+              (pdl_p = Adj  and then pdl_part.Adj.Decl = (9, 8))
             then
                --   Can be no suffix on abbreviation");
                goto end_of_pdl_loop;
