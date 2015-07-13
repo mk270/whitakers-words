@@ -63,24 +63,24 @@ package body Decn_Record_IO is
    ---------------------------------------------------------------------------
 
    procedure Get
-      ( Source : in  String;
-        Target : out Decn_Record;
-        Last   : out Integer
+      (Source : in  String;
+       Target : out Decn_Record;
+       Last   : out Integer
       )
    is
       -- This variable are used for computing lower bound of substrings
       Low : Integer := Source'First - 1;
    begin
       Ada.Integer_Text_IO.Get
-         ( Source (Low + 1 .. Source'Last), Target.Which, Low );
+         (Source (Low + 1 .. Source'Last), Target.Which, Low);
       Low := Low + 1;
       Ada.Integer_Text_IO.Get
-         ( Source (Low + 1 .. Source'Last), Target.Var, Last );
+         (Source (Low + 1 .. Source'Last), Target.Var, Last);
    end Get;
 
    ---------------------------------------------------------------------------
 
-   procedure Put (Target: out String; Item : in Decn_Record)
+   procedure Put (Target : out String; Item : in Decn_Record)
    is
       -- These variables are used for computing bounds of substrings
       Low  : Integer := Target'First - 1;

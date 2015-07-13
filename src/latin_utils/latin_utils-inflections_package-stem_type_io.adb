@@ -25,7 +25,7 @@ package body Stem_Type_IO is
       Item := Null_Stem_Type;
       for K in 1 .. Stem_Type_IO.Default_Width loop
          Get (File, C);
-         if (C not in 'A'..'Z') and (C not in 'a'..'z') then
+         if (C not in 'A' .. 'Z') and (C not in 'a' .. 'z') then
             exit;
          else
             Item (K) := C;
@@ -41,7 +41,7 @@ package body Stem_Type_IO is
       Item := Null_Stem_Type;
       for K in 1 .. Stem_Type_IO.Default_Width loop
          Ada.Text_IO.Get (C);
-         if (C not in 'A'..'Z') and (C not in 'a'..'z') then
+         if (C not in 'A' .. 'Z') and (C not in 'a' .. 'z') then
             exit;
          else
             Item (K) := C;
@@ -66,9 +66,9 @@ package body Stem_Type_IO is
    ---------------------------------------------------------------------------
 
    procedure Get
-      ( Source : in  String;
-        Target : out Stem_Type;
-        Last   : out Integer
+      (Source : in  String;
+       Target : out Stem_Type;
+       Last   : out Integer
       )
    is
       C : Character;
@@ -77,7 +77,7 @@ package body Stem_Type_IO is
       Last := 0;
       for K in 1 .. Stem_Type_IO.Default_Width loop
          C := Source (K);
-         if (C not in 'A'..'Z') and (C not in 'a'..'z')  then
+         if (C not in 'A' .. 'Z') and (C not in 'a' .. 'z')  then
             exit;
          else
             Target (K) := C;

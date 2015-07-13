@@ -132,24 +132,33 @@ package body Latin_Utils.Inflections_Package is
                  (left.V.con.Which = right.V.con.Which  and then
                  left.V.con.Var = right.V.con.Var  and then
                  left.V.number = right.V.number and then
-                 left.V.tense_voice_mood.tense < right.V.tense_voice_mood.tense) or else
+                 left.V.tense_voice_mood.tense <
+                 right.V.tense_voice_mood.tense) or else
                  (left.V.con.Which = right.V.con.Which  and then
                  left.V.con.Var = right.V.con.Var  and then
                  left.V.number = right.V.number and then
-                 left.V.tense_voice_mood.tense = right.V.tense_voice_mood.tense and then
-                 left.V.tense_voice_mood.voice < right.V.tense_voice_mood.voice) or else
+                 left.V.tense_voice_mood.tense =
+                 right.V.tense_voice_mood.tense and then
+                 left.V.tense_voice_mood.voice <
+                 right.V.tense_voice_mood.voice) or else
                  (left.V.con.Which = right.V.con.Which  and then
                  left.V.con.Var = right.V.con.Var  and then
                  left.V.number = right.V.number and then
-                 left.V.tense_voice_mood.tense = right.V.tense_voice_mood.tense and then
-                 left.V.tense_voice_mood.voice = right.V.tense_voice_mood.voice and then
-                 left.V.tense_voice_mood.mood   < right.V.tense_voice_mood.mood )  or else
+                 left.V.tense_voice_mood.tense =
+                 right.V.tense_voice_mood.tense and then
+                 left.V.tense_voice_mood.voice =
+                 right.V.tense_voice_mood.voice and then
+                 left.V.tense_voice_mood.mood   <
+                 right.V.tense_voice_mood.mood)  or else
                  (left.V.con.Which = right.V.con.Which  and then
                  left.V.con.Var = right.V.con.Var  and then
                  left.V.number = right.V.number and then
-                 left.V.tense_voice_mood.tense = right.V.tense_voice_mood.tense and then
-                 left.V.tense_voice_mood.voice = right.V.tense_voice_mood.voice and then
-                 left.V.tense_voice_mood.mood   = right.V.tense_voice_mood.mood   and then
+                 left.V.tense_voice_mood.tense =
+                 right.V.tense_voice_mood.tense and then
+                 left.V.tense_voice_mood.voice =
+                 right.V.tense_voice_mood.voice and then
+                 left.V.tense_voice_mood.mood   =
+                 right.V.tense_voice_mood.mood   and then
                  left.V.person < right.V.person)
                then
                   return True;
@@ -237,7 +246,9 @@ package body Latin_Utils.Inflections_Package is
          return left.pofs < right.pofs;
    end "<";
 
-   overriding function "<=" (left, right : Part_Of_Speech_Type) return Boolean is
+   overriding function "<="
+     (left, right : Part_Of_Speech_Type)
+     return Boolean is
    begin
       if right = left  or else
         (left = Pack and right = Pron)  or else
@@ -249,7 +260,9 @@ package body Latin_Utils.Inflections_Package is
       end if;
    end "<=";
 
-   function "<=" (left, right : Decn_Record) return Boolean is
+   function "<="
+     (left, right : Decn_Record)
+     return Boolean is
    begin
       if right = left  or else
         (right = Decn_Record'(0, 0)  and left.Which /= 9)  or else
@@ -261,7 +274,9 @@ package body Latin_Utils.Inflections_Package is
       end if;
    end "<=";
 
-   overriding function "<=" (left, right : Gender_Type) return Boolean is
+   overriding function "<="
+     (left, right : Gender_Type)
+     return Boolean is
    begin
       if right = left  or else
         right = X     or else
@@ -273,7 +288,9 @@ package body Latin_Utils.Inflections_Package is
       end if;
    end "<=";
 
-   overriding function "<=" (left, right : Case_Type) return Boolean is
+   overriding function "<="
+     (left, right : Case_Type)
+     return Boolean is
    begin
       if right = left or else right = X then
          return True;
@@ -282,7 +299,9 @@ package body Latin_Utils.Inflections_Package is
       end if;
    end "<=";
 
-   overriding function "<=" (left, right : Number_Type) return Boolean is
+   overriding function "<="
+     (left, right : Number_Type)
+     return Boolean is
    begin
       if right = left or else right = X then
          return True;
@@ -330,7 +349,9 @@ package body Latin_Utils.Inflections_Package is
       end if;
    end "<=";
 
-   overriding function "<=" (left, right : Pronoun_Kind_Type)   return Boolean is
+   overriding function "<="
+     (left, right : Pronoun_Kind_Type)
+     return Boolean is
    begin
       if right = left or else right = x then
          return True;
@@ -579,7 +600,11 @@ package body Latin_Utils.Inflections_Package is
          Put (p.gender);
       end Put;
 
-      procedure Get (s : in String; p : out pronoun_record; last : out Integer) is
+      procedure Get
+        (s : in String;
+         p : out pronoun_record;
+         last : out Integer)
+      is
          l : Integer := s'First - 1;
       begin
          Get (s (l + 1 .. s'Last), p.decl, l);
@@ -665,7 +690,11 @@ package body Latin_Utils.Inflections_Package is
          Put (p.gender);
       end Put;
 
-      procedure Get (s : in String; p : out propack_record; last : out Integer) is
+      procedure Get
+        (s : in String;
+         p : out propack_record;
+         last : out Integer)
+      is
          l : Integer := s'First - 1;
       begin
          Get (s (l + 1 .. s'Last), p.decl, l);
@@ -760,7 +789,11 @@ package body Latin_Utils.Inflections_Package is
          Put (a.co);
       end Put;
 
-      procedure Get (s : in String; a : out adjective_record; last : out Integer) is
+      procedure Get
+        (s : in String;
+         a : out adjective_record;
+         last : out Integer)
+      is
          l : Integer := s'First - 1;
       begin
          Get (s (l + 1 .. s'Last), a.decl, l);
@@ -860,7 +893,11 @@ package body Latin_Utils.Inflections_Package is
          Put (num.sort);
       end Put;
 
-      procedure Get (s : in String; num : out numeral_record; last : out Integer) is
+      procedure Get
+        (s    : in String;
+         num  : out numeral_record;
+         last : out Integer)
+      is
          l : Integer := s'First - 1;
       begin
          Get (s (l + 1 .. s'Last), num.decl, l);
@@ -924,7 +961,11 @@ package body Latin_Utils.Inflections_Package is
          Put (a.co);
       end Put;
 
-      procedure Get (s : in String; a : out adverb_record; last : out Integer) is
+      procedure Get
+        (s    : in String;
+         a    : out adverb_record;
+         last : out Integer)
+      is
          l : constant Integer := s'First - 1;
       begin
          Get (s (l + 1 .. s'Last), a.co, last);
@@ -1647,7 +1688,7 @@ package body Latin_Utils.Inflections_Package is
             when others =>
                null;
          end case;
-         Put (f, String'((Integer (Col (f)) .. quality_record_io.Default_Width+c - 1 => ' ')));
+         Put (f, String'((Integer (Col (f)) .. quality_record_io.Default_Width + c - 1 => ' ')));
          return;
       end Put;
 
@@ -1690,7 +1731,8 @@ package body Latin_Utils.Inflections_Package is
             when others =>
                null;
          end case;
-         Put (String'((Integer (Col) .. quality_record_io.Default_Width+c - 1 => ' ')));
+         Put (String'((
+           Integer (Col) .. quality_record_io.Default_Width + c - 1 => ' ')));
          return;
       end Put;
 
@@ -1757,7 +1799,7 @@ package body Latin_Utils.Inflections_Package is
          --  Note that this does not Put with a uniform width
          --  which would require a constant QUALITY_RECORD_IO.DEFAULT_WIDTH
          --  Rather we Put to minimal size with NOUN_RECORD_IO.DEFAULT_WIDTH,
-         --  PRONOUN_RECORD_IO,DEFAULT_WIDTH, . .. 
+         --  PRONOUN_RECORD_IO,DEFAULT_WIDTH, . ..
          l : Integer := s'First - 1;
          m : Integer := 0;
       begin
@@ -1883,7 +1925,7 @@ package body Latin_Utils.Inflections_Package is
             --   S (L+N + 1) /= ' '  then
             -- TEXT_IO.PUT_LINE ("ERROR in INFLECTION =>" & S);
             --else
-            sf := s (l + 1 .. l+n) & blanks (n + 1 .. max_ending_size);
+            sf := s (l + 1 .. l + n) & blanks (n + 1 .. max_ending_size);
             last := l + n;
             x := (n, sf (1 .. n) & blanks (n + 1 .. max_ending_size));
             --end if;

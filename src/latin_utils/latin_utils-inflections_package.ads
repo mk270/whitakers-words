@@ -44,9 +44,9 @@ package Latin_Utils.Inflections_Package is
       procedure Put (Item : in Stem_Type);
       -- TODO: Document meaning of Last
       procedure Get
-        ( Source : in  String;
-          Target : out Stem_Type;
-          Last   : out Integer
+        (Source : in  String;
+         Target : out Stem_Type;
+         Last   : out Integer
         );
       procedure Put (Target : out String; Item : in Stem_Type);
    end Stem_Type_IO;
