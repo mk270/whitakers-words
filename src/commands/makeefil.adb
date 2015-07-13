@@ -57,11 +57,13 @@ begin
    end loop;
    Close (ewds_file);
    Ada.Text_IO.New_Line;
-   Ada.Text_IO.Put_Line ("NUMBER_OF_EWORDS = " & Integer'Image (number_of_ewords));
+   Ada.Text_IO.Put_Line
+     ("NUMBER_OF_EWORDS = " & Integer'Image (number_of_ewords));
 exception
    when others =>
       Close (ewds_file);
       Ada.Text_IO.New_Line;
       Ada.Text_IO.Put_Line ("MAKEEFIL terminated on an exception");
-      Ada.Text_IO.Put_Line ("NUMBER_OF_EWORDS = " & Integer'Image (number_of_ewords));
+      Ada.Text_IO.Put_Line
+        ("NUMBER_OF_EWORDS = " & Integer'Image (number_of_ewords));
 end makeefil;
