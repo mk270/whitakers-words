@@ -17,18 +17,28 @@
 with Latin_Utils.Dictionary_Package; use Latin_Utils.Dictionary_Package;
 package tricks_package is
 
-   procedure syncope(w : String;
-                     pa : in out Parse_Array; pa_last : in out Integer);
+   procedure syncope
+     (w       : String;
+      pa      : in out Parse_Array;
+      pa_last : in out Integer);
 
-   procedure try_tricks(w : String;
-                        pa : in out Parse_Array; pa_last : in out Integer;
-                                                 line_number : Integer; word_number : Integer);
+   procedure try_tricks
+     (w           : String;
+      pa          : in out Parse_Array;
+      pa_last     : in out Integer;
+      line_number : Integer;
+      word_number : Integer);
 
-   procedure try_slury(w : String;
-                       pa : in out Parse_Array; pa_last : in out Integer;
-                                                line_number : Integer; word_number : Integer);
+   procedure try_slury
+     (w           : String;
+      pa          : in out Parse_Array;
+      pa_last     : in out Integer;
+      line_number : Integer;
+      word_number : Integer);
 
-   procedure roman_numerals(Input_word : String;
-                            pa : in out Parse_Array; pa_last : in out Integer);
+   procedure roman_numerals
+     (Input_word : String;
+      pa         : in out Parse_Array;
+      pa_last    : in out Integer);
 
 end tricks_package;
