@@ -17,6 +17,6 @@
 with Latin_Utils.Config; use Latin_Utils.Config;
 
 package parse is
-   procedure parse_line(configuration : configuration_type;
-                        Input_Line : String);
+   procedure parse_line (configuration : configuration_type;
+                         Input_Line    : String);
 end parse;
