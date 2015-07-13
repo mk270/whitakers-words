@@ -290,14 +290,16 @@ begin    --  PUT_EXAMPLE_LINE
                   --  Info too much for same line
                   Ada.Text_IO.Set_Col (Output, 6);
                   Ada.Text_IO.Put (Output,
-                    "from _ (separ); because of ~ (cause); than ~ (compar); of ~ (circumstance)");
+                    "from _ (separ); because of ~ (cause);"
+                    & " than ~ (compar); of ~ (circumstance)");
                   Ada.Text_IO.New_Line (Output);
                when Dat =>
                   Ada.Text_IO.New_Line (Output);
                   --  Info too much for same line
                   Ada.Text_IO.Set_Col (Output, 6);
                   Ada.Text_IO.Put (Output,
-                    "for _ (purpose, reference); to ~ (w/adjectives); to ~ (double dative)");
+                    "for _ (purpose, reference);"
+                    & " to ~ (w/adjectives); to ~ (double dative)");
                   Ada.Text_IO.New_Line (Output);
                when Loc =>
                   Ada.Text_IO.Put (Output, "at ~ (place where)");
@@ -347,34 +349,45 @@ begin    --  PUT_EXAMPLE_LINE
             case ir.qual.Vpar.tense_voice_mood.tense is
                when Perf  =>
                   Ada.Text_IO.Put (Output,
-                    "~ed  PERF PASSIVE PPL often used as ADJ or N (amatus => belov.ed)");
+                    "~ed  PERF PASSIVE PPL often used as ADJ"
+                    & " or N (amatus => belov.ed)");
                   Ada.Text_IO.New_Line (Output);
                when Pres  =>
                   Ada.Text_IO.Put (Output,
-                    "~ing  PRES ACTIVE PPL often used as ADJ or N (lov.ing, curl.y)");
+                    "~ing  PRES ACTIVE PPL often used as ADJ"
+                    & " or N (lov.ing, curl.y)");
                   Ada.Text_IO.New_Line (Output);
                when Fut   =>
                   if ir.qual.Vpar.tense_voice_mood.voice = Active  then
                      Ada.Text_IO.Put (Output,
-                       "about/going/intending/destined to ~  FUT ACTIVE PPL often used as ADJ or N ");
+                       "about/going/intending/destined to ~"
+                       & "  FUT ACTIVE PPL often used as ADJ or N ");
                      Ada.Text_IO.New_Line (Output);
                   else
                      case ir.qual.Vpar.cs is
                         when Gen =>
                            Ada.Text_IO.Put (Output,
-                             "to (/must) be ~ed  FUT PASSIVE PPL, often used as gerund or gerundive (of ~ing)");
+                             "to (/must) be ~ed  FUT PASSIVE PPL,"
+                             & " often used as gerund or gerundive (of ~ing)");
                         when Dat =>
                            Ada.Text_IO.Put (Output,
-                             "to (/must) be ~ed  FUT PASSIVE PPL, often used as gerund or gerundive (to/for ~ing)");
+                             "to (/must) be ~ed  FUT PASSIVE PPL,"
+                             & " often used as gerund or gerundive "
+                             & "(to/for ~ing)");
                         when Abl =>
                            Ada.Text_IO.Put (Output,
-                             "to (/must) be ~ed  FUT PASSIVE PPL, often used as gerund or gerundive (by/in ~ing)");
+                             "to (/must) be ~ed  FUT PASSIVE PPL,"
+                             & " often used as gerund or gerundive "
+                             & "(by/in ~ing)");
                         when Acc =>
                            Ada.Text_IO.Put (Output,
-                             "to (/must) be ~ed  FUT PASSIVE PPL, often used as gerund or gerundive (for ~ing/to ~)");
+                             "to (/must) be ~ed  FUT PASSIVE PPL,"
+                             & " often used as gerund or gerundive "
+                             & "(for ~ing/to ~)");
                         when others =>
                            Ada.Text_IO.Put (Output,
-                             "to (/must) be ~ed  FUT PASSIVE PPL, often used as gerund or gerundive (~ing)");
+                             "to (/must) be ~ed  FUT PASSIVE PPL,"
+                             & " often used as gerund or gerundive (~ing)");
                      end case;
                      Ada.Text_IO.New_Line (Output);
                   end if;
@@ -387,11 +400,13 @@ begin    --  PUT_EXAMPLE_LINE
             --TEXT_IO.NEW_LINE (OUTPUT);
             if ir.qual.Supine.cs = Acc  then
                Ada.Text_IO.Put (Output,
-                 "to ~  expresses purpose of verb of motion; may take a direct object");
+                 "to ~  expresses purpose of verb of motion;"
+                 & " may take a direct object");
                Ada.Text_IO.New_Line (Output);
             elsif ir.qual.Supine.cs = Abl  then
                Ada.Text_IO.Put (Output,
-                 "to ~  after ADJ indicating aspect/respect in which something is/is done");
+                 "to ~  after ADJ indicating aspect/respect in"
+                 & " which something is/is done");
                Ada.Text_IO.New_Line (Output);
             end if;
 
