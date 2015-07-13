@@ -23,12 +23,12 @@ pragma Elaborate (Latin_Utils.Preface);
 package body word_parameters is
    use Ada.Text_IO;
 
-   type help_type is array (Natural range <>) of String(1..70);
-   blank_help_line : constant String(1..70) := (others => ' ');
-   no_help : constant help_type := (2..1 => blank_help_line);
+   type help_type is array (Natural range <>) of String (1 .. 70);
+   blank_help_line : constant String (1 .. 70) := (others => ' ');
+   no_help : constant help_type := (2 .. 1 => blank_help_line);
 
    type reply_type is (n, y);
-   package reply_type_io is new Ada.Text_IO.Enumeration_IO(reply_type);
+   package reply_type_io is new Ada.Text_IO.Enumeration_IO (reply_type);
    reply : constant array (Boolean) of reply_type := (n, y);
    mode_of_reply : constant array (reply_type) of Boolean := (False, True);
 
@@ -57,10 +57,11 @@ package body word_parameters is
 
      do_examples                 => False,
      do_only_meanings            => False,
-     do_stems_for_unknown        => False    );
+     do_stems_for_unknown        => False);
 
    bad_mode_file : exception;
 
+   -- FIXME: this help text seems to duplicate what's in developer_parameters
    Trim_Output_help : constant help_type :=  (
      "This option instructs the program to remove from the Output list of   ",
      "possible constructs those which are least likely.  There is now a fair",
@@ -75,28 +76,28 @@ package body word_parameters is
      "various reasons.  These may be trimmed out if this parameter in on.   ",
      "When in English mode, trim just reduces the Output to the top six     ",
      "results, if there are that many.  Asterix means there are more        ",
-     "                                                The default is Y(es)  " );
+     "                                                The default is Y(es)  ");
 
    have_Output_file_help : constant help_type :=  (
      "This option instructs the program to Create a file which can hold the ",
      "Output for later study, otherwise the results are just displayed on   ",
      "the screen.  The Output file is named " & Output_full_name
-     & (39+Output_full_name'Length..70 => ' '),
+     & (39+Output_full_name'Length .. 70 => ' '),
      "This means that one run will necessarily overWrite a previous run,    ",
      "unless the previous results are renamed or copied to a file of another",
      "name.  This is available if the METHOD is INTERACTIVE, no parameters. ",
      "The default is N(o), since this prevents the program from overwriting ",
-     "previous work unintentionally.  Y(es) Creates the Output file.        " );
+     "previous work unintentionally.  Y(es) Creates the Output file.        ");
 
    Write_Output_to_file_help : constant help_type :=  (
      "This option instructs the program, when HAVE_OUTPUT_FILE is on, to    ",
      "Write results to the file " & Output_full_name
-     & (27+Output_full_name'Length..70 => ' '),
+     & (27+Output_full_name'Length .. 70 => ' '),
      "This option may be turned on and off during running of the program,   ",
      "thereby capturing only certain desired results.  If the option        ",
      "HAVE_OUTPUT_FILE is off, the user will not be given a chance to turn  ",
      "this one on.  Only for INTERACTIVE running.         Default is N(o).  ",
-     "This works in English mode, but Output in somewhat diffeent so far.   " );
+     "This works in English mode, but Output in somewhat diffeent so far.   ");
 
    do_unknowns_only_help : constant help_type :=  (
      "This option instructs the program to only Output those words that it  ",
@@ -111,12 +112,12 @@ package body word_parameters is
      "without MINIMIZE to an Output file.  This gives a list of the Input   ",
      "text with the unknown words, by line.  This functions as a spelling   ",
      "checker for Latin texts.  The default is N(o).                        ",
-     "This does not work in English mode, but may in the future.            " );
+     "This does not work in English mode, but may in the future.            ");
 
    Write_unknowns_to_file_help : constant help_type :=  (
      "This option instructs the program to Write all unresolved words to a  ",
      "UNKNOWNS file named " & unknowns_full_name
-     & (21+unknowns_full_name'Length..70 => ' '),
+     & (21+unknowns_full_name'Length .. 70 => ' '),
      "With this option on , the file of unknowns is written, even though    ",
      "the main Output contains both known and unknown (unresolved) words.   ",
      "One may wish to save the unknowns for later analysis, testing, or to  ",
@@ -125,7 +126,7 @@ package body word_parameters is
      "run.  However, the Write may be turned on and off during a single run ",
      "without destroying the information written in that run.               ",
      "This option is for specialized use, so its default is N(o).           ",
-     "This does not work in English mode, but may in the future.            " );
+     "This does not work in English mode, but may in the future.            ");
 
    ignore_unknown_names_help : constant help_type :=  (
      "This option instructs the program to assume that any capitalized word ",
@@ -135,7 +136,7 @@ package body word_parameters is
      "it is often convenient to ignore these sperious UNKNOWN hits.  This   ",
      "option implements that mode, and calls such words proper names.       ",
      "Any proper names that are in the dictionary are handled in the normal ",
-     "manner.                                The default is Y(es).          " );
+     "manner.                                The default is Y(es).          ");
 
    ignore_unknown_caps_help : constant help_type :=  (
      "This option instructs the program to assume that any all caps word    ",
@@ -146,7 +147,7 @@ package body word_parameters is
      "it is often convenient to ignore these sperious UNKNOWN hits.  This   ",
      "option implements that mode, and calls such words names.  Any similar ",
      "designations that are in the dictionary are handled in the normal     ",
-     "manner, as are normal words in all caps.    The default is Y(es).     " );
+     "manner, as are normal words in all caps.    The default is Y(es).     ");
 
    do_compounds_help : constant help_type :=  (
      "This option instructs the program to look ahead for the verb TO_BE (or",
@@ -154,7 +155,7 @@ package body word_parameters is
      "a compound perfect tense or periphastic.  This option can also be a   ",
      "trimming of the output, in that VPAR that do not fit (not NOM) will be",
      "excluded, possible interpretations are lost.  Default choice is Y(es).",
-     "This processing is turned off with the choice of N(o).                " );
+     "This processing is turned off with the choice of N(o).                ");
 
    do_fixes_help : constant help_type :=  (
      "This option instructs the program, when it is unable to find a proper ",
@@ -166,7 +167,7 @@ package body word_parameters is
      "but not necessarily obvious; about a tenth give entirely spurious     ",
      "derivations.  The user must proceed with caution.                     ",
      "The default choice is Y(es), since the results are generally useful.  ",
-     "This processing can be turned off with the choice of N(o).            " );
+     "This processing can be turned off with the choice of N(o).            ");
 
    do_tricks_help : constant help_type :=  (
      "This option instructs the program, when it is unable to find a proper ",
@@ -180,14 +181,14 @@ package body word_parameters is
      "populated to such a state that the hit rate on tricks has fallen to a ",
      "low level.  It is very seldom productive, and it is always expensive. ",
      "The only excuse for keeping it as default is that now the dictionary  ",
-     "is quite extensive and misses are rare.         Default is now Y(es). ") ;
+     "is quite extensive and misses are rare.         Default is now Y(es). ");
 
    do_dictionary_forms_help : constant help_type :=  (
      "This option instructs the program to Output a line with the forms     ",
      "normally associated with a dictionary entry (NOM and GEN of a noun,   ",
      "the four principal parts of a verb, M-F-N NOM of an adjective, ...).  ",
      "This occurs when there is other Output (i.e., not with UNKNOWNS_ONLY).",
-     "The default choice is N(o), but it can be turned on with a Y(es).     " );
+     "The default choice is N(o), but it can be turned on with a Y(es).     ");
 
    show_age_help : constant help_type :=  (
      "This option causes a flag, like '<Late>' to appear for inflection or  ",
@@ -195,7 +196,7 @@ package body word_parameters is
      "in use, at least from indications is dictionary citations.  It is     ",
      "just an indication, not controlling, useful when there are choices.   ",
      "No indication means that it is common throughout all periods.         ",
-     "The default choice is Y(es), but it can be turned off with a N(o).    " );
+     "The default choice is Y(es), but it can be turned off with a N(o).    ");
 
    show_frequency_help : constant help_type :=  (
      "This option causes a flag, like '<rare>' to appear for inflection or  ",
@@ -203,12 +204,12 @@ package body word_parameters is
      "word or inflection, from indications is dictionary citations.  It is  ",
      "just an indication, not controlling, useful when there are choices.   ",
      "No indication means that it is common throughout all periods.         ",
-     "The default choice is Y(es), but it can be turned off with a N(o).    " );
+     "The default choice is Y(es), but it can be turned off with a N(o).    ");
 
    do_examples_help : constant help_type :=  (
      "This option instructs the program to provide examples of usage of the ",
      "cases/tenses/etc. that were constructed.  The default choice is N(o). ",
-     "This produces lengthly Output and is turned on with the choice Y(es). " );
+     "This produces lengthly Output and is turned on with the choice Y(es). ");
 
    do_only_meanings_help : constant help_type :=  (
      "This option instructs the program to only Output the MEANING for a    ",
@@ -216,7 +217,7 @@ package body word_parameters is
      "analyzing new dictionary material, comparing with the existing.       ",
      "However it may be of use for the translator who knows most all of     ",
      "the words and just needs a little reminder for a few.                 ",
-     "The default choice is N(o), but it can be turned on with a Y(es).     " );
+     "The default choice is N(o), but it can be turned on with a Y(es).     ");
 
    do_stems_for_unknown_help : constant help_type :=  (
      "This option instructs the program, when it is unable to find a proper ",
@@ -226,7 +227,7 @@ package body word_parameters is
      "an ADJ for which there is only a N stem, etc.  This option should     ",
      "probably only be used with individual UNKNOWN words, and off-line     ",
      "from full translations, therefore the default choice is N(o).         ",
-     "This processing can be turned on with the choice of Y(es).            " );
+     "This processing can be turned on with the choice of Y(es).            ");
 
    save_parameters_help : constant help_type :=  (
      "This option instructs the program, to save the current parameters, as ",
@@ -239,13 +240,13 @@ package body word_parameters is
      "otherwise uninterpretable by the program, it will be ignored and the  ",
      "default parameters used, until a proper parameter file in written by  ",
      "the program.  Since one may want to make temporary changes during a   ",
-     "run, but revert to the usual set, the default is N(o).                " );
+     "run, but revert to the usual set, the default is N(o).                ");
 
-   procedure Put(help : help_type) is
+   procedure Put (help : help_type) is
    begin
       New_Line;
-      for i in help'First..help'Last  loop
-         Put_Line(help(i));
+      for i in help'First .. help'Last  loop
+         Put_Line (help (i));
       end loop;
       New_Line;
    end Put;
@@ -254,17 +255,17 @@ package body word_parameters is
       use mode_type_io;
       use reply_type_io;
    begin
-      if Is_Open(mode_file)  then
-         Close(mode_file);
+      if Is_Open (mode_file)  then
+         Close (mode_file);
       end if;
-      Create(mode_file, Out_File, mode_full_name);
+      Create (mode_file, Out_File, mode_full_name);
       for i in words_mode'Range  loop
-         Put(mode_file, i);
-         Set_Col(mode_file, 35);
-         Put(mode_file, reply(words_mode(i)));
-         New_Line(mode_file);
+         Put (mode_file, i);
+         Set_Col (mode_file, 35);
+         Put (mode_file, reply (words_mode (i)));
+         New_Line (mode_file);
       end loop;
-      Close(mode_file);
+      Close (mode_file);
    end Put_modes;
 
    procedure Get_modes is --(M : out MODE_ARRAY) is
@@ -273,13 +274,13 @@ package body word_parameters is
       mo : mode_type;
       rep : reply_type;
    begin
-      Open(mode_file, In_File, mode_full_name);
-      while not End_Of_File(mode_file)  loop
-         Get(mode_file, mo);
-         Get(mode_file, rep);
-         words_mode(mo) := mode_of_reply(rep);
+      Open (mode_file, In_File, mode_full_name);
+      while not End_Of_File (mode_file)  loop
+         Get (mode_file, mo);
+         Get (mode_file, rep);
+         words_mode (mo) := mode_of_reply (rep);
       end loop;
-      Close(mode_file);
+      Close (mode_file);
 
    exception
       when Name_Error  =>
@@ -288,41 +289,43 @@ package body word_parameters is
          raise bad_mode_file;
    end Get_modes;
 
-   procedure inquire(mo : mode_type; help : in help_type := no_help) is
+   procedure inquire (mo : mode_type; help : in help_type := no_help) is
       use mode_type_io;
       use reply_type_io;
-      l1 : String(1..100) := (others => ' ');
+      l1 : String (1 .. 100) := (others => ' ');
       ll : Natural;
       r  : reply_type;
    begin
-      Put(mo);
-      Put(" ?  "); Set_Col(45); Put("(Currently  ");
-      Put(reply(words_mode(mo))); Put(" =>");
-      Get_Line(l1, ll);
+      Put (mo);
+      Put (" ?  "); Set_Col (45); Put ("(Currently  ");
+      Put (reply (words_mode (mo))); Put (" =>");
+      Get_Line (l1, ll);
       if ll /= 0  then
-         if Trim (l1(1..ll)) = ""  then
-            Put_Line("Blank Input, skipping the rest of CHANGE_PARAMETERS");
+         if Trim (l1 (1 .. ll)) = ""  then
+            Put_Line ("Blank Input, skipping the rest of CHANGE_PARAMETERS");
             raise blank_Input;
-         elsif l1(1) = '?'  then
-            Put(help);
-            inquire(mo, help);
+         elsif l1 (1) = '?'  then
+            Put (help);
+            inquire (mo, help);
          else
-            Get(l1(1..ll), r, ll);
-            words_mode(mo) := mode_of_reply(r);
+            Get (l1 (1 .. ll), r, ll);
+            words_mode (mo) := mode_of_reply (r);
          end if;
       end if;
       New_Line;
    end inquire;
 
    procedure change_parameters is
-      l1 : String(1..100) := (others => ' ');
+      l1 : String (1 .. 100) := (others => ' ');
       ll : Natural;
       r  : reply_type;
 
    begin
 
-      Put_Line("To set/change parameters reply Y/y or N/n.  Return accepts current value.");
-      Put_Line("A '?' reply gives infomation/help on that parameter.  A space skips the rest.");
+      Put_Line ("To set/change parameters reply Y/y or N/n" &
+        ".  Return accepts current value.");
+      Put_Line ("A '?' reply gives infomation/help on that parameter." &
+        "  A space skips the rest.");
       New_Line;
 
       --  Interactive mode - lets you do things on unknown words
@@ -336,14 +339,16 @@ package body word_parameters is
       --  even if it is listed only for a N.
       --  One can also look for ADV here with ending 'e', etc.
 
-      --  You can look up the word in a paper dictionary (with the help of ending)
+      --  You can look up the word in a paper dictionary (with the help
+      --  of ending)
       --  And then enter the word into DICT.LOC, so it will hit next time
 
       --  All unknowns could be recorded in a file for later reference
 
       --  A '?' gives information (help) about the item in question
 
-      --  One can change the symbol that the main program uses for change and file
+      --  One can change the symbol that the main program uses for change
+      --  and file
 
       --  One can save the new parameters or let them revert to previous
       --  There should be a basic set of parameters that one can always go to
@@ -353,77 +358,82 @@ package body word_parameters is
       --  Maybe to turn on or off pre/suffix
       --  Maybe to allow the user to look at just all the prefixes that match
 
-      inquire(Trim_Output, Trim_Output_help);
+      inquire (Trim_Output, Trim_Output_help);
 
-      inquire(have_Output_file, have_Output_file_help);
+      inquire (have_Output_file, have_Output_file_help);
 
-      if Is_Open(Output)  and then not words_mode(have_Output_file)  then
-         Close(Output);
-         words_mode(Write_Output_to_file) := False;
+      if Is_Open (Output)  and then not words_mode (have_Output_file)  then
+         Close (Output);
+         words_mode (Write_Output_to_file) := False;
       end if;
-      if not Is_Open(Output) and then words_mode(have_Output_file)  then
+      if not Is_Open (Output) and then words_mode (have_Output_file)  then
          begin
-            Create(Output, Out_File, Output_full_name);
+            Create (Output, Out_File, Output_full_name);
          exception
             when others =>
-               Put_Line("Cannot CREATE WORD.OUT - Check if it is in use elsewhere");
+               Put_Line
+                 ("Cannot CREATE WORD.OUT - Check if it is in use elsewhere");
          end;
       end if;
 
-      if words_mode(have_Output_file)  then
-         inquire(Write_Output_to_file, Write_Output_to_file_help);
+      if words_mode (have_Output_file)  then
+         inquire (Write_Output_to_file, Write_Output_to_file_help);
       end if;
 
-      inquire(do_unknowns_only, do_unknowns_only_help);
+      inquire (do_unknowns_only, do_unknowns_only_help);
 
-      inquire(Write_unknowns_to_file, Write_unknowns_to_file_help);
+      inquire (Write_unknowns_to_file, Write_unknowns_to_file_help);
       --  If there is an Open file then OK
       --  If not Open and you now want to start writing to UNKNOWNS, the CREATE
-      if not Is_Open(unknowns) and then words_mode(Write_unknowns_to_file)  then
+      if not Is_Open (unknowns) and then
+        words_mode (Write_unknowns_to_file)
+      then
          begin
-            Create(unknowns, Out_File, unknowns_full_name);
+            Create (unknowns, Out_File, unknowns_full_name);
          exception
             when others =>
-               Put_Line("Cannot CREATE WORD.UNK - Check if it is in use elsewhere");
+               Put_Line
+                 ("Cannot CREATE WORD.UNK - Check if it is in use elsewhere");
          end;
       end if;
 
-      inquire(ignore_unknown_names, ignore_unknown_names_help);
+      inquire (ignore_unknown_names, ignore_unknown_names_help);
 
-      inquire(ignore_unknown_caps, ignore_unknown_caps_help);
+      inquire (ignore_unknown_caps, ignore_unknown_caps_help);
 
-      inquire(do_compounds, do_compounds_help);
+      inquire (do_compounds, do_compounds_help);
 
-      inquire(do_fixes, do_fixes_help);
+      inquire (do_fixes, do_fixes_help);
 
-      inquire(do_tricks, do_tricks_help);
+      inquire (do_tricks, do_tricks_help);
 
-      inquire(do_dictionary_forms, do_dictionary_forms_help);
+      inquire (do_dictionary_forms, do_dictionary_forms_help);
 
-      inquire(show_age, show_age_help);
+      inquire (show_age, show_age_help);
 
-      inquire(show_frequency, show_frequency_help);
+      inquire (show_frequency, show_frequency_help);
 
-      inquire(do_examples, do_examples_help);
+      inquire (do_examples, do_examples_help);
 
-      inquire(do_only_meanings, do_only_meanings_help);
+      inquire (do_only_meanings, do_only_meanings_help);
 
-      inquire(do_stems_for_unknown, do_stems_for_unknown_help);
+      inquire (do_stems_for_unknown, do_stems_for_unknown_help);
 
-      Put("Do you wish to save this set of parameters? Y or N (Default) ");
-      Put(" =>");
-      Get_Line(l1, ll);
+      Put ("Do you wish to save this set of parameters? Y or N (Default) ");
+      Put (" =>");
+      Get_Line (l1, ll);
       if ll /= 0  then
-         if l1(1) = '?'  then
-            Put(save_parameters_help);
-            Put("Do you wish to save this set of parameters? Y or N (Default) ");
-            Put(" =>");
-            Get_Line(l1, ll);
+         if l1 (1) = '?'  then
+            Put (save_parameters_help);
+            Put
+              ("Do you wish to save this set of parameters? Y or N (Default) ");
+            Put (" =>");
+            Get_Line (l1, ll);
          end if;
-         reply_type_io.Get(l1(1..ll), r, ll);
-         if mode_of_reply(r)  then
+         reply_type_io.Get (l1 (1 .. ll), r, ll);
+         if mode_of_reply (r)  then
             Put_modes;
-            Put_Line("MODE_ARRAY saved in file " & mode_full_name);
+            Put_Line ("MODE_ARRAY saved in file " & mode_full_name);
          end if;
       end if;
       New_Line;
@@ -432,20 +442,21 @@ package body word_parameters is
       when blank_Input  =>
          null;
       when others =>
-         Put_Line("Bad Input - terminating CHANGE_PARAMETERS");
+         Put_Line ("Bad Input - terminating CHANGE_PARAMETERS");
 
    end change_parameters;
 
    procedure initialize_word_parameters is
    begin
       words_mode := default_mode_array;
-      --TEXT_IO.PUT_LINE("Initializing WORD_PARAMETERS");
+      --TEXT_IO.PUT_LINE ("Initializing WORD_PARAMETERS");
 
-      do_mode_file:
+      do_mode_file :
       begin
          --  Read the mode file
          Get_modes; --(WORDS_MODE);
-         Preface.Put_Line("MODE_FILE found - Using those modes and parameters");
+         Preface.Put_Line
+           ("MODE_FILE found - Using those modes and parameters");
       exception
          --  If there is any problem
          --  Put that the mode file is corrupted and the options are:
@@ -455,25 +466,30 @@ package body word_parameters is
          when Name_Error  =>
             words_mode := default_mode_array;
          when bad_mode_file  =>
-            Put_Line("MODE_FILE exists, but empty or corupted - Default modes used");
-            Put_Line("You can set new parameters with CHANGE PARAMETERS and save.");
+            Put_Line
+              ("MODE_FILE exists, but empty or corupted - Default modes used");
+            Put_Line
+              ("You can set new parameters with CHANGE PARAMETERS and save.");
             words_mode := default_mode_array;
          when others  =>
-            Put_Line("MODE_FILE  others ERROR");
+            Put_Line ("MODE_FILE  others ERROR");
             words_mode := default_mode_array;
       end do_mode_file;
 
       if ((method = interactive) or (method = Command_Line_Input)) and then
-        (not Ada.Text_IO.Is_Open(Output)) and then
-        (words_mode(have_Output_file))
+        (not Ada.Text_IO.Is_Open (Output)) and then
+        (words_mode (have_Output_file))
       then
-         Ada.Text_IO.Create(Output, Ada.Text_IO.Out_File, Output_full_name);
-         --TEXT_IO.PUT_LINE("WORD.OUT Created at Initialization");
-         Preface.Put_Line("WORD.OUT Created at Initialization");
+         Ada.Text_IO.Create (Output, Ada.Text_IO.Out_File, Output_full_name);
+         --TEXT_IO.PUT_LINE ("WORD.OUT Created at Initialization");
+         Preface.Put_Line ("WORD.OUT Created at Initialization");
       end if;
-      if not Ada.Text_IO.Is_Open(unknowns) and then words_mode(Write_unknowns_to_file)  then
-         Ada.Text_IO.Create(unknowns, Ada.Text_IO.Out_File, unknowns_full_name);
-         Preface.Put_Line("WORD.UNK Created at Initialization");
+      if not Ada.Text_IO.Is_Open (unknowns)
+        and then words_mode (Write_unknowns_to_file)
+      then
+         Ada.Text_IO.Create (unknowns, Ada.Text_IO.Out_File,
+           unknowns_full_name);
+         Preface.Put_Line ("WORD.UNK Created at Initialization");
       end if;
    end initialize_word_parameters;
 

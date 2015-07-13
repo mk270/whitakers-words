@@ -17,7 +17,8 @@
 with Ada.Text_IO;
 package word_parameters is
    --  This package defines a number of parameters that areused in the program
-   --  The default values are set in the body, so that they may be changed easily
+   --  The default values are set in the body, so that they may be changed
+   --- easily
 
    change_parameters_Character        : Character := '#';
    change_language_Character          : Character := '~';
@@ -57,7 +58,7 @@ package word_parameters is
      do_stems_for_unknown
                      );
 
-   package mode_type_io is new Ada.Text_IO.Enumeration_IO(mode_type);
+   package mode_type_io is new Ada.Text_IO.Enumeration_IO (mode_type);
 
    type mode_array is array (mode_type) of Boolean;
 
