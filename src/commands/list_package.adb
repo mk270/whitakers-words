@@ -105,7 +105,8 @@ package body list_package is
         (de.Tran.Freq >= d))  and
         (Trim (dictionary_frequency (de.Tran.Freq))'Length /= 0)
       then
-         Ada.Text_IO.Put (Output, "  " & Trim (dictionary_frequency (de.Tran.Freq)));
+         Ada.Text_IO.Put (Output, "  " &
+           Trim (dictionary_frequency (de.Tran.Freq)));
          hit := True;
       end if;
    end Put_dictionary_flags;
@@ -113,11 +114,10 @@ package body list_package is
    procedure Put_dictionary_form (Output : Ada.Text_IO.File_Type;
                                   d_k    : Dictionary_Kind;
                                   MNPC   : Dict_IO.Count;
-                                  de     : Dictionary_Entry) is
-      chit, dhit, ehit, fhit, lhit : Boolean := False;   --  Things on this line?
+                                  de     : Dictionary_Entry)
+   is
+      chit, dhit, ehit, fhit, lhit : Boolean := False; --  Things on this line?
       dictionary_line_number : constant Integer := Integer (MNPC);
-      --DE : DICTIONARY_ENTRY := DM.DE;
-
    begin                               --  PUT_DICTIONARY_FORM
       if words_mode (do_dictionary_forms)  then
          if words_mdev (do_pearse_codes) then
@@ -212,7 +212,8 @@ package body list_package is
 
       stem_inflection_array_size       : constant := 10;
       stem_inflection_array_array_size : constant := 40;
-      type stem_inflection_array is array (Integer range <>) of Stem_Inflection_Record;
+      type stem_inflection_array is
+        array (Integer range <>) of Stem_Inflection_Record;
       type stem_inflection_array_array is array (Integer range <>)
         of stem_inflection_array (1 .. stem_inflection_array_size);
 
@@ -231,7 +232,7 @@ package body list_package is
       --        DE   : DICTIONARY_ENTRY := NULL_DICTIONARY_ENTRY;
       --      end record;
       --      NULL_DICTIONARY_MNPC_RECORD : DICTIONARY_MNPC_RECORD
-      --                                  := (X, NULL_MNPC, NULL_DICTIONARY_ENTRY);
+      --                            := (X, NULL_MNPC, NULL_DICTIONARY_ENTRY);
       dm, odm : dictionary_MNPC_record := null_dictionary_MNPC_record;
 
       dictionary_MNPC_array_size : constant := 40;
@@ -264,7 +265,8 @@ package body list_package is
               (sr.ir.freq >= c))  and    --  Warn regardless
               Trim (inflection_frequency (sr.ir.freq))'Length /= 0
             then
-               Ada.Text_IO.Put (Output, "  " & inflection_frequency (sr.ir.freq));
+               Ada.Text_IO.Put (Output, "  " &
+                 inflection_frequency (sr.ir.freq));
             end if;
          end Put_inflection_flags;
 
@@ -332,7 +334,8 @@ package body list_package is
                        (sr.ir.qual.V.tense_voice_mood.mood in Ind .. Inf)
                      then
                         --TEXT_IO.PUT_LINE ("START PRINT MODIFIED QUAL   V");
-                        out_String (passive_start + 1 .. passive_finish) := passive_blank;
+                        out_String (passive_start + 1 .. passive_finish) :=
+                          passive_blank;
                      elsif (sr.ir.qual.pofs = Vpar)    and then
                        (dm.de.Part.V.Kind = dep)    and then
                        (sr.ir.qual.Vpar.tense_voice_mood.mood = Ppl)
@@ -397,8 +400,11 @@ package body list_package is
          Ada.Text_IO.Put (Output, Trim (Head (Trim_bar (raw_meaning), mm)));
       end Put_meaning;
 
-      function constructed_meaning (sr : Stem_Inflection_Record;
-                                    dm  : dictionary_MNPC_record) return String is
+      function constructed_meaning
+        (sr : Stem_Inflection_Record;
+         dm  : dictionary_MNPC_record)
+        return String
+      is
          --  Constructs the meaning for NUM from NUM.SORT and NUM_VALUE
          s : String (1 .. Max_Meaning_Size) := Null_Meaning_Type;
          n : Integer := 0;
@@ -649,10 +655,12 @@ package body list_package is
                      --TEXT_IO.PUT_LINE ("Starting loop for N    I = " & INTEGER'IMAGE (I) & "   K = " & INTEGER'IMAGE (K));
                      if pa (i).MNPC  /= odm.MNPC  then   --  Encountering new MNPC
                         osra := sra;
-                        k := 1;                  --  K indexes within the MNPCA array --  Initialize
-                                                 --TEXT_IO.PUT_LINE ("Starting IRA for N    I = " & INTEGER'IMAGE (I) & "   K = " & INTEGER'IMAGE (K));
-                        j := j + 1;             --  J indexes the number of MNPCA arrays - Next MNPCA
-                                                --TEXT_IO.PUT_LINE ("Shifting J for N  I = " & INTEGER'IMAGE (I) & "   J = " & INTEGER'IMAGE (J));
+                        k := 1;
+                        --  K indexes within the MNPCA array --  Initialize
+                        --TEXT_IO.PUT_LINE ("Starting IRA for N    I = " & INTEGER'IMAGE (I) & "   K = " & INTEGER'IMAGE (K));
+                        j := j + 1;
+                        --  J indexes the number of MNPCA arrays - Next MNPCA
+                        --TEXT_IO.PUT_LINE ("Shifting J for N  I = " & INTEGER'IMAGE (I) & "   J = " & INTEGER'IMAGE (J));
                         sraa (j)(k) := (pa (i).Stem, pa (i).IR);
                         Dict_IO.Set_Index (Dict_File (pa (i).D_K), pa (i).MNPC);
                         Dict_IO.Read (Dict_File (pa (i).D_K), dea);
@@ -800,9 +808,12 @@ package body list_package is
                         dma (j) := dm;
                         odm := dm;
                      else
-                        k := k + 1;              --  K indexes within the MNPCA array  - Next MNPC
-                                                 --TEXT_IO.PUT_LINE ("Continuing IRA for VPAR  I = " & INTEGER'IMAGE (I) & "   K = " & INTEGER'IMAGE (K)
-                                                 --                                                                      & "   J = " & INTEGER'IMAGE (J));
+                        k := k + 1;
+                        --  K indexes within the MNPCA array  - Next MNPC
+
+                        --TEXT_IO.PUT_LINE ("Continuing IRA for VPAR  I = " & INTEGER'IMAGE (I) & "   K = " & INTEGER'IMAGE (K)
+ 
+                        --                                                                      & "   J = " & INTEGER'IMAGE (J));
                         sraa (j)(k) := (pa (i).Stem, pa (i).IR);
                      end if;
 
@@ -820,10 +831,14 @@ package body list_package is
                        (odm.MNPC /= pa (i).MNPC)
                      then   --  Encountering new single (K only 1)
                         osra := sra;
-                        k := 1;                  --  K indexes within the MNPCA array --  Initialize
-                                                 --TEXT_IO.PUT_LINE ("Starting IRA for OTHER I = " & INTEGER'IMAGE (I) & "   K = " & INTEGER'IMAGE (K));
-                        j := j + 1;             --  J indexes the number of MNPCA arrays - Next MNPCA
-                                                --TEXT_IO.PUT_LINE ("Shifting J for OTHER I = " & INTEGER'IMAGE (I) & "   J = " & INTEGER'IMAGE (J));
+                        k := 1;                  
+                        --  K indexes within the MNPCA array --  Initialize
+                        
+                        --TEXT_IO.PUT_LINE ("Starting IRA for OTHER I = " & INTEGER'IMAGE (I) & "   K = " & INTEGER'IMAGE (K));
+                        j := j + 1;             
+                        --  J indexes the number of MNPCA arrays - Next MNPCA
+                        
+                        --TEXT_IO.PUT_LINE ("Shifting J for OTHER I = " & INTEGER'IMAGE (I) & "   J = " & INTEGER'IMAGE (J));
                         sraa (j)(k) := (pa (i).Stem, pa (i).IR);
                         if pa (i).MNPC /= Null_MNPC  then
                            if pa (i).D_K = addons  then
@@ -833,7 +848,7 @@ package body list_package is
                               Dict_IO.Read (Dict_File (pa (i).D_K), dea);
                            end if;
                         else                       --  Has no dictionary to read
-                           dea:= Null_Dictionary_Entry;
+                           dea := Null_Dictionary_Entry;
                         end if;
                         dm := (pa (i).D_K, pa (i).MNPC, dea);
                         dma (j) := dm;
@@ -856,8 +871,9 @@ package body list_package is
       --  Sets + if capitalized
       --  Strangely enough, it may enter LIST_STEMS with PA_LAST /= 0
       --  but be weeded and end up with no parse after LIST_SWEEP  -  PA_LAST = 0
-      if pa_last = 0  then  --  WORD failed
-                            --????      (DMA (1).D_K in ADDONS .. YYY  and then TRIM (DMA (1).DE.STEMS (1)) /= "que")  then  --  or used FIXES/TRICKS
+      if pa_last = 0  then  
+         --  WORD failed
+         --????      (DMA (1).D_K in ADDONS .. YYY  and then TRIM (DMA (1).DE.STEMS (1)) /= "que")  then  --  or used FIXES/TRICKS
          if words_mode (ignore_unknown_names)  and capitalized  then
             nnn_meaning := Head (
               "Assume this is capitalized proper name/abbr, under MODE IGNORE_UNKNOWN_NAME ",
@@ -982,7 +998,7 @@ package body list_package is
          Putting_form :
          begin
             if j = 1  or else
-              dictionary_form (dma (j).de) /= dictionary_form (dma (j-1).de)
+              dictionary_form (dma (j).de) /= dictionary_form (dma (j - 1).de)
             then
                --  Put at first chance, skip duplicates
                Put_form (sraa (j)(1), dma (j));
@@ -1101,7 +1117,7 @@ package body list_package is
 
             binary_search :
             loop
-               if (j1 = j2-1) or (j1 = j2) then
+               if (j1 = j2 - 1) or (j1 = j2) then
                   if first_try  then
                      j := j1;
                      first_try := False;
@@ -1183,7 +1199,7 @@ package body list_package is
          Ada.Text_IO.Put_Line (Output,
            "----------  Entries in GENEAL Dictionary around the UNKNOWN  ----------");
          pause (Output);
-         for mn in Dict_IO.Count (Integer (unk_MNPC)-5) .. 
+         for mn in Dict_IO.Count (Integer (unk_MNPC) - 5) ..
            Dict_IO.Count (Integer (unk_MNPC) + 3)  loop
             list_entry (Output, d_k, mn);
 
