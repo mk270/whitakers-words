@@ -203,13 +203,15 @@ package Latin_Utils.Inflections_Package is
 
    ---------------------------------------------------------------------------
 
-   type voice_type is (
-                       x,         --  all, none, or unknown
-                       active,    --  ACTIVE
-                       passive    --  PASSIVE
-                      );
+   type Voice_Type is
+      ( X,      --  all, none, or unknown
+        Active, --  ACTIVE
+        Passive --  PASSIVE
+      );
 
-   package voice_type_io is new Ada.Text_IO.Enumeration_IO(voice_type);
+   package Voice_Type_IO is new Ada.Text_IO.Enumeration_IO (Voice_Type);
+
+   ---------------------------------------------------------------------------
 
    type mood_type is (
                       x,         --  all, none, or unknown
@@ -225,7 +227,7 @@ package Latin_Utils.Inflections_Package is
    type tense_voice_mood_record is
       record
          tense : Tense_Type := X;
-         voice : voice_type := x;
+         voice : Voice_Type := X;
          mood  : mood_type  := x;
       end record;
 

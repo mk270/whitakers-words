@@ -32,7 +32,7 @@ procedure Put_example_line(configuration : configuration_type;
       number : constant Number_Type      := ir.qual.V.number;
       tense  : constant Tense_Type       := ir.qual.V.tense_voice_mood.tense;
       mood   : constant mood_type        := ir.qual.V.tense_voice_mood.mood;
-      voice  : voice_type       := ir.qual.V.tense_voice_mood.voice;
+      voice  : Voice_Type                := ir.qual.V.tense_voice_mood.voice;
       kind   : constant Verb_Kind_Type   := vk;
       --  Nothing on  (part), gerund,
 
@@ -145,7 +145,7 @@ procedure Put_example_line(configuration : configuration_type;
 
       function been return String is
       begin
-         if voice = passive  then
+         if voice = Passive  then
             if mood = ind  then
                if tense = Pres  then
                   if (person = 1) and (number = S)  then
@@ -197,23 +197,23 @@ procedure Put_example_line(configuration : configuration_type;
       function ed return String is
       begin
          if mood = imp  then
-            if voice = active  then
+            if voice = Active  then
                return "!";
-            elsif voice = passive  then
+            elsif voice = Passive  then
                return "ed!";
             else
                return "";
             end if;
          elsif mood = inf  then
-            if voice = active  then
+            if voice = Active  then
                return "";
-            elsif voice = passive  then
+            elsif voice = Passive  then
                return "ed";
             else
                return "";
             end if;
          elsif mood = ind  then
-            if voice = active  then
+            if voice = Active  then
                if tense = Pres  then
                   if (person = 3) and (number = S)  then
                      return "s";
@@ -231,7 +231,7 @@ procedure Put_example_line(configuration : configuration_type;
                else
                   return "";
                end if;
-            elsif voice = passive  then
+            elsif voice = Passive  then
                return "ed";
             else
                return "";
@@ -258,9 +258,9 @@ procedure Put_example_line(configuration : configuration_type;
 
    begin   --  PUT_VERB_EXAMPLE
       if kind = dep    then
-         voice := active;    --  Should only have allowed PASSIVE at this point
+         voice := Active;    --  Should only have allowed PASSIVE at this point
       elsif kind = semidep    and then tense in Perf .. Futp   then
-         voice := active;    --  Should only have allowed PASSIVE at this point
+         voice := Active;    --  Should only have allowed PASSIVE at this point
       end if;
 
       Ada.Text_IO.Put(Output, they & sub & shall & have & been & "~" & ed);
@@ -342,7 +342,7 @@ begin    --  PUT_EXAMPLE_LINE
                               "~ing  PRES ACTIVE PPL often used as ADJ or N (lov.ing, curl.y)");
                   Ada.Text_IO.New_Line(Output);
                when Fut   =>
-                  if ir.qual.Vpar.tense_voice_mood.voice = active  then
+                  if ir.qual.Vpar.tense_voice_mood.voice = Active  then
                      Ada.Text_IO.Put(Output,
                                  "about/going/intending/destined to ~  FUT ACTIVE PPL often used as ADJ or N ");
                      Ada.Text_IO.New_Line(Output);

@@ -309,7 +309,7 @@ package body list_package is
                     Tense_Type_IO.Default_Width + 1;
                   passive_finish : constant Integer :=
                     passive_start +
-                    voice_type_io.Default_Width;
+                    Voice_Type_IO.Default_Width;
                   ppl_start      : constant Integer :=
                     Part_Of_Speech_Type_IO.Default_Width + 1 +
                     Decn_Record_IO.Default_Width + 1 +
@@ -319,8 +319,8 @@ package body list_package is
                     Tense_Type_IO.Default_Width + 1;
                   ppl_finish : constant Integer :=
                     ppl_start +
-                    voice_type_io.Default_Width;
-                  passive_blank : constant String(1..voice_type_io.Default_Width) :=
+                    Voice_Type_IO.Default_Width;
+                  passive_blank : constant String(1..Voice_Type_IO.Default_Width) :=
                     (others => ' ');
                begin
 

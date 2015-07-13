@@ -103,7 +103,7 @@ procedure list_sweep(pa : in out Parse_Array; pa_last : in out Integer) is
                stem : constant String := Trim (pr.Stem);
                last_three : String(1..3);
             begin
-               if (pr.IR.qual.V = ((3, 1), (Pres, active, imp), 2, S))  and
+               if (pr.IR.qual.V = ((3, 1), (Pres, Active, imp), 2, S))  and
                  (pr.IR.ending.size = 0)
                then    --  For this special case
                   if stem'Length >= 3  then
@@ -152,14 +152,14 @@ procedure list_sweep(pa : in out Parse_Array; pa_last : in out Integer) is
             --  Check for V DEP    and demand PASSIVE
             if de.Part.V.Kind = dep then
                --TEXT_IO.PUT("DEP  ");
-               if (pr.IR.qual.V.tense_voice_mood.voice = active)  and
+               if (pr.IR.qual.V.tense_voice_mood.voice = Active)  and
                  (pr.IR.qual.V.tense_voice_mood.mood = inf)  and
                  (pr.IR.qual.V.tense_voice_mood.tense = Fut)
                then
                   --TEXT_IO.PUT("PASSIVE  ");
                   --TEXT_IO.PUT("DEP    FUT INF not in ACTIVE "); PUT(PR.IR); TEXT_IO.NEW_LINE;
                   allowed := True;
-               elsif (pr.IR.qual.V.tense_voice_mood.voice = active)  and
+               elsif (pr.IR.qual.V.tense_voice_mood.voice = Active)  and
                  (pr.IR.qual.V.tense_voice_mood.mood in ind..inf)
                then
                   --TEXT_IO.PUT("ACTIVE  ");
@@ -173,13 +173,13 @@ procedure list_sweep(pa : in out Parse_Array; pa_last : in out Integer) is
 
             --  Check for V SEMIDEP    and demand PASSIVE ex Perf
             if de.Part.V.Kind = semidep then
-               if (pr.IR.qual.V.tense_voice_mood.voice = passive)  and
+               if (pr.IR.qual.V.tense_voice_mood.voice = Passive)  and
                  (pr.IR.qual.V.tense_voice_mood.tense in Pres .. Fut)  and
                  (pr.IR.qual.V.tense_voice_mood.mood in ind..imp)
                then
                   --PUT("SEMIDEP    Pres not in ACTIVE "); PUT(PR.IR); NEW_LINE;
                   allowed := False;
-               elsif (pr.IR.qual.V.tense_voice_mood.voice = active)  and
+               elsif (pr.IR.qual.V.tense_voice_mood.voice = Active)  and
                  (pr.IR.qual.V.tense_voice_mood.tense in Perf .. Futp)  and
                  (pr.IR.qual.V.tense_voice_mood.mood in ind..imp)
                then
@@ -195,15 +195,15 @@ procedure list_sweep(pa : in out Parse_Array; pa_last : in out Integer) is
                   (pr.IR.qual.V.number = S)
                then
                   if ((de.Part.V.Kind in x..intrans)  and
-                    (pr.IR.qual.V.tense_voice_mood = (Pres, active, ind))) or else
+                    (pr.IR.qual.V.tense_voice_mood = (Pres, Active, ind))) or else
                     ((de.Part.V.Kind = dep)  and
-                    (pr.IR.qual.V.tense_voice_mood = (Pres, passive, ind))) or else
+                    (pr.IR.qual.V.tense_voice_mood = (Pres, Passive, ind))) or else
                     ((de.Part.V.Kind = semidep)  and
-                    (pr.IR.qual.V.tense_voice_mood = (Pres, active, ind)))
+                    (pr.IR.qual.V.tense_voice_mood = (Pres, Active, ind)))
                   then
                      allowed := True;
                   elsif (de.Part.V.Kind = perfdef)  and
-                     (pr.IR.qual.V.tense_voice_mood = (Perf, active, ind))
+                     (pr.IR.qual.V.tense_voice_mood = (Perf, Active, ind))
                   then
                      allowed := True;
                   else
@@ -212,7 +212,7 @@ procedure list_sweep(pa : in out Parse_Array; pa_last : in out Integer) is
                elsif de.Part.V.Kind = impers then
                   if (pr.IR.qual.V.person = 3)  and then
                     (pr.IR.qual.V.number = S)  and then
-                    (pr.IR.qual.V.tense_voice_mood = (Pres, active, ind))
+                    (pr.IR.qual.V.tense_voice_mood = (Pres, Active, ind))
                   then
                      allowed := True;
                   else
