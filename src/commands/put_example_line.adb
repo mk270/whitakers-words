@@ -31,7 +31,7 @@ procedure Put_example_line(configuration : configuration_type;
       person : constant Person_Type      := ir.qual.V.person;
       number : constant Number_Type      := ir.qual.V.number;
       tense  : constant Tense_Type       := ir.qual.V.tense_voice_mood.tense;
-      mood   : constant mood_type        := ir.qual.V.tense_voice_mood.mood;
+      mood   : constant Mood_Type        := ir.qual.V.tense_voice_mood.mood;
       voice  : Voice_Type                := ir.qual.V.tense_voice_mood.voice;
       kind   : constant Verb_Kind_Type   := vk;
       --  Nothing on  (part), gerund,
@@ -42,15 +42,15 @@ procedure Put_example_line(configuration : configuration_type;
             return "it ";
          end if;
 
-         if mood = inf then
+         if mood = Inf then
             return "to ";
          end if;
 
-         if mood = imp and tense = Pres  and number = P  then
+         if mood = Imp and tense = Pres  and number = P  then
             return "(you) ";
          end if;
 
-         if mood = sub and tense = Pres  and
+         if mood = Sub and tense = Pres  and
            person = 1 and number = P
          then
             return "let us ";   --  G&L 263 1
@@ -84,7 +84,7 @@ procedure Put_example_line(configuration : configuration_type;
       function shall return String is
       begin            --  ACTIVE only  !!!!!!!!!!!!!!!!
          if tense = Fut or tense = Futp then
-            if (mood = ind) or (mood = sub)  then
+            if (mood = Ind) or (mood = Sub)  then
                if person = 1  then
                   return "shall ";
                elsif  person = 2  then
@@ -94,7 +94,7 @@ procedure Put_example_line(configuration : configuration_type;
                else
                   return "";
                end if;
-            elsif mood = imp  then
+            elsif mood = Imp  then
                if person = 1  then
                   return "will ";
                elsif  person = 2  then
@@ -104,7 +104,7 @@ procedure Put_example_line(configuration : configuration_type;
                else
                   return "";
                end if;
-            elsif mood = inf  then
+            elsif mood = Inf  then
                if tense = Fut  then
                   return "be about to be ";
                else
@@ -129,9 +129,9 @@ procedure Put_example_line(configuration : configuration_type;
                return "have ";    -- works for INF too
             end if;
          elsif tense = Plup  then
-            if mood = ind  then
+            if mood = Ind  then
                return "had";
-            elsif mood = sub  then
+            elsif mood = Sub  then
                return "have ";
             else
                return "";
@@ -146,7 +146,7 @@ procedure Put_example_line(configuration : configuration_type;
       function been return String is
       begin
          if voice = Passive  then
-            if mood = ind  then
+            if mood = Ind  then
                if tense = Pres  then
                   if (person = 1) and (number = S)  then
                      return "am/am being ";
@@ -174,9 +174,9 @@ procedure Put_example_line(configuration : configuration_type;
                else
                   return "";
                end if;
-            elsif mood = sub  then
+            elsif mood = Sub  then
                return "";              --????????
-            elsif mood = inf  then
+            elsif mood = Inf  then
                if tense = Pres  then
                   return "be ";
                elsif tense = Perf  then
@@ -184,7 +184,7 @@ procedure Put_example_line(configuration : configuration_type;
                else
                   return "";
                end if;
-            elsif mood = imp  then
+            elsif mood = Imp  then
                return "be ";
             else
                return "";
@@ -196,7 +196,7 @@ procedure Put_example_line(configuration : configuration_type;
 
       function ed return String is
       begin
-         if mood = imp  then
+         if mood = Imp  then
             if voice = Active  then
                return "!";
             elsif voice = Passive  then
@@ -204,7 +204,7 @@ procedure Put_example_line(configuration : configuration_type;
             else
                return "";
             end if;
-         elsif mood = inf  then
+         elsif mood = Inf  then
             if voice = Active  then
                return "";
             elsif voice = Passive  then
@@ -212,7 +212,7 @@ procedure Put_example_line(configuration : configuration_type;
             else
                return "";
             end if;
-         elsif mood = ind  then
+         elsif mood = Ind  then
             if voice = Active  then
                if tense = Pres  then
                   if (person = 3) and (number = S)  then
@@ -236,7 +236,7 @@ procedure Put_example_line(configuration : configuration_type;
             else
                return "";
             end if;
-         elsif mood = sub  then
+         elsif mood = Sub  then
             if tense in Perf .. Plup  then
                return "ed";
             else
@@ -249,7 +249,7 @@ procedure Put_example_line(configuration : configuration_type;
 
       function sub return String is
       begin
-         if mood = sub  then
+         if mood = Sub  then
             return "may/must/should ";
          else
             return "";

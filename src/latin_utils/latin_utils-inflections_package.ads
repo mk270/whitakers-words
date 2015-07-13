@@ -213,22 +213,24 @@ package Latin_Utils.Inflections_Package is
 
    ---------------------------------------------------------------------------
 
-   type mood_type is (
-                      x,         --  all, none, or unknown
-                      ind,       --  INDicative
-                      sub,       --  SUBjunctive
-                      imp,       --  IMPerative
-                      inf,       --  INFinative
-                      ppl        --  ParticiPLe
-                     );
+   type Mood_Type is
+      ( X,         --  all, none, or unknown
+        Ind,       --  INDicative
+        Sub,       --  SUBjunctive
+        Imp,       --  IMPerative
+        Inf,       --  INFinative
+        Ppl        --  ParticiPLe
+      );
 
-   package mood_type_io is new Ada.Text_IO.Enumeration_IO(mood_type);
+   package Mood_Type_IO is new Ada.Text_IO.Enumeration_IO (Mood_Type);
+
+   ---------------------------------------------------------------------------
 
    type tense_voice_mood_record is
       record
          tense : Tense_Type := X;
          voice : Voice_Type := X;
-         mood  : mood_type  := x;
+         mood  : Mood_Type  := X;
       end record;
 
    package tense_voice_mood_record_io is
