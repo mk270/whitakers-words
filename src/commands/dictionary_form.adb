@@ -23,7 +23,7 @@ function dictionary_form (de : Dictionary_Entry) return String is
    ox : array (1 .. 4) of String (1 .. 24) := (others => null_ox);
    form : String (1 .. 100) := (others => ' ');
 
-   fst: constant array (Which_Type range 1 .. 5) of String (1 .. 3) :=
+   fst : constant array (Which_Type range 1 .. 5) of String (1 .. 3) :=
      ("1st", "2nd", "3rd", "4th", "5th");
 
    not_found : exception;
@@ -51,7 +51,8 @@ begin
    end if;
 
    if de.Part.pofs = Prep then
-      return Trim (de.Stems (1)) & "  " & Part_Of_Speech_Type'Image (de.Part.pofs) &
+      return Trim (de.Stems (1)) & "  " &
+        Part_Of_Speech_Type'Image (de.Part.pofs) &
         "  " & Case_Type'Image (de.Part.Prep.Obj);
    end if;
 
@@ -61,12 +62,13 @@ begin
      (((de.Part.pofs = N)  and then (de.Part.N.Decl.Which = 9))  or
      ((de.Part.pofs = Adj)  and then
      ((de.Part.Adj.Decl.Which = 9) or
-     (de.Part.Adj.Co = comp or de.Part.Adj.Co = super))   ) or
+     (de.Part.Adj.Co = comp or de.Part.Adj.Co = super))) or
      ((de.Part.pofs = V)  and then (de.Part.V.Con = (9, 8))) or
      ((de.Part.pofs = V)  and then (de.Part.V.Con = (9, 9))))
    then
-      return Trim (de.Stems (1)) & "  " & Part_Of_Speech_Type'Image (de.Part.pofs);
-      --  For UNIQUES, CONJ, INTERJ, . .. 
+      return Trim (de.Stems (1)) & "  " &
+        Part_Of_Speech_Type'Image (de.Part.pofs);
+      --  For UNIQUES, CONJ, INTERJ, . ..
    end if;
 
    if de.Part.pofs = N    then
@@ -371,9 +373,6 @@ begin
             else
                ox (2) := add (de.Stems (2), "i");
             end if;
-            --            elsif DE.PART.V.CON.WHICH = 4  then   --  4th amy be 3,4 or 4,1
-            --              OX (1) := ADD (DE.STEMS (1), "or");    --  depending on where in code
-            --              OX (2) := ADD (DE.STEMS (2), "iri");   --  In practice there is no problem
          else
             raise not_found;
          end if;                      --  all DEP handled
