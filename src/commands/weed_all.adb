@@ -15,16 +15,16 @@
 -- available to anyone who wishes to use them, for whatever purpose.
 
 with Latin_Utils.Inflections_Package; use Latin_Utils.Inflections_Package;
-procedure weed_all(w : in out String) is
-   --  In contrast to the Latin phase where the prioritization takes is at runtime
-   --  for the English most of the work is done beforehand
-   --  both the setting of a priority class for each entry in the scan of DICTLINE
-   --  and the WEEDing/TRIMming done herein
+procedure weed_all (w : in out String) is
+   --  In contrast to the Latin phase where the prioritization takes
+   --  is at runtime for the English most of the work is done beforehand
+   --  both the setting of a priority class for each entry in the scan
+   --  of DICTLINE and the WEEDing/TRIMming done herein
    kill : Boolean := False;
 begin
 
    if w'Length <= 1  then
-      --if W(1)  not in  'A'..'Z'  then
+      --if W (1)  not in  'A'..'Z'  then
       kill := True;
       --end if;
 
@@ -97,12 +97,12 @@ begin
       end if;
 
       --  Kill abbreviations
-      if w(w'Last) = '.'  then
+      if w (w'Last) = '.'  then
          kill := True;
       end if;
 
       --  Kill internal AREA
-      if w(w'Last) = ':'  then
+      if w (w'Last) = ':'  then
          kill := True;
       end if;
 
@@ -110,10 +110,10 @@ begin
 
    if kill then
       for i in w'Range  loop
-         w(i) := '\';
+         w (i) := '\';
       end loop;
    end if;
 
-   --PUT_LINE("WEEDed ANY  "  & W & '|' & BOOLEAN'IMAGE(KILL));
+   --PUT_LINE ("WEEDed ANY  "  & W & '|' & BOOLEAN'IMAGE (KILL));
 
 end weed_all;

@@ -31,10 +31,10 @@ package word_support_package is
          MNPC : Dict_IO.Count := Null_MNPC;
       end record;
 
-   package stem_io is new Ada.Direct_IO(dictionary_stem);
-   package Count_io is new Ada.Text_IO.Integer_IO(stem_io.Count);
+   package stem_io is new Ada.Direct_IO (dictionary_stem);
+   package Count_io is new Ada.Text_IO.Integer_IO (stem_io.Count);
 
-   subtype dictionary_file_kind is Dictionary_Kind range general..local;
+   subtype dictionary_file_kind is Dictionary_Kind range general .. local;
    default_dictionary_file_kind : dictionary_file_kind := general;
 
    stem_file : array (dictionary_file_kind) of stem_io.File_Type;
@@ -43,40 +43,47 @@ package word_support_package is
    indx_file : array (dictionary_file_kind) of Ada.Text_IO.File_Type;
 
    type dict_array is array (Positive range <>) of dictionary_stem;
-   bdl : dict_array(1..100);
+   bdl : dict_array (1 .. 100);
    bdl_last : Integer := 0;
-   --SIZE_OF_DICTIONARY_ARRAY : constant INTEGER := 120;    --  ###################
-   --DDL : DICT_ARRAY(1..SIZE_OF_DICTIONARY_ARRAY);
+   --SIZE_OF_DICTIONARY_ARRAY : constant INTEGER := 120;
+   --DDL : DICT_ARRAY (1 .. SIZE_OF_DICTIONARY_ARRAY);
    type dict_array_index is array (Character range <>,
-                                   Character range <>,
-                                   dictionary_file_kind range <>) of stem_io.Count;
+     Character range <>,
+     dictionary_file_kind range <>) of stem_io.Count;
 
-   bblf, bbll : dict_array_index(' '..' ', ' '..' ', dictionary_file_kind) :=
-     (others => (others => (others => 0)));
-   bdlf, bdll : dict_array_index('a'..'z', ' '..' ', dictionary_file_kind) :=
-     (others => (others => (others => 0)));
-   ddlf, ddll : dict_array_index('a'..'z', 'a'..'z', dictionary_file_kind) :=
+   bblf, bbll :
+     dict_array_index (' ' .. ' ', ' ' .. ' ', dictionary_file_kind) :=
      (others => (others => (others => 0)));
 
-   function adj_comp_from_key(key : Stem_Key_Type) return Comparison_Type;
+   bdlf, bdll :
+     dict_array_index ('a' .. 'z', ' ' .. ' ', dictionary_file_kind) :=
+     (others => (others => (others => 0)));
 
-   function adv_comp_from_key(key : Stem_Key_Type) return Comparison_Type;
+   ddlf, ddll :
+     dict_array_index ('a' .. 'z', 'a' .. 'z', dictionary_file_kind) :=
+     (others => (others => (others => 0)));
 
-   function num_sort_from_key(key : Stem_Key_Type) return Numeral_Sort_Type;
+   function adj_comp_from_key (key : Stem_Key_Type) return Comparison_Type;
 
-   function eff_part(part : Part_Of_Speech_Type) return Part_Of_Speech_Type;
+   function adv_comp_from_key (key : Stem_Key_Type) return Comparison_Type;
 
-   function len(s : String) return Integer;
+   function num_sort_from_key (key : Stem_Key_Type) return Numeral_Sort_Type;
 
-   function first_index(Input_word : String;
-                        d_k : dictionary_file_kind := default_dictionary_file_kind)
-                       return stem_io.Count;
+   function eff_part (part : Part_Of_Speech_Type) return Part_Of_Speech_Type;
 
-   function  last_index(Input_word : String;
-                        d_k : dictionary_file_kind := default_dictionary_file_kind)
-                       return stem_io.Count;
+   function len (s : String) return Integer;
 
-   procedure load_indices_from_indx_file(d_k : Dictionary_Kind);
+   function first_index
+     (Input_word : String;
+      d_k : dictionary_file_kind := default_dictionary_file_kind)
+     return stem_io.Count;
+
+   function  last_index
+     (Input_word : String;
+      d_k : dictionary_file_kind := default_dictionary_file_kind)
+     return stem_io.Count;
+
+   procedure load_indices_from_indx_file (d_k : Dictionary_Kind);
 
    procedure load_bdl_from_disk;
 
