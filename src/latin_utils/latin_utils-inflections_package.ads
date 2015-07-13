@@ -189,17 +189,19 @@ package Latin_Utils.Inflections_Package is
 
    ---------------------------------------------------------------------------
 
-   type tense_type is (
-                       x,         --  all, none, or unknown
-                       pres,      --  PRESent
-                       impf,      --  IMPerFect
-                       fut,       --  FUTure
-                       perf,      --  PERFect
-                       plup,      --  PLUPerfect
-                       futp       --  FUTure Perfect
-                      );
+   type Tense_Type is
+      ( X,    --  all, none, or unknown
+        Pres, --  PRESent
+        Impf, --  IMPerFect
+        Fut,  --  FUTure
+        Perf, --  PERFect
+        Plup, --  PLUPerfect
+        Futp  --  FUTure Perfect
+      );
 
-   package tense_type_io is new Ada.Text_IO.Enumeration_IO(tense_type);
+   package Tense_Type_IO is new Ada.Text_IO.Enumeration_IO (Tense_Type);
+
+   ---------------------------------------------------------------------------
 
    type voice_type is (
                        x,         --  all, none, or unknown
@@ -222,7 +224,7 @@ package Latin_Utils.Inflections_Package is
 
    type tense_voice_mood_record is
       record
-         tense : tense_type := x;
+         tense : Tense_Type := X;
          voice : voice_type := x;
          mood  : mood_type  := x;
       end record;

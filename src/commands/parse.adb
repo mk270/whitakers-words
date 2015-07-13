@@ -128,31 +128,31 @@ is
 
    participle_glosses : constant participle_glosses_arr :=
      (
-      (key => (perf, passive, ppl),
+      (key => (Perf, passive, ppl),
        gloss => "PERF PASSIVE PPL + verb TO_BE => PASSIVE perfect system                       "),
-      (key => (fut, active,  ppl),
+      (key => (Fut, active,  ppl),
        gloss => "FUT ACTIVE PPL + verb TO_BE => ACTIVE Periphrastic - about to, going to       "),
-      (key => (fut, passive, ppl),
+      (key => (Fut, passive, ppl),
        gloss => "FUT PASSIVE PPL + verb TO_BE => PASSIVE Periphrastic - should/ought/had to    ")
      );
 
    participle_glosses_with_esse : constant participle_glosses_arr :=
      (
-      (key => (perf, passive, ppl),
+      (key => (Perf, passive, ppl),
        gloss => "PERF PASSIVE PPL + esse => PERF PASSIVE INF                                   "),
-      (key => (fut,  active,  ppl),
+      (key => (Fut,  active,  ppl),
        gloss => "FUT ACTIVE PPL + esse => PRES Periphastic/FUT ACTIVE INF - be about/going to  "),
-      (key => (fut,  passive, ppl),
+      (key => (Fut,  passive, ppl),
        gloss => "FUT PASSIVE PPL + esse => PRES PASSIVE INF                                    ")
      );
 
    participle_glosses_with_fuisse : constant participle_glosses_arr :=
      (
-      (key => (perf, passive, ppl),
+      (key => (Perf, passive, ppl),
        gloss => "PERF PASSIVE PPL + esse => PERF PASSIVE INF                                   "),
-      (key => (fut,  active,  ppl),
+      (key => (Fut,  active,  ppl),
        gloss => "FUT ACT PPL+fuisse => PERF ACT INF Periphrastic - to have been about/going to "),
-      (key => (fut,  passive, ppl),
+      (key => (Fut,  passive, ppl),
        gloss => "FUT PASSIVE PPL + fuisse => PERF PASSIVE INF Periphrastic - about to, going to")
      );
 
@@ -178,16 +178,16 @@ is
                            default_ppl_info : vpar_record)
                           return participle
    is
-      compound_tense : tense_type := pres;
+      compound_tense : Tense_Type := Pres;
 
-      function Get_compound_tense(tense : tense_type) return tense_type
+      function Get_compound_tense(tense : Tense_Type) return Tense_Type
       is
       begin
          case tense is
-            when pres | perf => return perf; --  Allows PERF for sum
-            when impf | plup => return plup;
-            when fut         => return futp;
-            when others      => return x;
+            when Pres | Perf => return Perf; --  Allows PERF for sum
+            when Impf | Plup => return Plup;
+            when Fut         => return Futp;
+            when others      => return X;
          end case;
       end Get_compound_tense;
 
@@ -196,7 +196,7 @@ is
       for i in participle_glosses'Range loop
          if participle_glosses(i).key = parsed_verb.tense_voice_mood then
 
-            if parsed_verb.tense_voice_mood = (perf, passive, ppl) then
+            if parsed_verb.tense_voice_mood = (Perf, passive, ppl) then
                compound_tense := Get_compound_tense(
                  sum_info.tense_voice_mood.tense);
             else
@@ -231,20 +231,20 @@ is
                                default_ppl_info : vpar_record)
                               return participle
    is
-      function Get_compound_tense(tense : tense_type;
+      function Get_compound_tense(tense : Tense_Type;
                                   voice : voice_type;
-                                  uses_esse : Boolean) return tense_type
+                                  uses_esse : Boolean) return Tense_Type
       is
       begin
          case tense is
-            when fut =>
+            when Fut =>
                case uses_esse is
-                  when False => return perf;
+                  when False => return Perf;
                   when others =>
                      case voice is
-                        when active => return fut;
-                        when passive => return pres;
-                        when x => return fut; -- shouldn't happen!
+                        when active => return Fut;
+                        when passive => return Pres;
+                        when x => return Fut; -- shouldn't happen!
                            -- FIXME: remove 'x' member of voice enumeration
                      end case;
                end case;
@@ -254,7 +254,7 @@ is
 
       voice : constant voice_type := parsed_verb.tense_voice_mood.voice;
       uses_esse : constant Boolean := is_esse(Trimmed_next_word);
-      compound_tense : tense_type;
+      compound_tense : Tense_Type;
 
    begin
       -- voice and mood are always as specified in parsed_verb.tense_voice_mood
@@ -300,7 +300,7 @@ is
 
    function is_sum(t : String) return verb_to_be is
       sa : constant array (mood_type range ind..sub,
-        tense_type range pres..futp,
+        Tense_Type range Pres .. Futp,
         Number_Type range S .. P,
         Person_Type range 1 .. 3)
         of String(1..9) :=
@@ -345,7 +345,7 @@ is
          return verb_to_be'(matches => False);
       end if;
       for l in mood_type range ind..sub  loop
-         for k in tense_type range pres..futp  loop
+         for k in Tense_Type range Pres .. Futp  loop
             for j in Number_Type range S .. P loop
                for i in Person_Type range 1 .. 3  loop
                   if Trim (t) = Trim (sa(l, k, j, i))  then
@@ -466,7 +466,7 @@ is
               (Head("SUPINE + iri", Max_Stem_Size),
               ((V,
               (supine_info.con,
-              (fut, passive, inf),
+              (Fut, passive, inf),
               0,
               X)
                ), 0, null_ending_record, x, a),
@@ -740,8 +740,8 @@ is
                compound_tvm   : Inflections_Package.tense_voice_mood_record;
                ppl_on : Boolean := False;
 
-               sum_info : verb_record := ((5, 1), (x, active, x), 0, X);
-               ppl_info : vpar_record := ((0, 0), X, X, X, (x, x, x));
+               sum_info : verb_record := ((5, 1), (X, active, x), 0, X);
+               ppl_info : vpar_record := ((0, 0), X, X, X, (X, x, x));
                supine_info : supine_record := ((0, 0), X, X, X);
 
                procedure look_ahead is
@@ -785,9 +785,9 @@ is
                      if pa (i).IR.qual.pofs = Vpar and then
                        pa (i).IR.qual.Vpar.cs = Nom  and then
                        pa(i).IR.qual.Vpar.number = sum_info.number  and then
-                       ( (pa(i).IR.qual.Vpar.tense_voice_mood = (perf, passive, ppl)) or
-                       (pa(i).IR.qual.Vpar.tense_voice_mood = (fut,  active,  ppl)) or
-                       (pa(i).IR.qual.Vpar.tense_voice_mood = (fut,  passive, ppl)) )
+                       ( (pa(i).IR.qual.Vpar.tense_voice_mood = (Perf, passive, ppl)) or
+                       (pa(i).IR.qual.Vpar.tense_voice_mood = (Fut,  active,  ppl)) or
+                       (pa(i).IR.qual.Vpar.tense_voice_mood = (Fut,  passive, ppl)) )
                      then
 
                         --  There is at least one hit, fix PA, and advance J over the sum
@@ -816,10 +816,10 @@ is
 
                   for i in 1..pa_last  loop    --  Check for PPL
                      if pa(i).IR.qual.pofs = Vpar and then
-                       (((pa(i).IR.qual.Vpar.tense_voice_mood = (perf, passive, ppl)) and
+                       (((pa(i).IR.qual.Vpar.tense_voice_mood = (Perf, passive, ppl)) and
                        is_esse(next_word)) or
-                       ((pa(i).IR.qual.Vpar.tense_voice_mood = (fut,  active,  ppl)) or
-                       (pa(i).IR.qual.Vpar.tense_voice_mood = (fut,  passive, ppl))) )
+                       ((pa(i).IR.qual.Vpar.tense_voice_mood = (Fut,  active,  ppl)) or
+                       (pa(i).IR.qual.Vpar.tense_voice_mood = (Fut,  passive, ppl))) )
                      then
 
                         --  There is at least one hit, fix PA, and advance J over the sum

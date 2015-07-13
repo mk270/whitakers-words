@@ -306,7 +306,7 @@ package body list_package is
                   passive_start  : constant Integer :=
                     Part_Of_Speech_Type_IO.Default_Width + 1 +
                     Decn_Record_IO.Default_Width + 1 +
-                    tense_type_io.Default_Width + 1;
+                    Tense_Type_IO.Default_Width + 1;
                   passive_finish : constant Integer :=
                     passive_start +
                     voice_type_io.Default_Width;
@@ -316,7 +316,7 @@ package body list_package is
                     Case_Type_IO.Default_Width + 1 +
                     Number_Type_IO.Default_Width + 1 +
                     Gender_Type_IO.Default_Width + 1 +
-                    tense_type_io.Default_Width + 1;
+                    Tense_Type_IO.Default_Width + 1;
                   ppl_finish : constant Integer :=
                     ppl_start +
                     voice_type_io.Default_Width;

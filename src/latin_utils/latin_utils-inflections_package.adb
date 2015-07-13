@@ -311,7 +311,7 @@ package body Latin_Utils.Inflections_Package is
 
    function "<=" (left, right : tense_voice_mood_record)  return Boolean is
    begin
-      if (right.tense = left.tense or else right.tense = x) and then
+      if (right.tense = left.tense or else right.tense = X) and then
          (right.voice = left.voice or else right.voice = x) and then
          (right.mood = left.mood or else right.mood = x)
       then
@@ -371,7 +371,7 @@ package body Latin_Utils.Inflections_Package is
    package body Decn_Record_IO is separate;
 
    package body tense_voice_mood_record_io is
-      use tense_type_io;
+      use Tense_Type_IO;
       use voice_type_io;
       use mood_type_io;
       spacer : Character := ' ';
@@ -427,7 +427,7 @@ package body Latin_Utils.Inflections_Package is
          l : Integer := s'First - 1;
          m : Integer := 0;
       begin
-         m := l + tense_type_io.Default_Width;
+         m := l + Tense_Type_IO.Default_Width;
          Put(s(l+1..m), t.tense);
          l := m + 1;
          s(l) :=  ' ';
@@ -2323,7 +2323,7 @@ begin  --  initialization of body of INFLECTIONS_PACKAGE
    Number_Type_IO.Default_Width := Number_Type'Width;
    Person_Type_IO.Default_Width := 1;
    Comparison_Type_IO.Default_Width := Comparison_Type'Width;
-   tense_type_io.Default_Width := tense_type'Width;
+   Tense_Type_IO.Default_Width := Tense_Type'Width;
    voice_type_io.Default_Width := voice_type'Width;
    mood_type_io.Default_Width := mood_type'Width;
    Noun_Kind_Type_IO.Default_Width := Noun_Kind_Type'Width;
@@ -2337,7 +2337,7 @@ begin  --  initialization of body of INFLECTIONS_PACKAGE
      1 + 1 +   --WHICH_TYPE_IO_DEFAULT_WIDTH + 1 +
      1;        --VARIANT_TYPE_IO_DEFAULT_WIDTH;
    tense_voice_mood_record_io.Default_Width :=
-     tense_type_io.Default_Width + 1 +
+     Tense_Type_IO.Default_Width + 1 +
      voice_type_io.Default_Width + 1 +
      mood_type_io.Default_Width;
    noun_record_io.Default_Width :=

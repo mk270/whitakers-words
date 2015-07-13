@@ -30,7 +30,7 @@ procedure Put_example_line(configuration : configuration_type;
                                                           vk : in Verb_Kind_Type) is
       person : constant Person_Type      := ir.qual.V.person;
       number : constant Number_Type      := ir.qual.V.number;
-      tense  : constant tense_type       := ir.qual.V.tense_voice_mood.tense;
+      tense  : constant Tense_Type       := ir.qual.V.tense_voice_mood.tense;
       mood   : constant mood_type        := ir.qual.V.tense_voice_mood.mood;
       voice  : voice_type       := ir.qual.V.tense_voice_mood.voice;
       kind   : constant Verb_Kind_Type   := vk;
@@ -46,11 +46,11 @@ procedure Put_example_line(configuration : configuration_type;
             return "to ";
          end if;
 
-         if mood = imp and tense = pres  and number = P  then
+         if mood = imp and tense = Pres  and number = P  then
             return "(you) ";
          end if;
 
-         if mood = sub and tense = pres  and
+         if mood = sub and tense = Pres  and
            person = 1 and number = P
          then
             return "let us ";   --  G&L 263 1
@@ -83,7 +83,7 @@ procedure Put_example_line(configuration : configuration_type;
 
       function shall return String is
       begin            --  ACTIVE only  !!!!!!!!!!!!!!!!
-         if tense = fut or tense = futp then
+         if tense = Fut or tense = Futp then
             if (mood = ind) or (mood = sub)  then
                if person = 1  then
                   return "shall ";
@@ -105,7 +105,7 @@ procedure Put_example_line(configuration : configuration_type;
                   return "";
                end if;
             elsif mood = inf  then
-               if tense = fut  then
+               if tense = Fut  then
                   return "be about to be ";
                else
                   return "";
@@ -120,15 +120,15 @@ procedure Put_example_line(configuration : configuration_type;
 
       function have return String is
       begin
-         if tense in pres..fut  then
+         if tense in Pres .. Fut  then
             return "";
-         elsif tense = perf  then
-            if (tense = perf) and (person = 3) and (number = S)  then
+         elsif tense = Perf  then
+            if (tense = Perf) and (person = 3) and (number = S)  then
                return "has ";
             else
                return "have ";    -- works for INF too
             end if;
-         elsif tense = plup  then
+         elsif tense = Plup  then
             if mood = ind  then
                return "had";
             elsif mood = sub  then
@@ -136,7 +136,7 @@ procedure Put_example_line(configuration : configuration_type;
             else
                return "";
             end if;
-         elsif tense = futp   then
+         elsif tense = Futp   then
             return "have ";
          else
             return "";
@@ -147,7 +147,7 @@ procedure Put_example_line(configuration : configuration_type;
       begin
          if voice = passive  then
             if mood = ind  then
-               if tense = pres  then
+               if tense = Pres  then
                   if (person = 1) and (number = S)  then
                      return "am/am being ";
                   elsif (person = 3) and (number = S)  then
@@ -155,21 +155,21 @@ procedure Put_example_line(configuration : configuration_type;
                   else
                      return "are/are being ";
                   end if;
-               elsif tense = impf   then
+               elsif tense = Impf   then
                   if (person = 1 or person = 3) and (number = S)  then
                      return "was/was being ";
                   else
                      return "were/were being ";
                   end if;
-               elsif tense = fut   then
+               elsif tense = Fut   then
                   return "be ";
-               elsif tense = perf   then
+               elsif tense = Perf   then
                   if (person = 1 or person = 3) and (number = S)  then
                      return "been/was ";
                   else
                      return "been/were ";
                   end if;
-               elsif tense in plup..futp   then
+               elsif tense in Plup .. Futp   then
                   return "been ";
                else
                   return "";
@@ -177,9 +177,9 @@ procedure Put_example_line(configuration : configuration_type;
             elsif mood = sub  then
                return "";              --????????
             elsif mood = inf  then
-               if tense = pres  then
+               if tense = Pres  then
                   return "be ";
-               elsif tense = perf  then
+               elsif tense = Perf  then
                   return "been ";
                else
                   return "";
@@ -214,19 +214,19 @@ procedure Put_example_line(configuration : configuration_type;
             end if;
          elsif mood = ind  then
             if voice = active  then
-               if tense = pres  then
+               if tense = Pres  then
                   if (person = 3) and (number = S)  then
                      return "s";
                   else
                      return "";
                   end if;
-               elsif tense = impf   then
+               elsif tense = Impf   then
                   if (person = 1 or person = 3) and (number = S)  then
                      return "ed/was ~ing";
                   else
                      return "ed/were ~ing";
                   end if;
-               elsif tense in perf..futp   then
+               elsif tense in Perf .. Futp   then
                   return "ed";
                else
                   return "";
@@ -237,7 +237,7 @@ procedure Put_example_line(configuration : configuration_type;
                return "";
             end if;
          elsif mood = sub  then
-            if tense in perf..plup  then
+            if tense in Perf .. Plup  then
                return "ed";
             else
                return "";
@@ -259,7 +259,7 @@ procedure Put_example_line(configuration : configuration_type;
    begin   --  PUT_VERB_EXAMPLE
       if kind = dep    then
          voice := active;    --  Should only have allowed PASSIVE at this point
-      elsif kind = semidep    and then tense in perf..futp   then
+      elsif kind = semidep    and then tense in Perf .. Futp   then
          voice := active;    --  Should only have allowed PASSIVE at this point
       end if;
 
@@ -333,15 +333,15 @@ begin    --  PUT_EXAMPLE_LINE
          when Vpar =>
             --    TEXT_IO.NEW_LINE(OUTPUT);        --  Verb info too much for same line
             case ir.qual.Vpar.tense_voice_mood.tense is
-               when perf  =>
+               when Perf  =>
                   Ada.Text_IO.Put(Output,
                               "~ed  PERF PASSIVE PPL often used as ADJ or N (amatus => belov.ed)");
                   Ada.Text_IO.New_Line(Output);
-               when pres  =>
+               when Pres  =>
                   Ada.Text_IO.Put(Output,
                               "~ing  PRES ACTIVE PPL often used as ADJ or N (lov.ing, curl.y)");
                   Ada.Text_IO.New_Line(Output);
-               when fut   =>
+               when Fut   =>
                   if ir.qual.Vpar.tense_voice_mood.voice = active  then
                      Ada.Text_IO.Put(Output,
                                  "about/going/intending/destined to ~  FUT ACTIVE PPL often used as ADJ or N ");
