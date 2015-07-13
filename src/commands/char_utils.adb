@@ -21,10 +21,10 @@ package body Char_Utils is
    function Is_Punctuation (C : Character) return Boolean
    is
       Permitted : constant array (Character) of Boolean :=
-        ( ' ' => True, ',' => True, '-' => True, ';' => True, ':' => True,
-          '.' => True, '(' => True, '[' => True, '{' => True, '<' => True,
-          ')' => True, ']' => True, '}' => True, '>' => True,
-          others => False
+        (' ' => True, ',' => True, '-' => True, ';' => True, ':' => True,
+         '.' => True, '(' => True, '[' => True, '{' => True, '<' => True,
+         ')' => True, ']' => True, '}' => True, '>' => True,
+         others => False
         );
    begin
       return Permitted (C);
@@ -35,8 +35,8 @@ package body Char_Utils is
    function Is_Alpha_Etc (C : Character) return Boolean
    is
       Alpha_Etc : constant array (Character) of Boolean :=
-         ( 'A' .. 'Z' => True, 'a' .. 'z' => True, '-' => True, '.' => True,
-           others => False
+         ('A' .. 'Z' => True, 'a' .. 'z' => True, '-' => True, '.' => True,
+          others => False
          );
    begin
       return Alpha_Etc (C);
@@ -47,9 +47,9 @@ package body Char_Utils is
    function V_To_U_And_J_To_I (C : Character) return Character
    is
       Convert_P : constant array (Character) of Character :=
-         ( 'V' => 'U', 'v' => 'u',
-           'J' => 'I', 'j' => 'i',
-            others => ' '
+         ('V' => 'U', 'v' => 'u',
+          'J' => 'I', 'j' => 'i',
+           others => ' '
          );
    begin
       if Convert_P (C) /= ' ' then

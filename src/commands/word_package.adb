@@ -44,7 +44,8 @@ package body word_package is
          elsif method = Command_Line_Input  then
             Ada.Text_IO.Put_Line (Ada.Text_IO.Standard_Output,
               "                          MORE - hit RETURN/ENTER to continue");
-            Ada.Text_IO.Get_Line (Ada.Text_IO.Standard_Input, pause_line, pause_last);
+            Ada.Text_IO.Get_Line (Ada.Text_IO.Standard_Input,
+              pause_line, pause_last);
          elsif method = Command_Line_files  then
             null;                       --  Do not PAUSE
          end if;
@@ -158,11 +159,11 @@ package body word_package is
    function ltu (s, t : String) return Boolean is
    begin
       for i in 1 .. s'Length  loop   --  Not TRIMed, so same length
-         if equ (s (s'First+i-1), t (t'First+i-1))  then
+         if equ (s (s'First + i - 1), t (t'First + i - 1))  then
             null;
-         elsif gtu (s (s'First+i-1), t (t'First+i-1))  then
+         elsif gtu (s (s'First + i - 1), t (t'First + i - 1))  then
             return False;
-         elsif ltu (s (s'First+i-1), t (t'First+i-1))  then
+         elsif ltu (s (s'First + i - 1), t (t'First + i - 1))  then
             return True;
          end if;
       end loop;
@@ -172,11 +173,11 @@ package body word_package is
    function gtu (s, t : String) return Boolean is
    begin
       for i in 1 .. s'Length  loop   --  Not TRIMed, so same length
-         if equ (s (s'First+i-1), t (t'First+i-1))  then
+         if equ (s (s'First + i - 1), t (t'First + i - 1))  then
             null;
-         elsif ltu (s (s'First+i-1), t (t'First+i-1))  then
+         elsif ltu (s (s'First + i - 1), t (t'First + i - 1))  then
             return False;
-         elsif gtu (s (s'First+i-1), t (t'First+i-1))  then
+         elsif gtu (s (s'First + i - 1), t (t'First + i - 1))  then
             return True;
          end if;
       end loop;
@@ -190,7 +191,7 @@ package body word_package is
       end if;
 
       for i in 1 .. s'Length  loop
-         if not equ (s (s'First+i-1), t (t'First+i-1))  then
+         if not equ (s (s'First + i - 1), t (t'First + i - 1))  then
             return False;
          end if;
       end loop;
@@ -198,8 +199,11 @@ package body word_package is
       return True;
    end equ;
 
-   procedure run_uniques (s : in String; unique_found : out Boolean;
-                                         pa : in out Parse_Array; pa_last : in out Integer) is
+   procedure run_uniques
+     (s : in String;
+      unique_found : out Boolean;
+      pa : in out Parse_Array; pa_last : in out Integer)
+   is
       sl : constant String        --  BAD NAME!!!!!!!!!!!!!!!!!!
         := Lower_Case (Trim (s));
       st : constant Stem_Type := Head (sl, Max_Stem_Size);
@@ -235,7 +239,6 @@ package body word_package is
               unique,
               unql.MNPC);
 
-            --TEXT_IO.PUT_LINE ("UNIQUE    HIT     *********" & INTEGER'IMAGE (PA_LAST));
             unique_found := True;
          end if;
          unql := unql.succ;
@@ -243,8 +246,11 @@ package body word_package is
 
    end run_uniques;
 
-   procedure run_inflections (s : in String; sl : in out sal;
-                                             restriction : dict_restriction := regular) is
+   procedure run_inflections
+     (s : in String;
+      sl : in out sal;
+      restriction : dict_restriction := regular)
+   is
       --  Trys all possible inflections against the Input word in S
       --  and constructs a STEM_LIST of those that survive SL
       use lel_section_io;
@@ -269,17 +275,19 @@ package body word_package is
       --  Add all of these to list of possible ending records
       --  since the blank ending agrees with everything
       --  PACK/PRON have no blank endings
-      if ((restriction /= pack_only) and (restriction /= qu_pron_only))  and then
-        (word'Length <= Max_Stem_Size)
+      if ((restriction /= pack_only) and (restriction /= qu_pron_only))
+        and then (word'Length <= Max_Stem_Size)
       then
          for i in belf (0, ' ') .. bell (0, ' ')  loop
-            pr := (word & Null_Stem_Type (length_of_word+1 .. Stem_Type'Length),
+            pr := (word & Null_Stem_Type
+              (length_of_word + 1 .. Stem_Type'Length),
               bel (i), Default_Dictionary_Kind, Null_MNPC);
             sl (m) := pr;
             m := m + 1;
          end loop;
 
-         sa (length_of_word) := pr.Stem;  --  Is always a possibility (null ending)
+         --  Is always a possibility (null ending)
+         sa (length_of_word) := pr.Stem;
       end if;
 
       --  Here we read in the INFLECTIONS_SECTION that is applicable
@@ -304,7 +312,7 @@ package body word_package is
       --  Now do the non-blank endings      --  Only go to LENGTH_OF_WORD
       for z in reverse 1 .. min (max_ending_size, length_of_word)  loop
 
-         --  Check if Z agrees with a PDL SIZE  !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+         --  Check if Z agrees with a PDL SIZE  !!!!!!!!!!!!!!!!!!!!!!!!!!!!
          --  Maybe make PDL on size, if it has to be a list, or order by size if array
          if lell (z, last_of_word) > 0  then   --  Any likely inflections at all
 
@@ -315,8 +323,6 @@ package body word_package is
                   --  Add to list of possible ending records
                   --STEM_LENGTH := WORD'LENGTH - LEL (I).ENDING.SIZE;
                   stem_length := word'Length - z;
-                  --PUT (STEM_LENGTH);
-                  --TEXT_IO.PUT_LINE ("#######################################################");
 
                   if stem_length <= Max_Stem_Size  then  --  Reject too long words
                                                          --  Check if LEL IR agrees with PDL IR  !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
