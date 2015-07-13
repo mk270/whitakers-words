@@ -339,7 +339,7 @@ package body tricks_package is
            decl   => (2, 0),
            cs     => x,
            number => x,
-           gender => x,
+           gender => X,
            sort   => card) ),
 
            key => 0,
@@ -1596,7 +1596,7 @@ package body tricks_package is
            decl   => (2, 0),
            cs     => x,
            number => x,
-           gender => x,
+           gender => X,
            sort   => card) ),
 
            key => 0,

@@ -259,7 +259,7 @@ package Latin_Utils.Dictionary_Package is
       record
          -- NOTE: Seems like Decl is breaking of abbrev used
          Decl   : Decn_Record := (0, 0);
-         Gender : Gender_Type := x;
+         Gender : Gender_Type := X;
          Kind   : Noun_Kind_Type := x;
       end record;
 

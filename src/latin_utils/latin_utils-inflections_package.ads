@@ -116,11 +116,11 @@ package Latin_Utils.Inflections_Package is
    ---------------------------------------------------------------------------
 
    type Gender_Type is
-      ( x, --  all, none, or unknown
-        m, --  Masculine
-        f, --  Feminine
-        n, --  Neuter
-        c  --  Common (masculine and/or feminine)
+      ( X, --  all, none, or unknown
+        M, --  Masculine
+        F, --  Feminine
+        N, --  Neuter
+        C  --  Common (masculine and/or feminine)
        );
 
    package Gender_Type_IO is new Ada.Text_IO.Enumeration_IO (Gender_Type);
@@ -291,7 +291,7 @@ package Latin_Utils.Inflections_Package is
          decl        : Decn_Record;
          cs          : Case_Type := x;
          number      : Number_Type := x;
-         gender      : Gender_Type := x;
+         gender      : Gender_Type := X;
       end record;
 
    package noun_record_io is
@@ -309,7 +309,7 @@ package Latin_Utils.Inflections_Package is
          decl        : Decn_Record;
          cs          : Case_Type := x;
          number      : Number_Type := x;
-         gender      : Gender_Type := x;
+         gender      : Gender_Type := X;
       end record;
 
    package pronoun_record_io is
@@ -327,7 +327,7 @@ package Latin_Utils.Inflections_Package is
          decl        : Decn_Record;
          cs          : Case_Type := x;
          number      : Number_Type := x;
-         gender      : Gender_Type := x;
+         gender      : Gender_Type := X;
       end record;
 
    package propack_record_io is
@@ -345,7 +345,7 @@ package Latin_Utils.Inflections_Package is
          decl        : Decn_Record;
          cs          : Case_Type := x;
          number      : Number_Type := x;
-         gender      : Gender_Type := x;
+         gender      : Gender_Type := X;
          co          : Comparison_Type := x;
       end record;
 
@@ -364,7 +364,7 @@ package Latin_Utils.Inflections_Package is
          decl        : Decn_Record;
          cs          : Case_Type := x;
          number      : Number_Type := x;
-         gender      : Gender_Type := x;
+         gender      : Gender_Type := X;
          sort        : Numeral_Sort_Type := x;
       end record;
 
@@ -416,7 +416,7 @@ package Latin_Utils.Inflections_Package is
          con         : Decn_Record;
          cs          : Case_Type := x;
          number      : Number_Type := x;
-         gender      : Gender_Type := x;
+         gender      : Gender_Type := X;
          tense_voice_mood  : tense_voice_mood_record;
       end record;
 
@@ -435,7 +435,7 @@ package Latin_Utils.Inflections_Package is
          con         : Decn_Record;
          cs          : Case_Type := x;
          number      : Number_Type := x;
-         gender      : Gender_Type := x;
+         gender      : Gender_Type := X;
       end record;
 
    package supine_record_io is

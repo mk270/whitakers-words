@@ -741,8 +741,8 @@ is
                ppl_on : Boolean := False;
 
                sum_info : verb_record := ((5, 1), (x, active, x), 0, x);
-               ppl_info : vpar_record := ((0, 0), x, x, x, (x, x, x));
-               supine_info : supine_record := ((0, 0), x, x, x);
+               ppl_info : vpar_record := ((0, 0), x, x, X, (x, x, x));
+               supine_info : supine_record := ((0, 0), x, x, X);
 
                procedure look_ahead is
                   j3 : Integer := 0;

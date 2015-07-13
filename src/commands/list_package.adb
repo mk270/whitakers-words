@@ -531,10 +531,10 @@ package body list_package is
          --TEXT_IO.PUT_LINE("In the ADJ -> ADV kludge  There is no ADV");
          for i in reverse pa'First .. pa_last  loop
             if pa(i).IR.qual.pofs = Adj and then
-              (pa(i).IR.qual.Adj = ((1, 1), voc, s, m, pos)    or
+              (pa(i).IR.qual.Adj = ((1, 1), voc, s, M, pos)    or
                  ((pa(i).IR.qual.Adj.cs = voc)   and
                     (pa(i).IR.qual.Adj.number = s)   and
-                    (pa(i).IR.qual.Adj.gender = m)   and
+                    (pa(i).IR.qual.Adj.gender = M)   and
                     (pa(i).IR.qual.Adj.co = super)))
             then
                j := i;
@@ -861,7 +861,7 @@ package body list_package is
                                 "Assume this is capitalized proper name/abbr, under MODE IGNORE_UNKNOWN_NAME ",
                                 Max_Meaning_Size);
             pa(1) := (Head(raw_word, Max_Stem_Size),
-                      ((N, ((0, 0), x, x, x)), 0, null_ending_record, x, x),
+                      ((N, ((0, 0), x, x, X)), 0, null_ending_record, x, x),
                       nnn, Null_MNPC);
             pa_last := 1;    --  So LIST_NEIGHBORHOOD will not be called
             sraa := null_sraa;
@@ -873,7 +873,7 @@ package body list_package is
                                 "Assume this is capitalized proper name/abbr, under MODE IGNORE_UNKNOWN_CAPS ",
                                 Max_Meaning_Size);
             pa(1) := (Head(raw_word, Max_Stem_Size),
-                      ((N, ((0, 0), x, x, x)), 0, null_ending_record, x, x),
+                      ((N, ((0, 0), x, x, X)), 0, null_ending_record, x, x),
                       nnn, Null_MNPC);
             pa_last := 1;
             sraa := null_sraa;

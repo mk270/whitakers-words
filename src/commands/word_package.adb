@@ -773,8 +773,8 @@ package body word_package is
          function "<=" (left, right : Gender_Type)   return Boolean is
          begin
             if right = left               or else
-               (right = c and left /= n)  or else
-               right = x
+               (right = C and left /= N)  or else
+               right = X
             then
                return True;
             else

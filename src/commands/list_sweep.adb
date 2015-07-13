@@ -87,7 +87,7 @@ procedure list_sweep(pa : in out Parse_Array; pa_last : in out Integer) is
             if  words_mdev(for_word_list_check)  then
                if (nom <= pr.IR.qual.Adj.cs) and then
                  (s <= pr.IR.qual.Adj.number) and then
-                 (m <= pr.IR.qual.Adj.gender)
+                 (M <= pr.IR.qual.Adj.gender)
                then
                   allowed := True;
                else
@@ -489,7 +489,7 @@ procedure list_sweep(pa : in out Parse_Array; pa_last : in out Integer) is
               (all_caps and followed_by_period)
             then
                if (sl(i).IR.qual.pofs /= N) or
-                 (   (sl(i).IR.qual /= (N,  ((9, 8), x, x, m)))  and
+                 (   (sl(i).IR.qual /= (N,  ((9, 8), x, x, M)))  and
                  ( Trim (sl(i).Stem)'Length = 1  and then
                  (sl(i).Stem(1) = 'A'  or
                  sl(i).Stem(1) = 'C'  or

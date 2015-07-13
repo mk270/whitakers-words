@@ -264,8 +264,8 @@ package body Latin_Utils.Inflections_Package is
    overriding function "<=" (left, right : Gender_Type) return Boolean is
    begin
       if right = left  or else
-        right = x     or else
-        (right = c  and then (left = m or left = f))
+        right = X     or else
+        (right = C  and then (left = M or left = F))
       then
          return True;
       else

@@ -96,7 +96,7 @@ begin
             ox(1) := add(de.Stems(1), "");
             ox(2) := add(de.Stems(2), "i");
          elsif de.Part.N.Decl.Var = 4  then
-            if de.Part.N.Gender = n  then
+            if de.Part.N.Gender = N  then
                ox(1) := add(de.Stems(1), "um");
             else
                ox(1) := add(de.Stems(1), "us");
