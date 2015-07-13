@@ -16,9 +16,9 @@
 
 with Ada.Text_IO;
 with developer_parameters; use developer_parameters;
-procedure Put_stat(s : String) is
+procedure Put_stat (s : String) is
 begin
-   if Ada.Text_IO.Is_Open(stats) then
-      Ada.Text_IO.Put_Line(stats, s);
+   if Ada.Text_IO.Is_Open (stats) then
+      Ada.Text_IO.Put_Line (stats, s);
    end if;
 end Put_stat;
