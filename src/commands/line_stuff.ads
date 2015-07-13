@@ -50,12 +50,12 @@ package line_stuff is
 
    package tackon_line_io is
       Default_Width : Natural;
-      procedure Get(f : in File_Type; p : out tackon_line);
-      procedure Get(p : out tackon_line);
-      procedure Put(f : in File_Type; p : in tackon_line);
-      procedure Put(p : in tackon_line);
-      procedure Get(s : in String; p : out tackon_line; last : out Integer);
-      procedure Put(s : out String; p : in tackon_line);
+      procedure Get (f : in File_Type; p : out tackon_line);
+      procedure Get (p : out tackon_line);
+      procedure Put (f : in File_Type; p : in tackon_line);
+      procedure Put (p : in tackon_line);
+      procedure Get (s : in String; p : out tackon_line; last : out Integer);
+      procedure Put (s : out String; p : in tackon_line);
    end tackon_line_io;
 
    type prefix_line is
@@ -71,12 +71,12 @@ package line_stuff is
 
    package prefix_line_io is
       Default_Width : Natural;
-      procedure Get(f : in File_Type; p : out prefix_line);
-      procedure Get(p : out prefix_line);
-      procedure Put(f : in File_Type; p : in prefix_line);
-      procedure Put(p : in prefix_line);
-      procedure Get(s : in String; p : out prefix_line; last : out Integer);
-      procedure Put(s : out String; p : in prefix_line);
+      procedure Get (f : in File_Type; p : out prefix_line);
+      procedure Get (p : out prefix_line);
+      procedure Put (f : in File_Type; p : in prefix_line);
+      procedure Put (p : in prefix_line);
+      procedure Get (s : in String; p : out prefix_line; last : out Integer);
+      procedure Put (s : out String; p : in prefix_line);
    end prefix_line_io;
 
    type suffix_line is
@@ -92,12 +92,12 @@ package line_stuff is
 
    package suffix_line_io is
       Default_Width : Natural;
-      procedure Get(f : in File_Type; p : out suffix_line);
-      procedure Get(p : out suffix_line);
-      procedure Put(f : in File_Type; p : in suffix_line);
-      procedure Put(p : in suffix_line);
-      procedure Get(s : in String; p : out suffix_line; last : out Integer);
-      procedure Put(s : out String; p : in suffix_line);
+      procedure Get (f : in File_Type; p : out suffix_line);
+      procedure Get (p : out suffix_line);
+      procedure Put (f : in File_Type; p : in suffix_line);
+      procedure Put (p : in suffix_line);
+      procedure Get (s : in String; p : out suffix_line; last : out Integer);
+      procedure Put (s : out String; p : in suffix_line);
    end suffix_line_io;
 
    type unique_entry is
@@ -110,19 +110,19 @@ package line_stuff is
 
    package unique_entry_io is
       Default_Width : Field;
-      procedure Get(f : in File_Type; p : out unique_entry);
-      procedure Get(p : out unique_entry);
-      procedure Put(f : in File_Type; p : in unique_entry);
-      procedure Put(p : in unique_entry);
-      procedure Get(s : in String; p : out unique_entry; last : out Integer);
-      procedure Put(s : out String; p : in unique_entry);
+      procedure Get (f : in File_Type; p : out unique_entry);
+      procedure Get (p : out unique_entry);
+      procedure Put (f : in File_Type; p : in unique_entry);
+      procedure Put (p : in unique_entry);
+      procedure Get (s : in String; p : out unique_entry; last : out Integer);
+      procedure Put (s : out String; p : in unique_entry);
    end unique_entry_io;
 
-   procedure load_stem_file(d_k : Dictionary_Kind);
+   procedure load_stem_file (d_k : Dictionary_Kind);
 
-   procedure load_dictionary(dict : in out dictionary;
-                             dictionary_file_name : String);
+   procedure load_dictionary (dict : in out dictionary;
+                              dictionary_file_name : String);
 
-   procedure load_uniques(unq : in out latin_uniques; file_name : in String);
+   procedure load_uniques (unq : in out latin_uniques; file_name : in String);
 
 end line_stuff;
