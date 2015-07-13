@@ -335,14 +335,14 @@ package body list_package is
 
                      if (sr.ir.qual.pofs = V)    and then
                        (dm.de.Part.V.Kind = dep)       and then
-                       (sr.ir.qual.V.tense_voice_mood.mood in Ind .. Inf)
+                       (sr.ir.qual.V.tense_voice_mood.Mood in Ind .. Inf)
                      then
                         --TEXT_IO.PUT_LINE ("START PRINT MODIFIED QUAL   V");
                         out_String (passive_start + 1 .. passive_finish) :=
                           passive_blank;
                      elsif (sr.ir.qual.pofs = Vpar)    and then
                        (dm.de.Part.V.Kind = dep)    and then
-                       (sr.ir.qual.Vpar.tense_voice_mood.mood = Ppl)
+                       (sr.ir.qual.Vpar.tense_voice_mood.Mood = Ppl)
                      then
                         --TEXT_IO.PUT_LINE ("START PRINT MODIFIED QUAL   VPAR");
                         out_String (ppl_start + 1 .. ppl_finish) :=

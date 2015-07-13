@@ -130,36 +130,36 @@ package body Latin_Utils.Inflections_Package is
                  left.V.con.Var = right.V.con.Var  and then
                  left.V.number < right.V.number) or else
                  (left.V.con.Which = right.V.con.Which  and then
-                 left.V.con.Var = right.V.con.Var  and then
-                 left.V.number = right.V.number and then
-                 left.V.tense_voice_mood.tense <
-                 right.V.tense_voice_mood.tense) or else
+                    left.V.con.Var = right.V.con.Var  and then
+                    left.V.number = right.V.number and then
+                    left.V.tense_voice_mood.Tense <
+                    right.V.tense_voice_mood.Tense) or else
                  (left.V.con.Which = right.V.con.Which  and then
-                 left.V.con.Var = right.V.con.Var  and then
-                 left.V.number = right.V.number and then
-                 left.V.tense_voice_mood.tense =
-                 right.V.tense_voice_mood.tense and then
-                 left.V.tense_voice_mood.voice <
-                 right.V.tense_voice_mood.voice) or else
+                    left.V.con.Var = right.V.con.Var  and then
+                    left.V.number = right.V.number and then
+                    left.V.tense_voice_mood.Tense =
+                    right.V.tense_voice_mood.Tense and then
+                    left.V.tense_voice_mood.Voice <
+                    right.V.tense_voice_mood.Voice) or else
                  (left.V.con.Which = right.V.con.Which  and then
-                 left.V.con.Var = right.V.con.Var  and then
-                 left.V.number = right.V.number and then
-                 left.V.tense_voice_mood.tense =
-                 right.V.tense_voice_mood.tense and then
-                 left.V.tense_voice_mood.voice =
-                 right.V.tense_voice_mood.voice and then
-                 left.V.tense_voice_mood.mood   <
-                 right.V.tense_voice_mood.mood)  or else
-                 (left.V.con.Which = right.V.con.Which  and then
-                 left.V.con.Var = right.V.con.Var  and then
-                 left.V.number = right.V.number and then
-                 left.V.tense_voice_mood.tense =
-                 right.V.tense_voice_mood.tense and then
-                 left.V.tense_voice_mood.voice =
-                 right.V.tense_voice_mood.voice and then
-                 left.V.tense_voice_mood.mood   =
-                 right.V.tense_voice_mood.mood   and then
-                 left.V.person < right.V.person)
+                    left.V.con.Var = right.V.con.Var  and then
+                    left.V.number = right.V.number and then
+                    left.V.tense_voice_mood.Tense =
+                    right.V.tense_voice_mood.Tense and then
+                    left.V.tense_voice_mood.Voice =
+                    right.V.tense_voice_mood.Voice and then
+                    left.V.tense_voice_mood.Mood <
+                    right.V.tense_voice_mood.Mood)  or else
+                 (left.V.con.Which = right.V.con.Which and then
+                    left.V.con.Var = right.V.con.Var and then
+                    left.V.number = right.V.number and then
+                    left.V.tense_voice_mood.Tense =
+                    right.V.tense_voice_mood.Tense and then
+                    left.V.tense_voice_mood.Voice =
+                    right.V.tense_voice_mood.Voice and then
+                    left.V.tense_voice_mood.Mood  =
+                    right.V.tense_voice_mood.Mood  and then
+                    left.V.person < right.V.person)
                then
                   return True;
                end if;
@@ -328,11 +328,11 @@ package body Latin_Utils.Inflections_Package is
       end if;
    end "<=";
 
-   function "<=" (left, right : tense_voice_mood_record)  return Boolean is
+   function "<=" (left, right : Tense_Voice_Mood_Record)  return Boolean is
    begin
-      if (right.tense = left.tense or else right.tense = X) and then
-        (right.voice = left.voice or else right.voice = X) and then
-        (right.mood = left.mood or else right.mood = X)
+      if (right.Tense = left.Tense or else right.Tense = X) and then
+         (right.Voice = left.Voice or else right.Voice = X) and then
+         (right.Mood = left.Mood or else right.Mood = X)
       then
          return True;
       else
@@ -391,77 +391,7 @@ package body Latin_Utils.Inflections_Package is
 
    package body Decn_Record_IO is separate;
 
-   package body tense_voice_mood_record_io is
-      use Tense_Type_IO;
-      use Voice_Type_IO;
-      use Mood_Type_IO;
-      spacer : Character := ' ';
-
-      procedure Get (f : in File_Type; t : out tense_voice_mood_record) is
-      begin
-         Get (f, t.tense);
-         Get (f, spacer);
-         Get (f, t.voice);
-         Get (f, spacer);
-         Get (f, t.mood);
-      end Get;
-
-      procedure Get (t : out tense_voice_mood_record) is
-      begin
-         Get (t.tense);
-         Get (spacer);
-         Get (t.voice);
-         Get (spacer);
-         Get (t.mood);
-      end Get;
-
-      procedure Put (f : in File_Type; t : in tense_voice_mood_record) is
-      begin
-         Put (f, t.tense);
-         Put (f, ' ');
-         Put (f, t.voice);
-         Put (f, ' ');
-         Put (f, t.mood);
-      end Put;
-
-      procedure Put (t : in tense_voice_mood_record) is
-      begin
-         Put (t.tense);
-         Put (' ');
-         Put (t.voice);
-         Put (' ');
-         Put (t.mood);
-      end Put;
-
-      procedure Get (s : in String;
-                     t : out tense_voice_mood_record; last : out Integer) is
-         l : Integer := s'First - 1;
-      begin
-         Get (s (l + 1 .. s'Last), t.tense, l);
-         l := l + 1;
-         Get (s (l + 1 .. s'Last), t.voice, l);
-         l := l + 1;
-         Get (s (l + 1 .. s'Last), t.mood, last);
-      end Get;
-
-      procedure Put (s : out String; t : in tense_voice_mood_record) is
-         l : Integer := s'First - 1;
-         m : Integer := 0;
-      begin
-         m := l + Tense_Type_IO.Default_Width;
-         Put (s (l + 1 .. m), t.tense);
-         l := m + 1;
-         s (l) :=  ' ';
-         m := l + Voice_Type_IO.Default_Width;
-         Put (s (l + 1 .. m), t.voice);
-         l := m + 1;
-         s (l) :=  ' ';
-         m := l + Mood_Type_IO.Default_Width;
-         Put (s (l + 1 .. m), t.mood);
-         s (m + 1 .. s'Last) := (others => ' ');
-      end Put;
-
-   end tense_voice_mood_record_io;
+   package body Tense_Voice_Mood_Record_IO is separate;
 
    package body noun_record_io is
       use Decn_Record_IO;
@@ -984,7 +914,7 @@ package body Latin_Utils.Inflections_Package is
 
    package body verb_record_io is
       use Decn_Record_IO;
-      use tense_voice_mood_record_io;
+      use Tense_Voice_Mood_Record_IO;
       use Person_Type_IO;
       use Number_Type_IO;
       spacer : Character := ' ';
@@ -1053,7 +983,7 @@ package body Latin_Utils.Inflections_Package is
          Put (s (l + 1 .. m), v.con);
          l := m + 1;
          s (l) :=  ' ';
-         m := l + tense_voice_mood_record_io.Default_Width;
+         m := l + Tense_Voice_Mood_Record_IO.Default_Width;
          Put (s (l + 1 .. m), v.tense_voice_mood);
          l := m + 1;
          s (l) :=  ' ';
@@ -1073,7 +1003,7 @@ package body Latin_Utils.Inflections_Package is
       use Case_Type_IO;
       use Number_Type_IO;
       use Gender_Type_IO;
-      use tense_voice_mood_record_io;
+      use Tense_Voice_Mood_Record_IO;
       spacer : Character := ' ';
 
       procedure Get (f : in File_Type; vp : out vpar_record) is
@@ -1162,7 +1092,7 @@ package body Latin_Utils.Inflections_Package is
          Put (s (l + 1 .. m), vp.gender);
          l := m + 1;
          s (l) :=  ' ';
-         m := l + tense_voice_mood_record_io.Default_Width;
+         m := l + Tense_Voice_Mood_Record_IO.Default_Width;
          Put (s (l + 1 .. m), vp.tense_voice_mood);
          s (m + 1 .. s'Last) := (others => ' ');
       end Put;
@@ -2168,7 +2098,6 @@ package body Latin_Utils.Inflections_Package is
                n := lel (i).ending.size;
 
                ch := lel (i).ending.suf (n);
-               --
 
                if ch /= xch  then
                   lell (xn, xch) := i - 1;
@@ -2429,7 +2358,7 @@ begin
    Decn_Record_IO.Default_Width :=
      1 + 1 +   --WHICH_TYPE_IO_DEFAULT_WIDTH + 1 +
      1;        --VARIANT_TYPE_IO_DEFAULT_WIDTH;
-   tense_voice_mood_record_io.Default_Width :=
+   Tense_Voice_Mood_Record_IO.Default_Width :=
      Tense_Type_IO.Default_Width + 1 +
      Voice_Type_IO.Default_Width + 1 +
      Mood_Type_IO.Default_Width;
@@ -2458,7 +2387,7 @@ begin
      Comparison_Type_IO.Default_Width;
    verb_record_io.Default_Width :=
      Decn_Record_IO.Default_Width + 1 +
-     tense_voice_mood_record_io.Default_Width + 1 +
+     Tense_Voice_Mood_Record_IO.Default_Width + 1 +
      Person_Type_IO.Default_Width + 1 +
      Number_Type_IO.Default_Width;
    vpar_record_io.Default_Width :=
@@ -2466,7 +2395,7 @@ begin
      Case_Type_IO.Default_Width + 1 +
      Number_Type_IO.Default_Width + 1 +
      Gender_Type_IO.Default_Width + 1 +
-     tense_voice_mood_record_io.Default_Width;
+     Tense_Voice_Mood_Record_IO.Default_Width;
    supine_record_io.Default_Width :=
      Decn_Record_IO.Default_Width + 1 +
      Case_Type_IO.Default_Width + 1 +

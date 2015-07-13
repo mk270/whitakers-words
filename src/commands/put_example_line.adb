@@ -36,9 +36,9 @@ is
    is
       person : constant Person_Type      := ir.qual.V.person;
       number : constant Number_Type      := ir.qual.V.number;
-      tense  : constant Tense_Type       := ir.qual.V.tense_voice_mood.tense;
-      mood   : constant Mood_Type        := ir.qual.V.tense_voice_mood.mood;
-      voice  : Voice_Type                := ir.qual.V.tense_voice_mood.voice;
+      tense  : constant Tense_Type       := ir.qual.V.tense_voice_mood.Tense;
+      mood   : constant Mood_Type        := ir.qual.V.tense_voice_mood.Mood;
+      voice  : Voice_Type                := ir.qual.V.tense_voice_mood.Voice;
       kind   : constant Verb_Kind_Type   := vk;
       --  Nothing on  (part), gerund,
 
@@ -346,7 +346,7 @@ begin    --  PUT_EXAMPLE_LINE
          when Vpar =>
             --    TEXT_IO.NEW_LINE (OUTPUT);
             --  Verb info too much for same line
-            case ir.qual.Vpar.tense_voice_mood.tense is
+            case ir.qual.Vpar.tense_voice_mood.Tense is
                when Perf  =>
                   Ada.Text_IO.Put (Output,
                     "~ed  PERF PASSIVE PPL often used as ADJ"
@@ -358,7 +358,7 @@ begin    --  PUT_EXAMPLE_LINE
                     & " or N (lov.ing, curl.y)");
                   Ada.Text_IO.New_Line (Output);
                when Fut   =>
-                  if ir.qual.Vpar.tense_voice_mood.voice = Active  then
+                  if ir.qual.Vpar.tense_voice_mood.Voice = Active  then
                      Ada.Text_IO.Put (Output,
                        "about/going/intending/destined to ~"
                        & "  FUT ACTIVE PPL often used as ADJ or N ");
