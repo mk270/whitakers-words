@@ -963,9 +963,11 @@ package body word_package is
                        pdl_part.Pron.Decl <= sl (i).IR.qual.Pron.decl
                      then
                         --PUT (" HIT  PRON  ");
-                        --  Need to transfer the kind of the pronoun dictionary item
+                        --  Need to transfer the kind of the pronoun
+                        --  dictionary item
                         m := m + 1;
-                        sxx (m) := (Stem => subtract_prefix (sl (i).Stem, prefix),
+                        sxx (m) :=
+                          (Stem => subtract_prefix (sl (i).Stem, prefix),
                           IR => (
                           qual => (
                           pofs => Pron,
@@ -981,8 +983,8 @@ package body word_package is
                           D_K => pdl (j).d_k,
                           MNPC => MNPC_part);
 
-                     elsif (pdl_part.pofs = Adj)                          and then
-                       (pdl_part.Adj.Decl <= sl(i).IR.qual.Adj.decl)     and then
+                     elsif (pdl_part.pofs = Adj) and then
+                       (pdl_part.Adj.Decl <= sl(i).IR.qual.Adj.decl) and then
                        ((sl(i).IR.qual.Adj.co   <= pdl_part.Adj.Co  ) or
                           ((sl(i).IR.qual.Adj.co = X) or (pdl_part.Adj.Co = X)))
                      then
@@ -998,7 +1000,8 @@ package body word_package is
                            com := adj_comp_from_key (pdl_key);
                         end if;
                         m := m + 1;
-                        sxx (m) := (Stem => subtract_prefix (sl (i).Stem, prefix),
+                        sxx (m) :=
+                          (Stem => subtract_prefix (sl (i).Stem, prefix),
                           IR => (
                           qual => (
                           pofs => Adj,
@@ -1015,8 +1018,8 @@ package body word_package is
                           D_K => pdl (j).d_k,
                           MNPC => MNPC_part);
 
-                     elsif (pdl_part.pofs = Num)                          and then
-                       (pdl_part.Num.Decl <= sl (i).IR.qual.Num.decl)     and then
+                     elsif (pdl_part.pofs = Num) and then
+                       (pdl_part.Num.Decl <= sl (i).IR.qual.Num.decl) and then
                        (pdl_key         = sl (i).IR.key)
                      then
                         --PUT(" HIT  NUM    ");
@@ -1024,7 +1027,8 @@ package body word_package is
                            --  If the entry is X, generate a CO from KEY
                            num_sort:= num_sort_from_key (pdl_key);
                         else
-                           --  Otherwise, the dictionary entry has a unique CO, use it
+                           --  Otherwise, the dictionary entry has a
+                           --  unique CO, use it
                            num_sort := pdl_part.Num.Sort;
                         end if;
                         m := m + 1;
@@ -1056,11 +1060,13 @@ package body word_package is
                            --  If the dictionary entry has a unique CO, use it
                            com := pdl_part.Adv.Co;
                         else
-                           --  The entry is X and we need to generate a COMP from the KEY
+                           --  The entry is X and we need to generate
+                           --  a COMP from the KEY
                            com := adv_comp_from_key (pdl_key);
                         end if;
                         m := m + 1;
-                        sxx (m) := (Stem => subtract_prefix (sl (i).Stem, prefix),
+                        sxx (m) :=
+                          (Stem => subtract_prefix (sl (i).Stem, prefix),
                           IR => (
                           qual => (
                           pofs => Adv,
@@ -1080,7 +1086,8 @@ package body word_package is
                         then
                            --TEXT_IO.PUT (" HIT  V     ");
                            m := m + 1;
-                           sxx (m) := (Stem => subtract_prefix (sl (i).Stem, prefix),
+                           sxx (m) :=
+                             (Stem => subtract_prefix (sl (i).Stem, prefix),
                              IR => (
                              qual => (
                              pofs => V,
@@ -1101,7 +1108,8 @@ package body word_package is
                         then
                            --PUT (" HIT  VPAR  ");
                            m := m + 1;
-                           sxx (m) := (Stem => subtract_prefix (sl (i).Stem, prefix),
+                           sxx (m) :=
+                             (Stem => subtract_prefix (sl (i).Stem, prefix),
                              IR => (
                              qual => (
                              pofs => Vpar,
@@ -1123,7 +1131,8 @@ package body word_package is
                         then
                            --PUT (" HIT  SUPINE");
                            m := m + 1;
-                           sxx (m) := (Stem => subtract_prefix (sl (i).Stem, prefix),
+                           sxx (m) :=
+                             (Stem => subtract_prefix (sl (i).Stem, prefix),
                              IR => (
                              qual => (
                              pofs => Supine,
@@ -1145,25 +1154,25 @@ package body word_package is
                      then
                         --PUT (" HIT  PREP  ");
                         m := m + 1;
-                        sxx (m) := (subtract_prefix (sl (i).Stem, prefix), sl (i).IR,
+                        sxx (m) :=
+                          (subtract_prefix (sl (i).Stem, prefix), sl (i).IR,
                           pdl (j).d_k, MNPC_part);
 
                      elsif pdl_part.pofs = Conj then
                         --PUT (" HIT  CONJ  ");
                         m := m + 1;
-                        sxx (m) := (subtract_prefix (sl (i).Stem, prefix), sl (i).IR,
+                        sxx (m) :=
+                          (subtract_prefix (sl (i).Stem, prefix), sl (i).IR,
                           pdl (j).d_k, MNPC_part);
 
                      elsif pdl_part.pofs = Interj then
                         --PUT (" HIT  INTERJ ");
                         m := m + 1;
-                        sxx (m) := (subtract_prefix (sl (i).Stem, prefix), sl (i).IR,
+                        sxx (m) :=
+                          (subtract_prefix (sl (i).Stem, prefix), sl (i).IR,
                           pdl (j).d_k, MNPC_part);
 
                      end if;
-
-                     --TEXT_IO.NEW_LINE; PUT (SL (I).IR.QUAL); TEXT_IO.PUT ("  --  ");
-                     --TEXT_IO.PUT (PDL (J).DS.STEM); PUT (PDL_PART); TEXT_IO.NEW_LINE;
 
                   end if;
                end if;
@@ -1173,9 +1182,14 @@ package body word_package is
          end loop on_pdl;
       end reduce_stem_list;
 
-      procedure apply_prefix (sa : in stem_array_type; suffix : in suffix_item;
-                                                       sx : in sal; sxx : in out sal;
-                                                                    pa : in out Parse_Array; pa_last : in out Integer) is
+      procedure apply_prefix
+        (sa : in stem_array_type;
+         suffix : in suffix_item;
+         sx : in sal;
+         sxx : in out sal;
+         pa : in out Parse_Array;
+         pa_last : in out Integer)
+      is
          --  Worry about the stem changing re-cipio from capio
          --  Correspondence of parts, need EFF for VPAR
          --  The prefixes should be ordered with the longest/most likely first
@@ -1467,16 +1481,21 @@ package body word_package is
                         --  Over all inflection hits
                         --  if this stem is possible
                         --  call up the meaning to check for "(w/-"
-                        Dict_IO.Set_Index (Dict_File (pdl (j).d_k), pdl (j).ds.MNPC);
+                        Dict_IO.Set_Index (Dict_File (pdl (j).d_k),
+                          pdl (j).ds.MNPC);
                         Dict_IO.Read (Dict_File (pdl (j).d_k), de);
                         mean := de.Mean;
 
                         -- there is no way this condition can be True;
                         -- packon_length - 1 /= packon_length
-                        if Trim (mean)(1 .. 4) = "(w/-" and then  --  Does attached PACKON agree
-                          Trim (mean)(5 .. 4+packon_length) = Trim (packons (k).tack)
+
+                        --  Does attached PACKON agree
+                        if Trim (mean)(1 .. 4) = "(w/-" and then
+                          Trim (mean)(5 .. 4 + packon_length) =
+                          Trim (packons (k).tack)
                         then
-                           if pdl (j).ds.part.Pack.Decl = sl (m).IR.qual.Pron.decl then  --  or
+                           if pdl (j).ds.part.Pack.Decl =
+                             sl (m).IR.qual.Pron.decl then  --  or
                               if packon_first_hit then
                                  pa_last := pa_last + 1;
                                  pa (pa_last) := (packons (k).tack,
@@ -1519,8 +1538,10 @@ package body word_package is
          end loop over_packons;
       end process_packons;
 
-      procedure process_qu_pronouns (Input_word : String; qkey : Stem_Key_Type := 0) is
-
+      procedure process_qu_pronouns
+        (Input_word : String;
+         qkey : Stem_Key_Type := 0)
+      is
          word : constant String := Lower_Case (Trim (Input_word));
          last_of_word : constant Character := word (word'Last);
          length_of_word   : constant Integer := word'Length;
@@ -1539,11 +1560,11 @@ package body word_package is
          m := 0;
 
      on_inflects:
-         for z in reverse 1 .. min (4, length_of_word)  loop     --  optimized for qu-pronouns
-                                                               --PUT ("ON_INFLECTS  "); PUT (Z); PUT ("  "); PUT (LAST_OF_WORD); NEW_LINE;
-            if pell (z, last_of_word) > 0  then   --  Any possible inflections at all
+         for z in reverse 1 .. min (4, length_of_word)  loop
+            --  optimized for qu-pronouns
+            if pell (z, last_of_word) > 0  then
+               --  Any possible inflections at all
                for i in pelf (z, last_of_word) .. pell (z, last_of_word) loop
-                  --PUT (LEL (I)); PUT (WORD'LAST); PUT (WORD'LAST-Z+1); NEW_LINE;
                   if (z <= length_of_word)  and then
                     lel (i).key = qkey  and then
                     equ (lel (i).ending.suf (1 .. z),
@@ -1552,11 +1573,13 @@ package body word_package is
                      --  Have found an ending that is a possible match
                      --  Add to list of possible ending records
                      stem_length := word'Length - z;
-                     pr := (Head (word (word'First .. stem_length), Max_Stem_Size),
+                     pr := (Head (word (word'First .. stem_length),
+                       Max_Stem_Size),
                        lel (i), Default_Dictionary_Kind, Null_MNPC);
                      m := m + 1;
                      sl (m) := pr;
-                     ssa (1) := Head (word (word'First.. word'First+stem_length-1),
+                     ssa (1) :=
+                       Head (word (word'First .. word'First + stem_length-1),
                        Max_Stem_Size);
                      --  may Get set several times
                   end if;
@@ -1571,11 +1594,13 @@ package body word_package is
          --  Now have a PDL, scan for agreement
 
      pdl_loop:
-         for j in 1 .. pdl_index  loop  --  Go through all dictionary hits to see
+         for j in 1 .. pdl_index  loop
+            --  Go through all dictionary hits to see
             m := 1;
 
         sl_loop:
-            while sl (m) /= Null_Parse_Record  loop  --  Over all inflection hits
+            while sl (m) /= Null_Parse_Record  loop
+               --  Over all inflection hits
                if pdl (j).ds.part.Pron.Decl = sl (m).IR.qual.Pron.decl then
                   pa_last := pa_last + 1;
                   pa (pa_last) := (Stem => sl (m).Stem,
@@ -1608,7 +1633,8 @@ package body word_package is
          j : Integer := 0;
          de : Dictionary_Entry := Null_Dictionary_Entry;
          entering_pa_last : constant Integer := pa_last;
-         start_of_loop : constant Integer := 5;    --  4 enclitics     --  Hard number  !!!!!!!!!!!!!!!
+         start_of_loop : constant Integer := 5;
+         --  4 enclitics     --  Hard number  !!!!!!!!!!!!!!!
          end_of_loop : constant Integer := number_of_tackons;
       begin
      loop_over_tackons:
@@ -1623,7 +1649,8 @@ package body word_package is
                if less  /= Input_word  then       --  LESS is less
                   word (less, pa, pa_last);
 
-                  if pa_last > entering_pa_last  then      --  we have a possible word
+                  if pa_last > entering_pa_last  then
+                     --  we have a possible word
                      if tackons (i).entr.base.pofs = X  then
                         tackon_hit := True;
                         tackon_on  := False;
@@ -1633,18 +1660,26 @@ package body word_package is
                         while j >= entering_pa_last+1  loop
                            --  Sweep backwards over PA
                            --  Sweeping up inapplicable fixes,
-                           --  although we only have TACKONs for X or PRON or ADJ - so far
+                           --  although we only have TACKONs for X
+                           --    or PRON or ADJ - so far
                            --  and there are no fixes for PRON - so far
 
-                           if pa (j).IR.qual.pofs = Prefix and then tackon_on then
+                           if pa (j).IR.qual.pofs = Prefix
+                             and then tackon_on
+                           then
                               null;          --  check PART
                               tackon_on  := False;
-                           elsif pa (j).IR.qual.pofs = Suffix and then tackon_on then
+                           elsif pa (j).IR.qual.pofs = Suffix
+                             and then tackon_on
+                           then
                               --  check PART
                               null;
                               tackon_on  := False;
-                           elsif pa (j).IR.qual.pofs = tackons (i).entr.base.pofs  then
-                              Dict_IO.Set_Index (Dict_File (pa (j).D_K), pa (j).MNPC);
+                           elsif pa (j).IR.qual.pofs =
+                             tackons (i).entr.base.pofs
+                           then
+                              Dict_IO.Set_Index
+                                (Dict_File (pa (j).D_K), pa (j).MNPC);
                               Dict_IO.Read (Dict_File (pa (j).D_K), de);
 
                               --  check PART
@@ -1657,25 +1692,29 @@ package body word_package is
                                        tackon_hit := True;
                                        tackon_on  := True;
                                     end if;
-                                 when Pron    =>              --  Only one we have other than X
+                                 when Pron    =>
+                                    --  Only one we have other than X
                                     if pa (j).IR.qual.Pron.decl <=
-                                      tackons (i).entr.base.pron.Decl  --and then
+                                      tackons (i).entr.base.pron.Decl
+                                      --and then
                                     then
                                        tackon_hit := True;
                                        tackon_on  := True;
                                     else
-                                       pa (j .. pa_last-1) := pa (j+1 .. pa_last);
+                                       pa (j .. pa_last-1) :=
+                                         pa (j+1 .. pa_last);
                                        pa_last := pa_last - 1;
 
                                     end if;
                                  when Adj     =>
                                     --  Forego all checks, even on DECL of ADJ
                                     --  -cumque is the only one I have now
-                                    --  if  . .. .. .. 
+                                    --  if  . .. .. ..
                                     tackon_hit := True;
                                     tackon_on  := True;
                                     --  else
-                                    --    PA (J .. PA_LAST-1) := PA (J+1 .. PA_LAST);
+                                    --    PA (J .. PA_LAST-1) :=
+                                    --       PA (J+1 .. PA_LAST);
                                     --    PA_LAST := PA_LAST - 1;
                                     --  end if;
 
@@ -1685,15 +1724,13 @@ package body word_package is
                                     pa (j .. pa_last-1) := pa (j+1 .. pa_last);
                                     pa_last := pa_last - 1;
                               end case;
-                           else                                          --  check PART
+                           else --  check PART
                               pa (j .. pa_last-1) := pa (j+1 .. pa_last);
                               pa_last := pa_last - 1;
-                              --PUT ("J failed  J & PA_LAST = "); PUT (J); PUT ("  "); PUT (PA_LAST); NEW_LINE;
-                           end if;                                      --  check PART
+                           end if; --  check PART
                            j := j - 1;
-                        end loop;                          --  loop sweep over PA
-                     end if;                                      --  on PART (= X?)
-                                                                  --PUT_LINE ("End if on PART = X ?");
+                        end loop; --  loop sweep over PA
+                     end if; --  on PART (= X?)
 
                      -----------------------------------------
                      if tackon_hit  then
@@ -1709,15 +1746,13 @@ package body word_package is
                      else
                         null;
                      end if;   --  TACKON_HIT
-                  end if;                             --  we have a possible word
+                  end if;                       --  we have a possible word
                end if;                                     --  LESS is less
             end remove_a_tackon;
          end loop loop_over_tackons;
-         --PUT_LINE ("LEAVING TACKONS   *******************************************  ");
       end try_tackons;
 
    begin                           --  WORD
-                                   --TEXT_IO.PUT_LINE ("Starting WORD  INPUT = " & INPUT_WORD & "   PA_LAST = " & INTEGER'IMAGE (PA_LAST));
       if Trim (Input_word) = ""  then
          return;
       end if;
@@ -1737,19 +1772,23 @@ package body word_package is
 
          for i in 1 .. number_of_tickons+1  loop
             declare
-               q_word : constant String :=  Trim (subtract_tickon (Input_word, tickons (i)));
+               q_word : constant String :=
+                 Trim (subtract_tickon (Input_word, tickons (i)));
             begin
                pa_last := pa_qstart;
                pa (pa_last+1) := Null_Parse_Record;
-               if (i = number_of_tickons + 1)   or else  --  The prefix is a TICKON
-                 (q_word /= Input_word)            --  and it matches the start of INPUT_WORD
+               if (i = number_of_tickons + 1)   or else
+                 --  The prefix is a TICKON
+                 (q_word /= Input_word)
+                 --  and it matches the start of INPUT_WORD
                then
 
                   if i <= number_of_tickons  then        --  Add to PA if
-                                                         --TEXT_IO.PUT_LINE ("ADDING TICKON PA    " & TICKONS (I).FIX);
-                     pa_last := pa_last + 1;        --  So add prefix line to parse array
+                     pa_last := pa_last + 1;
+                     --  So add prefix line to parse array
                      pa (pa_last).Stem := Head (tickons (i).fix, Max_Stem_Size);
-                     pa (pa_last).IR := ((Prefix, null_prefix_record), 0, null_ending_record, x, x);
+                     pa (pa_last).IR := ((Prefix, null_prefix_record),
+                       0, null_ending_record, x, x);
                      pa (pa_last).D_K  := addons;
                      pa (pa_last).MNPC := Dict_IO.Count (tickons (i).MNPC);
                   end if;
@@ -1761,14 +1800,18 @@ package body word_package is
                      if q_word (q_word'First .. q_word'First + 1) = "qu"  then
                         qkey := 1;
                         process_qu_pronouns (q_word, qkey);
-                     elsif q_word (q_word'First .. q_word'First + 1) = "cu"  then
+                     elsif q_word
+                       (q_word'First .. q_word'First + 1) = "cu"  then
                         qkey := 2;
                         process_qu_pronouns (q_word, qkey);
                      end if;
-                     if pa_last <= pa_qstart + 1 and then qkey > 0 then    --  If did not find a PACKON
-                        if q_word (q_word'First .. q_word'First + 1) = "qu"  then
+                     if pa_last <= pa_qstart + 1 and then qkey > 0
+                     then    --  If did not find a PACKON
+                        if q_word
+                          (q_word'First .. q_word'First + 1) = "qu"  then
                            process_packons (q_word);
-                        elsif q_word (q_word'First .. q_word'First + 1) = "cu"  then
+                        elsif q_word
+                          (q_word'First .. q_word'First + 1) = "cu"  then
                            process_packons (q_word);
                         end if;
                      else
@@ -1779,9 +1822,11 @@ package body word_package is
                      end if;
 
                   elsif Input_word'Length >= 6  then   --  aliqui as aliQU_PRON
-                     if Input_word (Input_word'First .. Input_word'First+4) = "aliqu"  then
+                     if Input_word
+                       (Input_word'First .. Input_word'First+4) = "aliqu" then
                         process_qu_pronouns (Input_word, 1);
-                     elsif Input_word (Input_word'First .. Input_word'First+4) = "alicu"  then
+                     elsif Input_word
+                       (Input_word'First .. Input_word'First+4) = "alicu" then
                         process_qu_pronouns (Input_word, 2);
                      end if;
                   end if;
