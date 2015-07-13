@@ -928,7 +928,7 @@ package body line_stuff is
          begin
             case part.pofs is
                when N  =>
-                  part := (N, (qual.N.decl, qual.N.gender, kind.n_kind));
+                  part := (N, (qual.N.Decl, qual.N.Gender, kind.n_kind));
                when Pron =>
                   part := (Pron, (qual.Pron.decl, kind.pron_kind));
                when Pack =>
