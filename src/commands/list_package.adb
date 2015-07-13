@@ -813,7 +813,7 @@ package body list_package is
                         --  K indexes within the MNPCA array  - Next MNPC
 
                         --TEXT_IO.PUT_LINE ("Continuing IRA for VPAR  I = " & INTEGER'IMAGE (I) & "   K = " & INTEGER'IMAGE (K)
- 
+
                         --                                                                      & "   J = " & INTEGER'IMAGE (J));
                         sraa (j)(k) := (pa (i).Stem, pa (i).IR);
                      end if;
@@ -832,13 +832,13 @@ package body list_package is
                        (odm.MNPC /= pa (i).MNPC)
                      then   --  Encountering new single (K only 1)
                         osra := sra;
-                        k := 1;                  
+                        k := 1;
                         --  K indexes within the MNPCA array --  Initialize
-                        
+
                         --TEXT_IO.PUT_LINE ("Starting IRA for OTHER I = " & INTEGER'IMAGE (I) & "   K = " & INTEGER'IMAGE (K));
-                        j := j + 1;             
+                        j := j + 1;
                         --  J indexes the number of MNPCA arrays - Next MNPCA
-                        
+
                         --TEXT_IO.PUT_LINE ("Shifting J for OTHER I = " & INTEGER'IMAGE (I) & "   J = " & INTEGER'IMAGE (J));
                         sraa (j)(k) := (pa (i).Stem, pa (i).IR);
                         if pa (i).MNPC /= Null_MNPC  then
@@ -872,7 +872,7 @@ package body list_package is
       --  Sets + if capitalized
       --  Strangely enough, it may enter LIST_STEMS with PA_LAST /= 0
       --  but be weeded and end up with no parse after LIST_SWEEP  -  PA_LAST = 0
-      if pa_last = 0  then  
+      if pa_last = 0  then
          --  WORD failed
          --????      (DMA (1).D_K in ADDONS .. YYY  and then TRIM (DMA (1).DE.STEMS (1)) /= "que")  then  --  or used FIXES/TRICKS
          if words_mode (ignore_unknown_names)  and capitalized  then
