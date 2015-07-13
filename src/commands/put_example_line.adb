@@ -20,14 +20,20 @@ with Latin_Utils.Dictionary_Package; use Latin_Utils.Dictionary_Package;
 with Latin_Utils.Config; use Latin_Utils.Config;
 with word_parameters; use word_parameters;
 --with LATIN_DEBUG;
-procedure Put_example_line(configuration : configuration_type;
-                           Output : Ada.Text_IO.File_Type; ir : in Inflection_Record;
-                                                       de : in Dictionary_Entry) is
+procedure Put_example_line
+  (configuration : configuration_type;
+   Output        : Ada.Text_IO.File_Type;
+   ir            : in Inflection_Record;
+   de            : in Dictionary_Entry)
+is
    --      use LATIN_DEBUG;
    vk : Verb_Kind_Type;
 
-   procedure Put_verb_example(Output : Ada.Text_IO.File_Type; ir : in Inflection_Record;
-                                                          vk : in Verb_Kind_Type) is
+   procedure Put_verb_example
+     (Output : Ada.Text_IO.File_Type;
+      ir     : in Inflection_Record;
+      vk      : in Verb_Kind_Type)
+   is
       person : constant Person_Type      := ir.qual.V.person;
       number : constant Number_Type      := ir.qual.V.number;
       tense  : constant Tense_Type       := ir.qual.V.tense_voice_mood.tense;
@@ -263,134 +269,140 @@ procedure Put_example_line(configuration : configuration_type;
          voice := Active;    --  Should only have allowed PASSIVE at this point
       end if;
 
-      Ada.Text_IO.Put(Output, they & sub & shall & have & been & "~" & ed);
+      Ada.Text_IO.Put (Output, they & sub & shall & have & been & "~" & ed);
 
    end Put_verb_example;
 
 begin    --  PUT_EXAMPLE_LINE
 
-   if words_mode(do_examples)  and then (not (configuration = only_meanings))   then
+   if words_mode (do_examples)
+     and then (not (configuration = only_meanings))
+   then
 
       case ir.qual.pofs is
          when N =>
             case ir.qual.N.cs is
                when Gen =>
-                  Ada.Text_IO.Put(Output, "~'s; of ~");
-                  Ada.Text_IO.New_Line(Output);
+                  Ada.Text_IO.Put (Output, "~'s; of ~");
+                  Ada.Text_IO.New_Line (Output);
                when Abl =>
-                  Ada.Text_IO.New_Line(Output);      --  Info too much for same line
-                  Ada.Text_IO.Set_Col(Output, 6);
-                  Ada.Text_IO.Put(Output,
-                              "from _ (separ); because of ~ (cause); than ~ (compar); of ~ (circumstance)");
-                  Ada.Text_IO.New_Line(Output);
+                  Ada.Text_IO.New_Line (Output);
+                  --  Info too much for same line
+                  Ada.Text_IO.Set_Col (Output, 6);
+                  Ada.Text_IO.Put (Output,
+                    "from _ (separ); because of ~ (cause); than ~ (compar); of ~ (circumstance)");
+                  Ada.Text_IO.New_Line (Output);
                when Dat =>
-                  Ada.Text_IO.New_Line(Output);      --  Info too much for same line
-                  Ada.Text_IO.Set_Col(Output, 6);
-                  Ada.Text_IO.Put(Output,
-                              "for _ (purpose, reference); to ~ (w/adjectives); to ~ (double dative)");
-                  Ada.Text_IO.New_Line(Output);
+                  Ada.Text_IO.New_Line (Output);
+                  --  Info too much for same line
+                  Ada.Text_IO.Set_Col (Output, 6);
+                  Ada.Text_IO.Put (Output,
+                    "for _ (purpose, reference); to ~ (w/adjectives); to ~ (double dative)");
+                  Ada.Text_IO.New_Line (Output);
                when Loc =>
-                  Ada.Text_IO.Put(Output, "at ~ (place where)");
-                  Ada.Text_IO.New_Line(Output);
+                  Ada.Text_IO.Put (Output, "at ~ (place where)");
+                  Ada.Text_IO.New_Line (Output);
                when others  =>
                   null;
-                  --TEXT_IO.NEW_LINE(OUTPUT);
+                  --TEXT_IO.NEW_LINE (OUTPUT);
             end case;
 
          when Adj =>
             case ir.qual.Adj.co is
                when Comp  =>
-                  Ada.Text_IO.Put(Output, "~er; more/too _");
-                  Ada.Text_IO.New_Line(Output);
+                  Ada.Text_IO.Put (Output, "~er; more/too _");
+                  Ada.Text_IO.New_Line (Output);
                when Super =>
-                  Ada.Text_IO.Put(Output, "~est; most/very");
-                  Ada.Text_IO.New_Line(Output);
+                  Ada.Text_IO.Put (Output, "~est; most/very");
+                  Ada.Text_IO.New_Line (Output);
                when others  =>
                   null;
-                  --TEXT_IO.NEW_LINE(OUTPUT);
+                  --TEXT_IO.NEW_LINE (OUTPUT);
             end case;
 
          when Adv =>
             case ir.qual.Adv.co is
                when Comp  =>
-                  Ada.Text_IO.Put(Output, "more/too ~(ly)");
-                  Ada.Text_IO.New_Line(Output);
+                  Ada.Text_IO.Put (Output, "more/too ~(ly)");
+                  Ada.Text_IO.New_Line (Output);
                when Super =>
-                  Ada.Text_IO.Put(Output, "most/very ~(ly)");
-                  Ada.Text_IO.New_Line(Output);
+                  Ada.Text_IO.Put (Output, "most/very ~(ly)");
+                  Ada.Text_IO.New_Line (Output);
                when others  =>
                   null;
-                  --TEXT_IO.NEW_LINE(OUTPUT);
+                  --TEXT_IO.NEW_LINE (OUTPUT);
             end case;
 
          when V =>
-            --TEXT_IO.NEW_LINE(OUTPUT);        --  Verb info too much for same line
+            --TEXT_IO.NEW_LINE (OUTPUT);
+            --  Verb info too much for same line
             vk := de.Part.V.Kind;
-            Ada.Text_IO.Set_Col(Output, 6);
-            Put_verb_example(Output, ir, vk);
-            Ada.Text_IO.New_Line(Output);
+            Ada.Text_IO.Set_Col (Output, 6);
+            Put_verb_example (Output, ir, vk);
+            Ada.Text_IO.New_Line (Output);
 
          when Vpar =>
-            --    TEXT_IO.NEW_LINE(OUTPUT);        --  Verb info too much for same line
+            --    TEXT_IO.NEW_LINE (OUTPUT);
+            --  Verb info too much for same line
             case ir.qual.Vpar.tense_voice_mood.tense is
                when Perf  =>
-                  Ada.Text_IO.Put(Output,
-                              "~ed  PERF PASSIVE PPL often used as ADJ or N (amatus => belov.ed)");
-                  Ada.Text_IO.New_Line(Output);
+                  Ada.Text_IO.Put (Output,
+                    "~ed  PERF PASSIVE PPL often used as ADJ or N (amatus => belov.ed)");
+                  Ada.Text_IO.New_Line (Output);
                when Pres  =>
-                  Ada.Text_IO.Put(Output,
-                              "~ing  PRES ACTIVE PPL often used as ADJ or N (lov.ing, curl.y)");
-                  Ada.Text_IO.New_Line(Output);
+                  Ada.Text_IO.Put (Output,
+                    "~ing  PRES ACTIVE PPL often used as ADJ or N (lov.ing, curl.y)");
+                  Ada.Text_IO.New_Line (Output);
                when Fut   =>
                   if ir.qual.Vpar.tense_voice_mood.voice = Active  then
-                     Ada.Text_IO.Put(Output,
-                                 "about/going/intending/destined to ~  FUT ACTIVE PPL often used as ADJ or N ");
-                     Ada.Text_IO.New_Line(Output);
+                     Ada.Text_IO.Put (Output,
+                       "about/going/intending/destined to ~  FUT ACTIVE PPL often used as ADJ or N ");
+                     Ada.Text_IO.New_Line (Output);
                   else
                      case ir.qual.Vpar.cs is
                         when Gen =>
-                           Ada.Text_IO.Put(Output,
-                                       "to(/must) be ~ed  FUT PASSIVE PPL, often used as gerund or gerundive (of ~ing)");
+                           Ada.Text_IO.Put (Output,
+                             "to (/must) be ~ed  FUT PASSIVE PPL, often used as gerund or gerundive (of ~ing)");
                         when Dat =>
-                           Ada.Text_IO.Put(Output,
-                                       "to(/must) be ~ed  FUT PASSIVE PPL, often used as gerund or gerundive (to/for ~ing)");
+                           Ada.Text_IO.Put (Output,
+                             "to (/must) be ~ed  FUT PASSIVE PPL, often used as gerund or gerundive (to/for ~ing)");
                         when Abl =>
-                           Ada.Text_IO.Put(Output,
-                                       "to(/must) be ~ed  FUT PASSIVE PPL, often used as gerund or gerundive (by/in ~ing)");
+                           Ada.Text_IO.Put (Output,
+                             "to (/must) be ~ed  FUT PASSIVE PPL, often used as gerund or gerundive (by/in ~ing)");
                         when Acc =>
-                           Ada.Text_IO.Put(Output,
-                                       "to(/must) be ~ed  FUT PASSIVE PPL, often used as gerund or gerundive (for ~ing/to ~)");
+                           Ada.Text_IO.Put (Output,
+                             "to (/must) be ~ed  FUT PASSIVE PPL, often used as gerund or gerundive (for ~ing/to ~)");
                         when others =>
-                           Ada.Text_IO.Put(Output,
-                                       "to(/must) be ~ed  FUT PASSIVE PPL, often used as gerund or gerundive (~ing)");
+                           Ada.Text_IO.Put (Output,
+                             "to (/must) be ~ed  FUT PASSIVE PPL, often used as gerund or gerundive (~ing)");
                      end case;
-                     Ada.Text_IO.New_Line(Output);
+                     Ada.Text_IO.New_Line (Output);
                   end if;
                when others  =>
                   null;
-                  --TEXT_IO.NEW_LINE(OUTPUT);
+                  --TEXT_IO.NEW_LINE (OUTPUT);
             end case;      --  TENSE
 
          when Supine =>
-            --TEXT_IO.NEW_LINE(OUTPUT);
+            --TEXT_IO.NEW_LINE (OUTPUT);
             if ir.qual.Supine.cs = Acc  then
-               Ada.Text_IO.Put(Output,
-                           "to ~  expresses purpose of verb of motion; may take a direct object");
-               Ada.Text_IO.New_Line(Output);
+               Ada.Text_IO.Put (Output,
+                 "to ~  expresses purpose of verb of motion; may take a direct object");
+               Ada.Text_IO.New_Line (Output);
             elsif ir.qual.Supine.cs = Abl  then
-               Ada.Text_IO.Put(Output,
-                           "to ~  after ADJ indicating aspect/respect in which something is/is done");
-               Ada.Text_IO.New_Line(Output);
+               Ada.Text_IO.Put (Output,
+                 "to ~  after ADJ indicating aspect/respect in which something is/is done");
+               Ada.Text_IO.New_Line (Output);
             end if;
 
          when others  =>
             null;
-            --TEXT_IO.NEW_LINE(OUTPUT);
+            --TEXT_IO.NEW_LINE (OUTPUT);
       end case;        --  PART
 
    else
       null;
-      --TEXT_IO.NEW_LINE(OUTPUT);
+      --TEXT_IO.NEW_LINE (OUTPUT);
    end if;
 
 end Put_example_line;
