@@ -27,7 +27,7 @@ package addons_package is
 
    subtype Target_pofs_type is Part_Of_Speech_Type range X .. V;
 
-   type Target_entry(pofs: Target_pofs_type := X) is
+   type Target_entry (pofs : Target_pofs_type := X) is
       record
          case pofs is
             when N  =>
@@ -58,12 +58,12 @@ package addons_package is
 
    package Target_entry_io is
       Default_Width : Natural;
-      procedure Get(f : in Ada.Text_IO.File_Type; p : out Target_entry);
-      procedure Get(p : out Target_entry);
-      procedure Put(f : in Ada.Text_IO.File_Type; p : in Target_entry);
-      procedure Put(p : in Target_entry);
-      procedure Get(s : in String; p : out Target_entry; last : out Integer);
-      procedure Put(s : out String; p : in Target_entry);
+      procedure Get (f : in Ada.Text_IO.File_Type; p : out Target_entry);
+      procedure Get (p : out Target_entry);
+      procedure Put (f : in Ada.Text_IO.File_Type; p : in Target_entry);
+      procedure Put (p : in Target_entry);
+      procedure Get (s : in String; p : out Target_entry; last : out Integer);
+      procedure Put (s : out String; p : in Target_entry);
    end Target_entry_io;
 
    type tackon_entry is
@@ -75,12 +75,12 @@ package addons_package is
 
    package tackon_entry_io is
       Default_Width : Natural;
-      procedure Get(f : in Ada.Text_IO.File_Type; i : out tackon_entry);
-      procedure Get(i : out tackon_entry);
-      procedure Put(f : in Ada.Text_IO.File_Type; i : in tackon_entry);
-      procedure Put(i : in tackon_entry);
-      procedure Get(s : in String; i : out tackon_entry; last : out Integer);
-      procedure Put(s : out String; i : in tackon_entry);
+      procedure Get (f : in Ada.Text_IO.File_Type; i : out tackon_entry);
+      procedure Get (i : out tackon_entry);
+      procedure Put (f : in Ada.Text_IO.File_Type; i : in tackon_entry);
+      procedure Put (i : in tackon_entry);
+      procedure Get (s : in String; i : out tackon_entry; last : out Integer);
+      procedure Put (s : out String; i : in tackon_entry);
    end tackon_entry_io;
 
    type prefix_entry is
@@ -93,12 +93,12 @@ package addons_package is
 
    package prefix_entry_io is
       Default_Width : Natural;
-      procedure Get(f : in Ada.Text_IO.File_Type; p : out prefix_entry);
-      procedure Get(p : out prefix_entry);
-      procedure Put(f : in Ada.Text_IO.File_Type; p : in prefix_entry);
-      procedure Put(p : in prefix_entry);
-      procedure Get(s : in String; p : out prefix_entry; last : out Integer);
-      procedure Put(s : out String; p : in prefix_entry);
+      procedure Get (f : in Ada.Text_IO.File_Type; p : out prefix_entry);
+      procedure Get (p : out prefix_entry);
+      procedure Put (f : in Ada.Text_IO.File_Type; p : in prefix_entry);
+      procedure Put (p : in prefix_entry);
+      procedure Get (s : in String; p : out prefix_entry; last : out Integer);
+      procedure Put (s : out String; p : in prefix_entry);
    end prefix_entry_io;
 
    type suffix_entry is
@@ -113,17 +113,17 @@ package addons_package is
 
    package suffix_entry_io is
       Default_Width : Natural;
-      procedure Get(f : in Ada.Text_IO.File_Type; p : out suffix_entry);
-      procedure Get(p : out suffix_entry);
-      procedure Put(f : in Ada.Text_IO.File_Type; p : in suffix_entry);
-      procedure Put(p : in suffix_entry);
-      procedure Get(s : in String; p : out suffix_entry; last : out Integer);
-      procedure Put(s : out String; p : in suffix_entry);
+      procedure Get (f : in Ada.Text_IO.File_Type; p : out suffix_entry);
+      procedure Get (p : out suffix_entry);
+      procedure Put (f : in Ada.Text_IO.File_Type; p : in suffix_entry);
+      procedure Put (p : in suffix_entry);
+      procedure Get (s : in String; p : out suffix_entry; last : out Integer);
+      procedure Put (s : out String; p : in suffix_entry);
    end suffix_entry_io;
 
    type tackon_item is
       record
-         pofs: Part_Of_Speech_Type := Tackon;
+         pofs : Part_Of_Speech_Type := Tackon;
          tack : Stem_Type := Null_Stem_Type;
          entr : tackon_entry := null_tackon_entry;
          MNPC : Integer := 0;
@@ -133,7 +133,7 @@ package addons_package is
 
    type prefix_item is
       record
-         pofs: Part_Of_Speech_Type := Prefix;
+         pofs : Part_Of_Speech_Type := Prefix;
          fix  : fix_type := null_fix_type;
          connect : Character := ' ';
          entr : prefix_entry := null_prefix_entry;
@@ -144,7 +144,7 @@ package addons_package is
 
    type suffix_item is
       record
-         pofs: Part_Of_Speech_Type := Suffix;
+         pofs : Part_Of_Speech_Type := Suffix;
          fix  : fix_type := null_fix_type;
          connect    : Character := ' ';
          entr : suffix_entry := null_suffix_entry;
@@ -160,12 +160,12 @@ package addons_package is
    type means_array  is array (Integer range <>) of Meaning_Type;
    --  To simulate a DICT_IO file, as used previously
 
-   tackons  : tackon_array(1..20);
-   packons  : tackon_array(1..25);
-   tickons  : prefix_array(1..10);
-   prefixes : prefix_array(1..130);
-   suffixes : suffix_array(1..185);
-   means    : means_array(1..370);
+   tackons  : tackon_array (1 .. 20);
+   packons  : tackon_array (1 .. 25);
+   tickons  : prefix_array (1 .. 10);
+   prefixes : prefix_array (1 .. 130);
+   suffixes : suffix_array (1 .. 185);
+   means    : means_array (1 .. 370);
 
    number_of_tickons  : Integer := 0;
    number_of_tackons  : Integer := 0;
@@ -175,15 +175,15 @@ package addons_package is
 
    procedure load_addons (file_name : in String);
 
-   function subtract_tackon(w : String; x : tackon_item) return String;
-   function subtract_prefix(w : String; x : prefix_item) return Stem_Type;
-   function subtract_tickon(w : String; x : prefix_item) return Stem_Type
+   function subtract_tackon (w : String; x : tackon_item) return String;
+   function subtract_prefix (w : String; x : prefix_item) return Stem_Type;
+   function subtract_tickon (w : String; x : prefix_item) return Stem_Type
      renames subtract_prefix;
-   function subtract_suffix(w : String; x : suffix_item) return Stem_Type;
+   function subtract_suffix (w : String; x : suffix_item) return Stem_Type;
 
-   function add_prefix(stem : Stem_Type;
-                       prefix : prefix_item) return Stem_Type;
-   function add_suffix(stem : Stem_Type;
-                       suffix : suffix_item) return Stem_Type;
+   function add_prefix (stem : Stem_Type;
+                        prefix : prefix_item) return Stem_Type;
+   function add_suffix (stem : Stem_Type;
+                        suffix : suffix_item) return Stem_Type;
 
 end addons_package;
