@@ -62,9 +62,9 @@ package body Verb_Entry_IO is
    ---------------------------------------------------------------------------
 
    procedure Get
-      ( Source : in  String;
-        Target : out Verb_Entry;
-        Last   : out Integer
+      (Source : in  String;
+       Target : out Verb_Entry;
+       Last   : out Integer
       )
    is
       -- Used to get lower bound of substring
@@ -73,7 +73,7 @@ package body Verb_Entry_IO is
       Decn_Record_IO.Get (Source (Low + 1 .. Source'Last), Target.Con, Low);
       Low := Low + 1;
       Verb_Kind_Type_IO.Get
-         ( Source (Low + 1 .. Source'Last), Target.Kind, Last );
+         (Source (Low + 1 .. Source'Last), Target.Kind, Last);
    end Get;
 
    ---------------------------------------------------------------------------

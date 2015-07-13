@@ -94,10 +94,10 @@ package body Part_Entry_IO is
             Item := (pofs => X);
       end case;
       Ada.Text_IO.Set_Col
-         ( File,
+         (File,
            Ada.Text_IO.Positive_Count
               (Part_Entry_IO.Default_Width) + Starting_Col
-         );
+        );
    end Get;
 
    ---------------------------------------------------------------------------
@@ -251,10 +251,10 @@ package body Part_Entry_IO is
    ---------------------------------------------------------------------------
 
    procedure Get
-      ( Source : in String;
+      (Source : in String;
         Target : out Part_Entry;
         Last   : out Integer
-      )
+     )
    is
       -- Used to get lower bound of substring
       Low  : Integer := Source'First - 1;
@@ -286,19 +286,19 @@ package body Part_Entry_IO is
             Target := (N, Noun);
          when Pron =>
             Pronoun_Entry_IO.Get
-               ( Source (Low + 1 .. Source'Last), Pronoun, Last );
+               (Source (Low + 1 .. Source'Last), Pronoun, Last);
             Target := (Pron, Pronoun);
          when Pack =>
             Propack_Entry_IO.Get
-               ( Source (Low + 1 .. Source'Last), Propack, Last );
+               (Source (Low + 1 .. Source'Last), Propack, Last);
             Target := (Pack, Propack);
          when Adj =>
             Adjective_Entry_IO.Get
-               ( Source (Low + 1 .. Source'Last), Adjective, Last );
+               (Source (Low + 1 .. Source'Last), Adjective, Last);
             Target := (Adj, Adjective);
          when Num =>
             Numeral_Entry_IO.Get
-               ( Source (Low + 1 .. Source'Last), Numeral, Last );
+               (Source (Low + 1 .. Source'Last), Numeral, Last);
             Target := (Num, Numeral);
          when Adv =>
             Adverb_Entry_IO.Get (Source (Low + 1 .. Source'Last), Adverb, Last);
@@ -312,15 +312,15 @@ package body Part_Entry_IO is
             null;                --  No SUPINE entry
          when Prep =>
             Preposition_Entry_IO.Get
-               ( Source (Low + 1 .. Source'Last), Preposition, Last );
+               (Source (Low + 1 .. Source'Last), Preposition, Last);
             Target := (Prep, Preposition);
          when Conj =>
             Conjunction_Entry_IO.Get
-               ( Source (Low + 1 .. Source'Last), Conjunction, Last );
+               (Source (Low + 1 .. Source'Last), Conjunction, Last);
             Target := (Conj, Conjunction);
          when Interj =>
             Interjection_Entry_IO.Get
-               ( Source (Low + 1 .. Source'Last), Interjection, Last );
+               (Source (Low + 1 .. Source'Last), Interjection, Last);
             Target := (Interj, Interjection);
          when Prefix =>
             Target := (pofs => Prefix);

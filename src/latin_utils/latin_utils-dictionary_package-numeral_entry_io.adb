@@ -74,10 +74,10 @@ package body Numeral_Entry_IO is
    ---------------------------------------------------------------------------
 
    procedure Get
-      ( Source : in  String;
-        Target : out Numeral_Entry;
-        Last   : out Integer
-      )
+      (Source : in  String;
+       Target : out Numeral_Entry;
+       Last   : out Integer
+     )
    is
       -- Used for computing lower bound of substring
       Low : Integer := Source'First - 1;
@@ -85,10 +85,10 @@ package body Numeral_Entry_IO is
       Decn_Record_IO.Get (Source (Low + 1 .. Source'Last), Target.Decl, Low);
       Low := Low + 1;
       Numeral_Sort_Type_IO.Get
-         ( Source (Low + 1 .. Source'Last), Target.Sort, Low );
+         (Source (Low + 1 .. Source'Last), Target.Sort, Low);
       Low := Low + 1;
       Inflections_Package.Integer_IO.Get
-         ( Source (Low + 1 .. Source'Last), Target.Value, Last );
+         (Source (Low + 1 .. Source'Last), Target.Value, Last);
    end Get;
 
    ---------------------------------------------------------------------------

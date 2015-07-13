@@ -54,9 +54,9 @@ package body Conjunction_Entry_IO is
    ---------------------------------------------------------------------------
 
    procedure Get
-      ( Source : in  String;
-        Target : out Conjunction_Entry;
-        Last   : out Integer
+      (Source : in  String;
+       Target : out Conjunction_Entry;
+       Last   : out Integer
       )
    is
       Low : constant Integer := Source'First - 1;

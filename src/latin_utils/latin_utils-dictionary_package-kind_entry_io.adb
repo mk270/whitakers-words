@@ -24,10 +24,10 @@ package body Kind_Entry_IO is
    ---------------------------------------------------------------------------
 
    procedure Get
-      ( File : in  Ada.Text_IO.File_Type;
+      (File : in  Ada.Text_IO.File_Type;
         POFS : in  Part_Of_Speech_Type;
         Item : out Kind_Entry
-      )
+     )
    is
 
       --------------------------------------------------------------------------
@@ -42,13 +42,13 @@ package body Kind_Entry_IO is
 
       --------------------------------------------------------------------------
       -- Small helper procedure
-      procedure Set_Col (File: Ada.Text_IO.File_Type) is
+      procedure Set_Col (File : Ada.Text_IO.File_Type) is
       begin
          Ada.Text_IO.Set_Col
-            ( File,
+            (File,
               Ada.Text_IO.Col (File) +
                  Ada.Text_IO.Positive_Count (Kind_Entry_IO.Default_Width)
-            );
+           );
       end Set_Col;
 
       --------------------------------------------------------------------------
@@ -135,18 +135,18 @@ package body Kind_Entry_IO is
             Item := (Pack, Propack_Kind);
          when Adj =>
             Ada.Text_IO.Set_Col
-               ( Ada.Text_IO.Col +
+               (Ada.Text_IO.Col +
                  Ada.Text_IO.Positive_Count (Kind_Entry_IO.Default_Width)
-               );
+              );
             Item := (pofs => Adj);
          when Num =>
             Inflections_Package.Integer_IO.Get (Numeral_Value);
             Item := (Num, Numeral_Value);
          when Adv =>
             Ada.Text_IO.Set_Col
-               ( Ada.Text_IO.Col +
+               (Ada.Text_IO.Col +
                  Ada.Text_IO.Positive_Count (Kind_Entry_IO.Default_Width)
-               );
+              );
             Item := (pofs => Adv);
          when V =>
             Verb_Kind_Type_IO.Get (Verb_Kind);
@@ -159,45 +159,45 @@ package body Kind_Entry_IO is
             Item := (Supine, Supine_Kind);
          when Prep =>
             Ada.Text_IO.Set_Col
-               ( Ada.Text_IO.Col +
+               (Ada.Text_IO.Col +
                  Ada.Text_IO.Positive_Count (Kind_Entry_IO.Default_Width)
-               );
+              );
             Item := (pofs => Prep);
          when Conj =>
             Ada.Text_IO.Set_Col
-               ( Ada.Text_IO.Col +
+               (Ada.Text_IO.Col +
                  Ada.Text_IO.Positive_Count (Kind_Entry_IO.Default_Width)
-               );
+              );
             Item := (pofs => Conj);
          when Interj =>
             Ada.Text_IO.Set_Col
-               ( Ada.Text_IO.Col +
+               (Ada.Text_IO.Col +
                  Ada.Text_IO.Positive_Count (Kind_Entry_IO.Default_Width)
-               );
+              );
             Item := (pofs => Interj);
          when Tackon =>
             Ada.Text_IO.Set_Col
-               ( Ada.Text_IO.Col +
+               (Ada.Text_IO.Col +
                  Ada.Text_IO.Positive_Count (Kind_Entry_IO.Default_Width)
-               );
+              );
             Item := (pofs => Tackon);
          when Prefix =>
             Ada.Text_IO.Set_Col
-               ( Ada.Text_IO.Col +
+               (Ada.Text_IO.Col +
                  Ada.Text_IO.Positive_Count (Kind_Entry_IO.Default_Width)
-               );
+              );
             Item := (pofs => Prefix);
          when Suffix =>
             Ada.Text_IO.Set_Col
-               ( Ada.Text_IO.Col +
+               (Ada.Text_IO.Col +
                  Ada.Text_IO.Positive_Count (Kind_Entry_IO.Default_Width)
-               );
+              );
             Item := (pofs => Suffix);
          when X =>
             Ada.Text_IO.Set_Col
-               ( Ada.Text_IO.Col +
+               (Ada.Text_IO.Col +
                  Ada.Text_IO.Positive_Count (Kind_Entry_IO.Default_Width)
-               );
+              );
             Item := (pofs => X);
       end case;
    end Get;
@@ -205,10 +205,10 @@ package body Kind_Entry_IO is
    ---------------------------------------------------------------------------
 
    procedure Put
-      ( File : in Ada.Text_IO.File_Type;
+      (File : in Ada.Text_IO.File_Type;
         POFS : in Part_Of_Speech_Type;
         Item : in Kind_Entry
-      )
+     )
    is
       pragma Unreferenced (POFS);
       -- Used for computing bounds of substring for filling
@@ -224,7 +224,7 @@ package body Kind_Entry_IO is
             Pronoun_Kind_Type_IO.Put (File, Item.pack_kind);
          when Num =>
             Inflections_Package.Integer_IO.Put
-               ( File, Item.num_value, Numeral_Value_Type_IO_Default_Width );
+               (File, Item.num_value, Numeral_Value_Type_IO_Default_Width);
          when V =>
             Verb_Kind_Type_IO.Put (File, Item.v_kind);
          when Vpar =>
@@ -237,9 +237,9 @@ package body Kind_Entry_IO is
             null;
       end case;
       Ada.Text_IO.Put
-         ( File,
+         (File,
            String'(Integer (Ada.Text_IO.Col (File)) .. Ending_Col => ' ')
-         );
+        );
    end Put;
 
    ---------------------------------------------------------------------------
@@ -260,7 +260,7 @@ package body Kind_Entry_IO is
             Pronoun_Kind_Type_IO.Put (Item.pack_kind);
          when Num =>
             Inflections_Package.Integer_IO.Put
-               ( Item.num_value, Numeral_Value_Type_IO_Default_Width );
+               (Item.num_value, Numeral_Value_Type_IO_Default_Width);
          when V =>
             Verb_Kind_Type_IO.Put (Item.v_kind);
          when Vpar =>
@@ -278,11 +278,11 @@ package body Kind_Entry_IO is
    ---------------------------------------------------------------------------
 
    procedure Get
-      ( Source : in  String;
+      (Source : in  String;
         POFS   : in  Part_Of_Speech_Type;
         Target : out Kind_Entry;
         Last   : out Integer
-      )
+     )
    is
 
       --------------------------------------------------------------------------
@@ -303,35 +303,35 @@ package body Kind_Entry_IO is
       case POFS is
          when N =>
             Noun_Kind_Type_IO.Get
-               ( Source (Low + 1 .. Source'Last), Noun_Kind, Last );
+               (Source (Low + 1 .. Source'Last), Noun_Kind, Last);
             Target := (N, Noun_Kind);
          when Pron =>
             Pronoun_Kind_Type_IO.Get
-               ( Source (Low + 1 .. Source'Last), Pronoun_Kind, Last );
+               (Source (Low + 1 .. Source'Last), Pronoun_Kind, Last);
             Target := (Pron, Pronoun_Kind);
          when Pack =>
             Pronoun_Kind_Type_IO.Get
-               ( Source (Low + 1 .. Source'Last), Propack_Kind, Last );
+               (Source (Low + 1 .. Source'Last), Propack_Kind, Last);
             Target := (Pack, Propack_Kind);
          when Adj =>
             Target := (pofs => Adj);
          when Num =>
             Inflections_Package.Integer_IO.Get
-               ( Source (Low + 1 .. Source'Last), Numeral_Value, Last );
+               (Source (Low + 1 .. Source'Last), Numeral_Value, Last);
             Target := (Num, Numeral_Value);
          when Adv =>
             Target := (pofs => Adv);
          when V =>
             Verb_Kind_Type_IO.Get
-               ( Source (Low + 1 .. Source'Last), Verb_Kind, Last );
+               (Source (Low + 1 .. Source'Last), Verb_Kind, Last);
             Target := (V, Verb_Kind);
          when Vpar =>
             Verb_Kind_Type_IO.Get
-               ( Source (Low + 1 .. Source'Last), Vpar_Kind, Last );
+               (Source (Low + 1 .. Source'Last), Vpar_Kind, Last);
             Target := (Vpar, Vpar_Kind);
          when Supine =>
             Verb_Kind_Type_IO.Get
-               ( Source (Low + 1 .. Source'Last), Supine_Kind, Last );
+               (Source (Low + 1 .. Source'Last), Supine_Kind, Last);
             Target := (Supine, Supine_Kind);
          when Prep =>
             Target := (pofs => Prep);
@@ -353,10 +353,10 @@ package body Kind_Entry_IO is
    ---------------------------------------------------------------------------
 
    procedure Put
-      ( Target : out String;
+      (Target : out String;
         POFS   : in  Part_Of_Speech_Type;
         Item   : in  Kind_Entry
-      )
+     )
    is
       pragma Unreferenced (POFS);
       -- Used to get bounds of substrings
@@ -377,7 +377,7 @@ package body Kind_Entry_IO is
          when Num =>
             High := Low + Numeral_Value_Type_IO_Default_Width;
             Inflections_Package.Integer_IO.Put
-               ( Target (Low + 1 .. High), Item.num_value );
+               (Target (Low + 1 .. High), Item.num_value);
          when V =>
             High := Low + Verb_Kind_Type_IO.Default_Width;
             Verb_Kind_Type_IO.Put (Target (Low + 1 .. High), Item.v_kind);

@@ -50,9 +50,9 @@ package body Preposition_Entry_IO is
    ---------------------------------------------------------------------------
 
    procedure Get
-      ( Source : in  String;
-        Target : out Preposition_Entry;
-        Last   : out Integer
+      (Source : in  String;
+       Target : out Preposition_Entry;
+       Last   : out Integer
       )
    is
    begin

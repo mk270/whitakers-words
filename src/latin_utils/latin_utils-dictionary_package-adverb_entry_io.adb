@@ -48,9 +48,9 @@ package body Adverb_Entry_IO is
    ---------------------------------------------------------------------------
 
    procedure Get
-      ( Source : in  String;
-        Target : out Adverb_Entry;
-        Last   : out Integer
+      (Source : in  String;
+       Target : out Adverb_Entry;
+       Last   : out Integer
       )
    is
    begin

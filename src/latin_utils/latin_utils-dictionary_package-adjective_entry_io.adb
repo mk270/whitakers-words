@@ -61,9 +61,9 @@ package body Adjective_Entry_IO is
    ---------------------------------------------------------------------------
 
    procedure Get
-      ( Source : in  String;
-        Target : out Adjective_Entry;
-        Last   : out Integer
+      (Source : in  String;
+       Target : out Adjective_Entry;
+       Last   : out Integer
       )
    is
       -- Used for computing lower bound of substring

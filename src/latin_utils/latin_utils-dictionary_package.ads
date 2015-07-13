@@ -57,7 +57,7 @@ package Latin_Utils.Dictionary_Package is
 
    --  Starts out as False and set to True when the Dict is loaded
    Dictionary_Available : array (Dictionary_Kind) of Boolean :=
-      (others => False );
+      (others => False);
 
    ---------------------------------------------------------------------------
 
@@ -266,7 +266,7 @@ package Latin_Utils.Dictionary_Package is
    -- FIXME: These subprograms don't check if Is_Open (File)
    package Noun_Entry_IO is
       Default_Width : Natural;
-      procedure Get (File : in Ada.Text_IO.File_Type; Item: out Noun_Entry);
+      procedure Get (File : in Ada.Text_IO.File_Type; Item : out Noun_Entry);
       procedure Get (Item : out Noun_Entry);
       procedure Put (File : in Ada.Text_IO.File_Type; Item : in Noun_Entry);
       procedure Put (Item : in Noun_Entry);
@@ -276,7 +276,7 @@ package Latin_Utils.Dictionary_Package is
            Target : out Noun_Entry;
            Last   : out Integer
          );
-      procedure Put (Target: out String; Item : in Noun_Entry);
+      procedure Put (Target : out String; Item : in Noun_Entry);
    end Noun_Entry_IO;
 
    ---------------------------------------------------------------------------

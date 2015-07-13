@@ -69,9 +69,9 @@ package body Dictionary_Entry_IO is
       Part_Col := Natural (Ada.Text_IO.Col (File));
       Part_Entry_IO.Put (File, Item.Part);
       Ada.Text_IO.Set_Col
-         ( File,
-           Ada.Text_IO.Count (Part_Col + Part_Entry_IO.Default_Width + 1)
-         );
+         (File,
+          Ada.Text_IO.Count (Part_Col + Part_Entry_IO.Default_Width + 1)
+        );
       Translation_Record_IO.Put (File, Item.Tran);
       Ada.Text_IO.Put (File, ' ');
       Ada.Text_IO.Put (File, Item.Mean);
@@ -91,7 +91,7 @@ package body Dictionary_Entry_IO is
       Part_Col := Natural (Ada.Text_IO.Col);
       Part_Entry_IO.Put (Item.Part);
       Ada.Text_IO.Set_Col
-         ( Ada.Text_IO.Count (Part_Col + Part_Entry_IO.Default_Width + 1) );
+         (Ada.Text_IO.Count (Part_Col + Part_Entry_IO.Default_Width + 1));
       Translation_Record_IO.Put (Item.Tran);
       Ada.Text_IO.Put (' ');
       Ada.Text_IO.Put (Item.Mean);
@@ -100,10 +100,10 @@ package body Dictionary_Entry_IO is
    ---------------------------------------------------------------------------
 
    procedure Get
-      ( Source : in  String;
-        Target : out Dictionary_Entry;
-        Last   : out Integer
-      )
+      (Source : in  String;
+       Target : out Dictionary_Entry;
+       Last   : out Integer
+     )
    is
       -- Used for computing lower bound of substring
       Low  : Integer := Source'First - 1;
@@ -112,19 +112,19 @@ package body Dictionary_Entry_IO is
    begin
       for K in Stem_Key_Type range 1 .. 4 loop
          Stem_Type_IO.Get
-            ( Source (Low + 1 .. Source'Last),
+            (Source (Low + 1 .. Source'Last),
               Target.Stems (K),
               Low
-            );
+           );
       end loop;
 
       Part_Entry_IO.Get (Source (Low + 1 .. Source'Last), Target.Part, Low);
       Low := Low + 1;
       Translation_Record_IO.Get
-         ( Source (Low + 1 .. Source'Last),
-           Target.Tran,
-           Low
-         );
+         (Source (Low + 1 .. Source'Last),
+          Target.Tran,
+          Low
+        );
       Low := Low + 1;
       Target.Mean := Head (Source (Low + 1 .. Source'Last), Max_Meaning_Size);
 

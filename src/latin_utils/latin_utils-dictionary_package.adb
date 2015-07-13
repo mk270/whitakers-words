@@ -148,7 +148,7 @@ package body Latin_Utils.Dictionary_Package is
    end "<=";
 
    ---------------------------------------------------------------------------
-   -- Used to initialize Latin_Utils Dictionary_Package by setting various variables.
+   -- Used to initialize Latin_Utils Dictionary_Package by setting various vars.
    -- FIXME: Make AT LEAST some of these initializations to happen in spec,
    --   thus eliminating risks of someone modifying them and in result breaking
    --   every nested package.

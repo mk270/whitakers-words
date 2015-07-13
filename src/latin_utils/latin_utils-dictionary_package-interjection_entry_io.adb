@@ -24,8 +24,8 @@ package body Interjection_Entry_IO is
    ---------------------------------------------------------------------------
 
    procedure Get
-      ( File : in  Ada.Text_IO.File_Type;
-        Item : out Interjection_Entry
+      (File : in  Ada.Text_IO.File_Type;
+       Item : out Interjection_Entry
       )
    is
       pragma Unreferenced (File);
@@ -56,9 +56,9 @@ package body Interjection_Entry_IO is
    ---------------------------------------------------------------------------
 
    procedure Get
-      ( Source : in String;
-        Target : out Interjection_Entry;
-        Last   : out Integer
+      (Source : in String;
+       Target : out Interjection_Entry;
+       Last   : out Integer
       )
    is
       Low : constant Integer := Source'First - 1;

@@ -70,10 +70,10 @@ package body Noun_Entry_IO is
    ---------------------------------------------------------------------------
 
    procedure Get
-      ( Source : in String;
+      (Source : in String;
         Target : out Noun_Entry;
         Last   : out Integer
-      )
+     )
    is
       -- Used for computing lower bound of substring
       Low : Integer := Source'First - 1;
@@ -83,7 +83,7 @@ package body Noun_Entry_IO is
       Gender_Type_IO.Get (Source (Low + 1 .. Source'Last), Target.Gender, Low);
       Low := Low + 1;
       Noun_Kind_Type_IO.Get
-         ( Source (Low + 1 .. Source'Last), Target.Kind, Last );
+         (Source (Low + 1 .. Source'Last), Target.Kind, Last);
    end Get;
 
    ---------------------------------------------------------------------------

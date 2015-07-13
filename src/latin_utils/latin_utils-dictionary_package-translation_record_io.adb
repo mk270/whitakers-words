@@ -19,7 +19,9 @@ package body Translation_Record_IO is
 
    ---------------------------------------------------------------------------
 
-   procedure Get (File : in Ada.Text_IO.File_Type; Item: out Translation_Record)
+   procedure Get
+     (File : in Ada.Text_IO.File_Type;
+      Item : out Translation_Record)
    is
       Spacer : Character;
       pragma Unreferenced (Spacer);
@@ -87,9 +89,9 @@ package body Translation_Record_IO is
    ---------------------------------------------------------------------------
 
    procedure Get
-      ( Source : in  String;
-        Target : out Translation_Record;
-        Last   : out Integer
+      (Source : in  String;
+       Target : out Translation_Record;
+       Last   : out Integer
       )
    is
       -- Used to compute lower bound of string

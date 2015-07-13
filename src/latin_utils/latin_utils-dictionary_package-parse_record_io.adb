@@ -78,7 +78,7 @@ package body Parse_Record_IO is
    ---------------------------------------------------------------------------
 
    procedure Get
-      ( Source : in  String;
+      (Source : in  String;
         Target : out Parse_Record;
         Last   : out Integer
       )
@@ -89,7 +89,7 @@ package body Parse_Record_IO is
       Stem_Type_IO.Get (Source, Target.Stem, Low);
       Low := Low + 1;
       Inflection_Record_IO.Get
-         ( Source (Low + 1 .. Source'Last), Target.IR, Low );
+         (Source (Low + 1 .. Source'Last), Target.IR, Low);
       Low := Low + 1;
       Dictionary_Kind_IO.Get (Source (Low + 1 .. Source'Last), Target.D_K, Low);
       Low := Low + 1;
@@ -113,21 +113,21 @@ package body Parse_Record_IO is
       -- Put Inflection_Record
       High := Low + Inflection_Record_IO.Default_Width;
       Inflection_Record_IO.Put
-         ( Target (Target'First + Low .. Target'First - 1 + High), Item.IR );
+         (Target (Target'First + Low .. Target'First - 1 + High), Item.IR);
       Low := High + 1;
       Target (Target'First - 1 + Low) :=  ' ';
 
       -- Put Dictionary_Kind
       High := Low + Dictionary_Kind_IO.Default_Width;
       Dictionary_Kind_IO.Put
-         ( Target (Target'First + Low .. Target'First - 1 + High), Item.D_K );
+         (Target (Target'First + Low .. Target'First - 1 + High), Item.D_K);
       Low := High + 1;
 
       -- Put MNPC
       Target (Target'First - 1 + Low) :=  ' ';
       High := Low + MNPC_IO_Default_Width;
       MNPC_IO.Put
-         ( Target (Target'First + Low .. Target'First - 1 + High), Item.MNPC );
+         (Target (Target'First + Low .. Target'First - 1 + High), Item.MNPC);
 
       -- Fill remainder of string
       Target (High + 1 .. Target'Last) := (others => ' ');

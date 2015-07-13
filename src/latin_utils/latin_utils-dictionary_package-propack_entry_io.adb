@@ -62,10 +62,10 @@ package body Propack_Entry_IO is
    ---------------------------------------------------------------------------
 
    procedure Get
-      ( Source : in  String;
+      (Source : in  String;
         Target : out Propack_Entry;
         Last   : out Integer
-      )
+     )
    is
       -- Used for computing lower bound of substring
       Low : Integer := Source'First - 1;
@@ -73,7 +73,7 @@ package body Propack_Entry_IO is
       Decn_Record_IO.Get (Source (Low + 1 .. Source'Last), Target.Decl, Low);
       Low := Low + 1;
       Pronoun_Kind_Type_IO.Get
-         ( Source (Low + 1 .. Source'Last), Target.Kind, Last );
+         (Source (Low + 1 .. Source'Last), Target.Kind, Last);
    end Get;
 
    ---------------------------------------------------------------------------
