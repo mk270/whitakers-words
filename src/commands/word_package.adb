@@ -913,7 +913,7 @@ package body word_package is
             --  (agrees with everything)
             ls := len (add_suffix
               (add_prefix (pdl (j).ds.stem, prefix), suffix));
-        on_sl:
+            on_sl :
             for i in sl'Range loop
                exit on_sl when sl (i) = Null_Parse_Record;
 
@@ -928,12 +928,12 @@ package body word_package is
                   --sl_p := sl (i).ir.qual.pofs;
 
                   if (
-                    ((pdl_key <= sl (i).IR.key) )  or else
+                    ((pdl_key <= sl (i).IR.key))  or else
                     ((pdl_key = 0)  and then
                     (((pdl_p = N) or (pdl_p = Adj) or (pdl_p = V)) and then
-                    ((sl (i).IR.key = 1) or (sl (i).IR.key = 2)) ))
+                    ((sl (i).IR.key = 1) or (sl (i).IR.key = 2))))
                      )  and then   --  and KEY
-                    ( pdl_part.pofs  = eff_part (sl (i).IR.qual.pofs) )
+                    ( pdl_part.pofs  = eff_part (sl (i).IR.qual.pofs))
                   then
                      if pdl_part.pofs = N                            and then
                        pdl_part.N.Decl <= sl (i).IR.qual.N.decl      and then
@@ -1202,37 +1202,43 @@ package body word_package is
 
          if words_mdev (use_prefixes)  then
 
-            --PUT (NUMBER_OF_PREFIXES); PUT (INTEGER (SA'LENGTH)); PUT (SA'LAST); NEW_LINE;
-            for i in 1 .. number_of_prefixes  loop       --  Loop through PREFIXES
+            for i in 1 .. number_of_prefixes  loop
+               --  Loop through PREFIXES
                l :=  0;
-               for j in sa'Range  loop                  --  Loop through stem array
-                                                        --PUT ("J = "); PUT (J); PUT ("   SA (J) = "); PUT (SA (J)); NEW_LINE;
-                  if sa (j)(1) = prefixes (i).fix (1) then  --  Cuts down a little -- do better
+               for j in sa'Range  loop
+                  --  Loop through stem array
+                  if sa (j)(1) = prefixes (i).fix (1) then
+                     --  Cuts down a little -- do better
                      if subtract_prefix (sa (j), prefixes (i)) /=
                        Head (sa (j), Max_Stem_Size)
                      then
-                        l := l + 1;            --  We have a hit, make new stem array item
+                        l := l + 1;
+                        --  We have a hit, make new stem array item
                         ssa (l) := Head (subtract_prefix (sa (j), prefixes (i)),
-                          Max_Stem_Size);  --  And that has prefix subtracted to match dict
-                                           --PUT ("L = "); PUT (L); PUT ("   "); PUT_LINE (SUBTRACT_PREFIX (SA (J), PREFIXES (I)));
-                     end if;                    --  with prefix subtracted stems
+                          Max_Stem_Size);
+                        --  And that has prefix subtracted to match dict
+                     end if; --  with prefix subtracted stems
                   end if;
                end loop;
 
-               if l > 0  then                        --  There has been a prefix hit
-                  search_dictionaries (ssa (1 .. l));      --  So run new dictionary search
+               if l > 0  then
+                  --  There has been a prefix hit
+                  search_dictionaries (ssa (1 .. l));
+                  --  So run new dictionary search
 
-                  if  pdl_index /= 0     then                  --  Dict search was successful
-                                                               --PUT_LINE ("IN APPLY_PREFIX -  PDL_INDEX not 0     after prefix  " & PREFIXES (I).FIX);
-                                                               --PUT_LINE ("REDUCE_STEM_LIST being called from APPLY_PREFIX  ----  SUFFIX = "
-                                                               --& SUFFIX.FIX);
+                  if  pdl_index /= 0     then
+                     --  Dict search was successful
                      reduce_stem_list (sx, sxx, prefixes (i), suffix);
 
-                     if sxx (1) /= Null_Parse_Record  then   --  There is reduced stem result
-                        pa_last := pa_last + 1;        --  So add prefix line to parse array
+                     if sxx (1) /= Null_Parse_Record  then
+                        --  There is reduced stem result
+                        pa_last := pa_last + 1;
+                        --  So add prefix line to parse array
                         pa (pa_last).IR :=
-                          ((Prefix, null_prefix_record), 0, null_ending_record, x, x);
-                        pa (pa_last).Stem := Head (prefixes (i).fix, Max_Stem_Size);
+                          ((Prefix, null_prefix_record), 0,
+                          null_ending_record, x, x);
+                        pa (pa_last).Stem :=
+                          Head (prefixes (i).fix, Max_Stem_Size);
                         pa (pa_last).MNPC := Dict_IO.Count (prefixes (i).MNPC);
                         pa (pa_last).D_K  := addons;
                         exit;      --  Because we accept only one prefix
@@ -1243,9 +1249,13 @@ package body word_package is
          end if;  --  On USE_PREFIXES
       end apply_prefix;
 
-      procedure apply_suffix (sa : in stem_array_type;
-                              sx : in sal; sxx : in out sal;
-                                           pa : in out Parse_Array; pa_last : in out Integer) is
+      procedure apply_suffix
+        (sa : in stem_array_type;
+         sx : in sal;
+         sxx : in out sal;
+         pa : in out Parse_Array;
+         pa_last : in out Integer)
+      is
          ssa : stem_array;
          l : Integer :=  0;
          suffix_hit : Integer := 0;
@@ -1260,32 +1270,38 @@ package body word_package is
                if subtract_suffix (sa (j), suffixes (i)) /=
                  Head (sa (j), Max_Stem_Size)
                then
-                  l := l + 1;            --  We have a hit, make new stem array item
+                  l := l + 1;
+                  --  We have a hit, make new stem array item
                   ssa (l) := Head (subtract_suffix (sa (j), suffixes (i)),
-                    Max_Stem_Size);  --  And that has prefix subtracted to match dict
+                    Max_Stem_Size);
+                  --  And that has prefix subtracted to match dict
                end if;
             end loop;    --  Loop on J through SA
 
-            if l > 0  then                        --  There has been a suffix hit
-               search_dictionaries (ssa (1 .. l));     --  So run new dictionary search
-                                                     --  For suffixes we allow as many as match
+            if l > 0  then
+               --  There has been a suffix hit
+               search_dictionaries (ssa (1 .. l));
+               --  So run new dictionary search
+               --  For suffixes we allow as many as match
 
-               if pdl_index /= 0 then                  --  Dict search was successful
-                                                       --PUT_LINE ("IN APPLY_SUFFIX -  PDL_INDEX not 0     after suffix  " & SUFFIXES (I).FIX);
-
+               if pdl_index /= 0 then
+                  --  Dict search was successful
                   suffix_hit := i;
 
                   reduce_stem_list (sx, sxx, null_prefix_item, suffixes (i));
 
-                  if sxx (1) /= Null_Parse_Record  then    --  There is reduced stem result
-                     pa_last := pa_last + 1;        --  So add suffix line to parse array
-                                                    --PUT_LINE ("REDUCE_STEM_LIST is not null so add suffix to parse array");
+                  if sxx (1) /= Null_Parse_Record  then
+                     --  There is reduced stem result
+                     pa_last := pa_last + 1;
+                     --  So add suffix line to parse array
                      pa (pa_last).IR :=
-                       ((Suffix, null_suffix_record), 0, null_ending_record, x, x);
-                     pa (pa_last).Stem := Head (suffixes (suffix_hit).fix, Max_Stem_Size);
+                       ((Suffix, null_suffix_record),
+                       0, null_ending_record, x, x);
+                     pa (pa_last).Stem :=
+                       Head (suffixes (suffix_hit).fix, Max_Stem_Size);
                      --  Maybe it would better if suffix.fix was of stem size
-                     pa (pa_last).MNPC := Dict_IO.Count (suffixes (suffix_hit).MNPC);
-                     --PUT ("SUFFIX MNPC  "); PUT (SUFFIXES (SUFFIX_HIT).MNPC); NEW_LINE;
+                     pa (pa_last).MNPC :=
+                       Dict_IO.Count (suffixes (suffix_hit).MNPC);
                      pa (pa_last).D_K  := addons;
                      ---
                      for i in sxx'Range  loop
@@ -1298,14 +1314,19 @@ package body word_package is
 
                else   --  there is suffix (L /= 0) but no dictionary hit
                   suffix_hit := i;
-                  apply_prefix (ssa (1 .. l), suffixes (i), sx, sxx, pa, pa_last);
-                  if sxx (1) /= Null_Parse_Record  then    --  There is reduced stem result
-                     pa_last := pa_last + 1;        --  So add suffix line to parse array
-                                                    --PUT_LINE ("REDUCE_STEM_LIST is not null so add suffix to parse array");
+                  apply_prefix
+                    (ssa (1 .. l), suffixes (i), sx, sxx, pa, pa_last);
+                  if sxx (1) /= Null_Parse_Record  then
+                     --  There is reduced stem result
+                     pa_last := pa_last + 1;
+                     --  So add suffix line to parse array
                      pa (pa_last).IR :=
-                       ((Suffix, null_suffix_record), 0, null_ending_record, x, x);
-                     pa (pa_last).Stem := Head (suffixes (suffix_hit).fix, Max_Stem_Size);
-                     pa (pa_last).MNPC := Dict_IO.Count (suffixes (suffix_hit).MNPC);
+                       ((Suffix, null_suffix_record),
+                       0, null_ending_record, x, x);
+                     pa (pa_last).Stem := Head
+                       (suffixes (suffix_hit).fix, Max_Stem_Size);
+                     pa (pa_last).MNPC :=
+                       Dict_IO.Count (suffixes (suffix_hit).MNPC);
                      pa (pa_last).D_K  := addons;
 
                      for i in sxx'Range  loop    --  Set this set of results
@@ -1315,11 +1336,15 @@ package body word_package is
                      end loop;
                   end if;
                end if;
-            end if;                               --  with suffix subtracted stems
+            end if;             --  with suffix subtracted stems
          end loop;      --  Loop on I for SUFFIXES
       end apply_suffix;
 
-      procedure prune_stems (Input_word : String; sx : in sal; sxx : in out sal) is
+      procedure prune_stems
+        (Input_word : String;
+         sx : in sal;
+         sxx : in out sal)
+      is
          j : Integer := 0;
          --SXX : SAL;
 
@@ -1343,7 +1368,8 @@ package body word_package is
             end loop;
          end generate_reduced_stem_array;
 
-         if not words_mdev (do_only_fixes)  then   --  Just bypass main dictionary search
+         if not words_mdev (do_only_fixes)  then
+            --  Just bypass main dictionary search
 
             search_dictionaries (ssa (1 .. ssa_max));
 
@@ -1355,20 +1381,24 @@ package body word_package is
            words_mode (do_fixes)
          then
 
-            ----So try prefixes and suffixes, Generate a new SAA array, search again
+            ----So try prefixes and suffixes,
+            --- Generate a new SAA array, search again
 
-            if sxx (1) = Null_Parse_Record  then        --  We could not find a match with suffix
-               apply_prefix (ssa (1 .. ssa_max), null_suffix_item, sx, sxx, pa, pa_last);
+            if sxx (1) = Null_Parse_Record  then
+               --  We could not find a match with suffix
+               apply_prefix (ssa (1 .. ssa_max),
+                 null_suffix_item, sx, sxx, pa, pa_last);
             end if;
             --------------
-            if sxx (1) = Null_Parse_Record  then        --  We could not find a match with suffix
+            if sxx (1) = Null_Parse_Record  then
+               --  We could not find a match with suffix
                apply_suffix (ssa (1 .. ssa_max), sx, sxx, pa, pa_last);
                if sxx (1) = Null_Parse_Record  then
                   --  We could not find a match with suffix
                   ----So try prefixes, Generate a new SAA array, search again
                   ----Need to use the new SSA, modified to include suffixes
-                  apply_prefix (ssa (1 .. ssa_max), null_suffix_item, sx, sxx, pa, pa_last);
-                  --TEXT_IO.PUT_LINE ("PREFIXES applied  PA_LAST = " & INTEGER'IMAGE (PA_LAST));
+                  apply_prefix (ssa (1 .. ssa_max),
+                    null_suffix_item, sx, sxx, pa, pa_last);
                   --------------
                end if;       --  Suffix failed
             end if;       --  Suffix failed
@@ -1441,21 +1471,25 @@ package body word_package is
                      --  optimum for qu-pronouns
                      if pell (z, last_of_word) > 0  then
                         --  Any possible inflections at all
-                        for i in pelf (z, last_of_word) .. pell (z, last_of_word) loop
+                        for i in pelf
+                          (z, last_of_word) .. pell (z, last_of_word) loop
                            if (z <= length_of_word)  and then
                              ((equ (lel (i).ending.suf (1 .. z),
                              word (word'Last-z+1 .. word'Last)))  and
-                             (lel (i).qual.Pron.decl <= packons (k).entr.base.pack.Decl))
+                             (lel (i).qual.Pron.decl <=
+                             packons (k).entr.base.pack.Decl))
                            then
                               --  Have found an ending that is a possible match
                               --  And INFLECT agrees with PACKON.BASE
                               --  Add to list of possible ending records
                               stem_length := word'Length - z;
-                              pr := (Head (word (word'First .. stem_length), Max_Stem_Size),
+                              pr := (Head (word (word'First .. stem_length),
+                                Max_Stem_Size),
                                 lel (i), Default_Dictionary_Kind, Null_MNPC);
                               m := m + 1;
                               sl (m) := pr;
-                              ssa (1) := Head (word (word'First.. word'First+stem_length-1),
+                              ssa (1) := Head
+                                (word (word'First.. word'First+stem_length-1),
                                 Max_Stem_Size);
                               --  may Get set several times
                            end if;
@@ -1935,7 +1969,7 @@ package body word_package is
            ("Except DICT.LOC that means DICTFILE, INDXFILE, STEMFILE");
       end if;
 
-  try_to_load_english_words:
+      try_to_load_english_words :
       begin
          English_Dictionary_Available (general) := False;
          ewds_direct_io.Open
