@@ -289,30 +289,31 @@ package Latin_Utils.Inflections_Package is
 
    Numeral_Value_Type_IO_Default_Width : Integer := 5;
 
-   type Verb_Kind_Type is (
-     x,         --  all, none, or unknown
-     to_be,     --  only the verb TO BE (esse)
-     to_being,  --  compounds of the verb to be (esse)
-     gen,       --  verb taking the GENitive
-     dat,       --  verb taking the DATive
-     abl,       --  verb taking the ABLative
-     trans,     --  TRANSitive verb
-     intrans,   --  INTRANSitive verb
-     impers,    --  IMPERSonal verb (implied subject 'it', 'they', 'God')
-     --  agent implied in action, subject in predicate
+   ---------------------------------------------------------------------------
 
-     dep,       --  DEPonent verb
-     --  only passive form but with active meaning
-
-     semidep,   --  SEMIDEPonent verb (forms perfect as deponent)
-     --  (perfect passive has active force)
-
-     perfdef
-   --  PERFect DEFinite verb, having only perfect stem, but with present force
-                          );
+   type Verb_Kind_Type is
+      (X,        --  all, none, or unknown
+      To_Be,     --  only the verb TO BE (esse)
+      To_Being,  --  compounds of the verb to be (esse)
+      Gen,       --  verb taking the GENitive
+      Dat,       --  verb taking the DATive
+      Abl,       --  verb taking the ABLative
+      Trans,     --  TRANSitive verb
+      Intrans,   --  INTRANSitive verb
+      Impers,    --  IMPERSonal verb (implied subject 'it', 'they', 'God')
+      --  agent implied in action, subject in predicate
+      Dep,       --  DEPonent verb
+      --  only passive form but with active meaning
+      Semidep,   --  SEMIDEPonent verb (forms perfect as deponent)
+      --  (perfect passive has active force)
+      Perfdef    --  PERFect DEFinite verb
+      --  having only perfect stem, but with present force
+      );
 
    package Verb_Kind_Type_IO is
       new Ada.Text_IO.Enumeration_IO (Verb_Kind_Type);
+
+   ---------------------------------------------------------------------------
 
    type noun_record is
       record

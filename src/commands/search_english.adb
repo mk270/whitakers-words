@@ -139,7 +139,7 @@ is
                Decn_Record_IO.Put (Output, de.Part.V.Con);
             end if;
             if (de.Part.pofs = V)  and then
-              (de.Part.V.Kind in gen .. perfdef)
+              (de.Part.V.Kind in Gen .. Perfdef)
             then
                Ada.Text_IO.Put (Output, "  " &
                  Verb_Kind_Type'Image (de.Part.V.Kind) & "  ");

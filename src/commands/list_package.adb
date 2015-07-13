@@ -334,14 +334,14 @@ package body list_package is
                   if dm.d_k in general .. local then  --  UNIQUES has no DE
 
                      if (sr.ir.qual.pofs = V)    and then
-                       (dm.de.Part.V.Kind = dep)       and then
+                       (dm.de.Part.V.Kind = Dep)       and then
                        (sr.ir.qual.V.tense_voice_mood.Mood in Ind .. Inf)
                      then
                         --TEXT_IO.PUT_LINE ("START PRINT MODIFIED QUAL   V");
                         out_String (passive_start + 1 .. passive_finish) :=
                           passive_blank;
                      elsif (sr.ir.qual.pofs = Vpar)    and then
-                       (dm.de.Part.V.Kind = dep)    and then
+                       (dm.de.Part.V.Kind = Dep)    and then
                        (sr.ir.qual.Vpar.tense_voice_mood.Mood = Ppl)
                      then
                         --TEXT_IO.PUT_LINE ("START PRINT MODIFIED QUAL   VPAR");
