@@ -82,141 +82,150 @@ begin
 
          form_de :
          begin
-             de.Stems (1) := s (start_stem_1 .. Max_Stem_Size);
-             de.Stems (2) := s (start_stem_2 .. start_stem_2+Max_Stem_Size-1);
-             de.Stems (3) := s (start_stem_3 .. start_stem_3+Max_Stem_Size-1);
-             de.Stems (4) := s (start_stem_4 .. start_stem_4+Max_Stem_Size-1);
-             Get (s (start_part .. last), de.Part, l);
-             -- FIXME: Why not Translation_Record_IO.Get ?
-             Get (s (l+1 .. last), de.Tran.Age, l);
-             Get (s (l+1 .. last), de.Tran.Area, l);
-             Get (s (l+1 .. last), de.Tran.Geo, l);
-             Get (s (l+1 .. last), de.Tran.Freq, l);
-             Get (s (l+1 .. last), de.Tran.Source, l);
-             de.Mean := Head (s (l+2 .. last), Max_Meaning_Size);
-             --  Note that this allows initial blanks
-             --  L+2 skips over the SPACER, required because this is
-             --  STRING, not ENUM
-          exception
-             when others =>
-                New_Line;
-                Put_Line ("Exception");
-                Put_Line (s (1 .. last));
-                Integer_IO.Put (Integer (j)); New_Line;
-                Put (de); New_Line;
-          end form_de;
+            de.Stems (1) := s (start_stem_1 .. Max_Stem_Size);
+            de.Stems (2) := s (start_stem_2 .. start_stem_2 +
+              Max_Stem_Size - 1);
+            de.Stems (3) := s (start_stem_3 .. start_stem_3 +
+              Max_Stem_Size - 1);
+            de.Stems (4) := s (start_stem_4 .. start_stem_4 +
+              Max_Stem_Size - 1);
+            Get (s (start_part .. last), de.Part, l);
+            -- FIXME: Why not Translation_Record_IO.Get ?
+            Get (s (l + 1 .. last), de.Tran.Age, l);
+            Get (s (l + 1 .. last), de.Tran.Area, l);
+            Get (s (l + 1 .. last), de.Tran.Geo, l);
+            Get (s (l + 1 .. last), de.Tran.Freq, l);
+            Get (s (l + 1 .. last), de.Tran.Source, l);
+            de.Mean := Head (s (l + 2 .. last), Max_Meaning_Size);
+            --  Note that this allows initial blanks
+            --  L+2 skips over the SPACER, required because this is
+            --  STRING, not ENUM
+         exception
+            when others =>
+               New_Line;
+               Put_Line ("Exception");
+               Put_Line (s (1 .. last));
+               Integer_IO.Put (Integer (j)); New_Line;
+               Put (de); New_Line;
+         end form_de;
 
-          j := j + 1;
-          Write (dictfile, de, j);
+         j := j + 1;
+         Write (dictfile, de, j);
 
-          if not porting  then
-             if de.Part.pofs = N    and then
-               de.Stems (1) = de.Stems (2)     and then
-               de.Stems (1) /= ZZZ_Stem
-             then
-                Put (stemlist, de.Stems (1)); Put (stemlist, ' ');
-                Put (stemlist, de.Part); Put (stemlist, ' ');
-                Set_Col (stemlist, 45);
-                Integer_IO.Put (stemlist, 0, 2); Put (stemlist, ' ');
-                Set_Col (stemlist, 50);
-                Integer_IO.Put (stemlist, Integer (j), 6); New_Line (stemlist);
-             elsif de.Part.pofs = Adj  and then
-               de.Stems (1) = de.Stems (2)     and then
-               de.Stems (1) /= ZZZ_Stem
-             then
-                Put (stemlist, de.Stems (1)); Put (stemlist, ' ');
-                Put (stemlist, de.Part); Put (stemlist, ' ');
-                Set_Col (stemlist, 45);
-                Integer_IO.Put (stemlist, 0, 2); Put (stemlist, ' ');
-                Set_Col (stemlist, 50);
-                Integer_IO.Put (stemlist, Integer (j), 6); New_Line (stemlist);
-                if de.Stems (3) /= Null_Stem_Type
-                  and de.Stems (3) /= ZZZ_Stem
-                then
-                   Put (stemlist, de.Stems (3)); Put (stemlist, ' ');
-                   Put (stemlist, de.Part); Put (stemlist, ' ');
-                   Set_Col (stemlist, 45);
-                   Integer_IO.Put (stemlist, 3, 2); Put (stemlist, ' ');
-                   Set_Col (stemlist, 50);
-                   Integer_IO.Put (stemlist, Integer (j), 6);
-                   New_Line (stemlist);
-                end if;
-                if de.Stems (4) /= Null_Stem_Type
-                  and de.Stems (4) /= ZZZ_Stem
-                then
-                   Put (stemlist, de.Stems (4)); Put (stemlist, ' ');
-                   Put (stemlist, de.Part); Put (stemlist, ' ');
-                   Set_Col (stemlist, 45);
-                   Integer_IO.Put (stemlist, 4, 2); Put (stemlist, ' ');
-                   Set_Col (stemlist, 50);
-                   Integer_IO.Put (stemlist, Integer (j), 6);
-                   New_Line (stemlist);
-                end if;
-             elsif de.Part.pofs = Adj  and then
-               --  POS taken care of by position
-               de.Part.Adj.Co = comp
-             then
-                Put (stemlist, de.Stems (1)); Put (stemlist, ' ');
-                Put (stemlist, de.Part); Put (stemlist, ' ');
-                Set_Col (stemlist, 45);
-                Integer_IO.Put (stemlist, 3, 2); Put (stemlist, ' ');
-                Set_Col (stemlist, 50);
-                Integer_IO.Put (stemlist, Integer (j), 6); New_Line (stemlist);
-             elsif de.Part.pofs = Adj  and then
-               de.Part.Adj.Co = super
-             then
-                Put (stemlist, de.Stems (1)); Put (stemlist, ' ');
-                Put (stemlist, de.Part); Put (stemlist, ' ');
-                Set_Col (stemlist, 45);
-                Integer_IO.Put (stemlist, 4, 2); Put (stemlist, ' ');
-                Set_Col (stemlist, 50);
-                Integer_IO.Put (stemlist, Integer (j), 6); New_Line (stemlist);
-             elsif de.Part.pofs = Adv  and then
-               --  POS taken care of by position
-               de.Part.Adv.Co = comp
-             then
-                Put (stemlist, de.Stems (1)); Put (stemlist, ' ');
-                Put (stemlist, de.Part); Put (stemlist, ' ');
-                Set_Col (stemlist, 45);
-                Integer_IO.Put (stemlist, 2, 2); Put (stemlist, ' ');
-                Set_Col (stemlist, 50);
-                Integer_IO.Put (stemlist, Integer (j), 6); New_Line (stemlist);
-             elsif de.Part.pofs = Adv  and then
-               de.Part.Adv.Co = super
-             then
-                Put (stemlist, de.Stems (1)); Put (stemlist, ' ');
-                Put (stemlist, de.Part); Put (stemlist, ' ');
-                Set_Col (stemlist, 45);
-                Integer_IO.Put (stemlist, 3, 2); Put (stemlist, ' ');
-                Set_Col (stemlist, 50);
-                Integer_IO.Put (stemlist, Integer (j), 6); New_Line (stemlist);
-             elsif de.Part.pofs = V    and then
-               de.Stems (1) = de.Stems (2)     and then
-               de.Stems (1) /= ZZZ_Stem
-             then
-                Put (stemlist, de.Stems (1)); Put (stemlist, ' ');
-                Put (stemlist, de.Part); Put (stemlist, ' ');
-                Set_Col (stemlist, 45);
-                Integer_IO.Put (stemlist, 0, 2); Put (stemlist, ' ');
-                Set_Col (stemlist, 50);
-                Integer_IO.Put (stemlist, Integer (j), 6); New_Line (stemlist);
-                if de.Stems (3) /= Null_Stem_Type  and de.Stems (3) /= ZZZ_Stem  then
-                   Put (stemlist, de.Stems (3)); Put (stemlist, ' ');
-                   Put (stemlist, de.Part); Put (stemlist, ' ');
-                   Set_Col (stemlist, 45);
-                   Integer_IO.Put (stemlist, 3, 2); Put (stemlist, ' ');
-                   Set_Col (stemlist, 50);
-                   Integer_IO.Put (stemlist, Integer (j), 6); New_Line (stemlist);
-                end if;
+         if not porting  then
+            if de.Part.pofs = N    and then
+              de.Stems (1) = de.Stems (2)     and then
+              de.Stems (1) /= ZZZ_Stem
+            then
+               Put (stemlist, de.Stems (1)); Put (stemlist, ' ');
+               Put (stemlist, de.Part); Put (stemlist, ' ');
+               Set_Col (stemlist, 45);
+               Integer_IO.Put (stemlist, 0, 2); Put (stemlist, ' ');
+               Set_Col (stemlist, 50);
+               Integer_IO.Put (stemlist, Integer (j), 6); New_Line (stemlist);
+            elsif de.Part.pofs = Adj  and then
+              de.Stems (1) = de.Stems (2)     and then
+              de.Stems (1) /= ZZZ_Stem
+            then
+               Put (stemlist, de.Stems (1)); Put (stemlist, ' ');
+               Put (stemlist, de.Part); Put (stemlist, ' ');
+               Set_Col (stemlist, 45);
+               Integer_IO.Put (stemlist, 0, 2); Put (stemlist, ' ');
+               Set_Col (stemlist, 50);
+               Integer_IO.Put (stemlist, Integer (j), 6); New_Line (stemlist);
+               if de.Stems (3) /= Null_Stem_Type
+                 and de.Stems (3) /= ZZZ_Stem
+               then
+                  Put (stemlist, de.Stems (3)); Put (stemlist, ' ');
+                  Put (stemlist, de.Part); Put (stemlist, ' ');
+                  Set_Col (stemlist, 45);
+                  Integer_IO.Put (stemlist, 3, 2); Put (stemlist, ' ');
+                  Set_Col (stemlist, 50);
+                  Integer_IO.Put (stemlist, Integer (j), 6);
+                  New_Line (stemlist);
+               end if;
+               if de.Stems (4) /= Null_Stem_Type
+                 and de.Stems (4) /= ZZZ_Stem
+               then
+                  Put (stemlist, de.Stems (4)); Put (stemlist, ' ');
+                  Put (stemlist, de.Part); Put (stemlist, ' ');
+                  Set_Col (stemlist, 45);
+                  Integer_IO.Put (stemlist, 4, 2); Put (stemlist, ' ');
+                  Set_Col (stemlist, 50);
+                  Integer_IO.Put (stemlist, Integer (j), 6);
+                  New_Line (stemlist);
+               end if;
+            elsif de.Part.pofs = Adj  and then
+              --  POS taken care of by position
+              de.Part.Adj.Co = comp
+            then
+               Put (stemlist, de.Stems (1)); Put (stemlist, ' ');
+               Put (stemlist, de.Part); Put (stemlist, ' ');
+               Set_Col (stemlist, 45);
+               Integer_IO.Put (stemlist, 3, 2); Put (stemlist, ' ');
+               Set_Col (stemlist, 50);
+               Integer_IO.Put (stemlist, Integer (j), 6); New_Line (stemlist);
+            elsif de.Part.pofs = Adj  and then
+              de.Part.Adj.Co = super
+            then
+               Put (stemlist, de.Stems (1)); Put (stemlist, ' ');
+               Put (stemlist, de.Part); Put (stemlist, ' ');
+               Set_Col (stemlist, 45);
+               Integer_IO.Put (stemlist, 4, 2); Put (stemlist, ' ');
+               Set_Col (stemlist, 50);
+               Integer_IO.Put (stemlist, Integer (j), 6); New_Line (stemlist);
+            elsif de.Part.pofs = Adv  and then
+              --  POS taken care of by position
+              de.Part.Adv.Co = comp
+            then
+               Put (stemlist, de.Stems (1)); Put (stemlist, ' ');
+               Put (stemlist, de.Part); Put (stemlist, ' ');
+               Set_Col (stemlist, 45);
+               Integer_IO.Put (stemlist, 2, 2); Put (stemlist, ' ');
+               Set_Col (stemlist, 50);
+               Integer_IO.Put (stemlist, Integer (j), 6); New_Line (stemlist);
+            elsif de.Part.pofs = Adv  and then
+              de.Part.Adv.Co = super
+            then
+               Put (stemlist, de.Stems (1)); Put (stemlist, ' ');
+               Put (stemlist, de.Part); Put (stemlist, ' ');
+               Set_Col (stemlist, 45);
+               Integer_IO.Put (stemlist, 3, 2); Put (stemlist, ' ');
+               Set_Col (stemlist, 50);
+               Integer_IO.Put (stemlist, Integer (j), 6); New_Line (stemlist);
+            elsif de.Part.pofs = V    and then
+              de.Stems (1) = de.Stems (2)     and then
+              de.Stems (1) /= ZZZ_Stem
+            then
+               Put (stemlist, de.Stems (1)); Put (stemlist, ' ');
+               Put (stemlist, de.Part); Put (stemlist, ' ');
+               Set_Col (stemlist, 45);
+               Integer_IO.Put (stemlist, 0, 2); Put (stemlist, ' ');
+               Set_Col (stemlist, 50);
+               Integer_IO.Put (stemlist, Integer (j), 6); New_Line (stemlist);
+               if de.Stems (3) /= Null_Stem_Type
+                 and de.Stems (3) /= ZZZ_Stem
+               then
+                  Put (stemlist, de.Stems (3)); Put (stemlist, ' ');
+                  Put (stemlist, de.Part); Put (stemlist, ' ');
+                  Set_Col (stemlist, 45);
+                  Integer_IO.Put (stemlist, 3, 2); Put (stemlist, ' ');
+                  Set_Col (stemlist, 50);
+                  Integer_IO.Put (stemlist, Integer (j), 6);
+                  New_Line (stemlist);
+               end if;
 
-                if de.Stems (4) /= Null_Stem_Type  and de.Stems (4) /= ZZZ_Stem  then
-                   Put (stemlist, de.Stems (4)); Put (stemlist, ' ');
-                   Put (stemlist, de.Part); Put (stemlist, ' ');
-                   Set_Col (stemlist, 45);
-                   Integer_IO.Put (stemlist, 4, 2); Put (stemlist, ' ');
-                   Set_Col (stemlist, 50);
-                   Integer_IO.Put (stemlist, Integer (j), 6); New_Line (stemlist);
-                end if;
+               if de.Stems (4) /= Null_Stem_Type
+                 and de.Stems (4) /= ZZZ_Stem
+               then
+                  Put (stemlist, de.Stems (4)); Put (stemlist, ' ');
+                  Put (stemlist, de.Part); Put (stemlist, ' ');
+                  Set_Col (stemlist, 45);
+                  Integer_IO.Put (stemlist, 4, 2); Put (stemlist, ' ');
+                  Set_Col (stemlist, 50);
+                  Integer_IO.Put (stemlist, Integer (j), 6);
+                  New_Line (stemlist);
+               end if;
              elsif de.Part.pofs = Num  and then
                de.Part.Num.Sort = card
              then
@@ -226,50 +235,50 @@ begin
                 Integer_IO.Put (stemlist, 1, 2); Put (stemlist, ' ');
                 Set_Col (stemlist, 50);
                 Integer_IO.Put (stemlist, Integer (j), 6); New_Line (stemlist);
-             elsif de.Part.pofs = Num  and then
-               de.Part.Num.Sort = ord
-             then
-                Put (stemlist, de.Stems (1)); Put (stemlist, ' ');
-                Put (stemlist, de.Part); Put (stemlist, ' ');
-                Set_Col (stemlist, 45);
-                Integer_IO.Put (stemlist, 2, 2); Put (stemlist, ' ');
-                Set_Col (stemlist, 50);
-                Integer_IO.Put (stemlist, Integer (j), 6); New_Line (stemlist);
-             elsif de.Part.pofs = Num  and then
-               de.Part.Num.Sort = dist
-             then
-                Put (stemlist, de.Stems (1)); Put (stemlist, ' ');
-                Put (stemlist, de.Part); Put (stemlist, ' ');
-                Set_Col (stemlist, 45);
-                Integer_IO.Put (stemlist, 3, 2); Put (stemlist, ' ');
-                Set_Col (stemlist, 50);
-                Integer_IO.Put (stemlist, Integer (j), 6); New_Line (stemlist);
-             elsif de.Part.pofs = Num  and then
-               de.Part.Num.Sort = adverb
-             then
-                Put (stemlist, de.Stems (1)); Put (stemlist, ' ');
-                Put (stemlist, de.Part); Put (stemlist, ' ');
-                Set_Col (stemlist, 45);
-                Integer_IO.Put (stemlist, 4, 2); Put (stemlist, ' ');
-                Set_Col (stemlist, 50);
-                Integer_IO.Put (stemlist, Integer (j), 6); New_Line (stemlist);
-             else
-                for i in Stem_Key_Type range 1 .. 4  loop
-                   if de.Stems (i) /= ZZZ_Stem  and
-                     de.Stems (i) /= Null_Stem_Type
-                   then
-                      Put (stemlist, de.Stems (i)); Put (stemlist, ' ');
-                      Put (stemlist, de.Part); Put (stemlist, ' ');
-                      Set_Col (stemlist, 45);
-                      Put (stemlist, i, 2); Put (stemlist, ' ');
-                      Set_Col (stemlist, 50);
-                      Integer_IO.Put (stemlist, Integer (j), 6); New_Line (stemlist);
-                   end if;
-                end loop;
-             end if;
-          end if;   --  PORTING
-       end if;
-    end loop over_lines;
+            elsif de.Part.pofs = Num  and then
+              de.Part.Num.Sort = ord
+            then
+               Put (stemlist, de.Stems (1)); Put (stemlist, ' ');
+               Put (stemlist, de.Part); Put (stemlist, ' ');
+               Set_Col (stemlist, 45);
+               Integer_IO.Put (stemlist, 2, 2); Put (stemlist, ' ');
+               Set_Col (stemlist, 50);
+               Integer_IO.Put (stemlist, Integer (j), 6); New_Line (stemlist);
+            elsif de.Part.pofs = Num  and then
+              de.Part.Num.Sort = dist
+            then
+               Put (stemlist, de.Stems (1)); Put (stemlist, ' ');
+               Put (stemlist, de.Part); Put (stemlist, ' ');
+               Set_Col (stemlist, 45);
+               Integer_IO.Put (stemlist, 3, 2); Put (stemlist, ' ');
+               Set_Col (stemlist, 50);
+               Integer_IO.Put (stemlist, Integer (j), 6); New_Line (stemlist);
+            elsif de.Part.pofs = Num  and then
+              de.Part.Num.Sort = adverb
+            then
+               Put (stemlist, de.Stems (1)); Put (stemlist, ' ');
+               Put (stemlist, de.Part); Put (stemlist, ' ');
+               Set_Col (stemlist, 45);
+               Integer_IO.Put (stemlist, 4, 2); Put (stemlist, ' ');
+               Set_Col (stemlist, 50);
+               Integer_IO.Put (stemlist, Integer (j), 6); New_Line (stemlist);
+            else
+               for i in Stem_Key_Type range 1 .. 4  loop
+                  if de.Stems (i) /= ZZZ_Stem  and
+                    de.Stems (i) /= Null_Stem_Type
+                  then
+                     Put (stemlist, de.Stems (i)); Put (stemlist, ' ');
+                     Put (stemlist, de.Part); Put (stemlist, ' ');
+                     Set_Col (stemlist, 45);
+                     Put (stemlist, i, 2); Put (stemlist, ' ');
+                     Set_Col (stemlist, 50);
+                     Integer_IO.Put (stemlist, Integer (j), 6); New_Line (stemlist);
+                  end if;
+               end loop;
+            end if;
+         end if;   --  PORTING
+      end if;
+   end loop over_lines;
 
     if d_k = general  then
        j := j + 1;
