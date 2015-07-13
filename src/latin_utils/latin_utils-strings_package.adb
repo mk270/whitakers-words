@@ -54,8 +54,8 @@ package body Latin_Utils.Strings_Package is
    ---------------------------------------------------------------------------
 
    function Trim
-      ( Source : in String;
-        Side   : in Trim_End := Both
+      (Source : in String;
+       Side   : in Trim_End := Both
       ) return String
    is
    begin
@@ -65,8 +65,8 @@ package body Latin_Utils.Strings_Package is
    ---------------------------------------------------------------------------
 
    function Head
-      ( Source : in String;
-        Count  : in Natural
+      (Source : in String;
+       Count  : in Natural
       ) return String is
    begin
       return Ada.Strings.Fixed.Head (Source, Count, ' ');
@@ -75,9 +75,9 @@ package body Latin_Utils.Strings_Package is
    ---------------------------------------------------------------------------
 
    procedure Get_Non_Comment_Line
-      ( File : in  Ada.Text_IO.File_Type;
-        Item : out String;
-        Last : out Integer
+      (File : in  Ada.Text_IO.File_Type;
+       Item : out String;
+       Last : out Integer
       ) is
       Line  : String (1 .. 250) := (others => ' ');
       Length, LX : Integer := 0;
@@ -85,11 +85,12 @@ package body Latin_Utils.Strings_Package is
    begin
       Last := 0;
 
-      File_Loop:
-      while not Ada.Text_IO.End_Of_File (File) loop  --  Loop until data - Finish on EOF
+      File_Loop :
+      while not Ada.Text_IO.End_Of_File (File) loop
+         --  Loop until data - Finish on EOF
          Ada.Text_IO.Get_Line (File, Line, Length);
          if Head (Trim (Line), 250)(1 .. 2) = "  "  or
-            Head (Trim (Line), 250)(1 .. 2) = "--"
+           Head (Trim (Line), 250)(1 .. 2) = "--"
          then
             null;
          else

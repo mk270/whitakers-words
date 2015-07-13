@@ -19,7 +19,7 @@ package Latin_Utils.Preface is
 
    ---------------------------------------------------------------------------
 
-   procedure Put (Item: String);
+   procedure Put (Item : String);
    procedure Set_Col (To : Ada.Text_IO.Positive_Count);
    procedure Put_Line (Item : String);
    procedure New_Line (Spacing  : Ada.Text_IO.Positive_Count := 1);

@@ -22,15 +22,15 @@ package body Latin_Utils.General is
    ---------------------------------------------------------------------------
 
    procedure Load_Dictionary
-      ( Line : in out String;
-        Last : in out Integer;
-        D_K  :    out Latin_Utils.Dictionary_Package.Dictionary_Kind
+      (Line : in out String;
+       Last : in out Integer;
+       D_K  :    out Latin_Utils.Dictionary_Package.Dictionary_Kind
       )
    is
       use Latin_Utils.Strings_Package;
    begin
       Ada.Text_IO.Put
-         ( "What dictionary to use, GENERAL or SPECIAL (Reply G or S) =>" );
+         ("What dictionary to use, GENERAL or SPECIAL (Reply G or S) =>");
       Ada.Text_IO.Get_Line (Line, Last);
       if Last > 0  then
          if Trim (Line (Line'First .. Last))(1) = 'G' or else

@@ -28,9 +28,9 @@ package Latin_Utils.General is
    -- Interactively loads dictionary (either special or general)
    -- Used by makedict_main, makeewds, makestem
    procedure Load_Dictionary
-      ( Line : in out String;
-        Last : in out Integer;
-        D_K  :    out Latin_Utils.Dictionary_Package.Dictionary_Kind
+      (Line : in out String;
+       Last : in out Integer;
+       D_K  :    out Latin_Utils.Dictionary_Package.Dictionary_Kind
       );
 
    ---------------------------------------------------------------------------

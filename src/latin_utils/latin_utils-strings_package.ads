@@ -48,23 +48,23 @@ package Latin_Utils.Strings_Package is
    --  Removes leading and/or trailing blanks and returns a STRING starting at 1
    --  For a String of all blanks as Input it returns NULL_STRING
    function Trim
-      ( Source : in String;
-        Side   : in Trim_End := Both
+      (Source : in String;
+       Side   : in Trim_End := Both
       ) return String;
 
    --  Truncates or fills a String to exactly N in Length
    function Head
-      ( Source : in String;
-        Count  : in Natural
+      (Source : in String;
+       Count  : in Natural
       ) return String;
 
    --  Reads a text file and outs a String that is as much of the
    --  first line encountered that is not a comment
    -- FIXME: Will raise exception if file is not open.
    procedure Get_Non_Comment_Line
-      ( File : in  Ada.Text_IO.File_Type;
-        Item : out String;
-        Last : out Integer
+      (File : in  Ada.Text_IO.File_Type;
+       Item : out String;
+       Last : out Integer
       );
 
    ---------------------------------------------------------------------------
