@@ -23,20 +23,22 @@ package list_package is
    --  OUTPUT_SCROLL_COUNT : INTEGER := 0;
    --
 
-   procedure list_stems(configuration : configuration_type;
-                        Output   : Ada.Text_IO.File_Type;
-                        raw_word : String;
-                        Input_Line : String;
-                        pa       : in out Parse_Array;
-                        pa_last  : in out Integer);
+   procedure list_stems (configuration : configuration_type;
+                         Output   : Ada.Text_IO.File_Type;
+                         raw_word : String;
+                         Input_Line : String;
+                         pa       : in out Parse_Array;
+                         pa_last  : in out Integer);
 
-   procedure list_entry(Output   : Ada.Text_IO.File_Type;
-                        d_k      : Dictionary_Kind;
-                        mn       : Dict_IO.Count);
+   procedure list_entry (Output   : Ada.Text_IO.File_Type;
+                         d_k      : Dictionary_Kind;
+                         mn       : Dict_IO.Count);
 
-   procedure unknown_search(unknown       :  in String;
-                            unknown_count : out Dict_IO.Count);
+   procedure unknown_search (unknown       :  in String;
+                             unknown_count : out Dict_IO.Count);
 
-   procedure list_neighborhood(Output : Ada.Text_IO.File_Type; Input_word : String);
+   procedure list_neighborhood
+     (Output : Ada.Text_IO.File_Type;
+      Input_word : String);
 
 end list_package;
