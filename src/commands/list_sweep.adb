@@ -126,12 +126,12 @@ procedure list_sweep (pa : in out Parse_Array; pa_last : in out Integer) is
             end;
 
             --  Check for Verb Imperative being in permitted person
-            if pr.IR.qual.V.tense_voice_mood.mood = Imp then
-               if (pr.IR.qual.V.tense_voice_mood.tense = Pres) and
+            if pr.IR.qual.V.tense_voice_mood.Mood = Imp then
+               if (pr.IR.qual.V.tense_voice_mood.Tense = Pres) and
                  (pr.IR.qual.V.person = 2)
                then
                   null;
-               elsif (pr.IR.qual.V.tense_voice_mood.tense = Fut) and
+               elsif (pr.IR.qual.V.tense_voice_mood.Tense = Fut) and
                  (pr.IR.qual.V.person = 2 or pr.IR.qual.V.person = 3)
                then
                   null;
@@ -152,14 +152,14 @@ procedure list_sweep (pa : in out Parse_Array; pa_last : in out Integer) is
             --  Check for V DEP    and demand PASSIVE
             if de.Part.V.Kind = dep then
                --TEXT_IO.PUT ("DEP  ");
-               if (pr.IR.qual.V.tense_voice_mood.voice = Active)  and
-                 (pr.IR.qual.V.tense_voice_mood.mood = Inf)  and
-                 (pr.IR.qual.V.tense_voice_mood.tense = Fut)
+               if (pr.IR.qual.V.tense_voice_mood.Voice = Active)  and
+                 (pr.IR.qual.V.tense_voice_mood.Mood = Inf)  and
+                 (pr.IR.qual.V.tense_voice_mood.Tense = Fut)
                then
                   --TEXT_IO.PUT ("PASSIVE  ");
                   allowed := True;
-               elsif (pr.IR.qual.V.tense_voice_mood.voice = Active)  and
-                 (pr.IR.qual.V.tense_voice_mood.mood in Ind .. Inf)
+               elsif (pr.IR.qual.V.tense_voice_mood.Voice = Active)  and
+                 (pr.IR.qual.V.tense_voice_mood.Mood in Ind .. Inf)
                then
                   --TEXT_IO.PUT ("ACTIVE  ");
                   allowed := False;
@@ -171,14 +171,14 @@ procedure list_sweep (pa : in out Parse_Array; pa_last : in out Integer) is
 
             --  Check for V SEMIDEP    and demand PASSIVE ex Perf
             if de.Part.V.Kind = semidep then
-               if (pr.IR.qual.V.tense_voice_mood.voice = Passive)  and
-                 (pr.IR.qual.V.tense_voice_mood.tense in Pres .. Fut)  and
-                 (pr.IR.qual.V.tense_voice_mood.mood in Ind .. Imp)
+               if (pr.IR.qual.V.tense_voice_mood.Voice = Passive)  and
+                 (pr.IR.qual.V.tense_voice_mood.Tense in Pres .. Fut)  and
+                 (pr.IR.qual.V.tense_voice_mood.Mood in Ind .. Imp)
                then
                   allowed := False;
-               elsif (pr.IR.qual.V.tense_voice_mood.voice = Active)  and
-                 (pr.IR.qual.V.tense_voice_mood.tense in Perf .. Futp)  and
-                 (pr.IR.qual.V.tense_voice_mood.mood in Ind .. Imp)
+               elsif (pr.IR.qual.V.tense_voice_mood.Voice = Active)  and
+                 (pr.IR.qual.V.tense_voice_mood.Tense in Perf .. Futp)  and
+                 (pr.IR.qual.V.tense_voice_mood.Mood in Ind .. Imp)
                then
                   allowed := False;
                else
