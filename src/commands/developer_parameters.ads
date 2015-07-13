@@ -22,7 +22,8 @@ package developer_parameters is
    pa_last_max, final_pa_last_max : Integer := 0;
 
    --  This package defines a number of parameters that areused in the program
-   --  The default values are set in the body, so that they may be changed easily
+   --  The default values are set in the body, so that they may be changed
+   --  easily
 
    --  These files are used by the program if requested, but not necessary
    --  They are all text files and human readable
@@ -81,9 +82,9 @@ package developer_parameters is
      update_local_dictionary,
      update_meanings,
 
-     minimize_Output         );
+     minimize_Output);
 
-   package mdev_type_io is new Ada.Text_IO.Enumeration_IO(mdev_type);
+   package mdev_type_io is new Ada.Text_IO.Enumeration_IO (mdev_type);
 
    type mdev_array is array (mdev_type) of Boolean;
 
