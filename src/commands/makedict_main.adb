@@ -210,7 +210,7 @@ begin
                   Integer_IO.Put(stemlist, Integer(j), 6); New_Line(stemlist);
                end if;
             elsif de.Part.pofs = Num  and then
-               de.Part.Num.Sort = card
+               de.Part.Num.Sort = Card
             then
                Put(stemlist, de.Stems(1)); Put(stemlist, ' ');
                Put(stemlist, de.Part); Put(stemlist, ' ');
@@ -219,7 +219,7 @@ begin
                Set_Col(stemlist, 50);
                Integer_IO.Put(stemlist, Integer(j), 6); New_Line(stemlist);
             elsif de.Part.pofs = Num  and then
-               de.Part.Num.Sort = ord
+               de.Part.Num.Sort = Ord
             then
                Put(stemlist, de.Stems(1)); Put(stemlist, ' ');
                Put(stemlist, de.Part); Put(stemlist, ' ');
@@ -228,7 +228,7 @@ begin
                Set_Col(stemlist, 50);
                Integer_IO.Put(stemlist, Integer(j), 6); New_Line(stemlist);
             elsif de.Part.pofs = Num  and then
-               de.Part.Num.Sort = dist
+               de.Part.Num.Sort = Dist
             then
                Put(stemlist, de.Stems(1)); Put(stemlist, ' ');
                Put(stemlist, de.Part); Put(stemlist, ' ');
@@ -237,7 +237,7 @@ begin
                Set_Col(stemlist, 50);
                Integer_IO.Put(stemlist, Integer(j), 6); New_Line(stemlist);
             elsif de.Part.pofs = Num  and then
-               de.Part.Num.Sort = adverb
+               de.Part.Num.Sort = Adverb
             then
                Put(stemlist, de.Stems(1)); Put(stemlist, ' ');
                Put(stemlist, de.Part); Put(stemlist, ' ');

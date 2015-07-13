@@ -749,7 +749,7 @@ package body word_package is
          MNPC_part : MNPC_Type := Null_MNPC;
          pdl_part : Part_Entry;
          com : Comparison_Type := X;
-         num_sort : Numeral_Sort_Type := x;
+         num_sort : Numeral_Sort_Type := X;
          ls : Integer := 0;
          m : Integer := 0;
 
@@ -979,7 +979,7 @@ package body word_package is
                        (pdl_key         = sl(i).IR.key)
                      then
                         --PUT(" HIT  NUM    ");
-                        if pdl_part.Num.Sort = x  then
+                        if pdl_part.Num.Sort = X  then
                            --  If the entry is X, generate a CO from KEY
                            num_sort:= num_sort_from_key(pdl_key);
                         else

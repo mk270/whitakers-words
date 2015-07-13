@@ -60,11 +60,11 @@ package body word_support_package is
    function num_sort_from_key(key : Stem_Key_Type) return Numeral_Sort_Type is
    begin
       case key is
-         when 1  => return card;
-         when 2  => return ord;
-         when 3  => return dist;
-         when 4  => return adverb;
-         when others  => return x;
+         when 1  => return Card;
+         when 2  => return Ord;
+         when 3  => return Dist;
+         when 4  => return Adverb;
+         when others  => return X;
       end case;
    end num_sort_from_key;
 

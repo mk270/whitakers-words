@@ -366,7 +366,7 @@ package Latin_Utils.Dictionary_Package is
       record
          -- NOTE: Seems like Decl is breaking of abbrev used
          Decl  : Decn_Record := (0, 0);
-         Sort  : Numeral_Sort_Type := x;
+         Sort  : Numeral_Sort_Type := X;
          Value : Numeral_Value_Type := 0;
       end record;
 

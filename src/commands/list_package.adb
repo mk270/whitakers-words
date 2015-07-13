@@ -407,15 +407,15 @@ package body list_package is
             n := dm.de.Part.Num.Value;
             if sr.ir.qual.pofs = Num  then    --  Normal parse
                case sr.ir.qual.Num.sort is
-                  when card  =>
+                  when Card  =>
                      s := Head(Integer'Image(n) &  " - (CARD answers 'how many');", Max_Meaning_Size);
-                  when ord   =>
+                  when Ord   =>
                      s := Head(Integer'Image(n) & "th - (ORD, 'in series'); (a/the)" & Integer'Image(n) &
                                  "th (part) (fract w/pars?);", Max_Meaning_Size);
-                  when dist  =>
+                  when Dist  =>
                      s := Head(Integer'Image(n) & " each/apiece/times/fold/toGether/at a time - 'how many each'; by " &
                                  Integer'Image(n) & "s; ", Max_Meaning_Size);
-                  when adverb =>
+                  when Adverb =>
                      s := Head(Integer'Image(n) & " times, on" & Integer'Image(n) &
                                  " occasions - (ADVERB answers 'how often');", Max_Meaning_Size);
                   when others =>

@@ -176,16 +176,18 @@ package Latin_Utils.Inflections_Package is
 
    ---------------------------------------------------------------------------
 
-   type Numeral_Sort_Type is (
-                              x,          --  all, none, or unknown
-                              card,       --  CARDinal
-                              ord,        --  ORDinal
-                              dist,       --  DISTributive
-                              adverb      --  numeral ADVERB
-                             );
+   type Numeral_Sort_Type is
+      ( X,     --  all, none, or unknown
+        Card,  --  CARDinal
+        Ord,   --  ORDinal
+        Dist,  --  DISTributive
+        Adverb --  numeral ADVERB
+      );
 
    package Numeral_Sort_Type_IO is
       new Ada.Text_IO.Enumeration_IO (Numeral_Sort_Type);
+
+   ---------------------------------------------------------------------------
 
    type tense_type is (
                        x,         --  all, none, or unknown
@@ -370,7 +372,7 @@ package Latin_Utils.Inflections_Package is
          cs          : Case_Type := X;
          number      : Number_Type := X;
          gender      : Gender_Type := X;
-         sort        : Numeral_Sort_Type := x;
+         sort        : Numeral_Sort_Type := X;
       end record;
 
    package numeral_record_io is

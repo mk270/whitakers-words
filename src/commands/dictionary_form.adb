@@ -525,7 +525,7 @@ begin
          ox(3) := add(ox(3), " (ii)");
       end if;
 
-   elsif (de.Part.pofs = Num) and then (de.Part.Num.Sort = x)  then
+   elsif (de.Part.pofs = Num) and then (de.Part.Num.Sort = X)  then
       if de.Part.Num.Decl.Which = 1  then
          if de.Part.Num.Decl.Var = 1  then
             ox(1) := add(de.Stems(1), "us -a -um");
@@ -557,7 +557,7 @@ begin
 
       end if;
 
-   elsif (de.Part.pofs = Num) and then (de.Part.Num.Sort = card)  then
+   elsif (de.Part.pofs = Num) and then (de.Part.Num.Sort = Card)  then
       if de.Part.Num.Decl.Which = 1  then
          if de.Part.Num.Decl.Var = 1  then
             ox(1) := add(de.Stems(1), "us");
@@ -582,12 +582,12 @@ begin
 
       end if;
 
-   elsif (de.Part.pofs = Num) and then (de.Part.Num.Sort = ord)  then
+   elsif (de.Part.pofs = Num) and then (de.Part.Num.Sort = Ord)  then
       ox(1) := add(de.Stems(1), "us");
       ox(2) := add(de.Stems(1), "a");
       ox(3) := add(de.Stems(1), "um");
 
-   elsif (de.Part.pofs = Num) and then (de.Part.Num.Sort = dist)  then
+   elsif (de.Part.pofs = Num) and then (de.Part.Num.Sort = Dist)  then
       ox(1) := add(de.Stems(1), "i");
       ox(2) := add(de.Stems(1), "ae");
       ox(3) := add(de.Stems(1), "a");

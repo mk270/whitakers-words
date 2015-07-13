@@ -340,7 +340,7 @@ package body tricks_package is
            cs     => X,
            number => X,
            gender => X,
-           sort   => card) ),
+           sort   => Card) ),
 
            key => 0,
            ending => null_ending_record,
@@ -1597,7 +1597,7 @@ package body tricks_package is
            cs     => X,
            number => X,
            gender => X,
-           sort   => card) ),
+           sort   => Card) ),
 
            key => 0,
            ending => null_ending_record,
