@@ -443,7 +443,8 @@ package body list_package is
                Ada.Text_IO.Put (Output, "03 ");
             end if;
             if dm.de.Part.pofs = Num  and then dm.de.Part.Num.Value > 0  then
-               Ada.Text_IO.Put_Line (Output, constructed_meaning (sr, dm));    --  Constructed MEANING
+               Ada.Text_IO.Put_Line (Output, constructed_meaning (sr, dm));
+               --  Constructed MEANING
             elsif dm.d_k = unique  then
                Put_meaning (Output, uniques_de (dm.MNPC).Mean);
                Ada.Text_IO.New_Line (Output);
@@ -593,7 +594,7 @@ package body list_package is
                     pa (j2 + 1).D_K,
                     pa (j2 + 1).MNPC);
                   ppp_meaning :=
-                    Head("-estly; -estily; most -ly, very -ly  Converting ADJ to ADV",
+                    Head ("-estly; -estily; most -ly, very -ly  Converting ADJ to ADV",
                     Max_Meaning_Size);
                end if;
             end if;           --  PA (I).IR.QUAL.POFS = ADJ
@@ -639,7 +640,7 @@ package body list_package is
          if pa (i).D_K = unique  then
             j := j + 1;
             sraa (j)(1) := (pa (i).Stem, pa (i).IR);
-            --TEXT_IO.PUT_LINE ("UNIQUE   I = " & INTEGER'IMAGE (I) & "  J = " & INTEGER'IMAGE (J));
+
             dm := null_dictionary_MNPC_record;
             dm.d_k := unique;
             dm.MNPC := pa (i).MNPC;
@@ -653,15 +654,16 @@ package body list_package is
                   --ODM := NULL_DICTIONARY_MNPC_RECORD;
                   --DM := NULL_DICTIONARY_MNPC_RECORD;
                   while (pa (i).IR.qual.pofs = N) and (i <= pa_last) loop
-                     --TEXT_IO.PUT_LINE ("Starting loop for N    I = " & INTEGER'IMAGE (I) & "   K = " & INTEGER'IMAGE (K));
-                     if pa (i).MNPC  /= odm.MNPC  then   --  Encountering new MNPC
+
+                     if pa (i).MNPC  /= odm.MNPC  then
+                        --  Encountering new MNPC
                         osra := sra;
                         k := 1;
                         --  K indexes within the MNPCA array --  Initialize
-                        --TEXT_IO.PUT_LINE ("Starting IRA for N    I = " & INTEGER'IMAGE (I) & "   K = " & INTEGER'IMAGE (K));
+
                         j := j + 1;
                         --  J indexes the number of MNPCA arrays - Next MNPCA
-                        --TEXT_IO.PUT_LINE ("Shifting J for N  I = " & INTEGER'IMAGE (I) & "   J = " & INTEGER'IMAGE (J));
+
                         sraa (j)(k) := (pa (i).Stem, pa (i).IR);
                         Dict_IO.Set_Index (Dict_File (pa (i).D_K), pa (i).MNPC);
                         Dict_IO.Read (Dict_File (pa (i).D_K), dea);
@@ -669,9 +671,8 @@ package body list_package is
                         dma (j) := dm;
                         odm := dm;
                      else
-                        k := k + 1;              --  K indexes within the MNPCA array  - Next MNPC
-                                                 --TEXT_IO.PUT_LINE ("Continuing IRA for N  I = " & INTEGER'IMAGE (I) & "   K = " & INTEGER'IMAGE (K)
-                                                 --                                                                 & "   J = " & INTEGER'IMAGE (J));
+                        k := k + 1;
+                        --  K indexes within the MNPCA array  - Next MNPC
                         sraa (j)(k) := (pa (i).Stem, pa (i).IR);
                      end if;
 
@@ -684,10 +685,13 @@ package body list_package is
                   --DM := NULL_DICTIONARY_MNPC_RECORD;
                   while pa (i).IR.qual.pofs = Pron   and
                     i <= pa_last                   loop
-                     if pa (i).MNPC  /= odm.MNPC  then   --  Encountering new MNPC
+                     if pa (i).MNPC  /= odm.MNPC  then
+                        --  Encountering new MNPC
                         osra := sra;
-                        k := 1;                  --  K indexes within the MNPCA array --  Initialize
-                        j := j + 1;             --  J indexes the number of MNPCA arrays - Next MNPCA
+                        k := 1;
+                        --  K indexes within the MNPCA array --  Initialize
+                        j := j + 1;
+                        --  J indexes the number of MNPCA arrays - Next MNPCA
                         sraa (j)(k) := (pa (i).Stem, pa (i).IR);
                         Dict_IO.Set_Index (Dict_File (pa (i).D_K), pa (i).MNPC);
                         Dict_IO.Read (Dict_File (pa (i).D_K), dea);
@@ -695,7 +699,8 @@ package body list_package is
                         dma (j) := dm;
                         odm := dm;
                      else
-                        k := k + 1;              --  K indexes within the MNPCA array  - Next MNPC
+                        k := k + 1;
+                        --  K indexes within the MNPCA array  - Next MNPC
                         sraa (j)(k) := (pa (i).Stem, pa (i).IR);
                      end if;
 
@@ -707,10 +712,13 @@ package body list_package is
                   --ODM := NULL_DICTIONARY_MNPC_RECORD;
                   --DM := NULL_DICTIONARY_MNPC_RECORD;
                   while pa (i).IR.qual.pofs = Pack and i <= pa_last loop
-                     if pa (i).MNPC  /= odm.MNPC  then   --  Encountering new MNPC
+                     if pa (i).MNPC  /= odm.MNPC  then
+                        --  Encountering new MNPC
                         osra := sra;
-                        k := 1;                  --  K indexes within the MNPCA array --  Initialize
-                        j := j + 1;             --  J indexes the number of MNPCA arrays - Next MNPCA
+                        k := 1;
+                        --  K indexes within the MNPCA array --  Initialize
+                        j := j + 1;
+                        --  J indexes the number of MNPCA arrays - Next MNPCA
                         sraa (j)(k) := (pa (i).Stem, pa (i).IR);
                         Dict_IO.Set_Index (Dict_File (pa (i).D_K), pa (i).MNPC);
                         Dict_IO.Read (Dict_File (pa (i).D_K), dea);
@@ -718,7 +726,8 @@ package body list_package is
                         dma (j) := dm;
                         odm := dm;
                      else
-                        k := k + 1;              --  K indexes within the MNPCA array  - Next MNPC
+                        k := k + 1;
+                        --  K indexes within the MNPCA array  - Next MNPC
                         sraa (j)(k) := (pa (i).Stem, pa (i).IR);
                      end if;
 
@@ -793,13 +802,15 @@ package body list_package is
                     pa (i).IR.qual.pofs = Vpar   or
                     pa (i).IR.qual.pofs = Supine)   and
                     i <= pa_last                   loop
-                     --TEXT_IO.PUT_LINE ("Starting loop for VPAR I = " & INTEGER'IMAGE (I) & "   K = " & INTEGER'IMAGE (K));
-                     if (pa (i).MNPC  /= odm.MNPC) and (pa (i).D_K /= ppp)   then   --  Encountering new MNPC
-                        osra := sra;                                              --  But not for compound
-                        k := 1;                  --  K indexes within the MNPCA array --  Initialize
-                                                 --TEXT_IO.PUT_LINE ("Starting IRA for VPAR I = " & INTEGER'IMAGE (I) & "   K = " & INTEGER'IMAGE (K));
-                        j := j + 1;             --  J indexes the number of MNPCA arrays - Next MNPCA
-                                                --TEXT_IO.PUT_LINE ("Shifting J for VPAR I = " & INTEGER'IMAGE (I) & "   J = " & INTEGER'IMAGE (J));
+                     if (pa (i).MNPC  /= odm.MNPC) and (pa (i).D_K /= ppp)
+                     then   --  Encountering new MNPC
+                        osra := sra;  --  But not for compound
+                        k := 1;
+                        --  K indexes within the MNPCA array --  Initialize
+
+                        j := j + 1;
+                        --  J indexes the number of MNPCA arrays - Next MNPCA
+
                         sraa (j)(k) := (pa (i).Stem, pa (i).IR);
                         if pa (i).D_K /= ppp  then
                            Dict_IO.Set_Index (Dict_File (pa (i).D_K), pa (i).MNPC);
@@ -811,10 +822,6 @@ package body list_package is
                      else
                         k := k + 1;
                         --  K indexes within the MNPCA array  - Next MNPC
-
-                        --TEXT_IO.PUT_LINE ("Continuing IRA for VPAR  I = " & INTEGER'IMAGE (I) & "   K = " & INTEGER'IMAGE (K)
-
-                        --                                                                      & "   J = " & INTEGER'IMAGE (J));
                         sraa (j)(k) := (pa (i).Stem, pa (i).IR);
                      end if;
 
@@ -827,7 +834,6 @@ package body list_package is
                   --ODM := NULL_DICTIONARY_MNPC_RECORD;
                   --DM := NULL_DICTIONARY_MNPC_RECORD;
                   while i <= pa_last                   loop
-                     --TEXT_IO.PUT_LINE ("Starting loop for OTHER I = " & INTEGER'IMAGE (I) & "   K = " & INTEGER'IMAGE (K));
                      if (odm.d_k  /= pa (i).D_K)  or
                        (odm.MNPC /= pa (i).MNPC)
                      then   --  Encountering new single (K only 1)
@@ -835,15 +841,14 @@ package body list_package is
                         k := 1;
                         --  K indexes within the MNPCA array --  Initialize
 
-                        --TEXT_IO.PUT_LINE ("Starting IRA for OTHER I = " & INTEGER'IMAGE (I) & "   K = " & INTEGER'IMAGE (K));
                         j := j + 1;
                         --  J indexes the number of MNPCA arrays - Next MNPCA
 
-                        --TEXT_IO.PUT_LINE ("Shifting J for OTHER I = " & INTEGER'IMAGE (I) & "   J = " & INTEGER'IMAGE (J));
-                        sraa (j)(k) := (pa (i).Stem, pa (i).IR);
+                         sraa (j)(k) := (pa (i).Stem, pa (i).IR);
                         if pa (i).MNPC /= Null_MNPC  then
                            if pa (i).D_K = addons  then
-                              dea :=  Null_Dictionary_Entry;   --  Fix for ADDONS in MEANS, not DICT_IO
+                              dea :=  Null_Dictionary_Entry;
+                              --  Fix for ADDONS in MEANS, not DICT_IO
                            else
                               Dict_IO.Set_Index (Dict_File (pa (i).D_K), pa (i).MNPC);
                               Dict_IO.Read (Dict_File (pa (i).D_K), dea);
@@ -855,12 +860,14 @@ package body list_package is
                         dma (j) := dm;
                         odm := dm;
                         --else
-                        --  K := K + 1;              --  K indexes within the MNPCA array  - Next MNPC
+                        --  K := K + 1;
+                        --  K indexes within the MNPCA array  - Next MNPC
                         --  SRAA (J)(K) := (PA (I).STEM, PA (I).IR);
                      end if;
 
                      i := i + 1;              --  I cycles over full PA array
-                     exit;                    --  Since Other is only one, don't loop
+                     exit;
+                     --  Since Other is only one, don't loop
                   end loop;
 
             end case;
@@ -871,13 +878,14 @@ package body list_package is
 
       --  Sets + if capitalized
       --  Strangely enough, it may enter LIST_STEMS with PA_LAST /= 0
-      --  but be weeded and end up with no parse after LIST_SWEEP  -  PA_LAST = 0
+      --  but be weeded and end up with no parse after
+      --                    LIST_SWEEP  -  PA_LAST = 0
       if pa_last = 0  then
          --  WORD failed
-         --????      (DMA (1).D_K in ADDONS .. YYY  and then TRIM (DMA (1).DE.STEMS (1)) /= "que")  then  --  or used FIXES/TRICKS
          if words_mode (ignore_unknown_names)  and capitalized  then
             nnn_meaning := Head (
-              "Assume this is capitalized proper name/abbr, under MODE IGNORE_UNKNOWN_NAME ",
+              "Assume this is capitalized proper name/abbr," &
+              " under MODE IGNORE_UNKNOWN_NAME ",
               Max_Meaning_Size);
             pa (1) := (Head (raw_word, Max_Stem_Size),
               ((N, ((0, 0), X, X, X)), 0, null_ending_record, x, x),
@@ -889,7 +897,8 @@ package body list_package is
             dma (1) := (nnn, 0, Null_Dictionary_Entry);
          elsif  words_mode (ignore_unknown_caps)  and all_caps  then
             nnn_meaning := Head (
-              "Assume this is capitalized proper name/abbr, under MODE IGNORE_UNKNOWN_CAPS ",
+              "Assume this is capitalized proper name/abbr," &
+              " under MODE IGNORE_UNKNOWN_CAPS ",
               Max_Meaning_Size);
             pa (1) := (Head (raw_word, Max_Stem_Size),
               ((N, ((0, 0), X, X, X)), 0, null_ending_record, x, x),
@@ -960,11 +969,13 @@ package body list_package is
       end if;
 
       if pa_last = 0 then
-         if words_mdev (update_local_dictionary)  and  -- Don't if reading from file
+         if words_mdev (update_local_dictionary)  and
+           -- Don't if reading from file
            (Name (Current_Input) = Name (Standard_Input))
          then
             update_local_dictionary_file;
-            word (raw_word, pa, pa_last);       --  Circular if you dont update!!!!!
+            word (raw_word, pa, pa_last);
+            --  Circular if you dont update!!!!!
          end if;
       end if;
 
@@ -1031,7 +1042,6 @@ package body list_package is
                scroll_line_number := Integer (Ada.Text_IO.Line (Output));
             end if;
          end do_pause;
-         --TEXT_IO.PUT_LINE ("End of OUTPUT_LOOP with J = " & INTEGER'IMAGE (J));
 
          j := j + 1;
       end loop Output_loop;
@@ -1044,9 +1054,11 @@ package body list_package is
 
    exception
       when others  =>
-         Ada.Text_IO.Put_Line ("Unexpected exception in LIST_STEMS processing " & raw_word);
+         Ada.Text_IO.Put_Line
+           ("Unexpected exception in LIST_STEMS processing " & raw_word);
          Put_stat ("EXCEPTION LS at "
-           & Head (Integer'Image (line_number), 8) & Head (Integer'Image (word_number), 4)
+           & Head (Integer'Image (line_number), 8) &
+             Head (Integer'Image (word_number), 4)
            & "   " & Head (w, 20) & "   "  & pa (i).Stem);
    end list_stems;
 
@@ -1078,7 +1090,8 @@ package body list_package is
       first_try, second_try : Boolean := True;
 
       function first_two (w : String) return String is
-         --  'v' could be represented by 'u', like the new Oxford Latin Dictionary
+         --  'v' could be represented by 'u'
+         --  like the new Oxford Latin Dictionary
          --  Fixes the first two letters of a word/stem which can be done right
          s : constant String := Lower_Case (w);
          ss : String (w'Range) := w;
@@ -1188,8 +1201,11 @@ package body list_package is
    begin
       --TEXT_IO.PUT_LINE ("Entering LIST_NEIGHBORHOOD");
 
-      if Ada.Text_IO.Name (Output) = Ada.Text_IO.Name (Ada.Text_IO.Standard_Output) then
-         mm := max_meaning_print_size;   --  to keep from overflowing screen line
+      if Ada.Text_IO.Name (Output) =
+        Ada.Text_IO.Name (Ada.Text_IO.Standard_Output)
+      then
+         mm := max_meaning_print_size;
+         --  to keep from overflowing screen line
       else
          mm := Max_Meaning_Size;
       end if;
