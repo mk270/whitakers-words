@@ -30,12 +30,15 @@ package uniques_package is
          succ : unique_list;
       end record;
 
-   type latin_uniques is array (Character range 'a'..'z') of unique_list;
+   type latin_uniques is array (Character range 'a' .. 'z') of unique_list;
    null_latin_uniques : latin_uniques := (others => null);
 
    unq : latin_uniques := null_latin_uniques;
 
-   type uniques_de_array is array (Dict_IO.Positive_Count range <>) of Dictionary_Entry;
-   uniques_de : uniques_de_array(1..100) := (others => Null_Dictionary_Entry);
+   type uniques_de_array is
+     array (Dict_IO.Positive_Count range <>) of Dictionary_Entry;
+
+   uniques_de : uniques_de_array (1 .. 100) :=
+     (others => Null_Dictionary_Entry);
 
 end uniques_package;
