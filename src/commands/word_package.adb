@@ -853,15 +853,17 @@ package body word_package is
             then
                --   Can be no suffix on abbreviation");
                goto end_of_pdl_loop;
-            else                  --  There is SUFFIX, see if it agrees with PDL
-               if pdl_p <= suffix.entr.root  and then     --  Does SUFFIX agree in ROOT
+            else
+               --  There is SUFFIX, see if it agrees with PDL
+               --  Does SUFFIX agree in ROOT
+               if pdl_p <= suffix.entr.root  and then
                  ((pdl_key <= suffix.entr.root_key)  or else
                  ((pdl_key = 0) and then
                  ((pdl_p = N) or (pdl_p = Adj) or (pdl_p = V)) and then
                  ((suffix.entr.root_key = 1) or (suffix.entr.root_key = 2))))
                then
-                  --PUT_LINE ("HIT HIT HIT HIT HIT HIT HIT HIT HIT     SUFFIX SUFFIX    in REDUCE");
-                  case suffix.entr.Target.pofs is      --  Transform PDL_PART to TARGET
+                  --  Transform PDL_PART to TARGET
+                  case suffix.entr.Target.pofs is
                      when N =>
                         pdl_part := (N, suffix.entr.Target.n);
                      when Pron =>
@@ -879,8 +881,6 @@ package body word_package is
                   end case;
                   pdl_key := suffix.entr.Target_key;
                   pdl_p  := pdl_part.pofs;  --  Used only for FIX logic below
-                                            --PUT ("    Changed to    "); PUT (PDL_PART); PUT (PDL_KEY); NEW_LINE;
-
                else
                   --PUT_LINE ("In REDUCE_STEM_LIST   There is no legal suffix");
                   --            exit;
@@ -889,14 +889,13 @@ package body word_package is
             end if;
 
             if prefix = null_prefix_item then      --  No PREFIX, drop through
-                                                   --PUT_LINE ("No PREFIX in REDUCE - Fall through to MATCHing ");
                null;
             elsif
-              (pdl_p = N    and then pdl_part.N.Decl = (9, 8)) or  --  No prefix for
-              (pdl_p = Adj  and then pdl_part.Adj.Decl = (9, 8)) or --  abbreviations
+              --  No prefix for abbreviations
+              (pdl_p = N    and then pdl_part.N.Decl = (9, 8)) or
+              (pdl_p = Adj  and then pdl_part.Adj.Decl = (9, 8)) or
               (pdl_p = Interj  or pdl_p = Conj)  --  or INTERJ or CONJ
             then
-               --PUT_LINE ("In REDUCE_STEM_LIST   no prefix on abbreviationi, interj, conj");
                goto end_of_pdl_loop;
             else
                if (pdl_p = prefix.entr.root)  or    --  = ROOT
@@ -910,8 +909,10 @@ package body word_package is
                end if;
             end if;
 
-            --  SUFFIX and PREFIX either agree or don't exist (agrees with everything)
-            ls := len (add_suffix (add_prefix (pdl (j).ds.stem, prefix), suffix));
+            --  SUFFIX and PREFIX either agree or don't exist
+            --  (agrees with everything)
+            ls := len (add_suffix
+              (add_prefix (pdl (j).ds.stem, prefix), suffix));
         on_sl:
             for i in sl'Range loop
                exit on_sl when sl (i) = Null_Parse_Record;
@@ -919,8 +920,9 @@ package body word_package is
                if ls  = len (sl (i).Stem)  then
 
                   --  Scan through the whole unreduced stem list
-                  --  Single out those stems that match (pruned) dictionary entries
-                  --^^^^^^^^^^^^^^^^^should be able to do this better with new arRangement
+                  --  Single out those stems that match (pruned) dictionary
+                  --   entries
+                  --^^^^^should be able to do this better with new arrangement
 
                   --sl_key := sl (i).ir.key;
                   --sl_p := sl (i).ir.qual.pofs;
@@ -937,9 +939,11 @@ package body word_package is
                        pdl_part.N.Decl <= sl (i).IR.qual.N.decl      and then
                        pdl_part.N.Gender <= sl (i).IR.qual.N.gender
                      then
-                        --  Need to transfer the gender of the noun dictionary item
+                        --  Need to transfer the gender of the noun
+                        --  dictionary item
                         m := m + 1;
-                        sxx (m) := (Stem => subtract_prefix (sl (i).Stem, prefix),
+                        sxx (m) :=
+                          (Stem => subtract_prefix (sl (i).Stem, prefix),
                           IR => (
                           qual => (
                           pofs => N,
@@ -1024,7 +1028,8 @@ package body word_package is
                            num_sort := pdl_part.Num.Sort;
                         end if;
                         m := m + 1;
-                        sxx (m) := (Stem => subtract_prefix (sl (i).Stem, prefix),
+                        sxx (m) :=
+                          (Stem => subtract_prefix (sl (i).Stem, prefix),
                           IR => (
                           qual => (
                           pofs => Num,
@@ -1041,7 +1046,7 @@ package body word_package is
                           D_K => pdl (j).d_k,
                           MNPC => MNPC_part);
 
-                     elsif (pdl_part.pofs = Adv)                          and then
+                     elsif (pdl_part.pofs = Adv) and then
                        ((pdl_part.Adv.Co   <= sl(i).IR.qual.Adv.co  ) or
                           ((sl(i).IR.qual.Adv.co = X) or (pdl_part.Adv.Co = X)))
                      then
@@ -1386,15 +1391,17 @@ package body word_package is
       begin
 
      over_packons:
-         for k in packons'Range  loop    -- Do whole set, more than one may apply
-                                         --TEXT_IO.PUT_LINE ("OVER_PACKONS   K = "& INTEGER'IMAGE (K) & "   PACKON = " & PACKONS (K).TACK);
-                                         --  PACKON if the TACKON ENTRY is PRON
+         for k in packons'Range  loop
+            -- Do whole set, more than one may apply
+            --  PACKON if the TACKON ENTRY is PRON
 
         for_each_packon:
             declare
-               xword : constant String := subtract_tackon (Input_word, packons (k));
+               xword : constant String :=
+                 subtract_tackon (Input_word, packons (k));
                word : String (1 .. xword'Length) := xword;
-               packon_length : constant Integer := Trim (packons (k).tack)'Length;
+               packon_length : constant Integer :=
+                 Trim (packons (k).tack)'Length;
                last_of_word : Character := word (word'Last);
                length_of_word   : constant Integer := word'Length;
             begin
@@ -1402,10 +1409,12 @@ package body word_package is
                if word  /= Input_word  then
                   packon_first_hit := True;
 
-                  if packons (k).tack (1 .. 3) = "dam" and  last_of_word = 'n'  then
-                     word (word'Last) := 'm';   --  Takes care of the m - > n shift with dam
+                  if packons (k).tack (1 .. 3) = "dam"
+                    and  last_of_word = 'n'
+                  then
+                     --  Takes care of the m - > n shift with dam
+                     word (word'Last) := 'm';
                      last_of_word := 'm';
-                     --PUT_LINE ("PACKON = dam   and LAST_OF_WORD = n    => " & WORD);
                   end if;
 
                   --  No blank endings in these pronouns
@@ -1414,9 +1423,10 @@ package body word_package is
                   m := 0;
 
               on_inflects:
-                  for z in reverse 1 .. min (6, length_of_word)  loop   --  optimum for qu-pronouns
-                                                                      --PUT ("ON_INFLECTS  Z = "); PUT (Z); PUT ("  "); PUT (WORD (1 .. Z)); NEW_LINE;
-                     if pell (z, last_of_word) > 0  then   --  Any possible inflections at all
+                  for z in reverse 1 .. min (6, length_of_word)  loop
+                     --  optimum for qu-pronouns
+                     if pell (z, last_of_word) > 0  then
+                        --  Any possible inflections at all
                         for i in pelf (z, last_of_word) .. pell (z, last_of_word) loop
                            if (z <= length_of_word)  and then
                              ((equ (lel (i).ending.suf (1 .. z),
@@ -1425,8 +1435,6 @@ package body word_package is
                            then
                               --  Have found an ending that is a possible match
                               --  And INFLECT agrees with PACKON.BASE
-                              --PUT_LINE ("INFLECTS HIT ------------------------------------------------------");
-
                               --  Add to list of possible ending records
                               stem_length := word'Length - z;
                               pr := (Head (word (word'First .. stem_length), Max_Stem_Size),
@@ -1435,8 +1443,6 @@ package body word_package is
                               sl (m) := pr;
                               ssa (1) := Head (word (word'First.. word'First+stem_length-1),
                                 Max_Stem_Size);
-                              --PUT_LINE ("STEM_LENGTH = " & INTEGER'IMAGE (STEM_LENGTH));
-                              --PUT_LINE ("SSA (1) in PACKONS from real  INFLECTS ->" & SSA (1) & '|');
                               --  may Get set several times
                            end if;
                         end loop;
@@ -1452,8 +1458,8 @@ package body word_package is
               pdl_loop:
                   for j in 1 .. pdl_index  loop
                      --  Go through all dictionary hits to see
-                     --PUT_LINE ("PACKON  PDL_INDEX  "); PUT (PDL (J).DS.STEM); PUT (PDL (J).DS.PART); NEW_LINE;
-                     --  M used here wher I is used in REDUCE, maybe make consistent
+                     --  M used here wher I is used in REDUCE,
+                     --  maybe make consistent
                      m := 1;
 
                  sl_loop:
