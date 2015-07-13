@@ -74,14 +74,14 @@ begin
    Create (dictfile, Out_File, add_file_name_extension (dict_file_name,
      Dictionary_Kind'Image (d_k)));
    over_lines :
-    while not End_Of_File (Input) loop
-       s := blank_line;
-       Get_Line (Input, s, last);
-       if Trim (s (1 .. last)) /= ""  then
-          l := 0;
+   while not End_Of_File (Input) loop
+      s := blank_line;
+      Get_Line (Input, s, last);
+      if Trim (s (1 .. last)) /= ""  then
+         l := 0;
 
-      form_de:
-          begin
+         form_de :
+         begin
              de.Stems (1) := s (start_stem_1 .. Max_Stem_Size);
              de.Stems (2) := s (start_stem_2 .. start_stem_2+Max_Stem_Size-1);
              de.Stems (3) := s (start_stem_3 .. start_stem_3+Max_Stem_Size-1);
