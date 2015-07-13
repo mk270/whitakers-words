@@ -35,7 +35,7 @@ procedure makedict_main (porting : Boolean) is
    use Source_Type_IO;
    use Dict_IO;
 
-   be_ve : constant Verb_Entry := (Con => (5, 1), Kind => to_be);
+   be_ve : constant Verb_Entry := (Con => (5, 1), Kind => To_Be);
 
    d_k : Dictionary_Kind := xxx;       --  ######################
 

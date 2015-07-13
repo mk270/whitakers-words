@@ -176,11 +176,11 @@ package Latin_Utils.Dictionary_Package is
             when Num =>
                num_value : Numeral_Value_Type := 0;
             when V =>
-               v_kind : Verb_Kind_Type := x;
+               v_kind : Verb_Kind_Type := X;
             when Vpar =>
-               vpar_kind : Verb_Kind_Type := x;
+               vpar_kind : Verb_Kind_Type := X;
             when Supine =>
-               supine_kind : Verb_Kind_Type := x;
+               supine_kind : Verb_Kind_Type := X;
             when Prep .. Suffix =>
                null;
          end case;
@@ -416,7 +416,7 @@ package Latin_Utils.Dictionary_Package is
          -- NOTE: Other records use Decl as field name for Decn_Record,
          --    should this one be changed into Decl for consistency?
          Con  : Decn_Record := (0, 0);
-         Kind : Verb_Kind_Type := x;
+         Kind : Verb_Kind_Type := X;
       end record;
 
    -- FIXME: These subprograms don't check if Is_Open (File)

@@ -356,7 +356,7 @@ begin
 
    elsif de.Part.pofs = V    then
 
-      if de.Part.V.Kind = dep  then    --  all DEP
+      if de.Part.V.Kind = Dep  then    --  all DEP
          ox (3) := add (null_ox, "DEP");  --  Flag for later use
          ox (4) := add (de.Stems (4), "us sum");
          if de.Part.V.Con.Which = 1  then
@@ -377,13 +377,13 @@ begin
             raise not_found;
          end if;                      --  all DEP handled
 
-      elsif de.Part.V.Kind = perfdef  then   --  all PERFDEF handled
+      elsif de.Part.V.Kind = Perfdef  then   --  all PERFDEF handled
          ox (1) := add (de.Stems (3), "i");
          ox (2) := add (de.Stems (3), "isse");
          ox (3) := add (de.Stems (4), "us");
          ox (4) := null_ox;  --  Flag for later use
 
-      elsif de.Part.V.Kind = impers  and then
+      elsif de.Part.V.Kind = Impers  and then
         ((de.Stems (1)(1 .. 3) = "zzz")  and   -- Recognize as PERFDEF IMPERS
         (de.Stems (2)(1 .. 3) = "zzz"))
       then
@@ -394,7 +394,7 @@ begin
 
       else                            --  Not DEP/PERFDEF/IMPERS
 
-         if de.Part.V.Kind = impers  then
+         if de.Part.V.Kind = Impers  then
             if de.Part.V.Con.Which = 1  then
                ox (1) := add (de.Stems (1), "at");
             elsif de.Part.V.Con.Which = 2  then
@@ -497,12 +497,12 @@ begin
          end if;                        --  OX (2) handled
 
          --  OX 3 & 4
-         if de.Part.V.Kind = impers  then
+         if de.Part.V.Kind = Impers  then
             if ox (3)(1 .. 7) /= "PERFDEF" then
                ox (3) := add (de.Stems (3), "it");
             end if;
             ox (4) := add (de.Stems (4), "us est");
-         elsif de.Part.V.Kind  = semidep  then    --  Finalization correction
+         elsif de.Part.V.Kind  = Semidep  then    --  Finalization correction
             ox (4) := add (de.Stems (4), "us sum");
          elsif de.Part.V.Con = (5, 1)  then
             ox (3) := add (de.Stems (3), "i");
@@ -652,7 +652,7 @@ begin
          end if;
       end if;
 
-      if de.Part.V.Kind in gen .. perfdef then
+      if de.Part.V.Kind in Gen .. Perfdef then
          add_to (" " & Verb_Kind_Type'Image (de.Part.V.Kind) & "  ");
       end if;
 

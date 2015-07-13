@@ -44,7 +44,7 @@ is
 
       function they return String is
       begin
-         if kind = impers  then
+         if kind = Impers  then
             return "it ";
          end if;
 
@@ -263,9 +263,9 @@ is
       end sub;
 
    begin   --  PUT_VERB_EXAMPLE
-      if kind = dep    then
+      if kind = Dep then
          voice := Active;    --  Should only have allowed PASSIVE at this point
-      elsif kind = semidep    and then tense in Perf .. Futp   then
+      elsif kind = Semidep and then tense in Perf .. Futp   then
          voice := Active;    --  Should only have allowed PASSIVE at this point
       end if;
 
