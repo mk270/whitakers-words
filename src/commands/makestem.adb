@@ -47,23 +47,30 @@ procedure makestem is
    begin
       --Put_Line ("Put_Indices");
       if ch = "  "  then
-         if (bblf (ch (ch'First), ch (ch'First + 1), d_k) > 0)                    and then
-           (bbll (ch (ch'First), ch (ch'First + 1), d_k) >= bblf (ch (ch'First), ch (ch'First + 1), d_k))
+         if (bblf (ch (ch'First), ch (ch'First + 1), d_k) > 0) and then
+           (bbll (ch (ch'First), ch (ch'First + 1), d_k) >=
+            bblf (ch (ch'First), ch (ch'First + 1), d_k))
          then
             Put ("CH = ("); Put (ch); Put (") index is of range  ");
-            Put (bblf (ch (ch'First), ch (ch'First + 1), d_k)); Put (" .. "); Put (bbll (ch (ch'First), ch (ch'First + 1), d_k));
+            Put (bblf (ch (ch'First), ch (ch'First + 1), d_k));
+            Put (" .. "); Put (bbll (ch (ch'First), ch (ch'First + 1), d_k));
             Put ("    number ");
-            Put (bbll (ch (ch'First), ch (ch'First + 1), d_k) - bblf (ch (ch'First), ch (ch'First + 1), d_k) + 1);
+            Put
+              (bbll (ch (ch'First), ch (ch'First + 1), d_k) -
+               bblf (ch (ch'First), ch (ch'First + 1), d_k) + 1);
             New_Line;
          end if;
       elsif ch (ch'First + 1) = ' '  then
          if (bdlf (ch (ch'First), ch (ch'First + 1), d_k) > 0) and then
-           (bdll (ch (ch'First), ch (ch'First + 1), d_k) >= bdlf (ch (ch'First), ch (ch'First + 1), d_k))
+           (bdll (ch (ch'First), ch (ch'First + 1), d_k) >=
+            bdlf (ch (ch'First), ch (ch'First + 1), d_k))
          then
             Put ("CH = ("); Put (ch); Put (") index is of range  ");
-            Put (bdlf (ch (ch'First), ch (ch'First + 1), d_k)); Put (" .. "); Put (bdll (ch (ch'First), ch (ch'First + 1), d_k));
+            Put (bdlf (ch (ch'First), ch (ch'First + 1), d_k));
+            Put (" .. "); Put (bdll (ch (ch'First), ch (ch'First + 1), d_k));
             Put ("    number ");
-            Put (bdll (ch (ch'First), ch (ch'First + 1), d_k) - bdlf (ch (ch'First), ch (ch'First + 1), d_k) + 1);
+            Put (bdll (ch (ch'First), ch (ch'First + 1), d_k) -
+                 bdlf (ch (ch'First), ch (ch'First + 1), d_k) + 1);
             New_Line;
          end if;
       else
@@ -71,7 +78,8 @@ procedure makestem is
            (last_index (wd, d_k) >= first_index (wd, d_k))
          then
             Put ("CH = ("); Put (wd); Put (") index is of range  ");
-            Put (first_index (wd, d_k)); Put (" .. "); Put (last_index (wd, d_k));
+            Put (first_index (wd, d_k));
+            Put (" .. "); Put (last_index (wd, d_k));
             Put ("    number ");
             Put (last_index (wd, d_k) - first_index (wd, d_k) + 1);
             New_Line;
@@ -199,7 +207,8 @@ begin
                   ddlf (fc, sc, d_k) := i;
                end if;
                --Put_Line ("if Sc done");
-               --Put ("Ofc = '"); Put (Ofc); Put ("'   Osc = '"); Put (Osc); Put_Line ("'");
+               --Put ("Ofc = '"); Put (Ofc);
+               Put ("'   Osc = '"); Put (osc); Put_Line ("'");
                Put_indices (ofc & osc, d_k);
                ofc := fc;
                osc := sc;

@@ -18,5 +18,5 @@ with makedict_main;
 procedure wakedict is
    porting : constant Boolean := False;
 begin
-   makedict_main(porting);
+   makedict_main (porting);
 end wakedict;
