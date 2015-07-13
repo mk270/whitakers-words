@@ -259,7 +259,7 @@ package Latin_Utils.Dictionary_Package is
       record
          -- NOTE: Seems like Decl is breaking of abbrev used
          Decl   : Decn_Record := (0, 0);
-         Gender : Gender_Type := x;
+         Gender : Gender_Type := X;
          Kind   : Noun_Kind_Type := x;
       end record;
 
@@ -335,7 +335,7 @@ package Latin_Utils.Dictionary_Package is
       record
          -- NOTE: Seems like Decl is breaking of abbrev used
          Decl : Decn_Record := (0, 0);
-         Co   : Comparison_Type := x;
+         Co   : Comparison_Type := X;
       end record;
 
    -- FIXME: These subprograms don't check if Is_Open (File)
@@ -366,7 +366,7 @@ package Latin_Utils.Dictionary_Package is
       record
          -- NOTE: Seems like Decl is breaking of abbrev used
          Decl  : Decn_Record := (0, 0);
-         Sort  : Numeral_Sort_Type := x;
+         Sort  : Numeral_Sort_Type := X;
          Value : Numeral_Value_Type := 0;
       end record;
 
@@ -390,7 +390,7 @@ package Latin_Utils.Dictionary_Package is
 
    type Adverb_Entry is
       record
-         Co   : Comparison_Type := x;
+         Co   : Comparison_Type := X;
       end record;
 
    -- FIXME: These subprograms don't check if Is_Open (File)
@@ -439,7 +439,7 @@ package Latin_Utils.Dictionary_Package is
 
    type Preposition_Entry is
       record
-         Obj : Case_Type := x;
+         Obj : Case_Type := X;
       end record;
 
    -- FIXME: These subprograms don't check if Is_Open (File)

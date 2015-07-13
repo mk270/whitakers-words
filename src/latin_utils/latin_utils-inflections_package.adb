@@ -264,8 +264,8 @@ package body Latin_Utils.Inflections_Package is
    overriding function "<=" (left, right : Gender_Type) return Boolean is
    begin
       if right = left  or else
-        right = x     or else
-        (right = c  and then (left = m or left = f))
+        right = X     or else
+        (right = C  and then (left = M or left = F))
       then
          return True;
       else
@@ -275,7 +275,7 @@ package body Latin_Utils.Inflections_Package is
 
    overriding function "<=" (left, right : Case_Type) return Boolean is
    begin
-      if right = left or else right = x then
+      if right = left or else right = X then
          return True;
       else
          return False;
@@ -284,7 +284,7 @@ package body Latin_Utils.Inflections_Package is
 
    overriding function "<=" (left, right : Number_Type) return Boolean is
    begin
-      if right = left or else right = x then
+      if right = left or else right = X then
          return True;
       else
          return False;
@@ -302,7 +302,7 @@ package body Latin_Utils.Inflections_Package is
 
    overriding function "<=" (left, right : Comparison_Type) return Boolean is
    begin
-      if right = left or else right = x then
+      if right = left or else right = X then
          return True;
       else
          return False;
@@ -311,9 +311,9 @@ package body Latin_Utils.Inflections_Package is
 
    function "<=" (left, right : tense_voice_mood_record)  return Boolean is
    begin
-      if (right.tense = left.tense or else right.tense = x) and then
-         (right.voice = left.voice or else right.voice = x) and then
-         (right.mood = left.mood or else right.mood = x)
+      if (right.tense = left.tense or else right.tense = X) and then
+         (right.voice = left.voice or else right.voice = X) and then
+         (right.mood = left.mood or else right.mood = X)
       then
          return True;
       else
@@ -371,9 +371,9 @@ package body Latin_Utils.Inflections_Package is
    package body Decn_Record_IO is separate;
 
    package body tense_voice_mood_record_io is
-      use tense_type_io;
-      use voice_type_io;
-      use mood_type_io;
+      use Tense_Type_IO;
+      use Voice_Type_IO;
+      use Mood_Type_IO;
       spacer : Character := ' ';
 
       procedure Get(f : in File_Type; t : out tense_voice_mood_record) is
@@ -427,15 +427,15 @@ package body Latin_Utils.Inflections_Package is
          l : Integer := s'First - 1;
          m : Integer := 0;
       begin
-         m := l + tense_type_io.Default_Width;
+         m := l + Tense_Type_IO.Default_Width;
          Put(s(l+1..m), t.tense);
          l := m + 1;
          s(l) :=  ' ';
-         m := l + voice_type_io.Default_Width;
+         m := l + Voice_Type_IO.Default_Width;
          Put(s(l+1..m), t.voice);
          l := m + 1;
          s(l) :=  ' ';
-         m := l + mood_type_io.Default_Width;
+         m := l + Mood_Type_IO.Default_Width;
          Put(s(l+1..m), t.mood);
          s(m+1..s'Last) := (others => ' ');
       end Put;
@@ -2323,9 +2323,9 @@ begin  --  initialization of body of INFLECTIONS_PACKAGE
    Number_Type_IO.Default_Width := Number_Type'Width;
    Person_Type_IO.Default_Width := 1;
    Comparison_Type_IO.Default_Width := Comparison_Type'Width;
-   tense_type_io.Default_Width := tense_type'Width;
-   voice_type_io.Default_Width := voice_type'Width;
-   mood_type_io.Default_Width := mood_type'Width;
+   Tense_Type_IO.Default_Width := Tense_Type'Width;
+   Voice_Type_IO.Default_Width := Voice_Type'Width;
+   Mood_Type_IO.Default_Width := Mood_Type'Width;
    Noun_Kind_Type_IO.Default_Width := Noun_Kind_Type'Width;
    Pronoun_Kind_Type_IO.Default_Width := Pronoun_Kind_Type'Width;
    Verb_Kind_Type_IO.Default_Width := Verb_Kind_Type'Width;
@@ -2337,9 +2337,9 @@ begin  --  initialization of body of INFLECTIONS_PACKAGE
      1 + 1 +   --WHICH_TYPE_IO_DEFAULT_WIDTH + 1 +
      1;        --VARIANT_TYPE_IO_DEFAULT_WIDTH;
    tense_voice_mood_record_io.Default_Width :=
-     tense_type_io.Default_Width + 1 +
-     voice_type_io.Default_Width + 1 +
-     mood_type_io.Default_Width;
+     Tense_Type_IO.Default_Width + 1 +
+     Voice_Type_IO.Default_Width + 1 +
+     Mood_Type_IO.Default_Width;
    noun_record_io.Default_Width :=
      Decn_Record_IO.Default_Width + 1 +
      Case_Type_IO.Default_Width + 1 +

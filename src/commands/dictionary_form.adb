@@ -62,7 +62,7 @@ begin
      (((de.Part.pofs = N)  and then (de.Part.N.Decl.Which = 9))  or
      ((de.Part.pofs = Adj)  and then
      ((de.Part.Adj.Decl.Which = 9) or
-     (de.Part.Adj.Co = comp or de.Part.Adj.Co = super))) or
+     (de.Part.Adj.Co = Comp or de.Part.Adj.Co = Super))   ) or
      ((de.Part.pofs = V)  and then (de.Part.V.Con = (9, 8))) or
      ((de.Part.pofs = V)  and then (de.Part.V.Con = (9, 9))))
    then
@@ -98,8 +98,8 @@ begin
             ox (1) := add (de.Stems (1), "");
             ox (2) := add (de.Stems (2), "i");
          elsif de.Part.N.Decl.Var = 4  then
-            if de.Part.N.Gender = n  then
-               ox (1) := add (de.Stems (1), "um");
+            if de.Part.N.Gender = N  then
+               ox(1) := add(de.Stems(1), "um");
             else
                ox (1) := add (de.Stems (1), "us");
             end if;
@@ -210,16 +210,16 @@ begin
       --DICTIONARY_ENTRY_IO.PUT (DE);
       --TEXT_IO.NEW_LINE;
 
-      if de.Part.Adj.Co = comp  then
-         ox (1) := add (de.Stems (1), "or");
-         ox (2) := add (de.Stems (1), "or");
-         ox (3) := add (de.Stems (1), "us");
-      elsif de.Part.Adj.Co = super  then
-         ox (1) := add (de.Stems (1), "mus");
-         ox (2) := add (de.Stems (1), "ma");
-         ox (3) := add (de.Stems (1), "mum");
+      if de.Part.Adj.Co = Comp  then
+         ox(1) := add(de.Stems(1), "or");
+         ox(2) := add(de.Stems(1), "or");
+         ox(3) := add(de.Stems(1), "us");
+      elsif de.Part.Adj.Co = Super  then
+         ox(1) := add(de.Stems(1), "mus");
+         ox(2) := add(de.Stems(1), "ma");
+         ox(3) := add(de.Stems(1), "mum");
 
-      elsif de.Part.Adj.Co = pos  then
+      elsif de.Part.Adj.Co = Pos  then
          if de.Part.Adj.Decl.Which = 1  then
             if de.Part.Adj.Decl.Var = 1  then
                ox (1) := add (de.Stems (1), "us");
@@ -303,7 +303,7 @@ begin
             raise not_found;
          end if;
 
-      elsif de.Part.Adj.Co = x    then
+      elsif de.Part.Adj.Co = X    then
          if de.Part.Adj.Decl.Which = 1  then
             if de.Part.Adj.Decl.Var = 1  then
                ox (1) := add (de.Stems (1), "us");
@@ -349,10 +349,10 @@ begin
          raise not_found;
       end if;
 
-   elsif (de.Part.pofs = Adv) and then (de.Part.Adv.Co = x)  then
-      ox (1) := add (de.Stems (1), "");
-      ox (2) := add (de.Stems (2), "");
-      ox (3) := add (de.Stems (3), "");
+   elsif (de.Part.pofs = Adv) and then (de.Part.Adv.Co = X)  then
+      ox(1) := add(de.Stems(1), "");
+      ox(2) := add(de.Stems(2), "");
+      ox(3) := add(de.Stems(3), "");
 
    elsif de.Part.pofs = V    then
 
@@ -524,7 +524,7 @@ begin
          ox (3) := add (ox (3), " (ii)");
       end if;
 
-   elsif (de.Part.pofs = Num) and then (de.Part.Num.Sort = x)  then
+   elsif (de.Part.pofs = Num) and then (de.Part.Num.Sort = X)  then
       if de.Part.Num.Decl.Which = 1  then
          if de.Part.Num.Decl.Var = 1  then
             ox (1) := add (de.Stems (1), "us -a -um");
@@ -556,7 +556,7 @@ begin
 
       end if;
 
-   elsif (de.Part.pofs = Num) and then (de.Part.Num.Sort = card)  then
+   elsif (de.Part.pofs = Num) and then (de.Part.Num.Sort = Card)  then
       if de.Part.Num.Decl.Which = 1  then
          if de.Part.Num.Decl.Var = 1  then
             ox (1) := add (de.Stems (1), "us");
@@ -581,15 +581,15 @@ begin
 
       end if;
 
-   elsif (de.Part.pofs = Num) and then (de.Part.Num.Sort = ord)  then
-      ox (1) := add (de.Stems (1), "us");
-      ox (2) := add (de.Stems (1), "a");
-      ox (3) := add (de.Stems (1), "um");
+   elsif (de.Part.pofs = Num) and then (de.Part.Num.Sort = Ord)  then
+      ox(1) := add(de.Stems(1), "us");
+      ox(2) := add(de.Stems(1), "a");
+      ox(3) := add(de.Stems(1), "um");
 
-   elsif (de.Part.pofs = Num) and then (de.Part.Num.Sort = dist)  then
-      ox (1) := add (de.Stems (1), "i");
-      ox (2) := add (de.Stems (1), "ae");
-      ox (3) := add (de.Stems (1), "a");
+   elsif (de.Part.pofs = Num) and then (de.Part.Num.Sort = Dist)  then
+      ox(1) := add(de.Stems(1), "i");
+      ox(2) := add(de.Stems(1), "ae");
+      ox(3) := add(de.Stems(1), "a");
 
    else
       ox (1) := add (de.Stems (1), "");

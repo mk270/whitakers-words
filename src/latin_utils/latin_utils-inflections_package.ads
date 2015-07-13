@@ -116,11 +116,11 @@ package Latin_Utils.Inflections_Package is
    ---------------------------------------------------------------------------
 
    type Gender_Type is
-      ( x, --  all, none, or unknown
-        m, --  Masculine
-        f, --  Feminine
-        n, --  Neuter
-        c  --  Common (masculine and/or feminine)
+      ( X, --  all, none, or unknown
+        M, --  Masculine
+        F, --  Feminine
+        N, --  Neuter
+        C  --  Common (masculine and/or feminine)
        );
 
    package Gender_Type_IO is new Ada.Text_IO.Enumeration_IO (Gender_Type);
@@ -128,14 +128,14 @@ package Latin_Utils.Inflections_Package is
    ---------------------------------------------------------------------------
 
    type Case_Type is
-      ( x,   --  all, none, or unknown
-        nom, --  NOMinative
-        voc, --  VOCative
-        gen, --  GENitive
-        loc, --  LOCative
-        dat, --  DATive
-        abl, --  ABLative
-        acc  --  ACCusitive
+      ( X,   --  all, none, or unknown
+        Nom, --  NOMinative
+        Voc, --  VOCative
+        Gen, --  GENitive
+        Loc, --  LOCative
+        Dat, --  DATive
+        Abl, --  ABLative
+        Acc  --  ACCusitive
       );
 
    package Case_Type_IO is new Ada.Text_IO.Enumeration_IO (Case_Type);
@@ -143,9 +143,9 @@ package Latin_Utils.Inflections_Package is
    ---------------------------------------------------------------------------
 
    type Number_Type is
-      ( x, --  all, none, or unknown
-        s, --  Singular
-        p  --  Plural
+      ( X, --  all, none, or unknown
+        S, --  Singular
+        P  --  Plural
       );
 
    package Number_Type_IO is new Ada.Text_IO.Enumeration_IO (Number_Type);
@@ -157,67 +157,80 @@ package Latin_Utils.Inflections_Package is
 
    ---------------------------------------------------------------------------
 
-   type Comparison_Type is (
-                            x,         --  all, none, or unknown
-                            pos,       --  POSitive
-                            comp,      --  COMParative
-                            super      --  SUPERlative
-                           );
+   type Comparison_Type is
+      ( X,    --  all, none, or unknown
+        Pos,  --  POSitive
+        Comp, --  COMParative
+        Super --  SUPERlative
+      );
 
-   package Comparison_Type_IO is new Ada.Text_IO.Enumeration_IO (Comparison_Type);
+   package Comparison_Type_IO is new
+      Ada.Text_IO.Enumeration_IO (Comparison_Type);
 
-   type Stem_Key_Type is new Natural range 0..9;
+   ---------------------------------------------------------------------------
 
-   package Stem_Key_Type_IO is new Ada.Text_IO.Integer_IO(Stem_Key_Type);
-   Stem_Key_Type_IO_Default_Width : Integer := 1;
+   type Stem_Key_Type is new Natural range 0 .. 9;
 
-   type Numeral_Sort_Type is (
-                              x,          --  all, none, or unknown
-                              card,       --  CARDinal
-                              ord,        --  ORDinal
-                              dist,       --  DISTributive
-                              adverb      --  numeral ADVERB
-                             );
+   package Stem_Key_Type_IO is new Ada.Text_IO.Integer_IO (Stem_Key_Type);
+   Stem_Key_Type_IO_Default_Width : constant Integer := 1;
+
+   ---------------------------------------------------------------------------
+
+   type Numeral_Sort_Type is
+      ( X,     --  all, none, or unknown
+        Card,  --  CARDinal
+        Ord,   --  ORDinal
+        Dist,  --  DISTributive
+        Adverb --  numeral ADVERB
+      );
 
    package Numeral_Sort_Type_IO is
       new Ada.Text_IO.Enumeration_IO (Numeral_Sort_Type);
 
-   type tense_type is (
-                       x,         --  all, none, or unknown
-                       pres,      --  PRESent
-                       impf,      --  IMPerFect
-                       fut,       --  FUTure
-                       perf,      --  PERFect
-                       plup,      --  PLUPerfect
-                       futp       --  FUTure Perfect
-                      );
+   ---------------------------------------------------------------------------
 
-   package tense_type_io is new Ada.Text_IO.Enumeration_IO(tense_type);
+   type Tense_Type is
+      ( X,    --  all, none, or unknown
+        Pres, --  PRESent
+        Impf, --  IMPerFect
+        Fut,  --  FUTure
+        Perf, --  PERFect
+        Plup, --  PLUPerfect
+        Futp  --  FUTure Perfect
+      );
 
-   type voice_type is (
-                       x,         --  all, none, or unknown
-                       active,    --  ACTIVE
-                       passive    --  PASSIVE
-                      );
+   package Tense_Type_IO is new Ada.Text_IO.Enumeration_IO (Tense_Type);
 
-   package voice_type_io is new Ada.Text_IO.Enumeration_IO(voice_type);
+   ---------------------------------------------------------------------------
 
-   type mood_type is (
-                      x,         --  all, none, or unknown
-                      ind,       --  INDicative
-                      sub,       --  SUBjunctive
-                      imp,       --  IMPerative
-                      inf,       --  INFinative
-                      ppl        --  ParticiPLe
-                     );
+   type Voice_Type is
+      ( X,      --  all, none, or unknown
+        Active, --  ACTIVE
+        Passive --  PASSIVE
+      );
 
-   package mood_type_io is new Ada.Text_IO.Enumeration_IO(mood_type);
+   package Voice_Type_IO is new Ada.Text_IO.Enumeration_IO (Voice_Type);
+
+   ---------------------------------------------------------------------------
+
+   type Mood_Type is
+      ( X,         --  all, none, or unknown
+        Ind,       --  INDicative
+        Sub,       --  SUBjunctive
+        Imp,       --  IMPerative
+        Inf,       --  INFinative
+        Ppl        --  ParticiPLe
+      );
+
+   package Mood_Type_IO is new Ada.Text_IO.Enumeration_IO (Mood_Type);
+
+   ---------------------------------------------------------------------------
 
    type tense_voice_mood_record is
       record
-         tense : tense_type := x;
-         voice : voice_type := x;
-         mood  : mood_type  := x;
+         tense : Tense_Type := X;
+         voice : Voice_Type := X;
+         mood  : Mood_Type  := X;
       end record;
 
    package tense_voice_mood_record_io is
@@ -289,9 +302,9 @@ package Latin_Utils.Inflections_Package is
    type noun_record is
       record
          decl        : Decn_Record;
-         cs          : Case_Type := x;
-         number      : Number_Type := x;
-         gender      : Gender_Type := x;
+         cs          : Case_Type := X;
+         number      : Number_Type := X;
+         gender      : Gender_Type := X;
       end record;
 
    package noun_record_io is
@@ -307,9 +320,9 @@ package Latin_Utils.Inflections_Package is
    type pronoun_record is
       record
          decl        : Decn_Record;
-         cs          : Case_Type := x;
-         number      : Number_Type := x;
-         gender      : Gender_Type := x;
+         cs          : Case_Type := X;
+         number      : Number_Type := X;
+         gender      : Gender_Type := X;
       end record;
 
    package pronoun_record_io is
@@ -325,9 +338,9 @@ package Latin_Utils.Inflections_Package is
    type propack_record is
       record
          decl        : Decn_Record;
-         cs          : Case_Type := x;
-         number      : Number_Type := x;
-         gender      : Gender_Type := x;
+         cs          : Case_Type := X;
+         number      : Number_Type := X;
+         gender      : Gender_Type := X;
       end record;
 
    package propack_record_io is
@@ -343,10 +356,10 @@ package Latin_Utils.Inflections_Package is
    type adjective_record is
       record
          decl        : Decn_Record;
-         cs          : Case_Type := x;
-         number      : Number_Type := x;
-         gender      : Gender_Type := x;
-         co          : Comparison_Type := x;
+         cs          : Case_Type := X;
+         number      : Number_Type := X;
+         gender      : Gender_Type := X;
+         co          : Comparison_Type := X;
       end record;
 
    package adjective_record_io is
@@ -362,10 +375,10 @@ package Latin_Utils.Inflections_Package is
    type numeral_record is
       record
          decl        : Decn_Record;
-         cs          : Case_Type := x;
-         number      : Number_Type := x;
-         gender      : Gender_Type := x;
-         sort        : Numeral_Sort_Type := x;
+         cs          : Case_Type := X;
+         number      : Number_Type := X;
+         gender      : Gender_Type := X;
+         sort        : Numeral_Sort_Type := X;
       end record;
 
    package numeral_record_io is
@@ -380,7 +393,7 @@ package Latin_Utils.Inflections_Package is
 
    type adverb_record is
       record
-         co   : Comparison_Type := x;
+         co   : Comparison_Type := X;
       end record;
 
    package adverb_record_io is
@@ -398,7 +411,7 @@ package Latin_Utils.Inflections_Package is
          con         : Decn_Record;
          tense_voice_mood  : tense_voice_mood_record;
          person      : Person_Type := 0;
-         number      : Number_Type := x;
+         number      : Number_Type := X;
       end record;
 
    package verb_record_io is
@@ -414,9 +427,9 @@ package Latin_Utils.Inflections_Package is
    type vpar_record is
       record
          con         : Decn_Record;
-         cs          : Case_Type := x;
-         number      : Number_Type := x;
-         gender      : Gender_Type := x;
+         cs          : Case_Type := X;
+         number      : Number_Type := X;
+         gender      : Gender_Type := X;
          tense_voice_mood  : tense_voice_mood_record;
       end record;
 
@@ -433,9 +446,9 @@ package Latin_Utils.Inflections_Package is
    type supine_record is
       record
          con         : Decn_Record;
-         cs          : Case_Type := x;
-         number      : Number_Type := x;
-         gender      : Gender_Type := x;
+         cs          : Case_Type := X;
+         number      : Number_Type := X;
+         gender      : Gender_Type := X;
       end record;
 
    package supine_record_io is
@@ -450,7 +463,7 @@ package Latin_Utils.Inflections_Package is
 
    type preposition_record is
       record
-         obj : Case_Type := x;
+         obj : Case_Type := X;
       end record;
 
    package preposition_record_io is

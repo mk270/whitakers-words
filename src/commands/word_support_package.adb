@@ -40,31 +40,31 @@ package body word_support_package is
    function adj_comp_from_key (key : Stem_Key_Type) return Comparison_Type is
    begin
       case key is
-         when 0 | 1 | 2  => return pos;
-         when 3          => return comp;
-         when 4          => return super;
-         when others     => return x;
+         when 0 | 1 | 2  => return Pos;
+         when 3          => return Comp;
+         when 4          => return Super;
+         when others     => return X;
       end case;
    end adj_comp_from_key;
 
    function adv_comp_from_key (key : Stem_Key_Type) return Comparison_Type is
    begin
       case key is
-         when 1  => return pos;
-         when 2  => return comp;
-         when 3  => return super;
-         when others  => return x;
+         when 1  => return Pos;
+         when 2  => return Comp;
+         when 3  => return Super;
+         when others  => return X;
       end case;
    end adv_comp_from_key;
 
    function num_sort_from_key (key : Stem_Key_Type) return Numeral_Sort_Type is
    begin
       case key is
-         when 1  => return card;
-         when 2  => return ord;
-         when 3  => return dist;
-         when 4  => return adverb;
-         when others  => return x;
+         when 1  => return Card;
+         when 2  => return Ord;
+         when 3  => return Dist;
+         when 4  => return Adverb;
+         when others  => return X;
       end case;
    end num_sort_from_key;
 

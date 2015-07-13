@@ -306,21 +306,21 @@ package body list_package is
                   passive_start  : constant Integer :=
                     Part_Of_Speech_Type_IO.Default_Width + 1 +
                     Decn_Record_IO.Default_Width + 1 +
-                    tense_type_io.Default_Width + 1;
+                    Tense_Type_IO.Default_Width + 1;
                   passive_finish : constant Integer :=
                     passive_start +
-                    voice_type_io.Default_Width;
+                    Voice_Type_IO.Default_Width;
                   ppl_start      : constant Integer :=
                     Part_Of_Speech_Type_IO.Default_Width + 1 +
                     Decn_Record_IO.Default_Width + 1 +
                     Case_Type_IO.Default_Width + 1 +
                     Number_Type_IO.Default_Width + 1 +
                     Gender_Type_IO.Default_Width + 1 +
-                    tense_type_io.Default_Width + 1;
+                    Tense_Type_IO.Default_Width + 1;
                   ppl_finish : constant Integer :=
                     ppl_start +
-                    voice_type_io.Default_Width;
-                  passive_blank : constant String(1..voice_type_io.Default_Width) :=
+                    Voice_Type_IO.Default_Width;
+                  passive_blank : constant String(1..Voice_Type_IO.Default_Width) :=
                     (others => ' ');
                begin
 
@@ -329,13 +329,13 @@ package body list_package is
 
                      if (sr.ir.qual.pofs = V)    and then
                        (dm.de.Part.V.Kind = dep)       and then
-                       (sr.ir.qual.V.tense_voice_mood.mood in ind..inf)
+                       (sr.ir.qual.V.tense_voice_mood.mood in Ind .. Inf)
                      then
                         --TEXT_IO.PUT_LINE("START PRINT MODIFIED QUAL   V" );
                         out_String(passive_start+1..passive_finish) := passive_blank;
                      elsif (sr.ir.qual.pofs = Vpar)    and then
                        (dm.de.Part.V.Kind = dep)    and then
-                       (sr.ir.qual.Vpar.tense_voice_mood.mood = ppl)
+                       (sr.ir.qual.Vpar.tense_voice_mood.mood = Ppl)
                      then
                         --TEXT_IO.PUT_LINE("START PRINT MODIFIED QUAL   VPAR" );
                         out_String(ppl_start+1..ppl_finish) := passive_blank;
@@ -407,15 +407,15 @@ package body list_package is
             n := dm.de.Part.Num.Value;
             if sr.ir.qual.pofs = Num  then    --  Normal parse
                case sr.ir.qual.Num.sort is
-                  when card  =>
+                  when Card  =>
                      s := Head(Integer'Image(n) &  " - (CARD answers 'how many');", Max_Meaning_Size);
-                  when ord   =>
+                  when Ord   =>
                      s := Head(Integer'Image(n) & "th - (ORD, 'in series'); (a/the)" & Integer'Image(n) &
                                  "th (part) (fract w/pars?);", Max_Meaning_Size);
-                  when dist  =>
+                  when Dist  =>
                      s := Head(Integer'Image(n) & " each/apiece/times/fold/toGether/at a time - 'how many each'; by " &
                                  Integer'Image(n) & "s; ", Max_Meaning_Size);
-                  when adverb =>
+                  when Adverb =>
                      s := Head(Integer'Image(n) & " times, on" & Integer'Image(n) &
                                  " occasions - (ADVERB answers 'how often');", Max_Meaning_Size);
                   when others =>
@@ -531,11 +531,11 @@ package body list_package is
          --TEXT_IO.PUT_LINE("In the ADJ -> ADV kludge  There is no ADV");
          for i in reverse pa'First .. pa_last  loop
             if pa(i).IR.qual.pofs = Adj and then
-              (pa(i).IR.qual.Adj = ((1, 1), voc, s, m, pos)    or
-                 ((pa(i).IR.qual.Adj.cs = voc)   and
-                    (pa(i).IR.qual.Adj.number = s)   and
-                    (pa(i).IR.qual.Adj.gender = m)   and
-                    (pa(i).IR.qual.Adj.co = super)))
+              (pa(i).IR.qual.Adj = ((1, 1), Voc, S, M, Pos)    or
+                 ((pa(i).IR.qual.Adj.cs = Voc)   and
+                    (pa(i).IR.qual.Adj.number = S)   and
+                    (pa(i).IR.qual.Adj.gender = M)   and
+                    (pa(i).IR.qual.Adj.co = Super)))
             then
                j := i;
 
@@ -566,7 +566,7 @@ package body list_package is
                                ppp, Null_MNPC);
                --PARSE_RECORD_IO.PUT(PA(PA_LAST)); TEXT_IO.NEW_LINE;
                pa_last := pa_last + 1;
-               if pa(j2+1).IR.qual.Adj.co = pos   then
+               if pa(j2+1).IR.qual.Adj.co = Pos   then
                   --TEXT_IO.PUT_LINE("In the ADJ -> ADV kludge  Adding POS for ADV");
                   pa(pa_last) := (pa(j2+1).Stem,
                                   ((pofs => Adv, adv => (co => pa(j2+1).IR.qual.Adj.co)),
@@ -578,7 +578,7 @@ package body list_package is
                     Head("-ly; -ily;  Converting ADJ to ADV",
                          Max_Meaning_Size);
 
-               elsif pa(j2+1).IR.qual.Adj.co = super  then
+               elsif pa(j2+1).IR.qual.Adj.co = Super  then
                   pa(pa_last) := (pa(j2+1).Stem,
                                   ((pofs => Adv, adv => (co => pa(j2+1).IR.qual.Adj.co)),
                                    key => 0, ending => (2, "me     "), age => x, freq => b),
@@ -861,7 +861,7 @@ package body list_package is
                                 "Assume this is capitalized proper name/abbr, under MODE IGNORE_UNKNOWN_NAME ",
                                 Max_Meaning_Size);
             pa(1) := (Head(raw_word, Max_Stem_Size),
-                      ((N, ((0, 0), x, x, x)), 0, null_ending_record, x, x),
+                      ((N, ((0, 0), X, X, X)), 0, null_ending_record, x, x),
                       nnn, Null_MNPC);
             pa_last := 1;    --  So LIST_NEIGHBORHOOD will not be called
             sraa := null_sraa;
@@ -873,7 +873,7 @@ package body list_package is
                                 "Assume this is capitalized proper name/abbr, under MODE IGNORE_UNKNOWN_CAPS ",
                                 Max_Meaning_Size);
             pa(1) := (Head(raw_word, Max_Stem_Size),
-                      ((N, ((0, 0), x, x, x)), 0, null_ending_record, x, x),
+                      ((N, ((0, 0), X, X, X)), 0, null_ending_record, x, x),
                       nnn, Null_MNPC);
             pa_last := 1;
             sraa := null_sraa;

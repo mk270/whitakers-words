@@ -337,10 +337,10 @@ package body tricks_package is
            pofs => Num,
            num => (
            decl   => (2, 0),
-           cs     => x,
-           number => x,
-           gender => x,
-           sort   => card) ),
+           cs     => X,
+           number => X,
+           gender => X,
+           sort   => Card) ),
 
            key => 0,
            ending => null_ending_record,
@@ -763,9 +763,9 @@ package body tricks_package is
                while i > pa_save + 1  loop
                   if pa(i).IR.qual.pofs = Adj  and then
                     pa(i).IR.qual.Adj.decl = (1, 1)  and then
-                    ((pa(i).IR.qual.Adj.cs = dat) or
-                    (pa(i).IR.qual.Adj.cs = abl))   and then
-                    pa(i).IR.qual.Adj.number = p
+                    ((pa(i).IR.qual.Adj.cs = Dat) or
+                    (pa(i).IR.qual.Adj.cs = Abl))   and then
+                    pa(i).IR.qual.Adj.number = P
                   then
                      null;       --  Only for ADJ 1 1 DAT/ABL P
                   else
@@ -1594,10 +1594,10 @@ package body tricks_package is
            pofs => Num,
            num => (
            decl   => (2, 0),
-           cs     => x,
-           number => x,
-           gender => x,
-           sort   => card) ),
+           cs     => X,
+           number => X,
+           gender => X,
+           sort   => Card) ),
 
            key => 0,
            ending => null_ending_record,
