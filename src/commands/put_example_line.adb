@@ -274,22 +274,22 @@ begin    --  PUT_EXAMPLE_LINE
       case ir.qual.pofs is
          when N =>
             case ir.qual.N.cs is
-               when gen =>
+               when Gen =>
                   Ada.Text_IO.Put(Output, "~'s; of ~");
                   Ada.Text_IO.New_Line(Output);
-               when abl =>
+               when Abl =>
                   Ada.Text_IO.New_Line(Output);      --  Info too much for same line
                   Ada.Text_IO.Set_Col(Output, 6);
                   Ada.Text_IO.Put(Output,
                               "from _ (separ); because of ~ (cause); than ~ (compar); of ~ (circumstance)");
                   Ada.Text_IO.New_Line(Output);
-               when dat =>
+               when Dat =>
                   Ada.Text_IO.New_Line(Output);      --  Info too much for same line
                   Ada.Text_IO.Set_Col(Output, 6);
                   Ada.Text_IO.Put(Output,
                               "for _ (purpose, reference); to ~ (w/adjectives); to ~ (double dative)");
                   Ada.Text_IO.New_Line(Output);
-               when loc =>
+               when Loc =>
                   Ada.Text_IO.Put(Output, "at ~ (place where)");
                   Ada.Text_IO.New_Line(Output);
                when others  =>
@@ -348,16 +348,16 @@ begin    --  PUT_EXAMPLE_LINE
                      Ada.Text_IO.New_Line(Output);
                   else
                      case ir.qual.Vpar.cs is
-                        when gen =>
+                        when Gen =>
                            Ada.Text_IO.Put(Output,
                                        "to(/must) be ~ed  FUT PASSIVE PPL, often used as gerund or gerundive (of ~ing)");
-                        when dat =>
+                        when Dat =>
                            Ada.Text_IO.Put(Output,
                                        "to(/must) be ~ed  FUT PASSIVE PPL, often used as gerund or gerundive (to/for ~ing)");
-                        when abl =>
+                        when Abl =>
                            Ada.Text_IO.Put(Output,
                                        "to(/must) be ~ed  FUT PASSIVE PPL, often used as gerund or gerundive (by/in ~ing)");
-                        when acc =>
+                        when Acc =>
                            Ada.Text_IO.Put(Output,
                                        "to(/must) be ~ed  FUT PASSIVE PPL, often used as gerund or gerundive (for ~ing/to ~)");
                         when others =>
@@ -373,11 +373,11 @@ begin    --  PUT_EXAMPLE_LINE
 
          when Supine =>
             --TEXT_IO.NEW_LINE(OUTPUT);
-            if ir.qual.Supine.cs = acc  then
+            if ir.qual.Supine.cs = Acc  then
                Ada.Text_IO.Put(Output,
                            "to ~  expresses purpose of verb of motion; may take a direct object");
                Ada.Text_IO.New_Line(Output);
-            elsif ir.qual.Supine.cs = abl  then
+            elsif ir.qual.Supine.cs = Abl  then
                Ada.Text_IO.Put(Output,
                            "to ~  after ADJ indicating aspect/respect in which something is/is done");
                Ada.Text_IO.New_Line(Output);

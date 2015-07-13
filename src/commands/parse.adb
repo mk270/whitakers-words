@@ -378,9 +378,9 @@ is
          then
             null;
 
-         elsif pa(j4).IR.qual.pofs = Vpar and then
-            pa(j4).IR.qual.Vpar.cs = nom  and then
-            pa(j4).IR.qual.Vpar.number = sum_info.number
+         elsif pa (j4).IR.qual.pofs = Vpar and then
+            pa (j4).IR.qual.Vpar.cs = Nom  and then
+            pa (j4).IR.qual.Vpar.number = sum_info.number
          then
             declare
                part : constant participle :=
@@ -451,8 +451,8 @@ is
          then
             null;
 
-         elsif pa(j6).IR.qual.pofs = Supine  and then
-           pa(j6).IR.qual.Supine.cs = acc
+         elsif pa (j6).IR.qual.pofs = Supine  and then
+           pa (j6).IR.qual.Supine.cs = Acc
          then
 
             ppl_on := True;
@@ -741,8 +741,8 @@ is
                ppl_on : Boolean := False;
 
                sum_info : verb_record := ((5, 1), (x, active, x), 0, x);
-               ppl_info : vpar_record := ((0, 0), x, x, X, (x, x, x));
-               supine_info : supine_record := ((0, 0), x, x, X);
+               ppl_info : vpar_record := ((0, 0), X, x, X, (x, x, x));
+               supine_info : supine_record := ((0, 0), X, x, X);
 
                procedure look_ahead is
                   j3 : Integer := 0;
@@ -782,8 +782,8 @@ is
                   --  On NEXT_WORD = sum, esse, iri
 
                   for i in 1..pa_last  loop    --  Check for PPL
-                     if pa(i).IR.qual.pofs = Vpar and then
-                       pa(i).IR.qual.Vpar.cs = nom  and then
+                     if pa (i).IR.qual.pofs = Vpar and then
+                       pa (i).IR.qual.Vpar.cs = Nom  and then
                        pa(i).IR.qual.Vpar.number = sum_info.number  and then
                        ( (pa(i).IR.qual.Vpar.tense_voice_mood = (perf, passive, ppl)) or
                        (pa(i).IR.qual.Vpar.tense_voice_mood = (fut,  active,  ppl)) or
@@ -850,7 +850,7 @@ is
 
                   for j in 1..pa_last  loop    --  Check for SUPINE
                      if pa(j).IR.qual.pofs = Supine   and then
-                       pa(j).IR.qual.Supine.cs = acc
+                       pa(j).IR.qual.Supine.cs = Acc
                      then
                         --  There is at least one hit, fix PA, and advance J over the iri
                         k := nk;

@@ -275,7 +275,7 @@ package body Latin_Utils.Inflections_Package is
 
    overriding function "<=" (left, right : Case_Type) return Boolean is
    begin
-      if right = left or else right = x then
+      if right = left or else right = X then
          return True;
       else
          return False;

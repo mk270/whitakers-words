@@ -439,7 +439,7 @@ package Latin_Utils.Dictionary_Package is
 
    type Preposition_Entry is
       record
-         Obj : Case_Type := x;
+         Obj : Case_Type := X;
       end record;
 
    -- FIXME: These subprograms don't check if Is_Open (File)

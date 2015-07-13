@@ -128,14 +128,14 @@ package Latin_Utils.Inflections_Package is
    ---------------------------------------------------------------------------
 
    type Case_Type is
-      ( x,   --  all, none, or unknown
-        nom, --  NOMinative
-        voc, --  VOCative
-        gen, --  GENitive
-        loc, --  LOCative
-        dat, --  DATive
-        abl, --  ABLative
-        acc  --  ACCusitive
+      ( X,   --  all, none, or unknown
+        Nom, --  NOMinative
+        Voc, --  VOCative
+        Gen, --  GENitive
+        Loc, --  LOCative
+        Dat, --  DATive
+        Abl, --  ABLative
+        Acc  --  ACCusitive
       );
 
    package Case_Type_IO is new Ada.Text_IO.Enumeration_IO (Case_Type);
@@ -289,7 +289,7 @@ package Latin_Utils.Inflections_Package is
    type noun_record is
       record
          decl        : Decn_Record;
-         cs          : Case_Type := x;
+         cs          : Case_Type := X;
          number      : Number_Type := x;
          gender      : Gender_Type := X;
       end record;
@@ -307,7 +307,7 @@ package Latin_Utils.Inflections_Package is
    type pronoun_record is
       record
          decl        : Decn_Record;
-         cs          : Case_Type := x;
+         cs          : Case_Type := X;
          number      : Number_Type := x;
          gender      : Gender_Type := X;
       end record;
@@ -325,7 +325,7 @@ package Latin_Utils.Inflections_Package is
    type propack_record is
       record
          decl        : Decn_Record;
-         cs          : Case_Type := x;
+         cs          : Case_Type := X;
          number      : Number_Type := x;
          gender      : Gender_Type := X;
       end record;
@@ -343,7 +343,7 @@ package Latin_Utils.Inflections_Package is
    type adjective_record is
       record
          decl        : Decn_Record;
-         cs          : Case_Type := x;
+         cs          : Case_Type := X;
          number      : Number_Type := x;
          gender      : Gender_Type := X;
          co          : Comparison_Type := x;
@@ -362,7 +362,7 @@ package Latin_Utils.Inflections_Package is
    type numeral_record is
       record
          decl        : Decn_Record;
-         cs          : Case_Type := x;
+         cs          : Case_Type := X;
          number      : Number_Type := x;
          gender      : Gender_Type := X;
          sort        : Numeral_Sort_Type := x;
@@ -414,7 +414,7 @@ package Latin_Utils.Inflections_Package is
    type vpar_record is
       record
          con         : Decn_Record;
-         cs          : Case_Type := x;
+         cs          : Case_Type := X;
          number      : Number_Type := x;
          gender      : Gender_Type := X;
          tense_voice_mood  : tense_voice_mood_record;
@@ -433,7 +433,7 @@ package Latin_Utils.Inflections_Package is
    type supine_record is
       record
          con         : Decn_Record;
-         cs          : Case_Type := x;
+         cs          : Case_Type := X;
          number      : Number_Type := x;
          gender      : Gender_Type := X;
       end record;
@@ -450,7 +450,7 @@ package Latin_Utils.Inflections_Package is
 
    type preposition_record is
       record
-         obj : Case_Type := x;
+         obj : Case_Type := X;
       end record;
 
    package preposition_record_io is
