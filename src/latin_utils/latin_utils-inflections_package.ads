@@ -143,9 +143,9 @@ package Latin_Utils.Inflections_Package is
    ---------------------------------------------------------------------------
 
    type Number_Type is
-      ( x, --  all, none, or unknown
-        s, --  Singular
-        p  --  Plural
+      ( X, --  all, none, or unknown
+        S, --  Singular
+        P  --  Plural
       );
 
    package Number_Type_IO is new Ada.Text_IO.Enumeration_IO (Number_Type);
@@ -290,7 +290,7 @@ package Latin_Utils.Inflections_Package is
       record
          decl        : Decn_Record;
          cs          : Case_Type := X;
-         number      : Number_Type := x;
+         number      : Number_Type := X;
          gender      : Gender_Type := X;
       end record;
 
@@ -308,7 +308,7 @@ package Latin_Utils.Inflections_Package is
       record
          decl        : Decn_Record;
          cs          : Case_Type := X;
-         number      : Number_Type := x;
+         number      : Number_Type := X;
          gender      : Gender_Type := X;
       end record;
 
@@ -326,7 +326,7 @@ package Latin_Utils.Inflections_Package is
       record
          decl        : Decn_Record;
          cs          : Case_Type := X;
-         number      : Number_Type := x;
+         number      : Number_Type := X;
          gender      : Gender_Type := X;
       end record;
 
@@ -344,7 +344,7 @@ package Latin_Utils.Inflections_Package is
       record
          decl        : Decn_Record;
          cs          : Case_Type := X;
-         number      : Number_Type := x;
+         number      : Number_Type := X;
          gender      : Gender_Type := X;
          co          : Comparison_Type := x;
       end record;
@@ -363,7 +363,7 @@ package Latin_Utils.Inflections_Package is
       record
          decl        : Decn_Record;
          cs          : Case_Type := X;
-         number      : Number_Type := x;
+         number      : Number_Type := X;
          gender      : Gender_Type := X;
          sort        : Numeral_Sort_Type := x;
       end record;
@@ -398,7 +398,7 @@ package Latin_Utils.Inflections_Package is
          con         : Decn_Record;
          tense_voice_mood  : tense_voice_mood_record;
          person      : Person_Type := 0;
-         number      : Number_Type := x;
+         number      : Number_Type := X;
       end record;
 
    package verb_record_io is
@@ -415,7 +415,7 @@ package Latin_Utils.Inflections_Package is
       record
          con         : Decn_Record;
          cs          : Case_Type := X;
-         number      : Number_Type := x;
+         number      : Number_Type := X;
          gender      : Gender_Type := X;
          tense_voice_mood  : tense_voice_mood_record;
       end record;
@@ -434,7 +434,7 @@ package Latin_Utils.Inflections_Package is
       record
          con         : Decn_Record;
          cs          : Case_Type := X;
-         number      : Number_Type := x;
+         number      : Number_Type := X;
          gender      : Gender_Type := X;
       end record;
 

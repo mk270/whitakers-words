@@ -338,7 +338,7 @@ package body tricks_package is
            num => (
            decl   => (2, 0),
            cs     => X,
-           number => x,
+           number => X,
            gender => X,
            sort   => card) ),
 
@@ -765,7 +765,7 @@ package body tricks_package is
                     pa(i).IR.qual.Adj.decl = (1, 1)  and then
                     ((pa(i).IR.qual.Adj.cs = Dat) or
                     (pa(i).IR.qual.Adj.cs = Abl))   and then
-                    pa(i).IR.qual.Adj.number = p
+                    pa(i).IR.qual.Adj.number = P
                   then
                      null;       --  Only for ADJ 1 1 DAT/ABL P
                   else
@@ -1595,7 +1595,7 @@ package body tricks_package is
            num => (
            decl   => (2, 0),
            cs     => X,
-           number => x,
+           number => X,
            gender => X,
            sort   => card) ),
 

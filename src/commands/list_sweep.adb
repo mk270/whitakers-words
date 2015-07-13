@@ -56,11 +56,11 @@ procedure list_sweep(pa : in out Parse_Array; pa_last : in out Integer) is
          when N  =>
             if  words_mdev(for_word_list_check)  then
                if (Nom <= pr.IR.qual.N.cs) and then
-                 (s <= pr.IR.qual.N.number)
+                 (S <= pr.IR.qual.N.number)
                then
                   allowed := True;
                elsif (Nom <= pr.IR.qual.N.cs) and then
-                 (pr.IR.qual.N.number = p)
+                 (pr.IR.qual.N.number = P)
                then
 
                   search_for_pl:
@@ -86,7 +86,7 @@ procedure list_sweep(pa : in out Parse_Array; pa_last : in out Integer) is
          when  Adj  =>
             if  words_mdev(for_word_list_check)  then
                if (Nom <= pr.IR.qual.Adj.cs) and then
-                 (s <= pr.IR.qual.Adj.number) and then
+                 (S <= pr.IR.qual.Adj.number) and then
                  (M <= pr.IR.qual.Adj.gender)
                then
                   allowed := True;
@@ -103,7 +103,7 @@ procedure list_sweep(pa : in out Parse_Array; pa_last : in out Integer) is
                stem : constant String := Trim (pr.Stem);
                last_three : String(1..3);
             begin
-               if (pr.IR.qual.V = ((3, 1), (pres, active, imp), 2, s))  and
+               if (pr.IR.qual.V = ((3, 1), (pres, active, imp), 2, S))  and
                  (pr.IR.ending.size = 0)
                then    --  For this special case
                   if stem'Length >= 3  then
@@ -192,7 +192,7 @@ procedure list_sweep(pa : in out Parse_Array; pa_last : in out Integer) is
 
             if  words_mdev(for_word_list_check)  then
                if (pr.IR.qual.V.person = 1) and then
-                  (pr.IR.qual.V.number = s)
+                  (pr.IR.qual.V.number = S)
                then
                   if ((de.Part.V.Kind in x..intrans)  and
                     (pr.IR.qual.V.tense_voice_mood = (pres, active, ind))) or else
@@ -211,7 +211,7 @@ procedure list_sweep(pa : in out Parse_Array; pa_last : in out Integer) is
                   end if;
                elsif de.Part.V.Kind = impers then
                   if (pr.IR.qual.V.person = 3)  and then
-                    (pr.IR.qual.V.number = s)  and then
+                    (pr.IR.qual.V.number = S)  and then
                     (pr.IR.qual.V.tense_voice_mood = (pres, active, ind))
                   then
                      allowed := True;
@@ -489,7 +489,7 @@ procedure list_sweep(pa : in out Parse_Array; pa_last : in out Integer) is
               (all_caps and followed_by_period)
             then
                if (sl(i).IR.qual.pofs /= N) or
-                 ( (sl (i).IR.qual /= (N, ((9, 8), X, x, M)))  and
+                 ( (sl (i).IR.qual /= (N, ((9, 8), X, X, M)))  and
                  ( Trim (sl(i).Stem)'Length = 1  and then
                  (sl(i).Stem(1) = 'A'  or
                  sl(i).Stem(1) = 'C'  or

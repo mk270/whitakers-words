@@ -46,17 +46,17 @@ procedure Put_example_line(configuration : configuration_type;
             return "to ";
          end if;
 
-         if mood = imp and tense = pres  and number = p  then
+         if mood = imp and tense = pres  and number = P  then
             return "(you) ";
          end if;
 
          if mood = sub and tense = pres  and
-           person = 1 and number = p
+           person = 1 and number = P
          then
             return "let us ";   --  G&L 263 1
          end if;
 
-         if  number = s  then
+         if  number = S  then
             if person = 1  then
                return "I ";
             elsif  person = 2  then
@@ -66,7 +66,7 @@ procedure Put_example_line(configuration : configuration_type;
             else
                return "";
             end if;
-         elsif number = p  then
+         elsif number = P  then
             if person = 1  then
                return "we ";
             elsif  person = 2  then
@@ -123,7 +123,7 @@ procedure Put_example_line(configuration : configuration_type;
          if tense in pres..fut  then
             return "";
          elsif tense = perf  then
-            if (tense = perf) and (person = 3) and (number = s)  then
+            if (tense = perf) and (person = 3) and (number = S)  then
                return "has ";
             else
                return "have ";    -- works for INF too
@@ -148,15 +148,15 @@ procedure Put_example_line(configuration : configuration_type;
          if voice = passive  then
             if mood = ind  then
                if tense = pres  then
-                  if (person = 1) and (number = s)  then
+                  if (person = 1) and (number = S)  then
                      return "am/am being ";
-                  elsif (person = 3) and (number = s)  then
+                  elsif (person = 3) and (number = S)  then
                      return "is/is being ";
                   else
                      return "are/are being ";
                   end if;
                elsif tense = impf   then
-                  if (person = 1 or person = 3) and (number = s)  then
+                  if (person = 1 or person = 3) and (number = S)  then
                      return "was/was being ";
                   else
                      return "were/were being ";
@@ -164,7 +164,7 @@ procedure Put_example_line(configuration : configuration_type;
                elsif tense = fut   then
                   return "be ";
                elsif tense = perf   then
-                  if (person = 1 or person = 3) and (number = s)  then
+                  if (person = 1 or person = 3) and (number = S)  then
                      return "been/was ";
                   else
                      return "been/were ";
@@ -215,13 +215,13 @@ procedure Put_example_line(configuration : configuration_type;
          elsif mood = ind  then
             if voice = active  then
                if tense = pres  then
-                  if (person = 3) and (number = s)  then
+                  if (person = 3) and (number = S)  then
                      return "s";
                   else
                      return "";
                   end if;
                elsif tense = impf   then
-                  if (person = 1 or person = 3) and (number = s)  then
+                  if (person = 1 or person = 3) and (number = S)  then
                      return "ed/was ~ing";
                   else
                      return "ed/were ~ing";

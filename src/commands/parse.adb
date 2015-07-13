@@ -301,7 +301,7 @@ is
    function is_sum(t : String) return verb_to_be is
       sa : constant array (mood_type range ind..sub,
         tense_type range pres..futp,
-        Number_Type range s .. p,
+        Number_Type range S .. P,
         Person_Type range 1 .. 3)
         of String(1..9) :=
         (
@@ -346,7 +346,7 @@ is
       end if;
       for l in mood_type range ind..sub  loop
          for k in tense_type range pres..futp  loop
-            for j in Number_Type range s .. p loop
+            for j in Number_Type range S .. P loop
                for i in Person_Type range 1 .. 3  loop
                   if Trim (t) = Trim (sa(l, k, j, i))  then
                      return verb_to_be'(
@@ -468,7 +468,7 @@ is
               (supine_info.con,
               (fut, passive, inf),
               0,
-              x)
+              X)
                ), 0, null_ending_record, x, a),
               ppp, Null_MNPC);
             ppp_meaning := Head(
@@ -740,9 +740,9 @@ is
                compound_tvm   : Inflections_Package.tense_voice_mood_record;
                ppl_on : Boolean := False;
 
-               sum_info : verb_record := ((5, 1), (x, active, x), 0, x);
-               ppl_info : vpar_record := ((0, 0), X, x, X, (x, x, x));
-               supine_info : supine_record := ((0, 0), X, x, X);
+               sum_info : verb_record := ((5, 1), (x, active, x), 0, X);
+               ppl_info : vpar_record := ((0, 0), X, X, X, (x, x, x));
+               supine_info : supine_record := ((0, 0), X, X, X);
 
                procedure look_ahead is
                   j3 : Integer := 0;
@@ -839,7 +839,7 @@ is
                        (ppl_info.con,
                        compound_tvm,
                        0,
-                       x)
+                       X)
                         ), 0, null_ending_record, x, a),
                        ppp, Null_MNPC);
                   end if;
