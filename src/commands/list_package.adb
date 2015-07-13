@@ -77,7 +77,7 @@ package body list_package is
      "veryrare",  --  F
      "inscript",  --  I
      "graffiti",  --  J
-     "Pliny   ");--  N
+     "Pliny   "); --  N
 
    dictionary_age : constant array (Age_Type) of String (1 .. 8) :=
      ("        ",   --  X
@@ -300,7 +300,7 @@ package body list_package is
 
             if sr.ir /= Null_Inflection_Record  then
 
-           print_modified_qual:
+               print_modified_qual :
                declare
                   out_String : String (1 .. quality_record_io.Default_Width);
                   passive_start  : constant Integer :=
@@ -332,13 +332,13 @@ package body list_package is
                        (sr.ir.qual.V.tense_voice_mood.mood in Ind .. Inf)
                      then
                         --TEXT_IO.PUT_LINE ("START PRINT MODIFIED QUAL   V");
-                        out_String (passive_start+1 .. passive_finish) := passive_blank;
+                        out_String (passive_start + 1 .. passive_finish) := passive_blank;
                      elsif (sr.ir.qual.pofs = Vpar)    and then
                        (dm.de.Part.V.Kind = dep)    and then
                        (sr.ir.qual.Vpar.tense_voice_mood.mood = Ppl)
                      then
                         --TEXT_IO.PUT_LINE ("START PRINT MODIFIED QUAL   VPAR");
-                        out_String (ppl_start+1 .. ppl_finish) := passive_blank;
+                        out_String (ppl_start + 1 .. ppl_finish) := passive_blank;
                      end if;
                   end if;
 
@@ -377,14 +377,14 @@ package body list_package is
       function Trim_bar (s : String) return String is
          --  Takes vertical bars from begining of MEAN and TRIMs
       begin
-         if s'Length >3  and then s (s'First .. s'First+3) = "||||"  then
-            return Trim (s (s'First+4.. s'Last));
-         elsif s'Length >2  and then s (s'First .. s'First+2) = "|||"  then
-            return Trim (s (s'First+3.. s'Last));
-         elsif s'Length > 1  and then  s (s'First .. s'First+1) = "||"  then
-            return Trim (s (s'First+2.. s'Last));
+         if s'Length > 3  and then s (s'First .. s'First + 3) = "||||"  then
+            return Trim (s (s'First + 4 .. s'Last));
+         elsif s'Length > 2  and then s (s'First .. s'First + 2) = "|||"  then
+            return Trim (s (s'First + 3 .. s'Last));
+         elsif s'Length > 1  and then  s (s'First .. s'First + 1) = "||"  then
+            return Trim (s (s'First + 2 .. s'Last));
          elsif s (s'First) = '|'  then
-            return Trim (s (s'First+1.. s'Last));
+            return Trim (s (s'First + 1 .. s'Last));
          else
             return Trim (s);
          end if;
@@ -554,36 +554,36 @@ package body list_package is
                   j := j - 1;
                end loop;
 
-               for j in j1+1 .. j2  loop
-                  pa (pa_last+j-j1+1) := pa (j);
+               for j in j1 + 1 .. j2  loop
+                  pa (pa_last + j - j1 + 1) := pa (j);
                end loop;
                --TEXT_IO.PUT_LINE ("In the ADJ -> ADV kludge  Ready to add PA for ADV");
                pa_last := pa_last + j2 - j1 + 1;
-               pa (pa_last) := pa (j2+1);
+               pa (pa_last) := pa (j2 + 1);
                --TEXT_IO.PUT_LINE ("In the ADJ -> ADV kludge  Adding SUFFIX E ADV");
                pa (pa_last) := ("e                 ",
                  ((Suffix, null_suffix_record), 0, null_ending_record, x, b),
                  ppp, Null_MNPC);
                --PARSE_RECORD_IO.PUT (PA (PA_LAST)); TEXT_IO.NEW_LINE;
                pa_last := pa_last + 1;
-               if pa (j2+1).IR.qual.Adj.co = Pos   then
+               if pa (j2 + 1).IR.qual.Adj.co = Pos   then
                   --TEXT_IO.PUT_LINE ("In the ADJ -> ADV kludge  Adding POS for ADV");
-                  pa (pa_last) := (pa (j2+1).Stem,
-                    ((pofs => Adv, adv => (co => pa (j2+1).IR.qual.Adj.co)),
+                  pa (pa_last) := (pa (j2 + 1).Stem,
+                    ((pofs => Adv, adv => (co => pa (j2 + 1).IR.qual.Adj.co)),
                     key => 0, ending => (1, "e      "), age => x, freq => b),
-                    pa (j2+1).D_K,
-                    pa (j2+1).MNPC);
+                    pa (j2 + 1).D_K,
+                    pa (j2 + 1).MNPC);
                   --PARSE_RECORD_IO.PUT (PA (PA_LAST)); TEXT_IO.NEW_LINE;
                   ppp_meaning :=
                     Head ("-ly; -ily;  Converting ADJ to ADV",
                     Max_Meaning_Size);
 
-               elsif pa (j2+1).IR.qual.Adj.co = Super  then
-                  pa (pa_last) := (pa (j2+1).Stem,
-                    ((pofs => Adv, adv => (co => pa (j2+1).IR.qual.Adj.co)),
+               elsif pa (j2 + 1).IR.qual.Adj.co = Super  then
+                  pa (pa_last) := (pa (j2 + 1).Stem,
+                    ((pofs => Adv, adv => (co => pa (j2 + 1).IR.qual.Adj.co)),
                     key => 0, ending => (2, "me     "), age => x, freq => b),
-                    pa (j2+1).D_K,
-                    pa (j2+1).MNPC);
+                    pa (j2 + 1).D_K,
+                    pa (j2 + 1).MNPC);
                   ppp_meaning :=
                     Head ("-estly; -estily; most -ly, very -ly  Converting ADJ to ADV",
                     Max_Meaning_Size);
@@ -622,9 +622,11 @@ package body list_package is
       sraa := null_sraa;
       dma := null_dma;
 
-  cycle_over_pa:
-      while i <= pa_last  loop       --  I cycles over full PA array
-                                     --TEXT_IO.PUT_LINE ("Starting loop for I    I = " & INTEGER'IMAGE (I));
+      cycle_over_pa :
+      while i <= pa_last  loop
+         --  I cycles over full PA array
+
+         --TEXT_IO.PUT_LINE ("Starting loop for I    I = " & INTEGER'IMAGE (I));
          odm := null_dictionary_MNPC_record;
 
          if pa (i).D_K = unique  then
@@ -958,12 +960,12 @@ package body list_package is
       j := 1;
       osra := null_sra;
 
-  Output_loop:
+      Output_loop :
       while  dma (j) /= null_dictionary_MNPC_record  loop
          --  Skips one identical SRA no matter what comes next
          if sraa (j) /= osra  then
 
-        Put_inflection_array_j:
+            Put_inflection_array_j :
             for k in sraa (j)'Range loop
                exit Put_inflection_array_j when sraa (j)(k) = null_Stem_Inflection_Record;
 
@@ -977,7 +979,7 @@ package body list_package is
 
          --TEXT_IO.PUT_LINE ("PUTting FORM");
 
-     Putting_form:
+         Putting_form :
          begin
             if j = 1  or else
               dictionary_form (dma (j).de) /= dictionary_form (dma (j-1).de)
@@ -988,10 +990,10 @@ package body list_package is
          end Putting_form;
 
          --TEXT_IO.PUT_LINE ("PUTting MEANING");
-     Putting_meaning:
+         Putting_meaning :
          begin
             if dma (j).d_k in general .. unique then
-               if dma (j).de.Mean /= dma (j+1).de.Mean then
+               if dma (j).de.Mean /= dma (j + 1).de.Mean then
                   --  This if handles simple multiple MEAN with same IR and FORM
                   --  by anticipating duplicates and waiting until change
                   Put_meaning_line (sraa (j)(1), dma (j));
@@ -1001,7 +1003,7 @@ package body list_package is
             end if;
          end Putting_meaning;
 
-     do_pause:
+         do_pause :
          begin
             if i = pa_last  then
                Ada.Text_IO.New_Line (Output);
@@ -1069,7 +1071,7 @@ package body list_package is
             ss (s'First) := Char_Utils.V_To_U_And_J_To_I (w (s'First));
          else
             ss (s'First)   := Char_Utils.V_To_U_And_J_To_I (w (s'First));
-            ss (s'First+1) := Char_Utils.V_To_U_And_J_To_I (w (s'First+1));
+            ss (s'First + 1) := Char_Utils.V_To_U_And_J_To_I (w (s'First + 1));
          end if;
          return ss;
       end first_two;
@@ -1097,7 +1099,7 @@ package body list_package is
 
             j := (j1 + j2) / 2;
 
-        binary_search:
+            binary_search :
             loop
                if (j1 = j2-1) or (j1 = j2) then
                   if first_try  then
@@ -1134,7 +1136,7 @@ package body list_package is
                      end if;
                   end loop;
 
-                  for i in j+1 .. j2  loop
+                  for i in j + 1 .. j2  loop
                      Set_Index (stem_file (d_k), stem_io.Count (i));
                      Read (stem_file (d_k), ds);
 
@@ -1182,7 +1184,7 @@ package body list_package is
            "----------  Entries in GENEAL Dictionary around the UNKNOWN  ----------");
          pause (Output);
          for mn in Dict_IO.Count (Integer (unk_MNPC)-5) .. 
-           Dict_IO.Count (Integer (unk_MNPC)+3)  loop
+           Dict_IO.Count (Integer (unk_MNPC) + 3)  loop
             list_entry (Output, d_k, mn);
 
          end loop;
