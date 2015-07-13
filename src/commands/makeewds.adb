@@ -492,7 +492,7 @@ procedure makeewds is
                              cs (ic) = '?'  or      --  Ignore ?
                              cs (ic) = '~'  or      --  Ignore about ~
                              cs (ic) = '*'  or
-                             cs (ic) = '%'  or      --  Ignore percent unless word
+                             cs (ic) = '%'  or      --  Ignore % unless word
                              cs (ic) = '.'  or      --  Ignore . ..
                              cs (ic) = '\'  or      --  Ignore weed
                              (cs (ic) in '0' .. '9')
@@ -504,11 +504,11 @@ procedure makeewds is
                               if
                                 cs (ic) = '/'  or
                                 cs (ic) = ' '  or
-                                cs (ic) = '''  or    --  Ignore all ' incl 's  ???
-                                cs (ic) = '-'  or    --  Hyphen causes 2 words  XXX
-                                cs (ic) = '+'  or    --  Plus causes 2 words
-                                cs (ic) = '_'  or    --  Underscore causes 2 words
-                                cs (ic) = '='  or    --  = space/terminates
+                                cs (ic) = '''  or --  Ignore all ' incl 's  ???
+                                cs (ic) = '-'  or --  Hyphen causes 2 words  XXX
+                                cs (ic) = '+'  or --  Plus causes 2 words
+                                cs (ic) = '_'  or --  Underscore causes 2 words
+                                cs (ic) = '='  or --  = space/terminates
                                 cs (ic) = '>'  or
                                 cs (ic) = ')'  or
                                 cs (ic) = ']'  or
@@ -613,7 +613,8 @@ procedure makeewds is
       when others =>
          if (s (s'Last) /= ')') or  (s (s'Last) /= ']') then    --  KLUDGE
             New_Line;
-            Put_Line ("Extract Exception    WW = " & Integer'Image (ww) & "    LINE = " &
+            Put_Line ("Extract Exception    WW = "
+              & Integer'Image (ww) & "    LINE = " &
               Integer'Image (line_number));
             Put_Line (s);
             Put (de); New_Line;
@@ -652,9 +653,12 @@ begin
             form_de : begin
                de.Stems (1) := s (start_stem_1 .. Max_Stem_Size);
                --NEW_LINE; PUT (DE.STEMS (1));
-               de.Stems (2) := s (start_stem_2 .. start_stem_2 + Max_Stem_Size - 1);
-               de.Stems (3) := s (start_stem_3 .. start_stem_3 + Max_Stem_Size - 1);
-               de.Stems (4) := s (start_stem_4 .. start_stem_4 + Max_Stem_Size - 1);
+               de.Stems (2) := s (start_stem_2 .. start_stem_2
+                 + Max_Stem_Size - 1);
+               de.Stems (3) := s (start_stem_3 .. start_stem_3
+                 + Max_Stem_Size - 1);
+               de.Stems (4) := s (start_stem_4 .. start_stem_4
+                 + Max_Stem_Size - 1);
                --PUT ('#'); PUT (INTEGER'IMAGE (L)); PUT (INTEGER'IMAGE (LAST));
                --PUT ('@');
                Get (s (start_part .. last), de.Part, l);
@@ -669,7 +673,8 @@ begin
                Get (s (l + 1 .. last), de.Tran.Source, l);
                de.Mean := Head (s (l + 2 .. last), Max_Meaning_Size);
                --  Note that this allows initial blanks
-               --  L+2 skips over the SPACER, required because this is STRING, not ENUM
+               --  L+2 skips over the SPACER, required because
+               --  this is STRING, not ENUM
 
             exception
                when others =>
@@ -683,11 +688,13 @@ begin
             line_number := line_number + 1;
 
             if de.Part.pofs = V and then de.Part.V.Con.Which = 8 then
-               --  V 8 is a kludge for variant forms of verbs that have regular forms elsewhere
+               --  V 8 is a kludge for variant forms of verbs
+               --  that have regular forms elsewhere
                null;
             else
                --  Extract words
-               extract_words (add_hyphenated (Trim (de.Mean)), de.Part.pofs, n, ewa);
+               extract_words (add_hyphenated (Trim (de.Mean)),
+                 de.Part.pofs, n, ewa);
 
                --      EWORD_SIZE    : constant := 38;
                --      AUX_WORD_SIZE : constant := 9;
@@ -710,7 +717,8 @@ begin
                      ewr.freq := de.Tran.Freq;
                      ewr.semi := ewa (i).semi;
                      ewr.kind := ewa (i).kind;
-                     ewr.rank := 80 - Frequency_Type'Pos (ewr.freq) * 10 + ewr.kind + (ewr.semi - 1) * (-3);
+                     ewr.rank := 80 - Frequency_Type'Pos (ewr.freq) * 10
+                       + ewr.kind + (ewr.semi - 1) * (-3);
                      if ewr.freq = Inflections_Package.n  then
                         ewr.rank := ewr.rank + 25;
                      end if;

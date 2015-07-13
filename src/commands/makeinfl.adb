@@ -62,7 +62,8 @@ procedure makeinfl is
 
       type latin_inflections is array (Integer range 0 .. max_ending_size,
         Character  range ' ' .. 'z') of inflection_list;
-      null_latin_inflections : constant latin_inflections := (others => (others => null));
+      null_latin_inflections : constant latin_inflections :=
+        (others => (others => null));
 
       l_i : latin_inflections := null_latin_inflections;
 
@@ -109,17 +110,20 @@ procedure makeinfl is
 
          end loop;
          Close (inflections_file);
-         Put_Line ("INFLECTIONS_LIST LOADED   " & Integer'Image (number_of_inflections));
+         Put_Line ("INFLECTIONS_LIST LOADED   "
+           & Integer'Image (number_of_inflections));
       end load_inflections_list;
 
       procedure list_to_lel_file  is
-         --  From ILC (=L_I) list of inflections, prepares the LEL inflections array
+         --  From ILC (=L_I) list of inflections,
+         --  prepares the LEL inflections array
          ilc : latin_inflections := l_i;
       begin
-         Create (inflections_sections_file, Out_File, inflections_sections_name);
+         Create (inflections_sections_file, Out_File,
+           inflections_sections_name);
 
          null_lel;
-         ilc := l_i;                              --  Resetting the list to start over
+         ilc := l_i;                      --  Resetting the list to start over
          while ilc (0, ' ') /= null  loop
             j5 := j5 + 1;
             lel (j5) := ilc (0, ' ').ir;
@@ -129,7 +133,7 @@ procedure makeinfl is
          n5 := j5;
 
          null_lel;
-         ilc := l_i;                              --  Resetting the list to start over
+         ilc := l_i;                      --  Resetting the list to start over
          for ch in Character range 'a' .. 'z'  loop
             for n in reverse 1 .. max_ending_size  loop
                while ilc (n, ch) /= null  loop
@@ -151,7 +155,7 @@ procedure makeinfl is
          n1 := j1;
 
          null_lel;
-         ilc := l_i;                              --  Resetting the list to start over
+         ilc := l_i;                       --  Resetting the list to start over
          for ch in Character range 'a' .. 'z'  loop
             for n in reverse 1 .. max_ending_size  loop
                while ilc (n, ch) /= null  loop
@@ -173,7 +177,7 @@ procedure makeinfl is
          n2 := j2;
 
          null_lel;
-         ilc := l_i;                              --  Resetting the list to start over
+         ilc := l_i;                      --  Resetting the list to start over
          for ch in Character range 'a' .. 'z'  loop
             for n in reverse 1 .. max_ending_size  loop
                while ilc (n, ch) /= null  loop
@@ -195,7 +199,7 @@ procedure makeinfl is
          n3 := j3;
 
          null_lel;
-         ilc := l_i;                              --  Resetting the list to start over
+         ilc := l_i;                      --  Resetting the list to start over
          for ch in Character range 'a' .. 'z'  loop
             for n in reverse 1 .. max_ending_size  loop
                while ilc (n, ch) /= null  loop
@@ -214,8 +218,8 @@ procedure makeinfl is
             end loop;
          end loop;
 
-         --  Now Put the PACK in 4            --  Maybe it should be in 5 ????
-         ilc := l_i;                              --  Resetting the list to start over
+         --  Now Put the PACK in 4       --  Maybe it should be in 5 ????
+         ilc := l_i;                     --  Resetting the list to start over
          for ch in Character range 'a' .. 'z'  loop
             for n in reverse 1 .. max_ending_size  loop
                while ilc (n, ch) /= null  loop
@@ -259,7 +263,8 @@ begin
    file_inflections_sections;
 
    if not porting  then
-      Put_Line ("using FILE_INFLECTIONS_SECTIONS, also produces INFLECTS.LIN file");
+      Put_Line
+        ("using FILE_INFLECTIONS_SECTIONS, also produces INFLECTS.LIN file");
 
       Create (Output, Out_File, "INFLECTS.LIN");
    end if;
@@ -311,10 +316,12 @@ begin
    end loop;
 
    New_Line;
-   Put ("LINE_INFLECTIONS finds "); Put (m); Put_Line (" inflections"); New_Line;
+   Put ("LINE_INFLECTIONS finds "); Put (m); Put_Line (" inflections");
+   New_Line;
 
    for i in Character range ' ' .. ' '  loop
-      Integer_IO.Put (0); Put ("    "); Put (i); Put ("    "); Put (belf (0, i));
+      Integer_IO.Put (0); Put ("    "); Put (i); Put ("    ");
+      Put (belf (0, i));
       Put ("  ");   Put (bell (0, i));
       Put ("    "); Put (bell (0, i) - belf (0, i) + 1); New_Line;
    end loop;
