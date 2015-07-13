@@ -315,23 +315,32 @@ package Latin_Utils.Inflections_Package is
 
    ---------------------------------------------------------------------------
 
-   type noun_record is
+   type Noun_Record is
       record
-         decl        : Decn_Record;
-         cs          : Case_Type := X;
-         number      : Number_Type := X;
-         gender      : Gender_Type := X;
+         Decl        : Decn_Record;
+         Of_Case     : Case_Type    := X;
+         Number      : Number_Type  := X;
+         Gender      : Gender_Type  := X;
       end record;
 
-   package noun_record_io is
+   -- FIXME: These subprograms don't check if Is_Open (File)
+   package Noun_Record_IO is
+      -- FIXME: This probably should be constant.
       Default_Width : Natural;
-      procedure Get (f : in File_Type; n : out noun_record);
-      procedure Get (n : out noun_record);
-      procedure Put (f : in File_Type; n : in noun_record);
-      procedure Put (n : in noun_record);
-      procedure Get (s : in String; n : out noun_record; last : out Integer);
-      procedure Put (s : out String; n : in noun_record);
-   end noun_record_io;
+      procedure Get (File : in  File_Type; Item : out Noun_Record);
+      procedure Get (Item : out Noun_Record);
+      procedure Put (File : in  File_Type; Item : in  Noun_Record);
+      procedure Put (Item : in  Noun_Record);
+      -- TODO: Document meaning of Last
+      procedure Get
+         (Source : in  String;
+          Target : out Noun_Record;
+          Last   : out Integer
+         );
+      procedure Put (Target : out String; Item : in Noun_Record);
+   end Noun_Record_IO;
+
+   ---------------------------------------------------------------------------
 
    type pronoun_record is
       record

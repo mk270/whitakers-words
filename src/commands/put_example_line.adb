@@ -281,7 +281,7 @@ begin    --  PUT_EXAMPLE_LINE
 
       case ir.qual.pofs is
          when N =>
-            case ir.qual.N.cs is
+            case ir.qual.N.Of_Case is
                when Gen =>
                   Ada.Text_IO.Put (Output, "~'s; of ~");
                   Ada.Text_IO.New_Line (Output);

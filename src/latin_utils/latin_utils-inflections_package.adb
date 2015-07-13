@@ -46,6 +46,7 @@ package body Latin_Utils.Inflections_Package is
                  left.N.decl.Var = right.N.decl.Var  and then
                  left.N.number < right.N.number) or else
                  (left.N.decl.Which = right.N.decl.Which  and then
+<<<<<<< HEAD
                  left.N.decl.Var = right.N.decl.Var  and then
                  left.N.number = right.N.number and then
                  left.N.cs < right.N.cs) or else
@@ -54,6 +55,16 @@ package body Latin_Utils.Inflections_Package is
                  left.N.number = right.N.number and then
                  left.N.cs = right.N.cs and then
                  left.N.gender < right.N.gender)
+=======
+                    left.N.decl.Var = right.N.decl.Var  and then
+                    left.N.number = right.N.number and then
+                    left.N.Of_Case < right.N.Of_Case) or else
+                 (left.N.decl.Which = right.N.decl.Which  and then
+                    left.N.decl.Var = right.N.decl.Var  and then
+                    left.N.number = right.N.number and then
+                    left.N.Of_Case = right.N.Of_Case and then
+                    left.N.gender < right.N.gender)
+>>>>>>> Separate Inflections_Package.Noun_Record_IO.
                then
                   return True;
                end if;
@@ -393,91 +404,7 @@ package body Latin_Utils.Inflections_Package is
 
    package body Tense_Voice_Mood_Record_IO is separate;
 
-   package body noun_record_io is
-      use Decn_Record_IO;
-      use Case_Type_IO;
-      use Gender_Type_IO;
-      use Number_Type_IO;
-      spacer : Character := ' ';
-
-      procedure Get (f : in File_Type; n : out noun_record) is
-      begin
-         Get (f, n.decl);
-         Get (f, spacer);
-         Get (f, n.cs);
-         Get (f, spacer);
-         Get (f, n.number);
-         Get (f, spacer);
-         Get (f, n.gender);
-      end Get;
-
-      procedure Get (n : out noun_record) is
-      begin
-         Get (n.decl);
-         Get (spacer);
-         Get (n.cs);
-         Get (spacer);
-         Get (n.number);
-         Get (spacer);
-         Get (n.gender);
-      end Get;
-
-      procedure Put (f : in File_Type; n : in noun_record) is
-      begin
-         Put (f, n.decl);
-         Put (f, ' ');
-         Put (f, n.cs);
-         Put (f, ' ');
-         Put (f, n.number);
-         Put (f, ' ');
-         Put (f, n.gender);
-      end Put;
-
-      procedure Put (n : in noun_record) is
-      begin
-         Put (n.decl);
-         Put (' ');
-         Put (n.cs);
-         Put (' ');
-         Put (n.number);
-         Put (' ');
-         Put (n.gender);
-      end Put;
-
-      procedure Get (s : in String; n : out noun_record; last : out Integer) is
-         l : Integer := s'First - 1;
-      begin
-         Get (s (l + 1 .. s'Last), n.decl, l);
-         l := l + 1;
-         Get (s (l + 1 .. s'Last), n.cs, l);
-         l := l + 1;
-         Get (s (l + 1 .. s'Last), n.number, l);
-         l := l + 1;
-         Get (s (l + 1 .. s'Last), n.gender, last);
-      end Get;
-
-      procedure Put (s : out String; n : in noun_record) is
-         l : Integer := s'First - 1;
-         m : Integer := 0;
-      begin
-         m := l + Decn_Record_IO.Default_Width;
-         Put (s (l + 1 .. m), n.decl);
-         l := m + 1;
-         s (l) :=  ' ';
-         m := l + Case_Type_IO.Default_Width;
-         Put (s (l + 1 .. m), n.cs);
-         l := m + 1;
-         s (l) :=  ' ';
-         m := l + Number_Type_IO.Default_Width;
-         Put (s (l + 1 .. m), n.number);
-         l := m + 1;
-         s (l) :=  ' ';
-         m := l + Gender_Type_IO.Default_Width;
-         Put (s (l + 1 .. m), n.gender);
-         s (m + 1 .. s'Last) := (others => ' ');
-      end Put;
-
-   end noun_record_io;
+   package body Noun_Record_IO is separate;
 
    package body pronoun_record_io is
       use Decn_Record_IO;

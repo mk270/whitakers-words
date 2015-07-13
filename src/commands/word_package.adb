@@ -936,8 +936,8 @@ package body word_package is
                     (pdl_part.pofs  = eff_part (sl (i).IR.qual.pofs))
                   then
                      if pdl_part.pofs = N                            and then
-                       pdl_part.N.Decl <= sl (i).IR.qual.N.decl      and then
-                       pdl_part.N.Gender <= sl (i).IR.qual.N.gender
+                       pdl_part.N.Decl <= sl (i).IR.qual.N.Decl      and then
+                       pdl_part.N.Gender <= sl (i).IR.qual.N.Gender
                      then
                         --  Need to transfer the gender of the noun
                         --  dictionary item
@@ -949,8 +949,8 @@ package body word_package is
                           pofs => N,
                           N => (
                           pdl_part.N.Decl,
-                          sl (i).IR.qual.N.cs,
-                          sl (i).IR.qual.N.number,
+                          sl (i).IR.qual.N.Of_Case,
+                          sl (i).IR.qual.N.Number,
                           pdl_part.N.Gender)),
                           key => sl (i).IR.key,
                           ending => sl (i).IR.ending,
@@ -1722,7 +1722,7 @@ package body word_package is
                               --  check PART
                               case tackons (i).entr.base.pofs is
                                  when N       =>
-                                    if pa (j).IR.qual.N.decl <=
+                                    if pa (j).IR.qual.N.Decl <=
                                       tackons (i).entr.base.n.Decl
                                     then
                                        --  Ignore GEN and KIND

@@ -57,12 +57,12 @@ procedure list_sweep (pa : in out Parse_Array; pa_last : in out Integer) is
       case  pr.IR.qual.pofs is
          when N  =>
             if  words_mdev (for_word_list_check)  then
-               if (Nom <= pr.IR.qual.N.cs) and then
+               if (Nom <= pr.IR.qual.N.Of_Case) and then
                  (S <= pr.IR.qual.N.number)
                then
                   allowed := True;
-               elsif (Nom <= pr.IR.qual.N.cs) and then
-                 (pr.IR.qual.N.number = P)
+               elsif (Nom <= pr.IR.qual.N.Of_Case) and then
+                 (pr.IR.qual.N.Number = P)
                then
 
                   search_for_pl :
@@ -408,7 +408,7 @@ procedure list_sweep (pa : in out Parse_Array; pa_last : in out Integer) is
                end if;
 
                if sl (i).IR.qual.pofs = N  and then
-                 sl (i).IR.qual.N.decl = (9, 8)
+                 sl (i).IR.qual.N.Decl = (9, 8)
                then
                   has_noun_abbreviation := True;
                end if;
