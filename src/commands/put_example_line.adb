@@ -299,10 +299,10 @@ begin    --  PUT_EXAMPLE_LINE
 
          when Adj =>
             case ir.qual.Adj.co is
-               when comp  =>
+               when Comp  =>
                   Ada.Text_IO.Put(Output, "~er; more/too _");
                   Ada.Text_IO.New_Line(Output);
-               when super =>
+               when Super =>
                   Ada.Text_IO.Put(Output, "~est; most/very");
                   Ada.Text_IO.New_Line(Output);
                when others  =>
@@ -312,10 +312,10 @@ begin    --  PUT_EXAMPLE_LINE
 
          when Adv =>
             case ir.qual.Adv.co is
-               when comp  =>
+               when Comp  =>
                   Ada.Text_IO.Put(Output, "more/too ~(ly)");
                   Ada.Text_IO.New_Line(Output);
-               when super =>
+               when Super =>
                   Ada.Text_IO.Put(Output, "most/very ~(ly)");
                   Ada.Text_IO.New_Line(Output);
                when others  =>

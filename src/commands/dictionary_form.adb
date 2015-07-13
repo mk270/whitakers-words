@@ -61,7 +61,7 @@ begin
      (((de.Part.pofs = N)  and then (de.Part.N.Decl.Which = 9))  or
      ((de.Part.pofs = Adj)  and then
      ((de.Part.Adj.Decl.Which = 9) or
-     (de.Part.Adj.Co = comp or de.Part.Adj.Co = super))   ) or
+     (de.Part.Adj.Co = Comp or de.Part.Adj.Co = Super))   ) or
      ((de.Part.pofs = V)  and then (de.Part.V.Con = (9, 8))) or
      ((de.Part.pofs = V)  and then (de.Part.V.Con = (9, 9))))
    then
@@ -208,16 +208,16 @@ begin
       --DICTIONARY_ENTRY_IO.PUT(DE);
       --TEXT_IO.NEW_LINE;
 
-      if de.Part.Adj.Co = comp  then
+      if de.Part.Adj.Co = Comp  then
          ox(1) := add(de.Stems(1), "or");
          ox(2) := add(de.Stems(1), "or");
          ox(3) := add(de.Stems(1), "us");
-      elsif de.Part.Adj.Co = super  then
+      elsif de.Part.Adj.Co = Super  then
          ox(1) := add(de.Stems(1), "mus");
          ox(2) := add(de.Stems(1), "ma");
          ox(3) := add(de.Stems(1), "mum");
 
-      elsif de.Part.Adj.Co = pos  then
+      elsif de.Part.Adj.Co = Pos  then
          if de.Part.Adj.Decl.Which = 1  then
             if de.Part.Adj.Decl.Var = 1  then
                ox(1) := add(de.Stems(1), "us");
@@ -301,7 +301,7 @@ begin
             raise not_found;
          end if;
 
-      elsif de.Part.Adj.Co = x    then
+      elsif de.Part.Adj.Co = X    then
          if de.Part.Adj.Decl.Which = 1  then
             if de.Part.Adj.Decl.Var = 1  then
                ox(1) := add(de.Stems(1), "us");
@@ -347,7 +347,7 @@ begin
          raise not_found;
       end if;
 
-   elsif (de.Part.pofs = Adv) and then (de.Part.Adv.Co = x)  then
+   elsif (de.Part.pofs = Adv) and then (de.Part.Adv.Co = X)  then
       ox(1) := add(de.Stems(1), "");
       ox(2) := add(de.Stems(2), "");
       ox(3) := add(de.Stems(3), "");

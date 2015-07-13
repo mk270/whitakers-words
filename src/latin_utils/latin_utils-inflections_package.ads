@@ -157,14 +157,17 @@ package Latin_Utils.Inflections_Package is
 
    ---------------------------------------------------------------------------
 
-   type Comparison_Type is (
-                            x,         --  all, none, or unknown
-                            pos,       --  POSitive
-                            comp,      --  COMParative
-                            super      --  SUPERlative
-                           );
+   type Comparison_Type is
+      ( X,    --  all, none, or unknown
+        Pos,  --  POSitive
+        Comp, --  COMParative
+        Super --  SUPERlative
+      );
 
-   package Comparison_Type_IO is new Ada.Text_IO.Enumeration_IO (Comparison_Type);
+   package Comparison_Type_IO is new
+      Ada.Text_IO.Enumeration_IO (Comparison_Type);
+
+   ---------------------------------------------------------------------------
 
    type Stem_Key_Type is new Natural range 0..9;
 
@@ -346,7 +349,7 @@ package Latin_Utils.Inflections_Package is
          cs          : Case_Type := X;
          number      : Number_Type := X;
          gender      : Gender_Type := X;
-         co          : Comparison_Type := x;
+         co          : Comparison_Type := X;
       end record;
 
    package adjective_record_io is
@@ -380,7 +383,7 @@ package Latin_Utils.Inflections_Package is
 
    type adverb_record is
       record
-         co   : Comparison_Type := x;
+         co   : Comparison_Type := X;
       end record;
 
    package adverb_record_io is

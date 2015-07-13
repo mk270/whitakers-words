@@ -335,7 +335,7 @@ package Latin_Utils.Dictionary_Package is
       record
          -- NOTE: Seems like Decl is breaking of abbrev used
          Decl : Decn_Record := (0, 0);
-         Co   : Comparison_Type := x;
+         Co   : Comparison_Type := X;
       end record;
 
    -- FIXME: These subprograms don't check if Is_Open (File)
@@ -390,7 +390,7 @@ package Latin_Utils.Dictionary_Package is
 
    type Adverb_Entry is
       record
-         Co   : Comparison_Type := x;
+         Co   : Comparison_Type := X;
       end record;
 
    -- FIXME: These subprograms don't check if Is_Open (File)

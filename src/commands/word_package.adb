@@ -748,7 +748,7 @@ package body word_package is
                                               suffix : in suffix_item := null_suffix_item) is
          MNPC_part : MNPC_Type := Null_MNPC;
          pdl_part : Part_Entry;
-         com : Comparison_Type := x;
+         com : Comparison_Type := X;
          num_sort : Numeral_Sort_Type := x;
          ls : Integer := 0;
          m : Integer := 0;
@@ -943,13 +943,13 @@ package body word_package is
                      elsif (pdl_part.pofs = Adj)                          and then
                        (pdl_part.Adj.Decl <= sl(i).IR.qual.Adj.decl)     and then
                        ((sl(i).IR.qual.Adj.co   <= pdl_part.Adj.Co  ) or
-                          ((sl(i).IR.qual.Adj.co = x)  or (pdl_part.Adj.Co = x)))
+                          ((sl(i).IR.qual.Adj.co = X) or (pdl_part.Adj.Co = X)))
                      then
                         --  Note the reversal on comparisom
                         --PUT(" HIT  ADJ   ");
                         --  Need to transfer the gender of the dictionary item
                         --  Need to transfer the CO of the ADJ dictionary item
-                        if pdl_part.Adj.Co in pos..super  then
+                        if pdl_part.Adj.Co in Pos .. Super  then
                            --  If the dictionary entry has a unique CO, use it
                            com := pdl_part.Adj.Co;
                         else
@@ -1006,11 +1006,11 @@ package body word_package is
 
                      elsif (pdl_part.pofs = Adv)                          and then
                        ((pdl_part.Adv.Co   <= sl(i).IR.qual.Adv.co  ) or
-                          ((sl(i).IR.qual.Adv.co = x)  or (pdl_part.Adv.Co = x)))
+                          ((sl(i).IR.qual.Adv.co = X) or (pdl_part.Adv.Co = X)))
                      then
                         --PUT(" HIT  ADV   ");
                         --  Need to transfer the CO of the ADV dictionary item
-                        if pdl_part.Adv.Co in pos..super  then
+                        if pdl_part.Adv.Co in Pos .. Super  then
                            --  If the dictionary entry has a unique CO, use it
                            com := pdl_part.Adv.Co;
                         else

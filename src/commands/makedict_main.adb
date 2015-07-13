@@ -146,7 +146,7 @@ begin
                end if;
             elsif de.Part.pofs = Adj  and then
                --  POS taken care of by position
-               de.Part.Adj.Co = comp
+               de.Part.Adj.Co = Comp
             then
                Put(stemlist, de.Stems(1)); Put(stemlist, ' ');
                Put(stemlist, de.Part); Put(stemlist, ' ');
@@ -155,7 +155,7 @@ begin
                Set_Col(stemlist, 50);
                Integer_IO.Put(stemlist, Integer(j), 6); New_Line(stemlist);
             elsif de.Part.pofs = Adj  and then
-               de.Part.Adj.Co = super
+               de.Part.Adj.Co = Super
             then
                Put(stemlist, de.Stems(1)); Put(stemlist, ' ');
                Put(stemlist, de.Part); Put(stemlist, ' ');
@@ -165,7 +165,7 @@ begin
                Integer_IO.Put(stemlist, Integer(j), 6); New_Line(stemlist);
             elsif de.Part.pofs = Adv  and then
                --  POS taken care of by position
-               de.Part.Adv.Co = comp
+               de.Part.Adv.Co = Comp
             then
                Put(stemlist, de.Stems(1)); Put(stemlist, ' ');
                Put(stemlist, de.Part); Put(stemlist, ' ');
@@ -174,7 +174,7 @@ begin
                Set_Col(stemlist, 50);
                Integer_IO.Put(stemlist, Integer(j), 6); New_Line(stemlist);
             elsif de.Part.pofs = Adv  and then
-               de.Part.Adv.Co = super
+               de.Part.Adv.Co = Super
             then
                Put(stemlist, de.Stems(1)); Put(stemlist, ' ');
                Put(stemlist, de.Part); Put(stemlist, ' ');
