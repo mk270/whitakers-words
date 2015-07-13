@@ -166,7 +166,7 @@ package Latin_Utils.Dictionary_Package is
       record
          case pofs is
             when N =>
-               n_kind : Noun_Kind_Type := x;
+               n_kind : Noun_Kind_Type := X;
             when Pron =>
                pron_kind : Pronoun_Kind_Type := x;
             when Pack =>
@@ -260,7 +260,7 @@ package Latin_Utils.Dictionary_Package is
          -- NOTE: Seems like Decl is breaking of abbrev used
          Decl   : Decn_Record := (0, 0);
          Gender : Gender_Type := X;
-         Kind   : Noun_Kind_Type := x;
+         Kind   : Noun_Kind_Type := X;
       end record;
 
    -- FIXME: These subprograms don't check if Is_Open (File)
