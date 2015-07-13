@@ -64,7 +64,7 @@ package Latin_Utils.Latin_File_Names is
    stem_file_name        : constant String := "STEMFILE";
    indx_file_name        : constant String := "INDXFILE";
 
-   function add_file_name_extension(name, extension : String) return String;
+   function add_file_name_extension (name, extension : String) return String;
    --  This is the function that Creates a file name legal for your system
    --  with a FILE_NAME defined above and a program specified extension
 
