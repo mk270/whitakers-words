@@ -18,38 +18,43 @@ with Latin_Utils.Preface; use Latin_Utils.Preface;
 use Latin_Utils;
 
 package body banner is
-   procedure print_main_banner(start_file_Character : Character;
-                               change_parameters_Character : Character;
-                               help_Character : Character)
+   procedure print_main_banner (start_file_Character : Character;
+                                change_parameters_Character : Character;
+                                help_Character : Character)
    is
+      Version : constant String := "Version 1.97FC";
+      URL     : constant String := "http://www.erols.com/whitaker/words.htm";
+      Address : constant String := "Box 51225  Midland  TX  79710  USA";
    begin
 
-      Preface.Put_Line(
-        "Copyright (c) 1993-2006 - Free for any use - Version 1.97FC");
-      Preface.Put_Line(
-        "For updates and latest version check http://www.erols.com/whitaker/words.htm");
-      Preface.Put_Line(
-        "Comments? William Whitaker, Box 51225  Midland  TX  79710  USA - whitaker@erols.com");
+      Preface.Put_Line (
+        "Copyright (c) 1993-2006 - Free for any use - " & Version);
+      Preface.Put_Line (
+        "For updates and latest version check " & URL);
+      Preface.Put_Line (
+        "Comments? William Whitaker, " & Address & " - whitaker@erols.com");
       Preface.New_Line;
-      Preface.Put_Line(
-        "InPut a word or line of Latin and ENTER to Get the forms and meanings");
-      Preface.Put_Line("    Or Input " & start_file_Character &
+      Preface.Put_Line (
+        "Input a word or line of Latin and ENTER to " &
+        "get the forms and meanings");
+      Preface.Put_Line ("    Or Input " & start_file_Character &
         " and the name of a file containing words or lines");
-      Preface.Put_Line("    Or Input " & change_parameters_Character &
+      Preface.Put_Line ("    Or Input " & change_parameters_Character &
         " to change parameters and mode of the program");
-      Preface.Put_Line("    Or Input " & help_Character &
-        " to Get help wherever available on individual parameters");
-      Preface.Put_Line(
-        "Two empty lines (just a RETURN/ENTER) from the keyboard exits the program");
+      Preface.Put_Line ("    Or Input " & help_Character &
+        " to get help wherever available on individual parameters");
+      Preface.Put_Line (
+        "Two empty lines (just a RETURN/ENTER) from the " &
+        "keyboard exits the program");
 
    end print_main_banner;
 
    procedure print_mode_warning
    is
    begin
-      Preface.Put_Line(
+      Preface.Put_Line (
         "THIS VERSION IS HARDCODED TO GIVE DICTIONARY FORM AND MEANINGS ONLY");
-      Preface.Put_Line(
+      Preface.Put_Line (
         "IT CANNOT BE MODIFIED BY CHANGING THE DO_MEANINGS_ONLY PARAMETER");
    end print_mode_warning;
 

@@ -15,8 +15,9 @@
 -- available to anyone who wishes to use them, for whatever purpose.
 
 package banner is
-   procedure print_main_banner(start_file_Character : Character;
-                               change_parameters_Character : Character;
-                               help_Character : Character);
+   procedure print_main_banner
+     (start_file_Character        : Character;
+      change_parameters_Character : Character;
+      help_Character              : Character);
    procedure print_mode_warning;
 end banner;
