@@ -32,7 +32,7 @@ package Latin_Utils.Dictionary_Package is
    ---------------------------------------------------------------------------
 
    type Dictionary_Kind is
-      ( x,            --  null
+      (x,            --  null
         addons,       --  For FIXES
         xxx,          --  TRICKS
         yyy,          --  Syncope
@@ -49,7 +49,7 @@ package Latin_Utils.Dictionary_Package is
       Ada.Text_IO.Enumeration_IO (Dictionary_Kind);
 
    Ext : array (Dictionary_Kind) of String (1 .. 3) :=
-      ( "X  ", "ADD", "XXX", "YYY", "NNN", "RRR", "PPP",
+      ("X  ", "ADD", "XXX", "YYY", "NNN", "RRR", "PPP",
         "GEN", "SPE", "LOC", "UNI"
       );
 
@@ -57,12 +57,12 @@ package Latin_Utils.Dictionary_Package is
 
    --  Starts out as False and set to True when the Dict is loaded
    Dictionary_Available : array (Dictionary_Kind) of Boolean :=
-      ( others => False );
+      (others => False );
 
    ---------------------------------------------------------------------------
 
    type Area_Type is
-      ( x,      --  All or none
+      (x,      --  All or none
         a,      --  Agriculture, Flora, Fauna, Land, Equipment, Rural
         b,      --  Biological, Medical, Body Parts
         d,      --  Drama, Music, Theater, Art, Painting, Sculpture
@@ -84,7 +84,7 @@ package Latin_Utils.Dictionary_Package is
    ---------------------------------------------------------------------------
 
    type Geo_Type is
-      ( x,      --  All or none
+      (x,      --  All or none
         a,      --  Africa
         b,      --  Britian
         c,      --  China
@@ -110,7 +110,7 @@ package Latin_Utils.Dictionary_Package is
    ---------------------------------------------------------------------------
 
    type Source_Type is
-      ( x,  --  General or unknown or too common to say
+      (x,  --  General or unknown or too common to say
         a,
         b,  --  C.H.Beeson, A Primer of Medieval Latin, 1925 (Bee)
         c,  --  Charles Beard, Cassell's Latin Dictionary 1892 (Cas)
@@ -191,26 +191,26 @@ package Latin_Utils.Dictionary_Package is
    package Kind_Entry_IO is
       Default_Width : Natural;
       procedure Get
-         ( File : in  Ada.Text_IO.File_Type;
+         (File : in  Ada.Text_IO.File_Type;
            POFS : in  Part_Of_Speech_Type;
            Item : out Kind_Entry
          );
       procedure Get (POFS : in Part_Of_Speech_Type; Item : out Kind_Entry);
       procedure Put
-         ( File : in Ada.Text_IO.File_Type;
+         (File : in Ada.Text_IO.File_Type;
            POFS : in Part_Of_Speech_Type;
            Item : in Kind_Entry
          );
       procedure Put (POFS : in Part_Of_Speech_Type; Item : in Kind_Entry);
       -- TODO: Document meaning of Last
       procedure Get
-         ( Source : in  String;
+         (Source : in  String;
            POFS   : in  Part_Of_Speech_Type;
            Target : out Kind_Entry;
            Last   : out Integer
          );
       procedure Put
-         ( Target : out String;
+         (Target : out String;
            POFS   : in  Part_Of_Speech_Type;
            Item   : in  Kind_Entry
          );
@@ -235,18 +235,18 @@ package Latin_Utils.Dictionary_Package is
    package Translation_Record_IO is
       Default_Width : Ada.Text_IO.Field;
       procedure Get
-         ( File : in  Ada.Text_IO.File_Type;
+         (File : in  Ada.Text_IO.File_Type;
            Item : out Translation_Record
          );
       procedure Get (Item : out Translation_Record);
       procedure Put
-         ( File : in Ada.Text_IO.File_Type;
+         (File : in Ada.Text_IO.File_Type;
            Item : in Translation_Record
          );
       procedure Put (Item : in Translation_Record);
       -- TODO: Document meaning of Last
       procedure Get
-         ( Source : in  String;
+         (Source : in  String;
            Target : out Translation_Record;
            Last   : out Integer
          );
@@ -272,7 +272,7 @@ package Latin_Utils.Dictionary_Package is
       procedure Put (Item : in Noun_Entry);
       -- TODO: Document meaning of Last
       procedure Get
-         ( Source : in  String;
+         (Source : in  String;
            Target : out Noun_Entry;
            Last   : out Integer
          );
@@ -297,7 +297,7 @@ package Latin_Utils.Dictionary_Package is
       procedure Put (Item : in Pronoun_Entry);
       -- TODO: Document meaning of Last
       procedure Get
-         ( Source : in  String;
+         (Source : in  String;
            Target : out Pronoun_Entry;
            Last   : out Integer
          );
@@ -322,7 +322,7 @@ package Latin_Utils.Dictionary_Package is
       procedure Put (Item : in  Propack_Entry);
       -- TODO: Document meaning of Last
       procedure Get
-         ( Source : in  String;
+         (Source : in  String;
            Target : out Propack_Entry;
            Last   : out Integer
          );
@@ -342,18 +342,18 @@ package Latin_Utils.Dictionary_Package is
    package Adjective_Entry_IO is
       Default_Width : Natural;
       procedure Get
-         ( File : in Ada.Text_IO.File_Type;
+         (File : in Ada.Text_IO.File_Type;
            Item : out Adjective_Entry
          );
       procedure Get (Item : out Adjective_Entry);
       procedure Put
-         ( File : in Ada.Text_IO.File_Type;
+         (File : in Ada.Text_IO.File_Type;
            Item : in Adjective_Entry
          );
       procedure Put (Item : in Adjective_Entry);
       -- TODO: Document meaning of Last
       procedure Get
-         ( Source : in  String;
+         (Source : in  String;
            Target : out Adjective_Entry;
            Last   : out Integer
          );
@@ -379,7 +379,7 @@ package Latin_Utils.Dictionary_Package is
       procedure Put (Item : in Numeral_Entry);
       -- TODO: Document meaning of Last
       procedure Get
-         ( Source : in  String;
+         (Source : in  String;
            Target : out Numeral_Entry;
            Last   : out Integer
          );
@@ -402,7 +402,7 @@ package Latin_Utils.Dictionary_Package is
       procedure Put (Item : in Adverb_Entry);
       -- TODO: Document meaning of Last
       procedure Get
-         ( Source : in  String;
+         (Source : in  String;
            Target : out Adverb_Entry;
            Last   : out Integer
          );
@@ -428,7 +428,7 @@ package Latin_Utils.Dictionary_Package is
       procedure Put (Item : in Verb_Entry);
       -- TODO: Document meaning of Last
       procedure Get
-         ( Source : in  String;
+         (Source : in  String;
            Target : out Verb_Entry;
            Last   : out Integer
          );
@@ -446,18 +446,18 @@ package Latin_Utils.Dictionary_Package is
    package Preposition_Entry_IO is
       Default_Width : Natural;
       procedure Get
-         ( File : in Ada.Text_IO.File_Type;
+         (File : in Ada.Text_IO.File_Type;
            Item : out Preposition_Entry
          );
       procedure Get (Item : out Preposition_Entry);
       procedure Put
-         ( File : in Ada.Text_IO.File_Type;
+         (File : in Ada.Text_IO.File_Type;
            Item : in Preposition_Entry
          );
       procedure Put (Item : in Preposition_Entry);
       -- TODO: Document meaning of Last
       procedure Get
-         ( Source : in  String;
+         (Source : in  String;
            Target : out Preposition_Entry;
            Last : out Integer
          );
@@ -471,18 +471,18 @@ package Latin_Utils.Dictionary_Package is
    package Conjunction_Entry_IO is
       Default_Width : Natural;
       procedure Get
-         ( File : in Ada.Text_IO.File_Type;
+         (File : in Ada.Text_IO.File_Type;
            Item : out Conjunction_Entry
          );
       procedure Get (Item : out Conjunction_Entry);
       procedure Put
-         ( File : in Ada.Text_IO.File_Type;
+         (File : in Ada.Text_IO.File_Type;
            Item : in Conjunction_Entry
          );
       procedure Put (Item : in Conjunction_Entry);
       -- TODO: Document meaning of Last
       procedure Get
-         ( Source : in String;
+         (Source : in String;
            Target : out Conjunction_Entry;
            Last   : out Integer
          );
@@ -496,18 +496,18 @@ package Latin_Utils.Dictionary_Package is
    package Interjection_Entry_IO is
       Default_Width : Natural;
       procedure Get
-         ( File : in Ada.Text_IO.File_Type;
+         (File : in Ada.Text_IO.File_Type;
            Item : out Interjection_Entry
          );
       procedure Get (Item : out Interjection_Entry);
       procedure Put
-         ( File : in Ada.Text_IO.File_Type;
+         (File : in Ada.Text_IO.File_Type;
            Item : in Interjection_Entry
          );
       procedure Put (Item : in Interjection_Entry);
       -- TODO: Document meaning of Last
       procedure Get
-         ( Source : in String;
+         (Source : in String;
            Target : out Interjection_Entry;
            Last   : out Integer
          );
@@ -559,7 +559,7 @@ package Latin_Utils.Dictionary_Package is
       procedure Put (Item : in Part_Entry);
       -- TODO: Document meaning of Last
       procedure Get
-         ( Source : in  String;
+         (Source : in  String;
            Target : out Part_Entry;
            Last   : out Integer
          );
@@ -588,18 +588,18 @@ package Latin_Utils.Dictionary_Package is
    package Dictionary_Entry_IO is
       Default_Width : Ada.Text_IO.Field;
       procedure Get
-         ( File : in Ada.Text_IO.File_Type;
+         (File : in Ada.Text_IO.File_Type;
            Item : out Dictionary_Entry
          );
       procedure Get (Item : out Dictionary_Entry);
       procedure Put
-         ( File : in Ada.Text_IO.File_Type;
+         (File : in Ada.Text_IO.File_Type;
            Item : in Dictionary_Entry
          );
       procedure Put (Item : in Dictionary_Entry);
       -- TODO: Document meaning of Last
       procedure Get
-         ( Source : in  String;
+         (Source : in  String;
            Target : out Dictionary_Entry;
            Last   : out Integer
          );
@@ -607,7 +607,7 @@ package Latin_Utils.Dictionary_Package is
    end Dictionary_Entry_IO;
 
    Null_Dictionary_Entry : constant Dictionary_Entry :=
-      ( Null_Stems_Type, Null_Part_Entry,
+      (Null_Stems_Type, Null_Part_Entry,
         Null_Translation_Record, Null_Meaning_Type
       );
 
@@ -631,7 +631,7 @@ package Latin_Utils.Dictionary_Package is
       end record;
 
    Null_Parse_Record : constant Parse_Record :=
-      ( Null_Stem_Type, Null_Inflection_Record,
+      (Null_Stem_Type, Null_Inflection_Record,
         Default_Dictionary_Kind, Null_MNPC
       );
 
@@ -644,9 +644,9 @@ package Latin_Utils.Dictionary_Package is
       procedure Put (Item : in Parse_Record);
       -- TODO: Document meaning of Last
       procedure Get
-         ( Source : in String;
-           Target : out Parse_Record;
-           Last   : out Integer
+         (Source : in String;
+          Target : out Parse_Record;
+          Last   : out Integer
          );
       procedure Put (Target : out String; Item : in Parse_Record);
    end Parse_Record_IO;
