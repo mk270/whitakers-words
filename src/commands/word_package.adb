@@ -933,7 +933,7 @@ package body word_package is
                     (((pdl_p = N) or (pdl_p = Adj) or (pdl_p = V)) and then
                     ((sl (i).IR.key = 1) or (sl (i).IR.key = 2))))
                      )  and then   --  and KEY
-                    ( pdl_part.pofs  = eff_part (sl (i).IR.qual.pofs))
+                    (pdl_part.pofs  = eff_part (sl (i).IR.qual.pofs))
                   then
                      if pdl_part.pofs = N                            and then
                        pdl_part.N.Decl <= sl (i).IR.qual.N.decl      and then
@@ -951,7 +951,7 @@ package body word_package is
                           pdl_part.N.Decl,
                           sl (i).IR.qual.N.cs,
                           sl (i).IR.qual.N.number,
-                          pdl_part.N.Gender  )  ),
+                          pdl_part.N.Gender)),
                           key => sl (i).IR.key,
                           ending => sl (i).IR.ending,
                           age => sl (i).IR.age,
@@ -975,7 +975,7 @@ package body word_package is
                           pdl_part.Pron.Decl,
                           sl (i).IR.qual.Pron.cs,
                           sl (i).IR.qual.Pron.number,
-                          sl (i).IR.qual.Pron.gender  )  ),
+                          sl (i).IR.qual.Pron.gender)),
                           key => sl (i).IR.key,
                           ending => sl (i).IR.ending,
                           age => sl (i).IR.age,
@@ -984,9 +984,10 @@ package body word_package is
                           MNPC => MNPC_part);
 
                      elsif (pdl_part.pofs = Adj) and then
-                       (pdl_part.Adj.Decl <= sl(i).IR.qual.Adj.decl) and then
-                       ((sl(i).IR.qual.Adj.co   <= pdl_part.Adj.Co  ) or
-                          ((sl(i).IR.qual.Adj.co = X) or (pdl_part.Adj.Co = X)))
+                       (pdl_part.Adj.Decl <= sl (i).IR.qual.Adj.decl) and then
+                       ((sl (i).IR.qual.Adj.co   <= pdl_part.Adj.Co) or
+                       ((sl (i).IR.qual.Adj.co = X) or
+                       (pdl_part.Adj.Co = X)))
                      then
                         --  Note the reversal on comparisom
                         --PUT (" HIT  ADJ   ");
@@ -1010,7 +1011,7 @@ package body word_package is
                           sl (i).IR.qual.Adj.cs,
                           sl (i).IR.qual.Adj.number,
                           sl (i).IR.qual.Adj.gender,
-                          com )  ),
+                          com)),
                           key => sl (i).IR.key,
                           ending => sl (i).IR.ending,
                           age => sl (i).IR.age,
@@ -1025,7 +1026,7 @@ package body word_package is
                         --PUT(" HIT  NUM    ");
                         if pdl_part.Num.Sort = X  then
                            --  If the entry is X, generate a CO from KEY
-                           num_sort:= num_sort_from_key (pdl_key);
+                           num_sort := num_sort_from_key (pdl_key);
                         else
                            --  Otherwise, the dictionary entry has a
                            --  unique CO, use it
@@ -1042,7 +1043,7 @@ package body word_package is
                           sl (i).IR.qual.Num.cs,
                           sl (i).IR.qual.Num.number,
                           sl (i).IR.qual.Num.gender,
-                          num_sort)  ),
+                          num_sort)),
                           key => sl (i).IR.key,
                           ending => sl (i).IR.ending,
                           age => sl (i).IR.age,
@@ -1051,8 +1052,9 @@ package body word_package is
                           MNPC => MNPC_part);
 
                      elsif (pdl_part.pofs = Adv) and then
-                       ((pdl_part.Adv.Co   <= sl(i).IR.qual.Adv.co  ) or
-                          ((sl(i).IR.qual.Adv.co = X) or (pdl_part.Adv.Co = X)))
+                       ((pdl_part.Adv.Co   <= sl (i).IR.qual.Adv.co) or
+                       ((sl (i).IR.qual.Adv.co = X) or
+                       (pdl_part.Adv.Co = X)))
                      then
                         --PUT (" HIT  ADV   ");
                         --  Need to transfer the CO of the ADV dictionary item
@@ -1071,7 +1073,7 @@ package body word_package is
                           qual => (
                           pofs => Adv,
                           Adv => (
-                          co => com)  ),
+                          co => com)),
                           key => sl (i).IR.key,
                           ending => sl (i).IR.ending,
                           age => sl (i).IR.age,
@@ -1095,7 +1097,7 @@ package body word_package is
                              pdl_part.V.Con,
                              sl (i).IR.qual.V.tense_voice_mood,
                              sl (i).IR.qual.V.person,
-                             sl (i).IR.qual.V.number )  ),
+                             sl (i).IR.qual.V.number)),
                              key => sl (i).IR.key,
                              ending => sl (i).IR.ending,
                              age => sl (i).IR.age,
@@ -1118,7 +1120,7 @@ package body word_package is
                              sl (i).IR.qual.Vpar.cs,
                              sl (i).IR.qual.Vpar.number,
                              sl (i).IR.qual.Vpar.gender,
-                             sl (i).IR.qual.Vpar.tense_voice_mood )  ),
+                             sl (i).IR.qual.Vpar.tense_voice_mood)),
                              key => sl (i).IR.key,
                              ending => sl (i).IR.ending,
                              age => sl (i).IR.age,
@@ -1140,7 +1142,7 @@ package body word_package is
                              pdl_part.V.Con,
                              sl (i).IR.qual.Supine.cs,
                              sl (i).IR.qual.Supine.number,
-                             sl (i).IR.qual.Supine.gender)  ),
+                             sl (i).IR.qual.Supine.gender)),
                              key => sl (i).IR.key,
                              ending => sl (i).IR.ending,
                              age => sl (i).IR.age,
@@ -1178,7 +1180,7 @@ package body word_package is
                end if;
             end loop on_sl;
 
-        <<end_of_pdl_loop>> null;
+         <<end_of_pdl_loop>> null;
          end loop on_pdl;
       end reduce_stem_list;
 
@@ -1355,7 +1357,7 @@ package body word_package is
 
          -----------------------------------------------------------------
 
-     generate_reduced_stem_array:
+         generate_reduced_stem_array :
          begin
             j := 1;
             for z in 0 .. min (Max_Stem_Size, len (Input_word))  loop
@@ -1434,12 +1436,12 @@ package body word_package is
 
       begin
 
-     over_packons:
+         over_packons :
          for k in packons'Range  loop
             -- Do whole set, more than one may apply
             --  PACKON if the TACKON ENTRY is PRON
 
-        for_each_packon:
+            for_each_packon :
             declare
                xword : constant String :=
                  subtract_tackon (Input_word, packons (k));
@@ -1466,7 +1468,7 @@ package body word_package is
 
                   m := 0;
 
-              on_inflects:
+                  on_inflects :
                   for z in reverse 1 .. min (6, length_of_word)  loop
                      --  optimum for qu-pronouns
                      if pell (z, last_of_word) > 0  then
@@ -1475,7 +1477,7 @@ package body word_package is
                           (z, last_of_word) .. pell (z, last_of_word) loop
                            if (z <= length_of_word)  and then
                              ((equ (lel (i).ending.suf (1 .. z),
-                             word (word'Last-z+1 .. word'Last)))  and
+                             word (word'Last - z + 1 .. word'Last)))  and
                              (lel (i).qual.Pron.decl <=
                              packons (k).entr.base.pack.Decl))
                            then
@@ -1489,7 +1491,8 @@ package body word_package is
                               m := m + 1;
                               sl (m) := pr;
                               ssa (1) := Head
-                                (word (word'First.. word'First+stem_length-1),
+                                (word
+                                (word'First .. word'First + stem_length - 1),
                                 Max_Stem_Size);
                               --  may Get set several times
                            end if;
@@ -1503,14 +1506,14 @@ package body word_package is
                     pack_only);
                   --  Now have a PDL, scan for agreement
 
-              pdl_loop:
+                  pdl_loop :
                   for j in 1 .. pdl_index  loop
                      --  Go through all dictionary hits to see
                      --  M used here wher I is used in REDUCE,
                      --  maybe make consistent
                      m := 1;
 
-                 sl_loop:
+                     sl_loop :
                      while sl (m) /= Null_Parse_Record  loop
                         --  Over all inflection hits
                         --  if this stem is possible
@@ -1548,7 +1551,7 @@ package body word_package is
                                 pdl (j).ds.part.Pack.Decl,
                                 sl (m).IR.qual.Pron.cs,
                                 sl (m).IR.qual.Pron.number,
-                                sl (m).IR.qual.Pron.gender )),
+                                sl (m).IR.qual.Pron.gender)),
                                 key => sl (m).IR.key,
                                 ending => sl (m).IR.ending,
                                 age => sl (m).IR.age,
@@ -1593,7 +1596,7 @@ package body word_package is
          --  M used here while I is used in REDUCE, maybe make consistent
          m := 0;
 
-     on_inflects:
+         on_inflects :
          for z in reverse 1 .. min (4, length_of_word)  loop
             --  optimized for qu-pronouns
             if pell (z, last_of_word) > 0  then
@@ -1602,7 +1605,7 @@ package body word_package is
                   if (z <= length_of_word)  and then
                     lel (i).key = qkey  and then
                     equ (lel (i).ending.suf (1 .. z),
-                    word (word'Last-z+1 .. word'Last))
+                    word (word'Last - z + 1 .. word'Last))
                   then
                      --  Have found an ending that is a possible match
                      --  Add to list of possible ending records
@@ -1613,7 +1616,7 @@ package body word_package is
                      m := m + 1;
                      sl (m) := pr;
                      ssa (1) :=
-                       Head (word (word'First .. word'First + stem_length-1),
+                       Head (word (word'First .. word'First + stem_length - 1),
                        Max_Stem_Size);
                      --  may Get set several times
                   end if;
@@ -1627,12 +1630,12 @@ package body word_package is
            qu_pron_only);
          --  Now have a PDL, scan for agreement
 
-     pdl_loop:
+         pdl_loop :
          for j in 1 .. pdl_index  loop
             --  Go through all dictionary hits to see
             m := 1;
 
-        sl_loop:
+            sl_loop :
             while sl (m) /= Null_Parse_Record  loop
                --  Over all inflection hits
                if pdl (j).ds.part.Pron.Decl = sl (m).IR.qual.Pron.decl then
@@ -1645,7 +1648,7 @@ package body word_package is
                     pdl (j).ds.part.Pron.Decl,
                     sl (m).IR.qual.Pron.cs,
                     sl (m).IR.qual.Pron.number,
-                    sl (m).IR.qual.Pron.gender )),
+                    sl (m).IR.qual.Pron.gender)),
                     key => sl (m).IR.key,
                     ending => sl (m).IR.ending,
                     age => sl (m).IR.age,
@@ -1671,10 +1674,10 @@ package body word_package is
          --  4 enclitics     --  Hard number  !!!!!!!!!!!!!!!
          end_of_loop : constant Integer := number_of_tackons;
       begin
-     loop_over_tackons:
+         loop_over_tackons :
          for i in start_of_loop .. end_of_loop  loop
 
-        remove_a_tackon:
+            remove_a_tackon :
             declare
                less : constant String :=
                  subtract_tackon (Input_word, tackons (i));
@@ -1691,7 +1694,7 @@ package body word_package is
                      else
                         j := pa_last;
 
-                        while j >= entering_pa_last+1  loop
+                        while j >= entering_pa_last + 1  loop
                            --  Sweep backwards over PA
                            --  Sweeping up inapplicable fixes,
                            --  although we only have TACKONs for X
@@ -1730,13 +1733,12 @@ package body word_package is
                                     --  Only one we have other than X
                                     if pa (j).IR.qual.Pron.decl <=
                                       tackons (i).entr.base.pron.Decl
-                                      --and then
                                     then
                                        tackon_hit := True;
                                        tackon_on  := True;
                                     else
-                                       pa (j .. pa_last-1) :=
-                                         pa (j+1 .. pa_last);
+                                       pa (j .. pa_last - 1) :=
+                                         pa (j + 1 .. pa_last);
                                        pa_last := pa_last - 1;
 
                                     end if;
@@ -1747,19 +1749,20 @@ package body word_package is
                                     tackon_hit := True;
                                     tackon_on  := True;
                                     --  else
-                                    --    PA (J .. PA_LAST-1) :=
-                                    --       PA (J+1 .. PA_LAST);
+                                    --    PA (J .. PA_LAST - 1) :=
+                                    --       PA (J + 1 .. PA_LAST);
                                     --    PA_LAST := PA_LAST - 1;
                                     --  end if;
 
                                     --when ADV     =>
                                     --when V       =>
                                  when others  =>
-                                    pa (j .. pa_last-1) := pa (j+1 .. pa_last);
+                                    pa (j .. pa_last - 1) :=
+                                      pa (j + 1 .. pa_last);
                                     pa_last := pa_last - 1;
                               end case;
                            else --  check PART
-                              pa (j .. pa_last-1) := pa (j+1 .. pa_last);
+                              pa (j .. pa_last - 1) := pa (j + 1 .. pa_last);
                               pa_last := pa_last - 1;
                            end if; --  check PART
                            j := j - 1;
@@ -1769,9 +1772,9 @@ package body word_package is
                      -----------------------------------------
                      if tackon_hit  then
                         pa_last := pa_last + 1;
-                        pa (entering_pa_last+2 .. pa_last) :=
-                          pa (entering_pa_last+1 .. pa_last-1);
-                        pa (entering_pa_last+1) := (tackons (i).tack,
+                        pa (entering_pa_last + 2 .. pa_last) :=
+                          pa (entering_pa_last + 1 .. pa_last - 1);
+                        pa (entering_pa_last + 1) := (tackons (i).tack,
                           ((Tackon, null_tackon_record), 0,
                           null_ending_record, x, x),
                           addons,
@@ -1793,7 +1796,7 @@ package body word_package is
 
       run_uniques (Input_word, unique_found, pa, pa_last);
 
-  qu:
+      qu :
       declare
          pa_qstart : constant Integer := pa_last;
          pa_start : constant Integer := pa_last;
@@ -1801,20 +1804,20 @@ package body word_package is
          qkey : Stem_Key_Type := 0;
 
       begin       --  QU
-         tickons (number_of_tickons+1) := null_prefix_item;
+         tickons (number_of_tickons + 1) := null_prefix_item;
          words_mode  := (others => False);
 
-         for i in 1 .. number_of_tickons+1  loop
+         for i in 1 .. number_of_tickons + 1  loop
             declare
                q_word : constant String :=
                  Trim (subtract_tickon (Input_word, tickons (i)));
             begin
                pa_last := pa_qstart;
-               pa (pa_last+1) := Null_Parse_Record;
+               pa (pa_last + 1) := Null_Parse_Record;
                if (i = number_of_tickons + 1)   or else
                  --  The prefix is a TICKON
                  (q_word /= Input_word)
-                 --  and it matches the start of INPUT_WORD
+               --  and it matches the start of INPUT_WORD
                then
 
                   if i <= number_of_tickons  then        --  Add to PA if
@@ -1839,8 +1842,8 @@ package body word_package is
                         qkey := 2;
                         process_qu_pronouns (q_word, qkey);
                      end if;
-                     if pa_last <= pa_qstart + 1 and then qkey > 0
-                     then    --  If did not find a PACKON
+                     if pa_last <= pa_qstart + 1 and then qkey > 0 then
+                        --  If did not find a PACKON
                         if q_word
                           (q_word'First .. q_word'First + 1) = "qu"  then
                            process_packons (q_word);
@@ -1857,10 +1860,10 @@ package body word_package is
 
                   elsif Input_word'Length >= 6  then   --  aliqui as aliQU_PRON
                      if Input_word
-                       (Input_word'First .. Input_word'First+4) = "aliqu" then
+                       (Input_word'First .. Input_word'First + 4) = "aliqu" then
                         process_qu_pronouns (Input_word, 1);
                      elsif Input_word
-                       (Input_word'First .. Input_word'First+4) = "alicu" then
+                       (Input_word'First .. Input_word'First + 4) = "alicu" then
                         process_qu_pronouns (Input_word, 2);
                      end if;
                   end if;
@@ -1925,10 +1928,10 @@ package body word_package is
 
       try_to_load_dictionary (special);
 
-  load_local:
+      load_local :
       begin
          --  First check if there is a LOC dictionary
-     check_for_local_dictionary:
+         check_for_local_dictionary :
          declare
             dummy : Ada.Text_IO.File_Type;
          begin
