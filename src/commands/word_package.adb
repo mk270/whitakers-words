@@ -39,7 +39,8 @@ package body word_package is
             then
                Ada.Text_IO.Put_Line (Ada.Text_IO.Standard_Output,
                  "                          MORE - hit RETURN/ENTER to continue");
-               Ada.Text_IO.Get_Line (Ada.Text_IO.Standard_Input, pause_line, pause_last);
+               Ada.Text_IO.Get_Line
+                 (Ada.Text_IO.Standard_Input, pause_line, pause_last);
             end if;
          elsif method = Command_Line_Input  then
             Ada.Text_IO.Put_Line (Ada.Text_IO.Standard_Output,
@@ -313,27 +314,31 @@ package body word_package is
       for z in reverse 1 .. min (max_ending_size, length_of_word)  loop
 
          --  Check if Z agrees with a PDL SIZE  !!!!!!!!!!!!!!!!!!!!!!!!!!!!
-         --  Maybe make PDL on size, if it has to be a list, or order by size if array
+         --  Maybe make PDL on size, if it has to be a list,
+         --  or order by size if array
          if lell (z, last_of_word) > 0  then   --  Any likely inflections at all
 
             for i in lelf (z, last_of_word) .. lell (z, last_of_word) loop
                if equ (Lower_Case (lel (i).ending.suf (1 .. z)),
-                 Lower_Case (word (word'Last-z+1 .. word'Last)))
+                 Lower_Case (word (word'Last - z + 1 .. word'Last)))
                then
                   --  Add to list of possible ending records
                   --STEM_LENGTH := WORD'LENGTH - LEL (I).ENDING.SIZE;
                   stem_length := word'Length - z;
 
-                  if stem_length <= Max_Stem_Size  then  --  Reject too long words
-                                                         --  Check if LEL IR agrees with PDL IR  !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                  if stem_length <= Max_Stem_Size  then
+                     --  Reject too long words
+                     --  Check if LEL IR agrees with PDL IR  !!!!!!!!
                      pr := (word (word'First .. stem_length) &
-                       Null_Stem_Type (stem_length+1 .. Max_Stem_Size),
+                       Null_Stem_Type (stem_length + 1 .. Max_Stem_Size),
                        lel (i), Default_Dictionary_Kind, Null_MNPC);
                      sl (m) := pr;
                      m := m + 1;
 
-                     sa (stem_length) := pr.Stem;    --  Gets set dozens of times
-                                                     --  Could order the endings by length (suffix sort) so length changes slowly
+                     sa (stem_length) := pr.Stem;
+                     --  Gets set dozens of times
+                     --  Could order the endings by length (suffix sort)
+                     --  so length changes slowly
 
                      --PUT_LINE ("LENGTH = " & INTEGER'IMAGE (STEM_LENGTH)
                      --& "   SA =>" & PR.STEM & "|");
@@ -377,7 +382,9 @@ package body word_package is
       first_try, second_try : Boolean := True;
 
       function first_two (w : String) return String is
-         --  'v' could be represented by 'u', like the new Oxford Latin Dictionary
+         --  'v' could be represented by 'u', like the
+         --  new Oxford Latin Dictionary
+
          --  Fixes the first two letters of a word/stem which can be done right
          s : constant String := Lower_Case (w);
          ss : String (w'Range) := w;
@@ -403,7 +410,7 @@ package body word_package is
             ss (s'First) := ui (w (s'First));
          else
             ss (s'First)   := ui (w (s'First));
-            ss (s'First+1) := ui (w (s'First+1));
+            ss (s'First + 1) := ui (w (s'First + 1));
          end if;
 
          return ss;
@@ -459,17 +466,20 @@ package body word_package is
          j1 := index_first;    --######################
          j2 := index_last;
 
-     stem_array_loop:
+         stem_array_loop :
          for k in ssa'Range  loop
             if Trim (ssa (k))'Length > 1  then
-               --  This may be checking for 0 and 1 letter SSAs which are done elsewhere
-               if d_k = local  then    --  Special processing for unordered DICT.LOC
-                  for j in j1 .. j2  loop       --  Sweep exaustively through the scope
+               --  This may be checking for 0 and 1 letter SSAs which
+               --  are done elsewhere
+
+               if d_k = local  then
+                  --  Special processing for unordered DICT.LOC
+                  for j in j1 .. j2  loop
+                     --  Sweep exaustively through the scope
                      Set_Index (stem_file (d_k), stem_io.Count (j));
                      Read (stem_file (d_k), ds);
 
                      if equ (Lower_Case (ds.stem), ssa (k))  then
-                        --TEXT_IO.PUT_LINE ("HIT LOC =   " & DS.STEM & " - " & SSA (K));
                         load_pdl;
                      end if;
                   end loop;
@@ -480,9 +490,9 @@ package body word_package is
 
                   j := (j1 + j2) / 2;
 
-              binary_search:
+                  binary_search :
                   loop
-                     if (j1 = j2-1) or (j1 = j2) then
+                     if (j1 = j2 - 1) or (j1 = j2) then
                         if first_try  then
                            j := j1;
                            first_try := False;
@@ -518,7 +528,7 @@ package body word_package is
                            end if;
                         end loop;
 
-                        for i in j+1 .. j2  loop
+                        for i in j + 1 .. j2  loop
                            Set_Index (stem_file (d_k), stem_io.Count (i));
                            Read (stem_file (d_k), ds);
 
@@ -561,14 +571,15 @@ package body word_package is
          pdl_index := pdl_index + 1;
          pdl (pdl_index) := pruned_dictionary_item'(bdl (1), general);
       end if;
-      --  Now there is only one blank stem (2 of to_be), but need not always be so
+      --  Now there is only one blank stem (2 of to_be),
+      --  but need not always be so
 
       --  Determine if there is a blank stem  (SC = ' ')
       --  Prepare for the posibility that one stem is short but there are others
       fc := ' ';
       if ssa (ssa'First)(1) = ' ' then
-         if ssa'Length > 1  and then ssa (ssa'First+1)(2) = ' '  then
-            fc := ssa (ssa'First+1)(1);
+         if ssa'Length > 1  and then ssa (ssa'First + 1)(2) = ' '  then
+            fc := ssa (ssa'First + 1)(1);
          end if;
       elsif ssa (ssa'First)(2) = ' '  then
          fc := ssa (ssa'First)(1);
@@ -577,13 +588,12 @@ package body word_package is
       --  If there is a single letter stem  (FC /= ' ') then
       if fc /= ' '  then
          for i in 2 .. bdl_last  loop
-            --  Check all stems of the dictionary entry against the reduced stems
+            --  Check all stems of the dictionary entry against the
+            --  reduced stems
             --if LOWER_CASE (BDL (I).STEM (1)) = FC  then
             if equ (Lower_Case (bdl (i).stem (1)),  fc)  then
-               --PUT ("HIT on 1 letter stem   I = ");PUT (I);PUT ("  STEM = ");PUT_LINE (BDL (I).STEM);
                pdl_index := pdl_index + 1;
                pdl (pdl_index) := pruned_dictionary_item'(bdl (i), general);
-               --  D_K set to GENERAL, but should not SPE have a chance? !!!!!!!!!
             end if;
          end loop;
       end if;
@@ -614,21 +624,27 @@ package body word_package is
    procedure change_language (c : Character) is
    begin  if Upper_Case (c) = 'L'  then
       language := latin_to_english;
-      Preface.Put_Line ("Language changed to " & language_type'Image (language));
+      Preface.Put_Line
+        ("Language changed to " & language_type'Image (language));
    elsif Upper_Case (c) = 'E'  then
       if English_Dictionary_Available (general)  then
          language:= english_to_latin;
-         Preface.Put_Line ("Language changed to " & language_type'Image (language));
-         Preface.Put_Line ("InPut a single English word (+ part of speech - N, ADJ, V, PREP, . .. )");
+         Preface.Put_Line
+           ("Language changed to " & language_type'Image (language));
+         Preface.Put_Line
+           ("InPut a single English word (+ part of speech - N, ADJ, V, PREP, . .. )");
       else
          Preface.Put_Line ("No English dictionary available");
       end if;
    else
-      Preface.Put_Line ("Bad LANGAUGE Input - no change, remains " & language_type'Image (language));
+      Preface.Put_Line
+        ("Bad LANGAUGE Input - no change, remains " &
+         language_type'Image (language));
    end if;
    exception
       when others  =>
-         Preface.Put_Line ("Bad LANGAUGE Input - no change, remains " & language_type'Image (language));
+         Preface.Put_Line ("Bad LANGAUGE Input - no change, remains " &
+           language_type'Image (language));
    end change_language;
 
    procedure word (raw_word : in String;
@@ -669,10 +685,11 @@ package body word_package is
             begin
                --  Need to remove duplicates in ARRAY_STEMS
                --  This sort is very sloppy
-               --  One problem is that it can mix up some of the order of PREFIX, XXX, LOC
-               --  I ought to do this for every set of results from different approaches
-               --  not just in one fell swoop at the end !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-           inner_loop:
+               --  One problem is that it can mix up some of the order of
+               --  PREFIX, XXX, LOC; I ought to do this for every set of
+               --  results from different approaches not just in one fell
+               --  swoop at the end !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+               inner_loop :
                for i in 1 .. sl_last-1  loop
                   if sl (i+1) /= Null_Parse_Record  then
                      if (sl (i+1).MNPC < sl (i).MNPC)  or else
@@ -731,8 +748,9 @@ package body word_package is
                         end if;
                      end "<=";
                   begin
-                     if sl (i) <= opr  then       --  Get rid of duplicates, if ORDER is OK
-                                                  --PUT ('-'); PUT (SL (I)); NEW_LINE;
+                     if sl (i) <= opr then
+                        --  Get rid of duplicates, if ORDER is OK
+                        --PUT ('-'); PUT (SL (I)); NEW_LINE;
                         null;
                      else
                         pa_last := pa_last + 1;
@@ -1718,20 +1736,20 @@ package body word_package is
                   end if;
 
                   if q_word'Length >= 3   and then   --  qui is shortest QU_PRON
-                    ((q_word (q_word'First .. q_word'First+1) = "qu")  or
-                    (q_word (q_word'First .. q_word'First+1) = "cu"))
+                    ((q_word (q_word'First .. q_word'First + 1) = "qu")  or
+                    (q_word (q_word'First .. q_word'First + 1) = "cu"))
                   then
-                     if q_word (q_word'First .. q_word'First+1) = "qu"  then
+                     if q_word (q_word'First .. q_word'First + 1) = "qu"  then
                         qkey := 1;
                         process_qu_pronouns (q_word, qkey);
-                     elsif q_word (q_word'First .. q_word'First+1) = "cu"  then
+                     elsif q_word (q_word'First .. q_word'First + 1) = "cu"  then
                         qkey := 2;
                         process_qu_pronouns (q_word, qkey);
                      end if;
                      if pa_last <= pa_qstart + 1 and then qkey > 0 then    --  If did not find a PACKON
-                        if q_word (q_word'First .. q_word'First+1) = "qu"  then
+                        if q_word (q_word'First .. q_word'First + 1) = "qu"  then
                            process_packons (q_word);
-                        elsif q_word (q_word'First .. q_word'First+1) = "cu"  then
+                        elsif q_word (q_word'First .. q_word'First + 1) = "cu"  then
                            process_packons (q_word);
                         end if;
                      else
@@ -1845,15 +1863,19 @@ package body word_package is
         Dictionary_Available (special)  or
         Dictionary_Available (local))
       then
-         Preface.Put_Line ("There are no main dictionaries - program will not do much");
-         Preface.Put_Line ("Check that there are dictionary files in this subdirectory");
-         Preface.Put_Line ("Except DICT.LOC that means DICTFILE, INDXFILE, STEMFILE");
+         Preface.Put_Line
+           ("There are no main dictionaries - program will not do much");
+         Preface.Put_Line
+           ("Check that there are dictionary files in this subdirectory");
+         Preface.Put_Line
+           ("Except DICT.LOC that means DICTFILE, INDXFILE, STEMFILE");
       end if;
 
   try_to_load_english_words:
       begin
          English_Dictionary_Available (general) := False;
-         ewds_direct_io.Open (ewds_file, ewds_direct_io.In_File, "EWDSFILE.GEN");
+         ewds_direct_io.Open
+           (ewds_file, ewds_direct_io.In_File, "EWDSFILE.GEN");
 
          English_Dictionary_Available (general) := True;
       exception

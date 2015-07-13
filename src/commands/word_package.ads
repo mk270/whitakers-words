@@ -24,7 +24,7 @@ package word_package is
    line_number, word_number : Integer := 0;
 
    type stem_array_type is array (Integer range <>) of Stem_Type;
-   subtype stem_array is stem_array_type(0..Max_Stem_Size);
+   subtype stem_array is stem_array_type (0 .. Max_Stem_Size);
 
    not_a_stem : constant Stem_Type := (others => 'x');
    not_a_stem_array : stem_array  := (others => not_a_stem);
@@ -38,14 +38,14 @@ package word_package is
          d_k  : Dictionary_Kind := Default_Dictionary_Kind;
       end record;
    null_pruned_dictionary_item : pruned_dictionary_item;
-   type pruned_dictionary_list is array (1..80) of pruned_dictionary_item;
+   type pruned_dictionary_list is array (1 .. 80) of pruned_dictionary_item;
    --  Aug 96   QU_PRON max 42, PACK max 54
    --  Jan 97   QU_PRON max 42, PACK max 74  --  Might reduce
 
    pdl : pruned_dictionary_list := (others => null_pruned_dictionary_item);
    pdl_index : Integer := 0;
 
-   subtype sal is Parse_Array(1..250);
+   subtype sal is Parse_Array (1 .. 250);
 
    type dict_restriction is (x, regular, qu_pron_only, pack_only);
 
@@ -58,32 +58,34 @@ package word_package is
    scroll_line_number : Integer := 0;
    Output_scroll_count : Integer := 0;
 
-   procedure pause(Output : Ada.Text_IO.File_Type);
+   procedure pause (Output : Ada.Text_IO.File_Type);
 
-   function min(a, b : Integer) return Integer;
+   function min (a, b : Integer) return Integer;
 
-   function ltu(c, d : Character) return Boolean;
+   function ltu (c, d : Character) return Boolean;
 
-   function equ(c, d : Character) return Boolean;
+   function equ (c, d : Character) return Boolean;
 
-   function gtu(c, d : Character) return Boolean;
+   function gtu (c, d : Character) return Boolean;
 
-   function ltu(s, t : String) return Boolean;
+   function ltu (s, t : String) return Boolean;
 
-   function gtu(s, t : String) return Boolean;
+   function gtu (s, t : String) return Boolean;
 
-   function equ(s, t : String) return Boolean;
+   function equ (s, t : String) return Boolean;
 
-   procedure run_inflections(s : in String; sl : in out sal;
-                                            restriction : dict_restriction := regular);
+   procedure run_inflections
+     (s : in String;
+      sl : in out sal;
+      restriction : dict_restriction := regular);
 
-   procedure search_dictionaries(ssa : in stem_array_type;
-                                                       restriction : dict_restriction := regular);
+   procedure search_dictionaries (ssa : in stem_array_type;
+                                  restriction : dict_restriction := regular);
 
-   procedure word(raw_word : in String;
-                  pa : in out Parse_Array; pa_last : in out Integer);
+   procedure word (raw_word : in String;
+                   pa : in out Parse_Array; pa_last : in out Integer);
 
-   procedure change_language(c : Character);
+   procedure change_language (c : Character);
 
    procedure initialize_word_package;
 
