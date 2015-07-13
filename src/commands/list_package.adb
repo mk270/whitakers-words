@@ -219,11 +219,14 @@ package body list_package is
 
       osra : stem_inflection_array (1 .. stem_inflection_array_size)
         := (others => (Null_Stem_Type, Null_Inflection_Record));
-      sra, null_sra : constant stem_inflection_array (1 .. stem_inflection_array_size)
+      sra, null_sra :
+        constant stem_inflection_array (1 .. stem_inflection_array_size)
         := (others => (Null_Stem_Type, Null_Inflection_Record));
       sraa : stem_inflection_array_array (1 .. stem_inflection_array_array_size)
         := (others => null_sra);
-      null_sraa : constant stem_inflection_array_array (1 .. stem_inflection_array_array_size)
+      null_sraa :
+        constant stem_inflection_array_array
+        (1 .. stem_inflection_array_array_size)
         := (others => null_sra);
 
       --      type DICTIONARY_MNPC_RECORD is record
@@ -322,7 +325,8 @@ package body list_package is
                   ppl_finish : constant Integer :=
                     ppl_start +
                     Voice_Type_IO.Default_Width;
-                  passive_blank : constant String (1 .. Voice_Type_IO.Default_Width) :=
+                  passive_blank :
+                    constant String (1 .. Voice_Type_IO.Default_Width) :=
                     (others => ' ');
                begin
 
@@ -341,7 +345,8 @@ package body list_package is
                        (sr.ir.qual.Vpar.tense_voice_mood.mood = Ppl)
                      then
                         --TEXT_IO.PUT_LINE ("START PRINT MODIFIED QUAL   VPAR");
-                        out_String (ppl_start + 1 .. ppl_finish) := passive_blank;
+                        out_String (ppl_start + 1 .. ppl_finish) :=
+                          passive_blank;
                      end if;
                   end if;
 
@@ -349,15 +354,18 @@ package body list_package is
                   --TEXT_IO.PUT_LINE ("PRINT MODIFIED QUAL 4");
                end print_modified_qual;
 
-               --               if ((SR.IR.QUAL.POFS = NUM)  and      --  Don't want on inflection
+               --               if ((SR.IR.QUAL.POFS = NUM)  and
+               --                          -- Don't want on inflection
                --                   (DM.D_K in GENERAL .. UNIQUE))  and then
                --                   (DM.DE.KIND.NUM_VALUE > 0)  then
                --                 TEXT_IO.PUT (OUTPUT, "  ");
-               --                 INFLECTIONS_PACKAGE.INTEGER_IO.PUT (OUTPUT, DM.DE.KIND.NUM_VALUE);
+               --                 INFLECTIONS_PACKAGE.INTEGER_IO.PUT
+               --                    (OUTPUT, DM.DE.KIND.NUM_VALUE);
                --               end if;
                Put_inflection_flags;
                Ada.Text_IO.New_Line (Output);
-               Put_example_line (configuration, Output, sr.ir, dm.de);    --  Only full when DO_EXAMPLES
+               Put_example_line (configuration, Output, sr.ir, dm.de);
+               --  Only full when DO_EXAMPLES
             else
                Ada.Text_IO.New_Line (Output);
             end if;
@@ -414,16 +422,22 @@ package body list_package is
             if sr.ir.qual.pofs = Num  then    --  Normal parse
                case sr.ir.qual.Num.sort is
                   when Card  =>
-                     s := Head (Integer'Image (n) &  " - (CARD answers 'how many');", Max_Meaning_Size);
+                     s := Head (Integer'Image (n) &
+                       " - (CARD answers 'how many');", Max_Meaning_Size);
                   when Ord   =>
-                     s := Head (Integer'Image (n) & "th - (ORD, 'in series'); (a/the)" & Integer'Image (n) &
+                     s := Head (Integer'Image (n) &
+                       "th - (ORD, 'in series'); (a/the)" & Integer'Image (n) &
                        "th (part) (fract w/pars?);", Max_Meaning_Size);
                   when Dist  =>
-                     s := Head (Integer'Image (n) & " each/apiece/times/fold/toGether/at a time - 'how many each'; by " &
+                     s := Head (Integer'Image (n) &
+                       " each/apiece/times/fold/toGether/at a time" &
+                       " - 'how many each'; by " &
                        Integer'Image (n) & "s; ", Max_Meaning_Size);
                   when Adverb =>
-                     s := Head (Integer'Image (n) & " times, on" & Integer'Image (n) &
-                       " occasions - (ADVERB answers 'how often');", Max_Meaning_Size);
+                     s := Head (Integer'Image (n) &
+                       " times, on" & Integer'Image (n) &
+                       " occasions - (ADVERB answers 'how often');",
+                       Max_Meaning_Size);
                   when others =>
                      null;
                end case;
@@ -594,7 +608,8 @@ package body list_package is
                     pa (j2 + 1).D_K,
                     pa (j2 + 1).MNPC);
                   ppp_meaning :=
-                    Head ("-estly; -estily; most -ly, very -ly  Converting ADJ to ADV",
+                    Head ("-estly; -estily; most -ly, very -ly" &
+                    "  Converting ADJ to ADV",
                     Max_Meaning_Size);
                end if;
             end if;           --  PA (I).IR.QUAL.POFS = ADJ
@@ -609,22 +624,29 @@ package body list_package is
             if pa (i).D_K = addons then
                if pa (i).IR.qual.pofs = Prefix  then
                   Put_stat ("ADDON PREFIX at "
-                    & Head (Integer'Image (line_number), 8) & Head (Integer'Image (word_number), 4)
-                    & "   " & Head (w, 20) & "   "  & pa (i).Stem & "  " & Integer'Image (Integer (pa (i).MNPC)));
+                    & Head (Integer'Image (line_number), 8) &
+                    Head (Integer'Image (word_number), 4)
+                    & "   " & Head (w, 20) & "   "  & pa (i).Stem &
+                    "  " & Integer'Image (Integer (pa (i).MNPC)));
                elsif pa (i).IR.qual.pofs = Suffix  then
                   Put_stat ("ADDON SUFFIX at "
-                    & Head (Integer'Image (line_number), 8) & Head (Integer'Image (word_number), 4)
-                    & "   " & Head (w, 20) & "   "  & pa (i).Stem & "  " & Integer'Image (Integer (pa (i).MNPC)));
+                    & Head (Integer'Image (line_number), 8) &
+                    Head (Integer'Image (word_number), 4)
+                    & "   " & Head (w, 20) & "   "  & pa (i).Stem &
+                    "  " & Integer'Image (Integer (pa (i).MNPC)));
                elsif pa (i).IR.qual.pofs = Tackon  then
                   Put_stat ("ADDON TACKON at "
-                    & Head (Integer'Image (line_number), 8) & Head (Integer'Image (word_number), 4)
-                    & "   " & Head (w, 20) & "   "  & pa (i).Stem & "  " & Integer'Image (Integer (pa (i).MNPC)));
+                    & Head (Integer'Image (line_number), 8) &
+                    Head (Integer'Image (word_number), 4)
+                    & "   " & Head (w, 20) & "   "  & pa (i).Stem &
+                    "  " & Integer'Image (Integer (pa (i).MNPC)));
                end if;
             end if;
          end loop;
       end if;
 
-      --  Convert from PARSE_RECORDs to DICTIONARY_MNPC_RECORD and STEM_INFLECTION_RECORD
+      --  Convert from PARSE_RECORDs to DICTIONARY_MNPC_RECORD
+      ---   and STEM_INFLECTION_RECORD
       i := 1;           --  I cycles on PA
       j := 0;           --  J indexes the number of DMA arrays  --  Initialize
       sraa := null_sraa;
@@ -740,10 +762,13 @@ package body list_package is
                   --DM := NULL_DICTIONARY_MNPC_RECORD;
                   while pa (i).IR.qual.pofs = Adj and i <= pa_last loop
                      --TEXT_IO.PUT_LINE ("SRAA - ADJ");
-                     if pa (i).MNPC  /= odm.MNPC  then   --  Encountering new MNPC
+                     if pa (i).MNPC  /= odm.MNPC  then
+                        --  Encountering new MNPC
                         osra := sra;
-                        k := 1;                  --  K indexes within the MNPCA array --  Initialize
-                        j := j + 1;             --  J indexes the number of MNPCA arrays - Next MNPCA
+                        k := 1;
+                        --  K indexes within the MNPCA array --  Initialize
+                        j := j + 1;
+                        --  J indexes the number of MNPCA arrays - Next MNPCA
                         sraa (j)(k) := (pa (i).Stem, pa (i).IR);
                         Dict_IO.Set_Index (Dict_File (pa (i).D_K), pa (i).MNPC);
                         Dict_IO.Read (Dict_File (pa (i).D_K), dea);
@@ -751,7 +776,8 @@ package body list_package is
                         dma (j) := dm;
                         odm := dm;
                      else
-                        k := k + 1;              --  K indexes within the MNPCA array  - Next MNPC
+                        k := k + 1;
+                        --  K indexes within the MNPCA array  - Next MNPC
                         sraa (j)(k) := (pa (i).Stem, pa (i).IR);
                      end if;
                      --TEXT_IO.PUT_LINE ("SRAA  + ADJ");
@@ -766,20 +792,23 @@ package body list_package is
                     i <= pa_last                   loop
                      if pa (i).D_K = rrr then        --  Roman numeral
                         osra := sra;
-                        k := 1;                  --  K indexes within the MNPCA array --  Initialize
-                        j := j + 1;             --  J indexes the number of MNPCA arrays - Next MNPCA
+                        k := 1;
+                        --  K indexes within the MNPCA array --  Initialize
+                        j := j + 1;
+                        --  J indexes the number of MNPCA arrays - Next MNPCA
                         sraa (j)(k) := (pa (i).Stem, pa (i).IR);
-                        --DICT_IO.SET_INDEX (DICT_FILE (PA (I).D_K), PA (I).MNPC);
-                        --DICT_IO.READ (DICT_FILE (PA (I).D_K), DEA);
 
                         dea := Null_Dictionary_Entry;
                         dm := (pa (i).D_K, pa (i).MNPC, dea);
                         dma (j) := dm;
                         odm := dm;
-                     elsif pa (i).MNPC /= odm.MNPC then    --  Encountering new MNPC
+                     elsif pa (i).MNPC /= odm.MNPC then
+                        --  Encountering new MNPC
                         osra := sra;
-                        k := 1;                  --  K indexes within the MNPCA array --  Initialize
-                        j := j + 1;             --  J indexes the number of MNPCA arrays - Next MNPCA
+                        k := 1;
+                        --  K indexes within the MNPCA array --  Initialize
+                        j := j + 1;
+                        --  J indexes the number of MNPCA arrays - Next MNPCA
                         sraa (j)(k) := (pa (i).Stem, pa (i).IR);
                         Dict_IO.Set_Index (Dict_File (pa (i).D_K), pa (i).MNPC);
                         Dict_IO.Read (Dict_File (pa (i).D_K), dea);
@@ -787,7 +816,8 @@ package body list_package is
                         dma (j) := dm;
                         odm := dm;
                      else
-                        k := k + 1;              --  K indexes within the MNPCA array  - Next MNPC
+                        k := k + 1;
+                        --  K indexes within the MNPCA array  - Next MNPC
                         sraa (j)(k) := (pa (i).Stem, pa (i).IR);
                      end if;
 
@@ -802,7 +832,8 @@ package body list_package is
                     pa (i).IR.qual.pofs = Vpar   or
                     pa (i).IR.qual.pofs = Supine)   and
                     i <= pa_last                   loop
-                     if (pa (i).MNPC  /= odm.MNPC) and (pa (i).D_K /= ppp)
+                     if (pa (i).MNPC  /= odm.MNPC) and
+                       (pa (i).D_K /= ppp)
                      then   --  Encountering new MNPC
                         osra := sra;  --  But not for compound
                         k := 1;
@@ -813,7 +844,8 @@ package body list_package is
 
                         sraa (j)(k) := (pa (i).Stem, pa (i).IR);
                         if pa (i).D_K /= ppp  then
-                           Dict_IO.Set_Index (Dict_File (pa (i).D_K), pa (i).MNPC);
+                           Dict_IO.Set_Index
+                             (Dict_File (pa (i).D_K), pa (i).MNPC);
                            Dict_IO.Read (Dict_File (pa (i).D_K), dea);
                         end if;     --  use previous DEA
                         dm := (pa (i).D_K, pa (i).MNPC, dea);
@@ -844,13 +876,14 @@ package body list_package is
                         j := j + 1;
                         --  J indexes the number of MNPCA arrays - Next MNPCA
 
-                         sraa (j)(k) := (pa (i).Stem, pa (i).IR);
+                        sraa (j)(k) := (pa (i).Stem, pa (i).IR);
                         if pa (i).MNPC /= Null_MNPC  then
                            if pa (i).D_K = addons  then
                               dea :=  Null_Dictionary_Entry;
                               --  Fix for ADDONS in MEANS, not DICT_IO
                            else
-                              Dict_IO.Set_Index (Dict_File (pa (i).D_K), pa (i).MNPC);
+                              Dict_IO.Set_Index (Dict_File (pa (i).D_K),
+                                pa (i).MNPC);
                               Dict_IO.Read (Dict_File (pa (i).D_K), dea);
                            end if;
                         else                       --  Has no dictionary to read
@@ -995,7 +1028,8 @@ package body list_package is
 
             Put_inflection_array_j :
             for k in sraa (j)'Range loop
-               exit Put_inflection_array_j when sraa (j)(k) = null_Stem_Inflection_Record;
+               exit Put_inflection_array_j when sraa (j)(k) =
+                 null_Stem_Inflection_Record;
 
                Put_inflection (sraa (j)(k), dma (j));
                if sraa (j)(k).stem (1 .. 3) = "PPL"  then
@@ -1214,7 +1248,9 @@ package body list_package is
       --TEXT_IO.PUT_LINE ("UNK_MNPC = " & INTEGER'IMAGE (INTEGER (UNK_MNPC)));
       if Integer (unk_MNPC) > 0  then
          Ada.Text_IO.Put_Line (Output,
-           "----------  Entries in GENEAL Dictionary around the UNKNOWN  ----------");
+           "----------  " &
+           "Entries in GENEAL Dictionary around the UNKNOWN" &
+           "  ----------");
          pause (Output);
          for mn in Dict_IO.Count (Integer (unk_MNPC) - 5) ..
            Dict_IO.Count (Integer (unk_MNPC) + 3)  loop
