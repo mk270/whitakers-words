@@ -353,7 +353,7 @@ package body Latin_Utils.Inflections_Package is
      (left, right : Pronoun_Kind_Type)
      return Boolean is
    begin
-      if right = left or else right = x then
+      if right = left or else right = X then
          return True;
       else
          return False;

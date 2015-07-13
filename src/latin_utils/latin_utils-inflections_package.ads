@@ -269,19 +269,21 @@ package Latin_Utils.Inflections_Package is
 
    ---------------------------------------------------------------------------
 
-   type Pronoun_Kind_Type is (
-     x,            --  unknown, nondescript
-     pers,         --  PERSonal
-     rel,          --  RELative
-     reflex,       --  REFLEXive
-     demons,       --  DEMONStrative
-     interr,       --  INTERRogative
-     indef,        --  INDEFinite
-     adject        --  ADJECTival
-                             );
+   type Pronoun_Kind_Type is
+      (X,      --  unknown, nondescript
+      Pers,   --  PERSonal
+      Rel,    --  RELative
+      Reflex, --  REFLEXive
+      Demons, --  DEMONStrative
+      Interr, --  INTERRogative
+      Indef,  --  INDEFinite
+      Adject  --  ADJECTival
+      );
 
    package Pronoun_Kind_Type_IO is
       new Ada.Text_IO.Enumeration_IO (Pronoun_Kind_Type);
+
+   ---------------------------------------------------------------------------
 
    subtype Numeral_Value_Type is Natural range 0 .. 1000;
 

@@ -168,9 +168,9 @@ package Latin_Utils.Dictionary_Package is
             when N =>
                n_kind : Noun_Kind_Type := X;
             when Pron =>
-               pron_kind : Pronoun_Kind_Type := x;
+               pron_kind : Pronoun_Kind_Type := X;
             when Pack =>
-               pack_kind : Pronoun_Kind_Type := x;
+               pack_kind : Pronoun_Kind_Type := X;
             when Adj | Adv | X =>
                null;
             when Num =>
@@ -285,7 +285,7 @@ package Latin_Utils.Dictionary_Package is
       record
          -- NOTE: Seems like Decl is breaking of abbrev used
          Decl  : Decn_Record := (0, 0);
-         Kind  : Pronoun_Kind_Type := x;
+         Kind  : Pronoun_Kind_Type := X;
       end record;
 
    -- FIXME: These subprograms don't check if Is_Open (File)
@@ -310,7 +310,7 @@ package Latin_Utils.Dictionary_Package is
       record
          -- NOTE: Seems like Decl is breaking of abbrev used
          Decl  : Decn_Record := (0, 0);
-         Kind  : Pronoun_Kind_Type := x;
+         Kind  : Pronoun_Kind_Type := X;
       end record;
 
    -- FIXME: These subprograms don't check if Is_Open (File)
