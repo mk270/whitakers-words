@@ -226,15 +226,15 @@ begin
                   Integer_IO.Put (stemlist, Integer (j), 6);
                   New_Line (stemlist);
                end if;
-             elsif de.Part.pofs = Num  and then
-               de.Part.Num.Sort = card
-             then
-                Put (stemlist, de.Stems (1)); Put (stemlist, ' ');
-                Put (stemlist, de.Part); Put (stemlist, ' ');
-                Set_Col (stemlist, 45);
-                Integer_IO.Put (stemlist, 1, 2); Put (stemlist, ' ');
-                Set_Col (stemlist, 50);
-                Integer_IO.Put (stemlist, Integer (j), 6); New_Line (stemlist);
+            elsif de.Part.pofs = Num  and then
+              de.Part.Num.Sort = card
+            then
+               Put (stemlist, de.Stems (1)); Put (stemlist, ' ');
+               Put (stemlist, de.Part); Put (stemlist, ' ');
+               Set_Col (stemlist, 45);
+               Integer_IO.Put (stemlist, 1, 2); Put (stemlist, ' ');
+               Set_Col (stemlist, 50);
+               Integer_IO.Put (stemlist, Integer (j), 6); New_Line (stemlist);
             elsif de.Part.pofs = Num  and then
               de.Part.Num.Sort = ord
             then
@@ -272,7 +272,8 @@ begin
                      Set_Col (stemlist, 45);
                      Put (stemlist, i, 2); Put (stemlist, ' ');
                      Set_Col (stemlist, 50);
-                     Integer_IO.Put (stemlist, Integer (j), 6); New_Line (stemlist);
+                     Integer_IO.Put (stemlist, Integer (j), 6);
+                     New_Line (stemlist);
                   end if;
                end loop;
             end if;
@@ -280,39 +281,39 @@ begin
       end if;
    end loop over_lines;
 
-    if d_k = general  then
-       j := j + 1;
+   if d_k = general  then
+      j := j + 1;
 
-       --  First construct ESSE
-       de.Stems (1) := "s                 ";
-       de.Stems (2) := "                  ";
-       de.Stems (3) := "fu                ";
-       de.Stems (4) := "fut               ";
-       --DE.PART := (PART => V,  CON => (5, 10));
-       --DE.PART := (V, ((5, 1)));
-       de.Part := (V, be_ve);
-       --DE.KIND := (V, TO_BE);
-       de.Tran := (x, x, x, a, x);
-       de.Mean := mean_to_be;
+      --  First construct ESSE
+      de.Stems (1) := "s                 ";
+      de.Stems (2) := "                  ";
+      de.Stems (3) := "fu                ";
+      de.Stems (4) := "fut               ";
+      --DE.PART := (PART => V,  CON => (5, 10));
+      --DE.PART := (V, ((5, 1)));
+      de.Part := (V, be_ve);
+      --DE.KIND := (V, TO_BE);
+      de.Tran := (x, x, x, a, x);
+      de.Mean := mean_to_be;
 
-       if not porting  then
-          --  Load ESSE
-          for i in Stem_Key_Type range 1 .. 4  loop
-             Put (stemlist, de.Stems (i)); Put (stemlist, ' ');
-             Put (stemlist, de.Part); Put (stemlist, ' ');
-             Set_Col (stemlist, 45);
-             Put (stemlist, i, 2); Put (stemlist, ' ');
-             Set_Col (stemlist, 50);
-             Integer_IO.Put (stemlist, Integer (j), 6); New_Line (stemlist);
-          end loop;
-       end if;
+      if not porting  then
+         --  Load ESSE
+         for i in Stem_Key_Type range 1 .. 4  loop
+            Put (stemlist, de.Stems (i)); Put (stemlist, ' ');
+            Put (stemlist, de.Part); Put (stemlist, ' ');
+            Set_Col (stemlist, 45);
+            Put (stemlist, i, 2); Put (stemlist, ' ');
+            Set_Col (stemlist, 50);
+            Integer_IO.Put (stemlist, Integer (j), 6); New_Line (stemlist);
+         end loop;
+      end if;
 
-       Write (dictfile, de, j);
-    end if;
+      Write (dictfile, de, j);
+   end if;
 
-    if not porting  then
-       Close (stemlist);
-    end if;
+   if not porting  then
+      Close (stemlist);
+   end if;
 
 exception
    when Ada.Text_IO.Data_Error  =>

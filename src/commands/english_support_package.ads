@@ -25,11 +25,11 @@ package english_support_package is
    line_number_width : constant := 10;
    priority_width : constant := 3;
 
-   subtype eword is String(1..eword_size);
+   subtype eword is String (1 .. eword_size);
    null_eword : eword := (others => ' ');
-   subtype auxword is String(1..aux_word_size);
+   subtype auxword is String (1 .. aux_word_size);
    null_auxword : auxword := (others => ' ');
-   subtype priority_type is Integer range 0..99;
+   subtype priority_type is Integer range 0 .. 99;
 
    number_of_ewords : Integer := 0;
 
@@ -46,26 +46,26 @@ package english_support_package is
       end record;
 
    null_ewds_record : ewds_record := ((others => ' '),
-                                      (others => ' '), 0, X, x, 0, 0, 0);
+     (others => ' '), 0, X, x, 0, 0, 0);
 
    type ewds_array is array (Positive range <>) of ewds_record;
 
-   package ewds_direct_io is new Ada.Direct_IO(ewds_record);
+   package ewds_direct_io is new Ada.Direct_IO (ewds_record);
 
    package ewds_record_io is
       Default_Width : Natural;
-      procedure Get(f : in Ada.Text_IO.File_Type; p : out ewds_record);
-      procedure Get(p : out ewds_record);
-      procedure Put(f : in Ada.Text_IO.File_Type; p : in ewds_record);
-      procedure Put(p : in ewds_record);
-      procedure Get(s : in String; p : out ewds_record;
-                                   last : out Integer);
-      procedure Put(s : out String; p : in ewds_record);
+      procedure Get (f : in Ada.Text_IO.File_Type; p : out ewds_record);
+      procedure Get (p : out ewds_record);
+      procedure Put (f : in Ada.Text_IO.File_Type; p : in ewds_record);
+      procedure Put (p : in ewds_record);
+      procedure Get (s : in String; p : out ewds_record;
+                                    last : out Integer);
+      procedure Put (s : out String; p : in ewds_record);
    end ewds_record_io;
 
    English_Dictionary_Available : array (Dictionary_Kind) of Boolean := (False,
-                                                                         False, False, False, False, False, False,  --  don't SEARCH
-                                                                         False, False, False, False);
+     False, False, False, False, False, False,  --  don't SEARCH
+     False, False, False, False);
 
    ewds_file : ewds_direct_io.File_Type;
 
