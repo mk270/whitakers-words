@@ -72,24 +72,28 @@ procedure makeewds is
 
    --  First we supplement MEAN with singles of any hyphenated words
    --  In principle this could be done in the main EXTRACT, much same logic/code
-   --  However this is difficult code for an old man, EXTRACT was hard when I was a bit younger
-   --  And I cannot remember anything about it.  Separating them out makes it much easier to test
+   --  However this is difficult code for an old man, EXTRACT was hard
+   --  when I was a bit younger, and I cannot remember anything about it.
+   --  Separating them out makes it much easier to test
 
    function add_hyphenated (s : String) return String is
 
-      --------  I tried to do something with hyphenated but so far it does not work  ----------
+      --------  I tried to do something with hyphenated but so far it
+      --------  does not work
 
-      --  Find hyphenated words and add them to MEAN with a / connector, right before the parse
-      --  so one has both the individual words (may be more than two) and a single combined word
+      --  Find hyphenated words and add them to MEAN with a / connector,
+      --  right before the parse so one has both the individual words (may
+      --  be more than two) and a single combined word
       --  counting-board -> counting board/countingboard
-      t : String (1 .. Max_Meaning_Size * 2 + 20) := (others => ' ');   --  Cannot be bigger
+
+      --  Cannot be bigger:
+      t : String (1 .. Max_Meaning_Size * 2 + 20) := (others => ' ');
       word_start : Integer := 1;
       word_end   : Integer := 0;
       i, j, jmax : Integer := 0;
       hyphenated : Boolean := False;
 
    begin
-      --PUT_LINE ("S    " & INTEGER'IMAGE (LINE_NUMBER) & "   " & INTEGER'IMAGE (S'FIRST) & "  " & INTEGER'IMAGE (S'LAST));
       --PUT_LINE (S);
       while i < s'Last  loop
          i := i + 1;
@@ -105,7 +109,6 @@ procedure makeewds is
             jmax := jmax + 1;
             null;
             i := i + 1;
-            --PUT_LINE ("|||    " & INTEGER'IMAGE (LINE_NUMBER) & "    " & S (I) & '_' & S (WORD_START .. S'LAST));
          elsif s (i) = '"'   then     --  Skip "'s
             word_start := i + 1;
             t (j) := s (i);
@@ -113,7 +116,6 @@ procedure makeewds is
             jmax := jmax + 1;
             null;
             i := i + 1;
-            --PUT_LINE ('"' &   "   " & INTEGER'IMAGE (LINE_NUMBER) & "    ->" & S (WORD_START .. S'LAST));
          else
             if s (i) = '('  then    --  ( .. .) not to be parsed
                t (j) := s (i);
@@ -153,8 +155,6 @@ procedure makeewds is
                --                 (S (I-1) /= '/')  )  then
                --                 HYPHENATED := TRUE;
                --              end if;
-               --PUT_LINE ("---    " & INTEGER'IMAGE (LINE_NUMBER) & "   " & INTEGER'IMAGE (I) &
-               --"  " & INTEGER'IMAGE (WORD_START) & "  " & INTEGER'IMAGE (WORD_END) & "   ->" & S (WORD_START .. WORD_END));
             end if;
 
             if
@@ -171,8 +171,6 @@ procedure makeewds is
             then
                word_end := i - 1;
 
-               --PUT_LINE (INTEGER'IMAGE (LINE_NUMBER) & "    NNN " & S (I) & "  " & INTEGER'IMAGE (I) & "  "
-               --& INTEGER'IMAGE (WORD_START)& "   " & INTEGER'IMAGE (WORD_END) & "    " & S (WORD_START .. WORD_END));
                if hyphenated  then
                   t (j) := '/';
                   j := j + 1;
@@ -195,10 +193,6 @@ procedure makeewds is
                word_start := i + 1;
                word_end   := 0;
             end if;
-
-            --PUT_LINE (INTEGER'IMAGE (LINE_NUMBER) & "    TTT " & S (I) & "  " &  INTEGER'IMAGE (I) &
-            --"  " & INTEGER'IMAGE (WORD_START) & "   " & INTEGER'IMAGE (WORD_END) & "    " & S (WORD_START .. WORD_END));
-
          end if;  --  On '|'
 
          --  Set up the Output to return
@@ -208,7 +202,6 @@ procedure makeewds is
 
       end loop;  --  Over S'RANGE
 
-      --PUT_LINE ("RRR    ->" & INTEGER'IMAGE (LINE_NUMBER) & "   " & T (1 .. JMAX));
       return t (1 .. jmax);
 
    exception
@@ -234,9 +227,6 @@ procedure makeewds is
 
       ww : Integer := 0;    --  For debug
    begin
-      --NEW_LINE (2);
-      --PUT_LINE ("MEAN  " & INTEGER'IMAGE (LINE_NUMBER) & "  =>" & S);
-      --PUT_LINE ("MEAN=>" & INTEGER'IMAGE (S'FIRST) & "  " & INTEGER'IMAGE (S'LAST) & "|::::::::");
       -- i := 1;    --  Element Position in line, per SEMI
       j := 1;    --  Position in word
       k := 0;    --  SEMI - Division in line
@@ -313,12 +303,6 @@ procedure makeewds is
 
          ww := 10;
 
-         --if LINE_NUMBER = 8399  then
-         --NEW_LINE;
-         --PUT_LINE ("NEW SEMI=>" & SEMI (SM1 .. SM2) & "|::::::::");
-         --PUT_LINE ("NEW SEMI INDEX=>" & INTEGER'IMAGE (SM1) & "  " & INTEGER'IMAGE (SM2) & "|::::::::");
-         --end if;
-
          process_semi : declare
             st : constant String := Trim (semi);
             sm : constant String (st'First .. st'Last) := st;
@@ -351,23 +335,17 @@ procedure makeewds is
                         im := im + 1;
                         --  Clear the ')'
                         --        IM := IM + 1;    --  Go to next Character
-                        --PUT_LINE ("Cleared (+" & "  IM = " & INTEGER'IMAGE (IM));
                         if im >= end_semi  then
-                           --PUT_LINE ("exit on SM'LAST  "  & INTEGER'IMAGE (SM'LAST) & "  I = " & INTEGER'IMAGE (IM));
                            exit find_comma;
                         end if;
-                        --PUT_LINE ("No exit on SM'LAST  "  & INTEGER'IMAGE (SM'LAST) & "  I = " & INTEGER'IMAGE (IM) & "|" & SM (IM) & "|");
                         if  (sm (im) = ';') or (sm (im) = ',')   then
-                           --PUT_LINE ("Found ;, COMMA  IM = " & INTEGER'IMAGE (IM));
                            --  Foumd COMMA
                            m := m + 1;
                            ic := 1;
                            im := im + 1;       --  Clear ;,
                            exit find_comma;
                         elsif sm (im) = ' '  then
-                           --PUT_LINE ("Found blank -  IM = " & INTEGER'IMAGE (IM));
                            im := im + 1;
-                           --PUT_LINE ("Found blank +  IM = " & INTEGER'IMAGE (IM));
                         end if;
                         --PUT_LINE ("------------------------");
                      end if;
@@ -414,7 +392,6 @@ procedure makeewds is
                      --PUT (INTEGER'IMAGE (IM) & " ! " & SM (IM));
 
                   end loop find_comma;
-                  --PUT_LINE ("COMMA " & INTEGER'IMAGE (LINE_NUMBER) & INTEGER'IMAGE (IM) &  "=>" & TRIM (COMMA));
                   im := im + 1;
 
                   ww := 30;
@@ -427,7 +404,6 @@ procedure makeewds is
                      w_start, w_end : Integer := 0;
                   begin
                      ww := 31;
-                     --PUT_LINE ("PROCESS COMMA " & INTEGER'IMAGE (LINE_NUMBER) & INTEGER'IMAGE (CT'FIRST) & INTEGER'IMAGE (CT'LAST) &  "=>" & TRIM (COMMA));
                      if ct'Length > 0 then
                         --  Is COMMA non empty
                         --  Are there any blanks?
@@ -467,7 +443,6 @@ procedure makeewds is
                                 (cs (iw) = ']')  or
                                 (iw = cs'Last)
                               then
-                                 --PUT_LINE ("HIT  "  & CS (IW) & "  IW = " & INTEGER'IMAGE (IW) & "  CS'LAST = " & INTEGER'IMAGE (CS'LAST));
                                  ww := 35;
                                  if iw = cs'Last then
                                     w_end := iw;
@@ -489,8 +464,6 @@ procedure makeewds is
 
                                  ww := 37;
 
-                                 --PUT_LINE (INTEGER'IMAGE (LINE_NUMBER) & "WEEDing " &
-                                 --INTEGER'IMAGE (W_START) & "  " & INTEGER'IMAGE (W_END)
                                  --& "  " & CS (W_START .. W_END)
                                  --);
                                  weed_all (cs (w_start .. w_end));
@@ -516,7 +489,6 @@ procedure makeewds is
 
                            if cs (ic) = '"'  or      --  Skip all "
                              cs (ic) = '('  or      --  Skip initial (
-                             --CS (IC) = '-'  or      --  Skip hyphen -> one word!
                              cs (ic) = '?'  or      --  Ignore ?
                              cs (ic) = '~'  or      --  Ignore about ~
                              cs (ic) = '*'  or
@@ -530,9 +502,6 @@ procedure makeewds is
                               ----PUT ('-');
                            else
                               if
-                                --            S (IC) = ','  or       --  Terminators
-                                --            S (IC) = '.'  or       --  Would be typo
-                                --            S (IC) = ';'  or       --  Should catch at SEMI
                                 cs (ic) = '/'  or
                                 cs (ic) = ' '  or
                                 cs (ic) = '''  or    --  Ignore all ' incl 's  ???
@@ -562,7 +531,6 @@ procedure makeewds is
                                     ewa (n).kind := 0;
                                  end if;
                                  ww := 70;
-                                 --PUT_LINE ("====1  K J = " & INTEGER'IMAGE (K) & "  " & INTEGER'IMAGE (J) & "  ." & EWA (N).W (1 .. J-1) & ".");
                                  n := n + 1;       --  Start new word in COMMA
                                  ic := ic + 1;
                                  j := 1;
@@ -582,7 +550,6 @@ procedure makeewds is
                                  else
                                     ewa (n).kind := 0;
                                  end if;
-                                 --PUT_LINE ("====2  K J = " & INTEGER'IMAGE (K) & "  " & INTEGER'IMAGE (J) & "  ." & EWA (N).W (1 .. J) & ".");
                                  n := n + 1;       --  Start new word/COMMA
 
                                  ewa (n) := null_ewds_record;
@@ -632,8 +599,6 @@ procedure makeewds is
             end if;
          end loop;
 
-         --PUT_LINE ("SEMI Processed Completely   L = "  & INTEGER'IMAGE (L)  & "  S'LAST = " & INTEGER'IMAGE (S'LAST));
-
          exit when l >= s'Last;
       end loop;   --  loop over MEAN
 
@@ -658,9 +623,6 @@ procedure makeewds is
 begin
    Put_Line ("Takes a DICTLINE.D_K and produces a EWDSLIST.D_K ");
    Latin_Utils.General.Load_Dictionary (line, last, d_k);
-
-   --PUT_LINE ("OPENING   " &
-   --     ADD_FILE_NAME_EXTENSION (DICT_LINE_NAME, DICTIONARY_KIND'IMAGE (D_K)));
 
    Open (Input, In_File, add_file_name_extension (dict_line_name,
      Dictionary_Kind'Image (d_k)));
