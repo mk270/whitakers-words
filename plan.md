@@ -16,29 +16,6 @@ suggested the following:
 > nature.  Until then, I and other individuals will make available our
 > programs.
 
-Code cleanup
-============
-
-The programme was originally maintained by a single author, its creator, who
-was one of the creators of the Ada language in which it is written. From
-the perspective of developers coming to it afresh, it has accumulated a
-few employee-weeks' worth of technical debt over the decade and a half it
-was under development.
-
-To keep the code useful - so it can be compiled, understood, adapted and so
-on, it needs to be made more readily intelligible. In general, this entails:
-
-* shorter subprogrammes
-* much less reliance on global variables
-* less deeply nested subprogrammes
-* subprogrammes that perform fewer tasks with fewer local variables
-* a less flat structure at the source file level (>30 packages in one directory)
-* less reliance on mutable stat
-* less reliance on dummy values in enumerations
-* documentation of the various packages and how they fit together
-
-Efforts are presently concentrated on the "parse.adb" file. 
-
 
 Packaging
 =========
@@ -47,13 +24,6 @@ Packaged versions based on the current source code will be made for
 Windows, MacOS and Linux; the tools for this will need to ensure the
 right data files are included or generated, and that the package does
 not accidentally ship copyright-infringing code, a genuine possibility.
-
-Interfaces
-==========
-
-In the future, we shall provide structured output, and a library interface,
-such that users can access the grammatical information embedded in the
-programme without scraping it.
 
 Macrons
 =======
@@ -77,6 +47,34 @@ available:
 > Along the way, and later, I will expand to medieval Latin.  I am not so
 > unrealistic as to believe that I will 'finish', indeed, this is a hobby
 > and there is no advantage to finishing.
+
+Interfaces
+==========
+
+In the future, we shall provide structured output, and a library interface,
+such that users can access the grammatical information embedded in the
+programme without scraping it.
+
+Code cleanup
+============
+
+The programme was originally maintained by a single author, its creator, who
+was one of the creators of the Ada language in which it is written. From
+the perspective of developers coming to it afresh, it has accumulated a
+few employee-weeks' worth of technical debt over the decade and a half it
+was under development.
+
+To keep the code useful - so it can be compiled, understood, adapted and so
+on, it needs to be made more readily intelligible. In general, this entails:
+
+* shorter subprogrammes
+* much less reliance on global variables
+* less deeply nested subprogrammes
+* subprogrammes that perform fewer tasks with fewer local variables
+* a less flat structure at the source file level (>30 packages in one directory)
+* less reliance on mutable stat
+* less reliance on dummy values in enumerations
+* documentation of the various packages and how they fit together
 
 
 Martin Keegan, originally written June 2015
