@@ -58,7 +58,7 @@ procedure list_sweep (pa : in out Parse_Array; pa_last : in out Integer) is
          when N  =>
             if  words_mdev (for_word_list_check)  then
                if (Nom <= pr.IR.qual.N.Of_Case) and then
-                 (S <= pr.IR.qual.N.number)
+                 (S <= pr.IR.qual.N.Number)
                then
                   allowed := True;
                elsif (Nom <= pr.IR.qual.N.Of_Case) and then

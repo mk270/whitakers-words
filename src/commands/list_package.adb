@@ -532,7 +532,8 @@ package body list_package is
       --  e.g., it must clean out dangling prefixes and suffixes
 
       if Ada.Text_IO.Name (Output) =
-        Ada.Text_IO.Name (Ada.Text_IO.Standard_Output)  then
+        Ada.Text_IO.Name (Ada.Text_IO.Standard_Output)
+      then
          --  to keep from overflowing screen line or even adding blank line
          mm := max_meaning_print_size;
       else

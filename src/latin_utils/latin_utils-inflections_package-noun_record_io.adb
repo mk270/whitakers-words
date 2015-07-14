@@ -82,9 +82,9 @@ package body Noun_Record_IO is
    ---------------------------------------------------------------------------
 
    procedure Get
-      ( Source : in  String;
-        Target : out Noun_Record;
-        Last   : out Integer
+      (Source : in  String;
+       Target : out Noun_Record;
+       Last   : out Integer
       )
    is
       -- Used for computing lower bound of substrings
@@ -102,8 +102,8 @@ package body Noun_Record_IO is
    ---------------------------------------------------------------------------
 
    procedure Put
-      ( Target : out String;
-        Item   : in  Noun_Record
+      (Target : out String;
+       Item   : in  Noun_Record
       )
    is
       -- Used for computing bounds of substrings
