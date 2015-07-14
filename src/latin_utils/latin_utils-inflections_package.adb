@@ -2106,6 +2106,8 @@ package body Latin_Utils.Inflections_Package is
 
    end Inflection_Record_IO;
 
+   -- FIXME this procedure contains four blocks of heavily duplicated code
+
    procedure establish_inflections_section  is
       --  Loads the inflection array from the file prepared in
       --  FILE_INFLECTIONS_SECTION
@@ -2148,6 +2150,7 @@ package body Latin_Utils.Inflections_Package is
            lel_section_io.Positive_Count (1));
 
          i := 1;
+
          n := lel (i).ending.size;
 
          ch := lel (i).ending.suf (n);
@@ -2165,6 +2168,7 @@ package body Latin_Utils.Inflections_Package is
                n := lel (i).ending.size;
 
                ch := lel (i).ending.suf (n);
+
 
                if ch /= xch  then
                   lell (xn, xch) := i - 1;
