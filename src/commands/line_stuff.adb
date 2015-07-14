@@ -932,7 +932,7 @@ package body line_stuff is
                when Pron =>
                   part := (Pron, (qual.Pron.Decl, kind.pron_kind));
                when Pack =>
-                  part := (Pack, (qual.Pack.decl, kind.pack_kind));
+                  part := (Pack, (qual.Pack.Decl, kind.pack_kind));
                when Adj =>
                   part := (Adj, (qual.Adj.decl, qual.Adj.co));
                when Num =>

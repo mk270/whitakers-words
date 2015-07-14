@@ -77,21 +77,21 @@ package body Latin_Utils.Inflections_Package is
                   return True;
                end if;
             when Pack =>
-               if left.Pack.decl.Which < right.Pack.decl.Which  or else
-                 (left.Pack.decl.Which = right.Pack.decl.Which  and then
-                 left.Pack.decl.Var < right.Pack.decl.Var)  or else
-                 (left.Pack.decl.Which = right.Pack.decl.Which  and then
-                 left.Pack.decl.Var = right.Pack.decl.Var  and then
-                 left.Pack.number < right.Pack.number) or else
-                 (left.Pack.decl.Which = right.Pack.decl.Which  and then
-                 left.Pack.decl.Var = right.Pack.decl.Var  and then
-                 left.Pack.number = right.Pack.number and then
-                 left.Pack.cs < right.Pack.cs) or else
-                 (left.Pack.decl.Which = right.Pack.decl.Which  and then
-                 left.Pack.decl.Var = right.Pack.decl.Var  and then
-                 left.Pack.number = right.Pack.number and then
-                 left.Pack.cs = right.Pack.cs and then
-                 left.Pack.gender < right.Pack.gender)
+               if left.Pack.Decl.Which < right.Pack.Decl.Which  or else
+                 (left.Pack.Decl.Which = right.Pack.Decl.Which  and then
+                 left.Pack.Decl.Var < right.Pack.Decl.Var)  or else
+                 (left.Pack.Decl.Which = right.Pack.Decl.Which  and then
+                 left.Pack.Decl.Var = right.Pack.Decl.Var  and then
+                 left.Pack.Number < right.Pack.Number) or else
+                 (left.Pack.Decl.Which = right.Pack.Decl.Which  and then
+                 left.Pack.Decl.Var = right.Pack.Decl.Var  and then
+                 left.Pack.Number = right.Pack.Number and then
+                 left.Pack.Of_Case < right.Pack.Of_Case) or else
+                 (left.Pack.Decl.Which = right.Pack.Decl.Which  and then
+                 left.Pack.Decl.Var = right.Pack.Decl.Var  and then
+                 left.Pack.Number = right.Pack.Number and then
+                 left.Pack.Of_Case = right.Pack.Of_Case and then
+                 left.Pack.Gender < right.Pack.Gender)
                then
                   return True;
                end if;
@@ -397,95 +397,7 @@ package body Latin_Utils.Inflections_Package is
 
    package body Pronoun_Record_IO is separate;
 
-   package body propack_record_io is
-      use Decn_Record_IO;
-      use Case_Type_IO;
-      use Number_Type_IO;
-      use Gender_Type_IO;
-      spacer : Character := ' ';
-
-      procedure Get (f : in File_Type; p : out propack_record) is
-      begin
-         Get (f, p.decl);
-         Get (f, spacer);
-         Get (f, p.cs);
-         Get (f, spacer);
-         Get (f, p.number);
-         Get (f, spacer);
-         Get (f, p.gender);
-      end Get;
-
-      procedure Get (p : out propack_record) is
-      begin
-         Get (p.decl);
-         Get (spacer);
-         Get (p.cs);
-         Get (spacer);
-         Get (p.number);
-         Get (spacer);
-         Get (p.gender);
-      end Get;
-
-      procedure Put (f : in File_Type; p : in propack_record) is
-      begin
-         Put (f, p.decl);
-         Put (f, ' ');
-         Put (f, p.cs);
-         Put (f, ' ');
-         Put (f, p.number);
-         Put (f, ' ');
-         Put (f, p.gender);
-      end Put;
-
-      procedure Put (p : in propack_record) is
-      begin
-         Put (p.decl);
-         Put (' ');
-         Put (p.cs);
-         Put (' ');
-         Put (p.number);
-         Put (' ');
-         Put (p.gender);
-      end Put;
-
-      procedure Get
-        (s : in String;
-         p : out propack_record;
-         last : out Integer)
-      is
-         l : Integer := s'First - 1;
-      begin
-         Get (s (l + 1 .. s'Last), p.decl, l);
-         l := l + 1;
-         Get (s (l + 1 .. s'Last), p.cs, l);
-         l := l + 1;
-         Get (s (l + 1 .. s'Last), p.number, l);
-         l := l + 1;
-         Get (s (l + 1 .. s'Last), p.gender, last);
-      end Get;
-
-      procedure Put (s : out String; p : in propack_record) is
-         l : Integer := s'First - 1;
-         m : Integer := 0;
-      begin
-         m := l + Decn_Record_IO.Default_Width;
-         Put (s (l + 1 .. m), p.decl);
-         l := m + 1;
-         s (l) :=  ' ';
-         m := l + Case_Type_IO.Default_Width;
-         Put (s (l + 1 .. m), p.cs);
-         l := m + 1;
-         s (l) :=  ' ';
-         m := l + Number_Type_IO.Default_Width;
-         Put (s (l + 1 .. m), p.number);
-         l := m + 1;
-         s (l) :=  ' ';
-         m := l + Gender_Type_IO.Default_Width;
-         Put (s (l + 1 .. m), p.gender);
-         s (m + 1 .. s'Last) := (others => ' ');
-      end Put;
-
-   end propack_record_io;
+   package body Propack_Record_IO is separate;
 
    package body adjective_record_io is
       use Decn_Record_IO;
@@ -1291,7 +1203,7 @@ package body Latin_Utils.Inflections_Package is
       use Part_Of_Speech_Type_IO;
       use Noun_Record_IO;
       use Pronoun_Record_IO;
-      use propack_record_io;
+      use Propack_Record_IO;
       use adjective_record_io;
       use numeral_record_io;
       use adverb_record_io;
@@ -1308,7 +1220,7 @@ package body Latin_Utils.Inflections_Package is
 
       noun  : Noun_Record;
       pronoun : Pronoun_Record;
-      propack : propack_record;
+      propack : Propack_Record;
       adjective : adjective_record;
       adverb : adverb_record;
       verb : verb_record;
@@ -1608,7 +1520,7 @@ package body Latin_Utils.Inflections_Package is
                m := l + Pronoun_Record_IO.Default_Width;
                Put (s (l + 1 .. m), p.Pron);
             when Pack =>
-               m := l + propack_record_io.Default_Width;
+               m := l + Propack_Record_IO.Default_Width;
                Put (s (l + 1 .. m), p.Pack);
             when Adj =>
                m := l + adjective_record_io.Default_Width;
@@ -2200,7 +2112,7 @@ begin
      Case_Type_IO.Default_Width + 1 +
      Number_Type_IO.Default_Width + 1 +
      Gender_Type_IO.Default_Width;
-   propack_record_io.Default_Width :=
+   Propack_Record_IO.Default_Width :=
      Decn_Record_IO.Default_Width + 1 +
      Case_Type_IO.Default_Width + 1 +
      Number_Type_IO.Default_Width + 1 +

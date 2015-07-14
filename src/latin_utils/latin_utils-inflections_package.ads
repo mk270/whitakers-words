@@ -369,23 +369,32 @@ package Latin_Utils.Inflections_Package is
 
    ---------------------------------------------------------------------------
 
-   type propack_record is
+   type Propack_Record is
       record
-         decl        : Decn_Record;
-         cs          : Case_Type := X;
-         number      : Number_Type := X;
-         gender      : Gender_Type := X;
+         Decl        : Decn_Record;
+         Of_Case     : Case_Type   := X;
+         Number      : Number_Type := X;
+         Gender      : Gender_Type := X;
       end record;
 
-   package propack_record_io is
+   -- FIXME: These subprograms don't check if Is_Open (File)
+   package Propack_Record_IO is
+      -- FIXME: This probably should be constant.
       Default_Width : Natural;
-      procedure Get (f : in File_Type; p : out propack_record);
-      procedure Get (p : out propack_record);
-      procedure Put (f : in File_Type; p : in propack_record);
-      procedure Put (p : in propack_record);
-      procedure Get (s : in String; p : out propack_record; last : out Integer);
-      procedure Put (s : out String; p : in propack_record);
-   end propack_record_io;
+      procedure Get (File : in  File_Type; Item : out Propack_Record);
+      procedure Get (Item : out Propack_Record);
+      procedure Put (File : in  File_Type; Item : in  Propack_Record);
+      procedure Put (Item : in  Propack_Record);
+      -- TODO: Document meaning of Last
+      procedure Get
+         (Source : in  String;
+          Target : out Propack_Record;
+          Last   : out Integer
+         );
+      procedure Put (Target : out String; Item : in Propack_Record);
+   end Propack_Record_IO;
+
+   ---------------------------------------------------------------------------
 
    type adjective_record is
       record
@@ -611,7 +620,7 @@ package Latin_Utils.Inflections_Package is
             when Pron =>
                Pron : Pronoun_Record;
             when Pack =>
-               Pack : propack_record;
+               Pack : Propack_Record;
             when Adj =>
                Adj : adjective_record;
             when Num =>
