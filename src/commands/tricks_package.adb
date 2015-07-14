@@ -350,11 +350,11 @@ package body tricks_package is
            qual => (
            pofs => Num,
            num => (
-           decl   => (2, 0),
-           cs     => X,
-           number => X,
-           gender => X,
-           sort   => Card)),
+           Decl    => (2, 0),
+           Of_Case => X,
+           Number  => X,
+           Gender  => X,
+           Sort    => Card)),
 
            key => 0,
            ending => null_ending_record,
@@ -1633,11 +1633,11 @@ package body tricks_package is
            qual => (
            pofs => Num,
            num => (
-           decl   => (2, 0),
-           cs     => X,
-           number => X,
-           gender => X,
-           sort   => Card)),
+           Decl    => (2, 0),
+           Of_Case => X,
+           Number  => X,
+           Gender  => X,
+           Sort    => Card)),
 
            key => 0,
            ending => null_ending_record,

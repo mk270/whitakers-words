@@ -1020,7 +1020,7 @@ package body word_package is
                           MNPC => MNPC_part);
 
                      elsif (pdl_part.pofs = Num) and then
-                       (pdl_part.Num.Decl <= sl (i).IR.qual.Num.decl) and then
+                       (pdl_part.Num.Decl <= sl (i).IR.qual.Num.Decl) and then
                        (pdl_key         = sl (i).IR.key)
                      then
                         --PUT(" HIT  NUM    ");
@@ -1040,9 +1040,9 @@ package body word_package is
                           pofs => Num,
                           Num => (
                           pdl_part.Num.Decl,
-                          sl (i).IR.qual.Num.cs,
-                          sl (i).IR.qual.Num.number,
-                          sl (i).IR.qual.Num.gender,
+                          sl (i).IR.qual.Num.Of_Case,
+                          sl (i).IR.qual.Num.Number,
+                          sl (i).IR.qual.Num.Gender,
                           num_sort)),
                           key => sl (i).IR.key,
                           ending => sl (i).IR.ending,

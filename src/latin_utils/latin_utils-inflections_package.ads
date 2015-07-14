@@ -424,26 +424,33 @@ package Latin_Utils.Inflections_Package is
 
    ---------------------------------------------------------------------------
 
-   type numeral_record is
+   type Numeral_Record is
       record
-         decl        : Decn_Record;
-         cs          : Case_Type := X;
-         number      : Number_Type := X;
-         gender      : Gender_Type := X;
-         sort        : Numeral_Sort_Type := X;
+         Decl        : Decn_Record;
+         Of_Case     : Case_Type := X;
+         Number      : Number_Type := X;
+         Gender      : Gender_Type := X;
+         Sort        : Numeral_Sort_Type := X;
       end record;
 
-   package numeral_record_io is
+   -- FIXME: These subprograms don't check if Is_Open (File)
+   package Numeral_Record_IO is
       Default_Width : Natural;
-      procedure Get (f : in File_Type; num : out numeral_record);
-      procedure Get (num : out numeral_record);
-      procedure Put (f : in File_Type; num : in numeral_record);
-      procedure Put (num : in numeral_record);
-      procedure Get (s : in String;
-                     num : out numeral_record;
-                     last : out Integer);
-      procedure Put (s : out String; num : in numeral_record);
-   end numeral_record_io;
+      procedure Get (File : in  File_Type; Item : out Numeral_Record);
+      -- FIXME: This subprogram seems to be incorrect
+      procedure Get (Item : out Numeral_Record);
+      procedure Put (File : in  File_Type; Item : in  Numeral_Record);
+      procedure Put (Item : in  Numeral_Record);
+      -- TODO: Document meaning of Last
+      procedure Get
+         (Source : in  String;
+          Target : out Numeral_Record;
+          Last   : out Integer
+         );
+      procedure Put (Target : out String; Item : in Numeral_Record);
+   end Numeral_Record_IO;
+
+   ---------------------------------------------------------------------------
 
    type adverb_record is
       record
@@ -631,7 +638,7 @@ package Latin_Utils.Inflections_Package is
             when Adj =>
                Adj : Adjective_Record;
             when Num =>
-               Num : numeral_record;
+               Num : Numeral_Record;
             when Adv =>
                Adv : adverb_record;
             when V =>

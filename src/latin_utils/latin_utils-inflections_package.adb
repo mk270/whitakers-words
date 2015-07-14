@@ -208,27 +208,27 @@ package body Latin_Utils.Inflections_Package is
             when Interj =>
                null;
             when Num =>
-               if left.Num.decl.Which < right.Num.decl.Which  or else
-                 (left.Num.decl.Which = right.Num.decl.Which  and then
-                 left.Num.decl.Var < right.Num.decl.Var)  or else
-                 (left.Num.decl.Which = right.Num.decl.Which  and then
-                 left.Num.decl.Var = right.Num.decl.Var  and then
-                 left.Num.number < right.Num.number) or else
-                 (left.Num.decl.Which = right.Num.decl.Which  and then
-                 left.Num.decl.Var = right.Num.decl.Var  and then
-                 left.Num.number = right.Num.number and then
-                 left.Num.cs < right.Num.cs) or else
-                 (left.Num.decl.Which = right.Num.decl.Which  and then
-                 left.Num.decl.Var = right.Num.decl.Var  and then
-                 left.Num.number = right.Num.number and then
-                 left.Num.cs = right.Num.cs and then
-                 left.Num.gender < right.Num.gender)  or else
-                 (left.Num.decl.Which = right.Num.decl.Which  and then
-                 left.Num.decl.Var = right.Num.decl.Var  and then
-                 left.Num.number = right.Num.number and then
-                 left.Num.cs = right.Num.cs and then
-                 left.Num.gender = right.Num.gender  and then
-                 left.Num.sort < right.Num.sort)
+               if left.Num.Decl.Which < right.Num.Decl.Which  or else
+                 (left.Num.Decl.Which = right.Num.Decl.Which  and then
+                 left.Num.Decl.Var < right.Num.Decl.Var)  or else
+                 (left.Num.Decl.Which = right.Num.Decl.Which  and then
+                 left.Num.Decl.Var = right.Num.Decl.Var  and then
+                 left.Num.Number < right.Num.Number) or else
+                 (left.Num.Decl.Which = right.Num.Decl.Which  and then
+                 left.Num.Decl.Var = right.Num.Decl.Var  and then
+                 left.Num.Number = right.Num.Number and then
+                 left.Num.Of_Case < right.Num.Of_Case) or else
+                 (left.Num.Decl.Which = right.Num.Decl.Which  and then
+                 left.Num.Decl.Var = right.Num.Decl.Var  and then
+                 left.Num.Number = right.Num.Number and then
+                 left.Num.Of_Case = right.Num.Of_Case and then
+                 left.Num.Gender < right.Num.Gender)  or else
+                 (left.Num.Decl.Which = right.Num.Decl.Which  and then
+                 left.Num.Decl.Var = right.Num.Decl.Var  and then
+                 left.Num.Number = right.Num.Number and then
+                 left.Num.Of_Case = right.Num.Of_Case and then
+                 left.Num.Gender = right.Num.Gender  and then
+                 left.Num.Sort < right.Num.Sort)
                then
                   return True;
                end if;
@@ -401,109 +401,7 @@ package body Latin_Utils.Inflections_Package is
 
    package body Adjective_Record_IO is separate;
 
-   package body numeral_record_io is
-      use Decn_Record_IO;
-      use Case_Type_IO;
-      use Number_Type_IO;
-      use Gender_Type_IO;
-      use Numeral_Sort_Type_IO;
-      spacer : Character := ' ';
-
-      procedure Get (f : in File_Type; num : out numeral_record) is
-      begin
-         Get (f, num.decl);
-         Get (f, spacer);
-         Get (f, num.cs);
-         Get (f, spacer);
-         Get (f, num.number);
-         Get (f, spacer);
-         Get (f, num.gender);
-         Get (f, spacer);
-         Get (f, num.sort);
-      end Get;
-
-      procedure Get (num : out numeral_record) is
-      begin
-         Get (num.decl);
-         Get (spacer);
-         Get (spacer);
-         Get (num.number);
-         Get (spacer);
-         Get (num.gender);
-         Get (spacer);
-         Get (num.sort);
-      end Get;
-
-      procedure Put (f : in File_Type; num : in numeral_record) is
-      begin
-         Put (f, num.decl);
-         Put (f, ' ');
-         Put (f, num.cs);
-         Put (f, ' ');
-         Put (f, num.number);
-         Put (f, ' ');
-         Put (f, num.gender);
-         Put (f, ' ');
-         Put (f, num.sort);
-      end Put;
-
-      procedure Put (num : in numeral_record) is
-      begin
-         Put (num.decl);
-         Put (' ');
-         Put (num.cs);
-         Put (' ');
-         Put (num.number);
-         Put (' ');
-         Put (num.gender);
-         Put (' ');
-         Put (num.sort);
-      end Put;
-
-      procedure Get
-        (s    : in String;
-         num  : out numeral_record;
-         last : out Integer)
-      is
-         l : Integer := s'First - 1;
-      begin
-         Get (s (l + 1 .. s'Last), num.decl, l);
-         l := l + 1;
-         Get (s (l + 1 .. s'Last), num.cs, l);
-         l := l + 1;
-         Get (s (l + 1 .. s'Last), num.number, l);
-         l := l + 1;
-         Get (s (l + 1 .. s'Last), num.gender, l);
-         l := l + 1;
-         Get (s (l + 1 .. s'Last), num.sort, last);
-      end Get;
-
-      procedure Put (s : out String; num : in numeral_record) is
-         l : Integer := s'First - 1;
-         m : Integer := 0;
-      begin
-         m := l + Decn_Record_IO.Default_Width;
-         Put (s (l + 1 .. m), num.decl);
-         l := m + 1;
-         s (l) :=  ' ';
-         m := l + Case_Type_IO.Default_Width;
-         Put (s (l + 1 .. m), num.cs);
-         l := m + 1;
-         s (l) :=  ' ';
-         m := l + Number_Type_IO.Default_Width;
-         Put (s (l + 1 .. m), num.number);
-         l := m + 1;
-         s (l) :=  ' ';
-         m := l + Gender_Type_IO.Default_Width;
-         Put (s (l + 1 .. m), num.gender);
-         l := m + 1;
-         s (l) :=  ' ';
-         m := l + Numeral_Sort_Type_IO.Default_Width;
-         Put (s (l + 1 .. m), num.sort);
-         s (m + 1 .. s'Last) := (others => ' ');
-      end Put;
-
-   end numeral_record_io;
+   package body Numeral_Record_IO is separate;
 
    package body adverb_record_io is
       use Comparison_Type_IO;
@@ -1102,7 +1000,7 @@ package body Latin_Utils.Inflections_Package is
       use Pronoun_Record_IO;
       use Propack_Record_IO;
       use Adjective_Record_IO;
-      use numeral_record_io;
+      use Numeral_Record_IO;
       use adverb_record_io;
       use verb_record_io;
       use vpar_record_io;
@@ -1126,7 +1024,7 @@ package body Latin_Utils.Inflections_Package is
       preposition : preposition_record;
       conjunction : conjunction_record;
       interjection : interjection_record;
-      numeral : numeral_record;
+      numeral : Numeral_Record;
       tackn : tackon_record;
       prefx : prefix_record;
       suffx : suffix_record;
@@ -1423,7 +1321,7 @@ package body Latin_Utils.Inflections_Package is
                m := l + Adjective_Record_IO.Default_Width;
                Put (s (l + 1 .. m), p.Adj);
             when Num =>
-               m := l + numeral_record_io.Default_Width;
+               m := l + Numeral_Record_IO.Default_Width;
                Put (s (l + 1 .. m), p.Num);
             when Adv =>
                m := l + adverb_record_io.Default_Width;
@@ -2041,7 +1939,7 @@ begin
    preposition_record_io.Default_Width := Case_Type_IO.Default_Width;
    conjunction_record_io.Default_Width := 0;
    interjection_record_io.Default_Width := 0;
-   numeral_record_io.Default_Width :=
+   Numeral_Record_IO.Default_Width :=
      Decn_Record_IO.Default_Width + 1 +
      Case_Type_IO.Default_Width + 1 +
      Number_Type_IO.Default_Width + 1 +

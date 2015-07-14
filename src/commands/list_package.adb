@@ -420,7 +420,7 @@ package body list_package is
          if dm.de.Part.pofs = Num  then
             n := dm.de.Part.Num.Value;
             if sr.ir.qual.pofs = Num  then    --  Normal parse
-               case sr.ir.qual.Num.sort is
+               case sr.ir.qual.Num.Sort is
                   when Card  =>
                      s := Head (Integer'Image (n) &
                        " - (CARD answers 'how many');", Max_Meaning_Size);
