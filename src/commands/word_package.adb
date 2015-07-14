@@ -1052,8 +1052,8 @@ package body word_package is
                           MNPC => MNPC_part);
 
                      elsif (pdl_part.pofs = Adv) and then
-                       ((pdl_part.Adv.Co   <= sl (i).IR.qual.Adv.co) or
-                       ((sl (i).IR.qual.Adv.co = X) or
+                       ((pdl_part.Adv.Co <= sl (i).IR.qual.Adv.Comparison) or
+                       ((sl (i).IR.qual.Adv.Comparison = X) or
                        (pdl_part.Adv.Co = X)))
                      then
                         --PUT (" HIT  ADV   ");
@@ -1073,7 +1073,7 @@ package body word_package is
                           qual => (
                           pofs => Adv,
                           Adv => (
-                          co => com)),
+                          Comparison => com)),
                           key => sl (i).IR.key,
                           ending => sl (i).IR.ending,
                           age => sl (i).IR.age,

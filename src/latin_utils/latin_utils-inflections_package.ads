@@ -435,6 +435,7 @@ package Latin_Utils.Inflections_Package is
 
    -- FIXME: These subprograms don't check if Is_Open (File)
    package Numeral_Record_IO is
+      -- FIXME: This probably should be constant.
       Default_Width : Natural;
       procedure Get (File : in  File_Type; Item : out Numeral_Record);
       -- FIXME: This subprogram seems to be incorrect
@@ -452,20 +453,29 @@ package Latin_Utils.Inflections_Package is
 
    ---------------------------------------------------------------------------
 
-   type adverb_record is
+   type Adverb_Record is
       record
-         co   : Comparison_Type := X;
+         Comparison   : Comparison_Type := X;
       end record;
 
-   package adverb_record_io is
+   -- FIXME: These subprograms don't check if Is_Open (File)
+   package Adverb_Record_IO is
+      -- FIXME: This probably should be constant.
       Default_Width : Natural;
-      procedure Get (f : in File_Type; a : out adverb_record);
-      procedure Get (a : out adverb_record);
-      procedure Put (f : in File_Type; a : in adverb_record);
-      procedure Put (a : in adverb_record);
-      procedure Get (s : in String; a : out adverb_record; last : out Integer);
-      procedure Put (s : out String; a : in adverb_record);
-   end adverb_record_io;
+      procedure Get (File : in  File_Type; Item : out Adverb_Record);
+      procedure Get (Item : out Adverb_Record);
+      procedure Put (File : in  File_Type; Item : in  Adverb_Record);
+      procedure Put (Item : in  Adverb_Record);
+      -- TODO: Document meaning of Last
+      procedure Get
+         (Source : in  String;
+          Target : out Adverb_Record;
+          Last   : out Integer
+         );
+      procedure Put (Target : out String; Item : in Adverb_Record);
+   end Adverb_Record_IO;
+
+   ---------------------------------------------------------------------------
 
    type verb_record is
       record
@@ -640,7 +650,7 @@ package Latin_Utils.Inflections_Package is
             when Num =>
                Num : Numeral_Record;
             when Adv =>
-               Adv : adverb_record;
+               Adv : Adverb_Record;
             when V =>
                V : verb_record;
             when Vpar =>

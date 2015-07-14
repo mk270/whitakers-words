@@ -594,7 +594,8 @@ package body list_package is
 
                   pa (pa_last) := (pa (j2 + 1).Stem,
                     ((pofs => Adv,
-                      adv => (co => pa (j2 + 1).IR.qual.Adj.Comparison)),
+                      adv => (Comparison =>
+                              pa (j2 + 1).IR.qual.Adj.Comparison)),
                     key => 0, ending => (1, "e      "), age => x, freq => b),
                     pa (j2 + 1).D_K,
                     pa (j2 + 1).MNPC);
@@ -606,7 +607,8 @@ package body list_package is
                elsif pa (j2 + 1).IR.qual.Adj.Comparison = Super  then
                   pa (pa_last) := (pa (j2 + 1).Stem,
                     ((pofs => Adv,
-                      adv => (co => pa (j2 + 1).IR.qual.Adj.Comparison)),
+                      adv => (Comparison =>
+                              pa (j2 + 1).IR.qual.Adj.Comparison)),
                     key => 0, ending => (2, "me     "), age => x, freq => b),
                     pa (j2 + 1).D_K,
                     pa (j2 + 1).MNPC);

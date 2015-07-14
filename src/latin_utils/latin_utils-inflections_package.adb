@@ -121,7 +121,7 @@ package body Latin_Utils.Inflections_Package is
                   return True;
                end if;
             when Adv =>
-               return left.Adv.co < right.Adv.co;
+               return left.Adv.Comparison < right.Adv.Comparison;
             when V =>
                if (left.V.con.Which < right.V.con.Which)  or else
                  (left.V.con.Which = right.V.con.Which  and then
@@ -403,49 +403,7 @@ package body Latin_Utils.Inflections_Package is
 
    package body Numeral_Record_IO is separate;
 
-   package body adverb_record_io is
-      use Comparison_Type_IO;
-
-      procedure Get (f : in File_Type; a : out adverb_record) is
-      begin
-         Get (f, a.co);
-      end Get;
-
-      procedure Get (a : out adverb_record) is
-      begin
-         Get (a.co);
-      end Get;
-
-      procedure Put (f : in File_Type; a : in adverb_record) is
-      begin
-         Put (f, a.co);
-      end Put;
-
-      procedure Put (a : in adverb_record) is
-      begin
-         Put (a.co);
-      end Put;
-
-      procedure Get
-        (s    : in String;
-         a    : out adverb_record;
-         last : out Integer)
-      is
-         l : constant Integer := s'First - 1;
-      begin
-         Get (s (l + 1 .. s'Last), a.co, last);
-      end Get;
-
-      procedure Put (s : out String; a : in adverb_record) is
-         l : constant Integer := s'First - 1;
-         m : Integer := 0;
-      begin
-         m := l + Comparison_Type_IO.Default_Width;
-         Put (s (l + 1 .. m), a.co);
-         s (m + 1 .. s'Last) := (others => ' ');
-      end Put;
-
-   end adverb_record_io;
+   package body Adverb_Record_IO is separate;
 
    package body verb_record_io is
       use Decn_Record_IO;
@@ -1001,7 +959,7 @@ package body Latin_Utils.Inflections_Package is
       use Propack_Record_IO;
       use Adjective_Record_IO;
       use Numeral_Record_IO;
-      use adverb_record_io;
+      use Adverb_Record_IO;
       use verb_record_io;
       use vpar_record_io;
       use supine_record_io;
@@ -1017,7 +975,7 @@ package body Latin_Utils.Inflections_Package is
       pronoun : Pronoun_Record;
       propack : Propack_Record;
       adjective : Adjective_Record;
-      adverb : adverb_record;
+      adverb : Adverb_Record;
       verb : verb_record;
       vparticiple : vpar_record;
       supin : supine_record;
@@ -1324,7 +1282,7 @@ package body Latin_Utils.Inflections_Package is
                m := l + Numeral_Record_IO.Default_Width;
                Put (s (l + 1 .. m), p.Num);
             when Adv =>
-               m := l + adverb_record_io.Default_Width;
+               m := l + Adverb_Record_IO.Default_Width;
                Put (s (l + 1 .. m), p.Adv);
             when V =>
                m := l + verb_record_io.Default_Width;
@@ -1918,7 +1876,7 @@ begin
      Number_Type_IO.Default_Width + 1 +
      Gender_Type_IO.Default_Width + 1 +
      Comparison_Type_IO.Default_Width;
-   adverb_record_io.Default_Width :=
+   Adverb_Record_IO.Default_Width :=
      Comparison_Type_IO.Default_Width;
    verb_record_io.Default_Width :=
      Decn_Record_IO.Default_Width + 1 +

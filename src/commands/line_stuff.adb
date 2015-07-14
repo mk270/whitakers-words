@@ -938,7 +938,7 @@ package body line_stuff is
                when Num =>
                   part := (Num, (qual.Num.Decl, qual.Num.Sort, kind.num_value));
                when Adv =>
-                  part := (Adv, (Co => qual.Adv.co));
+                  part := (Adv, (Co => qual.Adv.Comparison));
                when V =>
                   part := (V, (qual.V.con, kind.v_kind));
                when others  =>

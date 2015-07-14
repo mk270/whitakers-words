@@ -323,7 +323,7 @@ begin    --  PUT_EXAMPLE_LINE
             end case;
 
          when Adv =>
-            case ir.qual.Adv.co is
+            case ir.qual.Adv.Comparison is
                when Comp  =>
                   Ada.Text_IO.Put (Output, "more/too ~(ly)");
                   Ada.Text_IO.New_Line (Output);
