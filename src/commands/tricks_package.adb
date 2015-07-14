@@ -244,7 +244,8 @@ package body tricks_package is
                end if;
 
                if s (j) = 'I' or s (j) = 'V'  or
-                 s (j) = 'X'  or s (j) = 'L'  then
+                  s (j) = 'X'  or s (j) = 'L'
+               then
                   raise invalid;
                end if;
             end if;
@@ -267,7 +268,8 @@ package body tricks_package is
                   exit evaluate when j < s'First;
                end if;
                if s (j) = 'I' or s (j) = 'V'  or
-                 s (j) = 'X'  or s (j) = 'L'  then
+                  s (j) = 'X' or s (j) = 'L'
+               then
                   raise invalid;
                end if;
             end if;
@@ -291,8 +293,9 @@ package body tricks_package is
                   j := j - 1;
                   exit evaluate when j < s'First;
                end if;
-               if s (j) = 'I' or s (j) = 'V'  or
-                 s (j) = 'X'  or s (j) = 'L' or s (j) = 'C' or s (j) = 'D'  then
+               if s (j) = 'I' or s (j) = 'V' or
+                  s (j) = 'X' or s (j) = 'L' or s (j) = 'C' or s (j) = 'D'
+               then
                   raise invalid;
                end if;
             end if;
@@ -314,8 +317,9 @@ package body tricks_package is
                   j := j - 1;
                   exit evaluate when j < s'First;
                end if;
-               if s (j) = 'I' or s (j) = 'V'  or
-                 s (j) = 'X'  or s (j) = 'L' or s (j) = 'C' or s (j) = 'D'  then
+               if s (j) = 'I' or s (j) = 'V' or
+                  s (j) = 'X' or s (j) = 'L' or s (j) = 'C' or s (j) = 'D'
+               then
                   raise invalid;
                end if;
             end if;
@@ -1605,8 +1609,8 @@ package body tricks_package is
       --  Medieval Tricks
       ---------------------------------------------------------------
 
-      if not (words_mode (ignore_unknown_names)
-        and capitalized)  then   --  Don't try on Names
+      if not (words_mode (ignore_unknown_names) and capitalized) then
+      --  Don't try on Names
          if words_mdev (do_two_words)  then
             two_words;
          end if;

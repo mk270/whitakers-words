@@ -204,7 +204,7 @@ package Latin_Utils.Inflections_Package is
    ---------------------------------------------------------------------------
 
    type Voice_Type is
-     (X,      --  all, none, or unknown
+     (X,     --  all, none, or unknown
      Active, --  ACTIVE
      Passive --  PASSIVE
      );
@@ -214,111 +214,133 @@ package Latin_Utils.Inflections_Package is
    ---------------------------------------------------------------------------
 
    type Mood_Type is
-     (X,         --  all, none, or unknown
-     Ind,       --  INDicative
-     Sub,       --  SUBjunctive
-     Imp,       --  IMPerative
-     Inf,       --  INFinative
-     Ppl        --  ParticiPLe
+     (X,  --  all, none, or unknown
+     Ind, --  INDicative
+     Sub, --  SUBjunctive
+     Imp, --  IMPerative
+     Inf, --  INFinative
+     Ppl  --  ParticiPLe
      );
 
    package Mood_Type_IO is new Ada.Text_IO.Enumeration_IO (Mood_Type);
 
    ---------------------------------------------------------------------------
 
-   type tense_voice_mood_record is
+   type Tense_Voice_Mood_Record is
       record
-         tense : Tense_Type := X;
-         voice : Voice_Type := X;
-         mood  : Mood_Type  := X;
+         Tense : Tense_Type := X;
+         Voice : Voice_Type := X;
+         Mood  : Mood_Type  := X;
       end record;
 
-   package tense_voice_mood_record_io is
+   -- FIXME: These subprograms don't check if Is_Open (File)
+   package Tense_Voice_Mood_Record_IO is
+      -- FIXME: This probably should be constant.
       Default_Width : Natural;
-      procedure Get (f : in File_Type; t : out tense_voice_mood_record);
-      procedure Get (t : out tense_voice_mood_record);
-      procedure Put (f : in File_Type; t : in tense_voice_mood_record);
-      procedure Put (t : in tense_voice_mood_record);
-      procedure Get (s : in String; t : out tense_voice_mood_record;
-                                    last : out Integer);
-      procedure Put (s : out String; t : in tense_voice_mood_record);
-   end tense_voice_mood_record_io;
+      procedure Get (File : in  File_Type; Item : out Tense_Voice_Mood_Record);
+      procedure Get (Item : out Tense_Voice_Mood_Record);
+      procedure Put (File : in  File_Type; Item : in  Tense_Voice_Mood_Record);
+      procedure Put (Item : in  Tense_Voice_Mood_Record);
+      -- TODO: Document meaning of Last
+      procedure Get
+         (Source : in  String;
+          Target : out Tense_Voice_Mood_Record;
+          Last   : out Integer
+         );
+      procedure Put (Target : out String; Item : in Tense_Voice_Mood_Record);
+   end Tense_Voice_Mood_Record_IO;
 
-   type Noun_Kind_Type is (
-     x,            --  unknown, nondescript
-     s,            --  Singular "only"           --  not really used
-     m,            --  plural or Multiple "only" --  not really used
-     a,            --  Abstract idea
-     g,            --  Group/collective Name -- Roman (s)
-     n,            --  proper Name
-     p,            --  a Person
-     t,            --  a Thing
-     l,            --  Locale, name of country/city
-     w             --  a place Where
-                          );
+   ---------------------------------------------------------------------------
+
+   type Noun_Kind_Type is
+      (X, --  unknown, nondescript
+      S,  --  Singular "only"           --  not really used
+      M,  --  plural or Multiple "only" --  not really used
+      A,  --  Abstract idea
+      G,  --  Group/collective Name -- Roman(s)
+      N,  --  proper Name
+      P,  --  a Person
+      T,  --  a Thing
+      L,  --  Locale, name of country/city
+      W   --  a place Where
+      );
 
    package Noun_Kind_Type_IO is new Ada.Text_IO.Enumeration_IO (Noun_Kind_Type);
 
-   type Pronoun_Kind_Type is (
-     x,            --  unknown, nondescript
-     pers,         --  PERSonal
-     rel,          --  RELative
-     reflex,       --  REFLEXive
-     demons,       --  DEMONStrative
-     interr,       --  INTERRogative
-     indef,        --  INDEFinite
-     adject        --  ADJECTival
-                             );
+   ---------------------------------------------------------------------------
+
+   type Pronoun_Kind_Type is
+      (X,      --  unknown, nondescript
+      Pers,   --  PERSonal
+      Rel,    --  RELative
+      Reflex, --  REFLEXive
+      Demons, --  DEMONStrative
+      Interr, --  INTERRogative
+      Indef,  --  INDEFinite
+      Adject  --  ADJECTival
+      );
 
    package Pronoun_Kind_Type_IO is
       new Ada.Text_IO.Enumeration_IO (Pronoun_Kind_Type);
+
+   ---------------------------------------------------------------------------
 
    subtype Numeral_Value_Type is Natural range 0 .. 1000;
 
    Numeral_Value_Type_IO_Default_Width : Integer := 5;
 
-   type Verb_Kind_Type is (
-     x,         --  all, none, or unknown
-     to_be,     --  only the verb TO BE (esse)
-     to_being,  --  compounds of the verb to be (esse)
-     gen,       --  verb taking the GENitive
-     dat,       --  verb taking the DATive
-     abl,       --  verb taking the ABLative
-     trans,     --  TRANSitive verb
-     intrans,   --  INTRANSitive verb
-     impers,    --  IMPERSonal verb (implied subject 'it', 'they', 'God')
-     --  agent implied in action, subject in predicate
+   ---------------------------------------------------------------------------
 
-     dep,       --  DEPonent verb
-     --  only passive form but with active meaning
-
-     semidep,   --  SEMIDEPonent verb (forms perfect as deponent)
-     --  (perfect passive has active force)
-
-     perfdef
-   --  PERFect DEFinite verb, having only perfect stem, but with present force
-                          );
+   type Verb_Kind_Type is
+      (X,        --  all, none, or unknown
+      To_Be,     --  only the verb TO BE (esse)
+      To_Being,  --  compounds of the verb to be (esse)
+      Gen,       --  verb taking the GENitive
+      Dat,       --  verb taking the DATive
+      Abl,       --  verb taking the ABLative
+      Trans,     --  TRANSitive verb
+      Intrans,   --  INTRANSitive verb
+      Impers,    --  IMPERSonal verb (implied subject 'it', 'they', 'God')
+      --  agent implied in action, subject in predicate
+      Dep,       --  DEPonent verb
+      --  only passive form but with active meaning
+      Semidep,   --  SEMIDEPonent verb (forms perfect as deponent)
+      --  (perfect passive has active force)
+      Perfdef    --  PERFect DEFinite verb
+      --  having only perfect stem, but with present force
+      );
 
    package Verb_Kind_Type_IO is
       new Ada.Text_IO.Enumeration_IO (Verb_Kind_Type);
 
-   type noun_record is
+   ---------------------------------------------------------------------------
+
+   type Noun_Record is
       record
-         decl        : Decn_Record;
-         cs          : Case_Type := X;
-         number      : Number_Type := X;
-         gender      : Gender_Type := X;
+         Decl        : Decn_Record;
+         Of_Case     : Case_Type    := X;
+         Number      : Number_Type  := X;
+         Gender      : Gender_Type  := X;
       end record;
 
-   package noun_record_io is
+   -- FIXME: These subprograms don't check if Is_Open (File)
+   package Noun_Record_IO is
+      -- FIXME: This probably should be constant.
       Default_Width : Natural;
-      procedure Get (f : in File_Type; n : out noun_record);
-      procedure Get (n : out noun_record);
-      procedure Put (f : in File_Type; n : in noun_record);
-      procedure Put (n : in noun_record);
-      procedure Get (s : in String; n : out noun_record; last : out Integer);
-      procedure Put (s : out String; n : in noun_record);
-   end noun_record_io;
+      procedure Get (File : in  File_Type; Item : out Noun_Record);
+      procedure Get (Item : out Noun_Record);
+      procedure Put (File : in  File_Type; Item : in  Noun_Record);
+      procedure Put (Item : in  Noun_Record);
+      -- TODO: Document meaning of Last
+      procedure Get
+         (Source : in  String;
+          Target : out Noun_Record;
+          Last   : out Integer
+         );
+      procedure Put (Target : out String; Item : in Noun_Record);
+   end Noun_Record_IO;
+
+   ---------------------------------------------------------------------------
 
    type pronoun_record is
       record
@@ -416,7 +438,7 @@ package Latin_Utils.Inflections_Package is
    type verb_record is
       record
          con         : Decn_Record;
-         tense_voice_mood  : tense_voice_mood_record;
+         tense_voice_mood  : Tense_Voice_Mood_Record;
          person      : Person_Type := 0;
          number      : Number_Type := X;
       end record;
@@ -437,7 +459,7 @@ package Latin_Utils.Inflections_Package is
          cs          : Case_Type := X;
          number      : Number_Type := X;
          gender      : Gender_Type := X;
-         tense_voice_mood  : tense_voice_mood_record;
+         tense_voice_mood  : Tense_Voice_Mood_Record;
       end record;
 
    package vpar_record_io is
@@ -576,7 +598,7 @@ package Latin_Utils.Inflections_Package is
       record
          case pofs is
             when N =>
-               N : noun_record;
+               N : Noun_Record;
             when Pron =>
                Pron : pronoun_record;
             when Pack =>
@@ -754,7 +776,7 @@ package Latin_Utils.Inflections_Package is
    overriding function "<=" (left, right : Number_Type) return Boolean;
    overriding function "<=" (left, right : Person_Type) return Boolean;
    overriding function "<=" (left, right : Comparison_Type) return Boolean;
-   function "<=" (left, right : tense_voice_mood_record)  return Boolean;
+   function "<=" (left, right : Tense_Voice_Mood_Record)  return Boolean;
    overriding function "<=" (left, right : Noun_Kind_Type)   return Boolean;
    overriding function "<=" (left, right : Pronoun_Kind_Type)   return Boolean;
    overriding function "<=" (left, right : Stem_Key_Type)   return Boolean;

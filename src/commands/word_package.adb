@@ -936,8 +936,8 @@ package body word_package is
                     (pdl_part.pofs  = eff_part (sl (i).IR.qual.pofs))
                   then
                      if pdl_part.pofs = N                            and then
-                       pdl_part.N.Decl <= sl (i).IR.qual.N.decl      and then
-                       pdl_part.N.Gender <= sl (i).IR.qual.N.gender
+                       pdl_part.N.Decl <= sl (i).IR.qual.N.Decl      and then
+                       pdl_part.N.Gender <= sl (i).IR.qual.N.Gender
                      then
                         --  Need to transfer the gender of the noun
                         --  dictionary item
@@ -949,8 +949,8 @@ package body word_package is
                           pofs => N,
                           N => (
                           pdl_part.N.Decl,
-                          sl (i).IR.qual.N.cs,
-                          sl (i).IR.qual.N.number,
+                          sl (i).IR.qual.N.Of_Case,
+                          sl (i).IR.qual.N.Number,
                           pdl_part.N.Gender)),
                           key => sl (i).IR.key,
                           ending => sl (i).IR.ending,
@@ -1532,7 +1532,8 @@ package body word_package is
                           Trim (packons (k).tack)
                         then
                            if pdl (j).ds.part.Pack.Decl =
-                             sl (m).IR.qual.Pron.decl then  --  or
+                             sl (m).IR.qual.Pron.decl
+                           then  --  or
                               if packon_first_hit then
                                  pa_last := pa_last + 1;
                                  pa (pa_last) := (packons (k).tack,
@@ -1722,7 +1723,7 @@ package body word_package is
                               --  check PART
                               case tackons (i).entr.base.pofs is
                                  when N       =>
-                                    if pa (j).IR.qual.N.decl <=
+                                    if pa (j).IR.qual.N.Decl <=
                                       tackons (i).entr.base.n.Decl
                                     then
                                        --  Ignore GEN and KIND
@@ -1838,17 +1839,20 @@ package body word_package is
                         qkey := 1;
                         process_qu_pronouns (q_word, qkey);
                      elsif q_word
-                       (q_word'First .. q_word'First + 1) = "cu"  then
+                       (q_word'First .. q_word'First + 1) = "cu"
+                     then
                         qkey := 2;
                         process_qu_pronouns (q_word, qkey);
                      end if;
                      if pa_last <= pa_qstart + 1 and then qkey > 0 then
                         --  If did not find a PACKON
                         if q_word
-                          (q_word'First .. q_word'First + 1) = "qu"  then
+                          (q_word'First .. q_word'First + 1) = "qu"
+                        then
                            process_packons (q_word);
                         elsif q_word
-                          (q_word'First .. q_word'First + 1) = "cu"  then
+                          (q_word'First .. q_word'First + 1) = "cu"
+                        then
                            process_packons (q_word);
                         end if;
                      else
@@ -1860,10 +1864,12 @@ package body word_package is
 
                   elsif Input_word'Length >= 6  then   --  aliqui as aliQU_PRON
                      if Input_word
-                       (Input_word'First .. Input_word'First + 4) = "aliqu" then
+                       (Input_word'First .. Input_word'First + 4) = "aliqu"
+                     then
                         process_qu_pronouns (Input_word, 1);
                      elsif Input_word
-                       (Input_word'First .. Input_word'First + 4) = "alicu" then
+                       (Input_word'First .. Input_word'First + 4) = "alicu"
+                     then
                         process_qu_pronouns (Input_word, 2);
                      end if;
                   end if;

@@ -57,12 +57,12 @@ procedure list_sweep (pa : in out Parse_Array; pa_last : in out Integer) is
       case  pr.IR.qual.pofs is
          when N  =>
             if  words_mdev (for_word_list_check)  then
-               if (Nom <= pr.IR.qual.N.cs) and then
-                 (S <= pr.IR.qual.N.number)
+               if (Nom <= pr.IR.qual.N.Of_Case) and then
+                 (S <= pr.IR.qual.N.Number)
                then
                   allowed := True;
-               elsif (Nom <= pr.IR.qual.N.cs) and then
-                 (pr.IR.qual.N.number = P)
+               elsif (Nom <= pr.IR.qual.N.Of_Case) and then
+                 (pr.IR.qual.N.Number = P)
                then
 
                   search_for_pl :
@@ -126,12 +126,12 @@ procedure list_sweep (pa : in out Parse_Array; pa_last : in out Integer) is
             end;
 
             --  Check for Verb Imperative being in permitted person
-            if pr.IR.qual.V.tense_voice_mood.mood = Imp then
-               if (pr.IR.qual.V.tense_voice_mood.tense = Pres) and
+            if pr.IR.qual.V.tense_voice_mood.Mood = Imp then
+               if (pr.IR.qual.V.tense_voice_mood.Tense = Pres) and
                  (pr.IR.qual.V.person = 2)
                then
                   null;
-               elsif (pr.IR.qual.V.tense_voice_mood.tense = Fut) and
+               elsif (pr.IR.qual.V.tense_voice_mood.Tense = Fut) and
                  (pr.IR.qual.V.person = 2 or pr.IR.qual.V.person = 3)
                then
                   null;
@@ -141,7 +141,7 @@ procedure list_sweep (pa : in out Parse_Array; pa_last : in out Integer) is
             end if;
 
             --  Check for V IMPERS and demand that only 3rd person
-            if de.Part.V.Kind = impers then
+            if de.Part.V.Kind = Impers then
                if pr.IR.qual.V.person = 3 then
                   null;
                else
@@ -150,16 +150,16 @@ procedure list_sweep (pa : in out Parse_Array; pa_last : in out Integer) is
             end if;
 
             --  Check for V DEP    and demand PASSIVE
-            if de.Part.V.Kind = dep then
+            if de.Part.V.Kind = Dep then
                --TEXT_IO.PUT ("DEP  ");
-               if (pr.IR.qual.V.tense_voice_mood.voice = Active)  and
-                 (pr.IR.qual.V.tense_voice_mood.mood = Inf)  and
-                 (pr.IR.qual.V.tense_voice_mood.tense = Fut)
+               if (pr.IR.qual.V.tense_voice_mood.Voice = Active)  and
+                 (pr.IR.qual.V.tense_voice_mood.Mood = Inf)  and
+                 (pr.IR.qual.V.tense_voice_mood.Tense = Fut)
                then
                   --TEXT_IO.PUT ("PASSIVE  ");
                   allowed := True;
-               elsif (pr.IR.qual.V.tense_voice_mood.voice = Active)  and
-                 (pr.IR.qual.V.tense_voice_mood.mood in Ind .. Inf)
+               elsif (pr.IR.qual.V.tense_voice_mood.Voice = Active)  and
+                 (pr.IR.qual.V.tense_voice_mood.Mood in Ind .. Inf)
                then
                   --TEXT_IO.PUT ("ACTIVE  ");
                   allowed := False;
@@ -170,15 +170,15 @@ procedure list_sweep (pa : in out Parse_Array; pa_last : in out Integer) is
             end if;
 
             --  Check for V SEMIDEP    and demand PASSIVE ex Perf
-            if de.Part.V.Kind = semidep then
-               if (pr.IR.qual.V.tense_voice_mood.voice = Passive)  and
-                 (pr.IR.qual.V.tense_voice_mood.tense in Pres .. Fut)  and
-                 (pr.IR.qual.V.tense_voice_mood.mood in Ind .. Imp)
+            if de.Part.V.Kind = Semidep then
+               if (pr.IR.qual.V.tense_voice_mood.Voice = Passive)  and
+                 (pr.IR.qual.V.tense_voice_mood.Tense in Pres .. Fut)  and
+                 (pr.IR.qual.V.tense_voice_mood.Mood in Ind .. Imp)
                then
                   allowed := False;
-               elsif (pr.IR.qual.V.tense_voice_mood.voice = Active)  and
-                 (pr.IR.qual.V.tense_voice_mood.tense in Perf .. Futp)  and
-                 (pr.IR.qual.V.tense_voice_mood.mood in Ind .. Imp)
+               elsif (pr.IR.qual.V.tense_voice_mood.Voice = Active)  and
+                 (pr.IR.qual.V.tense_voice_mood.Tense in Perf .. Futp)  and
+                 (pr.IR.qual.V.tense_voice_mood.Mood in Ind .. Imp)
                then
                   allowed := False;
                else
@@ -190,24 +190,24 @@ procedure list_sweep (pa : in out Parse_Array; pa_last : in out Integer) is
                if (pr.IR.qual.V.person = 1) and then
                  (pr.IR.qual.V.number = S)
                then
-                  if ((de.Part.V.Kind in x .. intrans)  and
+                  if ((de.Part.V.Kind in X .. Intrans)  and
                     (pr.IR.qual.V.tense_voice_mood =
                     (Pres, Active, Ind))) or else
-                    ((de.Part.V.Kind = dep)  and
+                    ((de.Part.V.Kind = Dep)  and
                     (pr.IR.qual.V.tense_voice_mood =
                     (Pres, Passive, Ind))) or else
-                    ((de.Part.V.Kind = semidep)  and
+                    ((de.Part.V.Kind = Semidep)  and
                     (pr.IR.qual.V.tense_voice_mood = (Pres, Active, Ind)))
                   then
                      allowed := True;
-                  elsif (de.Part.V.Kind = perfdef)  and
-                    (pr.IR.qual.V.tense_voice_mood = (Perf, Active, Ind))
+                  elsif (de.Part.V.Kind = Perfdef)  and
+                     (pr.IR.qual.V.tense_voice_mood = (Perf, Active, Ind))
                   then
                      allowed := True;
                   else
                      allowed := False;
                   end if;
-               elsif de.Part.V.Kind = impers then
+               elsif de.Part.V.Kind = Impers then
                   if (pr.IR.qual.V.person = 3)  and then
                     (pr.IR.qual.V.number = S)  and then
                     (pr.IR.qual.V.tense_voice_mood = (Pres, Active, Ind))
@@ -408,7 +408,7 @@ procedure list_sweep (pa : in out Parse_Array; pa_last : in out Integer) is
                end if;
 
                if sl (i).IR.qual.pofs = N  and then
-                 sl (i).IR.qual.N.decl = (9, 8)
+                 sl (i).IR.qual.N.Decl = (9, 8)
                then
                   has_noun_abbreviation := True;
                end if;

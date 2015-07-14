@@ -166,21 +166,21 @@ package Latin_Utils.Dictionary_Package is
       record
          case pofs is
             when N =>
-               n_kind : Noun_Kind_Type := x;
+               n_kind : Noun_Kind_Type := X;
             when Pron =>
-               pron_kind : Pronoun_Kind_Type := x;
+               pron_kind : Pronoun_Kind_Type := X;
             when Pack =>
-               pack_kind : Pronoun_Kind_Type := x;
+               pack_kind : Pronoun_Kind_Type := X;
             when Adj | Adv | X =>
                null;
             when Num =>
                num_value : Numeral_Value_Type := 0;
             when V =>
-               v_kind : Verb_Kind_Type := x;
+               v_kind : Verb_Kind_Type := X;
             when Vpar =>
-               vpar_kind : Verb_Kind_Type := x;
+               vpar_kind : Verb_Kind_Type := X;
             when Supine =>
-               supine_kind : Verb_Kind_Type := x;
+               supine_kind : Verb_Kind_Type := X;
             when Prep .. Suffix =>
                null;
          end case;
@@ -260,7 +260,7 @@ package Latin_Utils.Dictionary_Package is
          -- NOTE: Seems like Decl is breaking of abbrev used
          Decl   : Decn_Record := (0, 0);
          Gender : Gender_Type := X;
-         Kind   : Noun_Kind_Type := x;
+         Kind   : Noun_Kind_Type := X;
       end record;
 
    -- FIXME: These subprograms don't check if Is_Open (File)
@@ -285,7 +285,7 @@ package Latin_Utils.Dictionary_Package is
       record
          -- NOTE: Seems like Decl is breaking of abbrev used
          Decl  : Decn_Record := (0, 0);
-         Kind  : Pronoun_Kind_Type := x;
+         Kind  : Pronoun_Kind_Type := X;
       end record;
 
    -- FIXME: These subprograms don't check if Is_Open (File)
@@ -310,7 +310,7 @@ package Latin_Utils.Dictionary_Package is
       record
          -- NOTE: Seems like Decl is breaking of abbrev used
          Decl  : Decn_Record := (0, 0);
-         Kind  : Pronoun_Kind_Type := x;
+         Kind  : Pronoun_Kind_Type := X;
       end record;
 
    -- FIXME: These subprograms don't check if Is_Open (File)
@@ -416,7 +416,7 @@ package Latin_Utils.Dictionary_Package is
          -- NOTE: Other records use Decl as field name for Decn_Record,
          --    should this one be changed into Decl for consistency?
          Con  : Decn_Record := (0, 0);
-         Kind : Verb_Kind_Type := x;
+         Kind : Verb_Kind_Type := X;
       end record;
 
    -- FIXME: These subprograms don't check if Is_Open (File)

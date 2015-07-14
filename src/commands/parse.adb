@@ -75,7 +75,7 @@ is
       record
          ppl_on : Boolean;
          ppl_info : vpar_record;
-         compound_tvm : Inflections_Package.tense_voice_mood_record;
+         compound_tvm : Inflections_Package.Tense_Voice_Mood_Record;
          ppp_meaning : Meaning_Type;
       end record;
 
@@ -119,7 +119,7 @@ is
 
    type participle_gloss is
       record
-         key : Inflections_Package.tense_voice_mood_record;
+         key : Inflections_Package.Tense_Voice_Mood_Record;
          gloss : String (1 .. 78);
       end record;
 
@@ -183,7 +183,7 @@ is
      (parsed_verb          : vpar_record;
       sum_info             : verb_record;
       default_ppl_on       : Boolean;
-      default_compound_tvm : tense_voice_mood_record;
+      default_compound_tvm : Tense_Voice_Mood_Record;
       default_ppp_meaning  : Meaning_Type;
       default_ppl_info     : vpar_record)
      return participle
@@ -208,9 +208,9 @@ is
 
             if parsed_verb.tense_voice_mood = (Perf, Passive, Ppl) then
                compound_tense := Get_compound_tense (
-                 sum_info.tense_voice_mood.tense);
+                 sum_info.tense_voice_mood.Tense);
             else
-               compound_tense := sum_info.tense_voice_mood.tense;
+               compound_tense := sum_info.tense_voice_mood.Tense;
             end if;
 
             return (
@@ -219,7 +219,7 @@ is
               ppp_meaning => Head (participle_glosses (i).gloss,
               Max_Meaning_Size),
               compound_tvm => (compound_tense, Passive,
-              sum_info.tense_voice_mood.mood)
+              sum_info.tense_voice_mood.Mood)
                    );
          end if;
       end loop;
@@ -236,7 +236,7 @@ is
    function Get_pas_participle (parsed_verb : vpar_record;
                                 Trimmed_next_word : String;
                                 default_ppl_on : Boolean;
-                                default_compound_tvm : tense_voice_mood_record;
+                                default_compound_tvm : Tense_Voice_Mood_Record;
                                 default_ppp_meaning : Meaning_Type;
                                 default_ppl_info : vpar_record)
                                return participle
@@ -263,7 +263,7 @@ is
          end case;
       end Get_compound_tense;
 
-      voice : constant Voice_Type := parsed_verb.tense_voice_mood.voice;
+      voice : constant Voice_Type := parsed_verb.tense_voice_mood.Voice;
       uses_esse : constant Boolean := is_esse (Trimmed_next_word);
       compound_tense : Tense_Type;
 
@@ -278,10 +278,9 @@ is
             declare
                ppp_meaning_s : String (1 .. 78);
             begin
-
                compound_tense := Get_compound_tense (
-                 parsed_verb.tense_voice_mood.tense,
-                 parsed_verb.tense_voice_mood.voice,
+                 parsed_verb.tense_voice_mood.Tense,
+                 parsed_verb.tense_voice_mood.Voice,
                  uses_esse);
 
                if uses_esse then
@@ -376,7 +375,7 @@ is
 
    -- parts of these three do_clear_* functions should be factored together
    procedure do_clear_pas_nom_ppl (sum_info : in verb_record;
-                                   compound_tvm : out tense_voice_mood_record;
+                                   compound_tvm : out Tense_Voice_Mood_Record;
                                    ppl_on : in out Boolean;
                                    ppl_info : out vpar_record)
    is
@@ -414,7 +413,7 @@ is
 
    -- parts of these three do_clear_* functions should be factored together
    procedure do_clear_pas_ppl (next_word : in String;
-                               compound_tvm : out tense_voice_mood_record;
+                               compound_tvm : out Tense_Voice_Mood_Record;
                                ppl_on : in out Boolean;
                                ppl_info : out vpar_record)
    is
@@ -760,7 +759,7 @@ is
                nw : String (1 .. 2500) := (others => ' ');
                nk : Integer := 0;
 
-               compound_tvm   : Inflections_Package.tense_voice_mood_record;
+               compound_tvm   : Inflections_Package.Tense_Voice_Mood_Record;
                ppl_on : Boolean := False;
 
                sum_info : verb_record := ((5, 1), (X, Active, X), 0, X);

@@ -334,15 +334,15 @@ package body list_package is
                   if dm.d_k in general .. local then  --  UNIQUES has no DE
 
                      if (sr.ir.qual.pofs = V)    and then
-                       (dm.de.Part.V.Kind = dep)       and then
-                       (sr.ir.qual.V.tense_voice_mood.mood in Ind .. Inf)
+                       (dm.de.Part.V.Kind = Dep)       and then
+                       (sr.ir.qual.V.tense_voice_mood.Mood in Ind .. Inf)
                      then
                         --TEXT_IO.PUT_LINE ("START PRINT MODIFIED QUAL   V");
                         out_String (passive_start + 1 .. passive_finish) :=
                           passive_blank;
                      elsif (sr.ir.qual.pofs = Vpar)    and then
-                       (dm.de.Part.V.Kind = dep)    and then
-                       (sr.ir.qual.Vpar.tense_voice_mood.mood = Ppl)
+                       (dm.de.Part.V.Kind = Dep)    and then
+                       (sr.ir.qual.Vpar.tense_voice_mood.Mood = Ppl)
                      then
                         --TEXT_IO.PUT_LINE ("START PRINT MODIFIED QUAL   VPAR");
                         out_String (ppl_start + 1 .. ppl_finish) :=
@@ -532,7 +532,8 @@ package body list_package is
       --  e.g., it must clean out dangling prefixes and suffixes
 
       if Ada.Text_IO.Name (Output) =
-        Ada.Text_IO.Name (Ada.Text_IO.Standard_Output)  then
+        Ada.Text_IO.Name (Ada.Text_IO.Standard_Output)
+      then
          --  to keep from overflowing screen line or even adding blank line
          mm := max_meaning_print_size;
       else
