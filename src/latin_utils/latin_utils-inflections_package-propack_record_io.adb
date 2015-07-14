@@ -83,6 +83,7 @@ package body Propack_Record_IO is
       Last   : out Integer
      )
    is
+      -- Used for computing lower bound of substrings
       Low : Integer := Source'First - 1;
    begin
       Decn_Record_IO.Get (Source (Low + 1 .. Source'Last), Target.Decl, Low);
@@ -98,23 +99,33 @@ package body Propack_Record_IO is
 
    procedure Put (Target : out String; Item : in Propack_Record)
    is
+      -- Used for computing bounds of substrings
       Low  : Integer := Target'First - 1;
       High : Integer := 0;
    begin
+      -- Put Decn_Record
       High := Low + Decn_Record_IO.Default_Width;
       Decn_Record_IO.Put (Target (Low + 1 .. High), Item.Decl);
+
+      -- Put Case_Type
       Low := High + 1;
       Target (Low) :=  ' ';
       High := Low + Case_Type_IO.Default_Width;
       Case_Type_IO.Put (Target (Low + 1 .. High), Item.Of_Case);
+
+      -- Put Number_Type
       Low := High + 1;
       Target (Low) :=  ' ';
       High := Low + Number_Type_IO.Default_Width;
       Number_Type_IO.Put (Target (Low + 1 .. High), Item.Number);
+
+      -- Put Gender_Type
       Low := High + 1;
       Target (Low) :=  ' ';
       High := Low + Gender_Type_IO.Default_Width;
       Gender_Type_IO.Put (Target (Low + 1 .. High), Item.Gender);
+
+      -- Fill remainder of String
       Target (High + 1 .. Target'Last) := (others => ' ');
    end Put;
 
