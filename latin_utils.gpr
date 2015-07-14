@@ -31,6 +31,7 @@ project Latin_Utils is
         "latin_utils-general.adb",
         "latin_utils-inflections_package.ads",
         "latin_utils-inflections_package.adb",
+        "latin_utils-inflections_package-adjective_record_io.adb",
         "latin_utils-inflections_package-decn_record_io.adb",
         "latin_utils-inflections_package-noun_record_io.adb",
         "latin_utils-inflections_package-pronoun_record_io.adb",

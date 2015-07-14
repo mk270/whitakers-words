@@ -984,9 +984,9 @@ package body word_package is
                           MNPC => MNPC_part);
 
                      elsif (pdl_part.pofs = Adj) and then
-                       (pdl_part.Adj.Decl <= sl (i).IR.qual.Adj.decl) and then
-                       ((sl (i).IR.qual.Adj.co   <= pdl_part.Adj.Co) or
-                       ((sl (i).IR.qual.Adj.co = X) or
+                       (pdl_part.Adj.Decl <= sl (i).IR.qual.Adj.Decl) and then
+                       ((sl (i).IR.qual.Adj.Comparison <= pdl_part.Adj.Co) or
+                       ((sl (i).IR.qual.Adj.Comparison = X) or
                        (pdl_part.Adj.Co = X)))
                      then
                         --  Note the reversal on comparisom
@@ -1008,9 +1008,9 @@ package body word_package is
                           pofs => Adj,
                           Adj => (
                           pdl_part.Adj.Decl,
-                          sl (i).IR.qual.Adj.cs,
-                          sl (i).IR.qual.Adj.number,
-                          sl (i).IR.qual.Adj.gender,
+                          sl (i).IR.qual.Adj.Of_Case,
+                          sl (i).IR.qual.Adj.Number,
+                          sl (i).IR.qual.Adj.Gender,
                           com)),
                           key => sl (i).IR.key,
                           ending => sl (i).IR.ending,

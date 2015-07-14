@@ -396,26 +396,33 @@ package Latin_Utils.Inflections_Package is
 
    ---------------------------------------------------------------------------
 
-   type adjective_record is
+   type Adjective_Record is
       record
-         decl        : Decn_Record;
-         cs          : Case_Type := X;
-         number      : Number_Type := X;
-         gender      : Gender_Type := X;
-         co          : Comparison_Type := X;
+         Decl        : Decn_Record;
+         Of_Case     : Case_Type := X;
+         Number      : Number_Type := X;
+         Gender      : Gender_Type := X;
+         Comparison  : Comparison_Type := X;
       end record;
 
-   package adjective_record_io is
+   -- FIXME: These subprograms don't check if Is_Open (File)
+   package Adjective_Record_IO is
+      -- FIXME: This probably should be constant.
       Default_Width : Natural;
-      procedure Get (f : in File_Type; a : out adjective_record);
-      procedure Get (a : out adjective_record);
-      procedure Put (f : in File_Type; a : in adjective_record);
-      procedure Put (a : in adjective_record);
-      procedure Get (s : in String;
-                     a : out adjective_record;
-                     last : out Integer);
-      procedure Put (s : out String; a : in adjective_record);
-   end adjective_record_io;
+      procedure Get (File : in File_Type; Item : out Adjective_Record);
+      procedure Get (Item : out Adjective_Record);
+      procedure Put (File : in File_Type; Item : in Adjective_Record);
+      procedure Put (Item : in Adjective_Record);
+      -- TODO: Document meaning of Last
+      procedure Get
+         (Source : in  String;
+          Target : out Adjective_Record;
+          Last   : out Integer
+         );
+      procedure Put (Target : out String; Item : in Adjective_Record);
+   end Adjective_Record_IO;
+
+   ---------------------------------------------------------------------------
 
    type numeral_record is
       record
@@ -622,7 +629,7 @@ package Latin_Utils.Inflections_Package is
             when Pack =>
                Pack : Propack_Record;
             when Adj =>
-               Adj : adjective_record;
+               Adj : Adjective_Record;
             when Num =>
                Num : numeral_record;
             when Adv =>

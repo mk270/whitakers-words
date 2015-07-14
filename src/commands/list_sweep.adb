@@ -87,9 +87,9 @@ procedure list_sweep (pa : in out Parse_Array; pa_last : in out Integer) is
 
          when  Adj  =>
             if  words_mdev (for_word_list_check)  then
-               if (Nom <= pr.IR.qual.Adj.cs) and then
-                 (S <= pr.IR.qual.Adj.number) and then
-                 (M <= pr.IR.qual.Adj.gender)
+               if (Nom <= pr.IR.qual.Adj.Of_Case) and then
+                 (S <= pr.IR.qual.Adj.Number) and then
+                 (M <= pr.IR.qual.Adj.Gender)
                then
                   allowed := True;
                else

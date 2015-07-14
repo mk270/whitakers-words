@@ -793,10 +793,10 @@ package body tricks_package is
                i := pa_last;
                while i > pa_save + 1  loop
                   if pa (i).IR.qual.pofs = Adj  and then
-                    pa (i).IR.qual.Adj.decl = (1, 1)  and then
-                    ((pa (i).IR.qual.Adj.cs = Dat) or
-                    (pa (i).IR.qual.Adj.cs = Abl))   and then
-                    pa (i).IR.qual.Adj.number = P
+                    pa (i).IR.qual.Adj.Decl = (1, 1)  and then
+                    ((pa (i).IR.qual.Adj.Of_Case = Dat) or
+                    (pa (i).IR.qual.Adj.Of_Case = Abl))   and then
+                    pa (i).IR.qual.Adj.Number = P
                   then
                      null;       --  Only for ADJ 1 1 DAT/ABL P
                   else

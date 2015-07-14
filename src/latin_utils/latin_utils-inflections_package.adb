@@ -96,27 +96,27 @@ package body Latin_Utils.Inflections_Package is
                   return True;
                end if;
             when Adj =>
-               if left.Adj.decl.Which < right.Adj.decl.Which  or else
-                 (left.Adj.decl.Which = right.Adj.decl.Which  and then
-                 left.Adj.decl.Var < right.Adj.decl.Var)  or else
-                 (left.Adj.decl.Which = right.Adj.decl.Which  and then
-                 left.Adj.decl.Var = right.Adj.decl.Var  and then
-                 left.Adj.number < right.Adj.number) or else
-                 (left.Adj.decl.Which = right.Adj.decl.Which  and then
-                 left.Adj.decl.Var = right.Adj.decl.Var  and then
-                 left.Adj.number = right.Adj.number and then
-                 left.Adj.cs < right.Adj.cs) or else
-                 (left.Adj.decl.Which = right.Adj.decl.Which  and then
-                 left.Adj.decl.Var = right.Adj.decl.Var  and then
-                 left.Adj.number = right.Adj.number and then
-                 left.Adj.cs = right.Adj.cs and then
-                 left.Adj.gender < right.Adj.gender)  or else
-                 (left.Adj.decl.Which = right.Adj.decl.Which  and then
-                 left.Adj.decl.Var = right.Adj.decl.Var  and then
-                 left.Adj.number = right.Adj.number and then
-                 left.Adj.cs = right.Adj.cs and then
-                 left.Adj.gender = right.Adj.gender  and then
-                 left.Adj.co < right.Adj.co)
+               if left.Adj.Decl.Which < right.Adj.Decl.Which  or else
+                 (left.Adj.Decl.Which = right.Adj.Decl.Which  and then
+                 left.Adj.Decl.Var < right.Adj.Decl.Var)  or else
+                 (left.Adj.Decl.Which = right.Adj.Decl.Which  and then
+                 left.Adj.Decl.Var = right.Adj.Decl.Var  and then
+                 left.Adj.Number < right.Adj.Number) or else
+                 (left.Adj.Decl.Which = right.Adj.Decl.Which  and then
+                 left.Adj.Decl.Var = right.Adj.Decl.Var  and then
+                 left.Adj.Number = right.Adj.Number and then
+                 left.Adj.Of_Case < right.Adj.Of_Case) or else
+                 (left.Adj.Decl.Which = right.Adj.Decl.Which  and then
+                 left.Adj.Decl.Var = right.Adj.Decl.Var  and then
+                 left.Adj.Number = right.Adj.Number and then
+                 left.Adj.Of_Case = right.Adj.Of_Case and then
+                 left.Adj.Gender < right.Adj.Gender)  or else
+                 (left.Adj.Decl.Which = right.Adj.Decl.Which  and then
+                 left.Adj.Decl.Var = right.Adj.Decl.Var  and then
+                 left.Adj.Number = right.Adj.Number and then
+                 left.Adj.Of_Case = right.Adj.Of_Case and then
+                 left.Adj.Gender = right.Adj.Gender  and then
+                 left.Adj.Comparison < right.Adj.Comparison)
                then
                   return True;
                end if;
@@ -399,110 +399,7 @@ package body Latin_Utils.Inflections_Package is
 
    package body Propack_Record_IO is separate;
 
-   package body adjective_record_io is
-      use Decn_Record_IO;
-      use Gender_Type_IO;
-      use Case_Type_IO;
-      use Number_Type_IO;
-      use Comparison_Type_IO;
-      spacer : Character := ' ';
-
-      procedure Get (f : in File_Type; a : out adjective_record) is
-      begin
-         Get (f, a.decl);
-         Get (f, spacer);
-         Get (f, a.cs);
-         Get (f, spacer);
-         Get (f, a.number);
-         Get (f, spacer);
-         Get (f, a.gender);
-         Get (f, spacer);
-         Get (f, a.co);
-      end Get;
-
-      procedure Get (a : out adjective_record) is
-      begin
-         Get (a.decl);
-         Get (spacer);
-         Get (a.cs);
-         Get (spacer);
-         Get (a.number);
-         Get (spacer);
-         Get (a.gender);
-         Get (spacer);
-         Get (a.co);
-      end Get;
-
-      procedure Put (f : in File_Type; a : in adjective_record) is
-      begin
-         Put (f, a.decl);
-         Put (f, ' ');
-         Put (f, a.cs);
-         Put (f, ' ');
-         Put (f, a.number);
-         Put (f, ' ');
-         Put (f, a.gender);
-         Put (f, ' ');
-         Put (f, a.co);
-      end Put;
-
-      procedure Put (a : in adjective_record) is
-      begin
-         Put (a.decl);
-         Put (' ');
-         Put (a.cs);
-         Put (' ');
-         Put (a.number);
-         Put (' ');
-         Put (a.gender);
-         Put (' ');
-         Put (a.co);
-      end Put;
-
-      procedure Get
-        (s : in String;
-         a : out adjective_record;
-         last : out Integer)
-      is
-         l : Integer := s'First - 1;
-      begin
-         Get (s (l + 1 .. s'Last), a.decl, l);
-         l := l + 1;
-         Get (s (l + 1 .. s'Last), a.cs, l);
-         l := l + 1;
-         Get (s (l + 1 .. s'Last), a.number, l);
-         l := l + 1;
-         Get (s (l + 1 .. s'Last), a.gender, l);
-         l := l + 1;
-         Get (s (l + 1 .. s'Last), a.co, last);
-      end Get;
-
-      procedure Put (s : out String; a : in adjective_record) is
-         l : Integer := s'First - 1;
-         m : Integer := 0;
-      begin
-         m := l + Decn_Record_IO.Default_Width;
-         Put (s (l + 1 .. m), a.decl);
-         l := m + 1;
-         s (l) :=  ' ';
-         m := l + Case_Type_IO.Default_Width;
-         Put (s (l + 1 .. m), a.cs);
-         l := m + 1;
-         s (l) :=  ' ';
-         m := l + Number_Type_IO.Default_Width;
-         Put (s (l + 1 .. m), a.number);
-         l := m + 1;
-         s (l) :=  ' ';
-         m := l + Gender_Type_IO.Default_Width;
-         Put (s (l + 1 .. m), a.gender);
-         l := m + 1;
-         s (l) :=  ' ';
-         m := l + Comparison_Type_IO.Default_Width;
-         Put (s (l + 1 .. m), a.co);
-         s (m + 1 .. s'Last) := (others => ' ');
-      end Put;
-
-   end adjective_record_io;
+   package body Adjective_Record_IO is separate;
 
    package body numeral_record_io is
       use Decn_Record_IO;
@@ -1204,7 +1101,7 @@ package body Latin_Utils.Inflections_Package is
       use Noun_Record_IO;
       use Pronoun_Record_IO;
       use Propack_Record_IO;
-      use adjective_record_io;
+      use Adjective_Record_IO;
       use numeral_record_io;
       use adverb_record_io;
       use verb_record_io;
@@ -1221,7 +1118,7 @@ package body Latin_Utils.Inflections_Package is
       noun  : Noun_Record;
       pronoun : Pronoun_Record;
       propack : Propack_Record;
-      adjective : adjective_record;
+      adjective : Adjective_Record;
       adverb : adverb_record;
       verb : verb_record;
       vparticiple : vpar_record;
@@ -1523,7 +1420,7 @@ package body Latin_Utils.Inflections_Package is
                m := l + Propack_Record_IO.Default_Width;
                Put (s (l + 1 .. m), p.Pack);
             when Adj =>
-               m := l + adjective_record_io.Default_Width;
+               m := l + Adjective_Record_IO.Default_Width;
                Put (s (l + 1 .. m), p.Adj);
             when Num =>
                m := l + numeral_record_io.Default_Width;
@@ -2117,7 +2014,7 @@ begin
      Case_Type_IO.Default_Width + 1 +
      Number_Type_IO.Default_Width + 1 +
      Gender_Type_IO.Default_Width;
-   adjective_record_io.Default_Width :=
+   Adjective_Record_IO.Default_Width :=
      Decn_Record_IO.Default_Width + 1 +
      Case_Type_IO.Default_Width + 1 +
      Number_Type_IO.Default_Width + 1 +

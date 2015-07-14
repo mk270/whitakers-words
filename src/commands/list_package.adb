@@ -554,10 +554,10 @@ package body list_package is
          for i in reverse pa'First .. pa_last  loop
             if pa (i).IR.qual.pofs = Adj and then
               (pa (i).IR.qual.Adj = ((1, 1), Voc, S, M, Pos)    or
-              ((pa (i).IR.qual.Adj.cs = Voc)   and
-              (pa (i).IR.qual.Adj.number = S)   and
-              (pa (i).IR.qual.Adj.gender = M)   and
-              (pa (i).IR.qual.Adj.co = Super)))
+              ((pa (i).IR.qual.Adj.Of_Case = Voc)   and
+              (pa (i).IR.qual.Adj.Number = S)   and
+              (pa (i).IR.qual.Adj.Gender = M)   and
+              (pa (i).IR.qual.Adj.Comparison = Super)))
             then
                j := i;
 
@@ -590,10 +590,11 @@ package body list_package is
                  ppp, Null_MNPC);
                --PARSE_RECORD_IO.PUT (PA (PA_LAST)); TEXT_IO.NEW_LINE;
                pa_last := pa_last + 1;
-               if pa (j2 + 1).IR.qual.Adj.co = Pos   then
+               if pa (j2 + 1).IR.qual.Adj.Comparison = Pos   then
 
                   pa (pa_last) := (pa (j2 + 1).Stem,
-                    ((pofs => Adv, adv => (co => pa (j2 + 1).IR.qual.Adj.co)),
+                    ((pofs => Adv,
+                      adv => (co => pa (j2 + 1).IR.qual.Adj.Comparison)),
                     key => 0, ending => (1, "e      "), age => x, freq => b),
                     pa (j2 + 1).D_K,
                     pa (j2 + 1).MNPC);
@@ -602,9 +603,10 @@ package body list_package is
                     Head ("-ly; -ily;  Converting ADJ to ADV",
                     Max_Meaning_Size);
 
-               elsif pa (j2 + 1).IR.qual.Adj.co = Super  then
+               elsif pa (j2 + 1).IR.qual.Adj.Comparison = Super  then
                   pa (pa_last) := (pa (j2 + 1).Stem,
-                    ((pofs => Adv, adv => (co => pa (j2 + 1).IR.qual.Adj.co)),
+                    ((pofs => Adv,
+                      adv => (co => pa (j2 + 1).IR.qual.Adj.Comparison)),
                     key => 0, ending => (2, "me     "), age => x, freq => b),
                     pa (j2 + 1).D_K,
                     pa (j2 + 1).MNPC);
