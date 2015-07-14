@@ -2168,7 +2168,7 @@ package body Latin_Utils.Inflections_Package is
                n := lel (i).ending.size;
 
                ch := lel (i).ending.suf (n);
-
+               --
 
                if ch /= xch  then
                   lell (xn, xch) := i - 1;
