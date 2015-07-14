@@ -960,7 +960,7 @@ package body word_package is
                           MNPC => MNPC_part);
 
                      elsif pdl_part.pofs = Pron and then
-                       pdl_part.Pron.Decl <= sl (i).IR.qual.Pron.decl
+                       pdl_part.Pron.Decl <= sl (i).IR.qual.Pron.Decl
                      then
                         --PUT (" HIT  PRON  ");
                         --  Need to transfer the kind of the pronoun
@@ -973,9 +973,9 @@ package body word_package is
                           pofs => Pron,
                           Pron => (
                           pdl_part.Pron.Decl,
-                          sl (i).IR.qual.Pron.cs,
-                          sl (i).IR.qual.Pron.number,
-                          sl (i).IR.qual.Pron.gender)),
+                          sl (i).IR.qual.Pron.Of_Case,
+                          sl (i).IR.qual.Pron.Number,
+                          sl (i).IR.qual.Pron.Gender)),
                           key => sl (i).IR.key,
                           ending => sl (i).IR.ending,
                           age => sl (i).IR.age,
@@ -1478,7 +1478,7 @@ package body word_package is
                            if (z <= length_of_word)  and then
                              ((equ (lel (i).ending.suf (1 .. z),
                              word (word'Last - z + 1 .. word'Last)))  and
-                             (lel (i).qual.Pron.decl <=
+                             (lel (i).qual.Pron.Decl <=
                              packons (k).entr.base.pack.Decl))
                            then
                               --  Have found an ending that is a possible match
@@ -1532,7 +1532,7 @@ package body word_package is
                           Trim (packons (k).tack)
                         then
                            if pdl (j).ds.part.Pack.Decl =
-                             sl (m).IR.qual.Pron.decl
+                             sl (m).IR.qual.Pron.Decl
                            then  --  or
                               if packon_first_hit then
                                  pa_last := pa_last + 1;
@@ -1550,9 +1550,9 @@ package body word_package is
                                 pofs => Pron,
                                 Pron => (
                                 pdl (j).ds.part.Pack.Decl,
-                                sl (m).IR.qual.Pron.cs,
-                                sl (m).IR.qual.Pron.number,
-                                sl (m).IR.qual.Pron.gender)),
+                                sl (m).IR.qual.Pron.Of_Case,
+                                sl (m).IR.qual.Pron.Number,
+                                sl (m).IR.qual.Pron.Gender)),
                                 key => sl (m).IR.key,
                                 ending => sl (m).IR.ending,
                                 age => sl (m).IR.age,
@@ -1639,7 +1639,7 @@ package body word_package is
             sl_loop :
             while sl (m) /= Null_Parse_Record  loop
                --  Over all inflection hits
-               if pdl (j).ds.part.Pron.Decl = sl (m).IR.qual.Pron.decl then
+               if pdl (j).ds.part.Pron.Decl = sl (m).IR.qual.Pron.Decl then
                   pa_last := pa_last + 1;
                   pa (pa_last) := (Stem => sl (m).Stem,
                     IR => (
@@ -1647,9 +1647,9 @@ package body word_package is
                     pofs => Pron,
                     Pron => (
                     pdl (j).ds.part.Pron.Decl,
-                    sl (m).IR.qual.Pron.cs,
-                    sl (m).IR.qual.Pron.number,
-                    sl (m).IR.qual.Pron.gender)),
+                    sl (m).IR.qual.Pron.Of_Case,
+                    sl (m).IR.qual.Pron.Number,
+                    sl (m).IR.qual.Pron.Gender)),
                     key => sl (m).IR.key,
                     ending => sl (m).IR.ending,
                     age => sl (m).IR.age,
@@ -1732,7 +1732,7 @@ package body word_package is
                                     end if;
                                  when Pron    =>
                                     --  Only one we have other than X
-                                    if pa (j).IR.qual.Pron.decl <=
+                                    if pa (j).IR.qual.Pron.Decl <=
                                       tackons (i).entr.base.pron.Decl
                                     then
                                        tackon_hit := True;

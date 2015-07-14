@@ -342,23 +342,32 @@ package Latin_Utils.Inflections_Package is
 
    ---------------------------------------------------------------------------
 
-   type pronoun_record is
+   type Pronoun_Record is
       record
-         decl        : Decn_Record;
-         cs          : Case_Type := X;
-         number      : Number_Type := X;
-         gender      : Gender_Type := X;
+         Decl        : Decn_Record;
+         Of_Case     : Case_Type := X;
+         Number      : Number_Type := X;
+         Gender      : Gender_Type := X;
       end record;
 
-   package pronoun_record_io is
+   -- FIXME: These subprograms don't check if Is_Open (File)
+   package Pronoun_Record_IO is
+      -- FIXME: This probably should be constant.
       Default_Width : Natural;
-      procedure Get (f : in File_Type; p : out pronoun_record);
-      procedure Get (p : out pronoun_record);
-      procedure Put (f : in File_Type; p : in pronoun_record);
-      procedure Put (p : in pronoun_record);
-      procedure Get (s : in String; p : out pronoun_record; last : out Integer);
-      procedure Put (s : out String; p : in pronoun_record);
-   end pronoun_record_io;
+      procedure Get (File : in  File_Type; Item : out Pronoun_Record);
+      procedure Get (Item : out Pronoun_Record);
+      procedure Put (File : in  File_Type; Item : in  Pronoun_Record);
+      procedure Put (Item : in  Pronoun_Record);
+      -- TODO: Document meaning of Last
+      procedure Get
+         (Source : in  String;
+          Target : out Pronoun_Record;
+          Last   : out Integer
+         );
+      procedure Put (Target : out String; Item : in Pronoun_Record);
+   end Pronoun_Record_IO;
+
+   ---------------------------------------------------------------------------
 
    type propack_record is
       record
@@ -600,7 +609,7 @@ package Latin_Utils.Inflections_Package is
             when N =>
                N : Noun_Record;
             when Pron =>
-               Pron : pronoun_record;
+               Pron : Pronoun_Record;
             when Pack =>
                Pack : propack_record;
             when Adj =>

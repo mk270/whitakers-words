@@ -292,9 +292,9 @@ procedure list_sweep (pa : in out Parse_Array; pa_last : in out Integer) is
             begin
                if left.pofs = right.pofs  and then
                  left.pofs = Pron        and then
-                 left.Pron.decl.Which = 1
+                 left.Pron.Decl.Which = 1
                then
-                  return (left.Pron.decl.Var < right.Pron.decl.Var);
+                  return (left.Pron.Decl.Var < right.Pron.Decl.Var);
                else
                   return Inflections_Package."<"(left, right);
                end if;
@@ -304,9 +304,9 @@ procedure list_sweep (pa : in out Parse_Array; pa_last : in out Integer) is
             begin
                if left.pofs = right.pofs  and then
                  left.pofs = Pron        and then
-                 left.Pron.decl.Which = 1
+                 left.Pron.Decl.Which = 1
                then
-                  return (left.Pron.decl.Var = right.Pron.decl.Var);
+                  return (left.Pron.Decl.Var = right.Pron.Decl.Var);
                else
                   return Inflections_Package."="(left, right);
                end if;
@@ -530,7 +530,7 @@ begin                               --  LIST_SWEEP
             if de.Part.pofs = Pron  and then
               de.Part.Pron.Decl.Which = 1
             then
-               pa (i).IR.qual.Pron.decl.Var :=
+               pa (i).IR.qual.Pron.Decl.Var :=
                  Pronoun_Kind_Type'Pos (de.Part.Pron.Kind);
             end if;
          end if;
@@ -656,9 +656,9 @@ begin                               --  LIST_SWEEP
    for i in 1 .. pa_last  loop
       --  Destroy the artificial VAR for PRON 1 X
       if pa (i).IR.qual.pofs = Pron  and then
-        pa (i).IR.qual.Pron.decl.Which = 1
+        pa (i).IR.qual.Pron.Decl.Which = 1
       then
-         pa (i).IR.qual.Pron.decl.Var := 0;
+         pa (i).IR.qual.Pron.Decl.Var := 0;
       end if;
 
       if pa (i).IR.qual.pofs = V   then

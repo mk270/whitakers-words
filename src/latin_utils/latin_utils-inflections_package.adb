@@ -58,21 +58,21 @@ package body Latin_Utils.Inflections_Package is
                   return True;
                end if;
             when Pron =>
-               if left.Pron.decl.Which < right.Pron.decl.Which  or else
-                 (left.Pron.decl.Which = right.Pron.decl.Which  and then
-                 left.Pron.decl.Var < right.Pron.decl.Var)  or else
-                 (left.Pron.decl.Which = right.Pron.decl.Which  and then
-                 left.Pron.decl.Var = right.Pron.decl.Var  and then
-                 left.Pron.number < right.Pron.number) or else
-                 (left.Pron.decl.Which = right.Pron.decl.Which  and then
-                 left.Pron.decl.Var = right.Pron.decl.Var  and then
-                 left.Pron.number = right.Pron.number and then
-                 left.Pron.cs < right.Pron.cs) or else
-                 (left.Pron.decl.Which = right.Pron.decl.Which  and then
-                 left.Pron.decl.Var = right.Pron.decl.Var  and then
-                 left.Pron.number = right.Pron.number and then
-                 left.Pron.cs = right.Pron.cs and then
-                 left.Pron.gender < right.Pron.gender)
+               if left.Pron.Decl.Which < right.Pron.Decl.Which  or else
+                 (left.Pron.Decl.Which = right.Pron.Decl.Which  and then
+                 left.Pron.Decl.Var < right.Pron.Decl.Var)  or else
+                 (left.Pron.Decl.Which = right.Pron.Decl.Which  and then
+                 left.Pron.Decl.Var = right.Pron.Decl.Var  and then
+                 left.Pron.Number < right.Pron.Number) or else
+                 (left.Pron.Decl.Which = right.Pron.Decl.Which  and then
+                 left.Pron.Decl.Var = right.Pron.Decl.Var  and then
+                 left.Pron.Number = right.Pron.Number and then
+                 left.Pron.Of_Case < right.Pron.Of_Case) or else
+                 (left.Pron.Decl.Which = right.Pron.Decl.Which  and then
+                 left.Pron.Decl.Var = right.Pron.Decl.Var  and then
+                 left.Pron.Number = right.Pron.Number and then
+                 left.Pron.Of_Case = right.Pron.Of_Case and then
+                 left.Pron.Gender < right.Pron.Gender)
                then
                   return True;
                end if;
@@ -395,95 +395,7 @@ package body Latin_Utils.Inflections_Package is
 
    package body Noun_Record_IO is separate;
 
-   package body pronoun_record_io is
-      use Decn_Record_IO;
-      use Case_Type_IO;
-      use Gender_Type_IO;
-      use Number_Type_IO;
-      spacer : Character := ' ';
-
-      procedure Get (f : in File_Type; p : out pronoun_record) is
-      begin
-         Get (f, p.decl);
-         Get (f, spacer);
-         Get (f, p.cs);
-         Get (f, spacer);
-         Get (f, p.number);
-         Get (f, spacer);
-         Get (f, p.gender);
-      end Get;
-
-      procedure Get (p : out pronoun_record) is
-      begin
-         Get (p.decl);
-         Get (spacer);
-         Get (p.cs);
-         Get (spacer);
-         Get (p.number);
-         Get (spacer);
-         Get (p.gender);
-      end Get;
-
-      procedure Put (f : in File_Type; p : in pronoun_record) is
-      begin
-         Put (f, p.decl);
-         Put (f, ' ');
-         Put (f, p.cs);
-         Put (f, ' ');
-         Put (f, p.number);
-         Put (f, ' ');
-         Put (f, p.gender);
-      end Put;
-
-      procedure Put (p : in pronoun_record) is
-      begin
-         Put (p.decl);
-         Put (' ');
-         Put (p.cs);
-         Put (' ');
-         Put (p.number);
-         Put (' ');
-         Put (p.gender);
-      end Put;
-
-      procedure Get
-        (s : in String;
-         p : out pronoun_record;
-         last : out Integer)
-      is
-         l : Integer := s'First - 1;
-      begin
-         Get (s (l + 1 .. s'Last), p.decl, l);
-         l := l + 1;
-         Get (s (l + 1 .. s'Last), p.cs, l);
-         l := l + 1;
-         Get (s (l + 1 .. s'Last), p.number, l);
-         l := l + 1;
-         Get (s (l + 1 .. s'Last), p.gender, last);
-      end Get;
-
-      procedure Put (s : out String; p : in pronoun_record) is
-         l : Integer := s'First - 1;
-         m : Integer := 0;
-      begin
-         m := l + Decn_Record_IO.Default_Width;
-         Put (s (l + 1 .. m), p.decl);
-         l := m + 1;
-         s (l) :=  ' ';
-         m := l + Case_Type_IO.Default_Width;
-         Put (s (l + 1 .. m), p.cs);
-         l := m + 1;
-         s (l) :=  ' ';
-         m := l + Number_Type_IO.Default_Width;
-         Put (s (l + 1 .. m), p.number);
-         l := m + 1;
-         s (l) :=  ' ';
-         m := l + Gender_Type_IO.Default_Width;
-         Put (s (l + 1 .. m), p.gender);
-         s (m + 1 .. s'Last) := (others => ' ');
-      end Put;
-
-   end pronoun_record_io;
+   package body Pronoun_Record_IO is separate;
 
    package body propack_record_io is
       use Decn_Record_IO;
@@ -1378,7 +1290,7 @@ package body Latin_Utils.Inflections_Package is
    package body quality_record_io is
       use Part_Of_Speech_Type_IO;
       use Noun_Record_IO;
-      use pronoun_record_io;
+      use Pronoun_Record_IO;
       use propack_record_io;
       use adjective_record_io;
       use numeral_record_io;
@@ -1395,7 +1307,7 @@ package body Latin_Utils.Inflections_Package is
       spacer : Character := ' ';
 
       noun  : Noun_Record;
-      pronoun : pronoun_record;
+      pronoun : Pronoun_Record;
       propack : propack_record;
       adjective : adjective_record;
       adverb : adverb_record;
@@ -1693,7 +1605,7 @@ package body Latin_Utils.Inflections_Package is
                m := l + Noun_Record_IO.Default_Width;
                Put (s (l + 1 .. m), p.N);
             when Pron =>
-               m := l + pronoun_record_io.Default_Width;
+               m := l + Pronoun_Record_IO.Default_Width;
                Put (s (l + 1 .. m), p.Pron);
             when Pack =>
                m := l + propack_record_io.Default_Width;
@@ -2156,8 +2068,8 @@ package body Latin_Utils.Inflections_Package is
             n4_loop :
             loop
                exit c4_loop when  lel (i).qual.pofs = Pron  and then
-                 (lel (i).qual.Pron.decl.Which = 1  or
-                 lel (i).qual.Pron.decl.Which = 2);
+                 (lel (i).qual.Pron.Decl.Which = 1  or
+                 lel (i).qual.Pron.Decl.Which = 2);
 
                n := lel (i).ending.size;
 
@@ -2283,7 +2195,7 @@ begin
      Case_Type_IO.Default_Width + 1 +
      Number_Type_IO.Default_Width + 1 +
      Gender_Type_IO.Default_Width;
-   pronoun_record_io.Default_Width :=
+   Pronoun_Record_IO.Default_Width :=
      Decn_Record_IO.Default_Width + 1 +
      Case_Type_IO.Default_Width + 1 +
      Number_Type_IO.Default_Width + 1 +
