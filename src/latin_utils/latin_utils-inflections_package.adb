@@ -39,32 +39,21 @@ package body Latin_Utils.Inflections_Package is
       if left.pofs = right.pofs  then
          case left.pofs is
             when N =>
-               if left.N.decl.Which < right.N.decl.Which  or else
-                 (left.N.decl.Which = right.N.decl.Which  and then
-                 left.N.decl.Var < right.N.decl.Var)  or else
-                 (left.N.decl.Which = right.N.decl.Which  and then
-                 left.N.decl.Var = right.N.decl.Var  and then
-                 left.N.number < right.N.number) or else
-                 (left.N.decl.Which = right.N.decl.Which  and then
-<<<<<<< HEAD
-                 left.N.decl.Var = right.N.decl.Var  and then
-                 left.N.number = right.N.number and then
-                 left.N.cs < right.N.cs) or else
-                 (left.N.decl.Which = right.N.decl.Which  and then
-                 left.N.decl.Var = right.N.decl.Var  and then
-                 left.N.number = right.N.number and then
-                 left.N.cs = right.N.cs and then
-                 left.N.gender < right.N.gender)
-=======
-                    left.N.decl.Var = right.N.decl.Var  and then
-                    left.N.number = right.N.number and then
-                    left.N.Of_Case < right.N.Of_Case) or else
-                 (left.N.decl.Which = right.N.decl.Which  and then
-                    left.N.decl.Var = right.N.decl.Var  and then
-                    left.N.number = right.N.number and then
-                    left.N.Of_Case = right.N.Of_Case and then
-                    left.N.gender < right.N.gender)
->>>>>>> Separate Inflections_Package.Noun_Record_IO.
+               if left.N.Decl.Which < right.N.Decl.Which  or else
+                 (left.N.Decl.Which = right.N.Decl.Which  and then
+                 left.N.Decl.Var < right.N.Decl.Var)  or else
+                 (left.N.Decl.Which = right.N.Decl.Which  and then
+                 left.N.Decl.Var = right.N.Decl.Var  and then
+                 left.N.Number < right.N.Number) or else
+                 (left.N.Decl.Which = right.N.Decl.Which  and then
+                 left.N.Decl.Var = right.N.Decl.Var  and then
+                 left.N.Number = right.N.Number and then
+                 left.N.Of_Case < right.N.Of_Case) or else
+                 (left.N.Decl.Which = right.N.Decl.Which  and then
+                 left.N.Decl.Var = right.N.Decl.Var  and then
+                 left.N.Number = right.N.Number and then
+                 left.N.Of_Case = right.N.Of_Case and then
+                 left.N.Gender < right.N.Gender)
                then
                   return True;
                end if;
@@ -1388,7 +1377,7 @@ package body Latin_Utils.Inflections_Package is
 
    package body quality_record_io is
       use Part_Of_Speech_Type_IO;
-      use noun_record_io;
+      use Noun_Record_IO;
       use pronoun_record_io;
       use propack_record_io;
       use adjective_record_io;
@@ -1405,7 +1394,7 @@ package body Latin_Utils.Inflections_Package is
       use suffix_record_io;
       spacer : Character := ' ';
 
-      noun  : noun_record;
+      noun  : Noun_Record;
       pronoun : pronoun_record;
       propack : propack_record;
       adjective : adjective_record;
@@ -1701,7 +1690,7 @@ package body Latin_Utils.Inflections_Package is
          s (l) :=  ' ';
          case p.pofs is
             when N =>
-               m := l + noun_record_io.Default_Width;
+               m := l + Noun_Record_IO.Default_Width;
                Put (s (l + 1 .. m), p.N);
             when Pron =>
                m := l + pronoun_record_io.Default_Width;
@@ -2289,7 +2278,7 @@ begin
      Tense_Type_IO.Default_Width + 1 +
      Voice_Type_IO.Default_Width + 1 +
      Mood_Type_IO.Default_Width;
-   noun_record_io.Default_Width :=
+   Noun_Record_IO.Default_Width :=
      Decn_Record_IO.Default_Width + 1 +
      Case_Type_IO.Default_Width + 1 +
      Number_Type_IO.Default_Width + 1 +

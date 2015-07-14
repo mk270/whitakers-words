@@ -207,7 +207,7 @@ is
          if participle_glosses (i).key = parsed_verb.tense_voice_mood then
 
             if parsed_verb.tense_voice_mood = (Perf, Passive, Ppl) then
-               compound_tense := Get_compound_tense(
+               compound_tense := Get_compound_tense (
                  sum_info.tense_voice_mood.Tense);
             else
                compound_tense := sum_info.tense_voice_mood.Tense;
@@ -278,7 +278,7 @@ is
             declare
                ppp_meaning_s : String (1 .. 78);
             begin
-               compound_tense := Get_compound_tense(
+               compound_tense := Get_compound_tense (
                  parsed_verb.tense_voice_mood.Tense,
                  parsed_verb.tense_voice_mood.Voice,
                  uses_esse);

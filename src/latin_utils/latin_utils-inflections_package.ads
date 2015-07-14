@@ -253,16 +253,16 @@ package Latin_Utils.Inflections_Package is
    ---------------------------------------------------------------------------
 
    type Noun_Kind_Type is
-      (X,--  unknown, nondescript
-      S, --  Singular "only"           --  not really used
-      M, --  plural or Multiple "only" --  not really used
-      A, --  Abstract idea
-      G, --  Group/collective Name -- Roman(s)
-      N, --  proper Name
-      P, --  a Person
-      T, --  a Thing
-      L, --  Locale, name of country/city
-      W  --  a place Where
+      (X, --  unknown, nondescript
+      S,  --  Singular "only"           --  not really used
+      M,  --  plural or Multiple "only" --  not really used
+      A,  --  Abstract idea
+      G,  --  Group/collective Name -- Roman(s)
+      N,  --  proper Name
+      P,  --  a Person
+      T,  --  a Thing
+      L,  --  Locale, name of country/city
+      W   --  a place Where
       );
 
    package Noun_Kind_Type_IO is new Ada.Text_IO.Enumeration_IO (Noun_Kind_Type);
@@ -598,7 +598,7 @@ package Latin_Utils.Inflections_Package is
       record
          case pofs is
             when N =>
-               N : noun_record;
+               N : Noun_Record;
             when Pron =>
                Pron : pronoun_record;
             when Pack =>

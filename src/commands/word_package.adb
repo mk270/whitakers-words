@@ -1532,7 +1532,8 @@ package body word_package is
                           Trim (packons (k).tack)
                         then
                            if pdl (j).ds.part.Pack.Decl =
-                             sl (m).IR.qual.Pron.decl then  --  or
+                             sl (m).IR.qual.Pron.decl
+                           then  --  or
                               if packon_first_hit then
                                  pa_last := pa_last + 1;
                                  pa (pa_last) := (packons (k).tack,
@@ -1838,17 +1839,20 @@ package body word_package is
                         qkey := 1;
                         process_qu_pronouns (q_word, qkey);
                      elsif q_word
-                       (q_word'First .. q_word'First + 1) = "cu"  then
+                       (q_word'First .. q_word'First + 1) = "cu"
+                     then
                         qkey := 2;
                         process_qu_pronouns (q_word, qkey);
                      end if;
                      if pa_last <= pa_qstart + 1 and then qkey > 0 then
                         --  If did not find a PACKON
                         if q_word
-                          (q_word'First .. q_word'First + 1) = "qu"  then
+                          (q_word'First .. q_word'First + 1) = "qu"
+                        then
                            process_packons (q_word);
                         elsif q_word
-                          (q_word'First .. q_word'First + 1) = "cu"  then
+                          (q_word'First .. q_word'First + 1) = "cu"
+                        then
                            process_packons (q_word);
                         end if;
                      else
@@ -1860,10 +1864,12 @@ package body word_package is
 
                   elsif Input_word'Length >= 6  then   --  aliqui as aliQU_PRON
                      if Input_word
-                       (Input_word'First .. Input_word'First + 4) = "aliqu" then
+                       (Input_word'First .. Input_word'First + 4) = "aliqu"
+                     then
                         process_qu_pronouns (Input_word, 1);
                      elsif Input_word
-                       (Input_word'First .. Input_word'First + 4) = "alicu" then
+                       (Input_word'First .. Input_word'First + 4) = "alicu"
+                     then
                         process_qu_pronouns (Input_word, 2);
                      end if;
                   end if;
