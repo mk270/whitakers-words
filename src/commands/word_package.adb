@@ -1106,7 +1106,7 @@ package body word_package is
                              MNPC => MNPC_part);
 
                         elsif sl (i).IR.qual.pofs = Vpar   and then
-                          (pdl_part.V.Con <= sl (i).IR.qual.Vpar.con)
+                          (pdl_part.V.Con <= sl (i).IR.qual.Vpar.Con)
                         then
                            --PUT (" HIT  VPAR  ");
                            m := m + 1;
@@ -1117,10 +1117,10 @@ package body word_package is
                              pofs => Vpar,
                              Vpar => (
                              pdl_part.V.Con,
-                             sl (i).IR.qual.Vpar.cs,
-                             sl (i).IR.qual.Vpar.number,
-                             sl (i).IR.qual.Vpar.gender,
-                             sl (i).IR.qual.Vpar.tense_voice_mood)),
+                             sl (i).IR.qual.Vpar.Of_Case,
+                             sl (i).IR.qual.Vpar.Number,
+                             sl (i).IR.qual.Vpar.Gender,
+                             sl (i).IR.qual.Vpar.Tense_Voice_Mood)),
                              key => sl (i).IR.key,
                              ending => sl (i).IR.ending,
                              age => sl (i).IR.age,

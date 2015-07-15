@@ -41,6 +41,7 @@ project Latin_Utils is
         "latin_utils-inflections_package-stem_type_io.adb",
         "latin_utils-inflections_package-tense_voice_mood_record_io.adb",
         "latin_utils-inflections_package-verb_record_io.adb",
+        "latin_utils-inflections_package-vpar_record_io.adb",
         "latin_utils-latin_file_names.ads",
         "latin_utils-latin_file_names.adb",
         "latin_utils-preface.ads",

@@ -74,7 +74,7 @@ is
    type participle is
       record
          ppl_on : Boolean;
-         ppl_info : vpar_record;
+         ppl_info : Vpar_Record;
          compound_tvm : Inflections_Package.Tense_Voice_Mood_Record;
          ppp_meaning : Meaning_Type;
       end record;
@@ -104,16 +104,16 @@ is
       return Trim (t) = "iri";
    end is_iri;
 
-   function Get_participle_info (vpar : vpar_record)
-                                return vpar_record
+   function Get_participle_info (vpar : Vpar_Record)
+                                return Vpar_Record
    is
    begin
       return (
-        vpar.con,    --  In this case, there is 1
-        vpar.cs,     --  although several different
-        vpar.number, --  dictionary entries may fit
-        vpar.gender, --  all have same PPL_INFO
-        vpar.tense_voice_mood
+        vpar.Con,     --  In this case, there is 1
+        vpar.Of_Case, --  although several different
+        vpar.Number,  --  dictionary entries may fit
+        vpar.Gender,  --  all have same PPL_INFO
+        vpar.Tense_Voice_Mood
              );
    end Get_participle_info;
 
@@ -180,12 +180,12 @@ is
    -- compare this function with the very similar one directly below it;
    -- they should be factored back toGether
    function Get_pas_nom_participle
-     (parsed_verb          : vpar_record;
+     (parsed_verb          : Vpar_Record;
       sum_info             : Verb_Record;
       default_ppl_on       : Boolean;
       default_compound_tvm : Tense_Voice_Mood_Record;
       default_ppp_meaning  : Meaning_Type;
-      default_ppl_info     : vpar_record)
+      default_ppl_info     : Vpar_Record)
      return participle
    is
       compound_tense : Tense_Type := Pres;
@@ -204,9 +204,9 @@ is
    begin
 
       for i in participle_glosses'Range loop
-         if participle_glosses (i).key = parsed_verb.tense_voice_mood then
+         if participle_glosses (i).key = parsed_verb.Tense_Voice_Mood then
 
-            if parsed_verb.tense_voice_mood = (Perf, Passive, Ppl) then
+            if parsed_verb.Tense_Voice_Mood = (Perf, Passive, Ppl) then
                compound_tense := Get_compound_tense (
                  sum_info.Tense_Voice_Mood.Tense);
             else
@@ -233,12 +233,12 @@ is
    end Get_pas_nom_participle;
 
    -- this function should be merged with the one above
-   function Get_pas_participle (parsed_verb : vpar_record;
+   function Get_pas_participle (parsed_verb : Vpar_Record;
                                 Trimmed_next_word : String;
                                 default_ppl_on : Boolean;
                                 default_compound_tvm : Tense_Voice_Mood_Record;
                                 default_ppp_meaning : Meaning_Type;
-                                default_ppl_info : vpar_record)
+                                default_ppl_info : Vpar_Record)
                                return participle
    is
       function Get_compound_tense (tense : Tense_Type;
@@ -263,7 +263,7 @@ is
          end case;
       end Get_compound_tense;
 
-      voice : constant Voice_Type := parsed_verb.tense_voice_mood.Voice;
+      voice : constant Voice_Type := parsed_verb.Tense_Voice_Mood.Voice;
       uses_esse : constant Boolean := is_esse (Trimmed_next_word);
       compound_tense : Tense_Type;
 
@@ -273,14 +273,14 @@ is
 
       for i in participle_glosses_with_esse'Range loop
          if participle_glosses_with_esse (i).key =
-           parsed_verb.tense_voice_mood
+           parsed_verb.Tense_Voice_Mood
          then
             declare
                ppp_meaning_s : String (1 .. 78);
             begin
                compound_tense := Get_compound_tense (
-                 parsed_verb.tense_voice_mood.Tense,
-                 parsed_verb.tense_voice_mood.Voice,
+                 parsed_verb.Tense_Voice_Mood.Tense,
+                 parsed_verb.Tense_Voice_Mood.Voice,
                  uses_esse);
 
                if uses_esse then
@@ -377,7 +377,7 @@ is
    procedure do_clear_pas_nom_ppl (sum_info : in Verb_Record;
                                    compound_tvm : out Tense_Voice_Mood_Record;
                                    ppl_on : in out Boolean;
-                                   ppl_info : out vpar_record)
+                                   ppl_info : out Vpar_Record)
    is
       j4 : Integer := pa_last;
    begin
@@ -389,8 +389,8 @@ is
             null;
 
          elsif pa (j4).IR.qual.pofs = Vpar and then
-           pa (j4).IR.qual.Vpar.cs = Nom  and then
-           pa (j4).IR.qual.Vpar.number = sum_info.Number
+           pa (j4).IR.qual.Vpar.Of_Case = Nom  and then
+           pa (j4).IR.qual.Vpar.Number = sum_info.Number
          then
             declare
                part : constant participle :=
@@ -415,7 +415,7 @@ is
    procedure do_clear_pas_ppl (next_word : in String;
                                compound_tvm : out Tense_Voice_Mood_Record;
                                ppl_on : in out Boolean;
-                               ppl_info : out vpar_record)
+                               ppl_info : out Vpar_Record)
    is
       j5 : Integer := pa_last;
    begin
@@ -763,7 +763,7 @@ is
                ppl_on : Boolean := False;
 
                sum_info : Verb_Record := ((5, 1), (X, Active, X), 0, X);
-               ppl_info : vpar_record := ((0, 0), X, X, X, (X, X, X));
+               ppl_info : Vpar_Record := ((0, 0), X, X, X, (X, X, X));
                supine_info : supine_record := ((0, 0), X, X, X);
 
                procedure look_ahead is
@@ -806,13 +806,13 @@ is
 
                   for i in 1 .. pa_last  loop    --  Check for PPL
                      if pa (i).IR.qual.pofs = Vpar and then
-                       pa (i).IR.qual.Vpar.cs = Nom  and then
-                       pa (i).IR.qual.Vpar.number = sum_info.Number  and then
-                       ((pa (i).IR.qual.Vpar.tense_voice_mood =
+                       pa (i).IR.qual.Vpar.Of_Case = Nom  and then
+                       pa (i).IR.qual.Vpar.Number = sum_info.Number  and then
+                       ((pa (i).IR.qual.Vpar.Tense_Voice_Mood =
                        (Perf, Passive, Ppl)) or
-                       (pa (i).IR.qual.Vpar.tense_voice_mood =
+                       (pa (i).IR.qual.Vpar.Tense_Voice_Mood =
                        (Fut, Active,  Ppl)) or
-                       (pa (i).IR.qual.Vpar.tense_voice_mood =
+                       (pa (i).IR.qual.Vpar.Tense_Voice_Mood =
                        (Fut, Passive, Ppl)))
                      then
 
@@ -831,7 +831,7 @@ is
                      pa (pa_last) :=
                        (Head ("PPL+" & next_word, Max_Stem_Size),
                        ((V,
-                       (ppl_info.con,
+                       (ppl_info.Con,
                        compound_tvm,
                        sum_info.Person,
                        sum_info.Number)
@@ -844,12 +844,12 @@ is
 
                   for i in 1 .. pa_last  loop    --  Check for PPL
                      if pa (i).IR.qual.pofs = Vpar and then
-                       (((pa (i).IR.qual.Vpar.tense_voice_mood =
+                       (((pa (i).IR.qual.Vpar.Tense_Voice_Mood =
                        (Perf, Passive, Ppl)) and
                        is_esse (next_word)) or
-                       ((pa (i).IR.qual.Vpar.tense_voice_mood =
+                       ((pa (i).IR.qual.Vpar.Tense_Voice_Mood =
                        (Fut,  Active,  Ppl)) or
-                       (pa (i).IR.qual.Vpar.tense_voice_mood =
+                       (pa (i).IR.qual.Vpar.Tense_Voice_Mood =
                        (Fut,  Passive, Ppl))))
                      then
 
@@ -868,7 +868,7 @@ is
                      pa (pa_last) :=
                        (Head ("PPL+" & next_word, Max_Stem_Size),
                        ((V,
-                       (ppl_info.con,
+                       (ppl_info.Con,
                        compound_tvm,
                        0,
                        X)

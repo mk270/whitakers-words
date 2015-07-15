@@ -342,7 +342,7 @@ package body list_package is
                           passive_blank;
                      elsif (sr.ir.qual.pofs = Vpar)    and then
                        (dm.de.Part.V.Kind = Dep)    and then
-                       (sr.ir.qual.Vpar.tense_voice_mood.Mood = Ppl)
+                       (sr.ir.qual.Vpar.Tense_Voice_Mood.Mood = Ppl)
                      then
                         --TEXT_IO.PUT_LINE ("START PRINT MODIFIED QUAL   VPAR");
                         out_String (ppl_start + 1 .. ppl_finish) :=

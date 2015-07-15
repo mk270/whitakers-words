@@ -346,7 +346,7 @@ begin    --  PUT_EXAMPLE_LINE
          when Vpar =>
             --    TEXT_IO.NEW_LINE (OUTPUT);
             --  Verb info too much for same line
-            case ir.qual.Vpar.tense_voice_mood.Tense is
+            case ir.qual.Vpar.Tense_Voice_Mood.Tense is
                when Perf  =>
                   Ada.Text_IO.Put (Output,
                     "~ed  PERF PASSIVE PPL often used as ADJ"
@@ -358,13 +358,13 @@ begin    --  PUT_EXAMPLE_LINE
                     & " or N (lov.ing, curl.y)");
                   Ada.Text_IO.New_Line (Output);
                when Fut   =>
-                  if ir.qual.Vpar.tense_voice_mood.Voice = Active  then
+                  if ir.qual.Vpar.Tense_Voice_Mood.Voice = Active  then
                      Ada.Text_IO.Put (Output,
                        "about/going/intending/destined to ~"
                        & "  FUT ACTIVE PPL often used as ADJ or N ");
                      Ada.Text_IO.New_Line (Output);
                   else
-                     case ir.qual.Vpar.cs is
+                     case ir.qual.Vpar.Of_Case is
                         when Gen =>
                            Ada.Text_IO.Put (Output,
                              "to (/must) be ~ed  FUT PASSIVE PPL,"

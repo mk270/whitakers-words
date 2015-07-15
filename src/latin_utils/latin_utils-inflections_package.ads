@@ -504,24 +504,33 @@ package Latin_Utils.Inflections_Package is
 
    ---------------------------------------------------------------------------
 
-   type vpar_record is
+   type Vpar_Record is
       record
-         con         : Decn_Record;
-         cs          : Case_Type := X;
-         number      : Number_Type := X;
-         gender      : Gender_Type := X;
-         tense_voice_mood  : Tense_Voice_Mood_Record;
+         Con         : Decn_Record;
+         Of_Case     : Case_Type := X;
+         Number      : Number_Type := X;
+         Gender      : Gender_Type := X;
+         Tense_Voice_Mood  : Tense_Voice_Mood_Record;
       end record;
 
-   package vpar_record_io is
+   -- FIXME: These subprograms don't check if Is_Open (File)
+   package Vpar_Record_IO is
+      -- FIXME: This probably should be constant.
       Default_Width : Natural;
-      procedure Get (f : in File_Type; vp : out vpar_record);
-      procedure Get (vp : out vpar_record);
-      procedure Put (f : in File_Type; vp : in vpar_record);
-      procedure Put (vp : in vpar_record);
-      procedure Get (s : in String; vp : out vpar_record; last : out Integer);
-      procedure Put (s : out String; vp : in vpar_record);
-   end vpar_record_io;
+      procedure Get (File : in  File_Type; Item : out Vpar_Record);
+      procedure Get (Item : out Vpar_Record);
+      procedure Put (File : in  File_Type; Item : in  Vpar_Record);
+      procedure Put (Item : in  Vpar_Record);
+      -- TODO: Document meaning of Last
+      procedure Get
+         (Source : in  String;
+          Target : out Vpar_Record;
+          Last   : out Integer
+         );
+      procedure Put (Target : out String; Item : in Vpar_Record);
+   end Vpar_Record_IO;
+
+   ---------------------------------------------------------------------------
 
    type supine_record is
       record
@@ -663,7 +672,7 @@ package Latin_Utils.Inflections_Package is
             when V =>
                V : Verb_Record;
             when Vpar =>
-               Vpar : vpar_record;
+               Vpar : Vpar_Record;
             when Supine =>
                Supine : supine_record;
             when Prep =>

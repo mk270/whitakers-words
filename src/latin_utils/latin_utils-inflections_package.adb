@@ -164,21 +164,21 @@ package body Latin_Utils.Inflections_Package is
                   return True;
                end if;
             when Vpar =>
-               if left.Vpar.con.Which < right.Vpar.con.Which  or else
-                 (left.Vpar.con.Which = right.Vpar.con.Which  and then
-                 left.Vpar.con.Var < right.Vpar.con.Var)  or else
-                 (left.Vpar.con.Which = right.Vpar.con.Which  and then
-                 left.Vpar.con.Var = right.Vpar.con.Var  and then
-                 left.Vpar.number < right.Vpar.number) or else
-                 (left.Vpar.con.Which = right.Vpar.con.Which  and then
-                 left.Vpar.con.Var = right.Vpar.con.Var  and then
-                 left.Vpar.number = right.Vpar.number and then
-                 left.Vpar.cs < right.Vpar.cs) or else
-                 (left.Vpar.con.Which = right.Vpar.con.Which  and then
-                 left.Vpar.con.Var = right.Vpar.con.Var  and then
-                 left.Vpar.number = right.Vpar.number and then
-                 left.Vpar.cs = right.Vpar.cs and then
-                 left.Vpar.gender < right.Vpar.gender)
+               if left.Vpar.Con.Which < right.Vpar.Con.Which  or else
+                 (left.Vpar.Con.Which = right.Vpar.Con.Which  and then
+                 left.Vpar.Con.Var < right.Vpar.Con.Var)  or else
+                 (left.Vpar.Con.Which = right.Vpar.Con.Which  and then
+                 left.Vpar.Con.Var = right.Vpar.Con.Var  and then
+                 left.Vpar.Number < right.Vpar.Number) or else
+                 (left.Vpar.Con.Which = right.Vpar.Con.Which  and then
+                 left.Vpar.Con.Var = right.Vpar.Con.Var  and then
+                 left.Vpar.Number = right.Vpar.Number and then
+                 left.Vpar.Of_Case < right.Vpar.Of_Case) or else
+                 (left.Vpar.Con.Which = right.Vpar.Con.Which  and then
+                 left.Vpar.Con.Var = right.Vpar.Con.Var  and then
+                 left.Vpar.Number = right.Vpar.Number and then
+                 left.Vpar.Of_Case = right.Vpar.Of_Case and then
+                 left.Vpar.Gender < right.Vpar.Gender)
                then
                   return True;
                end if;
@@ -407,106 +407,7 @@ package body Latin_Utils.Inflections_Package is
 
    package body Verb_Record_IO is separate;
 
-   package body vpar_record_io is
-      use Decn_Record_IO;
-      use Case_Type_IO;
-      use Number_Type_IO;
-      use Gender_Type_IO;
-      use Tense_Voice_Mood_Record_IO;
-      spacer : Character := ' ';
-
-      procedure Get (f : in File_Type; vp : out vpar_record) is
-      begin
-         Get (f, vp.con);
-         Get (f, spacer);
-         Get (f, vp.cs);
-         Get (f, spacer);
-         Get (f, vp.number);
-         Get (f, spacer);
-         Get (f, vp.gender);
-         Get (f, spacer);
-         Get (f, vp.tense_voice_mood);
-      end Get;
-
-      procedure Get (vp : out vpar_record) is
-      begin
-         Get (vp.con);
-         Get (spacer);
-         Get (vp.cs);
-         Get (spacer);
-         Get (vp.number);
-         Get (spacer);
-         Get (vp.gender);
-         Get (spacer);
-         Get (vp.tense_voice_mood);
-      end Get;
-
-      procedure Put (f : in File_Type; vp : in vpar_record) is
-      begin
-         Put (f, vp.con);
-         Put (f, ' ');
-         Put (f, vp.cs);
-         Put (f, ' ');
-         Put (f, vp.number);
-         Put (f, ' ');
-         Put (f, vp.gender);
-         Put (f, ' ');
-         Put (f, vp.tense_voice_mood);
-      end Put;
-
-      procedure Put (vp : in vpar_record) is
-      begin
-         Put (vp.con);
-         Put (' ');
-         Put (vp.cs);
-         Put (' ');
-         Put (vp.number);
-         Put (' ');
-         Put (vp.gender);
-         Put (' ');
-         Put (vp.tense_voice_mood);
-      end Put;
-
-      procedure Get (s : in String; vp : out vpar_record; last : out Integer) is
-         l : Integer := s'First - 1;
-      begin
-         Get (s (l + 1 .. s'Last), vp.con, l);
-         l := l + 1;
-         Get (s (l + 1 .. s'Last), vp.cs, l);
-         l := l + 1;
-         Get (s (l + 1 .. s'Last), vp.number, l);
-         l := l + 1;
-         Get (s (l + 1 .. s'Last), vp.gender, l);
-         l := l + 1;
-         Get (s (l + 1 .. s'Last), vp.tense_voice_mood, last);
-      end Get;
-
-      procedure Put (s : out String; vp : in vpar_record) is
-         l : Integer := s'First - 1;
-         m : Integer := 0;
-      begin
-         m := l + Decn_Record_IO.Default_Width;
-         Put (s (l + 1 .. m), vp.con);
-         l := m + 1;
-         s (l) :=  ' ';
-         m := l + Case_Type_IO.Default_Width;
-         Put (s (l + 1 .. m), vp.cs);
-         l := m + 1;
-         s (l) :=  ' ';
-         m := l + Number_Type_IO.Default_Width;
-         Put (s (l + 1 .. m), vp.number);
-         l := m + 1;
-         s (l) :=  ' ';
-         m := l + Gender_Type_IO.Default_Width;
-         Put (s (l + 1 .. m), vp.gender);
-         l := m + 1;
-         s (l) :=  ' ';
-         m := l + Tense_Voice_Mood_Record_IO.Default_Width;
-         Put (s (l + 1 .. m), vp.tense_voice_mood);
-         s (m + 1 .. s'Last) := (others => ' ');
-      end Put;
-
-   end vpar_record_io;
+   package body Vpar_Record_IO is separate;
 
    package body supine_record_io is
       use Decn_Record_IO;
@@ -877,7 +778,7 @@ package body Latin_Utils.Inflections_Package is
       use Numeral_Record_IO;
       use Adverb_Record_IO;
       use Verb_Record_IO;
-      use vpar_record_io;
+      use Vpar_Record_IO;
       use supine_record_io;
       use preposition_record_io;
       use conjunction_record_io;
@@ -893,7 +794,7 @@ package body Latin_Utils.Inflections_Package is
       adjective : Adjective_Record;
       adverb : Adverb_Record;
       verb : Verb_Record;
-      vparticiple : vpar_record;
+      vparticiple : Vpar_Record;
       supin : supine_record;
       preposition : preposition_record;
       conjunction : conjunction_record;
@@ -1204,7 +1105,7 @@ package body Latin_Utils.Inflections_Package is
                m := l + Verb_Record_IO.Default_Width;
                Put (s (l + 1 .. m), p.V);
             when Vpar =>
-               m := l + vpar_record_io.Default_Width;
+               m := l + Vpar_Record_IO.Default_Width;
                Put (s (l + 1 .. m), p.Vpar);
             when Supine =>
                m := l + supine_record_io.Default_Width;
@@ -1799,7 +1700,7 @@ begin
      Tense_Voice_Mood_Record_IO.Default_Width + 1 +
      Person_Type_IO.Default_Width + 1 +
      Number_Type_IO.Default_Width;
-   vpar_record_io.Default_Width :=
+   Vpar_Record_IO.Default_Width :=
      Decn_Record_IO.Default_Width + 1 +
      Case_Type_IO.Default_Width + 1 +
      Number_Type_IO.Default_Width + 1 +
@@ -1823,7 +1724,7 @@ begin
    prefix_record_io.Default_Width := 0;
    suffix_record_io.Default_Width := 0;
    quality_record_io.Default_Width := Part_Of_Speech_Type_IO.Default_Width + 1 +
-     vpar_record_io.Default_Width; --  Largest
+     Vpar_Record_IO.Default_Width; --  Largest
    ending_record_io.Default_Width := 3 + 1 +
      max_ending_size;
    Inflection_Record_IO.Default_Width := quality_record_io.Default_Width + 1 +
