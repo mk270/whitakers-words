@@ -114,13 +114,13 @@ package body developer_parameters is
      "overwritten for new invocation of the program, so old data must be    ",
      "explicitly saved if it is to be retained.  The statistics are in TEXT ",
      "format.     The statistics file is named " & stats_full_name
-     & (42+stats_full_name'Length .. 70 => ' '),
+     & (42 + stats_full_name'Length .. 70 => ' '),
      "This information is only of development use, so the default is N(o).  ");
 
    Write_statistics_file_help : constant help_type :=  (
      "This option instructs the program, with HAVE_STATISTICS_FILE, to Put  ",
      "derived statistics in a file named " & stats_full_name
-     & (36+stats_full_name'Length .. 70 => ' '),
+     & (36 + stats_full_name'Length .. 70 => ' '),
      "This option may be turned on and off while running of the program,    ",
      "thereby capturing only certain desired results.  The file is reset at ",
      "each invocation of the program, if the HAVE_STATISTICS_FILE is set.   ",
@@ -498,13 +498,13 @@ package body developer_parameters is
          New_Line (mdev_file);
       end loop;
       Put (mdev_file, "START_FILE_CHARACTER             '" &
-        start_file_Character &"'");
+        start_file_Character & "'");
       New_Line (mdev_file);
       Put (mdev_file, "CHANGE_PARAMETERS_CHARACTER      '" &
-        change_parameters_Character &"'");
+        change_parameters_Character & "'");
       New_Line (mdev_file);
       Put (mdev_file, "CHANGE_DEVELOPER_MODES_CHARACTER '" &
-        change_developer_modes_Character &"'");
+        change_developer_modes_Character & "'");
       New_Line (mdev_file);
       Close (mdev_file);
    end Put_mdevs;
