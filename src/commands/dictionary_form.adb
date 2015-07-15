@@ -628,7 +628,7 @@ begin
       add_up (", " & Trim (ox (4)));
    end if;
 
-   add_to ("  " & Part_Of_Speech_Type'Image (de.Part.pofs)& "  ");
+   add_to ("  " & Part_Of_Speech_Type'Image (de.Part.pofs) & "  ");
 
    if de.Part.pofs = N  then
       --  For DICTPAGE
