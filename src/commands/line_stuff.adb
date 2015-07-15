@@ -940,7 +940,7 @@ package body line_stuff is
                when Adv =>
                   part := (Adv, (Co => qual.Adv.Comparison));
                when V =>
-                  part := (V, (qual.V.con, kind.v_kind));
+                  part := (V, (qual.V.Con, kind.v_kind));
                when others  =>
                   part := Null_Part_Entry;
             end case;

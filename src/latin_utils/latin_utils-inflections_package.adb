@@ -123,43 +123,43 @@ package body Latin_Utils.Inflections_Package is
             when Adv =>
                return left.Adv.Comparison < right.Adv.Comparison;
             when V =>
-               if (left.V.con.Which < right.V.con.Which)  or else
-                 (left.V.con.Which = right.V.con.Which  and then
-                 left.V.con.Var < right.V.con.Var)  or else
-                 (left.V.con.Which = right.V.con.Which  and then
-                 left.V.con.Var = right.V.con.Var  and then
-                 left.V.number < right.V.number) or else
-                 (left.V.con.Which = right.V.con.Which  and then
-                    left.V.con.Var = right.V.con.Var  and then
-                    left.V.number = right.V.number and then
-                    left.V.tense_voice_mood.Tense <
-                    right.V.tense_voice_mood.Tense) or else
-                 (left.V.con.Which = right.V.con.Which  and then
-                    left.V.con.Var = right.V.con.Var  and then
-                    left.V.number = right.V.number and then
-                    left.V.tense_voice_mood.Tense =
-                    right.V.tense_voice_mood.Tense and then
-                    left.V.tense_voice_mood.Voice <
-                    right.V.tense_voice_mood.Voice) or else
-                 (left.V.con.Which = right.V.con.Which  and then
-                    left.V.con.Var = right.V.con.Var  and then
-                    left.V.number = right.V.number and then
-                    left.V.tense_voice_mood.Tense =
-                    right.V.tense_voice_mood.Tense and then
-                    left.V.tense_voice_mood.Voice =
-                    right.V.tense_voice_mood.Voice and then
-                    left.V.tense_voice_mood.Mood <
-                    right.V.tense_voice_mood.Mood)  or else
-                 (left.V.con.Which = right.V.con.Which and then
-                    left.V.con.Var = right.V.con.Var and then
-                    left.V.number = right.V.number and then
-                    left.V.tense_voice_mood.Tense =
-                    right.V.tense_voice_mood.Tense and then
-                    left.V.tense_voice_mood.Voice =
-                    right.V.tense_voice_mood.Voice and then
-                    left.V.tense_voice_mood.Mood  =
-                    right.V.tense_voice_mood.Mood  and then
-                    left.V.person < right.V.person)
+               if (left.V.Con.Which < right.V.Con.Which)  or else
+                 (left.V.Con.Which = right.V.Con.Which  and then
+                 left.V.Con.Var < right.V.Con.Var)  or else
+                 (left.V.Con.Which = right.V.Con.Which  and then
+                 left.V.Con.Var = right.V.Con.Var  and then
+                 left.V.Number < right.V.Number) or else
+                 (left.V.Con.Which = right.V.Con.Which  and then
+                    left.V.Con.Var = right.V.Con.Var  and then
+                    left.V.Number = right.V.Number and then
+                    left.V.Tense_Voice_Mood.Tense <
+                    right.V.Tense_Voice_Mood.Tense) or else
+                 (left.V.Con.Which = right.V.Con.Which  and then
+                    left.V.Con.Var = right.V.Con.Var  and then
+                    left.V.Number = right.V.Number and then
+                    left.V.Tense_Voice_Mood.Tense =
+                    right.V.Tense_Voice_Mood.Tense and then
+                    left.V.Tense_Voice_Mood.Voice <
+                    right.V.Tense_Voice_Mood.Voice) or else
+                 (left.V.Con.Which = right.V.Con.Which  and then
+                    left.V.Con.Var = right.V.Con.Var  and then
+                    left.V.Number = right.V.Number and then
+                    left.V.Tense_Voice_Mood.Tense =
+                    right.V.Tense_Voice_Mood.Tense and then
+                    left.V.Tense_Voice_Mood.Voice =
+                    right.V.Tense_Voice_Mood.Voice and then
+                    left.V.Tense_Voice_Mood.Mood <
+                    right.V.Tense_Voice_Mood.Mood)  or else
+                 (left.V.Con.Which = right.V.Con.Which and then
+                    left.V.Con.Var = right.V.Con.Var and then
+                    left.V.Number = right.V.Number and then
+                    left.V.Tense_Voice_Mood.Tense =
+                    right.V.Tense_Voice_Mood.Tense and then
+                    left.V.Tense_Voice_Mood.Voice =
+                    right.V.Tense_Voice_Mood.Voice and then
+                    left.V.Tense_Voice_Mood.Mood  =
+                    right.V.Tense_Voice_Mood.Mood  and then
+                    left.V.Person < right.V.Person)
                then
                   return True;
                end if;
@@ -405,91 +405,7 @@ package body Latin_Utils.Inflections_Package is
 
    package body Adverb_Record_IO is separate;
 
-   package body verb_record_io is
-      use Decn_Record_IO;
-      use Tense_Voice_Mood_Record_IO;
-      use Person_Type_IO;
-      use Number_Type_IO;
-      spacer : Character := ' ';
-
-      procedure Get (f : in File_Type; v : out verb_record) is
-      begin
-         Get (f, v.con);
-         Get (f, spacer);
-         Get (f, v.tense_voice_mood);
-         Get (f, spacer);
-         Get (f, v.person);
-         Get (f, spacer);
-         Get (f, v.number);
-      end Get;
-
-      procedure Get (v : out verb_record) is
-      begin
-         Get (v.con);
-         Get (spacer);
-         Get (v.tense_voice_mood);
-         Get (spacer);
-         Get (v.person);
-         Get (spacer);
-         Get (v.number);
-      end Get;
-
-      procedure Put (f : in File_Type; v : in verb_record) is
-      begin
-         Put (f, v.con);
-         Put (f, ' ');
-         Put (f, v.tense_voice_mood);
-         Put (f, ' ');
-         Put (f, v.person);
-         Put (f, ' ');
-         Put (f, v.number);
-      end Put;
-
-      procedure Put (v : in verb_record) is
-      begin
-         Put (v.con);
-         Put (' ');
-         Put (v.tense_voice_mood);
-         Put (' ');
-         Put (v.person);
-         Put (' ');
-         Put (v.number);
-      end Put;
-
-      procedure Get (s : in String; v : out verb_record; last : out Integer) is
-         l : Integer := s'First - 1;
-      begin
-         Get (s (l + 1 .. s'Last), v.con, l);
-         l := l + 1;
-         Get (s (l + 1 .. s'Last), v.tense_voice_mood, l);
-         l := l + 1;
-         Get (s (l + 1 .. s'Last), v.person, l);
-         l := l + 1;
-         Get (s (l + 1 .. s'Last), v.number, last);
-      end Get;
-
-      procedure Put (s : out String; v : in verb_record) is
-         l : Integer := s'First - 1;
-         m : Integer := 0;
-      begin
-         m := l + Decn_Record_IO.Default_Width;
-         Put (s (l + 1 .. m), v.con);
-         l := m + 1;
-         s (l) :=  ' ';
-         m := l + Tense_Voice_Mood_Record_IO.Default_Width;
-         Put (s (l + 1 .. m), v.tense_voice_mood);
-         l := m + 1;
-         s (l) :=  ' ';
-         m := l + Person_Type_IO.Default_Width;
-         Put (s (l + 1 .. m), v.person);
-         l := m + 1;
-         s (l) :=  ' ';
-         m := l + Number_Type_IO.Default_Width;
-         Put (s (l + 1 .. m), v.number);
-         s (m + 1 .. s'Last) := (others => ' ');
-      end Put;
-
-   end verb_record_io;
+   package body Verb_Record_IO is separate;
 
    package body vpar_record_io is
       use Decn_Record_IO;
@@ -960,7 +876,7 @@ package body Latin_Utils.Inflections_Package is
       use Adjective_Record_IO;
       use Numeral_Record_IO;
       use Adverb_Record_IO;
-      use verb_record_io;
+      use Verb_Record_IO;
       use vpar_record_io;
       use supine_record_io;
       use preposition_record_io;
@@ -976,7 +892,7 @@ package body Latin_Utils.Inflections_Package is
       propack : Propack_Record;
       adjective : Adjective_Record;
       adverb : Adverb_Record;
-      verb : verb_record;
+      verb : Verb_Record;
       vparticiple : vpar_record;
       supin : supine_record;
       preposition : preposition_record;
@@ -1285,7 +1201,7 @@ package body Latin_Utils.Inflections_Package is
                m := l + Adverb_Record_IO.Default_Width;
                Put (s (l + 1 .. m), p.Adv);
             when V =>
-               m := l + verb_record_io.Default_Width;
+               m := l + Verb_Record_IO.Default_Width;
                Put (s (l + 1 .. m), p.V);
             when Vpar =>
                m := l + vpar_record_io.Default_Width;
@@ -1878,7 +1794,7 @@ begin
      Comparison_Type_IO.Default_Width;
    Adverb_Record_IO.Default_Width :=
      Comparison_Type_IO.Default_Width;
-   verb_record_io.Default_Width :=
+   Verb_Record_IO.Default_Width :=
      Decn_Record_IO.Default_Width + 1 +
      Tense_Voice_Mood_Record_IO.Default_Width + 1 +
      Person_Type_IO.Default_Width + 1 +

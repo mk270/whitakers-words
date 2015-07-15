@@ -83,7 +83,7 @@ is
       record
          case matches is
             when True =>
-               verb_rec : verb_record;
+               verb_rec : Verb_Record;
             when False =>
                null;
          end case;
@@ -181,7 +181,7 @@ is
    -- they should be factored back toGether
    function Get_pas_nom_participle
      (parsed_verb          : vpar_record;
-      sum_info             : verb_record;
+      sum_info             : Verb_Record;
       default_ppl_on       : Boolean;
       default_compound_tvm : Tense_Voice_Mood_Record;
       default_ppp_meaning  : Meaning_Type;
@@ -208,9 +208,9 @@ is
 
             if parsed_verb.tense_voice_mood = (Perf, Passive, Ppl) then
                compound_tense := Get_compound_tense (
-                 sum_info.tense_voice_mood.Tense);
+                 sum_info.Tense_Voice_Mood.Tense);
             else
-               compound_tense := sum_info.tense_voice_mood.Tense;
+               compound_tense := sum_info.Tense_Voice_Mood.Tense;
             end if;
 
             return (
@@ -219,7 +219,7 @@ is
               ppp_meaning => Head (participle_glosses (i).gloss,
               Max_Meaning_Size),
               compound_tvm => (compound_tense, Passive,
-              sum_info.tense_voice_mood.Mood)
+              sum_info.Tense_Voice_Mood.Mood)
                    );
          end if;
       end loop;
@@ -374,7 +374,7 @@ is
    end is_sum;
 
    -- parts of these three do_clear_* functions should be factored together
-   procedure do_clear_pas_nom_ppl (sum_info : in verb_record;
+   procedure do_clear_pas_nom_ppl (sum_info : in Verb_Record;
                                    compound_tvm : out Tense_Voice_Mood_Record;
                                    ppl_on : in out Boolean;
                                    ppl_info : out vpar_record)
@@ -390,7 +390,7 @@ is
 
          elsif pa (j4).IR.qual.pofs = Vpar and then
            pa (j4).IR.qual.Vpar.cs = Nom  and then
-           pa (j4).IR.qual.Vpar.number = sum_info.number
+           pa (j4).IR.qual.Vpar.number = sum_info.Number
          then
             declare
                part : constant participle :=
@@ -563,7 +563,7 @@ is
                --  combined but it workd now
                for i in 1 .. pa_last  loop
                   if pa (i).IR.qual.pofs = V and then
-                    pa (i).IR.qual.V.con = (5, 1)
+                    pa (i).IR.qual.V.Con = (5, 1)
                   then
                      no_syncope := True;
                   end if;
@@ -650,7 +650,7 @@ is
       --  Do not SYNCOPE if there is a verb TO_BE or compound already there
       for i in 1 .. pa_last  loop
          if pa (i).IR.qual.pofs = V and then
-           pa (i).IR.qual.V.con = (5, 1)
+           pa (i).IR.qual.V.Con = (5, 1)
          then
             no_syncope := True;
          end if;
@@ -762,7 +762,7 @@ is
                compound_tvm   : Inflections_Package.Tense_Voice_Mood_Record;
                ppl_on : Boolean := False;
 
-               sum_info : verb_record := ((5, 1), (X, Active, X), 0, X);
+               sum_info : Verb_Record := ((5, 1), (X, Active, X), 0, X);
                ppl_info : vpar_record := ((0, 0), X, X, X, (X, X, X));
                supine_info : supine_record := ((0, 0), X, X, X);
 
@@ -807,7 +807,7 @@ is
                   for i in 1 .. pa_last  loop    --  Check for PPL
                      if pa (i).IR.qual.pofs = Vpar and then
                        pa (i).IR.qual.Vpar.cs = Nom  and then
-                       pa (i).IR.qual.Vpar.number = sum_info.number  and then
+                       pa (i).IR.qual.Vpar.number = sum_info.Number  and then
                        ((pa (i).IR.qual.Vpar.tense_voice_mood =
                        (Perf, Passive, Ppl)) or
                        (pa (i).IR.qual.Vpar.tense_voice_mood =
@@ -833,8 +833,8 @@ is
                        ((V,
                        (ppl_info.con,
                        compound_tvm,
-                       sum_info.person,
-                       sum_info.number)
+                       sum_info.Person,
+                       sum_info.Number)
                         ), 0, null_ending_record, x, a),
                        ppp, Null_MNPC);
                   end if;

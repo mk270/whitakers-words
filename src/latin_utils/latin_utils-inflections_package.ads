@@ -477,23 +477,32 @@ package Latin_Utils.Inflections_Package is
 
    ---------------------------------------------------------------------------
 
-   type verb_record is
+   type Verb_Record is
       record
-         con         : Decn_Record;
-         tense_voice_mood  : Tense_Voice_Mood_Record;
-         person      : Person_Type := 0;
-         number      : Number_Type := X;
+         Con         : Decn_Record;
+         Tense_Voice_Mood  : Tense_Voice_Mood_Record;
+         Person      : Person_Type := 0;
+         Number      : Number_Type := X;
       end record;
 
-   package verb_record_io is
+   -- FIXME: These subprograms don't check if Is_Open (File)
+   package Verb_Record_IO is
+      -- FIXME: This probably should be constant.
       Default_Width : Natural;
-      procedure Get (f : in File_Type; v : out verb_record);
-      procedure Get (v : out verb_record);
-      procedure Put (f : in File_Type; v : in verb_record);
-      procedure Put (v : in verb_record);
-      procedure Get (s : in String; v : out verb_record; last : out Integer);
-      procedure Put (s : out String; v : in verb_record);
-   end verb_record_io;
+      procedure Get (File : in  File_Type; Item : out Verb_Record);
+      procedure Get (Item : out Verb_Record);
+      procedure Put (File : in  File_Type; Item : in  Verb_Record);
+      procedure Put (Item : in  Verb_Record);
+      -- TODO: Document meaning of Last
+      procedure Get
+         (Source : in  String;
+          Target : out Verb_Record;
+          Last   : out Integer
+         );
+      procedure Put (Target : out String; Item : in Verb_Record);
+   end Verb_Record_IO;
+
+   ---------------------------------------------------------------------------
 
    type vpar_record is
       record
@@ -652,7 +661,7 @@ package Latin_Utils.Inflections_Package is
             when Adv =>
                Adv : Adverb_Record;
             when V =>
-               V : verb_record;
+               V : Verb_Record;
             when Vpar =>
                Vpar : vpar_record;
             when Supine =>

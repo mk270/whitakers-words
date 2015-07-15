@@ -1084,7 +1084,7 @@ package body word_package is
                      elsif pdl_part.pofs = V then
                         --TEXT_IO.PUT_LINE ("V found, now check CON");
                         if sl (i).IR.qual.pofs = V     and then
-                          (pdl_part.V.Con <= sl (i).IR.qual.V.con)
+                          (pdl_part.V.Con <= sl (i).IR.qual.V.Con)
                         then
                            --TEXT_IO.PUT (" HIT  V     ");
                            m := m + 1;
@@ -1095,9 +1095,9 @@ package body word_package is
                              pofs => V,
                              V => (
                              pdl_part.V.Con,
-                             sl (i).IR.qual.V.tense_voice_mood,
-                             sl (i).IR.qual.V.person,
-                             sl (i).IR.qual.V.number)),
+                             sl (i).IR.qual.V.Tense_Voice_Mood,
+                             sl (i).IR.qual.V.Person,
+                             sl (i).IR.qual.V.Number)),
                              key => sl (i).IR.key,
                              ending => sl (i).IR.ending,
                              age => sl (i).IR.age,

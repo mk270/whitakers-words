@@ -34,11 +34,11 @@ is
       ir     : in Inflection_Record;
       vk      : in Verb_Kind_Type)
    is
-      person : constant Person_Type      := ir.qual.V.person;
-      number : constant Number_Type      := ir.qual.V.number;
-      tense  : constant Tense_Type       := ir.qual.V.tense_voice_mood.Tense;
-      mood   : constant Mood_Type        := ir.qual.V.tense_voice_mood.Mood;
-      voice  : Voice_Type                := ir.qual.V.tense_voice_mood.Voice;
+      person : constant Person_Type      := ir.qual.V.Person;
+      number : constant Number_Type      := ir.qual.V.Number;
+      tense  : constant Tense_Type       := ir.qual.V.Tense_Voice_Mood.Tense;
+      mood   : constant Mood_Type        := ir.qual.V.Tense_Voice_Mood.Mood;
+      voice  : Voice_Type                := ir.qual.V.Tense_Voice_Mood.Voice;
       kind   : constant Verb_Kind_Type   := vk;
       --  Nothing on  (part), gerund,
 
