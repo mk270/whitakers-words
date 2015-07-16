@@ -1672,61 +1672,79 @@ begin
      Tense_Type_IO.Default_Width + 1 +
      Voice_Type_IO.Default_Width + 1 +
      Mood_Type_IO.Default_Width;
+
    Noun_Record_IO.Default_Width :=
      Decn_Record_IO.Default_Width + 1 +
      Case_Type_IO.Default_Width + 1 +
      Number_Type_IO.Default_Width + 1 +
      Gender_Type_IO.Default_Width;
+
    Pronoun_Record_IO.Default_Width :=
      Decn_Record_IO.Default_Width + 1 +
      Case_Type_IO.Default_Width + 1 +
      Number_Type_IO.Default_Width + 1 +
      Gender_Type_IO.Default_Width;
+
    Propack_Record_IO.Default_Width :=
      Decn_Record_IO.Default_Width + 1 +
      Case_Type_IO.Default_Width + 1 +
      Number_Type_IO.Default_Width + 1 +
      Gender_Type_IO.Default_Width;
+
    Adjective_Record_IO.Default_Width :=
      Decn_Record_IO.Default_Width + 1 +
      Case_Type_IO.Default_Width + 1 +
      Number_Type_IO.Default_Width + 1 +
      Gender_Type_IO.Default_Width + 1 +
      Comparison_Type_IO.Default_Width;
+
    Adverb_Record_IO.Default_Width :=
      Comparison_Type_IO.Default_Width;
+
    Verb_Record_IO.Default_Width :=
      Decn_Record_IO.Default_Width + 1 +
      Tense_Voice_Mood_Record_IO.Default_Width + 1 +
      Person_Type_IO.Default_Width + 1 +
      Number_Type_IO.Default_Width;
+
    Vpar_Record_IO.Default_Width :=
      Decn_Record_IO.Default_Width + 1 +
      Case_Type_IO.Default_Width + 1 +
      Number_Type_IO.Default_Width + 1 +
      Gender_Type_IO.Default_Width + 1 +
      Tense_Voice_Mood_Record_IO.Default_Width;
+
    supine_record_io.Default_Width :=
      Decn_Record_IO.Default_Width + 1 +
      Case_Type_IO.Default_Width + 1 +
      Number_Type_IO.Default_Width + 1 +
      Gender_Type_IO.Default_Width;
+
    preposition_record_io.Default_Width := Case_Type_IO.Default_Width;
+
    conjunction_record_io.Default_Width := 0;
+
    interjection_record_io.Default_Width := 0;
+
    Numeral_Record_IO.Default_Width :=
      Decn_Record_IO.Default_Width + 1 +
      Case_Type_IO.Default_Width + 1 +
      Number_Type_IO.Default_Width + 1 +
      Gender_Type_IO.Default_Width + 1 +
      Numeral_Sort_Type_IO.Default_Width;
+
    tackon_record_io.Default_Width := 0;
+
    prefix_record_io.Default_Width := 0;
+
    suffix_record_io.Default_Width := 0;
+
    quality_record_io.Default_Width := Part_Of_Speech_Type_IO.Default_Width + 1 +
      Vpar_Record_IO.Default_Width; --  Largest
+
    ending_record_io.Default_Width := 3 + 1 +
      max_ending_size;
+
    Inflection_Record_IO.Default_Width := quality_record_io.Default_Width + 1 +
      1  + 1 +
      ending_record_io.Default_Width + 1 +
