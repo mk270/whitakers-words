@@ -583,22 +583,44 @@ package Latin_Utils.Inflections_Package is
 
    ---------------------------------------------------------------------------
 
-   type conjunction_record is
-      record
-         null;
-      end record;
+   type Conjunction_Record is null record;
 
-   package conjunction_record_io is
+   -- FIXME: These subprograms don't check if Is_Open (File)
+   package Conjunction_Record_IO is
+      -- FIXME: This probably should be constant.
       Default_Width : Natural;
-      procedure Get (f : in File_Type; c : out conjunction_record);
-      procedure Get (c : out conjunction_record);
-      procedure Put (f : in File_Type; c : in conjunction_record);
-      procedure Put (c : in conjunction_record);
-      procedure Get (s : in String;
-                     c : out conjunction_record;
-                     last : out Integer);
-      procedure Put (s : out String; c : in conjunction_record);
-   end conjunction_record_io;
+      procedure Get (File : in  File_Type; Item : out Conjunction_Record);
+      procedure Get (Item : out Conjunction_Record);
+      procedure Put (File : in  File_Type; Item : in  Conjunction_Record);
+      procedure Put (Item : in  Conjunction_Record);
+      -- TODO: Document meaning of Last
+      -- FIXME: Last is always set to negative value, which under certain
+      --    circumstances may lead to incorrect results.
+      -- <example>
+      -- declare
+      --    High : Integer := 0;
+      --    Last : Integer := 0;
+      --    Var  : String (1 .. 100);
+      --    Prep : Preposition_Record;
+      --    Conj : Conjunction_Record;
+      --    Noun : Noun_Record;
+      -- begin
+      --    Preposition_Record_IO.Get (Var, Prep, High);
+      --    Conjunction_Record_IO.Get (Var (High .. Var'Last), Conj, Last);
+      --    High := High + Last; -- High now is equal to High - 1;, thus
+      --    -- Noun_Record is 'Get' from Var last char of Preposition_Record!
+      --    Noun_Record_IO.Get (Var (High .. Var'Last), Noun, Last);
+      -- end;
+      -- </example>
+      procedure Get
+         (Source : in  String;
+          Target : out Conjunction_Record;
+          Last   : out Integer
+         );
+      procedure Put (Target : out String; Item : in Conjunction_Record);
+   end Conjunction_Record_IO;
+
+   ---------------------------------------------------------------------------
 
    type interjection_record is
       record
@@ -694,7 +716,7 @@ package Latin_Utils.Inflections_Package is
             when Prep =>
                Prep : Preposition_Record;
             when Conj =>
-               Conj : conjunction_record;
+               Conj : Conjunction_Record;
             when Interj =>
                Interj : interjection_record;
             when Tackon =>

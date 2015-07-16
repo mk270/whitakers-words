@@ -413,53 +413,7 @@ package body Latin_Utils.Inflections_Package is
 
    package body Preposition_Record_IO is separate;
 
-   package body conjunction_record_io is
-      null_conjunction_record : conjunction_record;
-
-      pragma Warnings (Off, "formal parameter ""f"" is not referenced");
-      procedure Get (f : in File_Type; c : out conjunction_record) is
-         pragma Warnings (On, "formal parameter ""f"" is not referenced");
-         --  There is actually nothing to a CONJUNCTION_RECORD, no compoonents
-      begin
-         c := null_conjunction_record;
-      end Get;
-
-      procedure Get (c : out conjunction_record) is
-      begin
-         c := null_conjunction_record;
-      end Get;
-
-      procedure Put (f : in File_Type; c : in conjunction_record) is
-      begin
-         null;
-      end Put;
-
-      procedure Put (c : in conjunction_record) is
-      begin
-         null;
-      end Put;
-
-      procedure Get
-        (s    : in String;
-         c    : out conjunction_record;
-         last : out Integer)
-      is
-         l : constant Integer := s'First - 1;
-      begin
-         c := null_conjunction_record;
-         last := l - 1;
-         --  LAST did not even Get to S'FIRST, since nothing to read
-      end Get;
-
-      pragma Warnings (Off, "formal parameter ""c"" is not referenced");
-      procedure Put (s : out String; c : in conjunction_record) is
-         pragma Warnings (On, "formal parameter ""c"" is not referenced");
-         --  Since there is no component, just make the out String blank
-      begin
-         s (s'First .. s'Last) := (others => ' ');
-      end Put;
-
-   end conjunction_record_io;
+   package body Conjunction_Record_IO is separate;
 
    package body interjection_record_io is
       null_interjection_record : interjection_record;
@@ -651,7 +605,7 @@ package body Latin_Utils.Inflections_Package is
       use Vpar_Record_IO;
       use Supine_Record_IO;
       use Preposition_Record_IO;
-      use conjunction_record_io;
+      use Conjunction_Record_IO;
       use interjection_record_io;
       use tackon_record_io;
       use prefix_record_io;
@@ -667,7 +621,7 @@ package body Latin_Utils.Inflections_Package is
       vparticiple : Vpar_Record;
       supin : Supine_Record;
       preposition : Preposition_Record;
-      conjunction : conjunction_record;
+      conjunction : Conjunction_Record;
       interjection : interjection_record;
       numeral : Numeral_Record;
       tackn : tackon_record;
@@ -984,7 +938,7 @@ package body Latin_Utils.Inflections_Package is
                m := l + Preposition_Record_IO.Default_Width;
                Put (s (l + 1 .. m), p.Prep);
             when Conj =>
-               m := l + conjunction_record_io.Default_Width;
+               m := l + Conjunction_Record_IO.Default_Width;
                Put (s (l + 1 .. m), p.Conj);
             when Interj =>
                m := l + interjection_record_io.Default_Width;
@@ -1498,7 +1452,7 @@ begin
 
    Preposition_Record_IO.Default_Width := Case_Type_IO.Default_Width;
 
-   conjunction_record_io.Default_Width := 0;
+   Conjunction_Record_IO.Default_Width := 0;
 
    interjection_record_io.Default_Width := 0;
 
