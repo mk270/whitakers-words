@@ -1353,7 +1353,7 @@ package body Latin_Utils.Inflections_Package is
       --  FILE_INFLECTIONS_SECTION
       --  If N = 0 (an artifical flag for the section for blank
       --  inflections = 5)
-      --  comPutes the LELL .. LELF indices for use in WORD
+      --  computes the LELL .. LELF indices for use in WORD
       use Inflection_Record_IO;
       use lel_section_io;
 
