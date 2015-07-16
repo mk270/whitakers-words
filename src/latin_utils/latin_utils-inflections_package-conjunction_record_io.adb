@@ -59,11 +59,9 @@ package body Conjunction_Record_IO is
       Last   : out Integer
       )
    is
-      Low : constant Integer := Source'First - 1;
    begin
       Target := Null_Conjunction_Record;
-      Last   := Low - 1;
-      --  Last did not even Get to Source'First, since nothing to read
+      Last   := Source'First - 1;
    end Get;
 
    ---------------------------------------------------------------------------

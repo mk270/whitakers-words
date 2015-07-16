@@ -594,24 +594,6 @@ package Latin_Utils.Inflections_Package is
       procedure Put (File : in  File_Type; Item : in  Conjunction_Record);
       procedure Put (Item : in  Conjunction_Record);
       -- TODO: Document meaning of Last
-      -- FIXME: Last is always set to negative value, which under certain
-      --    circumstances may lead to incorrect results.
-      -- <example>
-      -- declare
-      --    High : Integer := 0;
-      --    Last : Integer := 0;
-      --    Var  : String (1 .. 100);
-      --    Prep : Preposition_Record;
-      --    Conj : Conjunction_Record;
-      --    Noun : Noun_Record;
-      -- begin
-      --    Preposition_Record_IO.Get (Var, Prep, High);
-      --    Conjunction_Record_IO.Get (Var (High .. Var'Last), Conj, Last);
-      --    High := High + Last; -- High now is equal to High - 1;, thus
-      --    -- Noun_Record is 'Get' from Var last char of Preposition_Record!
-      --    Noun_Record_IO.Get (Var (High .. Var'Last), Noun, Last);
-      -- end;
-      -- </example>
       procedure Get
          (Source : in  String;
           Target : out Conjunction_Record;
