@@ -1364,6 +1364,95 @@ package body Latin_Utils.Inflections_Package is
          n, xn : Integer := 0;
          ch, xch : Character := ' ';
          inflections_sections_file : lel_section_io.File_Type;
+
+         -- FIXME: this algebraic type and its values are obviously misnomers
+         type Paradigm is (P1, P2, P3, P4);
+
+         function Section_Count (P : Paradigm) return Integer
+         is
+         begin
+            case P is
+               when P1 => return 1;
+               when P2 => return 2;
+               when P3 => return 3;
+               when P4 => return 4;
+            end case;
+         end Section_Count;
+
+         procedure Read_Inflections (P : Paradigm)
+         is
+            Count : constant Integer := Section_Count (P);
+         begin
+            lel_section_io.Read (inflections_sections_file,
+              lel,
+              lel_section_io.Positive_Count (Count));
+
+            i := 1;
+
+            n := lel (i).ending.size;
+
+            ch := lel (i).ending.suf (n);
+
+            xn := n;
+            xch := ch;
+            lelf (n, ch) := i;
+
+            c1_loop :
+            loop
+               n1_loop :
+               loop
+                  case P is
+                     when P1 =>
+                        exit c1_loop when lel (i) = Null_Inflection_Record;
+                     when P2 =>
+                        exit c1_loop when lel (i) = Null_Inflection_Record;
+                     when P3 =>
+                        exit c1_loop when lel (i) = Null_Inflection_Record;
+                     when P4 =>
+                        exit c1_loop when  lel (i).qual.pofs = Pron  and then
+                          (lel (i).qual.Pron.Decl.Which = 1  or
+                          lel (i).qual.Pron.Decl.Which = 2);
+                  end case;
+
+                  n := lel (i).ending.size;
+
+                  ch := lel (i).ending.suf (n);
+
+                  case P is
+                     when P1 =>
+                        null;
+                     when P2 =>
+                        exit n1_loop when ch > 'r';
+                     when P3 =>
+                        exit n1_loop when ch > 's';
+                     when P4 =>
+                        null;
+                  end case;
+
+                  if ch /= xch  then
+                     lell (xn, xch) := i - 1;
+                     lelf (n, ch) := i;
+                     lell (n, ch) := 0;
+                     xch := ch;
+                     xn := n;
+                  elsif n /= xn  then
+                     lell (xn, ch) := i - 1;
+                     lelf (n, ch) := i;
+                     lell (n, ch) := 0;
+                     xn := n;
+                     exit n1_loop;
+                  end if;
+
+                  i := i + 1;
+
+               end loop n1_loop;
+
+            end loop c1_loop;
+
+            lell (xn, xch) := i - 1;
+
+         end Read_Inflections;
+
       begin
          Open (inflections_sections_file, In_File, inflections_sections_name);
          number_of_inflections := 0;
@@ -1385,200 +1474,16 @@ package body Latin_Utils.Inflections_Package is
 
          number_of_inflections := number_of_inflections + i - 1;
 
-         lel_section_io.Read (inflections_sections_file,
-           lel,
-           lel_section_io.Positive_Count (1));
-
-         i := 1;
-
-         n := lel (i).ending.size;
-
-         ch := lel (i).ending.suf (n);
-
-         xn := n;
-         xch := ch;
-         lelf (n, ch) := i;
-
-         c1_loop :
-         loop
-            n1_loop :
-            loop
-               exit c1_loop when lel (i) = Null_Inflection_Record;
-
-               n := lel (i).ending.size;
-
-               ch := lel (i).ending.suf (n);
-               --
-
-               if ch /= xch  then
-                  lell (xn, xch) := i - 1;
-                  lelf (n, ch) := i;
-                  lell (n, ch) := 0;
-                  xch := ch;
-                  xn := n;
-               elsif n /= xn  then
-                  lell (xn, ch) := i - 1;
-                  lelf (n, ch) := i;
-                  lell (n, ch) := 0;
-                  xn := n;
-                  exit n1_loop;
-               end if;
-
-               i := i + 1;
-
-            end loop n1_loop;
-
-         end loop c1_loop;
-
-         lell (xn, xch) := i - 1;
-
+         Read_Inflections (P1);
          number_of_inflections := number_of_inflections + i - 1;
 
-         lel_section_io.Read (inflections_sections_file,
-           lel,
-           lel_section_io.Positive_Count (2));
-
-         i := 1;
-
-         n := lel (i).ending.size;
-
-         ch := lel (i).ending.suf (n);
-
-         xn := n;
-         xch := ch;
-         lelf (n, ch) := i;
-
-         c2_loop :
-         loop
-            n2_loop :
-            loop
-               exit c2_loop when lel (i) = Null_Inflection_Record;
-
-               n := lel (i).ending.size;
-
-               ch := lel (i).ending.suf (n);
-               exit n2_loop when ch > 'r';
-
-               if ch /= xch  then
-                  lell (xn, xch) := i - 1;
-                  lelf (n, ch) := i;
-                  lell (n, ch) := 0;
-                  xch := ch;
-                  xn := n;
-               elsif n /= xn  then
-                  lell (xn, ch) := i - 1;
-                  lelf (n, ch) := i;
-                  lell (n, ch) := 0;
-                  xn := n;
-                  exit n2_loop;
-               end if;
-
-               i := i + 1;
-
-            end loop n2_loop;
-
-         end loop c2_loop;
-
-         lell (xn, xch) := i - 1;
-
+         Read_Inflections (P2);
          number_of_inflections := number_of_inflections + i - 1;
 
-         lel_section_io.Read (inflections_sections_file,
-           lel,
-           lel_section_io.Positive_Count (3));
-
-         i := 1;
-
-         n := lel (i).ending.size;
-
-         ch := lel (i).ending.suf (n);
-
-         xn := n;
-         xch := ch;
-         lelf (n, ch) := i;
-
-         c3_loop :
-         loop
-            n3_loop :
-            loop
-               exit c3_loop when lel (i) = Null_Inflection_Record;
-
-               n := lel (i).ending.size;
-
-               ch := lel (i).ending.suf (n);
-               exit n3_loop when ch > 's';
-
-               if ch /= xch  then
-                  lell (xn, xch) := i - 1;
-                  lelf (n, ch) := i;
-                  lell (n, ch) := 0;
-                  xch := ch;
-                  xn := n;
-               elsif n /= xn  then
-                  lell (xn, ch) := i - 1;
-                  lelf (n, ch) := i;
-                  lell (n, ch) := 0;
-                  xn := n;
-                  exit n3_loop;
-               end if;
-
-               i := i + 1;
-
-            end loop n3_loop;
-
-         end loop c3_loop;
-
-         lell (xn, xch) := i - 1;
-
+         Read_Inflections (P3);
          number_of_inflections := number_of_inflections + i - 1;
 
-         lel_section_io.Read (inflections_sections_file,
-           lel,
-           lel_section_io.Positive_Count (4));
-
-         i := 1;
-
-         n := lel (i).ending.size;
-
-         ch := lel (i).ending.suf (n);
-
-         xn := n;
-         xch := ch;
-         lelf (n, ch) := i;
-
-         c4_loop :
-         loop
-            n4_loop :
-            loop
-               exit c4_loop when  lel (i).qual.pofs = Pron  and then
-                 (lel (i).qual.Pron.Decl.Which = 1  or
-                 lel (i).qual.Pron.Decl.Which = 2);
-
-               n := lel (i).ending.size;
-
-               ch := lel (i).ending.suf (n);
-
-               if ch /= xch  then
-                  lell (xn, xch) := i - 1;
-                  lelf (n, ch) := i;
-                  lell (n, ch) := 0;
-                  xch := ch;
-                  xn := n;
-               elsif n /= xn  then
-                  lell (xn, ch) := i - 1;
-                  lelf (n, ch) := i;
-                  lell (n, ch) := 0;
-                  xn := n;
-                  exit n4_loop;
-               end if;
-
-               i := i + 1;
-
-            end loop n4_loop;
-
-         end loop c4_loop;
-
-         lell (xn, xch) := i - 1;
+         Read_Inflections (P4);
 
          begin
 
