@@ -421,49 +421,7 @@ package body Latin_Utils.Inflections_Package is
 
    package body Prefix_Record_IO is separate;
 
-   package body suffix_record_io is
-
-      pragma Warnings (Off, "formal parameter ""f"" is not referenced");
-      procedure Get (f : in File_Type; p : out suffix_record) is
-         pragma Warnings (On, "formal parameter ""f"" is not referenced");
-      begin
-         p := null_suffix_record;
-      end Get;
-
-      procedure Get (p : out suffix_record) is
-      begin
-         p := null_suffix_record;
-      end Get;
-
-      procedure Put (f : in File_Type; p : in suffix_record) is
-      begin
-         null;
-      end Put;
-
-      procedure Put (p : in suffix_record) is
-      begin
-         null;
-      end Put;
-
-      procedure Get
-        (s : in String;
-         p : out suffix_record;
-         last : out Integer)
-      is
-         l : constant Integer := s'First - 1;
-      begin
-         p := null_suffix_record;
-         last := l - 1;
-      end Get;
-
-      pragma Warnings (Off, "formal parameter ""p"" is not referenced");
-      procedure Put (s : out String; p : in suffix_record) is
-         pragma Warnings (On, "formal parameter ""p"" is not referenced");
-      begin
-         s (s'First .. s'Last) := (others => ' ');
-      end Put;
-
-   end suffix_record_io;
+   package body Suffix_Record_IO is separate;
 
    package body quality_record_io is
       use Part_Of_Speech_Type_IO;
@@ -481,7 +439,7 @@ package body Latin_Utils.Inflections_Package is
       use Interjection_Record_IO;
       use Tackon_Record_IO;
       use Prefix_Record_IO;
-      use suffix_record_io;
+      use Suffix_Record_IO;
       spacer : Character := ' ';
 
       noun  : Noun_Record;
@@ -498,7 +456,7 @@ package body Latin_Utils.Inflections_Package is
       numeral : Numeral_Record;
       tackn : Tackon_Record;
       prefx : Prefix_Record;
-      suffx : suffix_record;
+      suffx : Suffix_Record;
 
       procedure Get (f : in File_Type; p : out quality_record) is
          ps : Part_Of_Speech_Type := X;
@@ -822,7 +780,7 @@ package body Latin_Utils.Inflections_Package is
                m := l + Prefix_Record_IO.Default_Width;
                Put (s (l + 1 .. m), p.Prefix);
             when Suffix =>
-               m := l + suffix_record_io.Default_Width;
+               m := l + Suffix_Record_IO.Default_Width;
                Put (s (l + 1 .. m), p.Suffix);
             when others =>
                null;
@@ -1339,7 +1297,7 @@ begin
 
    Prefix_Record_IO.Default_Width := 0;
 
-   suffix_record_io.Default_Width := 0;
+   Suffix_Record_IO.Default_Width := 0;
 
    quality_record_io.Default_Width := Part_Of_Speech_Type_IO.Default_Width + 1 +
      Vpar_Record_IO.Default_Width; --  Largest

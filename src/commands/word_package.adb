@@ -1297,7 +1297,7 @@ package body word_package is
                      pa_last := pa_last + 1;
                      --  So add suffix line to parse array
                      pa (pa_last).IR :=
-                       ((Suffix, null_suffix_record),
+                       ((Suffix, Null_Suffix_Record),
                        0, null_ending_record, x, x);
                      pa (pa_last).Stem :=
                        Head (suffixes (suffix_hit).fix, Max_Stem_Size);
@@ -1323,7 +1323,7 @@ package body word_package is
                      pa_last := pa_last + 1;
                      --  So add suffix line to parse array
                      pa (pa_last).IR :=
-                       ((Suffix, null_suffix_record),
+                       ((Suffix, Null_Suffix_Record),
                        0, null_ending_record, x, x);
                      pa (pa_last).Stem := Head
                        (suffixes (suffix_hit).fix, Max_Stem_Size);

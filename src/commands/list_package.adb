@@ -586,7 +586,7 @@ package body list_package is
                pa (pa_last) := pa (j2 + 1);
 
                pa (pa_last) := ("e                 ",
-                 ((Suffix, null_suffix_record), 0, null_ending_record, x, b),
+                 ((Suffix, Null_Suffix_Record), 0, null_ending_record, x, b),
                  ppp, Null_MNPC);
                --PARSE_RECORD_IO.PUT (PA (PA_LAST)); TEXT_IO.NEW_LINE;
                pa_last := pa_last + 1;
