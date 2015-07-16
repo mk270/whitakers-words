@@ -604,24 +604,27 @@ package Latin_Utils.Inflections_Package is
 
    ---------------------------------------------------------------------------
 
-   type interjection_record is
-      record
-         null;
-      end record;
+   type Interjection_Record is null record;
 
-   package interjection_record_io is
+   -- FIXME: These subprograms don't check if Is_Open (File)
+   package Interjection_Record_IO is
+      -- FIXME: This probably should be constant.
       Default_Width : Natural;
-      procedure Get (f : in File_Type; i : out interjection_record);
-      procedure Get (i : out interjection_record);
-      procedure Put (f : in File_Type; i : in interjection_record);
-      procedure Put (i : in interjection_record);
-      procedure Get (s : in String;
-                     i : out interjection_record;
-                     last : out Integer);
-      procedure Put (s : out String; i : in interjection_record);
-   end interjection_record_io;
+      procedure Get (File : in  File_Type; Item : out Interjection_Record);
+      procedure Get (Item : out Interjection_Record);
+      procedure Put (File : in  File_Type; Item : in  Interjection_Record);
+      procedure Put (Item : in  Interjection_Record);
+      -- TODO: Document meaning of Last
+      procedure Get
+         (Source : in  String;
+          Target : out Interjection_Record;
+          Last   : out Integer
+         );
+      procedure Put (Target : out String; Item : in Interjection_Record);
+   end Interjection_Record_IO;
 
-   --  TACKON, PREFIX, SUFFIX are nulls Put in to allow easy printing later
+   ---------------------------------------------------------------------------
+   -- NOTE: TACKON, PREFIX, SUFFIX are nulls Put in to allow easy printing later
 
    type tackon_record is
       record
@@ -700,7 +703,7 @@ package Latin_Utils.Inflections_Package is
             when Conj =>
                Conj : Conjunction_Record;
             when Interj =>
-               Interj : interjection_record;
+               Interj : Interjection_Record;
             when Tackon =>
                Tackon : tackon_record;
             when Prefix =>
