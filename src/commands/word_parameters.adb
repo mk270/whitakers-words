@@ -82,7 +82,7 @@ package body word_parameters is
      "This option instructs the program to Create a file which can hold the ",
      "Output for later study, otherwise the results are just displayed on   ",
      "the screen.  The Output file is named " & Output_full_name
-     & (39+Output_full_name'Length .. 70 => ' '),
+     & (39 + Output_full_name'Length .. 70 => ' '),
      "This means that one run will necessarily overWrite a previous run,    ",
      "unless the previous results are renamed or copied to a file of another",
      "name.  This is available if the METHOD is INTERACTIVE, no parameters. ",
@@ -92,7 +92,7 @@ package body word_parameters is
    Write_Output_to_file_help : constant help_type :=  (
      "This option instructs the program, when HAVE_OUTPUT_FILE is on, to    ",
      "Write results to the file " & Output_full_name
-     & (27+Output_full_name'Length .. 70 => ' '),
+     & (27 + Output_full_name'Length .. 70 => ' '),
      "This option may be turned on and off during running of the program,   ",
      "thereby capturing only certain desired results.  If the option        ",
      "HAVE_OUTPUT_FILE is off, the user will not be given a chance to turn  ",
@@ -117,7 +117,7 @@ package body word_parameters is
    Write_unknowns_to_file_help : constant help_type :=  (
      "This option instructs the program to Write all unresolved words to a  ",
      "UNKNOWNS file named " & unknowns_full_name
-     & (21+unknowns_full_name'Length .. 70 => ' '),
+     & (21 + unknowns_full_name'Length .. 70 => ' '),
      "With this option on , the file of unknowns is written, even though    ",
      "the main Output contains both known and unknown (unresolved) words.   ",
      "One may wish to save the unknowns for later analysis, testing, or to  ",
