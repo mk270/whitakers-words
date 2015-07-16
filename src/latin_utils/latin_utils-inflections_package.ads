@@ -532,23 +532,32 @@ package Latin_Utils.Inflections_Package is
 
    ---------------------------------------------------------------------------
 
-   type supine_record is
+   type Supine_Record is
       record
-         con         : Decn_Record;
-         cs          : Case_Type := X;
-         number      : Number_Type := X;
-         gender      : Gender_Type := X;
+         Con         : Decn_Record;
+         Of_Case     : Case_Type := X;
+         Number      : Number_Type := X;
+         Gender      : Gender_Type := X;
       end record;
 
-   package supine_record_io is
+   -- FIXME: These subprograms don't check if Is_Open (File)
+   package Supine_Record_IO is
+      -- FIXME: This probably should be constant.
       Default_Width : Natural;
-      procedure Get (f : in File_Type; vp : out supine_record);
-      procedure Get (vp : out supine_record);
-      procedure Put (f : in File_Type; vp : in supine_record);
-      procedure Put (vp : in supine_record);
-      procedure Get (s : in String; vp : out supine_record; last : out Integer);
-      procedure Put (s : out String; vp : in supine_record);
-   end supine_record_io;
+      procedure Get (File : in  File_Type; Item : out Supine_Record);
+      procedure Get (Item : out Supine_Record);
+      procedure Put (File : in  File_Type; Item : in  Supine_Record);
+      procedure Put (Item : in  Supine_Record);
+      -- TODO: Document meaning of Last
+      procedure Get
+         (Source : in  String;
+          Target : out Supine_Record;
+          Last   : out Integer
+         );
+      procedure Put (Target : out String; Item : in Supine_Record);
+   end Supine_Record_IO;
+
+   ---------------------------------------------------------------------------
 
    type preposition_record is
       record
@@ -674,7 +683,7 @@ package Latin_Utils.Inflections_Package is
             when Vpar =>
                Vpar : Vpar_Record;
             when Supine =>
-               Supine : supine_record;
+               Supine : Supine_Record;
             when Prep =>
                Prep : preposition_record;
             when Conj =>

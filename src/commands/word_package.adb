@@ -1129,7 +1129,7 @@ package body word_package is
                              MNPC => MNPC_part);
 
                         elsif sl (i).IR.qual.pofs = Supine   and then
-                          (pdl_part.V.Con <= sl (i).IR.qual.Supine.con)
+                          (pdl_part.V.Con <= sl (i).IR.qual.Supine.Con)
                         then
                            --PUT (" HIT  SUPINE");
                            m := m + 1;
@@ -1140,9 +1140,9 @@ package body word_package is
                              pofs => Supine,
                              Supine => (
                              pdl_part.V.Con,
-                             sl (i).IR.qual.Supine.cs,
-                             sl (i).IR.qual.Supine.number,
-                             sl (i).IR.qual.Supine.gender)),
+                             sl (i).IR.qual.Supine.Of_Case,
+                             sl (i).IR.qual.Supine.Number,
+                             sl (i).IR.qual.Supine.Gender)),
                              key => sl (i).IR.key,
                              ending => sl (i).IR.ending,
                              age => sl (i).IR.age,

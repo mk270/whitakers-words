@@ -398,12 +398,12 @@ begin    --  PUT_EXAMPLE_LINE
 
          when Supine =>
             --TEXT_IO.NEW_LINE (OUTPUT);
-            if ir.qual.Supine.cs = Acc  then
+            if ir.qual.Supine.Of_Case = Acc  then
                Ada.Text_IO.Put (Output,
                  "to ~  expresses purpose of verb of motion;"
                  & " may take a direct object");
                Ada.Text_IO.New_Line (Output);
-            elsif ir.qual.Supine.cs = Abl  then
+            elsif ir.qual.Supine.Of_Case = Abl  then
                Ada.Text_IO.Put (Output,
                  "to ~  after ADJ indicating aspect/respect in"
                  & " which something is/is done");

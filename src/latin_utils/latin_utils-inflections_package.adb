@@ -183,21 +183,21 @@ package body Latin_Utils.Inflections_Package is
                   return True;
                end if;
             when Supine =>
-               if left.Supine.con.Which < right.Supine.con.Which  or else
-                 (left.Supine.con.Which = right.Supine.con.Which  and then
-                 left.Supine.con.Var < right.Supine.con.Var)  or else
-                 (left.Supine.con.Which = right.Supine.con.Which  and then
-                 left.Supine.con.Var = right.Supine.con.Var  and then
-                 left.Supine.number < right.Supine.number) or else
-                 (left.Supine.con.Which = right.Supine.con.Which  and then
-                 left.Supine.con.Var = right.Supine.con.Var  and then
-                 left.Supine.number = right.Supine.number and then
-                 left.Supine.cs < right.Supine.cs) or else
-                 (left.Supine.con.Which = right.Supine.con.Which  and then
-                 left.Supine.con.Var = right.Supine.con.Var  and then
-                 left.Supine.number = right.Supine.number and then
-                 left.Supine.cs = right.Supine.cs and then
-                 left.Supine.gender < right.Supine.gender)
+               if left.Supine.Con.Which < right.Supine.Con.Which  or else
+                 (left.Supine.Con.Which = right.Supine.Con.Which  and then
+                 left.Supine.Con.Var < right.Supine.Con.Var)  or else
+                 (left.Supine.Con.Which = right.Supine.Con.Which  and then
+                 left.Supine.Con.Var = right.Supine.Con.Var  and then
+                 left.Supine.Number < right.Supine.Number) or else
+                 (left.Supine.Con.Which = right.Supine.Con.Which  and then
+                 left.Supine.Con.Var = right.Supine.Con.Var  and then
+                 left.Supine.Number = right.Supine.Number and then
+                 left.Supine.Of_Case < right.Supine.Of_Case) or else
+                 (left.Supine.Con.Which = right.Supine.Con.Which  and then
+                 left.Supine.Con.Var = right.Supine.Con.Var  and then
+                 left.Supine.Number = right.Supine.Number and then
+                 left.Supine.Of_Case = right.Supine.Of_Case and then
+                 left.Supine.Gender < right.Supine.Gender)
                then
                   return True;
                end if;
@@ -409,95 +409,7 @@ package body Latin_Utils.Inflections_Package is
 
    package body Vpar_Record_IO is separate;
 
-   package body supine_record_io is
-      use Decn_Record_IO;
-      use Case_Type_IO;
-      use Number_Type_IO;
-      use Gender_Type_IO;
-      spacer : Character := ' ';
-
-      procedure Get (f : in File_Type; vp : out supine_record) is
-      begin
-         Get (f, vp.con);
-         Get (f, spacer);
-         Get (f, vp.cs);
-         Get (f, spacer);
-         Get (f, vp.number);
-         Get (f, spacer);
-         Get (f, vp.gender);
-      end Get;
-
-      procedure Get (vp : out supine_record) is
-      begin
-         Get (vp.con);
-         Get (spacer);
-         Get (vp.cs);
-         Get (spacer);
-         Get (vp.number);
-         Get (spacer);
-         Get (vp.gender);
-      end Get;
-
-      procedure Put (f : in File_Type; vp : in supine_record) is
-      begin
-         Put (f, vp.con);
-         Put (f, ' ');
-         Put (f, vp.cs);
-         Put (f, ' ');
-         Put (f, vp.number);
-         Put (f, ' ');
-         Put (f, vp.gender);
-      end Put;
-
-      procedure Put (vp : in supine_record) is
-      begin
-         Put (vp.con);
-         Put (' ');
-         Put (vp.cs);
-         Put (' ');
-         Put (vp.number);
-         Put (' ');
-         Put (vp.gender);
-      end Put;
-
-      procedure Get
-        (s    : in String;
-         vp   : out supine_record;
-         last : out Integer)
-      is
-         l : Integer := s'First - 1;
-      begin
-         Get (s (l + 1 .. s'Last), vp.con, l);
-         l := l + 1;
-         Get (s (l + 1 .. s'Last), vp.cs, l);
-         l := l + 1;
-         Get (s (l + 1 .. s'Last), vp.number, l);
-         l := l + 1;
-         Get (s (l + 1 .. s'Last), vp.gender, last);
-      end Get;
-
-      procedure Put (s : out String; vp : in supine_record) is
-         l : Integer := s'First - 1;
-         m : Integer := 0;
-      begin
-         m := l + Decn_Record_IO.Default_Width;
-         Put (s (l + 1 .. m), vp.con);
-         l := m + 1;
-         s (l) :=  ' ';
-         m := l + Case_Type_IO.Default_Width;
-         Put (s (l + 1 .. m), vp.cs);
-         l := m + 1;
-         s (l) :=  ' ';
-         m := l + Number_Type_IO.Default_Width;
-         Put (s (l + 1 .. m), vp.number);
-         l := m + 1;
-         s (l) :=  ' ';
-         m := l + Gender_Type_IO.Default_Width;
-         Put (s (l + 1 .. m), vp.gender);
-         s (m + 1 .. s'Last) := (others => ' ');
-      end Put;
-
-   end supine_record_io;
+   package body Supine_Record_IO is separate;
 
    package body preposition_record_io is
       use Case_Type_IO;
@@ -779,7 +691,7 @@ package body Latin_Utils.Inflections_Package is
       use Adverb_Record_IO;
       use Verb_Record_IO;
       use Vpar_Record_IO;
-      use supine_record_io;
+      use Supine_Record_IO;
       use preposition_record_io;
       use conjunction_record_io;
       use interjection_record_io;
@@ -795,7 +707,7 @@ package body Latin_Utils.Inflections_Package is
       adverb : Adverb_Record;
       verb : Verb_Record;
       vparticiple : Vpar_Record;
-      supin : supine_record;
+      supin : Supine_Record;
       preposition : preposition_record;
       conjunction : conjunction_record;
       interjection : interjection_record;
@@ -1108,7 +1020,7 @@ package body Latin_Utils.Inflections_Package is
                m := l + Vpar_Record_IO.Default_Width;
                Put (s (l + 1 .. m), p.Vpar);
             when Supine =>
-               m := l + supine_record_io.Default_Width;
+               m := l + Supine_Record_IO.Default_Width;
                Put (s (l + 1 .. m), p.Supine);
             when Prep =>
                m := l + preposition_record_io.Default_Width;
@@ -1620,7 +1532,7 @@ begin
      Gender_Type_IO.Default_Width + 1 +
      Tense_Voice_Mood_Record_IO.Default_Width;
 
-   supine_record_io.Default_Width :=
+   Supine_Record_IO.Default_Width :=
      Decn_Record_IO.Default_Width + 1 +
      Case_Type_IO.Default_Width + 1 +
      Number_Type_IO.Default_Width + 1 +
