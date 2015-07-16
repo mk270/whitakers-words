@@ -626,22 +626,28 @@ package Latin_Utils.Inflections_Package is
    ---------------------------------------------------------------------------
    -- NOTE: TACKON, PREFIX, SUFFIX are nulls Put in to allow easy printing later
 
-   type tackon_record is
-      record
-         null;
-      end record;
+   type Tackon_Record is null record;
 
-   null_tackon_record : tackon_record;
+   Null_Tackon_Record : constant Tackon_Record := (null record);
 
-   package tackon_record_io is
+   -- FIXME: These subprograms don't check if Is_Open (File)
+   package Tackon_Record_IO is
+      -- FIXME: This probably should be constant.
       Default_Width : Natural;
-      procedure Get (f : in File_Type; i : out tackon_record);
-      procedure Get (i : out tackon_record);
-      procedure Put (f : in File_Type; i : in tackon_record);
-      procedure Put (i : in tackon_record);
-      procedure Get (s : in String; i : out tackon_record; last : out Integer);
-      procedure Put (s : out String; i : in tackon_record);
-   end tackon_record_io;
+      procedure Get (File : in  File_Type; Item : out Tackon_Record);
+      procedure Get (Item : out Tackon_Record);
+      procedure Put (File : in  File_Type; Item : in  Tackon_Record);
+      procedure Put (Item : in  Tackon_Record);
+      -- TODO: Document meaning of Last
+      procedure Get
+         (Source : in  String;
+          Target : out Tackon_Record;
+          Last   : out Integer
+         );
+      procedure Put (Target : out String; Item : in Tackon_Record);
+   end Tackon_Record_IO;
+
+   ---------------------------------------------------------------------------
 
    type prefix_record is
       record
@@ -705,7 +711,7 @@ package Latin_Utils.Inflections_Package is
             when Interj =>
                Interj : Interjection_Record;
             when Tackon =>
-               Tackon : tackon_record;
+               Tackon : Tackon_Record;
             when Prefix =>
                Prefix : prefix_record;
             when Suffix =>

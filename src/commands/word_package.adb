@@ -1537,7 +1537,7 @@ package body word_package is
                               if packon_first_hit then
                                  pa_last := pa_last + 1;
                                  pa (pa_last) := (packons (k).tack,
-                                   ((Tackon, null_tackon_record), 0,
+                                   ((Tackon, Null_Tackon_Record), 0,
                                    null_ending_record, x, x),
                                    addons,
                                    Dict_IO.Count ((packons (k).MNPC)));
@@ -1776,7 +1776,7 @@ package body word_package is
                         pa (entering_pa_last + 2 .. pa_last) :=
                           pa (entering_pa_last + 1 .. pa_last - 1);
                         pa (entering_pa_last + 1) := (tackons (i).tack,
-                          ((Tackon, null_tackon_record), 0,
+                          ((Tackon, Null_Tackon_Record), 0,
                           null_ending_record, x, x),
                           addons,
                           Dict_IO.Count ((tackons (i).MNPC)));
