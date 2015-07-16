@@ -559,22 +559,29 @@ package Latin_Utils.Inflections_Package is
 
    ---------------------------------------------------------------------------
 
-   type preposition_record is
+   type Preposition_Record is
       record
-         obj : Case_Type := X;
+         Of_Case : Case_Type := X;
       end record;
 
-   package preposition_record_io is
+   -- FIXME: These subprograms don't check if Is_Open (File)
+   package Preposition_Record_IO is
+      -- FIXME: This probably should be constant.
       Default_Width : Natural;
-      procedure Get (f : in File_Type; p : out preposition_record);
-      procedure Get (p : out preposition_record);
-      procedure Put (f : in File_Type; p : in preposition_record);
-      procedure Put (p : in preposition_record);
-      procedure Get (s : in String;
-                     p : out preposition_record;
-                     last : out Integer);
-      procedure Put (s : out String; p : in preposition_record);
-   end preposition_record_io;
+      procedure Get (File : in  File_Type; Item : out Preposition_Record);
+      procedure Get (Item : out Preposition_Record);
+      procedure Put (File : in  File_Type; Item : in  Preposition_Record);
+      procedure Put (Item : in  Preposition_Record);
+      -- TODO: Document meaning of Last
+      procedure Get
+         (Source : in  String;
+          Target : out Preposition_Record;
+          Last   : out Integer
+         );
+      procedure Put (Target : out String; Item : in Preposition_Record);
+   end Preposition_Record_IO;
+
+   ---------------------------------------------------------------------------
 
    type conjunction_record is
       record
@@ -685,7 +692,7 @@ package Latin_Utils.Inflections_Package is
             when Supine =>
                Supine : Supine_Record;
             when Prep =>
-               Prep : preposition_record;
+               Prep : Preposition_Record;
             when Conj =>
                Conj : conjunction_record;
             when Interj =>

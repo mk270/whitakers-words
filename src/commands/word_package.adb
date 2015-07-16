@@ -1152,7 +1152,7 @@ package body word_package is
                         end if;
 
                      elsif pdl_part.pofs = Prep and then
-                       pdl_part.Prep.Obj = sl (i).IR.qual.Prep.obj
+                       pdl_part.Prep.Obj = sl (i).IR.qual.Prep.Of_Case
                      then
                         --PUT (" HIT  PREP  ");
                         m := m + 1;
