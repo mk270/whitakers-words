@@ -61,7 +61,7 @@ package body Interjection_Record_IO is
    is
    begin
       Target := Null_Interjection_Record;
-      Last   := Source'First - 1;
+      Last   := Source'First - 2;
    end Get;
 
    ---------------------------------------------------------------------------
