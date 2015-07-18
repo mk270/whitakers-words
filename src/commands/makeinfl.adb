@@ -19,6 +19,8 @@ with Latin_Utils.Strings_Package; use Latin_Utils.Strings_Package;
 with Latin_Utils.Latin_File_Names; use Latin_Utils.Latin_File_Names;
 with Latin_Utils.Inflections_Package; use Latin_Utils.Inflections_Package;
 with IO_Exceptions;
+with Ada.Exceptions;
+
 procedure makeinfl is
    package Integer_IO is new Ada.Text_IO.Integer_IO (Integer);
    use Ada.Text_IO;
@@ -92,6 +94,7 @@ procedure makeinfl is
             begin
                Get_Non_Comment_Line (inflections_file, line, last);
 
+               -- Does not deal with stripping the CRLF on DOS-formatted input
                if last > 0  then
                   Get (line (1 .. last), ir, l);
                   sn := ir.ending.size;
@@ -104,8 +107,9 @@ procedure makeinfl is
                   number_of_inflections := number_of_inflections + 1;
                end if;
             exception
-               when Constraint_Error | IO_Exceptions.Data_Error  =>
-                  Put_Line ("****" & line (1 .. last));
+               when E : Constraint_Error | IO_Exceptions.Data_Error  =>
+                  Put_Line (Ada.Exceptions.Exception_Name (E) & " " &
+                    line (1 .. last));
             end;
 
          end loop;
