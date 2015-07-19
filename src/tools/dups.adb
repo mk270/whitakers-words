@@ -30,20 +30,20 @@ procedure dups is
    number : integer := 0;
 
    procedure get_entry (mx, nx  : out natural) is
-	  z : natural := 0;
-	  ls : integer := 0;
-	  enter_line : string(1..20);
+     z : natural := 0;
+     ls : integer := 0;
+     enter_line : string(1..20);
 
-	  procedure prompt_for_entry(entry_number : string) is
-	  begin
-		 put("Give starting and ending column ");
-	  end prompt_for_entry;
+     procedure prompt_for_entry(entry_number : string) is
+     begin
+       put("Give starting and ending column ");
+     end prompt_for_entry;
 
    begin
 
-	  get_line(enter_line, ls);
-	  get(enter_line(1..ls), mx, last);
-	  get(enter_line(last+1..ls), nx, last);
+     get_line(enter_line, ls);
+     get(enter_line(1..ls), mx, last);
+     get(enter_line(last+1..ls), nx, last);
 
    end get_entry;
 
@@ -56,16 +56,16 @@ begin
    open(input, in_file, "DUPS.IN");
 
    while not end_of_file(input) loop
-	  oldline := line;
-	  line := blank_line;
-	  get_line(input, line, last);
-	  line_number := line_number + 1;
-	  if line(mx..nx) = oldline(mx..nx)  and then
-		(line(111) /= '|') then
-		 number := number + 1 ;
-		 put(output, line_number); put(output, "  ");
-		 put_line(output, line(1..nx));
-	  end if;
+     oldline := line;
+     line := blank_line;
+     get_line(input, line, last);
+     line_number := line_number + 1;
+     if line(mx..nx) = oldline(mx..nx)  and then
+      (line(111) /= '|') then
+       number := number + 1 ;
+       put(output, line_number); put(output, "  ");
+       put_line(output, line(1..nx));
+     end if;
    end loop;
 
    close(output);
@@ -77,12 +77,12 @@ begin
 
 exception
    when name_error  =>
-	  put_line("No file to process");
-	  close(output);
+     put_line("No file to process");
+     close(output);
 
    when others =>
-	  put("Exception on LINE"); put(line_number); new_line;
-	  put_line(s(1..last));
-	  close(output);
+     put("Exception on LINE"); put(line_number); new_line;
+     put_line(s(1..last));
+     close(output);
 
 end dups;

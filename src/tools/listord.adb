@@ -42,11 +42,11 @@ procedure listord is
    start_stem_4  : constant := start_stem_3 + max_stem_size + 1;
    start_part    : constant := start_stem_4 + max_stem_size + 1;
    start_tran    : constant integer :=
-	 start_part +
-	 integer(part_entry_io.default_width + 1);
+    start_part +
+    integer(part_entry_io.default_width + 1);
    finish_line   : constant integer :=
-	 start_tran +
-	 translation_record_io.default_width - 1;
+    start_tran +
+    translation_record_io.default_width - 1;
 
    input, output : text_io.file_type;
    de : dictionary_entry;
@@ -57,7 +57,7 @@ procedure listord is
 
    function add(stem, infl : string) return string is
    begin
-	  return head(trim(stem) & trim(infl), 20);
+     return head(trim(stem) & trim(infl), 20);
    end add;
 
 begin
@@ -69,59 +69,59 @@ begin
    open(input, in_file, "LISTORD.IN");
 
 over_lines:
-	while not end_of_file(input) loop
-	   j := j + 1;
-	   s := blank_line;
-	   get_line(input, s, last);
-	   if trim(s(1..last)) /= ""  then   --  Rejecting blank lines
+   while not end_of_file(input) loop
+      j := j + 1;
+      s := blank_line;
+      get_line(input, s, last);
+      if trim(s(1..last)) /= ""  then   --  Rejecting blank lines
 
-	  form_de:
-		  begin
+     form_de:
+        begin
 
-			 de.stems(1) := s(start_stem_1..start_stem_1+max_stem_size-1);
-			 de.stems(2) := s(start_stem_2..start_stem_2+max_stem_size-1);
-			 de.stems(3) := s(start_stem_3..start_stem_3+max_stem_size-1);
-			 de.stems(4) := s(start_stem_4..start_stem_4+max_stem_size-1);
-			 get(s(start_part..last), de.part, l);
-			 --GET(S(L+1..LAST), DE.PART.POFS, DE.KIND, L);
-			 get(s(l+1..last), de.tran.age, l);
-			 get(s(l+1..last), de.tran.area, l);
-			 get(s(l+1..last), de.tran.geo, l);
-			 get(s(l+1..last), de.tran.freq, l);
-			 get(s(l+1..last), de.tran.source, l);
-			 de.mean := head(s(l+2..last), max_meaning_size);
-			 --  Note that this allows initial blanks
-			 --  L+2 skips over the SPACER, required because this is STRING, not ENUM
+          de.stems(1) := s(start_stem_1..start_stem_1+max_stem_size-1);
+          de.stems(2) := s(start_stem_2..start_stem_2+max_stem_size-1);
+          de.stems(3) := s(start_stem_3..start_stem_3+max_stem_size-1);
+          de.stems(4) := s(start_stem_4..start_stem_4+max_stem_size-1);
+          get(s(start_part..last), de.part, l);
+          --GET(S(L+1..LAST), DE.PART.POFS, DE.KIND, L);
+          get(s(l+1..last), de.tran.age, l);
+          get(s(l+1..last), de.tran.area, l);
+          get(s(l+1..last), de.tran.geo, l);
+          get(s(l+1..last), de.tran.freq, l);
+          get(s(l+1..last), de.tran.source, l);
+          de.mean := head(s(l+2..last), max_meaning_size);
+          --  Note that this allows initial blanks
+          --  L+2 skips over the SPACER, required because this is STRING, not ENUM
 
-		  exception
-			 when others =>
-				put_line("Exception");
-				put_line(s(1..last));
-				integer_io.put(integer(j)); new_line;
-				put(de); new_line;
-				raise;
-		  end form_de;
+        exception
+          when others =>
+            put_line("Exception");
+            put_line(s(1..last));
+            integer_io.put(integer(j)); new_line;
+            put(de); new_line;
+            raise;
+        end form_de;
 
-		  put_line(output, s(1..78));
-		  put_line(output, s(start_stem_1..start_part-1));
-		  put(output, s(start_part..start_tran-1)); put(output, "      ");
-		  put(output, de.tran.age); put(output, " ");
-		  put(output, de.tran.area); put(output, " ");
-		  put(output, de.tran.geo); put(output, " ");
-		  put(output, de.tran.freq); put(output, " ");
-		  put(output, de.tran.source); new_line(output);
-		  put_line(output, trim(de.mean));
+        put_line(output, s(1..78));
+        put_line(output, s(start_stem_1..start_part-1));
+        put(output, s(start_part..start_tran-1)); put(output, "      ");
+        put(output, de.tran.age); put(output, " ");
+        put(output, de.tran.area); put(output, " ");
+        put(output, de.tran.geo); put(output, " ");
+        put(output, de.tran.freq); put(output, " ");
+        put(output, de.tran.source); new_line(output);
+        put_line(output, trim(de.mean));
 
-	   end if;  --  Rejecting blank lines
-	end loop over_lines;
+      end if;  --  Rejecting blank lines
+   end loop over_lines;
 
-	close(output);
+   close(output);
 exception
    when text_io.data_error  =>
-	  null;
+     null;
    when others =>
-	  put_line(s(1..last));
-	  integer_io.put(integer(j)); new_line;
-	  close(output);
+     put_line(s(1..last));
+     integer_io.put(integer(j)); new_line;
+     close(output);
 
 end listord;

@@ -36,15 +36,15 @@ begin
    get_line(input, old_line, old_last);
 
    while not end_of_file(input)  loop
-	  get_line(input, line, last);
-	  n := n + 1;
-	  if line(1..last) /= old_line(1..old_last)  then
-		 put(output, n);
-		 put_line(output, "  " & old_line(1..old_last));
-		 n := 0;
-		 old_last := last;
-		 old_line(1..old_last) := line(1..last);
-	  end if;
+     get_line(input, line, last);
+     n := n + 1;
+     if line(1..last) /= old_line(1..old_last)  then
+       put(output, n);
+       put_line(output, "  " & old_line(1..old_last));
+       n := 0;
+       old_last := last;
+       old_line(1..old_last) := line(1..last);
+     end if;
    end loop;
 
    close(output);

@@ -25,12 +25,12 @@ procedure invert is
    package integer_io is new text_io.integer_io(integer);
 
    function invert(s : string) return string is
-	  t : string(1..s'length);
+     t : string(1..s'length);
    begin
-	  for i in 1..t'length  loop
-		 t(i) := s(s'last-i+1);
-	  end loop;
-	  return head(trim(t), s'length);
+     for i in 1..t'length  loop
+       t(i) := s(s'last-i+1);
+     end loop;
+     return head(trim(t), s'length);
 
    end invert;
 
@@ -46,11 +46,11 @@ begin
    open(input, in_file, "INVERT.IN");
 
    while not end_of_file(input)  loop
-	  get_line(input, line, last);
+     get_line(input, line, last);
 
-	  line(n1..n2)  := invert(line(n1..n2));
-	  put('.');
-	  put_line(output, line(1..last));
+     line(n1..n2)  := invert(line(n1..n2));
+     put('.');
+     put_line(output, line(1..last));
 
    end loop;
 
@@ -58,6 +58,6 @@ begin
 
 exception
    when others  =>
-	  close(output);
+     close(output);
 
 end invert;

@@ -36,21 +36,21 @@ begin
    open(input, in_file, "FIXORD.IN");
 
 over_lines:
-	while not end_of_file(input) loop
-	   s := blank_line;
-	   get_line(input, s, last);
-	   if trim(s(1..last)) /= ""  then   --  Rejecting blank lines
+   while not end_of_file(input) loop
+      s := blank_line;
+      get_line(input, s, last);
+      if trim(s(1..last)) /= ""  then   --  Rejecting blank lines
 
-		  if s(1) /= '#'  then
-			 put_line(output, s(1..last));
-		  end if;
+        if s(1) /= '#'  then
+          put_line(output, s(1..last));
+        end if;
 
-	   end if;  --  Rejecting blank lines
-	end loop over_lines;
+      end if;  --  Rejecting blank lines
+   end loop over_lines;
 
-	close(output);
+   close(output);
 exception
    when text_io.data_error  =>
-	  close(output);
+     close(output);
 
 end fixord;
