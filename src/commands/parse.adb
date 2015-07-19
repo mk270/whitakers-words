@@ -448,7 +448,7 @@ is
    end do_clear_pas_ppl;
 
    -- parts of these three do_clear_* functions should be factored together
-   procedure do_clear_pas_supine (supine_info : out supine_record;
+   procedure do_clear_pas_supine (supine_info : out Supine_Record;
                                   nk : in Integer;
                                   ppl_on : in out Boolean)
    is
@@ -462,20 +462,20 @@ is
             null;
 
          elsif pa (j6).IR.qual.pofs = Supine  and then
-           pa (j6).IR.qual.Supine.cs = Acc
+           pa (j6).IR.qual.Supine.Of_Case = Acc
          then
 
             ppl_on := True;
-            supine_info := (pa (j6).IR.qual.Supine.con,
-              pa (j6).IR.qual.Supine.cs,
-              pa (j6).IR.qual.Supine.number,
-              pa (j6).IR.qual.Supine.gender);
+            supine_info := (pa (j6).IR.qual.Supine.Con,
+              pa (j6).IR.qual.Supine.Of_Case,
+              pa (j6).IR.qual.Supine.Number,
+              pa (j6).IR.qual.Supine.Gender);
 
             pa_last := pa_last + 1;
             pa (pa_last) :=
               (Head ("SUPINE + iri", Max_Stem_Size),
               ((V,
-              (supine_info.con,
+              (supine_info.Con,
               (Fut, Passive, Inf),
               0,
               X)
@@ -764,7 +764,7 @@ is
 
                sum_info : Verb_Record := ((5, 1), (X, Active, X), 0, X);
                ppl_info : Vpar_Record := ((0, 0), X, X, X, (X, X, X));
-               supine_info : supine_record := ((0, 0), X, X, X);
+               supine_info : Supine_Record := ((0, 0), X, X, X);
 
                procedure look_ahead is
                   j3 : Integer := 0;
@@ -882,7 +882,7 @@ is
 
                   for j in 1 .. pa_last  loop    --  Check for SUPINE
                      if pa (j).IR.qual.pofs = Supine   and then
-                       pa (j).IR.qual.Supine.cs = Acc
+                       pa (j).IR.qual.Supine.Of_Case = Acc
                      then
                         --  There is at least one hit;
                         --  fix PA, and advance J over the iri

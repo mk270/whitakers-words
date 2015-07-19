@@ -532,57 +532,77 @@ package Latin_Utils.Inflections_Package is
 
    ---------------------------------------------------------------------------
 
-   type supine_record is
+   type Supine_Record is
       record
-         con         : Decn_Record;
-         cs          : Case_Type := X;
-         number      : Number_Type := X;
-         gender      : Gender_Type := X;
+         Con         : Decn_Record;
+         Of_Case     : Case_Type := X;
+         Number      : Number_Type := X;
+         Gender      : Gender_Type := X;
       end record;
 
-   package supine_record_io is
+   -- FIXME: These subprograms don't check if Is_Open (File)
+   package Supine_Record_IO is
+      -- FIXME: This probably should be constant.
       Default_Width : Natural;
-      procedure Get (f : in File_Type; vp : out supine_record);
-      procedure Get (vp : out supine_record);
-      procedure Put (f : in File_Type; vp : in supine_record);
-      procedure Put (vp : in supine_record);
-      procedure Get (s : in String; vp : out supine_record; last : out Integer);
-      procedure Put (s : out String; vp : in supine_record);
-   end supine_record_io;
+      procedure Get (File : in  File_Type; Item : out Supine_Record);
+      procedure Get (Item : out Supine_Record);
+      procedure Put (File : in  File_Type; Item : in  Supine_Record);
+      procedure Put (Item : in  Supine_Record);
+      -- TODO: Document meaning of Last
+      procedure Get
+         (Source : in  String;
+          Target : out Supine_Record;
+          Last   : out Integer
+         );
+      procedure Put (Target : out String; Item : in Supine_Record);
+   end Supine_Record_IO;
 
-   type preposition_record is
+   ---------------------------------------------------------------------------
+
+   type Preposition_Record is
       record
-         obj : Case_Type := X;
+         Of_Case : Case_Type := X;
       end record;
 
-   package preposition_record_io is
+   -- FIXME: These subprograms don't check if Is_Open (File)
+   package Preposition_Record_IO is
+      -- FIXME: This probably should be constant.
       Default_Width : Natural;
-      procedure Get (f : in File_Type; p : out preposition_record);
-      procedure Get (p : out preposition_record);
-      procedure Put (f : in File_Type; p : in preposition_record);
-      procedure Put (p : in preposition_record);
-      procedure Get (s : in String;
-                     p : out preposition_record;
-                     last : out Integer);
-      procedure Put (s : out String; p : in preposition_record);
-   end preposition_record_io;
+      procedure Get (File : in  File_Type; Item : out Preposition_Record);
+      procedure Get (Item : out Preposition_Record);
+      procedure Put (File : in  File_Type; Item : in  Preposition_Record);
+      procedure Put (Item : in  Preposition_Record);
+      -- TODO: Document meaning of Last
+      procedure Get
+         (Source : in  String;
+          Target : out Preposition_Record;
+          Last   : out Integer
+         );
+      procedure Put (Target : out String; Item : in Preposition_Record);
+   end Preposition_Record_IO;
 
-   type conjunction_record is
-      record
-         null;
-      end record;
+   ---------------------------------------------------------------------------
 
-   package conjunction_record_io is
+   type Conjunction_Record is null record;
+
+   -- FIXME: These subprograms don't check if Is_Open (File)
+   package Conjunction_Record_IO is
+      -- FIXME: This probably should be constant.
       Default_Width : Natural;
-      procedure Get (f : in File_Type; c : out conjunction_record);
-      procedure Get (c : out conjunction_record);
-      procedure Put (f : in File_Type; c : in conjunction_record);
-      procedure Put (c : in conjunction_record);
-      procedure Get (s : in String;
-                     c : out conjunction_record;
-                     last : out Integer);
-      procedure Put (s : out String; c : in conjunction_record);
-   end conjunction_record_io;
+      procedure Get (File : in  File_Type; Item : out Conjunction_Record);
+      procedure Get (Item : out Conjunction_Record);
+      procedure Put (File : in  File_Type; Item : in  Conjunction_Record);
+      procedure Put (Item : in  Conjunction_Record);
+      -- TODO: Document meaning of Last
+      procedure Get
+         (Source : in  String;
+          Target : out Conjunction_Record;
+          Last   : out Integer
+         );
+      procedure Put (Target : out String; Item : in Conjunction_Record);
+   end Conjunction_Record_IO;
+
+   ---------------------------------------------------------------------------
 
    type interjection_record is
       record
@@ -674,11 +694,11 @@ package Latin_Utils.Inflections_Package is
             when Vpar =>
                Vpar : Vpar_Record;
             when Supine =>
-               Supine : supine_record;
+               Supine : Supine_Record;
             when Prep =>
-               Prep : preposition_record;
+               Prep : Preposition_Record;
             when Conj =>
-               Conj : conjunction_record;
+               Conj : Conjunction_Record;
             when Interj =>
                Interj : interjection_record;
             when Tackon =>

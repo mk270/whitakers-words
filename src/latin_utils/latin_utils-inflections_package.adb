@@ -183,26 +183,26 @@ package body Latin_Utils.Inflections_Package is
                   return True;
                end if;
             when Supine =>
-               if left.Supine.con.Which < right.Supine.con.Which  or else
-                 (left.Supine.con.Which = right.Supine.con.Which  and then
-                 left.Supine.con.Var < right.Supine.con.Var)  or else
-                 (left.Supine.con.Which = right.Supine.con.Which  and then
-                 left.Supine.con.Var = right.Supine.con.Var  and then
-                 left.Supine.number < right.Supine.number) or else
-                 (left.Supine.con.Which = right.Supine.con.Which  and then
-                 left.Supine.con.Var = right.Supine.con.Var  and then
-                 left.Supine.number = right.Supine.number and then
-                 left.Supine.cs < right.Supine.cs) or else
-                 (left.Supine.con.Which = right.Supine.con.Which  and then
-                 left.Supine.con.Var = right.Supine.con.Var  and then
-                 left.Supine.number = right.Supine.number and then
-                 left.Supine.cs = right.Supine.cs and then
-                 left.Supine.gender < right.Supine.gender)
+               if left.Supine.Con.Which < right.Supine.Con.Which  or else
+                 (left.Supine.Con.Which = right.Supine.Con.Which  and then
+                 left.Supine.Con.Var < right.Supine.Con.Var)  or else
+                 (left.Supine.Con.Which = right.Supine.Con.Which  and then
+                 left.Supine.Con.Var = right.Supine.Con.Var  and then
+                 left.Supine.Number < right.Supine.Number) or else
+                 (left.Supine.Con.Which = right.Supine.Con.Which  and then
+                 left.Supine.Con.Var = right.Supine.Con.Var  and then
+                 left.Supine.Number = right.Supine.Number and then
+                 left.Supine.Of_Case < right.Supine.Of_Case) or else
+                 (left.Supine.Con.Which = right.Supine.Con.Which  and then
+                 left.Supine.Con.Var = right.Supine.Con.Var  and then
+                 left.Supine.Number = right.Supine.Number and then
+                 left.Supine.Of_Case = right.Supine.Of_Case and then
+                 left.Supine.Gender < right.Supine.Gender)
                then
                   return True;
                end if;
             when Prep =>
-               return left.Prep.obj < right.Prep.obj;
+               return left.Prep.Of_Case < right.Prep.Of_Case;
             when Conj =>
                null;
             when Interj =>
@@ -409,187 +409,11 @@ package body Latin_Utils.Inflections_Package is
 
    package body Vpar_Record_IO is separate;
 
-   package body supine_record_io is
-      use Decn_Record_IO;
-      use Case_Type_IO;
-      use Number_Type_IO;
-      use Gender_Type_IO;
-      spacer : Character := ' ';
+   package body Supine_Record_IO is separate;
 
-      procedure Get (f : in File_Type; vp : out supine_record) is
-      begin
-         Get (f, vp.con);
-         Get (f, spacer);
-         Get (f, vp.cs);
-         Get (f, spacer);
-         Get (f, vp.number);
-         Get (f, spacer);
-         Get (f, vp.gender);
-      end Get;
+   package body Preposition_Record_IO is separate;
 
-      procedure Get (vp : out supine_record) is
-      begin
-         Get (vp.con);
-         Get (spacer);
-         Get (vp.cs);
-         Get (spacer);
-         Get (vp.number);
-         Get (spacer);
-         Get (vp.gender);
-      end Get;
-
-      procedure Put (f : in File_Type; vp : in supine_record) is
-      begin
-         Put (f, vp.con);
-         Put (f, ' ');
-         Put (f, vp.cs);
-         Put (f, ' ');
-         Put (f, vp.number);
-         Put (f, ' ');
-         Put (f, vp.gender);
-      end Put;
-
-      procedure Put (vp : in supine_record) is
-      begin
-         Put (vp.con);
-         Put (' ');
-         Put (vp.cs);
-         Put (' ');
-         Put (vp.number);
-         Put (' ');
-         Put (vp.gender);
-      end Put;
-
-      procedure Get
-        (s    : in String;
-         vp   : out supine_record;
-         last : out Integer)
-      is
-         l : Integer := s'First - 1;
-      begin
-         Get (s (l + 1 .. s'Last), vp.con, l);
-         l := l + 1;
-         Get (s (l + 1 .. s'Last), vp.cs, l);
-         l := l + 1;
-         Get (s (l + 1 .. s'Last), vp.number, l);
-         l := l + 1;
-         Get (s (l + 1 .. s'Last), vp.gender, last);
-      end Get;
-
-      procedure Put (s : out String; vp : in supine_record) is
-         l : Integer := s'First - 1;
-         m : Integer := 0;
-      begin
-         m := l + Decn_Record_IO.Default_Width;
-         Put (s (l + 1 .. m), vp.con);
-         l := m + 1;
-         s (l) :=  ' ';
-         m := l + Case_Type_IO.Default_Width;
-         Put (s (l + 1 .. m), vp.cs);
-         l := m + 1;
-         s (l) :=  ' ';
-         m := l + Number_Type_IO.Default_Width;
-         Put (s (l + 1 .. m), vp.number);
-         l := m + 1;
-         s (l) :=  ' ';
-         m := l + Gender_Type_IO.Default_Width;
-         Put (s (l + 1 .. m), vp.gender);
-         s (m + 1 .. s'Last) := (others => ' ');
-      end Put;
-
-   end supine_record_io;
-
-   package body preposition_record_io is
-      use Case_Type_IO;
-
-      procedure Get (f : in File_Type; p : out preposition_record) is
-      begin
-         Get (f, p.obj);
-      end Get;
-
-      procedure Get (p : out preposition_record) is
-      begin
-         Get (p.obj);
-      end Get;
-
-      procedure Put (f : in File_Type; p : in preposition_record) is
-      begin
-         Put (f, p.obj);
-      end Put;
-
-      procedure Put (p : in preposition_record) is
-      begin
-         Put (p.obj);
-      end Put;
-
-      procedure Get
-        (s    : in String;
-         p    : out preposition_record;
-         last : out Integer)
-      is
-         l : constant Integer := s'First - 1;
-      begin
-         Get (s (l + 1 .. s'Last), p.obj, last);
-      end Get;
-
-      procedure Put (s : out String; p : in preposition_record) is
-         l : constant Integer := s'First - 1;
-         m : Integer := 0;
-      begin
-         m := l + Case_Type_IO.Default_Width;
-         Put (s (l + 1 .. m), p.obj);
-         s (m + 1 .. s'Last) := (others => ' ');
-      end Put;
-
-   end preposition_record_io;
-
-   package body conjunction_record_io is
-      null_conjunction_record : conjunction_record;
-
-      pragma Warnings (Off, "formal parameter ""f"" is not referenced");
-      procedure Get (f : in File_Type; c : out conjunction_record) is
-         pragma Warnings (On, "formal parameter ""f"" is not referenced");
-         --  There is actually nothing to a CONJUNCTION_RECORD, no compoonents
-      begin
-         c := null_conjunction_record;
-      end Get;
-
-      procedure Get (c : out conjunction_record) is
-      begin
-         c := null_conjunction_record;
-      end Get;
-
-      procedure Put (f : in File_Type; c : in conjunction_record) is
-      begin
-         null;
-      end Put;
-
-      procedure Put (c : in conjunction_record) is
-      begin
-         null;
-      end Put;
-
-      procedure Get
-        (s    : in String;
-         c    : out conjunction_record;
-         last : out Integer)
-      is
-         l : constant Integer := s'First - 1;
-      begin
-         c := null_conjunction_record;
-         last := l - 1;
-         --  LAST did not even Get to S'FIRST, since nothing to read
-      end Get;
-
-      pragma Warnings (Off, "formal parameter ""c"" is not referenced");
-      procedure Put (s : out String; c : in conjunction_record) is
-         pragma Warnings (On, "formal parameter ""c"" is not referenced");
-         --  Since there is no component, just make the out String blank
-      begin
-         s (s'First .. s'Last) := (others => ' ');
-      end Put;
-
-   end conjunction_record_io;
+   package body Conjunction_Record_IO is separate;
 
    package body interjection_record_io is
       null_interjection_record : interjection_record;
@@ -779,9 +603,9 @@ package body Latin_Utils.Inflections_Package is
       use Adverb_Record_IO;
       use Verb_Record_IO;
       use Vpar_Record_IO;
-      use supine_record_io;
-      use preposition_record_io;
-      use conjunction_record_io;
+      use Supine_Record_IO;
+      use Preposition_Record_IO;
+      use Conjunction_Record_IO;
       use interjection_record_io;
       use tackon_record_io;
       use prefix_record_io;
@@ -795,9 +619,9 @@ package body Latin_Utils.Inflections_Package is
       adverb : Adverb_Record;
       verb : Verb_Record;
       vparticiple : Vpar_Record;
-      supin : supine_record;
-      preposition : preposition_record;
-      conjunction : conjunction_record;
+      supin : Supine_Record;
+      preposition : Preposition_Record;
+      conjunction : Conjunction_Record;
       interjection : interjection_record;
       numeral : Numeral_Record;
       tackn : tackon_record;
@@ -1108,13 +932,13 @@ package body Latin_Utils.Inflections_Package is
                m := l + Vpar_Record_IO.Default_Width;
                Put (s (l + 1 .. m), p.Vpar);
             when Supine =>
-               m := l + supine_record_io.Default_Width;
+               m := l + Supine_Record_IO.Default_Width;
                Put (s (l + 1 .. m), p.Supine);
             when Prep =>
-               m := l + preposition_record_io.Default_Width;
+               m := l + Preposition_Record_IO.Default_Width;
                Put (s (l + 1 .. m), p.Prep);
             when Conj =>
-               m := l + conjunction_record_io.Default_Width;
+               m := l + Conjunction_Record_IO.Default_Width;
                Put (s (l + 1 .. m), p.Conj);
             when Interj =>
                m := l + interjection_record_io.Default_Width;
@@ -1620,15 +1444,15 @@ begin
      Gender_Type_IO.Default_Width + 1 +
      Tense_Voice_Mood_Record_IO.Default_Width;
 
-   supine_record_io.Default_Width :=
+   Supine_Record_IO.Default_Width :=
      Decn_Record_IO.Default_Width + 1 +
      Case_Type_IO.Default_Width + 1 +
      Number_Type_IO.Default_Width + 1 +
      Gender_Type_IO.Default_Width;
 
-   preposition_record_io.Default_Width := Case_Type_IO.Default_Width;
+   Preposition_Record_IO.Default_Width := Case_Type_IO.Default_Width;
 
-   conjunction_record_io.Default_Width := 0;
+   Conjunction_Record_IO.Default_Width := 0;
 
    interjection_record_io.Default_Width := 0;
 
