@@ -108,7 +108,8 @@ procedure makeinfl is
                end if;
             exception
                when E : Constraint_Error | IO_Exceptions.Data_Error  =>
-                  Put_Line (Ada.Exceptions.Exception_Name (E) & " " &
+                  Put_Line ("");
+                  Put_Line (Ada.Exceptions.Exception_Name (E) & ": " &
                     line (1 .. last));
             end;
 
