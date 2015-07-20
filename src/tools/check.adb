@@ -64,17 +64,6 @@ procedure check is
       return False;
    end has_punctuation;
 
-   function mt (s : Stem_Type) return Boolean is
-   begin
-      if s = Null_Stem_Type  then
-         return True;
-      elsif s (1 .. 3) = "zzz"  then
-         return False;
-      else
-         return False;
-      end if;
-   end mt;
-
    function bk (s : Stem_Type) return Boolean is
    begin
       if s = Null_Stem_Type  then
