@@ -24,7 +24,7 @@ with Support_Utils.Developer_Parameters; use Support_Utils.Developer_Parameters;
 with word_package; use word_package;
 with Latin_Utils.Inflections_Package; use Latin_Utils.Inflections_Package;
 with Support_Utils.Char_Utils;
-with dictionary_form;
+with Support_Utils.Dictionary_Form;
 with Put_example_line;
 with list_sweep;
 with Put_stat;
@@ -124,8 +124,8 @@ package body list_package is
             Ada.Text_IO.Put (Output, "02 ");
             dhit := True;
          end if;
-         if dictionary_form (de)'Length /= 0  then
-            Ada.Text_IO.Put (Output, dictionary_form (de) & "  ");
+         if Support_Utils.Dictionary_Form (de)'Length /= 0  then
+            Ada.Text_IO.Put (Output, Support_Utils.Dictionary_Form (de) & "  ");
             dhit := True;
          end if;
       end if;
@@ -1049,7 +1049,8 @@ package body list_package is
          Putting_form :
          begin
             if j = 1  or else
-              dictionary_form (dma (j).de) /= dictionary_form (dma (j - 1).de)
+              Support_Utils.Dictionary_Form (dma (j).de) /=
+              Support_Utils.Dictionary_Form (dma (j - 1).de)
             then
                --  Put at first chance, skip duplicates
                Put_form (sraa (j)(1), dma (j));

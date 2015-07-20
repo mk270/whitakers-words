@@ -22,7 +22,7 @@ with Latin_Utils.Dictionary_Package; use Latin_Utils.Dictionary_Package;
 with english_support_package; use english_support_package;
 with weed;
 with weed_all;
-with dictionary_form;
+with Support_Utils.Dictionary_Form;
 with Latin_Utils.General;
 use Latin_Utils;
 procedure makeewds is
@@ -738,7 +738,8 @@ begin
                         Put (check, ewr.w);
                         Set_Col (check, 25);
                         declare
-                           df : constant String := dictionary_form (de);
+                           df : constant String :=
+                             Support_Utils.Dictionary_Form (de);
                            ii : Integer := 1;
                         begin
                            if df'Length > 0  then
