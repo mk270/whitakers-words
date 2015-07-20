@@ -14,13 +14,13 @@
 -- All parts of the WORDS system, source code and data files, are made freely
 -- available to anyone who wishes to use them, for whatever purpose.
 
-with text_io; use text_io;
+with Text_IO; use Text_IO;
 with Strings_package; use Strings_package;
 with inflections_package; use inflections_package;
 with dictionary_package; use dictionary_package;
 with line_stuff; use line_stuff;
 procedure linedict is
-   package Integer_IO is new text_io.Integer_IO (Integer);
+   package Integer_IO is new Text_IO.Integer_IO (Integer);
    use Dictionary_Entry_IO;
    use Part_Entry_IO;
    use Kind_Entry_IO;

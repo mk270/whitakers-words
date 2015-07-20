@@ -14,20 +14,20 @@
 -- All parts of the WORDS system, source code and data files, are made freely
 -- available to anyone who wishes to use them, for whatever purpose.
 
-with text_io;
+with Text_IO;
 with Strings_package; use Strings_package;
 with latin_file_names; use latin_file_names;
 with inflections_package; use inflections_package;
 with dictionary_package; use dictionary_package;
 with line_stuff; use line_stuff;
 procedure linefile is
-   package Integer_IO is new text_io.Integer_IO (Integer);
-   use text_io;
+   package Integer_IO is new Text_IO.Integer_IO (Integer);
+   use Text_IO;
    use Dictionary_Entry_IO;
    use dict_io;
 
    dictfile : dict_io.File_Type;
-   output : text_io.File_Type;
+   output : Text_IO.File_Type;
    de : Dictionary_Entry;
    d_k : dictionary_kind := general;
    line : String (1 .. 40) := (others => ' ');
@@ -46,7 +46,7 @@ begin
          d_k := special;
       else
          Put_Line ("No such dictionary");
-         raise text_io.data_error;
+         raise Text_IO.data_error;
       end if;
    end if;
 
@@ -59,7 +59,7 @@ begin
    while not End_Of_File (dictfile)  loop
       read (dictfile, de);
       put (output, de);
-      text_io.New_Line (output);
+      Text_IO.New_Line (output);
    end loop;
 
 end linefile;

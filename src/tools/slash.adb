@@ -14,10 +14,10 @@
 -- All parts of the WORDS system, source code and data files, are made freely
 -- available to anyone who wishes to use them, for whatever purpose.
 
-with ada.text_io;
+with ada.Text_IO;
 procedure slash is
-   package Integer_IO is new ada.text_io.Integer_IO (Integer);
-   use ada.text_io;
+   package Integer_IO is new ada.Text_IO.Integer_IO (Integer);
+   use ada.Text_IO;
    use Integer_IO;
 
    f1, f2, f3  : File_Type;

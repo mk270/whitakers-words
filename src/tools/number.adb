@@ -14,18 +14,18 @@
 -- All parts of the WORDS system, source code and data files, are made freely
 -- available to anyone who wishes to use them, for whatever purpose.
 
-with text_io;
+with Text_IO;
 with Strings_package; use Strings_package;
 with latin_file_names; use latin_file_names;
 with inflections_package; use inflections_package;
 with dictionary_package; use dictionary_package;
 with line_stuff; use line_stuff;
 procedure number is
-   package Integer_IO is new text_io.Integer_IO (Integer);
-   use text_io;
+   package Integer_IO is new Text_IO.Integer_IO (Integer);
+   use Text_IO;
 
-   input : text_io.File_Type;
-   numbered : text_io.File_Type;
+   input : Text_IO.File_Type;
+   numbered : Text_IO.File_Type;
 
    line : String (1 .. 300) := (others => ' ');
    last, n : Integer := 0;
@@ -37,7 +37,7 @@ begin
      "Takes a text file and produces a NUMBERED. file with line numbers");
 
    Put_Line ("What file to NUMBER?");
-   text_io.Get_Line (line, last);
+   Text_IO.Get_Line (line, last);
 
    Open (input, In_File, line (1 .. last));
 
@@ -48,9 +48,9 @@ begin
 
       Get_Line (input, line, last);
 
-      text_io.put (numbered, Integer'image (n));
+      Text_IO.put (numbered, Integer'image (n));
       Set_Col (numbered, 10);
-      text_io.Put_Line (numbered, line (1 .. last));
+      Text_IO.Put_Line (numbered, line (1 .. last));
 
    end loop;
 

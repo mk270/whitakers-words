@@ -14,7 +14,7 @@
 -- All parts of the WORDS system, source code and data files, are made freely
 -- available to anyone who wishes to use them, for whatever purpose.
 
-with text_io;
+with Text_IO;
 with Strings_package; use Strings_package;
 with latin_file_names; use latin_file_names;
 with inflections_package; use inflections_package;
@@ -24,8 +24,8 @@ procedure listord is
    --   LISTORD    Takes # (DICTORD) long format to ED file
    --   (3 lines per entry so it is all on one screen)
    --   LISTORD.IN -> LISTORD.OUT
-   package Integer_IO is new text_io.Integer_IO (Integer);
-   use text_io;
+   package Integer_IO is new Text_IO.Integer_IO (Integer);
+   use Text_IO;
    use Dictionary_Entry_IO;
    use Part_Entry_IO;
    use Translation_Record_IO;
@@ -48,7 +48,7 @@ procedure listord is
      start_tran +
      Translation_Record_IO.Default_Width - 1;
 
-   input, output : text_io.File_Type;
+   input, output : Text_IO.File_Type;
    de : Dictionary_Entry;
 
    s, line, blank_line : String (1 .. 400) := (others => ' ');
@@ -117,7 +117,7 @@ begin
 
     Close (output);
 exception
-   when text_io.data_error  =>
+   when Text_IO.data_error  =>
       null;
    when others =>
       Put_Line (s (1 .. last));

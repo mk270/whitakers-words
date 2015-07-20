@@ -14,7 +14,7 @@
 -- All parts of the WORDS system, source code and data files, are made freely
 -- available to anyone who wishes to use them, for whatever purpose.
 
-with text_io; use text_io;
+with Text_IO; use Text_IO;
 with Strings_package; use Strings_package;
 procedure page2htm is
    line, line_out, blank_line : String (1 .. 300) := (others => ' ');

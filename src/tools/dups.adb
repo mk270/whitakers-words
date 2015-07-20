@@ -14,12 +14,12 @@
 -- All parts of the WORDS system, source code and data files, are made freely
 -- available to anyone who wishes to use them, for whatever purpose.
 
-with text_io;
+with Text_IO;
 with Strings_package; use Strings_package;
 procedure dups is
-   package Integer_text_io is new text_io.Integer_IO (Integer);
-   use Integer_text_io;
-   use text_io;
+   package Integer_Text_IO is new Text_IO.Integer_IO (Integer);
+   use Integer_Text_IO;
+   use Text_IO;
 
    input, output : File_Type;
    s, line, oldline, blank_line : String (1 .. 400) := (others => ' ');

@@ -14,15 +14,15 @@
 -- All parts of the WORDS system, source code and data files, are made freely
 -- available to anyone who wishes to use them, for whatever purpose.
 
-with text_io;
+with Text_IO;
 with Strings_package; use Strings_package;
 with latin_file_names; use latin_file_names;
 with inflections_package; use inflections_package;
 with dictionary_package; use dictionary_package;
 with line_stuff; use line_stuff;
 procedure fil2dict is
-   package Integer_IO is new text_io.Integer_IO (Integer);
-   use text_io;
+   package Integer_IO is new Text_IO.Integer_IO (Integer);
+   use Text_IO;
    use stem_key_type_io;
    use Dictionary_Entry_IO;
    use Part_Entry_IO;
@@ -42,14 +42,14 @@ procedure fil2dict is
    last : Integer := 0;
 
    dictfile : dict_io.File_Type;
-   dictline : text_io.File_Type;
+   dictline : Text_IO.File_Type;
 
 begin
    Put_Line (
      "Takes a DICTFILE.D_K and reconstructs the DICTLINE.D_K it came from");
 
    put ("What dictionary to list, GENERAL or SPECIAL  (Reply G or S) =>");
-   text_io.Get_Line (line, last);
+   Text_IO.Get_Line (line, last);
    if last > 0  then
       if Trim (line (1 .. last))(1) = 'G'  or else
         Trim (line (1 .. last))(1) = 'g'     then
@@ -59,7 +59,7 @@ begin
          d_k := special;
       else
          Put_Line ("No such dictionary");
-         raise text_io.data_error;
+         raise Text_IO.data_error;
       end if;
    end if;
 

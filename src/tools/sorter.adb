@@ -14,7 +14,7 @@
 -- All parts of the WORDS system, source code and data files, are made freely
 -- available to anyone who wishes to use them, for whatever purpose.
 
-with text_io;
+with Text_IO;
 with direct_io;
 with Strings_package; use Strings_package;
 with dictionary_package; use dictionary_package;
@@ -22,13 +22,13 @@ procedure sorter is
    --  This program sorts a file of lines (Strings) on 4 subStrings Mx .. Nx
    --  Sort by Stringwise (different cases), numeric, or POS enumeration
 
-   package boolean_io is new text_io.enumeration_io (boolean);
+   package boolean_io is new Text_IO.enumeration_io (boolean);
    use boolean_io;
-   package Integer_IO is new text_io.Integer_IO (Integer);
+   package Integer_IO is new Text_IO.Integer_IO (Integer);
    use Integer_IO;
-   package float_io is new text_io.float_io (float);
+   package float_io is new Text_IO.float_io (float);
    use float_io;
-   use text_io;
+   use Text_IO;
 
    name_length : constant := 80;
    st, enter_line : String (1 .. name_length) := (others => ' ');
@@ -54,15 +54,15 @@ procedure sorter is
    p_line : text_type := blank_text;
 
    type sort_type is (a, c, g, u, n, f, p, s);
-   package sort_type_io is new text_io.enumeration_io (sort_type);
+   package sort_type_io is new Text_IO.enumeration_io (sort_type);
    use sort_type_io;
 
    type way_type is (i, d);
-   package way_type_io is new text_io.enumeration_io (way_type);
+   package way_type_io is new Text_IO.enumeration_io (way_type);
    use way_type_io;
 
-   input  : text_io.File_Type;
-   output : text_io.File_Type;
+   input  : Text_IO.File_Type;
+   output : Text_IO.File_Type;
    work   : line_io.File_Type;
 
    m1, m2, m3, m4 : natural := 1;
@@ -88,7 +88,7 @@ procedure sorter is
 
    type appendix_type is (none, a, b, c, d, e, f, g, h, i, j, k, l, m,
      n, o, p, q, r, s, t, u, v, w, x, y, z);
-   package appendix_io is new text_io.enumeration_io (appendix_type);
+   package appendix_io is new Text_IO.enumeration_io (appendix_type);
 
    type appendix_section_type is    record
       appendix : appendix_type := none;
@@ -111,10 +111,10 @@ procedure sorter is
    --  function "<"(A, B : APPENDIX_SECTION_TYPE) return BOOLEAN;
    --
 
-   procedure Put (output : text_io.File_Type; s : section_type) is
+   procedure Put (output : Text_IO.File_Type; s : section_type) is
       level : Integer := 0;
 
-      procedure put_level (output : text_io.File_Type; l : Integer) is
+      procedure put_level (output : Text_IO.File_Type; l : Integer) is
       begin
          if l > 9999  then
             Put (output, "****");
@@ -275,10 +275,10 @@ procedure sorter is
       last := l;
       return;
    exception
-      when text_io.end_error =>
+      when Text_IO.end_error =>
          last := l;
          return;
-      when text_io.data_error =>
+      when Text_IO.data_error =>
          last := l;
          return;
       when others =>
@@ -328,7 +328,7 @@ procedure sorter is
 
    end "<";
 
-   procedure Put (output : text_io.File_Type; s : appendix_section_type) is
+   procedure Put (output : Text_IO.File_Type; s : appendix_section_type) is
       use appendix_io;
    begin
       Put (output, s.appendix);
@@ -407,10 +407,10 @@ procedure sorter is
       --PUT ("F");
       return;
    exception
-      when text_io.end_error =>
+      when Text_IO.end_error =>
          last := l;
          return;
-      when text_io.data_error =>
+      when Text_IO.data_error =>
          last := l;
          return;
       when others =>
@@ -767,9 +767,9 @@ procedure sorter is
 
    exception
       when others  =>
-         text_io.Put_Line ("exception in SLT    showing LEFT and RIGHT");
-         text_io.Put_Line (x & "&");
-         text_io.Put_Line (y & "|");
+         Text_IO.Put_Line ("exception in SLT    showing LEFT and RIGHT");
+         Text_IO.Put_Line (x & "&");
+         Text_IO.Put_Line (y & "|");
          raise;
 
    end slt;
@@ -828,9 +828,9 @@ procedure sorter is
 
    exception
       when others  =>
-         text_io.Put_Line ("exception in LT    showing LEFT and RIGHT");
-         text_io.Put_Line (x & "|");
-         text_io.Put_Line (y & "|");
+         Text_IO.Put_Line ("exception in LT    showing LEFT and RIGHT");
+         Text_IO.Put_Line (x & "|");
+         Text_IO.Put_Line (y & "|");
          raise;
 
    end sort_equal;
@@ -861,13 +861,13 @@ procedure sorter is
       return false;
    exception
       when others =>
-         text_io.Put_Line ("exception in LT    showing LEFT and RIGHT");
-         text_io.Put_Line (left & "|");
-         text_io.Put_Line (right & "|");
+         Text_IO.Put_Line ("exception in LT    showing LEFT and RIGHT");
+         Text_IO.Put_Line (left & "|");
+         Text_IO.Put_Line (right & "|");
          raise;
    end lt;
 
-   procedure open_file_for_inPut (input : in out text_io.File_Type;
+   procedure open_file_for_inPut (input : in out Text_IO.File_Type;
                                   prompt : String := "File for input => ") is
       last : natural := 0;
    begin
@@ -889,7 +889,7 @@ procedure sorter is
 
    end open_file_for_input;
 
-   procedure create_file_for_output (output : in out text_io.File_Type;
+   procedure create_file_for_output (output : in out Text_IO.File_Type;
                                      prompt : String := "File for output => ") is
       name : String (1 .. 80) := (others => ' ');
       last : natural := 0;
@@ -963,7 +963,7 @@ begin
          raise;
       when entry_finished =>
          null;
-      when text_io.data_error  | text_io.end_error  =>
+      when Text_IO.data_error  | Text_IO.end_error  =>
          null;
    end;
 
@@ -1002,7 +1002,7 @@ line_heapsort:
        i, j : line_io.positive_count;
 
     begin
-       text_io.Put_Line ("SIZE OF WORK = " & Integer'image (Integer (size (work))));
+       Text_IO.Put_Line ("SIZE OF WORK = " & Integer'image (Integer (size (work))));
    main:
        loop
 
@@ -1075,14 +1075,14 @@ exception
    when program_error  =>
       Put_Line ("SORT terminated on a PROGRAM_ERROR");
       Close (output);
-   when text_io.data_error =>     --Terminate on primary start or size = 0
+   when Text_IO.data_error =>     --Terminate on primary start or size = 0
       Put_Line ("SORT terminated on a DATA_ERROR");
       Put_Line (line_text);
       Close (output);
    when constraint_error =>       --Terminate on blank line for file name
       Put_Line ("SORT terminated on a CONSTRAINT_ERROR");
       Close (output);
-   when text_io.device_error  =>     --Ran out of space to write output file
+   when Text_IO.device_error  =>     --Ran out of space to write output file
       Put_Line ("SORT terminated on a DEVICE_ERROR");
       delete (output);
       create_file_for_output (output, "Wherelse to put the output => ");

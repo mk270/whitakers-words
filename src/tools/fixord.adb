@@ -14,16 +14,16 @@
 -- All parts of the WORDS system, source code and data files, are made freely
 -- available to anyone who wishes to use them, for whatever purpose.
 
-with text_io;
+with Text_IO;
 with Strings_package; use Strings_package;
 with latin_file_names; use latin_file_names;
 with inflections_package; use inflections_package;
 with dictionary_package; use dictionary_package;
 with line_stuff; use line_stuff;
 procedure fixord is
-   use text_io;
+   use Text_IO;
 
-   input, output : text_io.File_Type;
+   input, output : Text_IO.File_Type;
 
    s, line, blank_line : String (1 .. 400) := (others => ' ');
    l, ll, last : Integer := 0;
@@ -50,7 +50,7 @@ over_lines:
 
     close (output);
 exception
-   when text_io.data_error  =>
+   when Text_IO.data_error  =>
       close (output);
 
 end fixord;

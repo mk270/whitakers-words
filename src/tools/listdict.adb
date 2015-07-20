@@ -14,15 +14,15 @@
 -- All parts of the WORDS system, source code and data files, are made freely
 -- available to anyone who wishes to use them, for whatever purpose.
 
-with text_io;
+with Text_IO;
 with Strings_package; use Strings_package;
 with latin_file_names; use latin_file_names;
 with inflections_package; use inflections_package;
 with dictionary_package; use dictionary_package;
 with line_stuff; use line_stuff;
 procedure listdict is
-   package Integer_IO is new text_io.Integer_IO (Integer);
-   use text_io;
+   package Integer_IO is new Text_IO.Integer_IO (Integer);
+   use Text_IO;
    use Dictionary_Entry_IO;
    use Part_Entry_IO;
    use Translation_Record_IO;
@@ -44,7 +44,7 @@ procedure listdict is
      start_tran +
      Translation_Record_IO.Default_Width - 1;
 
-   input, output : text_io.File_Type;
+   input, output : Text_IO.File_Type;
    de : Dictionary_Entry;
 
    s, line, blank_line : String (1 .. 400) := (others => ' ');
@@ -57,8 +57,8 @@ procedure listdict is
    end add;
 
 begin
-   text_io.Put_Line ("LISTDICT takes a WORDS LISTDICT.IN in LIN (WORDS DICTLINE) form and ");
-   text_io.Put_Line ("    produces LISTDICT.OUT in ED (3 line) form");
+   Text_IO.Put_Line ("LISTDICT takes a WORDS LISTDICT.IN in LIN (WORDS DICTLINE) form and ");
+   Text_IO.Put_Line ("    produces LISTDICT.OUT in ED (3 line) form");
 
    Create (output, Out_File, "LISTDICT.OUT");
    Open (input, In_File, "LISTDICT.IN");
@@ -110,7 +110,7 @@ begin
 
     Close (output);
 exception
-   when text_io.data_error  =>
+   when Text_IO.data_error  =>
       null;
    when others =>
       Put_Line (s (1 .. last));

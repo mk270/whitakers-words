@@ -7,35 +7,35 @@
 -- there is no charge. However, just for form, it is Copyrighted
 -- (c). Permission is hereby freely given for any and all use of program
 -- and data. You can sell it as your own, but at least tell me.
--- 
+--
 -- This version is distributed without obligation, but the developer
 -- would appreciate comments and suggestions.
--- 
+--
 -- All parts of the WORDS system, source code and data files, are made freely
 -- available to anyone who wishes to use them, for whatever purpose.
 
-with text_io;
-with Strings_package; use Strings_package;
-with latIn_File_names; use latIn_File_names;
-with inflections_package; use inflections_package;
-with dictionary_package; use dictionary_package;
-with line_stuff; use line_stuff;
-with dictionary_form;
+with Text_IO;
+with Latin_Utils.Strings_Package; use Latin_Utils.Strings_Package;
+-- with Latin_Utils.Latin_File_Names; use Latin_Utils.Latin_File_Names;
+with Latin_Utils.Inflections_Package; use Latin_Utils.Inflections_Package;
+with Latin_Utils.Dictionary_Package; use Latin_Utils.Dictionary_Package;
+-- with Support_Utils.Line_Stuff; use Support_Utils.Line_Stuff;
+-- with Support_Utils.Dictionary_Form;
 procedure dictpage is
    --  DICTPAGE.IN -> DICTPAGE.OUT
    --  Takes DICTLINE form, puts # and dictionary form at begining,
    --  a file that can be sorted to produce word order of paper dictionary
-   package Integer_IO is new text_io.Integer_IO (Integer);
-   use text_io;
+   package Integer_IO is new Text_IO.Integer_IO (Integer);
+   use Text_IO;
    use Dictionary_Entry_IO;
    use Part_Entry_IO;
    use Kind_Entry_IO;
    use Translation_Record_IO;
    use Age_Type_IO;
    use Area_Type_IO;
-   use geo_type_io;
-   use frequency_type_io;
-   use source_type_io;
+   use Geo_Type_IO;
+   use Frequency_Type_IO;
+   use Source_Type_IO;
 
    Start_Stem_1  : constant := 1;
    Start_Stem_2  : constant := Start_Stem_1 + Max_Stem_Size + 1;
@@ -49,7 +49,7 @@ procedure dictpage is
      start_tran +
      Translation_Record_IO.Default_Width - 1;
 
-   input, output : text_io.File_Type;
+   input, output : Text_IO.File_Type;
    de : Dictionary_Entry;
 
    s, line, blank_line : String (1 .. 400) := (others => ' ');
@@ -110,13 +110,13 @@ Over_Lines :
           --              TEXT_IO.PUT (OUTPUT, "  " & VERB_KIND_TYPE'IMAGE (DE.PART.V.KIND) & "  ");
           --            end if;
 
-          text_io.put (output, " [");
+          Text_IO.put (output, " [");
           Age_Type_IO.put (output, de.Tran.Age);
           Area_Type_IO.put (output, de.Tran.Area);
           geo_type_io.put (output, de.Tran.geo);
           frequency_type_io.put (output, de.Tran.freq);
           source_type_io.put (output, de.Tran.source);
-          text_io.put (output, "]");
+          Text_IO.put (output, "]");
 
           put (output, " :: ");
           Put_Line (output, de.Mean);
@@ -126,7 +126,7 @@ Over_Lines :
 
     Close (output);
 exception
-   when text_io.data_error  =>
+   when Text_IO.data_error  =>
       null;
    when others =>
       Put_Line (s (1 .. last));

@@ -14,9 +14,9 @@
 -- All parts of the WORDS system, source code and data files, are made freely
 -- available to anyone who wishes to use them, for whatever purpose.
 
-with text_io; use text_io;
+with Text_IO; use Text_IO;
 procedure oners is
-   package Integer_IO is new text_io.Integer_IO (Integer);
+   package Integer_IO is new Text_IO.Integer_IO (Integer);
    use Integer_IO;
 
    line, old_line : String (1 .. 250) := (others => ' ');
