@@ -821,20 +821,6 @@ begin
 
          de.mean := s (111 .. 110+max_meaning_size);
 
-         --if LOWER_CASE (S (1 .. 86)) = LOWER_CASE (OLDLINE (1 .. 86)) and then
-         --      --  This way I get N  2 1 and 2 2 not duplicate
-         --      --  If I make it 1 .. 83, I catch a lot more, a few of which might be ???
-         --      --  If I make it 1 .. 88 or 95, I catch a lot less
-         --        (OLDLINE (90 .. 95) /= "IMPERS")  and then
-         --        not ((LEN (DE.STEMS (1)) >= 2)  and then
-         --            (DE.STEMS (1)(LEN (DE.STEMS (1))-1 .. LEN (DE.STEMS (1))) = "qu"))  then
-         --        NUMBER := NUMBER + 1;
-         --        PUT (OUTPUT, "LINE"); PUT (OUTPUT, LINE_NUMBER);
-         --        PUT_LINE (OUTPUT, "   Possible duplicate lines ");
-         --        PUT_LINE (OUTPUT, S (1 .. LAST));
-         --      end if;
-         --      OLDLINE (1 .. 190) := S (1 .. 190);
-
          verify_stems;
 
       exception
