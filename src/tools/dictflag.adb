@@ -14,190 +14,199 @@
 -- All parts of the WORDS system, source code and data files, are made freely
 -- available to anyone who wishes to use them, for whatever purpose.
 
-with text_io;
-with strings_package; use strings_package;
-with latin_file_names; use latin_file_names;
-with inflections_package; use inflections_package;
-with dictionary_package; use dictionary_package;
-with line_stuff; use line_stuff;
+with Text_IO;
+with Latin_Utils.Strings_Package; use Latin_Utils.Strings_Package;
+with Latin_Utils.Latin_File_Names; use Latin_Utils.Latin_File_Names;
+with Latin_Utils.Inflections_Package; use Latin_Utils.Inflections_Package;
+with Latin_Utils.Dictionary_Package; use Latin_Utils.Dictionary_Package;
+-- with Support_Utils.Line_Stuff; use Support_Utils.Line_Stuff;
 procedure dictflag is
-   package integer_io is new text_io.integer_io (integer);
-   use text_io;
-   use dictionary_entry_io;
-   use part_entry_io;
-   use kind_entry_io;
-   use translation_record_io;
-   use age_type_io;
-   use area_type_io;
-   use geo_type_io;
-   use frequency_type_io;
-   use source_type_io;
-   use dict_io;
+   package Integer_IO is new Text_IO.Integer_IO (Integer);
+   use Text_IO;
+   use Dictionary_Entry_IO;
+   use Part_Entry_IO;
+   use Kind_Entry_IO;
+   use Translation_Record_IO;
+   use Age_Type_IO;
+   use Area_Type_IO;
+   use Geo_Type_IO;
+   use Frequency_Type_IO;
+   use Source_Type_IO;
+   use Dict_IO;
 
-   be_ve : verb_entry := (con => (5, 1), kind => to_be);
+   --be_ve : Verb_Entry := (Con => (5, 1), Kind => To_Be);
 
-   d_k : dictionary_kind := xxx;       --  ######################
+   d_k : Dictionary_Kind := xxx;       --  ######################
 
-   start_stem_1  : constant := 1;
-   start_stem_2  : constant := start_stem_1 + max_stem_size + 1;
-   start_stem_3  : constant := start_stem_2 + max_stem_size + 1;
-   start_stem_4  : constant := start_stem_3 + max_stem_size + 1;
-   start_part    : constant := start_stem_4 + max_stem_size + 1;
-   start_tran    : constant integer :=
-     start_part +
-     integer (part_entry_io.default_width + 1);
-   finish_line   : constant integer :=
-     start_tran +
-     translation_record_io.default_width - 1;
+   Start_Stem_1  : constant := 1;
+   Start_Stem_2  : constant := Start_Stem_1 + Max_Stem_Size + 1;
+   Start_Stem_3  : constant := Start_Stem_2 + Max_Stem_Size + 1;
+   Start_Stem_4  : constant := Start_Stem_3 + Max_Stem_Size + 1;
+   start_part    : constant := Start_Stem_4 + Max_Stem_Size + 1;
+   --start_tran    : constant Integer :=
+   --  start_part +
+   --  Integer (Part_Entry_IO.Default_Width + 1);
+   --finish_line   : constant Integer :=
+   --  start_tran +
+   --  Translation_Record_IO.Default_Width - 1;
 
-   age_array : array (age_type'range) of integer := (others => 0);
+   age_array : array (Age_Type'Range) of Integer := (others => 0);
 
-   area_array : array (area_type'range) of integer := (others => 0);
+   area_array : array (Area_Type'Range) of Integer := (others => 0);
 
-   geo_array : array (geo_type'range) of integer := (others => 0);
+   geo_array : array (Geo_Type'Range) of Integer := (others => 0);
 
-   freq_array : array (frequency_type'range) of integer := (others => 0);
+   Freq_Array : array (Frequency_Type'Range) of Integer := (others => 0);
 
-   source_array : array (source_type'range) of integer := (others => 0);
+   source_array : array (Source_Type'Range) of Integer := (others => 0);
 
-   dictfile : dict_io.file_type;
-   input, output : text_io.file_type;
-   de : dictionary_entry;
+   -- dictfile : Dict_IO.File_Type;
+   input, output : Text_IO.File_Type;
+   de : Dictionary_Entry;
 
-   s, line, blank_line : string (1 .. 400) := (others => ' ');
-   l, ll, last : integer := 0;
-   j : dict_io.count := 0;
-   mean_to_be : constant meaning_type :=
-     head ("to be, exist; also used to form verb perfect passive tenses" &
-     " with NOM PERF PPL", max_meaning_size);
+   s, line : String (1 .. 400) := (others => ' ');
+   blank_line : constant String (1 .. 400) := (others => ' ');
+   l, last : Integer := 0;
+   j : Dict_IO.Count := 0;
+
+   --mean_to_be : constant Meaning_Type :=
+   --  Head ("to be, exist; also used to form verb perfect passive tenses" &
+   --  " with NOM PERF PPL", Max_Meaning_Size);
+
+   -- mean_to_be unreferenced - perhaps it was not meant to be...
 
 begin
-   put_line (
+   Put_Line (
      "Takes a DICTLINE.D_K and produces a numeration of FLAGS");
-   put ("What dictionary to list, GENERAL or SPECIAL  =>");
-   get_line (line, last);
+   Put ("What dictionary to list, GENERAL or SPECIAL  =>");
+   Get_Line (line, last);
    if last > 0  then
-      if trim (line (1 .. last))(1) = 'G'  or else
-        trim (line (1 .. last))(1) = 'g'     then
+      if Trim (line (1 .. last))(1) = 'G'  or else
+        Trim (line (1 .. last))(1) = 'g'     then
          d_k := general;
-      elsif trim (line (1 .. last))(1) = 'S'  or else
-        trim (line (1 .. last))(1) = 's'     then
+      elsif Trim (line (1 .. last))(1) = 'S'  or else
+        Trim (line (1 .. last))(1) = 's'     then
          d_k := special;
       else
-         put_line ("No such dictionary");
-         raise text_io.data_error;
+         Put_Line ("No such dictionary");
+         raise Text_IO.Data_Error;
       end if;
    end if;
 
-   open (input, in_file, add_file_name_extension (dict_line_name,
-     dictionary_kind'image (d_k)));
+   Open (input, In_File, add_file_name_extension (dict_line_name,
+     Dictionary_Kind'Image (d_k)));
 
-   create (output, out_file, add_file_name_extension ("FLAGS",
-     dictionary_kind'image (d_k)));
+   Create (output, Out_File, add_file_name_extension ("FLAGS",
+     Dictionary_Kind'Image (d_k)));
 
-   while not end_of_file (input) loop
+   while not End_Of_File (input) loop
       s := blank_line;
-      get_line (input, s, last);
-      if trim (s (1 .. last)) /= ""  then
+      Get_Line (input, s, last);
+      if Trim (s (1 .. last)) /= ""  then
          l := 0;
 
-     form_de:
+         Form_De :
          begin
 
-            de.stems (1) := s (start_stem_1 .. max_stem_size);
+            de.Stems (1) := s (Start_Stem_1 .. Max_Stem_Size);
             --NEW_LINE; PUT (DE.STEMS (1));
-            de.stems (2) := s (start_stem_2 .. start_stem_2+max_stem_size-1);
-            de.stems (3) := s (start_stem_3 .. start_stem_3+max_stem_size-1);
-            de.stems (4) := s (start_stem_4 .. start_stem_4+max_stem_size-1);
+            de.Stems (2) :=
+              s (Start_Stem_2 .. Start_Stem_2 + Max_Stem_Size - 1);
+            de.Stems (3) :=
+              s (Start_Stem_3 .. Start_Stem_3 + Max_Stem_Size - 1);
+            de.Stems (4) :=
+              s (Start_Stem_4 .. Start_Stem_4 + Max_Stem_Size - 1);
+
             --PUT ('#'); PUT (INTEGER'IMAGE (L)); PUT (INTEGER'IMAGE (LAST));
             --PUT ('@');
-            get (s (start_part .. last), de.part, l);
+            Get (s (start_part .. last), de.Part, l);
             --PUT ('%'); PUT (INTEGER'IMAGE (L)); PUT (INTEGER'IMAGE (LAST));
             --PUT ('&'); PUT (S (L+1 .. LAST)); PUT ('3');
             --   GET (S (L+1 .. LAST), DE.PART.POFS, DE.KIND, L);
 
-            get (s (l+1 .. last), de.tran.age, l);
-            age_array (de.tran.age) := age_array (de.tran.age) + 1;
-            get (s (l+1 .. last), de.tran.area, l);
-            area_array (de.tran.area) := area_array (de.tran.area) + 1;
-            get (s (l+1 .. last), de.tran.geo, l);
-            geo_array (de.tran.geo) := geo_array (de.tran.geo) + 1;
-            get (s (l+1 .. last), de.tran.freq, l);
-            freq_array (de.tran.freq) := freq_array (de.tran.freq) + 1;
-            get (s (l+1 .. last), de.tran.source, l);
-            source_array (de.tran.source) := source_array (de.tran.source) + 1;
+            Get (s (l + 1 .. last), de.Tran.Age, l);
+            age_array (de.Tran.Age) := age_array (de.Tran.Age) + 1;
+            Get (s (l + 1 .. last), de.Tran.Area, l);
+            area_array (de.Tran.Area) := area_array (de.Tran.Area) + 1;
+            Get (s (l + 1 .. last), de.Tran.Geo, l);
+            geo_array (de.Tran.Geo) := geo_array (de.Tran.Geo) + 1;
+            Get (s (l + 1 .. last), de.Tran.Freq, l);
+            Freq_Array (de.Tran.Freq) := Freq_Array (de.Tran.Freq) + 1;
+            Get (s (l + 1 .. last), de.Tran.Source, l);
+            source_array (de.Tran.Source) := source_array (de.Tran.Source) + 1;
 
-            de.mean := head (s (l+2 .. last), max_meaning_size);
+            de.Mean := Head (s (l + 2 .. last), Max_Meaning_Size);
             --  Note that this allows initial blanks
-            --  L+2 skips over the SPACER, required because this is STRING, not ENUM
+            --  L+2 skips over the SPACER, required because this is STRING,
+            --    not ENUM
 
          exception
             when others =>
-               new_line;
-               put_line ("Exception");
-               put_line (s (1 .. last));
-               integer_io.put (integer (j)); new_line;
-               put (de); new_line;
-         end form_de;
+               New_Line;
+               Put_Line ("Exception");
+               Put_Line (s (1 .. last));
+               Integer_IO.Put (Integer (j)); New_Line;
+               Put (de); New_Line;
+         end Form_De;
 
          j := j + 1;
 
       end if;
    end loop;
 
-   text_io.put (output, "Number of lines in DICTLINE "  &
-     dictionary_kind'image (d_k) & "  ");
-   integer_io.put (output, integer (j));
-   text_io.new_line (output);
+   Text_IO.Put (output, "Number of lines in DICTLINE "  &
+     Dictionary_Kind'Image (d_k) & "  ");
+   Integer_IO.Put (output, Integer (j));
+   Text_IO.New_Line (output);
 
-   text_io.new_line (output, 4);
-   text_io.put_line (output, "AGE");
-   for i in age_type'range  loop
-      text_io.put (output, age_type'image (i));
-      text_io.set_col (output, 10);
-      text_io.put_line (output, integer'image (age_array (i)));
+   Text_IO.New_Line (output, 4);
+   Text_IO.Put_Line (output, "AGE");
+   for i in Age_Type'Range  loop
+      Text_IO.Put (output, Age_Type'Image (i));
+      Text_IO.Set_Col (output, 10);
+      Text_IO.Put_Line (output, Integer'Image (age_array (i)));
    end loop;
 
-   text_io.new_line (output, 4);
-   text_io.put_line (output, "AREA");
-   for i in area_type'range  loop
-      text_io.put (output, area_type'image (i));
-      text_io.set_col (output, 10);
-      text_io.put_line (output, integer'image (area_array (i)));
+   Text_IO.New_Line (output, 4);
+   Text_IO.Put_Line (output, "AREA");
+   for i in Area_Type'Range  loop
+      Text_IO.Put (output, Area_Type'Image (i));
+      Text_IO.Set_Col (output, 10);
+      Text_IO.Put_Line (output, Integer'Image (area_array (i)));
    end loop;
 
-   text_io.new_line (output, 4);
-   text_io.put_line (output, "GEO");
-   for i in geo_type'range  loop
-      text_io.put (output, geo_type'image (i));
-      text_io.set_col (output, 10);
-      text_io.put_line (output, integer'image (geo_array (i)));
+   Text_IO.New_Line (output, 4);
+   Text_IO.Put_Line (output, "GEO");
+   for i in Geo_Type'Range  loop
+      Text_IO.Put (output, Geo_Type'Image (i));
+      Text_IO.Set_Col (output, 10);
+      Text_IO.Put_Line (output, Integer'Image (geo_array (i)));
    end loop;
 
-   text_io.new_line (output, 4);
-   text_io.put_line (output, "FREQ");
-   for i in frequency_type'range  loop
-      text_io.put (output, frequency_type'image (i));
-      text_io.set_col (output, 10);
-      text_io.put_line (output, integer'image (freq_array (i)));
+   Text_IO.New_Line (output, 4);
+   Text_IO.Put_Line (output, "FREQ");
+   for i in Frequency_Type'Range  loop
+      Text_IO.Put (output, Frequency_Type'Image (i));
+      Text_IO.Set_Col (output, 10);
+      Text_IO.Put_Line (output, Integer'Image (Freq_Array (i)));
    end loop;
 
-   text_io.new_line (output, 4);
-   text_io.put_line (output, "SOURCE");
-   for i in source_type'range  loop
-      text_io.put (output, source_type'image (i));
-      text_io.set_col (output, 10);
-      text_io.put_line (output, integer'image (source_array (i)));
+   Text_IO.New_Line (output, 4);
+   Text_IO.Put_Line (output, "SOURCE");
+   for i in Source_Type'Range  loop
+      Text_IO.Put (output, Source_Type'Image (i));
+      Text_IO.Set_Col (output, 10);
+      Text_IO.Put_Line (output, Integer'Image (source_array (i)));
    end loop;
 
-   close (output);
+   Close (output);
 
 exception
-   when text_io.data_error  =>
+   when Text_IO.Data_Error  =>
       null;
    when others =>
-      put_line (s (1 .. last));
-      integer_io.put (integer (j)); new_line;
-      close (output);
+      Put_Line (s (1 .. last));
+      Integer_IO.Put (Integer (j)); New_Line;
+      Close (output);
 
 end dictflag;
