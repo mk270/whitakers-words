@@ -170,7 +170,8 @@ procedure sorter is
 
       s := no_appendix_section;
       if (ft = lt)  or else
-        (Trim (from)'Length = 0)  then   --  Empty/blank String, no data
+        (Trim (from)'Length = 0)
+      then   --  Empty/blank String, no data
          Put ("@");
          return;                      --  Return default
       end if;
@@ -351,7 +352,8 @@ procedure sorter is
       for i in s'First + 1 .. s'Last - 1  loop
          if (s (i - 1) /= '-'  and then s (i - 1) /= '_')  and then
            (s (i) = '-'  or else s (i) = '_')  and then
-           (s (i + 1) /= '-'  and then s (i + 1) /= '_')  then
+           (s (i + 1) /= '-'  and then s (i + 1) /= '_')
+         then
             t (i) := ' ';
          end if;
       end loop;
@@ -659,17 +661,22 @@ procedure sorter is
          return True;
       elsif sort_equal (left (m1 .. n1),  right (m1 .. n1), s1, w1) then
          if (n2 > 0) and then
-           slt (left (m2 .. n2),  right (m2 .. n2), s2, w2) then
+           slt (left (m2 .. n2),  right (m2 .. n2), s2, w2)
+         then
             return True;
          elsif (n2 > 0) and then
-           sort_equal (left (m2 .. n2),  right (m2 .. n2), s2, w2) then
+           sort_equal (left (m2 .. n2),  right (m2 .. n2), s2, w2)
+         then
             if (n3 > 0) and then
-              slt (left (m3 .. n3),  right (m3 .. n3), s3, w3)  then
+              slt (left (m3 .. n3),  right (m3 .. n3), s3, w3)
+            then
                return True;
             elsif (n3 > 0) and then
-              sort_equal (left (m3 .. n3),  right (m3 .. n3), s3, w3)  then
+              sort_equal (left (m3 .. n3),  right (m3 .. n3), s3, w3)
+            then
                if (n4 > 0) and then
-                 slt (left (m4 .. n4),  right (m4 .. n4), s4, w4)  then
+                 slt (left (m4 .. n4),  right (m4 .. n4), s4, w4)
+               then
                   return True;
                end if;
             end if;

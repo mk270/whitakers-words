@@ -56,7 +56,8 @@ begin
       Get_Line (input, line, last);
       line_number := line_number + 1;
       if line (mx .. nx) = oldline (mx .. nx)  and then
-        (line (111) /= '|') then
+        (line (111) /= '|')
+      then
          number := number + 1;
          Put (output, line_number); Put (output, "  ");
          Put_Line (output, line (1 .. nx));
