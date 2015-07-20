@@ -118,6 +118,7 @@ procedure sorter is
    begin
       s := no_section;
       if Trim (from)'Last < from'First   then
+         last := from'First - 1; -- Nothing got processed
          return;   --  Empty String, no data         --  Return default
       end if;
 
@@ -173,6 +174,7 @@ procedure sorter is
         (Trim (from)'Length = 0)
       then   --  Empty/blank String, no data
          Put ("@");
+         last := from'First - 1; -- Nothing got processed
          return;                      --  Return default
       end if;
 
@@ -595,7 +597,9 @@ procedure sorter is
 
    function sort_equal (x, y : String;
                         st : sort_type := a;
-                        wt : way_type := i) return Boolean is
+                        wt : way_type := i) return Boolean
+   is
+      pragma Unreferenced (wt);
       as : String (x'Range) := x;
       bs : String (y'Range) := y;
       mn, nn : Integer := 0;
