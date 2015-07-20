@@ -777,8 +777,8 @@ begin
       prompt_for_entry ("fourth");
       get_entry (m4, n4, s4, w4);
    exception
-      when Program_Error  =>
-         raise;
+      --when Program_Error  =>
+      --   raise;
       when entry_finished =>
          null;
       when Text_IO.Data_Error  | Text_IO.End_Error  =>
@@ -798,10 +798,10 @@ begin
       --TEXT_IO.PUT_LINE (LINE_TEXT (1 .. CURRENT_LENGTH) & "|");
       --end;
       --PUT_LINE (LINE_TEXT (1 .. CURRENT_LENGTH));
-      --PUT_LINE ("=>" & HEAD (LINE_TEXT (1 .. CURRENT_LENGTH), LINE_LENGTH) & "|");
+
       if Trim (line_text (1 .. current_length)) /= ""  then
          --begin
-         write (work, Head (line_text (1 .. current_length), line_length)  );
+         Write (work, Head (line_text (1 .. current_length), line_length));
          --exception when others  =>
          --TEXT_IO.PUT_LINE ("WORK WRITE exception");
          --TEXT_IO.PUT_LINE (LINE_TEXT (1 .. CURRENT_LENGTH) & "|");
@@ -812,82 +812,83 @@ begin
 
    Put_Line ("Begin sorting");
 
-line_heapsort:
-    declare
+   Line_Heapsort :
+   declare
 
-       l    : line_io.positive_count := size (work) / 2 + 1;
-       ir   : line_io.positive_count := size (work);
-       i, j : line_io.positive_count;
+      l    : line_io.Positive_Count := Size (work) / 2 + 1;
+      ir   : line_io.Positive_Count := Size (work);
+      i, j : line_io.Positive_Count;
 
-    begin
-       Text_IO.Put_Line ("SIZE OF WORK = " & Integer'image (Integer (size (work))));
-   main:
-       loop
+   begin
+      Text_IO.Put_Line ("SIZE OF WORK = " &
+        Integer'Image (Integer (Size (work))));
+      Main :
+      loop
 
-          if l > 1  then
-             l := l - 1;
-             read (work, line_text, l);
-             old_line := line_text;
-          else
-             read (work, line_text, ir);
-             old_line := line_text;
-             read (work, line_text, 1);
-             write (work, line_text, ir);
-             ir := ir - 1;
-             if ir = 1 then
-                write (work, old_line, 1);
-                exit main;
-             end if;
-          end if;
-          i := l;
-          j := l + l;
+         if l > 1  then
+            l := l - 1;
+            Read (work, line_text, l);
+            old_line := line_text;
+         else
+            Read (work, line_text, ir);
+            old_line := line_text;
+            Read (work, line_text, 1);
+            Write (work, line_text, ir);
+            ir := ir - 1;
+            if ir = 1 then
+               Write (work, old_line, 1);
+               exit Main;
+            end if;
+         end if;
+         i := l;
+         j := l + l;
 
-          while j <= ir   loop
-             if j < ir  then
-                read (work, line_text, j);
-                read (work, p_line, j + 1);
-                --if LT (LINE.TEXT, P_LINE.TEXT)  then
-                if lt (line_text, p_line)  then
-                   j := j + 1;
-                end if;
-             end if;
-             read (work, line_text, j);
-             --if OLD_LINE.TEXT < LINE.TEXT  then
-             if lt (old_line , line_text)  then
-                write (work, line_text, i);
-                i := j;
-                j := j + j;
-             else
-                j := ir + 1;
-             end if;
-          end loop;
-          write (work, old_line, i);
+         while j <= ir   loop
+            if j < ir  then
+               Read (work, line_text, j);
+               Read (work, p_line, j + 1);
+               --if LT (LINE.TEXT, P_LINE.TEXT)  then
+               if lt (line_text, p_line)  then
+                  j := j + 1;
+               end if;
+            end if;
+            Read (work, line_text, j);
+            --if OLD_LINE.TEXT < LINE.TEXT  then
+            if lt (old_line, line_text)  then
+               Write (work, line_text, i);
+               i := j;
+               j := j + j;
+            else
+               j := ir + 1;
+            end if;
+         end loop;
+         Write (work, old_line, i);
 
-       end loop main;
+      end loop Main;
 
-    exception
-       when constraint_error => Put_Line ("HEAP CONSTRAINT_ERROR");
-       when others           => Put_Line ("HEAP other_ERROR");
-    end line_heapsort;
+   exception
+      when Constraint_Error => Put_Line ("HEAP CONSTRAINT_ERROR");
+      when others           => Put_Line ("HEAP other_ERROR");
+   end Line_Heapsort;
 
-    Put_Line ("Finished sorting in WORK");
+   Put_Line ("Finished sorting in WORK");
 
-    create_file_for_output (output, "Where to put the output => ");
+   create_file_for_output (output, "Where to put the output => ");
 
-    --RESET (WORK);
-    set_index (work, 1);
-    while not End_Of_File (work)  loop
-       read (work, line_text);
-       if Trim (graphic (line_text))'Length > 0  then
-          --PUT_LINE (TRIM (LINE_TEXT, RIGHT));
-          Put_Line (output, Trim (line_text, right));
-       end if;
-    end loop;
+   --RESET (WORK);
+   Set_Index (work, 1);
+   while not End_Of_File (work)  loop
+      Read (work, line_text);
+      if Trim (graphic (line_text))'Length > 0  then
+         --PUT_LINE (TRIM (LINE_TEXT, RIGHT));
+         Put_Line (output, Trim (line_text, Right));
+      end if;
+   end loop;
 
-    Close (work);
-    Close (output);
-    Put_Line ("Done!");
-    New_Line;
+   Close (work);
+   Close (output);
+   Put_Line ("Done!");
+   New_Line;
 
 exception
    when Program_Error  =>
@@ -897,16 +898,16 @@ exception
       Put_Line ("SORT terminated on a DATA_ERROR");
       Put_Line (line_text);
       Close (output);
-   when constraint_error =>       --Terminate on blank line for file name
+   when Constraint_Error =>       --Terminate on blank line for file name
       Put_Line ("SORT terminated on a CONSTRAINT_ERROR");
       Close (output);
-   when Text_IO.device_error  =>     --Ran out of space to write output file
+   when Text_IO.Device_Error  =>     --Ran out of space to write output file
       Put_Line ("SORT terminated on a DEVICE_ERROR");
-      delete (output);
+      Delete (output);
       create_file_for_output (output, "Wherelse to put the output => ");
-      reset (work);
+      Reset (work);
       while not End_Of_File (work)  loop
-         read (work, line_text);
+         Read (work, line_text);
          Put_Line (output, line_text);    --(1 .. LINE.CURRENT_LENGTH));
       end loop;
       Close (output);
