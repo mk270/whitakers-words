@@ -36,11 +36,11 @@ begin
       end if;
       for i in 1 .. last  loop
          if line (i) = '['  then
-            put (output, "<B>" & line (2 .. i-1) & "</B>  ");
-            Put_Line (output, Trim (line (i .. i+6) & "<BR>"));
+            put (output, "<B>" & line (2 .. i - 1) & "</B>  ");
+            Put_Line (output, Trim (line (i .. i + 6) & "<BR>"));
          end if;
-         if line (i .. i+1) = "::"  then
-            Put_Line (output, Trim (line (i+2 .. last)) & "<BR>");
+         if line (i .. i + 1) = "::"  then
+            Put_Line (output, Trim (line (i + 2 .. last)) & "<BR>");
             exit;
          end if;
       end loop;  --  On LINE

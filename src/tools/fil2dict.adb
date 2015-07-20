@@ -59,7 +59,7 @@ begin
          d_k := special;
       else
          Put_Line ("No such dictionary");
-         raise Text_IO.data_error;
+         raise Text_IO.Data_Error;
       end if;
    end if;
 

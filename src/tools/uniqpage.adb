@@ -71,12 +71,12 @@ begin
        line := blanks;
        get_line_unique (uniques_file, line, last);    --  QUAL, KIND, TRAN
        quality_record_io.Get (line (1 .. last), qual, l);
-       Get (line (l+1 .. last), qual.pofs, kind, l);
-       Age_Type_IO.Get (line (l+1 .. last), tran.Age, l);
-       Area_Type_IO.Get (line (l+1 .. last), tran.Area, l);
-       geo_type_io.Get (line (l+1 .. last), tran.geo, l);
-       frequency_type_io.Get (line (l+1 .. last), tran.freq, l);
-       source_type_io.Get (line (l+1 .. last), tran.source, l);
+       Get (line (l + 1 .. last), qual.pofs, kind, l);
+       Age_Type_IO.Get (line (l + 1 .. last), tran.Age, l);
+       Area_Type_IO.Get (line (l + 1 .. last), tran.Area, l);
+       geo_type_io.Get (line (l + 1 .. last), tran.geo, l);
+       frequency_type_io.Get (line (l + 1 .. last), tran.freq, l);
+       source_type_io.Get (line (l + 1 .. last), tran.source, l);
 
        line := blanks;
        get_line_unique (uniques_file, line, l);         --  MEAN
@@ -115,7 +115,7 @@ begin
 
     Close (uniqpage);
 exception
-   when Text_IO.data_error  =>
+   when Text_IO.Data_Error  =>
       null;
    when others =>
       Put_Line (s (1 .. last));

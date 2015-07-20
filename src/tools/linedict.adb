@@ -89,11 +89,11 @@ begin
              Get (pt_line (1 .. l), de.Part, ll);
              --            GET (PT_LINE (LL+1 .. L), DE.PART.POFS, DE.KIND, LL);
 
-             Get (pt_line (ll+1 .. l), de.Tran.Age, ll);
-             Get (pt_line (ll+1 .. l), de.Tran.Area, ll);
-             Get (pt_line (ll+1 .. l), de.Tran.geo, ll);
-             Get (pt_line (ll+1 .. l), de.Tran.freq, ll);
-             Get (pt_line (ll+1 .. l), de.Tran.source, ll);
+             Get (pt_line (ll + 1 .. l), de.Tran.Age, ll);
+             Get (pt_line (ll + 1 .. l), de.Tran.Area, ll);
+             Get (pt_line (ll + 1 .. l), de.Tran.geo, ll);
+             Get (pt_line (ll + 1 .. l), de.Tran.freq, ll);
+             Get (pt_line (ll + 1 .. l), de.Tran.source, ll);
 
              de.Stems := null_Stems_type;
              ll := 1;

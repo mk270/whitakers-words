@@ -252,33 +252,33 @@ procedure sorter is
       end if;
 
       Get (from, s.first_level, l);
-      if l+1 >= lt  then
+      if l + 1 >= lt  then
          last := l;
          return;
       end if;
-      Get (from (l+2 .. lt), s.second_level, l);
-      if l+1 >= lt  then
+      Get (from (l + 2 .. lt), s.second_level, l);
+      if l + 1 >= lt  then
          last := l;
          return;
       end if;
-      Get (from (l+2 .. lt), s.third_level, l);
-      if l+1 >= lt  then
+      Get (from (l + 2 .. lt), s.third_level, l);
+      if l + 1 >= lt  then
          last := l;
          return;
       end if;
-      Get (from (l+2 .. lt), s.fourth_level, l);
-      if l+1 >= lt  then
+      Get (from (l + 2 .. lt), s.fourth_level, l);
+      if l + 1 >= lt  then
          last := l;
          return;
       end if;
-      Get (from (l+2 .. lt), s.fifth_level, l);
+      Get (from (l + 2 .. lt), s.fifth_level, l);
       last := l;
       return;
    exception
       when Text_IO.end_error =>
          last := l;
          return;
-      when Text_IO.data_error =>
+      when Text_IO.Data_Error =>
          last := l;
          return;
       when others =>
@@ -364,7 +364,7 @@ procedure sorter is
       begin
          Get (from, s.appendix, l);
          --PUT ("A");
-         if l+1 >= lt  then
+         if l + 1 >= lt  then
             last := l;
             return;
          end if;
@@ -403,14 +403,14 @@ procedure sorter is
       --    LAST := L;
       --PUT ("G");
 
-      Get (from (l+2 .. lt), s.section, l);
+      Get (from (l + 2 .. lt), s.section, l);
       --PUT ("F");
       return;
    exception
       when Text_IO.end_error =>
          last := l;
          return;
-      when Text_IO.data_error =>
+      when Text_IO.Data_Error =>
          last := l;
          return;
       when others =>
@@ -502,7 +502,7 @@ procedure sorter is
       end if;
       Integer_IO.Get (enter_line (1 .. ls), m, last);
       begin
-         Integer_IO.Get (enter_line (last+1 .. ls), z, last);
+         Integer_IO.Get (enter_line (last + 1 .. ls), z, last);
          if  m = 0 or z = 0  then
             Put_Line ("Start or size of zero, you must be kidding, aborting");
             raise program_error;
@@ -512,8 +512,8 @@ procedure sorter is
          else
             n := m + z - 1;
          end if;
-         sort_type_io.Get (enter_line (last+1 .. ls), s, last);
-         way_type_io.Get (enter_line (last+1 .. ls), w, last);
+         sort_type_io.Get (enter_line (last + 1 .. ls), s, last);
+         way_type_io.Get (enter_line (last + 1 .. ls), w, last);
          mx := m; nx := n;  sx := s; wx := w;
          echo_entry;
          return;
@@ -531,10 +531,10 @@ procedure sorter is
    function ignore_separators (s : String) return String is
       t : String (s'first .. s'last) := lower_case (s);
    begin
-      for i in s'first+1 .. s'last-1  loop
-         if (s (i-1) /= '-'  and then s (i-1) /= '_')  and then
+      for i in s'first + 1 .. s'last - 1  loop
+         if (s (i - 1) /= '-'  and then s (i - 1) /= '_')  and then
            (s (i) = '-'  or else s (i) = '_')  and then
-           (s (i+1) /= '-'  and then s (i+1) /= '_')  then
+           (s (i + 1) /= '-'  and then s (i + 1) /= '_')  then
             t (i) := ' ';
          end if;
       end loop;
@@ -637,11 +637,11 @@ procedure sorter is
    function ltu (s, t : String) return boolean is
    begin
       for i in 1 .. s'length  loop   --  Not TRIMed, so same length
-         if equ (s (s'first+i-1), t (t'first+i-1))  then
+         if equ (s (s'first+i - 1), t (t'first+i - 1))  then
             null;
-         elsif gtu (s (s'first+i-1), t (t'first+i-1))  then
+         elsif gtu (s (s'first+i - 1), t (t'first+i - 1))  then
             return false;
-         elsif ltu (s (s'first+i-1), t (t'first+i-1))  then
+         elsif ltu (s (s'first+i - 1), t (t'first+i - 1))  then
             return true;
          end if;
       end loop;
@@ -651,11 +651,11 @@ procedure sorter is
    function gtu (s, t : String) return boolean is
    begin
       for i in 1 .. s'length  loop
-         if equ (s (s'first+i-1), t (t'first+i-1))  then
+         if equ (s (s'first+i - 1), t (t'first+i - 1))  then
             null;
-         elsif ltu (s (s'first+i-1), t (t'first+i-1))  then
+         elsif ltu (s (s'first+i - 1), t (t'first+i - 1))  then
             return false;
-         elsif gtu (s (s'first+i-1), t (t'first+i-1))  then
+         elsif gtu (s (s'first+i - 1), t (t'first+i - 1))  then
             return true;
          end if;
       end loop;
@@ -669,7 +669,7 @@ procedure sorter is
       end if;
 
       for i in 1 .. s'length  loop
-         if not equ (s (s'first+i-1), t (t'first+i-1))  then
+         if not equ (s (s'first+i - 1), t (t'first+i - 1))  then
             return false;
          end if;
       end loop;
@@ -963,7 +963,7 @@ begin
          raise;
       when entry_finished =>
          null;
-      when Text_IO.data_error  | Text_IO.end_error  =>
+      when Text_IO.Data_Error  | Text_IO.end_error  =>
          null;
    end;
 
@@ -1027,7 +1027,7 @@ line_heapsort:
           while j <= ir   loop
              if j < ir  then
                 read (work, line_text, j);
-                read (work, p_line, j+1);
+                read (work, p_line, j + 1);
                 --if LT (LINE.TEXT, P_LINE.TEXT)  then
                 if lt (line_text, p_line)  then
                    j := j + 1;
@@ -1075,7 +1075,7 @@ exception
    when program_error  =>
       Put_Line ("SORT terminated on a PROGRAM_ERROR");
       Close (output);
-   when Text_IO.data_error =>     --Terminate on primary start or size = 0
+   when Text_IO.Data_Error =>     --Terminate on primary start or size = 0
       Put_Line ("SORT terminated on a DATA_ERROR");
       Put_Line (line_text);
       Close (output);

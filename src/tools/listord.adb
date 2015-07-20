@@ -78,18 +78,18 @@ begin
       form_de:
           begin
 
-             de.Stems (1) := s (Start_Stem_1 .. Start_Stem_1+Max_Stem_Size-1);
-             de.Stems (2) := s (Start_Stem_2 .. Start_Stem_2+Max_Stem_Size-1);
-             de.Stems (3) := s (Start_Stem_3 .. Start_Stem_3+Max_Stem_Size-1);
-             de.Stems (4) := s (Start_Stem_4 .. Start_Stem_4+Max_Stem_Size-1);
+             de.Stems (1) := s (Start_Stem_1 .. Start_Stem_1+Max_Stem_Size - 1);
+             de.Stems (2) := s (Start_Stem_2 .. Start_Stem_2+Max_Stem_Size - 1);
+             de.Stems (3) := s (Start_Stem_3 .. Start_Stem_3+Max_Stem_Size - 1);
+             de.Stems (4) := s (Start_Stem_4 .. Start_Stem_4+Max_Stem_Size - 1);
              Get (s (start_part .. last), de.Part, l);
-             --GET (S (L+1 .. LAST), DE.PART.POFS, DE.KIND, L);
-             Get (s (l+1 .. last), de.Tran.Age, l);
-             Get (s (l+1 .. last), de.Tran.Area, l);
-             Get (s (l+1 .. last), de.Tran.geo, l);
-             Get (s (l+1 .. last), de.Tran.freq, l);
-             Get (s (l+1 .. last), de.Tran.source, l);
-             de.Mean := Head (s (l+2 .. last), Max_Meaning_Size);
+             --GET (S (L + 1 .. LAST), DE.PART.POFS, DE.KIND, L);
+             Get (s (l + 1 .. last), de.Tran.Age, l);
+             Get (s (l + 1 .. last), de.Tran.Area, l);
+             Get (s (l + 1 .. last), de.Tran.geo, l);
+             Get (s (l + 1 .. last), de.Tran.freq, l);
+             Get (s (l + 1 .. last), de.Tran.source, l);
+             de.Mean := Head (s (l + 2 .. last), Max_Meaning_Size);
              --  Note that this allows initial blanks
              --  L+2 skips over the SPACER, required because this is STRING, not ENUM
 
@@ -103,8 +103,8 @@ begin
           end form_de;
 
           Put_Line (output, s (1 .. 78));
-          Put_Line (output, s (Start_Stem_1 .. start_part-1));
-          put (output, s (start_part .. start_tran-1)); put (output, "      ");
+          Put_Line (output, s (Start_Stem_1 .. start_part - 1));
+          put (output, s (start_part .. start_tran - 1)); put (output, "      ");
           put (output, de.Tran.Age); put (output, " ");
           put (output, de.Tran.Area); put (output, " ");
           put (output, de.Tran.geo); put (output, " ");
@@ -117,7 +117,7 @@ begin
 
     Close (output);
 exception
-   when Text_IO.data_error  =>
+   when Text_IO.Data_Error  =>
       null;
    when others =>
       Put_Line (s (1 .. last));

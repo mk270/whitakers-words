@@ -50,7 +50,7 @@ over_lines:
 
     close (output);
 exception
-   when Text_IO.data_error  =>
+   when Text_IO.Data_Error  =>
       close (output);
 
 end fixord;

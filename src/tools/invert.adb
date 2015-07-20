@@ -28,7 +28,7 @@ procedure invert is
       t : String (1 .. s'length);
    begin
       for i in 1 .. t'length  loop
-         t (i) := s (s'last-i+1);
+         t (i) := s (s'last-i + 1);
       end loop;
       return Head (Trim (t), s'length);
 
@@ -40,7 +40,7 @@ begin
    Get_Line (parm, last);
 
    Integer_IO.Get (parm (1 .. last), n1, l);
-   Integer_IO.Get (parm (l+1 .. last), n2, l);
+   Integer_IO.Get (parm (l + 1 .. last), n2, l);
 
    Create (output, Out_File, "INVERT.OUT");
    Open (input, In_File, "INVERT.IN");

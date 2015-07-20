@@ -32,7 +32,7 @@ procedure invstems is
          return blank_stem;
       else
          for i in s'range  loop
-            t (i) := s (s'last-i+1);
+            t (i) := s (s'last-i + 1);
          end loop;
          return Head (Trim (t), 18);
       end if;

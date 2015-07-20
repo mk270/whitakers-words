@@ -38,7 +38,7 @@ procedure slash is
          when 'C' | 'c'  =>  return columns;
          when 'L' | 'l'  =>  return lines;
          when others     =>
-            raise data_error;
+            raise Data_Error;
       end case;
    end which;
 
@@ -121,7 +121,7 @@ begin
    Put_Line ("Done SLASHing");
 
 exception
-   when data_error  =>
+   when Data_Error  =>
       Put_Line ("***************** WRONG REPLY *****************");
       New_Line (2);
       Put_Line ("Try again");

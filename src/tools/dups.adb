@@ -43,7 +43,7 @@ procedure dups is
 
       Get_Line (enter_line, ls);
       Get (enter_line (1 .. ls), mx, last);
-      Get (enter_line (last+1 .. ls), nx, last);
+      Get (enter_line (last + 1 .. ls), nx, last);
 
    end get_entry;
 
