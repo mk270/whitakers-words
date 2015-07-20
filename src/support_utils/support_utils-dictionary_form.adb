@@ -17,7 +17,7 @@
 with Latin_Utils.Strings_Package; use Latin_Utils.Strings_Package;
 with Latin_Utils.Inflections_Package; use Latin_Utils.Inflections_Package;
 with Latin_Utils.Dictionary_Package; use Latin_Utils.Dictionary_Package;
-function dictionary_form (de : Dictionary_Entry) return String is
+function Support_Utils.Dictionary_Form (de : Dictionary_Entry) return String is
 
    null_ox : constant String (1 .. 24) := (others => ' ');
    ox : array (1 .. 4) of String (1 .. 24) := (others => null_ox);
@@ -667,4 +667,4 @@ exception
       return "";
    when others     =>
       return "";
-end dictionary_form;
+end Support_Utils.Dictionary_Form;

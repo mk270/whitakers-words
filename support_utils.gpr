@@ -22,7 +22,8 @@ project Support_Utils is
         "support_utils-developer_parameters.ads",
         "support_utils-developer_parameters.adb",
         "support_utils-word_parameters.ads",
-        "support_utils-word_parameters.adb"
+        "support_utils-word_parameters.adb",
+        "support_utils-dictionary_form.adb"
       );
  
    for Library_Name use Name;
