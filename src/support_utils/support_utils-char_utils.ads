@@ -14,11 +14,20 @@
 -- All parts of the WORDS system, source code and data files, are made freely
 -- available to anyone who wishes to use them, for whatever purpose.
 
-with Ada.Text_IO;
-with Support_Utils.Developer_Parameters; use Support_Utils.Developer_Parameters;
-procedure Put_stat (s : String) is
-begin
-   if Ada.Text_IO.Is_Open (stats) then
-      Ada.Text_IO.Put_Line (stats, s);
-   end if;
-end Put_stat;
+package Support_Utils.Char_Utils is
+
+   ---------------------------------------------------------------------------
+   -- Is C one of: " ,-;:.([{<)]}>"
+   function Is_Punctuation (C : Character) return Boolean;
+
+   -- Is C alphabetic, or '.' or '-' ?
+   function Is_Alpha_Etc (C : Character) return Boolean;
+
+   -- Converts V -> U, v -> u, J -> I, j -> i. Used in few select places.
+   -- Doesn't change character when it is not V/v or J/j.
+   function  V_To_U_And_J_To_I (C : in     Character) return Character;
+   procedure V_To_U_And_J_To_I (C : in out Character);
+
+   ---------------------------------------------------------------------------
+
+end Support_Utils.Char_Utils;

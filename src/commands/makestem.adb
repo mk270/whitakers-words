@@ -19,8 +19,8 @@ with Latin_Utils.Strings_Package; use Latin_Utils.Strings_Package;
 with Latin_Utils.Latin_File_Names; use Latin_Utils.Latin_File_Names;
 with Latin_Utils.Inflections_Package; use Latin_Utils.Inflections_Package;
 with Latin_Utils.Dictionary_Package; use Latin_Utils.Dictionary_Package;
-with word_support_package; use word_support_package;
-with Char_Utils;
+with Support_Utils.Word_Support_Package; use Support_Utils.Word_Support_Package;
+with Support_Utils.Char_Utils;
 with Latin_Utils.General;
 
 procedure makestem is
@@ -166,8 +166,8 @@ begin
             fc := Lower_Case (line (1));
             sc := Lower_Case (line (2));
             --------------------------------------------------------------------
-            Char_Utils.V_To_U_And_J_To_I (fc);
-            Char_Utils.V_To_U_And_J_To_I (sc);
+            Support_Utils.Char_Utils.V_To_U_And_J_To_I (fc);
+            Support_Utils.Char_Utils.V_To_U_And_J_To_I (sc);
             --------------------------------------------------------------------
             i := i + 1;
 

@@ -15,9 +15,9 @@
 -- available to anyone who wishes to use them, for whatever purpose.
 
 with text_io;
-with strings_package; use strings_package;
-with inflections_package; use inflections_package;
-with dictionary_package; use dictionary_package;
+with Latin_Utils.Strings_Package; use Latin_Utils.Strings_Package;
+with Latin_Utils.Inflections_Package; use Latin_Utils.Inflections_Package;
+with Latin_Utils.Dictionary_Package; use Latin_Utils.Dictionary_Package;
 with line_stuff; use line_stuff;
 procedure check is
    use inflections_package.integer_io;

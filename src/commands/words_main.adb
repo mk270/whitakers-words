@@ -19,8 +19,8 @@ with Ada.Text_IO; use Ada.Text_IO;
 with Latin_Utils.Strings_Package; use Latin_Utils.Strings_Package;
 use Latin_Utils;
 with Latin_Utils.Config; use Latin_Utils.Config;
-with word_parameters; use word_parameters;
-with developer_parameters; use developer_parameters;
+with Support_Utils.Word_Parameters; use Support_Utils.Word_Parameters;
+with Support_Utils.Developer_Parameters; use Support_Utils.Developer_Parameters;
 with word_package; use word_package;
 with process_Input;
 

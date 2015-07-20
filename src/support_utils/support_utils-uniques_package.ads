@@ -16,7 +16,7 @@
 
 with Latin_Utils.Inflections_Package; use Latin_Utils.Inflections_Package;
 with Latin_Utils.Dictionary_Package; use Latin_Utils.Dictionary_Package;
-package uniques_package is
+package Support_Utils.Uniques_Package is
 
    type unique_item;
    type unique_list is access unique_item;
@@ -41,4 +41,4 @@ package uniques_package is
    uniques_de : uniques_de_array (1 .. 100) :=
      (others => Null_Dictionary_Entry);
 
-end uniques_package;
+end Support_Utils.Uniques_Package;

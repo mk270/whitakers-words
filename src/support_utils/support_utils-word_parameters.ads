@@ -15,7 +15,7 @@
 -- available to anyone who wishes to use them, for whatever purpose.
 
 with Ada.Text_IO;
-package word_parameters is
+package Support_Utils.Word_Parameters is
    --  This package defines a number of parameters that areused in the program
    --  The default values are set in the body, so that they may be changed
    --- easily
@@ -68,4 +68,4 @@ package word_parameters is
 
    procedure initialize_word_parameters;
 
-end word_parameters;
+end Support_Utils.Word_Parameters;

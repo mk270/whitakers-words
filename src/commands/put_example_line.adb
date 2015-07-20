@@ -18,7 +18,7 @@ with Ada.Text_IO;
 with Latin_Utils.Inflections_Package; use Latin_Utils.Inflections_Package;
 with Latin_Utils.Dictionary_Package; use Latin_Utils.Dictionary_Package;
 with Latin_Utils.Config; use Latin_Utils.Config;
-with word_parameters; use word_parameters;
+with Support_Utils.Word_Parameters; use Support_Utils.Word_Parameters;
 --with LATIN_DEBUG;
 procedure Put_example_line
   (configuration : configuration_type;

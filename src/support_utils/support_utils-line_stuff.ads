@@ -17,10 +17,10 @@
 with Ada.Text_IO; use Ada.Text_IO;
 with Latin_Utils.Inflections_Package; use Latin_Utils.Inflections_Package;
 with Latin_Utils.Dictionary_Package; use Latin_Utils.Dictionary_Package;
-with addons_package; use addons_package;
-with uniques_package; use uniques_package;
+with Support_Utils.Addons_Package; use Support_Utils.Addons_Package;
+with Support_Utils.Uniques_Package; use Support_Utils.Uniques_Package;
 use Latin_Utils;
-package line_stuff is
+package Support_Utils.Line_Stuff is
    pragma Elaborate_Body;
 
    type dictionary_item;
@@ -125,4 +125,4 @@ package line_stuff is
 
    procedure load_uniques (unq : in out latin_uniques; file_name : in String);
 
-end line_stuff;
+end Support_Utils.Line_Stuff;

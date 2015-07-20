@@ -15,7 +15,7 @@
 -- available to anyone who wishes to use them, for whatever purpose.
 
 with Ada.Text_IO;
-package developer_parameters is
+package Support_Utils.Developer_Parameters is
 
    --  These are a few strange declarations to be used in diagnostics;
    sra_max, sraa_max, dma_max : Integer := 0;
@@ -99,4 +99,4 @@ package developer_parameters is
 
    procedure initialize_developer_parameters;
 
-end developer_parameters;
+end Support_Utils.Developer_Parameters;

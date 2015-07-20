@@ -14,20 +14,16 @@
 -- All parts of the WORDS system, source code and data files, are made freely
 -- available to anyone who wishes to use them, for whatever purpose.
 
-package Char_Utils is
-
    ---------------------------------------------------------------------------
-   -- Is C one of: " ,-;:.([{<)]}>"
-   function Is_Punctuation (C : Character) return Boolean;
+   -- Main package of library-like utilities used all over the WORDS.
+   ---------------------------------------------------------------------------
 
-   -- Is C alphabetic, or '.' or '-' ?
-   function Is_Alpha_Etc (C : Character) return Boolean;
-
-   -- Converts V -> U, v -> u, J -> I, j -> i. Used in few select places.
-   -- Doesn't change character when it is not V/v or J/j.
-   function  V_To_U_And_J_To_I (C : in     Character) return Character;
-   procedure V_To_U_And_J_To_I (C : in out Character);
+package Support_Utils is
 
    ---------------------------------------------------------------------------
 
-end Char_Utils;
+   pragma Pure (Support_Utils);
+
+   ---------------------------------------------------------------------------
+
+end Support_Utils;
