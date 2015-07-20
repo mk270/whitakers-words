@@ -243,11 +243,11 @@ procedure sorter is
    procedure Get (from : in String;
                   s : out section_type; last : out Integer) is
       l  : Integer := 0;
-      ft : Integer := from'first;
-      lt : Integer := from'last;
+      ft : Integer := from'First;
+      lt : Integer := from'Last;
    begin
       s := no_section;
-      if Trim (from)'last < from'first   then
+      if Trim (from)'Last < from'First   then
          return;   --  Empty String, no data         --  Return default
       end if;
 
@@ -348,13 +348,13 @@ procedure sorter is
                   s : out appendix_section_type; last : out Integer) is
       use appendix_io;
       l  : Integer := 0;
-      ft : Integer := from'first;
-      lt : Integer := from'last;
+      ft : Integer := from'First;
+      lt : Integer := from'Last;
    begin
 
       s := no_appendix_section;
       if (ft = lt)  or else
-        (Trim (from)'length = 0)  then   --  Empty/blank String, no data
+        (Trim (from)'Length = 0)  then   --  Empty/blank String, no data
          Put ("@");
          return;                      --  Return default
       end if;
@@ -529,9 +529,9 @@ procedure sorter is
    end get_entry;
 
    function ignore_separators (s : String) return String is
-      t : String (s'first .. s'last) := lower_case (s);
+      t : String (s'First .. s'Last) := lower_case (s);
    begin
-      for i in s'first + 1 .. s'last - 1  loop
+      for i in s'First + 1 .. s'Last - 1  loop
          if (s (i - 1) /= '-'  and then s (i - 1) /= '_')  and then
            (s (i) = '-'  or else s (i) = '_')  and then
            (s (i + 1) /= '-'  and then s (i + 1) /= '_')  then
@@ -636,12 +636,12 @@ procedure sorter is
 
    function ltu (s, t : String) return boolean is
    begin
-      for i in 1 .. s'length  loop   --  Not TRIMed, so same length
-         if equ (s (s'first+i - 1), t (t'first+i - 1))  then
+      for i in 1 .. s'Length  loop   --  Not TRIMed, so same length
+         if equ (s (s'First+i - 1), t (t'First+i - 1))  then
             null;
-         elsif gtu (s (s'first+i - 1), t (t'first+i - 1))  then
+         elsif gtu (s (s'First+i - 1), t (t'First+i - 1))  then
             return false;
-         elsif ltu (s (s'first+i - 1), t (t'first+i - 1))  then
+         elsif ltu (s (s'First+i - 1), t (t'First+i - 1))  then
             return true;
          end if;
       end loop;
@@ -650,12 +650,12 @@ procedure sorter is
 
    function gtu (s, t : String) return boolean is
    begin
-      for i in 1 .. s'length  loop
-         if equ (s (s'first+i - 1), t (t'first+i - 1))  then
+      for i in 1 .. s'Length  loop
+         if equ (s (s'First+i - 1), t (t'First+i - 1))  then
             null;
-         elsif ltu (s (s'first+i - 1), t (t'first+i - 1))  then
+         elsif ltu (s (s'First+i - 1), t (t'First+i - 1))  then
             return false;
-         elsif gtu (s (s'first+i - 1), t (t'first+i - 1))  then
+         elsif gtu (s (s'First+i - 1), t (t'First+i - 1))  then
             return true;
          end if;
       end loop;
@@ -664,12 +664,12 @@ procedure sorter is
 
    function equ (s, t : String) return boolean is
    begin
-      if s'length /= t'length  then
+      if s'Length /= t'Length  then
          return false;
       end if;
 
-      for i in 1 .. s'length  loop
-         if not equ (s (s'first+i - 1), t (t'first+i - 1))  then
+      for i in 1 .. s'Length  loop
+         if not equ (s (s'First+i - 1), t (t'First+i - 1))  then
             return false;
          end if;
       end loop;
@@ -680,8 +680,8 @@ procedure sorter is
    function slt (x, y : String;         --  Make LEFT and RIGHT
                  st : sort_type := a;
                  wt : way_type := i) return boolean is
-      as : String (x'range) := x;
-      bs : String (y'range) := y;
+      as : String (x'Range) := x;
+      bs : String (y'Range) := y;
       mn, nn : Integer := 0;
       fn, gn : float := 0.0;
       --FS, GS : SECTION_TYPE := NO_SECTION;
@@ -777,8 +777,8 @@ procedure sorter is
    function sort_equal (x, y : String;
                         st : sort_type := a;
                         wt : way_type := i) return boolean is
-      as : String (x'range) := x;
-      bs : String (y'range) := y;
+      as : String (x'Range) := x;
+      bs : String (y'Range) := y;
       mn, nn : Integer := 0;
       fn, gn : float := 0.0;
       fs, gs : appendix_section_type := no_appendix_section;
@@ -903,7 +903,7 @@ procedure sorter is
 
             Put (prompt);
             Get_Line (name, last);
-            if Trim (name (1 .. last))'length /= 0  then
+            if Trim (name (1 .. last))'Length /= 0  then
                Create (output, Out_File, name (1 .. last));
             else
                Create (output, Out_File, Trim (input_name));
@@ -918,9 +918,9 @@ procedure sorter is
    end create_file_for_output;
 
    function graphic (s : String) return String is
-      t : String (1 .. s'length) := s;
+      t : String (1 .. s'Length) := s;
    begin
-      for i in s'range  loop
+      for i in s'Range  loop
          if character'pos (s (i)) < 32  then
             t (i) := ' ';
          end if;
@@ -1060,7 +1060,7 @@ line_heapsort:
     set_index (work, 1);
     while not End_Of_File (work)  loop
        read (work, line_text);
-       if Trim (graphic (line_text))'length > 0  then
+       if Trim (graphic (line_text))'Length > 0  then
           --PUT_LINE (TRIM (LINE_TEXT, RIGHT));
           Put_Line (output, Trim (line_text, right));
        end if;

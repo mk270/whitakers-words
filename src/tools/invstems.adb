@@ -7,15 +7,15 @@
 -- there is no charge. However, just for form, it is Copyrighted
 -- (c). Permission is hereby freely given for any and all use of program
 -- and data. You can sell it as your own, but at least tell me.
--- 
+--
 -- This version is distributed without obligation, but the developer
 -- would appreciate comments and suggestions.
--- 
+--
 -- All parts of the WORDS system, source code and data files, are made freely
 -- available to anyone who wishes to use them, for whatever purpose.
 
 with Text_IO; use Text_IO;
-with Strings_package; use Strings_package;
+-- with Strings_package; use Strings_package;
 procedure invstems is
    line : String (1 .. 250);
    ll : Integer;
@@ -26,13 +26,13 @@ procedure invstems is
    input, output : File_Type;
 
    function invert (s : String) return String is
-      t : String (s'first .. s'last);
+      t : String (s'First .. s'Last);
    begin
       if s (1) = ' '  then
          return blank_stem;
       else
-         for i in s'range  loop
-            t (i) := s (s'last-i + 1);
+         for i in s'Range  loop
+            t (i) := s (s'Last-i + 1);
          end loop;
          return Head (Trim (t), 18);
       end if;

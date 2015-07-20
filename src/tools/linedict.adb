@@ -49,16 +49,16 @@ procedure linedict is
    procedure get_stem (s : in String;
                        stem : out stem_type; last : out Integer) is
       i  : Integer := 1;
-      l  : Integer := s'first;
+      l  : Integer := s'First;
    begin
       stem := null_stem_type;
       --  Squeeze left
-      while l <= s'last and then s (l) = ' '  loop
+      while l <= s'Last and then s (l) = ' '  loop
          l := l + 1;
       end loop;
       --  Count until the first blank
       --  Return that String
-      while l <= s'last and then s (l) /= ' '  loop
+      while l <= s'Last and then s (l) /= ' '  loop
          stem (i) := s (l);
          i := i + 1;
          l := l + 1;
