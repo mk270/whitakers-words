@@ -445,15 +445,15 @@ procedure check is
               (sts (4) /= null_stem_type  and
               sts (4) /= zzz_stem))     then
                if sts (3)(len (sts (3)) - 3 .. len (sts (3))) = "cili"  then
-                  if (sts (4)(len (sts (4)) - 4 .. len (sts (4))) /= "cilli") then
+                  if sts (4)(len (sts (4)) - 4 .. len (sts (4))) /= "cilli" then
                      prob ("    EXPECTED  'cil' ADJ  STEM 4 to end in 'cilli'");
                   end if;
-               elsif (sts (3)(len (sts (3)) - 3 .. len (sts (3))) = "mili")  then
-                  if (sts (4)(len (sts (4)) - 4 .. len (sts (4))) /= "milli") then
+               elsif sts (3)(len (sts (3)) - 3 .. len (sts (3))) = "mili"  then
+                  if sts (4)(len (sts (4)) - 4 .. len (sts (4))) /= "milli" then
                      prob ("    EXPECTED  'mil' ADJ  STEM 4 to end in 'milli'");
                   end if;
-               elsif (sts (3)(len (sts (3)) - 1 .. len (sts (3))) = "ri")  then
-                  if (sts (4)(len (sts (4)) - 2 .. len (sts (4))) /= "rri") then
+               elsif sts (3)(len (sts (3)) - 1 .. len (sts (3))) = "ri"  then
+                  if sts (4)(len (sts (4)) - 2 .. len (sts (4))) /= "rri" then
                      prob ("    EXPECTED  'r' ADJ  STEM 4 to end in 'rri'");
                   end if;
                elsif sts (4)(len (sts (4)) - 3 .. len (sts (4))) /= "issi"  then
@@ -483,20 +483,20 @@ procedure check is
       elsif pt.pofs = adv  then
 
          --  Can only check consistency if more than one stem, CO /= COMP | SUPER
-         if (pt.adv.co = pos or pt.adv.co = x)  then
+         if pt.adv.co = pos or pt.adv.co = x  then
 
             --  Check that there are two and only two stems if POS
             if pt.adv.co = pos     then
-               if (sts (2) /= null_stem_type  or
-                 sts (3) /= null_stem_type)     then
+               if sts (2) /= null_stem_type  or
+                  sts (3) /= null_stem_type     then
                   prob ("    EXPECTED  exactly 1  POS ADV  STEM ");
                end if;
             end if;
 
             --  Check that there are more than two stems if X
             if pt.adv.co = x   then
-               if (sts (2) = null_stem_type  or
-                 sts (3) = null_stem_type)     then
+               if sts (2) = null_stem_type  or
+                  sts (3) = null_stem_type     then
                   prob ("    EXPECTED  3  X  ADV  STEMS");
                end if;
             end if;
@@ -528,16 +528,16 @@ procedure check is
               sts (2) /= zzz_stem)    and then
               (sts (3) /= null_stem_type  and
               sts (3) /= zzz_stem))     then
-               if (sts (2)(len (sts (2)) - 5 .. len (sts (2))) = "cilius")  then
-                  if (sts (3)(len (sts (3)) - 6 .. len (sts (3))) /= "cillime") then
+               if sts (2)(len (sts (2)) - 5 .. len (sts (2))) = "cilius"  then
+                  if sts (3)(len (sts (3)) - 6 .. len (sts (3))) /= "cillime" then
                      prob ("    EXPECTED  'cil' ADV  STEM 3 to end in 'cillime'");
                   end if;
-               elsif (sts (2)(len (sts (2)) - 5 .. len (sts (2))) = "milius")  then
-                  if (sts (3)(len (sts (3)) - 6 .. len (sts (3))) /= "millime") then
+               elsif sts (2)(len (sts (2)) - 5 .. len (sts (2))) = "milius"  then
+                  if sts (3)(len (sts (3)) - 6 .. len (sts (3))) /= "millime" then
                      prob ("    EXPECTED  'mil' ADV  STEM 3 to end in 'millime'");
                   end if;
-               elsif (sts (2)(len (sts (2)) - 3 .. len (sts (2))) = "rius")  then
-                  if (sts (3)(len (sts (3)) - 4 .. len (sts (3))) /= "rrime") then
+               elsif sts (2)(len (sts (2)) - 3 .. len (sts (2))) = "rius" then
+                  if sts (3)(len (sts (3)) - 4 .. len (sts (3))) /= "rrime" then
                      prob ("    EXPECTED  'r' ADV  STEM 3 to end in 'rrime'");
                   end if;
                elsif sts (3)(len (sts (3)) - 5 .. len (sts (3))) /= "issime"  then
@@ -550,16 +550,16 @@ procedure check is
 
          --  Check that V 9 9 has ony one stem
          if pt.v.con = (9, 9)    then
-            if (sts (2) /= null_stem_type  or
-              sts (3) /= null_stem_type  or
-              sts (4) /= null_stem_type)     then
+            if sts (2) /= null_stem_type  or
+               sts (3) /= null_stem_type  or
+               sts (4) /= null_stem_type     then
                prob ("    EXPECTED  exactly 1  V (9, 9)  STEM ");
             end if;
 
          else
 
             --  Check to see no first verb stem has lingering 'o'
-            if (sts (1)(len (sts (1)))  =  'o')  then
+            if sts (1)(len (sts (1)))  =  'o'  then
                prob ("    EXPECTED VERB not to have -o 1st stem");
             end if;
 
@@ -571,9 +571,9 @@ procedure check is
 
             --  Check that the stems are the same when expected
             if pt.v.con.which < 5  and  sts (1)(1 .. 3) /= "zzz"   then
-               if (pt.v.con  /= (3, 1) and
-                 pt.v.con  /= (3, 2) and
-                 pt.v.con  /= (3, 4))   then
+               if pt.v.con  /= (3, 1) and
+                  pt.v.con  /= (3, 2) and
+                  pt.v.con  /= (3, 4)   then
                   if sts (1) /= sts (2)  then
                      prob ("    EXPECTED IDENTICAL VERB 1 & 2 STEMS");
                   end if;
@@ -631,8 +631,8 @@ procedure check is
                     sts (4)(1 .. len (sts (4)) - 4))  then
                      prob ("    EXPECTED  (1, 1) 3/4 onu -> onit VERB STEMS");
                   end if;
-               elsif sts (1)(len (sts (1)) - 1 .. len (sts (1))) = "st"
-               then  --  sto bad
+               elsif sts (1)(len (sts (1)) - 1 .. len (sts (1))) = "st" then
+                  --  sto bad
                   prob ("           V  (1, 1) 'st' verb  ???? VERB STEMS");
                else
                   prob ("    EXPECTED  (1, 1) 3/4 regular     VERB STEMS");
