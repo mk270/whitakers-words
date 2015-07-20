@@ -52,10 +52,12 @@ begin
    Text_IO.Get_Line (line, last);
    if last > 0  then
       if Trim (line (1 .. last))(1) = 'G'  or else
-        Trim (line (1 .. last))(1) = 'g'     then
+        Trim (line (1 .. last))(1) = 'g'
+      then
          d_k := general;
       elsif Trim (line (1 .. last))(1) = 'S'  or else
-        Trim (line (1 .. last))(1) = 's'     then
+        Trim (line (1 .. last))(1) = 's'
+      then
          d_k := special;
       else
          Put_Line ("No such dictionary");

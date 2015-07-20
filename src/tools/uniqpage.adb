@@ -56,9 +56,12 @@ procedure uniqpage is
    begin
       last := 0;
       Text_IO.Get_Line (input, s, last);
-      if Trim (s (s'First .. last)) /= ""  then   --  Rejecting blank lines
-         null;
-      end if;
+      -- FIXME: this if statement was commented out, because it triggered
+      -- warning "if statement has no effect". I didn't delete it because quite
+      -- possibly author wanted it to do something. Question is what?
+      --if Trim (s (s'First .. last)) /= ""  then   --  Rejecting blank lines
+      --   null;
+      --end if;
    end get_line_unique;
 
 begin
