@@ -174,7 +174,9 @@ procedure check is
             if (len (sts (1)) >= 3                           and then
               sts (1)(len (sts (1)) - 1 .. len (sts (1))) = "er")  and then
               ((sts (2)(len (sts (2)) - 1 .. len (sts (2))) /= "er")         or
-              (sts (1)(1 .. len (sts (1)) - 2) /= sts (2)(1 .. len (sts (2)) - 2)))   then
+              (sts (1)(1 .. len (sts (1)) - 2) /=
+               sts (2)(1 .. len (sts (2)) - 2)))
+            then
                prob ("    EXPECTED  er -> er   N 3 1 NOUN STEMS");
             end if;
          end if;
@@ -194,7 +196,9 @@ procedure check is
             if (len (sts (1)) >= 3                           and then
               sts (1)(len (sts (1)) - 1 .. len (sts (1))) = "or")  and then
               ((sts (2)(len (sts (2)) - 1 .. len (sts (2))) /= "or")         or
-              (sts (1)(1 .. len (sts (1)) - 2) /= sts (2)(1 .. len (sts (2)) - 2)))   then
+              (sts (1)(1 .. len (sts (1)) - 2) /=
+               sts (2)(1 .. len (sts (2)) - 2)))
+            then
                prob ("    EXPECTED  or -> or   and S1=S2   N 3 1 NOUN STEMS");
             end if;
          end if;
@@ -271,7 +275,8 @@ procedure check is
             if len (sts (1)) >= 3                           and then
               (sts (1)(len (sts (1)) - 1 .. len (sts (1))) = "es"  or
               sts (1)(len (sts (1)) - 1 .. len (sts (1))) = "is")    and then
-              sts (1)(1 .. len (sts (1)) - 2) = sts (2)(1 .. len (sts (2)))    then
+              sts (1)(1 .. len (sts (1)) - 2) = sts (2)(1 .. len (sts (2)))
+            then
                if pt.n.decl.var /= 3  and pt.n.decl.var /= 9 then
                   prob ("    EXPECTED  es/is I-stem (3, 3)");
                end if;
@@ -338,7 +343,8 @@ procedure check is
 
       elsif pt.pofs = adj  then
 
-         --  Can only check consistency if more than one stem, CO /= COMP | SUPER
+         --  Can only check consistency if more than one stem,
+         --    CO /= COMP | SUPER
          if (pt.adj.co = pos or pt.adj.co = x)  and
            (pt.adj.decl /= (9, 9)   and
            pt.adj.decl /= (9, 8))        then
@@ -367,7 +373,8 @@ procedure check is
             if pt.adj.decl = (3, 1)   then
                if len (sts (1)) >= 3                           and then
                  sts (1)(len (sts (1)) - 1 .. len (sts (1))) = "ns"  and then
-                 sts (2)(len (sts (2)) - 1 .. len (sts (2))) /= "nt"          then
+                 sts (2)(len (sts (2)) - 1 .. len (sts (2))) /= "nt"
+               then
                   prob ("    EXPECTED  ns -> nt  (3, 1)  ADJ STEMS");
                end if;
             end if;
@@ -431,7 +438,9 @@ procedure check is
             then
                if sts (3)(len (sts (3))) /= 'i'  then
                   prob ("    EXPECTED  ADJ  STEM 3 to end in 'i'");
-               elsif sts (3)(1 .. len (sts (3)) - 1) /= sts (2)(1 .. len (sts (2)))  then
+               elsif sts (3)(1 .. len (sts (3)) - 1) /=
+                     sts (2)(1 .. len (sts (2)))
+               then
                   prob ("    EXPECTED  ADJ  STEM 3  = STEM 2 & 'i'");
                end if;
             end if;
@@ -458,9 +467,13 @@ procedure check is
                   end if;
                elsif sts (4)(len (sts (4)) - 3 .. len (sts (4))) /= "issi"  then
                   prob ("    EXPECTED  ADJ  STEM 4 to end in 'issi'");
-               elsif sts (4)(1 .. len (sts (4)) - 3) /= sts (3)(1 .. len (sts (3)))  then
+               elsif sts (4)(1 .. len (sts (4)) - 3) /=
+                     sts (3)(1 .. len (sts (3)))
+               then
                   prob ("    EXPECTED  ADJ  STEM 4 to be STEM 3 & 'ssi'");
-               elsif sts (4)(1 .. len (sts (4)) - 4) /= sts (2)(1 .. len (sts (2)))  then
+               elsif sts (4)(1 .. len (sts (4)) - 4) /=
+                     sts (2)(1 .. len (sts (2)))
+               then
                   prob ("    EXPECTED  ADJ  STEM 4 to be STEM 2 & 'issi'");
                end if;
             end if;
@@ -482,7 +495,8 @@ procedure check is
 
       elsif pt.pofs = adv  then
 
-         --  Can only check consistency if more than one stem, CO /= COMP | SUPER
+         --  Can only check consistency if more than one stem,
+         --    CO /= COMP | SUPER
          if pt.adv.co = pos or pt.adv.co = x  then
 
             --  Check that there are two and only two stems if POS
@@ -590,10 +604,13 @@ procedure check is
                  sts (2)(1 .. len (sts (2))) & 'i')  then
                   prob ("    EXPECTED (3, 4) i-stem  VERB  STEMS");
                elsif pt.v.con  = (3, 2)  then
-                  if ((sts (1)(len (sts (1)) - 2 .. len (sts (1)))  /=  "fer") or
-                    (sts (2)(len (sts (2)) - 3 .. len (sts (2)))  /=  "ferr"))  or
+                  if ((sts (1)(len (sts (1)) - 2 .. len (sts (1)))  /=  "fer")
+                    or
+                    (sts (2)(len (sts (2)) - 3 .. len (sts (2)))  /=  "ferr"))
+                    or
                     (sts (1)(1 .. len (sts (1)) - 3)  /=
-                    sts (2)(1 .. len (sts (2)) - 4))  then
+                     sts (2)(1 .. len (sts (2)) - 4))
+                  then
                      prob ("    EXPECTED (3, 2) fer   VERB  STEMS");
                   end if;
                end if;
@@ -737,16 +754,20 @@ procedure check is
 
    exception
       when others   =>
-         put_line ("VERIFY_STEMS exception        !!!!!!!!!!!!!!!!!!     " & sts (1));
+         put_line ("VERIFY_STEMS exception        !!!!!!!!!!!!!!!!!!     "
+           & sts (1));
          put_line (s (1 .. last));
-         put_line (output, "VERIFY_STEMS exception        !!!!!!!!!!!!!!!!!!     " & sts (1));
+         put_line (output,
+           "VERIFY_STEMS exception        !!!!!!!!!!!!!!!!!!     " & sts (1));
          put_line (output, s (1 .. last));
          --CLOSE (OUTPUT);
    end verify_stems;
 
 begin
-   put_line ("Takes a DICTLINE form named CHECK.IN, analyzes for possible errors, and");
-   put_line ("produces a report CHECK.OUT - Remember to process CHECK.OUT from end");
+   put_line ("Takes a DICTLINE form named CHECK.IN, " &
+     "analyzes for possible errors, and");
+   put_line ("produces a report CHECK.OUT - " &
+     "Remember to process CHECK.OUT from end");
    create (output, out_file, "CHECK.OUT");
    open (input, in_file, "CHECK.IN");
 
