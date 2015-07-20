@@ -15,18 +15,18 @@
 -- available to anyone who wishes to use them, for whatever purpose.
 
 with text_io; use text_io;
-with strings_package; use strings_package;
+with Strings_package; use Strings_package;
 procedure invstems is
-   line : string (1 .. 250);
-   ll : integer;
-   subtype stem is string (1 .. 18);
+   line : String (1 .. 250);
+   ll : Integer;
+   subtype stem is String (1 .. 18);
    blank_stem : constant stem := (others => ' ');
    sts : array (1 .. 4) of stem;
 
-   input, output : file_type;
+   input, output : File_Type;
 
-   function invert (s : string) return string is
-      t : string (s'first .. s'last);
+   function invert (s : String) return String is
+      t : String (s'first .. s'last);
    begin
       if s (1) = ' '  then
          return blank_stem;
@@ -34,18 +34,18 @@ procedure invstems is
          for i in s'range  loop
             t (i) := s (s'last-i+1);
          end loop;
-         return head (trim (t), 18);
+         return Head (Trim (t), 18);
       end if;
    end invert;
 
 begin
-   put_line ("Inverts the 4 stems of a DICTLINE form file INVERT_S.IN -> INVERT_S.OUT");
+   Put_Line ("Inverts the 4 stems of a DICTLINE form file INVERT_S.IN -> INVERT_S.OUT");
 
-   create (output, out_file, "INVERT_S.OUT");
-   open (input, in_file, "INVERT_S.IN");
+   Create (output, Out_File, "INVERT_S.OUT");
+   Open (input, In_File, "INVERT_S.IN");
 
-   while not end_of_file (input)  loop
-      get_line (input, line, ll);
+   while not End_Of_File (input)  loop
+      Get_Line (input, line, ll);
       sts (1) := line (1 .. 18);
       sts (2) := line (20 .. 37);
       sts (3) := line (39 .. 56);
@@ -57,10 +57,10 @@ begin
       line (20 .. 37) := sts (2);
       line (39 .. 56) := sts (3);
       line (58 .. 75) := sts (4);
-      put_line (output, line (1 .. ll));
+      Put_Line (output, line (1 .. ll));
 
    end loop;
 
-   close (output);
+   Close (output);
 
 end invstems;

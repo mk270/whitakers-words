@@ -15,49 +15,49 @@
 -- available to anyone who wishes to use them, for whatever purpose.
 
 with text_io; use text_io;
-with strings_package; use strings_package;
+with Strings_package; use Strings_package;
 procedure invert is
-   line, parm : string (1 .. 250);
-   l, last : integer;
-   n1, n2 : integer;
+   line, parm : String (1 .. 250);
+   l, last : Integer;
+   n1, n2 : Integer;
 
-   input, output : file_type;
-   package integer_io is new text_io.integer_io (integer);
+   input, output : File_Type;
+   package Integer_IO is new text_io.Integer_IO (Integer);
 
-   function invert (s : string) return string is
-      t : string (1 .. s'length);
+   function invert (s : String) return String is
+      t : String (1 .. s'length);
    begin
       for i in 1 .. t'length  loop
          t (i) := s (s'last-i+1);
       end loop;
-      return head (trim (t), s'length);
+      return Head (Trim (t), s'length);
 
    end invert;
 
 begin
-   put_line ("Inverts/reverses the order of columns N1 .. N2 of INVERT.IN -> INVERT.OUT");
+   Put_Line ("Inverts/reverses the order of columns N1 .. N2 of INVERT.IN -> INVERT.OUT");
    put ("Give an N1 and N2 => ");
-   get_line (parm, last);
+   Get_Line (parm, last);
 
-   integer_io.get (parm (1 .. last), n1, l);
-   integer_io.get (parm (l+1 .. last), n2, l);
+   Integer_IO.Get (parm (1 .. last), n1, l);
+   Integer_IO.Get (parm (l+1 .. last), n2, l);
 
-   create (output, out_file, "INVERT.OUT");
-   open (input, in_file, "INVERT.IN");
+   Create (output, Out_File, "INVERT.OUT");
+   Open (input, In_File, "INVERT.IN");
 
-   while not end_of_file (input)  loop
-      get_line (input, line, last);
+   while not End_Of_File (input)  loop
+      Get_Line (input, line, last);
 
       line (n1 .. n2)  := invert (line (n1 .. n2));
       put ('.');
-      put_line (output, line (1 .. last));
+      Put_Line (output, line (1 .. last));
 
    end loop;
 
-   close (output);
+   Close (output);
 
 exception
    when others  =>
-      close (output);
+      Close (output);
 
 end invert;

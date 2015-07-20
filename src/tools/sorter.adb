@@ -16,30 +16,30 @@
 
 with text_io;
 with direct_io;
-with strings_package; use strings_package;
+with Strings_package; use Strings_package;
 with dictionary_package; use dictionary_package;
 procedure sorter is
-   --  This program sorts a file of lines (strings) on 4 substrings Mx .. Nx
-   --  Sort by stringwise (different cases), numeric, or POS enumeration
+   --  This program sorts a file of lines (Strings) on 4 subStrings Mx .. Nx
+   --  Sort by Stringwise (different cases), numeric, or POS enumeration
 
    package boolean_io is new text_io.enumeration_io (boolean);
    use boolean_io;
-   package integer_io is new text_io.integer_io (integer);
-   use integer_io;
+   package Integer_IO is new text_io.Integer_IO (Integer);
+   use Integer_IO;
    package float_io is new text_io.float_io (float);
    use float_io;
    use text_io;
 
    name_length : constant := 80;
-   st, enter_line : string (1 .. name_length) := (others => ' ');
-   ls, last : integer := 0;
-   input_name : string (1 .. 80) := (others => ' ');
+   st, enter_line : String (1 .. name_length) := (others => ' ');
+   ls, last : Integer := 0;
+   input_name : String (1 .. 80) := (others => ' ');
 
    line_length : constant := 300;        --  ##################################
                                          --  Max line length on input file
                                          --  Shorter => less disk space to sort
-   current_length : integer := 0;
-   subtype text_type is string (1 .. line_length);
+   current_length : Integer := 0;
+   subtype text_type is String (1 .. line_length);
    --type LINE_TYPE is
    -- record
    --   CURRENT_LENGTH : CURRENT_LINE_LENGTH_TYPE := 0;
@@ -61,9 +61,9 @@ procedure sorter is
    package way_type_io is new text_io.enumeration_io (way_type);
    use way_type_io;
 
-   input  : text_io.file_type;
-   output : text_io.file_type;
-   work   : line_io.file_type;
+   input  : text_io.File_Type;
+   output : text_io.File_Type;
+   work   : line_io.File_Type;
 
    m1, m2, m3, m4 : natural := 1;
    n1, n2, n3, n4 : natural := line_length;
@@ -77,11 +77,11 @@ procedure sorter is
    --  For section numbering of large documents and standards
    type section_type is
       record
-         first_level   : integer := 0;
-         second_level  : integer := 0;
-         third_level   : integer := 0;
-         fourth_level  : integer := 0;
-         fifth_level   : integer := 0;
+         first_level   : Integer := 0;
+         second_level  : Integer := 0;
+         third_level   : Integer := 0;
+         fourth_level  : Integer := 0;
+         fifth_level   : Integer := 0;
       end record;
 
    no_section : constant section_type := (0, 0, 0, 0, 0);
@@ -111,23 +111,23 @@ procedure sorter is
    --  function "<"(A, B : APPENDIX_SECTION_TYPE) return BOOLEAN;
    --
 
-   procedure put (output : text_io.file_type; s : section_type) is
-      level : integer := 0;
+   procedure Put (output : text_io.File_Type; s : section_type) is
+      level : Integer := 0;
 
-      procedure put_level (output : text_io.file_type; l : integer) is
+      procedure put_level (output : text_io.File_Type; l : Integer) is
       begin
          if l > 9999  then
-            put (output, "****");
+            Put (output, "****");
          elsif l > 999  then
-            put (output, l, 4);
+            Put (output, l, 4);
          elsif l > 99  then
-            put (output, l, 3);
+            Put (output, l, 3);
          elsif l > 9  then
-            put (output, l, 2);
+            Put (output, l, 2);
          elsif l >= 0  then
-            put (output, l, 1);
+            Put (output, l, 1);
          else
-            put (output, "**");
+            Put (output, "**");
          end if;
       end put_level;
 
@@ -151,48 +151,48 @@ procedure sorter is
       end if;
 
       if s.first_level <= 9  then
-         put (output, ' ');
+         Put (output, ' ');
       end if;
       put_level (output, s.first_level);
       if level = 1  then
-         put (output, '.');
-         put (output, '0');           --  To match the ATLAS index convention
+         Put (output, '.');
+         Put (output, '0');           --  To match the ATLAS index convention
       end if;
       if level >= 2  then
-         put (output, '.');
+         Put (output, '.');
          put_level (output, s.second_level);
       end if;
       if level >= 3  then
-         put (output, '.');
+         Put (output, '.');
          put_level (output, s.third_level);
       end if;
       if level >= 4  then
-         put (output, '.');
+         Put (output, '.');
          put_level (output, s.fourth_level);
       end if;
       if level >= 5  then
-         put (output, '.');
+         Put (output, '.');
          put_level (output, s.fifth_level);
       end if;
    end put;
 
-   procedure put (s : section_type) is
-      level : integer := 0;
+   procedure Put (s : section_type) is
+      level : Integer := 0;
 
-      procedure put_level (l : integer) is
+      procedure put_level (l : Integer) is
       begin
          if l > 9999  then
-            put ("****");
+            Put ("****");
          elsif l > 999  then
-            put (l, 4);
+            Put (l, 4);
          elsif l > 99  then
-            put (l, 3);
+            Put (l, 3);
          elsif l > 9  then
-            put (l, 2);
+            Put (l, 2);
          elsif l >= 0  then
-            put (l, 1);
+            Put (l, 1);
          else
-            put ("**");
+            Put ("**");
          end if;
       end put_level;
 
@@ -216,62 +216,62 @@ procedure sorter is
       end if;
 
       if s.first_level <= 9  then
-         put (' ');
+         Put (' ');
       end if;
       put_level (s.first_level);
-      put ('.');
+      Put ('.');
       if level = 1  then
-         put ('0');           --  To match the ATLAS index convention
+         Put ('0');           --  To match the ATLAS index convention
       end if;
       if level >= 2  then
          put_level (s.second_level);
       end if;
       if level >= 3  then
-         put ('.');
+         Put ('.');
          put_level (s.third_level);
       end if;
       if level >= 4  then
-         put ('.');
+         Put ('.');
          put_level (s.fourth_level);
       end if;
       if level >= 5  then
-         put ('.');
+         Put ('.');
          put_level (s.fifth_level);
       end if;
    end put;
 
-   procedure get (from : in string;
-                  s : out section_type; last : out integer) is
-      l  : integer := 0;
-      ft : integer := from'first;
-      lt : integer := from'last;
+   procedure Get (from : in String;
+                  s : out section_type; last : out Integer) is
+      l  : Integer := 0;
+      ft : Integer := from'first;
+      lt : Integer := from'last;
    begin
       s := no_section;
-      if trim (from)'last < from'first   then
-         return;   --  Empty string, no data         --  Return default
+      if Trim (from)'last < from'first   then
+         return;   --  Empty String, no data         --  Return default
       end if;
 
-      get (from, s.first_level, l);
+      Get (from, s.first_level, l);
       if l+1 >= lt  then
          last := l;
          return;
       end if;
-      get (from (l+2 .. lt), s.second_level, l);
+      Get (from (l+2 .. lt), s.second_level, l);
       if l+1 >= lt  then
          last := l;
          return;
       end if;
-      get (from (l+2 .. lt), s.third_level, l);
+      Get (from (l+2 .. lt), s.third_level, l);
       if l+1 >= lt  then
          last := l;
          return;
       end if;
-      get (from (l+2 .. lt), s.fourth_level, l);
+      Get (from (l+2 .. lt), s.fourth_level, l);
       if l+1 >= lt  then
          last := l;
          return;
       end if;
-      get (from (l+2 .. lt), s.fifth_level, l);
+      Get (from (l+2 .. lt), s.fifth_level, l);
       last := l;
       return;
    exception
@@ -282,9 +282,9 @@ procedure sorter is
          last := l;
          return;
       when others =>
-         put (" Unexpected exception in GET (FROM; SECTION_TYPE) with input =>");
-         put (from);
-         new_line;
+         Put (" Unexpected exception in GET (FROM; SECTION_TYPE) with input =>");
+         Put (from);
+         New_Line;
          last := l;
          raise;
    end get;
@@ -328,41 +328,41 @@ procedure sorter is
 
    end "<";
 
-   procedure put (output : text_io.file_type; s : appendix_section_type) is
+   procedure Put (output : text_io.File_Type; s : appendix_section_type) is
       use appendix_io;
    begin
-      put (output, s.appendix);
-      put (output, ' ');
-      put (output, s.section);
+      Put (output, s.appendix);
+      Put (output, ' ');
+      Put (output, s.section);
    end put;
 
-   procedure put (s : appendix_section_type) is
+   procedure Put (s : appendix_section_type) is
       use appendix_io;
    begin
-      put (s.appendix);
-      put (' ');
-      put (s.section);
+      Put (s.appendix);
+      Put (' ');
+      Put (s.section);
    end put;
 
-   procedure get (from : in string;
-                  s : out appendix_section_type; last : out integer) is
+   procedure Get (from : in String;
+                  s : out appendix_section_type; last : out Integer) is
       use appendix_io;
-      l  : integer := 0;
-      ft : integer := from'first;
-      lt : integer := from'last;
+      l  : Integer := 0;
+      ft : Integer := from'first;
+      lt : Integer := from'last;
    begin
 
       s := no_appendix_section;
       if (ft = lt)  or else
-        (trim (from)'length = 0)  then   --  Empty/blank string, no data
-         put ("@");
+        (Trim (from)'length = 0)  then   --  Empty/blank String, no data
+         Put ("@");
          return;                      --  Return default
       end if;
 
       --PUT_LINE ("In GET =>" & FROM & '|');
 
       begin
-         get (from, s.appendix, l);
+         Get (from, s.appendix, l);
          --PUT ("A");
          if l+1 >= lt  then
             last := l;
@@ -403,7 +403,7 @@ procedure sorter is
       --    LAST := L;
       --PUT ("G");
 
-      get (from (l+2 .. lt), s.section, l);
+      Get (from (l+2 .. lt), s.section, l);
       --PUT ("F");
       return;
    exception
@@ -416,8 +416,8 @@ procedure sorter is
       when others =>
          put
            (" Unexpected exception in GET (FROM; APPENDIX_SECTION_TYPE) with input =>");
-         put (from);
-         new_line;
+         Put (from);
+         New_Line;
          last := l;
          return;
    end get;
@@ -464,12 +464,12 @@ procedure sorter is
       end if;
    end "<";
 
-   procedure prompt_for_entry (entry_number : string) is
+   procedure prompt_for_entry (entry_number : String) is
    begin
-      put ("Give starting column and size of ");
-      put (entry_number);
-      put_line (" significant sort field ");
-      put ("  with optional sort type and way  => ");
+      Put ("Give starting column and size of ");
+      Put (entry_number);
+      Put_Line (" significant sort field ");
+      Put ("  with optional sort type and way  => ");
    end prompt_for_entry;
 
    procedure get_entry (mx, nx  : out natural;
@@ -483,10 +483,10 @@ procedure sorter is
 
       procedure echo_entry is
       begin
-         put ("                    Sorting on LINE ("); put (m,3);
-         put (" .. "); put (n, 3); put (")");
-         put ("  with S = "); put (s); put (" and W = "); put (w);
-         new_line (2);
+         Put ("                    Sorting on LINE ("); Put (m,3);
+         Put (" .. "); Put (n, 3); Put (")");
+         Put ("  with S = "); Put (s); Put (" and W = "); Put (w);
+         New_Line (2);
       end echo_entry;
 
    begin
@@ -496,30 +496,30 @@ procedure sorter is
       s := a;
       w := i;
 
-      get_line (enter_line, ls);
+      Get_Line (enter_line, ls);
       if ls = 0  then
          raise entry_finished;
       end if;
-      integer_io.get (enter_line (1 .. ls), m, last);
+      Integer_IO.Get (enter_line (1 .. ls), m, last);
       begin
-         integer_io.get (enter_line (last+1 .. ls), z, last);
+         Integer_IO.Get (enter_line (last+1 .. ls), z, last);
          if  m = 0 or z = 0  then
-            put_line ("Start or size of zero, you must be kidding, aborting");
+            Put_Line ("Start or size of zero, you must be kidding, aborting");
             raise program_error;
          elsif m + z > line_length  then
-            put_line ("Size too large, going to end of line");
+            Put_Line ("Size too large, going to end of line");
             n := line_length;
          else
             n := m + z - 1;
          end if;
-         sort_type_io.get (enter_line (last+1 .. ls), s, last);
-         way_type_io.get (enter_line (last+1 .. ls), w, last);
+         sort_type_io.Get (enter_line (last+1 .. ls), s, last);
+         way_type_io.Get (enter_line (last+1 .. ls), w, last);
          mx := m; nx := n;  sx := s; wx := w;
          echo_entry;
          return;
       exception
          when program_error  =>
-            put_line ("PROGRAM_ERROR raised in GET_ENTRY");
+            Put_Line ("PROGRAM_ERROR raised in GET_ENTRY");
             raise;
          when others =>
             mx := m; nx := n; sx := s; wx := w;
@@ -528,8 +528,8 @@ procedure sorter is
       end;
    end get_entry;
 
-   function ignore_separators (s : string) return string is
-      t : string (s'first .. s'last) := lower_case (s);
+   function ignore_separators (s : String) return String is
+      t : String (s'first .. s'last) := lower_case (s);
    begin
       for i in s'first+1 .. s'last-1  loop
          if (s (i-1) /= '-'  and then s (i-1) /= '_')  and then
@@ -634,7 +634,7 @@ procedure sorter is
       end if;
    end gtu;
 
-   function ltu (s, t : string) return boolean is
+   function ltu (s, t : String) return boolean is
    begin
       for i in 1 .. s'length  loop   --  Not TRIMed, so same length
          if equ (s (s'first+i-1), t (t'first+i-1))  then
@@ -648,7 +648,7 @@ procedure sorter is
       return false;
    end ltu;
 
-   function gtu (s, t : string) return boolean is
+   function gtu (s, t : String) return boolean is
    begin
       for i in 1 .. s'length  loop
          if equ (s (s'first+i-1), t (t'first+i-1))  then
@@ -662,7 +662,7 @@ procedure sorter is
       return false;
    end gtu;
 
-   function equ (s, t : string) return boolean is
+   function equ (s, t : String) return boolean is
    begin
       if s'length /= t'length  then
          return false;
@@ -677,12 +677,12 @@ procedure sorter is
       return true;
    end equ;
 
-   function slt (x, y : string;         --  Make LEFT and RIGHT
+   function slt (x, y : String;         --  Make LEFT and RIGHT
                  st : sort_type := a;
                  wt : way_type := i) return boolean is
-      as : string (x'range) := x;
-      bs : string (y'range) := y;
-      mn, nn : integer := 0;
+      as : String (x'range) := x;
+      bs : String (y'range) := y;
+      mn, nn : Integer := 0;
       fn, gn : float := 0.0;
       --FS, GS : SECTION_TYPE := NO_SECTION;
       fs, gs : appendix_section_type := no_appendix_section;
@@ -723,8 +723,8 @@ procedure sorter is
          end if;
 
       elsif st = n  then
-         integer_io.get (as, mn, last);
-         integer_io.get (bs, nn, last);
+         Integer_IO.Get (as, mn, last);
+         Integer_IO.Get (bs, nn, last);
          if wt = i  then
             return mn < nn;
          else
@@ -732,8 +732,8 @@ procedure sorter is
          end if;
 
       elsif st = f  then
-         float_io.get (as, fn, last);
-         float_io.get (bs, gn, last);
+         float_io.Get (as, fn, last);
+         float_io.Get (bs, gn, last);
          if wt = i  then
             return fn < gn;
          else
@@ -741,8 +741,8 @@ procedure sorter is
          end if;
 
       elsif st = p  then
-         part_entry_io.get (as, px, last);
-         part_entry_io.get (bs, py, last);
+         Part_Entry_IO.Get (as, px, last);
+         Part_Entry_IO.Get (bs, py, last);
          if wt = i  then
             return px < py;
          else
@@ -751,9 +751,9 @@ procedure sorter is
 
       elsif st = s  then
          --PUT_LINE ("AS =>" & AS & '|');
-         get (as, fs, last);
+         Get (as, fs, last);
          --PUT_LINE ("BS =>" & BS & '|');
-         get (bs, gs, last);
+         Get (bs, gs, last);
          --PUT_LINE ("GOT AS & BS");
          if wt = i  then
             return fs < gs;
@@ -767,19 +767,19 @@ procedure sorter is
 
    exception
       when others  =>
-         text_io.put_line ("exception in SLT    showing LEFT and RIGHT");
-         text_io.put_line (x & "&");
-         text_io.put_line (y & "|");
+         text_io.Put_Line ("exception in SLT    showing LEFT and RIGHT");
+         text_io.Put_Line (x & "&");
+         text_io.Put_Line (y & "|");
          raise;
 
    end slt;
 
-   function sort_equal (x, y : string;
+   function sort_equal (x, y : String;
                         st : sort_type := a;
                         wt : way_type := i) return boolean is
-      as : string (x'range) := x;
-      bs : string (y'range) := y;
-      mn, nn : integer := 0;
+      as : String (x'range) := x;
+      bs : String (y'range) := y;
+      mn, nn : Integer := 0;
       fn, gn : float := 0.0;
       fs, gs : appendix_section_type := no_appendix_section;
       px, py : part_entry;
@@ -803,23 +803,23 @@ procedure sorter is
          return equ (as,  bs);
 
       elsif st = n  then
-         integer_io.get (as, mn, last);
-         integer_io.get (bs, nn, last);
+         Integer_IO.Get (as, mn, last);
+         Integer_IO.Get (bs, nn, last);
          return mn = nn;
 
       elsif st = f  then
-         float_io.get (as, fn, last);
-         float_io.get (bs, gn, last);
+         float_io.Get (as, fn, last);
+         float_io.Get (bs, gn, last);
          return fn = gn;
 
       elsif st = p  then
-         part_entry_io.get (as, px, last);
-         part_entry_io.get (bs, py, last);
+         Part_Entry_IO.Get (as, px, last);
+         Part_Entry_IO.Get (bs, py, last);
          return px = py;
 
       elsif st = s  then
-         get (as, fs, last);
-         get (bs, gs, last);
+         Get (as, fs, last);
+         Get (bs, gs, last);
          return fs = gs;
 
       else
@@ -828,9 +828,9 @@ procedure sorter is
 
    exception
       when others  =>
-         text_io.put_line ("exception in LT    showing LEFT and RIGHT");
-         text_io.put_line (x & "|");
-         text_io.put_line (y & "|");
+         text_io.Put_Line ("exception in LT    showing LEFT and RIGHT");
+         text_io.Put_Line (x & "|");
+         text_io.Put_Line (y & "|");
          raise;
 
    end sort_equal;
@@ -861,37 +861,37 @@ procedure sorter is
       return false;
    exception
       when others =>
-         text_io.put_line ("exception in LT    showing LEFT and RIGHT");
-         text_io.put_line (left & "|");
-         text_io.put_line (right & "|");
+         text_io.Put_Line ("exception in LT    showing LEFT and RIGHT");
+         text_io.Put_Line (left & "|");
+         text_io.Put_Line (right & "|");
          raise;
    end lt;
 
-   procedure open_file_for_input (input : in out text_io.file_type;
-                                  prompt : string := "File for input => ") is
+   procedure open_file_for_inPut (input : in out text_io.File_Type;
+                                  prompt : String := "File for input => ") is
       last : natural := 0;
    begin
   get_input_file:
       loop
      check_input:
          begin
-            new_line;
+            New_Line;
 
-            put (prompt);
-            get_line (input_name, last);
-            open (input, in_file, input_name (1 .. last));
+            Put (prompt);
+            Get_Line (input_name, last);
+            Open (input, In_File, input_name (1 .. last));
             exit;
          exception
             when others  =>
-               put_line ("   !!!!!!!!!  Try Again  !!!!!!!!");
+               Put_Line ("   !!!!!!!!!  Try Again  !!!!!!!!");
          end check_input;
       end loop get_input_file;
 
    end open_file_for_input;
 
-   procedure create_file_for_output (output : in out text_io.file_type;
-                                     prompt : string := "File for output => ") is
-      name : string (1 .. 80) := (others => ' ');
+   procedure create_file_for_output (output : in out text_io.File_Type;
+                                     prompt : String := "File for output => ") is
+      name : String (1 .. 80) := (others => ' ');
       last : natural := 0;
    begin
 
@@ -899,26 +899,26 @@ procedure sorter is
       loop
      check_output:
          begin
-            new_line;
+            New_Line;
 
-            put (prompt);
-            get_line (name, last);
-            if trim (name (1 .. last))'length /= 0  then
-               create (output, out_file, name (1 .. last));
+            Put (prompt);
+            Get_Line (name, last);
+            if Trim (name (1 .. last))'length /= 0  then
+               Create (output, Out_File, name (1 .. last));
             else
-               create (output, out_file, trim (input_name));
+               Create (output, Out_File, Trim (input_name));
             end if;
             exit;
          exception
             when others  =>
-               put_line ("   !!!!!!!!!  Try Again  !!!!!!!!");
+               Put_Line ("   !!!!!!!!!  Try Again  !!!!!!!!");
          end check_output;
       end loop get_output_file;
 
    end create_file_for_output;
 
-   function graphic (s : string) return string is
-      t : string (1 .. s'length) := s;
+   function graphic (s : String) return String is
+      t : String (1 .. s'length) := s;
    begin
       for i in s'range  loop
          if character'pos (s (i)) < 32  then
@@ -930,16 +930,16 @@ procedure sorter is
 
 begin
 
-   new_line;
-   put_line ("Sorts a text file of lines four times on substrings M .. N");
-   put_line (
+   New_Line;
+   Put_Line ("Sorts a text file of lines four times on subStrings M .. N");
+   Put_Line (
      "A)lphabetic (all case) C)ase sensitive, iG)nore seperators, U)i_is_vj,");
-   put_line ("    iN)teger, F)loating point, S)ection, or P)art entry");
-   put_line ("         I)ncreasing or D)ecreasing");
-   new_line;
+   Put_Line ("    iN)teger, F)loating point, S)ection, or P)art entry");
+   Put_Line ("         I)ncreasing or D)ecreasing");
+   New_Line;
 
-   open_file_for_input (input, "What file to sort from => ");
-   new_line;
+   open_file_for_inPut (input, "What file to sort from => ");
+   New_Line;
 
    prompt_for_entry ("first");
    begin
@@ -968,31 +968,31 @@ begin
    end;
 
    --PUT_LINE ("CREATING WORK FILE");
-   new_line;
-   create (work, inout_file, "WORK.");
-   put_line ("CREATED  WORK FILE");
+   New_Line;
+   Create (work, inOut_File, "WORK.");
+   Put_Line ("CREATED  WORK FILE");
 
-   while not end_of_file (input)  loop
+   while not End_Of_File (input)  loop
       --begin
-      get_line (input, line_text, current_length);
+      Get_Line (input, line_text, current_length);
       --exception when others  =>
       --TEXT_IO.PUT_LINE ("INPUT GET exception");
       --TEXT_IO.PUT_LINE (LINE_TEXT (1 .. CURRENT_LENGTH) & "|");
       --end;
       --PUT_LINE (LINE_TEXT (1 .. CURRENT_LENGTH));
       --PUT_LINE ("=>" & HEAD (LINE_TEXT (1 .. CURRENT_LENGTH), LINE_LENGTH) & "|");
-      if trim (line_text (1 .. current_length)) /= ""  then
+      if Trim (line_text (1 .. current_length)) /= ""  then
          --begin
-         write (work, head (line_text (1 .. current_length), line_length)  );
+         write (work, Head (line_text (1 .. current_length), line_length)  );
          --exception when others  =>
          --TEXT_IO.PUT_LINE ("WORK WRITE exception");
          --TEXT_IO.PUT_LINE (LINE_TEXT (1 .. CURRENT_LENGTH) & "|");
          --end;
       end if;
    end loop;
-   close (input);
+   Close (input);
 
-   put_line ("Begin sorting");
+   Put_Line ("Begin sorting");
 
 line_heapsort:
     declare
@@ -1002,7 +1002,7 @@ line_heapsort:
        i, j : line_io.positive_count;
 
     begin
-       text_io.put_line ("SIZE OF WORK = " & integer'image (integer (size (work))));
+       text_io.Put_Line ("SIZE OF WORK = " & Integer'image (Integer (size (work))));
    main:
        loop
 
@@ -1048,48 +1048,48 @@ line_heapsort:
        end loop main;
 
     exception
-       when constraint_error => put_line ("HEAP CONSTRAINT_ERROR");
-       when others           => put_line ("HEAP other_ERROR");
+       when constraint_error => Put_Line ("HEAP CONSTRAINT_ERROR");
+       when others           => Put_Line ("HEAP other_ERROR");
     end line_heapsort;
 
-    put_line ("Finished sorting in WORK");
+    Put_Line ("Finished sorting in WORK");
 
     create_file_for_output (output, "Where to put the output => ");
 
     --RESET (WORK);
     set_index (work, 1);
-    while not end_of_file (work)  loop
+    while not End_Of_File (work)  loop
        read (work, line_text);
-       if trim (graphic (line_text))'length > 0  then
+       if Trim (graphic (line_text))'length > 0  then
           --PUT_LINE (TRIM (LINE_TEXT, RIGHT));
-          put_line (output, trim (line_text, right));
+          Put_Line (output, Trim (line_text, right));
        end if;
     end loop;
 
-    close (work);
-    close (output);
-    put_line ("Done!");
-    new_line;
+    Close (work);
+    Close (output);
+    Put_Line ("Done!");
+    New_Line;
 
 exception
    when program_error  =>
-      put_line ("SORT terminated on a PROGRAM_ERROR");
-      close (output);
+      Put_Line ("SORT terminated on a PROGRAM_ERROR");
+      Close (output);
    when text_io.data_error =>     --Terminate on primary start or size = 0
-      put_line ("SORT terminated on a DATA_ERROR");
-      put_line (line_text);
-      close (output);
+      Put_Line ("SORT terminated on a DATA_ERROR");
+      Put_Line (line_text);
+      Close (output);
    when constraint_error =>       --Terminate on blank line for file name
-      put_line ("SORT terminated on a CONSTRAINT_ERROR");
-      close (output);
+      Put_Line ("SORT terminated on a CONSTRAINT_ERROR");
+      Close (output);
    when text_io.device_error  =>     --Ran out of space to write output file
-      put_line ("SORT terminated on a DEVICE_ERROR");
+      Put_Line ("SORT terminated on a DEVICE_ERROR");
       delete (output);
       create_file_for_output (output, "Wherelse to put the output => ");
       reset (work);
-      while not end_of_file (work)  loop
+      while not End_Of_File (work)  loop
          read (work, line_text);
-         put_line (output, line_text);    --(1 .. LINE.CURRENT_LENGTH));
+         Put_Line (output, line_text);    --(1 .. LINE.CURRENT_LENGTH));
       end loop;
-      close (output);
+      Close (output);
 end sorter;

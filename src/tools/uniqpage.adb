@@ -15,7 +15,7 @@
 -- available to anyone who wishes to use them, for whatever purpose.
 
 with text_io;
-with strings_package; use strings_package;
+with Strings_package; use Strings_package;
 with latin_file_names; use latin_file_names;
 with inflections_package; use inflections_package;
 with dictionary_package; use dictionary_package;
@@ -23,22 +23,22 @@ with line_stuff; use line_stuff;
 with dictionary_form;
 procedure uniqpage is
 
-   package integer_io is new text_io.integer_io (integer);
+   package Integer_IO is new text_io.Integer_IO (Integer);
    use text_io;
-   use dictionary_entry_io;
-   use part_entry_io;
-   use kind_entry_io;
-   use translation_record_io;
-   use age_type_io;
-   use area_type_io;
+   use Dictionary_Entry_IO;
+   use Part_Entry_IO;
+   use Kind_Entry_IO;
+   use Translation_Record_IO;
+   use Age_Type_IO;
+   use Area_Type_IO;
    use geo_type_io;
    use frequency_type_io;
    use source_type_io;
 
-   uniques_file, uniqpage : text_io.file_type;
+   uniques_file, uniqpage : text_io.File_Type;
 
-   s, line, blank_line, blanks : string (1 .. 400) := (others => ' ');
-   l, ll, last : integer := 0;
+   s, line, blank_line, blanks : String (1 .. 400) := (others => ' ');
+   l, ll, last : Integer := 0;
 
    stem : stem_type := null_stem_type;
    qual : quality_record;
@@ -46,41 +46,41 @@ procedure uniqpage is
    tran : translation_record;
    mean : meaning_type;
 
-   procedure get_line_unique (input : in text_io.file_type; s : out string; last : out natural) is
+   procedure get_line_unique (input : in text_io.File_Type; s : out String; last : out natural) is
    begin
       last := 0;
-      text_io.get_line (input, s, last);
-      if trim (s (1 .. last)) /= ""  then   --  Rejecting blank lines
+      text_io.Get_Line (input, s, last);
+      if Trim (s (1 .. last)) /= ""  then   --  Rejecting blank lines
          null;
       end if;
    end get_line_unique;
 
 begin
-   put_line ("UNIQUES.LAT -> UNIQPAGE.PG");
-   put_line ("Takes UNIQUES form, single lines it, puts # at begining,");
-   put_line ("producing a .PG file for sorting to produce paper dictionary");
-   create (uniqpage, out_file, "UNIQPAGE.PG");
-   open (uniques_file, in_file, "UNIQUES.LAT");
+   Put_Line ("UNIQUES.LAT -> UNIQPAGE.PG");
+   Put_Line ("Takes UNIQUES form, single lines it, puts # at begining,");
+   Put_Line ("producing a .PG file for sorting to produce paper dictionary");
+   Create (uniqpage, Out_File, "UNIQPAGE.PG");
+   Open (uniques_file, In_File, "UNIQUES.LAT");
 
-over_lines:
-    while not end_of_file (uniques_file)  loop
+   Over_Lines :
+    while not End_Of_File (uniques_file)  loop
        line := blanks;
        get_line_unique (uniques_file, line, last);      --  STEM
-       stem := head (trim (line (1 .. last)), max_stem_size);
+       stem := Head (Trim (line (1 .. last)), Max_Stem_Size);
 
        line := blanks;
        get_line_unique (uniques_file, line, last);    --  QUAL, KIND, TRAN
-       quality_record_io.get (line (1 .. last), qual, l);
-       get (line (l+1 .. last), qual.pofs, kind, l);
-       age_type_io.get (line (l+1 .. last), tran.age, l);
-       area_type_io.get (line (l+1 .. last), tran.area, l);
-       geo_type_io.get (line (l+1 .. last), tran.geo, l);
-       frequency_type_io.get (line (l+1 .. last), tran.freq, l);
-       source_type_io.get (line (l+1 .. last), tran.source, l);
+       quality_record_io.Get (line (1 .. last), qual, l);
+       Get (line (l+1 .. last), qual.pofs, kind, l);
+       Age_Type_IO.Get (line (l+1 .. last), tran.Age, l);
+       Area_Type_IO.Get (line (l+1 .. last), tran.Area, l);
+       geo_type_io.Get (line (l+1 .. last), tran.geo, l);
+       frequency_type_io.Get (line (l+1 .. last), tran.freq, l);
+       source_type_io.Get (line (l+1 .. last), tran.source, l);
 
        line := blanks;
        get_line_unique (uniques_file, line, l);         --  MEAN
-       mean := head (trim (line (1 .. l)), max_meaning_size);
+       mean := Head (Trim (line (1 .. l)), Max_Meaning_Size);
 
        --      while not END_OF_FILE (UNIQUES_FILE) loop
        --         S := BLANK_LINE;
@@ -100,25 +100,25 @@ over_lines:
        end if;
 
        text_io.put (uniqpage, " [");
-       age_type_io.put (uniqpage, tran.age);
-       area_type_io.put (uniqpage, tran.area);
+       Age_Type_IO.put (uniqpage, tran.Age);
+       Area_Type_IO.put (uniqpage, tran.Area);
        geo_type_io.put (uniqpage, tran.geo);
        frequency_type_io.put (uniqpage, tran.freq);
        source_type_io.put (uniqpage, tran.source);
        text_io.put (uniqpage, "]");
 
        put (uniqpage, " :: ");
-       put_line (uniqpage, mean);
+       Put_Line (uniqpage, mean);
 
        --end if;  --  Rejecting blank lines
-    end loop over_lines;
+    end loop Over_Lines;
 
-    close (uniqpage);
+    Close (uniqpage);
 exception
    when text_io.data_error  =>
       null;
    when others =>
-      put_line (s (1 .. last));
-      close (uniqpage);
+      Put_Line (s (1 .. last));
+      Close (uniqpage);
 
 end uniqpage;

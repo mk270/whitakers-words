@@ -15,25 +15,25 @@
 -- available to anyone who wishes to use them, for whatever purpose.
 
 with text_io; use text_io;
-with strings_package; use strings_package;
+with Strings_package; use Strings_package;
 with inflections_package; use inflections_package;
 with dictionary_package; use dictionary_package;
 with line_stuff; use line_stuff;
 procedure linedict is
-   package integer_io is new text_io.integer_io (integer);
-   use dictionary_entry_io;
-   use part_entry_io;
-   use kind_entry_io;
-   use age_type_io;
-   use area_type_io;
+   package Integer_IO is new text_io.Integer_IO (Integer);
+   use Dictionary_Entry_IO;
+   use Part_Entry_IO;
+   use Kind_Entry_IO;
+   use Age_Type_IO;
+   use Area_Type_IO;
    use geo_type_io;
    use frequency_type_io;
    use source_type_io;
 
-   de : dictionary_entry;
+   de : Dictionary_Entry;
 
-   dictionary_file : file_type;
-   output : file_type;
+   dictionary_file : File_Type;
+   output : File_Type;
 
    st : stem_type := null_stem_type;
    blk_stem : constant stem_type := null_stem_type;
@@ -41,15 +41,15 @@ procedure linedict is
    mean : meaning_type := null_meaning_type;
    pt  : part_entry  := null_part_entry;
 
-   line, st_line, pt_line, mn_line, blank_line : string (1 .. 300) :=
+   line, st_line, pt_line, mn_line, blank_line : String (1 .. 300) :=
      (others => ' ');
-   l, ll, last, len : integer := 0;
-   number_of_dictionary_entries : integer := 0;
+   l, ll, last, len : Integer := 0;
+   number_of_dictionary_entries : Integer := 0;
 
-   procedure get_stem (s : in string;
-                       stem : out stem_type; last : out integer) is
-      i  : integer := 1;
-      l  : integer := s'first;
+   procedure get_stem (s : in String;
+                       stem : out stem_type; last : out Integer) is
+      i  : Integer := 1;
+      l  : Integer := s'first;
    begin
       stem := null_stem_type;
       --  Squeeze left
@@ -57,7 +57,7 @@ procedure linedict is
          l := l + 1;
       end loop;
       --  Count until the first blank
-      --  Return that string
+      --  Return that String
       while l <= s'last and then s (l) /= ' '  loop
          stem (i) := s (l);
          i := i + 1;
@@ -68,14 +68,14 @@ procedure linedict is
    end get_stem;
 
 begin
-   put_line ("LINEDICT.IN (EDIT format - 3 lines) -> LINEDICT.OUT (DICTLINE format)");
+   Put_Line ("LINEDICT.IN (EDIT format - 3 lines) -> LINEDICT.OUT (DICTLINE format)");
 
-   create (output, out_file, "LINEDICT.OUT");
+   Create (output, Out_File, "LINEDICT.OUT");
 
-   open (dictionary_file, in_file, "LINEDICT.IN");
+   Open (dictionary_file, In_File, "LINEDICT.IN");
    put ("Dictionary loading");
 
-   while not end_of_file (dictionary_file)  loop
+   while not End_Of_File (dictionary_file)  loop
       st_line := blank_line;
       pt_line := blank_line;
       mn_line := blank_line;
@@ -86,43 +86,43 @@ begin
 
              line := blank_line;
              get_non_comment_line (dictionary_file, pt_line, l);           --  PART
-             get (pt_line (1 .. l), de.part, ll);
+             Get (pt_line (1 .. l), de.Part, ll);
              --            GET (PT_LINE (LL+1 .. L), DE.PART.POFS, DE.KIND, LL);
 
-             get (pt_line (ll+1 .. l), de.tran.age, ll);
-             get (pt_line (ll+1 .. l), de.tran.area, ll);
-             get (pt_line (ll+1 .. l), de.tran.geo, ll);
-             get (pt_line (ll+1 .. l), de.tran.freq, ll);
-             get (pt_line (ll+1 .. l), de.tran.source, ll);
+             Get (pt_line (ll+1 .. l), de.Tran.Age, ll);
+             Get (pt_line (ll+1 .. l), de.Tran.Area, ll);
+             Get (pt_line (ll+1 .. l), de.Tran.geo, ll);
+             Get (pt_line (ll+1 .. l), de.Tran.freq, ll);
+             Get (pt_line (ll+1 .. l), de.Tran.source, ll);
 
-             de.stems := null_stems_type;
+             de.Stems := null_Stems_type;
              ll := 1;
-             --  Extract up to 4 stems
+             --  Extract up to 4 Stems
 
-             for i in 1 .. number_of_stems (de.part.pofs)  loop   --  EXTRACT STEMS
-                get_stem (st_line (ll .. last), de.stems (i), ll);
+             for i in 1 .. number_of_Stems (de.Part.pofs)  loop   --  EXTRACT STEMS
+                get_stem (st_line (ll .. last), de.Stems (i), ll);
              end loop;
 
              line := blank_line;
              get_non_comment_line (dictionary_file, mn_line, l);         --  MEANING
 
-             de.mean := head (trim (mn_line (1 .. l)), max_meaning_size);
+             de.Mean := Head (Trim (mn_line (1 .. l)), Max_Meaning_Size);
 
-             put (output, de); new_line (output);
+             put (output, de); New_Line (output);
 
              number_of_dictionary_entries := number_of_dictionary_entries + 1;
 
           exception
              when others  =>
-                put_line ("-------------------------------------------------------------");
-                put_line (head (st_line, 78));
-                put_line (head (pt_line, 78));
-                put_line (head (mn_line, 78));
+                Put_Line ("-------------------------------------------------------------");
+                Put_Line (Head (st_line, 78));
+                Put_Line (Head (pt_line, 78));
+                Put_Line (Head (mn_line, 78));
           end error_check;
 
    end loop;
-   close (dictionary_file);
-   close (output);
-   set_col (33); put ("--  "); integer_io.put (number_of_dictionary_entries);
-   put (" entries");    set_col (55); put_line ("--  Loaded correctly");
+   Close (dictionary_file);
+   Close (output);
+   Set_Col (33); put ("--  "); Integer_IO.put (number_of_dictionary_entries);
+   put (" entries");    Set_Col (55); Put_Line ("--  Loaded correctly");
 end linedict;

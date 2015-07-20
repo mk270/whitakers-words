@@ -15,45 +15,45 @@
 -- available to anyone who wishes to use them, for whatever purpose.
 
 with text_io;
-with strings_package; use strings_package;
+with Strings_package; use Strings_package;
 with latin_file_names; use latin_file_names;
 with inflections_package; use inflections_package;
 with dictionary_package; use dictionary_package;
 with line_stuff; use line_stuff;
 procedure number is
-   package integer_io is new text_io.integer_io (integer);
+   package Integer_IO is new text_io.Integer_IO (Integer);
    use text_io;
 
-   input : text_io.file_type;
-   numbered : text_io.file_type;
+   input : text_io.File_Type;
+   numbered : text_io.File_Type;
 
-   line : string (1 .. 300) := (others => ' ');
-   last, n : integer := 0;
+   line : String (1 .. 300) := (others => ' ');
+   last, n : Integer := 0;
    number_lines : boolean := false;
 
 begin
 
-   put_line (
+   Put_Line (
      "Takes a text file and produces a NUMBERED. file with line numbers");
 
-   put_line ("What file to NUMBER?");
-   text_io.get_line (line, last);
+   Put_Line ("What file to NUMBER?");
+   text_io.Get_Line (line, last);
 
-   open (input, in_file, line (1 .. last));
+   Open (input, In_File, line (1 .. last));
 
-   create (numbered, out_file, "NUMBERED.");
+   Create (numbered, Out_File, "NUMBERED.");
 
-   while not end_of_file (input) loop
+   while not End_Of_File (input) loop
       n := n + 1;
 
-      get_line (input, line, last);
+      Get_Line (input, line, last);
 
-      text_io.put (numbered, integer'image (n));
-      set_col (numbered, 10);
-      text_io.put_line (numbered, line (1 .. last));
+      text_io.put (numbered, Integer'image (n));
+      Set_Col (numbered, 10);
+      text_io.Put_Line (numbered, line (1 .. last));
 
    end loop;
 
-   close (numbered);
+   Close (numbered);
 
 end number;

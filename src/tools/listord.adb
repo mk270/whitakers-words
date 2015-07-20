@@ -15,7 +15,7 @@
 -- available to anyone who wishes to use them, for whatever purpose.
 
 with text_io;
-with strings_package; use strings_package;
+with Strings_package; use Strings_package;
 with latin_file_names; use latin_file_names;
 with inflections_package; use inflections_package;
 with dictionary_package; use dictionary_package;
@@ -24,104 +24,104 @@ procedure listord is
    --   LISTORD    Takes # (DICTORD) long format to ED file
    --   (3 lines per entry so it is all on one screen)
    --   LISTORD.IN -> LISTORD.OUT
-   package integer_io is new text_io.integer_io (integer);
+   package Integer_IO is new text_io.Integer_IO (Integer);
    use text_io;
-   use dictionary_entry_io;
-   use part_entry_io;
-   use translation_record_io;
-   use kind_entry_io;
-   use age_type_io;
-   use area_type_io;
+   use Dictionary_Entry_IO;
+   use Part_Entry_IO;
+   use Translation_Record_IO;
+   use Kind_Entry_IO;
+   use Age_Type_IO;
+   use Area_Type_IO;
    use geo_type_io;
    use frequency_type_io;
    use source_type_io;
 
-   start_stem_1  : constant := 81;
-   start_stem_2  : constant := start_stem_1 + max_stem_size + 1;
-   start_stem_3  : constant := start_stem_2 + max_stem_size + 1;
-   start_stem_4  : constant := start_stem_3 + max_stem_size + 1;
-   start_part    : constant := start_stem_4 + max_stem_size + 1;
-   start_tran    : constant integer :=
+   Start_Stem_1  : constant := 81;
+   Start_Stem_2  : constant := Start_Stem_1 + Max_Stem_Size + 1;
+   Start_Stem_3  : constant := Start_Stem_2 + Max_Stem_Size + 1;
+   Start_Stem_4  : constant := Start_Stem_3 + Max_Stem_Size + 1;
+   start_part    : constant := Start_Stem_4 + Max_Stem_Size + 1;
+   start_tran    : constant Integer :=
      start_part +
-     integer (part_entry_io.default_width + 1);
-   finish_line   : constant integer :=
+     Integer (Part_Entry_IO.Default_Width + 1);
+   finish_line   : constant Integer :=
      start_tran +
-     translation_record_io.default_width - 1;
+     Translation_Record_IO.Default_Width - 1;
 
-   input, output : text_io.file_type;
-   de : dictionary_entry;
+   input, output : text_io.File_Type;
+   de : Dictionary_Entry;
 
-   s, line, blank_line : string (1 .. 400) := (others => ' ');
-   l, ll, last : integer := 0;
+   s, line, blank_line : String (1 .. 400) := (others => ' ');
+   l, ll, last : Integer := 0;
    j : natural := 0;
 
-   function add (stem, infl : string) return string is
+   function add (stem, infl : String) return String is
    begin
-      return head (trim (stem) & trim (infl), 20);
+      return Head (Trim (stem) & Trim (infl), 20);
    end add;
 
 begin
-   put_line ("LISTORD    Takes # (DICTORD) long format to ED file");
-   put_line ("(3 lines per entry so it is all on one screen)");
-   put_line ("LISTORD.IN -> LISTORD.OUT");
+   Put_Line ("LISTORD    Takes # (DICTORD) long format to ED file");
+   Put_Line ("(3 lines per entry so it is all on one screen)");
+   Put_Line ("LISTORD.IN -> LISTORD.OUT");
 
-   create (output, out_file, "LISTORD.OUT");
-   open (input, in_file, "LISTORD.IN");
+   Create (output, Out_File, "LISTORD.OUT");
+   Open (input, In_File, "LISTORD.IN");
 
-over_lines:
-    while not end_of_file (input) loop
+   Over_Lines :
+    while not End_Of_File (input) loop
        j := j + 1;
        s := blank_line;
-       get_line (input, s, last);
-       if trim (s (1 .. last)) /= ""  then   --  Rejecting blank lines
+       Get_Line (input, s, last);
+       if Trim (s (1 .. last)) /= ""  then   --  Rejecting blank lines
 
       form_de:
           begin
 
-             de.stems (1) := s (start_stem_1 .. start_stem_1+max_stem_size-1);
-             de.stems (2) := s (start_stem_2 .. start_stem_2+max_stem_size-1);
-             de.stems (3) := s (start_stem_3 .. start_stem_3+max_stem_size-1);
-             de.stems (4) := s (start_stem_4 .. start_stem_4+max_stem_size-1);
-             get (s (start_part .. last), de.part, l);
+             de.Stems (1) := s (Start_Stem_1 .. Start_Stem_1+Max_Stem_Size-1);
+             de.Stems (2) := s (Start_Stem_2 .. Start_Stem_2+Max_Stem_Size-1);
+             de.Stems (3) := s (Start_Stem_3 .. Start_Stem_3+Max_Stem_Size-1);
+             de.Stems (4) := s (Start_Stem_4 .. Start_Stem_4+Max_Stem_Size-1);
+             Get (s (start_part .. last), de.Part, l);
              --GET (S (L+1 .. LAST), DE.PART.POFS, DE.KIND, L);
-             get (s (l+1 .. last), de.tran.age, l);
-             get (s (l+1 .. last), de.tran.area, l);
-             get (s (l+1 .. last), de.tran.geo, l);
-             get (s (l+1 .. last), de.tran.freq, l);
-             get (s (l+1 .. last), de.tran.source, l);
-             de.mean := head (s (l+2 .. last), max_meaning_size);
+             Get (s (l+1 .. last), de.Tran.Age, l);
+             Get (s (l+1 .. last), de.Tran.Area, l);
+             Get (s (l+1 .. last), de.Tran.geo, l);
+             Get (s (l+1 .. last), de.Tran.freq, l);
+             Get (s (l+1 .. last), de.Tran.source, l);
+             de.Mean := Head (s (l+2 .. last), Max_Meaning_Size);
              --  Note that this allows initial blanks
              --  L+2 skips over the SPACER, required because this is STRING, not ENUM
 
           exception
              when others =>
-                put_line ("Exception");
-                put_line (s (1 .. last));
-                integer_io.put (integer (j)); new_line;
-                put (de); new_line;
+                Put_Line ("Exception");
+                Put_Line (s (1 .. last));
+                Integer_IO.put (Integer (j)); New_Line;
+                put (de); New_Line;
                 raise;
           end form_de;
 
-          put_line (output, s (1 .. 78));
-          put_line (output, s (start_stem_1 .. start_part-1));
+          Put_Line (output, s (1 .. 78));
+          Put_Line (output, s (Start_Stem_1 .. start_part-1));
           put (output, s (start_part .. start_tran-1)); put (output, "      ");
-          put (output, de.tran.age); put (output, " ");
-          put (output, de.tran.area); put (output, " ");
-          put (output, de.tran.geo); put (output, " ");
-          put (output, de.tran.freq); put (output, " ");
-          put (output, de.tran.source); new_line (output);
-          put_line (output, trim (de.mean));
+          put (output, de.Tran.Age); put (output, " ");
+          put (output, de.Tran.Area); put (output, " ");
+          put (output, de.Tran.geo); put (output, " ");
+          put (output, de.Tran.freq); put (output, " ");
+          put (output, de.Tran.source); New_Line (output);
+          Put_Line (output, Trim (de.Mean));
 
        end if;  --  Rejecting blank lines
-    end loop over_lines;
+    end loop Over_Lines;
 
-    close (output);
+    Close (output);
 exception
    when text_io.data_error  =>
       null;
    when others =>
-      put_line (s (1 .. last));
-      integer_io.put (integer (j)); new_line;
-      close (output);
+      Put_Line (s (1 .. last));
+      Integer_IO.put (Integer (j)); New_Line;
+      Close (output);
 
 end listord;

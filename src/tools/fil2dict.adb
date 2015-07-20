@@ -15,62 +15,62 @@
 -- available to anyone who wishes to use them, for whatever purpose.
 
 with text_io;
-with strings_package; use strings_package;
+with Strings_package; use Strings_package;
 with latin_file_names; use latin_file_names;
 with inflections_package; use inflections_package;
 with dictionary_package; use dictionary_package;
 with line_stuff; use line_stuff;
 procedure fil2dict is
-   package integer_io is new text_io.integer_io (integer);
+   package Integer_IO is new text_io.Integer_IO (Integer);
    use text_io;
    use stem_key_type_io;
-   use dictionary_entry_io;
-   use part_entry_io;
-   use kind_entry_io;
-   use translation_record_io;
-   use age_type_io;
-   use area_type_io;
+   use Dictionary_Entry_IO;
+   use Part_Entry_IO;
+   use Kind_Entry_IO;
+   use Translation_Record_IO;
+   use Age_Type_IO;
+   use Area_Type_IO;
    use geo_type_io;
    use frequency_type_io;
    use source_type_io;
    use dict_io;
 
    d_k : dictionary_kind := xxx;
-   de: dictionary_entry := null_dictionary_entry;
+   de: Dictionary_Entry := null_Dictionary_Entry;
 
-   line : string (1 .. 200) := (others => ' ');
-   last : integer := 0;
+   line : String (1 .. 200) := (others => ' ');
+   last : Integer := 0;
 
-   dictfile : dict_io.file_type;
-   dictline : text_io.file_type;
+   dictfile : dict_io.File_Type;
+   dictline : text_io.File_Type;
 
 begin
-   put_line (
+   Put_Line (
      "Takes a DICTFILE.D_K and reconstructs the DICTLINE.D_K it came from");
 
    put ("What dictionary to list, GENERAL or SPECIAL  (Reply G or S) =>");
-   text_io.get_line (line, last);
+   text_io.Get_Line (line, last);
    if last > 0  then
-      if trim (line (1 .. last))(1) = 'G'  or else
-        trim (line (1 .. last))(1) = 'g'     then
+      if Trim (line (1 .. last))(1) = 'G'  or else
+        Trim (line (1 .. last))(1) = 'g'     then
          d_k := general;
-      elsif trim (line (1 .. last))(1) = 'S'  or else
-        trim (line (1 .. last))(1) = 's'     then
+      elsif Trim (line (1 .. last))(1) = 'S'  or else
+        Trim (line (1 .. last))(1) = 's'     then
          d_k := special;
       else
-         put_line ("No such dictionary");
+         Put_Line ("No such dictionary");
          raise text_io.data_error;
       end if;
    end if;
 
-   dict_io.open (dictfile, in_file, add_file_name_extension (dict_file_name,
+   dict_io.Open (dictfile, In_File, add_file_name_extension (dict_file_name,
      dictionary_kind'image (d_k)));
 
-   create (dictline, out_file, add_file_name_extension (dict_line_name,
+   Create (dictline, Out_File, add_file_name_extension (dict_line_name,
      "NEW"));
    --DICTIONARY_KIND'IMAGE (D_K)));
 
-   while not end_of_file (dictfile)  loop
+   while not End_Of_File (dictfile)  loop
       read (dictfile, de);
       put (dictline, de);
    end loop;

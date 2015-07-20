@@ -15,32 +15,32 @@
 -- available to anyone who wishes to use them, for whatever purpose.
 
 with text_io; use text_io;
-with strings_package; use strings_package;
+with Strings_package; use Strings_package;
 procedure page2htm is
-   line, line_out, blank_line : string (1 .. 300) := (others => ' ');
-   last, colons : integer := 0;
+   line, line_out, blank_line : String (1 .. 300) := (others => ' ');
+   last, colons : Integer := 0;
 
-   input, output : file_type;
+   input, output : File_Type;
 
 begin
-   put_line ("DICTPAGE.RAW (sorted) -> DICTPAGE.HTM");
-   put_line ("For use in preparing a DICTPAGE.HTM after running DICTPAGE and sorting.");
+   Put_Line ("DICTPAGE.RAW (sorted) -> DICTPAGE.HTM");
+   Put_Line ("For use in preparing a DICTPAGE.HTM after running DICTPAGE and sorting.");
 
-   open (input, in_file, "DICTPAGE.RAW");
-   create (output, out_file, "DICTPAGE.HTM");
+   Open (input, In_File, "DICTPAGE.RAW");
+   Create (output, Out_File, "DICTPAGE.HTM");
 
-   while not end_of_file (input)  loop
-      get_line (input, line, last);
+   while not End_Of_File (input)  loop
+      Get_Line (input, line, last);
       if line (1) /= '#'  then
-         put_line ("BAD LINE   >" & line (1 .. last));
+         Put_Line ("BAD LINE   >" & line (1 .. last));
       end if;
       for i in 1 .. last  loop
          if line (i) = '['  then
             put (output, "<B>" & line (2 .. i-1) & "</B>  ");
-            put_line (output, trim (line (i .. i+6) & "<BR>"));
+            Put_Line (output, Trim (line (i .. i+6) & "<BR>"));
          end if;
          if line (i .. i+1) = "::"  then
-            put_line (output, trim (line (i+2 .. last)) & "<BR>");
+            Put_Line (output, Trim (line (i+2 .. last)) & "<BR>");
             exit;
          end if;
       end loop;  --  On LINE
