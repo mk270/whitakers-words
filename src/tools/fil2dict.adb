@@ -36,7 +36,7 @@ procedure fil2dict is
    use Dict_IO;
 
    d_k : Dictionary_Kind := xxx;
-   De : Dictionary_Entry := null_Dictionary_Entry;
+   De : Dictionary_Entry := Null_Dictionary_Entry;
 
    line : String (1 .. 200) := (others => ' ');
    last : Integer := 0;
@@ -48,7 +48,7 @@ begin
    Put_Line (
      "Takes a DICTFILE.D_K and reconstructs the DICTLINE.D_K it came from");
 
-   put ("What dictionary to list, GENERAL or SPECIAL  (Reply G or S) =>");
+   Put ("What dictionary to list, GENERAL or SPECIAL  (Reply G or S) =>");
    Text_IO.Get_Line (line, last);
    if last > 0  then
       if Trim (line (1 .. last))(1) = 'G'  or else
@@ -71,8 +71,8 @@ begin
    --DICTIONARY_KIND'IMAGE (D_K)));
 
    while not End_Of_File (dictfile)  loop
-      read (dictfile, de);
-      put (dictline, de);
+      Read (dictfile, De);
+      Put (dictline, De);
    end loop;
 
 end fil2dict;
