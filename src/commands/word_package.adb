@@ -14,15 +14,15 @@
 -- All parts of the WORDS system, source code and data files, are made freely
 -- available to anyone who wishes to use them, for whatever purpose.
 
-with addons_package; use addons_package;
+with Support_Utils.Addons_Package; use Support_Utils.Addons_Package;
 with Latin_Utils.Latin_File_Names; use Latin_Utils.Latin_File_Names;
 with Latin_Utils.Strings_Package; use Latin_Utils.Strings_Package;
 with Latin_Utils.Config;  use Latin_Utils.Config;
-with uniques_package; use uniques_package;
-with word_parameters; use word_parameters;
+with Support_Utils.Uniques_Package; use Support_Utils.Uniques_Package;
+with Support_Utils.Word_Parameters; use Support_Utils.Word_Parameters;
 with Latin_Utils.Preface;
-with developer_parameters; use developer_parameters;
-with line_stuff; use line_stuff;
+with Support_Utils.Developer_Parameters; use Support_Utils.Developer_Parameters;
+with Support_Utils.Line_Stuff; use Support_Utils.Line_Stuff;
 with english_support_package; use english_support_package;
 package body word_package is
 

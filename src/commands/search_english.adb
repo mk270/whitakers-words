@@ -17,13 +17,13 @@
 with Ada.Text_IO; use Ada.Text_IO;
 with Latin_Utils.Strings_Package; use Latin_Utils.Strings_Package;
 with Latin_Utils.Config;
-with word_parameters; use word_parameters;
+with Support_Utils.Word_Parameters; use Support_Utils.Word_Parameters;
 with Latin_Utils.Inflections_Package; use Latin_Utils.Inflections_Package;
 with Latin_Utils.Dictionary_Package; use Latin_Utils.Dictionary_Package;
-with developer_parameters; use developer_parameters;
+with Support_Utils.Developer_Parameters; use Support_Utils.Developer_Parameters;
 with word_package; use word_package;
 with english_support_package; use english_support_package;
-with dictionary_form;
+with Support_Utils.Dictionary_Form;
 use Latin_Utils;
 
 procedure search_english
@@ -125,7 +125,7 @@ is
 
             Dict_IO.Read (Dict_File (general),
               de, Dict_IO.Count (Output_array (i).n));
-            Put (Output, dictionary_form (de));
+            Put (Output, Support_Utils.Dictionary_Form (de));
             Ada.Text_IO.Put (Output, "   ");
 
             if de.Part.pofs = N  then

@@ -1,0 +1,38 @@
+with "support_utils.gpr";
+project Words is
+   for Exec_Dir use "bin";
+   for Source_Dirs use ("src/tools");
+   for Object_Dir use "obj/tools";
+   for Main use (
+      "check.adb",
+      "dictflag.adb",
+      "dictord.adb",
+      "dictpage.adb",
+      "diffdict.adb",
+      "dups.adb",
+      "fil2dict.adb",
+      "fixord.adb",
+      "invert.adb",
+      "invstems.adb",
+      "linedict.adb",
+      "linefile.adb",
+      "listdict.adb",
+      "listord.adb",
+      "number.adb",
+      "oners.adb",
+      "page2htm.adb",
+      "patch.adb",
+      "slash.adb",
+      "sorter.adb",
+      "uniqpage.adb"
+   );
+
+   package Compiler is
+      Default_Ada :=
+         ( "-gnatwa", "-Wall", "-fstack-check", "-gnato", "-gnateE",
+           "-gnata", "-gnatU", "-gnatf", "-gnat05", "-gnatwe"
+         );
+      Style := ("-gnaty3aAbefhiklnOM80prtSux");
+      for Default_Switches ("Ada") use Default_Ada & Style;
+   end Compiler;
+end Words;

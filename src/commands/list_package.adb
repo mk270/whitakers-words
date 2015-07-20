@@ -16,15 +16,15 @@
 
 with Latin_Utils.Strings_Package; use Latin_Utils.Strings_Package;
 with Latin_Utils.Latin_File_Names; use Latin_Utils.Latin_File_Names;
-with word_parameters; use word_parameters;
-with addons_package; use addons_package;
-with uniques_package; use uniques_package;
-with word_support_package; use word_support_package;
-with developer_parameters; use developer_parameters;
+with Support_Utils.Word_Parameters; use Support_Utils.Word_Parameters;
+with Support_Utils.Addons_Package; use Support_Utils.Addons_Package;
+with Support_Utils.Uniques_Package; use Support_Utils.Uniques_Package;
+with Support_Utils.Word_Support_Package; use Support_Utils.Word_Support_Package;
+with Support_Utils.Developer_Parameters; use Support_Utils.Developer_Parameters;
 with word_package; use word_package;
 with Latin_Utils.Inflections_Package; use Latin_Utils.Inflections_Package;
-with Char_Utils;
-with dictionary_form;
+with Support_Utils.Char_Utils;
+with Support_Utils.Dictionary_Form;
 with Put_example_line;
 with list_sweep;
 with Put_stat;
@@ -124,8 +124,8 @@ package body list_package is
             Ada.Text_IO.Put (Output, "02 ");
             dhit := True;
          end if;
-         if dictionary_form (de)'Length /= 0  then
-            Ada.Text_IO.Put (Output, dictionary_form (de) & "  ");
+         if Support_Utils.Dictionary_Form (de)'Length /= 0  then
+            Ada.Text_IO.Put (Output, Support_Utils.Dictionary_Form (de) & "  ");
             dhit := True;
          end if;
       end if;
@@ -1049,7 +1049,8 @@ package body list_package is
          Putting_form :
          begin
             if j = 1  or else
-              dictionary_form (dma (j).de) /= dictionary_form (dma (j - 1).de)
+              Support_Utils.Dictionary_Form (dma (j).de) /=
+              Support_Utils.Dictionary_Form (dma (j - 1).de)
             then
                --  Put at first chance, skip duplicates
                Put_form (sraa (j)(1), dma (j));
@@ -1137,10 +1138,13 @@ package body list_package is
 
       begin
          if s'Length = 1  then
-            ss (s'First) := Char_Utils.V_To_U_And_J_To_I (w (s'First));
+            ss (s'First) :=
+              Support_Utils.Char_Utils.V_To_U_And_J_To_I (w (s'First));
          else
-            ss (s'First)   := Char_Utils.V_To_U_And_J_To_I (w (s'First));
-            ss (s'First + 1) := Char_Utils.V_To_U_And_J_To_I (w (s'First + 1));
+            ss (s'First) :=
+              Support_Utils.Char_Utils.V_To_U_And_J_To_I (w (s'First));
+            ss (s'First + 1) :=
+              Support_Utils.Char_Utils.V_To_U_And_J_To_I (w (s'First + 1));
          end if;
          return ss;
       end first_two;

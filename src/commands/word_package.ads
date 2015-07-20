@@ -18,7 +18,7 @@ with Ada.Text_IO;
 with Latin_Utils.Inflections_Package; use Latin_Utils.Inflections_Package;
 use Latin_Utils;
 with Latin_Utils.Dictionary_Package; use Latin_Utils.Dictionary_Package;
-with word_support_package; use word_support_package;
+with Support_Utils.Word_Support_Package; use Support_Utils.Word_Support_Package;
 package word_package is
 
    line_number, word_number : Integer := 0;

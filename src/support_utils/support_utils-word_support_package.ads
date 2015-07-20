@@ -18,7 +18,7 @@ with Ada.Text_IO;
 with Ada.Direct_IO;
 with Latin_Utils.Inflections_Package; use Latin_Utils.Inflections_Package;
 with Latin_Utils.Dictionary_Package; use Latin_Utils.Dictionary_Package;
-package word_support_package is
+package Support_Utils.Word_Support_Package is
 
    followed_by_period, follows_period, capitalized, all_caps :
      Boolean := False;
@@ -87,4 +87,4 @@ package word_support_package is
 
    procedure load_bdl_from_disk;
 
-end word_support_package;
+end Support_Utils.Word_Support_Package;

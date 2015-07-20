@@ -17,11 +17,11 @@
 with Ada.Text_IO;
 with Latin_Utils.Strings_Package; use Latin_Utils.Strings_Package;
 with Latin_Utils.Latin_File_Names; use Latin_Utils.Latin_File_Names;
-with word_parameters; use word_parameters;
-with developer_parameters; use developer_parameters;
+with Support_Utils.Word_Parameters; use Support_Utils.Word_Parameters;
+with Support_Utils.Developer_Parameters; use Support_Utils.Developer_Parameters;
 with Latin_Utils.Inflections_Package; use Latin_Utils.Inflections_Package;
 with Latin_Utils.Dictionary_Package; use Latin_Utils.Dictionary_Package;
-with word_support_package; use word_support_package;
+with Support_Utils.Word_Support_Package; use Support_Utils.Word_Support_Package;
 with Latin_Utils.Preface;
 with word_package; use word_package;
 with Latin_Utils.Config; use Latin_Utils.Config;
@@ -31,7 +31,7 @@ use Latin_Utils;
 
 with parse; use parse;
 
-pragma Elaborate (word_parameters);
+pragma Elaborate (Support_Utils.Word_Parameters);
 
 procedure process_Input (configuration : configuration_type;
                          Command_Line : String := "")

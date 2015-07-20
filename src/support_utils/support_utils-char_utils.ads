@@ -14,21 +14,20 @@
 -- All parts of the WORDS system, source code and data files, are made freely
 -- available to anyone who wishes to use them, for whatever purpose.
 
-procedure diffdict is
+package Support_Utils.Char_Utils is
 
-begin
-   null;
+   ---------------------------------------------------------------------------
+   -- Is C one of: " ,-;:.([{<)]}>"
+   function Is_Punctuation (C : Character) return Boolean;
 
-   --  Two DICTLINEs, sorted the same way
-   --  Read into memory arrays (because we have so much memory)
-   --  Compared for STEMS, PART, FLAGs, (||), MEAN
-   --  The difference generated and written to output file
-   --  Color coded, if possible
+   -- Is C alphabetic, or '.' or '-' ?
+   function Is_Alpha_Etc (C : Character) return Boolean;
 
-   --  Two DICTLINEs can then be compared and corrections made
-   --  A second run with the corrections gives a benchmark
-   --  Another exercise some time later produces another difference file
-   --  The two difference files are then DIFFed giving the changes
-   --  made over time
+   -- Converts V -> U, v -> u, J -> I, j -> i. Used in few select places.
+   -- Doesn't change character when it is not V/v or J/j.
+   function  V_To_U_And_J_To_I (C : in     Character) return Character;
+   procedure V_To_U_And_J_To_I (C : in out Character);
 
-end diffdict;
+   ---------------------------------------------------------------------------
+
+end Support_Utils.Char_Utils;

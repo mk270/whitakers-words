@@ -14,7 +14,7 @@
 -- All parts of the WORDS system, source code and data files, are made freely
 -- available to anyone who wishes to use them, for whatever purpose.
 
-package body Char_Utils is
+package body Support_Utils.Char_Utils is
 
    ---------------------------------------------------------------------------
 
@@ -67,4 +67,4 @@ package body Char_Utils is
 
    ---------------------------------------------------------------------------
 
-end Char_Utils;
+end Support_Utils.Char_Utils;

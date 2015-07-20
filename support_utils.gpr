@@ -1,0 +1,42 @@
+with "latin_utils.gpr";
+project Support_Utils is
+ 
+   Version := "0.1";
+   Name    := "support_utils";
+ 
+   for Languages use ("Ada");
+   for Source_Dirs use ("src/support_utils");
+   for Object_Dir use "obj/support_utils";
+   for Exec_Dir use ".";
+   for Source_Files use
+      ( "support_utils.ads",
+        "support_utils-line_stuff.ads",
+        "support_utils-line_stuff.adb",
+        "support_utils-word_support_package.ads",
+        "support_utils-word_support_package.adb",
+        "support_utils-char_utils.ads",
+        "support_utils-char_utils.adb",
+        "support_utils-uniques_package.ads",
+        "support_utils-addons_package.ads",
+        "support_utils-addons_package.adb",
+        "support_utils-developer_parameters.ads",
+        "support_utils-developer_parameters.adb",
+        "support_utils-word_parameters.ads",
+        "support_utils-word_parameters.adb",
+        "support_utils-dictionary_form.adb"
+      );
+ 
+   for Library_Name use Name;
+   for Library_Dir use "lib";
+   for Library_Kind use "dynamic";
+   for Library_Version use "lib" & Name & ".so." & Version;
+ 
+   package Compiler is
+      Default_Ada :=
+         ( "-gnatwa", "-Wall", "-fstack-check", "-gnato", "-gnateE",
+           "-gnata", "-gnatU", "-gnatf", "-gnat05", "-gnatwe"
+         );
+      Style := ("-gnaty3aAbefhiklnOM80prtSux");
+      for Default_Switches ("Ada") use Default_Ada & Style;
+   end Compiler;
+end Support_Utils;

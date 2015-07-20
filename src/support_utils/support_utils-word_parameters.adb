@@ -20,7 +20,7 @@ with Latin_Utils.Config; use Latin_Utils.Config;
 with Latin_Utils.Preface;
 use Latin_Utils;
 pragma Elaborate (Latin_Utils.Preface);
-package body word_parameters is
+package body Support_Utils.Word_Parameters is
    use Ada.Text_IO;
 
    type help_type is array (Natural range <>) of String (1 .. 70);
@@ -493,4 +493,4 @@ package body word_parameters is
       end if;
    end initialize_word_parameters;
 
-end word_parameters;
+end Support_Utils.Word_Parameters;

@@ -16,10 +16,10 @@
 
 with Ada.Text_IO;
 with Latin_Utils.Strings_Package; use Latin_Utils.Strings_Package;
-with word_parameters; use word_parameters;
-with developer_parameters; use developer_parameters;
+with Support_Utils.Word_Parameters; use Support_Utils.Word_Parameters;
+with Support_Utils.Developer_Parameters; use Support_Utils.Developer_Parameters;
 with Latin_Utils.Inflections_Package; use Latin_Utils.Inflections_Package;
-with word_support_package; use word_support_package;
+with Support_Utils.Word_Support_Package; use Support_Utils.Word_Support_Package;
 with word_package; use word_package;
 with Put_stat;
 package body tricks_package is

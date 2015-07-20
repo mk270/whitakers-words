@@ -18,12 +18,12 @@
 -- marked here with comments saying "apparently redundant?"; unsure
 -- whether this is a bug
 
-with word_support_package; use word_support_package;   --  for STEM_IO
+with Support_Utils.Word_Support_Package; use Support_Utils.Word_Support_Package;
 with Latin_Utils.Strings_Package; use Latin_Utils.Strings_Package;
 with Latin_Utils.Latin_File_Names; use Latin_Utils.Latin_File_Names;
-with Char_Utils;
+with Support_Utils.Char_Utils;
 with Latin_Utils.Preface;
-package body line_stuff is
+package body Support_Utils.Line_Stuff is
 
    procedure load_dictionary (dict : in out dictionary;
                               dictionary_file_name : String)  is
@@ -1026,4 +1026,4 @@ begin
      Inflection_Record_IO.Default_Width + 1 +
      Translation_Record_IO.Default_Width;
 
-end line_stuff;
+end Support_Utils.Line_Stuff;

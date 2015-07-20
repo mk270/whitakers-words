@@ -15,7 +15,7 @@
 -- available to anyone who wishes to use them, for whatever purpose.
 
 with Ada.Text_IO;
-with developer_parameters; use developer_parameters;
+with Support_Utils.Developer_Parameters; use Support_Utils.Developer_Parameters;
 procedure Put_stat (s : String) is
 begin
    if Ada.Text_IO.Is_Open (stats) then

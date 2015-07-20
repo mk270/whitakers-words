@@ -19,13 +19,13 @@ with Latin_Utils.Strings_Package; use Latin_Utils.Strings_Package;
 
 --  Omit when Put name here
 with Latin_Utils.Latin_File_Names; use Latin_Utils.Latin_File_Names;
-with word_parameters; use word_parameters;
+with Support_Utils.Word_Parameters; use Support_Utils.Word_Parameters;
 with Latin_Utils.Dictionary_Package; use Latin_Utils.Dictionary_Package;
 with Latin_Utils.Preface;
-with line_stuff; use line_stuff;
+with Support_Utils.Line_Stuff; use Support_Utils.Line_Stuff;
 use Latin_Utils;
 pragma Elaborate (Latin_Utils.Preface);
-package body developer_parameters is
+package body Support_Utils.Developer_Parameters is
 
    type help_type is array (Natural range <>) of String (1 .. 70);
    blank_help_line : constant String (1 .. 70) := (others => ' ');
@@ -868,4 +868,4 @@ package body developer_parameters is
 
    end initialize_developer_parameters;
 
-end developer_parameters;
+end Support_Utils.Developer_Parameters;

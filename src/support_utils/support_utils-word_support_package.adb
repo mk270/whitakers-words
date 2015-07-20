@@ -19,7 +19,7 @@ with Latin_Utils.Strings_Package; use Latin_Utils.Strings_Package;
 with Latin_Utils.Config;
 with Latin_Utils.Preface;
 use Latin_Utils;
-package body word_support_package is
+package body Support_Utils.Word_Support_Package is
 
    function len (s : String) return Integer is
    begin
@@ -249,4 +249,4 @@ package body word_support_package is
       Preface.Set_Col (55); Preface.Put_Line ("--  Loaded correctly");
    end load_indices_from_indx_file;
 
-end word_support_package;
+end Support_Utils.Word_Support_Package;

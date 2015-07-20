@@ -7,118 +7,125 @@
 -- there is no charge. However, just for form, it is Copyrighted
 -- (c). Permission is hereby freely given for any and all use of program
 -- and data. You can sell it as your own, but at least tell me.
--- 
+--
 -- This version is distributed without obligation, but the developer
 -- would appreciate comments and suggestions.
--- 
+--
 -- All parts of the WORDS system, source code and data files, are made freely
 -- available to anyone who wishes to use them, for whatever purpose.
 
-with text_io;
-with strings_package; use strings_package;
-with latin_file_names; use latin_file_names;
-with inflections_package; use inflections_package;
-with dictionary_package; use dictionary_package;
-with line_stuff; use line_stuff;
-with dictionary_form;
+with Text_IO;
+with Latin_Utils.Strings_Package; use Latin_Utils.Strings_Package;
+-- with Latin_Utils.Latin_File_Names; use Latin_Utils.Latin_File_Names;
+with Latin_Utils.Inflections_Package; use Latin_Utils.Inflections_Package;
+with Latin_Utils.Dictionary_Package; use Latin_Utils.Dictionary_Package;
+-- with line_stuff; use line_stuff;
+-- with dictionary_form;
 procedure uniqpage is
 
-   package integer_io is new text_io.integer_io(integer);
-   use text_io;
-   use dictionary_entry_io;
-   use part_entry_io;
-   use kind_entry_io;
-   use translation_record_io;
-   use age_type_io;
-   use area_type_io;
-   use geo_type_io;
-   use frequency_type_io;
-   use source_type_io;
+--   package Integer_IO is new Text_IO.Integer_IO (Integer);
+   use Text_IO;
+   use Dictionary_Entry_IO;
+   use Part_Entry_IO;
+   use Kind_Entry_IO;
+   use Translation_Record_IO;
+   use Age_Type_IO;
+   use Area_Type_IO;
+   use Geo_Type_IO;
+   use Frequency_Type_IO;
+   use Source_Type_IO;
 
-   uniques_file, uniqpage : text_io.file_type;
+   uniques_file, uniqpage : Text_IO.File_Type;
 
-   s, line, blank_line, blanks : string(1..400) := (others => ' ');
-   l, ll, last : integer := 0;
+   s : constant String (1 .. 400) := (others => ' ');
+   line : String (1 .. 400) := (others => ' ');
+   blanks : constant String (1 .. 400) := (others => ' ');
+   l, last : Integer := 0;
 
-   stem : stem_type := null_stem_type;
+   stem : Stem_Type := Null_Stem_Type;
    qual : quality_record;
-   kind : kind_entry;
-   tran : translation_record;
-   mean : meaning_type;
+   kind : Kind_Entry;
+   tran : Translation_Record;
+   mean : Meaning_Type;
 
-   procedure get_line_unique(input : in text_io.file_type; s : out string; last : out natural) is
+   procedure get_line_unique
+     (input : in Text_IO.File_Type;
+      s     : out String;
+      last  : out Natural)
+   is
    begin
-	  last := 0;
-	  text_io.get_line(input, s, last);
-	  if trim(s(1..last)) /= ""  then   --  Rejecting blank lines
-		 null;
-	  end if;
+      last := 0;
+      Text_IO.Get_Line (input, s, last);
+      if Trim (s (s'First .. last)) /= ""  then   --  Rejecting blank lines
+         null;
+      end if;
    end get_line_unique;
 
 begin
-   put_line("UNIQUES.LAT -> UNIQPAGE.PG");
-   put_line("Takes UNIQUES form, single lines it, puts # at begining,");
-   put_line("producing a .PG file for sorting to produce paper dictionary");
-   create(uniqpage, out_file, "UNIQPAGE.PG");
-   open(uniques_file, in_file, "UNIQUES.LAT");
+   Put_Line ("UNIQUES.LAT -> UNIQPAGE.PG");
+   Put_Line ("Takes UNIQUES form, single lines it, puts # at begining,");
+   Put_Line ("producing a .PG file for sorting to produce paper dictionary");
+   Create (uniqpage, Out_File, "UNIQPAGE.PG");
+   Open (uniques_file, In_File, "UNIQUES.LAT");
 
-over_lines:
-    while not end_of_file(uniques_file)  loop
-	   line := blanks;
-	   get_line_unique(uniques_file, line, last);      --  STEM
-	   stem := head(trim(line(1..last)), max_stem_size);
+   Over_Lines :
+   while not End_Of_File (uniques_file)  loop
+      line := blanks;
+      get_line_unique (uniques_file, line, last);      --  STEM
+      stem := Head (Trim (line (1 .. last)), Max_Stem_Size);
 
-	   line := blanks;
-	   get_line_unique(uniques_file, line, last);    --  QUAL, KIND, TRAN
-	   quality_record_io.get(line(1..last), qual, l);
-	   get(line(l+1..last), qual.pofs, kind, l);
-	   age_type_io.get(line(l+1..last), tran.age, l);
-	   area_type_io.get(line(l+1..last), tran.area, l);
-	   geo_type_io.get(line(l+1..last), tran.geo, l);
-	   frequency_type_io.get(line(l+1..last), tran.freq, l);
-	   source_type_io.get(line(l+1..last), tran.source, l);
+      line := blanks;
+      get_line_unique (uniques_file, line, last);    --  QUAL, KIND, TRAN
+      quality_record_io.Get (line (1 .. last), qual, l);
+      Get (line (l + 1 .. last), qual.pofs, kind, l);
+      Age_Type_IO.Get (line (l + 1 .. last), tran.Age, l);
+      Area_Type_IO.Get (line (l + 1 .. last), tran.Area, l);
+      Geo_Type_IO.Get (line (l + 1 .. last), tran.Geo, l);
+      Frequency_Type_IO.Get (line (l + 1 .. last), tran.Freq, l);
+      Source_Type_IO.Get (line (l + 1 .. last), tran.Source, l);
 
-	   line := blanks;
-	   get_line_unique(uniques_file, line, l);         --  MEAN
-	   mean := head(trim(line(1..l)), max_meaning_size);
+      line := blanks;
+      get_line_unique (uniques_file, line, l);         --  MEAN
+      mean := Head (Trim (line (1 .. l)), Max_Meaning_Size);
 
-	   --      while not END_OF_FILE(UNIQUES_FILE) loop
-	   --         S := BLANK_LINE;
-	   --         GET_LINE(INPUT, S, LAST);
-	   --         if TRIM(S(1..LAST)) /= ""  then   --  Rejecting blank lines
-	   --
-	   --
+      --      while not END_OF_FILE (UNIQUES_FILE) loop
+      --         S := BLANK_LINE;
+      --         GET_LINE (INPUT, S, LAST);
+      --         if TRIM (S (1 .. LAST)) /= ""  then   --  Rejecting blank lines
+      --
+      --
 
-	   text_io.put(uniqpage, "#" & stem);
+      Text_IO.Put (uniqpage, "#" & stem);
 
-	   quality_record_io.put(uniqpage, qual);
+      quality_record_io.Put (uniqpage, qual);
 
-	   -- PART := (V, (QUAL.V.CON, KIND.V_KIND));
+      -- PART := (V, (QUAL.V.CON, KIND.V_KIND));
 
-	   if (qual.pofs = v)  and then  (kind.v_kind in gen..perfdef)  then
-		  text_io.put(uniqpage, "  " & verb_kind_type'image(kind.v_kind) & "  ");
-	   end if;
+      if (qual.pofs = V)  and then  (kind.v_kind in Gen .. Perfdef)  then
+         Text_IO.Put (uniqpage, "  " &
+           Verb_Kind_Type'Image (kind.v_kind) & "  ");
+      end if;
 
-	   text_io.put(uniqpage, " [");
-	   age_type_io.put(uniqpage, tran.age);
-	   area_type_io.put(uniqpage, tran.area);
-	   geo_type_io.put(uniqpage, tran.geo);
-	   frequency_type_io.put(uniqpage, tran.freq);
-	   source_type_io.put(uniqpage, tran.source);
-	   text_io.put(uniqpage, "]");
+      Text_IO.Put (uniqpage, " [");
+      Age_Type_IO.Put (uniqpage, tran.Age);
+      Area_Type_IO.Put (uniqpage, tran.Area);
+      Geo_Type_IO.Put (uniqpage, tran.Geo);
+      Frequency_Type_IO.Put (uniqpage, tran.Freq);
+      Source_Type_IO.Put (uniqpage, tran.Source);
+      Text_IO.Put (uniqpage, "]");
 
-	   put(uniqpage, " :: ");
-	   put_line(uniqpage, mean);
+      Put (uniqpage, " :: ");
+      Put_Line (uniqpage, mean);
 
-	   --end if;  --  Rejecting blank lines
-	end loop over_lines;
+      --end if;  --  Rejecting blank lines
+   end loop Over_Lines;
 
-	close(uniqpage);
+   Close (uniqpage);
 exception
-   when text_io.data_error  =>
-	  null;
+   when Text_IO.Data_Error  =>
+      null;
    when others =>
-	  put_line(s(1..last));
-	  close(uniqpage);
+      Put_Line (s (1 .. last));
+      Close (uniqpage);
 
 end uniqpage;

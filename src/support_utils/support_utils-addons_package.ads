@@ -18,7 +18,7 @@ with Ada.Text_IO; use type Ada.Text_IO.File_Type;
 with Latin_Utils.Inflections_Package; use Latin_Utils.Inflections_Package;
 with Latin_Utils.Dictionary_Package; use Latin_Utils.Dictionary_Package;
 use Latin_Utils;
-package addons_package is
+package Support_Utils.Addons_Package is
    pragma Elaborate_Body;
 
    subtype fix_type is Stem_Type;
@@ -186,4 +186,4 @@ package addons_package is
    function add_suffix (stem : Stem_Type;
                         suffix : suffix_item) return Stem_Type;
 
-end addons_package;
+end Support_Utils.Addons_Package;

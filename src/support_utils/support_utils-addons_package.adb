@@ -15,9 +15,9 @@
 -- available to anyone who wishes to use them, for whatever purpose.
 
 with Latin_Utils.Strings_Package; use Latin_Utils.Strings_Package;
-with developer_parameters; use developer_parameters;
+with Support_Utils.Developer_Parameters; use Support_Utils.Developer_Parameters;
 with Latin_Utils.Preface;
-package body addons_package is
+package body Support_Utils.Addons_Package is
    use Ada.Text_IO;
    use Part_Of_Speech_Type_IO;
    use Target_entry_io;
@@ -828,4 +828,4 @@ begin    --  Initiate body of ADDONS_PACKAGE
      2;
    tackon_entry_io.Default_Width := Target_entry_io.Default_Width;
 
-end addons_package;
+end Support_Utils.Addons_Package;

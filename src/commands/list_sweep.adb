@@ -15,12 +15,12 @@
 -- available to anyone who wishes to use them, for whatever purpose.
 
 with Latin_Utils.Strings_Package; use Latin_Utils.Strings_Package;
-with word_parameters; use word_parameters;
+with Support_Utils.Word_Parameters; use Support_Utils.Word_Parameters;
 with Latin_Utils.Inflections_Package; use Latin_Utils.Inflections_Package;
 with Latin_Utils.Dictionary_Package; use Latin_Utils.Dictionary_Package;
-with uniques_package; use uniques_package;
-with developer_parameters; use developer_parameters;
-with word_support_package; use word_support_package;
+with Support_Utils.Uniques_Package; use Support_Utils.Uniques_Package;
+with Support_Utils.Developer_Parameters; use Support_Utils.Developer_Parameters;
+with Support_Utils.Word_Support_Package; use Support_Utils.Word_Support_Package;
 use Latin_Utils;
 
 procedure list_sweep (pa : in out Parse_Array; pa_last : in out Integer) is

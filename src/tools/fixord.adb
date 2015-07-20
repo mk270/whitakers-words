@@ -7,50 +7,51 @@
 -- there is no charge. However, just for form, it is Copyrighted
 -- (c). Permission is hereby freely given for any and all use of program
 -- and data. You can sell it as your own, but at least tell me.
--- 
+--
 -- This version is distributed without obligation, but the developer
 -- would appreciate comments and suggestions.
--- 
+--
 -- All parts of the WORDS system, source code and data files, are made freely
 -- available to anyone who wishes to use them, for whatever purpose.
 
-with text_io;
-with strings_package; use strings_package;
-with latin_file_names; use latin_file_names;
-with inflections_package; use inflections_package;
-with dictionary_package; use dictionary_package;
-with line_stuff; use line_stuff;
+with Text_IO;
+with Latin_Utils.Strings_Package; use Latin_Utils.Strings_Package;
+-- with Latin_Utils.Latin_File_Names; use Latin_Utils.Latin_File_Names;
+-- with Latin_Utils.Inflections_Package; use Latin_Utils.Inflections_Package;
+-- with Latin_Utils.Dictionary_Package; use Latin_Utils.Dictionary_Package;
+-- with line_stuff; use line_stuff;
 procedure fixord is
-   use text_io;
+   use Text_IO;
 
-   input, output : text_io.file_type;
+   input, output : Text_IO.File_Type;
 
-   s, line, blank_line : string(1..400) := (others => ' ');
-   l, ll, last : integer := 0;
+   blank_line : constant String (1 .. 400) := (others => ' ');
+   s : String (1 .. 400) := (others => ' ');
+   last : Integer := 0;
 
 begin
-   put_line("FIXORD.IN -> FIXORD.OUT");
-   put_line("Makes a clean (no #) 3 line ED format from LISTORD output");
+   Put_Line ("FIXORD.IN -> FIXORD.OUT");
+   Put_Line ("Makes a clean (no #) 3 line ED format from LISTORD output");
 
-   create(output, out_file, "FIXORD.OUT");
-   open(input, in_file, "FIXORD.IN");
+   Create (output, Out_File, "FIXORD.OUT");
+   Open (input, In_File, "FIXORD.IN");
 
-over_lines:
-	while not end_of_file(input) loop
-	   s := blank_line;
-	   get_line(input, s, last);
-	   if trim(s(1..last)) /= ""  then   --  Rejecting blank lines
+   Over_Lines :
+   while not End_Of_File (input) loop
+      s := blank_line;
+      Get_Line (input, s, last);
+      if Trim (s (1 .. last)) /= ""  then   --  Rejecting blank lines
 
-		  if s(1) /= '#'  then
-			 put_line(output, s(1..last));
-		  end if;
+         if s (1) /= '#'  then
+            Put_Line (output, s (1 .. last));
+         end if;
 
-	   end if;  --  Rejecting blank lines
-	end loop over_lines;
+      end if;  --  Rejecting blank lines
+   end loop Over_Lines;
 
-	close(output);
+   Close (output);
 exception
-   when text_io.data_error  =>
-	  close(output);
+   when Text_IO.Data_Error  =>
+      Close (output);
 
 end fixord;

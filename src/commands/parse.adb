@@ -37,21 +37,21 @@
 
 with Ada.Text_IO;
 with Latin_Utils.Strings_Package; use Latin_Utils.Strings_Package;
-with word_parameters; use word_parameters;
-with developer_parameters; use developer_parameters;
+with Support_Utils.Word_Parameters; use Support_Utils.Word_Parameters;
+with Support_Utils.Developer_Parameters; use Support_Utils.Developer_Parameters;
 with Latin_Utils.Inflections_Package; use Latin_Utils.Inflections_Package;
 with Latin_Utils.Dictionary_Package; use Latin_Utils.Dictionary_Package;
-with addons_package; use addons_package;
-with word_support_package; use word_support_package;
+with Support_Utils.Addons_Package; use Support_Utils.Addons_Package;
+with Support_Utils.Word_Support_Package; use Support_Utils.Word_Support_Package;
 with word_package; use word_package;
 with list_package; use list_package;
 with tricks_package; use tricks_package;
 with Put_stat;
 with search_english;
-with Char_Utils; use Char_Utils;
+with Support_Utils.Char_Utils; use Support_Utils.Char_Utils;
 use Latin_Utils;
 
-pragma Elaborate (word_parameters);
+pragma Elaborate (Support_Utils.Word_Parameters);
 package body parse
 is
    use Inflections_Package.Integer_IO;

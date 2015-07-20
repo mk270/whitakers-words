@@ -7,125 +7,125 @@
 -- there is no charge. However, just for form, it is Copyrighted
 -- (c). Permission is hereby freely given for any and all use of program
 -- and data. You can sell it as your own, but at least tell me.
--- 
+--
 -- This version is distributed without obligation, but the developer
 -- would appreciate comments and suggestions.
--- 
+--
 -- All parts of the WORDS system, source code and data files, are made freely
 -- available to anyone who wishes to use them, for whatever purpose.
 
-with ada.text_io;
+with Ada.Text_IO;
 procedure slash is
-   package integer_io is new ada.text_io.integer_io (integer);
-   use ada.text_io;
-   use integer_io;
+   package Integer_IO is new Ada.Text_IO.Integer_IO (Integer);
+   use Ada.Text_IO;
+   use Integer_IO;
 
-   f1, f2, f3  : file_type;
-   f           : string (1..100);
-   s           : string (1..2500);
-   bs          : string (1..2500) := (others => ' ');
-   n           : integer := 0;
-   l           : integer := 0;
-   ls          : integer := 0;
+   f1, f2, f3  : File_Type;
+   f           : String (1 .. 100);
+   s           : String (1 .. 2500);
+   bs          : constant String (1 .. 2500) := (others => ' ');
+   n           : Integer := 0;
+   l           : Integer := 0;
+   ls          : Integer := 0;
 
    type reply_type is (columns, lines);
    reply : reply_type;
-   reply_character : character;
+   reply_Character : Character;
 
-   function which(r : character) return reply_type is
+   function which (r : Character) return reply_type is
    begin
-	  case r is
-		 when 'C' | 'c'  =>  return columns;
-		 when 'L' | 'l'  =>  return lines;
-		 when others     =>
-			raise data_error;
-	  end case;
+      case r is
+         when 'C' | 'c'  =>  return columns;
+         when 'L' | 'l'  =>  return lines;
+         when others     =>
+            raise Data_Error;
+      end case;
    end which;
 
 begin
-   put_line("Breaks a file into two, by row or column.");
+   Put_Line ("Breaks a file into two, by row or column.");
 
-   put ("What file to SLASH from =>");
-   get_line (f, l);
-   put ("=> ");
-   open (f1, in_file, f (1..l));
-   put_line ("Opened input file");
+   Put ("What file to SLASH from =>");
+   Get_Line (f, l);
+   Put ("=> ");
+   Open (f1, In_File, f (1 .. l));
+   Put_Line ("Opened input file");
 
-   put ("Do you wish to SLASH C)olumns or L)ines? =>");
-   get (reply_character);
-   skip_line;
-   reply := which(reply_character);
-   new_line;
+   Put ("Do you wish to SLASH C)olumns or L)ines? =>");
+   Get (reply_Character);
+   Skip_Line;
+   reply := which (reply_Character);
+   New_Line;
 
-   put ("How many lines/columns to leave after SLASHing =>");
-   get (n);
-   skip_line;
-   new_line;
+   Put ("How many lines/columns to leave after SLASHing =>");
+   Get (n);
+   Skip_Line;
+   New_Line;
 
-   put ("Where to put the first  =>");
-   get_line (f, l);
-   put ("=> ");
-   create (f2, out_file, f (1..l));
-   put_line ("Created SLASH file first");
+   Put ("Where to put the first  =>");
+   Get_Line (f, l);
+   Put ("=> ");
+   Create (f2, Out_File, f (1 .. l));
+   Put_Line ("Created SLASH file first");
 
-   put ("Where to put the rest  =>");
-   get_line (f, l);
-   put ("=> ");
-   create (f3, out_file, f (1..l));
-   put_line ("Created SLASH file rest");
+   Put ("Where to put the rest  =>");
+   Get_Line (f, l);
+   Put ("=> ");
+   Create (f3, Out_File, f (1 .. l));
+   Put_Line ("Created SLASH file rest");
 
    if reply = columns  then
 
-	  while not end_of_file (f1) loop
-		 s := bs;
-		 get_line (f1, s, ls);
-		 if ls <= n then            --  Line shorter than break
-			put_line (f2, s (1..ls));
-			put_line (f3, "");       --  Put a blank line so there will be a line
-		 else                       --  Line runs past break
-			put_line (f2, s (1..n));
-			put_line (f3, s (n + 1..ls));
-		 end if;
-	  end loop;
-	  close (f2);
-	  close (f3);
+      while not End_Of_File (f1) loop
+         s := bs;
+         Get_Line (f1, s, ls);
+         if ls <= n then            --  Line shorter than break
+            Put_Line (f2, s (1 .. ls));
+            Put_Line (f3, "");      --  Put a blank line so there will be a line
+         else                       --  Line runs past break
+            Put_Line (f2, s (1 .. n));
+            Put_Line (f3, s (n + 1 .. ls));
+         end if;
+      end loop;
+      Close (f2);
+      Close (f3);
 
    elsif reply = lines  then
 
-  first:
-	  begin
-		 for i in 1..n loop
-			get_line (f1, s, ls);
-			put_line (f2, s (1..ls));
-		 end loop;
-	  exception
-		 when end_error  =>
-			null;
-	  end first;
-	  close (f2);
+      First :
+      begin
+         for i in 1 .. n loop
+            Get_Line (f1, s, ls);
+            Put_Line (f2, s (1 .. ls));
+         end loop;
+      exception
+         when End_Error  =>
+            null;
+      end First;
+      Close (f2);
 
-  second:
-	  begin
-		 loop
-			get_line (f1, s, ls);
-			put_line (f3, s (1..ls));
-		 end loop;
-	  exception
-		 when end_error  =>
-			null;
-	  end second;
-	  close (f3);
+      Second :
+      begin
+         loop
+            Get_Line (f1, s, ls);
+            Put_Line (f3, s (1 .. ls));
+         end loop;
+      exception
+         when End_Error  =>
+            null;
+      end Second;
+      Close (f3);
 
    end if;
 
-   put_line ("Done SLASHing");
+   Put_Line ("Done SLASHing");
 
 exception
-   when data_error  =>
-	  put_line("***************** WRONG REPLY *****************");
-	  new_line(2);
-	  put_line("Try again");
+   when Data_Error  =>
+      Put_Line ("***************** WRONG REPLY *****************");
+      New_Line (2);
+      Put_Line ("Try again");
    when others      =>
-	  new_line(2);
-	  put_line("Unexpected exception raised in SLASH  *********");
+      New_Line (2);
+      Put_Line ("Unexpected exception raised in SLASH  *********");
 end slash;
