@@ -21,9 +21,9 @@ procedure patch is
    use integer_io;
 
    f1, f2, f3  : file_type;
-   f           : string (1..100);
-   blanks      : string (1..250) := (others => ' ');
-   s, t        : string (1..250) := blanks;
+   f           : string (1 .. 100);
+   blanks      : string (1 .. 250) := (others => ' ');
+   s, t        : string (1 .. 250) := blanks;
    l           : integer := 0;
    n           : integer := 0;
    ls, lt      : integer := 0;
@@ -35,13 +35,13 @@ begin
    put ("What is first file to PATCH from =>");
    get_line (f, l);
    put ("=> ");
-   open (f1, in_file, f (1..l));
+   open (f1, in_file, f (1 .. l));
    put_line ("Opened first input file");
 
    put ("What is second file to PATCH from =>");
    get_line (f, l);
    put ("=> ");
-   open (f2, in_file, f (1..l));
+   open (f2, in_file, f (1 .. l));
    put_line ("Opened second input file");
 
    put ("How many blank columns to leave between =>");
@@ -52,13 +52,13 @@ begin
    put ("Where to put the resulting PATCHed file =>");
    get_line (f, l);
    put ("=> ");
-   create (f3, out_file, f (1..l));
+   create (f3, out_file, f (1 .. l));
    put_line ("Created PATCHed output file");
 
    while (not end_of_file (f1) and not end_of_file (f2)) loop
       get_line (f1, s, ls);
       get_line (f2, t, lt);
-      put_line (f3, s (1..ls) & blanks (1..n) & t (1..lt));
+      put_line (f3, s (1 .. ls) & blanks (1 .. n) & t (1 .. lt));
    end loop;
    close (f1);
    close (f2);

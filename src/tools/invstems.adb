@@ -17,16 +17,16 @@
 with text_io; use text_io;
 with strings_package; use strings_package;
 procedure invstems is
-   line : string (1..250);
+   line : string (1 .. 250);
    ll : integer;
-   subtype stem is string (1..18);
+   subtype stem is string (1 .. 18);
    blank_stem : constant stem := (others => ' ');
-   sts : array (1..4) of stem;
+   sts : array (1 .. 4) of stem;
 
    input, output : file_type;
 
    function invert (s : string) return string is
-      t : string (s'first..s'last);
+      t : string (s'first .. s'last);
    begin
       if s (1) = ' '  then
          return blank_stem;
@@ -46,18 +46,18 @@ begin
 
    while not end_of_file (input)  loop
       get_line (input, line, ll);
-      sts (1) := line (1..18);
-      sts (2) := line (20..37);
-      sts (3) := line (39..56);
-      sts (4) := line (58..75);
-      for i in 1..4  loop
+      sts (1) := line (1 .. 18);
+      sts (2) := line (20 .. 37);
+      sts (3) := line (39 .. 56);
+      sts (4) := line (58 .. 75);
+      for i in 1 .. 4  loop
          sts (i) := invert (sts (i));
       end loop;
-      line (1..18)  := sts (1) ;
-      line (20..37) := sts (2);
-      line (39..56) := sts (3);
-      line (58..75) := sts (4);
-      put_line (output, line (1..ll));
+      line (1 .. 18)  := sts (1) ;
+      line (20 .. 37) := sts (2);
+      line (39 .. 56) := sts (3);
+      line (58 .. 75) := sts (4);
+      put_line (output, line (1 .. ll));
 
    end loop;
 

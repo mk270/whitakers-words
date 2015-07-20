@@ -51,7 +51,7 @@ procedure listord is
    input, output : text_io.file_type;
    de : dictionary_entry;
 
-   s, line, blank_line : string (1..400) := (others => ' ');
+   s, line, blank_line : string (1 .. 400) := (others => ' ');
    l, ll, last : integer := 0;
    j : natural := 0;
 
@@ -73,38 +73,38 @@ over_lines:
        j := j + 1;
        s := blank_line;
        get_line (input, s, last);
-       if trim (s (1..last)) /= ""  then   --  Rejecting blank lines
+       if trim (s (1 .. last)) /= ""  then   --  Rejecting blank lines
 
       form_de:
           begin
 
-             de.stems (1) := s (start_stem_1..start_stem_1+max_stem_size-1);
-             de.stems (2) := s (start_stem_2..start_stem_2+max_stem_size-1);
-             de.stems (3) := s (start_stem_3..start_stem_3+max_stem_size-1);
-             de.stems (4) := s (start_stem_4..start_stem_4+max_stem_size-1);
-             get (s (start_part..last), de.part, l);
-             --GET (S (L+1..LAST), DE.PART.POFS, DE.KIND, L);
-             get (s (l+1..last), de.tran.age, l);
-             get (s (l+1..last), de.tran.area, l);
-             get (s (l+1..last), de.tran.geo, l);
-             get (s (l+1..last), de.tran.freq, l);
-             get (s (l+1..last), de.tran.source, l);
-             de.mean := head (s (l+2..last), max_meaning_size);
+             de.stems (1) := s (start_stem_1 .. start_stem_1+max_stem_size-1);
+             de.stems (2) := s (start_stem_2 .. start_stem_2+max_stem_size-1);
+             de.stems (3) := s (start_stem_3 .. start_stem_3+max_stem_size-1);
+             de.stems (4) := s (start_stem_4 .. start_stem_4+max_stem_size-1);
+             get (s (start_part .. last), de.part, l);
+             --GET (S (L+1 .. LAST), DE.PART.POFS, DE.KIND, L);
+             get (s (l+1 .. last), de.tran.age, l);
+             get (s (l+1 .. last), de.tran.area, l);
+             get (s (l+1 .. last), de.tran.geo, l);
+             get (s (l+1 .. last), de.tran.freq, l);
+             get (s (l+1 .. last), de.tran.source, l);
+             de.mean := head (s (l+2 .. last), max_meaning_size);
              --  Note that this allows initial blanks
              --  L+2 skips over the SPACER, required because this is STRING, not ENUM
 
           exception
              when others =>
                 put_line ("Exception");
-                put_line (s (1..last));
+                put_line (s (1 .. last));
                 integer_io.put (integer (j)); new_line;
                 put (de); new_line;
                 raise;
           end form_de;
 
-          put_line (output, s (1..78));
-          put_line (output, s (start_stem_1..start_part-1));
-          put (output, s (start_part..start_tran-1)); put (output, "      ");
+          put_line (output, s (1 .. 78));
+          put_line (output, s (start_stem_1 .. start_part-1));
+          put (output, s (start_part .. start_tran-1)); put (output, "      ");
           put (output, de.tran.age); put (output, " ");
           put (output, de.tran.area); put (output, " ");
           put (output, de.tran.geo); put (output, " ");
@@ -120,7 +120,7 @@ exception
    when text_io.data_error  =>
       null;
    when others =>
-      put_line (s (1..last));
+      put_line (s (1 .. last));
       integer_io.put (integer (j)); new_line;
       close (output);
 

@@ -27,7 +27,7 @@ procedure number is
    input : text_io.file_type;
    numbered : text_io.file_type;
 
-   line : string (1..300) := (others => ' ');
+   line : string (1 .. 300) := (others => ' ');
    last, n : integer := 0;
    number_lines : boolean := false;
 
@@ -39,7 +39,7 @@ begin
    put_line ("What file to NUMBER?");
    text_io.get_line (line, last);
 
-   open (input, in_file, line (1..last));
+   open (input, in_file, line (1 .. last));
 
    create (numbered, out_file, "NUMBERED.");
 
@@ -50,7 +50,7 @@ begin
 
       text_io.put (numbered, integer'image (n));
       set_col (numbered, 10);
-      text_io.put_line (numbered, line (1..last));
+      text_io.put_line (numbered, line (1 .. last));
 
    end loop;
 

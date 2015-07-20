@@ -37,7 +37,7 @@ procedure uniqpage is
 
    uniques_file, uniqpage : text_io.file_type;
 
-   s, line, blank_line, blanks : string (1..400) := (others => ' ');
+   s, line, blank_line, blanks : string (1 .. 400) := (others => ' ');
    l, ll, last : integer := 0;
 
    stem : stem_type := null_stem_type;
@@ -50,7 +50,7 @@ procedure uniqpage is
    begin
       last := 0;
       text_io.get_line (input, s, last);
-      if trim (s (1..last)) /= ""  then   --  Rejecting blank lines
+      if trim (s (1 .. last)) /= ""  then   --  Rejecting blank lines
          null;
       end if;
    end get_line_unique;
@@ -66,26 +66,26 @@ over_lines:
     while not end_of_file (uniques_file)  loop
        line := blanks;
        get_line_unique (uniques_file, line, last);      --  STEM
-       stem := head (trim (line (1..last)), max_stem_size);
+       stem := head (trim (line (1 .. last)), max_stem_size);
 
        line := blanks;
        get_line_unique (uniques_file, line, last);    --  QUAL, KIND, TRAN
-       quality_record_io.get (line (1..last), qual, l);
-       get (line (l+1..last), qual.pofs, kind, l);
-       age_type_io.get (line (l+1..last), tran.age, l);
-       area_type_io.get (line (l+1..last), tran.area, l);
-       geo_type_io.get (line (l+1..last), tran.geo, l);
-       frequency_type_io.get (line (l+1..last), tran.freq, l);
-       source_type_io.get (line (l+1..last), tran.source, l);
+       quality_record_io.get (line (1 .. last), qual, l);
+       get (line (l+1 .. last), qual.pofs, kind, l);
+       age_type_io.get (line (l+1 .. last), tran.age, l);
+       area_type_io.get (line (l+1 .. last), tran.area, l);
+       geo_type_io.get (line (l+1 .. last), tran.geo, l);
+       frequency_type_io.get (line (l+1 .. last), tran.freq, l);
+       source_type_io.get (line (l+1 .. last), tran.source, l);
 
        line := blanks;
        get_line_unique (uniques_file, line, l);         --  MEAN
-       mean := head (trim (line (1..l)), max_meaning_size);
+       mean := head (trim (line (1 .. l)), max_meaning_size);
 
        --      while not END_OF_FILE (UNIQUES_FILE) loop
        --         S := BLANK_LINE;
        --         GET_LINE (INPUT, S, LAST);
-       --         if TRIM (S (1..LAST)) /= ""  then   --  Rejecting blank lines
+       --         if TRIM (S (1 .. LAST)) /= ""  then   --  Rejecting blank lines
        --
        --
 
@@ -95,7 +95,7 @@ over_lines:
 
        -- PART := (V, (QUAL.V.CON, KIND.V_KIND));
 
-       if (qual.pofs = v)  and then  (kind.v_kind in gen..perfdef)  then
+       if (qual.pofs = v)  and then  (kind.v_kind in gen .. perfdef)  then
           text_io.put (uniqpage, "  " & verb_kind_type'image (kind.v_kind) & "  ");
        end if;
 
@@ -118,7 +118,7 @@ exception
    when text_io.data_error  =>
       null;
    when others =>
-      put_line (s (1..last));
+      put_line (s (1 .. last));
       close (uniqpage);
 
 end uniqpage;

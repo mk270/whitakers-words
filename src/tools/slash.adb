@@ -21,9 +21,9 @@ procedure slash is
    use integer_io;
 
    f1, f2, f3  : file_type;
-   f           : string (1..100);
-   s           : string (1..2500);
-   bs          : string (1..2500) := (others => ' ');
+   f           : string (1 .. 100);
+   s           : string (1 .. 2500);
+   bs          : string (1 .. 2500) := (others => ' ');
    n           : integer := 0;
    l           : integer := 0;
    ls          : integer := 0;
@@ -48,7 +48,7 @@ begin
    put ("What file to SLASH from =>");
    get_line (f, l);
    put ("=> ");
-   open (f1, in_file, f (1..l));
+   open (f1, in_file, f (1 .. l));
    put_line ("Opened input file");
 
    put ("Do you wish to SLASH C)olumns or L)ines? =>");
@@ -65,13 +65,13 @@ begin
    put ("Where to put the first  =>");
    get_line (f, l);
    put ("=> ");
-   create (f2, out_file, f (1..l));
+   create (f2, out_file, f (1 .. l));
    put_line ("Created SLASH file first");
 
    put ("Where to put the rest  =>");
    get_line (f, l);
    put ("=> ");
-   create (f3, out_file, f (1..l));
+   create (f3, out_file, f (1 .. l));
    put_line ("Created SLASH file rest");
 
    if reply = columns  then
@@ -80,11 +80,11 @@ begin
          s := bs;
          get_line (f1, s, ls);
          if ls <= n then            --  Line shorter than break
-            put_line (f2, s (1..ls));
+            put_line (f2, s (1 .. ls));
             put_line (f3, "");       --  Put a blank line so there will be a line
          else                       --  Line runs past break
-            put_line (f2, s (1..n));
-            put_line (f3, s (n + 1..ls));
+            put_line (f2, s (1 .. n));
+            put_line (f3, s (n + 1 .. ls));
          end if;
       end loop;
       close (f2);
@@ -94,9 +94,9 @@ begin
 
   first:
       begin
-         for i in 1..n loop
+         for i in 1 .. n loop
             get_line (f1, s, ls);
-            put_line (f2, s (1..ls));
+            put_line (f2, s (1 .. ls));
          end loop;
       exception
          when end_error  =>
@@ -108,7 +108,7 @@ begin
       begin
          loop
             get_line (f1, s, ls);
-            put_line (f3, s (1..ls));
+            put_line (f3, s (1 .. ls));
          end loop;
       exception
          when end_error  =>

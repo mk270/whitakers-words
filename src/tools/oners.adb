@@ -19,7 +19,7 @@ procedure oners is
    package integer_io is new text_io.integer_io (integer);
    use integer_io;
 
-   line, old_line : string (1..250) := (others => ' ');
+   line, old_line : string (1 .. 250) := (others => ' ');
    last, old_last : integer := 0;
    n : integer := 0;
 
@@ -38,12 +38,12 @@ begin
    while not end_of_file (input)  loop
       get_line (input, line, last);
       n := n + 1;
-      if line (1..last) /= old_line (1..old_last)  then
+      if line (1 .. last) /= old_line (1 .. old_last)  then
          put (output, n);
-         put_line (output, "  " & old_line (1..old_last));
+         put_line (output, "  " & old_line (1 .. old_last));
          n := 0;
          old_last := last;
-         old_line (1..old_last) := line (1..last);
+         old_line (1 .. old_last) := line (1 .. last);
       end if;
    end loop;
 

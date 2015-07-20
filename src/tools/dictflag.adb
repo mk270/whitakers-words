@@ -64,7 +64,7 @@ procedure dictflag is
    input, output : text_io.file_type;
    de : dictionary_entry;
 
-   s, line, blank_line : string (1..400) := (others => ' ');
+   s, line, blank_line : string (1 .. 400) := (others => ' ');
    l, ll, last : integer := 0;
    j : dict_io.count := 0;
    mean_to_be : constant meaning_type :=
@@ -77,11 +77,11 @@ begin
    put ("What dictionary to list, GENERAL or SPECIAL  =>");
    get_line (line, last);
    if last > 0  then
-      if trim (line (1..last))(1) = 'G'  or else
-        trim (line (1..last))(1) = 'g'     then
+      if trim (line (1 .. last))(1) = 'G'  or else
+        trim (line (1 .. last))(1) = 'g'     then
          d_k := general;
-      elsif trim (line (1..last))(1) = 'S'  or else
-        trim (line (1..last))(1) = 's'     then
+      elsif trim (line (1 .. last))(1) = 'S'  or else
+        trim (line (1 .. last))(1) = 's'     then
          d_k := special;
       else
          put_line ("No such dictionary");
@@ -98,36 +98,36 @@ begin
    while not end_of_file (input) loop
       s := blank_line;
       get_line (input, s, last);
-      if trim (s (1..last)) /= ""  then
+      if trim (s (1 .. last)) /= ""  then
          l := 0;
 
      form_de:
          begin
 
-            de.stems (1) := s (start_stem_1..max_stem_size);
+            de.stems (1) := s (start_stem_1 .. max_stem_size);
             --NEW_LINE; PUT (DE.STEMS (1));
-            de.stems (2) := s (start_stem_2..start_stem_2+max_stem_size-1);
-            de.stems (3) := s (start_stem_3..start_stem_3+max_stem_size-1);
-            de.stems (4) := s (start_stem_4..start_stem_4+max_stem_size-1);
+            de.stems (2) := s (start_stem_2 .. start_stem_2+max_stem_size-1);
+            de.stems (3) := s (start_stem_3 .. start_stem_3+max_stem_size-1);
+            de.stems (4) := s (start_stem_4 .. start_stem_4+max_stem_size-1);
             --PUT ('#'); PUT (INTEGER'IMAGE (L)); PUT (INTEGER'IMAGE (LAST));
             --PUT ('@');
-            get (s (start_part..last), de.part, l);
+            get (s (start_part .. last), de.part, l);
             --PUT ('%'); PUT (INTEGER'IMAGE (L)); PUT (INTEGER'IMAGE (LAST));
-            --PUT ('&'); PUT (S (L+1..LAST)); PUT ('3');
-            --   GET (S (L+1..LAST), DE.PART.POFS, DE.KIND, L);
+            --PUT ('&'); PUT (S (L+1 .. LAST)); PUT ('3');
+            --   GET (S (L+1 .. LAST), DE.PART.POFS, DE.KIND, L);
 
-            get (s (l+1..last), de.tran.age, l);
+            get (s (l+1 .. last), de.tran.age, l);
             age_array (de.tran.age) := age_array (de.tran.age) + 1;
-            get (s (l+1..last), de.tran.area, l);
+            get (s (l+1 .. last), de.tran.area, l);
             area_array (de.tran.area) := area_array (de.tran.area) + 1;
-            get (s (l+1..last), de.tran.geo, l);
+            get (s (l+1 .. last), de.tran.geo, l);
             geo_array (de.tran.geo) := geo_array (de.tran.geo) + 1;
-            get (s (l+1..last), de.tran.freq, l);
+            get (s (l+1 .. last), de.tran.freq, l);
             freq_array (de.tran.freq) := freq_array (de.tran.freq) + 1;
-            get (s (l+1..last), de.tran.source, l);
+            get (s (l+1 .. last), de.tran.source, l);
             source_array (de.tran.source) := source_array (de.tran.source) + 1;
 
-            de.mean := head (s (l+2..last), max_meaning_size);
+            de.mean := head (s (l+2 .. last), max_meaning_size);
             --  Note that this allows initial blanks
             --  L+2 skips over the SPACER, required because this is STRING, not ENUM
 
@@ -135,7 +135,7 @@ begin
             when others =>
                new_line;
                put_line ("Exception");
-               put_line (s (1..last));
+               put_line (s (1 .. last));
                integer_io.put (integer (j)); new_line;
                put (de); new_line;
          end form_de;
@@ -196,7 +196,7 @@ exception
    when text_io.data_error  =>
       null;
    when others =>
-      put_line (s (1..last));
+      put_line (s (1 .. last));
       integer_io.put (integer (j)); new_line;
       close (output);
 

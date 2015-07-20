@@ -22,7 +22,7 @@ procedure dups is
    use text_io;
 
    input, output : file_type;
-   s, line, oldline, blank_line : string (1..400) := (others => ' ');
+   s, line, oldline, blank_line : string (1 .. 400) := (others => ' ');
    j, l, ll, last : integer := 0;
    mx, nx : natural := 0;
 
@@ -32,7 +32,7 @@ procedure dups is
    procedure get_entry (mx, nx  : out natural) is
       z : natural := 0;
       ls : integer := 0;
-      enter_line : string (1..20);
+      enter_line : string (1 .. 20);
 
       procedure prompt_for_entry (entry_number : string) is
       begin
@@ -42,14 +42,14 @@ procedure dups is
    begin
 
       get_line (enter_line, ls);
-      get (enter_line (1..ls), mx, last);
-      get (enter_line (last+1..ls), nx, last);
+      get (enter_line (1 .. ls), mx, last);
+      get (enter_line (last+1 .. ls), nx, last);
 
    end get_entry;
 
 begin
    put_line ("DUPS.IN -> DUPS.OUT    For sorted files");
-   put_line ("DUPS  checks for columns MX..NX being duplicates");
+   put_line ("DUPS  checks for columns MX .. NX being duplicates");
    get_entry (mx, nx);
 
    create (output, out_file, "DUPS.OUT");
@@ -60,11 +60,11 @@ begin
       line := blank_line;
       get_line (input, line, last);
       line_number := line_number + 1;
-      if line (mx..nx) = oldline (mx..nx)  and then
+      if line (mx .. nx) = oldline (mx .. nx)  and then
         (line (111) /= '|') then
          number := number + 1 ;
          put (output, line_number); put (output, "  ");
-         put_line (output, line (1..nx));
+         put_line (output, line (1 .. nx));
       end if;
    end loop;
 
@@ -82,7 +82,7 @@ exception
 
    when others =>
       put ("Exception on LINE"); put (line_number); new_line;
-      put_line (s (1..last));
+      put_line (s (1 .. last));
       close (output);
 
 end dups;

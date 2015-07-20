@@ -30,7 +30,7 @@ procedure linefile is
    output : text_io.file_type;
    de : dictionary_entry;
    d_k : dictionary_kind := general;
-   line : string (1..40) := (others => ' ');
+   line : string (1 .. 40) := (others => ' ');
    last : integer := 0;
 
 begin
@@ -38,11 +38,11 @@ begin
    put ("What dictionary to convert, GENERAL or SPECIAL  (Reply G or S) =>");
    get_line (line, last);
    if last > 0  then
-      if trim (line (1..last))(1) = 'G'  or else
-        trim (line (1..last))(1) = 'g'     then
+      if trim (line (1 .. last))(1) = 'G'  or else
+        trim (line (1 .. last))(1) = 'g'     then
          d_k := general;
-      elsif trim (line (1..last))(1) = 'S'  or else
-        trim (line (1..last))(1) = 's'     then
+      elsif trim (line (1 .. last))(1) = 'S'  or else
+        trim (line (1 .. last))(1) = 's'     then
          d_k := special;
       else
          put_line ("No such dictionary");

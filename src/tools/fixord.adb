@@ -25,7 +25,7 @@ procedure fixord is
 
    input, output : text_io.file_type;
 
-   s, line, blank_line : string (1..400) := (others => ' ');
+   s, line, blank_line : string (1 .. 400) := (others => ' ');
    l, ll, last : integer := 0;
 
 begin
@@ -39,10 +39,10 @@ over_lines:
     while not end_of_file (input) loop
        s := blank_line;
        get_line (input, s, last);
-       if trim (s (1..last)) /= ""  then   --  Rejecting blank lines
+       if trim (s (1 .. last)) /= ""  then   --  Rejecting blank lines
 
           if s (1) /= '#'  then
-             put_line (output, s (1..last));
+             put_line (output, s (1 .. last));
           end if;
 
        end if;  --  Rejecting blank lines

@@ -17,7 +17,7 @@
 with text_io; use text_io;
 with strings_package; use strings_package;
 procedure page2htm is
-   line, line_out, blank_line : string (1..300) := (others => ' ');
+   line, line_out, blank_line : string (1 .. 300) := (others => ' ');
    last, colons : integer := 0;
 
    input, output : file_type;
@@ -32,15 +32,15 @@ begin
    while not end_of_file (input)  loop
       get_line (input, line, last);
       if line (1) /= '#'  then
-         put_line ("BAD LINE   >" & line (1..last));
+         put_line ("BAD LINE   >" & line (1 .. last));
       end if;
-      for i in 1..last  loop
+      for i in 1 .. last  loop
          if line (i) = '['  then
-            put (output, "<B>" & line (2..i-1) & "</B>  ");
-            put_line (output, trim (line (i..i+6) & "<BR>"));
+            put (output, "<B>" & line (2 .. i-1) & "</B>  ");
+            put_line (output, trim (line (i .. i+6) & "<BR>"));
          end if;
-         if line (i..i+1) = "::"  then
-            put_line (output, trim (line (i+2..last)) & "<BR>");
+         if line (i .. i+1) = "::"  then
+            put_line (output, trim (line (i+2 .. last)) & "<BR>");
             exit;
          end if;
       end loop;  --  On LINE

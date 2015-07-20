@@ -41,7 +41,7 @@ procedure linedict is
    mean : meaning_type := null_meaning_type;
    pt  : part_entry  := null_part_entry;
 
-   line, st_line, pt_line, mn_line, blank_line : string (1..300) :=
+   line, st_line, pt_line, mn_line, blank_line : string (1 .. 300) :=
      (others => ' ');
    l, ll, last, len : integer := 0;
    number_of_dictionary_entries : integer := 0;
@@ -86,27 +86,27 @@ begin
 
              line := blank_line;
              get_non_comment_line (dictionary_file, pt_line, l);           --  PART
-             get (pt_line (1..l), de.part, ll);
-             --            GET (PT_LINE (LL+1..L), DE.PART.POFS, DE.KIND, LL);
+             get (pt_line (1 .. l), de.part, ll);
+             --            GET (PT_LINE (LL+1 .. L), DE.PART.POFS, DE.KIND, LL);
 
-             get (pt_line (ll+1..l), de.tran.age, ll);
-             get (pt_line (ll+1..l), de.tran.area, ll);
-             get (pt_line (ll+1..l), de.tran.geo, ll);
-             get (pt_line (ll+1..l), de.tran.freq, ll);
-             get (pt_line (ll+1..l), de.tran.source, ll);
+             get (pt_line (ll+1 .. l), de.tran.age, ll);
+             get (pt_line (ll+1 .. l), de.tran.area, ll);
+             get (pt_line (ll+1 .. l), de.tran.geo, ll);
+             get (pt_line (ll+1 .. l), de.tran.freq, ll);
+             get (pt_line (ll+1 .. l), de.tran.source, ll);
 
              de.stems := null_stems_type;
              ll := 1;
              --  Extract up to 4 stems
 
-             for i in 1..number_of_stems (de.part.pofs)  loop   --  EXTRACT STEMS
-                get_stem (st_line (ll..last), de.stems (i), ll);
+             for i in 1 .. number_of_stems (de.part.pofs)  loop   --  EXTRACT STEMS
+                get_stem (st_line (ll .. last), de.stems (i), ll);
              end loop;
 
              line := blank_line;
              get_non_comment_line (dictionary_file, mn_line, l);         --  MEANING
 
-             de.mean := head (trim (mn_line (1..l)), max_meaning_size);
+             de.mean := head (trim (mn_line (1 .. l)), max_meaning_size);
 
              put (output, de); new_line (output);
 
