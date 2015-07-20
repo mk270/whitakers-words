@@ -7,10 +7,10 @@
 -- there is no charge. However, just for form, it is Copyrighted
 -- (c). Permission is hereby freely given for any and all use of program
 -- and data. You can sell it as your own, but at least tell me.
--- 
+--
 -- This version is distributed without obligation, but the developer
 -- would appreciate comments and suggestions.
--- 
+--
 -- All parts of the WORDS system, source code and data files, are made freely
 -- available to anyone who wishes to use them, for whatever purpose.
 
@@ -27,8 +27,10 @@ procedure oners is
 
 begin
    Put_Line ("ONERS.IN -> ONERS.OUT");
-   Put_Line ("Takes a sorted file to produce a file having just one of each identical line.");
-   Put_Line ("Puts a count of how many identical lines at the begining of each.");
+   Put_Line ("Takes a sorted file to produce a file having just" &
+     " one of each identical line.");
+   Put_Line ("Puts a count of how many identical lines at the" &
+     " begining of each.");
 
    Open (input, In_File, "ONERS.IN");
    Create (output, Out_File, "ONERS.OUT");
@@ -39,7 +41,7 @@ begin
       Get_Line (input, line, last);
       n := n + 1;
       if line (1 .. last) /= old_line (1 .. old_last)  then
-         put (output, n);
+         Put (output, n);
          Put_Line (output, "  " & old_line (1 .. old_last));
          n := 0;
          old_last := last;
