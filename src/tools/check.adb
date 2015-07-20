@@ -394,7 +394,8 @@ procedure check is
                if sts (1)(1 .. len (sts (1)) - 1) /=
                  sts (2)(1 .. len (sts (1)) - 1)
                then
-                  prob ("    EXPECTED ADJ (3, 1)  stems to agree in first letters");
+                  prob (
+                    "    EXPECTED ADJ (3, 1)  stems to agree in first letters");
                end if;
             end if;
 
@@ -543,18 +544,27 @@ procedure check is
               (sts (3) /= null_stem_type  and
               sts (3) /= zzz_stem))     then
                if sts (2)(len (sts (2)) - 5 .. len (sts (2))) = "cilius"  then
-                  if sts (3)(len (sts (3)) - 6 .. len (sts (3))) /= "cillime" then
-                     prob ("    EXPECTED  'cil' ADV  STEM 3 to end in 'cillime'");
+                  if sts (3)(len (sts (3)) - 6 ..
+                             len (sts (3))) /= "cillime"
+                  then
+                     prob (
+                       "    EXPECTED  'cil' ADV  STEM 3 to end in 'cillime'");
                   end if;
-               elsif sts (2)(len (sts (2)) - 5 .. len (sts (2))) = "milius"  then
-                  if sts (3)(len (sts (3)) - 6 .. len (sts (3))) /= "millime" then
-                     prob ("    EXPECTED  'mil' ADV  STEM 3 to end in 'millime'");
+               elsif sts (2)(len (sts (2)) - 5 ..
+                             len (sts (2))) = "milius"
+               then
+                  if sts (3)(len (sts (3)) - 6 ..
+                             len (sts (3))) /= "millime"
+                  then
+                     prob (
+                       "    EXPECTED  'mil' ADV  STEM 3 to end in 'millime'");
                   end if;
                elsif sts (2)(len (sts (2)) - 3 .. len (sts (2))) = "rius" then
                   if sts (3)(len (sts (3)) - 4 .. len (sts (3))) /= "rrime" then
                      prob ("    EXPECTED  'r' ADV  STEM 3 to end in 'rrime'");
                   end if;
-               elsif sts (3)(len (sts (3)) - 5 .. len (sts (3))) /= "issime"  then
+               elsif sts (3)(len (sts (3)) - 5 ..
+                             len (sts (3))) /= "issime" then
                   prob ("    EXPECTED  ADV  STEM 3 to end in 'issime'");
                end if;
             end if;
@@ -662,17 +672,30 @@ procedure check is
               sts (3) /= zzz_stem  and then sts (4) /= zzz_stem)  then
                if len (sts (1)) >= 4                           and then
                  (sts (3)(len (sts (3)) - 1 .. len (sts (3))) = "ec")     then
-                  if (sts (1)(len (sts (1)) - 3 .. len (sts (1))) = "faci")  and then
-                    ((sts (2)(1 .. len (sts (2))) /= sts (1)(1 .. len (sts (1)) - 4) & "fac") or
-                    (sts (3)(1 .. len (sts (3))) /= sts (1)(1 .. len (sts (1)) - 4) & "fec") or
-                    (sts (4)(1 .. len (sts (4))) /= sts (1)(1 .. len (sts (1)) - 4) & "fact")) then
-                     prob ("    EXPECTED  (3, 1) 3/4  feci, fec, fec, fact  VERB STEMS");
+                  if (sts (1)(len (sts (1)) - 3 .. len (sts (1))) = "faci")
+                    and then
+                    ((sts (2)(1 .. len (sts (2))) /=
+                      sts (1)(1 .. len (sts (1)) - 4) & "fac") or
+                     (sts (3)(1 .. len (sts (3))) /=
+                      sts (1)(1 .. len (sts (1)) - 4) & "fec") or
+                     (sts (4)(1 .. len (sts (4))) /=
+                      sts (1)(1 .. len (sts (1)) - 4) & "fact"))
+                  then
+                     prob (
+                       "    EXPECTED  (3, 1) 3/4  feci, fec, fec, fact" &
+                       "  VERB STEMS");
                   end if;
-                  if (sts (1)(len (sts (1)) - 3 .. len (sts (1))) = "fici")  and then
-                    ((sts (2)(1 .. len (sts (2))) /= sts (1)(1 .. len (sts (1)) - 4) & "fic") or
-                    (sts (3)(1 .. len (sts (3))) /= sts (1)(1 .. len (sts (1)) - 4) & "fec") or
-                    (sts (4)(1 .. len (sts (4))) /= sts (1)(1 .. len (sts (1)) - 4) & "fect")) then
-                     prob ("    EXPECTED  (3, 1) 3/4  fici, fic, fec, fect  VERB STEMS");
+                  if (sts (1)(len (sts (1)) - 3 .. len (sts (1))) = "fici")
+                    and then
+                    ((sts (2)(1 .. len (sts (2))) /=
+                      sts (1)(1 .. len (sts (1)) - 4) & "fic") or
+                     (sts (3)(1 .. len (sts (3))) /=
+                      sts (1)(1 .. len (sts (1)) - 4) & "fec") or
+                     (sts (4)(1 .. len (sts (4))) /=
+                      sts (1)(1 .. len (sts (1)) - 4) & "fect"))
+                  then
+                     prob ("    EXPECTED  (3, 1) 3/4  fici, fic, fec, fect" &
+                       "  VERB STEMS");
                   end if;
                end if;
             elsif pt.v.con  = (3, 1)  and then
@@ -680,28 +703,35 @@ procedure check is
                if len (sts (3)) >= 3                           and then
                  (sts (3)(len (sts (3)) .. len (sts (3))) = "x")     then
                   if sts (3)(len (sts (3)) - 1 .. len (sts (3))) = "nx"   then
-                     if not ((sts (4)(len (sts (4)) - 2 .. len (sts (4))) = "nct"   and
-                       sts (3)(1 .. len (sts (3)) - 1) = sts (4)(1 .. len (sts (4)) - 3))  or
+                     if not ((sts (4)(len (sts (4)) - 2 .. len (sts (4))) =
+                       "nct"   and
+                       sts (3)(1 .. len (sts (3)) - 1) =
+                       sts (4)(1 .. len (sts (4)) - 3))  or
                        (sts (4)(len (sts (4)) - 1 .. len (sts (4))) = "ct"   and
-                       sts (3)(1 .. len (sts (3)) - 1) = sts (4)(1 .. len (sts (4)) - 3))) then
-                        prob ("    EXPECTED  (3, 1) 3/4  nx -> (n)ct   VERB STEMS");
+                       sts (3)(1 .. len (sts (3)) - 1) =
+                       sts (4)(1 .. len (sts (4)) - 3))) then
+                        prob ("    EXPECTED  (3, 1) 3/4  nx -> (n)ct" &
+                          "   VERB STEMS");
                      end if;
-                  elsif sts (3)(len (sts (3)) - 2 .. len (sts (3))) = "fix"   then
+                  elsif sts (3)(len (sts (3)) - 2 .. len (sts (3))) = "fix" then
                      if sts (3)(1 .. len (sts (3)))  /=
                         sts (4)(1 .. len (sts (4)))  then
-                        prob ("    EXPECTED  (3, 1) 3/4  fix -> fix  VERB STEMS");
+                        prob (
+                          "    EXPECTED  (3, 1) 3/4  fix -> fix  VERB STEMS");
                      end if;
                   elsif len (sts (3)) >= 4                           and then
                     sts (3)(len (sts (3)) - 3 .. len (sts (3))) = "flex"   then
                      if sts (3)(1 .. len (sts (3)))  /=
                         sts (4)(1 .. len (sts (4)))  then
-                        prob ("    EXPECTED  (3, 1) 3/4  flex -> flex  VERB STEMS");
+                        prob (
+                          "    EXPECTED  (3, 1) 3/4  flex -> flex  VERB STEMS");
                      end if;
                   elsif len (sts (3)) >= 4                           and then
                     sts (3)(len (sts (3)) - 3 .. len (sts (3))) = "flux"   then
                      if sts (3)(1 .. len (sts (3)))  /=
                         sts (4)(1 .. len (sts (4)))  then
-                        prob ("    EXPECTED  (3, 1) 3/4  flux -> flux  VERB STEMS");
+                        prob ("    EXPECTED  (3, 1) 3/4  flux -> flux" &
+                          "  VERB STEMS");
                      end if;
                   elsif sts (4)(len (sts (4)) - 1 .. len (sts (4))) /= "ct"   or
                     (sts (3)(1 .. len (sts (3)) - 1)  /=
