@@ -828,13 +828,13 @@ begin
    put (output, "Number of errors  = ");
    put (output, number); new_line (output);
    put (output, "Ratio             = 1 : ");
-   put (output, line_number/number); new_line (output);
+   put (output, line_number / number); new_line (output);
    close (output);
 
    new_line;
    put ("Number of entries = "); put (line_number); new_line;
    put ("Number of errors  = "); put (number); new_line;
-   put ("Ratio             = 1 :"); put (line_number/number); new_line;
+   put ("Ratio             = 1 :"); put (line_number / number); new_line;
 
 exception
    when name_error  =>
