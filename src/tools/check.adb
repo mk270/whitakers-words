@@ -29,8 +29,9 @@ procedure check is
    input, output : File_Type;
    de : Dictionary_Entry;
 
-   s, line, oldline, blank_line : String (1 .. 400) := (others => ' ');
-   j, l, ll, last : Integer := 0;
+   s : String (1 .. 400) := (others => ' ');
+   blank_line : constant String (1 .. 400) := (others => ' ');
+   ll, last : Integer := 0;
 
    line_number : Integer := 0;
    number : Integer := 0;
@@ -93,10 +94,10 @@ procedure check is
       return l;
    end len;
 
-   procedure verify_Stems is
-      sts : Stems_Type := de.Stems;
-      pt  : Part_Entry := de.Part;
-      mean : Meaning_Type := de.Mean;
+   procedure Verify_Stems is
+      sts : constant Stems_Type := de.Stems;
+      pt  : constant Part_Entry := de.Part;
+      --Mean : Meaning_Type := de.Mean;
 
       procedure prob (message : String) is
       begin
@@ -345,7 +346,7 @@ procedure check is
 
          --  Can only check consistency if more than one stem,
          --    CO /= COMP | SUPER
-         if (pt.Adj.Co = Pos or pt.Adj.Co = x)  and
+         if (pt.Adj.Co = Pos or pt.Adj.Co = X)  and
            (pt.Adj.Decl /= (9, 9)   and
            pt.Adj.Decl /= (9, 8))        then
 
@@ -425,7 +426,7 @@ procedure check is
          end if;
 
          --  Check that there are more than two stems if X
-         if pt.Adj.Co = x    then
+         if pt.Adj.Co = X    then
             if sts (3) = Null_Stem_Type  or
               sts (4) = Null_Stem_Type     then
                prob ("    EXPECTED  4  X  ADJ  STEMS");
@@ -433,7 +434,7 @@ procedure check is
          end if;
 
          --  Check that COMP ends in i, mostly
-         if pt.Adj.Co = x   then
+         if pt.Adj.Co = X   then
             if sts (3) /= Null_Stem_Type  and
                sts (3) /= ZZZ_Stem
             then
@@ -448,7 +449,7 @@ procedure check is
          end if;
 
          --  Check that SUPER ends in issi, mostly
-         if pt.Adj.Co = x    then
+         if pt.Adj.Co = X    then
             if ((len (sts (3)) > 3) and  (len (sts (4)) > 4))    and then
               ((sts (3) /= Null_Stem_Type  and
               sts (3) /= ZZZ_Stem)    and then
@@ -481,27 +482,27 @@ procedure check is
          end if;
 
          --  Check that COMP and SUPER are (0, 0)
-         if ((pt.Adj.Co = comp) or
-           (pt.Adj.Co = super))     and then
+         if ((pt.Adj.Co = Comp) or
+           (pt.Adj.Co = Super))     and then
            (pt.Adj.Decl /= (0, 0))         then
             prob ("    EXPECTED  ADJ  COMP/SUPER to be (0, 0)");
          end if;
 
          --  Check that COMP and SUPER have only one stem
-         if ((pt.Adj.Co = comp) or
-           (pt.Adj.Co = super))     and then
+         if ((pt.Adj.Co = Comp) or
+           (pt.Adj.Co = Super))     and then
            (sts (2) /= Null_Stem_Type)         then
             prob ("    EXPECTED  ADJ  COMP/SUPER to have only one stem");
          end if;
 
-      elsif pt.pofs = adv  then
+      elsif pt.pofs = Adv  then
 
          --  Can only check consistency if more than one stem,
          --    CO /= COMP | SUPER
-         if pt.adv.co = Pos or pt.adv.co = x  then
+         if pt.Adv.Co = Pos or pt.Adv.Co = X  then
 
             --  Check that there are two and only two stems if POS
-            if pt.adv.co = Pos     then
+            if pt.Adv.Co = Pos     then
                if sts (2) /= Null_Stem_Type  or
                   sts (3) /= Null_Stem_Type     then
                   prob ("    EXPECTED  exactly 1  POS ADV  STEM ");
@@ -509,7 +510,7 @@ procedure check is
             end if;
 
             --  Check that there are more than two stems if X
-            if pt.adv.co = x   then
+            if pt.Adv.Co = X   then
                if sts (2) = Null_Stem_Type  or
                   sts (3) = Null_Stem_Type     then
                   prob ("    EXPECTED  3  X  ADV  STEMS");
@@ -519,7 +520,7 @@ procedure check is
          end if;
 
          --  Check that COMP  ends in ius, mostly
-         if pt.adv.co = x        then
+         if pt.Adv.Co = X        then
             if (sts (2) /= Null_Stem_Type  and
               sts (2) /= ZZZ_Stem)     and then
               (sts (2)(len (sts (2)) - 2 .. len (sts (2))) /= "ius")  then
@@ -528,7 +529,7 @@ procedure check is
          end if;
 
          --  Check that SUPER ends in ime, mostly
-         if pt.adv.co = x        then
+         if pt.Adv.Co = X        then
             if (sts (3) /= Null_Stem_Type  and
               sts (3) /= ZZZ_Stem)     and then
               (sts (3)(len (sts (3)) - 2 .. len (sts (3))) /= "ime")  then
@@ -537,7 +538,7 @@ procedure check is
          end if;
 
          --  Check that SUPER ends in issime, mostly
-         if pt.adv.co = x      then
+         if pt.Adv.Co = X      then
             if ((len (sts (2)) > 4) and  (len (sts (3)) > 6))    and then
               ((sts (2) /= Null_Stem_Type  and
               sts (2) /= ZZZ_Stem)    and then
@@ -570,10 +571,10 @@ procedure check is
             end if;
          end if;
 
-      elsif pt.pofs = v  then
+      elsif pt.pofs = V  then
 
          --  Check that V 9 9 has ony one stem
-         if pt.v.con = (9, 9)    then
+         if pt.V.Con = (9, 9)    then
             if sts (2) /= Null_Stem_Type  or
                sts (3) /= Null_Stem_Type  or
                sts (4) /= Null_Stem_Type     then
@@ -589,31 +590,31 @@ procedure check is
 
             --  Check to see no third verb stem has lingering 'i'
             if (sts (3)(len (sts (3)))  =  'i')  and
-              (pt.v.con /= (6, 1))  then
+              (pt.V.Con /= (6, 1))  then
                prob ("    EXPECTED VERB not to have -i 3rd stem");
             end if;
 
             --  Check that the stems are the same when expected
-            if pt.v.con.which < 5  and  sts (1)(1 .. 3) /= "zzz"   then
-               if pt.v.con  /= (3, 1) and
-                  pt.v.con  /= (3, 2) and
-                  pt.v.con  /= (3, 4)   then
+            if pt.V.Con.Which < 5  and  sts (1)(1 .. 3) /= "zzz"   then
+               if pt.V.Con  /= (3, 1) and
+                  pt.V.Con  /= (3, 2) and
+                  pt.V.Con  /= (3, 4)   then
                   if sts (1) /= sts (2)  then
                      prob ("    EXPECTED IDENTICAL VERB 1 & 2 STEMS");
                   end if;
-               elsif pt.v.con.which  = 2 and then
+               elsif pt.V.Con.Which  = 2 and then
                  (sts (1)(len (sts (1)))  =  'e')  then
                   prob ("    EXPECTED (2, X) not to have -e 1st stem");
-               elsif pt.v.con  = (3, 1) and then
+               elsif pt.V.Con  = (3, 1) and then
                  sts (1) /= sts (2)  and then
                  (sts (1)(1 .. len (sts (1)))  /=
                  sts (2)(1 .. len (sts (2))) & 'i')  then
                   prob ("    EXPECTED (3, 1) i-stem  VERB  STEMS");
-               elsif pt.v.con  = (3, 4) and then
+               elsif pt.V.Con  = (3, 4) and then
                  (sts (1)(1 .. len (sts (1)))  /=
                  sts (2)(1 .. len (sts (2))) & 'i')  then
                   prob ("    EXPECTED (3, 4) i-stem  VERB  STEMS");
-               elsif pt.v.con  = (3, 2)  then
+               elsif pt.V.Con  = (3, 2)  then
                   if ((sts (1)(len (sts (1)) - 2 .. len (sts (1)))  /=  "fer")
                     or
                     (sts (2)(len (sts (2)) - 3 .. len (sts (2)))  /=  "ferr"))
@@ -627,7 +628,7 @@ procedure check is
             end if;
 
             --  Check that the last 2 verb stems progress as expected
-            if pt.v.con  = (1, 1)   and then
+            if pt.V.Con  = (1, 1)   and then
               (sts (3) /= ZZZ_Stem and  sts (4) /= ZZZ_Stem)  then
 
                if len (sts (3)) >= 3                           and then
@@ -667,7 +668,7 @@ procedure check is
 
             end if;
 
-            if pt.v.con  = (3, 1)   and then
+            if pt.V.Con  = (3, 1)   and then
               (sts (1) /= ZZZ_Stem  and then sts (2) /= ZZZ_Stem  and then
               sts (3) /= ZZZ_Stem  and then sts (4) /= ZZZ_Stem)  then
                if len (sts (1)) >= 4                           and then
@@ -698,7 +699,7 @@ procedure check is
                        "  VERB STEMS");
                   end if;
                end if;
-            elsif pt.v.con  = (3, 1)  and then
+            elsif pt.V.Con  = (3, 1)  and then
               sts (4) /= ZZZ_Stem  then
                if len (sts (3)) >= 3                           and then
                  (sts (3)(len (sts (3)) .. len (sts (3))) = "x")     then
@@ -742,14 +743,14 @@ procedure check is
             end if;
 
             --  Check DEP has no third stem
-            if de.Part.v.kind = dep  and then
+            if de.Part.V.Kind = Dep  and then
               sts (3)(1 .. 3) /= "zzz"         then
                prob ("    EXPECTED  3 = zzz  DEPON VERB STEMS");
             end if;
 
          end if;  -- V
 
-      elsif pt.pofs = num  then
+      elsif pt.pofs = Num  then
          null;
 
       else
@@ -759,7 +760,7 @@ procedure check is
       end if;
 
       --  Catch others
-      if (pt.pofs = n)  or
+      if (pt.pofs = N)  or
         (pt.pofs = Adj)  then
          if len (sts (1)) >= 3                           and then
            sts (1)(len (sts (1)) .. len (sts (1))) = "u"  and then
@@ -773,8 +774,8 @@ procedure check is
          end if;
       end if;
 
-      if (pt.pofs = v)  and then
-        (pt.v.con = (2, 1))  then
+      if (pt.pofs = V)  and then
+        (pt.V.Con = (2, 1))  then
          if (len (sts (1)) >= 3)                           and then
            (sts (1)(len (sts (1)) - 1 .. len (sts (1))) = "pl")  and then
            (sts (3)(len (sts (3)) - 1 .. len (sts (3))) /= "ev")    then
@@ -791,19 +792,19 @@ procedure check is
            "VERIFY_STEMS exception        !!!!!!!!!!!!!!!!!!     " & sts (1));
          Put_Line (output, s (1 .. last));
          --CLOSE (OUTPUT);
-   end verify_stems;
+   end Verify_Stems;
 
 begin
    Put_Line ("Takes a DICTLINE form named CHECK.IN, " &
      "analyzes for possible errors, and");
    Put_Line ("produces a report CHECK.OUT - " &
      "Remember to process CHECK.OUT from end");
-   create (output, out_file, "CHECK.OUT");
-   open (input, in_file, "CHECK.IN");
+   Create (output, Out_File, "CHECK.OUT");
+   Open (input, In_File, "CHECK.IN");
 
-   while not end_of_file (input) loop
+   while not End_Of_File (input) loop
       s := blank_line;
-      get_line (input, s, last);
+      Get_Line (input, s, last);
       --PUT_LINE (S (1 .. LAST));
       line_number := line_number + 1;
       begin
@@ -833,57 +834,57 @@ begin
             Put_Line (output, s (1 .. last));
          end if;
 
-         de.Stems (1) := s (1 .. max_stem_size);
-         de.Stems (2) := s (max_stem_size + 2 .. 2*max_stem_size + 1);
-         de.Stems (3) := s (2*max_stem_size + 3 .. 3*max_stem_size + 2);
-         de.Stems (4) := s (3*max_stem_size + 4 .. 4*max_stem_size + 3);
+         de.Stems (1) := s (1 .. Max_Stem_Size);
+         de.Stems (2) := s (Max_Stem_Size + 2 .. 2*Max_Stem_Size + 1);
+         de.Stems (3) := s (2*Max_Stem_Size + 3 .. 3*Max_Stem_Size + 2);
+         de.Stems (4) := s (3*Max_Stem_Size + 4 .. 4*Max_Stem_Size + 3);
 
-         for i in stem_key_type range 1 .. 4  loop
+         for i in Stem_Key_Type range 1 .. 4  loop
             if has_punctuation (de.Stems (i))  then
                Put (output, "LINE"); Put (output, line_number);
                Put_Line (output, "   Offset or Punctuation in line      ");
-               Put_Line (output, s (1 .. 4*max_stem_size + 3));
+               Put_Line (output, s (1 .. 4*Max_Stem_Size + 3));
             end if;
          end loop;
 
-         get (s (4*max_stem_size + 5 .. last), de.Part, ll);
+         Get (s (4*Max_Stem_Size + 5 .. last), de.Part, ll);
          --GET (S (L+1 .. LAST), DE.PART.POFS, DE.PART.POFS.KIND, LL);
 
-         de.mean := s (111 .. 110+max_meaning_size);
+         de.Mean := s (111 .. 110 + Max_Meaning_Size);
 
-         verify_stems;
+         Verify_Stems;
 
       exception
          when others =>
             Put (output, "LINE"); Put (output, line_number);
             Put_Line (output, "      Exception");
             Put_Line (output, s (1 .. last));
-            Put (output, de); new_line (output);
+            Put (output, de); New_Line (output);
       end;
    end loop;
 
-   new_line (output, 3);
+   New_Line (output, 3);
    Put (output, "Number of entries = ");
-   Put (output, line_number); new_line (output);
+   Put (output, line_number); New_Line (output);
    Put (output, "Number of errors  = ");
-   Put (output, number); new_line (output);
+   Put (output, number); New_Line (output);
    Put (output, "Ratio             = 1 : ");
-   Put (output, line_number / number); new_line (output);
-   close (output);
+   Put (output, line_number / number); New_Line (output);
+   Close (output);
 
-   new_line;
-   Put ("Number of entries = "); Put (line_number); new_line;
-   Put ("Number of errors  = "); Put (number); new_line;
-   Put ("Ratio             = 1 :"); Put (line_number / number); new_line;
+   New_Line;
+   Put ("Number of entries = "); Put (line_number); New_Line;
+   Put ("Number of errors  = "); Put (number); New_Line;
+   Put ("Ratio             = 1 :"); Put (line_number / number); New_Line;
 
 exception
-   when name_error  =>
+   when Name_Error  =>
       Put_Line ("No CHECK.IN file to process");
-      close (output);
+      Close (output);
 
    when others =>
-      Put ("Exception on LINE"); Put (line_number); new_line;
+      Put ("Exception on LINE"); Put (line_number); New_Line;
       Put_Line (s (1 .. last));
-      close (output);
+      Close (output);
 
 end check;
