@@ -51,11 +51,11 @@ procedure check is
    function has_punctuation (s : string) return boolean is
       j : integer := 0;
    begin
-      for i in reverse s'range  loop
+      for i in reverse s'Range  loop
          j := i;
          exit when s (i) /= ' ';
       end loop;
-      for i in s'first .. j - 1  loop
+      for i in s'First .. j - 1  loop
          if lower_case (s (i)) not in 'a' .. 'z'  then
             return true;
          end if;
@@ -86,7 +86,7 @@ procedure check is
    function len (st : stem_type) return integer is
       l : integer := 0;
    begin
-      for i in st'range  loop
+      for i in st'Range  loop
          exit when st (i) = ' ';
          l := l + 1;
       end loop;
@@ -272,7 +272,7 @@ procedure check is
               (sts (1)(len (sts (1)) - 1 .. len (sts (1))) = "es"  or
               sts (1)(len (sts (1)) - 1 .. len (sts (1))) = "is")    and then
               sts (1)(1 .. len (sts (1)) - 2) = sts (2)(1 .. len (sts (2)))    then
-               if (pt.n.decl.var /= 3  and pt.n.decl.var /= 9) then
+               if pt.n.decl.var /= 3  and pt.n.decl.var /= 9 then
                   prob ("    EXPECTED  es/is I-stem (3, 3)");
                end if;
             end if;
@@ -381,11 +381,12 @@ procedure check is
             end if;
 
             if pt.adj.decl = (3, 1)   then
-               if (len (sts (1)) > len (sts (2)))    then
+               if len (sts (1)) > len (sts (2)) then
                   prob ("    EXPECTED ADJ (3, 1)  1st stem to be shorter");
                end if;
-               if (sts (1)(1 .. len (sts (1)) - 1) /=
-                 sts (2)(1 .. len (sts (1)) - 1))         then
+               if sts (1)(1 .. len (sts (1)) - 1) /=
+                 sts (2)(1 .. len (sts (1)) - 1)
+               then
                   prob ("    EXPECTED ADJ (3, 1)  stems to agree in first letters");
                end if;
             end if;
@@ -409,25 +410,26 @@ procedure check is
          --  Check that there are two and only two stems if POS
          if pt.adj.co = pos  and pt.adj.decl /= (9, 9) and
            pt.adj.decl /= (9, 8)    then
-            if (sts (3) /= null_stem_type  or
-              sts (4) /= null_stem_type)     then
+            if sts (3) /= null_stem_type  or
+              sts (4) /= null_stem_type    then
                prob ("    EXPECTED  exactly 2  POS ADJ  STEMS");
             end if;
          end if;
 
          --  Check that there are more than two stems if X
          if pt.adj.co = x    then
-            if (sts (3) = null_stem_type  or
-              sts (4) = null_stem_type)     then
+            if sts (3) = null_stem_type  or
+              sts (4) = null_stem_type     then
                prob ("    EXPECTED  4  X  ADJ  STEMS");
             end if;
          end if;
 
          --  Check that COMP ends in i, mostly
          if pt.adj.co = x   then
-            if (sts (3) /= null_stem_type  and
-              sts (3) /= zzz_stem)      then
-               if (sts (3)(len (sts (3))) /= 'i')  then
+            if sts (3) /= null_stem_type  and
+               sts (3) /= zzz_stem
+            then
+               if sts (3)(len (sts (3))) /= 'i'  then
                   prob ("    EXPECTED  ADJ  STEM 3 to end in 'i'");
                elsif sts (3)(1 .. len (sts (3)) - 1) /= sts (2)(1 .. len (sts (2)))  then
                   prob ("    EXPECTED  ADJ  STEM 3  = STEM 2 & 'i'");
@@ -442,7 +444,7 @@ procedure check is
               sts (3) /= zzz_stem)    and then
               (sts (4) /= null_stem_type  and
               sts (4) /= zzz_stem))     then
-               if (sts (3)(len (sts (3)) - 3 .. len (sts (3))) = "cili")  then
+               if sts (3)(len (sts (3)) - 3 .. len (sts (3))) = "cili"  then
                   if (sts (4)(len (sts (4)) - 4 .. len (sts (4))) /= "cilli") then
                      prob ("    EXPECTED  'cil' ADJ  STEM 4 to end in 'cilli'");
                   end if;
@@ -629,7 +631,8 @@ procedure check is
                     sts (4)(1 .. len (sts (4)) - 4))  then
                      prob ("    EXPECTED  (1, 1) 3/4 onu -> onit VERB STEMS");
                   end if;
-               elsif (sts (1)(len (sts (1)) - 1 .. len (sts (1))) = "st")  then  --  sto bad
+               elsif sts (1)(len (sts (1)) - 1 .. len (sts (1))) = "st"
+               then  --  sto bad
                   prob ("           V  (1, 1) 'st' verb  ???? VERB STEMS");
                else
                   prob ("    EXPECTED  (1, 1) 3/4 regular     VERB STEMS");
@@ -667,20 +670,20 @@ procedure check is
                         prob ("    EXPECTED  (3, 1) 3/4  nx -> (n)ct   VERB STEMS");
                      end if;
                   elsif sts (3)(len (sts (3)) - 2 .. len (sts (3))) = "fix"   then
-                     if (sts (3)(1 .. len (sts (3)))  /=
-                       sts (4)(1 .. len (sts (4))))  then
+                     if sts (3)(1 .. len (sts (3)))  /=
+                        sts (4)(1 .. len (sts (4)))  then
                         prob ("    EXPECTED  (3, 1) 3/4  fix -> fix  VERB STEMS");
                      end if;
                   elsif len (sts (3)) >= 4                           and then
                     sts (3)(len (sts (3)) - 3 .. len (sts (3))) = "flex"   then
-                     if (sts (3)(1 .. len (sts (3)))  /=
-                       sts (4)(1 .. len (sts (4))))  then
+                     if sts (3)(1 .. len (sts (3)))  /=
+                        sts (4)(1 .. len (sts (4)))  then
                         prob ("    EXPECTED  (3, 1) 3/4  flex -> flex  VERB STEMS");
                      end if;
                   elsif len (sts (3)) >= 4                           and then
                     sts (3)(len (sts (3)) - 3 .. len (sts (3))) = "flux"   then
-                     if (sts (3)(1 .. len (sts (3)))  /=
-                       sts (4)(1 .. len (sts (4))))  then
+                     if sts (3)(1 .. len (sts (3)))  /=
+                        sts (4)(1 .. len (sts (4)))  then
                         prob ("    EXPECTED  (3, 1) 3/4  flux -> flux  VERB STEMS");
                      end if;
                   elsif sts (4)(len (sts (4)) - 1 .. len (sts (4))) /= "ct"   or
@@ -772,7 +775,7 @@ begin
             put_line (output, s (1 .. last));
          end if;
 
-         if (last > 190 and then s (191) /= ' ')  then
+         if last > 190 and then s (191) /= ' ' then
             number := number + 1;
             put (output, "LINE"); put (output, line_number);
             put_line (output, "      LINE is too long");
