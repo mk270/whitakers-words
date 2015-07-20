@@ -14,15 +14,15 @@
 -- All parts of the WORDS system, source code and data files, are made freely
 -- available to anyone who wishes to use them, for whatever purpose.
 
-with ada.Text_IO;
+with Ada.Text_IO;
 procedure patch is
-   package Integer_IO is new ada.Text_IO.Integer_IO (Integer);
-   use ada.Text_IO;
+   package Integer_IO is new Ada.Text_IO.Integer_IO (Integer);
+   use Ada.Text_IO;
    use Integer_IO;
 
    f1, f2, f3  : File_Type;
    f           : String (1 .. 100);
-   blanks      : String (1 .. 250) := (others => ' ');
+   blanks      : constant String (1 .. 250) := (others => ' ');
    s, t        : String (1 .. 250) := blanks;
    l           : Integer := 0;
    n           : Integer := 0;
@@ -32,30 +32,30 @@ begin
    Put_Line ("as columns with N blanks between");
    Put_Line ("Does this while there are corresponding lines in both files");
 
-   put ("What is first file to PATCH from =>");
+   Put ("What is first file to PATCH from =>");
    Get_Line (f, l);
-   put ("=> ");
+   Put ("=> ");
    Open (f1, In_File, f (1 .. l));
    Put_Line ("Opened first input file");
 
-   put ("What is second file to PATCH from =>");
+   Put ("What is second file to PATCH from =>");
    Get_Line (f, l);
-   put ("=> ");
+   Put ("=> ");
    Open (f2, In_File, f (1 .. l));
    Put_Line ("Opened second input file");
 
-   put ("How many blank columns to leave between =>");
+   Put ("How many blank columns to leave between =>");
    Get (n);
-   skip_line;
+   Skip_Line;
    New_Line;
 
-   put ("Where to put the resulting PATCHed file =>");
+   Put ("Where to put the resulting PATCHed file =>");
    Get_Line (f, l);
-   put ("=> ");
+   Put ("=> ");
    Create (f3, Out_File, f (1 .. l));
    Put_Line ("Created PATCHed output file");
 
-   while (not End_Of_File (f1) and not End_Of_File (f2)) loop
+   while not End_Of_File (f1) and not End_Of_File (f2) loop
       Get_Line (f1, s, ls);
       Get_Line (f2, t, lt);
       Put_Line (f3, s (1 .. ls) & blanks (1 .. n) & t (1 .. lt));

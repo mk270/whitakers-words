@@ -7,32 +7,32 @@
 -- there is no charge. However, just for form, it is Copyrighted
 -- (c). Permission is hereby freely given for any and all use of program
 -- and data. You can sell it as your own, but at least tell me.
--- 
+--
 -- This version is distributed without obligation, but the developer
 -- would appreciate comments and suggestions.
--- 
+--
 -- All parts of the WORDS system, source code and data files, are made freely
 -- available to anyone who wishes to use them, for whatever purpose.
 
-with ada.Text_IO;
+with Ada.Text_IO;
 procedure slash is
-   package Integer_IO is new ada.Text_IO.Integer_IO (Integer);
-   use ada.Text_IO;
+   package Integer_IO is new Ada.Text_IO.Integer_IO (Integer);
+   use Ada.Text_IO;
    use Integer_IO;
 
    f1, f2, f3  : File_Type;
    f           : String (1 .. 100);
    s           : String (1 .. 2500);
-   bs          : String (1 .. 2500) := (others => ' ');
+   bs          : constant String (1 .. 2500) := (others => ' ');
    n           : Integer := 0;
    l           : Integer := 0;
    ls          : Integer := 0;
 
    type reply_type is (columns, lines);
    reply : reply_type;
-   reply_character : character;
+   reply_Character : Character;
 
-   function which (r : character) return reply_type is
+   function which (r : Character) return reply_type is
    begin
       case r is
          when 'C' | 'c'  =>  return columns;
@@ -45,32 +45,32 @@ procedure slash is
 begin
    Put_Line ("Breaks a file into two, by row or column.");
 
-   put ("What file to SLASH from =>");
+   Put ("What file to SLASH from =>");
    Get_Line (f, l);
-   put ("=> ");
+   Put ("=> ");
    Open (f1, In_File, f (1 .. l));
    Put_Line ("Opened input file");
 
-   put ("Do you wish to SLASH C)olumns or L)ines? =>");
-   Get (reply_character);
-   skip_line;
-   reply := which (reply_character);
+   Put ("Do you wish to SLASH C)olumns or L)ines? =>");
+   Get (reply_Character);
+   Skip_Line;
+   reply := which (reply_Character);
    New_Line;
 
-   put ("How many lines/columns to leave after SLASHing =>");
+   Put ("How many lines/columns to leave after SLASHing =>");
    Get (n);
-   skip_line;
+   Skip_Line;
    New_Line;
 
-   put ("Where to put the first  =>");
+   Put ("Where to put the first  =>");
    Get_Line (f, l);
-   put ("=> ");
+   Put ("=> ");
    Create (f2, Out_File, f (1 .. l));
    Put_Line ("Created SLASH file first");
 
-   put ("Where to put the rest  =>");
+   Put ("Where to put the rest  =>");
    Get_Line (f, l);
-   put ("=> ");
+   Put ("=> ");
    Create (f3, Out_File, f (1 .. l));
    Put_Line ("Created SLASH file rest");
 
@@ -81,7 +81,7 @@ begin
          Get_Line (f1, s, ls);
          if ls <= n then            --  Line shorter than break
             Put_Line (f2, s (1 .. ls));
-            Put_Line (f3, "");       --  Put a blank line so there will be a line
+            Put_Line (f3, "");      --  Put a blank line so there will be a line
          else                       --  Line runs past break
             Put_Line (f2, s (1 .. n));
             Put_Line (f3, s (n + 1 .. ls));
@@ -92,28 +92,28 @@ begin
 
    elsif reply = lines  then
 
-  first:
+      First :
       begin
          for i in 1 .. n loop
             Get_Line (f1, s, ls);
             Put_Line (f2, s (1 .. ls));
          end loop;
       exception
-         when end_error  =>
+         when End_Error  =>
             null;
-      end first;
+      end First;
       Close (f2);
 
-  second:
+      Second :
       begin
          loop
             Get_Line (f1, s, ls);
             Put_Line (f3, s (1 .. ls));
          end loop;
       exception
-         when end_error  =>
+         when End_Error  =>
             null;
-      end second;
+      end Second;
       Close (f3);
 
    end if;
