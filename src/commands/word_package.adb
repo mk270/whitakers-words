@@ -1237,7 +1237,7 @@ package body word_package is
                         pa_last := pa_last + 1;
                         --  So add prefix line to parse array
                         pa (pa_last).IR :=
-                          ((Prefix, null_prefix_record), 0,
+                          ((Prefix, Null_Prefix_Record), 0,
                           null_ending_record, x, x);
                         pa (pa_last).Stem :=
                           Head (prefixes (i).fix, Max_Stem_Size);
@@ -1297,7 +1297,7 @@ package body word_package is
                      pa_last := pa_last + 1;
                      --  So add suffix line to parse array
                      pa (pa_last).IR :=
-                       ((Suffix, null_suffix_record),
+                       ((Suffix, Null_Suffix_Record),
                        0, null_ending_record, x, x);
                      pa (pa_last).Stem :=
                        Head (suffixes (suffix_hit).fix, Max_Stem_Size);
@@ -1323,7 +1323,7 @@ package body word_package is
                      pa_last := pa_last + 1;
                      --  So add suffix line to parse array
                      pa (pa_last).IR :=
-                       ((Suffix, null_suffix_record),
+                       ((Suffix, Null_Suffix_Record),
                        0, null_ending_record, x, x);
                      pa (pa_last).Stem := Head
                        (suffixes (suffix_hit).fix, Max_Stem_Size);
@@ -1537,7 +1537,7 @@ package body word_package is
                               if packon_first_hit then
                                  pa_last := pa_last + 1;
                                  pa (pa_last) := (packons (k).tack,
-                                   ((Tackon, null_tackon_record), 0,
+                                   ((Tackon, Null_Tackon_Record), 0,
                                    null_ending_record, x, x),
                                    addons,
                                    Dict_IO.Count ((packons (k).MNPC)));
@@ -1776,7 +1776,7 @@ package body word_package is
                         pa (entering_pa_last + 2 .. pa_last) :=
                           pa (entering_pa_last + 1 .. pa_last - 1);
                         pa (entering_pa_last + 1) := (tackons (i).tack,
-                          ((Tackon, null_tackon_record), 0,
+                          ((Tackon, Null_Tackon_Record), 0,
                           null_ending_record, x, x),
                           addons,
                           Dict_IO.Count ((tackons (i).MNPC)));
@@ -1825,7 +1825,7 @@ package body word_package is
                      pa_last := pa_last + 1;
                      --  So add prefix line to parse array
                      pa (pa_last).Stem := Head (tickons (i).fix, Max_Stem_Size);
-                     pa (pa_last).IR := ((Prefix, null_prefix_record),
+                     pa (pa_last).IR := ((Prefix, Null_Prefix_Record),
                        0, null_ending_record, x, x);
                      pa (pa_last).D_K  := addons;
                      pa (pa_last).MNPC := Dict_IO.Count (tickons (i).MNPC);

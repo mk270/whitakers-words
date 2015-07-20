@@ -604,75 +604,96 @@ package Latin_Utils.Inflections_Package is
 
    ---------------------------------------------------------------------------
 
-   type interjection_record is
-      record
-         null;
-      end record;
+   type Interjection_Record is null record;
 
-   package interjection_record_io is
+   -- FIXME: These subprograms don't check if Is_Open (File)
+   package Interjection_Record_IO is
+      -- FIXME: This probably should be constant.
       Default_Width : Natural;
-      procedure Get (f : in File_Type; i : out interjection_record);
-      procedure Get (i : out interjection_record);
-      procedure Put (f : in File_Type; i : in interjection_record);
-      procedure Put (i : in interjection_record);
-      procedure Get (s : in String;
-                     i : out interjection_record;
-                     last : out Integer);
-      procedure Put (s : out String; i : in interjection_record);
-   end interjection_record_io;
+      procedure Get (File : in  File_Type; Item : out Interjection_Record);
+      procedure Get (Item : out Interjection_Record);
+      procedure Put (File : in  File_Type; Item : in  Interjection_Record);
+      procedure Put (Item : in  Interjection_Record);
+      -- TODO: Document meaning of Last
+      procedure Get
+         (Source : in  String;
+          Target : out Interjection_Record;
+          Last   : out Integer
+         );
+      procedure Put (Target : out String; Item : in Interjection_Record);
+   end Interjection_Record_IO;
 
-   --  TACKON, PREFIX, SUFFIX are nulls Put in to allow easy printing later
+   ---------------------------------------------------------------------------
+   -- NOTE: TACKON, PREFIX, SUFFIX are nulls Put in to allow easy printing later
 
-   type tackon_record is
-      record
-         null;
-      end record;
+   type Tackon_Record is null record;
 
-   null_tackon_record : tackon_record;
+   Null_Tackon_Record : constant Tackon_Record := (null record);
 
-   package tackon_record_io is
+   -- FIXME: These subprograms don't check if Is_Open (File)
+   package Tackon_Record_IO is
+      -- FIXME: This probably should be constant.
       Default_Width : Natural;
-      procedure Get (f : in File_Type; i : out tackon_record);
-      procedure Get (i : out tackon_record);
-      procedure Put (f : in File_Type; i : in tackon_record);
-      procedure Put (i : in tackon_record);
-      procedure Get (s : in String; i : out tackon_record; last : out Integer);
-      procedure Put (s : out String; i : in tackon_record);
-   end tackon_record_io;
+      procedure Get (File : in  File_Type; Item : out Tackon_Record);
+      procedure Get (Item : out Tackon_Record);
+      procedure Put (File : in  File_Type; Item : in  Tackon_Record);
+      procedure Put (Item : in  Tackon_Record);
+      -- TODO: Document meaning of Last
+      procedure Get
+         (Source : in  String;
+          Target : out Tackon_Record;
+          Last   : out Integer
+         );
+      procedure Put (Target : out String; Item : in Tackon_Record);
+   end Tackon_Record_IO;
 
-   type prefix_record is
-      record
-         null;
-      end record;
+   ---------------------------------------------------------------------------
 
-   null_prefix_record : prefix_record;
+   type Prefix_Record is null record;
 
-   package prefix_record_io is
+   Null_Prefix_Record : constant Prefix_Record := (null record);
+
+   -- FIXME: These subprograms don't check if Is_Open (File)
+   package Prefix_Record_IO is
+      -- FIXME: This probably should be constant.
       Default_Width : Natural;
-      procedure Get (f : in File_Type; p : out prefix_record);
-      procedure Get (p : out prefix_record);
-      procedure Put (f : in File_Type; p : in prefix_record);
-      procedure Put (p : in prefix_record);
-      procedure Get (s : in String; p : out prefix_record; last : out Integer);
-      procedure Put (s : out String; p : in prefix_record);
-   end prefix_record_io;
+      procedure Get (File : in  File_Type; Item : out Prefix_Record);
+      procedure Get (Item : out Prefix_Record);
+      procedure Put (File : in  File_Type; Item : in  Prefix_Record);
+      procedure Put (Item : in  Prefix_Record);
+      -- TODO: Document meaning of Last
+      procedure Get
+         (Source : in  String;
+          Target : out Prefix_Record;
+          Last   : out Integer
+         );
+      procedure Put (Target : out String; Item : in Prefix_Record);
+   end Prefix_Record_IO;
 
-   type suffix_record is
-      record
-         null;
-      end record;
+   ---------------------------------------------------------------------------
 
-   null_suffix_record : suffix_record;
+   type Suffix_Record is null record;
 
-   package suffix_record_io is
+   Null_Suffix_Record : constant Suffix_Record := (null record);
+
+   -- FIXME: These subprograms don't check if Is_Open (File)
+   package Suffix_Record_IO is
+      -- FIXME: This probably should be constant.
       Default_Width : Natural;
-      procedure Get (f : in File_Type; p : out suffix_record);
-      procedure Get (p : out suffix_record);
-      procedure Put (f : in File_Type; p : in suffix_record);
-      procedure Put (p : in suffix_record);
-      procedure Get (s : in String; p : out suffix_record; last : out Integer);
-      procedure Put (s : out String; p : in suffix_record);
-   end suffix_record_io;
+      procedure Get (File : in  File_Type; Item : out Suffix_Record);
+      procedure Get (Item : out Suffix_Record);
+      procedure Put (File : in  File_Type; Item : in  Suffix_Record);
+      procedure Put (Item : in  Suffix_Record);
+      -- TODO: Document meaning of Last
+      procedure Get
+         (Source : in  String;
+          Target : out Suffix_Record;
+          Last   : out Integer
+         );
+      procedure Put (Target : out String; Item : in Suffix_Record);
+   end Suffix_Record_IO;
+
+   ---------------------------------------------------------------------------
 
    type quality_record (pofs : Part_Of_Speech_Type := X) is
       record
@@ -700,13 +721,13 @@ package Latin_Utils.Inflections_Package is
             when Conj =>
                Conj : Conjunction_Record;
             when Interj =>
-               Interj : interjection_record;
+               Interj : Interjection_Record;
             when Tackon =>
-               Tackon : tackon_record;
+               Tackon : Tackon_Record;
             when Prefix =>
-               Prefix : prefix_record;
+               Prefix : Prefix_Record;
             when Suffix =>
-               Suffix : suffix_record;
+               Suffix : Suffix_Record;
             when X =>
                null;
          end case;
