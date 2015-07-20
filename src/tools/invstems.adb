@@ -17,7 +17,7 @@
 with text_io; use text_io;
 with strings_package; use strings_package;
 procedure invstems is
-   line : string(1..250);
+   line : string (1..250);
    ll : integer;
    subtype stem is string (1..18);
    blank_stem : constant stem := (others => ' ');
@@ -25,42 +25,42 @@ procedure invstems is
 
    input, output : file_type;
 
-   function invert(s : string) return string is
-     t : string(s'first..s'last);
+   function invert (s : string) return string is
+      t : string (s'first..s'last);
    begin
-     if s(1) = ' '  then
-       return blank_stem;
-     else
-       for i in s'range  loop
-         t(i) := s(s'last-i+1);
-       end loop;
-       return head(trim(t), 18);
-     end if;
+      if s (1) = ' '  then
+         return blank_stem;
+      else
+         for i in s'range  loop
+            t (i) := s (s'last-i+1);
+         end loop;
+         return head (trim (t), 18);
+      end if;
    end invert;
 
 begin
-   put_line("Inverts the 4 stems of a DICTLINE form file INVERT_S.IN -> INVERT_S.OUT");
+   put_line ("Inverts the 4 stems of a DICTLINE form file INVERT_S.IN -> INVERT_S.OUT");
 
-   create(output, out_file, "INVERT_S.OUT");
-   open(input, in_file, "INVERT_S.IN");
+   create (output, out_file, "INVERT_S.OUT");
+   open (input, in_file, "INVERT_S.IN");
 
-   while not end_of_file(input)  loop
-     get_line(input, line, ll);
-     sts(1) := line(1..18);
-     sts(2) := line(20..37);
-     sts(3) := line(39..56);
-     sts(4) := line(58..75);
-     for i in 1..4  loop
-       sts(i) := invert(sts(i));
-     end loop;
-     line(1..18)  := sts(1) ;
-     line(20..37) := sts(2);
-     line(39..56) := sts(3);
-     line(58..75) := sts(4);
-     put_line(output, line(1..ll));
+   while not end_of_file (input)  loop
+      get_line (input, line, ll);
+      sts (1) := line (1..18);
+      sts (2) := line (20..37);
+      sts (3) := line (39..56);
+      sts (4) := line (58..75);
+      for i in 1..4  loop
+         sts (i) := invert (sts (i));
+      end loop;
+      line (1..18)  := sts (1) ;
+      line (20..37) := sts (2);
+      line (39..56) := sts (3);
+      line (58..75) := sts (4);
+      put_line (output, line (1..ll));
 
    end loop;
 
-   close(output);
+   close (output);
 
 end invstems;

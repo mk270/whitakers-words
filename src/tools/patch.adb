@@ -56,9 +56,9 @@ begin
    put_line ("Created PATCHed output file");
 
    while (not end_of_file (f1) and not end_of_file (f2)) loop
-     get_line (f1, s, ls);
-     get_line (f2, t, lt);
-     put_line (f3, s (1..ls) & blanks (1..n) & t (1..lt));
+      get_line (f1, s, ls);
+      get_line (f2, t, lt);
+      put_line (f3, s (1..ls) & blanks (1..n) & t (1..lt));
    end loop;
    close (f1);
    close (f2);
@@ -67,6 +67,6 @@ begin
 
 exception
    when others =>
-     put_line ("Unexpected exception in PATCH");
-     close (f3);
+      put_line ("Unexpected exception in PATCH");
+      close (f3);
 end patch;

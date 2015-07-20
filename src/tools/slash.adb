@@ -32,18 +32,18 @@ procedure slash is
    reply : reply_type;
    reply_character : character;
 
-   function which(r : character) return reply_type is
+   function which (r : character) return reply_type is
    begin
-     case r is
-       when 'C' | 'c'  =>  return columns;
-       when 'L' | 'l'  =>  return lines;
-       when others     =>
-         raise data_error;
-     end case;
+      case r is
+         when 'C' | 'c'  =>  return columns;
+         when 'L' | 'l'  =>  return lines;
+         when others     =>
+            raise data_error;
+      end case;
    end which;
 
 begin
-   put_line("Breaks a file into two, by row or column.");
+   put_line ("Breaks a file into two, by row or column.");
 
    put ("What file to SLASH from =>");
    get_line (f, l);
@@ -54,7 +54,7 @@ begin
    put ("Do you wish to SLASH C)olumns or L)ines? =>");
    get (reply_character);
    skip_line;
-   reply := which(reply_character);
+   reply := which (reply_character);
    new_line;
 
    put ("How many lines/columns to leave after SLASHing =>");
@@ -76,45 +76,45 @@ begin
 
    if reply = columns  then
 
-     while not end_of_file (f1) loop
-       s := bs;
-       get_line (f1, s, ls);
-       if ls <= n then            --  Line shorter than break
-         put_line (f2, s (1..ls));
-         put_line (f3, "");       --  Put a blank line so there will be a line
-       else                       --  Line runs past break
-         put_line (f2, s (1..n));
-         put_line (f3, s (n + 1..ls));
-       end if;
-     end loop;
-     close (f2);
-     close (f3);
+      while not end_of_file (f1) loop
+         s := bs;
+         get_line (f1, s, ls);
+         if ls <= n then            --  Line shorter than break
+            put_line (f2, s (1..ls));
+            put_line (f3, "");       --  Put a blank line so there will be a line
+         else                       --  Line runs past break
+            put_line (f2, s (1..n));
+            put_line (f3, s (n + 1..ls));
+         end if;
+      end loop;
+      close (f2);
+      close (f3);
 
    elsif reply = lines  then
 
   first:
-     begin
-       for i in 1..n loop
-         get_line (f1, s, ls);
-         put_line (f2, s (1..ls));
-       end loop;
-     exception
-       when end_error  =>
-         null;
-     end first;
-     close (f2);
+      begin
+         for i in 1..n loop
+            get_line (f1, s, ls);
+            put_line (f2, s (1..ls));
+         end loop;
+      exception
+         when end_error  =>
+            null;
+      end first;
+      close (f2);
 
   second:
-     begin
-       loop
-         get_line (f1, s, ls);
-         put_line (f3, s (1..ls));
-       end loop;
-     exception
-       when end_error  =>
-         null;
-     end second;
-     close (f3);
+      begin
+         loop
+            get_line (f1, s, ls);
+            put_line (f3, s (1..ls));
+         end loop;
+      exception
+         when end_error  =>
+            null;
+      end second;
+      close (f3);
 
    end if;
 
@@ -122,10 +122,10 @@ begin
 
 exception
    when data_error  =>
-     put_line("***************** WRONG REPLY *****************");
-     new_line(2);
-     put_line("Try again");
+      put_line ("***************** WRONG REPLY *****************");
+      new_line (2);
+      put_line ("Try again");
    when others      =>
-     new_line(2);
-     put_line("Unexpected exception raised in SLASH  *********");
+      new_line (2);
+      put_line ("Unexpected exception raised in SLASH  *********");
 end slash;
