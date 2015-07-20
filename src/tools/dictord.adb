@@ -65,42 +65,42 @@ begin
    create (output, out_file, "DICTORD.OUT");
    open (input, in_file, "DICTORD.IN");
 
-over_lines:
-    while not end_of_file (input) loop
-       s := blank_line;
-       get_line (input, s, last);
-       if trim (s (1 .. last)) /= ""  then   --  Rejecting blank lines
+   Over_Lines :
+   while not end_of_file (input) loop
+      s := blank_line;
+      get_line (input, s, last);
+      if trim (s (1 .. last)) /= ""  then   --  Rejecting blank lines
 
-      form_de:
-          begin
+         Form_De :
+         begin
 
-             de.stems (1) := s (start_stem_1 .. max_stem_size);
-             de.stems (2) := s (start_stem_2 .. start_stem_2+max_stem_size-1);
-             de.stems (3) := s (start_stem_3 .. start_stem_3+max_stem_size-1);
-             de.stems (4) := s (start_stem_4 .. start_stem_4+max_stem_size-1);
-             get (s (start_part .. last), de.part, l);
-             --GET (S (L+1 .. LAST), DE.PART.POFS, DE.KIND, L);
-             get (s (l+1 .. last), de.tran.age, l);
-             get (s (l+1 .. last), de.tran.area, l);
-             de.mean := head (s (l+2 .. last), max_meaning_size);
-             --  Note that this allows initial blanks
-             --  L+2 skips over the SPACER, required because this is STRING, not ENUM
+            de.stems (1) := s (start_stem_1 .. max_stem_size);
+            de.stems (2) := s (Start_Stem_2 .. Start_Stem_2 + Max_Stem_Size - 1);
+            de.stems (3) := s (Start_Stem_3 .. Start_Stem_3 + Max_Stem_Size - 1);
+            de.stems (4) := s (Start_Stem_4 .. Start_Stem_4 + Max_Stem_Size - 1);
+            get (s (start_part .. last), de.part, l);
+            --GET (S (L+1 .. LAST), DE.PART.POFS, DE.KIND, L);
+            get (s (l+1 .. last), de.tran.age, l);
+            get (s (l+1 .. last), de.tran.area, l);
+            de.mean := head (s (l+2 .. last), max_meaning_size);
+            --  Note that this allows initial blanks
+            --  L+2 skips over the SPACER, required because this is STRING, not ENUM
 
-          exception
-             when others =>
-                put_line ("Exception");
-                put_line (s (1 .. last));
-                integer_io.put (integer (j)); new_line;
-                put (de); new_line;
-          end form_de;
+         exception
+            when others =>
+               put_line ("Exception");
+               put_line (s (1 .. last));
+               integer_io.put (integer (j)); new_line;
+               put (de); new_line;
+         end form_de;
+         
+         put (output, "#" & dictionary_form (de));
+         set_col (output, 81); put_line (output, s (1 .. last));
 
-          put (output, "#" & dictionary_form (de));
-          set_col (output, 81); put_line (output, s (1 .. last));
-
-       end if;  --  Rejecting blank lines
-    end loop over_lines;
-
-    close (output);
+      end if;  --  Rejecting blank lines
+   end loop over_lines;
+   
+   close (output);
 exception
    when text_io.data_error  =>
       null;
