@@ -28,9 +28,9 @@ procedure listdict is
    use Translation_Record_IO;
    use Age_Type_IO;
    use Area_Type_IO;
-   use geo_type_io;
-   use frequency_type_io;
-   use source_type_io;
+   use Geo_Type_IO;
+   use Frequency_Type_IO;
+   use Source_Type_IO;
 
    Start_Stem_1  : constant := 1;
    Start_Stem_2  : constant := Start_Stem_1 + Max_Stem_Size + 1;
@@ -49,7 +49,7 @@ procedure listdict is
 
    s, line, blank_line : String (1 .. 400) := (others => ' ');
    l, ll, last : Integer := 0;
-   j : natural := 0;
+   j : Natural := 0;
 
    function add (stem, infl : String) return String is
    begin

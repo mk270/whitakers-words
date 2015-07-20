@@ -7,10 +7,10 @@
 -- there is no charge. However, just for form, it is Copyrighted
 -- (c). Permission is hereby freely given for any and all use of program
 -- and data. You can sell it as your own, but at least tell me.
--- 
+--
 -- This version is distributed without obligation, but the developer
 -- would appreciate comments and suggestions.
--- 
+--
 -- All parts of the WORDS system, source code and data files, are made freely
 -- available to anyone who wishes to use them, for whatever purpose.
 
@@ -28,6 +28,7 @@ begin
    --  Two DICTLINEs can then be compared and corrections made
    --  A second run with the corrections gives a benchmark
    --  Another exercise some time later produces another difference file
-   --  The two difference files are then DIFFed giving the changes made over time
+   --  The two difference files are then DIFFed giving the changes
+   --  made over time
 
 end diffdict;

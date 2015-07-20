@@ -26,9 +26,9 @@ procedure linedict is
    use Kind_Entry_IO;
    use Age_Type_IO;
    use Area_Type_IO;
-   use geo_type_io;
-   use frequency_type_io;
-   use source_type_io;
+   use Geo_Type_IO;
+   use Frequency_Type_IO;
+   use Source_Type_IO;
 
    de : Dictionary_Entry;
 

@@ -65,9 +65,9 @@ procedure sorter is
    output : Text_IO.File_Type;
    work   : line_io.File_Type;
 
-   m1, m2, m3, m4 : natural := 1;
-   n1, n2, n3, n4 : natural := line_length;
-   z1, z2, z3, z4 : natural := 0;
+   m1, m2, m3, m4 : Natural := 1;
+   n1, n2, n3, n4 : Natural := line_length;
+   z1, z2, z3, z4 : Natural := 0;
 
    s1, s2, s3, s4 : sort_type := a;
    w1, w2, w3, w4 : way_type := i;
@@ -472,14 +472,14 @@ procedure sorter is
       Put ("  with optional sort type and way  => ");
    end prompt_for_entry;
 
-   procedure get_entry (mx, nx  : out natural;
+   procedure get_entry (mx, nx  : out Natural;
                         sx  : out sort_type;
                         wx  : out way_type ) is
-      m : natural := 1;
-      n : natural := line_length;
+      m : Natural := 1;
+      n : Natural := line_length;
       s : sort_type := a;
       w : way_type := i;
-      z : natural := 0;
+      z : Natural := 0;
 
       procedure echo_entry is
       begin
@@ -869,7 +869,7 @@ procedure sorter is
 
    procedure open_file_for_inPut (input : in out Text_IO.File_Type;
                                   prompt : String := "File for input => ") is
-      last : natural := 0;
+      last : Natural := 0;
    begin
   get_input_file:
       loop
@@ -892,7 +892,7 @@ procedure sorter is
    procedure create_file_for_output (output : in out Text_IO.File_Type;
                                      prompt : String := "File for output => ") is
       name : String (1 .. 80) := (others => ' ');
-      last : natural := 0;
+      last : Natural := 0;
    begin
 
   get_output_file:

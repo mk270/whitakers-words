@@ -24,12 +24,12 @@ procedure linefile is
    package Integer_IO is new Text_IO.Integer_IO (Integer);
    use Text_IO;
    use Dictionary_Entry_IO;
-   use dict_io;
+   use Dict_IO;
 
-   dictfile : dict_io.File_Type;
+   dictfile : Dict_IO.File_Type;
    output : Text_IO.File_Type;
    de : Dictionary_Entry;
-   d_k : dictionary_kind := general;
+   d_k : Dictionary_Kind := general;
    line : String (1 .. 40) := (others => ' ');
    last : Integer := 0;
 
@@ -51,10 +51,10 @@ begin
    end if;
 
    Open (dictfile, In_File, add_file_name_extension (dict_file_name,
-     dictionary_kind'image (d_k)));
+     Dictionary_Kind'image (d_k)));
 
    Create (output, Out_File, add_file_name_extension ("DICT_NEW",
-     dictionary_kind'image (d_k)));
+     Dictionary_Kind'image (d_k)));
 
    while not End_Of_File (dictfile)  loop
       read (dictfile, de);

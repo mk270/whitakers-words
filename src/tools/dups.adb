@@ -7,37 +7,32 @@
 -- there is no charge. However, just for form, it is Copyrighted
 -- (c). Permission is hereby freely given for any and all use of program
 -- and data. You can sell it as your own, but at least tell me.
--- 
+--
 -- This version is distributed without obligation, but the developer
 -- would appreciate comments and suggestions.
--- 
+--
 -- All parts of the WORDS system, source code and data files, are made freely
 -- available to anyone who wishes to use them, for whatever purpose.
 
 with Text_IO;
-with Strings_package; use Strings_package;
+--with Latin_Utils.Strings_Package; use Latin_Utils.Strings_Package;
 procedure dups is
    package Integer_Text_IO is new Text_IO.Integer_IO (Integer);
    use Integer_Text_IO;
    use Text_IO;
 
    input, output : File_Type;
-   s, line, oldline, blank_line : String (1 .. 400) := (others => ' ');
-   j, l, ll, last : Integer := 0;
-   mx, nx : natural := 0;
+   s, blank_line : constant String (1 .. 400) := (others => ' ');
+   line, oldline : String (1 .. 400) := (others => ' ');
+   last : Integer := 0;
+   mx, nx : Natural := 0;
 
    line_number : Integer := 0;
    number : Integer := 0;
 
-   procedure get_entry (mx, nx  : out natural) is
-      z : natural := 0;
+   procedure get_entry (mx, nx  : out Natural) is
       ls : Integer := 0;
       enter_line : String (1 .. 20);
-
-      procedure prompt_for_entry (entry_number : String) is
-      begin
-         put ("Give starting and ending column ");
-      end prompt_for_entry;
 
    begin
 
@@ -62,8 +57,8 @@ begin
       line_number := line_number + 1;
       if line (mx .. nx) = oldline (mx .. nx)  and then
         (line (111) /= '|') then
-         number := number + 1 ;
-         put (output, line_number); put (output, "  ");
+         number := number + 1;
+         Put (output, line_number); Put (output, "  ");
          Put_Line (output, line (1 .. nx));
       end if;
    end loop;
@@ -71,17 +66,17 @@ begin
    Close (output);
 
    New_Line;
-   put ("Number of entries = "); put (line_number); New_Line;
-   put ("Number of DUPS    = "); put (number); New_Line;
-   put ("Ratio             = 1 :"); put (line_number/number); New_Line;
+   Put ("Number of entries = "); Put (line_number); New_Line;
+   Put ("Number of DUPS    = "); Put (number); New_Line;
+   Put ("Ratio             = 1 :"); Put (line_number / number); New_Line;
 
 exception
-   when name_error  =>
+   when Name_Error  =>
       Put_Line ("No file to process");
       Close (output);
 
    when others =>
-      put ("Exception on LINE"); put (line_number); New_Line;
+      Put ("Exception on LINE"); Put (line_number); New_Line;
       Put_Line (s (1 .. last));
       Close (output);
 
