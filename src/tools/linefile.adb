@@ -7,21 +7,21 @@
 -- there is no charge. However, just for form, it is Copyrighted
 -- (c). Permission is hereby freely given for any and all use of program
 -- and data. You can sell it as your own, but at least tell me.
--- 
+--
 -- This version is distributed without obligation, but the developer
 -- would appreciate comments and suggestions.
--- 
+--
 -- All parts of the WORDS system, source code and data files, are made freely
 -- available to anyone who wishes to use them, for whatever purpose.
 
 with Text_IO;
-with Strings_package; use Strings_package;
-with latin_file_names; use latin_file_names;
-with inflections_package; use inflections_package;
-with dictionary_package; use dictionary_package;
-with line_stuff; use line_stuff;
+with Latin_Utils.Strings_Package; use Latin_Utils.Strings_Package;
+with Latin_Utils.Latin_File_Names; use Latin_Utils.Latin_File_Names;
+-- with Latin_Utils.Inflections_Package; use Latin_Utils.Inflections_Package;
+with Latin_Utils.Dictionary_Package; use Latin_Utils.Dictionary_Package;
+-- with line_stuff; use line_stuff;
 procedure linefile is
-   package Integer_IO is new Text_IO.Integer_IO (Integer);
+--   package Integer_IO is new Text_IO.Integer_IO (Integer);
    use Text_IO;
    use Dictionary_Entry_IO;
    use Dict_IO;
@@ -35,7 +35,7 @@ procedure linefile is
 
 begin
    Put_Line ("Takes a DICTFILE.D_K and produces a DICTLINE.D_K");
-   put ("What dictionary to convert, GENERAL or SPECIAL  (Reply G or S) =>");
+   Put ("What dictionary to convert, GENERAL or SPECIAL  (Reply G or S) =>");
    Get_Line (line, last);
    if last > 0  then
       if Trim (line (1 .. last))(1) = 'G'  or else
@@ -51,14 +51,14 @@ begin
    end if;
 
    Open (dictfile, In_File, add_file_name_extension (dict_file_name,
-     Dictionary_Kind'image (d_k)));
+     Dictionary_Kind'Image (d_k)));
 
    Create (output, Out_File, add_file_name_extension ("DICT_NEW",
-     Dictionary_Kind'image (d_k)));
+     Dictionary_Kind'Image (d_k)));
 
    while not End_Of_File (dictfile)  loop
-      read (dictfile, de);
-      put (output, de);
+      Read (dictfile, de);
+      Put (output, de);
       Text_IO.New_Line (output);
    end loop;
 

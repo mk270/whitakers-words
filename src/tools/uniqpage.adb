@@ -26,7 +26,7 @@ procedure uniqpage is
    package Integer_IO is new Text_IO.Integer_IO (Integer);
    use Text_IO;
    use Dictionary_Entry_IO;
-   use Part_Entry_IO;
+   use Party_Entry_IO;
    use Kind_Entry_IO;
    use Translation_Record_IO;
    use Age_Type_IO;
@@ -40,11 +40,11 @@ procedure uniqpage is
    s, line, blank_line, blanks : String (1 .. 400) := (others => ' ');
    l, ll, last : Integer := 0;
 
-   stem : stem_type := null_stem_type;
+   stem : Stem_Type := Null_Stem_Type;
    qual : quality_record;
    kind : kind_entry;
    tran : translation_record;
-   mean : meaning_type;
+   mean : Meaning_Type;
 
    procedure get_line_unique (input : in Text_IO.File_Type; s : out String; last : out Natural) is
    begin
@@ -74,9 +74,9 @@ begin
        Get (line (l + 1 .. last), qual.pofs, kind, l);
        Age_Type_IO.Get (line (l + 1 .. last), tran.Age, l);
        Area_Type_IO.Get (line (l + 1 .. last), tran.Area, l);
-       Geo_Type_IO.Get (line (l + 1 .. last), tran.geo, l);
-       Frequency_Type_IO.Get (line (l + 1 .. last), tran.freq, l);
-       Source_Type_IO.Get (line (l + 1 .. last), tran.source, l);
+       Geo_Type_IO.Get (line (l + 1 .. last), tran.Geo, l);
+       Frequency_Type_IO.Get (line (l + 1 .. last), tran.Freq, l);
+       Source_Type_IO.Get (line (l + 1 .. last), tran.Source, l);
 
        line := blanks;
        get_line_unique (uniques_file, line, l);         --  MEAN
@@ -102,9 +102,9 @@ begin
        Text_IO.put (uniqpage, " [");
        Age_Type_IO.put (uniqpage, tran.Age);
        Area_Type_IO.put (uniqpage, tran.Area);
-       Geo_Type_IO.put (uniqpage, tran.geo);
-       Frequency_Type_IO.put (uniqpage, tran.freq);
-       Source_Type_IO.put (uniqpage, tran.source);
+       Geo_Type_IO.put (uniqpage, tran.Geo);
+       Frequency_Type_IO.put (uniqpage, tran.Freq);
+       Source_Type_IO.put (uniqpage, tran.Source);
        Text_IO.put (uniqpage, "]");
 
        put (uniqpage, " :: ");

@@ -15,7 +15,7 @@
 -- available to anyone who wishes to use them, for whatever purpose.
 
 with Text_IO; use Text_IO;
--- with Strings_package; use Strings_package;
+with Latin_Utils.Strings_Package; use Latin_Utils.Strings_Package;
 procedure invstems is
    line : String (1 .. 250);
    ll : Integer;
@@ -28,18 +28,19 @@ procedure invstems is
    function invert (s : String) return String is
       t : String (s'First .. s'Last);
    begin
-      if s (1) = ' '  then
+      if s (s'First) = ' '  then
          return blank_stem;
       else
          for i in s'Range  loop
-            t (i) := s (s'Last-i + 1);
+            t (i) := s (s'Last - i + 1);
          end loop;
          return Head (Trim (t), 18);
       end if;
    end invert;
 
 begin
-   Put_Line ("Inverts the 4 stems of a DICTLINE form file INVERT_S.IN -> INVERT_S.OUT");
+   Put_Line ("Inverts the 4 stems of a DICTLINE form file " &
+     "INVERT_S.IN -> INVERT_S.OUT");
 
    Create (output, Out_File, "INVERT_S.OUT");
    Open (input, In_File, "INVERT_S.IN");
@@ -53,7 +54,7 @@ begin
       for i in 1 .. 4  loop
          sts (i) := invert (sts (i));
       end loop;
-      line (1 .. 18)  := sts (1) ;
+      line (1 .. 18)  := sts (1);
       line (20 .. 37) := sts (2);
       line (39 .. 56) := sts (3);
       line (58 .. 75) := sts (4);

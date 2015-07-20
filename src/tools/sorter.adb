@@ -686,7 +686,7 @@ procedure sorter is
       fn, gn : float := 0.0;
       --FS, GS : SECTION_TYPE := NO_SECTION;
       fs, gs : appendix_section_type := no_appendix_section;
-      px, py : part_entry;       --  So I can X here
+      px, py : Party_Entry;       --  So I can X here
    begin
       if st = a  then
          as := lower_case (as);
@@ -741,8 +741,8 @@ procedure sorter is
          end if;
 
       elsif st = p  then
-         Part_Entry_IO.Get (as, px, last);
-         Part_Entry_IO.Get (bs, py, last);
+         Party_Entry_IO.Get (as, px, last);
+         Party_Entry_IO.Get (bs, py, last);
          if wt = i  then
             return px < py;
          else
@@ -782,7 +782,7 @@ procedure sorter is
       mn, nn : Integer := 0;
       fn, gn : float := 0.0;
       fs, gs : appendix_section_type := no_appendix_section;
-      px, py : part_entry;
+      px, py : Party_Entry;
    begin
       if st = a  then
          as := lower_case (as);
@@ -813,8 +813,8 @@ procedure sorter is
          return fn = gn;
 
       elsif st = p  then
-         Part_Entry_IO.Get (as, px, last);
-         Part_Entry_IO.Get (bs, py, last);
+         Party_Entry_IO.Get (as, px, last);
+         Party_Entry_IO.Get (bs, py, last);
          return px = py;
 
       elsif st = s  then
