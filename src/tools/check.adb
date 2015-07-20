@@ -114,10 +114,10 @@ procedure check is
       if pt.pofs = n  then
 
          --  Check that there are two and only two stems for a noun
-         if (    bk (sts (1)) or
+         if (bk (sts (1)) or
            bk (sts (2)) or
            not bk (sts (3)) or
-           not bk (sts (4)) )  and then
+           not bk (sts (4)))  and then
            not (pt.n.decl = (9, 9) or pt.n.decl = (9, 8))   then  --  Undeclined
             prob ("    EXPECTED  exactly 2  NOUN STEMS");
          end if;
@@ -148,10 +148,10 @@ procedure check is
          if pt.n.decl = (2, 4)    then
             if (len (sts (1)) >= 3)                          and then
 
-              (( (sts (1) /= zzz_stem)   and
-              (sts (1)(len (sts (1)) .. len (sts (1))) /= "i") )  or else
-              ( (sts (1) /= zzz_stem)   and
-              (sts (2)(len (sts (2)) .. len (sts (2))) /= "i") ))        then
+              (((sts (1) /= zzz_stem)   and
+              (sts (1)(len (sts (1)) .. len (sts (1))) /= "i"))  or else
+              ((sts (1) /= zzz_stem)   and
+              (sts (2)(len (sts (2)) .. len (sts (2))) /= "i")))        then
 
                prob ("    EXPECTED  i and i   (2, 4)  NOUN STEMS");
             end if;
@@ -250,7 +250,7 @@ procedure check is
             if len (sts (1)) >= 3                           and then
               sts (1)(len (sts (1)) - 1 .. len (sts (1))) = "as"  and then
               (sts (2)(len (sts (2)) - 1 .. len (sts (2))) /= "at"    and
-              sts (2)(len (sts (2)) - 1 .. len (sts (2))) /= "ad" )         then
+              sts (2)(len (sts (2)) - 1 .. len (sts (2))) /= "ad")         then
                prob ("    EXPECTED  as -> at/ad   NOUN STEMS");
             end if;
          end if;
@@ -260,7 +260,7 @@ procedure check is
             if (len (sts (1)) >= 3)                          and then
               (sts (1)(len (sts (1)) .. len (sts (1))) = "a")  and then
               ((sts (2)(len (sts (2)) - 1 .. len (sts (2))) /= "at")    or
-              (pt.n.decl /= (3, 2)) )      then
+              (pt.n.decl /= (3, 2)))      then
                prob ("    EXPECTED  a -> at   NOUN STEMS  to be N 3 2 N");
             end if;
          end if;
@@ -346,10 +346,10 @@ procedure check is
             --  Check that the stems are the same when expected
             if (
               (pt.adj.decl = (3, 2)) or
-              ( (pt.adj.decl = (3, 3)) and then
-              (sts (1)( len (sts (1)) .. len (sts (1)) ) /= "r")  ) ) and then
+              ((pt.adj.decl = (3, 3)) and then
+              (sts (1)(len (sts (1)) .. len (sts (1))) /= "r"))) and then
 
-              ( (sts (1) /= zzz_stem) and (sts (2) /= zzz_stem)  )    then
+              ((sts (1) /= zzz_stem) and (sts (2) /= zzz_stem))    then
                if sts (1) /= sts (2)  then
                   prob ("    EXPECTED IDENTICAL ADJ STEMS");
                end if;
@@ -742,7 +742,7 @@ procedure check is
    end verify_stems;
 
 begin
-   put_line ("Takes a DICTLINE form named CHECK.IN, analyzes for possible errors, and" );
+   put_line ("Takes a DICTLINE form named CHECK.IN, analyzes for possible errors, and");
    put_line ("produces a report CHECK.OUT - Remember to process CHECK.OUT from end");
    create (output, out_file, "CHECK.OUT");
    open (input, in_file, "CHECK.IN");
