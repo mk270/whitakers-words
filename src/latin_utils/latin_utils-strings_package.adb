@@ -90,25 +90,27 @@ package body Latin_Utils.Strings_Package is
       while not Ada.Text_IO.End_Of_File (File) loop
          Ada.Text_IO.Get_Line (File, Line, Length);
 
-         if Length = 1 and then Line (Length) = Character'Val (13) then
-            exit File_Loop;
-         end if;
-
-         if Head (Trim (Line), 250)(1 .. 2) = "  "  or
-            Head (Trim (Line), 250)(1 .. 2) = "--"
-         then
-            null;
-         else
-            -- Search for start of comment in line (if any).
-            LX := Ada.Strings.Fixed.Index (Line, "--", Line'First);
-            if LX /= 0 then
-               LX := LX - 1;
-            else
-               LX := Length;
+         declare
+            Trimmed_Head : constant String := Head (Trim (Line), 250)(1 .. 2);
+         begin
+            if Length = 1 and then Line (Length) = Character'Val (13) then
+               exit File_Loop;
             end if;
 
-            exit File_Loop;
-         end if;
+            if Trimmed_Head = "  " or Trimmed_Head = "--" then
+               null;
+            else
+               -- Search for start of comment in line (if any).
+               LX := Ada.Strings.Fixed.Index (Line, "--", Line'First);
+               if LX /= 0 then
+                  LX := LX - 1;
+               else
+                  LX := Length;
+               end if;
+
+               exit File_Loop;
+            end if;
+         end;
       end loop File_Loop;
 
       Item (Item'First .. LX) := Line (1 .. LX);
