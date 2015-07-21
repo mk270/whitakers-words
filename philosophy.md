@@ -3,6 +3,10 @@ layout: default
 title: Guiding philosophy
 ---
 
+[Summary](index.html)
+[Introduction](introduction.html)
+[Guiding Philosophy](philosophy.html)
+
 # Guiding philosophy
 
 ## Purpose
