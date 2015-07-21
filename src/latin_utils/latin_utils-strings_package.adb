@@ -93,7 +93,7 @@ package body Latin_Utils.Strings_Package is
          declare
             Trimmed_Head : constant String := Head (Trim (Line), 250)(1 .. 2);
          begin
-            if Length = 1 and then Line (Length) = Character'Val (13) then
+            if Trimmed_Head (1) = Character'Val (13) then
                exit File_Loop;
             end if;
 
