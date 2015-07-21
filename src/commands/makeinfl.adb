@@ -94,7 +94,6 @@ procedure makeinfl is
             begin
                Get_Non_Comment_Line (inflections_file, line, last);
 
-               -- Does not deal with stripping the CRLF on DOS-formatted input
                if last > 0  then
                   Get (line (1 .. last), ir, l);
                   sn := ir.ending.size;
