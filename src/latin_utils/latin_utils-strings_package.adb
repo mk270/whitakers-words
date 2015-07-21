@@ -89,6 +89,11 @@ package body Latin_Utils.Strings_Package is
       File_Loop :
       while not Ada.Text_IO.End_Of_File (File) loop
          Ada.Text_IO.Get_Line (File, Line, Length);
+
+         if Length = 1 and then Line (Length) = Character'Val (13) then
+            exit File_Loop;
+         end if;
+
          if Head (Trim (Line), 250)(1 .. 2) = "  "  or
             Head (Trim (Line), 250)(1 .. 2) = "--"
          then
