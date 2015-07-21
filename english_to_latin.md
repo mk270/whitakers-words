@@ -3,6 +3,13 @@ layout: default
 title: English to Latin
 ---
 
+[Operational Description](operational.html) |
+[Programme Description](programme.html) |
+[Dictionary](dictionary.html) |
+[Inflections](inflections.html) |
+[English to Latin](english_to_latin.html) |
+[User modifications](user_modifications.html)
+
 # English to Latin
 
 

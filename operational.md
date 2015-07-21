@@ -3,6 +3,13 @@ layout: default
 title: Operational description
 ---
 
+[Operational Description](operational.html) |
+[Programme Description](programme.html) |
+[Dictionary](dictionary.html) |
+[Inflections](inflections.html) |
+[English to Latin](english_to_latin.html) |
+[User modifications](user_modifications.html)
+
 # Operational description
 
 This write up is rudimentary and assumes that the user is experienced with
