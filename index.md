@@ -3,8 +3,8 @@ layout: default
 title: Overview
 ---
 
-[Summary](index.html)
-[Introduction](introduction.html)
+[Summary](index.html) |
+[Introduction](introduction.html) |
 [Guiding Philosophy](philosophy.html)
 
 Summary
