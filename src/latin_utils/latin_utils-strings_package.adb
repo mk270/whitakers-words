@@ -97,7 +97,7 @@ package body Latin_Utils.Strings_Package is
                exit File_Loop;
             end if;
 
-            if Trimmed_Head = "  " or Trimmed_Head = "--" then
+            if Trimmed_Head = "--" then
                null;
             else
                -- Search for start of comment in line (if any).
