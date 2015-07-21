@@ -3,6 +3,10 @@ layout: default
 title: Plan
 ---
 
+[Development Plan](plan.html) |
+[Programming](development.html) |
+[Testing](tests.html)
+
 Organisation
 ============
 

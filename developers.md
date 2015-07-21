@@ -3,6 +3,10 @@ layout: default
 title: Developers and Rehosting
 ---
 
+[Development Plan](plan.html) |
+[Programming](development.html) |
+[Testing](tests.html)
+
 Development and Rehosting
 =========================
 

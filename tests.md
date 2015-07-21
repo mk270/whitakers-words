@@ -3,6 +3,10 @@ layout: default
 title: Tests and status
 ---
 
+[Development Plan](plan.html) |
+[Programming](development.html) |
+[Testing](tests.html)
+
 Tests and status
 ================
 
