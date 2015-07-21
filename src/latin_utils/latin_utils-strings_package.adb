@@ -90,7 +90,7 @@ package body Latin_Utils.Strings_Package is
          --  Loop until data - Finish on EOF
          Ada.Text_IO.Get_Line (File, Line, Length);
          if Head (Trim (Line), 250)(1 .. 2) = "  "  or
-           Head (Trim (Line), 250)(1 .. 2) = "--"
+            Head (Trim (Line), 250)(1 .. 2) = "--"
          then
             null;
          else
