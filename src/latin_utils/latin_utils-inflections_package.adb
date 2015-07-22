@@ -1036,6 +1036,7 @@ package body Latin_Utils.Inflections_Package is
       exception
          when others =>
             Ada.Text_IO.Put_Line ("ENDING ERRROR " & s);
+            raise;
       end Get;
 
       procedure Put (s : out String; x : in ending_record) is
