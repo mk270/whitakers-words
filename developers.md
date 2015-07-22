@@ -18,6 +18,9 @@ Program source code and data
 The program is written in Ada, and is machine independent.  Ada source
 code is available for compiling onto other machines.
 
+* Source code URL: [https://github.com/mk270/whitakers-words](https://github.com/mk270/whitakers-words)
+* Issue tracker URL: [https://github.com/mk270/whitakers-words/issues](https://github.com/mk270/whitakers-words/issues)
+
 
 Licence
 -------
