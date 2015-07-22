@@ -445,10 +445,9 @@ package body Latin_Utils.Inflections_Package is
          i    : out interjection_record;
          last : out Integer)
       is
-         l : constant Integer := s'First - 1;
       begin
          i := null_interjection_record;
-         last := l - 1;
+         last := s'First - 1;
       end Get;
 
       pragma Warnings (Off, "formal parameter ""i"" is not referenced");
@@ -841,7 +840,6 @@ package body Latin_Utils.Inflections_Package is
       begin
          Get (s, ps, l);
          last := l;         --  In case it is not set later
-         l := l + 1;
          case ps is
             when N =>
                Get (s (l + 1 .. s'Last), noun, last);
