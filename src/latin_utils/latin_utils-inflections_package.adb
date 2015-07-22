@@ -1035,7 +1035,7 @@ package body Latin_Utils.Inflections_Package is
          end if;
       exception
          when others =>
-            Ada.Text_IO.Put_Line ("ENDING ERRROR " & s);
+            Ada.Text_IO.Put_Line ("ENDING ERROR " & s);
             raise;
       end Get;
 
