@@ -1000,8 +1000,6 @@ package body Latin_Utils.Inflections_Package is
 
    end Inflection_Record_IO;
 
-   -- FIXME this procedure contains four blocks of heavily duplicated code
-
    procedure establish_inflections_section  is
       --  Loads the inflection array from the file prepared in
       --  FILE_INFLECTIONS_SECTION
@@ -1056,11 +1054,7 @@ package body Latin_Utils.Inflections_Package is
                n1_loop :
                loop
                   case P is
-                     when P1 =>
-                        exit c1_loop when lel (i) = Null_Inflection_Record;
-                     when P2 =>
-                        exit c1_loop when lel (i) = Null_Inflection_Record;
-                     when P3 =>
+                     when P1 | P2 | P3 =>
                         exit c1_loop when lel (i) = Null_Inflection_Record;
                      when P4 =>
                         exit c1_loop when  lel (i).qual.pofs = Pron  and then
@@ -1073,14 +1067,12 @@ package body Latin_Utils.Inflections_Package is
                   ch := lel (i).ending.suf (n);
 
                   case P is
-                     when P1 =>
+                     when P1 | P4 =>
                         null;
                      when P2 =>
                         exit n1_loop when ch > 'r';
                      when P3 =>
                         exit n1_loop when ch > 's';
-                     when P4 =>
-                        null;
                   end case;
 
                   if ch /= xch  then
@@ -1126,6 +1118,7 @@ package body Latin_Utils.Inflections_Package is
             i := i + 1;
          end loop;
 
+         -- FIXME: deduplicat the ten lines below, and the following block
          number_of_inflections := number_of_inflections + i - 1;
 
          Read_Inflections (P1);
