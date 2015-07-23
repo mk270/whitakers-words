@@ -43,6 +43,7 @@ project Latin_Utils is
         "latin_utils-inflections_package-propack_record_io.adb",
         "latin_utils-inflections_package-stem_type_io.adb",
         "latin_utils-inflections_package-supine_record_io.adb",
+        "latin_utils-inflections_package-tackon_record_io.adb",
         "latin_utils-inflections_package-tense_voice_mood_record_io.adb",
         "latin_utils-inflections_package-verb_record_io.adb",
         "latin_utils-inflections_package-vpar_record_io.adb",
