@@ -419,49 +419,7 @@ package body Latin_Utils.Inflections_Package is
 
    package body Tackon_Record_IO is separate;
 
-   package body prefix_record_io is
-
-      pragma Warnings (Off, "formal parameter ""f"" is not referenced");
-      procedure Get (f : in File_Type; p : out prefix_record) is
-         pragma Warnings (On, "formal parameter ""f"" is not referenced");
-      begin
-         p := null_prefix_record;
-      end Get;
-
-      procedure Get (p : out prefix_record) is
-      begin
-         p := null_prefix_record;
-      end Get;
-
-      procedure Put (f : in File_Type; p : in prefix_record) is
-      begin
-         null;
-      end Put;
-
-      procedure Put (p : in prefix_record) is
-      begin
-         null;
-      end Put;
-
-      procedure Get
-        (s    : in String;
-         p    : out prefix_record;
-         last : out Integer)
-      is
-         l : constant Integer := s'First - 1;
-      begin
-         p := null_prefix_record;
-         last := l - 1;
-      end Get;
-
-      pragma Warnings (Off, "formal parameter ""p"" is not referenced");
-      procedure Put (s : out String; p : in prefix_record) is
-         pragma Warnings (On, "formal parameter ""p"" is not referenced");
-      begin
-         s (s'First .. s'Last) := (others => ' ');
-      end Put;
-
-   end prefix_record_io;
+   package body Prefix_Record_IO is separate;
 
    package body suffix_record_io is
 
@@ -522,7 +480,7 @@ package body Latin_Utils.Inflections_Package is
       use Conjunction_Record_IO;
       use Interjection_Record_IO;
       use Tackon_Record_IO;
-      use prefix_record_io;
+      use Prefix_Record_IO;
       use suffix_record_io;
       spacer : Character := ' ';
 
@@ -539,7 +497,7 @@ package body Latin_Utils.Inflections_Package is
       interjection : Interjection_Record;
       numeral : Numeral_Record;
       tackn : Tackon_Record;
-      prefx : prefix_record;
+      prefx : Prefix_Record;
       suffx : suffix_record;
 
       procedure Get (f : in File_Type; p : out quality_record) is
@@ -860,7 +818,7 @@ package body Latin_Utils.Inflections_Package is
                m := l + Tackon_Record_IO.Default_Width;
                Put (s (l + 1 .. m), p.Tackon);
             when Prefix =>
-               m := l + prefix_record_io.Default_Width;
+               m := l + Prefix_Record_IO.Default_Width;
                Put (s (l + 1 .. m), p.Prefix);
             when Suffix =>
                m := l + suffix_record_io.Default_Width;
@@ -1379,7 +1337,7 @@ begin
 
    Tackon_Record_IO.Default_Width := 0;
 
-   prefix_record_io.Default_Width := 0;
+   Prefix_Record_IO.Default_Width := 0;
 
    suffix_record_io.Default_Width := 0;
 

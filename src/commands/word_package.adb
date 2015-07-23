@@ -1237,7 +1237,7 @@ package body word_package is
                         pa_last := pa_last + 1;
                         --  So add prefix line to parse array
                         pa (pa_last).IR :=
-                          ((Prefix, null_prefix_record), 0,
+                          ((Prefix, Null_Prefix_Record), 0,
                           null_ending_record, x, x);
                         pa (pa_last).Stem :=
                           Head (prefixes (i).fix, Max_Stem_Size);
@@ -1825,7 +1825,7 @@ package body word_package is
                      pa_last := pa_last + 1;
                      --  So add prefix line to parse array
                      pa (pa_last).Stem := Head (tickons (i).fix, Max_Stem_Size);
-                     pa (pa_last).IR := ((Prefix, null_prefix_record),
+                     pa (pa_last).IR := ((Prefix, Null_Prefix_Record),
                        0, null_ending_record, x, x);
                      pa (pa_last).D_K  := addons;
                      pa (pa_last).MNPC := Dict_IO.Count (tickons (i).MNPC);
