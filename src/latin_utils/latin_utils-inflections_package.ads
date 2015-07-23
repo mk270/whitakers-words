@@ -672,22 +672,28 @@ package Latin_Utils.Inflections_Package is
 
    ---------------------------------------------------------------------------
 
-   type suffix_record is
-      record
-         null;
-      end record;
+   type Suffix_Record is null record;
 
-   null_suffix_record : suffix_record;
+   Null_Suffix_Record : constant Suffix_Record := (null record);
 
-   package suffix_record_io is
+   -- FIXME: These subprograms don't check if Is_Open (File)
+   package Suffix_Record_IO is
+      -- FIXME: This probably should be constant.
       Default_Width : Natural;
-      procedure Get (f : in File_Type; p : out suffix_record);
-      procedure Get (p : out suffix_record);
-      procedure Put (f : in File_Type; p : in suffix_record);
-      procedure Put (p : in suffix_record);
-      procedure Get (s : in String; p : out suffix_record; last : out Integer);
-      procedure Put (s : out String; p : in suffix_record);
-   end suffix_record_io;
+      procedure Get (File : in  File_Type; Item : out Suffix_Record);
+      procedure Get (Item : out Suffix_Record);
+      procedure Put (File : in  File_Type; Item : in  Suffix_Record);
+      procedure Put (Item : in  Suffix_Record);
+      -- TODO: Document meaning of Last
+      procedure Get
+         (Source : in  String;
+          Target : out Suffix_Record;
+          Last   : out Integer
+         );
+      procedure Put (Target : out String; Item : in Suffix_Record);
+   end Suffix_Record_IO;
+
+   ---------------------------------------------------------------------------
 
    type quality_record (pofs : Part_Of_Speech_Type := X) is
       record
@@ -721,7 +727,7 @@ package Latin_Utils.Inflections_Package is
             when Prefix =>
                Prefix : Prefix_Record;
             when Suffix =>
-               Suffix : suffix_record;
+               Suffix : Suffix_Record;
             when X =>
                null;
          end case;
