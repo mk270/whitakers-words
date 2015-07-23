@@ -415,182 +415,13 @@ package body Latin_Utils.Inflections_Package is
 
    package body Conjunction_Record_IO is separate;
 
-   package body interjection_record_io is
-      null_interjection_record : interjection_record;
+   package body Interjection_Record_IO is separate;
 
-      pragma Warnings (Off, "formal parameter ""f"" is not referenced");
-      procedure Get (f : in File_Type; i : out interjection_record) is
-         pragma Warnings (On, "formal parameter ""f"" is not referenced");
-      begin
-         i := null_interjection_record;
-      end Get;
+   package body Tackon_Record_IO is separate;
 
-      procedure Get (i : out interjection_record) is
-      begin
-         i := null_interjection_record;
-      end Get;
+   package body Prefix_Record_IO is separate;
 
-      procedure Put (f : in File_Type; i : in interjection_record) is
-      begin
-         null;
-      end Put;
-
-      procedure Put (i : in interjection_record) is
-      begin
-         null;
-      end Put;
-
-      procedure Get
-        (s    : in String;
-         i    : out interjection_record;
-         last : out Integer)
-      is
-      begin
-         i := null_interjection_record;
-         last := s'First - 1;
-      end Get;
-
-      pragma Warnings (Off, "formal parameter ""i"" is not referenced");
-      procedure Put (s : out String; i : in interjection_record) is
-         pragma Warnings (On, "formal parameter ""i"" is not referenced");
-      begin
-         s (s'First .. s'Last) := (others => ' ');
-      end Put;
-
-   end interjection_record_io;
-
-   package body tackon_record_io is
-      null_tackon_record : tackon_record;
-
-      pragma Warnings (Off, "formal parameter ""f"" is not referenced");
-      procedure Get (f : in File_Type; i : out tackon_record) is
-         pragma Warnings (On, "formal parameter ""f"" is not referenced");
-      begin
-         i := null_tackon_record;
-      end Get;
-
-      procedure Get (i : out tackon_record) is
-      begin
-         i := null_tackon_record;
-      end Get;
-
-      procedure Put (f : in File_Type; i : in tackon_record) is
-      begin
-         null;
-      end Put;
-
-      procedure Put (i : in tackon_record) is
-      begin
-         null;
-      end Put;
-
-      procedure Get
-        (s    : in String;
-         i    : out tackon_record;
-         last : out Integer)
-      is
-         l : constant Integer := s'First - 1;
-      begin
-         i := null_tackon_record;
-         last := l - 1;
-      end Get;
-
-      pragma Warnings (Off, "formal parameter ""i"" is not referenced");
-      procedure Put (s : out String; i : in tackon_record) is
-         pragma Warnings (On, "formal parameter ""i"" is not referenced");
-      begin
-         s (s'First .. s'Last) := (others => ' ');
-      end Put;
-
-   end tackon_record_io;
-
-   package body prefix_record_io is
-
-      pragma Warnings (Off, "formal parameter ""f"" is not referenced");
-      procedure Get (f : in File_Type; p : out prefix_record) is
-         pragma Warnings (On, "formal parameter ""f"" is not referenced");
-      begin
-         p := null_prefix_record;
-      end Get;
-
-      procedure Get (p : out prefix_record) is
-      begin
-         p := null_prefix_record;
-      end Get;
-
-      procedure Put (f : in File_Type; p : in prefix_record) is
-      begin
-         null;
-      end Put;
-
-      procedure Put (p : in prefix_record) is
-      begin
-         null;
-      end Put;
-
-      procedure Get
-        (s    : in String;
-         p    : out prefix_record;
-         last : out Integer)
-      is
-         l : constant Integer := s'First - 1;
-      begin
-         p := null_prefix_record;
-         last := l - 1;
-      end Get;
-
-      pragma Warnings (Off, "formal parameter ""p"" is not referenced");
-      procedure Put (s : out String; p : in prefix_record) is
-         pragma Warnings (On, "formal parameter ""p"" is not referenced");
-      begin
-         s (s'First .. s'Last) := (others => ' ');
-      end Put;
-
-   end prefix_record_io;
-
-   package body suffix_record_io is
-
-      pragma Warnings (Off, "formal parameter ""f"" is not referenced");
-      procedure Get (f : in File_Type; p : out suffix_record) is
-         pragma Warnings (On, "formal parameter ""f"" is not referenced");
-      begin
-         p := null_suffix_record;
-      end Get;
-
-      procedure Get (p : out suffix_record) is
-      begin
-         p := null_suffix_record;
-      end Get;
-
-      procedure Put (f : in File_Type; p : in suffix_record) is
-      begin
-         null;
-      end Put;
-
-      procedure Put (p : in suffix_record) is
-      begin
-         null;
-      end Put;
-
-      procedure Get
-        (s : in String;
-         p : out suffix_record;
-         last : out Integer)
-      is
-         l : constant Integer := s'First - 1;
-      begin
-         p := null_suffix_record;
-         last := l - 1;
-      end Get;
-
-      pragma Warnings (Off, "formal parameter ""p"" is not referenced");
-      procedure Put (s : out String; p : in suffix_record) is
-         pragma Warnings (On, "formal parameter ""p"" is not referenced");
-      begin
-         s (s'First .. s'Last) := (others => ' ');
-      end Put;
-
-   end suffix_record_io;
+   package body Suffix_Record_IO is separate;
 
    package body quality_record_io is
       use Part_Of_Speech_Type_IO;
@@ -605,10 +436,10 @@ package body Latin_Utils.Inflections_Package is
       use Supine_Record_IO;
       use Preposition_Record_IO;
       use Conjunction_Record_IO;
-      use interjection_record_io;
-      use tackon_record_io;
-      use prefix_record_io;
-      use suffix_record_io;
+      use Interjection_Record_IO;
+      use Tackon_Record_IO;
+      use Prefix_Record_IO;
+      use Suffix_Record_IO;
       spacer : Character := ' ';
 
       noun  : Noun_Record;
@@ -621,11 +452,11 @@ package body Latin_Utils.Inflections_Package is
       supin : Supine_Record;
       preposition : Preposition_Record;
       conjunction : Conjunction_Record;
-      interjection : interjection_record;
+      interjection : Interjection_Record;
       numeral : Numeral_Record;
-      tackn : tackon_record;
-      prefx : prefix_record;
-      suffx : suffix_record;
+      tackn : Tackon_Record;
+      prefx : Prefix_Record;
+      suffx : Suffix_Record;
 
       procedure Get (f : in File_Type; p : out quality_record) is
          ps : Part_Of_Speech_Type := X;
@@ -939,16 +770,16 @@ package body Latin_Utils.Inflections_Package is
                m := l + Conjunction_Record_IO.Default_Width;
                Put (s (l + 1 .. m), p.Conj);
             when Interj =>
-               m := l + interjection_record_io.Default_Width;
+               m := l + Interjection_Record_IO.Default_Width;
                Put (s (l + 1 .. m), p.Interj);
             when Tackon =>
-               m := l + tackon_record_io.Default_Width;
+               m := l + Tackon_Record_IO.Default_Width;
                Put (s (l + 1 .. m), p.Tackon);
             when Prefix =>
-               m := l + prefix_record_io.Default_Width;
+               m := l + Prefix_Record_IO.Default_Width;
                Put (s (l + 1 .. m), p.Prefix);
             when Suffix =>
-               m := l + suffix_record_io.Default_Width;
+               m := l + Suffix_Record_IO.Default_Width;
                Put (s (l + 1 .. m), p.Suffix);
             when others =>
                null;
@@ -1453,7 +1284,7 @@ begin
 
    Conjunction_Record_IO.Default_Width := 0;
 
-   interjection_record_io.Default_Width := 0;
+   Interjection_Record_IO.Default_Width := 0;
 
    Numeral_Record_IO.Default_Width :=
      Decn_Record_IO.Default_Width + 1 +
@@ -1462,11 +1293,11 @@ begin
      Gender_Type_IO.Default_Width + 1 +
      Numeral_Sort_Type_IO.Default_Width;
 
-   tackon_record_io.Default_Width := 0;
+   Tackon_Record_IO.Default_Width := 0;
 
-   prefix_record_io.Default_Width := 0;
+   Prefix_Record_IO.Default_Width := 0;
 
-   suffix_record_io.Default_Width := 0;
+   Suffix_Record_IO.Default_Width := 0;
 
    quality_record_io.Default_Width := Part_Of_Speech_Type_IO.Default_Width + 1 +
      Vpar_Record_IO.Default_Width; --  Largest
