@@ -23,200 +23,200 @@ with Support_Utils.Word_Parameters; use Support_Utils.Word_Parameters;
 with Latin_Utils.Preface;
 with Support_Utils.Developer_Parameters; use Support_Utils.Developer_Parameters;
 with Support_Utils.Line_Stuff; use Support_Utils.Line_Stuff;
-with english_support_package; use english_support_package;
-package body word_package is
+with English_Support_Package; use English_Support_Package;
+package body Word_Package is
 
-   inflections_sections_file : lel_section_io.File_Type;
+   Inflections_Sections_File : Lel_Section_Io.File_Type;
 
-   procedure pause (Output : Ada.Text_IO.File_Type) is
-      pause_line : String (1 .. 300);
-      pause_last : Integer := 0;
+   procedure Pause (Output : Ada.Text_IO.File_Type) is
+      Pause_Line : String (1 .. 300);
+      Pause_Last : Integer := 0;
    begin
-      if words_mdev (pause_in_screen_Output)  then
-         if method = interactive  then
+      if Words_Mdev (Pause_In_Screen_Output)  then
+         if Method = Interactive  then
             if Ada.Text_IO.Name (Output) =
               Ada.Text_IO.Name (Ada.Text_IO.Standard_Output)
             then
                Ada.Text_IO.Put_Line (Ada.Text_IO.Standard_Output,
                "                          MORE - hit RETURN/ENTER to continue");
                Ada.Text_IO.Get_Line
-                 (Ada.Text_IO.Standard_Input, pause_line, pause_last);
+                 (Ada.Text_IO.Standard_Input, Pause_Line, Pause_Last);
             end if;
-         elsif method = Command_Line_Input  then
+         elsif Method = Command_Line_Input  then
             Ada.Text_IO.Put_Line (Ada.Text_IO.Standard_Output,
               "                          MORE - hit RETURN/ENTER to continue");
             Ada.Text_IO.Get_Line (Ada.Text_IO.Standard_Input,
-              pause_line, pause_last);
-         elsif method = Command_Line_files  then
+              Pause_Line, Pause_Last);
+         elsif Method = Command_Line_Files  then
             null;                       --  Do not PAUSE
          end if;
       end if;
    exception
       when others  =>
          Ada.Text_IO.Put_Line ("Unexpected exception in PAUSE");
-   end pause;
+   end Pause;
 
-   function min (a, b : Integer) return Integer is
+   function Min (A, B : Integer) return Integer is
    begin
-      if a <= b  then
-         return a;
+      if A <= B  then
+         return A;
       end if;
-      return b;
-   end min;
+      return B;
+   end Min;
 
-   function ltu (c, d : Character) return Boolean is
+   function Ltu (C, D : Character) return Boolean is
    begin
-      if d = 'v' then
-         if c < 'u' then
+      if D = 'v' then
+         if C < 'u' then
             return True;
          else
             return False;
          end if;
-      elsif d = 'j' then
-         if c < 'i' then
+      elsif D = 'j' then
+         if C < 'i' then
             return True;
          else
             return False;
          end if;
-      elsif d = 'V' then
-         if c < 'U' then
+      elsif D = 'V' then
+         if C < 'U' then
             return True;
          else
             return False;
          end if;
-      elsif d = 'J' then
-         if c < 'I' then
+      elsif D = 'J' then
+         if C < 'I' then
             return True;
          else
             return False;
          end if;
       else
-         return c < d;
+         return C < D;
       end if;
-   end ltu;
+   end Ltu;
 
-   function equ (c, d : Character) return Boolean is
+   function Equ (C, D : Character) return Boolean is
    begin
-      if (d = 'u') or (d = 'v')  then
-         if (c = 'u') or (c = 'v')  then
+      if (D = 'u') or (D = 'v')  then
+         if (C = 'u') or (C = 'v')  then
             return True;
          else
             return False;
          end if;
-      elsif (d = 'i') or (d = 'j')  then
-         if (c = 'i') or (c = 'j')  then
+      elsif (D = 'i') or (D = 'j')  then
+         if (C = 'i') or (C = 'j')  then
             return True;
          else
             return False;
          end if;
-      elsif (d = 'U') or (d = 'V')  then
-         if (c = 'U') or (c = 'V')  then
+      elsif (D = 'U') or (D = 'V')  then
+         if (C = 'U') or (C = 'V')  then
             return True;
          else
             return False;
          end if;
-      elsif (d = 'I') or (d = 'J')  then
-         if (c = 'I') or (c = 'J')  then
+      elsif (D = 'I') or (D = 'J')  then
+         if (C = 'I') or (C = 'J')  then
             return True;
          else
             return False;
          end if;
       else
-         return c = d;
+         return C = D;
       end if;
-   end equ;
+   end Equ;
 
-   function gtu (c, d : Character) return Boolean is
+   function Gtu (C, D : Character) return Boolean is
    begin
-      if d = 'u' then
-         if c > 'v' then
+      if D = 'u' then
+         if C > 'v' then
             return True;
          else
             return False;
          end if;
-      elsif d = 'i' then
-         if c > 'j' then
+      elsif D = 'i' then
+         if C > 'j' then
             return True;
          else
             return False;
          end if;
-      elsif d = 'U' then
-         if c > 'V' then
+      elsif D = 'U' then
+         if C > 'V' then
             return True;
          else
             return False;
          end if;
-      elsif d = 'I' then
-         if c > 'J' then
+      elsif D = 'I' then
+         if C > 'J' then
             return True;
          else
             return False;
          end if;
       else
-         return c > d;
+         return C > D;
       end if;
-   end gtu;
+   end Gtu;
 
-   function ltu (s, t : String) return Boolean is
+   function Ltu (S, T : String) return Boolean is
    begin
-      for i in 1 .. s'Length  loop   --  Not TRIMed, so same length
-         if equ (s (s'First + i - 1), t (t'First + i - 1))  then
+      for I in 1 .. S'Length  loop   --  Not TRIMed, so same length
+         if Equ (S (S'First + I - 1), T (T'First + I - 1))  then
             null;
-         elsif gtu (s (s'First + i - 1), t (t'First + i - 1))  then
+         elsif Gtu (S (S'First + I - 1), T (T'First + I - 1))  then
             return False;
-         elsif ltu (s (s'First + i - 1), t (t'First + i - 1))  then
+         elsif Ltu (S (S'First + I - 1), T (T'First + I - 1))  then
             return True;
          end if;
       end loop;
       return False;
-   end ltu;
+   end Ltu;
 
-   function gtu (s, t : String) return Boolean is
+   function Gtu (S, T : String) return Boolean is
    begin
-      for i in 1 .. s'Length  loop   --  Not TRIMed, so same length
-         if equ (s (s'First + i - 1), t (t'First + i - 1))  then
+      for I in 1 .. S'Length  loop   --  Not TRIMed, so same length
+         if Equ (S (S'First + I - 1), T (T'First + I - 1))  then
             null;
-         elsif ltu (s (s'First + i - 1), t (t'First + i - 1))  then
+         elsif Ltu (S (S'First + I - 1), T (T'First + I - 1))  then
             return False;
-         elsif gtu (s (s'First + i - 1), t (t'First + i - 1))  then
+         elsif Gtu (S (S'First + I - 1), T (T'First + I - 1))  then
             return True;
          end if;
       end loop;
       return False;
-   end gtu;
+   end Gtu;
 
-   function equ (s, t : String) return Boolean is
+   function Equ (S, T : String) return Boolean is
    begin
-      if s'Length /= t'Length  then
+      if S'Length /= T'Length  then
          return False;
       end if;
 
-      for i in 1 .. s'Length  loop
-         if not equ (s (s'First + i - 1), t (t'First + i - 1))  then
+      for I in 1 .. S'Length  loop
+         if not Equ (S (S'First + I - 1), T (T'First + I - 1))  then
             return False;
          end if;
       end loop;
 
       return True;
-   end equ;
+   end Equ;
 
-   procedure run_uniques
-     (s : in String;
-      unique_found : out Boolean;
-      pa : in out Parse_Array; pa_last : in out Integer)
+   procedure Run_Uniques
+     (S : in String;
+      Unique_Found : out Boolean;
+      Pa : in out Parse_Array; Pa_Last : in out Integer)
    is
-      sl : constant String        --  BAD NAME!!!!!!!!!!!!!!!!!!
-        := Lower_Case (Trim (s));
-      st : constant Stem_Type := Head (sl, Max_Stem_Size);
-      unql : unique_list;   --  Unique list for a letter
+      Sl : constant String        --  BAD NAME!!!!!!!!!!!!!!!!!!
+        := Lower_Case (Trim (S));
+      St : constant Stem_Type := Head (Sl, Max_Stem_Size);
+      Unql : Unique_List;   --  Unique list for a letter
    begin
-      unique_found := False;
-      if sl (sl'First) = 'v'  then
-         unql := unq ('u');   --  Unique list for a letter
-      elsif sl (sl'First) = 'j'  then
-         unql := unq ('i');   --  Unique list for a letter
+      Unique_Found := False;
+      if Sl (Sl'First) = 'v'  then
+         Unql := Unq ('u');   --  Unique list for a letter
+      elsif Sl (Sl'First) = 'j'  then
+         Unql := Unq ('i');   --  Unique list for a letter
       else
-         unql := unq (sl (sl'First));   --  Unique list for a letter
+         Unql := Unq (Sl (Sl'First));   --  Unique list for a letter
       end if;
 
       --TEXT_IO.NEW_LINE;
@@ -225,117 +225,117 @@ package body word_package is
       --TEXT_IO.NEW_LINE;
       --TEXT_IO.PUT_LINE ("UNQL ");
 
-      while unql /= null  loop
+      while Unql /= null  loop
          --  If there is a match, add to PA
          --TEXT_IO.PUT_LINE ("UNIQUE =>" & UNQL.PR.STEM);
          --if ST = LOWER_CASE (UNQL.PR.STEM)  then
-         if equ (st, Lower_Case (unql.stem)) then
-            pa_last := pa_last + 1;
-            pa (pa_last) := (unql.stem,
-              (unql.qual,
+         if Equ (St, Lower_Case (Unql.Stem)) then
+            Pa_Last := Pa_Last + 1;
+            Pa (Pa_Last) := (Unql.Stem,
+              (Unql.Qual,
               0,
-              null_ending_record,
-              x,
-              x),
-              unique,
-              unql.MNPC);
+              Null_Ending_Record,
+              X,
+              X),
+              Unique,
+              Unql.MNPC);
 
-            unique_found := True;
+            Unique_Found := True;
          end if;
-         unql := unql.succ;
+         Unql := Unql.Succ;
       end loop;
 
-   end run_uniques;
+   end Run_Uniques;
 
-   procedure run_inflections
-     (s : in String;
-      sl : in out sal;
-      restriction : dict_restriction := regular)
+   procedure Run_Inflections
+     (S : in String;
+      Sl : in out Sal;
+      Restriction : Dict_Restriction := Regular)
    is
       --  Trys all possible inflections against the Input word in S
       --  and constructs a STEM_LIST of those that survive SL
-      use lel_section_io;
+      use Lel_Section_Io;
       use Inflection_Record_IO;
-      word : constant String := Lower_Case (Trim (s));
-      last_of_word : constant Character := word (word'Last);
-      length_of_word   : constant Integer := word'Length;
-      stem_length  : Integer := 0;
-      pr   : Parse_Record;
-      m : Integer := 1;
+      Word : constant String := Lower_Case (Trim (S));
+      Last_Of_Word : constant Character := Word (Word'Last);
+      Length_Of_Word   : constant Integer := Word'Length;
+      Stem_Length  : Integer := 0;
+      Pr   : Parse_Record;
+      M : Integer := 1;
 
    begin
       --TEXT_IO.NEW_LINE;
       --TEXT_IO.PUT_LINE ("Called RUN_INFLECTIONS with =>" & WORD & "|");
-      if word'Length = 0  then
-         sl (m) := Null_Parse_Record;
+      if Word'Length = 0  then
+         Sl (M) := Null_Parse_Record;
          return;
       end if;
 
-      sa := not_a_stem_array;
+      Sa := Not_A_Stem_Array;
 
       --  Add all of these to list of possible ending records
       --  since the blank ending agrees with everything
       --  PACK/PRON have no blank endings
-      if ((restriction /= pack_only) and (restriction /= qu_pron_only))
-        and then (word'Length <= Max_Stem_Size)
+      if ((Restriction /= Pack_Only) and (Restriction /= Qu_Pron_Only))
+        and then (Word'Length <= Max_Stem_Size)
       then
-         for i in belf (0, ' ') .. bell (0, ' ')  loop
-            pr := (word & Null_Stem_Type
-              (length_of_word + 1 .. Stem_Type'Length),
-              bel (i), Default_Dictionary_Kind, Null_MNPC);
-            sl (m) := pr;
-            m := m + 1;
+         for I in Belf (0, ' ') .. Bell (0, ' ')  loop
+            Pr := (Word & Null_Stem_Type
+              (Length_Of_Word + 1 .. Stem_Type'Length),
+              Bel (I), Default_Dictionary_Kind, Null_MNPC);
+            Sl (M) := Pr;
+            M := M + 1;
          end loop;
 
          --  Is always a possibility (null ending)
-         sa (length_of_word) := pr.Stem;
+         Sa (Length_Of_Word) := Pr.Stem;
       end if;
 
       --  Here we read in the INFLECTIONS_SECTION that is applicable
-      if restriction = regular  then
-         case last_of_word is
+      if Restriction = Regular  then
+         case Last_Of_Word is
             when 'a' | 'c' | 'd' | 'e' | 'i'  =>
-               Read (inflections_sections_file, lel, 1);
+               Read (Inflections_Sections_File, Lel, 1);
             when 'm' | 'n' | 'o' | 'r'  =>
-               Read (inflections_sections_file, lel, 2);
+               Read (Inflections_Sections_File, Lel, 2);
             when 's'  =>
-               Read (inflections_sections_file, lel, 3);
+               Read (Inflections_Sections_File, Lel, 3);
             when 't' | 'u'  =>
-               Read (inflections_sections_file, lel, 4);
+               Read (Inflections_Sections_File, Lel, 4);
             when others  =>
                --PUT_LINE ("Only blank inflections are found");
                return;
          end case;
-      elsif restriction = pack_only  or restriction = qu_pron_only  then
-         Read (inflections_sections_file, lel, 4);
+      elsif Restriction = Pack_Only  or Restriction = Qu_Pron_Only  then
+         Read (Inflections_Sections_File, Lel, 4);
       end if;
 
       --  Now do the non-blank endings      --  Only go to LENGTH_OF_WORD
-      for z in reverse 1 .. min (max_ending_size, length_of_word)  loop
+      for Z in reverse 1 .. Min (Max_Ending_Size, Length_Of_Word)  loop
 
          --  Check if Z agrees with a PDL SIZE  !!!!!!!!!!!!!!!!!!!!!!!!!!!!
          --  Maybe make PDL on size, if it has to be a list,
          --  or order by size if array
-         if lell (z, last_of_word) > 0  then   --  Any likely inflections at all
+         if Lell (Z, Last_Of_Word) > 0  then   --  Any likely inflections at all
 
-            for i in lelf (z, last_of_word) .. lell (z, last_of_word) loop
-               if equ (Lower_Case (lel (i).ending.suf (1 .. z)),
-                 Lower_Case (word (word'Last - z + 1 .. word'Last)))
+            for I in Lelf (Z, Last_Of_Word) .. Lell (Z, Last_Of_Word) loop
+               if Equ (Lower_Case (Lel (I).Ending.Suf (1 .. Z)),
+                 Lower_Case (Word (Word'Last - Z + 1 .. Word'Last)))
                then
                   --  Add to list of possible ending records
                   --STEM_LENGTH := WORD'LENGTH - LEL (I).ENDING.SIZE;
-                  stem_length := word'Length - z;
+                  Stem_Length := Word'Length - Z;
 
-                  if stem_length <= Max_Stem_Size  then
+                  if Stem_Length <= Max_Stem_Size  then
                      --  Reject too long words
                      --  Check if LEL IR agrees with PDL IR  !!!!!!!!
-                     pr := (word (word'First .. stem_length) &
-                       Null_Stem_Type (stem_length + 1 .. Max_Stem_Size),
-                       lel (i), Default_Dictionary_Kind, Null_MNPC);
-                     sl (m) := pr;
-                     m := m + 1;
+                     Pr := (Word (Word'First .. Stem_Length) &
+                       Null_Stem_Type (Stem_Length + 1 .. Max_Stem_Size),
+                       Lel (I), Default_Dictionary_Kind, Null_MNPC);
+                     Sl (M) := Pr;
+                     M := M + 1;
 
-                     sa (stem_length) := pr.Stem;
+                     Sa (Stem_Length) := Pr.Stem;
                      --  Gets set dozens of times
                      --  Could order the endings by length (suffix sort)
                      --  so length changes slowly
@@ -347,258 +347,258 @@ package body word_package is
             end loop;
          end if;
       end loop;
-   end run_inflections;
+   end Run_Inflections;
 
-   procedure try_to_load_dictionary (d_k : Dictionary_Kind) is
+   procedure Try_To_Load_Dictionary (D_K : Dictionary_Kind) is
    begin
-      stem_io.Open (stem_file (d_k), stem_io.In_File,
-        add_file_name_extension (stem_file_name,
-        Dictionary_Kind'Image (d_k)));
-      Dict_IO.Open (Dict_File (d_k), Dict_IO.In_File,
-        add_file_name_extension (dict_file_name,
-        Dictionary_Kind'Image (d_k)));
-      load_indices_from_indx_file (d_k);
-      Dictionary_Available (d_k) := True;
+      Stem_Io.Open (Stem_File (D_K), Stem_Io.In_File,
+        Add_File_Name_Extension (Stem_File_Name,
+        Dictionary_Kind'Image (D_K)));
+      Dict_IO.Open (Dict_File (D_K), Dict_IO.In_File,
+        Add_File_Name_Extension (Dict_File_Name,
+        Dictionary_Kind'Image (D_K)));
+      Load_Indices_From_Indx_File (D_K);
+      Dictionary_Available (D_K) := True;
 
    exception
       when others  =>
-         Dictionary_Available (d_k) := False;
-   end try_to_load_dictionary;
+         Dictionary_Available (D_K) := False;
+   end Try_To_Load_Dictionary;
 
-   procedure dictionary_search (ssa : stem_array_type;
-                                d_k : Dictionary_Kind;
-                                restriction : dict_restriction := regular) is
+   procedure Dictionary_Search (Ssa : Stem_Array_Type;
+                                D_K : Dictionary_Kind;
+                                Restriction : Dict_Restriction := Regular) is
       --  Prepares a PDL list of possible dictionary hits
       --  Search a dictionary (D_K) looking for all stems that match
       --  any of the stems that are physically possible with Latin inflections
-      use stem_io;
+      use Stem_Io;
 
       --type NAT_32 is Range 0 .. 2**31-1;   --###############
-      j, j1, j2, jj : stem_io.Count := 0;
+      J, J1, J2, Jj : Stem_Io.Count := 0;
 
-      index_on : constant String := ssa (ssa'Last);
-      index_first, index_last : stem_io.Count := 0;
-      ds : dictionary_stem;
-      first_try, second_try : Boolean := True;
+      Index_On : constant String := Ssa (Ssa'Last);
+      Index_First, Index_Last : Stem_Io.Count := 0;
+      Ds : Dictionary_Stem;
+      First_Try, Second_Try : Boolean := True;
 
-      function first_two (w : String) return String is
+      function First_Two (W : String) return String is
          --  'v' could be represented by 'u', like the
          --  new Oxford Latin Dictionary
 
          --  Fixes the first two letters of a word/stem which can be done right
-         s : constant String := Lower_Case (w);
-         ss : String (w'Range) := w;
+         S : constant String := Lower_Case (W);
+         Ss : String (W'Range) := W;
 
-         function ui (c : Character) return Character  is
+         function Ui (C : Character) return Character  is
          begin
-            if c = 'v' then
+            if C = 'v' then
                return 'u';
-            elsif c = 'V' then
+            elsif C = 'V' then
                return 'U';
-            elsif c = 'j' then
+            elsif C = 'j' then
                return 'i';
-            elsif c = 'J' then
+            elsif C = 'J' then
                return 'I';
             else
-               return c;
+               return C;
             end if;
-         end ui;
+         end Ui;
 
       begin
 
-         if s'Length = 1  then
-            ss (s'First) := ui (w (s'First));
+         if S'Length = 1  then
+            Ss (S'First) := Ui (W (S'First));
          else
-            ss (s'First)   := ui (w (s'First));
-            ss (s'First + 1) := ui (w (s'First + 1));
+            Ss (S'First)   := Ui (W (S'First));
+            Ss (S'First + 1) := Ui (W (S'First + 1));
          end if;
 
-         return ss;
-      end first_two;
+         return Ss;
+      end First_Two;
 
-      procedure load_pdl is
+      procedure Load_Pdl is
       begin
-         case restriction is
-            when regular    =>
-               if not (ds.part.pofs = Pack  or
-                 (ds.part.pofs = Pron  and then
-                 (ds.part.Pron.Decl.Which = 1)))
+         case Restriction is
+            when Regular    =>
+               if not (Ds.Part.Pofs = Pack  or
+                 (Ds.Part.Pofs = Pron  and then
+                 (Ds.Part.Pron.Decl.Which = 1)))
                then
-                  pdl_index := pdl_index + 1;
-                  pdl (pdl_index) := pruned_dictionary_item'(ds, d_k);
+                  Pdl_Index := Pdl_Index + 1;
+                  Pdl (Pdl_Index) := Pruned_Dictionary_Item'(Ds, D_K);
                end if;
 
-            when pack_only  =>
-               if ds.part.pofs = Pack  then
-                  pdl_index := pdl_index + 1;
-                  pdl (pdl_index) := pruned_dictionary_item'(ds, d_k);
+            when Pack_Only  =>
+               if Ds.Part.Pofs = Pack  then
+                  Pdl_Index := Pdl_Index + 1;
+                  Pdl (Pdl_Index) := Pruned_Dictionary_Item'(Ds, D_K);
                end if;
 
-            when qu_pron_only  =>
-               if ds.part.pofs = Pron  and then
-                 (ds.part.Pron.Decl.Which = 1)
+            when Qu_Pron_Only  =>
+               if Ds.Part.Pofs = Pron  and then
+                 (Ds.Part.Pron.Decl.Which = 1)
                then
-                  pdl_index := pdl_index + 1;
-                  pdl (pdl_index) := pruned_dictionary_item'(ds, d_k);
+                  Pdl_Index := Pdl_Index + 1;
+                  Pdl (Pdl_Index) := Pruned_Dictionary_Item'(Ds, D_K);
                end if;
 
             when others =>
-               pdl_index := pdl_index + 1;
-               pdl (pdl_index) := pruned_dictionary_item'(ds, d_k);
+               Pdl_Index := Pdl_Index + 1;
+               Pdl (Pdl_Index) := Pruned_Dictionary_Item'(Ds, D_K);
          end case;
 
-      end load_pdl;
+      end Load_Pdl;
 
    begin
       --  Now go through the dictionary list DL for the first letters
       --  and make a reduced dictionary list PDL
 
-      if d_k = local  then
-         index_first := first_index ((first_two (index_on)(1), 'a'), d_k);
-         index_last  := last_index ((first_two (index_on)(1), 'a'), d_k);
+      if D_K = Local  then
+         Index_First := First_Index ((First_Two (Index_On)(1), 'a'), D_K);
+         Index_Last  := Last_Index ((First_Two (Index_On)(1), 'a'), D_K);
       else
-         index_first := first_index (first_two (index_on), d_k);
-         index_last  := last_index (first_two (index_on), d_k);
+         Index_First := First_Index (First_Two (Index_On), D_K);
+         Index_Last  := Last_Index (First_Two (Index_On), D_K);
       end if;
 
-      if index_first > 0  and then index_first <= index_last then
+      if Index_First > 0  and then Index_First <= Index_Last then
 
-         j1 := index_first;    --######################
-         j2 := index_last;
+         J1 := Index_First;    --######################
+         J2 := Index_Last;
 
-         stem_array_loop :
-         for k in ssa'Range  loop
-            if Trim (ssa (k))'Length > 1  then
+         Stem_Array_Loop :
+         for K in Ssa'Range  loop
+            if Trim (Ssa (K))'Length > 1  then
                --  This may be checking for 0 and 1 letter SSAs which
                --  are done elsewhere
 
-               if d_k = local  then
+               if D_K = Local  then
                   --  Special processing for unordered DICT.LOC
-                  for j in j1 .. j2  loop
+                  for J in J1 .. J2  loop
                      --  Sweep exaustively through the scope
-                     Set_Index (stem_file (d_k), stem_io.Count (j));
-                     Read (stem_file (d_k), ds);
+                     Set_Index (Stem_File (D_K), Stem_Io.Count (J));
+                     Read (Stem_File (D_K), Ds);
 
-                     if equ (Lower_Case (ds.stem), ssa (k))  then
-                        load_pdl;
+                     if Equ (Lower_Case (Ds.Stem), Ssa (K))  then
+                        Load_Pdl;
                      end if;
                   end loop;
                else                     --  Regular dictionaries
-                  first_try := True;
+                  First_Try := True;
 
-                  second_try := True;
+                  Second_Try := True;
 
-                  j := (j1 + j2) / 2;
+                  J := (J1 + J2) / 2;
 
-                  binary_search :
+                  Binary_Search :
                   loop
-                     if (j1 = j2 - 1) or (j1 = j2) then
-                        if first_try  then
-                           j := j1;
-                           first_try := False;
-                        elsif second_try  then
-                           j := j2;
-                           second_try := False;
+                     if (J1 = J2 - 1) or (J1 = J2) then
+                        if First_Try  then
+                           J := J1;
+                           First_Try := False;
+                        elsif Second_Try  then
+                           J := J2;
+                           Second_Try := False;
                         else
-                           jj := j;
-                           exit binary_search;
+                           Jj := J;
+                           exit Binary_Search;
                         end if;
                      end if;
 
-                     Set_Index (stem_file (d_k), j);
-                     Read (stem_file (d_k), ds);
+                     Set_Index (Stem_File (D_K), J);
+                     Read (Stem_File (D_K), Ds);
 
-                     if  ltu (Lower_Case (ds.stem), ssa (k))  then
-                        j1 := j;
-                        j := (j1 + j2) / 2;
-                     elsif  gtu (Lower_Case (ds.stem), ssa (k))  then
-                        j2 := j;
-                        j := (j1 + j2) / 2;
+                     if  Ltu (Lower_Case (Ds.Stem), Ssa (K))  then
+                        J1 := J;
+                        J := (J1 + J2) / 2;
+                     elsif  Gtu (Lower_Case (Ds.Stem), Ssa (K))  then
+                        J2 := J;
+                        J := (J1 + J2) / 2;
                      else
-                        for i in reverse j1 .. j  loop
-                           Set_Index (stem_file (d_k), stem_io.Count (i));
-                           Read (stem_file (d_k), ds);
+                        for I in reverse J1 .. J  loop
+                           Set_Index (Stem_File (D_K), Stem_Io.Count (I));
+                           Read (Stem_File (D_K), Ds);
 
-                           if equ (Lower_Case (ds.stem), ssa (k))  then
-                              jj := i;
-                              load_pdl;
+                           if Equ (Lower_Case (Ds.Stem), Ssa (K))  then
+                              Jj := I;
+                              Load_Pdl;
 
                            else
                               exit;
                            end if;
                         end loop;
 
-                        for i in j + 1 .. j2  loop
-                           Set_Index (stem_file (d_k), stem_io.Count (i));
-                           Read (stem_file (d_k), ds);
+                        for I in J + 1 .. J2  loop
+                           Set_Index (Stem_File (D_K), Stem_Io.Count (I));
+                           Read (Stem_File (D_K), Ds);
 
-                           if equ (Lower_Case (ds.stem), ssa (k))  then
-                              jj := i;
-                              load_pdl;
+                           if Equ (Lower_Case (Ds.Stem), Ssa (K))  then
+                              Jj := I;
+                              Load_Pdl;
 
                            else
-                              exit binary_search;
+                              exit Binary_Search;
                            end if;
                         end loop;
-                        exit binary_search;
+                        exit Binary_Search;
                      end if;
-                  end loop binary_search;
-                  j1 := jj;
-                  j2 := index_last;
+                  end loop Binary_Search;
+                  J1 := Jj;
+                  J2 := Index_Last;
                end if;               --  On LOCAL check
             end if;               --  On LENGTH > 1
-         end loop stem_array_loop;
+         end loop Stem_Array_Loop;
       end if;
-   end dictionary_search;
+   end Dictionary_Search;
 
-   procedure search_dictionaries (ssa : in stem_array_type;
-                                  restriction : dict_restriction := regular) is
-      use stem_io;
-      fc : Character := ' ';
+   procedure Search_Dictionaries (Ssa : in Stem_Array_Type;
+                                  Restriction : Dict_Restriction := Regular) is
+      use Stem_Io;
+      Fc : Character := ' ';
    begin
-      pdl := (others => null_pruned_dictionary_item);
-      pdl_index := 0;
+      Pdl := (others => Null_Pruned_Dictionary_Item);
+      Pdl_Index := 0;
       --PUT_LINE ("Search for blank stems");
       --  BDL is always used, so it is loaded initially and not called from disk
       --  Check all stems of the dictionary entry against the reduced stems
 
       --  Determine if there is a pure blank "  " stem
-      if len (ssa (ssa'First)) = 0    then
+      if Len (Ssa (Ssa'First)) = 0    then
          --  a size would help?
          --PUT ("HIT on blank stem   I = ");PUT ('1');
          --PUT ("  STEM = ");PUT_LINE (BDL (1).STEM);
          --PDL := new PRUNED_DICTIONARY_ITEM'(BDL (1), GENERAL, PDL);
-         pdl_index := pdl_index + 1;
-         pdl (pdl_index) := pruned_dictionary_item'(bdl (1), general);
+         Pdl_Index := Pdl_Index + 1;
+         Pdl (Pdl_Index) := Pruned_Dictionary_Item'(Bdl (1), General);
       end if;
       --  Now there is only one blank stem (2 of to_be),
       --  but need not always be so
 
       --  Determine if there is a blank stem  (SC = ' ')
       --  Prepare for the posibility that one stem is short but there are others
-      fc := ' ';
-      if ssa (ssa'First)(1) = ' ' then
-         if ssa'Length > 1  and then ssa (ssa'First + 1)(2) = ' '  then
-            fc := ssa (ssa'First + 1)(1);
+      Fc := ' ';
+      if Ssa (Ssa'First)(1) = ' ' then
+         if Ssa'Length > 1  and then Ssa (Ssa'First + 1)(2) = ' '  then
+            Fc := Ssa (Ssa'First + 1)(1);
          end if;
-      elsif ssa (ssa'First)(2) = ' '  then
-         fc := ssa (ssa'First)(1);
+      elsif Ssa (Ssa'First)(2) = ' '  then
+         Fc := Ssa (Ssa'First)(1);
       end if;
 
       --  If there is a single letter stem  (FC /= ' ') then
-      if fc /= ' '  then
-         for i in 2 .. bdl_last  loop
+      if Fc /= ' '  then
+         for I in 2 .. Bdl_Last  loop
             --  Check all stems of the dictionary entry against the
             --  reduced stems
             --if LOWER_CASE (BDL (I).STEM (1)) = FC  then
-            if equ (Lower_Case (bdl (i).stem (1)),  fc)  then
-               pdl_index := pdl_index + 1;
-               pdl (pdl_index) := pruned_dictionary_item'(bdl (i), general);
+            if Equ (Lower_Case (Bdl (I).Stem (1)),  Fc)  then
+               Pdl_Index := Pdl_Index + 1;
+               Pdl (Pdl_Index) := Pruned_Dictionary_Item'(Bdl (I), General);
             end if;
          end loop;
       end if;
 
-      if ssa'Length = 0  then
+      if Ssa'Length = 0  then
          --        PUT_LINE ("Empty stem array, don't bother searching");
          return;
          --      elsif LEN (SSA (SSA'LAST)) <= 1  then
@@ -607,30 +607,30 @@ package body word_package is
          --        PUT_LINE ("Searching Dictionaries");
       end if;
 
-      for d_k in Dictionary_Kind  loop
-         if Dictionary_Available (d_k)  then
-            if not Is_Open (stem_file (d_k))  then
-               Open (stem_file (d_k), stem_io.In_File,
-                 add_file_name_extension (stem_file_name,
-                 Dictionary_Kind'Image (d_k)));
+      for D_K in Dictionary_Kind  loop
+         if Dictionary_Available (D_K)  then
+            if not Is_Open (Stem_File (D_K))  then
+               Open (Stem_File (D_K), Stem_Io.In_File,
+                 Add_File_Name_Extension (Stem_File_Name,
+                 Dictionary_Kind'Image (D_K)));
             end if;
-            dictionary_search (ssa, d_k, restriction);
-            Close (stem_file (d_k));  --??????
+            Dictionary_Search (Ssa, D_K, Restriction);
+            Close (Stem_File (D_K));  --??????
          end if;
       end loop;
 
-   end search_dictionaries;
+   end Search_Dictionaries;
 
-   procedure change_language (c : Character) is
-   begin  if Upper_Case (c) = 'L'  then
-      language := latin_to_english;
+   procedure Change_Language (C : Character) is
+   begin  if Upper_Case (C) = 'L'  then
+      Language := Latin_To_English;
       Preface.Put_Line
-        ("Language changed to " & language_type'Image (language));
-   elsif Upper_Case (c) = 'E'  then
-      if English_Dictionary_Available (general)  then
-         language := english_to_latin;
+        ("Language changed to " & Language_Type'Image (Language));
+   elsif Upper_Case (C) = 'E'  then
+      if English_Dictionary_Available (General)  then
+         Language := English_To_Latin;
          Preface.Put_Line
-           ("Language changed to " & language_type'Image (language));
+           ("Language changed to " & Language_Type'Image (Language));
          Preface.Put_Line
            ("InPut a single English word (+ part of speech - " &
             "N, ADJ, V, PREP, . .. )");
@@ -640,49 +640,49 @@ package body word_package is
    else
       Preface.Put_Line
         ("Bad LANGAUGE Input - no change, remains " &
-         language_type'Image (language));
+         Language_Type'Image (Language));
    end if;
    exception
       when others  =>
          Preface.Put_Line ("Bad LANGAUGE Input - no change, remains " &
-           language_type'Image (language));
-   end change_language;
+           Language_Type'Image (Language));
+   end Change_Language;
 
-   procedure word (raw_word : in String;
-                   pa : in out Parse_Array; pa_last : in out Integer) is
+   procedure Word (Raw_Word : in String;
+                   Pa : in out Parse_Array; Pa_Last : in out Integer) is
 
-      Input_word : constant String := Lower_Case (raw_word);
-      pa_save : constant Integer := pa_last;
+      Input_Word : constant String := Lower_Case (Raw_Word);
+      Pa_Save : constant Integer := Pa_Last;
 
-      unique_found : Boolean := False;
+      Unique_Found : Boolean := False;
 
-      ss, sss : sal := (others => Null_Parse_Record);
+      Ss, Sss : Sal := (others => Null_Parse_Record);
 
-      procedure order_stems (sx : in out sal) is
+      procedure Order_Stems (Sx : in out Sal) is
          use Inflection_Record_IO;
          use Dict_IO;
-         hits : Integer := 0;
-         sl : sal := sx;
-         sl_last : Integer := 0;
-         sm : Parse_Record;
+         Hits : Integer := 0;
+         Sl : Sal := Sx;
+         Sl_Last : Integer := 0;
+         Sm : Parse_Record;
       begin
-         if sx (1) = Null_Parse_Record  then
+         if Sx (1) = Null_Parse_Record  then
             return;
          end if;
          --PUT_LINE ("ORDERing_STEMS");
 
-         for i in sl'Range  loop
-            exit when sl (i) = Null_Parse_Record;
-            sl_last := sl_last + 1;
+         for I in Sl'Range  loop
+            exit when Sl (I) = Null_Parse_Record;
+            Sl_Last := Sl_Last + 1;
          end loop;
          --PUT_LINE ("In ORDER  SL_LAST = " & INTEGER'IMAGE (SL_LAST));
 
          --  Bubble sort since this list should usually be very small (1-5)
-         hit_loop :
+         Hit_Loop :
          loop
-            hits := 0;
+            Hits := 0;
 
-            switch :
+            Switch :
             begin
                --  Need to remove duplicates in ARRAY_STEMS
                --  This sort is very sloppy
@@ -690,65 +690,65 @@ package body word_package is
                --  PREFIX, XXX, LOC; I ought to do this for every set of
                --  results from different approaches not just in one fell
                --  swoop at the end !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-               inner_loop :
-               for i in 1 .. sl_last - 1  loop
-                  if sl (i + 1) /= Null_Parse_Record  then
+               Inner_Loop :
+               for I in 1 .. Sl_Last - 1  loop
+                  if Sl (I + 1) /= Null_Parse_Record  then
                      -- the following condition is absurd and should be
                      -- rewritten
-                     if (sl (i + 1).MNPC < sl (i).MNPC) or else
-                       (sl (i + 1).MNPC = sl (i).MNPC and then
-                       sl (i + 1).IR.ending.size <
-                         sl (i).IR.ending.size) or else
-                       (sl (i + 1).MNPC = sl (i).MNPC and then
-                       sl (i + 1).IR.ending.size =
-                         sl (i).IR.ending.size and then
-                       sl (i + 1).IR.qual < sl (i).IR.qual) or else
-                       (sl (i + 1).MNPC = sl (i).MNPC and then
-                       sl (i + 1).IR.ending.size =
-                         sl (i).IR.ending.size and then
-                       sl (i + 1).IR.qual = sl (i).IR.qual and then
-                       sl (i + 1).D_K  < sl (i).D_K)
+                     if (Sl (I + 1).MNPC < Sl (I).MNPC) or else
+                       (Sl (I + 1).MNPC = Sl (I).MNPC and then
+                       Sl (I + 1).IR.Ending.Size <
+                         Sl (I).IR.Ending.Size) or else
+                       (Sl (I + 1).MNPC = Sl (I).MNPC and then
+                       Sl (I + 1).IR.Ending.Size =
+                         Sl (I).IR.Ending.Size and then
+                       Sl (I + 1).IR.Qual < Sl (I).IR.Qual) or else
+                       (Sl (I + 1).MNPC = Sl (I).MNPC and then
+                       Sl (I + 1).IR.Ending.Size =
+                         Sl (I).IR.Ending.Size and then
+                       Sl (I + 1).IR.Qual = Sl (I).IR.Qual and then
+                       Sl (I + 1).D_K  < Sl (I).D_K)
                      then
-                        sm := sl (i);
-                        sl (i) := sl (i + 1);
-                        sl (i + 1) := sm;
-                        hits := hits + 1;
+                        Sm := Sl (I);
+                        Sl (I) := Sl (I + 1);
+                        Sl (I + 1) := Sm;
+                        Hits := Hits + 1;
                      end if;
                   else
-                     exit inner_loop;
+                     exit Inner_Loop;
                   end if;
-               end loop inner_loop;
-            end switch;
+               end loop Inner_Loop;
+            end Switch;
 
-            exit hit_loop when hits = 0;
-         end loop hit_loop;
-         sx := sl;
-      end order_stems;
+            exit Hit_Loop when Hits = 0;
+         end loop Hit_Loop;
+         Sx := Sl;
+      end Order_Stems;
 
-      procedure array_stems
-        (sx : in sal;
-         pa : in out Parse_Array; pa_last : in out Integer)
+      procedure Array_Stems
+        (Sx : in Sal;
+         Pa : in out Parse_Array; Pa_Last : in out Integer)
       is
-         sl : constant sal := sx;
-         opr : Parse_Record := Null_Parse_Record;
+         Sl : constant Sal := Sx;
+         Opr : Parse_Record := Null_Parse_Record;
       begin
 
-         if sl (1) = Null_Parse_Record  then
+         if Sl (1) = Null_Parse_Record  then
             return;
          else
 
-            opr := Null_Parse_Record;
-            for i in sl'Range  loop
-               if sl (i) /= Null_Parse_Record  then
+            Opr := Null_Parse_Record;
+            for I in Sl'Range  loop
+               if Sl (I) /= Null_Parse_Record  then
                   --PUT ('*'); PUT (SL (I)); NEW_LINE;
 
-                  supress_key_check :
+                  Supress_Key_Check :
                   declare
-                     function "<=" (a, b : Parse_Record) return Boolean is
+                     function "<=" (A, B : Parse_Record) return Boolean is
                         use Dict_IO;
                      begin  --  !!!!!!!!!!!!!!!!!!!!!!!!!!
-                        if a.IR.qual = b.IR.qual and then
-                          a.MNPC = b.MNPC
+                        if A.IR.Qual = B.IR.Qual and then
+                          A.MNPC = B.MNPC
                         then
                            return True;
                         else
@@ -756,48 +756,48 @@ package body word_package is
                         end if;
                      end "<=";
                   begin
-                     if sl (i) <= opr then
+                     if Sl (I) <= Opr then
                         --  Get rid of duplicates, if ORDER is OK
                         --PUT ('-'); PUT (SL (I)); NEW_LINE;
                         null;
                      else
-                        pa_last := pa_last + 1;
-                        pa (pa_last) := sl (i);
-                        opr := sl (i);
+                        Pa_Last := Pa_Last + 1;
+                        Pa (Pa_Last) := Sl (I);
+                        Opr := Sl (I);
                      end if;
-                  end supress_key_check;
+                  end Supress_Key_Check;
                else
                   exit;
                end if;
             end loop;
          end if;
-      end array_stems;
+      end Array_Stems;
 
-      procedure reduce_stem_list
-        (sl : in sal;
-         sxx : in out sal;
+      procedure Reduce_Stem_List
+        (Sl : in Sal;
+         Sxx : in out Sal;
          --  Need in out if want to print it at the end
          --procedure REDUCE_STEM_LIST (SL : in SAL; SXX : out SAL;
-         prefix : in prefix_item := null_prefix_item;
-         suffix : in suffix_item := null_suffix_item)
+         Prefix : in Prefix_Item := Null_Prefix_Item;
+         Suffix : in Suffix_Item := Null_Suffix_Item)
       is
-         MNPC_part : MNPC_Type := Null_MNPC;
-         pdl_part : Part_Entry;
-         com : Comparison_Type := X;
-         num_sort : Numeral_Sort_Type := X;
-         ls : Integer := 0;
-         m : Integer := 0;
+         MNPC_Part : MNPC_Type := Null_MNPC;
+         Pdl_Part : Part_Entry;
+         Com : Comparison_Type := X;
+         Num_Sort : Numeral_Sort_Type := X;
+         Ls : Integer := 0;
+         M : Integer := 0;
 
-         pdl_key : Stem_Key_Type;
-         pdl_p   : Part_Of_Speech_Type;
+         Pdl_Key : Stem_Key_Type;
+         Pdl_P   : Part_Of_Speech_Type;
          --sl_key  : Stem_Key_Type;
          --sl_p    : Part_Of_Speech_Type;
 
-         function "<=" (left, right : Part_Of_Speech_Type) return Boolean is
+         function "<=" (Left, Right : Part_Of_Speech_Type) return Boolean is
          begin
-            if right = left  or else
-              (left = Pack and right = Pron)  or else
-              right = X
+            if Right = Left  or else
+              (Left = Pack and Right = Pron)  or else
+              Right = X
             then
                return True;
             else
@@ -805,11 +805,11 @@ package body word_package is
             end if;
          end "<=";
 
-         function "<=" (left, right : Gender_Type)   return Boolean is
+         function "<=" (Left, Right : Gender_Type)   return Boolean is
          begin
-            if right = left               or else
-              (right = C and left /= N)  or else
-              right = X
+            if Right = Left               or else
+              (Right = C and Left /= N)  or else
+              Right = X
             then
                return True;
             else
@@ -817,9 +817,9 @@ package body word_package is
             end if;
          end "<=";
 
-         function "<=" (left, right : Stem_Key_Type)   return Boolean is
+         function "<=" (Left, Right : Stem_Key_Type)   return Boolean is
          begin
-            if right = left or else right = 0 then
+            if Right = Left or else Right = 0 then
                return True;
             else
                return False;
@@ -827,97 +827,97 @@ package body word_package is
          end "<=";
 
       begin
-         sxx := (others => Null_Parse_Record);
+         Sxx := (others => Null_Parse_Record);
          --  Essentially initializing
          --  For the reduced dictionary list PDL
-         m := 0;
+         M := 0;
 
-         on_pdl :
-         for j in 1 .. pdl_index  loop
+         On_Pdl :
+         for J in 1 .. Pdl_Index  loop
 
-            pdl_part := pdl (j).ds.part;
-            pdl_key := pdl (j).ds.key;
-            MNPC_part := pdl (j).ds.MNPC;
+            Pdl_Part := Pdl (J).Ds.Part;
+            Pdl_Key := Pdl (J).Ds.Key;
+            MNPC_Part := Pdl (J).Ds.MNPC;
 
             --  Is there any point in going through the process for this PDL
-            pdl_p  := pdl (j).ds.part.pofs;  --  Used only for FIX logic below
+            Pdl_P  := Pdl (J).Ds.Part.Pofs;  --  Used only for FIX logic below
 
             --  If there is no SUFFIX then carry on
-            if suffix = null_suffix_item then
+            if Suffix = Null_Suffix_Item then
                --  No suffix working, fall through
                null;
             elsif
               --  No suffix for abbreviations
-              (pdl_p = N    and then pdl_part.N.Decl = (9, 8)) or
-              (pdl_p = Adj  and then pdl_part.Adj.Decl = (9, 8))
+              (Pdl_P = N    and then Pdl_Part.N.Decl = (9, 8)) or
+              (Pdl_P = Adj  and then Pdl_Part.Adj.Decl = (9, 8))
             then
                --   Can be no suffix on abbreviation");
-               goto end_of_pdl_loop;
+               goto End_Of_Pdl_Loop;
             else
                --  There is SUFFIX, see if it agrees with PDL
                --  Does SUFFIX agree in ROOT
-               if pdl_p <= suffix.entr.root  and then
-                 ((pdl_key <= suffix.entr.root_key)  or else
-                 ((pdl_key = 0) and then
-                 ((pdl_p = N) or (pdl_p = Adj) or (pdl_p = V)) and then
-                 ((suffix.entr.root_key = 1) or (suffix.entr.root_key = 2))))
+               if Pdl_P <= Suffix.Entr.Root  and then
+                 ((Pdl_Key <= Suffix.Entr.Root_Key)  or else
+                 ((Pdl_Key = 0) and then
+                 ((Pdl_P = N) or (Pdl_P = Adj) or (Pdl_P = V)) and then
+                 ((Suffix.Entr.Root_Key = 1) or (Suffix.Entr.Root_Key = 2))))
                then
                   --  Transform PDL_PART to TARGET
-                  case suffix.entr.Target.pofs is
+                  case Suffix.Entr.Target.Pofs is
                      when N =>
-                        pdl_part := (N, suffix.entr.Target.n);
+                        Pdl_Part := (N, Suffix.Entr.Target.N);
                      when Pron =>
-                        pdl_part := (Pron, suffix.entr.Target.pron);
+                        Pdl_Part := (Pron, Suffix.Entr.Target.Pron);
                      when Adj =>
-                        pdl_part := (Adj, suffix.entr.Target.adj);
+                        Pdl_Part := (Adj, Suffix.Entr.Target.Adj);
                      when Num =>
-                        pdl_part := (Num, suffix.entr.Target.num);
+                        Pdl_Part := (Num, Suffix.Entr.Target.Num);
                      when Adv =>
-                        pdl_part := (Adv, suffix.entr.Target.adv);
+                        Pdl_Part := (Adv, Suffix.Entr.Target.Adv);
                      when V =>
-                        pdl_part := (V, suffix.entr.Target.v);
+                        Pdl_Part := (V, Suffix.Entr.Target.V);
                      when others  =>
                         null;        --  No others so far, except X = all
                   end case;
-                  pdl_key := suffix.entr.Target_key;
-                  pdl_p  := pdl_part.pofs;  --  Used only for FIX logic below
+                  Pdl_Key := Suffix.Entr.Target_Key;
+                  Pdl_P  := Pdl_Part.Pofs;  --  Used only for FIX logic below
                else
                   --PUT_LINE ("In REDUCE_STEM_LIST   There is no legal suffix");
                   --            exit;
-                  goto end_of_pdl_loop;
+                  goto End_Of_Pdl_Loop;
                end if;
             end if;
 
-            if prefix = null_prefix_item then      --  No PREFIX, drop through
+            if Prefix = Null_Prefix_Item then      --  No PREFIX, drop through
                null;
             elsif
               --  No prefix for abbreviations
-              (pdl_p = N    and then pdl_part.N.Decl = (9, 8)) or
-              (pdl_p = Adj  and then pdl_part.Adj.Decl = (9, 8)) or
-              (pdl_p = Interj  or pdl_p = Conj)  --  or INTERJ or CONJ
+              (Pdl_P = N    and then Pdl_Part.N.Decl = (9, 8)) or
+              (Pdl_P = Adj  and then Pdl_Part.Adj.Decl = (9, 8)) or
+              (Pdl_P = Interj  or Pdl_P = Conj)  --  or INTERJ or CONJ
             then
-               goto end_of_pdl_loop;
+               goto End_Of_Pdl_Loop;
             else
-               if (pdl_p = prefix.entr.root)  or    --  = ROOT
-                 (pdl_part.pofs = prefix.entr.root)  --  or part mod by suf
+               if (Pdl_P = Prefix.Entr.Root)  or    --  = ROOT
+                 (Pdl_Part.Pofs = Prefix.Entr.Root)  --  or part mod by suf
                then
                   null;
-               elsif prefix.entr.root = X then  --   or ROOT = X
+               elsif Prefix.Entr.Root = X then  --   or ROOT = X
                   null;
                else
-                  goto end_of_pdl_loop;
+                  goto End_Of_Pdl_Loop;
                end if;
             end if;
 
             --  SUFFIX and PREFIX either agree or don't exist
             --  (agrees with everything)
-            ls := len (add_suffix
-              (add_prefix (pdl (j).ds.stem, prefix), suffix));
-            on_sl :
-            for i in sl'Range loop
-               exit on_sl when sl (i) = Null_Parse_Record;
+            Ls := Len (Add_Suffix
+              (Add_Prefix (Pdl (J).Ds.Stem, Prefix), Suffix));
+            On_Sl :
+            for I in Sl'Range loop
+               exit On_Sl when Sl (I) = Null_Parse_Record;
 
-               if ls  = len (sl (i).Stem)  then
+               if Ls  = Len (Sl (I).Stem)  then
 
                   --  Scan through the whole unreduced stem list
                   --  Single out those stems that match (pruned) dictionary
@@ -928,827 +928,827 @@ package body word_package is
                   --sl_p := sl (i).ir.qual.pofs;
 
                   if (
-                    ((pdl_key <= sl (i).IR.key))  or else
-                    ((pdl_key = 0)  and then
-                    (((pdl_p = N) or (pdl_p = Adj) or (pdl_p = V)) and then
-                    ((sl (i).IR.key = 1) or (sl (i).IR.key = 2))))
+                    ((Pdl_Key <= Sl (I).IR.Key))  or else
+                    ((Pdl_Key = 0)  and then
+                    (((Pdl_P = N) or (Pdl_P = Adj) or (Pdl_P = V)) and then
+                    ((Sl (I).IR.Key = 1) or (Sl (I).IR.Key = 2))))
                      )  and then   --  and KEY
-                    (pdl_part.pofs  = eff_part (sl (i).IR.qual.pofs))
+                    (Pdl_Part.Pofs  = Eff_Part (Sl (I).IR.Qual.Pofs))
                   then
-                     if pdl_part.pofs = N                            and then
-                       pdl_part.N.Decl <= sl (i).IR.qual.N.Decl      and then
-                       pdl_part.N.Gender <= sl (i).IR.qual.N.Gender
+                     if Pdl_Part.Pofs = N                            and then
+                       Pdl_Part.N.Decl <= Sl (I).IR.Qual.N.Decl      and then
+                       Pdl_Part.N.Gender <= Sl (I).IR.Qual.N.Gender
                      then
                         --  Need to transfer the gender of the noun
                         --  dictionary item
-                        m := m + 1;
-                        sxx (m) :=
-                          (Stem => subtract_prefix (sl (i).Stem, prefix),
+                        M := M + 1;
+                        Sxx (M) :=
+                          (Stem => Subtract_Prefix (Sl (I).Stem, Prefix),
                           IR => (
-                          qual => (
-                          pofs => N,
+                          Qual => (
+                          Pofs => N,
                           N => (
-                          pdl_part.N.Decl,
-                          sl (i).IR.qual.N.Of_Case,
-                          sl (i).IR.qual.N.Number,
-                          pdl_part.N.Gender)),
-                          key => sl (i).IR.key,
-                          ending => sl (i).IR.ending,
-                          age => sl (i).IR.age,
-                          freq => sl (i).IR.freq),
-                          D_K => pdl (j).d_k,
-                          MNPC => MNPC_part);
+                          Pdl_Part.N.Decl,
+                          Sl (I).IR.Qual.N.Of_Case,
+                          Sl (I).IR.Qual.N.Number,
+                          Pdl_Part.N.Gender)),
+                          Key => Sl (I).IR.Key,
+                          Ending => Sl (I).IR.Ending,
+                          Age => Sl (I).IR.Age,
+                          Freq => Sl (I).IR.Freq),
+                          D_K => Pdl (J).D_K,
+                          MNPC => MNPC_Part);
 
-                     elsif pdl_part.pofs = Pron and then
-                       pdl_part.Pron.Decl <= sl (i).IR.qual.Pron.Decl
+                     elsif Pdl_Part.Pofs = Pron and then
+                       Pdl_Part.Pron.Decl <= Sl (I).IR.Qual.Pron.Decl
                      then
                         --PUT (" HIT  PRON  ");
                         --  Need to transfer the kind of the pronoun
                         --  dictionary item
-                        m := m + 1;
-                        sxx (m) :=
-                          (Stem => subtract_prefix (sl (i).Stem, prefix),
+                        M := M + 1;
+                        Sxx (M) :=
+                          (Stem => Subtract_Prefix (Sl (I).Stem, Prefix),
                           IR => (
-                          qual => (
-                          pofs => Pron,
+                          Qual => (
+                          Pofs => Pron,
                           Pron => (
-                          pdl_part.Pron.Decl,
-                          sl (i).IR.qual.Pron.Of_Case,
-                          sl (i).IR.qual.Pron.Number,
-                          sl (i).IR.qual.Pron.Gender)),
-                          key => sl (i).IR.key,
-                          ending => sl (i).IR.ending,
-                          age => sl (i).IR.age,
-                          freq => sl (i).IR.freq),
-                          D_K => pdl (j).d_k,
-                          MNPC => MNPC_part);
+                          Pdl_Part.Pron.Decl,
+                          Sl (I).IR.Qual.Pron.Of_Case,
+                          Sl (I).IR.Qual.Pron.Number,
+                          Sl (I).IR.Qual.Pron.Gender)),
+                          Key => Sl (I).IR.Key,
+                          Ending => Sl (I).IR.Ending,
+                          Age => Sl (I).IR.Age,
+                          Freq => Sl (I).IR.Freq),
+                          D_K => Pdl (J).D_K,
+                          MNPC => MNPC_Part);
 
-                     elsif (pdl_part.pofs = Adj) and then
-                       (pdl_part.Adj.Decl <= sl (i).IR.qual.Adj.Decl) and then
-                       ((sl (i).IR.qual.Adj.Comparison <= pdl_part.Adj.Co) or
-                       ((sl (i).IR.qual.Adj.Comparison = X) or
-                       (pdl_part.Adj.Co = X)))
+                     elsif (Pdl_Part.Pofs = Adj) and then
+                       (Pdl_Part.Adj.Decl <= Sl (I).IR.Qual.Adj.Decl) and then
+                       ((Sl (I).IR.Qual.Adj.Comparison <= Pdl_Part.Adj.Co) or
+                       ((Sl (I).IR.Qual.Adj.Comparison = X) or
+                       (Pdl_Part.Adj.Co = X)))
                      then
                         --  Note the reversal on comparisom
                         --PUT (" HIT  ADJ   ");
                         --  Need to transfer the gender of the dictionary item
                         --  Need to transfer the CO of the ADJ dictionary item
-                        if pdl_part.Adj.Co in Pos .. Super  then
+                        if Pdl_Part.Adj.Co in Pos .. Super  then
                            --  If the dictionary entry has a unique CO, use it
-                           com := pdl_part.Adj.Co;
+                           Com := Pdl_Part.Adj.Co;
                         else
                            --  Otherwise, the entry is X, generate a CO from KEY
-                           com := adj_comp_from_key (pdl_key);
+                           Com := Adj_Comp_From_Key (Pdl_Key);
                         end if;
-                        m := m + 1;
-                        sxx (m) :=
-                          (Stem => subtract_prefix (sl (i).Stem, prefix),
+                        M := M + 1;
+                        Sxx (M) :=
+                          (Stem => Subtract_Prefix (Sl (I).Stem, Prefix),
                           IR => (
-                          qual => (
-                          pofs => Adj,
+                          Qual => (
+                          Pofs => Adj,
                           Adj => (
-                          pdl_part.Adj.Decl,
-                          sl (i).IR.qual.Adj.Of_Case,
-                          sl (i).IR.qual.Adj.Number,
-                          sl (i).IR.qual.Adj.Gender,
-                          com)),
-                          key => sl (i).IR.key,
-                          ending => sl (i).IR.ending,
-                          age => sl (i).IR.age,
-                          freq => sl (i).IR.freq),
-                          D_K => pdl (j).d_k,
-                          MNPC => MNPC_part);
+                          Pdl_Part.Adj.Decl,
+                          Sl (I).IR.Qual.Adj.Of_Case,
+                          Sl (I).IR.Qual.Adj.Number,
+                          Sl (I).IR.Qual.Adj.Gender,
+                          Com)),
+                          Key => Sl (I).IR.Key,
+                          Ending => Sl (I).IR.Ending,
+                          Age => Sl (I).IR.Age,
+                          Freq => Sl (I).IR.Freq),
+                          D_K => Pdl (J).D_K,
+                          MNPC => MNPC_Part);
 
-                     elsif (pdl_part.pofs = Num) and then
-                       (pdl_part.Num.Decl <= sl (i).IR.qual.Num.Decl) and then
-                       (pdl_key         = sl (i).IR.key)
+                     elsif (Pdl_Part.Pofs = Num) and then
+                       (Pdl_Part.Num.Decl <= Sl (I).IR.Qual.Num.Decl) and then
+                       (Pdl_Key         = Sl (I).IR.Key)
                      then
                         --PUT(" HIT  NUM    ");
-                        if pdl_part.Num.Sort = X  then
+                        if Pdl_Part.Num.Sort = X  then
                            --  If the entry is X, generate a CO from KEY
-                           num_sort := num_sort_from_key (pdl_key);
+                           Num_Sort := Num_Sort_From_Key (Pdl_Key);
                         else
                            --  Otherwise, the dictionary entry has a
                            --  unique CO, use it
-                           num_sort := pdl_part.Num.Sort;
+                           Num_Sort := Pdl_Part.Num.Sort;
                         end if;
-                        m := m + 1;
-                        sxx (m) :=
-                          (Stem => subtract_prefix (sl (i).Stem, prefix),
+                        M := M + 1;
+                        Sxx (M) :=
+                          (Stem => Subtract_Prefix (Sl (I).Stem, Prefix),
                           IR => (
-                          qual => (
-                          pofs => Num,
+                          Qual => (
+                          Pofs => Num,
                           Num => (
-                          pdl_part.Num.Decl,
-                          sl (i).IR.qual.Num.Of_Case,
-                          sl (i).IR.qual.Num.Number,
-                          sl (i).IR.qual.Num.Gender,
-                          num_sort)),
-                          key => sl (i).IR.key,
-                          ending => sl (i).IR.ending,
-                          age => sl (i).IR.age,
-                          freq => sl (i).IR.freq),
-                          D_K => pdl (j).d_k,
-                          MNPC => MNPC_part);
+                          Pdl_Part.Num.Decl,
+                          Sl (I).IR.Qual.Num.Of_Case,
+                          Sl (I).IR.Qual.Num.Number,
+                          Sl (I).IR.Qual.Num.Gender,
+                          Num_Sort)),
+                          Key => Sl (I).IR.Key,
+                          Ending => Sl (I).IR.Ending,
+                          Age => Sl (I).IR.Age,
+                          Freq => Sl (I).IR.Freq),
+                          D_K => Pdl (J).D_K,
+                          MNPC => MNPC_Part);
 
-                     elsif (pdl_part.pofs = Adv) and then
-                       ((pdl_part.Adv.Co <= sl (i).IR.qual.Adv.Comparison) or
-                       ((sl (i).IR.qual.Adv.Comparison = X) or
-                       (pdl_part.Adv.Co = X)))
+                     elsif (Pdl_Part.Pofs = Adv) and then
+                       ((Pdl_Part.Adv.Co <= Sl (I).IR.Qual.Adv.Comparison) or
+                       ((Sl (I).IR.Qual.Adv.Comparison = X) or
+                       (Pdl_Part.Adv.Co = X)))
                      then
                         --PUT (" HIT  ADV   ");
                         --  Need to transfer the CO of the ADV dictionary item
-                        if pdl_part.Adv.Co in Pos .. Super  then
+                        if Pdl_Part.Adv.Co in Pos .. Super  then
                            --  If the dictionary entry has a unique CO, use it
-                           com := pdl_part.Adv.Co;
+                           Com := Pdl_Part.Adv.Co;
                         else
                            --  The entry is X and we need to generate
                            --  a COMP from the KEY
-                           com := adv_comp_from_key (pdl_key);
+                           Com := Adv_Comp_From_Key (Pdl_Key);
                         end if;
-                        m := m + 1;
-                        sxx (m) :=
-                          (Stem => subtract_prefix (sl (i).Stem, prefix),
+                        M := M + 1;
+                        Sxx (M) :=
+                          (Stem => Subtract_Prefix (Sl (I).Stem, Prefix),
                           IR => (
-                          qual => (
-                          pofs => Adv,
+                          Qual => (
+                          Pofs => Adv,
                           Adv => (
-                          Comparison => com)),
-                          key => sl (i).IR.key,
-                          ending => sl (i).IR.ending,
-                          age => sl (i).IR.age,
-                          freq => sl (i).IR.freq),
-                          D_K => pdl (j).d_k,
-                          MNPC => MNPC_part);
+                          Comparison => Com)),
+                          Key => Sl (I).IR.Key,
+                          Ending => Sl (I).IR.Ending,
+                          Age => Sl (I).IR.Age,
+                          Freq => Sl (I).IR.Freq),
+                          D_K => Pdl (J).D_K,
+                          MNPC => MNPC_Part);
 
-                     elsif pdl_part.pofs = V then
+                     elsif Pdl_Part.Pofs = V then
                         --TEXT_IO.PUT_LINE ("V found, now check CON");
-                        if sl (i).IR.qual.pofs = V     and then
-                          (pdl_part.V.Con <= sl (i).IR.qual.V.Con)
+                        if Sl (I).IR.Qual.Pofs = V     and then
+                          (Pdl_Part.V.Con <= Sl (I).IR.Qual.V.Con)
                         then
                            --TEXT_IO.PUT (" HIT  V     ");
-                           m := m + 1;
-                           sxx (m) :=
-                             (Stem => subtract_prefix (sl (i).Stem, prefix),
+                           M := M + 1;
+                           Sxx (M) :=
+                             (Stem => Subtract_Prefix (Sl (I).Stem, Prefix),
                              IR => (
-                             qual => (
-                             pofs => V,
+                             Qual => (
+                             Pofs => V,
                              V => (
-                             pdl_part.V.Con,
-                             sl (i).IR.qual.V.Tense_Voice_Mood,
-                             sl (i).IR.qual.V.Person,
-                             sl (i).IR.qual.V.Number)),
-                             key => sl (i).IR.key,
-                             ending => sl (i).IR.ending,
-                             age => sl (i).IR.age,
-                             freq => sl (i).IR.freq),
-                             D_K => pdl (j).d_k,
-                             MNPC => MNPC_part);
+                             Pdl_Part.V.Con,
+                             Sl (I).IR.Qual.V.Tense_Voice_Mood,
+                             Sl (I).IR.Qual.V.Person,
+                             Sl (I).IR.Qual.V.Number)),
+                             Key => Sl (I).IR.Key,
+                             Ending => Sl (I).IR.Ending,
+                             Age => Sl (I).IR.Age,
+                             Freq => Sl (I).IR.Freq),
+                             D_K => Pdl (J).D_K,
+                             MNPC => MNPC_Part);
 
-                        elsif sl (i).IR.qual.pofs = Vpar   and then
-                          (pdl_part.V.Con <= sl (i).IR.qual.Vpar.Con)
+                        elsif Sl (I).IR.Qual.Pofs = Vpar   and then
+                          (Pdl_Part.V.Con <= Sl (I).IR.Qual.Vpar.Con)
                         then
                            --PUT (" HIT  VPAR  ");
-                           m := m + 1;
-                           sxx (m) :=
-                             (Stem => subtract_prefix (sl (i).Stem, prefix),
+                           M := M + 1;
+                           Sxx (M) :=
+                             (Stem => Subtract_Prefix (Sl (I).Stem, Prefix),
                              IR => (
-                             qual => (
-                             pofs => Vpar,
+                             Qual => (
+                             Pofs => Vpar,
                              Vpar => (
-                             pdl_part.V.Con,
-                             sl (i).IR.qual.Vpar.Of_Case,
-                             sl (i).IR.qual.Vpar.Number,
-                             sl (i).IR.qual.Vpar.Gender,
-                             sl (i).IR.qual.Vpar.Tense_Voice_Mood)),
-                             key => sl (i).IR.key,
-                             ending => sl (i).IR.ending,
-                             age => sl (i).IR.age,
-                             freq => sl (i).IR.freq),
-                             D_K => pdl (j).d_k,
-                             MNPC => MNPC_part);
+                             Pdl_Part.V.Con,
+                             Sl (I).IR.Qual.Vpar.Of_Case,
+                             Sl (I).IR.Qual.Vpar.Number,
+                             Sl (I).IR.Qual.Vpar.Gender,
+                             Sl (I).IR.Qual.Vpar.Tense_Voice_Mood)),
+                             Key => Sl (I).IR.Key,
+                             Ending => Sl (I).IR.Ending,
+                             Age => Sl (I).IR.Age,
+                             Freq => Sl (I).IR.Freq),
+                             D_K => Pdl (J).D_K,
+                             MNPC => MNPC_Part);
 
-                        elsif sl (i).IR.qual.pofs = Supine   and then
-                          (pdl_part.V.Con <= sl (i).IR.qual.Supine.Con)
+                        elsif Sl (I).IR.Qual.Pofs = Supine   and then
+                          (Pdl_Part.V.Con <= Sl (I).IR.Qual.Supine.Con)
                         then
                            --PUT (" HIT  SUPINE");
-                           m := m + 1;
-                           sxx (m) :=
-                             (Stem => subtract_prefix (sl (i).Stem, prefix),
+                           M := M + 1;
+                           Sxx (M) :=
+                             (Stem => Subtract_Prefix (Sl (I).Stem, Prefix),
                              IR => (
-                             qual => (
-                             pofs => Supine,
+                             Qual => (
+                             Pofs => Supine,
                              Supine => (
-                             pdl_part.V.Con,
-                             sl (i).IR.qual.Supine.Of_Case,
-                             sl (i).IR.qual.Supine.Number,
-                             sl (i).IR.qual.Supine.Gender)),
-                             key => sl (i).IR.key,
-                             ending => sl (i).IR.ending,
-                             age => sl (i).IR.age,
-                             freq => sl (i).IR.freq),
-                             D_K => pdl (j).d_k,
-                             MNPC => MNPC_part);
+                             Pdl_Part.V.Con,
+                             Sl (I).IR.Qual.Supine.Of_Case,
+                             Sl (I).IR.Qual.Supine.Number,
+                             Sl (I).IR.Qual.Supine.Gender)),
+                             Key => Sl (I).IR.Key,
+                             Ending => Sl (I).IR.Ending,
+                             Age => Sl (I).IR.Age,
+                             Freq => Sl (I).IR.Freq),
+                             D_K => Pdl (J).D_K,
+                             MNPC => MNPC_Part);
                         end if;
 
-                     elsif pdl_part.pofs = Prep and then
-                       pdl_part.Prep.Obj = sl (i).IR.qual.Prep.Of_Case
+                     elsif Pdl_Part.Pofs = Prep and then
+                       Pdl_Part.Prep.Obj = Sl (I).IR.Qual.Prep.Of_Case
                      then
                         --PUT (" HIT  PREP  ");
-                        m := m + 1;
-                        sxx (m) :=
-                          (subtract_prefix (sl (i).Stem, prefix), sl (i).IR,
-                          pdl (j).d_k, MNPC_part);
+                        M := M + 1;
+                        Sxx (M) :=
+                          (Subtract_Prefix (Sl (I).Stem, Prefix), Sl (I).IR,
+                          Pdl (J).D_K, MNPC_Part);
 
-                     elsif pdl_part.pofs = Conj then
+                     elsif Pdl_Part.Pofs = Conj then
                         --PUT (" HIT  CONJ  ");
-                        m := m + 1;
-                        sxx (m) :=
-                          (subtract_prefix (sl (i).Stem, prefix), sl (i).IR,
-                          pdl (j).d_k, MNPC_part);
+                        M := M + 1;
+                        Sxx (M) :=
+                          (Subtract_Prefix (Sl (I).Stem, Prefix), Sl (I).IR,
+                          Pdl (J).D_K, MNPC_Part);
 
-                     elsif pdl_part.pofs = Interj then
+                     elsif Pdl_Part.Pofs = Interj then
                         --PUT (" HIT  INTERJ ");
-                        m := m + 1;
-                        sxx (m) :=
-                          (subtract_prefix (sl (i).Stem, prefix), sl (i).IR,
-                          pdl (j).d_k, MNPC_part);
+                        M := M + 1;
+                        Sxx (M) :=
+                          (Subtract_Prefix (Sl (I).Stem, Prefix), Sl (I).IR,
+                          Pdl (J).D_K, MNPC_Part);
 
                      end if;
 
                   end if;
                end if;
-            end loop on_sl;
+            end loop On_Sl;
 
-         <<end_of_pdl_loop>> null;
-         end loop on_pdl;
-      end reduce_stem_list;
+         <<End_Of_Pdl_Loop>> null;
+         end loop On_Pdl;
+      end Reduce_Stem_List;
 
-      procedure apply_prefix
-        (sa : in stem_array_type;
-         suffix : in suffix_item;
-         sx : in sal;
-         sxx : in out sal;
-         pa : in out Parse_Array;
-         pa_last : in out Integer)
+      procedure Apply_Prefix
+        (Sa : in Stem_Array_Type;
+         Suffix : in Suffix_Item;
+         Sx : in Sal;
+         Sxx : in out Sal;
+         Pa : in out Parse_Array;
+         Pa_Last : in out Integer)
       is
          --  Worry about the stem changing re-cipio from capio
          --  Correspondence of parts, need EFF for VPAR
          --  The prefixes should be ordered with the longest/most likely first
-         ssa : stem_array;
-         l : Integer :=  0;
+         Ssa : Stem_Array;
+         L : Integer :=  0;
 
       begin
          --PUT_LINE ("Entering APPLY_PREFIX");
-         sxx := (others => Null_Parse_Record);    --  !!!!!!!!!!!!!!!!!!!!!!!
+         Sxx := (others => Null_Parse_Record);    --  !!!!!!!!!!!!!!!!!!!!!!!
 
-         if words_mdev (use_prefixes)  then
+         if Words_Mdev (Use_Prefixes)  then
 
-            for i in 1 .. number_of_prefixes  loop
+            for I in 1 .. Number_Of_Prefixes  loop
                --  Loop through PREFIXES
-               l :=  0;
-               for j in sa'Range  loop
+               L :=  0;
+               for J in Sa'Range  loop
                   --  Loop through stem array
-                  if sa (j)(1) = prefixes (i).fix (1) then
+                  if Sa (J)(1) = Prefixes (I).Fix (1) then
                      --  Cuts down a little -- do better
-                     if subtract_prefix (sa (j), prefixes (i)) /=
-                       Head (sa (j), Max_Stem_Size)
+                     if Subtract_Prefix (Sa (J), Prefixes (I)) /=
+                       Head (Sa (J), Max_Stem_Size)
                      then
-                        l := l + 1;
+                        L := L + 1;
                         --  We have a hit, make new stem array item
-                        ssa (l) := Head (subtract_prefix (sa (j), prefixes (i)),
+                        Ssa (L) := Head (Subtract_Prefix (Sa (J), Prefixes (I)),
                           Max_Stem_Size);
                         --  And that has prefix subtracted to match dict
                      end if; --  with prefix subtracted stems
                   end if;
                end loop;
 
-               if l > 0  then
+               if L > 0  then
                   --  There has been a prefix hit
-                  search_dictionaries (ssa (1 .. l));
+                  Search_Dictionaries (Ssa (1 .. L));
                   --  So run new dictionary search
 
-                  if  pdl_index /= 0     then
+                  if  Pdl_Index /= 0     then
                      --  Dict search was successful
-                     reduce_stem_list (sx, sxx, prefixes (i), suffix);
+                     Reduce_Stem_List (Sx, Sxx, Prefixes (I), Suffix);
 
-                     if sxx (1) /= Null_Parse_Record  then
+                     if Sxx (1) /= Null_Parse_Record  then
                         --  There is reduced stem result
-                        pa_last := pa_last + 1;
+                        Pa_Last := Pa_Last + 1;
                         --  So add prefix line to parse array
-                        pa (pa_last).IR :=
+                        Pa (Pa_Last).IR :=
                           ((Prefix, Null_Prefix_Record), 0,
-                          null_ending_record, x, x);
-                        pa (pa_last).Stem :=
-                          Head (prefixes (i).fix, Max_Stem_Size);
-                        pa (pa_last).MNPC := Dict_IO.Count (prefixes (i).MNPC);
-                        pa (pa_last).D_K  := addons;
+                          Null_Ending_Record, X, X);
+                        Pa (Pa_Last).Stem :=
+                          Head (Prefixes (I).Fix, Max_Stem_Size);
+                        Pa (Pa_Last).MNPC := Dict_IO.Count (Prefixes (I).MNPC);
+                        Pa (Pa_Last).D_K  := Addons;
                         exit;      --  Because we accept only one prefix
                      end if;
                   end if;
                end if;
             end loop;      --  Loop on I for PREFIXES
          end if;  --  On USE_PREFIXES
-      end apply_prefix;
+      end Apply_Prefix;
 
-      procedure apply_suffix
-        (sa : in stem_array_type;
-         sx : in sal;
-         sxx : in out sal;
-         pa : in out Parse_Array;
-         pa_last : in out Integer)
+      procedure Apply_Suffix
+        (Sa : in Stem_Array_Type;
+         Sx : in Sal;
+         Sxx : in out Sal;
+         Pa : in out Parse_Array;
+         Pa_Last : in out Integer)
       is
-         ssa : stem_array;
-         l : Integer :=  0;
-         suffix_hit : Integer := 0;
+         Ssa : Stem_Array;
+         L : Integer :=  0;
+         Suffix_Hit : Integer := 0;
          --            use TEXT_IO;
          --            use INFLECTIONS_PACKAGE.INTEGER_IO;
 
       begin
-         for i in 1 .. number_of_suffixes  loop       --  Loop through SUFFIXES
-            l :=  0;                                 --  Take as many as fit
+         for I in 1 .. Number_Of_Suffixes  loop       --  Loop through SUFFIXES
+            L :=  0;                                 --  Take as many as fit
 
-            for j in sa'Range  loop                  --  Loop through stem array
-               if subtract_suffix (sa (j), suffixes (i)) /=
-                 Head (sa (j), Max_Stem_Size)
+            for J in Sa'Range  loop                  --  Loop through stem array
+               if Subtract_Suffix (Sa (J), Suffixes (I)) /=
+                 Head (Sa (J), Max_Stem_Size)
                then
-                  l := l + 1;
+                  L := L + 1;
                   --  We have a hit, make new stem array item
-                  ssa (l) := Head (subtract_suffix (sa (j), suffixes (i)),
+                  Ssa (L) := Head (Subtract_Suffix (Sa (J), Suffixes (I)),
                     Max_Stem_Size);
                   --  And that has prefix subtracted to match dict
                end if;
             end loop;    --  Loop on J through SA
 
-            if l > 0  then
+            if L > 0  then
                --  There has been a suffix hit
-               search_dictionaries (ssa (1 .. l));
+               Search_Dictionaries (Ssa (1 .. L));
                --  So run new dictionary search
                --  For suffixes we allow as many as match
 
-               if pdl_index /= 0 then
+               if Pdl_Index /= 0 then
                   --  Dict search was successful
-                  suffix_hit := i;
+                  Suffix_Hit := I;
 
-                  reduce_stem_list (sx, sxx, null_prefix_item, suffixes (i));
+                  Reduce_Stem_List (Sx, Sxx, Null_Prefix_Item, Suffixes (I));
 
-                  if sxx (1) /= Null_Parse_Record  then
+                  if Sxx (1) /= Null_Parse_Record  then
                      --  There is reduced stem result
-                     pa_last := pa_last + 1;
+                     Pa_Last := Pa_Last + 1;
                      --  So add suffix line to parse array
-                     pa (pa_last).IR :=
+                     Pa (Pa_Last).IR :=
                        ((Suffix, Null_Suffix_Record),
-                       0, null_ending_record, x, x);
-                     pa (pa_last).Stem :=
-                       Head (suffixes (suffix_hit).fix, Max_Stem_Size);
+                       0, Null_Ending_Record, X, X);
+                     Pa (Pa_Last).Stem :=
+                       Head (Suffixes (Suffix_Hit).Fix, Max_Stem_Size);
                      --  Maybe it would better if suffix.fix was of stem size
-                     pa (pa_last).MNPC :=
-                       Dict_IO.Count (suffixes (suffix_hit).MNPC);
-                     pa (pa_last).D_K  := addons;
+                     Pa (Pa_Last).MNPC :=
+                       Dict_IO.Count (Suffixes (Suffix_Hit).MNPC);
+                     Pa (Pa_Last).D_K  := Addons;
                      ---
-                     for i in sxx'Range  loop
-                        exit when sxx (i) = Null_Parse_Record;
-                        pa_last := pa_last + 1;
-                        pa (pa_last) := sxx (i);
+                     for I in Sxx'Range  loop
+                        exit when Sxx (I) = Null_Parse_Record;
+                        Pa_Last := Pa_Last + 1;
+                        Pa (Pa_Last) := Sxx (I);
                      end loop;
                      ---
                   end if;
 
                else   --  there is suffix (L /= 0) but no dictionary hit
-                  suffix_hit := i;
-                  apply_prefix
-                    (ssa (1 .. l), suffixes (i), sx, sxx, pa, pa_last);
-                  if sxx (1) /= Null_Parse_Record  then
+                  Suffix_Hit := I;
+                  Apply_Prefix
+                    (Ssa (1 .. L), Suffixes (I), Sx, Sxx, Pa, Pa_Last);
+                  if Sxx (1) /= Null_Parse_Record  then
                      --  There is reduced stem result
-                     pa_last := pa_last + 1;
+                     Pa_Last := Pa_Last + 1;
                      --  So add suffix line to parse array
-                     pa (pa_last).IR :=
+                     Pa (Pa_Last).IR :=
                        ((Suffix, Null_Suffix_Record),
-                       0, null_ending_record, x, x);
-                     pa (pa_last).Stem := Head
-                       (suffixes (suffix_hit).fix, Max_Stem_Size);
-                     pa (pa_last).MNPC :=
-                       Dict_IO.Count (suffixes (suffix_hit).MNPC);
-                     pa (pa_last).D_K  := addons;
+                       0, Null_Ending_Record, X, X);
+                     Pa (Pa_Last).Stem := Head
+                       (Suffixes (Suffix_Hit).Fix, Max_Stem_Size);
+                     Pa (Pa_Last).MNPC :=
+                       Dict_IO.Count (Suffixes (Suffix_Hit).MNPC);
+                     Pa (Pa_Last).D_K  := Addons;
 
-                     for i in sxx'Range  loop    --  Set this set of results
-                        exit when sxx (i) = Null_Parse_Record;
-                        pa_last := pa_last + 1;
-                        pa (pa_last) := sxx (i);
+                     for I in Sxx'Range  loop    --  Set this set of results
+                        exit when Sxx (I) = Null_Parse_Record;
+                        Pa_Last := Pa_Last + 1;
+                        Pa (Pa_Last) := Sxx (I);
                      end loop;
                   end if;
                end if;
             end if;             --  with suffix subtracted stems
          end loop;      --  Loop on I for SUFFIXES
-      end apply_suffix;
+      end Apply_Suffix;
 
-      procedure prune_stems
-        (Input_word : String;
-         sx : in sal;
-         sxx : in out sal)
+      procedure Prune_Stems
+        (Input_Word : String;
+         Sx : in Sal;
+         Sxx : in out Sal)
       is
-         j : Integer := 0;
+         J : Integer := 0;
          --SXX : SAL;
 
       begin
-         if sx (1) = Null_Parse_Record  then
+         if Sx (1) = Null_Parse_Record  then
             return;
          end if;
 
          -----------------------------------------------------------------
 
-         generate_reduced_stem_array :
+         Generate_Reduced_Stem_Array :
          begin
-            j := 1;
-            for z in 0 .. min (Max_Stem_Size, len (Input_word))  loop
-               if sa (z) /= not_a_stem  then
+            J := 1;
+            for Z in 0 .. Min (Max_Stem_Size, Len (Input_Word))  loop
+               if Sa (Z) /= Not_A_Stem  then
                   --PUT (Z); PUT (J); PUT ("  "); PUT_LINE (SA (Z));
-                  ssa (j) := sa (z);
-                  ssa_max := j;
-                  j := j + 1;
+                  Ssa (J) := Sa (Z);
+                  Ssa_Max := J;
+                  J := J + 1;
                end if;
             end loop;
-         end generate_reduced_stem_array;
+         end Generate_Reduced_Stem_Array;
 
-         if not words_mdev (do_only_fixes)  then
+         if not Words_Mdev (Do_Only_Fixes)  then
             --  Just bypass main dictionary search
 
-            search_dictionaries (ssa (1 .. ssa_max));
+            Search_Dictionaries (Ssa (1 .. Ssa_Max));
 
          end if;
 
-         if (((pa_last = 0)  and            --  No Uniques or Syncope
-           (pdl_index = 0))  --)   and then    --  No dictionary match
-           or words_mdev (do_fixes_anyway))  and then
-           words_mode (do_fixes)
+         if (((Pa_Last = 0)  and            --  No Uniques or Syncope
+           (Pdl_Index = 0))  --)   and then    --  No dictionary match
+           or Words_Mdev (Do_Fixes_Anyway))  and then
+           Words_Mode (Do_Fixes)
          then
 
             ----So try prefixes and suffixes,
             --- Generate a new SAA array, search again
 
-            if sxx (1) = Null_Parse_Record  then
+            if Sxx (1) = Null_Parse_Record  then
                --  We could not find a match with suffix
-               apply_prefix (ssa (1 .. ssa_max),
-                 null_suffix_item, sx, sxx, pa, pa_last);
+               Apply_Prefix (Ssa (1 .. Ssa_Max),
+                 Null_Suffix_Item, Sx, Sxx, Pa, Pa_Last);
             end if;
             --------------
-            if sxx (1) = Null_Parse_Record  then
+            if Sxx (1) = Null_Parse_Record  then
                --  We could not find a match with suffix
-               apply_suffix (ssa (1 .. ssa_max), sx, sxx, pa, pa_last);
-               if sxx (1) = Null_Parse_Record  then
+               Apply_Suffix (Ssa (1 .. Ssa_Max), Sx, Sxx, Pa, Pa_Last);
+               if Sxx (1) = Null_Parse_Record  then
                   --  We could not find a match with suffix
                   ----So try prefixes, Generate a new SAA array, search again
                   ----Need to use the new SSA, modified to include suffixes
-                  apply_prefix (ssa (1 .. ssa_max),
-                    null_suffix_item, sx, sxx, pa, pa_last);
+                  Apply_Prefix (Ssa (1 .. Ssa_Max),
+                    Null_Suffix_Item, Sx, Sxx, Pa, Pa_Last);
                   --------------
                end if;       --  Suffix failed
             end if;       --  Suffix failed
          else
-            reduce_stem_list (sx, sxx, null_prefix_item, null_suffix_item);
-            if pa_last = 0  and then  sxx (1) = Null_Parse_Record  then
+            Reduce_Stem_List (Sx, Sxx, Null_Prefix_Item, Null_Suffix_Item);
+            if Pa_Last = 0  and then  Sxx (1) = Null_Parse_Record  then
                --------------
-               if words_mode (do_fixes)  then
-                  apply_suffix (ssa (1 .. ssa_max), sx, sxx, pa, pa_last);
-                  if sxx (1) = Null_Parse_Record  then
+               if Words_Mode (Do_Fixes)  then
+                  Apply_Suffix (Ssa (1 .. Ssa_Max), Sx, Sxx, Pa, Pa_Last);
+                  if Sxx (1) = Null_Parse_Record  then
                      --  We could not find a match with suffix
                      ----So try prefixes, Generate a new SAA array, search again
                      ----Need to use the new SSA, modified to include suffixes
-                     apply_prefix (ssa (1 .. ssa_max), null_suffix_item,
-                       sx, sxx, pa, pa_last);
+                     Apply_Prefix (Ssa (1 .. Ssa_Max), Null_Suffix_Item,
+                       Sx, Sxx, Pa, Pa_Last);
                   end if;   --  Suffix failed
                end if;     --  If DO_FIXES then do
             end if;       --  First search passed but SXX null
          end if;         --  First search failed
 
-      end prune_stems;
+      end Prune_Stems;
 
-      procedure process_packons (Input_word : String) is
+      procedure Process_Packons (Input_Word : String) is
 
-         stem_length  : Integer := 0;
-         pr   : Parse_Record;
-         m : Integer := 1;
-         de : Dictionary_Entry;
-         mean : Meaning_Type;
-         packon_first_hit : Boolean := False;
-         sl : sal := (others => Null_Parse_Record);
-         sl_nulls : constant sal := (others => Null_Parse_Record);
+         Stem_Length  : Integer := 0;
+         Pr   : Parse_Record;
+         M : Integer := 1;
+         De : Dictionary_Entry;
+         Mean : Meaning_Type;
+         Packon_First_Hit : Boolean := False;
+         Sl : Sal := (others => Null_Parse_Record);
+         Sl_Nulls : constant Sal := (others => Null_Parse_Record);
 
       begin
 
-         over_packons :
-         for k in packons'Range  loop
+         Over_Packons :
+         for K in Packons'Range  loop
             -- Do whole set, more than one may apply
             --  PACKON if the TACKON ENTRY is PRON
 
-            for_each_packon :
+            For_Each_Packon :
             declare
-               xword : constant String :=
-                 subtract_tackon (Input_word, packons (k));
-               word : String (1 .. xword'Length) := xword;
-               packon_length : constant Integer :=
-                 Trim (packons (k).tack)'Length;
-               last_of_word : Character := word (word'Last);
-               length_of_word   : constant Integer := word'Length;
+               Xword : constant String :=
+                 Subtract_Tackon (Input_Word, Packons (K));
+               Word : String (1 .. Xword'Length) := Xword;
+               Packon_Length : constant Integer :=
+                 Trim (Packons (K).Tack)'Length;
+               Last_Of_Word : Character := Word (Word'Last);
+               Length_Of_Word   : constant Integer := Word'Length;
             begin
-               sl := sl_nulls;      --  Initialize SL to nulls
-               if word  /= Input_word  then
-                  packon_first_hit := True;
+               Sl := Sl_Nulls;      --  Initialize SL to nulls
+               if Word  /= Input_Word  then
+                  Packon_First_Hit := True;
 
-                  if packons (k).tack (1 .. 3) = "dam"
-                    and  last_of_word = 'n'
+                  if Packons (K).Tack (1 .. 3) = "dam"
+                    and  Last_Of_Word = 'n'
                   then
                      --  Takes care of the m - > n shift with dam
-                     word (word'Last) := 'm';
-                     last_of_word := 'm';
+                     Word (Word'Last) := 'm';
+                     Last_Of_Word := 'm';
                   end if;
 
                   --  No blank endings in these pronouns
-                  lel_section_io.Read (inflections_sections_file, lel, 4);
+                  Lel_Section_Io.Read (Inflections_Sections_File, Lel, 4);
 
-                  m := 0;
+                  M := 0;
 
-                  on_inflects :
-                  for z in reverse 1 .. min (6, length_of_word)  loop
+                  On_Inflects :
+                  for Z in reverse 1 .. Min (6, Length_Of_Word)  loop
                      --  optimum for qu-pronouns
-                     if pell (z, last_of_word) > 0  then
+                     if Pell (Z, Last_Of_Word) > 0  then
                         --  Any possible inflections at all
-                        for i in pelf
-                          (z, last_of_word) .. pell (z, last_of_word) loop
-                           if (z <= length_of_word)  and then
-                             ((equ (lel (i).ending.suf (1 .. z),
-                             word (word'Last - z + 1 .. word'Last)))  and
-                             (lel (i).qual.Pron.Decl <=
-                             packons (k).entr.base.pack.Decl))
+                        for I in Pelf
+                          (Z, Last_Of_Word) .. Pell (Z, Last_Of_Word) loop
+                           if (Z <= Length_Of_Word)  and then
+                             ((Equ (Lel (I).Ending.Suf (1 .. Z),
+                             Word (Word'Last - Z + 1 .. Word'Last)))  and
+                             (Lel (I).Qual.Pron.Decl <=
+                             Packons (K).Entr.Base.Pack.Decl))
                            then
                               --  Have found an ending that is a possible match
                               --  And INFLECT agrees with PACKON.BASE
                               --  Add to list of possible ending records
-                              stem_length := word'Length - z;
-                              pr := (Head (word (word'First .. stem_length),
+                              Stem_Length := Word'Length - Z;
+                              Pr := (Head (Word (Word'First .. Stem_Length),
                                 Max_Stem_Size),
-                                lel (i), Default_Dictionary_Kind, Null_MNPC);
-                              m := m + 1;
-                              sl (m) := pr;
-                              ssa (1) := Head
-                                (word
-                                (word'First .. word'First + stem_length - 1),
+                                Lel (I), Default_Dictionary_Kind, Null_MNPC);
+                              M := M + 1;
+                              Sl (M) := Pr;
+                              Ssa (1) := Head
+                                (Word
+                                (Word'First .. Word'First + Stem_Length - 1),
                                 Max_Stem_Size);
                               --  may Get set several times
                            end if;
                         end loop;
                      end if;
-                  end loop on_inflects;
+                  end loop On_Inflects;
 
                   --  Only one stem will emerge
-                  pdl_index := 0;
-                  search_dictionaries (ssa (1 .. 1),
-                    pack_only);
+                  Pdl_Index := 0;
+                  Search_Dictionaries (Ssa (1 .. 1),
+                    Pack_Only);
                   --  Now have a PDL, scan for agreement
 
-                  pdl_loop :
-                  for j in 1 .. pdl_index  loop
+                  Pdl_Loop :
+                  for J in 1 .. Pdl_Index  loop
                      --  Go through all dictionary hits to see
                      --  M used here wher I is used in REDUCE,
                      --  maybe make consistent
-                     m := 1;
+                     M := 1;
 
-                     sl_loop :
-                     while sl (m) /= Null_Parse_Record  loop
+                     Sl_Loop :
+                     while Sl (M) /= Null_Parse_Record  loop
                         --  Over all inflection hits
                         --  if this stem is possible
                         --  call up the meaning to check for "(w/-"
-                        Dict_IO.Set_Index (Dict_File (pdl (j).d_k),
-                          pdl (j).ds.MNPC);
-                        Dict_IO.Read (Dict_File (pdl (j).d_k), de);
-                        mean := de.Mean;
+                        Dict_IO.Set_Index (Dict_File (Pdl (J).D_K),
+                          Pdl (J).Ds.MNPC);
+                        Dict_IO.Read (Dict_File (Pdl (J).D_K), De);
+                        Mean := De.Mean;
 
                         -- there is no way this condition can be True;
                         -- packon_length - 1 /= packon_length
 
                         --  Does attached PACKON agree
-                        if Trim (mean)(1 .. 4) = "(w/-" and then
-                          Trim (mean)(5 .. 4 + packon_length) =
-                          Trim (packons (k).tack)
+                        if Trim (Mean)(1 .. 4) = "(w/-" and then
+                          Trim (Mean)(5 .. 4 + Packon_Length) =
+                          Trim (Packons (K).Tack)
                         then
-                           if pdl (j).ds.part.Pack.Decl =
-                             sl (m).IR.qual.Pron.Decl
+                           if Pdl (J).Ds.Part.Pack.Decl =
+                             Sl (M).IR.Qual.Pron.Decl
                            then  --  or
-                              if packon_first_hit then
-                                 pa_last := pa_last + 1;
-                                 pa (pa_last) := (packons (k).tack,
+                              if Packon_First_Hit then
+                                 Pa_Last := Pa_Last + 1;
+                                 Pa (Pa_Last) := (Packons (K).Tack,
                                    ((Tackon, Null_Tackon_Record), 0,
-                                   null_ending_record, x, x),
-                                   addons,
-                                   Dict_IO.Count ((packons (k).MNPC)));
-                                 packon_first_hit := False;
+                                   Null_Ending_Record, X, X),
+                                   Addons,
+                                   Dict_IO.Count ((Packons (K).MNPC)));
+                                 Packon_First_Hit := False;
                               end if;
-                              pa_last := pa_last + 1;
-                              pa (pa_last) := (Stem => sl (m).Stem,
+                              Pa_Last := Pa_Last + 1;
+                              Pa (Pa_Last) := (Stem => Sl (M).Stem,
                                 IR => (
-                                qual => (
-                                pofs => Pron,
+                                Qual => (
+                                Pofs => Pron,
                                 Pron => (
-                                pdl (j).ds.part.Pack.Decl,
-                                sl (m).IR.qual.Pron.Of_Case,
-                                sl (m).IR.qual.Pron.Number,
-                                sl (m).IR.qual.Pron.Gender)),
-                                key => sl (m).IR.key,
-                                ending => sl (m).IR.ending,
-                                age => sl (m).IR.age,
-                                freq => sl (m).IR.freq),
-                                D_K => pdl (j).d_k,
-                                MNPC => pdl (j).ds.MNPC);
+                                Pdl (J).Ds.Part.Pack.Decl,
+                                Sl (M).IR.Qual.Pron.Of_Case,
+                                Sl (M).IR.Qual.Pron.Number,
+                                Sl (M).IR.Qual.Pron.Gender)),
+                                Key => Sl (M).IR.Key,
+                                Ending => Sl (M).IR.Ending,
+                                Age => Sl (M).IR.Age,
+                                Freq => Sl (M).IR.Freq),
+                                D_K => Pdl (J).D_K,
+                                MNPC => Pdl (J).Ds.MNPC);
                               --end if;
                            end if;
                         end if;
-                        m := m + 1;
+                        M := M + 1;
 
-                     end loop sl_loop;
+                     end loop Sl_Loop;
 
-                  end loop pdl_loop;
+                  end loop Pdl_Loop;
 
                end if;
-            end for_each_packon;
+            end For_Each_Packon;
 
-            packon_first_hit := False;
+            Packon_First_Hit := False;
 
-         end loop over_packons;
-      end process_packons;
+         end loop Over_Packons;
+      end Process_Packons;
 
-      procedure process_qu_pronouns
-        (Input_word : String;
-         qkey : Stem_Key_Type := 0)
+      procedure Process_Qu_Pronouns
+        (Input_Word : String;
+         Qkey : Stem_Key_Type := 0)
       is
-         word : constant String := Lower_Case (Trim (Input_word));
-         last_of_word : constant Character := word (word'Last);
-         length_of_word   : constant Integer := word'Length;
-         stem_length  : Integer := 0;
-         m : Integer := 0;
-         pr   : Parse_Record;
-         sl : sal := (others => Null_Parse_Record);
+         Word : constant String := Lower_Case (Trim (Input_Word));
+         Last_Of_Word : constant Character := Word (Word'Last);
+         Length_Of_Word   : constant Integer := Word'Length;
+         Stem_Length  : Integer := 0;
+         M : Integer := 0;
+         Pr   : Parse_Record;
+         Sl : Sal := (others => Null_Parse_Record);
 
       begin
          --TEXT_IO.PUT_LINE ("PROCESS_QU_PRONOUNS   " & INPUT_WORD);
 
          --  No blank endings in these pronouns
-         lel_section_io.Read (inflections_sections_file, lel, 4);
+         Lel_Section_Io.Read (Inflections_Sections_File, Lel, 4);
 
          --  M used here while I is used in REDUCE, maybe make consistent
-         m := 0;
+         M := 0;
 
-         on_inflects :
-         for z in reverse 1 .. min (4, length_of_word)  loop
+         On_Inflects :
+         for Z in reverse 1 .. Min (4, Length_Of_Word)  loop
             --  optimized for qu-pronouns
-            if pell (z, last_of_word) > 0  then
+            if Pell (Z, Last_Of_Word) > 0  then
                --  Any possible inflections at all
-               for i in pelf (z, last_of_word) .. pell (z, last_of_word) loop
-                  if (z <= length_of_word)  and then
-                    lel (i).key = qkey  and then
-                    equ (lel (i).ending.suf (1 .. z),
-                    word (word'Last - z + 1 .. word'Last))
+               for I in Pelf (Z, Last_Of_Word) .. Pell (Z, Last_Of_Word) loop
+                  if (Z <= Length_Of_Word)  and then
+                    Lel (I).Key = Qkey  and then
+                    Equ (Lel (I).Ending.Suf (1 .. Z),
+                    Word (Word'Last - Z + 1 .. Word'Last))
                   then
                      --  Have found an ending that is a possible match
                      --  Add to list of possible ending records
-                     stem_length := word'Length - z;
-                     pr := (Head (word (word'First .. stem_length),
+                     Stem_Length := Word'Length - Z;
+                     Pr := (Head (Word (Word'First .. Stem_Length),
                        Max_Stem_Size),
-                       lel (i), Default_Dictionary_Kind, Null_MNPC);
-                     m := m + 1;
-                     sl (m) := pr;
-                     ssa (1) :=
-                       Head (word (word'First .. word'First + stem_length - 1),
+                       Lel (I), Default_Dictionary_Kind, Null_MNPC);
+                     M := M + 1;
+                     Sl (M) := Pr;
+                     Ssa (1) :=
+                       Head (Word (Word'First .. Word'First + Stem_Length - 1),
                        Max_Stem_Size);
                      --  may Get set several times
                   end if;
                end loop;
             end if;
-         end loop on_inflects;
+         end loop On_Inflects;
 
          --  Only one stem will emerge
-         pdl_index := 0;
-         search_dictionaries (ssa (1 .. 1),
-           qu_pron_only);
+         Pdl_Index := 0;
+         Search_Dictionaries (Ssa (1 .. 1),
+           Qu_Pron_Only);
          --  Now have a PDL, scan for agreement
 
-         pdl_loop :
-         for j in 1 .. pdl_index  loop
+         Pdl_Loop :
+         for J in 1 .. Pdl_Index  loop
             --  Go through all dictionary hits to see
-            m := 1;
+            M := 1;
 
-            sl_loop :
-            while sl (m) /= Null_Parse_Record  loop
+            Sl_Loop :
+            while Sl (M) /= Null_Parse_Record  loop
                --  Over all inflection hits
-               if pdl (j).ds.part.Pron.Decl = sl (m).IR.qual.Pron.Decl then
-                  pa_last := pa_last + 1;
-                  pa (pa_last) := (Stem => sl (m).Stem,
+               if Pdl (J).Ds.Part.Pron.Decl = Sl (M).IR.Qual.Pron.Decl then
+                  Pa_Last := Pa_Last + 1;
+                  Pa (Pa_Last) := (Stem => Sl (M).Stem,
                     IR => (
-                    qual => (
-                    pofs => Pron,
+                    Qual => (
+                    Pofs => Pron,
                     Pron => (
-                    pdl (j).ds.part.Pron.Decl,
-                    sl (m).IR.qual.Pron.Of_Case,
-                    sl (m).IR.qual.Pron.Number,
-                    sl (m).IR.qual.Pron.Gender)),
-                    key => sl (m).IR.key,
-                    ending => sl (m).IR.ending,
-                    age => sl (m).IR.age,
-                    freq => sl (m).IR.freq),
-                    D_K => pdl (j).d_k,
-                    MNPC => pdl (j).ds.MNPC);
+                    Pdl (J).Ds.Part.Pron.Decl,
+                    Sl (M).IR.Qual.Pron.Of_Case,
+                    Sl (M).IR.Qual.Pron.Number,
+                    Sl (M).IR.Qual.Pron.Gender)),
+                    Key => Sl (M).IR.Key,
+                    Ending => Sl (M).IR.Ending,
+                    Age => Sl (M).IR.Age,
+                    Freq => Sl (M).IR.Freq),
+                    D_K => Pdl (J).D_K,
+                    MNPC => Pdl (J).Ds.MNPC);
                end if;
-               m := m + 1;
+               M := M + 1;
 
-            end loop sl_loop;
+            end loop Sl_Loop;
             -- PDL:= PDL.SUCC;
-         end loop pdl_loop;
+         end loop Pdl_Loop;
 
-      end process_qu_pronouns;
+      end Process_Qu_Pronouns;
 
-      procedure try_tackons (Input_word : String) is
-         tackon_hit : Boolean := False;
-         tackon_on  : Boolean := False;
-         j : Integer := 0;
-         de : Dictionary_Entry := Null_Dictionary_Entry;
-         entering_pa_last : constant Integer := pa_last;
-         start_of_loop : constant Integer := 5;
+      procedure Try_Tackons (Input_Word : String) is
+         Tackon_Hit : Boolean := False;
+         Tackon_On  : Boolean := False;
+         J : Integer := 0;
+         De : Dictionary_Entry := Null_Dictionary_Entry;
+         Entering_Pa_Last : constant Integer := Pa_Last;
+         Start_Of_Loop : constant Integer := 5;
          --  4 enclitics     --  Hard number  !!!!!!!!!!!!!!!
-         end_of_loop : constant Integer := number_of_tackons;
+         End_Of_Loop : constant Integer := Number_Of_Tackons;
       begin
-         loop_over_tackons :
-         for i in start_of_loop .. end_of_loop  loop
+         Loop_Over_Tackons :
+         for I in Start_Of_Loop .. End_Of_Loop  loop
 
-            remove_a_tackon :
+            Remove_A_Tackon :
             declare
-               less : constant String :=
-                 subtract_tackon (Input_word, tackons (i));
+               Less : constant String :=
+                 Subtract_Tackon (Input_Word, Tackons (I));
             begin
                --TEXT_IO.PUT_LINE ("LESS = " & LESS);
-               if less  /= Input_word  then       --  LESS is less
-                  word (less, pa, pa_last);
+               if Less  /= Input_Word  then       --  LESS is less
+                  Word (Less, Pa, Pa_Last);
 
-                  if pa_last > entering_pa_last  then
+                  if Pa_Last > Entering_Pa_Last  then
                      --  we have a possible word
-                     if tackons (i).entr.base.pofs = X  then
-                        tackon_hit := True;
-                        tackon_on  := False;
+                     if Tackons (I).Entr.Base.Pofs = X  then
+                        Tackon_Hit := True;
+                        Tackon_On  := False;
                      else
-                        j := pa_last;
+                        J := Pa_Last;
 
-                        while j >= entering_pa_last + 1  loop
+                        while J >= Entering_Pa_Last + 1  loop
                            --  Sweep backwards over PA
                            --  Sweeping up inapplicable fixes,
                            --  although we only have TACKONs for X
                            --    or PRON or ADJ - so far
                            --  and there are no fixes for PRON - so far
 
-                           if pa (j).IR.qual.pofs = Prefix
-                             and then tackon_on
+                           if Pa (J).IR.Qual.Pofs = Prefix
+                             and then Tackon_On
                            then
                               null;          --  check PART
-                              tackon_on  := False;
-                           elsif pa (j).IR.qual.pofs = Suffix
-                             and then tackon_on
+                              Tackon_On  := False;
+                           elsif Pa (J).IR.Qual.Pofs = Suffix
+                             and then Tackon_On
                            then
                               --  check PART
                               null;
-                              tackon_on  := False;
-                           elsif pa (j).IR.qual.pofs =
-                             tackons (i).entr.base.pofs
+                              Tackon_On  := False;
+                           elsif Pa (J).IR.Qual.Pofs =
+                             Tackons (I).Entr.Base.Pofs
                            then
                               Dict_IO.Set_Index
-                                (Dict_File (pa (j).D_K), pa (j).MNPC);
-                              Dict_IO.Read (Dict_File (pa (j).D_K), de);
+                                (Dict_File (Pa (J).D_K), Pa (J).MNPC);
+                              Dict_IO.Read (Dict_File (Pa (J).D_K), De);
 
                               --  check PART
-                              case tackons (i).entr.base.pofs is
+                              case Tackons (I).Entr.Base.Pofs is
                                  when N       =>
-                                    if pa (j).IR.qual.N.Decl <=
-                                      tackons (i).entr.base.n.Decl
+                                    if Pa (J).IR.Qual.N.Decl <=
+                                      Tackons (I).Entr.Base.N.Decl
                                     then
                                        --  Ignore GEN and KIND
-                                       tackon_hit := True;
-                                       tackon_on  := True;
+                                       Tackon_Hit := True;
+                                       Tackon_On  := True;
                                     end if;
                                  when Pron    =>
                                     --  Only one we have other than X
-                                    if pa (j).IR.qual.Pron.Decl <=
-                                      tackons (i).entr.base.pron.Decl
+                                    if Pa (J).IR.Qual.Pron.Decl <=
+                                      Tackons (I).Entr.Base.Pron.Decl
                                     then
-                                       tackon_hit := True;
-                                       tackon_on  := True;
+                                       Tackon_Hit := True;
+                                       Tackon_On  := True;
                                     else
-                                       pa (j .. pa_last - 1) :=
-                                         pa (j + 1 .. pa_last);
-                                       pa_last := pa_last - 1;
+                                       Pa (J .. Pa_Last - 1) :=
+                                         Pa (J + 1 .. Pa_Last);
+                                       Pa_Last := Pa_Last - 1;
 
                                     end if;
                                  when Adj     =>
                                     --  Forego all checks, even on DECL of ADJ
                                     --  -cumque is the only one I have now
                                     --  if  . .. .. ..
-                                    tackon_hit := True;
-                                    tackon_on  := True;
+                                    Tackon_Hit := True;
+                                    Tackon_On  := True;
                                     --  else
                                     --    PA (J .. PA_LAST - 1) :=
                                     --       PA (J + 1 .. PA_LAST);
@@ -1758,124 +1758,124 @@ package body word_package is
                                     --when ADV     =>
                                     --when V       =>
                                  when others  =>
-                                    pa (j .. pa_last - 1) :=
-                                      pa (j + 1 .. pa_last);
-                                    pa_last := pa_last - 1;
+                                    Pa (J .. Pa_Last - 1) :=
+                                      Pa (J + 1 .. Pa_Last);
+                                    Pa_Last := Pa_Last - 1;
                               end case;
                            else --  check PART
-                              pa (j .. pa_last - 1) := pa (j + 1 .. pa_last);
-                              pa_last := pa_last - 1;
+                              Pa (J .. Pa_Last - 1) := Pa (J + 1 .. Pa_Last);
+                              Pa_Last := Pa_Last - 1;
                            end if; --  check PART
-                           j := j - 1;
+                           J := J - 1;
                         end loop; --  loop sweep over PA
                      end if; --  on PART (= X?)
 
                      -----------------------------------------
-                     if tackon_hit  then
-                        pa_last := pa_last + 1;
-                        pa (entering_pa_last + 2 .. pa_last) :=
-                          pa (entering_pa_last + 1 .. pa_last - 1);
-                        pa (entering_pa_last + 1) := (tackons (i).tack,
+                     if Tackon_Hit  then
+                        Pa_Last := Pa_Last + 1;
+                        Pa (Entering_Pa_Last + 2 .. Pa_Last) :=
+                          Pa (Entering_Pa_Last + 1 .. Pa_Last - 1);
+                        Pa (Entering_Pa_Last + 1) := (Tackons (I).Tack,
                           ((Tackon, Null_Tackon_Record), 0,
-                          null_ending_record, x, x),
-                          addons,
-                          Dict_IO.Count ((tackons (i).MNPC)));
+                          Null_Ending_Record, X, X),
+                          Addons,
+                          Dict_IO.Count ((Tackons (I).MNPC)));
                         return;                 --  Be happy with one ???????
                      else
                         null;
                      end if;   --  TACKON_HIT
                   end if;                       --  we have a possible word
                end if;                                     --  LESS is less
-            end remove_a_tackon;
-         end loop loop_over_tackons;
-      end try_tackons;
+            end Remove_A_Tackon;
+         end loop Loop_Over_Tackons;
+      end Try_Tackons;
 
    begin                           --  WORD
-      if Trim (Input_word) = ""  then
+      if Trim (Input_Word) = ""  then
          return;
       end if;
 
-      run_uniques (Input_word, unique_found, pa, pa_last);
+      Run_Uniques (Input_Word, Unique_Found, Pa, Pa_Last);
 
-      qu :
+      Qu :
       declare
-         pa_qstart : constant Integer := pa_last;
-         pa_start : constant Integer := pa_last;
-         saved_mode_array : constant mode_array := words_mode;
-         qkey : Stem_Key_Type := 0;
+         Pa_Qstart : constant Integer := Pa_Last;
+         Pa_Start : constant Integer := Pa_Last;
+         Saved_Mode_Array : constant Mode_Array := Words_Mode;
+         Qkey : Stem_Key_Type := 0;
 
       begin       --  QU
-         tickons (number_of_tickons + 1) := null_prefix_item;
-         words_mode  := (others => False);
+         Tickons (Number_Of_Tickons + 1) := Null_Prefix_Item;
+         Words_Mode  := (others => False);
 
-         for i in 1 .. number_of_tickons + 1  loop
+         for I in 1 .. Number_Of_Tickons + 1  loop
             declare
-               q_word : constant String :=
-                 Trim (subtract_tickon (Input_word, tickons (i)));
+               Q_Word : constant String :=
+                 Trim (Subtract_Tickon (Input_Word, Tickons (I)));
             begin
-               pa_last := pa_qstart;
-               pa (pa_last + 1) := Null_Parse_Record;
-               if (i = number_of_tickons + 1)   or else
+               Pa_Last := Pa_Qstart;
+               Pa (Pa_Last + 1) := Null_Parse_Record;
+               if (I = Number_Of_Tickons + 1)   or else
                  --  The prefix is a TICKON
-                 (q_word /= Input_word)
+                 (Q_Word /= Input_Word)
                --  and it matches the start of INPUT_WORD
                then
 
-                  if i <= number_of_tickons  then        --  Add to PA if
-                     pa_last := pa_last + 1;
+                  if I <= Number_Of_Tickons  then        --  Add to PA if
+                     Pa_Last := Pa_Last + 1;
                      --  So add prefix line to parse array
-                     pa (pa_last).Stem := Head (tickons (i).fix, Max_Stem_Size);
-                     pa (pa_last).IR := ((Prefix, Null_Prefix_Record),
-                       0, null_ending_record, x, x);
-                     pa (pa_last).D_K  := addons;
-                     pa (pa_last).MNPC := Dict_IO.Count (tickons (i).MNPC);
+                     Pa (Pa_Last).Stem := Head (Tickons (I).Fix, Max_Stem_Size);
+                     Pa (Pa_Last).IR := ((Prefix, Null_Prefix_Record),
+                       0, Null_Ending_Record, X, X);
+                     Pa (Pa_Last).D_K  := Addons;
+                     Pa (Pa_Last).MNPC := Dict_IO.Count (Tickons (I).MNPC);
                   end if;
 
-                  if q_word'Length >= 3   and then   --  qui is shortest QU_PRON
-                    ((q_word (q_word'First .. q_word'First + 1) = "qu")  or
-                    (q_word (q_word'First .. q_word'First + 1) = "cu"))
+                  if Q_Word'Length >= 3   and then   --  qui is shortest QU_PRON
+                    ((Q_Word (Q_Word'First .. Q_Word'First + 1) = "qu")  or
+                    (Q_Word (Q_Word'First .. Q_Word'First + 1) = "cu"))
                   then
-                     if q_word (q_word'First .. q_word'First + 1) = "qu"  then
-                        qkey := 1;
-                        process_qu_pronouns (q_word, qkey);
-                     elsif q_word
-                       (q_word'First .. q_word'First + 1) = "cu"
+                     if Q_Word (Q_Word'First .. Q_Word'First + 1) = "qu"  then
+                        Qkey := 1;
+                        Process_Qu_Pronouns (Q_Word, Qkey);
+                     elsif Q_Word
+                       (Q_Word'First .. Q_Word'First + 1) = "cu"
                      then
-                        qkey := 2;
-                        process_qu_pronouns (q_word, qkey);
+                        Qkey := 2;
+                        Process_Qu_Pronouns (Q_Word, Qkey);
                      end if;
-                     if pa_last <= pa_qstart + 1 and then qkey > 0 then
+                     if Pa_Last <= Pa_Qstart + 1 and then Qkey > 0 then
                         --  If did not find a PACKON
-                        if q_word
-                          (q_word'First .. q_word'First + 1) = "qu"
+                        if Q_Word
+                          (Q_Word'First .. Q_Word'First + 1) = "qu"
                         then
-                           process_packons (q_word);
-                        elsif q_word
-                          (q_word'First .. q_word'First + 1) = "cu"
+                           Process_Packons (Q_Word);
+                        elsif Q_Word
+                          (Q_Word'First .. Q_Word'First + 1) = "cu"
                         then
-                           process_packons (q_word);
+                           Process_Packons (Q_Word);
                         end if;
                      else
                         exit;
                      end if;
-                     if pa_last > pa_qstart + 1  then
+                     if Pa_Last > Pa_Qstart + 1  then
                         exit;
                      end if;
 
-                  elsif Input_word'Length >= 6  then   --  aliqui as aliQU_PRON
-                     if Input_word
-                       (Input_word'First .. Input_word'First + 4) = "aliqu"
+                  elsif Input_Word'Length >= 6  then   --  aliqui as aliQU_PRON
+                     if Input_Word
+                       (Input_Word'First .. Input_Word'First + 4) = "aliqu"
                      then
-                        process_qu_pronouns (Input_word, 1);
-                     elsif Input_word
-                       (Input_word'First .. Input_word'First + 4) = "alicu"
+                        Process_Qu_Pronouns (Input_Word, 1);
+                     elsif Input_Word
+                       (Input_Word'First .. Input_Word'First + 4) = "alicu"
                      then
-                        process_qu_pronouns (Input_word, 2);
+                        Process_Qu_Pronouns (Input_Word, 2);
                      end if;
                   end if;
 
-                  if pa_last = pa_start + 1  then    --  Nothing found
-                     pa_last := pa_start;             --  Reset PA_LAST
+                  if Pa_Last = Pa_Start + 1  then    --  Nothing found
+                     Pa_Last := Pa_Start;             --  Reset PA_LAST
                   else
                      exit;
                   end if;
@@ -1883,92 +1883,92 @@ package body word_package is
             end;
          end loop;
 
-         words_mode := saved_mode_array;
+         Words_Mode := Saved_Mode_Array;
       exception
          when others =>
-            words_mode := saved_mode_array;
-      end qu;
+            Words_Mode := Saved_Mode_Array;
+      end Qu;
 
       --==========================================================
-      run_inflections (Input_word, ss);
-      prune_stems (Input_word, ss, sss);
-      if sss (1) /= Null_Parse_Record   then
-         order_stems (sss);
-         array_stems (sss, pa, pa_last);
-         sss (1) := Null_Parse_Record;
+      Run_Inflections (Input_Word, Ss);
+      Prune_Stems (Input_Word, Ss, Sss);
+      if Sss (1) /= Null_Parse_Record   then
+         Order_Stems (Sss);
+         Array_Stems (Sss, Pa, Pa_Last);
+         Sss (1) := Null_Parse_Record;
       end if;
       --==========================================================
 
-      if pa_last = pa_save  then
-         try_tackons (Input_word);
+      if Pa_Last = Pa_Save  then
+         Try_Tackons (Input_Word);
       end if;
    exception
       when Storage_Error =>
          Ada.Text_IO.Put_Line (Ada.Text_IO.Standard_Output,
            "STORAGE_ERROR exception in WORD while processing =>"
-           & raw_word);
-         pa_last := pa_save;
-         if words_mode (Write_unknowns_to_file)  then
-            Ada.Text_IO.Put (unknowns, raw_word);
-            Ada.Text_IO.Set_Col (unknowns, 21);
-            Ada.Text_IO.Put_Line (unknowns, "========   STORAGE_ERROR  ");
+           & Raw_Word);
+         Pa_Last := Pa_Save;
+         if Words_Mode (Write_Unknowns_To_File)  then
+            Ada.Text_IO.Put (Unknowns, Raw_Word);
+            Ada.Text_IO.Set_Col (Unknowns, 21);
+            Ada.Text_IO.Put_Line (Unknowns, "========   STORAGE_ERROR  ");
          end if;
       when others =>
-         if words_mode (Write_unknowns_to_file)  then
-            Ada.Text_IO.Put (unknowns, raw_word);
-            Ada.Text_IO.Set_Col (unknowns, 21);
-            Ada.Text_IO.Put_Line (unknowns, "========   ERROR  ");
+         if Words_Mode (Write_Unknowns_To_File)  then
+            Ada.Text_IO.Put (Unknowns, Raw_Word);
+            Ada.Text_IO.Set_Col (Unknowns, 21);
+            Ada.Text_IO.Put_Line (Unknowns, "========   ERROR  ");
          end if;
-         pa_last := pa_save;
-   end word;
+         Pa_Last := Pa_Save;
+   end Word;
 
-   procedure initialize_word_package is
+   procedure Initialize_Word_Package is
    begin                                  --  Initializing WORD_PACKAGE
 
-      establish_inflections_section;
+      Establish_Inflections_Section;
 
-      lel_section_io.Open (inflections_sections_file, lel_section_io.In_File,
-        inflections_sections_name);
+      Lel_Section_Io.Open (Inflections_Sections_File, Lel_Section_Io.In_File,
+        Inflections_Sections_Name);
 
-      try_to_load_dictionary (general);
+      Try_To_Load_Dictionary (General);
 
-      try_to_load_dictionary (special);
+      Try_To_Load_Dictionary (Special);
 
-      load_local :
+      Load_Local :
       begin
          --  First check if there is a LOC dictionary
-         check_for_local_dictionary :
+         Check_For_Local_Dictionary :
          declare
-            dummy : Ada.Text_IO.File_Type;
+            Dummy : Ada.Text_IO.File_Type;
          begin
-            Ada.Text_IO.Open (dummy, Ada.Text_IO.In_File,
-              add_file_name_extension (dictionary_file_name,
+            Ada.Text_IO.Open (Dummy, Ada.Text_IO.In_File,
+              Add_File_Name_Extension (Dictionary_File_Name,
               "LOCAL"));
             --  Failure to OPEN will raise an exception, to be handled below
-            Ada.Text_IO.Close (dummy);
-         end check_for_local_dictionary;
+            Ada.Text_IO.Close (Dummy);
+         end Check_For_Local_Dictionary;
          --  If the above does not exception out, we can load LOC
          Preface.Put ("LOCAL ");
-         dict_loc := null_dictionary;
-         load_dictionary (dict_loc,
-           add_file_name_extension (dictionary_file_name, "LOCAL"));
+         Dict_Loc := Null_Dictionary;
+         Load_Dictionary (Dict_Loc,
+           Add_File_Name_Extension (Dictionary_File_Name, "LOCAL"));
          --  Need to carry LOC through consistently on LOAD_D and LOAD_D_FILE
-         load_stem_file (local);
-         Dictionary_Available (local) := True;
+         Load_Stem_File (Local);
+         Dictionary_Available (Local) := True;
       exception
          when others  =>
-            Dictionary_Available (local) := False;
-      end load_local;
+            Dictionary_Available (Local) := False;
+      end Load_Local;
 
-      load_uniques (unq, uniques_full_name);
+      Load_Uniques (Unq, Uniques_Full_Name);
 
-      load_addons (addons_full_name);
+      Load_Addons (Addons_Full_Name);
 
-      load_bdl_from_disk;
+      Load_Bdl_From_Disk;
 
-      if not (Dictionary_Available (general)  or
-        Dictionary_Available (special)  or
-        Dictionary_Available (local))
+      if not (Dictionary_Available (General)  or
+        Dictionary_Available (Special)  or
+        Dictionary_Available (Local))
       then
          Preface.Put_Line
            ("There are no main dictionaries - program will not do much");
@@ -1978,19 +1978,19 @@ package body word_package is
            ("Except DICT.LOC that means DICTFILE, INDXFILE, STEMFILE");
       end if;
 
-      try_to_load_english_words :
+      Try_To_Load_English_Words :
       begin
-         English_Dictionary_Available (general) := False;
-         ewds_direct_io.Open
-           (ewds_file, ewds_direct_io.In_File, "EWDSFILE.GEN");
+         English_Dictionary_Available (General) := False;
+         Ewds_Direct_Io.Open
+           (Ewds_File, Ewds_Direct_Io.In_File, "EWDSFILE.GEN");
 
-         English_Dictionary_Available (general) := True;
+         English_Dictionary_Available (General) := True;
       exception
          when others  =>
             Preface.Put_Line ("No English available");
-            English_Dictionary_Available (general) := False;
-      end try_to_load_english_words;
+            English_Dictionary_Available (General) := False;
+      end Try_To_Load_English_Words;
 
-   end initialize_word_package;
+   end Initialize_Word_Package;
 
-end word_package;
+end Word_Package;
