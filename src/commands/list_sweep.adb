@@ -57,12 +57,12 @@ procedure List_Sweep (Pa : in out Parse_Array; Pa_Last : in out Integer) is
       case  Pr.IR.Qual.Pofs is
          when N  =>
             if  Words_Mdev (For_Word_List_Check)  then
-               if (Nom <= Pr.IR.Qual.N.Of_Case) and then
-                 (S <= Pr.IR.Qual.N.Number)
+               if (Nom <= Pr.IR.Qual.Noun.Of_Case) and then
+                 (S <= Pr.IR.Qual.Noun.Number)
                then
                   Allowed := True;
-               elsif (Nom <= Pr.IR.Qual.N.Of_Case) and then
-                 (Pr.IR.Qual.N.Number = P)
+               elsif (Nom <= Pr.IR.Qual.Noun.Of_Case) and then
+                 (Pr.IR.Qual.Noun.Number = P)
                then
 
                   Search_For_Pl :
@@ -105,7 +105,7 @@ procedure List_Sweep (Pa : in out Parse_Array; Pa_Last : in out Integer) is
                Stem : constant String := Trim (Pr.Stem);
                Last_Three : String (1 .. 3);
             begin
-               if (Pr.IR.Qual.V = ((3, 1), (Pres, Active, Imp), 2, S))  and
+               if (Pr.IR.Qual.Verb = ((3, 1), (Pres, Active, Imp), 2, S))  and
                  (Pr.IR.Ending.Size = 0)
                then    --  For this special case
                   if Stem'Length >= 3  then
@@ -126,13 +126,13 @@ procedure List_Sweep (Pa : in out Parse_Array; Pa_Last : in out Integer) is
             end;
 
             --  Check for Verb Imperative being in permitted person
-            if Pr.IR.Qual.V.Tense_Voice_Mood.Mood = Imp then
-               if (Pr.IR.Qual.V.Tense_Voice_Mood.Tense = Pres) and
-                 (Pr.IR.Qual.V.Person = 2)
+            if Pr.IR.Qual.Verb.Tense_Voice_Mood.Mood = Imp then
+               if (Pr.IR.Qual.Verb.Tense_Voice_Mood.Tense = Pres) and
+                 (Pr.IR.Qual.Verb.Person = 2)
                then
                   null;
-               elsif (Pr.IR.Qual.V.Tense_Voice_Mood.Tense = Fut) and
-                 (Pr.IR.Qual.V.Person = 2 or Pr.IR.Qual.V.Person = 3)
+               elsif (Pr.IR.Qual.Verb.Tense_Voice_Mood.Tense = Fut) and
+                 (Pr.IR.Qual.Verb.Person = 2 or Pr.IR.Qual.Verb.Person = 3)
                then
                   null;
                else
@@ -142,7 +142,7 @@ procedure List_Sweep (Pa : in out Parse_Array; Pa_Last : in out Integer) is
 
             --  Check for V IMPERS and demand that only 3rd person
             if De.Part.V.Kind = Impers then
-               if Pr.IR.Qual.V.Person = 3 then
+               if Pr.IR.Qual.Verb.Person = 3 then
                   null;
                else
                   Allowed := False;
@@ -152,14 +152,14 @@ procedure List_Sweep (Pa : in out Parse_Array; Pa_Last : in out Integer) is
             --  Check for V DEP    and demand PASSIVE
             if De.Part.V.Kind = Dep then
                --TEXT_IO.PUT ("DEP  ");
-               if (Pr.IR.Qual.V.Tense_Voice_Mood.Voice = Active)  and
-                 (Pr.IR.Qual.V.Tense_Voice_Mood.Mood = Inf)  and
-                 (Pr.IR.Qual.V.Tense_Voice_Mood.Tense = Fut)
+               if (Pr.IR.Qual.Verb.Tense_Voice_Mood.Voice = Active)  and
+                 (Pr.IR.Qual.Verb.Tense_Voice_Mood.Mood = Inf)  and
+                 (Pr.IR.Qual.Verb.Tense_Voice_Mood.Tense = Fut)
                then
                   --TEXT_IO.PUT ("PASSIVE  ");
                   Allowed := True;
-               elsif (Pr.IR.Qual.V.Tense_Voice_Mood.Voice = Active)  and
-                 (Pr.IR.Qual.V.Tense_Voice_Mood.Mood in Ind .. Inf)
+               elsif (Pr.IR.Qual.Verb.Tense_Voice_Mood.Voice = Active)  and
+                 (Pr.IR.Qual.Verb.Tense_Voice_Mood.Mood in Ind .. Inf)
                then
                   --TEXT_IO.PUT ("ACTIVE  ");
                   Allowed := False;
@@ -171,14 +171,14 @@ procedure List_Sweep (Pa : in out Parse_Array; Pa_Last : in out Integer) is
 
             --  Check for V SEMIDEP    and demand PASSIVE ex Perf
             if De.Part.V.Kind = Semidep then
-               if (Pr.IR.Qual.V.Tense_Voice_Mood.Voice = Passive)  and
-                 (Pr.IR.Qual.V.Tense_Voice_Mood.Tense in Pres .. Fut)  and
-                 (Pr.IR.Qual.V.Tense_Voice_Mood.Mood in Ind .. Imp)
+               if (Pr.IR.Qual.Verb.Tense_Voice_Mood.Voice = Passive)  and
+                 (Pr.IR.Qual.Verb.Tense_Voice_Mood.Tense in Pres .. Fut)  and
+                 (Pr.IR.Qual.Verb.Tense_Voice_Mood.Mood in Ind .. Imp)
                then
                   Allowed := False;
-               elsif (Pr.IR.Qual.V.Tense_Voice_Mood.Voice = Active)  and
-                 (Pr.IR.Qual.V.Tense_Voice_Mood.Tense in Perf .. Futp)  and
-                 (Pr.IR.Qual.V.Tense_Voice_Mood.Mood in Ind .. Imp)
+               elsif (Pr.IR.Qual.Verb.Tense_Voice_Mood.Voice = Active)  and
+                 (Pr.IR.Qual.Verb.Tense_Voice_Mood.Tense in Perf .. Futp)  and
+                 (Pr.IR.Qual.Verb.Tense_Voice_Mood.Mood in Ind .. Imp)
                then
                   Allowed := False;
                else
@@ -187,30 +187,30 @@ procedure List_Sweep (Pa : in out Parse_Array; Pa_Last : in out Integer) is
             end if;
 
             if  Words_Mdev (For_Word_List_Check)  then
-               if (Pr.IR.Qual.V.Person = 1) and then
-                 (Pr.IR.Qual.V.Number = S)
+               if (Pr.IR.Qual.Verb.Person = 1) and then
+                 (Pr.IR.Qual.Verb.Number = S)
                then
                   if ((De.Part.V.Kind in X .. Intrans)  and
-                    (Pr.IR.Qual.V.Tense_Voice_Mood =
+                    (Pr.IR.Qual.Verb.Tense_Voice_Mood =
                     (Pres, Active, Ind))) or else
                     ((De.Part.V.Kind = Dep)  and
-                    (Pr.IR.Qual.V.Tense_Voice_Mood =
+                    (Pr.IR.Qual.Verb.Tense_Voice_Mood =
                     (Pres, Passive, Ind))) or else
                     ((De.Part.V.Kind = Semidep)  and
-                    (Pr.IR.Qual.V.Tense_Voice_Mood = (Pres, Active, Ind)))
+                    (Pr.IR.Qual.Verb.Tense_Voice_Mood = (Pres, Active, Ind)))
                   then
                      Allowed := True;
                   elsif (De.Part.V.Kind = Perfdef)  and
-                     (Pr.IR.Qual.V.Tense_Voice_Mood = (Perf, Active, Ind))
+                     (Pr.IR.Qual.Verb.Tense_Voice_Mood = (Perf, Active, Ind))
                   then
                      Allowed := True;
                   else
                      Allowed := False;
                   end if;
                elsif De.Part.V.Kind = Impers then
-                  if (Pr.IR.Qual.V.Person = 3)  and then
-                    (Pr.IR.Qual.V.Number = S)  and then
-                    (Pr.IR.Qual.V.Tense_Voice_Mood = (Pres, Active, Ind))
+                  if (Pr.IR.Qual.Verb.Person = 3)  and then
+                    (Pr.IR.Qual.Verb.Number = S)  and then
+                    (Pr.IR.Qual.Verb.Tense_Voice_Mood = (Pres, Active, Ind))
                   then
                      Allowed := True;
                   else
@@ -408,7 +408,7 @@ procedure List_Sweep (Pa : in out Parse_Array; Pa_Last : in out Integer) is
                end if;
 
                if Sl (I).IR.Qual.Pofs = N  and then
-                 Sl (I).IR.Qual.N.Decl = (9, 8)
+                 Sl (I).IR.Qual.Noun.Decl = (9, 8)
                then
                   Has_Noun_Abbreviation := True;
                end if;
@@ -662,9 +662,9 @@ begin                               --  LIST_SWEEP
       end if;
 
       if Pa (I).IR.Qual.Pofs = V   then
-         if Pa (I).IR.Qual.V.Con = (3, 4)  then
+         if Pa (I).IR.Qual.Verb.Con = (3, 4)  then
             --  Fix V 3 4 to be 4th conjugation
-            Pa (I).IR.Qual.V.Con := (4, 1);
+            Pa (I).IR.Qual.Verb.Con := (4, 1);
             --    else
             --    --  Set to 0 other VAR for V
             --      PA (I).IR.QUAL.V.CON.VAR := 0;

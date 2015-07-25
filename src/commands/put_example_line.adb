@@ -34,11 +34,11 @@ is
       Ir     : in Inflection_Record;
       Vk      : in Verb_Kind_Type)
    is
-      Person : constant Person_Type      := Ir.Qual.V.Person;
-      Number : constant Number_Type      := Ir.Qual.V.Number;
-      Tense  : constant Tense_Type       := Ir.Qual.V.Tense_Voice_Mood.Tense;
-      Mood   : constant Mood_Type        := Ir.Qual.V.Tense_Voice_Mood.Mood;
-      Voice  : Voice_Type                := Ir.Qual.V.Tense_Voice_Mood.Voice;
+      Person : constant Person_Type      := Ir.Qual.Verb.Person;
+      Number : constant Number_Type      := Ir.Qual.Verb.Number;
+      Tense  : constant Tense_Type       := Ir.Qual.Verb.Tense_Voice_Mood.Tense;
+      Mood   : constant Mood_Type        := Ir.Qual.Verb.Tense_Voice_Mood.Mood;
+      Voice  : Voice_Type                := Ir.Qual.Verb.Tense_Voice_Mood.Voice;
       Kind   : constant Verb_Kind_Type   := Vk;
       --  Nothing on  (part), gerund,
 
@@ -281,7 +281,7 @@ begin    --  PUT_EXAMPLE_LINE
 
       case Ir.Qual.Pofs is
          when N =>
-            case Ir.Qual.N.Of_Case is
+            case Ir.Qual.Noun.Of_Case is
                when Gen =>
                   Ada.Text_IO.Put (Output, "~'s; of ~");
                   Ada.Text_IO.New_Line (Output);

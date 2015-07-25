@@ -928,7 +928,7 @@ package body Support_Utils.Line_Stuff is
          begin
             case Part.Pofs is
                when N  =>
-                  Part := (N, (Qual.N.Decl, Qual.N.Gender, Kind.N_Kind));
+                  Part := (N, (Qual.Noun.Decl, Qual.Noun.Gender, Kind.N_Kind));
                when Pron =>
                   Part := (Pron, (Qual.Pron.Decl, Kind.Pron_Kind));
                when Pack =>
@@ -940,7 +940,7 @@ package body Support_Utils.Line_Stuff is
                when Adv =>
                   Part := (Adv, (Co => Qual.Adv.Comparison));
                when V =>
-                  Part := (V, (Qual.V.Con, Kind.V_Kind));
+                  Part := (V, (Qual.Verb.Con, Kind.V_Kind));
                when others  =>
                   Part := Null_Part_Entry;
             end case;

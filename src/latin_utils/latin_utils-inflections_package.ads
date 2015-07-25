@@ -699,7 +699,7 @@ package Latin_Utils.Inflections_Package is
       record
          case Pofs is
             when N =>
-               N : Noun_Record;
+               Noun : Noun_Record;
             when Pron =>
                Pron : Pronoun_Record;
             when Pack =>
@@ -711,7 +711,7 @@ package Latin_Utils.Inflections_Package is
             when Adv =>
                Adv : Adverb_Record;
             when V =>
-               V : Verb_Record;
+               Verb : Verb_Record;
             when Vpar =>
                Vpar : Vpar_Record;
             when Supine =>

@@ -936,8 +936,8 @@ package body Word_Package is
                     (Pdl_Part.Pofs  = Eff_Part (Sl (I).IR.Qual.Pofs))
                   then
                      if Pdl_Part.Pofs = N                            and then
-                       Pdl_Part.N.Decl <= Sl (I).IR.Qual.N.Decl      and then
-                       Pdl_Part.N.Gender <= Sl (I).IR.Qual.N.Gender
+                       Pdl_Part.N.Decl <= Sl (I).IR.Qual.Noun.Decl      and then
+                       Pdl_Part.N.Gender <= Sl (I).IR.Qual.Noun.Gender
                      then
                         --  Need to transfer the gender of the noun
                         --  dictionary item
@@ -947,10 +947,10 @@ package body Word_Package is
                           IR => (
                           Qual => (
                           Pofs => N,
-                          N => (
+                          Noun => (
                           Pdl_Part.N.Decl,
-                          Sl (I).IR.Qual.N.Of_Case,
-                          Sl (I).IR.Qual.N.Number,
+                          Sl (I).IR.Qual.Noun.Of_Case,
+                          Sl (I).IR.Qual.Noun.Number,
                           Pdl_Part.N.Gender)),
                           Key => Sl (I).IR.Key,
                           Ending => Sl (I).IR.Ending,
@@ -1084,7 +1084,7 @@ package body Word_Package is
                      elsif Pdl_Part.Pofs = V then
                         --TEXT_IO.PUT_LINE ("V found, now check CON");
                         if Sl (I).IR.Qual.Pofs = V     and then
-                          (Pdl_Part.V.Con <= Sl (I).IR.Qual.V.Con)
+                          (Pdl_Part.V.Con <= Sl (I).IR.Qual.Verb.Con)
                         then
                            --TEXT_IO.PUT (" HIT  V     ");
                            M := M + 1;
@@ -1093,11 +1093,11 @@ package body Word_Package is
                              IR => (
                              Qual => (
                              Pofs => V,
-                             V => (
+                             Verb => (
                              Pdl_Part.V.Con,
-                             Sl (I).IR.Qual.V.Tense_Voice_Mood,
-                             Sl (I).IR.Qual.V.Person,
-                             Sl (I).IR.Qual.V.Number)),
+                             Sl (I).IR.Qual.Verb.Tense_Voice_Mood,
+                             Sl (I).IR.Qual.Verb.Person,
+                             Sl (I).IR.Qual.Verb.Number)),
                              Key => Sl (I).IR.Key,
                              Ending => Sl (I).IR.Ending,
                              Age => Sl (I).IR.Age,
@@ -1723,7 +1723,7 @@ package body Word_Package is
                               --  check PART
                               case Tackons (I).Entr.Base.Pofs is
                                  when N       =>
-                                    if Pa (J).IR.Qual.N.Decl <=
+                                    if Pa (J).IR.Qual.Noun.Decl <=
                                       Tackons (I).Entr.Base.N.Decl
                                     then
                                        --  Ignore GEN and KIND

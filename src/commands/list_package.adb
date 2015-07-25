@@ -335,7 +335,7 @@ package body List_Package is
 
                      if (Sr.Ir.Qual.Pofs = V)    and then
                        (Dm.De.Part.V.Kind = Dep)       and then
-                       (Sr.Ir.Qual.V.Tense_Voice_Mood.Mood in Ind .. Inf)
+                       (Sr.Ir.Qual.Verb.Tense_Voice_Mood.Mood in Ind .. Inf)
                      then
                         --TEXT_IO.PUT_LINE ("START PRINT MODIFIED QUAL   V");
                         Out_String (Passive_Start + 1 .. Passive_Finish) :=

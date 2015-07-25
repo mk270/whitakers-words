@@ -39,21 +39,21 @@ package body Latin_Utils.Inflections_Package is
       if Left.Pofs = Right.Pofs  then
          case Left.Pofs is
             when N =>
-               if Left.N.Decl.Which < Right.N.Decl.Which  or else
-                 (Left.N.Decl.Which = Right.N.Decl.Which  and then
-                 Left.N.Decl.Var < Right.N.Decl.Var)  or else
-                 (Left.N.Decl.Which = Right.N.Decl.Which  and then
-                 Left.N.Decl.Var = Right.N.Decl.Var  and then
-                 Left.N.Number < Right.N.Number) or else
-                 (Left.N.Decl.Which = Right.N.Decl.Which  and then
-                 Left.N.Decl.Var = Right.N.Decl.Var  and then
-                 Left.N.Number = Right.N.Number and then
-                 Left.N.Of_Case < Right.N.Of_Case) or else
-                 (Left.N.Decl.Which = Right.N.Decl.Which  and then
-                 Left.N.Decl.Var = Right.N.Decl.Var  and then
-                 Left.N.Number = Right.N.Number and then
-                 Left.N.Of_Case = Right.N.Of_Case and then
-                 Left.N.Gender < Right.N.Gender)
+               if Left.Noun.Decl.Which < Right.Noun.Decl.Which  or else
+                 (Left.Noun.Decl.Which = Right.Noun.Decl.Which  and then
+                 Left.Noun.Decl.Var < Right.Noun.Decl.Var)  or else
+                 (Left.Noun.Decl.Which = Right.Noun.Decl.Which  and then
+                 Left.Noun.Decl.Var = Right.Noun.Decl.Var  and then
+                 Left.Noun.Number < Right.Noun.Number) or else
+                 (Left.Noun.Decl.Which = Right.Noun.Decl.Which  and then
+                 Left.Noun.Decl.Var = Right.Noun.Decl.Var  and then
+                 Left.Noun.Number = Right.Noun.Number and then
+                 Left.Noun.Of_Case < Right.Noun.Of_Case) or else
+                 (Left.Noun.Decl.Which = Right.Noun.Decl.Which  and then
+                 Left.Noun.Decl.Var = Right.Noun.Decl.Var  and then
+                 Left.Noun.Number = Right.Noun.Number and then
+                 Left.Noun.Of_Case = Right.Noun.Of_Case and then
+                 Left.Noun.Gender < Right.Noun.Gender)
                then
                   return True;
                end if;
@@ -123,43 +123,43 @@ package body Latin_Utils.Inflections_Package is
             when Adv =>
                return Left.Adv.Comparison < Right.Adv.Comparison;
             when V =>
-               if (Left.V.Con.Which < Right.V.Con.Which)  or else
-                 (Left.V.Con.Which = Right.V.Con.Which  and then
-                 Left.V.Con.Var < Right.V.Con.Var)  or else
-                 (Left.V.Con.Which = Right.V.Con.Which  and then
-                 Left.V.Con.Var = Right.V.Con.Var  and then
-                 Left.V.Number < Right.V.Number) or else
-                 (Left.V.Con.Which = Right.V.Con.Which  and then
-                    Left.V.Con.Var = Right.V.Con.Var  and then
-                    Left.V.Number = Right.V.Number and then
-                    Left.V.Tense_Voice_Mood.Tense <
-                    Right.V.Tense_Voice_Mood.Tense) or else
-                 (Left.V.Con.Which = Right.V.Con.Which  and then
-                    Left.V.Con.Var = Right.V.Con.Var  and then
-                    Left.V.Number = Right.V.Number and then
-                    Left.V.Tense_Voice_Mood.Tense =
-                    Right.V.Tense_Voice_Mood.Tense and then
-                    Left.V.Tense_Voice_Mood.Voice <
-                    Right.V.Tense_Voice_Mood.Voice) or else
-                 (Left.V.Con.Which = Right.V.Con.Which  and then
-                    Left.V.Con.Var = Right.V.Con.Var  and then
-                    Left.V.Number = Right.V.Number and then
-                    Left.V.Tense_Voice_Mood.Tense =
-                    Right.V.Tense_Voice_Mood.Tense and then
-                    Left.V.Tense_Voice_Mood.Voice =
-                    Right.V.Tense_Voice_Mood.Voice and then
-                    Left.V.Tense_Voice_Mood.Mood <
-                    Right.V.Tense_Voice_Mood.Mood)  or else
-                 (Left.V.Con.Which = Right.V.Con.Which and then
-                    Left.V.Con.Var = Right.V.Con.Var and then
-                    Left.V.Number = Right.V.Number and then
-                    Left.V.Tense_Voice_Mood.Tense =
-                    Right.V.Tense_Voice_Mood.Tense and then
-                    Left.V.Tense_Voice_Mood.Voice =
-                    Right.V.Tense_Voice_Mood.Voice and then
-                    Left.V.Tense_Voice_Mood.Mood  =
-                    Right.V.Tense_Voice_Mood.Mood  and then
-                    Left.V.Person < Right.V.Person)
+               if (Left.Verb.Con.Which < Right.Verb.Con.Which)  or else
+                 (Left.Verb.Con.Which = Right.Verb.Con.Which  and then
+                 Left.Verb.Con.Var < Right.Verb.Con.Var)  or else
+                 (Left.Verb.Con.Which = Right.Verb.Con.Which  and then
+                 Left.Verb.Con.Var = Right.Verb.Con.Var  and then
+                 Left.Verb.Number < Right.Verb.Number) or else
+                 (Left.Verb.Con.Which = Right.Verb.Con.Which  and then
+                    Left.Verb.Con.Var = Right.Verb.Con.Var  and then
+                    Left.Verb.Number = Right.Verb.Number and then
+                    Left.Verb.Tense_Voice_Mood.Tense <
+                    Right.Verb.Tense_Voice_Mood.Tense) or else
+                 (Left.Verb.Con.Which = Right.Verb.Con.Which  and then
+                    Left.Verb.Con.Var = Right.Verb.Con.Var  and then
+                    Left.Verb.Number = Right.Verb.Number and then
+                    Left.Verb.Tense_Voice_Mood.Tense =
+                    Right.Verb.Tense_Voice_Mood.Tense and then
+                    Left.Verb.Tense_Voice_Mood.Voice <
+                    Right.Verb.Tense_Voice_Mood.Voice) or else
+                 (Left.Verb.Con.Which = Right.Verb.Con.Which  and then
+                    Left.Verb.Con.Var = Right.Verb.Con.Var  and then
+                    Left.Verb.Number = Right.Verb.Number and then
+                    Left.Verb.Tense_Voice_Mood.Tense =
+                    Right.Verb.Tense_Voice_Mood.Tense and then
+                    Left.Verb.Tense_Voice_Mood.Voice =
+                    Right.Verb.Tense_Voice_Mood.Voice and then
+                    Left.Verb.Tense_Voice_Mood.Mood <
+                    Right.Verb.Tense_Voice_Mood.Mood)  or else
+                 (Left.Verb.Con.Which = Right.Verb.Con.Which and then
+                    Left.Verb.Con.Var = Right.Verb.Con.Var and then
+                    Left.Verb.Number = Right.Verb.Number and then
+                    Left.Verb.Tense_Voice_Mood.Tense =
+                    Right.Verb.Tense_Voice_Mood.Tense and then
+                    Left.Verb.Tense_Voice_Mood.Voice =
+                    Right.Verb.Tense_Voice_Mood.Voice and then
+                    Left.Verb.Tense_Voice_Mood.Mood  =
+                    Right.Verb.Tense_Voice_Mood.Mood  and then
+                    Left.Verb.Person < Right.Verb.Person)
                then
                   return True;
                end if;
@@ -579,7 +579,7 @@ package body Latin_Utils.Inflections_Package is
          Put (F, ' ');
          case P.Pofs is
             when N =>
-               Put (F, P.N);
+               Put (F, P.Noun);
             when Pron =>
                Put (F, P.Pron);
             when Pack =>
@@ -591,7 +591,7 @@ package body Latin_Utils.Inflections_Package is
             when Adv =>
                Put (F, P.Adv);
             when V =>
-               Put (F, P.V);
+               Put (F, P.Verb);
             when Vpar =>
                Put (F, P.Vpar);
             when Supine =>
@@ -624,7 +624,7 @@ package body Latin_Utils.Inflections_Package is
          Put (' ');
          case P.Pofs is
             when N =>
-               Put (P.N);
+               Put (P.Noun);
             when Pron =>
                Put (P.Pron);
             when Pack =>
@@ -636,7 +636,7 @@ package body Latin_Utils.Inflections_Package is
             when Adv =>
                Put (P.Adv);
             when V =>
-               Put (P.V);
+               Put (P.Verb);
             when Vpar =>
                Put (P.Vpar);
             when Supine =>
@@ -738,7 +738,7 @@ package body Latin_Utils.Inflections_Package is
          case P.Pofs is
             when N =>
                M := L + Noun_Record_IO.Default_Width;
-               Put (S (L + 1 .. M), P.N);
+               Put (S (L + 1 .. M), P.Noun);
             when Pron =>
                M := L + Pronoun_Record_IO.Default_Width;
                Put (S (L + 1 .. M), P.Pron);
@@ -756,7 +756,7 @@ package body Latin_Utils.Inflections_Package is
                Put (S (L + 1 .. M), P.Adv);
             when V =>
                M := L + Verb_Record_IO.Default_Width;
-               Put (S (L + 1 .. M), P.V);
+               Put (S (L + 1 .. M), P.Verb);
             when Vpar =>
                M := L + Vpar_Record_IO.Default_Width;
                Put (S (L + 1 .. M), P.Vpar);
