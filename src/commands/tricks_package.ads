@@ -15,30 +15,30 @@
 -- available to anyone who wishes to use them, for whatever purpose.
 
 with Latin_Utils.Dictionary_Package; use Latin_Utils.Dictionary_Package;
-package tricks_package is
+package Tricks_Package is
 
-   procedure syncope
-     (w       : String;
-      pa      : in out Parse_Array;
-      pa_last : in out Integer);
+   procedure Syncope
+     (W       : String;
+      Pa      : in out Parse_Array;
+      Pa_Last : in out Integer);
 
-   procedure try_tricks
-     (w           : String;
-      pa          : in out Parse_Array;
-      pa_last     : in out Integer;
-      line_number : Integer;
-      word_number : Integer);
+   procedure Try_Tricks
+     (W           : String;
+      Pa          : in out Parse_Array;
+      Pa_Last     : in out Integer;
+      Line_Number : Integer;
+      Word_Number : Integer);
 
-   procedure try_slury
-     (w           : String;
-      pa          : in out Parse_Array;
-      pa_last     : in out Integer;
-      line_number : Integer;
-      word_number : Integer);
+   procedure Try_Slury
+     (W           : String;
+      Pa          : in out Parse_Array;
+      Pa_Last     : in out Integer;
+      Line_Number : Integer;
+      Word_Number : Integer);
 
-   procedure roman_numerals
-     (Input_word : String;
-      pa         : in out Parse_Array;
-      pa_last    : in out Integer);
+   procedure Roman_Numerals
+     (Input_Word : String;
+      Pa         : in out Parse_Array;
+      Pa_Last    : in out Integer);
 
-end tricks_package;
+end Tricks_Package;

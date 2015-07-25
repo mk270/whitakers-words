@@ -21,156 +21,156 @@ with Support_Utils.Word_Parameters; use Support_Utils.Word_Parameters;
 with Latin_Utils.Inflections_Package; use Latin_Utils.Inflections_Package;
 with Latin_Utils.Dictionary_Package; use Latin_Utils.Dictionary_Package;
 with Support_Utils.Developer_Parameters; use Support_Utils.Developer_Parameters;
-with word_package; use word_package;
-with english_support_package; use english_support_package;
+with Word_Package; use Word_Package;
+with English_Support_Package; use English_Support_Package;
 with Support_Utils.Dictionary_Form;
 use Latin_Utils;
 
-procedure search_english
-  (Input_english_word : String;
-   pofs : Part_Of_Speech_Type := X)
+procedure Search_English
+  (Input_English_Word : String;
+   Pofs : Part_Of_Speech_Type := X)
 is
-   use ewds_direct_io;
-   Input_word : eword := Lower_Case (Head (Input_english_word, eword_size));
-   Input_pofs : constant Part_Of_Speech_Type := pofs;
+   use Ewds_Direct_Io;
+   Input_Word : Eword := Lower_Case (Head (Input_English_Word, Eword_Size));
+   Input_Pofs : constant Part_Of_Speech_Type := Pofs;
 
-   Output_array : ewds_array (1 .. 500) := (others => null_ewds_record);
-   number_of_hits : Integer := 0;
-   j1, j2, j : ewds_direct_io.Count := 0;
+   Output_Array : Ewds_Array (1 .. 500) := (others => Null_Ewds_Record);
+   Number_Of_Hits : Integer := 0;
+   J1, J2, J : Ewds_Direct_Io.Count := 0;
 
-   d_k : constant Dictionary_Kind := general;    --  For the moment
+   D_K : constant Dictionary_Kind := General;    --  For the moment
 
-   ewds : ewds_record := null_ewds_record;
+   Ewds : Ewds_Record := Null_Ewds_Record;
 
-   first_try, second_try : Boolean := True;
+   First_Try, Second_Try : Boolean := True;
 
-   procedure load_Output_array (ewds : in ewds_record) is
+   procedure Load_Output_Array (Ewds : in Ewds_Record) is
    begin
-      if ewds.pofs <= Input_pofs  then
-         number_of_hits := number_of_hits + 1;
-         Output_array (number_of_hits) := ewds;
+      if Ewds.Pofs <= Input_Pofs  then
+         Number_Of_Hits := Number_Of_Hits + 1;
+         Output_Array (Number_Of_Hits) := Ewds;
       end if;
-   end load_Output_array;
+   end Load_Output_Array;
 
    --procedure TRIM_OUTPUT_ARRAY is
-   procedure sort_Output_array is
-      hits : Integer := 0;
+   procedure Sort_Output_Array is
+      Hits : Integer := 0;
    begin
 
       --  Bubble sort
-      hit_loop :
+      Hit_Loop :
       loop
-         hits := 0;
+         Hits := 0;
 
-         switch :
+         Switch :
          declare
-            dw : ewds_record := null_ewds_record;
+            Dw : Ewds_Record := Null_Ewds_Record;
          begin
-            inner_loop :    --  Order by RANK, FREQ, SEMI
-            for i in 1 .. number_of_hits - 1  loop
-               if Output_array (i + 1).rank  >  Output_array (i).rank or else
-                 (Output_array (i + 1).rank  =  Output_array (i).rank and then
-                 Output_array (i + 1).freq  <  Output_array (i).freq) or else
-                 (Output_array (i + 1).rank  =  Output_array (i).rank and then
-                 Output_array (i + 1).freq  =  Output_array (i).freq and then
-                 Output_array (i + 1).semi  <  Output_array (i).semi)
+            Inner_Loop :    --  Order by RANK, FREQ, SEMI
+            for I in 1 .. Number_Of_Hits - 1  loop
+               if Output_Array (I + 1).Rank  >  Output_Array (I).Rank or else
+                 (Output_Array (I + 1).Rank  =  Output_Array (I).Rank and then
+                 Output_Array (I + 1).Freq  <  Output_Array (I).Freq) or else
+                 (Output_Array (I + 1).Rank  =  Output_Array (I).Rank and then
+                 Output_Array (I + 1).Freq  =  Output_Array (I).Freq and then
+                 Output_Array (I + 1).Semi  <  Output_Array (I).Semi)
                then
-                  dw := Output_array (i);
-                  Output_array (i) := Output_array (i + 1);
-                  Output_array (i + 1) := dw;
-                  hits := hits + 1;
+                  Dw := Output_Array (I);
+                  Output_Array (I) := Output_Array (I + 1);
+                  Output_Array (I + 1) := Dw;
+                  Hits := Hits + 1;
                   --PUT_LINE ("HITS    " & INTEGER'IMAGE (HITS));
                end if;
-            end loop inner_loop;
-         end switch;
-         exit hit_loop when hits = 0;
-      end loop hit_loop;
-   end sort_Output_array;
+            end loop Inner_Loop;
+         end Switch;
+         exit Hit_Loop when Hits = 0;
+      end loop Hit_Loop;
+   end Sort_Output_Array;
 
-   procedure dump_Output_array (Output : in Ada.Text_IO.File_Type) is
-      de : Dictionary_Entry := Null_Dictionary_Entry;
-      number_to_show : Integer := number_of_hits;
-      one_screen : constant Integer := 6;
+   procedure Dump_Output_Array (Output : in Ada.Text_IO.File_Type) is
+      De : Dictionary_Entry := Null_Dictionary_Entry;
+      Number_To_Show : Integer := Number_Of_Hits;
+      One_Screen : constant Integer := 6;
    begin
       --TEXT_IO.PUT_LINE ("DUMP_OUTPUT");
-      if number_of_hits = 0  then
+      if Number_Of_Hits = 0  then
          Ada.Text_IO.Put_Line (Output, "No Match");
       else
-         sort_Output_array;
+         Sort_Output_Array;
 
          --TEXT_IO.PUT_LINE ("DUMP_OUTPUT SORTED");
 
          Trimmed := False;
-         if words_mode (Trim_Output)  then
-            if number_of_hits > one_screen  then
-               number_to_show := one_screen;
+         if Words_Mode (Trim_Output)  then
+            if Number_Of_Hits > One_Screen  then
+               Number_To_Show := One_Screen;
                Trimmed := True;
             else
-               number_to_show := number_of_hits;
+               Number_To_Show := Number_Of_Hits;
             end if;
          end if;
 
-         for i in 1 .. number_to_show  loop
+         for I in 1 .. Number_To_Show  loop
             Ada.Text_IO.New_Line (Output);
 
-            do_pause :
+            Do_Pause :
             begin
                if Integer (Ada.Text_IO.Line (Output)) >
-                 scroll_line_number + Config.Output_screen_size
+                 Scroll_Line_Number + Config.Output_Screen_Size
                then
-                  pause (Output);
-                  scroll_line_number := Integer (Ada.Text_IO.Line (Output));
+                  Pause (Output);
+                  Scroll_Line_Number := Integer (Ada.Text_IO.Line (Output));
                end if;
-            end do_pause;
+            end Do_Pause;
 
-            Dict_IO.Read (Dict_File (general),
-              de, Dict_IO.Count (Output_array (i).n));
-            Put (Output, Support_Utils.Dictionary_Form (de));
+            Dict_IO.Read (Dict_File (General),
+              De, Dict_IO.Count (Output_Array (I).N));
+            Put (Output, Support_Utils.Dictionary_Form (De));
             Ada.Text_IO.Put (Output, "   ");
 
-            if de.Part.pofs = N  then
+            if De.Part.Pofs = N  then
                Ada.Text_IO.Put (Output, "  ");
-               Decn_Record_IO.Put (Output, de.Part.N.Decl);
+               Decn_Record_IO.Put (Output, De.Part.N.Decl);
                Ada.Text_IO.Put (Output, "  " &
-                 Gender_Type'Image (de.Part.N.Gender) & "  ");
+                 Gender_Type'Image (De.Part.N.Gender) & "  ");
             end if;
-            if de.Part.pofs = V then
+            if De.Part.Pofs = V then
                Ada.Text_IO.Put (Output, "  ");
-               Decn_Record_IO.Put (Output, de.Part.V.Con);
+               Decn_Record_IO.Put (Output, De.Part.V.Con);
             end if;
-            if (de.Part.pofs = V)  and then
-              (de.Part.V.Kind in Gen .. Perfdef)
+            if (De.Part.Pofs = V)  and then
+              (De.Part.V.Kind in Gen .. Perfdef)
             then
                Ada.Text_IO.Put (Output, "  " &
-                 Verb_Kind_Type'Image (de.Part.V.Kind) & "  ");
+                 Verb_Kind_Type'Image (De.Part.V.Kind) & "  ");
             end if;
 
-            if words_mdev (show_dictionary_codes)    then
+            if Words_Mdev (Show_Dictionary_Codes)    then
                Ada.Text_IO.Put (Output, " [");
                -- FIXME: Why noy Translation_Record_IO.Put ?
-               Age_Type_IO.Put (Output, de.Tran.Age);
-               Area_Type_IO.Put (Output, de.Tran.Area);
-               Geo_Type_IO.Put (Output, de.Tran.Geo);
-               Frequency_Type_IO.Put (Output, de.Tran.Freq);
-               Source_Type_IO.Put (Output, de.Tran.Source);
+               Age_Type_IO.Put (Output, De.Tran.Age);
+               Area_Type_IO.Put (Output, De.Tran.Area);
+               Geo_Type_IO.Put (Output, De.Tran.Geo);
+               Frequency_Type_IO.Put (Output, De.Tran.Freq);
+               Source_Type_IO.Put (Output, De.Tran.Source);
                Ada.Text_IO.Put (Output, "]  ");
             end if;
 
-            if words_mdev (show_dictionary) then
-               Ada.Text_IO.Put (Output, Ext (d_k) & ">");
+            if Words_Mdev (Show_Dictionary) then
+               Ada.Text_IO.Put (Output, Ext (D_K) & ">");
             end if;
             --TEXT_IO.PUT_LINE ("DUMP_OUTPUT SHOW");
 
-            if words_mdev (show_dictionary_line)  then
+            if Words_Mdev (Show_Dictionary_Line)  then
                Ada.Text_IO.Put (Output, "("
-                 & Trim (Integer'Image (Output_array (i).n)) & ")");
+                 & Trim (Integer'Image (Output_Array (I).N)) & ")");
             end if;
 
             Ada.Text_IO.New_Line (Output);
 
             --TEXT_IO.PUT_LINE ("DUMP_OUTPUT MEAN");
 
-            Ada.Text_IO.Put (Output, Trim (de.Mean));
+            Ada.Text_IO.Put (Output, Trim (De.Mean));
             Ada.Text_IO.New_Line (Output);
 
          end loop;
@@ -185,79 +185,79 @@ is
    exception
       when others =>
          null;   --  If N not in DICT_FILE
-   end dump_Output_array;
+   end Dump_Output_Array;
 
 begin
 
-   j1 := 1;
-   j2 := Size (ewds_file);
+   J1 := 1;
+   J2 := Size (Ewds_File);
 
-   first_try := True;
+   First_Try := True;
 
-   second_try := True;
+   Second_Try := True;
 
-   j := (j1 + j2) / 2;
+   J := (J1 + J2) / 2;
 
-   binary_search :
+   Binary_Search :
    loop
       --   TEXT_IO.PUT_LINE ("J = " & INTEGER'IMAGE (INTEGER (J)));
 
-      if (j1 = j2 - 1) or (j1 = j2) then
-         if first_try  then
-            j := j1;
-            first_try := False;
-         elsif second_try  then
-            j := j2;
-            second_try := False;
+      if (J1 = J2 - 1) or (J1 = J2) then
+         if First_Try  then
+            J := J1;
+            First_Try := False;
+         elsif Second_Try  then
+            J := J2;
+            Second_Try := False;
          else
-            exit binary_search;
+            exit Binary_Search;
          end if;
       end if;
 
       --  Should D_K
-      Set_Index (ewds_file, j);
-      Read (ewds_file, ewds);
-      if  "<"(Lower_Case (ewds.w), Input_word)  then  --  Not LTU, not u=v
-         j1 := j;
-         j := (j1 + j2) / 2;
-      elsif  ">"(Lower_Case (ewds.w), Input_word)  then
-         j2 := j;
-         j := (j1 + j2) / 2;
+      Set_Index (Ewds_File, J);
+      Read (Ewds_File, Ewds);
+      if  "<"(Lower_Case (Ewds.W), Input_Word)  then  --  Not LTU, not u=v
+         J1 := J;
+         J := (J1 + J2) / 2;
+      elsif  ">"(Lower_Case (Ewds.W), Input_Word)  then
+         J2 := J;
+         J := (J1 + J2) / 2;
       else
-         for i in reverse j1 .. j  loop
-            Set_Index (ewds_file, ewds_direct_io.Count (i));
-            Read (ewds_file, ewds);    --  Reads and advances index!!
+         for I in reverse J1 .. J  loop
+            Set_Index (Ewds_File, Ewds_Direct_Io.Count (I));
+            Read (Ewds_File, Ewds);    --  Reads and advances index!!
 
-            if "="(Lower_Case (ewds.w), Input_word)  then
-               load_Output_array (ewds);
+            if "="(Lower_Case (Ewds.W), Input_Word)  then
+               Load_Output_Array (Ewds);
             else
                exit;
             end if;
          end loop;
 
-         for i in j + 1 .. j2  loop
-            Set_Index (ewds_file, ewds_direct_io.Count (i));
-            Read (ewds_file, ewds);
+         for I in J + 1 .. J2  loop
+            Set_Index (Ewds_File, Ewds_Direct_Io.Count (I));
+            Read (Ewds_File, Ewds);
 
-            if "="(Lower_Case (ewds.w), Input_word)  then
-               load_Output_array (ewds);
+            if "="(Lower_Case (Ewds.W), Input_Word)  then
+               Load_Output_Array (Ewds);
             else
-               exit binary_search;
+               exit Binary_Search;
             end if;
          end loop;
 
-         exit binary_search;
+         exit Binary_Search;
       end if;
-   end loop binary_search;
+   end loop Binary_Search;
 
-   if  words_mode (Write_Output_to_file)      then
-      dump_Output_array (Output);
+   if  Words_Mode (Write_Output_To_File)      then
+      Dump_Output_Array (Output);
    else
-      dump_Output_array (Current_Output);
+      Dump_Output_Array (Current_Output);
    end if;
 exception
    when others  =>
       Ada.Text_IO.Put_Line ("exception SEARCH NUMBER_OF_HITS = " &
-        Integer'Image (number_of_hits));
+        Integer'Image (Number_Of_Hits));
       raise;
-end search_english;
+end Search_English;

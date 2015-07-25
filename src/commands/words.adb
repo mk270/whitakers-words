@@ -14,11 +14,11 @@
 -- All parts of the WORDS system, source code and data files, are made freely
 -- available to anyone who wishes to use them, for whatever purpose.
 
-with words_main;
+with Words_Main;
 with Latin_Utils.Config; use Latin_Utils.Config;
-procedure words is
+procedure Words is
 begin
    --  The language shift in argumants must take place here
    --  since later parsing of line ignores non-letter Characters
-   words_main (developer_version);
-end words;
+   Words_Main (Developer_Version);
+end Words;

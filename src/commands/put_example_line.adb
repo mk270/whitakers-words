@@ -20,64 +20,64 @@ with Latin_Utils.Dictionary_Package; use Latin_Utils.Dictionary_Package;
 with Latin_Utils.Config; use Latin_Utils.Config;
 with Support_Utils.Word_Parameters; use Support_Utils.Word_Parameters;
 --with LATIN_DEBUG;
-procedure Put_example_line
-  (configuration : configuration_type;
+procedure Put_Example_Line
+  (Configuration : Configuration_Type;
    Output        : Ada.Text_IO.File_Type;
-   ir            : in Inflection_Record;
-   de            : in Dictionary_Entry)
+   Ir            : in Inflection_Record;
+   De            : in Dictionary_Entry)
 is
    --      use LATIN_DEBUG;
-   vk : Verb_Kind_Type;
+   Vk : Verb_Kind_Type;
 
-   procedure Put_verb_example
+   procedure Put_Verb_Example
      (Output : Ada.Text_IO.File_Type;
-      ir     : in Inflection_Record;
-      vk      : in Verb_Kind_Type)
+      Ir     : in Inflection_Record;
+      Vk      : in Verb_Kind_Type)
    is
-      person : constant Person_Type      := ir.qual.V.Person;
-      number : constant Number_Type      := ir.qual.V.Number;
-      tense  : constant Tense_Type       := ir.qual.V.Tense_Voice_Mood.Tense;
-      mood   : constant Mood_Type        := ir.qual.V.Tense_Voice_Mood.Mood;
-      voice  : Voice_Type                := ir.qual.V.Tense_Voice_Mood.Voice;
-      kind   : constant Verb_Kind_Type   := vk;
+      Person : constant Person_Type      := Ir.Qual.V.Person;
+      Number : constant Number_Type      := Ir.Qual.V.Number;
+      Tense  : constant Tense_Type       := Ir.Qual.V.Tense_Voice_Mood.Tense;
+      Mood   : constant Mood_Type        := Ir.Qual.V.Tense_Voice_Mood.Mood;
+      Voice  : Voice_Type                := Ir.Qual.V.Tense_Voice_Mood.Voice;
+      Kind   : constant Verb_Kind_Type   := Vk;
       --  Nothing on  (part), gerund,
 
-      function they return String is
+      function They return String is
       begin
-         if kind = Impers  then
+         if Kind = Impers  then
             return "it ";
          end if;
 
-         if mood = Inf then
+         if Mood = Inf then
             return "to ";
          end if;
 
-         if mood = Imp and tense = Pres  and number = P  then
+         if Mood = Imp and Tense = Pres  and Number = P  then
             return "(you) ";
          end if;
 
-         if mood = Sub and tense = Pres  and
-           person = 1 and number = P
+         if Mood = Sub and Tense = Pres  and
+           Person = 1 and Number = P
          then
             return "let us ";   --  G&L 263 1
          end if;
 
-         if  number = S  then
-            if person = 1  then
+         if  Number = S  then
+            if Person = 1  then
                return "I ";
-            elsif  person = 2  then
+            elsif  Person = 2  then
                return "you ";
-            elsif  person = 3  then
+            elsif  Person = 3  then
                return "he/it ";
             else
                return "";
             end if;
-         elsif number = P  then
-            if person = 1  then
+         elsif Number = P  then
+            if Person = 1  then
                return "we ";
-            elsif  person = 2  then
+            elsif  Person = 2  then
                return "you ";
-            elsif  person = 3  then
+            elsif  Person = 3  then
                return "they ";
             else
                return "";
@@ -85,33 +85,33 @@ is
          else
             return "";
          end if;
-      end they;
+      end They;
 
-      function shall return String is
+      function Shall return String is
       begin            --  ACTIVE only  !!!!!!!!!!!!!!!!
-         if tense = Fut or tense = Futp then
-            if (mood = Ind) or (mood = Sub)  then
-               if person = 1  then
+         if Tense = Fut or Tense = Futp then
+            if (Mood = Ind) or (Mood = Sub)  then
+               if Person = 1  then
                   return "shall ";
-               elsif  person = 2  then
+               elsif  Person = 2  then
                   return "will ";
-               elsif  person = 3  then
+               elsif  Person = 3  then
                   return "will ";
                else
                   return "";
                end if;
-            elsif mood = Imp  then
-               if person = 1  then
+            elsif Mood = Imp  then
+               if Person = 1  then
                   return "will ";
-               elsif  person = 2  then
+               elsif  Person = 2  then
                   return "(shall) ";
-               elsif  person = 3  then
+               elsif  Person = 3  then
                   return "(shall) ";
                else
                   return "";
                end if;
-            elsif mood = Inf  then
-               if tense = Fut  then
+            elsif Mood = Inf  then
+               if Tense = Fut  then
                   return "be about to be ";
                else
                   return "";
@@ -122,75 +122,75 @@ is
          else
             return "";
          end if;
-      end shall;
+      end Shall;
 
-      function have return String is
+      function Have return String is
       begin
-         if tense in Pres .. Fut  then
+         if Tense in Pres .. Fut  then
             return "";
-         elsif tense = Perf  then
-            if (tense = Perf) and (person = 3) and (number = S)  then
+         elsif Tense = Perf  then
+            if (Tense = Perf) and (Person = 3) and (Number = S)  then
                return "has ";
             else
                return "have ";    -- works for INF too
             end if;
-         elsif tense = Plup  then
-            if mood = Ind  then
+         elsif Tense = Plup  then
+            if Mood = Ind  then
                return "had";
-            elsif mood = Sub  then
+            elsif Mood = Sub  then
                return "have ";
             else
                return "";
             end if;
-         elsif tense = Futp   then
+         elsif Tense = Futp   then
             return "have ";
          else
             return "";
          end if;
-      end have;
+      end Have;
 
-      function been return String is
+      function Been return String is
       begin
-         if voice = Passive  then
-            if mood = Ind  then
-               if tense = Pres  then
-                  if (person = 1) and (number = S)  then
+         if Voice = Passive  then
+            if Mood = Ind  then
+               if Tense = Pres  then
+                  if (Person = 1) and (Number = S)  then
                      return "am/am being ";
-                  elsif (person = 3) and (number = S)  then
+                  elsif (Person = 3) and (Number = S)  then
                      return "is/is being ";
                   else
                      return "are/are being ";
                   end if;
-               elsif tense = Impf   then
-                  if (person = 1 or person = 3) and (number = S)  then
+               elsif Tense = Impf   then
+                  if (Person = 1 or Person = 3) and (Number = S)  then
                      return "was/was being ";
                   else
                      return "were/were being ";
                   end if;
-               elsif tense = Fut   then
+               elsif Tense = Fut   then
                   return "be ";
-               elsif tense = Perf   then
-                  if (person = 1 or person = 3) and (number = S)  then
+               elsif Tense = Perf   then
+                  if (Person = 1 or Person = 3) and (Number = S)  then
                      return "been/was ";
                   else
                      return "been/were ";
                   end if;
-               elsif tense in Plup .. Futp   then
+               elsif Tense in Plup .. Futp   then
                   return "been ";
                else
                   return "";
                end if;
-            elsif mood = Sub  then
+            elsif Mood = Sub  then
                return "";              --????????
-            elsif mood = Inf  then
-               if tense = Pres  then
+            elsif Mood = Inf  then
+               if Tense = Pres  then
                   return "be ";
-               elsif tense = Perf  then
+               elsif Tense = Perf  then
                   return "been ";
                else
                   return "";
                end if;
-            elsif mood = Imp  then
+            elsif Mood = Imp  then
                return "be ";
             else
                return "";
@@ -198,52 +198,52 @@ is
          else
             return "";
          end if;
-      end been;
+      end Been;
 
-      function ed return String is
+      function Ed return String is
       begin
-         if mood = Imp  then
-            if voice = Active  then
+         if Mood = Imp  then
+            if Voice = Active  then
                return "!";
-            elsif voice = Passive  then
+            elsif Voice = Passive  then
                return "ed!";
             else
                return "";
             end if;
-         elsif mood = Inf  then
-            if voice = Active  then
+         elsif Mood = Inf  then
+            if Voice = Active  then
                return "";
-            elsif voice = Passive  then
+            elsif Voice = Passive  then
                return "ed";
             else
                return "";
             end if;
-         elsif mood = Ind  then
-            if voice = Active  then
-               if tense = Pres  then
-                  if (person = 3) and (number = S)  then
+         elsif Mood = Ind  then
+            if Voice = Active  then
+               if Tense = Pres  then
+                  if (Person = 3) and (Number = S)  then
                      return "s";
                   else
                      return "";
                   end if;
-               elsif tense = Impf   then
-                  if (person = 1 or person = 3) and (number = S)  then
+               elsif Tense = Impf   then
+                  if (Person = 1 or Person = 3) and (Number = S)  then
                      return "ed/was ~ing";
                   else
                      return "ed/were ~ing";
                   end if;
-               elsif tense in Perf .. Futp   then
+               elsif Tense in Perf .. Futp   then
                   return "ed";
                else
                   return "";
                end if;
-            elsif voice = Passive  then
+            elsif Voice = Passive  then
                return "ed";
             else
                return "";
             end if;
-         elsif mood = Sub  then
-            if tense in Perf .. Plup  then
+         elsif Mood = Sub  then
+            if Tense in Perf .. Plup  then
                return "ed";
             else
                return "";
@@ -251,37 +251,37 @@ is
          else
             return "";
          end if;
-      end ed;
+      end Ed;
 
-      function sub return String is
+      function Sub return String is
       begin
-         if mood = Sub  then
+         if Mood = Sub  then
             return "may/must/should ";
          else
             return "";
          end if;
-      end sub;
+      end Sub;
 
    begin   --  PUT_VERB_EXAMPLE
-      if kind = Dep then
-         voice := Active;    --  Should only have allowed PASSIVE at this point
-      elsif kind = Semidep and then tense in Perf .. Futp   then
-         voice := Active;    --  Should only have allowed PASSIVE at this point
+      if Kind = Dep then
+         Voice := Active;    --  Should only have allowed PASSIVE at this point
+      elsif Kind = Semidep and then Tense in Perf .. Futp   then
+         Voice := Active;    --  Should only have allowed PASSIVE at this point
       end if;
 
-      Ada.Text_IO.Put (Output, they & sub & shall & have & been & "~" & ed);
+      Ada.Text_IO.Put (Output, They & Sub & Shall & Have & Been & "~" & Ed);
 
-   end Put_verb_example;
+   end Put_Verb_Example;
 
 begin    --  PUT_EXAMPLE_LINE
 
-   if words_mode (do_examples)
-     and then (not (configuration = only_meanings))
+   if Words_Mode (Do_Examples)
+     and then (not (Configuration = Only_Meanings))
    then
 
-      case ir.qual.pofs is
+      case Ir.Qual.Pofs is
          when N =>
-            case ir.qual.N.Of_Case is
+            case Ir.Qual.N.Of_Case is
                when Gen =>
                   Ada.Text_IO.Put (Output, "~'s; of ~");
                   Ada.Text_IO.New_Line (Output);
@@ -310,7 +310,7 @@ begin    --  PUT_EXAMPLE_LINE
             end case;
 
          when Adj =>
-            case ir.qual.Adj.Comparison is
+            case Ir.Qual.Adj.Comparison is
                when Comp  =>
                   Ada.Text_IO.Put (Output, "~er; more/too _");
                   Ada.Text_IO.New_Line (Output);
@@ -323,7 +323,7 @@ begin    --  PUT_EXAMPLE_LINE
             end case;
 
          when Adv =>
-            case ir.qual.Adv.Comparison is
+            case Ir.Qual.Adv.Comparison is
                when Comp  =>
                   Ada.Text_IO.Put (Output, "more/too ~(ly)");
                   Ada.Text_IO.New_Line (Output);
@@ -338,15 +338,15 @@ begin    --  PUT_EXAMPLE_LINE
          when V =>
             --TEXT_IO.NEW_LINE (OUTPUT);
             --  Verb info too much for same line
-            vk := de.Part.V.Kind;
+            Vk := De.Part.V.Kind;
             Ada.Text_IO.Set_Col (Output, 6);
-            Put_verb_example (Output, ir, vk);
+            Put_Verb_Example (Output, Ir, Vk);
             Ada.Text_IO.New_Line (Output);
 
          when Vpar =>
             --    TEXT_IO.NEW_LINE (OUTPUT);
             --  Verb info too much for same line
-            case ir.qual.Vpar.Tense_Voice_Mood.Tense is
+            case Ir.Qual.Vpar.Tense_Voice_Mood.Tense is
                when Perf  =>
                   Ada.Text_IO.Put (Output,
                     "~ed  PERF PASSIVE PPL often used as ADJ"
@@ -358,13 +358,13 @@ begin    --  PUT_EXAMPLE_LINE
                     & " or N (lov.ing, curl.y)");
                   Ada.Text_IO.New_Line (Output);
                when Fut   =>
-                  if ir.qual.Vpar.Tense_Voice_Mood.Voice = Active  then
+                  if Ir.Qual.Vpar.Tense_Voice_Mood.Voice = Active  then
                      Ada.Text_IO.Put (Output,
                        "about/going/intending/destined to ~"
                        & "  FUT ACTIVE PPL often used as ADJ or N ");
                      Ada.Text_IO.New_Line (Output);
                   else
-                     case ir.qual.Vpar.Of_Case is
+                     case Ir.Qual.Vpar.Of_Case is
                         when Gen =>
                            Ada.Text_IO.Put (Output,
                              "to (/must) be ~ed  FUT PASSIVE PPL,"
@@ -398,12 +398,12 @@ begin    --  PUT_EXAMPLE_LINE
 
          when Supine =>
             --TEXT_IO.NEW_LINE (OUTPUT);
-            if ir.qual.Supine.Of_Case = Acc  then
+            if Ir.Qual.Supine.Of_Case = Acc  then
                Ada.Text_IO.Put (Output,
                  "to ~  expresses purpose of verb of motion;"
                  & " may take a direct object");
                Ada.Text_IO.New_Line (Output);
-            elsif ir.qual.Supine.Of_Case = Abl  then
+            elsif Ir.Qual.Supine.Of_Case = Abl  then
                Ada.Text_IO.Put (Output,
                  "to ~  after ADJ indicating aspect/respect in"
                  & " which something is/is done");
@@ -420,4 +420,4 @@ begin    --  PUT_EXAMPLE_LINE
       --TEXT_IO.NEW_LINE (OUTPUT);
    end if;
 
-end Put_example_line;
+end Put_Example_Line;

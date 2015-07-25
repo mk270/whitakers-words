@@ -19,74 +19,74 @@ with Latin_Utils.Inflections_Package; use Latin_Utils.Inflections_Package;
 use Latin_Utils;
 with Latin_Utils.Dictionary_Package; use Latin_Utils.Dictionary_Package;
 with Support_Utils.Word_Support_Package; use Support_Utils.Word_Support_Package;
-package word_package is
+package Word_Package is
 
-   line_number, word_number : Integer := 0;
+   Line_Number, Word_Number : Integer := 0;
 
-   type stem_array_type is array (Integer range <>) of Stem_Type;
-   subtype stem_array is stem_array_type (0 .. Max_Stem_Size);
+   type Stem_Array_Type is array (Integer range <>) of Stem_Type;
+   subtype Stem_Array is Stem_Array_Type (0 .. Max_Stem_Size);
 
-   not_a_stem : constant Stem_Type := (others => 'x');
-   not_a_stem_array : stem_array  := (others => not_a_stem);
+   Not_A_Stem : constant Stem_Type := (others => 'x');
+   Not_A_Stem_Array : Stem_Array  := (others => Not_A_Stem);
 
-   sa, ssa : stem_array := not_a_stem_array;
-   ssa_max : Integer := 0;
+   Sa, Ssa : Stem_Array := Not_A_Stem_Array;
+   Ssa_Max : Integer := 0;
 
-   type pruned_dictionary_item is
+   type Pruned_Dictionary_Item is
       record
-         ds   : dictionary_stem;
-         d_k  : Dictionary_Kind := Default_Dictionary_Kind;
+         Ds   : Dictionary_Stem;
+         D_K  : Dictionary_Kind := Default_Dictionary_Kind;
       end record;
-   null_pruned_dictionary_item : pruned_dictionary_item;
-   type pruned_dictionary_list is array (1 .. 80) of pruned_dictionary_item;
+   Null_Pruned_Dictionary_Item : Pruned_Dictionary_Item;
+   type Pruned_Dictionary_List is array (1 .. 80) of Pruned_Dictionary_Item;
    --  Aug 96   QU_PRON max 42, PACK max 54
    --  Jan 97   QU_PRON max 42, PACK max 74  --  Might reduce
 
-   pdl : pruned_dictionary_list := (others => null_pruned_dictionary_item);
-   pdl_index : Integer := 0;
+   Pdl : Pruned_Dictionary_List := (others => Null_Pruned_Dictionary_Item);
+   Pdl_Index : Integer := 0;
 
-   subtype sal is Parse_Array (1 .. 250);
+   subtype Sal is Parse_Array (1 .. 250);
 
-   type dict_restriction is (x, regular, qu_pron_only, pack_only);
+   type Dict_Restriction is (X, Regular, Qu_Pron_Only, Pack_Only);
 
-   xxx_meaning : Meaning_Type := Null_Meaning_Type;  --  For TRICKS
-   yyy_meaning : Meaning_Type := Null_Meaning_Type;  --  For SYNCOPE
-   nnn_meaning : Meaning_Type := Null_Meaning_Type;  --  For Names
-   rrr_meaning : Meaning_Type := Null_Meaning_Type;  --  For Roman Numerals
-   ppp_meaning : Meaning_Type := Null_Meaning_Type;  --  For COMPOUNDED
+   Xxx_Meaning : Meaning_Type := Null_Meaning_Type;  --  For TRICKS
+   Yyy_Meaning : Meaning_Type := Null_Meaning_Type;  --  For SYNCOPE
+   Nnn_Meaning : Meaning_Type := Null_Meaning_Type;  --  For Names
+   Rrr_Meaning : Meaning_Type := Null_Meaning_Type;  --  For Roman Numerals
+   Ppp_Meaning : Meaning_Type := Null_Meaning_Type;  --  For COMPOUNDED
 
-   scroll_line_number : Integer := 0;
-   Output_scroll_count : Integer := 0;
+   Scroll_Line_Number : Integer := 0;
+   Output_Scroll_Count : Integer := 0;
 
-   procedure pause (Output : Ada.Text_IO.File_Type);
+   procedure Pause (Output : Ada.Text_IO.File_Type);
 
-   function min (a, b : Integer) return Integer;
+   function Min (A, B : Integer) return Integer;
 
-   function ltu (c, d : Character) return Boolean;
+   function Ltu (C, D : Character) return Boolean;
 
-   function equ (c, d : Character) return Boolean;
+   function Equ (C, D : Character) return Boolean;
 
-   function gtu (c, d : Character) return Boolean;
+   function Gtu (C, D : Character) return Boolean;
 
-   function ltu (s, t : String) return Boolean;
+   function Ltu (S, T : String) return Boolean;
 
-   function gtu (s, t : String) return Boolean;
+   function Gtu (S, T : String) return Boolean;
 
-   function equ (s, t : String) return Boolean;
+   function Equ (S, T : String) return Boolean;
 
-   procedure run_inflections
-     (s : in String;
-      sl : in out sal;
-      restriction : dict_restriction := regular);
+   procedure Run_Inflections
+     (S : in String;
+      Sl : in out Sal;
+      Restriction : Dict_Restriction := Regular);
 
-   procedure search_dictionaries (ssa : in stem_array_type;
-                                  restriction : dict_restriction := regular);
+   procedure Search_Dictionaries (Ssa : in Stem_Array_Type;
+                                  Restriction : Dict_Restriction := Regular);
 
-   procedure word (raw_word : in String;
-                   pa : in out Parse_Array; pa_last : in out Integer);
+   procedure Word (Raw_Word : in String;
+                   Pa : in out Parse_Array; Pa_Last : in out Integer);
 
-   procedure change_language (c : Character);
+   procedure Change_Language (C : Character);
 
-   procedure initialize_word_package;
+   procedure Initialize_Word_Package;
 
-end word_package;
+end Word_Package;

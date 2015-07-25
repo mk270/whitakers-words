@@ -23,64 +23,64 @@ with Latin_Utils.Inflections_Package; use Latin_Utils.Inflections_Package;
 with Latin_Utils.Dictionary_Package; use Latin_Utils.Dictionary_Package;
 with Support_Utils.Word_Support_Package; use Support_Utils.Word_Support_Package;
 with Latin_Utils.Preface;
-with word_package; use word_package;
+with Word_Package; use Word_Package;
 with Latin_Utils.Config; use Latin_Utils.Config;
-with english_support_package; use english_support_package;
-with banner; use banner;
+with English_Support_Package; use English_Support_Package;
+with Banner; use Banner;
 use Latin_Utils;
 
-with parse; use parse;
+with Parse; use Parse;
 
 pragma Elaborate (Support_Utils.Word_Parameters);
 
-procedure process_Input (configuration : configuration_type;
+procedure Process_Input (Configuration : Configuration_Type;
                          Command_Line : String := "")
 is
    -- use Inflections_Package.Integer_IO;
    -- use Inflection_Record_IO;
    use Ada.Text_IO;
 
-   procedure delete_if_Open (filename : String; dict_name : Dictionary_Kind) is
+   procedure Delete_If_Open (Filename : String; Dict_Name : Dictionary_Kind) is
    begin
       begin
-         if Dict_IO.Is_Open (Dict_File (dict_name)) then
-            Dict_IO.Delete (Dict_File (dict_name));
+         if Dict_IO.Is_Open (Dict_File (Dict_Name)) then
+            Dict_IO.Delete (Dict_File (Dict_Name));
          else
-            Dict_IO.Open (Dict_File (dict_name), Dict_IO.In_File,
-              add_file_name_extension (dict_file_name, filename));
-            Dict_IO.Delete (Dict_File (dict_name));
+            Dict_IO.Open (Dict_File (Dict_Name), Dict_IO.In_File,
+              Add_File_Name_Extension (Dict_File_Name, Filename));
+            Dict_IO.Delete (Dict_File (Dict_Name));
          end if;
       exception when others => null;
       end;   --  not there, so don't have to DELETE
-   end delete_if_Open;
+   end Delete_If_Open;
 
    -- Get and handle a line of Input
    -- return value says whether there is more Input, i.e. False -> quit
    function Get_Input_Line return Boolean
    is
-      blank_line : constant String (1 .. 2500) := (others => ' ');
-      line : String (1 .. 2500) := (others => ' ');
-      l : Integer := 0;
+      Blank_Line : constant String (1 .. 2500) := (others => ' ');
+      Line : String (1 .. 2500) := (others => ' ');
+      L : Integer := 0;
    begin
       --  Block to manipulate file of lines
       if Name (Current_Input) = Name (Standard_Input) then
-         scroll_line_number :=
+         Scroll_Line_Number :=
            Integer (Ada.Text_IO.Line (Ada.Text_IO.Standard_Output));
          Preface.New_Line;
          Preface.Put ("=>");
       end if;
 
-      line := blank_line;
-      Get_Line (line, l);
-      if (l = 0) or else (Trim (line (1 .. l)) = "")  then
+      Line := Blank_Line;
+      Get_Line (Line, L);
+      if (L = 0) or else (Trim (Line (1 .. L)) = "")  then
          --  Count blank lines
          --LINE_NUMBER := LINE_NUMBER + 1;
          if Name (Current_Input) = Name (Standard_Input) then
             --  INPUT is keyboard
             Preface.Put ("Blank exits =>");
-            Get_Line (line, l);
+            Get_Line (Line, L);
             -- Second try
-            if (l = 0) or else (Trim (line (1 .. l)) = "")  then
+            if (L = 0) or else (Trim (Line (1 .. L)) = "")  then
                -- Two in a row
                return False;
             end if;
@@ -96,45 +96,45 @@ is
          end if;
       end if;
 
-      if Trim (line (1 .. l)) /= "" then
+      if Trim (Line (1 .. L)) /= "" then
          -- Not a blank line so L (1) (in file Input)
-         if line (1) = start_file_Character  then
+         if Line (1) = Start_File_Character  then
             if Name (Current_Input) /= Name (Standard_Input) then
                Ada.Text_IO.Put_Line ("Cannot have file of words (@FILE) " &
                  "in an @FILE");
             else
                Ada.Text_IO.Open
-                 (Input, Ada.Text_IO.In_File, Trim (line (2 .. l)));
+                 (Input, Ada.Text_IO.In_File, Trim (Line (2 .. L)));
                Ada.Text_IO.Set_Input (Input);
             end if;
-         elsif line (1) = change_parameters_Character  and then
+         elsif Line (1) = Change_Parameters_Character  and then
            (Name (Current_Input) = Name (Standard_Input)) and then
-           not Config.suppress_preface
+           not Config.Suppress_Preface
          then
-            change_parameters;
-         elsif line (1) = change_language_Character  then
-            change_language (line (2));
+            Change_Parameters;
+         elsif Line (1) = Change_Language_Character  then
+            Change_Language (Line (2));
          elsif
-           line (1) = change_developer_modes_Character  and then
+           Line (1) = Change_Developer_Modes_Character  and then
            (Name (Current_Input) = Name (Standard_Input)) and then
-           not Config.suppress_preface
+           not Config.Suppress_Preface
          then
-            change_developer_modes;
+            Change_Developer_Modes;
          else
             if Name (Current_Input) /= Name (Standard_Input) then
                Preface.New_Line;
-               Preface.Put_Line (line (1 .. l));
+               Preface.Put_Line (Line (1 .. L));
             end if;
-            if words_mode (Write_Output_to_file)     then
-               if not Config.suppress_preface     then
+            if Words_Mode (Write_Output_To_File)     then
+               if not Config.Suppress_Preface     then
                   New_Line (Output);
-                  Ada.Text_IO.Put_Line (Output, line (1 .. l));
+                  Ada.Text_IO.Put_Line (Output, Line (1 .. L));
                end if;
             end if;
             --  Count lines to be parsed
-            line_number := line_number + 1;
+            Line_Number := Line_Number + 1;
 
-            parse.parse_line (configuration, line (1 .. l));
+            Parse.Parse_Line (Configuration, Line (1 .. L));
          end if;
       end if;
 
@@ -153,15 +153,15 @@ is
          if Name (Current_Input) /= Name (Standard_Input) then
             Set_Input (Standard_Input);
             Close (Input);
-            if method = Command_Line_files then
-               raise give_up;
+            if Method = Command_Line_Files then
+               raise Give_Up;
             end if;
             return True;
          else
             Put_Line ("Raised END_ERROR, although in STANDARD_INPUT");
             Put_Line ("^Z is inappropriate keyboard Input, " &
               "WORDS should be terminated with a blank line");
-            raise give_up;
+            raise Give_Up;
          end if;
       when Status_Error =>
          --  The end of the Input file resets to CON:
@@ -171,24 +171,24 @@ is
 
 begin
    --  PARSE
-   if method = Command_Line_Input  then
+   if Method = Command_Line_Input  then
       if Trim (Command_Line) /= ""  then
-         parse.parse_line (configuration, Command_Line);
+         Parse.Parse_Line (Configuration, Command_Line);
       end if;
 
    else
-      banner.print_main_banner (start_file_Character,
-        change_parameters_Character, help_Character);
+      Banner.Print_Main_Banner (Start_File_Character,
+        Change_Parameters_Character, Help_Character);
 
-      if English_Dictionary_Available (general)  then
+      if English_Dictionary_Available (General)  then
          Preface.Put_Line ("English-to-Latin available");
          Preface.Put_Line (
-           change_language_Character & "E changes to English-to-Latin, " &
-           change_language_Character & "L changes back     [tilde E]");
+           Change_Language_Character & "E changes to English-to-Latin, " &
+           Change_Language_Character & "L changes back     [tilde E]");
       end if;
 
-      if configuration = only_meanings  then
-         banner.print_mode_warning;
+      if Configuration = Only_Meanings  then
+         Banner.Print_Mode_Warning;
       end if;
 
       while Get_Input_Line loop
@@ -198,12 +198,12 @@ begin
    end if;     --  On command line Input
 
    begin
-      stem_io.Open (stem_file (local), stem_io.In_File,
-        add_file_name_extension (stem_file_name,
+      Stem_Io.Open (Stem_File (Local), Stem_Io.In_File,
+        Add_File_Name_Extension (Stem_File_Name,
         "LOCAL"));
       --  Failure to OPEN will raise an exception, to be handled below
-      if stem_io.Is_Open (stem_file (local)) then
-         stem_io.Delete (stem_file (local));
+      if Stem_Io.Is_Open (Stem_File (Local)) then
+         Stem_Io.Delete (Stem_File (Local));
       end if;
    exception
       when others =>
@@ -211,16 +211,16 @@ begin
    end;
    --  The rest of this seems like overkill, it might have been done elsewhere
 
-   delete_if_Open ("LOCAL", local);
-   delete_if_Open ("ADDONS", addons);
-   delete_if_Open ("UNIQUE", unique);
+   Delete_If_Open ("LOCAL", Local);
+   Delete_If_Open ("ADDONS", Addons);
+   Delete_If_Open ("UNIQUE", Unique);
 
 exception
    when Storage_Error  =>    --  Have tried at least twice, fail
       Preface.Put_Line ("Continuing STORAGE_ERROR Exception in PARSE");
       Preface.Put_Line ("If insufficient memory in DOS, try removing TSRs");
-   when give_up  =>
+   when Give_Up  =>
       Preface.Put_Line ("Giving up!");
    when others  =>
       Preface.Put_Line ("Unexpected exception raised in PARSE");
-end process_Input;
+end Process_Input;
