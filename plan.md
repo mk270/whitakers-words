@@ -76,7 +76,7 @@ on, it needs to be made more readily intelligible. In general, this entails:
 * less deeply nested subprogrammes
 * subprogrammes that perform fewer tasks with fewer local variables
 * a less flat structure at the source file level (>30 packages in one directory)
-* less reliance on mutable stat
+* less reliance on mutable state
 * less reliance on dummy values in enumerations
 * documentation of the various packages and how they fit together
 
