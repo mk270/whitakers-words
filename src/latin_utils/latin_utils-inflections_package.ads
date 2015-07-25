@@ -817,75 +817,75 @@ package Latin_Utils.Inflections_Package is
 
    type Inflection_Record is
       record
-         qual   : quality_record   := null_quality_record;
-         key    : Stem_Key_Type := 0;
-         ending : ending_record := null_ending_record;
-         age    : Age_Type      := x;
-         freq   : Frequency_Type      := x;
+         Qual   : Quality_Record   := Null_Quality_Record;
+         Key    : Stem_Key_Type := 0;
+         Ending : Ending_Record := Null_Ending_Record;
+         Age    : Age_Type      := X;
+         Freq   : Frequency_Type      := X;
       end record;
 
    Null_Inflection_Record : Inflection_Record;
 
    package Inflection_Record_IO is
       Default_Width : Natural;
-      procedure Get (f : in File_Type; p : out Inflection_Record);
-      procedure Get (p : out Inflection_Record);
-      procedure Put (f : in File_Type; p : in Inflection_Record);
-      procedure Put (p : in Inflection_Record);
-      procedure Get (s : in String;
-                     p : out Inflection_Record;
-                     last : out Integer);
-      procedure Put (s : out String; p : in Inflection_Record);
+      procedure Get (F : in File_Type; P : out Inflection_Record);
+      procedure Get (P : out Inflection_Record);
+      procedure Put (F : in File_Type; P : in Inflection_Record);
+      procedure Put (P : in Inflection_Record);
+      procedure Get (S : in String;
+                     P : out Inflection_Record;
+                     Last : out Integer);
+      procedure Put (S : out String; P : in Inflection_Record);
    end Inflection_Record_IO;
 
    --  This implies a knowledge of the inflections last Character
-   subtype inflections_section_1 is Character range 'a' .. 'i';
-   subtype inflections_section_2 is Character range 'm' .. 'r';
-   subtype inflections_section_3 is Character range 's' .. 's';
-   subtype inflections_section_4 is Character range 't' .. 'u';
+   subtype Inflections_Section_1 is Character range 'a' .. 'i';
+   subtype Inflections_Section_2 is Character range 'm' .. 'r';
+   subtype Inflections_Section_3 is Character range 's' .. 's';
+   subtype Inflections_Section_4 is Character range 't' .. 'u';
 
-   size_of_blank_inflections   : constant Integer :=  80;    --  ############
-   size_of_inflections_section : constant Integer := 570;    --  ############
+   Size_Of_Blank_Inflections   : constant Integer :=  80;    --  ############
+   Size_Of_Inflections_Section : constant Integer := 570;    --  ############
 
-   type inflection_array is array (Positive range <>) of Inflection_Record;
-   subtype lel_section is inflection_array (1 .. size_of_inflections_section);
-   package lel_section_io is new Ada.Direct_IO (lel_section);
+   type Inflection_Array is array (Positive range <>) of Inflection_Record;
+   subtype Lel_Section is Inflection_Array (1 .. Size_Of_Inflections_Section);
+   package Lel_Section_Io is new Ada.Direct_IO (Lel_Section);
 
-   bel : inflection_array (1 .. size_of_blank_inflections);
+   Bel : Inflection_Array (1 .. Size_Of_Blank_Inflections);
 
-   lel : lel_section;
+   Lel : Lel_Section;
 
-   type inflection_array_index is array (Integer range <>,
+   type Inflection_Array_Index is array (Integer range <>,
      Character range <>) of Integer;
 
-   belf, bell : inflection_array_index (0 .. 0, ' ' .. ' ') :=
+   Belf, Bell : Inflection_Array_Index (0 .. 0, ' ' .. ' ') :=
      (0 => (others => 0));
-   lelf, lell : inflection_array_index (1 .. max_ending_size,
+   Lelf, Lell : Inflection_Array_Index (1 .. Max_Ending_Size,
      'a' .. 'z') := (others => (others => 0));
-   pelf, pell : inflection_array_index (1 .. max_ending_size,
+   Pelf, Pell : Inflection_Array_Index (1 .. Max_Ending_Size,
      'a' .. 'z') := (others => (others => 0));
 
-   number_of_inflections : Integer := 0;
+   Number_Of_Inflections : Integer := 0;
 
-   procedure establish_inflections_section;
+   procedure Establish_Inflections_Section;
 
    --  <=   means for this purpose "contained in"
-   overriding function "<=" (left, right : Part_Of_Speech_Type) return Boolean;
-   function "<=" (left, right : Decn_Record) return Boolean;
-   overriding function "<=" (left, right : Gender_Type) return Boolean;
-   overriding function "<=" (left, right : Case_Type)   return Boolean;
-   overriding function "<=" (left, right : Number_Type) return Boolean;
-   overriding function "<=" (left, right : Person_Type) return Boolean;
-   overriding function "<=" (left, right : Comparison_Type) return Boolean;
-   function "<=" (left, right : Tense_Voice_Mood_Record)  return Boolean;
-   overriding function "<=" (left, right : Noun_Kind_Type)   return Boolean;
-   overriding function "<=" (left, right : Pronoun_Kind_Type)   return Boolean;
-   overriding function "<=" (left, right : Stem_Key_Type)   return Boolean;
+   overriding function "<=" (Left, Right : Part_Of_Speech_Type) return Boolean;
+   function "<=" (Left, Right : Decn_Record) return Boolean;
+   overriding function "<=" (Left, Right : Gender_Type) return Boolean;
+   overriding function "<=" (Left, Right : Case_Type)   return Boolean;
+   overriding function "<=" (Left, Right : Number_Type) return Boolean;
+   overriding function "<=" (Left, Right : Person_Type) return Boolean;
+   overriding function "<=" (Left, Right : Comparison_Type) return Boolean;
+   function "<=" (Left, Right : Tense_Voice_Mood_Record)  return Boolean;
+   overriding function "<=" (Left, Right : Noun_Kind_Type)   return Boolean;
+   overriding function "<=" (Left, Right : Pronoun_Kind_Type)   return Boolean;
+   overriding function "<=" (Left, Right : Stem_Key_Type)   return Boolean;
    -- not verbs
 
-   overriding function "<=" (left, right : Age_Type)   return Boolean;
-   overriding function "<=" (left, right : Frequency_Type)   return Boolean;
+   overriding function "<=" (Left, Right : Age_Type)   return Boolean;
+   overriding function "<=" (Left, Right : Frequency_Type)   return Boolean;
 
-   give_up : exception;
+   Give_Up : exception;
 
 end Latin_Utils.Inflections_Package;

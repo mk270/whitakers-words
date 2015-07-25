@@ -36,11 +36,11 @@ package body Latin_Utils.General is
          if Trim (Line (Line'First .. Last))(1) = 'G' or else
             Trim (Line (Line'First .. Last))(1) = 'g'
          then
-            D_K := Latin_Utils.Dictionary_Package.general;
+            D_K := Latin_Utils.Dictionary_Package.General;
          elsif Trim (Line (Line'First .. Last))(1) = 'S' or else
                Trim (Line (Line'First .. Last))(1) = 's'
          then
-            D_K := Latin_Utils.Dictionary_Package.special;
+            D_K := Latin_Utils.Dictionary_Package.Special;
          else
             Ada.Text_IO.Put_Line ("No such dictionary");
             raise Ada.Text_IO.Data_Error;

@@ -1035,168 +1035,168 @@ package body Latin_Utils.Inflections_Package is
          is
             Count : constant Integer := Section_Count (P);
          begin
-            lel_section_io.Read (inflections_sections_file,
-              lel,
-              lel_section_io.Positive_Count (Count));
+            Lel_Section_Io.Read (Inflections_Sections_File,
+              Lel,
+              Lel_Section_Io.Positive_Count (Count));
 
-            i := 1;
+            I := 1;
 
-            n := lel (i).ending.size;
+            N := Lel (I).Ending.Size;
 
-            ch := lel (i).ending.suf (n);
+            Ch := Lel (I).Ending.Suf (N);
 
-            xn := n;
-            xch := ch;
-            lelf (n, ch) := i;
+            Xn := N;
+            Xch := Ch;
+            Lelf (N, Ch) := I;
 
-            c1_loop :
+            C1_Loop :
             loop
-               n1_loop :
+               N1_Loop :
                loop
                   case P is
                      when P1 | P2 | P3 =>
-                        exit c1_loop when lel (i) = Null_Inflection_Record;
+                        exit C1_Loop when Lel (I) = Null_Inflection_Record;
                      when P4 =>
-                        exit c1_loop when  lel (i).qual.pofs = Pron  and then
-                          (lel (i).qual.Pron.Decl.Which = 1  or
-                          lel (i).qual.Pron.Decl.Which = 2);
+                        exit C1_Loop when  Lel (I).Qual.Pofs = Pron  and then
+                          (Lel (I).Qual.Pron.Decl.Which = 1  or
+                          Lel (I).Qual.Pron.Decl.Which = 2);
                   end case;
 
-                  n := lel (i).ending.size;
+                  N := Lel (I).Ending.Size;
 
-                  ch := lel (i).ending.suf (n);
+                  Ch := Lel (I).Ending.Suf (N);
 
                   case P is
                      when P1 | P4 =>
                         null;
                      when P2 =>
-                        exit n1_loop when ch > 'r';
+                        exit N1_Loop when Ch > 'r';
                      when P3 =>
-                        exit n1_loop when ch > 's';
+                        exit N1_Loop when Ch > 's';
                   end case;
 
-                  if ch /= xch  then
-                     lell (xn, xch) := i - 1;
-                     lelf (n, ch) := i;
-                     lell (n, ch) := 0;
-                     xch := ch;
-                     xn := n;
-                  elsif n /= xn  then
-                     lell (xn, ch) := i - 1;
-                     lelf (n, ch) := i;
-                     lell (n, ch) := 0;
-                     xn := n;
-                     exit n1_loop;
+                  if Ch /= Xch  then
+                     Lell (Xn, Xch) := I - 1;
+                     Lelf (N, Ch) := I;
+                     Lell (N, Ch) := 0;
+                     Xch := Ch;
+                     Xn := N;
+                  elsif N /= Xn  then
+                     Lell (Xn, Ch) := I - 1;
+                     Lelf (N, Ch) := I;
+                     Lell (N, Ch) := 0;
+                     Xn := N;
+                     exit N1_Loop;
                   end if;
 
-                  i := i + 1;
+                  I := I + 1;
 
-               end loop n1_loop;
+               end loop N1_Loop;
 
-            end loop c1_loop;
+            end loop C1_Loop;
 
-            lell (xn, xch) := i - 1;
+            Lell (Xn, Xch) := I - 1;
 
          end Read_Inflections;
 
       begin
-         Open (inflections_sections_file, In_File, inflections_sections_name);
-         number_of_inflections := 0;
+         Open (Inflections_Sections_File, In_File, Inflections_Sections_Name);
+         Number_Of_Inflections := 0;
 
-         lel_section_io.Read (inflections_sections_file,
-           lel,
-           lel_section_io.Positive_Count (5));
+         Lel_Section_Io.Read (Inflections_Sections_File,
+           Lel,
+           Lel_Section_Io.Positive_Count (5));
 
-         i := 1;
-         belf (0, ' ') := i;
-         bell (0, ' ') := 0;
+         I := 1;
+         Belf (0, ' ') := I;
+         Bell (0, ' ') := 0;
          loop
-            exit when lel (i) = Null_Inflection_Record;
-            bel (i) := lel (i);
+            exit when Lel (I) = Null_Inflection_Record;
+            Bel (I) := Lel (I);
 
-            bell (0, ' ') := i;
-            i := i + 1;
+            Bell (0, ' ') := I;
+            I := I + 1;
          end loop;
 
          -- FIXME: deduplicat the ten lines below, and the following block
-         number_of_inflections := number_of_inflections + i - 1;
+         Number_Of_Inflections := Number_Of_Inflections + I - 1;
 
          Read_Inflections (P1);
-         number_of_inflections := number_of_inflections + i - 1;
+         Number_Of_Inflections := Number_Of_Inflections + I - 1;
 
          Read_Inflections (P2);
-         number_of_inflections := number_of_inflections + i - 1;
+         Number_Of_Inflections := Number_Of_Inflections + I - 1;
 
          Read_Inflections (P3);
-         number_of_inflections := number_of_inflections + i - 1;
+         Number_Of_Inflections := Number_Of_Inflections + I - 1;
 
          Read_Inflections (P4);
 
          begin
 
-            n := lel (i).ending.size;
+            N := Lel (I).Ending.Size;
 
-            ch := lel (i).ending.suf (n);
+            Ch := Lel (I).Ending.Suf (N);
 
-            xn := n;
-            xch := ch;
-            pelf (n,  ch) := i;
-            pell (n,  ch) := 0;
+            Xn := N;
+            Xch := Ch;
+            Pelf (N,  Ch) := I;
+            Pell (N,  Ch) := 0;
 
-            c_p_loop :
+            C_P_Loop :
             loop
-               n_p_loop :
+               N_P_Loop :
                loop
-                  exit c_p_loop when lel (i) = Null_Inflection_Record;
+                  exit C_P_Loop when Lel (I) = Null_Inflection_Record;
 
-                  n := lel (i).ending.size;
+                  N := Lel (I).Ending.Size;
 
-                  ch := lel (i).ending.suf (n);
+                  Ch := Lel (I).Ending.Suf (N);
 
-                  if ch /= xch  then
-                     pell (xn, xch) := i - 1;
-                     pelf (n, ch) := i;
-                     pell (n, ch) := 0;
-                     xch := ch;
-                     xn := n;
-                  elsif n /= xn  then
-                     pell (xn, ch) := i - 1;
-                     pelf (n, ch) := i;
-                     pell (n, ch) := 0;
-                     xn  := n;
-                     exit n_p_loop;
+                  if Ch /= Xch  then
+                     Pell (Xn, Xch) := I - 1;
+                     Pelf (N, Ch) := I;
+                     Pell (N, Ch) := 0;
+                     Xch := Ch;
+                     Xn := N;
+                  elsif N /= Xn  then
+                     Pell (Xn, Ch) := I - 1;
+                     Pelf (N, Ch) := I;
+                     Pell (N, Ch) := 0;
+                     Xn  := N;
+                     exit N_P_Loop;
                   end if;
 
-                  i := i + 1;
-               end loop n_p_loop;
-            end loop c_p_loop;
+                  I := I + 1;
+               end loop N_P_Loop;
+            end loop C_P_Loop;
          exception
             when Constraint_Error => null;
          end;
 
-         pell (xn, xch) := i - 1;
-         number_of_inflections := number_of_inflections + i - 1;
-         Close (inflections_sections_file);
-      end load_lel_indexes;
+         Pell (Xn, Xch) := I - 1;
+         Number_Of_Inflections := Number_Of_Inflections + I - 1;
+         Close (Inflections_Sections_File);
+      end Load_Lel_Indexes;
 
    begin
       Preface.Put ("INFLECTION_ARRAY being loaded");
       Preface.Set_Col (33);
       Preface.Put ("--  ");
-      load_lel_indexes;                    --  Makes indexes from array
-      Preface.Put (number_of_inflections, 6);
+      Load_Lel_Indexes;                    --  Makes indexes from array
+      Preface.Put (Number_Of_Inflections, 6);
       Preface.Put (" entries");
       Preface.Set_Col (55); Preface.Put_Line ("--  Loaded correctly");
    exception
       when Ada.Text_IO.Name_Error  =>
          New_Line;
-         Put_Line ("There is no " & inflections_sections_name & " file.");
+         Put_Line ("There is no " & Inflections_Sections_Name & " file.");
          Put_Line ("The program cannot work without one.");
          Put_Line ("Make sure you are in the"
            & " subdirectory containing the files");
          Put_Line ("for inflections, dictionary, addons and uniques.");
-         raise give_up;
-   end establish_inflections_section;
+         raise Give_Up;
+   end Establish_Inflections_Section;
 
 begin
    --  initialization of body of INFLECTIONS_PACKAGE
