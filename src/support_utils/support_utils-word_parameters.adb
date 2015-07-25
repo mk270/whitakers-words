@@ -23,46 +23,46 @@ pragma Elaborate (Latin_Utils.Preface);
 package body Support_Utils.Word_Parameters is
    use Ada.Text_IO;
 
-   type help_type is array (Natural range <>) of String (1 .. 70);
-   blank_help_line : constant String (1 .. 70) := (others => ' ');
-   no_help : constant help_type := (2 .. 1 => blank_help_line);
+   type Help_Type is array (Natural range <>) of String (1 .. 70);
+   Blank_Help_Line : constant String (1 .. 70) := (others => ' ');
+   No_Help : constant Help_Type := (2 .. 1 => Blank_Help_Line);
 
-   type reply_type is (n, y);
-   package reply_type_io is new Ada.Text_IO.Enumeration_IO (reply_type);
-   reply : constant array (Boolean) of reply_type := (n, y);
-   mode_of_reply : constant array (reply_type) of Boolean := (False, True);
+   type Reply_Type is (N, Y);
+   package Reply_Type_Io is new Ada.Text_IO.Enumeration_IO (Reply_Type);
+   Reply : constant array (Boolean) of Reply_Type := (N, Y);
+   Mode_Of_Reply : constant array (Reply_Type) of Boolean := (False, True);
 
-   blank_Input : exception;
+   Blank_Input : exception;
 
    --  The default modes are set in the body so that they can be changed
    --  with only this being recompiled, not the rest of the with'ing system
-   default_mode_array : constant mode_array := (
+   Default_Mode_Array : constant Mode_Array := (
      Trim_Output                 => True,
 
-     have_Output_file            => False,
-     Write_Output_to_file        => False,
+     Have_Output_File            => False,
+     Write_Output_To_File        => False,
 
-     do_unknowns_only            => False,
-     Write_unknowns_to_file      => False,
+     Do_Unknowns_Only            => False,
+     Write_Unknowns_To_File      => False,
 
-     ignore_unknown_names        => True,
-     ignore_unknown_caps         => True,
-     do_compounds                => True,
-     do_fixes                    => True,
-     do_tricks                   => True,
+     Ignore_Unknown_Names        => True,
+     Ignore_Unknown_Caps         => True,
+     Do_Compounds                => True,
+     Do_Fixes                    => True,
+     Do_Tricks                   => True,
 
-     do_dictionary_forms         => True,
-     show_age                    => False,
-     show_frequency              => False,
+     Do_Dictionary_Forms         => True,
+     Show_Age                    => False,
+     Show_Frequency              => False,
 
-     do_examples                 => False,
-     do_only_meanings            => False,
-     do_stems_for_unknown        => False);
+     Do_Examples                 => False,
+     Do_Only_Meanings            => False,
+     Do_Stems_For_Unknown        => False);
 
-   bad_mode_file : exception;
+   Bad_Mode_File : exception;
 
    -- FIXME: this help text seems to duplicate what's in developer_parameters
-   Trim_Output_help : constant help_type :=  (
+   Trim_Output_Help : constant Help_Type :=  (
      "This option instructs the program to remove from the Output list of   ",
      "possible constructs those which are least likely.  There is now a fair",
      "amount of trimming, killing LOC and VOC plus removing Uncommon and    ",
@@ -78,28 +78,28 @@ package body Support_Utils.Word_Parameters is
      "results, if there are that many.  Asterix means there are more        ",
      "                                                The default is Y(es)  ");
 
-   have_Output_file_help : constant help_type :=  (
+   Have_Output_File_Help : constant Help_Type :=  (
      "This option instructs the program to Create a file which can hold the ",
      "Output for later study, otherwise the results are just displayed on   ",
-     "the screen.  The Output file is named " & Output_full_name
-     & (39 + Output_full_name'Length .. 70 => ' '),
+     "the screen.  The Output file is named " & Output_Full_Name
+     & (39 + Output_Full_Name'Length .. 70 => ' '),
      "This means that one run will necessarily overWrite a previous run,    ",
      "unless the previous results are renamed or copied to a file of another",
      "name.  This is available if the METHOD is INTERACTIVE, no parameters. ",
      "The default is N(o), since this prevents the program from overwriting ",
      "previous work unintentionally.  Y(es) Creates the Output file.        ");
 
-   Write_Output_to_file_help : constant help_type :=  (
+   Write_Output_To_File_Help : constant Help_Type :=  (
      "This option instructs the program, when HAVE_OUTPUT_FILE is on, to    ",
-     "Write results to the file " & Output_full_name
-     & (27 + Output_full_name'Length .. 70 => ' '),
+     "Write results to the file " & Output_Full_Name
+     & (27 + Output_Full_Name'Length .. 70 => ' '),
      "This option may be turned on and off during running of the program,   ",
      "thereby capturing only certain desired results.  If the option        ",
      "HAVE_OUTPUT_FILE is off, the user will not be given a chance to turn  ",
      "this one on.  Only for INTERACTIVE running.         Default is N(o).  ",
      "This works in English mode, but Output in somewhat diffeent so far.   ");
 
-   do_unknowns_only_help : constant help_type :=  (
+   Do_Unknowns_Only_Help : constant Help_Type :=  (
      "This option instructs the program to only Output those words that it  ",
      "cannot resolve.  Of course, it has to do processing on all words, but ",
      "those that are found (with prefix/suffix, if that option in on) will  ",
@@ -114,10 +114,10 @@ package body Support_Utils.Word_Parameters is
      "checker for Latin texts.  The default is N(o).                        ",
      "This does not work in English mode, but may in the future.            ");
 
-   Write_unknowns_to_file_help : constant help_type :=  (
+   Write_Unknowns_To_File_Help : constant Help_Type :=  (
      "This option instructs the program to Write all unresolved words to a  ",
-     "UNKNOWNS file named " & unknowns_full_name
-     & (21 + unknowns_full_name'Length .. 70 => ' '),
+     "UNKNOWNS file named " & Unknowns_Full_Name
+     & (21 + Unknowns_Full_Name'Length .. 70 => ' '),
      "With this option on , the file of unknowns is written, even though    ",
      "the main Output contains both known and unknown (unresolved) words.   ",
      "One may wish to save the unknowns for later analysis, testing, or to  ",
@@ -128,7 +128,7 @@ package body Support_Utils.Word_Parameters is
      "This option is for specialized use, so its default is N(o).           ",
      "This does not work in English mode, but may in the future.            ");
 
-   ignore_unknown_names_help : constant help_type :=  (
+   Ignore_Unknown_Names_Help : constant Help_Type :=  (
      "This option instructs the program to assume that any capitalized word ",
      "longer than three letters is a proper name.  As no dictionary can be  ",
      "expected to account for many proper names, many such occur that would ",
@@ -138,7 +138,7 @@ package body Support_Utils.Word_Parameters is
      "Any proper names that are in the dictionary are handled in the normal ",
      "manner.                                The default is Y(es).          ");
 
-   ignore_unknown_caps_help : constant help_type :=  (
+   Ignore_Unknown_Caps_Help : constant Help_Type :=  (
      "This option instructs the program to assume that any all caps word    ",
      "is a proper name or similar designation.  This convention is often    ",
      "used to designate speakers in a discussion or play.  No dictionary can",
@@ -149,7 +149,7 @@ package body Support_Utils.Word_Parameters is
      "designations that are in the dictionary are handled in the normal     ",
      "manner, as are normal words in all caps.    The default is Y(es).     ");
 
-   do_compounds_help : constant help_type :=  (
+   Do_Compounds_Help : constant Help_Type :=  (
      "This option instructs the program to look ahead for the verb TO_BE (or",
      "iri) when it finds a verb participle, with the expectation of finding ",
      "a compound perfect tense or periphastic.  This option can also be a   ",
@@ -157,7 +157,7 @@ package body Support_Utils.Word_Parameters is
      "excluded, possible interpretations are lost.  Default choice is Y(es).",
      "This processing is turned off with the choice of N(o).                ");
 
-   do_fixes_help : constant help_type :=  (
+   Do_Fixes_Help : constant Help_Type :=  (
      "This option instructs the program, when it is unable to find a proper ",
      "match in the dictionary, to attach various prefixes and suffixes and  ",
      "try again.  This effort is successful in about a quarter of the cases ",
@@ -169,7 +169,7 @@ package body Support_Utils.Word_Parameters is
      "The default choice is Y(es), since the results are generally useful.  ",
      "This processing can be turned off with the choice of N(o).            ");
 
-   do_tricks_help : constant help_type :=  (
+   Do_Tricks_Help : constant Help_Type :=  (
      "This option instructs the program, when it is unable to find a proper ",
      "match in the dictionary, and after various prefixes and suffixes, to  ",
      "try every dirty Latin trick it can think of, mainly common letter     ",
@@ -183,14 +183,14 @@ package body Support_Utils.Word_Parameters is
      "The only excuse for keeping it as default is that now the dictionary  ",
      "is quite extensive and misses are rare.         Default is now Y(es). ");
 
-   do_dictionary_forms_help : constant help_type :=  (
+   Do_Dictionary_Forms_Help : constant Help_Type :=  (
      "This option instructs the program to Output a line with the forms     ",
      "normally associated with a dictionary entry (NOM and GEN of a noun,   ",
      "the four principal parts of a verb, M-F-N NOM of an adjective, ...).  ",
      "This occurs when there is other Output (i.e., not with UNKNOWNS_ONLY).",
      "The default choice is N(o), but it can be turned on with a Y(es).     ");
 
-   show_age_help : constant help_type :=  (
+   Show_Age_Help : constant Help_Type :=  (
      "This option causes a flag, like '<Late>' to appear for inflection or  ",
      "form in the Output.  The AGE indicates when this word/inflection was  ",
      "in use, at least from indications is dictionary citations.  It is     ",
@@ -198,7 +198,7 @@ package body Support_Utils.Word_Parameters is
      "No indication means that it is common throughout all periods.         ",
      "The default choice is Y(es), but it can be turned off with a N(o).    ");
 
-   show_frequency_help : constant help_type :=  (
+   Show_Frequency_Help : constant Help_Type :=  (
      "This option causes a flag, like '<rare>' to appear for inflection or  ",
      "form in the Output.  The FREQ is indicates the relative usage of the  ",
      "word or inflection, from indications is dictionary citations.  It is  ",
@@ -206,12 +206,12 @@ package body Support_Utils.Word_Parameters is
      "No indication means that it is common throughout all periods.         ",
      "The default choice is Y(es), but it can be turned off with a N(o).    ");
 
-   do_examples_help : constant help_type :=  (
+   Do_Examples_Help : constant Help_Type :=  (
      "This option instructs the program to provide examples of usage of the ",
      "cases/tenses/etc. that were constructed.  The default choice is N(o). ",
      "This produces lengthly Output and is turned on with the choice Y(es). ");
 
-   do_only_meanings_help : constant help_type :=  (
+   Do_Only_Meanings_Help : constant Help_Type :=  (
      "This option instructs the program to only Output the MEANING for a    ",
      "word, and omit the inflection details.  This is primarily used in     ",
      "analyzing new dictionary material, comparing with the existing.       ",
@@ -219,7 +219,7 @@ package body Support_Utils.Word_Parameters is
      "the words and just needs a little reminder for a few.                 ",
      "The default choice is N(o), but it can be turned on with a Y(es).     ");
 
-   do_stems_for_unknown_help : constant help_type :=  (
+   Do_Stems_For_Unknown_Help : constant Help_Type :=  (
      "This option instructs the program, when it is unable to find a proper ",
      "match in the dictionary, and after various prefixes and suffixes, to  ",
      "list the dictionary entries around the unknown.  This will likely     ",
@@ -229,7 +229,7 @@ package body Support_Utils.Word_Parameters is
      "from full translations, therefore the default choice is N(o).         ",
      "This processing can be turned on with the choice of Y(es).            ");
 
-   save_parameters_help : constant help_type :=  (
+   Save_Parameters_Help : constant Help_Type :=  (
      "This option instructs the program, to save the current parameters, as ",
      "just established by the user, in a file WORD.MOD.  If such a file     ",
      "exists, the program will load those parameters at the start.  If no   ",
@@ -242,83 +242,83 @@ package body Support_Utils.Word_Parameters is
      "the program.  Since one may want to make temporary changes during a   ",
      "run, but revert to the usual set, the default is N(o).                ");
 
-   procedure Put (help : help_type) is
+   procedure Put (Help : Help_Type) is
    begin
       New_Line;
-      for i in help'First .. help'Last  loop
-         Put_Line (help (i));
+      for I in Help'First .. Help'Last  loop
+         Put_Line (Help (I));
       end loop;
       New_Line;
    end Put;
 
-   procedure Put_modes is
-      use mode_type_io;
-      use reply_type_io;
+   procedure Put_Modes is
+      use Mode_Type_Io;
+      use Reply_Type_Io;
    begin
-      if Is_Open (mode_file)  then
-         Close (mode_file);
+      if Is_Open (Mode_File)  then
+         Close (Mode_File);
       end if;
-      Create (mode_file, Out_File, mode_full_name);
-      for i in words_mode'Range  loop
-         Put (mode_file, i);
-         Set_Col (mode_file, 35);
-         Put (mode_file, reply (words_mode (i)));
-         New_Line (mode_file);
+      Create (Mode_File, Out_File, Mode_Full_Name);
+      for I in Words_Mode'Range  loop
+         Put (Mode_File, I);
+         Set_Col (Mode_File, 35);
+         Put (Mode_File, Reply (Words_Mode (I)));
+         New_Line (Mode_File);
       end loop;
-      Close (mode_file);
-   end Put_modes;
+      Close (Mode_File);
+   end Put_Modes;
 
-   procedure Get_modes is --(M : out MODE_ARRAY) is
-      use mode_type_io;
-      use reply_type_io;
-      mo : mode_type;
-      rep : reply_type;
+   procedure Get_Modes is --(M : out MODE_ARRAY) is
+      use Mode_Type_Io;
+      use Reply_Type_Io;
+      Mo : Mode_Type;
+      Rep : Reply_Type;
    begin
-      Open (mode_file, In_File, mode_full_name);
-      while not End_Of_File (mode_file)  loop
-         Get (mode_file, mo);
-         Get (mode_file, rep);
-         words_mode (mo) := mode_of_reply (rep);
+      Open (Mode_File, In_File, Mode_Full_Name);
+      while not End_Of_File (Mode_File)  loop
+         Get (Mode_File, Mo);
+         Get (Mode_File, Rep);
+         Words_Mode (Mo) := Mode_Of_Reply (Rep);
       end loop;
-      Close (mode_file);
+      Close (Mode_File);
 
    exception
       when Name_Error  =>
          raise;
       when others =>
-         raise bad_mode_file;
-   end Get_modes;
+         raise Bad_Mode_File;
+   end Get_Modes;
 
-   procedure inquire (mo : mode_type; help : in help_type := no_help) is
-      use mode_type_io;
-      use reply_type_io;
-      l1 : String (1 .. 100) := (others => ' ');
-      ll : Natural;
-      r  : reply_type;
+   procedure Inquire (Mo : Mode_Type; Help : in Help_Type := No_Help) is
+      use Mode_Type_Io;
+      use Reply_Type_Io;
+      L1 : String (1 .. 100) := (others => ' ');
+      Ll : Natural;
+      R  : Reply_Type;
    begin
-      Put (mo);
+      Put (Mo);
       Put (" ?  "); Set_Col (45); Put ("(Currently  ");
-      Put (reply (words_mode (mo))); Put (" =>");
-      Get_Line (l1, ll);
-      if ll /= 0  then
-         if Trim (l1 (1 .. ll)) = ""  then
+      Put (Reply (Words_Mode (Mo))); Put (" =>");
+      Get_Line (L1, Ll);
+      if Ll /= 0  then
+         if Trim (L1 (1 .. Ll)) = ""  then
             Put_Line ("Blank Input, skipping the rest of CHANGE_PARAMETERS");
-            raise blank_Input;
-         elsif l1 (1) = '?'  then
-            Put (help);
-            inquire (mo, help);
+            raise Blank_Input;
+         elsif L1 (1) = '?'  then
+            Put (Help);
+            Inquire (Mo, Help);
          else
-            Get (l1 (1 .. ll), r, ll);
-            words_mode (mo) := mode_of_reply (r);
+            Get (L1 (1 .. Ll), R, Ll);
+            Words_Mode (Mo) := Mode_Of_Reply (R);
          end if;
       end if;
       New_Line;
-   end inquire;
+   end Inquire;
 
-   procedure change_parameters is
-      l1 : String (1 .. 100) := (others => ' ');
-      ll : Natural;
-      r  : reply_type;
+   procedure Change_Parameters is
+      L1 : String (1 .. 100) := (others => ' ');
+      Ll : Natural;
+      R  : Reply_Type;
 
    begin
 
@@ -358,17 +358,17 @@ package body Support_Utils.Word_Parameters is
       --  Maybe to turn on or off pre/suffix
       --  Maybe to allow the user to look at just all the prefixes that match
 
-      inquire (Trim_Output, Trim_Output_help);
+      Inquire (Trim_Output, Trim_Output_Help);
 
-      inquire (have_Output_file, have_Output_file_help);
+      Inquire (Have_Output_File, Have_Output_File_Help);
 
-      if Is_Open (Output)  and then not words_mode (have_Output_file)  then
+      if Is_Open (Output)  and then not Words_Mode (Have_Output_File)  then
          Close (Output);
-         words_mode (Write_Output_to_file) := False;
+         Words_Mode (Write_Output_To_File) := False;
       end if;
-      if not Is_Open (Output) and then words_mode (have_Output_file)  then
+      if not Is_Open (Output) and then Words_Mode (Have_Output_File)  then
          begin
-            Create (Output, Out_File, Output_full_name);
+            Create (Output, Out_File, Output_Full_Name);
          exception
             when others =>
                Put_Line
@@ -376,20 +376,20 @@ package body Support_Utils.Word_Parameters is
          end;
       end if;
 
-      if words_mode (have_Output_file)  then
-         inquire (Write_Output_to_file, Write_Output_to_file_help);
+      if Words_Mode (Have_Output_File)  then
+         Inquire (Write_Output_To_File, Write_Output_To_File_Help);
       end if;
 
-      inquire (do_unknowns_only, do_unknowns_only_help);
+      Inquire (Do_Unknowns_Only, Do_Unknowns_Only_Help);
 
-      inquire (Write_unknowns_to_file, Write_unknowns_to_file_help);
+      Inquire (Write_Unknowns_To_File, Write_Unknowns_To_File_Help);
       --  If there is an Open file then OK
       --  If not Open and you now want to start writing to UNKNOWNS, the CREATE
-      if not Is_Open (unknowns) and then
-        words_mode (Write_unknowns_to_file)
+      if not Is_Open (Unknowns) and then
+        Words_Mode (Write_Unknowns_To_File)
       then
          begin
-            Create (unknowns, Out_File, unknowns_full_name);
+            Create (Unknowns, Out_File, Unknowns_Full_Name);
          exception
             when others =>
                Put_Line
@@ -397,64 +397,64 @@ package body Support_Utils.Word_Parameters is
          end;
       end if;
 
-      inquire (ignore_unknown_names, ignore_unknown_names_help);
+      Inquire (Ignore_Unknown_Names, Ignore_Unknown_Names_Help);
 
-      inquire (ignore_unknown_caps, ignore_unknown_caps_help);
+      Inquire (Ignore_Unknown_Caps, Ignore_Unknown_Caps_Help);
 
-      inquire (do_compounds, do_compounds_help);
+      Inquire (Do_Compounds, Do_Compounds_Help);
 
-      inquire (do_fixes, do_fixes_help);
+      Inquire (Do_Fixes, Do_Fixes_Help);
 
-      inquire (do_tricks, do_tricks_help);
+      Inquire (Do_Tricks, Do_Tricks_Help);
 
-      inquire (do_dictionary_forms, do_dictionary_forms_help);
+      Inquire (Do_Dictionary_Forms, Do_Dictionary_Forms_Help);
 
-      inquire (show_age, show_age_help);
+      Inquire (Show_Age, Show_Age_Help);
 
-      inquire (show_frequency, show_frequency_help);
+      Inquire (Show_Frequency, Show_Frequency_Help);
 
-      inquire (do_examples, do_examples_help);
+      Inquire (Do_Examples, Do_Examples_Help);
 
-      inquire (do_only_meanings, do_only_meanings_help);
+      Inquire (Do_Only_Meanings, Do_Only_Meanings_Help);
 
-      inquire (do_stems_for_unknown, do_stems_for_unknown_help);
+      Inquire (Do_Stems_For_Unknown, Do_Stems_For_Unknown_Help);
 
       Put ("Do you wish to save this set of parameters? Y or N (Default) ");
       Put (" =>");
-      Get_Line (l1, ll);
-      if ll /= 0  then
-         if l1 (1) = '?'  then
-            Put (save_parameters_help);
+      Get_Line (L1, Ll);
+      if Ll /= 0  then
+         if L1 (1) = '?'  then
+            Put (Save_Parameters_Help);
             Put
               ("Do you wish to save this set of parameters? Y or N (Default) ");
             Put (" =>");
-            Get_Line (l1, ll);
+            Get_Line (L1, Ll);
          end if;
-         reply_type_io.Get (l1 (1 .. ll), r, ll);
-         if mode_of_reply (r)  then
-            Put_modes;
-            Put_Line ("MODE_ARRAY saved in file " & mode_full_name);
+         Reply_Type_Io.Get (L1 (1 .. Ll), R, Ll);
+         if Mode_Of_Reply (R)  then
+            Put_Modes;
+            Put_Line ("MODE_ARRAY saved in file " & Mode_Full_Name);
          end if;
       end if;
       New_Line;
 
    exception
-      when blank_Input  =>
+      when Blank_Input  =>
          null;
       when others =>
          Put_Line ("Bad Input - terminating CHANGE_PARAMETERS");
 
-   end change_parameters;
+   end Change_Parameters;
 
-   procedure initialize_word_parameters is
+   procedure Initialize_Word_Parameters is
    begin
-      words_mode := default_mode_array;
+      Words_Mode := Default_Mode_Array;
       --TEXT_IO.PUT_LINE ("Initializing WORD_PARAMETERS");
 
-      do_mode_file :
+      Do_Mode_File :
       begin
          --  Read the mode file
-         Get_modes; --(WORDS_MODE);
+         Get_Modes; --(WORDS_MODE);
          Preface.Put_Line
            ("MODE_FILE found - Using those modes and parameters");
       exception
@@ -464,33 +464,33 @@ package body Support_Utils.Word_Parameters is
          --  to set parameters with a CHANGE (SET) PARAMETERS and save
          --  to examine the mode file with a text editor and try to repair it
          when Name_Error  =>
-            words_mode := default_mode_array;
-         when bad_mode_file  =>
+            Words_Mode := Default_Mode_Array;
+         when Bad_Mode_File  =>
             Put_Line
               ("MODE_FILE exists, but empty or corupted - Default modes used");
             Put_Line
               ("You can set new parameters with CHANGE PARAMETERS and save.");
-            words_mode := default_mode_array;
+            Words_Mode := Default_Mode_Array;
          when others  =>
             Put_Line ("MODE_FILE  others ERROR");
-            words_mode := default_mode_array;
-      end do_mode_file;
+            Words_Mode := Default_Mode_Array;
+      end Do_Mode_File;
 
-      if ((method = interactive) or (method = Command_Line_Input)) and then
+      if ((Method = Interactive) or (Method = Command_Line_Input)) and then
         (not Ada.Text_IO.Is_Open (Output)) and then
-        (words_mode (have_Output_file))
+        (Words_Mode (Have_Output_File))
       then
-         Ada.Text_IO.Create (Output, Ada.Text_IO.Out_File, Output_full_name);
+         Ada.Text_IO.Create (Output, Ada.Text_IO.Out_File, Output_Full_Name);
          --TEXT_IO.PUT_LINE ("WORD.OUT Created at Initialization");
          Preface.Put_Line ("WORD.OUT Created at Initialization");
       end if;
-      if not Ada.Text_IO.Is_Open (unknowns)
-        and then words_mode (Write_unknowns_to_file)
+      if not Ada.Text_IO.Is_Open (Unknowns)
+        and then Words_Mode (Write_Unknowns_To_File)
       then
-         Ada.Text_IO.Create (unknowns, Ada.Text_IO.Out_File,
-           unknowns_full_name);
+         Ada.Text_IO.Create (Unknowns, Ada.Text_IO.Out_File,
+           Unknowns_Full_Name);
          Preface.Put_Line ("WORD.UNK Created at Initialization");
       end if;
-   end initialize_word_parameters;
+   end Initialize_Word_Parameters;
 
 end Support_Utils.Word_Parameters;

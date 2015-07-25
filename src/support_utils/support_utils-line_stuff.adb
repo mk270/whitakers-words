@@ -25,68 +25,68 @@ with Support_Utils.Char_Utils;
 with Latin_Utils.Preface;
 package body Support_Utils.Line_Stuff is
 
-   procedure load_dictionary (dict : in out dictionary;
-                              dictionary_file_name : String)  is
+   procedure Load_Dictionary (Dict : in out Dictionary;
+                              Dictionary_File_Name : String)  is
       --  For loading a DICTIONARY list from a file
       --  Only used now for DICT.LOC
 
-      dictionary_file : File_Type;
-      blk_stem : constant Stem_Type := Null_Stem_Type;
-      sts : Stems_Type := Null_Stems_Type;
-      pt  : Part_Entry  := Null_Part_Entry;
-      tran : Translation_Record := Null_Translation_Record;
-      value : constant Numeral_Value_Type := 0;
-      mean : Meaning_Type := Null_Meaning_Type;
+      Dictionary_File : File_Type;
+      Blk_Stem : constant Stem_Type := Null_Stem_Type;
+      Sts : Stems_Type := Null_Stems_Type;
+      Pt  : Part_Entry  := Null_Part_Entry;
+      Tran : Translation_Record := Null_Translation_Record;
+      Value : constant Numeral_Value_Type := 0;
+      Mean : Meaning_Type := Null_Meaning_Type;
 
-      fc1, fc2, fc3, fc4 : Character;
+      Fc1, Fc2, Fc3, Fc4 : Character;
 
-      line, st_line : String (1 .. 100) := (others => ' ');
-      blank_line : constant String (1 .. 100) := (others => ' ');
-      l, ll, lll, last    : Integer := 0;
-      number_of_dictionary_entries : Integer := 0;
+      Line, St_Line : String (1 .. 100) := (others => ' ');
+      Blank_Line : constant String (1 .. 100) := (others => ' ');
+      L, Ll, Lll, Last    : Integer := 0;
+      Number_Of_Dictionary_Entries : Integer := 0;
 
-      procedure Get_stem (s : in String;
-                          stem : out Stem_Type; last : out Integer) is
-         i  : Integer := 1;
-         l  : Integer := s'First;
+      procedure Get_Stem (S : in String;
+                          Stem : out Stem_Type; Last : out Integer) is
+         I  : Integer := 1;
+         L  : Integer := S'First;
       begin
-         stem := Null_Stem_Type;
+         Stem := Null_Stem_Type;
          --  Squeeze left
-         while l <= s'Last and then s (l) = ' '  loop
-            l := l + 1;
+         while L <= S'Last and then S (L) = ' '  loop
+            L := L + 1;
          end loop;
          --  Count until the first blank
          --  Return that String
-         while l <= s'Last and then s (l) /= ' '  loop
-            stem (i) := s (l);
-            i := i + 1;
-            l := l + 1;
+         while L <= S'Last and then S (L) /= ' '  loop
+            Stem (I) := S (L);
+            I := I + 1;
+            L := L + 1;
          end loop;
          --  Return  last
-         last := l;
+         Last := L;
 
-      end Get_stem;
+      end Get_Stem;
 
    begin
 
-      Open (dictionary_file, In_File, dictionary_file_name);
+      Open (Dictionary_File, In_File, Dictionary_File_Name);
       Preface.Put ("Dictionary loading");
 
-      while not End_Of_File (dictionary_file)  loop
+      while not End_Of_File (Dictionary_File)  loop
          --TEXT_IO.PUT_LINE ("GETTING");
-         st_line := blank_line;
-         Get_Non_Comment_Line (dictionary_file, st_line, last);      --  STEMS
+         St_Line := Blank_Line;
+         Get_Non_Comment_Line (Dictionary_File, St_Line, Last);      --  STEMS
 
-         line := blank_line;
+         Line := Blank_Line;
          --TEXT_IO.PUT ("1 ");
-         Get_Non_Comment_Line (dictionary_file, line, l);
+         Get_Non_Comment_Line (Dictionary_File, Line, L);
          --  PART
          --TEXT_IO.PUT ("2 ");
-         Part_Entry_IO.Get (line (1 .. l), pt, ll);
+         Part_Entry_IO.Get (Line (1 .. L), Pt, Ll);
          --TEXT_IO.PUT ("3 ");
          ----  KIND_ENTRY_IO.GET (LINE (LL + 1 .. L), PT.POFS, KIND, LL);
          --TEXT_IO.PUT ("4 ");
-         Translation_Record_IO.Get (line (ll + 1 .. l), tran, lll);
+         Translation_Record_IO.Get (Line (Ll + 1 .. L), Tran, Lll);
          --TEXT_IO.PUT ("5 ");
          --TEXT_IO.PUT_LINE ("READ PART");
 
@@ -99,11 +99,11 @@ package body Support_Utils.Line_Stuff is
          --  different dictionary entries  --  Do this in LOAD and in DICT.DIC
          --TEXT_IO.PUT_LINE ("GETTING STEMS IN LOAD_DICTIONARY");
 
-         sts := Null_Stems_Type;
-         ll := 1;
+         Sts := Null_Stems_Type;
+         Ll := 1;
          --  Extract up to 4 stems
-         for i in 1 .. Number_Of_Stems (pt.pofs)  loop   --  EXTRACT STEMS
-            Get_stem (st_line (ll .. last), sts (i), ll);
+         for I in 1 .. Number_Of_Stems (Pt.Pofs)  loop   --  EXTRACT STEMS
+            Get_Stem (St_Line (Ll .. Last), Sts (I), Ll);
          end loop;
 
          --for I in 1 .. NUMBER_OF_STEMS (PT.POFS)  loop
@@ -111,788 +111,788 @@ package body Support_Utils.Line_Stuff is
          --end loop;
          --TEXT_IO.NEW_LINE;
 
-         line := blank_line;
-         Get_Non_Comment_Line (dictionary_file, line, l);         --  MEANING
-         mean := Head (Trim (line (1 .. l)), Max_Meaning_Size);
+         Line := Blank_Line;
+         Get_Non_Comment_Line (Dictionary_File, Line, L);         --  MEANING
+         Mean := Head (Trim (Line (1 .. L)), Max_Meaning_Size);
          --TEXT_IO.PUT_LINE ("READ MEANING");
 
          --  Now take care of other first letters in a gross way
-         fc1 := Lower_Case (sts (1)(1));
-         fc2 := Lower_Case (sts (2)(1));
-         fc3 := Lower_Case (sts (3)(1));
-         fc4 := Lower_Case (sts (4)(1));
+         Fc1 := Lower_Case (Sts (1)(1));
+         Fc2 := Lower_Case (Sts (2)(1));
+         Fc3 := Lower_Case (Sts (3)(1));
+         Fc4 := Lower_Case (Sts (4)(1));
 
-         Char_Utils.V_To_U_And_J_To_I (fc1);
-         Char_Utils.V_To_U_And_J_To_I (fc2);
-         Char_Utils.V_To_U_And_J_To_I (fc3);
-         Char_Utils.V_To_U_And_J_To_I (fc4);
+         Char_Utils.V_To_U_And_J_To_I (Fc1);
+         Char_Utils.V_To_U_And_J_To_I (Fc2);
+         Char_Utils.V_To_U_And_J_To_I (Fc3);
+         Char_Utils.V_To_U_And_J_To_I (Fc4);
 
-         if pt.pofs = N  then
-            if sts (2)(1) /= sts (1)(1)  and then
-              sts (2)(1) /= ' '        and then
-              sts (2)(1 .. 3) /= ZZZ_Stem (1 .. 3)
+         if Pt.Pofs = N  then
+            if Sts (2)(1) /= Sts (1)(1)  and then
+              Sts (2)(1) /= ' '        and then
+              Sts (2)(1 .. 3) /= ZZZ_Stem (1 .. 3)
             then
-               dict (fc1) :=
-                 new dictionary_item'(((sts (1), ZZZ_Stem, blk_stem, blk_stem),
+               Dict (Fc1) :=
+                 new Dictionary_Item'(((Sts (1), ZZZ_Stem, Blk_Stem, Blk_Stem),
                  --PT, KIND, TRAN, MEAN), DICT (FC1));
-                 pt, tran, mean), dict (fc1));
-               dict (fc2) :=
-                 new dictionary_item'(((ZZZ_Stem, sts (2), blk_stem, blk_stem),
+                 Pt, Tran, Mean), Dict (Fc1));
+               Dict (Fc2) :=
+                 new Dictionary_Item'(((ZZZ_Stem, Sts (2), Blk_Stem, Blk_Stem),
                  --PT, KIND, TRAN, MEAN), DICT (FC2) );
-                 pt, tran, mean), dict (fc2));
+                 Pt, Tran, Mean), Dict (Fc2));
             else
                --DICT (FC1) := new DICTIONARY_ITEM'((STS, PT, KIND, TRAN, MEAN),
-               dict (fc1) := new dictionary_item'((sts, pt, tran, mean),
-                 dict (fc1));
+               Dict (Fc1) := new Dictionary_Item'((Sts, Pt, Tran, Mean),
+                 Dict (Fc1));
             end if;
 
-         elsif pt.pofs = Pron or pt.pofs = Pack then
-            if sts (2)(1) /= sts (1)(1)  and then
-              sts (2)(1) /= ' '        and then
-              sts (2)(1 .. 3) /= ZZZ_Stem (1 .. 3)
+         elsif Pt.Pofs = Pron or Pt.Pofs = Pack then
+            if Sts (2)(1) /= Sts (1)(1)  and then
+              Sts (2)(1) /= ' '        and then
+              Sts (2)(1 .. 3) /= ZZZ_Stem (1 .. 3)
             then
-               dict (fc1) :=
-                 new dictionary_item'(((sts (1), ZZZ_Stem, blk_stem, blk_stem),
+               Dict (Fc1) :=
+                 new Dictionary_Item'(((Sts (1), ZZZ_Stem, Blk_Stem, Blk_Stem),
                  --PT, KIND, TRAN, MEAN), DICT (FC1));
-                 pt, tran, mean), dict (fc1));
-               dict (fc2) :=
-                 new dictionary_item'(((ZZZ_Stem, sts (2), blk_stem, blk_stem),
+                 Pt, Tran, Mean), Dict (Fc1));
+               Dict (Fc2) :=
+                 new Dictionary_Item'(((ZZZ_Stem, Sts (2), Blk_Stem, Blk_Stem),
                  --PT, KIND, TRAN, MEAN), DICT (FC2));
-                 pt, tran, mean), dict (fc2));
+                 Pt, Tran, Mean), Dict (Fc2));
             else
                --DICT (FC1) := new DICTIONARY_ITEM'((STS, PT, KIND, TRAN, MEAN),
-               dict (fc1) := new dictionary_item'((sts, pt, tran, mean),
-                 dict (fc1));
+               Dict (Fc1) := new Dictionary_Item'((Sts, Pt, Tran, Mean),
+                 Dict (Fc1));
             end if;
 
-         elsif pt.pofs = Adj then
-            if pt.Adj.Co = X then   --  X for all KINDs
-               if (sts (2)(1) /= sts (1)(1) and then
-                 sts (2)(1) /= ' '  and then
-                 sts (2)(1 .. 3) /= ZZZ_Stem (1 .. 3)) or
-                 (sts (3)(1) /= sts (1)(1) and then
-                 sts (3)(1) /= ' '  and then
-                 sts (3)(1 .. 3) /= ZZZ_Stem (1 .. 3)) or
-                 (sts (4)(1) /= sts (1)(1) and then
-                 sts (4)(1) /= ' '  and then
-                 sts (4)(1 .. 3) /= ZZZ_Stem (1 .. 3))
+         elsif Pt.Pofs = Adj then
+            if Pt.Adj.Co = X then   --  X for all KINDs
+               if (Sts (2)(1) /= Sts (1)(1) and then
+                 Sts (2)(1) /= ' '  and then
+                 Sts (2)(1 .. 3) /= ZZZ_Stem (1 .. 3)) or
+                 (Sts (3)(1) /= Sts (1)(1) and then
+                 Sts (3)(1) /= ' '  and then
+                 Sts (3)(1 .. 3) /= ZZZ_Stem (1 .. 3)) or
+                 (Sts (4)(1) /= Sts (1)(1) and then
+                 Sts (4)(1) /= ' '  and then
+                 Sts (4)(1 .. 3) /= ZZZ_Stem (1 .. 3))
                then
-                  dict (fc1) :=
-                    new dictionary_item'(((sts (1), blk_stem,
-                    blk_stem, blk_stem),
-                    (Adj, (pt.Adj.Decl, Pos)),
+                  Dict (Fc1) :=
+                    new Dictionary_Item'(((Sts (1), Blk_Stem,
+                    Blk_Stem, Blk_Stem),
+                    (Adj, (Pt.Adj.Decl, Pos)),
                     --KIND, TRAN, MEAN), DICT (FC1));
-                    tran, mean), dict (fc1));
-                  dict (fc2) :=
-                    new dictionary_item'(((ZZZ_Stem, sts (2),
-                    blk_stem, blk_stem),
-                    (Adj, (pt.Adj.Decl, Pos)),
+                    Tran, Mean), Dict (Fc1));
+                  Dict (Fc2) :=
+                    new Dictionary_Item'(((ZZZ_Stem, Sts (2),
+                    Blk_Stem, Blk_Stem),
+                    (Adj, (Pt.Adj.Decl, Pos)),
                     --KIND, TRAN, MEAN), DICT (FC2));
-                    tran, mean), dict (fc2));
-                  dict (fc3) :=
-                    new dictionary_item'(((ZZZ_Stem, ZZZ_Stem,
-                    sts (3), blk_stem),
-                    (Adj, (pt.Adj.Decl, Comp)),
+                    Tran, Mean), Dict (Fc2));
+                  Dict (Fc3) :=
+                    new Dictionary_Item'(((ZZZ_Stem, ZZZ_Stem,
+                    Sts (3), Blk_Stem),
+                    (Adj, (Pt.Adj.Decl, Comp)),
                     --KIND, TRAN, MEAN), DICT (FC3));
-                    tran, mean), dict (fc3));
-                  dict (fc4) :=
-                    new dictionary_item'(((ZZZ_Stem, ZZZ_Stem,
-                    ZZZ_Stem, sts (4)),
-                    (Adj, (pt.Adj.Decl, Super)),
+                    Tran, Mean), Dict (Fc3));
+                  Dict (Fc4) :=
+                    new Dictionary_Item'(((ZZZ_Stem, ZZZ_Stem,
+                    ZZZ_Stem, Sts (4)),
+                    (Adj, (Pt.Adj.Decl, Super)),
                     --KIND, TRAN, MEAN), DICT (FC4));
-                    tran, mean), dict (fc4));
+                    Tran, Mean), Dict (Fc4));
                end if;
-            elsif pt.Adj.Co = Pos then
-               dict (fc1) :=
-                 new dictionary_item'(((sts (1), blk_stem, blk_stem, blk_stem),
+            elsif Pt.Adj.Co = Pos then
+               Dict (Fc1) :=
+                 new Dictionary_Item'(((Sts (1), Blk_Stem, Blk_Stem, Blk_Stem),
                  --(ADJ, (PT.ADJ.DECL, POS)), KIND, TRAN, MEAN),
-                 (Adj, (pt.Adj.Decl, Pos)), tran, mean),
-                 dict (fc1));
-               dict (fc2) :=
-                 new dictionary_item'(((blk_stem,  sts (2), blk_stem, blk_stem),
+                 (Adj, (Pt.Adj.Decl, Pos)), Tran, Mean),
+                 Dict (Fc1));
+               Dict (Fc2) :=
+                 new Dictionary_Item'(((Blk_Stem,  Sts (2), Blk_Stem, Blk_Stem),
                  --(ADJ, (PT.ADJ.DECL, POS)), KIND, TRAN, MEAN),
-                 (Adj, (pt.Adj.Decl, Pos)), tran, mean),
-                 dict (fc2));
-            elsif pt.Adj.Co = Comp then
-               dict (fc1) :=
-                 new dictionary_item'(((blk_stem, blk_stem, sts (1), blk_stem),
+                 (Adj, (Pt.Adj.Decl, Pos)), Tran, Mean),
+                 Dict (Fc2));
+            elsif Pt.Adj.Co = Comp then
+               Dict (Fc1) :=
+                 new Dictionary_Item'(((Blk_Stem, Blk_Stem, Sts (1), Blk_Stem),
                  --(ADJ, (PT.ADJ.DECL, COMP)), KIND, TRAN, MEAN),
-                 (Adj, (pt.Adj.Decl, Comp)), tran, mean),
-                 dict (fc1));
-            elsif pt.Adj.Co   = Super then
-               dict (fc1) :=
-                 new dictionary_item'(((blk_stem, blk_stem, blk_stem, sts (1)),
+                 (Adj, (Pt.Adj.Decl, Comp)), Tran, Mean),
+                 Dict (Fc1));
+            elsif Pt.Adj.Co   = Super then
+               Dict (Fc1) :=
+                 new Dictionary_Item'(((Blk_Stem, Blk_Stem, Blk_Stem, Sts (1)),
                  --(ADJ, (PT.ADJ.DECL, SUPER)), KIND, TRAN, MEAN),
-                 (Adj, (pt.Adj.Decl, Super)), tran, mean),
-                 dict (fc1));
+                 (Adj, (Pt.Adj.Decl, Super)), Tran, Mean),
+                 Dict (Fc1));
 
             else
                --DICT (FC1) := new DICTIONARY_ITEM'((STS, PT, KIND, TRAN, MEAN),
-               dict (fc1) := new dictionary_item'((sts, pt, tran, mean),
-                 dict (fc1));
+               Dict (Fc1) := new Dictionary_Item'((Sts, Pt, Tran, Mean),
+                 Dict (Fc1));
             end if;
 
-         elsif pt.pofs = Adv  then
-            if pt.Adv.Co   = X  then   --  X for all KINDs
-               if (sts (2)(1) /= sts (1)(1) and then
-                 sts (2)(1) /= ' '  and then
-                 sts (2)(1 .. 3) /= ZZZ_Stem (1 .. 3)) or
-                 (sts (3)(1) /= sts (1)(1) and then
-                 sts (3)(1) /= ' '  and then
-                 sts (3)(1 .. 3) /= ZZZ_Stem (1 .. 3))
+         elsif Pt.Pofs = Adv  then
+            if Pt.Adv.Co   = X  then   --  X for all KINDs
+               if (Sts (2)(1) /= Sts (1)(1) and then
+                 Sts (2)(1) /= ' '  and then
+                 Sts (2)(1 .. 3) /= ZZZ_Stem (1 .. 3)) or
+                 (Sts (3)(1) /= Sts (1)(1) and then
+                 Sts (3)(1) /= ' '  and then
+                 Sts (3)(1 .. 3) /= ZZZ_Stem (1 .. 3))
                then
-                  dict (fc1) :=
-                    new dictionary_item'(((sts (1),
-                    blk_stem, blk_stem, blk_stem),
+                  Dict (Fc1) :=
+                    new Dictionary_Item'(((Sts (1),
+                    Blk_Stem, Blk_Stem, Blk_Stem),
                     --(ADV, (CO => POS)), KIND, TRAN, MEAN), DICT (FC1));
-                    (Adv, (Co => Pos)), tran, mean), dict (fc1));
-                  dict (fc2) :=
-                    new dictionary_item'(((sts (2),
-                    blk_stem, blk_stem, blk_stem),
+                    (Adv, (Co => Pos)), Tran, Mean), Dict (Fc1));
+                  Dict (Fc2) :=
+                    new Dictionary_Item'(((Sts (2),
+                    Blk_Stem, Blk_Stem, Blk_Stem),
                     --(ADV, (CO => COMP)), KIND, TRAN, MEAN), DICT (FC2));
-                    (Adv, (Co => Comp)), tran, mean), dict (fc2));
-                  dict (fc3) :=
-                    new dictionary_item'(((sts (3),
-                    blk_stem, blk_stem, blk_stem),
+                    (Adv, (Co => Comp)), Tran, Mean), Dict (Fc2));
+                  Dict (Fc3) :=
+                    new Dictionary_Item'(((Sts (3),
+                    Blk_Stem, Blk_Stem, Blk_Stem),
                     --(ADV, (CO => SUPER)), KIND, TRAN, MEAN), DICT (FC3));
-                    (Adv, (Co => Super)), tran, mean), dict (fc3));
+                    (Adv, (Co => Super)), Tran, Mean), Dict (Fc3));
                end if;
-            elsif pt.Adv.Co = Pos then          --  just a specific KIND
-               dict (fc1) :=
-                 new dictionary_item'(((sts (1), blk_stem, blk_stem, blk_stem),
+            elsif Pt.Adv.Co = Pos then          --  just a specific KIND
+               Dict (Fc1) :=
+                 new Dictionary_Item'(((Sts (1), Blk_Stem, Blk_Stem, Blk_Stem),
                  --(ADV, (CO => POS)), KIND, TRAN, MEAN),
-                 (Adv, (Co => Pos)), tran, mean),
-                 dict (fc1));
-            elsif pt.Adv.Co = Comp then
-               dict (fc1) :=
-                 new dictionary_item'(((blk_stem, sts (1), blk_stem, blk_stem),
+                 (Adv, (Co => Pos)), Tran, Mean),
+                 Dict (Fc1));
+            elsif Pt.Adv.Co = Comp then
+               Dict (Fc1) :=
+                 new Dictionary_Item'(((Blk_Stem, Sts (1), Blk_Stem, Blk_Stem),
                  --(ADV, (CO => COMP)), KIND, TRAN, MEAN),
-                 (Adv, (Co => Comp)), tran, mean),
-                 dict (fc1));
-            elsif pt.Adv.Co = Super then
-               dict (fc1) :=
-                 new dictionary_item'(((blk_stem, blk_stem, sts (1), blk_stem),
+                 (Adv, (Co => Comp)), Tran, Mean),
+                 Dict (Fc1));
+            elsif Pt.Adv.Co = Super then
+               Dict (Fc1) :=
+                 new Dictionary_Item'(((Blk_Stem, Blk_Stem, Sts (1), Blk_Stem),
                  --(ADV, (CO => SUPER)), KIND, TRAN, MEAN),
-                 (Adv, (Co => Super)), tran, mean),
-                 dict (fc1));
+                 (Adv, (Co => Super)), Tran, Mean),
+                 Dict (Fc1));
             else
                --DICT (FC1) := new DICTIONARY_ITEM'((STS, PT, KIND, TRAN, MEAN),
-               dict (fc1) := new dictionary_item'((sts, pt, tran, mean),
-                 dict (fc1));
+               Dict (Fc1) := new Dictionary_Item'((Sts, Pt, Tran, Mean),
+                 Dict (Fc1));
             end if;
 
-         elsif pt.pofs = V  then
-            if (sts (2)(1) /= sts (1)(1) and then
-              sts (2)(1) /= ' '  and then
-              sts (2)(1 .. 3) /= ZZZ_Stem (1 .. 3)) or
-              (sts (3)(1) /= sts (1)(1) and then
-              sts (3)(1) /= ' '  and then
-              sts (3)(1 .. 3) /= ZZZ_Stem (1 .. 3)) or
-              (sts (4)(1) /= sts (1)(1) and then
-              sts (4)(1) /= ' '  and then
-              sts (4)(1 .. 3) /= ZZZ_Stem (1 .. 3))
+         elsif Pt.Pofs = V  then
+            if (Sts (2)(1) /= Sts (1)(1) and then
+              Sts (2)(1) /= ' '  and then
+              Sts (2)(1 .. 3) /= ZZZ_Stem (1 .. 3)) or
+              (Sts (3)(1) /= Sts (1)(1) and then
+              Sts (3)(1) /= ' '  and then
+              Sts (3)(1 .. 3) /= ZZZ_Stem (1 .. 3)) or
+              (Sts (4)(1) /= Sts (1)(1) and then
+              Sts (4)(1) /= ' '  and then
+              Sts (4)(1 .. 3) /= ZZZ_Stem (1 .. 3))
             then
-               dict (fc1) :=
-                 new dictionary_item'(((sts (1), ZZZ_Stem, ZZZ_Stem, ZZZ_Stem),
+               Dict (Fc1) :=
+                 new Dictionary_Item'(((Sts (1), ZZZ_Stem, ZZZ_Stem, ZZZ_Stem),
                  --PT, KIND, TRAN, MEAN), DICT (FC1));
-                 pt, tran, mean), dict (fc1));
-               dict (fc2) :=
-                 new dictionary_item'(((ZZZ_Stem, sts (2), ZZZ_Stem, ZZZ_Stem),
+                 Pt, Tran, Mean), Dict (Fc1));
+               Dict (Fc2) :=
+                 new Dictionary_Item'(((ZZZ_Stem, Sts (2), ZZZ_Stem, ZZZ_Stem),
                  --PT, KIND, TRAN, MEAN), DICT (FC2));
-                 pt, tran, mean), dict (fc2));
-               dict (fc3) :=
-                 new dictionary_item'(((ZZZ_Stem, ZZZ_Stem, sts (3), ZZZ_Stem),
+                 Pt, Tran, Mean), Dict (Fc2));
+               Dict (Fc3) :=
+                 new Dictionary_Item'(((ZZZ_Stem, ZZZ_Stem, Sts (3), ZZZ_Stem),
                  --PT, KIND, TRAN, MEAN), DICT (FC3));
-                 pt, tran, mean), dict (fc3));
-               dict (fc4) :=
-                 new dictionary_item'(((ZZZ_Stem, ZZZ_Stem, ZZZ_Stem, sts (4)),
+                 Pt, Tran, Mean), Dict (Fc3));
+               Dict (Fc4) :=
+                 new Dictionary_Item'(((ZZZ_Stem, ZZZ_Stem, ZZZ_Stem, Sts (4)),
                  --PT, KIND, TRAN, MEAN), DICT (FC4));
-                 pt, tran, mean), dict (fc4));
+                 Pt, Tran, Mean), Dict (Fc4));
             else
                --DICT (FC1) := new DICTIONARY_ITEM'((STS, PT, KIND, TRAN, MEAN),
-               dict (fc1) := new dictionary_item'((sts, pt, tran, mean),
-                 dict (fc1));
+               Dict (Fc1) := new Dictionary_Item'((Sts, Pt, Tran, Mean),
+                 Dict (Fc1));
             end if;
 
-         elsif pt.pofs = Num  then
-            if pt.Num.Sort = X  then   --  X for all KINDs
-               if sts (1)(1) /= ' ' and then
-                 sts (1)(1 .. 3) /= ZZZ_Stem (1 .. 3)
+         elsif Pt.Pofs = Num  then
+            if Pt.Num.Sort = X  then   --  X for all KINDs
+               if Sts (1)(1) /= ' ' and then
+                 Sts (1)(1 .. 3) /= ZZZ_Stem (1 .. 3)
                then
-                  dict (fc1) :=
-                    new dictionary_item'(((sts (1), blk_stem,
-                    blk_stem, blk_stem),
+                  Dict (Fc1) :=
+                    new Dictionary_Item'(((Sts (1), Blk_Stem,
+                    Blk_Stem, Blk_Stem),
                     --(NUM, (PT.NUM.DECL, CARD)), KIND, TRAN, MEAN),
-                    (Num, (pt.Num.Decl, Card, value)), tran, mean),
-                    dict (fc1));
+                    (Num, (Pt.Num.Decl, Card, Value)), Tran, Mean),
+                    Dict (Fc1));
                end if;
-               if sts (2)(1) /= ' ' and then
-                 sts (2)(1 .. 3) /= ZZZ_Stem (1 .. 3)
+               if Sts (2)(1) /= ' ' and then
+                 Sts (2)(1 .. 3) /= ZZZ_Stem (1 .. 3)
                then
-                  dict (fc2) :=
-                    new dictionary_item'(((ZZZ_Stem, sts (2),
-                    blk_stem, blk_stem),
+                  Dict (Fc2) :=
+                    new Dictionary_Item'(((ZZZ_Stem, Sts (2),
+                    Blk_Stem, Blk_Stem),
                     --(NUM, ((0, 0), ORD)), KIND, TRAN, MEAN),
-                    (Num, ((0, 0), Ord, value)), tran, mean),
-                    dict (fc2));
+                    (Num, ((0, 0), Ord, Value)), Tran, Mean),
+                    Dict (Fc2));
                end if;
-               if sts (3)(1) /= ' ' and then
-                 sts (3)(1 .. 3) /= ZZZ_Stem (1 .. 3)
+               if Sts (3)(1) /= ' ' and then
+                 Sts (3)(1 .. 3) /= ZZZ_Stem (1 .. 3)
                then
-                  dict (fc3) :=
-                    new dictionary_item'(((ZZZ_Stem, ZZZ_Stem,
-                    sts (3), blk_stem),
+                  Dict (Fc3) :=
+                    new Dictionary_Item'(((ZZZ_Stem, ZZZ_Stem,
+                    Sts (3), Blk_Stem),
                     --(NUM, (PT.NUM.DECL, DIST)), KIND, TRAN, MEAN),
-                    (Num, (pt.Num.Decl, Dist, value)), tran, mean),
-                    dict (fc3));
+                    (Num, (Pt.Num.Decl, Dist, Value)), Tran, Mean),
+                    Dict (Fc3));
                end if;
-               if sts (4)(1) /= ' ' and then
-                 sts (4)(1 .. 3) /= ZZZ_Stem (1 .. 3)
+               if Sts (4)(1) /= ' ' and then
+                 Sts (4)(1 .. 3) /= ZZZ_Stem (1 .. 3)
                then
-                  dict (fc4) :=
-                    new dictionary_item'(((ZZZ_Stem, ZZZ_Stem,
-                    ZZZ_Stem, sts (4)),
+                  Dict (Fc4) :=
+                    new Dictionary_Item'(((ZZZ_Stem, ZZZ_Stem,
+                    ZZZ_Stem, Sts (4)),
                     --(NUM, (PT.NUM.DECL, ADVERB)), KIND, TRAN, MEAN),
-                    (Num, (pt.Num.Decl, Adverb, value)), tran, mean),
-                    dict (fc4));
+                    (Num, (Pt.Num.Decl, Adverb, Value)), Tran, Mean),
+                    Dict (Fc4));
                end if;
-            elsif pt.Num.Sort = Card  then
-               dict (fc1) :=
-                 new dictionary_item'(((sts (1), blk_stem, blk_stem, blk_stem),
+            elsif Pt.Num.Sort = Card  then
+               Dict (Fc1) :=
+                 new Dictionary_Item'(((Sts (1), Blk_Stem, Blk_Stem, Blk_Stem),
                  --(NUM, (PT.NUM.DECL, CARD)), KIND, TRAN, MEAN),
-                 (Num, (pt.Num.Decl, Card, value)), tran, mean),
-                 dict (fc1));
-            elsif pt.Num.Sort = Ord   then
-               dict (fc1) :=
-                 new dictionary_item'(((blk_stem, sts (1), blk_stem, blk_stem),
+                 (Num, (Pt.Num.Decl, Card, Value)), Tran, Mean),
+                 Dict (Fc1));
+            elsif Pt.Num.Sort = Ord   then
+               Dict (Fc1) :=
+                 new Dictionary_Item'(((Blk_Stem, Sts (1), Blk_Stem, Blk_Stem),
                  --(NUM, (PT.NUM.DECL, ORD)), KIND, TRAN, MEAN),
-                 (Num, (pt.Num.Decl, Ord, value)), tran, mean),
-                 dict (fc1));
-            elsif pt.Num.Sort = Dist  then
-               dict (fc1) :=
-                 new dictionary_item'(((blk_stem, blk_stem, sts (1), blk_stem),
+                 (Num, (Pt.Num.Decl, Ord, Value)), Tran, Mean),
+                 Dict (Fc1));
+            elsif Pt.Num.Sort = Dist  then
+               Dict (Fc1) :=
+                 new Dictionary_Item'(((Blk_Stem, Blk_Stem, Sts (1), Blk_Stem),
                  --(NUM, (PT.NUM.DECL, DIST)), KIND, TRAN, MEAN),
-                 (Num, (pt.Num.Decl, Dist, value)), tran, mean),
-                 dict (fc1));
-            elsif pt.Num.Sort = Adverb  then
-               dict (fc1) :=
-                 new dictionary_item'(((blk_stem, blk_stem, blk_stem, sts (1)),
+                 (Num, (Pt.Num.Decl, Dist, Value)), Tran, Mean),
+                 Dict (Fc1));
+            elsif Pt.Num.Sort = Adverb  then
+               Dict (Fc1) :=
+                 new Dictionary_Item'(((Blk_Stem, Blk_Stem, Blk_Stem, Sts (1)),
                  --(NUM, (PT.NUM.DECL, ADVERB)), KIND, TRAN, MEAN),
-                 (Num, (pt.Num.Decl, Adverb, value)), tran, mean),
-                 dict (fc1));
+                 (Num, (Pt.Num.Decl, Adverb, Value)), Tran, Mean),
+                 Dict (Fc1));
             end if;
 
          else
             --DICT (FC1) := new DICTIONARY_ITEM'((STS, PT, KIND, TRAN, MEAN),
-            dict (fc1) := new dictionary_item'((sts, pt, tran, mean),
-              dict (fc1));
+            Dict (Fc1) := new Dictionary_Item'((Sts, Pt, Tran, Mean),
+              Dict (Fc1));
 
          end if;
-         number_of_dictionary_entries := number_of_dictionary_entries + 1;
+         Number_Of_Dictionary_Entries := Number_Of_Dictionary_Entries + 1;
       end loop;
-      Close (dictionary_file);
+      Close (Dictionary_File);
       Preface.Set_Col (33); Preface.Put ("--  ");
-      Preface.Put (number_of_dictionary_entries, 6);
+      Preface.Put (Number_Of_Dictionary_Entries, 6);
       Preface.Put (" entries"); Preface.Set_Col (55);
       Preface.Put_Line ("--  Loaded correctly");
    exception
       when others   =>
          Preface.Put_Line ("    LOAD_DICTIONARY exception        !!!!!!!!!!");
-         Preface.Put_Line (st_line (1 .. last));
-         Preface.Put_Line (line (1 .. l));
-         Close (dictionary_file);
+         Preface.Put_Line (St_Line (1 .. Last));
+         Preface.Put_Line (Line (1 .. L));
+         Close (Dictionary_File);
          Preface.Set_Col (33); Preface.Put ("--  ");
-         Preface.Put (number_of_dictionary_entries, 6);
+         Preface.Put (Number_Of_Dictionary_Entries, 6);
          Preface.Put (" entries"); Preface.Set_Col (55);
          Preface.Put_Line ("--  Loaded anyway   ");
-   end load_dictionary;
+   end Load_Dictionary;
 
-   procedure load_stem_file (d_k : Dictionary_Kind)  is
+   procedure Load_Stem_File (D_K : Dictionary_Kind)  is
       --  This is used to load a dictionary access file, like DIC.LOC
       --  It uses the single first letter index rather than the two letter
       --  This dictionary must be searched with a somewhat different procedure
       --  Not used when one loads from a regular STEMFILE (which uses
       --  two letters)
       --use LATIN_DEBUG;
-      use stem_io;
+      use Stem_Io;
       use Dict_IO;
-      i : stem_io.Count := 1;
+      I : Stem_Io.Count := 1;
       --M_P_R : MEANING_TYPE;
-      m : Dict_IO.Positive_Count := 1;
-      dlc : dictionary := dict_loc;
+      M : Dict_IO.Positive_Count := 1;
+      Dlc : Dictionary := Dict_Loc;
       --DS : DICTIONARY_STEM;
    begin
       --PUT_LINE ("LOAD_STEM_FILE for LOC");
-      if Is_Open (stem_file (d_k))  then
-         Delete (stem_file (d_k));
+      if Is_Open (Stem_File (D_K))  then
+         Delete (Stem_File (D_K));
       end if;
-      Create (stem_file (d_k), Inout_File,
-        add_file_name_extension (stem_file_name,
-        Dictionary_Kind'Image (d_k)));
+      Create (Stem_File (D_K), Inout_File,
+        Add_File_Name_Extension (Stem_File_Name,
+        Dictionary_Kind'Image (D_K)));
       --PUT_LINE ("LOAD_STEM_FILE for LOC - Created STEM_FILE");
-      if Is_Open (Dict_File (d_k))  then
-         Delete (Dict_File (d_k));
+      if Is_Open (Dict_File (D_K))  then
+         Delete (Dict_File (D_K));
       end if;
-      Create (Dict_File (d_k), Inout_File,
-        add_file_name_extension (dict_file_name,
-        Dictionary_Kind'Image (d_k)));
+      Create (Dict_File (D_K), Inout_File,
+        Add_File_Name_Extension (Dict_File_Name,
+        Dictionary_Kind'Image (D_K)));
       --PUT_LINE ("LOAD_STEM_FILE for LOC - Created DICT_FILE");
 
       --PUT_LINE ("L_D_F  Start  M = " & INTEGER'IMAGE (INTEGER (M)));
 
-      for fc in Character range 'a' .. 'z'  loop
+      for Fc in Character range 'a' .. 'z'  loop
          --  LOAD_DICTIONARY should have assured that all v were in u
          --LATIN_DEBUG.PUT_LINE ("L_D_F  Entering FC loop");
-         ddlf (fc, 'a', d_k) := i;
-         ddll (fc, 'a', d_k) := 0;
-         while dlc (fc) /= null  loop
+         Ddlf (Fc, 'a', D_K) := I;
+         Ddll (Fc, 'a', D_K) := 0;
+         while Dlc (Fc) /= null  loop
 
-            Dict_IO.Set_Index (Dict_File (d_k), m);
+            Dict_IO.Set_Index (Dict_File (D_K), M);
             -- %%%%%%%%%%%!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!%%%%%%%%%%%%%%%%%%%
             --PUT_LINE (DLC (FC).DE.TRAN.MEAN);
             -- M_P_R := DLC (FC).DE.TRAN.MEAN;
             --DICT_IO.WRITE (DICT_FILE (D_K), M_P_R);   --@@@@@@@@@@@@@@@@@@@@@
-            Dict_IO.Write (Dict_File (d_k), dlc (fc).de);
-            for k in Stem_Key_Type range 1 .. 4  loop
-               if dlc (fc).de.Stems (k) /= Null_Stem_Type  and
-                 dlc (fc).de.Stems (k) /= ZZZ_Stem
+            Dict_IO.Write (Dict_File (D_K), Dlc (Fc).De);
+            for K in Stem_Key_Type range 1 .. 4  loop
+               if Dlc (Fc).De.Stems (K) /= Null_Stem_Type  and
+                 Dlc (Fc).De.Stems (K) /= ZZZ_Stem
                then
-                  Write (stem_file (d_k),
-                    (dlc (fc).de.Stems (k), dlc (fc).de.Part, k, m));
-                  ddll (fc, 'a', d_k) := i;
-                  i := i + 1;
+                  Write (Stem_File (D_K),
+                    (Dlc (Fc).De.Stems (K), Dlc (Fc).De.Part, K, M));
+                  Ddll (Fc, 'a', D_K) := I;
+                  I := I + 1;
                end if;
             end loop;
-            dlc (fc) := dlc (fc).succ;
-            m := m + 1;
+            Dlc (Fc) := Dlc (Fc).Succ;
+            M := M + 1;
             --PUT_LINE ("L_D_F  22222  M = " & INTEGER'IMAGE (INTEGER (M)));
          end loop;
          --PUT_LINE ("L_D_F  33333  M = " & INTEGER'IMAGE (INTEGER (M)));
       end loop;
       --PUT_LINE ("L_D_F  44444  M = " & INTEGER'IMAGE (INTEGER (M)));
-   end load_stem_file;
+   end Load_Stem_File;
 
-   package body tackon_line_io is
+   package body Tackon_Line_Io is
       use Part_Of_Speech_Type_IO;
-      use tackon_entry_io;
-      spacer : Character := ' ';
+      use Tackon_Entry_Io;
+      Spacer : Character := ' ';
 
-      procedure Get (f : in File_Type; p : out tackon_line) is
+      procedure Get (F : in File_Type; P : out Tackon_Line) is
       begin
-         Get (f, p.pofs);
-         Get (f, spacer);
-         Get (f, p.tack);
-         Get (f, spacer);
-         Get (f, p.entr);
-         Get (f, spacer);
-         Get (f, p.mean);
+         Get (F, P.Pofs);
+         Get (F, Spacer);
+         Get (F, P.Tack);
+         Get (F, Spacer);
+         Get (F, P.Entr);
+         Get (F, Spacer);
+         Get (F, P.Mean);
       end Get;
 
-      procedure Get (p : out tackon_line) is
+      procedure Get (P : out Tackon_Line) is
       begin
-         Get (p.pofs);
-         Get (spacer);
-         Get (p.tack);
-         Get (spacer);
-         Get (p.entr);
-         Get (spacer);
-         Get (p.mean);
+         Get (P.Pofs);
+         Get (Spacer);
+         Get (P.Tack);
+         Get (Spacer);
+         Get (P.Entr);
+         Get (Spacer);
+         Get (P.Mean);
       end Get;
 
-      procedure Put (f : in File_Type; p : in tackon_line) is
+      procedure Put (F : in File_Type; P : in Tackon_Line) is
       begin
-         Put (f, p.pofs);
-         Put (f, ' ');
-         Put (f, p.tack);
-         Put (f, ' ');
-         Put (f, p.entr);
-         Put (f, ' ');
-         Put (f, p.mean);
+         Put (F, P.Pofs);
+         Put (F, ' ');
+         Put (F, P.Tack);
+         Put (F, ' ');
+         Put (F, P.Entr);
+         Put (F, ' ');
+         Put (F, P.Mean);
       end Put;
 
-      procedure Put (p : in tackon_line) is
+      procedure Put (P : in Tackon_Line) is
       begin
-         Put (p.pofs);
+         Put (P.Pofs);
          Put (' ');
-         Put (p.tack);
+         Put (P.Tack);
          Put (' ');
-         Put (p.entr);
+         Put (P.Entr);
          Put (' ');
-         Put (p.mean);
+         Put (P.Mean);
       end Put;
 
-      procedure Get (s : in String; p : out tackon_line; last : out Integer) is
-         l : Integer := s'First - 1;
-         m : Integer := 0;
+      procedure Get (S : in String; P : out Tackon_Line; Last : out Integer) is
+         L : Integer := S'First - 1;
+         M : Integer := 0;
       begin
-         m := l + Dictionary_Kind_IO.Default_Width;
-         Get (s (l + 1 .. m), p.pofs, l);
-         l := m + 1;
-         m := l + Max_Stem_Size;
-         p.tack := s (l + 1 .. m);
-         l := m + 1;
-         m := l + tackon_entry_io.Default_Width;
-         Get (s (l + 1 .. m), p.entr, l);
-         l := m + 1;
-         m := l + Max_Meaning_Size;
-         p.mean := s (l + 1 .. m);
-         last := m;
+         M := L + Dictionary_Kind_IO.Default_Width;
+         Get (S (L + 1 .. M), P.Pofs, L);
+         L := M + 1;
+         M := L + Max_Stem_Size;
+         P.Tack := S (L + 1 .. M);
+         L := M + 1;
+         M := L + Tackon_Entry_Io.Default_Width;
+         Get (S (L + 1 .. M), P.Entr, L);
+         L := M + 1;
+         M := L + Max_Meaning_Size;
+         P.Mean := S (L + 1 .. M);
+         Last := M;
       end Get;
 
-      procedure Put (s : out String; p : in tackon_line) is
-         l : Integer := s'First - 1;
-         m : Integer := 0;
+      procedure Put (S : out String; P : in Tackon_Line) is
+         L : Integer := S'First - 1;
+         M : Integer := 0;
       begin
-         m := l + Dictionary_Kind_IO.Default_Width;
-         Put (s (l + 1 .. m), p.pofs);
-         l := m + 1;
-         s (l) := ' ';
-         m := l + Max_Stem_Size;
-         s (l + 1 .. m) := p.tack;
-         l := m + 1;
-         s (l) := ' ';
-         m := l + tackon_entry_io.Default_Width;
-         Put (s (l + 1 .. m), p.entr);
-         l := m + 1;
-         s (l) := ' ';
-         m := l + Max_Meaning_Size;
-         s (l + 1 .. m) := p.mean;
-         s (m + 1 .. s'Last) := (others => ' ');
+         M := L + Dictionary_Kind_IO.Default_Width;
+         Put (S (L + 1 .. M), P.Pofs);
+         L := M + 1;
+         S (L) := ' ';
+         M := L + Max_Stem_Size;
+         S (L + 1 .. M) := P.Tack;
+         L := M + 1;
+         S (L) := ' ';
+         M := L + Tackon_Entry_Io.Default_Width;
+         Put (S (L + 1 .. M), P.Entr);
+         L := M + 1;
+         S (L) := ' ';
+         M := L + Max_Meaning_Size;
+         S (L + 1 .. M) := P.Mean;
+         S (M + 1 .. S'Last) := (others => ' ');
       end Put;
 
-   end tackon_line_io;
+   end Tackon_Line_Io;
 
-   package body prefix_line_io is
+   package body Prefix_Line_Io is
       use Part_Of_Speech_Type_IO;
-      use prefix_entry_io;
-      spacer : Character := ' ';
+      use Prefix_Entry_Io;
+      Spacer : Character := ' ';
 
-      procedure Get (f : in File_Type; p : out prefix_line) is
+      procedure Get (F : in File_Type; P : out Prefix_Line) is
       begin
-         Get (f, p.pofs);
-         Get (f, spacer);
-         Get (f, p.fix);
-         Get (f, spacer);
-         Get (f, p.connect);
-         Get (f, spacer);
-         Get (f, p.entr);
-         Get (f, spacer);
-         Get (f, p.mean);
+         Get (F, P.Pofs);
+         Get (F, Spacer);
+         Get (F, P.Fix);
+         Get (F, Spacer);
+         Get (F, P.Connect);
+         Get (F, Spacer);
+         Get (F, P.Entr);
+         Get (F, Spacer);
+         Get (F, P.Mean);
       end Get;
 
-      procedure Get (p : out prefix_line) is
+      procedure Get (P : out Prefix_Line) is
       begin
-         Get (p.pofs);
-         Get (spacer);
-         Get (p.fix);
-         Get (spacer);
-         Get (p.connect);
-         Get (spacer);
-         Get (p.entr);
-         Get (spacer);
-         Get (p.mean);
+         Get (P.Pofs);
+         Get (Spacer);
+         Get (P.Fix);
+         Get (Spacer);
+         Get (P.Connect);
+         Get (Spacer);
+         Get (P.Entr);
+         Get (Spacer);
+         Get (P.Mean);
       end Get;
 
-      procedure Put (f : in File_Type; p : in prefix_line) is
+      procedure Put (F : in File_Type; P : in Prefix_Line) is
       begin
-         Put (f, p.pofs);
-         Put (f, ' ');
-         Put (f, p.fix);
-         Put (f, ' ');
-         Put (f, p.connect);
-         Put (f, ' ');
-         Put (f, p.entr);
-         Put (f, ' ');
-         Put (f, p.mean);
+         Put (F, P.Pofs);
+         Put (F, ' ');
+         Put (F, P.Fix);
+         Put (F, ' ');
+         Put (F, P.Connect);
+         Put (F, ' ');
+         Put (F, P.Entr);
+         Put (F, ' ');
+         Put (F, P.Mean);
       end Put;
 
-      procedure Put (p : in prefix_line) is
+      procedure Put (P : in Prefix_Line) is
       begin
-         Put (p.pofs);
+         Put (P.Pofs);
          Put (' ');
-         Put (p.fix);
+         Put (P.Fix);
          Put (' ');
-         Put (p.connect);
+         Put (P.Connect);
          Put (' ');
-         Put (p.entr);
+         Put (P.Entr);
          Put (' ');
-         Put (p.mean);
+         Put (P.Mean);
       end Put;
 
-      procedure Get (s : in String; p : out prefix_line; last : out Integer) is
-         l : Integer := s'First - 1;
-         m : Integer := 0;
+      procedure Get (S : in String; P : out Prefix_Line; Last : out Integer) is
+         L : Integer := S'First - 1;
+         M : Integer := 0;
       begin
-         m := l + Dictionary_Kind_IO.Default_Width;
-         Get (s (l + 1 .. s'Last), p.pofs, l);
-         l := m;
-         l := l + 1;
-         m := l + Max_Stem_Size;
-         p.fix := s (l + 1 .. m);
-         l := m;
-         l := l + 1;
+         M := L + Dictionary_Kind_IO.Default_Width;
+         Get (S (L + 1 .. S'Last), P.Pofs, L);
+         L := M;
+         L := L + 1;
+         M := L + Max_Stem_Size;
+         P.Fix := S (L + 1 .. M);
+         L := M;
+         L := L + 1;
          -- m := l + 1; -- apparently redundant?
-         p.connect := s (l + 1);
-         l := l + 1;
-         m := l + prefix_entry_io.Default_Width;
-         Get (s (l + 1 .. s'Last), p.entr, l);
-         l := m + 1;
-         m := l + Max_Meaning_Size;
-         p.mean := s (l + 1 .. m);
-         last := m;
+         P.Connect := S (L + 1);
+         L := L + 1;
+         M := L + Prefix_Entry_Io.Default_Width;
+         Get (S (L + 1 .. S'Last), P.Entr, L);
+         L := M + 1;
+         M := L + Max_Meaning_Size;
+         P.Mean := S (L + 1 .. M);
+         Last := M;
       end Get;
 
-      procedure Put (s : out String; p : in prefix_line) is
-         l : Integer := s'First - 1;
-         m : Integer := 0;
+      procedure Put (S : out String; P : in Prefix_Line) is
+         L : Integer := S'First - 1;
+         M : Integer := 0;
       begin
-         m := l + Dictionary_Kind_IO.Default_Width;
-         Put (s (l + 1 .. m), p.pofs);
-         l := m + 1;
-         s (l) :=  ' ';
-         m := l + Max_Stem_Size;
-         s (l + 1 .. m) := p.fix;
-         l := m + 1;
-         s (l) :=  ' ';
+         M := L + Dictionary_Kind_IO.Default_Width;
+         Put (S (L + 1 .. M), P.Pofs);
+         L := M + 1;
+         S (L) :=  ' ';
+         M := L + Max_Stem_Size;
+         S (L + 1 .. M) := P.Fix;
+         L := M + 1;
+         S (L) :=  ' ';
          -- m := l + 1; -- apparently redundant?
-         s (l + 1) := p.connect;
-         m := l + prefix_entry_io.Default_Width;
-         Put (s (l + 1 .. m), p.entr);
-         l := m + 1;
-         s (l) :=  ' ';
-         m := l + Max_Meaning_Size;
-         s (l + 1 .. m) := p.mean;
-         m := l + 1;
-         s (m + 1 .. s'Last) := (others => ' ');
+         S (L + 1) := P.Connect;
+         M := L + Prefix_Entry_Io.Default_Width;
+         Put (S (L + 1 .. M), P.Entr);
+         L := M + 1;
+         S (L) :=  ' ';
+         M := L + Max_Meaning_Size;
+         S (L + 1 .. M) := P.Mean;
+         M := L + 1;
+         S (M + 1 .. S'Last) := (others => ' ');
       end Put;
 
-   end prefix_line_io;
+   end Prefix_Line_Io;
 
-   package body suffix_line_io is
+   package body Suffix_Line_Io is
       use Part_Of_Speech_Type_IO;
-      use suffix_entry_io;
-      spacer : Character := ' ';
+      use Suffix_Entry_Io;
+      Spacer : Character := ' ';
 
-      procedure Get (f : in File_Type; p : out suffix_line) is
+      procedure Get (F : in File_Type; P : out Suffix_Line) is
       begin
-         Get (f, p.pofs);
-         Get (f, spacer);
-         Get (f, p.fix);
-         Get (f, spacer);
-         Get (f, p.connect);
-         Get (f, spacer);
-         Get (f, p.entr);
-         Get (f, spacer);
-         Get (f, p.mean);
+         Get (F, P.Pofs);
+         Get (F, Spacer);
+         Get (F, P.Fix);
+         Get (F, Spacer);
+         Get (F, P.Connect);
+         Get (F, Spacer);
+         Get (F, P.Entr);
+         Get (F, Spacer);
+         Get (F, P.Mean);
       end Get;
 
-      procedure Get (p : out suffix_line) is
+      procedure Get (P : out Suffix_Line) is
       begin
-         Get (p.pofs);
-         Get (spacer);
-         Get (p.fix);
-         Get (spacer);
-         Get (p.connect);
-         Get (spacer);
-         Get (p.entr);
-         Get (spacer);
-         Get (p.mean);
+         Get (P.Pofs);
+         Get (Spacer);
+         Get (P.Fix);
+         Get (Spacer);
+         Get (P.Connect);
+         Get (Spacer);
+         Get (P.Entr);
+         Get (Spacer);
+         Get (P.Mean);
       end Get;
 
-      procedure Put (f : in File_Type; p : in suffix_line) is
+      procedure Put (F : in File_Type; P : in Suffix_Line) is
       begin
-         Put (f, p.pofs);
-         Put (f, ' ');
-         Put (f, p.fix);
-         Put (f, ' ');
-         Put (f, p.connect);
-         Put (f, ' ');
-         Put (f, p.entr);
-         Put (f, ' ');
-         Put (f, p.mean);
+         Put (F, P.Pofs);
+         Put (F, ' ');
+         Put (F, P.Fix);
+         Put (F, ' ');
+         Put (F, P.Connect);
+         Put (F, ' ');
+         Put (F, P.Entr);
+         Put (F, ' ');
+         Put (F, P.Mean);
       end Put;
 
-      procedure Put (p : in suffix_line) is
+      procedure Put (P : in Suffix_Line) is
       begin
-         Put (p.pofs);
+         Put (P.Pofs);
          Put (' ');
-         Put (p.fix);
+         Put (P.Fix);
          Put (' ');
-         Put (p.connect);
+         Put (P.Connect);
          Put (' ');
-         Put (p.entr);
+         Put (P.Entr);
          Put (' ');
-         Put (p.mean);
+         Put (P.Mean);
       end Put;
 
-      procedure Get (s : in String; p : out suffix_line; last : out Integer) is
-         l : Integer := s'First - 1;
-         m : Integer := 0;
+      procedure Get (S : in String; P : out Suffix_Line; Last : out Integer) is
+         L : Integer := S'First - 1;
+         M : Integer := 0;
       begin
-         m := l + Dictionary_Kind_IO.Default_Width;
-         Get (s (l + 1 .. s'Last), p.pofs, l);
-         l := m;
-         l := l + 1;
-         m := l + Max_Stem_Size;
-         p.fix := s (l + 1 .. m);
-         l := m;
-         l := l + 1;
+         M := L + Dictionary_Kind_IO.Default_Width;
+         Get (S (L + 1 .. S'Last), P.Pofs, L);
+         L := M;
+         L := L + 1;
+         M := L + Max_Stem_Size;
+         P.Fix := S (L + 1 .. M);
+         L := M;
+         L := L + 1;
          -- m := l + 1; -- apparently redundant?
-         p.connect := s (l + 1);
-         l := l + 1;
-         m := l + suffix_entry_io.Default_Width;
-         Get (s (l + 1 .. s'Last), p.entr, l);
-         l := m + 1;
-         m := l + Max_Meaning_Size;
-         p.mean := s (l + 1 .. m);
-         last := m;
+         P.Connect := S (L + 1);
+         L := L + 1;
+         M := L + Suffix_Entry_Io.Default_Width;
+         Get (S (L + 1 .. S'Last), P.Entr, L);
+         L := M + 1;
+         M := L + Max_Meaning_Size;
+         P.Mean := S (L + 1 .. M);
+         Last := M;
       end Get;
 
-      procedure Put (s : out String; p : in suffix_line) is
-         l : Integer := s'First - 1;
-         m : Integer := 0;
+      procedure Put (S : out String; P : in Suffix_Line) is
+         L : Integer := S'First - 1;
+         M : Integer := 0;
       begin
-         m := l + Dictionary_Kind_IO.Default_Width;
-         Put (s (l + 1 .. m), p.pofs);
-         l := m + 1;
-         s (l) :=  ' ';
-         m := l + Max_Stem_Size;
-         s (l + 1 .. m) := p.fix;
-         l := m + 1;
-         s (l) :=  ' ';
-         m := l + 1;
-         s (l + 1) := p.connect;
-         l := m + 1;
-         s (l) :=  ' ';
-         m := l + suffix_entry_io.Default_Width;
-         Put (s (l + 1 .. m), p.entr);
-         l := m + 1;
-         s (l) :=  ' ';
-         m := l + Max_Meaning_Size;
-         s (l + 1 .. m) := p.mean;
-         s (m + 1 .. s'Last) := (others => ' ');
+         M := L + Dictionary_Kind_IO.Default_Width;
+         Put (S (L + 1 .. M), P.Pofs);
+         L := M + 1;
+         S (L) :=  ' ';
+         M := L + Max_Stem_Size;
+         S (L + 1 .. M) := P.Fix;
+         L := M + 1;
+         S (L) :=  ' ';
+         M := L + 1;
+         S (L + 1) := P.Connect;
+         L := M + 1;
+         S (L) :=  ' ';
+         M := L + Suffix_Entry_Io.Default_Width;
+         Put (S (L + 1 .. M), P.Entr);
+         L := M + 1;
+         S (L) :=  ' ';
+         M := L + Max_Meaning_Size;
+         S (L + 1 .. M) := P.Mean;
+         S (M + 1 .. S'Last) := (others => ' ');
       end Put;
 
-   end suffix_line_io;
+   end Suffix_Line_Io;
 
-   package body unique_entry_io is
-      use quality_record_io;
+   package body Unique_Entry_Io is
+      use Quality_Record_Io;
       use Kind_Entry_IO;
       use Translation_Record_IO;
-      spacer : Character;
+      Spacer : Character;
 
-      procedure Get (f : in File_Type; p : out unique_entry) is
-         ue : unique_entry;
+      procedure Get (F : in File_Type; P : out Unique_Entry) is
+         Ue : Unique_Entry;
       begin
-         Get (f, ue.stem);
-         Get (f, spacer);
-         Get (f, ue.qual);
-         Get (f, spacer);
-         Get (f, ue.qual.pofs, ue.kind);
-         Get (f, spacer);
-         Get (f, ue.tran);
-         p := ue;
+         Get (F, Ue.Stem);
+         Get (F, Spacer);
+         Get (F, Ue.Qual);
+         Get (F, Spacer);
+         Get (F, Ue.Qual.Pofs, Ue.Kind);
+         Get (F, Spacer);
+         Get (F, Ue.Tran);
+         P := Ue;
       end Get;
 
-      procedure Get (p : out unique_entry) is
-         ue : unique_entry;
+      procedure Get (P : out Unique_Entry) is
+         Ue : Unique_Entry;
       begin
-         Get (p.stem);
-         Get (spacer);
-         Get (ue.qual);
-         Get (spacer);
-         Get (ue.qual.pofs, ue.kind);
-         Get (spacer);
-         Get (p.tran);
+         Get (P.Stem);
+         Get (Spacer);
+         Get (Ue.Qual);
+         Get (Spacer);
+         Get (Ue.Qual.Pofs, Ue.Kind);
+         Get (Spacer);
+         Get (P.Tran);
       end Get;
 
-      procedure Put (f : in File_Type; p : in unique_entry) is
+      procedure Put (F : in File_Type; P : in Unique_Entry) is
       begin
-         Put (f, p.stem);
-         Put (f, ' ');
-         Put (f, p.qual);
-         Put (f, ' ');
-         Put (f, p.qual.pofs, p.kind);
-         Put (f, ' ');
-         Put (f, p.tran);
+         Put (F, P.Stem);
+         Put (F, ' ');
+         Put (F, P.Qual);
+         Put (F, ' ');
+         Put (F, P.Qual.Pofs, P.Kind);
+         Put (F, ' ');
+         Put (F, P.Tran);
       end Put;
 
-      procedure Put (p : in unique_entry) is
+      procedure Put (P : in Unique_Entry) is
       begin
-         Put (p.stem);
+         Put (P.Stem);
          Put (' ');
-         Put (p.qual);
+         Put (P.Qual);
          Put (' ');
-         Put (p.qual.pofs, p.kind);
+         Put (P.Qual.Pofs, P.Kind);
          Put (' ');
-         Put (p.tran);
+         Put (P.Tran);
       end Put;
 
-      procedure Get (s : in String; p : out unique_entry; last : out Integer) is
-         l : Integer := s'First - 1;
-         m : Integer := 0;
+      procedure Get (S : in String; P : out Unique_Entry; Last : out Integer) is
+         L : Integer := S'First - 1;
+         M : Integer := 0;
       begin
-         m := l + Max_Stem_Size;
-         p.stem := s (l + 1 .. m);
-         l := l + 1;
+         M := L + Max_Stem_Size;
+         P.Stem := S (L + 1 .. M);
+         L := L + 1;
          -- m := l + quality_record_io.Default_Width; -- apparently redundant?
-         Get (s (l + 1 .. s'Last), p.qual, l);
-         l := l + 1;
+         Get (S (L + 1 .. S'Last), P.Qual, L);
+         L := L + 1;
          -- m := l + Kind_Entry_IO.Default_Width; -- apparently redundant?
-         Get (s (l + 1 .. s'Last), p.qual.pofs, p.kind, l);
-         l := l + 1;
+         Get (S (L + 1 .. S'Last), P.Qual.Pofs, P.Kind, L);
+         L := L + 1;
          -- m := l + Max_Meaning_Size; -- apparently redundant?
-         Get (s (l + 1 .. s'Last), p.tran, last);
+         Get (S (L + 1 .. S'Last), P.Tran, Last);
       end Get;
 
-      procedure Put (s : out String; p : in unique_entry) is
-         l : Integer := s'First - 1;
-         m : Integer := 0;
+      procedure Put (S : out String; P : in Unique_Entry) is
+         L : Integer := S'First - 1;
+         M : Integer := 0;
       begin
-         m := l + Max_Stem_Size;
-         s (l + 1 .. m) := p.stem;
-         l := m + 1;
-         s (l) :=  ' ';
-         m := l + quality_record_io.Default_Width;
-         Put (s (l + 1 .. m), p.qual);
-         l := m + 1;
-         s (l) :=  ' ';
-         m := l + Kind_Entry_IO.Default_Width;
-         Put (s (l + 1 .. m), p.qual.pofs, p.kind);
-         l := m + 1;
-         s (l) :=  ' ';
-         m := m + Max_Meaning_Size;
-         Put (s (l + 1 .. m), p.tran);
-         s (m + 1 .. s'Last) := (others => ' ');
+         M := L + Max_Stem_Size;
+         S (L + 1 .. M) := P.Stem;
+         L := M + 1;
+         S (L) :=  ' ';
+         M := L + Quality_Record_Io.Default_Width;
+         Put (S (L + 1 .. M), P.Qual);
+         L := M + 1;
+         S (L) :=  ' ';
+         M := L + Kind_Entry_IO.Default_Width;
+         Put (S (L + 1 .. M), P.Qual.Pofs, P.Kind);
+         L := M + 1;
+         S (L) :=  ' ';
+         M := M + Max_Meaning_Size;
+         Put (S (L + 1 .. M), P.Tran);
+         S (M + 1 .. S'Last) := (others => ' ');
       end Put;
 
-   end unique_entry_io;
+   end Unique_Entry_Io;
 
-   procedure load_uniques (unq : in out latin_uniques; file_name : in String) is
-      use quality_record_io;
+   procedure Load_Uniques (Unq : in out Latin_Uniques; File_Name : in String) is
+      use Quality_Record_Io;
       use Part_Entry_IO;
       use Kind_Entry_IO;
       use Translation_Record_IO;
       use Dict_IO;
 
-      uniques_file : Ada.Text_IO.File_Type;
-      blanks : constant String (1 .. 100) := (others => ' ');
-      line, stem_line : String (1 .. 100) := (others => ' ');
-      last, l : Integer := 0;
-      stem : Stem_Type := Null_Stem_Type;
-      qual : quality_record;
-      kind : Kind_Entry;
+      Uniques_File : Ada.Text_IO.File_Type;
+      Blanks : constant String (1 .. 100) := (others => ' ');
+      Line, Stem_Line : String (1 .. 100) := (others => ' ');
+      Last, L : Integer := 0;
+      Stem : Stem_Type := Null_Stem_Type;
+      Qual : Quality_Record;
+      Kind : Kind_Entry;
       --PART : PART_ENTRY := NULL_PART_ENTRY;
-      tran : Translation_Record := Null_Translation_Record;
+      Tran : Translation_Record := Null_Translation_Record;
       MNPC : MNPC_Type := Null_MNPC;
-      mean : Meaning_Type := Null_Meaning_Type;
-      m : Dict_IO.Positive_Count := 1;
+      Mean : Meaning_Type := Null_Meaning_Type;
+      M : Dict_IO.Positive_Count := 1;
 
-      number_of_uniques_entries : Integer := 0;
+      Number_Of_Uniques_Entries : Integer := 0;
 
    begin
       --TEXT_IO.PUT_LINE ("UNIQUES started");
-      Ada.Text_IO.Open (uniques_file, Ada.Text_IO.In_File, file_name);
+      Ada.Text_IO.Open (Uniques_File, Ada.Text_IO.In_File, File_Name);
       Preface.Set_Col (1);
       Preface.Put ("UNIQUES file loading");
 
@@ -902,84 +902,84 @@ package body Support_Utils.Line_Stuff is
       --    DICT_IO.CREATE (DICT_FILE (D_K), DICT_IO.INOUT_FILE,  "");
       --ADD_FILE_NAME_EXTENSION (DICT_FILE_NAME, DICTIONARY_KIND'IMAGE (D_K)));
 
-      while not End_Of_File (uniques_file)  loop
-         stem_line := blanks;
-         Get_Line (uniques_file, stem_line, last);      --  STEM
-         stem := Head (Trim (stem_line (1 .. last)), Max_Stem_Size);
+      while not End_Of_File (Uniques_File)  loop
+         Stem_Line := Blanks;
+         Get_Line (Uniques_File, Stem_Line, Last);      --  STEM
+         Stem := Head (Trim (Stem_Line (1 .. Last)), Max_Stem_Size);
 
-         line := blanks;
-         Get_Line (uniques_file, line, last);    --  QUAL, KIND, TRAN
-         Get (line (1 .. last), qual, l);
-         Get (line (l + 1 .. last), qual.pofs, kind, l);
+         Line := Blanks;
+         Get_Line (Uniques_File, Line, Last);    --  QUAL, KIND, TRAN
+         Get (Line (1 .. Last), Qual, L);
+         Get (Line (L + 1 .. Last), Qual.Pofs, Kind, L);
          -- FIXME: Why not Translation_Record_IO.Get ?
-         Age_Type_IO.Get (line (l + 1 .. last), tran.Age, l);
-         Area_Type_IO.Get (line (l + 1 .. last), tran.Area, l);
-         Geo_Type_IO.Get (line (l + 1 .. last), tran.Geo, l);
-         Frequency_Type_IO.Get (line (l + 1 .. last), tran.Freq, l);
-         Source_Type_IO.Get (line (l + 1 .. last), tran.Source, l);
+         Age_Type_IO.Get (Line (L + 1 .. Last), Tran.Age, L);
+         Area_Type_IO.Get (Line (L + 1 .. Last), Tran.Area, L);
+         Geo_Type_IO.Get (Line (L + 1 .. Last), Tran.Geo, L);
+         Frequency_Type_IO.Get (Line (L + 1 .. Last), Tran.Freq, L);
+         Source_Type_IO.Get (Line (L + 1 .. Last), Tran.Source, L);
 
-         line := blanks;
-         Get_Line (uniques_file, line, l);         --  MEAN
-         mean := Head (Trim (line (1 .. l)), Max_Meaning_Size);
+         Line := Blanks;
+         Get_Line (Uniques_File, Line, L);         --  MEAN
+         Mean := Head (Trim (Line (1 .. L)), Max_Meaning_Size);
          --@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
          declare
-            unique_de : Dictionary_Entry;
-            part      : Part_Entry         := Null_Part_Entry;
+            Unique_De : Dictionary_Entry;
+            Part      : Part_Entry         := Null_Part_Entry;
          begin
-            case part.pofs is
+            case Part.Pofs is
                when N  =>
-                  part := (N, (qual.N.Decl, qual.N.Gender, kind.n_kind));
+                  Part := (N, (Qual.N.Decl, Qual.N.Gender, Kind.N_Kind));
                when Pron =>
-                  part := (Pron, (qual.Pron.Decl, kind.pron_kind));
+                  Part := (Pron, (Qual.Pron.Decl, Kind.Pron_Kind));
                when Pack =>
-                  part := (Pack, (qual.Pack.Decl, kind.pack_kind));
+                  Part := (Pack, (Qual.Pack.Decl, Kind.Pack_Kind));
                when Adj =>
-                  part := (Adj, (qual.Adj.Decl, qual.Adj.Comparison));
+                  Part := (Adj, (Qual.Adj.Decl, Qual.Adj.Comparison));
                when Num =>
-                  part := (Num, (qual.Num.Decl, qual.Num.Sort, kind.num_value));
+                  Part := (Num, (Qual.Num.Decl, Qual.Num.Sort, Kind.Num_Value));
                when Adv =>
-                  part := (Adv, (Co => qual.Adv.Comparison));
+                  Part := (Adv, (Co => Qual.Adv.Comparison));
                when V =>
-                  part := (V, (qual.V.Con, kind.v_kind));
+                  Part := (V, (Qual.V.Con, Kind.V_Kind));
                when others  =>
-                  part := Null_Part_Entry;
+                  Part := Null_Part_Entry;
             end case;
 
-            unique_de.Stems := (stem,
+            Unique_De.Stems := (Stem,
               Null_Stem_Type, Null_Stem_Type, Null_Stem_Type);
-            unique_de.Part  :=  part;
+            Unique_De.Part  :=  Part;
             --UNIQUE_DE.KIND  :=  KIND;
-            unique_de.Tran  :=  tran;
-            unique_de.Mean  :=  mean;
+            Unique_De.Tran  :=  Tran;
+            Unique_De.Mean  :=  Mean;
 
             --        DICT_IO.SET_INDEX (DICT_FILE (D_K), M);
             --        DICT_IO.WRITE (DICT_FILE (D_K), UNIQUE_DE);
 
-            uniques_de (m) := unique_de;
+            Uniques_De (M) := Unique_De;
          end;
          --@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 
-         MNPC := m;
+         MNPC := M;
 
-         if Lower_Case (stem (1)) = 'v' then
-            unq ('u') :=
-              new unique_item'(stem, qual, kind, MNPC, unq (Lower_Case ('u')));
-         elsif Lower_Case (stem (1)) = 'j' then
-            unq ('i') :=
-              new unique_item'(stem, qual, kind, MNPC, unq (Lower_Case ('i')));
+         if Lower_Case (Stem (1)) = 'v' then
+            Unq ('u') :=
+              new Unique_Item'(Stem, Qual, Kind, MNPC, Unq (Lower_Case ('u')));
+         elsif Lower_Case (Stem (1)) = 'j' then
+            Unq ('i') :=
+              new Unique_Item'(Stem, Qual, Kind, MNPC, Unq (Lower_Case ('i')));
          else
-            unq (Lower_Case (stem (1))) :=
-              new unique_item'(stem, qual, kind, MNPC,
-              unq (Lower_Case (stem (1))));
+            Unq (Lower_Case (Stem (1))) :=
+              new Unique_Item'(Stem, Qual, Kind, MNPC,
+              Unq (Lower_Case (Stem (1))));
          end if;
 
-         m := m + 1;
-         number_of_uniques_entries := Integer (m) - 1;
+         M := M + 1;
+         Number_Of_Uniques_Entries := Integer (M) - 1;
 
       end loop;
-      Close (uniques_file);
+      Close (Uniques_File);
       Preface.Set_Col (33);
-      Preface.Put ("--  "); Preface.Put (number_of_uniques_entries, 6);
+      Preface.Put ("--  "); Preface.Put (Number_Of_Uniques_Entries, 6);
       Preface.Put (" entries");
       Preface.Set_Col (55); Preface.Put_Line ("--  Loaded correctly");
    exception
@@ -989,15 +989,15 @@ package body Support_Utils.Line_Stuff is
          Preface.New_Line;
          Preface.Put_Line
            ("LOAD_UNIQUES exception        !!!!!!!!!!!!!!!!!!!!!");
-         Preface.Put_Line (stem_line (1 .. last));
-         Preface.Put_Line (line (1 .. l));
-         Close (uniques_file);
+         Preface.Put_Line (Stem_Line (1 .. Last));
+         Preface.Put_Line (Line (1 .. L));
+         Close (Uniques_File);
          Preface.Set_Col (33);
-         Preface.Put ("--  "); Preface.Put (number_of_uniques_entries, 6);
+         Preface.Put ("--  "); Preface.Put (Number_Of_Uniques_Entries, 6);
          Preface.Put (" entries");
          Preface.Set_Col (55); Preface.Put_Line ("--  Loaded before error");
          --raise;
-   end load_uniques;
+   end Load_Uniques;
 
 begin
 
@@ -1007,22 +1007,22 @@ begin
    --                                   DICTIONARY_KIND_IO.DEFAULT_WIDTH + 1 +
    --                                   MAX_MEANING_SIZE;
 
-   prefix_line_io.Default_Width := Part_Of_Speech_Type_IO.Default_Width + 1 +
+   Prefix_Line_Io.Default_Width := Part_Of_Speech_Type_IO.Default_Width + 1 +
      Max_Stem_Size + 1 +
      1 + 1 +
-     prefix_entry_io.Default_Width + 1 +
+     Prefix_Entry_Io.Default_Width + 1 +
      Max_Meaning_Size;
-   suffix_line_io.Default_Width := Part_Of_Speech_Type_IO.Default_Width + 1 +
+   Suffix_Line_Io.Default_Width := Part_Of_Speech_Type_IO.Default_Width + 1 +
      Max_Stem_Size + 1 +
      1 + 1 +
-     suffix_entry_io.Default_Width + 1 +
+     Suffix_Entry_Io.Default_Width + 1 +
      Max_Meaning_Size;
-   tackon_line_io.Default_Width := Part_Of_Speech_Type_IO.Default_Width + 1 +
+   Tackon_Line_Io.Default_Width := Part_Of_Speech_Type_IO.Default_Width + 1 +
      Max_Stem_Size + 1 +
-     tackon_entry_io.Default_Width + 1 +
+     Tackon_Entry_Io.Default_Width + 1 +
      Max_Meaning_Size;
 
-   unique_entry_io.Default_Width := Max_Stem_Size + 1 +
+   Unique_Entry_Io.Default_Width := Max_Stem_Size + 1 +
      Inflection_Record_IO.Default_Width + 1 +
      Translation_Record_IO.Default_Width;
 

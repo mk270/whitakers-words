@@ -18,27 +18,27 @@ with Latin_Utils.Inflections_Package; use Latin_Utils.Inflections_Package;
 with Latin_Utils.Dictionary_Package; use Latin_Utils.Dictionary_Package;
 package Support_Utils.Uniques_Package is
 
-   type unique_item;
-   type unique_list is access unique_item;
+   type Unique_Item;
+   type Unique_List is access Unique_Item;
 
-   type unique_item is
+   type Unique_Item is
       record
-         stem : Stem_Type      := Null_Stem_Type;
-         qual : quality_record := null_quality_record;
-         kind : Kind_Entry     := Null_Kind_Entry;
+         Stem : Stem_Type      := Null_Stem_Type;
+         Qual : Quality_Record := Null_Quality_Record;
+         Kind : Kind_Entry     := Null_Kind_Entry;
          MNPC : Dict_IO.Count  := Null_MNPC;
-         succ : unique_list;
+         Succ : Unique_List;
       end record;
 
-   type latin_uniques is array (Character range 'a' .. 'z') of unique_list;
-   null_latin_uniques : latin_uniques := (others => null);
+   type Latin_Uniques is array (Character range 'a' .. 'z') of Unique_List;
+   Null_Latin_Uniques : Latin_Uniques := (others => null);
 
-   unq : latin_uniques := null_latin_uniques;
+   Unq : Latin_Uniques := Null_Latin_Uniques;
 
-   type uniques_de_array is
+   type Uniques_De_Array is
      array (Dict_IO.Positive_Count range <>) of Dictionary_Entry;
 
-   uniques_de : uniques_de_array (1 .. 100) :=
+   Uniques_De : Uniques_De_Array (1 .. 100) :=
      (others => Null_Dictionary_Entry);
 
 end Support_Utils.Uniques_Package;

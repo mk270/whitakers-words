@@ -27,64 +27,64 @@ use Latin_Utils;
 pragma Elaborate (Latin_Utils.Preface);
 package body Support_Utils.Developer_Parameters is
 
-   type help_type is array (Natural range <>) of String (1 .. 70);
-   blank_help_line : constant String (1 .. 70) := (others => ' ');
-   no_help : constant help_type := (2 .. 1 => blank_help_line);
+   type Help_Type is array (Natural range <>) of String (1 .. 70);
+   Blank_Help_Line : constant String (1 .. 70) := (others => ' ');
+   No_Help : constant Help_Type := (2 .. 1 => Blank_Help_Line);
 
-   type reply_type is (n, y);
-   package reply_type_io is new Ada.Text_IO.Enumeration_IO (reply_type);
-   reply : constant array (Boolean) of reply_type := (n, y);
-   mdev_of_reply : constant array (reply_type) of Boolean := (False, True);
+   type Reply_Type is (N, Y);
+   package Reply_Type_Io is new Ada.Text_IO.Enumeration_IO (Reply_Type);
+   Reply : constant array (Boolean) of Reply_Type := (N, Y);
+   Mdev_Of_Reply : constant array (Reply_Type) of Boolean := (False, True);
 
-   blank_Input : exception;
+   Blank_Input : exception;
 
    --  The default MDEVs are set in the body so that they can be changed
    --  with only this being recompiled, not the rest of the with'ing system
-   default_mdev_array : constant mdev_array := (
+   Default_Mdev_Array : constant Mdev_Array := (
 
      --               HAVE_DEBUG_FILE             => FALSE,
      --               WRITE_DEBUG_FILE            => FALSE,
 
-     have_statistics_file        => False,
-     Write_statistics_file       => False,
+     Have_Statistics_File        => False,
+     Write_Statistics_File       => False,
 
-     show_dictionary             => False,
-     show_dictionary_line        => False,
-     show_dictionary_codes       => True,
-     do_pearse_codes             => False,
+     Show_Dictionary             => False,
+     Show_Dictionary_Line        => False,
+     Show_Dictionary_Codes       => True,
+     Do_Pearse_Codes             => False,
 
-     do_only_initial_word        => False,
-     for_word_list_check         => False,
+     Do_Only_Initial_Word        => False,
+     For_Word_List_Check         => False,
 
-     do_only_fixes               => False,
-     do_fixes_anyway             => False,
-     use_prefixes                => True,
-     use_suffixes                => True,
-     use_tackons                 => True,
+     Do_Only_Fixes               => False,
+     Do_Fixes_Anyway             => False,
+     Use_Prefixes                => True,
+     Use_Suffixes                => True,
+     Use_Tackons                 => True,
 
-     do_medieval_tricks          => True,
+     Do_Medieval_Tricks          => True,
 
-     do_syncope                  => True,
-     do_two_words                => True,
-     include_unknown_context     => True,
-     no_meanings                 => False,
+     Do_Syncope                  => True,
+     Do_Two_Words                => True,
+     Include_Unknown_Context     => True,
+     No_Meanings                 => False,
 
-     omit_archaic                => True,
-     omit_medieval               => False,
-     omit_uncommon               => True,
+     Omit_Archaic                => True,
+     Omit_Medieval               => False,
+     Omit_Uncommon               => True,
 
-     do_i_for_j                  => False,
-     do_u_for_v                  => False,
+     Do_I_For_J                  => False,
+     Do_U_For_V                  => False,
 
-     pause_in_screen_Output      => True,
-     no_screen_activity          => False,
+     Pause_In_Screen_Output      => True,
+     No_Screen_Activity          => False,
 
-     update_local_dictionary     => False,
-     update_meanings             => False,
+     Update_Local_Dictionary     => False,
+     Update_Meanings             => False,
 
-     minimize_Output             => True);
+     Minimize_Output             => True);
 
-   bad_mdev_file : exception;
+   Bad_Mdev_File : exception;
 
    --HAVE_DEBUG_FILE_HELP : constant HELP_TYPE :=  (
    --  "This option instructs the program to Create a file which can hold     ",
@@ -108,62 +108,62 @@ package body Support_Utils.Developer_Parameters is
    --  "chance to turn this one on.                  Default is N(o).        ");
    --
 
-   have_statistics_file_help : constant help_type :=  (
+   Have_Statistics_File_Help : constant Help_Type :=  (
      "This option instructs the program to Create a file which can hold     ",
      "certain statistical information about the process.  The file is       ",
      "overwritten for new invocation of the program, so old data must be    ",
      "explicitly saved if it is to be retained.  The statistics are in TEXT ",
-     "format.     The statistics file is named " & stats_full_name
-     & (42 + stats_full_name'Length .. 70 => ' '),
+     "format.     The statistics file is named " & Stats_Full_Name
+     & (42 + Stats_Full_Name'Length .. 70 => ' '),
      "This information is only of development use, so the default is N(o).  ");
 
-   Write_statistics_file_help : constant help_type :=  (
+   Write_Statistics_File_Help : constant Help_Type :=  (
      "This option instructs the program, with HAVE_STATISTICS_FILE, to Put  ",
-     "derived statistics in a file named " & stats_full_name
-     & (36 + stats_full_name'Length .. 70 => ' '),
+     "derived statistics in a file named " & Stats_Full_Name
+     & (36 + Stats_Full_Name'Length .. 70 => ' '),
      "This option may be turned on and off while running of the program,    ",
      "thereby capturing only certain desired results.  The file is reset at ",
      "each invocation of the program, if the HAVE_STATISTICS_FILE is set.   ",
      "If the option HAVE_STATISTICS_FILE is off, the user will not be given ",
      "a chance to turn this one on.                Default is N(o).         ");
 
-   show_dictionary_help : constant help_type :=  (
+   Show_Dictionary_Help : constant Help_Type :=  (
      "This option causes a flag, like 'GEN>' to be Put before the meaning   ",
      "in the Output.  While this is useful for certain development purposes,",
      "it forces off a few Characters from the meaning, and is really of no  ",
      "interest to most users.                                               ",
      "The default choice is N(o), but it can be turned on with a Y(es).     ");
 
-   show_dictionary_line_help : constant help_type :=  (
+   Show_Dictionary_Line_Help : constant Help_Type :=  (
      "This option causes the number of the dictionary line for the current  ",
      "meaning to be Output.  This is of use to no one but the dictionary    ",
      "maintainer.  The default choice is N(o).  It is activated by Y(es).   ");
 
-   show_dictionary_codes_help : constant help_type :=  (
+   Show_Dictionary_Codes_Help : constant Help_Type :=  (
      "This option causes the codes for the dictionary entry for the current ",
      "meaning to be Output.  This may not be useful to any but the most     ",
      "involved user.  The default choice is N(o).  It is activated by Y(es).");
 
-   do_pearse_codes_help : constant help_type :=  (
+   Do_Pearse_Codes_Help : constant Help_Type :=  (
      "This option causes special codes to be Output flagging the different  ",
      "kinds of Output lines.  01 for forms, 02 for dictionary forms, and    ",
      "03 for meaning. The default choice is N(o).  It is activated by Y(es).",
      "There are no Pearse codes in English mode.                            ");
 
-   do_only_initial_word_help : constant help_type :=  (
+   Do_Only_Initial_Word_Help : constant Help_Type :=  (
      "This option instructs the program to only analyze the initial word on ",
      "each line submitted.  This is a tool for checking and integrating new ",
      "dictionary Input, and will be of no interest to the general user.     ",
      "The default choice is N(o), but it can be turned on with a Y(es).     ");
 
-   for_word_list_check_help : constant help_type :=  (
+   For_Word_List_Check_Help : constant Help_Type :=  (
      "This option works in conjunction with DO_ONLY_INITIAL_WORD to allow   ",
      "the processing of scanned dictionarys or text word lists.  It accepts ",
      "only the forms common in dictionary entries, like NOM S for N or ADJ, ",
      "or PRES ACTIVE IND 1 S for V.  It is be used only with DO_INITIAL_WORD",
      "The default choice is N(o), but it can be turned on with a Y(es).     ");
 
-   do_only_fixes_help : constant help_type :=  (
+   Do_Only_Fixes_Help : constant Help_Type :=  (
      "This option instructs the program to ignore the normal dictionary     ",
      "search and to go direct to attach various prefixes and suffixes before",
      "processing. This is a pure research tool.  It allows one to examine   ",
@@ -173,7 +173,7 @@ package body Support_Utils.Developer_Parameters is
      "conventional translation situations, so the default choice is N(o).   ",
      "This processing can be turned on with the choice of Y(es).            ");
 
-   do_fixes_anyway_help : constant help_type :=  (
+   Do_Fixes_Anyway_Help : constant Help_Type :=  (
      "This option instructs the program to do both the normal dictionary    ",
      "search and then process for the various prefixes and suffixes too.    ",
      "This is a pure research tool allowing one to consider the possibility ",
@@ -186,7 +186,7 @@ package body Support_Utils.Developer_Parameters is
      "This processing can be turned on with the choice of Y(es).            ",
      "      ------    PRESENTLY NOT IMPLEMENTED    ------                   ");
 
-   use_prefixes_help : constant help_type :=  (
+   Use_Prefixes_Help : constant Help_Type :=  (
      "This option instructs the program to implement prefixes from ADDONS   ",
      "whenever and wherever FIXES are called for.  The purpose of this      ",
      "option is to allow some flexibility while the program in running to   ",
@@ -197,7 +197,7 @@ package body Support_Utils.Developer_Parameters is
      "This is primarily a development tool, so the conventional user should ",
      "probably maintain the default  choice of Y(es).                       ");
 
-   use_suffixes_help : constant help_type :=  (
+   Use_Suffixes_Help : constant Help_Type :=  (
      "This option instructs the program to implement suffixes from ADDONS   ",
      "whenever and wherever FIXES are called for.  The purpose of this      ",
      "option is to allow some flexibility while the program in running to   ",
@@ -208,7 +208,7 @@ package body Support_Utils.Developer_Parameters is
      "This is primarily a development tool, so the conventional user should ",
      "probably maintain the default  choice of Y(es).                       ");
 
-   use_tackons_help : constant help_type :=  (
+   Use_Tackons_Help : constant Help_Type :=  (
      "This option instructs the program to implement TACKONS from ADDONS    ",
      "whenever and wherever FIXES are called for.  The purpose of this      ",
      "option is to allow some flexibility while the program in running to   ",
@@ -219,7 +219,7 @@ package body Support_Utils.Developer_Parameters is
      "This is primarily a development tool, so the conventional user should ",
      "probably maintain the default  choice of Y(es).                       ");
 
-   do_medieval_tricks_help : constant help_type :=  (
+   Do_Medieval_Tricks_Help : constant Help_Type :=  (
      "This option instructs the program, when it is unable to find a proper ",
      "match in the dictionary, and after various prefixes and suffixes, and ",
      "tring every Classical Latin trick it can think of, to go to a few that",
@@ -234,7 +234,7 @@ package body Support_Utils.Developer_Parameters is
      "The default choice is N(o), since the results are iffy, medieval only,",
      "and expensive.  This processing is turned on with the choice of Y(es).");
 
-   do_syncope_help : constant help_type :=  (
+   Do_Syncope_Help : constant Help_Type :=  (
      "This option instructs the program to postulate that syncope of        ",
      "perfect stem verbs may have occured (e.g, aver -> ar in the perfect), ",
      "and to try various possibilities for the insertion of a removed 'v'.  ",
@@ -244,7 +244,7 @@ package body Support_Utils.Developer_Parameters is
      "very common in Latin (first year texts excepted).  Default is Y(es).  ",
      "This processing is turned off with the choice of N(o).                ");
 
-   do_two_words_help : constant help_type :=  (
+   Do_Two_Words_Help : constant Help_Type :=  (
      "There are some few common Lain expressions that combine two inflected ",
      "words (e.g. respublica, paterfamilias).  There are numerous examples  ",
      "of numbers composed of two words combined toGether.                   ",
@@ -257,7 +257,7 @@ package body Support_Utils.Developer_Parameters is
      "Since this is a last chanceand infrequent, the default is Y(es);      ",
      "This processing is turned off with the choice of N(o).                ");
 
-   include_unknown_context_help : constant help_type :=  (
+   Include_Unknown_Context_Help : constant Help_Type :=  (
      "This option instructs the program, when writing to an UNKNOWNS file,  ",
      "to Put out the whole context of the UNKNOWN (the whole Input line on  ",
      "which the UNKNOWN was found).  This is appropriate for processing     ",
@@ -265,20 +265,20 @@ package body Support_Utils.Developer_Parameters is
      "few UNKNOWNS.    The main use at the moment is to provide display     ",
      "of the Input line on the Output file in the case of UNKNOWNS_ONLY.    ");
 
-   no_meanings_help : constant help_type :=  (
+   No_Meanings_Help : constant Help_Type :=  (
      "This option instructs the program to omit Putting out meanings.       ",
      "This is only useful for certain dictionary maintenance procedures.    ",
      "The combination not DO_DICTIONARY_FORMS, MEANINGS_ONLY, NO_MEANINGS   ",
      "results in no visible Output, except spacing lines.    Default is N)o.");
 
-   omit_archaic_help : constant help_type :=  (
+   Omit_Archaic_Help : constant Help_Type :=  (
      "THIS OPTION IS CAN ONLY BE ACTIVE IF WORDS_MODE(TRIM_OUTPUT) IS SET!  ",
      "This option instructs the program to omit inflections and dictionary  ",
      "entries with an AGE code of A (Archaic).  Archaic results are rarely  ",
      "of interest in general use.  If there is no other possible form, then ",
      "the Archaic (roughly defined) will be reported.  The default is Y(es).");
 
-   omit_medieval_help : constant help_type :=  (
+   Omit_Medieval_Help : constant Help_Type :=  (
      "THIS OPTION IS CAN ONLY BE ACTIVE IF WORDS_MODE(TRIM_OUTPUT) IS SET!  ",
      "This option instructs the program to omit inflections and dictionary  ",
      "entries with AGE codes of E or later, those not in use in Roman times.",
@@ -286,7 +286,7 @@ package body Support_Utils.Developer_Parameters is
      "will not want them.  If there is no other possible form, then the     ",
      "Medieval (roughly defined) will be reported.   The default is Y(es).  ");
 
-   omit_uncommon_help : constant help_type :=  (
+   Omit_Uncommon_Help : constant Help_Type :=  (
      "THIS OPTION IS CAN ONLY BE ACTIVE IF WORDS_MODE(TRIM_OUTPUT) IS SET!  ",
      "This option instructs the program to omit inflections and dictionary  ",
      "entries with FREQ codes indicating that the selection is uncommon.    ",
@@ -294,7 +294,7 @@ package body Support_Utils.Developer_Parameters is
      "will not want them.  If there is no other possible form, then the     ",
      "uncommon (roughly defined) will be reported.   The default is Y(es).  ");
 
-   do_i_for_j_help : constant help_type :=  (
+   Do_I_For_J_Help : constant Help_Type :=  (
      "This option instructs the program to modify the Output so that the j/J",
      "is represented as i/I.  The consonant i was Writen as j in cursive in ",
      "Imperial times and called i longa, and often rendered as j in medieval",
@@ -303,7 +303,7 @@ package body Support_Utils.Developer_Parameters is
      "The program default, and the dictionary convention is to retain the j.",
      "Reset if this ia unsuitable for your application. The default is N(o).");
 
-   do_u_for_v_help : constant help_type :=  (
+   Do_U_For_V_Help : constant Help_Type :=  (
      "This option instructs the program to modify the Output so that the u  ",
      "is represented as v.  The consonant u was Writen sometimes as uu.     ",
      "The pronounciation was as current w, and important for poetic meter.  ",
@@ -316,7 +316,7 @@ package body Support_Utils.Developer_Parameters is
      "The program default, and the dictionary convention is to retain the v.",
      "Reset If this ia unsuitable for your application. The default is N(o).");
 
-   pause_in_screen_Output_help : constant help_type :=  (
+   Pause_In_Screen_Output_Help : constant Help_Type :=  (
      "This option instructs the program to pause in Output on the screen    ",
      "after about 16 lines so that the user can read the Output, otherwise  ",
      "it would just scroll off the top.  A RETURN/ENTER gives another page. ",
@@ -325,13 +325,13 @@ package body Support_Utils.Developer_Parameters is
      "and only when there is no Output file.  It is moot if only single word",
      "Input or brief Output.                 The default is Y(es).          ");
 
-   no_screen_activity_help : constant help_type :=  (
+   No_Screen_Activity_Help : constant Help_Type :=  (
      "This option instructs the program not to keep a running screen of the ",
      "Input.  This is probably only to be used by the developer to calibrate",
      "run times for large text file Input, removing the time necessary to   ",
      "Write to screen.                       The default is N(o).           ");
 
-   update_local_dictionary_help : constant help_type :=  (
+   Update_Local_Dictionary_Help : constant Help_Type :=  (
      "This option instructs the program to invite the user to Input a new   ",
      "word to the local dictionary on the fly.  This is only active if the  ",
      "program is not using an (@) Input file!  If an UNKNOWN is discovered, ",
@@ -350,7 +350,7 @@ package body Support_Utils.Developer_Parameters is
      "                                          The default is N(o).        ",
      "      ------    NOT AVAILABLE IN THIS VERSION   -------               ");
 
-   update_meanings_help : constant help_type :=  (
+   Update_Meanings_Help : constant Help_Type :=  (
      "This option instructs the program to invite the user to modify the    ",
      "meaning displayed on a word translation.  This is only active if the  ",
      "program is not using an (@) Input file!  These changes are Put into   ",
@@ -363,12 +363,12 @@ package body Support_Utils.Developer_Parameters is
      "                                          The default is N(o).        ",
      "      ------    NOT AVAILABLE IN THIS VERSION   -------               ");
 
-   minimize_Output_help : constant help_type :=  (
+   Minimize_Output_Help : constant Help_Type :=  (
      "This option instructs the program to minimize the Output.  This is a  ",
      "somewhat flexible term, but the use of this option will probably lead ",
      "to less Output.                        The default is Y(es).          ");
 
-   save_parameters_help : constant help_type :=  (
+   Save_Parameters_Help : constant Help_Type :=  (
      "This option instructs the program, to save the current parameters, as ",
      "just established by the user, in a file WORD.MDV.  If such a file     ",
      "exists, the program will load those parameters at the start.  If no   ",
@@ -381,95 +381,95 @@ package body Support_Utils.Developer_Parameters is
      "the program.  Since one may want to make temporary changes during a   ",
      "run, but revert to the usual set, the default is N(o).                ");
 
-   procedure Put (help : help_type) is
+   procedure Put (Help : Help_Type) is
    begin
       New_Line;
-      for i in help'First .. help'Last  loop
-         Put_Line (help (i));
+      for I in Help'First .. Help'Last  loop
+         Put_Line (Help (I));
       end loop;
       New_Line;
    end Put;
 
-   procedure update_local_dictionary_file is
-      blank_line : constant String (1 .. 80) := (others => ' ');
-      line, stem_line, part_line, mean_line : String (1 .. 80) := blank_line;
-      l, sl, pl, ml : Integer := 0;    --  SL BAD NAME !!!!!!!!!!!
+   procedure Update_Local_Dictionary_File is
+      Blank_Line : constant String (1 .. 80) := (others => ' ');
+      Line, Stem_Line, Part_Line, Mean_Line : String (1 .. 80) := Blank_Line;
+      L, Sl, Pl, Ml : Integer := 0;    --  SL BAD NAME !!!!!!!!!!!
                                        --  DICT_LOC : DICTIONARY;
                                        --  Def in LINE_STUFF
-      dict_loc_file : File_Type;
-      dummy : File_Type;
+      Dict_Loc_File : File_Type;
+      Dummy : File_Type;
       --  Omit when Put name here
-      dict_loc_name : constant String :=
-        add_file_name_extension (dictionary_file_name, "LOCAL");
+      Dict_Loc_Name : constant String :=
+        Add_File_Name_Extension (Dictionary_File_Name, "LOCAL");
 
-      procedure ready_dict_loc_file is
+      procedure Ready_Dict_Loc_File is
          --  Effectively goes to the end of DICT_LOC to ready for appending
          --  Does this by making a new file and writing the old DICT_LOC into it
          --  If there is not already a DICT_LOC, it Creates one
       begin
-         Open (dict_loc_file, In_File, dict_loc_name);
-         Create (dummy, Out_File);
-         while not End_Of_File (dict_loc_file)  loop
-            Get_Line (dict_loc_file, line, l);
-            Put_Line (dummy, line (1 .. l));
+         Open (Dict_Loc_File, In_File, Dict_Loc_Name);
+         Create (Dummy, Out_File);
+         while not End_Of_File (Dict_Loc_File)  loop
+            Get_Line (Dict_Loc_File, Line, L);
+            Put_Line (Dummy, Line (1 .. L));
          end loop;
-         Reset (dummy, In_File);
+         Reset (Dummy, In_File);
          --  Might RESET, but environment might not support
-         Delete (dict_loc_file);
-         Create (dict_loc_file, Out_File, dict_loc_name);
-         while not End_Of_File (dummy)  loop
-            Get_Line (dummy, line, l);
-            Put_Line (dict_loc_file, line (1 .. l));
+         Delete (Dict_Loc_File);
+         Create (Dict_Loc_File, Out_File, Dict_Loc_Name);
+         while not End_Of_File (Dummy)  loop
+            Get_Line (Dummy, Line, L);
+            Put_Line (Dict_Loc_File, Line (1 .. L));
          end loop;
-         Delete (dummy);
+         Delete (Dummy);
       exception
          when Name_Error  =>
-            Create (dict_loc_file, Out_File, dict_loc_name);
-      end ready_dict_loc_file;
+            Create (Dict_Loc_File, Out_File, Dict_Loc_Name);
+      end Ready_Dict_Loc_File;
 
-      procedure append_to_dict_loc_file is
+      procedure Append_To_Dict_Loc_File is
          --  This just appends the 3 lines of a dictionary entry to DICT_LOC
          --  It prepares the file to Write at the end, Writes, then Closes it
       begin
-         ready_dict_loc_file;
-         Put_Line (dict_loc_file, stem_line (1 .. sl));   --  SL bad name
-         Put (dict_loc_file, part_line (1 .. pl));
-         Put_Line (dict_loc_file, " X X X X X ");
-         Put_Line (dict_loc_file, mean_line (1 .. ml));
+         Ready_Dict_Loc_File;
+         Put_Line (Dict_Loc_File, Stem_Line (1 .. Sl));   --  SL bad name
+         Put (Dict_Loc_File, Part_Line (1 .. Pl));
+         Put_Line (Dict_Loc_File, " X X X X X ");
+         Put_Line (Dict_Loc_File, Mean_Line (1 .. Ml));
 
-         Close (dict_loc_file);
+         Close (Dict_Loc_File);
 
-      end append_to_dict_loc_file;
+      end Append_To_Dict_Loc_File;
 
    begin
       loop
 
          Ada.Text_IO.Put ("STEMS =>");
-         Get_Line (stem_line, sl);
-         if sl > 0  then  --  if no Input for stems, then just skip the entry
+         Get_Line (Stem_Line, Sl);
+         if Sl > 0  then  --  if no Input for stems, then just skip the entry
             Ada.Text_IO.Put ("PART  =>");
-            Get_Line (part_line, pl);
+            Get_Line (Part_Line, Pl);
             Ada.Text_IO.Put ("MEAN =>");
-            Get_Line (mean_line, ml);
+            Get_Line (Mean_Line, Ml);
          else
             exit;       --  on no entry, just CR
          end if;
 
          begin
-            append_to_dict_loc_file;
+            Append_To_Dict_Loc_File;
 
-            dict_loc := null_dictionary;
-            load_dictionary (dict_loc,
-              add_file_name_extension (dictionary_file_name, "LOCAL"));
+            Dict_Loc := Null_Dictionary;
+            Load_Dictionary (Dict_Loc,
+              Add_File_Name_Extension (Dictionary_File_Name, "LOCAL"));
             --  Need to carry LOC through consistently on LOAD_D and LOAD_D_FILE
-            load_stem_file (local);
-            Dictionary_Available (local) := True;
+            Load_Stem_File (Local);
+            Dictionary_Available (Local) := True;
             exit;       --  If everything OK, otherwise loop back and try again
          end;
 
       end loop;
 
-   end update_local_dictionary_file;
+   end Update_Local_Dictionary_File;
 
    -- Is C one of: '!' .. '/', ':' .. '@', '[' .. '`', '{' .. '~'
    function Is_Special_Graphical (C : Character) return Boolean
@@ -671,14 +671,14 @@ package body Support_Utils.Developer_Parameters is
       --      INQUIRE (WRITE_DEBUG_FILE, WRITE_DEBUG_FILE_HELP);
       --    end if;
 
-      inquire (have_statistics_file, have_statistics_file_help);
-      if Is_Open (stats)  and then not words_mdev (have_statistics_file)  then
-         Delete (stats);
-         words_mdev (Write_statistics_file) := False;
+      Inquire (Have_Statistics_File, Have_Statistics_File_Help);
+      if Is_Open (Stats)  and then not Words_Mdev (Have_Statistics_File)  then
+         Delete (Stats);
+         Words_Mdev (Write_Statistics_File) := False;
       end if;
-      if not Is_Open (stats) and then words_mdev (have_statistics_file)  then
+      if not Is_Open (Stats) and then Words_Mdev (Have_Statistics_File)  then
          begin
-            Create (stats, Out_File, stats_full_name);
+            Create (Stats, Out_File, Stats_Full_Name);
          exception
             when others =>
                Put_Line
@@ -686,78 +686,78 @@ package body Support_Utils.Developer_Parameters is
          end;
       end if;
 
-      if words_mdev (have_statistics_file)  then
-         inquire (Write_statistics_file, Write_statistics_file_help);
+      if Words_Mdev (Have_Statistics_File)  then
+         Inquire (Write_Statistics_File, Write_Statistics_File_Help);
       end if;
 
-      inquire (do_only_initial_word, do_only_initial_word_help);
-      if words_mdev (do_only_initial_word)  then
-         inquire (for_word_list_check, for_word_list_check_help);
+      Inquire (Do_Only_Initial_Word, Do_Only_Initial_Word_Help);
+      if Words_Mdev (Do_Only_Initial_Word)  then
+         Inquire (For_Word_List_Check, For_Word_List_Check_Help);
       else
-         words_mdev (for_word_list_check) := False;
+         Words_Mdev (For_Word_List_Check) := False;
       end if;
 
-      inquire (show_dictionary, show_dictionary_help);
+      Inquire (Show_Dictionary, Show_Dictionary_Help);
 
-      inquire (show_dictionary_line, show_dictionary_line_help);
+      Inquire (Show_Dictionary_Line, Show_Dictionary_Line_Help);
 
-      inquire (show_dictionary_codes, show_dictionary_codes_help);
+      Inquire (Show_Dictionary_Codes, Show_Dictionary_Codes_Help);
 
-      inquire (do_pearse_codes, do_pearse_codes_help);
+      Inquire (Do_Pearse_Codes, Do_Pearse_Codes_Help);
 
-      if words_mode (do_fixes) then
-         inquire (do_only_fixes, do_only_fixes_help);
-         inquire (do_fixes_anyway, do_fixes_anyway_help);
+      if Words_Mode (Do_Fixes) then
+         Inquire (Do_Only_Fixes, Do_Only_Fixes_Help);
+         Inquire (Do_Fixes_Anyway, Do_Fixes_Anyway_Help);
       end if;
 
-      inquire (use_prefixes, use_prefixes_help);
+      Inquire (Use_Prefixes, Use_Prefixes_Help);
 
-      inquire (use_suffixes, use_suffixes_help);
+      Inquire (Use_Suffixes, Use_Suffixes_Help);
 
-      inquire (use_tackons, use_tackons_help);
+      Inquire (Use_Tackons, Use_Tackons_Help);
 
-      if words_mode (do_tricks) then
-         inquire (do_medieval_tricks, do_medieval_tricks_help);
+      if Words_Mode (Do_Tricks) then
+         Inquire (Do_Medieval_Tricks, Do_Medieval_Tricks_Help);
       end if;
 
-      inquire (do_syncope, do_syncope_help);
+      Inquire (Do_Syncope, Do_Syncope_Help);
 
-      inquire (do_two_words, do_two_words_help);
+      Inquire (Do_Two_Words, Do_Two_Words_Help);
 
-      inquire (include_unknown_context, include_unknown_context_help);
+      Inquire (Include_Unknown_Context, Include_Unknown_Context_Help);
 
-      inquire (no_meanings, no_meanings_help);
+      Inquire (No_Meanings, No_Meanings_Help);
 
-      inquire (omit_archaic, omit_archaic_help);
+      Inquire (Omit_Archaic, Omit_Archaic_Help);
 
-      inquire (omit_medieval, omit_medieval_help);
+      Inquire (Omit_Medieval, Omit_Medieval_Help);
 
-      inquire (omit_uncommon, omit_uncommon_help);
+      Inquire (Omit_Uncommon, Omit_Uncommon_Help);
 
-      inquire (do_i_for_j, do_i_for_j_help);
+      Inquire (Do_I_For_J, Do_I_For_J_Help);
 
-      inquire (do_u_for_v, do_u_for_v_help);
+      Inquire (Do_U_For_V, Do_U_For_V_Help);
 
-      inquire (pause_in_screen_Output, pause_in_screen_Output_help);
+      Inquire (Pause_In_Screen_Output, Pause_In_Screen_Output_Help);
 
-      inquire (no_screen_activity, no_screen_activity_help);
+      Inquire (No_Screen_Activity, No_Screen_Activity_Help);
 
-      inquire (update_local_dictionary, update_local_dictionary_help);
+      Inquire (Update_Local_Dictionary, Update_Local_Dictionary_Help);
 
-      inquire (update_meanings, update_meanings_help);
+      Inquire (Update_Meanings, Update_Meanings_Help);
 
-      inquire (minimize_Output, minimize_Output_help);
+      Inquire (Minimize_Output, Minimize_Output_Help);
 
       Put ("START_FILE_CHARACTER ?  "); Set_Col (45); Put ("(Currently  '");
-      Put (start_file_Character); Put ("'");
+      Put (Start_File_Character); Put ("'");
       Put (" =>");
-      Get_Line (l1, ll);
-      if ll /= 0  then
-         if Is_Special_Graphical (l1 (1)) and
-           (l1 (1) /= change_parameters_Character)  and
-           (l1 (1) /= change_developer_modes_Character)
+      Get_Line (L1, Ll);
+      if Ll /= 0  then
+         if Is_Special_Graphical (L1 (1)) and
+           (L1 (1) /= Change_Parameters_Character)  and
+           (L1 (1) /= Change_Developer_Modes_Character)
          then
-            start_file_Character := l1 (1);
+            Start_File_Character := L1 (1);
          else
             Put_Line ("Not an acceptable Character, " &
               "may conflict with other Input");
@@ -768,15 +768,15 @@ package body Support_Utils.Developer_Parameters is
 
       Put ("CHANGE_PARAMETERS_CHARACTER ?  ");
       Set_Col (45); Put ("(Currently  '");
-      Put (change_parameters_Character); Put ("'");
+      Put (Change_Parameters_Character); Put ("'");
       Put (" =>");
-      Get_Line (l1, ll);
-      if ll /= 0  then
-         if Is_Special_Graphical (l1 (1)) and
-           (l1 (1) /= start_file_Character)  and
-           (l1 (1) /= change_developer_modes_Character)
+      Get_Line (L1, Ll);
+      if Ll /= 0  then
+         if Is_Special_Graphical (L1 (1)) and
+           (L1 (1) /= Start_File_Character)  and
+           (L1 (1) /= Change_Developer_Modes_Character)
          then
-            change_parameters_Character := l1 (1);
+            Change_Parameters_Character := L1 (1);
          else
             Put_Line ("Not an acceptable Character," &
               " may conflict with other Input");
@@ -787,16 +787,16 @@ package body Support_Utils.Developer_Parameters is
 
       Put ("CHANGE_DEVELOPER_MODES_CHARACTER ?  ");
       Set_Col (45); Put ("(Currently  '");
-      Put (change_developer_modes_Character); Put ("'");
+      Put (Change_Developer_Modes_Character); Put ("'");
       Put (" =>");
-      Get_Line (l1, ll);
-      if ll /= 0  then
-         if Is_Special_Graphical (l1 (1)) and
-           (l1 (1) /= start_file_Character)  and
-           (l1 (1) /= change_language_Character)  and
-           (l1 (1) /= change_parameters_Character)
+      Get_Line (L1, Ll);
+      if Ll /= 0  then
+         if Is_Special_Graphical (L1 (1)) and
+           (L1 (1) /= Start_File_Character)  and
+           (L1 (1) /= Change_Language_Character)  and
+           (L1 (1) /= Change_Parameters_Character)
          then
-            change_developer_modes_Character := l1 (1);
+            Change_Developer_Modes_Character := L1 (1);
          else
             Put_Line ("Not an acceptable Character, " &
               "may conflict with other Input");
@@ -807,38 +807,38 @@ package body Support_Utils.Developer_Parameters is
 
       Put ("Do you wish to save this set of parameters? Y or N (Default) ");
       Put (" =>");
-      Get_Line (l1, ll);
-      if ll /= 0  then
-         if l1 (1) = '?'  then
-            Put (save_parameters_help);
+      Get_Line (L1, Ll);
+      if Ll /= 0  then
+         if L1 (1) = '?'  then
+            Put (Save_Parameters_Help);
             Put
               ("Do you wish to save this set of parameters? Y or N (Default) ");
             Put (" =>");
-            Get_Line (l1, ll);
+            Get_Line (L1, Ll);
          end if;
-         reply_type_io.Get (l1 (1 .. ll), r, ll);
-         if mdev_of_reply (r)  then
-            Put_mdevs;
-            Put_Line ("MDEV_ARRAY saved in file " & mdev_full_name);
+         Reply_Type_Io.Get (L1 (1 .. Ll), R, Ll);
+         if Mdev_Of_Reply (R)  then
+            Put_Mdevs;
+            Put_Line ("MDEV_ARRAY saved in file " & Mdev_Full_Name);
          end if;
       end if;
       New_Line;
 
    exception
-      when blank_Input  =>
+      when Blank_Input  =>
          null;
       when others =>
          Put_Line ("Bad Input - terminating CHANGE_DEVELOPER_PARAMETERS");
 
-   end change_developer_modes;
+   end Change_Developer_Modes;
 
-   procedure initialize_developer_parameters is
+   procedure Initialize_Developer_Parameters is
    begin
 
-      do_mdev_file :
+      Do_Mdev_File :
       begin
          --  Read the MDEV file
-         Get_mdevs;
+         Get_Mdevs;
          Preface.Put_Line
            ("MDEV_FILE found - Using those MDEVs and parameters");
       exception
@@ -848,24 +848,24 @@ package body Support_Utils.Developer_Parameters is
          --  to set parameters with a CHANGE (SET) PARAMETERS and save
          --  to examine the MDEV file with a text editor and try to repair it
          when Name_Error  =>
-            words_mdev := default_mdev_array;
-         when bad_mdev_file  =>
+            Words_Mdev := Default_Mdev_Array;
+         when Bad_Mdev_File  =>
             Preface.Put_Line
               ("MDEV_FILE exists, but empty or corupted - Default MDEVs used");
             Preface.Put_Line
               ("You can set new parameters with CHANGE PARAMETERS and save.");
-            words_mdev := default_mdev_array;
-      end do_mdev_file;
+            Words_Mdev := Default_Mdev_Array;
+      end Do_Mdev_File;
 
       --  if not IS_OPEN (DBG) and then WORDS_MDEV (HAVE_DEBUG_FILE)  then
       --    CREATE (DBG, OUT_FILE, DEBUG_FULL_NAME);
       --    PREFACE.PUT_LINE ("WORD.DBG Created at Initialization");
       --  end if;
-      if not Is_Open (stats) and then words_mdev (have_statistics_file)  then
-         Create (stats, Out_File, stats_full_name);
+      if not Is_Open (Stats) and then Words_Mdev (Have_Statistics_File)  then
+         Create (Stats, Out_File, Stats_Full_Name);
          Preface.Put_Line ("WORD.STA Created at Initialization");
       end if;
 
-   end initialize_developer_parameters;
+   end Initialize_Developer_Parameters;
 
 end Support_Utils.Developer_Parameters;

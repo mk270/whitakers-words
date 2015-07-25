@@ -23,106 +23,106 @@ use Latin_Utils;
 package Support_Utils.Line_Stuff is
    pragma Elaborate_Body;
 
-   type dictionary_item;
-   type dictionary_list is access dictionary_item;
-   type dictionary_item is
+   type Dictionary_Item;
+   type Dictionary_List is access Dictionary_Item;
+   type Dictionary_Item is
       record
-         de   : Dictionary_Entry := Null_Dictionary_Entry;
-         succ : dictionary_list;
+         De   : Dictionary_Entry := Null_Dictionary_Entry;
+         Succ : Dictionary_List;
       end record;
 
-   type dictionary is array (Character) of dictionary_list;
-   null_dictionary : dictionary := (others => null);
+   type Dictionary is array (Character) of Dictionary_List;
+   Null_Dictionary : Dictionary := (others => null);
    --DICT, UNIQUES, QUES : DICTIONARY := NULL_DICTIONARY;
-   dict, uniques : dictionary := null_dictionary;
+   Dict, Uniques : Dictionary := Null_Dictionary;
 
-   dict_loc : dictionary := null_dictionary;
+   Dict_Loc : Dictionary := Null_Dictionary;
 
-   type tackon_line is
+   type Tackon_Line is
       record
-         pofs : Part_Of_Speech_Type := Tackon;
-         tack : Stem_Type := Null_Stem_Type;
-         entr : tackon_entry := null_tackon_entry;
-         mean : Meaning_Type := Null_Meaning_Type;
+         Pofs : Part_Of_Speech_Type := Tackon;
+         Tack : Stem_Type := Null_Stem_Type;
+         Entr : Tackon_Entry := Null_Tackon_Entry;
+         Mean : Meaning_Type := Null_Meaning_Type;
       end record;
 
-   null_tackon_line : tackon_line;
+   Null_Tackon_Line : Tackon_Line;
 
-   package tackon_line_io is
+   package Tackon_Line_Io is
       Default_Width : Natural;
-      procedure Get (f : in File_Type; p : out tackon_line);
-      procedure Get (p : out tackon_line);
-      procedure Put (f : in File_Type; p : in tackon_line);
-      procedure Put (p : in tackon_line);
-      procedure Get (s : in String; p : out tackon_line; last : out Integer);
-      procedure Put (s : out String; p : in tackon_line);
-   end tackon_line_io;
+      procedure Get (F : in File_Type; P : out Tackon_Line);
+      procedure Get (P : out Tackon_Line);
+      procedure Put (F : in File_Type; P : in Tackon_Line);
+      procedure Put (P : in Tackon_Line);
+      procedure Get (S : in String; P : out Tackon_Line; Last : out Integer);
+      procedure Put (S : out String; P : in Tackon_Line);
+   end Tackon_Line_Io;
 
-   type prefix_line is
+   type Prefix_Line is
       record
-         pofs : Part_Of_Speech_Type := Prefix;
-         fix  : fix_type := null_fix_type;
-         connect : Character := ' ';
-         entr : prefix_entry := null_prefix_entry;
-         mean : Meaning_Type := Null_Meaning_Type;
+         Pofs : Part_Of_Speech_Type := Prefix;
+         Fix  : Fix_Type := Null_Fix_Type;
+         Connect : Character := ' ';
+         Entr : Prefix_Entry := Null_Prefix_Entry;
+         Mean : Meaning_Type := Null_Meaning_Type;
       end record;
 
-   null_prefix_line : prefix_line;
+   Null_Prefix_Line : Prefix_Line;
 
-   package prefix_line_io is
+   package Prefix_Line_Io is
       Default_Width : Natural;
-      procedure Get (f : in File_Type; p : out prefix_line);
-      procedure Get (p : out prefix_line);
-      procedure Put (f : in File_Type; p : in prefix_line);
-      procedure Put (p : in prefix_line);
-      procedure Get (s : in String; p : out prefix_line; last : out Integer);
-      procedure Put (s : out String; p : in prefix_line);
-   end prefix_line_io;
+      procedure Get (F : in File_Type; P : out Prefix_Line);
+      procedure Get (P : out Prefix_Line);
+      procedure Put (F : in File_Type; P : in Prefix_Line);
+      procedure Put (P : in Prefix_Line);
+      procedure Get (S : in String; P : out Prefix_Line; Last : out Integer);
+      procedure Put (S : out String; P : in Prefix_Line);
+   end Prefix_Line_Io;
 
-   type suffix_line is
+   type Suffix_Line is
       record
-         pofs : Part_Of_Speech_Type := Suffix;
-         fix  : fix_type := null_fix_type;
-         connect    : Character := ' ';
-         entr : suffix_entry := null_suffix_entry;
-         mean : Meaning_Type := Null_Meaning_Type;
+         Pofs : Part_Of_Speech_Type := Suffix;
+         Fix  : Fix_Type := Null_Fix_Type;
+         Connect    : Character := ' ';
+         Entr : Suffix_Entry := Null_Suffix_Entry;
+         Mean : Meaning_Type := Null_Meaning_Type;
       end record;
 
-   null_suffix_line : suffix_line;
+   Null_Suffix_Line : Suffix_Line;
 
-   package suffix_line_io is
+   package Suffix_Line_Io is
       Default_Width : Natural;
-      procedure Get (f : in File_Type; p : out suffix_line);
-      procedure Get (p : out suffix_line);
-      procedure Put (f : in File_Type; p : in suffix_line);
-      procedure Put (p : in suffix_line);
-      procedure Get (s : in String; p : out suffix_line; last : out Integer);
-      procedure Put (s : out String; p : in suffix_line);
-   end suffix_line_io;
+      procedure Get (F : in File_Type; P : out Suffix_Line);
+      procedure Get (P : out Suffix_Line);
+      procedure Put (F : in File_Type; P : in Suffix_Line);
+      procedure Put (P : in Suffix_Line);
+      procedure Get (S : in String; P : out Suffix_Line; Last : out Integer);
+      procedure Put (S : out String; P : in Suffix_Line);
+   end Suffix_Line_Io;
 
-   type unique_entry is
+   type Unique_Entry is
       record
-         stem : Stem_Type          := Null_Stem_Type;
-         qual : quality_record     := null_quality_record;
-         kind : Kind_Entry         := Null_Kind_Entry;
-         tran : Translation_Record := Null_Translation_Record;
+         Stem : Stem_Type          := Null_Stem_Type;
+         Qual : Quality_Record     := Null_Quality_Record;
+         Kind : Kind_Entry         := Null_Kind_Entry;
+         Tran : Translation_Record := Null_Translation_Record;
       end record;
 
-   package unique_entry_io is
+   package Unique_Entry_Io is
       Default_Width : Field;
-      procedure Get (f : in File_Type; p : out unique_entry);
-      procedure Get (p : out unique_entry);
-      procedure Put (f : in File_Type; p : in unique_entry);
-      procedure Put (p : in unique_entry);
-      procedure Get (s : in String; p : out unique_entry; last : out Integer);
-      procedure Put (s : out String; p : in unique_entry);
-   end unique_entry_io;
+      procedure Get (F : in File_Type; P : out Unique_Entry);
+      procedure Get (P : out Unique_Entry);
+      procedure Put (F : in File_Type; P : in Unique_Entry);
+      procedure Put (P : in Unique_Entry);
+      procedure Get (S : in String; P : out Unique_Entry; Last : out Integer);
+      procedure Put (S : out String; P : in Unique_Entry);
+   end Unique_Entry_Io;
 
-   procedure load_stem_file (d_k : Dictionary_Kind);
+   procedure Load_Stem_File (D_K : Dictionary_Kind);
 
-   procedure load_dictionary (dict : in out dictionary;
-                              dictionary_file_name : String);
+   procedure Load_Dictionary (Dict : in out Dictionary;
+                              Dictionary_File_Name : String);
 
-   procedure load_uniques (unq : in out latin_uniques; file_name : in String);
+   procedure Load_Uniques (Unq : in out Latin_Uniques; File_Name : in String);
 
 end Support_Utils.Line_Stuff;

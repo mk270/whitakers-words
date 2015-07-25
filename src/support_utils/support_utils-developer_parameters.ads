@@ -18,8 +18,8 @@ with Ada.Text_IO;
 package Support_Utils.Developer_Parameters is
 
    --  These are a few strange declarations to be used in diagnostics;
-   sra_max, sraa_max, dma_max : Integer := 0;
-   pa_last_max, final_pa_last_max : Integer := 0;
+   Sra_Max, Sraa_Max, Dma_Max : Integer := 0;
+   Pa_Last_Max, Final_Pa_Last_Max : Integer := 0;
 
    --  This package defines a number of parameters that areused in the program
    --  The default values are set in the body, so that they may be changed
@@ -29,8 +29,8 @@ package Support_Utils.Developer_Parameters is
    --  They are all text files and human readable
 
    --  DEVELOPER MODE_FILE is used by the program to remember values
-   mdev_file : Ada.Text_IO.File_Type;
-   mdev_full_name : constant String := "WORD.MDV";
+   Mdev_File : Ada.Text_IO.File_Type;
+   Mdev_Full_Name : constant String := "WORD.MDV";
 
    --  Debug not currently in use
    --  --  DBG collects debug Output for one entry at a time

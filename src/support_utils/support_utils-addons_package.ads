@@ -21,169 +21,169 @@ use Latin_Utils;
 package Support_Utils.Addons_Package is
    pragma Elaborate_Body;
 
-   subtype fix_type is Stem_Type;
-   null_fix_type : constant fix_type := Null_Stem_Type;
-   max_fix_size : constant := Max_Stem_Size;
+   subtype Fix_Type is Stem_Type;
+   Null_Fix_Type : constant Fix_Type := Null_Stem_Type;
+   Max_Fix_Size : constant := Max_Stem_Size;
 
-   subtype Target_pofs_type is Part_Of_Speech_Type range X .. V;
+   subtype Target_Pofs_Type is Part_Of_Speech_Type range X .. V;
 
-   type Target_entry (pofs : Target_pofs_type := X) is
+   type Target_Entry (Pofs : Target_Pofs_Type := X) is
       record
-         case pofs is
+         case Pofs is
             when N  =>
-               n : Noun_Entry;
+               N : Noun_Entry;
                --NOUN_KIND : NOUN_KIND_TYPE;
             when Pron  =>
-               pron : Pronoun_Entry;
+               Pron : Pronoun_Entry;
                --PRONOUN_KIND : PRONOUN_KIND_TYPE;
             when Pack  =>
-               pack : Propack_Entry;
+               Pack : Propack_Entry;
                --PROPACK_KIND : PRONOUN_KIND_TYPE;
             when Adj  =>
-               adj : Adjective_Entry;
+               Adj : Adjective_Entry;
             when Num  =>
-               num : Numeral_Entry;
+               Num : Numeral_Entry;
                --NUMERAL_VALUE : NUMERAL_VALUE_TYPE;
             when Adv  =>
-               adv : Adverb_Entry;
+               Adv : Adverb_Entry;
             when V  =>
-               v : Verb_Entry;
+               V : Verb_Entry;
                --VERB_KIND : VERB_KIND_TYPE;
             when others  =>
                null;
          end case;
       end record;
 
-   null_Target_entry : Target_entry;
+   Null_Target_Entry : Target_Entry;
 
-   package Target_entry_io is
+   package Target_Entry_Io is
       Default_Width : Natural;
-      procedure Get (f : in Ada.Text_IO.File_Type; p : out Target_entry);
-      procedure Get (p : out Target_entry);
-      procedure Put (f : in Ada.Text_IO.File_Type; p : in Target_entry);
-      procedure Put (p : in Target_entry);
-      procedure Get (s : in String; p : out Target_entry; last : out Integer);
-      procedure Put (s : out String; p : in Target_entry);
-   end Target_entry_io;
+      procedure Get (F : in Ada.Text_IO.File_Type; P : out Target_Entry);
+      procedure Get (P : out Target_Entry);
+      procedure Put (F : in Ada.Text_IO.File_Type; P : in Target_Entry);
+      procedure Put (P : in Target_Entry);
+      procedure Get (S : in String; P : out Target_Entry; Last : out Integer);
+      procedure Put (S : out String; P : in Target_Entry);
+   end Target_Entry_Io;
 
-   type tackon_entry is
+   type Tackon_Entry is
       record
-         base : Target_entry;
+         Base : Target_Entry;
       end record;
 
-   null_tackon_entry : tackon_entry;
+   Null_Tackon_Entry : Tackon_Entry;
 
-   package tackon_entry_io is
+   package Tackon_Entry_Io is
       Default_Width : Natural;
-      procedure Get (f : in Ada.Text_IO.File_Type; i : out tackon_entry);
-      procedure Get (i : out tackon_entry);
-      procedure Put (f : in Ada.Text_IO.File_Type; i : in tackon_entry);
-      procedure Put (i : in tackon_entry);
-      procedure Get (s : in String; i : out tackon_entry; last : out Integer);
-      procedure Put (s : out String; i : in tackon_entry);
-   end tackon_entry_io;
+      procedure Get (F : in Ada.Text_IO.File_Type; I : out Tackon_Entry);
+      procedure Get (I : out Tackon_Entry);
+      procedure Put (F : in Ada.Text_IO.File_Type; I : in Tackon_Entry);
+      procedure Put (I : in Tackon_Entry);
+      procedure Get (S : in String; I : out Tackon_Entry; Last : out Integer);
+      procedure Put (S : out String; I : in Tackon_Entry);
+   end Tackon_Entry_Io;
 
-   type prefix_entry is
+   type Prefix_Entry is
       record
-         root    : Part_Of_Speech_Type := X;
+         Root    : Part_Of_Speech_Type := X;
          Target  : Part_Of_Speech_Type := X;
       end record;
 
-   null_prefix_entry : prefix_entry;
+   Null_Prefix_Entry : Prefix_Entry;
 
-   package prefix_entry_io is
+   package Prefix_Entry_Io is
       Default_Width : Natural;
-      procedure Get (f : in Ada.Text_IO.File_Type; p : out prefix_entry);
-      procedure Get (p : out prefix_entry);
-      procedure Put (f : in Ada.Text_IO.File_Type; p : in prefix_entry);
-      procedure Put (p : in prefix_entry);
-      procedure Get (s : in String; p : out prefix_entry; last : out Integer);
-      procedure Put (s : out String; p : in prefix_entry);
-   end prefix_entry_io;
+      procedure Get (F : in Ada.Text_IO.File_Type; P : out Prefix_Entry);
+      procedure Get (P : out Prefix_Entry);
+      procedure Put (F : in Ada.Text_IO.File_Type; P : in Prefix_Entry);
+      procedure Put (P : in Prefix_Entry);
+      procedure Get (S : in String; P : out Prefix_Entry; Last : out Integer);
+      procedure Put (S : out String; P : in Prefix_Entry);
+   end Prefix_Entry_Io;
 
-   type suffix_entry is
+   type Suffix_Entry is
       record
-         root       : Part_Of_Speech_Type := X;
-         root_key   : Stem_Key_Type := 0;
-         Target     : Target_entry := null_Target_entry;
-         Target_key : Stem_Key_Type := 0;
+         Root       : Part_Of_Speech_Type := X;
+         Root_Key   : Stem_Key_Type := 0;
+         Target     : Target_Entry := Null_Target_Entry;
+         Target_Key : Stem_Key_Type := 0;
       end record;
 
-   null_suffix_entry : suffix_entry;
+   Null_Suffix_Entry : Suffix_Entry;
 
-   package suffix_entry_io is
+   package Suffix_Entry_Io is
       Default_Width : Natural;
-      procedure Get (f : in Ada.Text_IO.File_Type; p : out suffix_entry);
-      procedure Get (p : out suffix_entry);
-      procedure Put (f : in Ada.Text_IO.File_Type; p : in suffix_entry);
-      procedure Put (p : in suffix_entry);
-      procedure Get (s : in String; p : out suffix_entry; last : out Integer);
-      procedure Put (s : out String; p : in suffix_entry);
-   end suffix_entry_io;
+      procedure Get (F : in Ada.Text_IO.File_Type; P : out Suffix_Entry);
+      procedure Get (P : out Suffix_Entry);
+      procedure Put (F : in Ada.Text_IO.File_Type; P : in Suffix_Entry);
+      procedure Put (P : in Suffix_Entry);
+      procedure Get (S : in String; P : out Suffix_Entry; Last : out Integer);
+      procedure Put (S : out String; P : in Suffix_Entry);
+   end Suffix_Entry_Io;
 
-   type tackon_item is
+   type Tackon_Item is
       record
-         pofs : Part_Of_Speech_Type := Tackon;
-         tack : Stem_Type := Null_Stem_Type;
-         entr : tackon_entry := null_tackon_entry;
+         Pofs : Part_Of_Speech_Type := Tackon;
+         Tack : Stem_Type := Null_Stem_Type;
+         Entr : Tackon_Entry := Null_Tackon_Entry;
          MNPC : Integer := 0;
       end record;
 
-   null_tackon_item : tackon_item;
+   Null_Tackon_Item : Tackon_Item;
 
-   type prefix_item is
+   type Prefix_Item is
       record
-         pofs : Part_Of_Speech_Type := Prefix;
-         fix  : fix_type := null_fix_type;
-         connect : Character := ' ';
-         entr : prefix_entry := null_prefix_entry;
+         Pofs : Part_Of_Speech_Type := Prefix;
+         Fix  : Fix_Type := Null_Fix_Type;
+         Connect : Character := ' ';
+         Entr : Prefix_Entry := Null_Prefix_Entry;
          MNPC : Integer := 0;
       end record;
 
-   null_prefix_item : prefix_item;
+   Null_Prefix_Item : Prefix_Item;
 
-   type suffix_item is
+   type Suffix_Item is
       record
-         pofs : Part_Of_Speech_Type := Suffix;
-         fix  : fix_type := null_fix_type;
-         connect    : Character := ' ';
-         entr : suffix_entry := null_suffix_entry;
+         Pofs : Part_Of_Speech_Type := Suffix;
+         Fix  : Fix_Type := Null_Fix_Type;
+         Connect    : Character := ' ';
+         Entr : Suffix_Entry := Null_Suffix_Entry;
          MNPC : Integer := 0;
       end record;
 
-   null_suffix_item : suffix_item;
+   Null_Suffix_Item : Suffix_Item;
 
-   type prefix_array is array (Integer range <>) of prefix_item;
-   type tickon_array is array (Integer range <>) of prefix_item;
-   type suffix_array is array (Integer range <>) of suffix_item;
-   type tackon_array is array (Integer range <>) of tackon_item;
-   type means_array  is array (Integer range <>) of Meaning_Type;
+   type Prefix_Array is array (Integer range <>) of Prefix_Item;
+   type Tickon_Array is array (Integer range <>) of Prefix_Item;
+   type Suffix_Array is array (Integer range <>) of Suffix_Item;
+   type Tackon_Array is array (Integer range <>) of Tackon_Item;
+   type Means_Array  is array (Integer range <>) of Meaning_Type;
    --  To simulate a DICT_IO file, as used previously
 
-   tackons  : tackon_array (1 .. 20);
-   packons  : tackon_array (1 .. 25);
-   tickons  : prefix_array (1 .. 10);
-   prefixes : prefix_array (1 .. 130);
-   suffixes : suffix_array (1 .. 185);
-   means    : means_array (1 .. 370);
+   Tackons  : Tackon_Array (1 .. 20);
+   Packons  : Tackon_Array (1 .. 25);
+   Tickons  : Prefix_Array (1 .. 10);
+   Prefixes : Prefix_Array (1 .. 130);
+   Suffixes : Suffix_Array (1 .. 185);
+   Means    : Means_Array (1 .. 370);
 
-   number_of_tickons  : Integer := 0;
-   number_of_tackons  : Integer := 0;
-   number_of_packons  : Integer := 0;
-   number_of_prefixes : Integer := 0;
-   number_of_suffixes : Integer := 0;
+   Number_Of_Tickons  : Integer := 0;
+   Number_Of_Tackons  : Integer := 0;
+   Number_Of_Packons  : Integer := 0;
+   Number_Of_Prefixes : Integer := 0;
+   Number_Of_Suffixes : Integer := 0;
 
-   procedure load_addons (file_name : in String);
+   procedure Load_Addons (File_Name : in String);
 
-   function subtract_tackon (w : String; x : tackon_item) return String;
-   function subtract_prefix (w : String; x : prefix_item) return Stem_Type;
-   function subtract_tickon (w : String; x : prefix_item) return Stem_Type
-     renames subtract_prefix;
-   function subtract_suffix (w : String; x : suffix_item) return Stem_Type;
+   function Subtract_Tackon (W : String; X : Tackon_Item) return String;
+   function Subtract_Prefix (W : String; X : Prefix_Item) return Stem_Type;
+   function Subtract_Tickon (W : String; X : Prefix_Item) return Stem_Type
+     renames Subtract_Prefix;
+   function Subtract_Suffix (W : String; X : Suffix_Item) return Stem_Type;
 
-   function add_prefix (stem : Stem_Type;
-                        prefix : prefix_item) return Stem_Type;
-   function add_suffix (stem : Stem_Type;
-                        suffix : suffix_item) return Stem_Type;
+   function Add_Prefix (Stem : Stem_Type;
+                        Prefix : Prefix_Item) return Stem_Type;
+   function Add_Suffix (Stem : Stem_Type;
+                        Suffix : Suffix_Item) return Stem_Type;
 
 end Support_Utils.Addons_Package;

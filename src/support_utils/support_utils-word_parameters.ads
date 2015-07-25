@@ -20,52 +20,52 @@ package Support_Utils.Word_Parameters is
    --  The default values are set in the body, so that they may be changed
    --- easily
 
-   change_parameters_Character        : Character := '#';
-   change_language_Character          : Character := '~';
-   help_Character                     : Character := '?';
+   Change_Parameters_Character        : Character := '#';
+   Change_Language_Character          : Character := '~';
+   Help_Character                     : Character := '?';
 
    --  These files are used by the program if requested, but not necessary
    --  They are all text files and human readable
 
    --  MODE_FILE is used by the program to remember MODE values between runs
-   mode_file : Ada.Text_IO.File_Type;
+   Mode_File : Ada.Text_IO.File_Type;
 
    --  OUTPUT is used to Write out and save the results of a run
    Output : Ada.Text_IO.File_Type;
    Input  : Ada.Text_IO.File_Type;
    --  UNKNOWNS is used to record the words that the program fails to find
-   unknowns : Ada.Text_IO.File_Type;
+   Unknowns : Ada.Text_IO.File_Type;
 
    --  This is a flag to tell if there has been Trim ming for this word
    Trimmed : Boolean := False;
 
-   type mode_type is (
+   type Mode_Type is (
      Trim_Output,
-     have_Output_file,
-     Write_Output_to_file,
-     do_unknowns_only,
-     Write_unknowns_to_file,
-     ignore_unknown_names,
-     ignore_unknown_caps,
-     do_compounds,
-     do_fixes,
-     do_tricks,
-     do_dictionary_forms,
-     show_age,
-     show_frequency,
-     do_examples,
-     do_only_meanings,
-     do_stems_for_unknown
+     Have_Output_File,
+     Write_Output_To_File,
+     Do_Unknowns_Only,
+     Write_Unknowns_To_File,
+     Ignore_Unknown_Names,
+     Ignore_Unknown_Caps,
+     Do_Compounds,
+     Do_Fixes,
+     Do_Tricks,
+     Do_Dictionary_Forms,
+     Show_Age,
+     Show_Frequency,
+     Do_Examples,
+     Do_Only_Meanings,
+     Do_Stems_For_Unknown
                      );
 
-   package mode_type_io is new Ada.Text_IO.Enumeration_IO (mode_type);
+   package Mode_Type_Io is new Ada.Text_IO.Enumeration_IO (Mode_Type);
 
-   type mode_array is array (mode_type) of Boolean;
+   type Mode_Array is array (Mode_Type) of Boolean;
 
-   words_mode : mode_array;        --  Initialized in body
+   Words_Mode : Mode_Array;        --  Initialized in body
 
-   procedure change_parameters;
+   procedure Change_Parameters;
 
-   procedure initialize_word_parameters;
+   procedure Initialize_Word_Parameters;
 
 end Support_Utils.Word_Parameters;

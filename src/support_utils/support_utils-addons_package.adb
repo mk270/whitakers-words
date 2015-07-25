@@ -130,234 +130,234 @@ package body Support_Utils.Addons_Package is
       ---ADD_FILE_NAME_EXTENSION (DICT_FILE_NAME, DICTIONARY_KIND'IMAGE (D_K)));
       --       "");
       --
-      while not End_Of_File (addons_file)  loop
+      while not End_Of_File (Addons_File)  loop
 
-         Get_no_comment_line (addons_file, s, last);
+         Get_No_Comment_Line (Addons_File, S, Last);
          --TEXT_IO.PUT_LINE (S (1 .. LAST));
-         Get (s (1 .. last), pofs, l);
-         case pofs is
+         Get (S (1 .. Last), Pofs, L);
+         case Pofs is
             when Tackon  =>
-               ts := Head (Trim (s (l + 1 .. last)), Max_Stem_Size);
+               Ts := Head (Trim (S (L + 1 .. Last)), Max_Stem_Size);
 
-               Get_Line (addons_file, s, last);
-               Get (s (1 .. last), tn, l);
-               Get_Line (addons_file, s, last);
-               mean := Head (s (1 .. last), Max_Meaning_Size);
+               Get_Line (Addons_File, S, Last);
+               Get (S (1 .. Last), Tn, L);
+               Get_Line (Addons_File, S, Last);
+               Mean := Head (S (1 .. Last), Max_Meaning_Size);
 
-               if  tn.base.pofs = Pack   and then
-                 (tn.base.pack.Decl.Which = 1 or
-                 tn.base.pack.Decl.Which = 2)  and then
-                 mean (1 .. 9) = "PACKON w/"
+               if  Tn.Base.Pofs = Pack   and then
+                 (Tn.Base.Pack.Decl.Which = 1 or
+                 Tn.Base.Pack.Decl.Which = 2)  and then
+                 Mean (1 .. 9) = "PACKON w/"
                then
-                  pac := pac + 1;
-                  packons (pac).pofs := pofs;
-                  packons (pac).tack := ts;
-                  packons (pac).entr := tn;
+                  Pac := Pac + 1;
+                  Packons (Pac).Pofs := Pofs;
+                  Packons (Pac).Tack := Ts;
+                  Packons (Pac).Entr := Tn;
                   --            DICT_IO.SET_INDEX (DICT_FILE (D_K), M);
                   --            DE.MEAN := MEAN;
                   --            DICT_IO.WRITE (DICT_FILE (D_K), DE);
-                  packons (pac).MNPC := m;
-                  means (m) := mean;
-                  m := m + 1;
+                  Packons (Pac).MNPC := M;
+                  Means (M) := Mean;
+                  M := M + 1;
                else
-                  tac := tac + 1;
-                  tackons (tac).pofs := pofs;
-                  tackons (tac).tack := ts;
-                  tackons (tac).entr := tn;
+                  Tac := Tac + 1;
+                  Tackons (Tac).Pofs := Pofs;
+                  Tackons (Tac).Tack := Ts;
+                  Tackons (Tac).Entr := Tn;
                   --            DICT_IO.SET_INDEX (DICT_FILE (D_K), M);
                   --            DE.MEAN := MEAN;
                   --            DICT_IO.WRITE (DICT_FILE (D_K), DE);
                   --            --DICT_IO.WRITE (DICT_FILE (D_K), MEAN);
-                  tackons (tac).MNPC := m;
-                  means (m) := mean;
-                  m := m + 1;
+                  Tackons (Tac).MNPC := M;
+                  Means (M) := Mean;
+                  M := M + 1;
                end if;
 
-               number_of_packons  := pac;
-               number_of_tackons  := tac;
+               Number_Of_Packons  := Pac;
+               Number_Of_Tackons  := Tac;
 
             when Prefix  =>
 
-               extract_fix (s (l + 1 .. last), pm.fix, pm.connect);
-               Get_Line (addons_file, s, last);
-               Get (s (1 .. last), pm.entr, l);
-               Get_Line (addons_file, s, last);
-               mean := Head (s (1 .. last), Max_Meaning_Size);
+               Extract_Fix (S (L + 1 .. Last), Pm.Fix, Pm.Connect);
+               Get_Line (Addons_File, S, Last);
+               Get (S (1 .. Last), Pm.Entr, L);
+               Get_Line (Addons_File, S, Last);
+               Mean := Head (S (1 .. Last), Max_Meaning_Size);
 
-               if pm.entr.root = Pack then
-                  tic := tic + 1;
-                  tickons (tic).pofs := pofs;
-                  tickons (tic).fix  := pm.fix;
-                  tickons (tic).connect  := pm.connect;
-                  tickons (tic).entr := pm.entr;
+               if Pm.Entr.Root = Pack then
+                  Tic := Tic + 1;
+                  Tickons (Tic).Pofs := Pofs;
+                  Tickons (Tic).Fix  := Pm.Fix;
+                  Tickons (Tic).Connect  := Pm.Connect;
+                  Tickons (Tic).Entr := Pm.Entr;
                   --            DICT_IO.SET_INDEX (DICT_FILE (D_K), M);
                   --            DE.MEAN := MEAN;
                   --            DICT_IO.WRITE (DICT_FILE (D_K), DE);
                   --            --DICT_IO.WRITE (DICT_FILE (D_K), MEAN);
-                  tickons (tic).MNPC := m;
-                  means (m) := mean;
-                  m := m + 1;
+                  Tickons (Tic).MNPC := M;
+                  Means (M) := Mean;
+                  M := M + 1;
                else
-                  pre := pre + 1;
-                  prefixes (pre).pofs := pofs;
-                  prefixes (pre).fix  := pm.fix;
-                  prefixes (pre).connect  := pm.connect;
-                  prefixes (pre).entr := pm.entr;
+                  Pre := Pre + 1;
+                  Prefixes (Pre).Pofs := Pofs;
+                  Prefixes (Pre).Fix  := Pm.Fix;
+                  Prefixes (Pre).Connect  := Pm.Connect;
+                  Prefixes (Pre).Entr := Pm.Entr;
                   --            DICT_IO.SET_INDEX (DICT_FILE (D_K), M);
                   --            DICT_IO.WRITE (DICT_FILE (D_K), DE);
                   --            --DICT_IO.WRITE (DICT_FILE (D_K), MEAN);
-                  prefixes (pre).MNPC := m;
-                  means (m) := mean;
-                  m := m + 1;
+                  Prefixes (Pre).MNPC := M;
+                  Means (M) := Mean;
+                  M := M + 1;
                end if;
 
-               number_of_tickons  := tic;
-               number_of_prefixes := pre;
+               Number_Of_Tickons  := Tic;
+               Number_Of_Prefixes := Pre;
 
             when Suffix  =>
-               suf := suf + 1;
-               suffixes (suf).pofs := pofs;
+               Suf := Suf + 1;
+               Suffixes (Suf).Pofs := Pofs;
                --TEXT_IO.PUT_LINE (S (1 .. LAST));
-               extract_fix (s (l + 1 .. last),
-                 suffixes (suf).fix, suffixes (suf).connect);
+               Extract_Fix (S (L + 1 .. Last),
+                 Suffixes (Suf).Fix, Suffixes (Suf).Connect);
                --TEXT_IO.PUT ("@1");
-               Get_Line (addons_file, s, last);
+               Get_Line (Addons_File, S, Last);
                --TEXT_IO.PUT ("@2");
                --TEXT_IO.PUT_LINE (S (1 .. LAST) & "<");
                --TEXT_IO.PUT ("@2");
-               Get (s (1 .. last), suffixes (suf).entr, l);
+               Get (S (1 .. Last), Suffixes (Suf).Entr, L);
                --TEXT_IO.PUT ("@3");
-               Get_Line (addons_file, s, last);
+               Get_Line (Addons_File, S, Last);
                --TEXT_IO.PUT ("@4");
-               mean := Head (s (1 .. last), Max_Meaning_Size);
+               Mean := Head (S (1 .. Last), Max_Meaning_Size);
                --TEXT_IO.PUT ("@5");
                --
                --        DICT_IO.SET_INDEX (DICT_FILE (D_K), M);
                --        DE.MEAN := MEAN;
                --        DICT_IO.WRITE (DICT_FILE (D_K), DE);
                --        --DICT_IO.WRITE (DICT_FILE (D_K), MEAN);
-               suffixes (suf).MNPC := m;
-               means (m) := mean;
-               m := m + 1;
+               Suffixes (Suf).MNPC := M;
+               Means (M) := Mean;
+               M := M + 1;
 
-               number_of_suffixes := suf;
+               Number_Of_Suffixes := Suf;
 
             when others  =>
                Ada.Text_IO.Put_Line
                  ("Bad ADDON    !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-               Ada.Text_IO.Put_Line (s (1 .. last));
+               Ada.Text_IO.Put_Line (S (1 .. Last));
                raise Ada.Text_IO.Data_Error;
          end case;
 
       end loop;
 
-      Preface.Put (tac, 1); Preface.Put ("+");
-      Preface.Put (pac, 2); Preface.Put (" TACKONS ");
-      Preface.Put (tic, 1); Preface.Put ("+");
-      Preface.Put (pre, 3); Preface.Put (" PREFIXES ");
-      Preface.Put (suf, 3); Preface.Put (" SUFFIXES ");
+      Preface.Put (Tac, 1); Preface.Put ("+");
+      Preface.Put (Pac, 2); Preface.Put (" TACKONS ");
+      Preface.Put (Tic, 1); Preface.Put ("+");
+      Preface.Put (Pre, 3); Preface.Put (" PREFIXES ");
+      Preface.Put (Suf, 3); Preface.Put (" SUFFIXES ");
 
       Preface.Set_Col (60); Preface.Put_Line ("--  Loaded correctly");
-      Close (addons_file);
+      Close (Addons_File);
 
    exception
       when Ada.Text_IO.Name_Error  =>
          Preface.Put_Line ("No ADDONS file ");
          null;
       when Ada.Text_IO.Data_Error  =>
-         Preface.Put_Line (s (1 .. last));
+         Preface.Put_Line (S (1 .. Last));
          Preface.Put_Line ("No further ADDONS read ");
-         Close (addons_file);
+         Close (Addons_File);
       when others      =>
          Preface.Put_Line ("Exception in LOAD_ADDONS");
-         Preface.Put_Line (s (1 .. last));
-   end load_addons;
+         Preface.Put_Line (S (1 .. Last));
+   end Load_Addons;
 
-   function subtract_tackon (w : String; x : tackon_item) return String is
-      wd : constant String := Trim (w);
-      l  : constant Integer := wd'Length;
-      xf : constant String := Trim (x.tack);
-      z  : constant Integer := xf'Length;
+   function Subtract_Tackon (W : String; X : Tackon_Item) return String is
+      Wd : constant String := Trim (W);
+      L  : constant Integer := Wd'Length;
+      Xf : constant String := Trim (X.Tack);
+      Z  : constant Integer := Xf'Length;
    begin
       --PUT_LINE ("In SUB TACKON " & INTEGER'IMAGE (L) & INTEGER'IMAGE (Z));
-      if words_mdev (use_tackons) and then
-        l > z  and then
+      if Words_Mdev (Use_Tackons) and then
+        L > Z  and then
         --WD (L-Z + 1 .. L) = XF (1 .. Z)  then
-        equ (wd (l - z + 1 .. l),  xf (1 .. z))
+        Equ (Wd (L - Z + 1 .. L),  Xf (1 .. Z))
       then
          --PUT ("In SUBTRACT_TACKON we got a hit   "); PUT_LINE (X.TACK);
-         return wd (1 .. l - z);
+         return Wd (1 .. L - Z);
       else
          --PUT ("In SUBTRACT_TACKON    NO    hit   "); PUT_LINE (X.TACK);
-         return w;
+         return W;
       end if;
-   end subtract_tackon;
+   end Subtract_Tackon;
 
-   function subtract_prefix (w : String; x : prefix_item) return Stem_Type is
-      wd : constant String := Trim (w);
-      xf : constant String := Trim (x.fix);
-      z  : constant Integer := xf'Length;
-      st : Stem_Type := Head (wd, Max_Stem_Size);
+   function Subtract_Prefix (W : String; X : Prefix_Item) return Stem_Type is
+      Wd : constant String := Trim (W);
+      Xf : constant String := Trim (X.Fix);
+      Z  : constant Integer := Xf'Length;
+      St : Stem_Type := Head (Wd, Max_Stem_Size);
    begin
-      if words_mdev (use_prefixes) and then
-        x /= null_prefix_item and then
-        wd'Length > z  and then
+      if Words_Mdev (Use_Prefixes) and then
+        X /= Null_Prefix_Item and then
+        Wd'Length > Z  and then
         --WD (1 .. Z) = XF (1 .. Z)  and then
-        equ (wd (1 .. z),  xf (1 .. z)) and then
-        ((x.connect = ' ') or (wd (z + 1) = x.connect))
+        Equ (Wd (1 .. Z),  Xf (1 .. Z)) and then
+        ((X.Connect = ' ') or (Wd (Z + 1) = X.Connect))
       then
-         st (1 .. wd'Length - z) := wd (z + 1 .. wd'Last);
-         st (wd'Length - z + 1 .. Max_Stem_Size) :=
-           Null_Stem_Type (wd'Length - z + 1 .. Max_Stem_Size);
+         St (1 .. Wd'Length - Z) := Wd (Z + 1 .. Wd'Last);
+         St (Wd'Length - Z + 1 .. Max_Stem_Size) :=
+           Null_Stem_Type (Wd'Length - Z + 1 .. Max_Stem_Size);
       end if;
-      return st;
-   end subtract_prefix;
+      return St;
+   end Subtract_Prefix;
 
-   function subtract_suffix (w : String; x : suffix_item) return Stem_Type is
-      wd : constant String := Trim (w);
-      l  : constant Integer := wd'Length;
-      xf : constant String := Trim (x.fix);
-      z  : constant Integer := xf'Length;
-      st : Stem_Type := Head (wd, Max_Stem_Size);
+   function Subtract_Suffix (W : String; X : Suffix_Item) return Stem_Type is
+      Wd : constant String := Trim (W);
+      L  : constant Integer := Wd'Length;
+      Xf : constant String := Trim (X.Fix);
+      Z  : constant Integer := Xf'Length;
+      St : Stem_Type := Head (Wd, Max_Stem_Size);
    begin
       --PUT_LINE ("In SUBTRACT_SUFFIX  Z = " & INTEGER'IMAGE (Z) &
       --"  CONNECT >" & X.CONNECT & '<');
-      if words_mdev (use_suffixes) and then
-        x /= null_suffix_item and then
-        wd'Length > z  and then
+      if Words_Mdev (Use_Suffixes) and then
+        X /= Null_Suffix_Item and then
+        Wd'Length > Z  and then
         --WD (L-Z + 1 .. L) = XF (1 .. Z)  and then
-        equ (wd (l - z + 1 .. l),  xf (1 .. z))  and then
-        ((x.connect = ' ') or (wd (l - z) = x.connect))
+        Equ (Wd (L - Z + 1 .. L),  Xf (1 .. Z))  and then
+        ((X.Connect = ' ') or (Wd (L - Z) = X.Connect))
       then
          --PUT_LINE ("In SUBTRACT_SUFFIX we got a hit");
-         st (1 .. wd'Length - z) := wd (1 .. wd'Length - z);
-         st (wd'Length - z + 1 .. Max_Stem_Size) :=
-           Null_Stem_Type (wd'Length - z + 1 .. Max_Stem_Size);
+         St (1 .. Wd'Length - Z) := Wd (1 .. Wd'Length - Z);
+         St (Wd'Length - Z + 1 .. Max_Stem_Size) :=
+           Null_Stem_Type (Wd'Length - Z + 1 .. Max_Stem_Size);
       end if;
-      return st;
-   end subtract_suffix;
+      return St;
+   end Subtract_Suffix;
 
-   function add_prefix (stem : Stem_Type;
-                        prefix : prefix_item) return Stem_Type is
-      fpx : constant String := Trim (prefix.fix) & stem;
+   function Add_Prefix (Stem : Stem_Type;
+                        Prefix : Prefix_Item) return Stem_Type is
+      Fpx : constant String := Trim (Prefix.Fix) & Stem;
    begin
-      if words_mdev (use_prefixes)  then
-         return Head (fpx, Max_Stem_Size);
+      if Words_Mdev (Use_Prefixes)  then
+         return Head (Fpx, Max_Stem_Size);
       else
-         return stem;
+         return Stem;
       end if;
-   end add_prefix;
+   end Add_Prefix;
 
-   function add_suffix (stem : Stem_Type;
-                        suffix : suffix_item) return Stem_Type is
-      fpx : constant String := Trim (stem) & suffix.fix;
+   function Add_Suffix (Stem : Stem_Type;
+                        Suffix : Suffix_Item) return Stem_Type is
+      Fpx : constant String := Trim (Stem) & Suffix.Fix;
    begin
-      if words_mdev (use_suffixes)  then
-         return Head (fpx, Max_Stem_Size);
+      if Words_Mdev (Use_Suffixes)  then
+         return Head (Fpx, Max_Stem_Size);
       else
-         return stem;
+         return Stem;
       end if;
-   end add_suffix;
+   end Add_Suffix;
 
    --  package body TARGET_ENTRY_IO is separate;
 
@@ -406,426 +406,426 @@ package body Support_Utils.Addons_Package is
 
       --KIND : KIND_ENTRY;
 
-      procedure Get (f : in File_Type; p : out Target_entry) is
-         ps : Target_pofs_type := X;
+      procedure Get (F : in File_Type; P : out Target_Entry) is
+         Ps : Target_Pofs_Type := X;
       begin
-         Get (f, ps);
-         Get (f, spacer);
-         case ps is
+         Get (F, Ps);
+         Get (F, Spacer);
+         case Ps is
             when N =>
-               Get (f, noun);
+               Get (F, Noun);
                --GET (F, NOUN_KIND);
-               p := (N, noun);  --, NOUN_KIND);
+               P := (N, Noun);  --, NOUN_KIND);
             when Pron =>
-               Get (f, pronoun);
+               Get (F, Pronoun);
                --GET (F, PRONOUN_KIND);
-               p := (Pron, pronoun);  --, PRONOUN_KIND);
+               P := (Pron, Pronoun);  --, PRONOUN_KIND);
             when Pack =>
-               Get (f, propack);
+               Get (F, Propack);
                --GET (F, PROPACK_KIND);
-               p := (Pack, propack);  --, PROPACK_KIND);
+               P := (Pack, Propack);  --, PROPACK_KIND);
             when Adj =>
-               Get (f, adjective);
-               p := (Adj, adjective);
+               Get (F, Adjective);
+               P := (Adj, Adjective);
             when Num =>
-               Get (f, numeral);
+               Get (F, Numeral);
                --GET (F, NUMERAL_VALUE);
-               p := (Num, numeral);  --, NUMERAL_VALUE);
+               P := (Num, Numeral);  --, NUMERAL_VALUE);
             when Adv =>
-               Get (f, adverb);
-               p := (Adv, adverb);
+               Get (F, Adverb);
+               P := (Adv, Adverb);
             when V =>
-               Get (f, verb);
+               Get (F, Verb);
                --GET (F, VERB_KIND);
-               p := (V, verb);  --, VERB_KIND);
+               P := (V, Verb);  --, VERB_KIND);
             when X =>
-               p := (pofs => X);
+               P := (Pofs => X);
          end case;
          return;
       end Get;
 
-      procedure Get (p : out Target_entry) is
-         ps : Target_pofs_type := X;
+      procedure Get (P : out Target_Entry) is
+         Ps : Target_Pofs_Type := X;
       begin
-         Get (ps);
-         Get (spacer);
-         case ps is
+         Get (Ps);
+         Get (Spacer);
+         case Ps is
             when N =>
-               Get (noun);
+               Get (Noun);
                --GET (NOUN_KIND);
-               p := (N, noun);  --, NOUN_KIND);
+               P := (N, Noun);  --, NOUN_KIND);
             when Pron =>
-               Get (pronoun);
+               Get (Pronoun);
                --GET (PRONOUN_KIND);
-               p := (Pron, pronoun);  --, PRONOUN_KIND);
+               P := (Pron, Pronoun);  --, PRONOUN_KIND);
             when Pack =>
-               Get (propack);
+               Get (Propack);
                --GET (PROPACK_KIND);
-               p := (Pack, propack);  --, PROPACK_KIND);
+               P := (Pack, Propack);  --, PROPACK_KIND);
             when Adj =>
-               Get (adjective);
-               p := (Adj, adjective);
+               Get (Adjective);
+               P := (Adj, Adjective);
             when Num =>
-               Get (numeral);
+               Get (Numeral);
                --GET (NUMERAL_VALUE);
-               p := (Num, numeral);  --, NUMERAL_VALUE);
+               P := (Num, Numeral);  --, NUMERAL_VALUE);
             when Adv =>
-               Get (adverb);
-               p := (Adv, adverb);
+               Get (Adverb);
+               P := (Adv, Adverb);
             when V =>
-               Get (verb);
+               Get (Verb);
                --GET (VERB_KIND);
-               p := (V, verb);  --, VERB_KIND);
+               P := (V, Verb);  --, VERB_KIND);
             when X =>
-               p := (pofs => X);
+               P := (Pofs => X);
          end case;
          return;
       end Get;
 
-      procedure Put (f : in File_Type; p : in Target_entry) is
-         c : constant Positive := Positive (Col (f));
+      procedure Put (F : in File_Type; P : in Target_Entry) is
+         C : constant Positive := Positive (Col (F));
       begin
-         Put (f, p.pofs);
-         Put (f, ' ');
-         case p.pofs is
+         Put (F, P.Pofs);
+         Put (F, ' ');
+         case P.Pofs is
             when N =>
-               Put (f, p.n);
+               Put (F, P.N);
                --PUT (F, P.NOUN_KIND);
             when Pron =>
-               Put (f, p.pron);
+               Put (F, P.Pron);
                --PUT (F, P.PRONOUN_KIND);
             when Pack =>
-               Put (f, p.pack);
+               Put (F, P.Pack);
                --PUT (F, P.PROPACK_KIND);
             when Adj =>
-               Put (f, p.adj);
+               Put (F, P.Adj);
             when Num =>
-               Put (f, p.num);
+               Put (F, P.Num);
                --PUT (F, P.NUMERAL_VALUE);
             when Adv =>
-               Put (f, p.adv);
+               Put (F, P.Adv);
             when V =>
-               Put (f, p.v);
+               Put (F, P.V);
                --PUT (F, P.VERB_KIND);
             when others =>
                null;
          end case;
-         Put (f, String'((Integer (Col (f)) ..
-           Target_entry_io.Default_Width + c - 1 => ' ')));
+         Put (F, String'((Integer (Col (F)) ..
+           Target_Entry_Io.Default_Width + C - 1 => ' ')));
          return;
       end Put;
 
-      procedure Put (p : in Target_entry) is
-         c : constant Positive := Positive (Col);
+      procedure Put (P : in Target_Entry) is
+         C : constant Positive := Positive (Col);
       begin
-         Put (p.pofs);
+         Put (P.Pofs);
          Put (' ');
-         case p.pofs is
+         case P.Pofs is
             when N =>
-               Put (p.n);
+               Put (P.N);
                --PUT (P.NOUN_KIND);
             when Pron =>
-               Put (p.pron);
+               Put (P.Pron);
                --PUT (P.PRONOUN_KIND);
             when Pack =>
-               Put (p.pack);
+               Put (P.Pack);
                --PUT (P.PROPACK_KIND);
             when Adj =>
-               Put (p.adj);
+               Put (P.Adj);
             when Num =>
-               Put (p.num);
+               Put (P.Num);
                --PUT (P.NUMERAL_VALUE);
             when Adv =>
-               Put (p.adv);
+               Put (P.Adv);
             when V =>
-               Put (p.v);
+               Put (P.V);
                --PUT (P.VERB_KIND);
             when others =>
                null;
          end case;
          Put (String'(
-           (Integer (Col) .. Target_entry_io.Default_Width + c - 1 => ' ')));
+           (Integer (Col) .. Target_Entry_Io.Default_Width + C - 1 => ' ')));
          return;
       end Put;
 
-      procedure Get (s : in String; p : out Target_entry; last : out Integer) is
-         l : Integer := s'First - 1;
-         ps : Target_pofs_type := X;
+      procedure Get (S : in String; P : out Target_Entry; Last : out Integer) is
+         L : Integer := S'First - 1;
+         Ps : Target_Pofs_Type := X;
       begin
-         Get (s, ps, l);
-         l := l + 1;
-         case ps is
+         Get (S, Ps, L);
+         L := L + 1;
+         case Ps is
             when N =>
-               Get (s (l + 1 .. s'Last), noun, last);
+               Get (S (L + 1 .. S'Last), Noun, Last);
                --GET (S (L + 1 .. S'LAST), NOUN_KIND, LAST);
-               p := (N, noun);  --, NOUN_KIND);
+               P := (N, Noun);  --, NOUN_KIND);
             when Pron =>
-               Get (s (l + 1 .. s'Last), pronoun, last);
+               Get (S (L + 1 .. S'Last), Pronoun, Last);
                --GET (S (L + 1 .. S'LAST), PRONOUN_KIND, LAST);
-               p := (Pron, pronoun);  --, PRONOUN_KIND);
+               P := (Pron, Pronoun);  --, PRONOUN_KIND);
             when Pack =>
-               Get (s (l + 1 .. s'Last), propack, last);
+               Get (S (L + 1 .. S'Last), Propack, Last);
                --GET (S (L + 1 .. S'LAST), PROPACK_KIND, LAST);
-               p := (Pack, propack);  --, PROPACK_KIND);
+               P := (Pack, Propack);  --, PROPACK_KIND);
             when Adj =>
-               Get (s (l + 1 .. s'Last), adjective, last);
-               p := (Adj, adjective);
+               Get (S (L + 1 .. S'Last), Adjective, Last);
+               P := (Adj, Adjective);
             when Num =>
-               Get (s (l + 1 .. s'Last), numeral, last);
+               Get (S (L + 1 .. S'Last), Numeral, Last);
                --GET (S (L + 1 .. S'LAST), NUMERAL_VALUE, LAST);
-               p := (Num, numeral);  --, NUMERAL_VALUE);
+               P := (Num, Numeral);  --, NUMERAL_VALUE);
             when Adv =>
-               Get (s (l + 1 .. s'Last), adverb, last);
-               p := (Adv, adverb);
+               Get (S (L + 1 .. S'Last), Adverb, Last);
+               P := (Adv, Adverb);
             when V =>
-               Get (s (l + 1 .. s'Last), verb, last);
+               Get (S (L + 1 .. S'Last), Verb, Last);
                --GET (S (L + 1 .. S'LAST), VERB_KIND, LAST);
-               p := (V, verb);  --, VERB_KIND);
+               P := (V, Verb);  --, VERB_KIND);
             when X =>
-               p := (pofs => X);
+               P := (Pofs => X);
          end case;
          return;
       end Get;
 
-      procedure Put (s : out String; p : in Target_entry) is
-         l : Integer := s'First - 1;
-         m : Integer := 0;
+      procedure Put (S : out String; P : in Target_Entry) is
+         L : Integer := S'First - 1;
+         M : Integer := 0;
       begin
-         m := l + Part_Of_Speech_Type_IO.Default_Width;
-         Put (s (l + 1 .. m), p.pofs);
-         l := m + 1;
-         s (l) :=  ' ';
-         case p.pofs is
+         M := L + Part_Of_Speech_Type_IO.Default_Width;
+         Put (S (L + 1 .. M), P.Pofs);
+         L := M + 1;
+         S (L) :=  ' ';
+         case P.Pofs is
             when N =>
-               m := l + Noun_Entry_IO.Default_Width;
-               Put (s (l + 1 .. m), p.n);
+               M := L + Noun_Entry_IO.Default_Width;
+               Put (S (L + 1 .. M), P.N);
                --        M := L + NOUN_KIND_TYPE_IO.DEFAULT_WIDTH;
                --        PUT (S (L + 1 .. M), P.NOUN_KIND);
             when Pron =>
-               m := l + Pronoun_Entry_IO.Default_Width;
-               Put (s (l + 1 .. m), p.pron);
+               M := L + Pronoun_Entry_IO.Default_Width;
+               Put (S (L + 1 .. M), P.Pron);
                --        M := L + PRONOUN_KIND_TYPE_IO.DEFAULT_WIDTH;
                --        PUT (S (L + 1 .. M), P.PRONOUN_KIND);
             when Pack =>
-               m := l + Propack_Entry_IO.Default_Width;
-               Put (s (l + 1 .. m), p.pack);
+               M := L + Propack_Entry_IO.Default_Width;
+               Put (S (L + 1 .. M), P.Pack);
                --        M := L + PRONOUN_KIND_TYPE_IO.DEFAULT_WIDTH;
                --        PUT (S (L + 1 .. M), P.PROPACK_KIND);
             when Adj =>
-               m := l + Adjective_Entry_IO.Default_Width;
-               Put (s (l + 1 .. m), p.adj);
+               M := L + Adjective_Entry_IO.Default_Width;
+               Put (S (L + 1 .. M), P.Adj);
             when Num =>
-               m := l + Numeral_Entry_IO.Default_Width;
-               Put (s (l + 1 .. m), p.num);
+               M := L + Numeral_Entry_IO.Default_Width;
+               Put (S (L + 1 .. M), P.Num);
                --        M := L + NUMERAL_VALUE_TYPE_IO_DEFAULT_WIDTH;
                --        PUT (S (L + 1 .. M), P.PRONOUN_KIND);
             when Adv =>
-               m := l + Adverb_Entry_IO.Default_Width;
-               Put (s (l + 1 .. m), p.adv);
+               M := L + Adverb_Entry_IO.Default_Width;
+               Put (S (L + 1 .. M), P.Adv);
             when V =>
-               m := l + Verb_Entry_IO.Default_Width;
-               Put (s (l + 1 .. m), p.v);
+               M := L + Verb_Entry_IO.Default_Width;
+               Put (S (L + 1 .. M), P.V);
                --        M := L + PRONOUN_KIND_TYPE_IO.DEFAULT_WIDTH;
                --        PUT (S (L + 1 .. M), P.PRONOUN_KIND);
             when others =>
                null;
          end case;
-         s (m + 1 .. s'Last) := (others => ' ');
+         S (M + 1 .. S'Last) := (others => ' ');
       end Put;
 
-   end Target_entry_io;
+   end Target_Entry_Io;
 
-   package body tackon_entry_io is
-      procedure Get (f : in File_Type; i : out tackon_entry) is
+   package body Tackon_Entry_Io is
+      procedure Get (F : in File_Type; I : out Tackon_Entry) is
       begin
-         Get (f, i.base);
+         Get (F, I.Base);
       end Get;
 
-      procedure Get (i : out tackon_entry) is
+      procedure Get (I : out Tackon_Entry) is
       begin
-         Get (i.base);
+         Get (I.Base);
       end Get;
 
-      procedure Put (f : in File_Type; i : in tackon_entry) is
+      procedure Put (F : in File_Type; I : in Tackon_Entry) is
       begin
-         Put (f, i.base);
+         Put (F, I.Base);
       end Put;
 
-      procedure Put (i : in tackon_entry) is
+      procedure Put (I : in Tackon_Entry) is
       begin
-         Put (i.base);
+         Put (I.Base);
       end Put;
 
-      procedure Get (s : in String; i : out tackon_entry; last : out Integer) is
-         l : constant Integer := s'First - 1;
+      procedure Get (S : in String; I : out Tackon_Entry; Last : out Integer) is
+         L : constant Integer := S'First - 1;
       begin
-         Get (s (l + 1 .. s'Last), i.base, last);
+         Get (S (L + 1 .. S'Last), I.Base, Last);
       end Get;
 
-      procedure Put (s : out String; i : in tackon_entry) is
-         l : constant Integer := s'First - 1;
-         m : Integer := 0;
+      procedure Put (S : out String; I : in Tackon_Entry) is
+         L : constant Integer := S'First - 1;
+         M : Integer := 0;
       begin
-         m := l + Target_entry_io.Default_Width;
-         Put (s (l + 1 .. m), i.base);
-         s (s'First .. s'Last) := (others => ' ');
+         M := L + Target_Entry_Io.Default_Width;
+         Put (S (L + 1 .. M), I.Base);
+         S (S'First .. S'Last) := (others => ' ');
       end Put;
 
-   end tackon_entry_io;
+   end Tackon_Entry_Io;
 
-   package body prefix_entry_io is
-      spacer : Character := ' ';
+   package body Prefix_Entry_Io is
+      Spacer : Character := ' ';
 
-      procedure Get (f : in File_Type; p : out prefix_entry) is
+      procedure Get (F : in File_Type; P : out Prefix_Entry) is
       begin
-         Get (f, p.root);
-         Get (f, spacer);
-         Get (f, p.Target);
+         Get (F, P.Root);
+         Get (F, Spacer);
+         Get (F, P.Target);
       end Get;
 
-      procedure Get (p : out prefix_entry) is
+      procedure Get (P : out Prefix_Entry) is
       begin
-         Get (p.root);
-         Get (spacer);
-         Get (p.Target);
+         Get (P.Root);
+         Get (Spacer);
+         Get (P.Target);
       end Get;
 
-      procedure Put (f : in File_Type; p : in prefix_entry) is
+      procedure Put (F : in File_Type; P : in Prefix_Entry) is
       begin
-         Put (f, p.root);
-         Put (f, ' ');
-         Put (f, p.Target);
+         Put (F, P.Root);
+         Put (F, ' ');
+         Put (F, P.Target);
       end Put;
 
-      procedure Put (p : in prefix_entry) is
+      procedure Put (P : in Prefix_Entry) is
       begin
-         Put (p.root);
+         Put (P.Root);
          Put (' ');
-         Put (p.Target);
+         Put (P.Target);
       end Put;
 
-      procedure Get (s : in String; p : out prefix_entry; last : out Integer) is
-         l : Integer := s'First - 1;
+      procedure Get (S : in String; P : out Prefix_Entry; Last : out Integer) is
+         L : Integer := S'First - 1;
       begin
-         Get (s (l + 1 .. s'Last), p.root, l);
-         l := l + 1;
-         Get (s (l + 1 .. s'Last), p.Target, last);
+         Get (S (L + 1 .. S'Last), P.Root, L);
+         L := L + 1;
+         Get (S (L + 1 .. S'Last), P.Target, Last);
       end Get;
 
-      procedure Put (s : out String; p : in prefix_entry) is
-         l : Integer := s'First - 1;
-         m : Integer := 0;
+      procedure Put (S : out String; P : in Prefix_Entry) is
+         L : Integer := S'First - 1;
+         M : Integer := 0;
       begin
-         m := l + Part_Of_Speech_Type_IO.Default_Width;
-         Put (s (l + 1 .. m), p.root);
-         l := m + 1;
-         s (l) :=  ' ';
-         m := l + Part_Of_Speech_Type_IO.Default_Width;
-         Put (s (l + 1 .. m), p.Target);
-         s (m + 1 .. s'Last) := (others => ' ');
+         M := L + Part_Of_Speech_Type_IO.Default_Width;
+         Put (S (L + 1 .. M), P.Root);
+         L := M + 1;
+         S (L) :=  ' ';
+         M := L + Part_Of_Speech_Type_IO.Default_Width;
+         Put (S (L + 1 .. M), P.Target);
+         S (M + 1 .. S'Last) := (others => ' ');
       end Put;
 
-   end prefix_entry_io;
+   end Prefix_Entry_Io;
 
-   package body suffix_entry_io is
-      spacer : Character := ' ';
+   package body Suffix_Entry_Io is
+      Spacer : Character := ' ';
 
-      procedure Get (f : in File_Type; p : out suffix_entry) is
+      procedure Get (F : in File_Type; P : out Suffix_Entry) is
       begin
-         Get (f, p.root);
-         Get (f, spacer);
-         Get (f, p.root_key);
-         Get (f, spacer);
-         Get (f, p.Target);
-         Get (f, spacer);
-         Get (f, p.Target_key);
+         Get (F, P.Root);
+         Get (F, Spacer);
+         Get (F, P.Root_Key);
+         Get (F, Spacer);
+         Get (F, P.Target);
+         Get (F, Spacer);
+         Get (F, P.Target_Key);
       end Get;
 
-      procedure Get (p : out suffix_entry) is
+      procedure Get (P : out Suffix_Entry) is
       begin
-         Get (p.root);
-         Get (spacer);
-         Get (p.root_key);
-         Get (spacer);
-         Get (p.Target);
-         Get (spacer);
-         Get (p.Target_key);
+         Get (P.Root);
+         Get (Spacer);
+         Get (P.Root_Key);
+         Get (Spacer);
+         Get (P.Target);
+         Get (Spacer);
+         Get (P.Target_Key);
       end Get;
 
-      procedure Put (f : in File_Type; p : in suffix_entry) is
+      procedure Put (F : in File_Type; P : in Suffix_Entry) is
       begin
-         Put (f, p.root);
-         Put (f, ' ');
-         Put (f, p.root_key, 2);
-         Put (f, ' ');
-         Put (f, p.Target);
-         Put (f, ' ');
-         Put (f, p.Target_key, 2);
+         Put (F, P.Root);
+         Put (F, ' ');
+         Put (F, P.Root_Key, 2);
+         Put (F, ' ');
+         Put (F, P.Target);
+         Put (F, ' ');
+         Put (F, P.Target_Key, 2);
       end Put;
 
-      procedure Put (p : in suffix_entry) is
+      procedure Put (P : in Suffix_Entry) is
       begin
-         Put (p.root);
+         Put (P.Root);
          Put (' ');
-         Put (p.root_key, 2);
+         Put (P.Root_Key, 2);
          Put (' ');
-         Put (p.Target);
+         Put (P.Target);
          Put (' ');
-         Put (p.Target_key, 2);
+         Put (P.Target_Key, 2);
       end Put;
 
-      procedure Get (s : in String; p : out suffix_entry; last : out Integer) is
-         l : Integer := s'First - 1;
+      procedure Get (S : in String; P : out Suffix_Entry; Last : out Integer) is
+         L : Integer := S'First - 1;
       begin
          --TEXT_IO.PUT ("#1" & INTEGER'IMAGE (L));
-         Get (s (l + 1 .. s'Last), p.root, l);
+         Get (S (L + 1 .. S'Last), P.Root, L);
          --TEXT_IO.PUT ("#2" & INTEGER'IMAGE (L));
-         l := l + 1;
-         Get (s (l + 1 .. s'Last), p.root_key, l);
+         L := L + 1;
+         Get (S (L + 1 .. S'Last), P.Root_Key, L);
          --TEXT_IO.PUT ("#3" & INTEGER'IMAGE (L));
-         l := l + 1;
-         Get (s (l + 1 .. s'Last), p.Target, l);
+         L := L + 1;
+         Get (S (L + 1 .. S'Last), P.Target, L);
          --TEXT_IO.PUT ("#4" & INTEGER'IMAGE (L));
-         l := l + 1;
-         Get (s (l + 1 .. s'Last), p.Target_key, last);
+         L := L + 1;
+         Get (S (L + 1 .. S'Last), P.Target_Key, Last);
          --TEXT_IO.PUT ("#5" & INTEGER'IMAGE (LAST));
       end Get;
 
-      procedure Put (s : out String; p : in suffix_entry) is
-         l : Integer := s'First - 1;
-         m : Integer := 0;
+      procedure Put (S : out String; P : in Suffix_Entry) is
+         L : Integer := S'First - 1;
+         M : Integer := 0;
       begin
-         m := l + Part_Of_Speech_Type_IO.Default_Width;
-         Put (s (l + 1 .. m), p.root);
-         l := m + 1;
-         s (l) :=  ' ';
-         m := l + 2;
-         Put (s (l + 1 .. m), p.root_key);
-         l := m + 1;
-         s (l) :=  ' ';
-         m := l + Target_entry_io.Default_Width;
-         Put (s (l + 1 .. m), p.Target);
-         l := m + 1;
-         s (l) :=  ' ';
-         m := l + 2;
-         Put (s (l + 1 .. m), p.Target_key);
-         s (m + 1 .. s'Last) := (others => ' ');
+         M := L + Part_Of_Speech_Type_IO.Default_Width;
+         Put (S (L + 1 .. M), P.Root);
+         L := M + 1;
+         S (L) :=  ' ';
+         M := L + 2;
+         Put (S (L + 1 .. M), P.Root_Key);
+         L := M + 1;
+         S (L) :=  ' ';
+         M := L + Target_Entry_Io.Default_Width;
+         Put (S (L + 1 .. M), P.Target);
+         L := M + 1;
+         S (L) :=  ' ';
+         M := L + 2;
+         Put (S (L + 1 .. M), P.Target_Key);
+         S (M + 1 .. S'Last) := (others => ' ');
       end Put;
 
-   end suffix_entry_io;
+   end Suffix_Entry_Io;
 
 begin    --  Initiate body of ADDONS_PACKAGE
          --TEXT_IO.PUT_LINE ("Initializing ADDONS_PACKAGE");
 
-   prefix_entry_io.Default_Width := Part_Of_Speech_Type_IO.Default_Width + 1 +
+   Prefix_Entry_Io.Default_Width := Part_Of_Speech_Type_IO.Default_Width + 1 +
      Part_Of_Speech_Type_IO.Default_Width;
-   Target_entry_io.Default_Width := Part_Of_Speech_Type_IO.Default_Width + 1 +
+   Target_Entry_Io.Default_Width := Part_Of_Speech_Type_IO.Default_Width + 1 +
      Numeral_Entry_IO.Default_Width; --  Largest
 
-   suffix_entry_io.Default_Width := Part_Of_Speech_Type_IO.Default_Width + 1 +
+   Suffix_Entry_Io.Default_Width := Part_Of_Speech_Type_IO.Default_Width + 1 +
      2 + 1 +
-     Target_entry_io.Default_Width + 1 +
+     Target_Entry_Io.Default_Width + 1 +
      2;
-   tackon_entry_io.Default_Width := Target_entry_io.Default_Width;
+   Tackon_Entry_Io.Default_Width := Target_Entry_Io.Default_Width;
 
 end Support_Utils.Addons_Package;
