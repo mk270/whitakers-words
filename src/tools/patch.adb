@@ -15,58 +15,58 @@
 -- available to anyone who wishes to use them, for whatever purpose.
 
 with Ada.Text_IO;
-procedure patch is
+procedure Patch is
    package Integer_IO is new Ada.Text_IO.Integer_IO (Integer);
    use Ada.Text_IO;
    use Integer_IO;
 
-   f1, f2, f3  : File_Type;
-   f           : String (1 .. 100);
-   blanks      : constant String (1 .. 250) := (others => ' ');
-   s, t        : String (1 .. 250) := blanks;
-   l           : Integer := 0;
-   n           : Integer := 0;
-   ls, lt      : Integer := 0;
+   F1, F2, F3  : File_Type;
+   F           : String (1 .. 100);
+   Blanks      : constant String (1 .. 250) := (others => ' ');
+   S, T        : String (1 .. 250) := Blanks;
+   L           : Integer := 0;
+   N           : Integer := 0;
+   Ls, Lt      : Integer := 0;
 begin
    Put_Line ("Takes in two files and produces a third which is the pair");
    Put_Line ("as columns with N blanks between");
    Put_Line ("Does this while there are corresponding lines in both files");
 
    Put ("What is first file to PATCH from =>");
-   Get_Line (f, l);
+   Get_Line (F, L);
    Put ("=> ");
-   Open (f1, In_File, f (1 .. l));
+   Open (F1, In_File, F (1 .. L));
    Put_Line ("Opened first input file");
 
    Put ("What is second file to PATCH from =>");
-   Get_Line (f, l);
+   Get_Line (F, L);
    Put ("=> ");
-   Open (f2, In_File, f (1 .. l));
+   Open (F2, In_File, F (1 .. L));
    Put_Line ("Opened second input file");
 
    Put ("How many blank columns to leave between =>");
-   Get (n);
+   Get (N);
    Skip_Line;
    New_Line;
 
    Put ("Where to put the resulting PATCHed file =>");
-   Get_Line (f, l);
+   Get_Line (F, L);
    Put ("=> ");
-   Create (f3, Out_File, f (1 .. l));
+   Create (F3, Out_File, F (1 .. L));
    Put_Line ("Created PATCHed output file");
 
-   while not End_Of_File (f1) and not End_Of_File (f2) loop
-      Get_Line (f1, s, ls);
-      Get_Line (f2, t, lt);
-      Put_Line (f3, s (1 .. ls) & blanks (1 .. n) & t (1 .. lt));
+   while not End_Of_File (F1) and not End_Of_File (F2) loop
+      Get_Line (F1, S, Ls);
+      Get_Line (F2, T, Lt);
+      Put_Line (F3, S (1 .. Ls) & Blanks (1 .. N) & T (1 .. Lt));
    end loop;
-   Close (f1);
-   Close (f2);
-   Close (f3);
+   Close (F1);
+   Close (F2);
+   Close (F3);
    Put_Line ("Finshed PATCH");
 
 exception
    when others =>
       Put_Line ("Unexpected exception in PATCH");
-      Close (f3);
-end patch;
+      Close (F3);
+end Patch;

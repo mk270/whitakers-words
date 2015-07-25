@@ -427,392 +427,392 @@ procedure check is
          --  General ADJ things
 
          --  Check that ADJ 9 is POS
-         if pt.Adj.Decl.Which = 9 and
-           pt.Adj.Co /= Pos
+         if Pt.Adj.Decl.Which = 9 and
+           Pt.Adj.Co /= Pos
          then
-            prob ("    EXPECTED  ADJ 9 to be POS");
+            Prob ("    EXPECTED  ADJ 9 to be POS");
          end if;
 
          --  Check that ADJ 9 has 1 stem
-         if (pt.Adj.Decl.Which = 9)    and
-           (sts (2) /= Null_Stem_Type)
+         if (Pt.Adj.Decl.Which = 9)    and
+           (Sts (2) /= Null_Stem_Type)
          then
-            prob ("    EXPECTED  ADJ 9 have just 1 stem");
+            Prob ("    EXPECTED  ADJ 9 have just 1 stem");
          end if;
 
          --  Check that there are two and only two stems if POS
-         if pt.Adj.Co = Pos  and pt.Adj.Decl /= (9, 9) and
-            pt.Adj.Decl /= (9, 8)
+         if Pt.Adj.Co = Pos  and Pt.Adj.Decl /= (9, 9) and
+            Pt.Adj.Decl /= (9, 8)
          then
-            if sts (3) /= Null_Stem_Type  or
-               sts (4) /= Null_Stem_Type
+            if Sts (3) /= Null_Stem_Type  or
+               Sts (4) /= Null_Stem_Type
             then
-               prob ("    EXPECTED  exactly 2  POS ADJ  STEMS");
+               Prob ("    EXPECTED  exactly 2  POS ADJ  STEMS");
             end if;
          end if;
 
          --  Check that there are more than two stems if X
-         if pt.Adj.Co = X    then
-            if sts (3) = Null_Stem_Type  or
-               sts (4) = Null_Stem_Type
+         if Pt.Adj.Co = X    then
+            if Sts (3) = Null_Stem_Type  or
+               Sts (4) = Null_Stem_Type
             then
-               prob ("    EXPECTED  4  X  ADJ  STEMS");
+               Prob ("    EXPECTED  4  X  ADJ  STEMS");
             end if;
          end if;
 
          --  Check that COMP ends in i, mostly
-         if pt.Adj.Co = X   then
-            if sts (3) /= Null_Stem_Type  and
-               sts (3) /= ZZZ_Stem
+         if Pt.Adj.Co = X   then
+            if Sts (3) /= Null_Stem_Type  and
+               Sts (3) /= ZZZ_Stem
             then
-               if sts (3)(len (sts (3))) /= 'i'  then
-                  prob ("    EXPECTED  ADJ  STEM 3 to end in 'i'");
-               elsif sts (3)(1 .. len (sts (3)) - 1) /=
-                     sts (2)(1 .. len (sts (2)))
+               if Sts (3)(Len (Sts (3))) /= 'i'  then
+                  Prob ("    EXPECTED  ADJ  STEM 3 to end in 'i'");
+               elsif Sts (3)(1 .. Len (Sts (3)) - 1) /=
+                     Sts (2)(1 .. Len (Sts (2)))
                then
-                  prob ("    EXPECTED  ADJ  STEM 3  = STEM 2 & 'i'");
+                  Prob ("    EXPECTED  ADJ  STEM 3  = STEM 2 & 'i'");
                end if;
             end if;
          end if;
 
          --  Check that SUPER ends in issi, mostly
-         if pt.Adj.Co = X    then
-            if ((len (sts (3)) > 3) and  (len (sts (4)) > 4))    and then
-              ((sts (3) /= Null_Stem_Type  and
-              sts (3) /= ZZZ_Stem)    and then
-              (sts (4) /= Null_Stem_Type  and
-              sts (4) /= ZZZ_Stem))
+         if Pt.Adj.Co = X    then
+            if ((Len (Sts (3)) > 3) and  (Len (Sts (4)) > 4))    and then
+              ((Sts (3) /= Null_Stem_Type  and
+              Sts (3) /= ZZZ_Stem)    and then
+              (Sts (4) /= Null_Stem_Type  and
+              Sts (4) /= ZZZ_Stem))
             then
-               if sts (3)(len (sts (3)) - 3 .. len (sts (3))) = "cili"  then
-                  if sts (4)(len (sts (4)) - 4 .. len (sts (4))) /= "cilli" then
-                     prob ("    EXPECTED  'cil' ADJ  STEM 4 to end in 'cilli'");
+               if Sts (3)(Len (Sts (3)) - 3 .. Len (Sts (3))) = "cili"  then
+                  if Sts (4)(Len (Sts (4)) - 4 .. Len (Sts (4))) /= "cilli" then
+                     Prob ("    EXPECTED  'cil' ADJ  STEM 4 to end in 'cilli'");
                   end if;
-               elsif sts (3)(len (sts (3)) - 3 .. len (sts (3))) = "mili"  then
-                  if sts (4)(len (sts (4)) - 4 .. len (sts (4))) /= "milli" then
-                     prob ("    EXPECTED  'mil' ADJ  STEM 4 to end in 'milli'");
+               elsif Sts (3)(Len (Sts (3)) - 3 .. Len (Sts (3))) = "mili"  then
+                  if Sts (4)(Len (Sts (4)) - 4 .. Len (Sts (4))) /= "milli" then
+                     Prob ("    EXPECTED  'mil' ADJ  STEM 4 to end in 'milli'");
                   end if;
-               elsif sts (3)(len (sts (3)) - 1 .. len (sts (3))) = "ri"  then
-                  if sts (4)(len (sts (4)) - 2 .. len (sts (4))) /= "rri" then
-                     prob ("    EXPECTED  'r' ADJ  STEM 4 to end in 'rri'");
+               elsif Sts (3)(Len (Sts (3)) - 1 .. Len (Sts (3))) = "ri"  then
+                  if Sts (4)(Len (Sts (4)) - 2 .. Len (Sts (4))) /= "rri" then
+                     Prob ("    EXPECTED  'r' ADJ  STEM 4 to end in 'rri'");
                   end if;
-               elsif sts (4)(len (sts (4)) - 3 .. len (sts (4))) /= "issi"  then
-                  prob ("    EXPECTED  ADJ  STEM 4 to end in 'issi'");
-               elsif sts (4)(1 .. len (sts (4)) - 3) /=
-                     sts (3)(1 .. len (sts (3)))
+               elsif Sts (4)(Len (Sts (4)) - 3 .. Len (Sts (4))) /= "issi"  then
+                  Prob ("    EXPECTED  ADJ  STEM 4 to end in 'issi'");
+               elsif Sts (4)(1 .. Len (Sts (4)) - 3) /=
+                     Sts (3)(1 .. Len (Sts (3)))
                then
-                  prob ("    EXPECTED  ADJ  STEM 4 to be STEM 3 & 'ssi'");
-               elsif sts (4)(1 .. len (sts (4)) - 4) /=
-                     sts (2)(1 .. len (sts (2)))
+                  Prob ("    EXPECTED  ADJ  STEM 4 to be STEM 3 & 'ssi'");
+               elsif Sts (4)(1 .. Len (Sts (4)) - 4) /=
+                     Sts (2)(1 .. Len (Sts (2)))
                then
-                  prob ("    EXPECTED  ADJ  STEM 4 to be STEM 2 & 'issi'");
+                  Prob ("    EXPECTED  ADJ  STEM 4 to be STEM 2 & 'issi'");
                end if;
             end if;
          end if;
 
          --  Check that COMP and SUPER are (0, 0)
-         if ((pt.Adj.Co = Comp) or
-           (pt.Adj.Co = Super))     and then
-           (pt.Adj.Decl /= (0, 0))
+         if ((Pt.Adj.Co = Comp) or
+           (Pt.Adj.Co = Super))     and then
+           (Pt.Adj.Decl /= (0, 0))
          then
-            prob ("    EXPECTED  ADJ  COMP/SUPER to be (0, 0)");
+            Prob ("    EXPECTED  ADJ  COMP/SUPER to be (0, 0)");
          end if;
 
          --  Check that COMP and SUPER have only one stem
-         if ((pt.Adj.Co = Comp) or
-           (pt.Adj.Co = Super))     and then
-           (sts (2) /= Null_Stem_Type)
+         if ((Pt.Adj.Co = Comp) or
+           (Pt.Adj.Co = Super))     and then
+           (Sts (2) /= Null_Stem_Type)
          then
-            prob ("    EXPECTED  ADJ  COMP/SUPER to have only one stem");
+            Prob ("    EXPECTED  ADJ  COMP/SUPER to have only one stem");
          end if;
 
-      elsif pt.pofs = Adv  then
+      elsif Pt.Pofs = Adv  then
 
          --  Can only check consistency if more than one stem,
          --    CO /= COMP | SUPER
-         if pt.Adv.Co = Pos or pt.Adv.Co = X  then
+         if Pt.Adv.Co = Pos or Pt.Adv.Co = X  then
 
             --  Check that there are two and only two stems if POS
-            if pt.Adv.Co = Pos     then
-               if sts (2) /= Null_Stem_Type  or
-                  sts (3) /= Null_Stem_Type
+            if Pt.Adv.Co = Pos     then
+               if Sts (2) /= Null_Stem_Type  or
+                  Sts (3) /= Null_Stem_Type
                then
-                  prob ("    EXPECTED  exactly 1  POS ADV  STEM ");
+                  Prob ("    EXPECTED  exactly 1  POS ADV  STEM ");
                end if;
             end if;
 
             --  Check that there are more than two stems if X
-            if pt.Adv.Co = X   then
-               if sts (2) = Null_Stem_Type  or
-                  sts (3) = Null_Stem_Type
+            if Pt.Adv.Co = X   then
+               if Sts (2) = Null_Stem_Type  or
+                  Sts (3) = Null_Stem_Type
                then
-                  prob ("    EXPECTED  3  X  ADV  STEMS");
+                  Prob ("    EXPECTED  3  X  ADV  STEMS");
                end if;
             end if;
 
          end if;
 
          --  Check that COMP  ends in ius, mostly
-         if pt.Adv.Co = X        then
-            if (sts (2) /= Null_Stem_Type  and
-              sts (2) /= ZZZ_Stem)     and then
-              (sts (2)(len (sts (2)) - 2 .. len (sts (2))) /= "ius")
+         if Pt.Adv.Co = X        then
+            if (Sts (2) /= Null_Stem_Type  and
+              Sts (2) /= ZZZ_Stem)     and then
+              (Sts (2)(Len (Sts (2)) - 2 .. Len (Sts (2))) /= "ius")
             then
-               prob ("    EXPECTED  ADV  STEM 2 to end in 'ius'");
+               Prob ("    EXPECTED  ADV  STEM 2 to end in 'ius'");
             end if;
          end if;
 
          --  Check that SUPER ends in ime, mostly
-         if pt.Adv.Co = X        then
-            if (sts (3) /= Null_Stem_Type  and
-              sts (3) /= ZZZ_Stem)     and then
-              (sts (3)(len (sts (3)) - 2 .. len (sts (3))) /= "ime")
+         if Pt.Adv.Co = X        then
+            if (Sts (3) /= Null_Stem_Type  and
+              Sts (3) /= ZZZ_Stem)     and then
+              (Sts (3)(Len (Sts (3)) - 2 .. Len (Sts (3))) /= "ime")
             then
-               prob ("    EXPECTED  ADV  STEM 3 to end in 'ime'");
+               Prob ("    EXPECTED  ADV  STEM 3 to end in 'ime'");
             end if;
          end if;
 
          --  Check that SUPER ends in issime, mostly
-         if pt.Adv.Co = X      then
-            if ((len (sts (2)) > 4) and  (len (sts (3)) > 6))    and then
-              ((sts (2) /= Null_Stem_Type  and
-              sts (2) /= ZZZ_Stem)    and then
-              (sts (3) /= Null_Stem_Type  and
-              sts (3) /= ZZZ_Stem))
+         if Pt.Adv.Co = X      then
+            if ((Len (Sts (2)) > 4) and  (Len (Sts (3)) > 6))    and then
+              ((Sts (2) /= Null_Stem_Type  and
+              Sts (2) /= ZZZ_Stem)    and then
+              (Sts (3) /= Null_Stem_Type  and
+              Sts (3) /= ZZZ_Stem))
             then
-               if sts (2)(len (sts (2)) - 5 .. len (sts (2))) = "cilius"  then
-                  if sts (3)(len (sts (3)) - 6 ..
-                             len (sts (3))) /= "cillime"
+               if Sts (2)(Len (Sts (2)) - 5 .. Len (Sts (2))) = "cilius"  then
+                  if Sts (3)(Len (Sts (3)) - 6 ..
+                             Len (Sts (3))) /= "cillime"
                   then
-                     prob (
+                     Prob (
                        "    EXPECTED  'cil' ADV  STEM 3 to end in 'cillime'");
                   end if;
-               elsif sts (2)(len (sts (2)) - 5 ..
-                             len (sts (2))) = "milius"
+               elsif Sts (2)(Len (Sts (2)) - 5 ..
+                             Len (Sts (2))) = "milius"
                then
-                  if sts (3)(len (sts (3)) - 6 ..
-                             len (sts (3))) /= "millime"
+                  if Sts (3)(Len (Sts (3)) - 6 ..
+                             Len (Sts (3))) /= "millime"
                   then
-                     prob (
+                     Prob (
                        "    EXPECTED  'mil' ADV  STEM 3 to end in 'millime'");
                   end if;
-               elsif sts (2)(len (sts (2)) - 3 .. len (sts (2))) = "rius" then
-                  if sts (3)(len (sts (3)) - 4 .. len (sts (3))) /= "rrime" then
-                     prob ("    EXPECTED  'r' ADV  STEM 3 to end in 'rrime'");
+               elsif Sts (2)(Len (Sts (2)) - 3 .. Len (Sts (2))) = "rius" then
+                  if Sts (3)(Len (Sts (3)) - 4 .. Len (Sts (3))) /= "rrime" then
+                     Prob ("    EXPECTED  'r' ADV  STEM 3 to end in 'rrime'");
                   end if;
-               elsif sts (3)(len (sts (3)) - 5 ..
-                             len (sts (3))) /= "issime"
+               elsif Sts (3)(Len (Sts (3)) - 5 ..
+                             Len (Sts (3))) /= "issime"
                then
-                  prob ("    EXPECTED  ADV  STEM 3 to end in 'issime'");
+                  Prob ("    EXPECTED  ADV  STEM 3 to end in 'issime'");
                end if;
             end if;
          end if;
 
-      elsif pt.pofs = V  then
+      elsif Pt.Pofs = V  then
 
          --  Check that V 9 9 has ony one stem
-         if pt.V.Con = (9, 9)    then
-            if sts (2) /= Null_Stem_Type  or
-               sts (3) /= Null_Stem_Type  or
-               sts (4) /= Null_Stem_Type
+         if Pt.V.Con = (9, 9)    then
+            if Sts (2) /= Null_Stem_Type  or
+               Sts (3) /= Null_Stem_Type  or
+               Sts (4) /= Null_Stem_Type
             then
-               prob ("    EXPECTED  exactly 1  V (9, 9)  STEM ");
+               Prob ("    EXPECTED  exactly 1  V (9, 9)  STEM ");
             end if;
 
          else
 
             --  Check to see no first verb stem has lingering 'o'
-            if sts (1)(len (sts (1)))  =  'o'  then
-               prob ("    EXPECTED VERB not to have -o 1st stem");
+            if Sts (1)(Len (Sts (1)))  =  'o'  then
+               Prob ("    EXPECTED VERB not to have -o 1st stem");
             end if;
 
             --  Check to see no third verb stem has lingering 'i'
-            if (sts (3)(len (sts (3)))  =  'i')  and
-              (pt.V.Con /= (6, 1))
+            if (Sts (3)(Len (Sts (3)))  =  'i')  and
+              (Pt.V.Con /= (6, 1))
             then
-               prob ("    EXPECTED VERB not to have -i 3rd stem");
+               Prob ("    EXPECTED VERB not to have -i 3rd stem");
             end if;
 
             --  Check that the stems are the same when expected
-            if pt.V.Con.Which < 5  and  sts (1)(1 .. 3) /= "zzz"   then
-               if pt.V.Con  /= (3, 1) and
-                  pt.V.Con  /= (3, 2) and
-                  pt.V.Con  /= (3, 4)
+            if Pt.V.Con.Which < 5  and  Sts (1)(1 .. 3) /= "zzz"   then
+               if Pt.V.Con  /= (3, 1) and
+                  Pt.V.Con  /= (3, 2) and
+                  Pt.V.Con  /= (3, 4)
                then
-                  if sts (1) /= sts (2)  then
-                     prob ("    EXPECTED IDENTICAL VERB 1 & 2 STEMS");
+                  if Sts (1) /= Sts (2)  then
+                     Prob ("    EXPECTED IDENTICAL VERB 1 & 2 STEMS");
                   end if;
-               elsif pt.V.Con.Which  = 2 and then
-                 (sts (1)(len (sts (1)))  =  'e')
+               elsif Pt.V.Con.Which  = 2 and then
+                 (Sts (1)(Len (Sts (1)))  =  'e')
                then
-                  prob ("    EXPECTED (2, X) not to have -e 1st stem");
-               elsif pt.V.Con  = (3, 1) and then
-                 sts (1) /= sts (2)  and then
-                 (sts (1)(1 .. len (sts (1)))  /=
-                 sts (2)(1 .. len (sts (2))) & 'i')
+                  Prob ("    EXPECTED (2, X) not to have -e 1st stem");
+               elsif Pt.V.Con  = (3, 1) and then
+                 Sts (1) /= Sts (2)  and then
+                 (Sts (1)(1 .. Len (Sts (1)))  /=
+                 Sts (2)(1 .. Len (Sts (2))) & 'i')
                then
-                  prob ("    EXPECTED (3, 1) i-stem  VERB  STEMS");
-               elsif pt.V.Con  = (3, 4) and then
-                 (sts (1)(1 .. len (sts (1)))  /=
-                 sts (2)(1 .. len (sts (2))) & 'i')
+                  Prob ("    EXPECTED (3, 1) i-stem  VERB  STEMS");
+               elsif Pt.V.Con  = (3, 4) and then
+                 (Sts (1)(1 .. Len (Sts (1)))  /=
+                 Sts (2)(1 .. Len (Sts (2))) & 'i')
                then
-                  prob ("    EXPECTED (3, 4) i-stem  VERB  STEMS");
-               elsif pt.V.Con  = (3, 2)  then
-                  if ((sts (1)(len (sts (1)) - 2 .. len (sts (1)))  /=  "fer")
+                  Prob ("    EXPECTED (3, 4) i-stem  VERB  STEMS");
+               elsif Pt.V.Con  = (3, 2)  then
+                  if ((Sts (1)(Len (Sts (1)) - 2 .. Len (Sts (1)))  /=  "fer")
                     or
-                    (sts (2)(len (sts (2)) - 3 .. len (sts (2)))  /=  "ferr"))
+                    (Sts (2)(Len (Sts (2)) - 3 .. Len (Sts (2)))  /=  "ferr"))
                     or
-                    (sts (1)(1 .. len (sts (1)) - 3)  /=
-                     sts (2)(1 .. len (sts (2)) - 4))
+                    (Sts (1)(1 .. Len (Sts (1)) - 3)  /=
+                     Sts (2)(1 .. Len (Sts (2)) - 4))
                   then
-                     prob ("    EXPECTED (3, 2) fer   VERB  STEMS");
+                     Prob ("    EXPECTED (3, 2) fer   VERB  STEMS");
                   end if;
                end if;
             end if;
 
             --  Check that the last 2 verb stems progress as expected
-            if pt.V.Con  = (1, 1)   and then
-              (sts (3) /= ZZZ_Stem and  sts (4) /= ZZZ_Stem)
+            if Pt.V.Con  = (1, 1)   and then
+              (Sts (3) /= ZZZ_Stem and  Sts (4) /= ZZZ_Stem)
             then
-               if len (sts (3)) >= 3                           and then
-                 (sts (3)(len (sts (3)) - 1 .. len (sts (3))) = "av")
+               if Len (Sts (3)) >= 3                           and then
+                 (Sts (3)(Len (Sts (3)) - 1 .. Len (Sts (3))) = "av")
                then
-                  if sts (4)(len (sts (4)) - 1 .. len (sts (4))) /= "at"   or
-                    (sts (3)(1 .. len (sts (3)) - 2)  /=
-                    sts (4)(1 .. len (sts (4)) - 2))
+                  if Sts (4)(Len (Sts (4)) - 1 .. Len (Sts (4))) /= "at"   or
+                    (Sts (3)(1 .. Len (Sts (3)) - 2)  /=
+                    Sts (4)(1 .. Len (Sts (4)) - 2))
                   then
-                     prob ("    EXPECTED  (1, 1) 3/4  av -> at   VERB STEMS");
+                     Prob ("    EXPECTED  (1, 1) 3/4  av -> at   VERB STEMS");
                   end if;
-               elsif len (sts (3)) >= 4                           and then
-                 (sts (3)(len (sts (3)) - 2 .. len (sts (3))) = "ubu")
+               elsif Len (Sts (3)) >= 4                           and then
+                 (Sts (3)(Len (Sts (3)) - 2 .. Len (Sts (3))) = "ubu")
                then
-                  if sts (4)(len (sts (4)) - 3 .. len (sts (4))) /= "ubit"   or
-                    (sts (3)(1 .. len (sts (3)) - 3)  /=
-                    sts (4)(1 .. len (sts (4)) - 4))
+                  if Sts (4)(Len (Sts (4)) - 3 .. Len (Sts (4))) /= "ubit"   or
+                    (Sts (3)(1 .. Len (Sts (3)) - 3)  /=
+                    Sts (4)(1 .. Len (Sts (4)) - 4))
                   then
-                     prob ("    EXPECTED  (1, 1) 3/4 ubu -> ubit VERB STEMS");
+                     Prob ("    EXPECTED  (1, 1) 3/4 ubu -> ubit VERB STEMS");
                   end if;
-               elsif len (sts (3)) >= 4                           and then
-                 (sts (3)(len (sts (3)) - 2 .. len (sts (3))) = "icu")
+               elsif Len (Sts (3)) >= 4                           and then
+                 (Sts (3)(Len (Sts (3)) - 2 .. Len (Sts (3))) = "icu")
                then
-                  if sts (4)(len (sts (4)) - 3 .. len (sts (4))) /= "icit"   or
-                    (sts (3)(1 .. len (sts (3)) - 3)  /=
-                    sts (4)(1 .. len (sts (4)) - 4))
+                  if Sts (4)(Len (Sts (4)) - 3 .. Len (Sts (4))) /= "icit"   or
+                    (Sts (3)(1 .. Len (Sts (3)) - 3)  /=
+                    Sts (4)(1 .. Len (Sts (4)) - 4))
                   then
-                     prob ("    EXPECTED  (1, 1) 3/4 icu -> icit VERB STEMS");
+                     Prob ("    EXPECTED  (1, 1) 3/4 icu -> icit VERB STEMS");
                   end if;
-               elsif len (sts (3)) >= 4                           and then
-                 (sts (3)(len (sts (3)) - 2 .. len (sts (3))) = "onu")
+               elsif Len (Sts (3)) >= 4                           and then
+                 (Sts (3)(Len (Sts (3)) - 2 .. Len (Sts (3))) = "onu")
                then
-                  if sts (4)(len (sts (4)) - 3 .. len (sts (4))) /= "onit"   or
-                    (sts (3)(1 .. len (sts (3)) - 3)  /=
-                    sts (4)(1 .. len (sts (4)) - 4))
+                  if Sts (4)(Len (Sts (4)) - 3 .. Len (Sts (4))) /= "onit"   or
+                    (Sts (3)(1 .. Len (Sts (3)) - 3)  /=
+                    Sts (4)(1 .. Len (Sts (4)) - 4))
                   then
-                     prob ("    EXPECTED  (1, 1) 3/4 onu -> onit VERB STEMS");
+                     Prob ("    EXPECTED  (1, 1) 3/4 onu -> onit VERB STEMS");
                   end if;
-               elsif sts (1)(len (sts (1)) - 1 .. len (sts (1))) = "st" then
+               elsif Sts (1)(Len (Sts (1)) - 1 .. Len (Sts (1))) = "st" then
                   --  sto bad
-                  prob ("           V  (1, 1) 'st' verb  ???? VERB STEMS");
+                  Prob ("           V  (1, 1) 'st' verb  ???? VERB STEMS");
                else
-                  prob ("    EXPECTED  (1, 1) 3/4 regular     VERB STEMS");
+                  Prob ("    EXPECTED  (1, 1) 3/4 regular     VERB STEMS");
                end if;
 
             end if;
 
-            if pt.V.Con  = (3, 1)   and then
-              (sts (1) /= ZZZ_Stem  and then sts (2) /= ZZZ_Stem  and then
-              sts (3) /= ZZZ_Stem  and then sts (4) /= ZZZ_Stem)
+            if Pt.V.Con  = (3, 1)   and then
+              (Sts (1) /= ZZZ_Stem  and then Sts (2) /= ZZZ_Stem  and then
+              Sts (3) /= ZZZ_Stem  and then Sts (4) /= ZZZ_Stem)
             then
-               if len (sts (1)) >= 4                           and then
-                 (sts (3)(len (sts (3)) - 1 .. len (sts (3))) = "ec")
+               if Len (Sts (1)) >= 4                           and then
+                 (Sts (3)(Len (Sts (3)) - 1 .. Len (Sts (3))) = "ec")
                then
-                  if (sts (1)(len (sts (1)) - 3 .. len (sts (1))) = "faci")
+                  if (Sts (1)(Len (Sts (1)) - 3 .. Len (Sts (1))) = "faci")
                     and then
-                    ((sts (2)(1 .. len (sts (2))) /=
-                      sts (1)(1 .. len (sts (1)) - 4) & "fac") or
-                     (sts (3)(1 .. len (sts (3))) /=
-                      sts (1)(1 .. len (sts (1)) - 4) & "fec") or
-                     (sts (4)(1 .. len (sts (4))) /=
-                      sts (1)(1 .. len (sts (1)) - 4) & "fact"))
+                    ((Sts (2)(1 .. Len (Sts (2))) /=
+                      Sts (1)(1 .. Len (Sts (1)) - 4) & "fac") or
+                     (Sts (3)(1 .. Len (Sts (3))) /=
+                      Sts (1)(1 .. Len (Sts (1)) - 4) & "fec") or
+                     (Sts (4)(1 .. Len (Sts (4))) /=
+                      Sts (1)(1 .. Len (Sts (1)) - 4) & "fact"))
                   then
-                     prob (
+                     Prob (
                        "    EXPECTED  (3, 1) 3/4  feci, fec, fec, fact" &
                        "  VERB STEMS");
                   end if;
-                  if (sts (1)(len (sts (1)) - 3 .. len (sts (1))) = "fici")
+                  if (Sts (1)(Len (Sts (1)) - 3 .. Len (Sts (1))) = "fici")
                     and then
-                    ((sts (2)(1 .. len (sts (2))) /=
-                      sts (1)(1 .. len (sts (1)) - 4) & "fic") or
-                     (sts (3)(1 .. len (sts (3))) /=
-                      sts (1)(1 .. len (sts (1)) - 4) & "fec") or
-                     (sts (4)(1 .. len (sts (4))) /=
-                      sts (1)(1 .. len (sts (1)) - 4) & "fect"))
+                    ((Sts (2)(1 .. Len (Sts (2))) /=
+                      Sts (1)(1 .. Len (Sts (1)) - 4) & "fic") or
+                     (Sts (3)(1 .. Len (Sts (3))) /=
+                      Sts (1)(1 .. Len (Sts (1)) - 4) & "fec") or
+                     (Sts (4)(1 .. Len (Sts (4))) /=
+                      Sts (1)(1 .. Len (Sts (1)) - 4) & "fect"))
                   then
-                     prob ("    EXPECTED  (3, 1) 3/4  fici, fic, fec, fect" &
+                     Prob ("    EXPECTED  (3, 1) 3/4  fici, fic, fec, fect" &
                        "  VERB STEMS");
                   end if;
                end if;
-            elsif pt.V.Con  = (3, 1)  and then
-              sts (4) /= ZZZ_Stem
+            elsif Pt.V.Con  = (3, 1)  and then
+              Sts (4) /= ZZZ_Stem
             then
-               if len (sts (3)) >= 3                           and then
-                 (sts (3)(len (sts (3)) .. len (sts (3))) = "x")
+               if Len (Sts (3)) >= 3                           and then
+                 (Sts (3)(Len (Sts (3)) .. Len (Sts (3))) = "x")
                then
-                  if sts (3)(len (sts (3)) - 1 .. len (sts (3))) = "nx"   then
-                     if not ((sts (4)(len (sts (4)) - 2 .. len (sts (4))) =
+                  if Sts (3)(Len (Sts (3)) - 1 .. Len (Sts (3))) = "nx"   then
+                     if not ((Sts (4)(Len (Sts (4)) - 2 .. Len (Sts (4))) =
                        "nct"   and
-                       sts (3)(1 .. len (sts (3)) - 1) =
-                       sts (4)(1 .. len (sts (4)) - 3))  or
-                       (sts (4)(len (sts (4)) - 1 .. len (sts (4))) = "ct"   and
-                       sts (3)(1 .. len (sts (3)) - 1) =
-                       sts (4)(1 .. len (sts (4)) - 3)))
+                       Sts (3)(1 .. Len (Sts (3)) - 1) =
+                       Sts (4)(1 .. Len (Sts (4)) - 3))  or
+                       (Sts (4)(Len (Sts (4)) - 1 .. Len (Sts (4))) = "ct"   and
+                       Sts (3)(1 .. Len (Sts (3)) - 1) =
+                       Sts (4)(1 .. Len (Sts (4)) - 3)))
                      then
-                        prob ("    EXPECTED  (3, 1) 3/4  nx -> (n)ct" &
+                        Prob ("    EXPECTED  (3, 1) 3/4  nx -> (n)ct" &
                           "   VERB STEMS");
                      end if;
-                  elsif sts (3)(len (sts (3)) - 2 .. len (sts (3))) = "fix" then
-                     if sts (3)(1 .. len (sts (3)))  /=
-                        sts (4)(1 .. len (sts (4)))
+                  elsif Sts (3)(Len (Sts (3)) - 2 .. Len (Sts (3))) = "fix" then
+                     if Sts (3)(1 .. Len (Sts (3)))  /=
+                        Sts (4)(1 .. Len (Sts (4)))
                      then
-                        prob (
+                        Prob (
                           "    EXPECTED  (3, 1) 3/4  fix -> fix  VERB STEMS");
                      end if;
-                  elsif len (sts (3)) >= 4                           and then
-                    sts (3)(len (sts (3)) - 3 .. len (sts (3))) = "flex"
+                  elsif Len (Sts (3)) >= 4                           and then
+                    Sts (3)(Len (Sts (3)) - 3 .. Len (Sts (3))) = "flex"
                   then
-                     if sts (3)(1 .. len (sts (3)))  /=
-                        sts (4)(1 .. len (sts (4)))
+                     if Sts (3)(1 .. Len (Sts (3)))  /=
+                        Sts (4)(1 .. Len (Sts (4)))
                      then
-                        prob (
+                        Prob (
                           "    EXPECTED  (3, 1) 3/4  flex -> flex  VERB STEMS");
                      end if;
-                  elsif len (sts (3)) >= 4                           and then
-                    sts (3)(len (sts (3)) - 3 .. len (sts (3))) = "flux"
+                  elsif Len (Sts (3)) >= 4                           and then
+                    Sts (3)(Len (Sts (3)) - 3 .. Len (Sts (3))) = "flux"
                   then
-                     if sts (3)(1 .. len (sts (3)))  /=
-                        sts (4)(1 .. len (sts (4)))
+                     if Sts (3)(1 .. Len (Sts (3)))  /=
+                        Sts (4)(1 .. Len (Sts (4)))
                      then
-                        prob ("    EXPECTED  (3, 1) 3/4  flux -> flux" &
+                        Prob ("    EXPECTED  (3, 1) 3/4  flux -> flux" &
                           "  VERB STEMS");
                      end if;
-                  elsif sts (4)(len (sts (4)) - 1 .. len (sts (4))) /= "ct"   or
-                    (sts (3)(1 .. len (sts (3)) - 1)  /=
-                    sts (4)(1 .. len (sts (4)) - 2))
+                  elsif Sts (4)(Len (Sts (4)) - 1 .. Len (Sts (4))) /= "ct"   or
+                    (Sts (3)(1 .. Len (Sts (3)) - 1)  /=
+                    Sts (4)(1 .. Len (Sts (4)) - 2))
                   then
-                     prob ("    EXPECTED  (3, 1) 3/4  x  -> ct   VERB STEMS");
+                     Prob ("    EXPECTED  (3, 1) 3/4  x  -> ct   VERB STEMS");
                   end if;
                end if;
             end if;
 
             --  Check DEP has no third stem
-            if de.Part.V.Kind = Dep  and then
-              sts (3)(1 .. 3) /= "zzz"
+            if De.Part.V.Kind = Dep  and then
+              Sts (3)(1 .. 3) /= "zzz"
             then
-               prob ("    EXPECTED  3 = zzz  DEPON VERB STEMS");
+               Prob ("    EXPECTED  3 = zzz  DEPON VERB STEMS");
             end if;
 
          end if;  -- V
 
-      elsif pt.pofs = Num  then
+      elsif Pt.Pofs = Num  then
          null;
 
       else
@@ -822,42 +822,42 @@ procedure check is
       end if;
 
       --  Catch others
-      if (pt.pofs = N)  or
-         (pt.pofs = Adj)
+      if (Pt.Pofs = N)  or
+         (Pt.Pofs = Adj)
       then
-         if len (sts (1)) >= 3                           and then
-           sts (1)(len (sts (1)) .. len (sts (1))) = "u"  and then
-           is_vowel (sts (2)(len (sts (2)) - 1))
+         if Len (Sts (1)) >= 3                           and then
+           Sts (1)(Len (Sts (1)) .. Len (Sts (1))) = "u"  and then
+           Is_Vowel (Sts (2)(Len (Sts (2)) - 1))
          then
-            prob ("    CHECK for terminal u or v      ");
+            Prob ("    CHECK for terminal u or v      ");
          end if;
-         if len (sts (1)) >= 3                           and then
-           sts (1)(len (sts (1)) .. len (sts (1))) = "v"  and then
-           not is_vowel (sts (2)(len (sts (2)) - 1))
+         if Len (Sts (1)) >= 3                           and then
+           Sts (1)(Len (Sts (1)) .. Len (Sts (1))) = "v"  and then
+           not Is_Vowel (Sts (2)(Len (Sts (2)) - 1))
          then
-            prob ("    CHECK for terminal u or v      ");
+            Prob ("    CHECK for terminal u or v      ");
          end if;
       end if;
 
-      if (pt.pofs = V)  and then
-         (pt.V.Con = (2, 1))
+      if (Pt.Pofs = V)  and then
+         (Pt.V.Con = (2, 1))
       then
-         if (len (sts (1)) >= 3)                           and then
-           (sts (1)(len (sts (1)) - 1 .. len (sts (1))) = "pl")  and then
-           (sts (3)(len (sts (3)) - 1 .. len (sts (3))) /= "ev")
+         if (Len (Sts (1)) >= 3)                           and then
+           (Sts (1)(Len (Sts (1)) - 1 .. Len (Sts (1))) = "pl")  and then
+           (Sts (3)(Len (Sts (3)) - 1 .. Len (Sts (3))) /= "ev")
          then
-            prob ("    EXPECTED pleo -> plev  V 2 1   ");
+            Prob ("    EXPECTED pleo -> plev  V 2 1   ");
          end if;
       end if;
 
    exception
       when others   =>
          Put_Line ("VERIFY_STEMS exception        !!!!!!!!!!!!!!!!!!     "
-           & sts (1));
-         Put_Line (s (1 .. last));
-         Put_Line (output,
-           "VERIFY_STEMS exception        !!!!!!!!!!!!!!!!!!     " & sts (1));
-         Put_Line (output, s (1 .. last));
+           & Sts (1));
+         Put_Line (S (1 .. Last));
+         Put_Line (Output,
+           "VERIFY_STEMS exception        !!!!!!!!!!!!!!!!!!     " & Sts (1));
+         Put_Line (Output, S (1 .. Last));
          --CLOSE (OUTPUT);
    end Verify_Stems;
 
@@ -866,93 +866,93 @@ begin
      "analyzes for possible errors, and");
    Put_Line ("produces a report CHECK.OUT - " &
      "Remember to process CHECK.OUT from end");
-   Create (output, Out_File, "CHECK.OUT");
-   Open (input, In_File, "CHECK.IN");
+   Create (Output, Out_File, "CHECK.OUT");
+   Open (Input, In_File, "CHECK.IN");
 
-   while not End_Of_File (input) loop
-      s := blank_line;
-      Get_Line (input, s, last);
+   while not End_Of_File (Input) loop
+      S := Blank_Line;
+      Get_Line (Input, S, Last);
       --PUT_LINE (S (1 .. LAST));
-      line_number := line_number + 1;
+      Line_Number := Line_Number + 1;
       begin
 
-         if s (19)  /= ' '  or
-           s (38)  /= ' '  or
-           s (57)  /= ' '  or
-           s (76)  /= ' '  or
-           s (102) /= ' '
+         if S (19)  /= ' '  or
+           S (38)  /= ' '  or
+           S (57)  /= ' '  or
+           S (76)  /= ' '  or
+           S (102) /= ' '
          then
-            number := number + 1;
-            Put (output, "LINE"); Put (output, line_number);
-            Put_Line (output, "      BLANKS not in right place");
-            Put_Line (output, s (1 .. last));
+            Number := Number + 1;
+            Put (Output, "LINE"); Put (Output, Line_Number);
+            Put_Line (Output, "      BLANKS not in right place");
+            Put_Line (Output, S (1 .. Last));
          end if;
 
-         if s (112)  = ' ' then
-            number := number + 1;
-            Put (output, "LINE"); Put (output, line_number);
-            Put_Line (output, "      FLAGS may be offset");
-            Put_Line (output, s (1 .. last));
+         if S (112)  = ' ' then
+            Number := Number + 1;
+            Put (Output, "LINE"); Put (Output, Line_Number);
+            Put_Line (Output, "      FLAGS may be offset");
+            Put_Line (Output, S (1 .. Last));
          end if;
 
-         if last > 190 and then s (191) /= ' ' then
-            number := number + 1;
-            Put (output, "LINE"); Put (output, line_number);
-            Put_Line (output, "      LINE is too long");
-            Put_Line (output, s (1 .. last));
+         if Last > 190 and then S (191) /= ' ' then
+            Number := Number + 1;
+            Put (Output, "LINE"); Put (Output, Line_Number);
+            Put_Line (Output, "      LINE is too long");
+            Put_Line (Output, S (1 .. Last));
          end if;
 
-         de.Stems (1) := s (1 .. Max_Stem_Size);
-         de.Stems (2) := s (Max_Stem_Size + 2 .. 2*Max_Stem_Size + 1);
-         de.Stems (3) := s (2*Max_Stem_Size + 3 .. 3*Max_Stem_Size + 2);
-         de.Stems (4) := s (3*Max_Stem_Size + 4 .. 4*Max_Stem_Size + 3);
+         De.Stems (1) := S (1 .. Max_Stem_Size);
+         De.Stems (2) := S (Max_Stem_Size + 2 .. 2*Max_Stem_Size + 1);
+         De.Stems (3) := S (2*Max_Stem_Size + 3 .. 3*Max_Stem_Size + 2);
+         De.Stems (4) := S (3*Max_Stem_Size + 4 .. 4*Max_Stem_Size + 3);
 
-         for i in Stem_Key_Type range 1 .. 4  loop
-            if has_punctuation (de.Stems (i))  then
-               Put (output, "LINE"); Put (output, line_number);
-               Put_Line (output, "   Offset or Punctuation in line      ");
-               Put_Line (output, s (1 .. 4*Max_Stem_Size + 3));
+         for I in Stem_Key_Type range 1 .. 4  loop
+            if Has_Punctuation (De.Stems (I))  then
+               Put (Output, "LINE"); Put (Output, Line_Number);
+               Put_Line (Output, "   Offset or Punctuation in line      ");
+               Put_Line (Output, S (1 .. 4*Max_Stem_Size + 3));
             end if;
          end loop;
 
-         Get (s (4*Max_Stem_Size + 5 .. last), de.Part, ll);
+         Get (S (4*Max_Stem_Size + 5 .. Last), De.Part, Ll);
          --GET (S (L+1 .. LAST), DE.PART.POFS, DE.PART.POFS.KIND, LL);
 
-         de.Mean := s (111 .. 110 + Max_Meaning_Size);
+         De.Mean := S (111 .. 110 + Max_Meaning_Size);
 
          Verify_Stems;
 
       exception
          when others =>
-            Put (output, "LINE"); Put (output, line_number);
-            Put_Line (output, "      Exception");
-            Put_Line (output, s (1 .. last));
-            Put (output, de); New_Line (output);
+            Put (Output, "LINE"); Put (Output, Line_Number);
+            Put_Line (Output, "      Exception");
+            Put_Line (Output, S (1 .. Last));
+            Put (Output, De); New_Line (Output);
       end;
    end loop;
 
-   New_Line (output, 3);
-   Put (output, "Number of entries = ");
-   Put (output, line_number); New_Line (output);
-   Put (output, "Number of errors  = ");
-   Put (output, number); New_Line (output);
-   Put (output, "Ratio             = 1 : ");
-   Put (output, line_number / number); New_Line (output);
-   Close (output);
+   New_Line (Output, 3);
+   Put (Output, "Number of entries = ");
+   Put (Output, Line_Number); New_Line (Output);
+   Put (Output, "Number of errors  = ");
+   Put (Output, Number); New_Line (Output);
+   Put (Output, "Ratio             = 1 : ");
+   Put (Output, Line_Number / Number); New_Line (Output);
+   Close (Output);
 
    New_Line;
-   Put ("Number of entries = "); Put (line_number); New_Line;
-   Put ("Number of errors  = "); Put (number); New_Line;
-   Put ("Ratio             = 1 :"); Put (line_number / number); New_Line;
+   Put ("Number of entries = "); Put (Line_Number); New_Line;
+   Put ("Number of errors  = "); Put (Number); New_Line;
+   Put ("Ratio             = 1 :"); Put (Line_Number / Number); New_Line;
 
 exception
    when Name_Error  =>
       Put_Line ("No CHECK.IN file to process");
-      Close (output);
+      Close (Output);
 
    when others =>
-      Put ("Exception on LINE"); Put (line_number); New_Line;
-      Put_Line (s (1 .. last));
-      Close (output);
+      Put ("Exception on LINE"); Put (Line_Number); New_Line;
+      Put_Line (S (1 .. Last));
+      Close (Output);
 
-end check;
+end Check;

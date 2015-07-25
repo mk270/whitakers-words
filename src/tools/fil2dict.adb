@@ -20,7 +20,7 @@ with Latin_Utils.Latin_File_Names; use Latin_Utils.Latin_File_Names;
 --with Latin_Utils.Inflections_Package; use Latin_Utils.Inflections_Package;
 with Latin_Utils.Dictionary_Package; use Latin_Utils.Dictionary_Package;
 -- with Support_Utils.Line_Stuff; use Support_Utils.Line_Stuff;
-procedure fil2dict is
+procedure Fil2dict is
 --   package Integer_IO is new Text_IO.Integer_IO (Integer);
    use Text_IO;
 --   use Stem_Key_Type_IO;
@@ -35,46 +35,46 @@ procedure fil2dict is
    use Source_Type_IO;
    use Dict_IO;
 
-   d_k : Dictionary_Kind := xxx;
+   D_K : Dictionary_Kind := Xxx;
    De : Dictionary_Entry := Null_Dictionary_Entry;
 
-   line : String (1 .. 200) := (others => ' ');
-   last : Integer := 0;
+   Line : String (1 .. 200) := (others => ' ');
+   Last : Integer := 0;
 
-   dictfile : Dict_IO.File_Type;
-   dictline : Text_IO.File_Type;
+   Dictfile : Dict_IO.File_Type;
+   Dictline : Text_IO.File_Type;
 
 begin
    Put_Line (
      "Takes a DICTFILE.D_K and reconstructs the DICTLINE.D_K it came from");
 
    Put ("What dictionary to list, GENERAL or SPECIAL  (Reply G or S) =>");
-   Text_IO.Get_Line (line, last);
-   if last > 0  then
-      if Trim (line (1 .. last))(1) = 'G'  or else
-        Trim (line (1 .. last))(1) = 'g'
+   Text_IO.Get_Line (Line, Last);
+   if Last > 0  then
+      if Trim (Line (1 .. Last))(1) = 'G'  or else
+        Trim (Line (1 .. Last))(1) = 'g'
       then
-         d_k := general;
-      elsif Trim (line (1 .. last))(1) = 'S'  or else
-        Trim (line (1 .. last))(1) = 's'
+         D_K := General;
+      elsif Trim (Line (1 .. Last))(1) = 'S'  or else
+        Trim (Line (1 .. Last))(1) = 's'
       then
-         d_k := special;
+         D_K := Special;
       else
          Put_Line ("No such dictionary");
          raise Text_IO.Data_Error;
       end if;
    end if;
 
-   Dict_IO.Open (dictfile, In_File, add_file_name_extension (dict_file_name,
-     Dictionary_Kind'Image (d_k)));
+   Dict_IO.Open (Dictfile, In_File, Add_File_Name_Extension (Dict_File_Name,
+     Dictionary_Kind'Image (D_K)));
 
-   Create (dictline, Out_File, add_file_name_extension (dict_line_name,
+   Create (Dictline, Out_File, Add_File_Name_Extension (Dict_Line_Name,
      "NEW"));
    --DICTIONARY_KIND'IMAGE (D_K)));
 
-   while not End_Of_File (dictfile)  loop
-      Read (dictfile, De);
-      Put (dictline, De);
+   while not End_Of_File (Dictfile)  loop
+      Read (Dictfile, De);
+      Put (Dictline, De);
    end loop;
 
-end fil2dict;
+end Fil2dict;

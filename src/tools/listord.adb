@@ -20,7 +20,7 @@ with Latin_Utils.Strings_Package; use Latin_Utils.Strings_Package;
 with Latin_Utils.Inflections_Package; use Latin_Utils.Inflections_Package;
 with Latin_Utils.Dictionary_Package; use Latin_Utils.Dictionary_Package;
 --with line_stuff; use line_stuff;
-procedure listord is
+procedure Listord is
    --   LISTORD    Takes # (DICTORD) long format to ED file
    --   (3 lines per entry so it is all on one screen)
    --   LISTORD.IN -> LISTORD.OUT
@@ -40,54 +40,54 @@ procedure listord is
    Start_Stem_2  : constant := Start_Stem_1 + Max_Stem_Size + 1;
    Start_Stem_3  : constant := Start_Stem_2 + Max_Stem_Size + 1;
    Start_Stem_4  : constant := Start_Stem_3 + Max_Stem_Size + 1;
-   start_part    : constant := Start_Stem_4 + Max_Stem_Size + 1;
-   start_tran    : constant Integer :=
-     start_part +
+   Start_Part    : constant := Start_Stem_4 + Max_Stem_Size + 1;
+   Start_Tran    : constant Integer :=
+     Start_Part +
      Integer (Part_Entry_IO.Default_Width + 1);
 
-   input, output : Text_IO.File_Type;
-   de : Dictionary_Entry;
+   Input, Output : Text_IO.File_Type;
+   De : Dictionary_Entry;
 
-   s : String (1 .. 400) := (others => ' ');
-   blank_line : constant String (1 .. 400) := (others => ' ');
-   l, last : Integer := 0;
-   j : Natural := 0;
+   S : String (1 .. 400) := (others => ' ');
+   Blank_Line : constant String (1 .. 400) := (others => ' ');
+   L, Last : Integer := 0;
+   J : Natural := 0;
 
 begin
    Put_Line ("LISTORD    Takes # (DICTORD) long format to ED file");
    Put_Line ("(3 lines per entry so it is all on one screen)");
    Put_Line ("LISTORD.IN -> LISTORD.OUT");
 
-   Create (output, Out_File, "LISTORD.OUT");
-   Open (input, In_File, "LISTORD.IN");
+   Create (Output, Out_File, "LISTORD.OUT");
+   Open (Input, In_File, "LISTORD.IN");
 
    Over_Lines :
-   while not End_Of_File (input) loop
-      j := j + 1;
-      s := blank_line;
-      Get_Line (input, s, last);
-      if Trim (s (1 .. last)) /= ""  then   --  Rejecting blank lines
+   while not End_Of_File (Input) loop
+      J := J + 1;
+      S := Blank_Line;
+      Get_Line (Input, S, Last);
+      if Trim (S (1 .. Last)) /= ""  then   --  Rejecting blank lines
 
          Form_De :
          begin
 
-            de.Stems (1) :=
-              s (Start_Stem_1 .. Start_Stem_1 + Max_Stem_Size - 1);
-            de.Stems (2) :=
-              s (Start_Stem_2 .. Start_Stem_2 + Max_Stem_Size - 1);
-            de.Stems (3) :=
-              s (Start_Stem_3 .. Start_Stem_3 + Max_Stem_Size - 1);
-            de.Stems (4) :=
-              s (Start_Stem_4 .. Start_Stem_4 + Max_Stem_Size - 1);
+            De.Stems (1) :=
+              S (Start_Stem_1 .. Start_Stem_1 + Max_Stem_Size - 1);
+            De.Stems (2) :=
+              S (Start_Stem_2 .. Start_Stem_2 + Max_Stem_Size - 1);
+            De.Stems (3) :=
+              S (Start_Stem_3 .. Start_Stem_3 + Max_Stem_Size - 1);
+            De.Stems (4) :=
+              S (Start_Stem_4 .. Start_Stem_4 + Max_Stem_Size - 1);
 
-            Get (s (start_part .. last), de.Part, l);
+            Get (S (Start_Part .. Last), De.Part, L);
             --GET (S (L + 1 .. LAST), DE.PART.POFS, DE.KIND, L);
-            Get (s (l + 1 .. last), de.Tran.Age, l);
-            Get (s (l + 1 .. last), de.Tran.Area, l);
-            Get (s (l + 1 .. last), de.Tran.Geo, l);
-            Get (s (l + 1 .. last), de.Tran.Freq, l);
-            Get (s (l + 1 .. last), de.Tran.Source, l);
-            de.Mean := Head (s (l + 2 .. last), Max_Meaning_Size);
+            Get (S (L + 1 .. Last), De.Tran.Age, L);
+            Get (S (L + 1 .. Last), De.Tran.Area, L);
+            Get (S (L + 1 .. Last), De.Tran.Geo, L);
+            Get (S (L + 1 .. Last), De.Tran.Freq, L);
+            Get (S (L + 1 .. Last), De.Tran.Source, L);
+            De.Mean := Head (S (L + 2 .. Last), Max_Meaning_Size);
             --  Note that this allows initial blanks
             --  L+2 skips over the SPACER, required because this is STRING,
             --    not ENUM
@@ -95,32 +95,32 @@ begin
          exception
             when others =>
                Put_Line ("Exception");
-               Put_Line (s (1 .. last));
-               Integer_IO.Put (Integer (j)); New_Line;
-               Put (de); New_Line;
+               Put_Line (S (1 .. Last));
+               Integer_IO.Put (Integer (J)); New_Line;
+               Put (De); New_Line;
                raise;
          end Form_De;
 
-         Put_Line (output, s (1 .. 78));
-         Put_Line (output, s (Start_Stem_1 .. start_part - 1));
-         Put (output, s (start_part .. start_tran - 1)); Put (output, "      ");
-         Put (output, de.Tran.Age); Put (output, " ");
-         Put (output, de.Tran.Area); Put (output, " ");
-         Put (output, de.Tran.Geo); Put (output, " ");
-         Put (output, de.Tran.Freq); Put (output, " ");
-         Put (output, de.Tran.Source); New_Line (output);
-         Put_Line (output, Trim (de.Mean));
+         Put_Line (Output, S (1 .. 78));
+         Put_Line (Output, S (Start_Stem_1 .. Start_Part - 1));
+         Put (Output, S (Start_Part .. Start_Tran - 1)); Put (Output, "      ");
+         Put (Output, De.Tran.Age); Put (Output, " ");
+         Put (Output, De.Tran.Area); Put (Output, " ");
+         Put (Output, De.Tran.Geo); Put (Output, " ");
+         Put (Output, De.Tran.Freq); Put (Output, " ");
+         Put (Output, De.Tran.Source); New_Line (Output);
+         Put_Line (Output, Trim (De.Mean));
 
       end if;  --  Rejecting blank lines
    end loop Over_Lines;
 
-   Close (output);
+   Close (Output);
 exception
    when Text_IO.Data_Error  =>
       null;
    when others =>
-      Put_Line (s (1 .. last));
-      Integer_IO.Put (Integer (j)); New_Line;
-      Close (output);
+      Put_Line (S (1 .. Last));
+      Integer_IO.Put (Integer (J)); New_Line;
+      Close (Output);
 
-end listord;
+end Listord;

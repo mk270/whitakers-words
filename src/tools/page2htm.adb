@@ -16,36 +16,36 @@
 
 with Text_IO; use Text_IO;
 with Latin_Utils.Strings_Package; use Latin_Utils.Strings_Package;
-procedure page2htm is
-   line : String (1 .. 300) := (others => ' ');
-   last : Integer := 0;
+procedure Page2htm is
+   Line : String (1 .. 300) := (others => ' ');
+   Last : Integer := 0;
 
-   input, output : File_Type;
+   Input, Output : File_Type;
 
 begin
    Put_Line ("DICTPAGE.RAW (sorted) -> DICTPAGE.HTM");
    Put_Line ("For use in preparing a DICTPAGE.HTM after" &
      " running DICTPAGE and sorting.");
 
-   Open (input, In_File, "DICTPAGE.RAW");
-   Create (output, Out_File, "DICTPAGE.HTM");
+   Open (Input, In_File, "DICTPAGE.RAW");
+   Create (Output, Out_File, "DICTPAGE.HTM");
 
-   while not End_Of_File (input)  loop
-      Get_Line (input, line, last);
-      if line (1) /= '#'  then
-         Put_Line ("BAD LINE   >" & line (1 .. last));
+   while not End_Of_File (Input)  loop
+      Get_Line (Input, Line, Last);
+      if Line (1) /= '#'  then
+         Put_Line ("BAD LINE   >" & Line (1 .. Last));
       end if;
-      for i in 1 .. last  loop
-         if line (i) = '['  then
-            Put (output, "<B>" & line (2 .. i - 1) & "</B>  ");
-            Put_Line (output, Trim (line (i .. i + 6) & "<BR>"));
+      for I in 1 .. Last  loop
+         if Line (I) = '['  then
+            Put (Output, "<B>" & Line (2 .. I - 1) & "</B>  ");
+            Put_Line (Output, Trim (Line (I .. I + 6) & "<BR>"));
          end if;
-         if line (i .. i + 1) = "::"  then
-            Put_Line (output, Trim (line (i + 2 .. last)) & "<BR>");
+         if Line (I .. I + 1) = "::"  then
+            Put_Line (Output, Trim (Line (I + 2 .. Last)) & "<BR>");
             exit;
          end if;
       end loop;  --  On LINE
 
    end loop;  --  On file
 
-end page2htm;
+end Page2htm;

@@ -16,52 +16,52 @@
 
 with Text_IO; use Text_IO;
 with Latin_Utils.Strings_Package; use Latin_Utils.Strings_Package;
-procedure invstems is
-   line : String (1 .. 250);
-   ll : Integer;
-   subtype stem is String (1 .. 18);
-   blank_stem : constant stem := (others => ' ');
-   sts : array (1 .. 4) of stem;
+procedure Invstems is
+   Line : String (1 .. 250);
+   Ll : Integer;
+   subtype Stem is String (1 .. 18);
+   Blank_Stem : constant Stem := (others => ' ');
+   Sts : array (1 .. 4) of Stem;
 
-   input, output : File_Type;
+   Input, Output : File_Type;
 
-   function invert (s : String) return String is
-      t : String (s'First .. s'Last);
+   function Invert (S : String) return String is
+      T : String (S'First .. S'Last);
    begin
-      if s (s'First) = ' '  then
-         return blank_stem;
+      if S (S'First) = ' '  then
+         return Blank_Stem;
       else
-         for i in s'Range  loop
-            t (i) := s (s'Last - i + 1);
+         for I in S'Range  loop
+            T (I) := S (S'Last - I + 1);
          end loop;
-         return Head (Trim (t), 18);
+         return Head (Trim (T), 18);
       end if;
-   end invert;
+   end Invert;
 
 begin
    Put_Line ("Inverts the 4 stems of a DICTLINE form file " &
      "INVERT_S.IN -> INVERT_S.OUT");
 
-   Create (output, Out_File, "INVERT_S.OUT");
-   Open (input, In_File, "INVERT_S.IN");
+   Create (Output, Out_File, "INVERT_S.OUT");
+   Open (Input, In_File, "INVERT_S.IN");
 
-   while not End_Of_File (input)  loop
-      Get_Line (input, line, ll);
-      sts (1) := line (1 .. 18);
-      sts (2) := line (20 .. 37);
-      sts (3) := line (39 .. 56);
-      sts (4) := line (58 .. 75);
-      for i in 1 .. 4  loop
-         sts (i) := invert (sts (i));
+   while not End_Of_File (Input)  loop
+      Get_Line (Input, Line, Ll);
+      Sts (1) := Line (1 .. 18);
+      Sts (2) := Line (20 .. 37);
+      Sts (3) := Line (39 .. 56);
+      Sts (4) := Line (58 .. 75);
+      for I in 1 .. 4  loop
+         Sts (I) := Invert (Sts (I));
       end loop;
-      line (1 .. 18)  := sts (1);
-      line (20 .. 37) := sts (2);
-      line (39 .. 56) := sts (3);
-      line (58 .. 75) := sts (4);
-      Put_Line (output, line (1 .. ll));
+      Line (1 .. 18)  := Sts (1);
+      Line (20 .. 37) := Sts (2);
+      Line (39 .. 56) := Sts (3);
+      Line (58 .. 75) := Sts (4);
+      Put_Line (Output, Line (1 .. Ll));
 
    end loop;
 
-   Close (output);
+   Close (Output);
 
-end invstems;
+end Invstems;

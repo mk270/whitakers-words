@@ -20,15 +20,15 @@ with Text_IO;
 --with inflections_package; use inflections_package;
 --with dictionary_package; use dictionary_package;
 --with line_stuff; use line_stuff;
-procedure number is
+procedure Number is
 --   package Integer_IO is new Text_IO.Integer_IO (Integer);
    use Text_IO;
 
-   input : Text_IO.File_Type;
-   numbered : Text_IO.File_Type;
+   Input : Text_IO.File_Type;
+   Numbered : Text_IO.File_Type;
 
-   line : String (1 .. 300) := (others => ' ');
-   last, n : Integer := 0;
+   Line : String (1 .. 300) := (others => ' ');
+   Last, N : Integer := 0;
 
 begin
 
@@ -36,23 +36,23 @@ begin
      "Takes a text file and produces a NUMBERED. file with line numbers");
 
    Put_Line ("What file to NUMBER?");
-   Text_IO.Get_Line (line, last);
+   Text_IO.Get_Line (Line, Last);
 
-   Open (input, In_File, line (1 .. last));
+   Open (Input, In_File, Line (1 .. Last));
 
-   Create (numbered, Out_File, "NUMBERED.");
+   Create (Numbered, Out_File, "NUMBERED.");
 
-   while not End_Of_File (input) loop
-      n := n + 1;
+   while not End_Of_File (Input) loop
+      N := N + 1;
 
-      Get_Line (input, line, last);
+      Get_Line (Input, Line, Last);
 
-      Text_IO.Put (numbered, Integer'Image (n));
-      Set_Col (numbered, 10);
-      Text_IO.Put_Line (numbered, line (1 .. last));
+      Text_IO.Put (Numbered, Integer'Image (N));
+      Set_Col (Numbered, 10);
+      Text_IO.Put_Line (Numbered, Line (1 .. Last));
 
    end loop;
 
-   Close (numbered);
+   Close (Numbered);
 
-end number;
+end Number;

@@ -21,7 +21,7 @@ with Latin_Utils.Inflections_Package; use Latin_Utils.Inflections_Package;
 with Latin_Utils.Dictionary_Package; use Latin_Utils.Dictionary_Package;
 --with Support_Utils.Line_Stuff; use Support_Utils.Line_Stuff;
 with Support_Utils.Dictionary_Form;
-procedure dictord is
+procedure Dictord is
    --  DICTORD.IN -> DICTORD.OUT
    --  Takes DICTLINE form, puts # and dictionary form at begining,
    --  a file that can be sorted to produce word order of paper dictionary
@@ -38,46 +38,46 @@ procedure dictord is
    Start_Stem_2  : constant := Start_Stem_1 + Max_Stem_Size + 1;
    Start_Stem_3  : constant := Start_Stem_2 + Max_Stem_Size + 1;
    Start_Stem_4  : constant := Start_Stem_3 + Max_Stem_Size + 1;
-   start_part    : constant := Start_Stem_4 + Max_Stem_Size + 1;
+   Start_Part    : constant := Start_Stem_4 + Max_Stem_Size + 1;
 
-   input, output : Text_IO.File_Type;
-   de : Dictionary_Entry;
+   Input, Output : Text_IO.File_Type;
+   De : Dictionary_Entry;
 
-   s : String (1 .. 400) := (others => ' ');
-   blank_line : constant String (1 .. 400) := (others => ' ');
-   l, last : Integer := 0;
-   j : constant Integer := 1;
+   S : String (1 .. 400) := (others => ' ');
+   Blank_Line : constant String (1 .. 400) := (others => ' ');
+   L, Last : Integer := 0;
+   J : constant Integer := 1;
 
 begin
    Put_Line ("DICTORD.IN -> DICTORD.OUT     For dictionary updates.");
    Put_Line ("Takes DICTLINE form, puts # and dictionary form at begining,");
    Put_Line ("a file for sorting to produce word order of paper dictionary");
-   Create (output, Out_File, "DICTORD.OUT");
-   Open (input, In_File, "DICTORD.IN");
+   Create (Output, Out_File, "DICTORD.OUT");
+   Open (Input, In_File, "DICTORD.IN");
 
    Over_Lines :
-   while not End_Of_File (input) loop
-      s := blank_line;
-      Get_Line (input, s, last);
-      if Trim (s (1 .. last)) /= ""  then   --  Rejecting blank lines
+   while not End_Of_File (Input) loop
+      S := Blank_Line;
+      Get_Line (Input, S, Last);
+      if Trim (S (1 .. Last)) /= ""  then   --  Rejecting blank lines
 
          Form_De :
          begin
 
-            de.Stems (1) :=
-              s (Start_Stem_1 .. Max_Stem_Size);
-            de.Stems (2) :=
-              s (Start_Stem_2 .. Start_Stem_2 + Max_Stem_Size - 1);
-            de.Stems (3) :=
-              s (Start_Stem_3 .. Start_Stem_3 + Max_Stem_Size - 1);
-            de.Stems (4) :=
-              s (Start_Stem_4 .. Start_Stem_4 + Max_Stem_Size - 1);
+            De.Stems (1) :=
+              S (Start_Stem_1 .. Max_Stem_Size);
+            De.Stems (2) :=
+              S (Start_Stem_2 .. Start_Stem_2 + Max_Stem_Size - 1);
+            De.Stems (3) :=
+              S (Start_Stem_3 .. Start_Stem_3 + Max_Stem_Size - 1);
+            De.Stems (4) :=
+              S (Start_Stem_4 .. Start_Stem_4 + Max_Stem_Size - 1);
 
-            Get (s (start_part .. last), de.Part, l);
+            Get (S (Start_Part .. Last), De.Part, L);
             --GET (S (L+1 .. LAST), DE.PART.POFS, DE.KIND, L);
-            Get (s (l + 1 .. last), de.Tran.Age, l);
-            Get (s (l + 1 .. last), de.Tran.Area, l);
-            de.Mean := Head (s (l + 2 .. last), Max_Meaning_Size);
+            Get (S (L + 1 .. Last), De.Tran.Age, L);
+            Get (S (L + 1 .. Last), De.Tran.Area, L);
+            De.Mean := Head (S (L + 2 .. Last), Max_Meaning_Size);
             --  Note that this allows initial blanks
             --  L+2 skips over the SPACER, required because this is STRING,
             --     not ENUM
@@ -85,24 +85,24 @@ begin
          exception
             when others =>
                Put_Line ("Exception");
-               Put_Line (s (1 .. last));
-               Integer_IO.Put (j); New_Line;
-               Put (de); New_Line;
+               Put_Line (S (1 .. Last));
+               Integer_IO.Put (J); New_Line;
+               Put (De); New_Line;
          end Form_De;
 
-         Put (output, "#" & Support_Utils.Dictionary_Form (de));
-         Set_Col (output, 81); Put_Line (output, s (1 .. last));
+         Put (Output, "#" & Support_Utils.Dictionary_Form (De));
+         Set_Col (Output, 81); Put_Line (Output, S (1 .. Last));
 
       end if;  --  Rejecting blank lines
    end loop Over_Lines;
 
-   Close (output);
+   Close (Output);
 exception
    when Text_IO.Data_Error  =>
       null;
    when others =>
-      Put_Line (s (1 .. last));
-      Integer_IO.Put (j); New_Line;
-      Close (output);
+      Put_Line (S (1 .. Last));
+      Integer_IO.Put (J); New_Line;
+      Close (Output);
 
-end dictord;
+end Dictord;

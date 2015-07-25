@@ -16,49 +16,49 @@
 
 with Text_IO; use Text_IO;
 with Latin_Utils.Strings_Package; use Latin_Utils.Strings_Package;
-procedure invert is
-   line, parm : String (1 .. 250);
-   l, last : Integer;
-   n1, n2 : Integer;
+procedure Invert is
+   Line, Parm : String (1 .. 250);
+   L, Last : Integer;
+   N1, N2 : Integer;
 
-   input, output : File_Type;
+   Input, Output : File_Type;
    package Integer_IO is new Text_IO.Integer_IO (Integer);
 
-   function invert (s : String) return String is
-      t : String (1 .. s'Length);
+   function Invert (S : String) return String is
+      T : String (1 .. S'Length);
    begin
-      for i in 1 .. t'Length  loop
-         t (i) := s (s'Last - i + 1);
+      for I in 1 .. T'Length  loop
+         T (I) := S (S'Last - I + 1);
       end loop;
-      return Head (Trim (t), s'Length);
+      return Head (Trim (T), S'Length);
 
-   end invert;
+   end Invert;
 
 begin
    Put_Line ("Inverts/reverses the order of columns N1" &
      " .. N2 of INVERT.IN -> INVERT.OUT");
    Put ("Give an N1 and N2 => ");
-   Get_Line (parm, last);
+   Get_Line (Parm, Last);
 
-   Integer_IO.Get (parm (1 .. last), n1, l);
-   Integer_IO.Get (parm (l + 1 .. last), n2, l);
+   Integer_IO.Get (Parm (1 .. Last), N1, L);
+   Integer_IO.Get (Parm (L + 1 .. Last), N2, L);
 
-   Create (output, Out_File, "INVERT.OUT");
-   Open (input, In_File, "INVERT.IN");
+   Create (Output, Out_File, "INVERT.OUT");
+   Open (Input, In_File, "INVERT.IN");
 
-   while not End_Of_File (input)  loop
-      Get_Line (input, line, last);
+   while not End_Of_File (Input)  loop
+      Get_Line (Input, Line, Last);
 
-      line (n1 .. n2)  := invert (line (n1 .. n2));
+      Line (N1 .. N2)  := Invert (Line (N1 .. N2));
       Put ('.');
-      Put_Line (output, line (1 .. last));
+      Put_Line (Output, Line (1 .. Last));
 
    end loop;
 
-   Close (output);
+   Close (Output);
 
 exception
    when others  =>
-      Close (output);
+      Close (Output);
 
-end invert;
+end Invert;

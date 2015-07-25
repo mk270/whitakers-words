@@ -20,38 +20,38 @@ with Latin_Utils.Strings_Package; use Latin_Utils.Strings_Package;
 -- with Latin_Utils.Inflections_Package; use Latin_Utils.Inflections_Package;
 -- with Latin_Utils.Dictionary_Package; use Latin_Utils.Dictionary_Package;
 -- with line_stuff; use line_stuff;
-procedure fixord is
+procedure Fixord is
    use Text_IO;
 
-   input, output : Text_IO.File_Type;
+   Input, Output : Text_IO.File_Type;
 
-   blank_line : constant String (1 .. 400) := (others => ' ');
-   s : String (1 .. 400) := (others => ' ');
-   last : Integer := 0;
+   Blank_Line : constant String (1 .. 400) := (others => ' ');
+   S : String (1 .. 400) := (others => ' ');
+   Last : Integer := 0;
 
 begin
    Put_Line ("FIXORD.IN -> FIXORD.OUT");
    Put_Line ("Makes a clean (no #) 3 line ED format from LISTORD output");
 
-   Create (output, Out_File, "FIXORD.OUT");
-   Open (input, In_File, "FIXORD.IN");
+   Create (Output, Out_File, "FIXORD.OUT");
+   Open (Input, In_File, "FIXORD.IN");
 
    Over_Lines :
-   while not End_Of_File (input) loop
-      s := blank_line;
-      Get_Line (input, s, last);
-      if Trim (s (1 .. last)) /= ""  then   --  Rejecting blank lines
+   while not End_Of_File (Input) loop
+      S := Blank_Line;
+      Get_Line (Input, S, Last);
+      if Trim (S (1 .. Last)) /= ""  then   --  Rejecting blank lines
 
-         if s (1) /= '#'  then
-            Put_Line (output, s (1 .. last));
+         if S (1) /= '#'  then
+            Put_Line (Output, S (1 .. Last));
          end if;
 
       end if;  --  Rejecting blank lines
    end loop Over_Lines;
 
-   Close (output);
+   Close (Output);
 exception
    when Text_IO.Data_Error  =>
-      Close (output);
+      Close (Output);
 
-end fixord;
+end Fixord;

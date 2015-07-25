@@ -15,15 +15,15 @@
 -- available to anyone who wishes to use them, for whatever purpose.
 
 with Text_IO; use Text_IO;
-procedure oners is
+procedure Oners is
    package Integer_IO is new Text_IO.Integer_IO (Integer);
    use Integer_IO;
 
-   line, old_line : String (1 .. 250) := (others => ' ');
-   last, old_last : Integer := 0;
-   n : Integer := 0;
+   Line, Old_Line : String (1 .. 250) := (others => ' ');
+   Last, Old_Last : Integer := 0;
+   N : Integer := 0;
 
-   input, output : File_Type;
+   Input, Output : File_Type;
 
 begin
    Put_Line ("ONERS.IN -> ONERS.OUT");
@@ -32,22 +32,22 @@ begin
    Put_Line ("Puts a count of how many identical lines at the" &
      " begining of each.");
 
-   Open (input, In_File, "ONERS.IN");
-   Create (output, Out_File, "ONERS.OUT");
+   Open (Input, In_File, "ONERS.IN");
+   Create (Output, Out_File, "ONERS.OUT");
 
-   Get_Line (input, old_line, old_last);
+   Get_Line (Input, Old_Line, Old_Last);
 
-   while not End_Of_File (input)  loop
-      Get_Line (input, line, last);
-      n := n + 1;
-      if line (1 .. last) /= old_line (1 .. old_last)  then
-         Put (output, n);
-         Put_Line (output, "  " & old_line (1 .. old_last));
-         n := 0;
-         old_last := last;
-         old_line (1 .. old_last) := line (1 .. last);
+   while not End_Of_File (Input)  loop
+      Get_Line (Input, Line, Last);
+      N := N + 1;
+      if Line (1 .. Last) /= Old_Line (1 .. Old_Last)  then
+         Put (Output, N);
+         Put_Line (Output, "  " & Old_Line (1 .. Old_Last));
+         N := 0;
+         Old_Last := Last;
+         Old_Line (1 .. Old_Last) := Line (1 .. Last);
       end if;
    end loop;
 
-   Close (output);
-end oners;
+   Close (Output);
+end Oners;

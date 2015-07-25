@@ -21,7 +21,7 @@ with Latin_Utils.Inflections_Package; use Latin_Utils.Inflections_Package;
 with Latin_Utils.Dictionary_Package; use Latin_Utils.Dictionary_Package;
 -- with line_stuff; use line_stuff;
 -- with dictionary_form;
-procedure uniqpage is
+procedure Uniqpage is
 
 --   package Integer_IO is new Text_IO.Integer_IO (Integer);
    use Text_IO;
@@ -35,61 +35,61 @@ procedure uniqpage is
    use Frequency_Type_IO;
    use Source_Type_IO;
 
-   uniques_file, uniqpage : Text_IO.File_Type;
+   Uniques_File, Uniqpage : Text_IO.File_Type;
 
-   s : constant String (1 .. 400) := (others => ' ');
-   line : String (1 .. 400) := (others => ' ');
-   blanks : constant String (1 .. 400) := (others => ' ');
-   l, last : Integer := 0;
+   S : constant String (1 .. 400) := (others => ' ');
+   Line : String (1 .. 400) := (others => ' ');
+   Blanks : constant String (1 .. 400) := (others => ' ');
+   L, Last : Integer := 0;
 
-   stem : Stem_Type := Null_Stem_Type;
-   qual : quality_record;
-   kind : Kind_Entry;
-   tran : Translation_Record;
-   mean : Meaning_Type;
+   Stem : Stem_Type := Null_Stem_Type;
+   Qual : Quality_Record;
+   Kind : Kind_Entry;
+   Tran : Translation_Record;
+   Mean : Meaning_Type;
 
-   procedure get_line_unique
-     (input : in Text_IO.File_Type;
-      s     : out String;
-      last  : out Natural)
+   procedure Get_Line_Unique
+     (Input : in Text_IO.File_Type;
+      S     : out String;
+      Last  : out Natural)
    is
    begin
-      last := 0;
-      Text_IO.Get_Line (input, s, last);
+      Last := 0;
+      Text_IO.Get_Line (Input, S, Last);
       -- FIXME: this if statement was commented out, because it triggered
       -- warning "if statement has no effect". I didn't delete it because quite
       -- possibly author wanted it to do something. Question is what?
       --if Trim (s (s'First .. last)) /= ""  then   --  Rejecting blank lines
       --   null;
       --end if;
-   end get_line_unique;
+   end Get_Line_Unique;
 
 begin
    Put_Line ("UNIQUES.LAT -> UNIQPAGE.PG");
    Put_Line ("Takes UNIQUES form, single lines it, puts # at begining,");
    Put_Line ("producing a .PG file for sorting to produce paper dictionary");
-   Create (uniqpage, Out_File, "UNIQPAGE.PG");
-   Open (uniques_file, In_File, "UNIQUES.LAT");
+   Create (Uniqpage, Out_File, "UNIQPAGE.PG");
+   Open (Uniques_File, In_File, "UNIQUES.LAT");
 
    Over_Lines :
-   while not End_Of_File (uniques_file)  loop
-      line := blanks;
-      get_line_unique (uniques_file, line, last);      --  STEM
-      stem := Head (Trim (line (1 .. last)), Max_Stem_Size);
+   while not End_Of_File (Uniques_File)  loop
+      Line := Blanks;
+      Get_Line_Unique (Uniques_File, Line, Last);      --  STEM
+      Stem := Head (Trim (Line (1 .. Last)), Max_Stem_Size);
 
-      line := blanks;
-      get_line_unique (uniques_file, line, last);    --  QUAL, KIND, TRAN
-      quality_record_io.Get (line (1 .. last), qual, l);
-      Get (line (l + 1 .. last), qual.pofs, kind, l);
-      Age_Type_IO.Get (line (l + 1 .. last), tran.Age, l);
-      Area_Type_IO.Get (line (l + 1 .. last), tran.Area, l);
-      Geo_Type_IO.Get (line (l + 1 .. last), tran.Geo, l);
-      Frequency_Type_IO.Get (line (l + 1 .. last), tran.Freq, l);
-      Source_Type_IO.Get (line (l + 1 .. last), tran.Source, l);
+      Line := Blanks;
+      Get_Line_Unique (Uniques_File, Line, Last);    --  QUAL, KIND, TRAN
+      Quality_Record_Io.Get (Line (1 .. Last), Qual, L);
+      Get (Line (L + 1 .. Last), Qual.Pofs, Kind, L);
+      Age_Type_IO.Get (Line (L + 1 .. Last), Tran.Age, L);
+      Area_Type_IO.Get (Line (L + 1 .. Last), Tran.Area, L);
+      Geo_Type_IO.Get (Line (L + 1 .. Last), Tran.Geo, L);
+      Frequency_Type_IO.Get (Line (L + 1 .. Last), Tran.Freq, L);
+      Source_Type_IO.Get (Line (L + 1 .. Last), Tran.Source, L);
 
-      line := blanks;
-      get_line_unique (uniques_file, line, l);         --  MEAN
-      mean := Head (Trim (line (1 .. l)), Max_Meaning_Size);
+      Line := Blanks;
+      Get_Line_Unique (Uniques_File, Line, L);         --  MEAN
+      Mean := Head (Trim (Line (1 .. L)), Max_Meaning_Size);
 
       --      while not END_OF_FILE (UNIQUES_FILE) loop
       --         S := BLANK_LINE;
@@ -98,37 +98,37 @@ begin
       --
       --
 
-      Text_IO.Put (uniqpage, "#" & stem);
+      Text_IO.Put (Uniqpage, "#" & Stem);
 
-      quality_record_io.Put (uniqpage, qual);
+      Quality_Record_Io.Put (Uniqpage, Qual);
 
       -- PART := (V, (QUAL.V.CON, KIND.V_KIND));
 
-      if (qual.pofs = V)  and then  (kind.v_kind in Gen .. Perfdef)  then
-         Text_IO.Put (uniqpage, "  " &
-           Verb_Kind_Type'Image (kind.v_kind) & "  ");
+      if (Qual.Pofs = V)  and then  (Kind.V_Kind in Gen .. Perfdef)  then
+         Text_IO.Put (Uniqpage, "  " &
+           Verb_Kind_Type'Image (Kind.V_Kind) & "  ");
       end if;
 
-      Text_IO.Put (uniqpage, " [");
-      Age_Type_IO.Put (uniqpage, tran.Age);
-      Area_Type_IO.Put (uniqpage, tran.Area);
-      Geo_Type_IO.Put (uniqpage, tran.Geo);
-      Frequency_Type_IO.Put (uniqpage, tran.Freq);
-      Source_Type_IO.Put (uniqpage, tran.Source);
-      Text_IO.Put (uniqpage, "]");
+      Text_IO.Put (Uniqpage, " [");
+      Age_Type_IO.Put (Uniqpage, Tran.Age);
+      Area_Type_IO.Put (Uniqpage, Tran.Area);
+      Geo_Type_IO.Put (Uniqpage, Tran.Geo);
+      Frequency_Type_IO.Put (Uniqpage, Tran.Freq);
+      Source_Type_IO.Put (Uniqpage, Tran.Source);
+      Text_IO.Put (Uniqpage, "]");
 
-      Put (uniqpage, " :: ");
-      Put_Line (uniqpage, mean);
+      Put (Uniqpage, " :: ");
+      Put_Line (Uniqpage, Mean);
 
       --end if;  --  Rejecting blank lines
    end loop Over_Lines;
 
-   Close (uniqpage);
+   Close (Uniqpage);
 exception
    when Text_IO.Data_Error  =>
       null;
    when others =>
-      Put_Line (s (1 .. last));
-      Close (uniqpage);
+      Put_Line (S (1 .. Last));
+      Close (Uniqpage);
 
-end uniqpage;
+end Uniqpage;
