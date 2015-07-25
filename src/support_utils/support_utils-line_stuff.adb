@@ -776,7 +776,7 @@ package body Support_Utils.Line_Stuff is
    end Suffix_Line_Io;
 
    package body Unique_Entry_Io is
-      use Quality_Record_Io;
+      use Quality_Record_IO;
       use Kind_Entry_IO;
       use Translation_Record_IO;
       Spacer : Character;
@@ -853,7 +853,7 @@ package body Support_Utils.Line_Stuff is
          S (L + 1 .. M) := P.Stem;
          L := M + 1;
          S (L) :=  ' ';
-         M := L + Quality_Record_Io.Default_Width;
+         M := L + Quality_Record_IO.Default_Width;
          Put (S (L + 1 .. M), P.Qual);
          L := M + 1;
          S (L) :=  ' ';
@@ -869,7 +869,7 @@ package body Support_Utils.Line_Stuff is
    end Unique_Entry_Io;
 
    procedure Load_Uniques (Unq : in out Latin_Uniques; File_Name : in String) is
-      use Quality_Record_Io;
+      use Quality_Record_IO;
       use Part_Entry_IO;
       use Kind_Entry_IO;
       use Translation_Record_IO;
@@ -928,7 +928,7 @@ package body Support_Utils.Line_Stuff is
          begin
             case Part.Pofs is
                when N  =>
-                  Part := (N, (Qual.N.Decl, Qual.N.Gender, Kind.N_Kind));
+                  Part := (N, (Qual.Noun.Decl, Qual.Noun.Gender, Kind.N_Kind));
                when Pron =>
                   Part := (Pron, (Qual.Pron.Decl, Kind.Pron_Kind));
                when Pack =>
@@ -940,7 +940,7 @@ package body Support_Utils.Line_Stuff is
                when Adv =>
                   Part := (Adv, (Co => Qual.Adv.Comparison));
                when V =>
-                  Part := (V, (Qual.V.Con, Kind.V_Kind));
+                  Part := (V, (Qual.Verb.Con, Kind.V_Kind));
                when others  =>
                   Part := Null_Part_Entry;
             end case;

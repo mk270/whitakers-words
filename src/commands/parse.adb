@@ -563,7 +563,7 @@ is
                --  combined but it workd now
                for I in 1 .. Pa_Last  loop
                   if Pa (I).IR.Qual.Pofs = V and then
-                    Pa (I).IR.Qual.V.Con = (5, 1)
+                    Pa (I).IR.Qual.Verb.Con = (5, 1)
                   then
                      No_Syncope := True;
                   end if;
@@ -650,7 +650,7 @@ is
       --  Do not SYNCOPE if there is a verb TO_BE or compound already there
       for I in 1 .. Pa_Last  loop
          if Pa (I).IR.Qual.Pofs = V and then
-           Pa (I).IR.Qual.V.Con = (5, 1)
+           Pa (I).IR.Qual.Verb.Con = (5, 1)
          then
             No_Syncope := True;
          end if;

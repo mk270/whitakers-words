@@ -1225,7 +1225,7 @@ package body Tricks_Package is
             if (Pa_Last > Pa_Save + 1)   and then
               (Pa (Pa_Last - 1).IR.Qual.Pofs /= Tackon)  and then
               Pa (Pa_Last).IR.Qual.Pofs = V and then
-              Pa (Pa_Last).IR.Qual.V.Con = (6, 1)
+              Pa (Pa_Last).IR.Qual.Verb.Con = (6, 1)
             then  --    Check it is V 6 1 eo
                Xxx_Meaning := Head (
                  "Some forms of eo stem 'i' grates with " &

@@ -39,21 +39,21 @@ package body Latin_Utils.Inflections_Package is
       if Left.Pofs = Right.Pofs  then
          case Left.Pofs is
             when N =>
-               if Left.N.Decl.Which < Right.N.Decl.Which  or else
-                 (Left.N.Decl.Which = Right.N.Decl.Which  and then
-                 Left.N.Decl.Var < Right.N.Decl.Var)  or else
-                 (Left.N.Decl.Which = Right.N.Decl.Which  and then
-                 Left.N.Decl.Var = Right.N.Decl.Var  and then
-                 Left.N.Number < Right.N.Number) or else
-                 (Left.N.Decl.Which = Right.N.Decl.Which  and then
-                 Left.N.Decl.Var = Right.N.Decl.Var  and then
-                 Left.N.Number = Right.N.Number and then
-                 Left.N.Of_Case < Right.N.Of_Case) or else
-                 (Left.N.Decl.Which = Right.N.Decl.Which  and then
-                 Left.N.Decl.Var = Right.N.Decl.Var  and then
-                 Left.N.Number = Right.N.Number and then
-                 Left.N.Of_Case = Right.N.Of_Case and then
-                 Left.N.Gender < Right.N.Gender)
+               if Left.Noun.Decl.Which < Right.Noun.Decl.Which  or else
+                 (Left.Noun.Decl.Which = Right.Noun.Decl.Which  and then
+                 Left.Noun.Decl.Var < Right.Noun.Decl.Var)  or else
+                 (Left.Noun.Decl.Which = Right.Noun.Decl.Which  and then
+                 Left.Noun.Decl.Var = Right.Noun.Decl.Var  and then
+                 Left.Noun.Number < Right.Noun.Number) or else
+                 (Left.Noun.Decl.Which = Right.Noun.Decl.Which  and then
+                 Left.Noun.Decl.Var = Right.Noun.Decl.Var  and then
+                 Left.Noun.Number = Right.Noun.Number and then
+                 Left.Noun.Of_Case < Right.Noun.Of_Case) or else
+                 (Left.Noun.Decl.Which = Right.Noun.Decl.Which  and then
+                 Left.Noun.Decl.Var = Right.Noun.Decl.Var  and then
+                 Left.Noun.Number = Right.Noun.Number and then
+                 Left.Noun.Of_Case = Right.Noun.Of_Case and then
+                 Left.Noun.Gender < Right.Noun.Gender)
                then
                   return True;
                end if;
@@ -123,43 +123,43 @@ package body Latin_Utils.Inflections_Package is
             when Adv =>
                return Left.Adv.Comparison < Right.Adv.Comparison;
             when V =>
-               if (Left.V.Con.Which < Right.V.Con.Which)  or else
-                 (Left.V.Con.Which = Right.V.Con.Which  and then
-                 Left.V.Con.Var < Right.V.Con.Var)  or else
-                 (Left.V.Con.Which = Right.V.Con.Which  and then
-                 Left.V.Con.Var = Right.V.Con.Var  and then
-                 Left.V.Number < Right.V.Number) or else
-                 (Left.V.Con.Which = Right.V.Con.Which  and then
-                    Left.V.Con.Var = Right.V.Con.Var  and then
-                    Left.V.Number = Right.V.Number and then
-                    Left.V.Tense_Voice_Mood.Tense <
-                    Right.V.Tense_Voice_Mood.Tense) or else
-                 (Left.V.Con.Which = Right.V.Con.Which  and then
-                    Left.V.Con.Var = Right.V.Con.Var  and then
-                    Left.V.Number = Right.V.Number and then
-                    Left.V.Tense_Voice_Mood.Tense =
-                    Right.V.Tense_Voice_Mood.Tense and then
-                    Left.V.Tense_Voice_Mood.Voice <
-                    Right.V.Tense_Voice_Mood.Voice) or else
-                 (Left.V.Con.Which = Right.V.Con.Which  and then
-                    Left.V.Con.Var = Right.V.Con.Var  and then
-                    Left.V.Number = Right.V.Number and then
-                    Left.V.Tense_Voice_Mood.Tense =
-                    Right.V.Tense_Voice_Mood.Tense and then
-                    Left.V.Tense_Voice_Mood.Voice =
-                    Right.V.Tense_Voice_Mood.Voice and then
-                    Left.V.Tense_Voice_Mood.Mood <
-                    Right.V.Tense_Voice_Mood.Mood)  or else
-                 (Left.V.Con.Which = Right.V.Con.Which and then
-                    Left.V.Con.Var = Right.V.Con.Var and then
-                    Left.V.Number = Right.V.Number and then
-                    Left.V.Tense_Voice_Mood.Tense =
-                    Right.V.Tense_Voice_Mood.Tense and then
-                    Left.V.Tense_Voice_Mood.Voice =
-                    Right.V.Tense_Voice_Mood.Voice and then
-                    Left.V.Tense_Voice_Mood.Mood  =
-                    Right.V.Tense_Voice_Mood.Mood  and then
-                    Left.V.Person < Right.V.Person)
+               if (Left.Verb.Con.Which < Right.Verb.Con.Which)  or else
+                 (Left.Verb.Con.Which = Right.Verb.Con.Which  and then
+                 Left.Verb.Con.Var < Right.Verb.Con.Var)  or else
+                 (Left.Verb.Con.Which = Right.Verb.Con.Which  and then
+                 Left.Verb.Con.Var = Right.Verb.Con.Var  and then
+                 Left.Verb.Number < Right.Verb.Number) or else
+                 (Left.Verb.Con.Which = Right.Verb.Con.Which  and then
+                    Left.Verb.Con.Var = Right.Verb.Con.Var  and then
+                    Left.Verb.Number = Right.Verb.Number and then
+                    Left.Verb.Tense_Voice_Mood.Tense <
+                    Right.Verb.Tense_Voice_Mood.Tense) or else
+                 (Left.Verb.Con.Which = Right.Verb.Con.Which  and then
+                    Left.Verb.Con.Var = Right.Verb.Con.Var  and then
+                    Left.Verb.Number = Right.Verb.Number and then
+                    Left.Verb.Tense_Voice_Mood.Tense =
+                    Right.Verb.Tense_Voice_Mood.Tense and then
+                    Left.Verb.Tense_Voice_Mood.Voice <
+                    Right.Verb.Tense_Voice_Mood.Voice) or else
+                 (Left.Verb.Con.Which = Right.Verb.Con.Which  and then
+                    Left.Verb.Con.Var = Right.Verb.Con.Var  and then
+                    Left.Verb.Number = Right.Verb.Number and then
+                    Left.Verb.Tense_Voice_Mood.Tense =
+                    Right.Verb.Tense_Voice_Mood.Tense and then
+                    Left.Verb.Tense_Voice_Mood.Voice =
+                    Right.Verb.Tense_Voice_Mood.Voice and then
+                    Left.Verb.Tense_Voice_Mood.Mood <
+                    Right.Verb.Tense_Voice_Mood.Mood)  or else
+                 (Left.Verb.Con.Which = Right.Verb.Con.Which and then
+                    Left.Verb.Con.Var = Right.Verb.Con.Var and then
+                    Left.Verb.Number = Right.Verb.Number and then
+                    Left.Verb.Tense_Voice_Mood.Tense =
+                    Right.Verb.Tense_Voice_Mood.Tense and then
+                    Left.Verb.Tense_Voice_Mood.Voice =
+                    Right.Verb.Tense_Voice_Mood.Voice and then
+                    Left.Verb.Tense_Voice_Mood.Mood  =
+                    Right.Verb.Tense_Voice_Mood.Mood  and then
+                    Left.Verb.Person < Right.Verb.Person)
                then
                   return True;
                end if;
@@ -423,371 +423,7 @@ package body Latin_Utils.Inflections_Package is
 
    package body Suffix_Record_IO is separate;
 
-   package body Quality_Record_Io is
-      use Part_Of_Speech_Type_IO;
-      use Noun_Record_IO;
-      use Pronoun_Record_IO;
-      use Propack_Record_IO;
-      use Adjective_Record_IO;
-      use Numeral_Record_IO;
-      use Adverb_Record_IO;
-      use Verb_Record_IO;
-      use Vpar_Record_IO;
-      use Supine_Record_IO;
-      use Preposition_Record_IO;
-      use Conjunction_Record_IO;
-      use Interjection_Record_IO;
-      use Tackon_Record_IO;
-      use Prefix_Record_IO;
-      use Suffix_Record_IO;
-      Spacer : Character := ' ';
-
-      Noun  : Noun_Record;
-      Pronoun : Pronoun_Record;
-      Propack : Propack_Record;
-      Adjective : Adjective_Record;
-      Adverb : Adverb_Record;
-      Verb : Verb_Record;
-      Vparticiple : Vpar_Record;
-      Supin : Supine_Record;
-      Preposition : Preposition_Record;
-      Conjunction : Conjunction_Record;
-      Interjection : Interjection_Record;
-      Numeral : Numeral_Record;
-      Tackn : Tackon_Record;
-      Prefx : Prefix_Record;
-      Suffx : Suffix_Record;
-
-      procedure Get (F : in File_Type; P : out Quality_Record) is
-         Ps : Part_Of_Speech_Type := X;
-      begin
-         Get (F, Ps);
-         Get (F, Spacer);
-         case Ps is
-            when N =>
-               Get (F, Noun);
-               P := (N, Noun);
-            when Pron =>
-               Get (F, Pronoun);
-               P := (Pron, Pronoun);
-            when Pack =>
-               Get (F, Propack);
-               P := (Pack, Propack);
-            when Adj =>
-               Get (F, Adjective);
-               P := (Adj, Adjective);
-            when Num =>
-               Get (F, Numeral);
-               P := (Num, Numeral);
-            when Adv =>
-               Get (F, Adverb);
-               P := (Adv, Adverb);
-            when V =>
-               Get (F, Verb);
-               P := (V, Verb);
-            when Vpar =>
-               Get (F, Vparticiple);
-               P := (Vpar, Vparticiple);
-            when Supine =>
-               Get (F, Supin);
-               P := (Supine, Supin);
-            when Prep =>
-               Get (F, Preposition);
-               P := (Prep, Preposition);
-            when Conj =>
-               Get (F, Conjunction);
-               P := (Conj, Conjunction);
-            when Interj =>
-               Get (F, Interjection);
-               P := (Interj, Interjection);
-            when Tackon =>
-               Get (F, Tackn);
-               P := (Tackon, Tackn);
-            when Prefix =>
-               Get (F, Prefx);
-               P := (Prefix, Prefx);
-            when Suffix =>
-               Get (F, Suffx);
-               P := (Suffix, Suffx);
-            when X =>
-               P := (Pofs => X);
-         end case;
-         return;
-      end Get;
-
-      procedure Get (P : out Quality_Record) is
-         Ps : Part_Of_Speech_Type := X;
-      begin
-         Get (Ps);
-         Get (Spacer);
-         case Ps is
-            when N =>
-               Get (Noun);
-               P := (N, Noun);
-            when Pron =>
-               Get (Pronoun);
-               P := (Pron, Pronoun);
-            when Pack =>
-               Get (Propack);
-               P := (Pack, Propack);
-            when Adj =>
-               Get (Adjective);
-               P := (Adj, Adjective);
-            when Num =>
-               Get (Numeral);
-               P := (Num, Numeral);
-            when Adv =>
-               Get (Adverb);
-               P := (Adv, Adverb);
-            when V =>
-               Get (Verb);
-               P := (V, Verb);
-            when Vpar =>
-               Get (Vparticiple);
-               P := (Vpar, Vparticiple);
-            when Supine =>
-               Get (Supin);
-               P := (Supine, Supin);
-            when Prep =>
-               Get (Preposition);
-               P := (Prep, Preposition);
-            when Conj =>
-               Get (Conjunction);
-               P := (Conj, Conjunction);
-            when Interj =>
-               Get (Interjection);
-               P := (Interj, Interjection);
-            when Tackon =>
-               Get (Tackn);
-               P := (Tackon, Tackn);
-            when Prefix =>
-               Get (Prefx);
-               P := (Prefix, Prefx);
-            when Suffix =>
-               Get (Suffx);
-               P := (Suffix, Suffx);
-            when X =>
-               P := (Pofs => X);
-         end case;
-         return;
-      end Get;
-
-      procedure Put (F : in File_Type; P : in Quality_Record) is
-         C : constant Positive := Positive (Col (F));
-      begin
-         Put (F, P.Pofs);
-         Put (F, ' ');
-         case P.Pofs is
-            when N =>
-               Put (F, P.N);
-            when Pron =>
-               Put (F, P.Pron);
-            when Pack =>
-               Put (F, P.Pack);
-            when Adj =>
-               Put (F, P.Adj);
-            when Num =>
-               Put (F, P.Num);
-            when Adv =>
-               Put (F, P.Adv);
-            when V =>
-               Put (F, P.V);
-            when Vpar =>
-               Put (F, P.Vpar);
-            when Supine =>
-               Put (F, P.Supine);
-            when Prep =>
-               Put (F, P.Prep);
-            when Conj =>
-               Put (F, P.Conj);
-            when Interj =>
-               Put (F, P.Interj);
-            when Tackon =>
-               Put (F, P.Tackon);
-            when Prefix =>
-               Put (F, P.Prefix);
-            when Suffix =>
-               Put (F, P.Suffix);
-            when others =>
-               null;
-         end case;
-         Put (F, String'((
-           Integer (Col (F)) .. Quality_Record_Io.Default_Width + C - 1
-           => ' ')));
-         return;
-      end Put;
-
-      procedure Put (P : in Quality_Record) is
-         C : constant Positive := Positive (Col);
-      begin
-         Put (P.Pofs);
-         Put (' ');
-         case P.Pofs is
-            when N =>
-               Put (P.N);
-            when Pron =>
-               Put (P.Pron);
-            when Pack =>
-               Put (P.Pack);
-            when Adj =>
-               Put (P.Adj);
-            when Num =>
-               Put (P.Num);
-            when Adv =>
-               Put (P.Adv);
-            when V =>
-               Put (P.V);
-            when Vpar =>
-               Put (P.Vpar);
-            when Supine =>
-               Put (P.Supine);
-            when Prep =>
-               Put (P.Prep);
-            when Conj =>
-               Put (P.Conj);
-            when Interj =>
-               Put (P.Interj);
-            when Tackon =>
-               Put (P.Tackon);
-            when Prefix =>
-               Put (P.Prefix);
-            when Suffix =>
-               Put (P.Suffix);
-            when others =>
-               null;
-         end case;
-         Put (String'((
-           Integer (Col) .. Quality_Record_Io.Default_Width + C - 1 => ' ')));
-         return;
-      end Put;
-
-      procedure Get
-        (S : in String;
-         P : out Quality_Record;
-         Last : out Integer)
-      is
-         L : Integer := S'First - 1;
-         Ps : Part_Of_Speech_Type := X;
-      begin
-         Get (S, Ps, L);
-         Last := L;         --  In case it is not set later
-         case Ps is
-            when N =>
-               Get (S (L + 1 .. S'Last), Noun, Last);
-               P := (N, Noun);
-            when Pron =>
-               Get (S (L + 1 .. S'Last), Pronoun, Last);
-               P := (Pron, Pronoun);
-            when Pack =>
-               Get (S (L + 1 .. S'Last), Propack, Last);
-               P := (Pack, Propack);
-            when Adj =>
-               Get (S (L + 1 .. S'Last), Adjective, Last);
-               P := (Adj, Adjective);
-            when Num =>
-               Get (S (L + 1 .. S'Last), Numeral, Last);
-               P := (Num, Numeral);
-            when Adv =>
-               Get (S (L + 1 .. S'Last), Adverb, Last);
-               P := (Adv, Adverb);
-            when V =>
-               Get (S (L + 1 .. S'Last), Verb, Last);
-               P := (V, Verb);
-            when Vpar =>
-               Get (S (L + 1 .. S'Last), Vparticiple, Last);
-               P := (Vpar, Vparticiple);
-            when Supine =>
-               Get (S (L + 1 .. S'Last), Supin, Last);
-               P := (Supine, Supin);
-            when Prep =>
-               Get (S (L + 1 .. S'Last), Preposition, Last);
-               P := (Prep, Preposition);
-            when Conj =>
-               Get (S (L + 1 .. S'Last), Conjunction, Last);
-               P := (Conj, Conjunction);
-            when Interj =>
-               Get (S (L + 1 .. S'Last), Interjection, Last);
-               P := (Interj, Interjection);
-            when Tackon =>
-               Get (S (L + 1 .. S'Last), Tackn, Last);
-               P := (Tackon, Tackn);
-            when Prefix =>
-               Get (S (L + 1 .. S'Last), Prefx, Last);
-               P := (Prefix, Prefx);
-            when Suffix =>
-               Get (S (L + 1 .. S'Last), Suffx, Last);
-               P := (Suffix, Suffx);
-            when X =>
-               P := (Pofs => X);
-         end case;
-         return;
-      end Get;
-
-      procedure Put (S : out String; P : in Quality_Record) is
-         --  Note that this does not Put with a uniform width
-         --  which would require a constant QUALITY_RECORD_IO.DEFAULT_WIDTH
-         --  Rather we Put to minimal size with NOUN_RECORD_IO.DEFAULT_WIDTH,
-         --  PRONOUN_RECORD_IO,DEFAULT_WIDTH, . ..
-         L : Integer := S'First - 1;
-         M : Integer := 0;
-      begin
-         M := L + Part_Of_Speech_Type_IO.Default_Width;
-         Put (S (L + 1 .. M), P.Pofs);
-         L := M + 1;
-         S (L) :=  ' ';
-         case P.Pofs is
-            when N =>
-               M := L + Noun_Record_IO.Default_Width;
-               Put (S (L + 1 .. M), P.N);
-            when Pron =>
-               M := L + Pronoun_Record_IO.Default_Width;
-               Put (S (L + 1 .. M), P.Pron);
-            when Pack =>
-               M := L + Propack_Record_IO.Default_Width;
-               Put (S (L + 1 .. M), P.Pack);
-            when Adj =>
-               M := L + Adjective_Record_IO.Default_Width;
-               Put (S (L + 1 .. M), P.Adj);
-            when Num =>
-               M := L + Numeral_Record_IO.Default_Width;
-               Put (S (L + 1 .. M), P.Num);
-            when Adv =>
-               M := L + Adverb_Record_IO.Default_Width;
-               Put (S (L + 1 .. M), P.Adv);
-            when V =>
-               M := L + Verb_Record_IO.Default_Width;
-               Put (S (L + 1 .. M), P.V);
-            when Vpar =>
-               M := L + Vpar_Record_IO.Default_Width;
-               Put (S (L + 1 .. M), P.Vpar);
-            when Supine =>
-               M := L + Supine_Record_IO.Default_Width;
-               Put (S (L + 1 .. M), P.Supine);
-            when Prep =>
-               M := L + Preposition_Record_IO.Default_Width;
-               Put (S (L + 1 .. M), P.Prep);
-            when Conj =>
-               M := L + Conjunction_Record_IO.Default_Width;
-               Put (S (L + 1 .. M), P.Conj);
-            when Interj =>
-               M := L + Interjection_Record_IO.Default_Width;
-               Put (S (L + 1 .. M), P.Interj);
-            when Tackon =>
-               M := L + Tackon_Record_IO.Default_Width;
-               Put (S (L + 1 .. M), P.Tackon);
-            when Prefix =>
-               M := L + Prefix_Record_IO.Default_Width;
-               Put (S (L + 1 .. M), P.Prefix);
-            when Suffix =>
-               M := L + Suffix_Record_IO.Default_Width;
-               Put (S (L + 1 .. M), P.Suffix);
-            when others =>
-               null;
-         end case;
-         S (M + 1 .. S'Last) := (others => ' ');
-      end Put;
-
-   end Quality_Record_Io;
+   package body Quality_Record_IO is separate;
 
    package body Ending_Record_Io is
       use Integer_IO;
@@ -892,7 +528,7 @@ package body Latin_Utils.Inflections_Package is
    end Ending_Record_Io;
 
    package body Inflection_Record_IO is
-      use Quality_Record_Io;
+      use Quality_Record_IO;
       use Stem_Key_Type_IO;
       use Ending_Record_Io;
       use Age_Type_IO;
@@ -977,7 +613,7 @@ package body Latin_Utils.Inflections_Package is
          L : Integer := S'First - 1;
          M : Integer := 0;
       begin
-         M := L + Quality_Record_Io.Default_Width;
+         M := L + Quality_Record_IO.Default_Width;
          Put (S (L + 1 .. M), P.Qual);
          L := M + 1;
          S (L) :=  ' ';
@@ -1292,13 +928,13 @@ begin
 
    Suffix_Record_IO.Default_Width := 0;
 
-   Quality_Record_Io.Default_Width := Part_Of_Speech_Type_IO.Default_Width + 1 +
+   Quality_Record_IO.Default_Width := Part_Of_Speech_Type_IO.Default_Width + 1 +
      Vpar_Record_IO.Default_Width; --  Largest
 
    Ending_Record_Io.Default_Width := 3 + 1 +
      Max_Ending_Size;
 
-   Inflection_Record_IO.Default_Width := Quality_Record_Io.Default_Width + 1 +
+   Inflection_Record_IO.Default_Width := Quality_Record_IO.Default_Width + 1 +
      1  + 1 +
      Ending_Record_Io.Default_Width + 1 +
      Age_Type_IO.Default_Width + 1 +

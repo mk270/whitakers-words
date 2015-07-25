@@ -307,7 +307,7 @@ package body List_Package is
 
                Print_Modified_Qual :
                declare
-                  Out_String : String (1 .. Quality_Record_Io.Default_Width);
+                  Out_String : String (1 .. Quality_Record_IO.Default_Width);
                   Passive_Start  : constant Integer :=
                     Part_Of_Speech_Type_IO.Default_Width + 1 +
                     Decn_Record_IO.Default_Width + 1 +
@@ -330,12 +330,12 @@ package body List_Package is
                     (others => ' ');
                begin
 
-                  Quality_Record_Io.Put (Out_String, Sr.Ir.Qual);
+                  Quality_Record_IO.Put (Out_String, Sr.Ir.Qual);
                   if Dm.D_K in General .. Local then  --  UNIQUES has no DE
 
                      if (Sr.Ir.Qual.Pofs = V)    and then
                        (Dm.De.Part.V.Kind = Dep)       and then
-                       (Sr.Ir.Qual.V.Tense_Voice_Mood.Mood in Ind .. Inf)
+                       (Sr.Ir.Qual.Verb.Tense_Voice_Mood.Mood in Ind .. Inf)
                      then
                         --TEXT_IO.PUT_LINE ("START PRINT MODIFIED QUAL   V");
                         Out_String (Passive_Start + 1 .. Passive_Finish) :=
