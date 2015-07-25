@@ -66,8 +66,8 @@ package body Latin_Utils.Dictionary_Package is
 
    function "<" (Left, Right : Part_Entry) return Boolean is
    begin
-      if Left.pofs = Right.pofs  then
-         case Left.pofs is
+      if Left.Pofs = Right.Pofs  then
+         case Left.Pofs is
             when N =>
                if Left.N.Decl < Right.N.Decl  or else
                  (Left.N.Decl = Right.N.Decl  and then
@@ -128,19 +128,19 @@ package body Latin_Utils.Dictionary_Package is
                null;
          end case;
       else
-         return Left.pofs < Right.pofs;
+         return Left.Pofs < Right.Pofs;
       end if;
       return False;
    exception
       when Constraint_Error  =>
-         return Left.pofs < Right.pofs;
+         return Left.Pofs < Right.Pofs;
    end "<";
 
    ---------------------------------------------------------------------------
 
    overriding function "<=" (Left, Right : Area_Type) return Boolean is
    begin
-      if Right = Left or else Right = x then
+      if Right = Left or else Right = X then
          return True;
       else
          return False;

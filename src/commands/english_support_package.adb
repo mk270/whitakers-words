@@ -14,147 +14,147 @@
 -- All parts of the WORDS system, source code and data files, are made freely
 -- available to anyone who wishes to use them, for whatever purpose.
 
-package body english_support_package is
+package body English_Support_Package is
    --use EWDS_DIRECT_IO;
    use Ada.Text_IO;
 
-   package body ewds_record_io is
+   package body Ewds_Record_Io is
       package Integer_IO is new Ada.Text_IO.Integer_IO (Integer);
       use Part_Of_Speech_Type_IO;
       use Frequency_Type_IO;
       use Integer_IO;
-      spacer : Character := ' ';
-      nwidth : constant := 5;
+      Spacer : Character := ' ';
+      Nwidth : constant := 5;
 
-      procedure Get (f : in Ada.Text_IO.File_Type; p : out ewds_record) is
+      procedure Get (F : in Ada.Text_IO.File_Type; P : out Ewds_Record) is
       begin
-         Get (f, p.w);
-         Get (f, spacer);
-         Get (f, p.aux);
-         Get (f, spacer);
-         Get (f, p.n);
-         Get (f, spacer);
-         Get (f, p.pofs);
-         Get (f, spacer);
-         Get (f, p.freq);
-         Get (f, spacer);
-         Get (f, p.semi);
-         Get (f, spacer);
-         Get (f, p.kind);
-         Get (f, spacer);
-         Get (f, p.rank);
+         Get (F, P.W);
+         Get (F, Spacer);
+         Get (F, P.Aux);
+         Get (F, Spacer);
+         Get (F, P.N);
+         Get (F, Spacer);
+         Get (F, P.Pofs);
+         Get (F, Spacer);
+         Get (F, P.Freq);
+         Get (F, Spacer);
+         Get (F, P.Semi);
+         Get (F, Spacer);
+         Get (F, P.Kind);
+         Get (F, Spacer);
+         Get (F, P.Rank);
       end Get;
 
-      procedure Get (p : out ewds_record) is
+      procedure Get (P : out Ewds_Record) is
       begin
-         Get (p.w);
-         Get (spacer);
-         Get (p.aux);
-         Get (spacer);
-         Get (p.n);
-         Get (spacer);
-         Get (p.pofs);
-         Get (spacer);
-         Get (p.freq);
-         Get (spacer);
-         Get (p.semi);
-         Get (spacer);
-         Get (p.kind);
-         Get (spacer);
-         Get (p.rank);
+         Get (P.W);
+         Get (Spacer);
+         Get (P.Aux);
+         Get (Spacer);
+         Get (P.N);
+         Get (Spacer);
+         Get (P.Pofs);
+         Get (Spacer);
+         Get (P.Freq);
+         Get (Spacer);
+         Get (P.Semi);
+         Get (Spacer);
+         Get (P.Kind);
+         Get (Spacer);
+         Get (P.Rank);
       end Get;
 
-      procedure Put (f : in Ada.Text_IO.File_Type; p : in ewds_record) is
+      procedure Put (F : in Ada.Text_IO.File_Type; P : in Ewds_Record) is
       begin
-         Put (f, p.w);
-         Put (f, ' ');
-         Put (f, p.aux);
-         Put (f, ' ');
-         Put (f, p.n);
-         Put (f, ' ');
-         Put (f, p.pofs);
-         Put (f, ' ');
-         Put (f, p.freq);
-         Put (f, ' ');
-         Put (f, p.semi, nwidth);
-         Put (f, ' ');
-         Put (f, p.kind, nwidth);
-         Put (f, ' ');
-         Put (f, p.rank, nwidth);
+         Put (F, P.W);
+         Put (F, ' ');
+         Put (F, P.Aux);
+         Put (F, ' ');
+         Put (F, P.N);
+         Put (F, ' ');
+         Put (F, P.Pofs);
+         Put (F, ' ');
+         Put (F, P.Freq);
+         Put (F, ' ');
+         Put (F, P.Semi, Nwidth);
+         Put (F, ' ');
+         Put (F, P.Kind, Nwidth);
+         Put (F, ' ');
+         Put (F, P.Rank, Nwidth);
       end Put;
 
-      procedure Put (p : in ewds_record) is
+      procedure Put (P : in Ewds_Record) is
       begin
-         Put (p.w);
+         Put (P.W);
          Put (' ');
-         Put (p.aux);
+         Put (P.Aux);
          Put (' ');
-         Put (p.n);
+         Put (P.N);
          Put (' ');
-         Put (p.pofs);
+         Put (P.Pofs);
          Put (' ');
-         Put (p.freq);
+         Put (P.Freq);
          Put (' ');
-         Put (p.semi, nwidth);
+         Put (P.Semi, Nwidth);
          Put (' ');
-         Put (p.kind, nwidth);
+         Put (P.Kind, Nwidth);
          Put (' ');
-         Put (p.rank, nwidth);
+         Put (P.Rank, Nwidth);
       end Put;
 
-      procedure Get (s : in String; p : out ewds_record; last : out Integer) is
-         l : Integer := s'First - 1;
+      procedure Get (S : in String; P : out Ewds_Record; Last : out Integer) is
+         L : Integer := S'First - 1;
       begin
-         p.w := s (l + 1 .. l + eword_size);
-         l := l + eword_size + 1;
-         p.aux := s (l + 1 .. l + aux_word_size);
-         l := l + aux_word_size + 1;
-         Get (s (l + 1 .. s'Last), p.n, l);
-         l := l + 1;
-         Get (s (l + 1 .. s'Last), p.pofs, l);
-         l := l + 1;
-         Get (s (l + 1 .. s'Last), p.freq, l);
-         l := l + 1;
-         Get (s (l + 1 .. s'Last), p.semi, l);
-         l := l + 1;
-         Get (s (l + 1 .. s'Last), p.kind, l);
-         l := l + 1;
-         Get (s (l + 1 .. s'Last), p.rank, last);
+         P.W := S (L + 1 .. L + Eword_Size);
+         L := L + Eword_Size + 1;
+         P.Aux := S (L + 1 .. L + Aux_Word_Size);
+         L := L + Aux_Word_Size + 1;
+         Get (S (L + 1 .. S'Last), P.N, L);
+         L := L + 1;
+         Get (S (L + 1 .. S'Last), P.Pofs, L);
+         L := L + 1;
+         Get (S (L + 1 .. S'Last), P.Freq, L);
+         L := L + 1;
+         Get (S (L + 1 .. S'Last), P.Semi, L);
+         L := L + 1;
+         Get (S (L + 1 .. S'Last), P.Kind, L);
+         L := L + 1;
+         Get (S (L + 1 .. S'Last), P.Rank, Last);
       end Get;
 
-      procedure Put (s : out String; p : in ewds_record) is
-         l : Integer := s'First - 1;
-         m : Integer := 0;
+      procedure Put (S : out String; P : in Ewds_Record) is
+         L : Integer := S'First - 1;
+         M : Integer := 0;
       begin
-         m := l + eword_size;
-         s (l + 1 .. m) :=  p.w;
-         l := m + 1;
-         s (l) :=  ' ';
-         m := l + aux_word_size;
-         s (l + 1 .. m) := p.aux;
-         l := m + 1;
-         s (l) :=  ' ';
-         m := l + line_number_width;
-         Put (s (l + 1 .. m), p.n);
-         s (l) :=  ' ';
-         m := l + Part_Of_Speech_Type_IO.Default_Width;
-         Put (s (l + 1 .. m), p.pofs);
-         s (l) :=  ' ';
-         m := l + Frequency_Type_IO.Default_Width;
-         Put (s (l + 1 .. m), p.freq);
-         s (l) :=  ' ';
-         m := l + priority_width;
-         Put (s (l + 1 .. m), p.semi, nwidth);
-         s (l) :=  ' ';
-         m := l + priority_width;
-         Put (s (l + 1 .. m), p.kind, nwidth);
-         s (l) :=  ' ';
-         m := l + priority_width;
-         Put (s (l + 1 .. m), p.rank, nwidth);
+         M := L + Eword_Size;
+         S (L + 1 .. M) :=  P.W;
+         L := M + 1;
+         S (L) :=  ' ';
+         M := L + Aux_Word_Size;
+         S (L + 1 .. M) := P.Aux;
+         L := M + 1;
+         S (L) :=  ' ';
+         M := L + Line_Number_Width;
+         Put (S (L + 1 .. M), P.N);
+         S (L) :=  ' ';
+         M := L + Part_Of_Speech_Type_IO.Default_Width;
+         Put (S (L + 1 .. M), P.Pofs);
+         S (L) :=  ' ';
+         M := L + Frequency_Type_IO.Default_Width;
+         Put (S (L + 1 .. M), P.Freq);
+         S (L) :=  ' ';
+         M := L + Priority_Width;
+         Put (S (L + 1 .. M), P.Semi, Nwidth);
+         S (L) :=  ' ';
+         M := L + Priority_Width;
+         Put (S (L + 1 .. M), P.Kind, Nwidth);
+         S (L) :=  ' ';
+         M := L + Priority_Width;
+         Put (S (L + 1 .. M), P.Rank, Nwidth);
 
-         s (m + 1 .. s'Last) := (others => ' ');
+         S (M + 1 .. S'Last) := (others => ' ');
       end Put;
 
-   end ewds_record_io;
+   end Ewds_Record_Io;
 
-end english_support_package;
+end English_Support_Package;

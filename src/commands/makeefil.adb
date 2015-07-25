@@ -15,55 +15,55 @@
 -- available to anyone who wishes to use them, for whatever purpose.
 
 with Ada.Text_IO;
-with english_support_package; use english_support_package;
-procedure makeefil is
+with English_Support_Package; use English_Support_Package;
+procedure Makeefil is
    use Ada.Text_IO;
-   use ewds_direct_io;
-   ewds_list : Ada.Text_IO.File_Type;
-   ewds, new_ewds : ewds_record := null_ewds_record;
+   use Ewds_Direct_Io;
+   Ewds_List : Ada.Text_IO.File_Type;
+   Ewds, New_Ewds : Ewds_Record := Null_Ewds_Record;
 begin
-   Ada.Text_IO.Open (ewds_list, Ada.Text_IO.In_File, "EWDSLIST.GEN");
-   Create (ewds_file, Out_File, "EWDSFILE.GEN");
+   Ada.Text_IO.Open (Ewds_List, Ada.Text_IO.In_File, "EWDSLIST.GEN");
+   Create (Ewds_File, Out_File, "EWDSFILE.GEN");
 
-   while not Ada.Text_IO.End_Of_File (ewds_list)  loop
-      ewds_record_io.Get (ewds_list, new_ewds);
-      Ada.Text_IO.Skip_Line (ewds_list);
+   while not Ada.Text_IO.End_Of_File (Ewds_List)  loop
+      Ewds_Record_Io.Get (Ewds_List, New_Ewds);
+      Ada.Text_IO.Skip_Line (Ewds_List);
 
       --  Eliminate doubles    --  If sort is OK
-      if ewds.w = new_ewds.w  and  --  AUX ????
-        ewds.n = new_ewds.n
+      if Ewds.W = New_Ewds.W  and  --  AUX ????
+        Ewds.N = New_Ewds.N
       then
          -- PUT_LINE ("DOUBLES   ");
          -- EWDS_RECORD_IO.PUT (EWDS); NEW_LINE;
          -- EWDS_RECORD_IO.PUT (NEW_EWDS); NEW_LINE;
 
-         if ewds.kind > new_ewds.kind  then  --  Large KIND = high priority
+         if Ewds.Kind > New_Ewds.Kind  then  --  Large KIND = high priority
             null;
-         elsif ewds.kind < new_ewds.kind  then
-            ewds := new_ewds;
-         elsif ewds.kind = new_ewds.kind  then
-            if ewds.semi > new_ewds.semi  then
-               ewds := new_ewds;
+         elsif Ewds.Kind < New_Ewds.Kind  then
+            Ewds := New_Ewds;
+         elsif Ewds.Kind = New_Ewds.Kind  then
+            if Ewds.Semi > New_Ewds.Semi  then
+               Ewds := New_Ewds;
             end if;
          end if;
 
       else
 
-         Write (ewds_file, ewds);
-         ewds := new_ewds;
-         number_of_ewords := number_of_ewords + 1;
+         Write (Ewds_File, Ewds);
+         Ewds := New_Ewds;
+         Number_Of_Ewords := Number_Of_Ewords + 1;
       end if;
       --PUT ('.');
    end loop;
-   Close (ewds_file);
+   Close (Ewds_File);
    Ada.Text_IO.New_Line;
    Ada.Text_IO.Put_Line
-     ("NUMBER_OF_EWORDS = " & Integer'Image (number_of_ewords));
+     ("NUMBER_OF_EWORDS = " & Integer'Image (Number_Of_Ewords));
 exception
    when others =>
-      Close (ewds_file);
+      Close (Ewds_File);
       Ada.Text_IO.New_Line;
       Ada.Text_IO.Put_Line ("MAKEEFIL terminated on an exception");
       Ada.Text_IO.Put_Line
-        ("NUMBER_OF_EWORDS = " & Integer'Image (number_of_ewords));
-end makeefil;
+        ("NUMBER_OF_EWORDS = " & Integer'Image (Number_Of_Ewords));
+end Makeefil;

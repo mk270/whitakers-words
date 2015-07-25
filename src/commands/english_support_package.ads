@@ -18,55 +18,55 @@ with Ada.Text_IO;
 with Ada.Direct_IO;
 with Latin_Utils.Inflections_Package; use Latin_Utils.Inflections_Package;
 with Latin_Utils.Dictionary_Package; use Latin_Utils.Dictionary_Package;
-package english_support_package is
+package English_Support_Package is
 
-   eword_size    : constant := 24;
-   aux_word_size : constant := 12;
-   line_number_width : constant := 10;
-   priority_width : constant := 3;
+   Eword_Size    : constant := 24;
+   Aux_Word_Size : constant := 12;
+   Line_Number_Width : constant := 10;
+   Priority_Width : constant := 3;
 
-   subtype eword is String (1 .. eword_size);
-   null_eword : eword := (others => ' ');
-   subtype auxword is String (1 .. aux_word_size);
-   null_auxword : auxword := (others => ' ');
-   subtype priority_type is Integer range 0 .. 99;
+   subtype Eword is String (1 .. Eword_Size);
+   Null_Eword : Eword := (others => ' ');
+   subtype Auxword is String (1 .. Aux_Word_Size);
+   Null_Auxword : Auxword := (others => ' ');
+   subtype Priority_Type is Integer range 0 .. 99;
 
-   number_of_ewords : Integer := 0;
+   Number_Of_Ewords : Integer := 0;
 
-   type ewds_record is
+   type Ewds_Record is
       record
-         w    : eword := null_eword;
-         aux  : auxword := null_auxword;
-         n    : Integer := 0;
-         pofs : Part_Of_Speech_Type := X;
-         freq : Frequency_Type := x;
-         semi : Integer := 0;
-         kind : Integer := 0;
-         rank : Integer := 0;
+         W    : Eword := Null_Eword;
+         Aux  : Auxword := Null_Auxword;
+         N    : Integer := 0;
+         Pofs : Part_Of_Speech_Type := X;
+         Freq : Frequency_Type := X;
+         Semi : Integer := 0;
+         Kind : Integer := 0;
+         Rank : Integer := 0;
       end record;
 
-   null_ewds_record : ewds_record := ((others => ' '),
-     (others => ' '), 0, X, x, 0, 0, 0);
+   Null_Ewds_Record : Ewds_Record := ((others => ' '),
+     (others => ' '), 0, X, X, 0, 0, 0);
 
-   type ewds_array is array (Positive range <>) of ewds_record;
+   type Ewds_Array is array (Positive range <>) of Ewds_Record;
 
-   package ewds_direct_io is new Ada.Direct_IO (ewds_record);
+   package Ewds_Direct_Io is new Ada.Direct_IO (Ewds_Record);
 
-   package ewds_record_io is
+   package Ewds_Record_Io is
       Default_Width : Natural;
-      procedure Get (f : in Ada.Text_IO.File_Type; p : out ewds_record);
-      procedure Get (p : out ewds_record);
-      procedure Put (f : in Ada.Text_IO.File_Type; p : in ewds_record);
-      procedure Put (p : in ewds_record);
-      procedure Get (s : in String; p : out ewds_record;
-                                    last : out Integer);
-      procedure Put (s : out String; p : in ewds_record);
-   end ewds_record_io;
+      procedure Get (F : in Ada.Text_IO.File_Type; P : out Ewds_Record);
+      procedure Get (P : out Ewds_Record);
+      procedure Put (F : in Ada.Text_IO.File_Type; P : in Ewds_Record);
+      procedure Put (P : in Ewds_Record);
+      procedure Get (S : in String; P : out Ewds_Record;
+                                    Last : out Integer);
+      procedure Put (S : out String; P : in Ewds_Record);
+   end Ewds_Record_Io;
 
    English_Dictionary_Available : array (Dictionary_Kind) of Boolean := (False,
      False, False, False, False, False, False,  --  don't SEARCH
      False, False, False, False);
 
-   ewds_file : ewds_direct_io.File_Type;
+   Ewds_File : Ewds_Direct_Io.File_Type;
 
-end english_support_package;
+end English_Support_Package;

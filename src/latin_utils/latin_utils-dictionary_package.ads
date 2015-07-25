@@ -32,17 +32,17 @@ package Latin_Utils.Dictionary_Package is
    ---------------------------------------------------------------------------
 
    type Dictionary_Kind is
-      (x,            --  null
-        addons,       --  For FIXES
-        xxx,          --  TRICKS
-        yyy,          --  Syncope
-        nnn,          --  Unknown Name
-        rrr,          --  Roman Numerals
-        ppp,          --  Compounds
-        general,
-        special,
-        local,
-        unique
+      (X,            --  null
+        Addons,       --  For FIXES
+        Xxx,          --  TRICKS
+        Yyy,          --  Syncope
+        Nnn,          --  Unknown Name
+        Rrr,          --  Roman Numerals
+        Ppp,          --  Compounds
+        General,
+        Special,
+        Local,
+        Unique
       );
 
    package Dictionary_Kind_IO is new
@@ -53,7 +53,7 @@ package Latin_Utils.Dictionary_Package is
         "GEN", "SPE", "LOC", "UNI"
       );
 
-   Default_Dictionary_Kind : Dictionary_Kind := x;
+   Default_Dictionary_Kind : Dictionary_Kind := X;
 
    --  Starts out as False and set to True when the Dict is loaded
    Dictionary_Available : array (Dictionary_Kind) of Boolean :=
@@ -62,18 +62,18 @@ package Latin_Utils.Dictionary_Package is
    ---------------------------------------------------------------------------
 
    type Area_Type is
-      (x,      --  All or none
-        a,      --  Agriculture, Flora, Fauna, Land, Equipment, Rural
-        b,      --  Biological, Medical, Body Parts
-        d,      --  Drama, Music, Theater, Art, Painting, Sculpture
-        e,      --  Ecclesiastic, Biblical, Religious
-        g,      --  Grammar, Retoric, Logic, Literature, Schools
-        l,      --  Legal, Government, Tax, Financial, Political, Titles
-        p,      --  Poetic
-        s,      --  Science, Philosophy, Mathematics, Units/Measures
-        t,      --  Technical, Architecture, Topography, Surveying
-        w,      --  War, Military, Naval, Ships, Armor
-        y       --  Mythology
+      (X,      --  All or none
+        A,      --  Agriculture, Flora, Fauna, Land, Equipment, Rural
+        B,      --  Biological, Medical, Body Parts
+        D,      --  Drama, Music, Theater, Art, Painting, Sculpture
+        E,      --  Ecclesiastic, Biblical, Religious
+        G,      --  Grammar, Retoric, Logic, Literature, Schools
+        L,      --  Legal, Government, Tax, Financial, Political, Titles
+        P,      --  Poetic
+        S,      --  Science, Philosophy, Mathematics, Units/Measures
+        T,      --  Technical, Architecture, Topography, Surveying
+        W,      --  War, Military, Naval, Ships, Armor
+        Y       --  Mythology
       );
 
    overriding function "<=" (Left, Right : Area_Type) return Boolean;
@@ -84,24 +84,24 @@ package Latin_Utils.Dictionary_Package is
    ---------------------------------------------------------------------------
 
    type Geo_Type is
-      (x,      --  All or none
-        a,      --  Africa
-        b,      --  Britian
-        c,      --  China
-        d,      --  Scandinavia
-        e,      --  Egypt
-        f,      --  France, Gaul
-        g,      --  Germany
-        h,      --  Greece
-        i,      --  Italy, Rome
-        j,      --  India
-        k,      --  Balkans
-        n,      --  Netherlands
-        p,      --  Persia
-        q,      --  Near East
-        r,      --  Russia
-        s,      --  Spain, Iberia
-        u       --  Eastern Europe
+      (X,      --  All or none
+        A,      --  Africa
+        B,      --  Britian
+        C,      --  China
+        D,      --  Scandinavia
+        E,      --  Egypt
+        F,      --  France, Gaul
+        G,      --  Germany
+        H,      --  Greece
+        I,      --  Italy, Rome
+        J,      --  India
+        K,      --  Balkans
+        N,      --  Netherlands
+        P,      --  Persia
+        Q,      --  Near East
+        R,      --  Russia
+        S,      --  Spain, Iberia
+        U       --  Eastern Europe
       );
 
    package Geo_Type_IO is new
@@ -110,33 +110,33 @@ package Latin_Utils.Dictionary_Package is
    ---------------------------------------------------------------------------
 
    type Source_Type is
-      (x,  --  General or unknown or too common to say
-        a,
-        b,  --  C.H.Beeson, A Primer of Medieval Latin, 1925 (Bee)
-        c,  --  Charles Beard, Cassell's Latin Dictionary 1892 (Cas)
-        d,  --  J.N.Adams, Latin Sexual Vocabulary, 1982 (Sex)
-        e,  --  L.F.Stelten, Dictionary of Eccles. Latin, 1995 (Ecc)
-        f,  --  Roy J. Deferrari, Dictionary of St. Thomas Aquinas, 1960 (DeF)
-        g,  --  Gildersleeve + Lodge, Latin Grammar 1895 (G+L)
-        h,  --  Collatinus Dictionary by Yves Ouvrard
-        i,  --  Leverett, F.P., Lexicon of the Latin Language, Boston 1845
-        j,  --  Bracton: De Legibus Et Consuetudinibus Angliæ
-        k,  --  Calepinus Novus, modern Latin, by Guy Licoppe (Cal)
-        l,  --  Lewis, C.S., Elementary Latin Dictionary 1891
-        m,  --  Latham, Revised Medieval Word List, 1980 (Latham)
-        n,  --  Lynn Nelson, Wordlist (Nel)
-        o,  --  Oxford Latin Dictionary, 1982 (OLD)
-        p,  --  Souter, A Glossary of Later Latin to 600 A.D.,
+      (X,  --  General or unknown or too common to say
+        A,
+        B,  --  C.H.Beeson, A Primer of Medieval Latin, 1925 (Bee)
+        C,  --  Charles Beard, Cassell's Latin Dictionary 1892 (Cas)
+        D,  --  J.N.Adams, Latin Sexual Vocabulary, 1982 (Sex)
+        E,  --  L.F.Stelten, Dictionary of Eccles. Latin, 1995 (Ecc)
+        F,  --  Roy J. Deferrari, Dictionary of St. Thomas Aquinas, 1960 (DeF)
+        G,  --  Gildersleeve + Lodge, Latin Grammar 1895 (G+L)
+        H,  --  Collatinus Dictionary by Yves Ouvrard
+        I,  --  Leverett, F.P., Lexicon of the Latin Language, Boston 1845
+        J,  --  Bracton: De Legibus Et Consuetudinibus Angliæ
+        K,  --  Calepinus Novus, modern Latin, by Guy Licoppe (Cal)
+        L,  --  Lewis, C.S., Elementary Latin Dictionary 1891
+        M,  --  Latham, Revised Medieval Word List, 1980 (Latham)
+        N,  --  Lynn Nelson, Wordlist (Nel)
+        O,  --  Oxford Latin Dictionary, 1982 (OLD)
+        P,  --  Souter, A Glossary of Later Latin to 600 A.D.,
             --    Oxford 1949 (Souter)
-        q,  --  Other, cited or unspecified dictionaries
-        r,  --  Plater + White, A Grammar of the Vulgate, Oxford 1926 (Plater)
-        s,  --  Lewis and Short, A Latin Dictionary, 1879 (L+S)
-        t,  --  Found in a translation  --  no dictionary reference
-        u,  --
-        v,  --  Vademecum in opus Saxonis - Franz Blatt (Saxo)
-        w,  --  My personal guess, mostly obvious extrapolation (Whitaker or W)
-        y,  --  Temp special code
-        z   --  Sent by user -- no dictionary reference,
+        Q,  --  Other, cited or unspecified dictionaries
+        R,  --  Plater + White, A Grammar of the Vulgate, Oxford 1926 (Plater)
+        S,  --  Lewis and Short, A Latin Dictionary, 1879 (L+S)
+        T,  --  Found in a translation  --  no dictionary reference
+        U,  --
+        V,  --  Vademecum in opus Saxonis - Franz Blatt (Saxo)
+        W,  --  My personal guess, mostly obvious extrapolation (Whitaker or W)
+        Y,  --  Temp special code
+        Z   --  Sent by user -- no dictionary reference,
             --    Mostly John White of Blitz Latin
 
       --  Consulted but used only indirectly
@@ -162,25 +162,25 @@ package Latin_Utils.Dictionary_Package is
 
    ---------------------------------------------------------------------------
    -- NOTE: Should n and v be changed to noun and verb for clarity?
-   type Kind_Entry (pofs : Part_Of_Speech_Type := X) is
+   type Kind_Entry (Pofs : Part_Of_Speech_Type := X) is
       record
-         case pofs is
+         case Pofs is
             when N =>
-               n_kind : Noun_Kind_Type := X;
+               N_Kind : Noun_Kind_Type := X;
             when Pron =>
-               pron_kind : Pronoun_Kind_Type := X;
+               Pron_Kind : Pronoun_Kind_Type := X;
             when Pack =>
-               pack_kind : Pronoun_Kind_Type := X;
+               Pack_Kind : Pronoun_Kind_Type := X;
             when Adj | Adv | X =>
                null;
             when Num =>
-               num_value : Numeral_Value_Type := 0;
+               Num_Value : Numeral_Value_Type := 0;
             when V =>
-               v_kind : Verb_Kind_Type := X;
+               V_Kind : Verb_Kind_Type := X;
             when Vpar =>
-               vpar_kind : Verb_Kind_Type := X;
+               Vpar_Kind : Verb_Kind_Type := X;
             when Supine =>
-               supine_kind : Verb_Kind_Type := X;
+               Supine_Kind : Verb_Kind_Type := X;
             when Prep .. Suffix =>
                null;
          end case;
@@ -216,20 +216,20 @@ package Latin_Utils.Dictionary_Package is
          );
    end Kind_Entry_IO;
 
-   Null_Kind_Entry : constant Kind_Entry := (pofs => X);
+   Null_Kind_Entry : constant Kind_Entry := (Pofs => X);
 
    ---------------------------------------------------------------------------
 
    type Translation_Record is
       record
-         Age  : Age_Type       := x;
-         Area : Area_Type      := x;
-         Geo  : Geo_Type       := x;
-         Freq : Frequency_Type := x;
-         Source : Source_Type  := x;
+         Age  : Age_Type       := X;
+         Area : Area_Type      := X;
+         Geo  : Geo_Type       := X;
+         Freq : Frequency_Type := X;
+         Source : Source_Type  := X;
       end record;
 
-   Null_Translation_Record : constant Translation_Record := (x, x, x, x, x);
+   Null_Translation_Record : constant Translation_Record := (X, X, X, X, X);
 
    -- FIXME: These subprograms don't check if Is_Open (File)
    package Translation_Record_IO is
@@ -516,9 +516,9 @@ package Latin_Utils.Dictionary_Package is
 
    ---------------------------------------------------------------------------
    -- NOTE: Should n and v be changed to noun and verb for clarity?
-   type Part_Entry (pofs : Part_Of_Speech_Type := X) is
+   type Part_Entry (Pofs : Part_Of_Speech_Type := X) is
       record
-         case pofs is
+         case Pofs is
             when N =>
                N : Noun_Entry;
             when Pron =>
@@ -568,7 +568,7 @@ package Latin_Utils.Dictionary_Package is
       procedure Put (Target : out String; Item : in Part_Entry);
    end Part_Entry_IO;
 
-   Null_Part_Entry : constant Part_Entry := (pofs => X);
+   Null_Part_Entry : constant Part_Entry := (Pofs => X);
 
    -- FIXME: In some cases may result in erroneous execution due to no return
    --    (ie. Left.pofs = Right.pofs and then Left.pofs = x)

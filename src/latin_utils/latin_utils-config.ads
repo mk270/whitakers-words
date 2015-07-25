@@ -16,16 +16,16 @@
 
 package Latin_Utils.Config is
 
-   Output_screen_size : Integer := 20;
+   Output_Screen_Size : Integer := 20;
 
-   type configuration_type is (developer_version, user_version, only_meanings);
+   type Configuration_Type is (Developer_Version, User_Version, Only_Meanings);
 
-   type method_type is (interactive, Command_Line_Input, Command_Line_files);
-   method : method_type := interactive;
+   type Method_Type is (Interactive, Command_Line_Input, Command_Line_Files);
+   Method : Method_Type := Interactive;
 
-   type language_type is (latin_to_english, english_to_latin);
-   language : language_type := latin_to_english;
+   type Language_Type is (Latin_To_English, English_To_Latin);
+   Language : Language_Type := Latin_To_English;
 
-   suppress_preface : Boolean := False;
+   Suppress_Preface : Boolean := False;
 
 end Latin_Utils.Config;

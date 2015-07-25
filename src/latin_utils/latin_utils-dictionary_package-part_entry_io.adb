@@ -85,13 +85,13 @@ package body Part_Entry_IO is
             Interjection_Entry_IO.Get (File, Interjection);
             Item := (Interj, Interjection);
          when Prefix =>
-            Item := (pofs => Prefix);
+            Item := (Pofs => Prefix);
          when Suffix =>
-            Item := (pofs => Suffix);
+            Item := (Pofs => Suffix);
          when Tackon =>
-            Item := (pofs => Tackon);
+            Item := (Pofs => Tackon);
          when X =>
-            Item := (pofs => X);
+            Item := (Pofs => X);
       end case;
       Ada.Text_IO.Set_Col
          (File,
@@ -162,13 +162,13 @@ package body Part_Entry_IO is
             Interjection_Entry_IO.Get (Interjection);
             Item := (Interj, Interjection);
          when Prefix =>
-            Item := (pofs => Prefix);
+            Item := (Pofs => Prefix);
          when Suffix =>
-            Item := (pofs => Suffix);
+            Item := (Pofs => Suffix);
          when Tackon =>
-            Item := (pofs => Tackon);
+            Item := (Pofs => Tackon);
          when X =>
-            Item := (pofs => X);
+            Item := (Pofs => X);
       end case;
    end Get;
 
@@ -176,9 +176,9 @@ package body Part_Entry_IO is
 
    procedure Put (File : in Ada.Text_IO.File_Type; Item : in Part_Entry) is
    begin
-      Part_Of_Speech_Type_IO.Put (File, Item.pofs);
+      Part_Of_Speech_Type_IO.Put (File, Item.Pofs);
       Ada.Text_IO.Put (File, ' ');
-      case Item.pofs is
+      case Item.Pofs is
          when N =>
             Noun_Entry_IO.Put (File, Item.N);
          when Pron =>
@@ -214,9 +214,9 @@ package body Part_Entry_IO is
 
    procedure Put (Item : in Part_Entry) is
    begin
-      Part_Of_Speech_Type_IO.Put (Item.pofs);
+      Part_Of_Speech_Type_IO.Put (Item.Pofs);
       Ada.Text_IO.Put (' ');
-      case Item.pofs is
+      case Item.Pofs is
          when N =>
             Noun_Entry_IO.Put (Item.N);
          when Pron =>
@@ -323,13 +323,13 @@ package body Part_Entry_IO is
                (Source (Low + 1 .. Source'Last), Interjection, Last);
             Target := (Interj, Interjection);
          when Prefix =>
-            Target := (pofs => Prefix);
+            Target := (Pofs => Prefix);
          when Suffix =>
-            Target := (pofs => Suffix);
+            Target := (Pofs => Suffix);
          when Tackon =>
-            Target := (pofs => Tackon);
+            Target := (Pofs => Tackon);
          when X =>
-            Target := (pofs => X);
+            Target := (Pofs => X);
       end case;
    end Get;
 
@@ -342,12 +342,12 @@ package body Part_Entry_IO is
    begin
       -- Put Part_Of_Speech_Type
       High := Low + Part_Of_Speech_Type_IO.Default_Width;
-      Part_Of_Speech_Type_IO.Put (Target (Low + 1 .. High), Item.pofs);
+      Part_Of_Speech_Type_IO.Put (Target (Low + 1 .. High), Item.Pofs);
       Low := High + 1;
       Target (Low) :=  ' ';
 
       -- Put Part_Entry
-      case Item.pofs is
+      case Item.Pofs is
          when N =>
             High := Low + Noun_Entry_IO.Default_Width;
             Noun_Entry_IO.Put (Target (Low + 1 .. High), Item.N);

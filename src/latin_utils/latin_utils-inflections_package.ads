@@ -695,9 +695,9 @@ package Latin_Utils.Inflections_Package is
 
    ---------------------------------------------------------------------------
 
-   type quality_record (pofs : Part_Of_Speech_Type := X) is
+   type Quality_Record (Pofs : Part_Of_Speech_Type := X) is
       record
-         case pofs is
+         case Pofs is
             when N =>
                N : Noun_Record;
             when Pron =>
@@ -733,72 +733,72 @@ package Latin_Utils.Inflections_Package is
          end case;
       end record;
 
-   null_quality_record : quality_record;
+   Null_Quality_Record : Quality_Record;
 
    -- FIXME results in erroneous execution in case of Tackon .. Suffix
-   function "<" (left, right : quality_record) return Boolean;
+   function "<" (Left, Right : Quality_Record) return Boolean;
 
-   package quality_record_io is
+   package Quality_Record_Io is
       Default_Width : Natural;
-      procedure Get (f : in File_Type; p : out quality_record);
-      procedure Get (p : out quality_record);
-      procedure Put (f : in File_Type; p : in quality_record);
-      procedure Put (p : in quality_record);
-      procedure Get (s : in String; p : out quality_record; last : out Integer);
-      procedure Put (s : out String; p : in quality_record);
-   end quality_record_io;
+      procedure Get (F : in File_Type; P : out Quality_Record);
+      procedure Get (P : out Quality_Record);
+      procedure Put (F : in File_Type; P : in Quality_Record);
+      procedure Put (P : in Quality_Record);
+      procedure Get (S : in String; P : out Quality_Record; Last : out Integer);
+      procedure Put (S : out String; P : in Quality_Record);
+   end Quality_Record_Io;
 
-   type quality_array is array (Integer range <>) of quality_record;
+   type Quality_Array is array (Integer range <>) of Quality_Record;
 
-   max_ending_size : constant := 7;
-   subtype ending_size_type is Integer range 0 .. max_ending_size;
+   Max_Ending_Size : constant := 7;
+   subtype Ending_Size_Type is Integer range 0 .. Max_Ending_Size;
 
-   ending_size_type_io_Default_Width : Integer := 3;
+   Ending_Size_Type_Io_Default_Width : Integer := 3;
 
-   subtype ending is String (1 .. max_ending_size);
+   subtype Ending is String (1 .. Max_Ending_Size);
 
-   type ending_record is
+   type Ending_Record is
       record
-         size : ending_size_type := 0;
-         suf  : ending := (others => ' ');
+         Size : Ending_Size_Type := 0;
+         Suf  : Ending := (others => ' ');
       end record;
 
-   package ending_record_io is
+   package Ending_Record_Io is
       Default_Width : Natural;
-      procedure Get (f : in File_Type; x : out ending_record);
-      procedure Get (x : out ending_record);
-      procedure Put (f : in File_Type; x : in ending_record);
-      procedure Put (x : in ending_record);
-      procedure Get (s : in String; x : out ending_record; last : out Integer);
-      procedure Put (s : out String; x : in ending_record);
-   end ending_record_io;
+      procedure Get (F : in File_Type; X : out Ending_Record);
+      procedure Get (X : out Ending_Record);
+      procedure Put (F : in File_Type; X : in Ending_Record);
+      procedure Put (X : in Ending_Record);
+      procedure Get (S : in String; X : out Ending_Record; Last : out Integer);
+      procedure Put (S : out String; X : in Ending_Record);
+   end Ending_Record_Io;
 
-   null_ending_record : ending_record;
+   Null_Ending_Record : Ending_Record;
 
    type Age_Type is (
-     x,   --              --  In use throughout the ages/unknown -- the default
-     a,   --  archaic     --  Very early forms, obsolete by classical times
-     b,   --  early       --  Early Latin, pre-classical, used for effect/poetry
-     c,   --  classical   --  Limited to classical (~150 BC - 200 AD)
-     d,   --  late        --  Late, post-classical (3rd-5th centuries)
-     e,   --  later       --  Latin not in use in Classical times (6-10), X'ian
-     f,   --  medieval    --  Medieval (11th-15th centuries)
-     g,   --  scholar     --  Latin post 15th - Scholarly/Scientific   (16-18)
-     h    --  modern      --  Coined recently, words for new things (19-20)
+     X,   --              --  In use throughout the ages/unknown -- the default
+     A,   --  archaic     --  Very early forms, obsolete by classical times
+     B,   --  early       --  Early Latin, pre-classical, used for effect/poetry
+     C,   --  classical   --  Limited to classical (~150 BC - 200 AD)
+     D,   --  late        --  Late, post-classical (3rd-5th centuries)
+     E,   --  later       --  Latin not in use in Classical times (6-10), X'ian
+     F,   --  medieval    --  Medieval (11th-15th centuries)
+     G,   --  scholar     --  Latin post 15th - Scholarly/Scientific   (16-18)
+     H    --  modern      --  Coined recently, words for new things (19-20)
                     );
    package Age_Type_IO is new Ada.Text_IO.Enumeration_IO (Age_Type);
 
    type Frequency_Type is (    --  For dictionary entries
-     x,    --              --  Unknown or unspecified
-     a,    --  very freq   --  Very frequent, in all Elementry Latin books
-     b,    --  frequent    --  Frequent, in top 10 percent
-     c,    --  common      --  For Dictionary, in top 10,000 words
-     d,    --  lesser      --  For Dictionary, in top 20,000 words
-     e,    --  uncommon    --  2 or 3 citations
-     f,    --  very rare   --  Having only single citation in OLD or L+S
-     i,    --  inscription --  Only citation is inscription
-     m,    --  graffiti    --  Presently not much used
-     n     --  Pliny       --  Appearing (almost) only in Pliny Natural History
+     X,    --              --  Unknown or unspecified
+     A,    --  very freq   --  Very frequent, in all Elementry Latin books
+     B,    --  frequent    --  Frequent, in top 10 percent
+     C,    --  common      --  For Dictionary, in top 10,000 words
+     D,    --  lesser      --  For Dictionary, in top 20,000 words
+     E,    --  uncommon    --  2 or 3 citations
+     F,    --  very rare   --  Having only single citation in OLD or L+S
+     I,    --  inscription --  Only citation is inscription
+     M,    --  graffiti    --  Presently not much used
+     N     --  Pliny       --  Appearing (almost) only in Pliny Natural History
                           );
 
    --  For inflections, the same type is used with different weights

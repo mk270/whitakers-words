@@ -34,201 +34,201 @@ package body Latin_Utils.Inflections_Package is
 
    ---------------------------------------------------------------------------
 
-   function "<" (left, right : quality_record) return Boolean is
+   function "<" (Left, Right : Quality_Record) return Boolean is
    begin
-      if left.pofs = right.pofs  then
-         case left.pofs is
+      if Left.Pofs = Right.Pofs  then
+         case Left.Pofs is
             when N =>
-               if left.N.Decl.Which < right.N.Decl.Which  or else
-                 (left.N.Decl.Which = right.N.Decl.Which  and then
-                 left.N.Decl.Var < right.N.Decl.Var)  or else
-                 (left.N.Decl.Which = right.N.Decl.Which  and then
-                 left.N.Decl.Var = right.N.Decl.Var  and then
-                 left.N.Number < right.N.Number) or else
-                 (left.N.Decl.Which = right.N.Decl.Which  and then
-                 left.N.Decl.Var = right.N.Decl.Var  and then
-                 left.N.Number = right.N.Number and then
-                 left.N.Of_Case < right.N.Of_Case) or else
-                 (left.N.Decl.Which = right.N.Decl.Which  and then
-                 left.N.Decl.Var = right.N.Decl.Var  and then
-                 left.N.Number = right.N.Number and then
-                 left.N.Of_Case = right.N.Of_Case and then
-                 left.N.Gender < right.N.Gender)
+               if Left.N.Decl.Which < Right.N.Decl.Which  or else
+                 (Left.N.Decl.Which = Right.N.Decl.Which  and then
+                 Left.N.Decl.Var < Right.N.Decl.Var)  or else
+                 (Left.N.Decl.Which = Right.N.Decl.Which  and then
+                 Left.N.Decl.Var = Right.N.Decl.Var  and then
+                 Left.N.Number < Right.N.Number) or else
+                 (Left.N.Decl.Which = Right.N.Decl.Which  and then
+                 Left.N.Decl.Var = Right.N.Decl.Var  and then
+                 Left.N.Number = Right.N.Number and then
+                 Left.N.Of_Case < Right.N.Of_Case) or else
+                 (Left.N.Decl.Which = Right.N.Decl.Which  and then
+                 Left.N.Decl.Var = Right.N.Decl.Var  and then
+                 Left.N.Number = Right.N.Number and then
+                 Left.N.Of_Case = Right.N.Of_Case and then
+                 Left.N.Gender < Right.N.Gender)
                then
                   return True;
                end if;
             when Pron =>
-               if left.Pron.Decl.Which < right.Pron.Decl.Which  or else
-                 (left.Pron.Decl.Which = right.Pron.Decl.Which  and then
-                 left.Pron.Decl.Var < right.Pron.Decl.Var)  or else
-                 (left.Pron.Decl.Which = right.Pron.Decl.Which  and then
-                 left.Pron.Decl.Var = right.Pron.Decl.Var  and then
-                 left.Pron.Number < right.Pron.Number) or else
-                 (left.Pron.Decl.Which = right.Pron.Decl.Which  and then
-                 left.Pron.Decl.Var = right.Pron.Decl.Var  and then
-                 left.Pron.Number = right.Pron.Number and then
-                 left.Pron.Of_Case < right.Pron.Of_Case) or else
-                 (left.Pron.Decl.Which = right.Pron.Decl.Which  and then
-                 left.Pron.Decl.Var = right.Pron.Decl.Var  and then
-                 left.Pron.Number = right.Pron.Number and then
-                 left.Pron.Of_Case = right.Pron.Of_Case and then
-                 left.Pron.Gender < right.Pron.Gender)
+               if Left.Pron.Decl.Which < Right.Pron.Decl.Which  or else
+                 (Left.Pron.Decl.Which = Right.Pron.Decl.Which  and then
+                 Left.Pron.Decl.Var < Right.Pron.Decl.Var)  or else
+                 (Left.Pron.Decl.Which = Right.Pron.Decl.Which  and then
+                 Left.Pron.Decl.Var = Right.Pron.Decl.Var  and then
+                 Left.Pron.Number < Right.Pron.Number) or else
+                 (Left.Pron.Decl.Which = Right.Pron.Decl.Which  and then
+                 Left.Pron.Decl.Var = Right.Pron.Decl.Var  and then
+                 Left.Pron.Number = Right.Pron.Number and then
+                 Left.Pron.Of_Case < Right.Pron.Of_Case) or else
+                 (Left.Pron.Decl.Which = Right.Pron.Decl.Which  and then
+                 Left.Pron.Decl.Var = Right.Pron.Decl.Var  and then
+                 Left.Pron.Number = Right.Pron.Number and then
+                 Left.Pron.Of_Case = Right.Pron.Of_Case and then
+                 Left.Pron.Gender < Right.Pron.Gender)
                then
                   return True;
                end if;
             when Pack =>
-               if left.Pack.Decl.Which < right.Pack.Decl.Which  or else
-                 (left.Pack.Decl.Which = right.Pack.Decl.Which  and then
-                 left.Pack.Decl.Var < right.Pack.Decl.Var)  or else
-                 (left.Pack.Decl.Which = right.Pack.Decl.Which  and then
-                 left.Pack.Decl.Var = right.Pack.Decl.Var  and then
-                 left.Pack.Number < right.Pack.Number) or else
-                 (left.Pack.Decl.Which = right.Pack.Decl.Which  and then
-                 left.Pack.Decl.Var = right.Pack.Decl.Var  and then
-                 left.Pack.Number = right.Pack.Number and then
-                 left.Pack.Of_Case < right.Pack.Of_Case) or else
-                 (left.Pack.Decl.Which = right.Pack.Decl.Which  and then
-                 left.Pack.Decl.Var = right.Pack.Decl.Var  and then
-                 left.Pack.Number = right.Pack.Number and then
-                 left.Pack.Of_Case = right.Pack.Of_Case and then
-                 left.Pack.Gender < right.Pack.Gender)
+               if Left.Pack.Decl.Which < Right.Pack.Decl.Which  or else
+                 (Left.Pack.Decl.Which = Right.Pack.Decl.Which  and then
+                 Left.Pack.Decl.Var < Right.Pack.Decl.Var)  or else
+                 (Left.Pack.Decl.Which = Right.Pack.Decl.Which  and then
+                 Left.Pack.Decl.Var = Right.Pack.Decl.Var  and then
+                 Left.Pack.Number < Right.Pack.Number) or else
+                 (Left.Pack.Decl.Which = Right.Pack.Decl.Which  and then
+                 Left.Pack.Decl.Var = Right.Pack.Decl.Var  and then
+                 Left.Pack.Number = Right.Pack.Number and then
+                 Left.Pack.Of_Case < Right.Pack.Of_Case) or else
+                 (Left.Pack.Decl.Which = Right.Pack.Decl.Which  and then
+                 Left.Pack.Decl.Var = Right.Pack.Decl.Var  and then
+                 Left.Pack.Number = Right.Pack.Number and then
+                 Left.Pack.Of_Case = Right.Pack.Of_Case and then
+                 Left.Pack.Gender < Right.Pack.Gender)
                then
                   return True;
                end if;
             when Adj =>
-               if left.Adj.Decl.Which < right.Adj.Decl.Which  or else
-                 (left.Adj.Decl.Which = right.Adj.Decl.Which  and then
-                 left.Adj.Decl.Var < right.Adj.Decl.Var)  or else
-                 (left.Adj.Decl.Which = right.Adj.Decl.Which  and then
-                 left.Adj.Decl.Var = right.Adj.Decl.Var  and then
-                 left.Adj.Number < right.Adj.Number) or else
-                 (left.Adj.Decl.Which = right.Adj.Decl.Which  and then
-                 left.Adj.Decl.Var = right.Adj.Decl.Var  and then
-                 left.Adj.Number = right.Adj.Number and then
-                 left.Adj.Of_Case < right.Adj.Of_Case) or else
-                 (left.Adj.Decl.Which = right.Adj.Decl.Which  and then
-                 left.Adj.Decl.Var = right.Adj.Decl.Var  and then
-                 left.Adj.Number = right.Adj.Number and then
-                 left.Adj.Of_Case = right.Adj.Of_Case and then
-                 left.Adj.Gender < right.Adj.Gender)  or else
-                 (left.Adj.Decl.Which = right.Adj.Decl.Which  and then
-                 left.Adj.Decl.Var = right.Adj.Decl.Var  and then
-                 left.Adj.Number = right.Adj.Number and then
-                 left.Adj.Of_Case = right.Adj.Of_Case and then
-                 left.Adj.Gender = right.Adj.Gender  and then
-                 left.Adj.Comparison < right.Adj.Comparison)
+               if Left.Adj.Decl.Which < Right.Adj.Decl.Which  or else
+                 (Left.Adj.Decl.Which = Right.Adj.Decl.Which  and then
+                 Left.Adj.Decl.Var < Right.Adj.Decl.Var)  or else
+                 (Left.Adj.Decl.Which = Right.Adj.Decl.Which  and then
+                 Left.Adj.Decl.Var = Right.Adj.Decl.Var  and then
+                 Left.Adj.Number < Right.Adj.Number) or else
+                 (Left.Adj.Decl.Which = Right.Adj.Decl.Which  and then
+                 Left.Adj.Decl.Var = Right.Adj.Decl.Var  and then
+                 Left.Adj.Number = Right.Adj.Number and then
+                 Left.Adj.Of_Case < Right.Adj.Of_Case) or else
+                 (Left.Adj.Decl.Which = Right.Adj.Decl.Which  and then
+                 Left.Adj.Decl.Var = Right.Adj.Decl.Var  and then
+                 Left.Adj.Number = Right.Adj.Number and then
+                 Left.Adj.Of_Case = Right.Adj.Of_Case and then
+                 Left.Adj.Gender < Right.Adj.Gender)  or else
+                 (Left.Adj.Decl.Which = Right.Adj.Decl.Which  and then
+                 Left.Adj.Decl.Var = Right.Adj.Decl.Var  and then
+                 Left.Adj.Number = Right.Adj.Number and then
+                 Left.Adj.Of_Case = Right.Adj.Of_Case and then
+                 Left.Adj.Gender = Right.Adj.Gender  and then
+                 Left.Adj.Comparison < Right.Adj.Comparison)
                then
                   return True;
                end if;
             when Adv =>
-               return left.Adv.Comparison < right.Adv.Comparison;
+               return Left.Adv.Comparison < Right.Adv.Comparison;
             when V =>
-               if (left.V.Con.Which < right.V.Con.Which)  or else
-                 (left.V.Con.Which = right.V.Con.Which  and then
-                 left.V.Con.Var < right.V.Con.Var)  or else
-                 (left.V.Con.Which = right.V.Con.Which  and then
-                 left.V.Con.Var = right.V.Con.Var  and then
-                 left.V.Number < right.V.Number) or else
-                 (left.V.Con.Which = right.V.Con.Which  and then
-                    left.V.Con.Var = right.V.Con.Var  and then
-                    left.V.Number = right.V.Number and then
-                    left.V.Tense_Voice_Mood.Tense <
-                    right.V.Tense_Voice_Mood.Tense) or else
-                 (left.V.Con.Which = right.V.Con.Which  and then
-                    left.V.Con.Var = right.V.Con.Var  and then
-                    left.V.Number = right.V.Number and then
-                    left.V.Tense_Voice_Mood.Tense =
-                    right.V.Tense_Voice_Mood.Tense and then
-                    left.V.Tense_Voice_Mood.Voice <
-                    right.V.Tense_Voice_Mood.Voice) or else
-                 (left.V.Con.Which = right.V.Con.Which  and then
-                    left.V.Con.Var = right.V.Con.Var  and then
-                    left.V.Number = right.V.Number and then
-                    left.V.Tense_Voice_Mood.Tense =
-                    right.V.Tense_Voice_Mood.Tense and then
-                    left.V.Tense_Voice_Mood.Voice =
-                    right.V.Tense_Voice_Mood.Voice and then
-                    left.V.Tense_Voice_Mood.Mood <
-                    right.V.Tense_Voice_Mood.Mood)  or else
-                 (left.V.Con.Which = right.V.Con.Which and then
-                    left.V.Con.Var = right.V.Con.Var and then
-                    left.V.Number = right.V.Number and then
-                    left.V.Tense_Voice_Mood.Tense =
-                    right.V.Tense_Voice_Mood.Tense and then
-                    left.V.Tense_Voice_Mood.Voice =
-                    right.V.Tense_Voice_Mood.Voice and then
-                    left.V.Tense_Voice_Mood.Mood  =
-                    right.V.Tense_Voice_Mood.Mood  and then
-                    left.V.Person < right.V.Person)
+               if (Left.V.Con.Which < Right.V.Con.Which)  or else
+                 (Left.V.Con.Which = Right.V.Con.Which  and then
+                 Left.V.Con.Var < Right.V.Con.Var)  or else
+                 (Left.V.Con.Which = Right.V.Con.Which  and then
+                 Left.V.Con.Var = Right.V.Con.Var  and then
+                 Left.V.Number < Right.V.Number) or else
+                 (Left.V.Con.Which = Right.V.Con.Which  and then
+                    Left.V.Con.Var = Right.V.Con.Var  and then
+                    Left.V.Number = Right.V.Number and then
+                    Left.V.Tense_Voice_Mood.Tense <
+                    Right.V.Tense_Voice_Mood.Tense) or else
+                 (Left.V.Con.Which = Right.V.Con.Which  and then
+                    Left.V.Con.Var = Right.V.Con.Var  and then
+                    Left.V.Number = Right.V.Number and then
+                    Left.V.Tense_Voice_Mood.Tense =
+                    Right.V.Tense_Voice_Mood.Tense and then
+                    Left.V.Tense_Voice_Mood.Voice <
+                    Right.V.Tense_Voice_Mood.Voice) or else
+                 (Left.V.Con.Which = Right.V.Con.Which  and then
+                    Left.V.Con.Var = Right.V.Con.Var  and then
+                    Left.V.Number = Right.V.Number and then
+                    Left.V.Tense_Voice_Mood.Tense =
+                    Right.V.Tense_Voice_Mood.Tense and then
+                    Left.V.Tense_Voice_Mood.Voice =
+                    Right.V.Tense_Voice_Mood.Voice and then
+                    Left.V.Tense_Voice_Mood.Mood <
+                    Right.V.Tense_Voice_Mood.Mood)  or else
+                 (Left.V.Con.Which = Right.V.Con.Which and then
+                    Left.V.Con.Var = Right.V.Con.Var and then
+                    Left.V.Number = Right.V.Number and then
+                    Left.V.Tense_Voice_Mood.Tense =
+                    Right.V.Tense_Voice_Mood.Tense and then
+                    Left.V.Tense_Voice_Mood.Voice =
+                    Right.V.Tense_Voice_Mood.Voice and then
+                    Left.V.Tense_Voice_Mood.Mood  =
+                    Right.V.Tense_Voice_Mood.Mood  and then
+                    Left.V.Person < Right.V.Person)
                then
                   return True;
                end if;
             when Vpar =>
-               if left.Vpar.Con.Which < right.Vpar.Con.Which  or else
-                 (left.Vpar.Con.Which = right.Vpar.Con.Which  and then
-                 left.Vpar.Con.Var < right.Vpar.Con.Var)  or else
-                 (left.Vpar.Con.Which = right.Vpar.Con.Which  and then
-                 left.Vpar.Con.Var = right.Vpar.Con.Var  and then
-                 left.Vpar.Number < right.Vpar.Number) or else
-                 (left.Vpar.Con.Which = right.Vpar.Con.Which  and then
-                 left.Vpar.Con.Var = right.Vpar.Con.Var  and then
-                 left.Vpar.Number = right.Vpar.Number and then
-                 left.Vpar.Of_Case < right.Vpar.Of_Case) or else
-                 (left.Vpar.Con.Which = right.Vpar.Con.Which  and then
-                 left.Vpar.Con.Var = right.Vpar.Con.Var  and then
-                 left.Vpar.Number = right.Vpar.Number and then
-                 left.Vpar.Of_Case = right.Vpar.Of_Case and then
-                 left.Vpar.Gender < right.Vpar.Gender)
+               if Left.Vpar.Con.Which < Right.Vpar.Con.Which  or else
+                 (Left.Vpar.Con.Which = Right.Vpar.Con.Which  and then
+                 Left.Vpar.Con.Var < Right.Vpar.Con.Var)  or else
+                 (Left.Vpar.Con.Which = Right.Vpar.Con.Which  and then
+                 Left.Vpar.Con.Var = Right.Vpar.Con.Var  and then
+                 Left.Vpar.Number < Right.Vpar.Number) or else
+                 (Left.Vpar.Con.Which = Right.Vpar.Con.Which  and then
+                 Left.Vpar.Con.Var = Right.Vpar.Con.Var  and then
+                 Left.Vpar.Number = Right.Vpar.Number and then
+                 Left.Vpar.Of_Case < Right.Vpar.Of_Case) or else
+                 (Left.Vpar.Con.Which = Right.Vpar.Con.Which  and then
+                 Left.Vpar.Con.Var = Right.Vpar.Con.Var  and then
+                 Left.Vpar.Number = Right.Vpar.Number and then
+                 Left.Vpar.Of_Case = Right.Vpar.Of_Case and then
+                 Left.Vpar.Gender < Right.Vpar.Gender)
                then
                   return True;
                end if;
             when Supine =>
-               if left.Supine.Con.Which < right.Supine.Con.Which  or else
-                 (left.Supine.Con.Which = right.Supine.Con.Which  and then
-                 left.Supine.Con.Var < right.Supine.Con.Var)  or else
-                 (left.Supine.Con.Which = right.Supine.Con.Which  and then
-                 left.Supine.Con.Var = right.Supine.Con.Var  and then
-                 left.Supine.Number < right.Supine.Number) or else
-                 (left.Supine.Con.Which = right.Supine.Con.Which  and then
-                 left.Supine.Con.Var = right.Supine.Con.Var  and then
-                 left.Supine.Number = right.Supine.Number and then
-                 left.Supine.Of_Case < right.Supine.Of_Case) or else
-                 (left.Supine.Con.Which = right.Supine.Con.Which  and then
-                 left.Supine.Con.Var = right.Supine.Con.Var  and then
-                 left.Supine.Number = right.Supine.Number and then
-                 left.Supine.Of_Case = right.Supine.Of_Case and then
-                 left.Supine.Gender < right.Supine.Gender)
+               if Left.Supine.Con.Which < Right.Supine.Con.Which  or else
+                 (Left.Supine.Con.Which = Right.Supine.Con.Which  and then
+                 Left.Supine.Con.Var < Right.Supine.Con.Var)  or else
+                 (Left.Supine.Con.Which = Right.Supine.Con.Which  and then
+                 Left.Supine.Con.Var = Right.Supine.Con.Var  and then
+                 Left.Supine.Number < Right.Supine.Number) or else
+                 (Left.Supine.Con.Which = Right.Supine.Con.Which  and then
+                 Left.Supine.Con.Var = Right.Supine.Con.Var  and then
+                 Left.Supine.Number = Right.Supine.Number and then
+                 Left.Supine.Of_Case < Right.Supine.Of_Case) or else
+                 (Left.Supine.Con.Which = Right.Supine.Con.Which  and then
+                 Left.Supine.Con.Var = Right.Supine.Con.Var  and then
+                 Left.Supine.Number = Right.Supine.Number and then
+                 Left.Supine.Of_Case = Right.Supine.Of_Case and then
+                 Left.Supine.Gender < Right.Supine.Gender)
                then
                   return True;
                end if;
             when Prep =>
-               return left.Prep.Of_Case < right.Prep.Of_Case;
+               return Left.Prep.Of_Case < Right.Prep.Of_Case;
             when Conj =>
                null;
             when Interj =>
                null;
             when Num =>
-               if left.Num.Decl.Which < right.Num.Decl.Which  or else
-                 (left.Num.Decl.Which = right.Num.Decl.Which  and then
-                 left.Num.Decl.Var < right.Num.Decl.Var)  or else
-                 (left.Num.Decl.Which = right.Num.Decl.Which  and then
-                 left.Num.Decl.Var = right.Num.Decl.Var  and then
-                 left.Num.Number < right.Num.Number) or else
-                 (left.Num.Decl.Which = right.Num.Decl.Which  and then
-                 left.Num.Decl.Var = right.Num.Decl.Var  and then
-                 left.Num.Number = right.Num.Number and then
-                 left.Num.Of_Case < right.Num.Of_Case) or else
-                 (left.Num.Decl.Which = right.Num.Decl.Which  and then
-                 left.Num.Decl.Var = right.Num.Decl.Var  and then
-                 left.Num.Number = right.Num.Number and then
-                 left.Num.Of_Case = right.Num.Of_Case and then
-                 left.Num.Gender < right.Num.Gender)  or else
-                 (left.Num.Decl.Which = right.Num.Decl.Which  and then
-                 left.Num.Decl.Var = right.Num.Decl.Var  and then
-                 left.Num.Number = right.Num.Number and then
-                 left.Num.Of_Case = right.Num.Of_Case and then
-                 left.Num.Gender = right.Num.Gender  and then
-                 left.Num.Sort < right.Num.Sort)
+               if Left.Num.Decl.Which < Right.Num.Decl.Which  or else
+                 (Left.Num.Decl.Which = Right.Num.Decl.Which  and then
+                 Left.Num.Decl.Var < Right.Num.Decl.Var)  or else
+                 (Left.Num.Decl.Which = Right.Num.Decl.Which  and then
+                 Left.Num.Decl.Var = Right.Num.Decl.Var  and then
+                 Left.Num.Number < Right.Num.Number) or else
+                 (Left.Num.Decl.Which = Right.Num.Decl.Which  and then
+                 Left.Num.Decl.Var = Right.Num.Decl.Var  and then
+                 Left.Num.Number = Right.Num.Number and then
+                 Left.Num.Of_Case < Right.Num.Of_Case) or else
+                 (Left.Num.Decl.Which = Right.Num.Decl.Which  and then
+                 Left.Num.Decl.Var = Right.Num.Decl.Var  and then
+                 Left.Num.Number = Right.Num.Number and then
+                 Left.Num.Of_Case = Right.Num.Of_Case and then
+                 Left.Num.Gender < Right.Num.Gender)  or else
+                 (Left.Num.Decl.Which = Right.Num.Decl.Which  and then
+                 Left.Num.Decl.Var = Right.Num.Decl.Var  and then
+                 Left.Num.Number = Right.Num.Number and then
+                 Left.Num.Of_Case = Right.Num.Of_Case and then
+                 Left.Num.Gender = Right.Num.Gender  and then
+                 Left.Num.Sort < Right.Num.Sort)
                then
                   return True;
                end if;
@@ -238,21 +238,21 @@ package body Latin_Utils.Inflections_Package is
                null;
          end case;
       else
-         return left.pofs < right.pofs;
+         return Left.Pofs < Right.Pofs;
       end if;
       return False;
    exception
       when Constraint_Error  =>
-         return left.pofs < right.pofs;
+         return Left.Pofs < Right.Pofs;
    end "<";
 
    overriding function "<="
-     (left, right : Part_Of_Speech_Type)
+     (Left, Right : Part_Of_Speech_Type)
      return Boolean is
    begin
-      if right = left  or else
-        (left = Pack and right = Pron)  or else
-        right = X
+      if Right = Left  or else
+        (Left = Pack and Right = Pron)  or else
+        Right = X
       then
          return True;
       else
@@ -261,12 +261,12 @@ package body Latin_Utils.Inflections_Package is
    end "<=";
 
    function "<="
-     (left, right : Decn_Record)
+     (Left, Right : Decn_Record)
      return Boolean is
    begin
-      if right = left  or else
-        (right = Decn_Record'(0, 0)  and left.Which /= 9)  or else
-        right = Decn_Record'(left.Which, 0)
+      if Right = Left  or else
+        (Right = Decn_Record'(0, 0)  and Left.Which /= 9)  or else
+        Right = Decn_Record'(Left.Which, 0)
       then
          return True;
       else
@@ -275,12 +275,12 @@ package body Latin_Utils.Inflections_Package is
    end "<=";
 
    overriding function "<="
-     (left, right : Gender_Type)
+     (Left, Right : Gender_Type)
      return Boolean is
    begin
-      if right = left  or else
-        right = X     or else
-        (right = C  and then (left = M or left = F))
+      if Right = Left  or else
+        Right = X     or else
+        (Right = C  and then (Left = M or Left = F))
       then
          return True;
       else
@@ -289,10 +289,10 @@ package body Latin_Utils.Inflections_Package is
    end "<=";
 
    overriding function "<="
-     (left, right : Case_Type)
+     (Left, Right : Case_Type)
      return Boolean is
    begin
-      if right = left or else right = X then
+      if Right = Left or else Right = X then
          return True;
       else
          return False;
@@ -300,39 +300,39 @@ package body Latin_Utils.Inflections_Package is
    end "<=";
 
    overriding function "<="
-     (left, right : Number_Type)
+     (Left, Right : Number_Type)
      return Boolean is
    begin
-      if right = left or else right = X then
+      if Right = Left or else Right = X then
          return True;
       else
          return False;
       end if;
    end "<=";
 
-   overriding function "<=" (left, right : Person_Type) return Boolean is
+   overriding function "<=" (Left, Right : Person_Type) return Boolean is
    begin
-      if right = left or else right = 0 then
+      if Right = Left or else Right = 0 then
          return True;
       else
          return False;
       end if;
    end "<=";
 
-   overriding function "<=" (left, right : Comparison_Type) return Boolean is
+   overriding function "<=" (Left, Right : Comparison_Type) return Boolean is
    begin
-      if right = left or else right = X then
+      if Right = Left or else Right = X then
          return True;
       else
          return False;
       end if;
    end "<=";
 
-   function "<=" (left, right : Tense_Voice_Mood_Record)  return Boolean is
+   function "<=" (Left, Right : Tense_Voice_Mood_Record)  return Boolean is
    begin
-      if (right.Tense = left.Tense or else right.Tense = X) and then
-         (right.Voice = left.Voice or else right.Voice = X) and then
-         (right.Mood = left.Mood or else right.Mood = X)
+      if (Right.Tense = Left.Tense or else Right.Tense = X) and then
+         (Right.Voice = Left.Voice or else Right.Voice = X) and then
+         (Right.Mood = Left.Mood or else Right.Mood = X)
       then
          return True;
       else
@@ -340,9 +340,9 @@ package body Latin_Utils.Inflections_Package is
       end if;
    end "<=";
 
-   overriding function "<=" (left, right : Noun_Kind_Type)   return Boolean is
+   overriding function "<=" (Left, Right : Noun_Kind_Type)   return Boolean is
    begin
-      if right = left or else right = X then
+      if Right = Left or else Right = X then
          return True;
       else
          return False;
@@ -350,37 +350,37 @@ package body Latin_Utils.Inflections_Package is
    end "<=";
 
    overriding function "<="
-     (left, right : Pronoun_Kind_Type)
+     (Left, Right : Pronoun_Kind_Type)
      return Boolean is
    begin
-      if right = left or else right = X then
+      if Right = Left or else Right = X then
          return True;
       else
          return False;
       end if;
    end "<=";
 
-   overriding function "<=" (left, right : Stem_Key_Type)   return Boolean is
+   overriding function "<=" (Left, Right : Stem_Key_Type)   return Boolean is
    begin            --  Only works for 2 stem parts, not verbs
-      if right = left or else right = 0 then
+      if Right = Left or else Right = 0 then
          return True;
       else
          return False;
       end if;
    end "<=";
 
-   overriding function "<=" (left, right : Age_Type) return Boolean is
+   overriding function "<=" (Left, Right : Age_Type) return Boolean is
    begin
-      if right = left or else right = x then
+      if Right = Left or else Right = X then
          return True;
       else
          return False;
       end if;
    end "<=";
 
-   overriding function "<=" (left, right : Frequency_Type) return Boolean is
+   overriding function "<=" (Left, Right : Frequency_Type) return Boolean is
    begin
-      if right = left or else right = x then
+      if Right = Left or else Right = X then
          return True;
       else
          return False;
@@ -423,7 +423,7 @@ package body Latin_Utils.Inflections_Package is
 
    package body Suffix_Record_IO is separate;
 
-   package body quality_record_io is
+   package body Quality_Record_Io is
       use Part_Of_Speech_Type_IO;
       use Noun_Record_IO;
       use Pronoun_Record_IO;
@@ -440,582 +440,582 @@ package body Latin_Utils.Inflections_Package is
       use Tackon_Record_IO;
       use Prefix_Record_IO;
       use Suffix_Record_IO;
-      spacer : Character := ' ';
+      Spacer : Character := ' ';
 
-      noun  : Noun_Record;
-      pronoun : Pronoun_Record;
-      propack : Propack_Record;
-      adjective : Adjective_Record;
-      adverb : Adverb_Record;
-      verb : Verb_Record;
-      vparticiple : Vpar_Record;
-      supin : Supine_Record;
-      preposition : Preposition_Record;
-      conjunction : Conjunction_Record;
-      interjection : Interjection_Record;
-      numeral : Numeral_Record;
-      tackn : Tackon_Record;
-      prefx : Prefix_Record;
-      suffx : Suffix_Record;
+      Noun  : Noun_Record;
+      Pronoun : Pronoun_Record;
+      Propack : Propack_Record;
+      Adjective : Adjective_Record;
+      Adverb : Adverb_Record;
+      Verb : Verb_Record;
+      Vparticiple : Vpar_Record;
+      Supin : Supine_Record;
+      Preposition : Preposition_Record;
+      Conjunction : Conjunction_Record;
+      Interjection : Interjection_Record;
+      Numeral : Numeral_Record;
+      Tackn : Tackon_Record;
+      Prefx : Prefix_Record;
+      Suffx : Suffix_Record;
 
-      procedure Get (f : in File_Type; p : out quality_record) is
-         ps : Part_Of_Speech_Type := X;
+      procedure Get (F : in File_Type; P : out Quality_Record) is
+         Ps : Part_Of_Speech_Type := X;
       begin
-         Get (f, ps);
-         Get (f, spacer);
-         case ps is
+         Get (F, Ps);
+         Get (F, Spacer);
+         case Ps is
             when N =>
-               Get (f, noun);
-               p := (N, noun);
+               Get (F, Noun);
+               P := (N, Noun);
             when Pron =>
-               Get (f, pronoun);
-               p := (Pron, pronoun);
+               Get (F, Pronoun);
+               P := (Pron, Pronoun);
             when Pack =>
-               Get (f, propack);
-               p := (Pack, propack);
+               Get (F, Propack);
+               P := (Pack, Propack);
             when Adj =>
-               Get (f, adjective);
-               p := (Adj, adjective);
+               Get (F, Adjective);
+               P := (Adj, Adjective);
             when Num =>
-               Get (f, numeral);
-               p := (Num, numeral);
+               Get (F, Numeral);
+               P := (Num, Numeral);
             when Adv =>
-               Get (f, adverb);
-               p := (Adv, adverb);
+               Get (F, Adverb);
+               P := (Adv, Adverb);
             when V =>
-               Get (f, verb);
-               p := (V, verb);
+               Get (F, Verb);
+               P := (V, Verb);
             when Vpar =>
-               Get (f, vparticiple);
-               p := (Vpar, vparticiple);
+               Get (F, Vparticiple);
+               P := (Vpar, Vparticiple);
             when Supine =>
-               Get (f, supin);
-               p := (Supine, supin);
+               Get (F, Supin);
+               P := (Supine, Supin);
             when Prep =>
-               Get (f, preposition);
-               p := (Prep, preposition);
+               Get (F, Preposition);
+               P := (Prep, Preposition);
             when Conj =>
-               Get (f, conjunction);
-               p := (Conj, conjunction);
+               Get (F, Conjunction);
+               P := (Conj, Conjunction);
             when Interj =>
-               Get (f, interjection);
-               p := (Interj, interjection);
+               Get (F, Interjection);
+               P := (Interj, Interjection);
             when Tackon =>
-               Get (f, tackn);
-               p := (Tackon, tackn);
+               Get (F, Tackn);
+               P := (Tackon, Tackn);
             when Prefix =>
-               Get (f, prefx);
-               p := (Prefix, prefx);
+               Get (F, Prefx);
+               P := (Prefix, Prefx);
             when Suffix =>
-               Get (f, suffx);
-               p := (Suffix, suffx);
+               Get (F, Suffx);
+               P := (Suffix, Suffx);
             when X =>
-               p := (pofs => X);
+               P := (Pofs => X);
          end case;
          return;
       end Get;
 
-      procedure Get (p : out quality_record) is
-         ps : Part_Of_Speech_Type := X;
+      procedure Get (P : out Quality_Record) is
+         Ps : Part_Of_Speech_Type := X;
       begin
-         Get (ps);
-         Get (spacer);
-         case ps is
+         Get (Ps);
+         Get (Spacer);
+         case Ps is
             when N =>
-               Get (noun);
-               p := (N, noun);
+               Get (Noun);
+               P := (N, Noun);
             when Pron =>
-               Get (pronoun);
-               p := (Pron, pronoun);
+               Get (Pronoun);
+               P := (Pron, Pronoun);
             when Pack =>
-               Get (propack);
-               p := (Pack, propack);
+               Get (Propack);
+               P := (Pack, Propack);
             when Adj =>
-               Get (adjective);
-               p := (Adj, adjective);
+               Get (Adjective);
+               P := (Adj, Adjective);
             when Num =>
-               Get (numeral);
-               p := (Num, numeral);
+               Get (Numeral);
+               P := (Num, Numeral);
             when Adv =>
-               Get (adverb);
-               p := (Adv, adverb);
+               Get (Adverb);
+               P := (Adv, Adverb);
             when V =>
-               Get (verb);
-               p := (V, verb);
+               Get (Verb);
+               P := (V, Verb);
             when Vpar =>
-               Get (vparticiple);
-               p := (Vpar, vparticiple);
+               Get (Vparticiple);
+               P := (Vpar, Vparticiple);
             when Supine =>
-               Get (supin);
-               p := (Supine, supin);
+               Get (Supin);
+               P := (Supine, Supin);
             when Prep =>
-               Get (preposition);
-               p := (Prep, preposition);
+               Get (Preposition);
+               P := (Prep, Preposition);
             when Conj =>
-               Get (conjunction);
-               p := (Conj, conjunction);
+               Get (Conjunction);
+               P := (Conj, Conjunction);
             when Interj =>
-               Get (interjection);
-               p := (Interj, interjection);
+               Get (Interjection);
+               P := (Interj, Interjection);
             when Tackon =>
-               Get (tackn);
-               p := (Tackon, tackn);
+               Get (Tackn);
+               P := (Tackon, Tackn);
             when Prefix =>
-               Get (prefx);
-               p := (Prefix, prefx);
+               Get (Prefx);
+               P := (Prefix, Prefx);
             when Suffix =>
-               Get (suffx);
-               p := (Suffix, suffx);
+               Get (Suffx);
+               P := (Suffix, Suffx);
             when X =>
-               p := (pofs => X);
+               P := (Pofs => X);
          end case;
          return;
       end Get;
 
-      procedure Put (f : in File_Type; p : in quality_record) is
-         c : constant Positive := Positive (Col (f));
+      procedure Put (F : in File_Type; P : in Quality_Record) is
+         C : constant Positive := Positive (Col (F));
       begin
-         Put (f, p.pofs);
-         Put (f, ' ');
-         case p.pofs is
+         Put (F, P.Pofs);
+         Put (F, ' ');
+         case P.Pofs is
             when N =>
-               Put (f, p.N);
+               Put (F, P.N);
             when Pron =>
-               Put (f, p.Pron);
+               Put (F, P.Pron);
             when Pack =>
-               Put (f, p.Pack);
+               Put (F, P.Pack);
             when Adj =>
-               Put (f, p.Adj);
+               Put (F, P.Adj);
             when Num =>
-               Put (f, p.Num);
+               Put (F, P.Num);
             when Adv =>
-               Put (f, p.Adv);
+               Put (F, P.Adv);
             when V =>
-               Put (f, p.V);
+               Put (F, P.V);
             when Vpar =>
-               Put (f, p.Vpar);
+               Put (F, P.Vpar);
             when Supine =>
-               Put (f, p.Supine);
+               Put (F, P.Supine);
             when Prep =>
-               Put (f, p.Prep);
+               Put (F, P.Prep);
             when Conj =>
-               Put (f, p.Conj);
+               Put (F, P.Conj);
             when Interj =>
-               Put (f, p.Interj);
+               Put (F, P.Interj);
             when Tackon =>
-               Put (f, p.Tackon);
+               Put (F, P.Tackon);
             when Prefix =>
-               Put (f, p.Prefix);
+               Put (F, P.Prefix);
             when Suffix =>
-               Put (f, p.Suffix);
+               Put (F, P.Suffix);
             when others =>
                null;
          end case;
-         Put (f, String'((
-           Integer (Col (f)) .. quality_record_io.Default_Width + c - 1
+         Put (F, String'((
+           Integer (Col (F)) .. Quality_Record_Io.Default_Width + C - 1
            => ' ')));
          return;
       end Put;
 
-      procedure Put (p : in quality_record) is
-         c : constant Positive := Positive (Col);
+      procedure Put (P : in Quality_Record) is
+         C : constant Positive := Positive (Col);
       begin
-         Put (p.pofs);
+         Put (P.Pofs);
          Put (' ');
-         case p.pofs is
+         case P.Pofs is
             when N =>
-               Put (p.N);
+               Put (P.N);
             when Pron =>
-               Put (p.Pron);
+               Put (P.Pron);
             when Pack =>
-               Put (p.Pack);
+               Put (P.Pack);
             when Adj =>
-               Put (p.Adj);
+               Put (P.Adj);
             when Num =>
-               Put (p.Num);
+               Put (P.Num);
             when Adv =>
-               Put (p.Adv);
+               Put (P.Adv);
             when V =>
-               Put (p.V);
+               Put (P.V);
             when Vpar =>
-               Put (p.Vpar);
+               Put (P.Vpar);
             when Supine =>
-               Put (p.Supine);
+               Put (P.Supine);
             when Prep =>
-               Put (p.Prep);
+               Put (P.Prep);
             when Conj =>
-               Put (p.Conj);
+               Put (P.Conj);
             when Interj =>
-               Put (p.Interj);
+               Put (P.Interj);
             when Tackon =>
-               Put (p.Tackon);
+               Put (P.Tackon);
             when Prefix =>
-               Put (p.Prefix);
+               Put (P.Prefix);
             when Suffix =>
-               Put (p.Suffix);
+               Put (P.Suffix);
             when others =>
                null;
          end case;
          Put (String'((
-           Integer (Col) .. quality_record_io.Default_Width + c - 1 => ' ')));
+           Integer (Col) .. Quality_Record_Io.Default_Width + C - 1 => ' ')));
          return;
       end Put;
 
       procedure Get
-        (s : in String;
-         p : out quality_record;
-         last : out Integer)
+        (S : in String;
+         P : out Quality_Record;
+         Last : out Integer)
       is
-         l : Integer := s'First - 1;
-         ps : Part_Of_Speech_Type := X;
+         L : Integer := S'First - 1;
+         Ps : Part_Of_Speech_Type := X;
       begin
-         Get (s, ps, l);
-         last := l;         --  In case it is not set later
-         case ps is
+         Get (S, Ps, L);
+         Last := L;         --  In case it is not set later
+         case Ps is
             when N =>
-               Get (s (l + 1 .. s'Last), noun, last);
-               p := (N, noun);
+               Get (S (L + 1 .. S'Last), Noun, Last);
+               P := (N, Noun);
             when Pron =>
-               Get (s (l + 1 .. s'Last), pronoun, last);
-               p := (Pron, pronoun);
+               Get (S (L + 1 .. S'Last), Pronoun, Last);
+               P := (Pron, Pronoun);
             when Pack =>
-               Get (s (l + 1 .. s'Last), propack, last);
-               p := (Pack, propack);
+               Get (S (L + 1 .. S'Last), Propack, Last);
+               P := (Pack, Propack);
             when Adj =>
-               Get (s (l + 1 .. s'Last), adjective, last);
-               p := (Adj, adjective);
+               Get (S (L + 1 .. S'Last), Adjective, Last);
+               P := (Adj, Adjective);
             when Num =>
-               Get (s (l + 1 .. s'Last), numeral, last);
-               p := (Num, numeral);
+               Get (S (L + 1 .. S'Last), Numeral, Last);
+               P := (Num, Numeral);
             when Adv =>
-               Get (s (l + 1 .. s'Last), adverb, last);
-               p := (Adv, adverb);
+               Get (S (L + 1 .. S'Last), Adverb, Last);
+               P := (Adv, Adverb);
             when V =>
-               Get (s (l + 1 .. s'Last), verb, last);
-               p := (V, verb);
+               Get (S (L + 1 .. S'Last), Verb, Last);
+               P := (V, Verb);
             when Vpar =>
-               Get (s (l + 1 .. s'Last), vparticiple, last);
-               p := (Vpar, vparticiple);
+               Get (S (L + 1 .. S'Last), Vparticiple, Last);
+               P := (Vpar, Vparticiple);
             when Supine =>
-               Get (s (l + 1 .. s'Last), supin, last);
-               p := (Supine, supin);
+               Get (S (L + 1 .. S'Last), Supin, Last);
+               P := (Supine, Supin);
             when Prep =>
-               Get (s (l + 1 .. s'Last), preposition, last);
-               p := (Prep, preposition);
+               Get (S (L + 1 .. S'Last), Preposition, Last);
+               P := (Prep, Preposition);
             when Conj =>
-               Get (s (l + 1 .. s'Last), conjunction, last);
-               p := (Conj, conjunction);
+               Get (S (L + 1 .. S'Last), Conjunction, Last);
+               P := (Conj, Conjunction);
             when Interj =>
-               Get (s (l + 1 .. s'Last), interjection, last);
-               p := (Interj, interjection);
+               Get (S (L + 1 .. S'Last), Interjection, Last);
+               P := (Interj, Interjection);
             when Tackon =>
-               Get (s (l + 1 .. s'Last), tackn, last);
-               p := (Tackon, tackn);
+               Get (S (L + 1 .. S'Last), Tackn, Last);
+               P := (Tackon, Tackn);
             when Prefix =>
-               Get (s (l + 1 .. s'Last), prefx, last);
-               p := (Prefix, prefx);
+               Get (S (L + 1 .. S'Last), Prefx, Last);
+               P := (Prefix, Prefx);
             when Suffix =>
-               Get (s (l + 1 .. s'Last), suffx, last);
-               p := (Suffix, suffx);
+               Get (S (L + 1 .. S'Last), Suffx, Last);
+               P := (Suffix, Suffx);
             when X =>
-               p := (pofs => X);
+               P := (Pofs => X);
          end case;
          return;
       end Get;
 
-      procedure Put (s : out String; p : in quality_record) is
+      procedure Put (S : out String; P : in Quality_Record) is
          --  Note that this does not Put with a uniform width
          --  which would require a constant QUALITY_RECORD_IO.DEFAULT_WIDTH
          --  Rather we Put to minimal size with NOUN_RECORD_IO.DEFAULT_WIDTH,
          --  PRONOUN_RECORD_IO,DEFAULT_WIDTH, . ..
-         l : Integer := s'First - 1;
-         m : Integer := 0;
+         L : Integer := S'First - 1;
+         M : Integer := 0;
       begin
-         m := l + Part_Of_Speech_Type_IO.Default_Width;
-         Put (s (l + 1 .. m), p.pofs);
-         l := m + 1;
-         s (l) :=  ' ';
-         case p.pofs is
+         M := L + Part_Of_Speech_Type_IO.Default_Width;
+         Put (S (L + 1 .. M), P.Pofs);
+         L := M + 1;
+         S (L) :=  ' ';
+         case P.Pofs is
             when N =>
-               m := l + Noun_Record_IO.Default_Width;
-               Put (s (l + 1 .. m), p.N);
+               M := L + Noun_Record_IO.Default_Width;
+               Put (S (L + 1 .. M), P.N);
             when Pron =>
-               m := l + Pronoun_Record_IO.Default_Width;
-               Put (s (l + 1 .. m), p.Pron);
+               M := L + Pronoun_Record_IO.Default_Width;
+               Put (S (L + 1 .. M), P.Pron);
             when Pack =>
-               m := l + Propack_Record_IO.Default_Width;
-               Put (s (l + 1 .. m), p.Pack);
+               M := L + Propack_Record_IO.Default_Width;
+               Put (S (L + 1 .. M), P.Pack);
             when Adj =>
-               m := l + Adjective_Record_IO.Default_Width;
-               Put (s (l + 1 .. m), p.Adj);
+               M := L + Adjective_Record_IO.Default_Width;
+               Put (S (L + 1 .. M), P.Adj);
             when Num =>
-               m := l + Numeral_Record_IO.Default_Width;
-               Put (s (l + 1 .. m), p.Num);
+               M := L + Numeral_Record_IO.Default_Width;
+               Put (S (L + 1 .. M), P.Num);
             when Adv =>
-               m := l + Adverb_Record_IO.Default_Width;
-               Put (s (l + 1 .. m), p.Adv);
+               M := L + Adverb_Record_IO.Default_Width;
+               Put (S (L + 1 .. M), P.Adv);
             when V =>
-               m := l + Verb_Record_IO.Default_Width;
-               Put (s (l + 1 .. m), p.V);
+               M := L + Verb_Record_IO.Default_Width;
+               Put (S (L + 1 .. M), P.V);
             when Vpar =>
-               m := l + Vpar_Record_IO.Default_Width;
-               Put (s (l + 1 .. m), p.Vpar);
+               M := L + Vpar_Record_IO.Default_Width;
+               Put (S (L + 1 .. M), P.Vpar);
             when Supine =>
-               m := l + Supine_Record_IO.Default_Width;
-               Put (s (l + 1 .. m), p.Supine);
+               M := L + Supine_Record_IO.Default_Width;
+               Put (S (L + 1 .. M), P.Supine);
             when Prep =>
-               m := l + Preposition_Record_IO.Default_Width;
-               Put (s (l + 1 .. m), p.Prep);
+               M := L + Preposition_Record_IO.Default_Width;
+               Put (S (L + 1 .. M), P.Prep);
             when Conj =>
-               m := l + Conjunction_Record_IO.Default_Width;
-               Put (s (l + 1 .. m), p.Conj);
+               M := L + Conjunction_Record_IO.Default_Width;
+               Put (S (L + 1 .. M), P.Conj);
             when Interj =>
-               m := l + Interjection_Record_IO.Default_Width;
-               Put (s (l + 1 .. m), p.Interj);
+               M := L + Interjection_Record_IO.Default_Width;
+               Put (S (L + 1 .. M), P.Interj);
             when Tackon =>
-               m := l + Tackon_Record_IO.Default_Width;
-               Put (s (l + 1 .. m), p.Tackon);
+               M := L + Tackon_Record_IO.Default_Width;
+               Put (S (L + 1 .. M), P.Tackon);
             when Prefix =>
-               m := l + Prefix_Record_IO.Default_Width;
-               Put (s (l + 1 .. m), p.Prefix);
+               M := L + Prefix_Record_IO.Default_Width;
+               Put (S (L + 1 .. M), P.Prefix);
             when Suffix =>
-               m := l + Suffix_Record_IO.Default_Width;
-               Put (s (l + 1 .. m), p.Suffix);
+               M := L + Suffix_Record_IO.Default_Width;
+               Put (S (L + 1 .. M), P.Suffix);
             when others =>
                null;
          end case;
-         s (m + 1 .. s'Last) := (others => ' ');
+         S (M + 1 .. S'Last) := (others => ' ');
       end Put;
 
-   end quality_record_io;
+   end Quality_Record_Io;
 
-   package body ending_record_io is
+   package body Ending_Record_Io is
       use Integer_IO;
-      spacer : Character := ' ';
+      Spacer : Character := ' ';
 
-      sf : ending := (others => ' ');
-      blanks : constant ending := (others => ' ');
-      n : ending_size_type := 0;
+      Sf : Ending := (others => ' ');
+      Blanks : constant Ending := (others => ' ');
+      N : Ending_Size_Type := 0;
 
-      procedure Get (f : in File_Type; x : out ending_record) is
+      procedure Get (F : in File_Type; X : out Ending_Record) is
       begin
-         sf := blanks;
-         Get (f, n);
-         if n = 0  then
-            x := null_ending_record;
+         Sf := Blanks;
+         Get (F, N);
+         if N = 0  then
+            X := Null_Ending_Record;
          else
-            Get (f, spacer);             --  Note this means exactly one blank
-            Get (f, sf (1 .. n));
-            x := (n, sf);
+            Get (F, Spacer);             --  Note this means exactly one blank
+            Get (F, Sf (1 .. N));
+            X := (N, Sf);
          end if;
       end Get;
 
-      procedure Get (x : out ending_record) is
+      procedure Get (X : out Ending_Record) is
       begin
-         sf := blanks;
-         Get (n);
-         if n = 0  then
-            x := null_ending_record;
+         Sf := Blanks;
+         Get (N);
+         if N = 0  then
+            X := Null_Ending_Record;
          else
-            Get (spacer);
-            Get (sf (1 .. n));
-            x := (n, sf);
+            Get (Spacer);
+            Get (Sf (1 .. N));
+            X := (N, Sf);
          end if;
       end Get;
 
-      procedure Put (f : in File_Type; x : in ending_record) is
+      procedure Put (F : in File_Type; X : in Ending_Record) is
       begin
-         Put (f, x.size, 1);
-         Put (f, ' ');
-         Put (f, x.suf (1 .. x.size) & blanks (x.size + 1 .. max_ending_size));
+         Put (F, X.Size, 1);
+         Put (F, ' ');
+         Put (F, X.Suf (1 .. X.Size) & Blanks (X.Size + 1 .. Max_Ending_Size));
       end Put;
 
-      procedure Put (x : in ending_record) is
+      procedure Put (X : in Ending_Record) is
       begin
-         Put (x.size, 1);
+         Put (X.Size, 1);
          Put (' ');
-         Put (x.suf (1 .. x.size) & blanks (x.size + 1 .. max_ending_size));
+         Put (X.Suf (1 .. X.Size) & Blanks (X.Size + 1 .. Max_Ending_Size));
       end Put;
 
       procedure Get
-        (s : in String;
-         x : out ending_record;
-         last : out Integer)
+        (S : in String;
+         X : out Ending_Record;
+         Last : out Integer)
       is
-         l : Integer := s'First - 1;
+         L : Integer := S'First - 1;
       begin
-         sf := blanks;
-         Get (s (l + 1 .. s'Last), n, l);
-         if n = 0  then
-            x := null_ending_record;
-            last := l;
+         Sf := Blanks;
+         Get (S (L + 1 .. S'Last), N, L);
+         if N = 0  then
+            X := Null_Ending_Record;
+            Last := L;
          else
-            l := l + 1;
+            L := L + 1;
             --if S (L+N - 1) = ' '  or else
             --   S (L+N + 1) /= ' '  then
             --if
             --   S (L+N + 1) /= ' '  then
             -- TEXT_IO.PUT_LINE ("ERROR in INFLECTION =>" & S);
             --else
-            sf := s (l + 1 .. l + n) & blanks (n + 1 .. max_ending_size);
-            last := l + n;
-            x := (n, sf (1 .. n) & blanks (n + 1 .. max_ending_size));
+            Sf := S (L + 1 .. L + N) & Blanks (N + 1 .. Max_Ending_Size);
+            Last := L + N;
+            X := (N, Sf (1 .. N) & Blanks (N + 1 .. Max_Ending_Size));
             --end if;
          end if;
       exception
          when others =>
-            Ada.Text_IO.Put_Line ("ENDING ERROR " & s);
+            Ada.Text_IO.Put_Line ("ENDING ERROR " & S);
             raise;
       end Get;
 
-      procedure Put (s : out String; x : in ending_record) is
-         l : Integer := s'First - 1;
-         m : Integer := 0;
+      procedure Put (S : out String; X : in Ending_Record) is
+         L : Integer := S'First - 1;
+         M : Integer := 0;
       begin
-         m := l + 2;
-         Put (s (l + 1 .. m), x.size);
-         m := m  + 1;
-         s (m) := ' ';
-         if x.size > 0  then
-            l := m;
-            m := l + x.size;
-            s (l + 1 .. m) := x.suf (1 .. x.size);
+         M := L + 2;
+         Put (S (L + 1 .. M), X.Size);
+         M := M  + 1;
+         S (M) := ' ';
+         if X.Size > 0  then
+            L := M;
+            M := L + X.Size;
+            S (L + 1 .. M) := X.Suf (1 .. X.Size);
          end if;
          --  Being very careful here, first to fill out to the MAX_ENDING_SIZE
-         l := m;
-         m := l + max_ending_size - x.size;
-         s (l + 1 .. m) := (others => ' ');
+         L := M;
+         M := L + Max_Ending_Size - X.Size;
+         S (L + 1 .. M) := (others => ' ');
          --  Then to fill out the rest of the out String, if any
-         s (m + 1 .. s'Last) := (others => ' ');
+         S (M + 1 .. S'Last) := (others => ' ');
       end Put;
 
-   end ending_record_io;
+   end Ending_Record_Io;
 
    package body Inflection_Record_IO is
-      use quality_record_io;
+      use Quality_Record_Io;
       use Stem_Key_Type_IO;
-      use ending_record_io;
+      use Ending_Record_Io;
       use Age_Type_IO;
       use Frequency_Type_IO;
-      spacer : Character := ' ';
+      Spacer : Character := ' ';
 
-      pe : Inflection_Record;
+      Pe : Inflection_Record;
 
-      procedure Get (f : in File_Type; p : out Inflection_Record) is
+      procedure Get (F : in File_Type; P : out Inflection_Record) is
       begin
-         Get (f, p.qual);
-         Get (f, spacer);
-         Get (f, p.key);
-         Get (f, spacer);
-         Get (f, p.ending);
-         Get (f, spacer);
-         Get (f, p.age);
-         Get (f, spacer);
-         Get (f, p.freq);
+         Get (F, P.Qual);
+         Get (F, Spacer);
+         Get (F, P.Key);
+         Get (F, Spacer);
+         Get (F, P.Ending);
+         Get (F, Spacer);
+         Get (F, P.Age);
+         Get (F, Spacer);
+         Get (F, P.Freq);
       end Get;
 
-      procedure Get (p : out Inflection_Record) is
+      procedure Get (P : out Inflection_Record) is
       begin
-         Get (p.qual);
-         Get (spacer);
-         Get (p.key);
-         Get (spacer);
-         Get (p.ending);
-         Get (spacer);
-         Get (p.age);
-         Get (spacer);
-         Get (p.freq);
+         Get (P.Qual);
+         Get (Spacer);
+         Get (P.Key);
+         Get (Spacer);
+         Get (P.Ending);
+         Get (Spacer);
+         Get (P.Age);
+         Get (Spacer);
+         Get (P.Freq);
       end Get;
 
-      procedure Put (f : in File_Type; p : in Inflection_Record) is
+      procedure Put (F : in File_Type; P : in Inflection_Record) is
       begin
-         Put (f, p.qual);
-         Put (f, ' ');
-         Put (f, p.key, 1);
-         Put (f, ' ');
-         Put (f, p.ending);
-         Put (f, ' ');
-         Put (f, p.age);
-         Put (f, ' ');
-         Put (f, p.freq);
+         Put (F, P.Qual);
+         Put (F, ' ');
+         Put (F, P.Key, 1);
+         Put (F, ' ');
+         Put (F, P.Ending);
+         Put (F, ' ');
+         Put (F, P.Age);
+         Put (F, ' ');
+         Put (F, P.Freq);
       end Put;
 
-      procedure Put (p : in Inflection_Record) is
+      procedure Put (P : in Inflection_Record) is
       begin
-         Put (p.qual);
+         Put (P.Qual);
          Put (' ');
-         Put (p.key, 1);
+         Put (P.Key, 1);
          Put (' ');
-         Put (p.ending);
+         Put (P.Ending);
          Put (' ');
-         Put (p.age);
+         Put (P.Age);
          Put (' ');
-         Put (p.freq);
+         Put (P.Freq);
       end Put;
 
       procedure Get
-        (s    : in String;
-         p    : out Inflection_Record;
-         last : out Integer)
+        (S    : in String;
+         P    : out Inflection_Record;
+         Last : out Integer)
       is
-         l : Integer := s'First - 1;
+         L : Integer := S'First - 1;
       begin
-         last := 0;
-         p := pe;
-         Get (s (l + 1 .. s'Last), p.qual, l);
-         l := l + 1;
-         Get (s (l + 1 .. s'Last), p.key, l);
-         l := l + 1;
-         Get (s (l + 1 .. s'Last), p.ending, l);
-         l := l + 1;
-         Get (s (l + 1 .. s'Last), p.age, l);
-         l := l + 1;
-         Get (s (l + 1 .. s'Last), p.freq, last);
+         Last := 0;
+         P := Pe;
+         Get (S (L + 1 .. S'Last), P.Qual, L);
+         L := L + 1;
+         Get (S (L + 1 .. S'Last), P.Key, L);
+         L := L + 1;
+         Get (S (L + 1 .. S'Last), P.Ending, L);
+         L := L + 1;
+         Get (S (L + 1 .. S'Last), P.Age, L);
+         L := L + 1;
+         Get (S (L + 1 .. S'Last), P.Freq, Last);
       end Get;
 
-      procedure Put (s : out String; p : in Inflection_Record) is
-         l : Integer := s'First - 1;
-         m : Integer := 0;
+      procedure Put (S : out String; P : in Inflection_Record) is
+         L : Integer := S'First - 1;
+         M : Integer := 0;
       begin
-         m := l + quality_record_io.Default_Width;
-         Put (s (l + 1 .. m), p.qual);
-         l := m + 1;
-         s (l) :=  ' ';
-         m := l + 1;
-         Put (s (l + 1 .. m), p.key);
-         l := m + 1;
-         s (l) :=  ' ';
-         m := l + ending_record_io.Default_Width;
-         Put (s (l + 1 .. m), p.ending);
-         l := m + 1;
-         s (l) :=  ' ';
-         m := l + 1;
-         Put (s (l + 1 .. m), p.age);
-         l := m + 1;
-         s (l) :=  ' ';
-         m := l + 1;
-         Put (s (l + 1 .. m), p.freq);
-         s (m + 1 .. s'Last) := (others => ' ');
+         M := L + Quality_Record_Io.Default_Width;
+         Put (S (L + 1 .. M), P.Qual);
+         L := M + 1;
+         S (L) :=  ' ';
+         M := L + 1;
+         Put (S (L + 1 .. M), P.Key);
+         L := M + 1;
+         S (L) :=  ' ';
+         M := L + Ending_Record_Io.Default_Width;
+         Put (S (L + 1 .. M), P.Ending);
+         L := M + 1;
+         S (L) :=  ' ';
+         M := L + 1;
+         Put (S (L + 1 .. M), P.Age);
+         L := M + 1;
+         S (L) :=  ' ';
+         M := L + 1;
+         Put (S (L + 1 .. M), P.Freq);
+         S (M + 1 .. S'Last) := (others => ' ');
       end Put;
 
    end Inflection_Record_IO;
 
-   procedure establish_inflections_section  is
+   procedure Establish_Inflections_Section  is
       --  Loads the inflection array from the file prepared in
       --  FILE_INFLECTIONS_SECTION
       --  If N = 0 (an artifical flag for the section for blank
       --  inflections = 5)
       --  computes the LELL .. LELF indices for use in WORD
       use Inflection_Record_IO;
-      use lel_section_io;
+      use Lel_Section_Io;
 
-      procedure load_lel_indexes is
+      procedure Load_Lel_Indexes is
          --  Load arrays from file
-         i  : Integer := 0;
+         I  : Integer := 0;
          --IR : INFLECTION_RECORD;
-         n, xn : Integer := 0;
-         ch, xch : Character := ' ';
-         inflections_sections_file : lel_section_io.File_Type;
+         N, Xn : Integer := 0;
+         Ch, Xch : Character := ' ';
+         Inflections_Sections_File : Lel_Section_Io.File_Type;
 
          -- FIXME: this algebraic type and its values are obviously misnomers
          type Paradigm is (P1, P2, P3, P4);
@@ -1292,15 +1292,15 @@ begin
 
    Suffix_Record_IO.Default_Width := 0;
 
-   quality_record_io.Default_Width := Part_Of_Speech_Type_IO.Default_Width + 1 +
+   Quality_Record_Io.Default_Width := Part_Of_Speech_Type_IO.Default_Width + 1 +
      Vpar_Record_IO.Default_Width; --  Largest
 
-   ending_record_io.Default_Width := 3 + 1 +
-     max_ending_size;
+   Ending_Record_Io.Default_Width := 3 + 1 +
+     Max_Ending_Size;
 
-   Inflection_Record_IO.Default_Width := quality_record_io.Default_Width + 1 +
+   Inflection_Record_IO.Default_Width := Quality_Record_Io.Default_Width + 1 +
      1  + 1 +
-     ending_record_io.Default_Width + 1 +
+     Ending_Record_Io.Default_Width + 1 +
      Age_Type_IO.Default_Width + 1 +
      Frequency_Type_IO.Default_Width;
 
