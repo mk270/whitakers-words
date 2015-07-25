@@ -20,71 +20,71 @@ with Latin_Utils.Inflections_Package; use Latin_Utils.Inflections_Package;
 with Latin_Utils.Dictionary_Package; use Latin_Utils.Dictionary_Package;
 package Support_Utils.Word_Support_Package is
 
-   followed_by_period, follows_period, capitalized, all_caps :
+   Followed_By_Period, Follows_Period, Capitalized, All_Caps :
      Boolean := False;
 
-   type dictionary_stem is
+   type Dictionary_Stem is
       record
-         stem : Stem_Type := Null_Stem_Type;
-         part : Part_Entry := Null_Part_Entry;
-         key  : Stem_Key_Type := 0;
+         Stem : Stem_Type := Null_Stem_Type;
+         Part : Part_Entry := Null_Part_Entry;
+         Key  : Stem_Key_Type := 0;
          MNPC : Dict_IO.Count := Null_MNPC;
       end record;
 
-   package stem_io is new Ada.Direct_IO (dictionary_stem);
-   package Count_io is new Ada.Text_IO.Integer_IO (stem_io.Count);
+   package Stem_Io is new Ada.Direct_IO (Dictionary_Stem);
+   package Count_Io is new Ada.Text_IO.Integer_IO (Stem_Io.Count);
 
-   subtype dictionary_file_kind is Dictionary_Kind range general .. local;
-   default_dictionary_file_kind : dictionary_file_kind := general;
+   subtype Dictionary_File_Kind is Dictionary_Kind range General .. Local;
+   Default_Dictionary_File_Kind : Dictionary_File_Kind := General;
 
-   stem_file : array (dictionary_file_kind) of stem_io.File_Type;
+   Stem_File : array (Dictionary_File_Kind) of Stem_Io.File_Type;
 
-   stem_list : array (dictionary_file_kind) of Ada.Text_IO.File_Type;
-   indx_file : array (dictionary_file_kind) of Ada.Text_IO.File_Type;
+   Stem_List : array (Dictionary_File_Kind) of Ada.Text_IO.File_Type;
+   Indx_File : array (Dictionary_File_Kind) of Ada.Text_IO.File_Type;
 
-   type dict_array is array (Positive range <>) of dictionary_stem;
-   bdl : dict_array (1 .. 100);
-   bdl_last : Integer := 0;
+   type Dict_Array is array (Positive range <>) of Dictionary_Stem;
+   Bdl : Dict_Array (1 .. 100);
+   Bdl_Last : Integer := 0;
    --SIZE_OF_DICTIONARY_ARRAY : constant INTEGER := 120;
    --DDL : DICT_ARRAY (1 .. SIZE_OF_DICTIONARY_ARRAY);
-   type dict_array_index is array (Character range <>,
+   type Dict_Array_Index is array (Character range <>,
      Character range <>,
-     dictionary_file_kind range <>) of stem_io.Count;
+     Dictionary_File_Kind range <>) of Stem_Io.Count;
 
-   bblf, bbll :
-     dict_array_index (' ' .. ' ', ' ' .. ' ', dictionary_file_kind) :=
+   Bblf, Bbll :
+     Dict_Array_Index (' ' .. ' ', ' ' .. ' ', Dictionary_File_Kind) :=
      (others => (others => (others => 0)));
 
-   bdlf, bdll :
-     dict_array_index ('a' .. 'z', ' ' .. ' ', dictionary_file_kind) :=
+   Bdlf, Bdll :
+     Dict_Array_Index ('a' .. 'z', ' ' .. ' ', Dictionary_File_Kind) :=
      (others => (others => (others => 0)));
 
-   ddlf, ddll :
-     dict_array_index ('a' .. 'z', 'a' .. 'z', dictionary_file_kind) :=
+   Ddlf, Ddll :
+     Dict_Array_Index ('a' .. 'z', 'a' .. 'z', Dictionary_File_Kind) :=
      (others => (others => (others => 0)));
 
-   function adj_comp_from_key (key : Stem_Key_Type) return Comparison_Type;
+   function Adj_Comp_From_Key (Key : Stem_Key_Type) return Comparison_Type;
 
-   function adv_comp_from_key (key : Stem_Key_Type) return Comparison_Type;
+   function Adv_Comp_From_Key (Key : Stem_Key_Type) return Comparison_Type;
 
-   function num_sort_from_key (key : Stem_Key_Type) return Numeral_Sort_Type;
+   function Num_Sort_From_Key (Key : Stem_Key_Type) return Numeral_Sort_Type;
 
-   function eff_part (part : Part_Of_Speech_Type) return Part_Of_Speech_Type;
+   function Eff_Part (Part : Part_Of_Speech_Type) return Part_Of_Speech_Type;
 
-   function len (s : String) return Integer;
+   function Len (S : String) return Integer;
 
-   function first_index
-     (Input_word : String;
-      d_k : dictionary_file_kind := default_dictionary_file_kind)
-     return stem_io.Count;
+   function First_Index
+     (Input_Word : String;
+      D_K : Dictionary_File_Kind := Default_Dictionary_File_Kind)
+     return Stem_Io.Count;
 
-   function  last_index
-     (Input_word : String;
-      d_k : dictionary_file_kind := default_dictionary_file_kind)
-     return stem_io.Count;
+   function  Last_Index
+     (Input_Word : String;
+      D_K : Dictionary_File_Kind := Default_Dictionary_File_Kind)
+     return Stem_Io.Count;
 
-   procedure load_indices_from_indx_file (d_k : Dictionary_Kind);
+   procedure Load_Indices_From_Indx_File (D_K : Dictionary_Kind);
 
-   procedure load_bdl_from_disk;
+   procedure Load_Bdl_From_Disk;
 
 end Support_Utils.Word_Support_Package;

@@ -20,104 +20,104 @@ with Latin_Utils.Preface;
 package body Support_Utils.Addons_Package is
    use Ada.Text_IO;
    use Part_Of_Speech_Type_IO;
-   use Target_entry_io;
+   use Target_Entry_Io;
    use Part_Entry_IO;
    --use KIND_ENTRY_IO;
    use Stem_Key_Type_IO;
 
-   function equ (c, d : Character) return Boolean is
+   function Equ (C, D : Character) return Boolean is
    begin
-      if (d = 'u') or (d = 'v')  then
-         if (c = 'u') or (c = 'v')  then
+      if (D = 'u') or (D = 'v')  then
+         if (C = 'u') or (C = 'v')  then
             return True;
          else
             return False;
          end if;
       else
-         return c = d;
+         return C = D;
       end if;
-   end equ;
+   end Equ;
 
-   function equ (s, t : String) return Boolean is
+   function Equ (S, T : String) return Boolean is
    begin
-      if s'Length /= t'Length  then
+      if S'Length /= T'Length  then
          return False;
       end if;
 
-      for i in 1 .. s'Length  loop
-         if not equ (s (s'First + i - 1), t (t'First + i - 1))  then
+      for I in 1 .. S'Length  loop
+         if not Equ (S (S'First + I - 1), T (T'First + I - 1))  then
             return False;
          end if;
       end loop;
 
       return True;
-   end equ;
+   end Equ;
 
-   procedure load_addons (file_name : in String) is
-      use tackon_entry_io;
-      use prefix_entry_io;
-      use suffix_entry_io;
+   procedure Load_Addons (File_Name : in String) is
+      use Tackon_Entry_Io;
+      use Prefix_Entry_Io;
+      use Suffix_Entry_Io;
       --use DICT_IO;
 
-      s : String (1 .. 100);
-      l, last, tic, pre, suf, tac, pac : Integer := 0;
-      addons_file : Ada.Text_IO.File_Type;
-      pofs : Part_Of_Speech_Type;
-      mean : Meaning_Type := Null_Meaning_Type;
-      m : Integer := 1;
+      S : String (1 .. 100);
+      L, Last, Tic, Pre, Suf, Tac, Pac : Integer := 0;
+      Addons_File : Ada.Text_IO.File_Type;
+      Pofs : Part_Of_Speech_Type;
+      Mean : Meaning_Type := Null_Meaning_Type;
+      M : Integer := 1;
       --TG : TARGET_ENTRY;
-      tn : tackon_entry;
-      pm : prefix_item;
-      ts : Stem_Type;
+      Tn : Tackon_Entry;
+      Pm : Prefix_Item;
+      Ts : Stem_Type;
 
-      procedure Get_no_comment_line (f : in Ada.Text_IO.File_Type;
-                                     s : out String; last : out Integer) is
-         t : String (1 .. 250) := (others => ' ');
-         l : Integer := 0;
+      procedure Get_No_Comment_Line (F : in Ada.Text_IO.File_Type;
+                                     S : out String; Last : out Integer) is
+         T : String (1 .. 250) := (others => ' ');
+         L : Integer := 0;
       begin
-         last := 0;
-         while not End_Of_File (f)  loop
-            Get_Line (f, t, l);
-            if l >= 2  and then
-              (Head (Trim (t), 250)(1 .. 2) = "--"  or
-              Head (Trim (t), 250)(1 .. 2) = "  ")
+         Last := 0;
+         while not End_Of_File (F)  loop
+            Get_Line (F, T, L);
+            if L >= 2  and then
+              (Head (Trim (T), 250)(1 .. 2) = "--"  or
+              Head (Trim (T), 250)(1 .. 2) = "  ")
             then
                null;
             else
-               s (s'First .. l) := t (1 .. l);
-               last := l;
+               S (S'First .. L) := T (1 .. L);
+               Last := L;
                exit;
             end if;
          end loop;
-      end Get_no_comment_line;
+      end Get_No_Comment_Line;
 
-      procedure extract_fix (s : in String;
-                             xfix : out fix_type; xc : out Character) is
-         st : constant String := Trim (s);
-         l : constant Integer := st'Length;
-         j : Integer := 0;
+      procedure Extract_Fix (S : in String;
+                             Xfix : out Fix_Type; Xc : out Character) is
+         St : constant String := Trim (S);
+         L : constant Integer := St'Length;
+         J : Integer := 0;
       begin
-         for i in 1 .. l  loop
-            j := i;
-            exit when (i < l) and then (st (i + 1) = ' ');
+         for I in 1 .. L  loop
+            J := I;
+            exit when (I < L) and then (St (I + 1) = ' ');
          end loop;
-         xfix := Head (st (1 .. j), max_fix_size);
-         if j = l  then     --  there is no CONNECT CHARACTER
-            xc := ' ';
+         Xfix := Head (St (1 .. J), Max_Fix_Size);
+         if J = L  then     --  there is no CONNECT CHARACTER
+            Xc := ' ';
             return;
          else
-            for i in j + 1 .. l  loop
-               if st (i) /= ' '  then
-                  xc := st (i);
+            for I in J + 1 .. L  loop
+               if St (I) /= ' '  then
+                  Xc := St (I);
                   exit;
                end if;
             end loop;
          end if;
          return;
-      end extract_fix;
+      end Extract_Fix;
 
    begin
-      Open (addons_file, In_File, file_name);
+      Open (Addons_File, In_File, File_Name);
       Preface.Put ("ADDONS");
       Preface.Put (" loading ");
 
