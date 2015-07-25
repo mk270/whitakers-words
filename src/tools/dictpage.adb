@@ -21,7 +21,7 @@ with Latin_Utils.Inflections_Package; use Latin_Utils.Inflections_Package;
 with Latin_Utils.Dictionary_Package; use Latin_Utils.Dictionary_Package;
 -- with Support_Utils.Line_Stuff; use Support_Utils.Line_Stuff;
 with Support_Utils.Dictionary_Form;
-procedure dictpage is
+procedure Dictpage is
    --  DICTPAGE.IN -> DICTPAGE.OUT
    --  Takes DICTLINE form, puts # and dictionary form at begining,
    --  a file that can be sorted to produce word order of paper dictionary
@@ -41,15 +41,15 @@ procedure dictpage is
    Start_Stem_2  : constant := Start_Stem_1 + Max_Stem_Size + 1;
    Start_Stem_3  : constant := Start_Stem_2 + Max_Stem_Size + 1;
    Start_Stem_4  : constant := Start_Stem_3 + Max_Stem_Size + 1;
-   start_part    : constant := Start_Stem_4 + Max_Stem_Size + 1;
+   Start_Part    : constant := Start_Stem_4 + Max_Stem_Size + 1;
 
-   input, output : Text_IO.File_Type;
-   de : Dictionary_Entry;
+   Input, Output : Text_IO.File_Type;
+   De : Dictionary_Entry;
 
-   s : String (1 .. 400) := (others => ' ');
-   blank_line : constant String (1 .. 400) := (others => ' ');
-   l, last : Integer := 0;
-   j : constant Integer := 1;
+   S : String (1 .. 400) := (others => ' ');
+   Blank_Line : constant String (1 .. 400) := (others => ' ');
+   L, Last : Integer := 0;
+   J : constant Integer := 1;
 
 begin
    Put_Line ("DICTPAGE.IN -> DICTPAGE.OUT");
@@ -60,34 +60,34 @@ begin
      "a DICTPAGE.RAW to process for paper-like dictionary");
    Put_Line ("Process result with PAGE2HTM to create a pretty display");
 
-   Create (output, Out_File, "DICTPAGE.OUT");
-   Open (input, In_File, "DICTPAGE.IN");
+   Create (Output, Out_File, "DICTPAGE.OUT");
+   Open (Input, In_File, "DICTPAGE.IN");
 
    Over_Lines :
-   while not End_Of_File (input) loop
-      s := blank_line;
-      Get_Line (input, s, last);
-      if Trim (s (1 .. last)) /= ""  then   --  Rejecting blank lines
+   while not End_Of_File (Input) loop
+      S := Blank_Line;
+      Get_Line (Input, S, Last);
+      if Trim (S (1 .. Last)) /= ""  then   --  Rejecting blank lines
 
          Form_De :
          begin
 
-            de.Stems (1) :=
-              s (Start_Stem_1 .. Max_Stem_Size);
-            de.Stems (2) :=
-              s (Start_Stem_2 .. Start_Stem_2 + Max_Stem_Size - 1);
-            de.Stems (3) :=
-              s (Start_Stem_3 .. Start_Stem_3 + Max_Stem_Size - 1);
-            de.Stems (4) :=
-              s (Start_Stem_4 .. Start_Stem_4 + Max_Stem_Size - 1);
+            De.Stems (1) :=
+              S (Start_Stem_1 .. Max_Stem_Size);
+            De.Stems (2) :=
+              S (Start_Stem_2 .. Start_Stem_2 + Max_Stem_Size - 1);
+            De.Stems (3) :=
+              S (Start_Stem_3 .. Start_Stem_3 + Max_Stem_Size - 1);
+            De.Stems (4) :=
+              S (Start_Stem_4 .. Start_Stem_4 + Max_Stem_Size - 1);
 
-            Get (s (start_part .. last), de.Part, l);
-            Get (s (l + 1 .. last), de.Tran.Age, l);
-            Get (s (l + 1 .. last), de.Tran.Area, l);
-            Get (s (l + 1 .. last), de.Tran.Geo, l);
-            Get (s (l + 1 .. last), de.Tran.Freq, l);
-            Get (s (l + 1 .. last), de.Tran.Source, l);
-            de.Mean := Head (s (l + 2 .. last), Max_Meaning_Size);
+            Get (S (Start_Part .. Last), De.Part, L);
+            Get (S (L + 1 .. Last), De.Tran.Age, L);
+            Get (S (L + 1 .. Last), De.Tran.Area, L);
+            Get (S (L + 1 .. Last), De.Tran.Geo, L);
+            Get (S (L + 1 .. Last), De.Tran.Freq, L);
+            Get (S (L + 1 .. Last), De.Tran.Source, L);
+            De.Mean := Head (S (L + 2 .. Last), Max_Meaning_Size);
             --  Note that this allows initial blanks
             --  L+2 skips over the SPACER, required because this is STRING,
             --    not ENUM
@@ -95,34 +95,34 @@ begin
          exception
             when others =>
                Put_Line ("Exception");
-               Put_Line (s (1 .. last));
-               Integer_IO.Put (j); New_Line;
-               Put (de); New_Line;
+               Put_Line (S (1 .. Last));
+               Integer_IO.Put (J); New_Line;
+               Put (De); New_Line;
          end Form_De;
 
-         Put (output, "#" & Support_Utils.Dictionary_Form (de));
+         Put (Output, "#" & Support_Utils.Dictionary_Form (De));
 
-         Text_IO.Put (output, " [");
-         Age_Type_IO.Put (output, de.Tran.Age);
-         Area_Type_IO.Put (output, de.Tran.Area);
-         Geo_Type_IO.Put (output, de.Tran.Geo);
-         Frequency_Type_IO.Put (output, de.Tran.Freq);
-         Source_Type_IO.Put (output, de.Tran.Source);
-         Text_IO.Put (output, "]");
+         Text_IO.Put (Output, " [");
+         Age_Type_IO.Put (Output, De.Tran.Age);
+         Area_Type_IO.Put (Output, De.Tran.Area);
+         Geo_Type_IO.Put (Output, De.Tran.Geo);
+         Frequency_Type_IO.Put (Output, De.Tran.Freq);
+         Source_Type_IO.Put (Output, De.Tran.Source);
+         Text_IO.Put (Output, "]");
 
-         Put (output, " :: ");
-         Put_Line (output, de.Mean);
+         Put (Output, " :: ");
+         Put_Line (Output, De.Mean);
 
       end if;  --  Rejecting blank lines
    end loop Over_Lines;
 
-   Close (output);
+   Close (Output);
 exception
    when Text_IO.Data_Error  =>
       null;
    when others =>
-      Put_Line (s (1 .. last));
-      Integer_IO.Put (j); New_Line;
-      Close (output);
+      Put_Line (S (1 .. Last));
+      Integer_IO.Put (J); New_Line;
+      Close (Output);
 
-end dictpage;
+end Dictpage;

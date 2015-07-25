@@ -14,7 +14,7 @@
 -- All parts of the WORDS system, source code and data files, are made freely
 -- available to anyone who wishes to use them, for whatever purpose.
 
-procedure diffdict is
+procedure Diffdict is
 
 begin
    null;
@@ -31,4 +31,4 @@ begin
    --  The two difference files are then DIFFed giving the changes
    --  made over time
 
-end diffdict;
+end Diffdict;

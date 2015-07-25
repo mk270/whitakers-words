@@ -16,69 +16,69 @@
 
 with Text_IO;
 --with Latin_Utils.Strings_Package; use Latin_Utils.Strings_Package;
-procedure dups is
+procedure Dups is
    package Integer_Text_IO is new Text_IO.Integer_IO (Integer);
    use Integer_Text_IO;
    use Text_IO;
 
-   input, output : File_Type;
-   s, blank_line : constant String (1 .. 400) := (others => ' ');
-   line, oldline : String (1 .. 400) := (others => ' ');
-   last : Integer := 0;
-   mx, nx : Natural := 0;
+   Input, Output : File_Type;
+   S, Blank_Line : constant String (1 .. 400) := (others => ' ');
+   Line, Oldline : String (1 .. 400) := (others => ' ');
+   Last : Integer := 0;
+   Mx, Nx : Natural := 0;
 
-   line_number : Integer := 0;
-   number : Integer := 0;
+   Line_Number : Integer := 0;
+   Number : Integer := 0;
 
-   procedure get_entry (mx, nx  : out Natural) is
-      ls : Integer := 0;
-      enter_line : String (1 .. 20);
+   procedure Get_Entry (Mx, Nx  : out Natural) is
+      Ls : Integer := 0;
+      Enter_Line : String (1 .. 20);
 
    begin
 
-      Get_Line (enter_line, ls);
-      Get (enter_line (1 .. ls), mx, last);
-      Get (enter_line (last + 1 .. ls), nx, last);
+      Get_Line (Enter_Line, Ls);
+      Get (Enter_Line (1 .. Ls), Mx, Last);
+      Get (Enter_Line (Last + 1 .. Ls), Nx, Last);
 
-   end get_entry;
+   end Get_Entry;
 
 begin
    Put_Line ("DUPS.IN -> DUPS.OUT    For sorted files");
    Put_Line ("DUPS  checks for columns MX .. NX being duplicates");
-   get_entry (mx, nx);
+   Get_Entry (Mx, Nx);
 
-   Create (output, Out_File, "DUPS.OUT");
-   Open (input, In_File, "DUPS.IN");
+   Create (Output, Out_File, "DUPS.OUT");
+   Open (Input, In_File, "DUPS.IN");
 
-   while not End_Of_File (input) loop
-      oldline := line;
-      line := blank_line;
-      Get_Line (input, line, last);
-      line_number := line_number + 1;
-      if line (mx .. nx) = oldline (mx .. nx)  and then
-        (line (111) /= '|')
+   while not End_Of_File (Input) loop
+      Oldline := Line;
+      Line := Blank_Line;
+      Get_Line (Input, Line, Last);
+      Line_Number := Line_Number + 1;
+      if Line (Mx .. Nx) = Oldline (Mx .. Nx)  and then
+        (Line (111) /= '|')
       then
-         number := number + 1;
-         Put (output, line_number); Put (output, "  ");
-         Put_Line (output, line (1 .. nx));
+         Number := Number + 1;
+         Put (Output, Line_Number); Put (Output, "  ");
+         Put_Line (Output, Line (1 .. Nx));
       end if;
    end loop;
 
-   Close (output);
+   Close (Output);
 
    New_Line;
-   Put ("Number of entries = "); Put (line_number); New_Line;
-   Put ("Number of DUPS    = "); Put (number); New_Line;
-   Put ("Ratio             = 1 :"); Put (line_number / number); New_Line;
+   Put ("Number of entries = "); Put (Line_Number); New_Line;
+   Put ("Number of DUPS    = "); Put (Number); New_Line;
+   Put ("Ratio             = 1 :"); Put (Line_Number / Number); New_Line;
 
 exception
    when Name_Error  =>
       Put_Line ("No file to process");
-      Close (output);
+      Close (Output);
 
    when others =>
-      Put ("Exception on LINE"); Put (line_number); New_Line;
-      Put_Line (s (1 .. last));
-      Close (output);
+      Put ("Exception on LINE"); Put (Line_Number); New_Line;
+      Put_Line (S (1 .. Last));
+      Close (Output);
 
-end dups;
+end Dups;

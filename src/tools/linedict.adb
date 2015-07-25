@@ -19,7 +19,7 @@ with Latin_Utils.Strings_Package; use Latin_Utils.Strings_Package;
 with Latin_Utils.Inflections_Package; use Latin_Utils.Inflections_Package;
 with Latin_Utils.Dictionary_Package; use Latin_Utils.Dictionary_Package;
 
-procedure linedict is
+procedure Linedict is
    package Integer_IO is new Text_IO.Integer_IO (Integer);
    use Dictionary_Entry_IO;
    use Part_Entry_IO;
@@ -30,97 +30,97 @@ procedure linedict is
    use Frequency_Type_IO;
    use Source_Type_IO;
 
-   de : Dictionary_Entry;
+   De : Dictionary_Entry;
 
-   dictionary_file : File_Type;
-   output : File_Type;
+   Dictionary_File : File_Type;
+   Output : File_Type;
 
-   st_line, pt_line, mn_line : String (1 .. 300) :=  (others => ' ');
-   blank_line : constant String (1 .. 300) := (others => ' ');
-   l, ll, last : Integer := 0;
-   number_of_dictionary_entries : Integer := 0;
+   St_Line, Pt_Line, Mn_Line : String (1 .. 300) :=  (others => ' ');
+   Blank_Line : constant String (1 .. 300) := (others => ' ');
+   L, Ll, Last : Integer := 0;
+   Number_Of_Dictionary_Entries : Integer := 0;
 
-   procedure get_stem (s : in String;
-                       stem : out Stem_Type; last : out Integer) is
-      i  : Integer := 1;
-      l  : Integer := s'First;
+   procedure Get_Stem (S : in String;
+                       Stem : out Stem_Type; Last : out Integer) is
+      I  : Integer := 1;
+      L  : Integer := S'First;
    begin
-      stem := Null_Stem_Type;
+      Stem := Null_Stem_Type;
       --  Squeeze left
-      while l <= s'Last and then s (l) = ' '  loop
-         l := l + 1;
+      while L <= S'Last and then S (L) = ' '  loop
+         L := L + 1;
       end loop;
       --  Count until the first blank
       --  Return that String
-      while l <= s'Last and then s (l) /= ' '  loop
-         stem (i) := s (l);
-         i := i + 1;
-         l := l + 1;
+      while L <= S'Last and then S (L) /= ' '  loop
+         Stem (I) := S (L);
+         I := I + 1;
+         L := L + 1;
       end loop;
       --  Return  last
-      last := l;
-   end get_stem;
+      Last := L;
+   end Get_Stem;
 
 begin
    Put_Line ("LINEDICT.IN (EDIT format - 3 lines)" &
      " -> LINEDICT.OUT (DICTLINE format)");
 
-   Create (output, Out_File, "LINEDICT.OUT");
+   Create (Output, Out_File, "LINEDICT.OUT");
 
-   Open (dictionary_file, In_File, "LINEDICT.IN");
+   Open (Dictionary_File, In_File, "LINEDICT.IN");
    Put ("Dictionary loading");
 
-   while not End_Of_File (dictionary_file)  loop
-      st_line := blank_line;
-      pt_line := blank_line;
-      mn_line := blank_line;
+   while not End_Of_File (Dictionary_File)  loop
+      St_Line := Blank_Line;
+      Pt_Line := Blank_Line;
+      Mn_Line := Blank_Line;
       Error_Check :
       begin
 
-         Get_Non_Comment_Line (dictionary_file, st_line, last); --  STEMS
+         Get_Non_Comment_Line (Dictionary_File, St_Line, Last); --  STEMS
 
          -- really? -- when is "line" supposed to be read?
          -- line := blank_line;
-         Get_Non_Comment_Line (dictionary_file, pt_line, l);    --  PART
-         Get (pt_line (1 .. l), de.Part, ll);
+         Get_Non_Comment_Line (Dictionary_File, Pt_Line, L);    --  PART
+         Get (Pt_Line (1 .. L), De.Part, Ll);
          --            GET (PT_LINE (LL+1 .. L), DE.PART.POFS, DE.KIND, LL);
 
-         Get (pt_line (ll + 1 .. l), de.Tran.Age, ll);
-         Get (pt_line (ll + 1 .. l), de.Tran.Area, ll);
-         Get (pt_line (ll + 1 .. l), de.Tran.Geo, ll);
-         Get (pt_line (ll + 1 .. l), de.Tran.Freq, ll);
-         Get (pt_line (ll + 1 .. l), de.Tran.Source, ll);
+         Get (Pt_Line (Ll + 1 .. L), De.Tran.Age, Ll);
+         Get (Pt_Line (Ll + 1 .. L), De.Tran.Area, Ll);
+         Get (Pt_Line (Ll + 1 .. L), De.Tran.Geo, Ll);
+         Get (Pt_Line (Ll + 1 .. L), De.Tran.Freq, Ll);
+         Get (Pt_Line (Ll + 1 .. L), De.Tran.Source, Ll);
 
-         de.Stems := Null_Stems_Type;
-         ll := 1;
+         De.Stems := Null_Stems_Type;
+         Ll := 1;
          --  Extract up to 4 Stems
 
-         for i in 1 .. Number_Of_Stems (de.Part.pofs)
+         for I in 1 .. Number_Of_Stems (De.Part.Pofs)
          loop   --  EXTRACT STEMS
-            get_stem (st_line (ll .. last), de.Stems (i), ll);
+            Get_Stem (St_Line (Ll .. Last), De.Stems (I), Ll);
          end loop;
 
          -- line := blank_line;
-         Get_Non_Comment_Line (dictionary_file, mn_line, l);   --  MEANING
+         Get_Non_Comment_Line (Dictionary_File, Mn_Line, L);   --  MEANING
 
-         de.Mean := Head (Trim (mn_line (1 .. l)), Max_Meaning_Size);
+         De.Mean := Head (Trim (Mn_Line (1 .. L)), Max_Meaning_Size);
 
-         Put (output, de); New_Line (output);
+         Put (Output, De); New_Line (Output);
 
-         number_of_dictionary_entries := number_of_dictionary_entries + 1;
+         Number_Of_Dictionary_Entries := Number_Of_Dictionary_Entries + 1;
 
       exception
          when others  =>
             Put_Line
               ("-------------------------------------------------------------");
-            Put_Line (Head (st_line, 78));
-            Put_Line (Head (pt_line, 78));
-            Put_Line (Head (mn_line, 78));
+            Put_Line (Head (St_Line, 78));
+            Put_Line (Head (Pt_Line, 78));
+            Put_Line (Head (Mn_Line, 78));
       end Error_Check;
 
    end loop;
-   Close (dictionary_file);
-   Close (output);
-   Set_Col (33); Put ("--  "); Integer_IO.Put (number_of_dictionary_entries);
+   Close (Dictionary_File);
+   Close (Output);
+   Set_Col (33); Put ("--  "); Integer_IO.Put (Number_Of_Dictionary_Entries);
    Put (" entries");    Set_Col (55); Put_Line ("--  Loaded correctly");
-end linedict;
+end Linedict;

@@ -20,48 +20,48 @@ with Latin_Utils.Latin_File_Names; use Latin_Utils.Latin_File_Names;
 -- with Latin_Utils.Inflections_Package; use Latin_Utils.Inflections_Package;
 with Latin_Utils.Dictionary_Package; use Latin_Utils.Dictionary_Package;
 -- with line_stuff; use line_stuff;
-procedure linefile is
+procedure Linefile is
 --   package Integer_IO is new Text_IO.Integer_IO (Integer);
    use Text_IO;
    use Dictionary_Entry_IO;
    use Dict_IO;
 
-   dictfile : Dict_IO.File_Type;
-   output : Text_IO.File_Type;
-   de : Dictionary_Entry;
-   d_k : Dictionary_Kind := general;
-   line : String (1 .. 40) := (others => ' ');
-   last : Integer := 0;
+   Dictfile : Dict_IO.File_Type;
+   Output : Text_IO.File_Type;
+   De : Dictionary_Entry;
+   D_K : Dictionary_Kind := General;
+   Line : String (1 .. 40) := (others => ' ');
+   Last : Integer := 0;
 
 begin
    Put_Line ("Takes a DICTFILE.D_K and produces a DICTLINE.D_K");
    Put ("What dictionary to convert, GENERAL or SPECIAL  (Reply G or S) =>");
-   Get_Line (line, last);
-   if last > 0  then
-      if Trim (line (1 .. last))(1) = 'G'  or else
-        Trim (line (1 .. last))(1) = 'g'
+   Get_Line (Line, Last);
+   if Last > 0  then
+      if Trim (Line (1 .. Last))(1) = 'G'  or else
+        Trim (Line (1 .. Last))(1) = 'g'
       then
-         d_k := general;
-      elsif Trim (line (1 .. last))(1) = 'S'  or else
-        Trim (line (1 .. last))(1) = 's'
+         D_K := General;
+      elsif Trim (Line (1 .. Last))(1) = 'S'  or else
+        Trim (Line (1 .. Last))(1) = 's'
       then
-         d_k := special;
+         D_K := Special;
       else
          Put_Line ("No such dictionary");
          raise Text_IO.Data_Error;
       end if;
    end if;
 
-   Open (dictfile, In_File, add_file_name_extension (dict_file_name,
-     Dictionary_Kind'Image (d_k)));
+   Open (Dictfile, In_File, Add_File_Name_Extension (Dict_File_Name,
+     Dictionary_Kind'Image (D_K)));
 
-   Create (output, Out_File, add_file_name_extension ("DICT_NEW",
-     Dictionary_Kind'Image (d_k)));
+   Create (Output, Out_File, Add_File_Name_Extension ("DICT_NEW",
+     Dictionary_Kind'Image (D_K)));
 
-   while not End_Of_File (dictfile)  loop
-      Read (dictfile, de);
-      Put (output, de);
-      Text_IO.New_Line (output);
+   while not End_Of_File (Dictfile)  loop
+      Read (Dictfile, De);
+      Put (Output, De);
+      Text_IO.New_Line (Output);
    end loop;
 
-end linefile;
+end Linefile;
