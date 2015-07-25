@@ -79,7 +79,7 @@ begin
 
       Line := Blanks;
       Get_Line_Unique (Uniques_File, Line, Last);    --  QUAL, KIND, TRAN
-      Quality_Record_Io.Get (Line (1 .. Last), Qual, L);
+      Quality_Record_IO.Get (Line (1 .. Last), Qual, L);
       Get (Line (L + 1 .. Last), Qual.Pofs, Kind, L);
       Age_Type_IO.Get (Line (L + 1 .. Last), Tran.Age, L);
       Area_Type_IO.Get (Line (L + 1 .. Last), Tran.Area, L);
@@ -100,7 +100,7 @@ begin
 
       Text_IO.Put (Uniqpage, "#" & Stem);
 
-      Quality_Record_Io.Put (Uniqpage, Qual);
+      Quality_Record_IO.Put (Uniqpage, Qual);
 
       -- PART := (V, (QUAL.V.CON, KIND.V_KIND));
 

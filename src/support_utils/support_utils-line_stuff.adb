@@ -776,7 +776,7 @@ package body Support_Utils.Line_Stuff is
    end Suffix_Line_Io;
 
    package body Unique_Entry_Io is
-      use Quality_Record_Io;
+      use Quality_Record_IO;
       use Kind_Entry_IO;
       use Translation_Record_IO;
       Spacer : Character;
@@ -853,7 +853,7 @@ package body Support_Utils.Line_Stuff is
          S (L + 1 .. M) := P.Stem;
          L := M + 1;
          S (L) :=  ' ';
-         M := L + Quality_Record_Io.Default_Width;
+         M := L + Quality_Record_IO.Default_Width;
          Put (S (L + 1 .. M), P.Qual);
          L := M + 1;
          S (L) :=  ' ';
@@ -869,7 +869,7 @@ package body Support_Utils.Line_Stuff is
    end Unique_Entry_Io;
 
    procedure Load_Uniques (Unq : in out Latin_Uniques; File_Name : in String) is
-      use Quality_Record_Io;
+      use Quality_Record_IO;
       use Part_Entry_IO;
       use Kind_Entry_IO;
       use Translation_Record_IO;

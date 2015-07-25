@@ -733,22 +733,28 @@ package Latin_Utils.Inflections_Package is
          end case;
       end record;
 
-   Null_Quality_Record : Quality_Record;
+   Null_Quality_Record : constant Quality_Record := Quality_Record'(Pofs => X);
 
    -- FIXME results in erroneous execution in case of Tackon .. Suffix
    function "<" (Left, Right : Quality_Record) return Boolean;
 
-   package Quality_Record_Io is
+   package Quality_Record_IO is
       Default_Width : Natural;
-      procedure Get (F : in File_Type; P : out Quality_Record);
-      procedure Get (P : out Quality_Record);
-      procedure Put (F : in File_Type; P : in Quality_Record);
-      procedure Put (P : in Quality_Record);
-      procedure Get (S : in String; P : out Quality_Record; Last : out Integer);
-      procedure Put (S : out String; P : in Quality_Record);
-   end Quality_Record_Io;
+      procedure Get (File : in  File_Type; Item : out Quality_Record);
+      procedure Get (Item : out Quality_Record);
+      procedure Put (File : in  File_Type; Item : in  Quality_Record);
+      procedure Put (Item : in Quality_Record);
+      procedure Get
+        (Source : in  String;
+         Target : out Quality_Record;
+         Last   : out Integer
+        );
+      procedure Put (Target : out String; Item : in Quality_Record);
+   end Quality_Record_IO;
 
    type Quality_Array is array (Integer range <>) of Quality_Record;
+
+   ---------------------------------------------------------------------------
 
    Max_Ending_Size : constant := 7;
    subtype Ending_Size_Type is Integer range 0 .. Max_Ending_Size;
