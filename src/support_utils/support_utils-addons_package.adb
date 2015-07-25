@@ -373,7 +373,7 @@ package body Support_Utils.Addons_Package is
 
    --  package body SUFFIX_LINE_IO is separate;
 
-   package body Target_entry_io is
+   package body Target_Entry_Io is
       use Noun_Entry_IO;
       use Pronoun_Entry_IO;
       use Propack_Entry_IO;
@@ -388,15 +388,15 @@ package body Support_Utils.Addons_Package is
       --  use INFLECTIONS_PACKAGE.INTEGER_IO;
       --  use VERB_KIND_TYPE_IO;
 
-      spacer : Character := ' ';
+      Spacer : Character := ' ';
 
-      noun  : Noun_Entry;
-      pronoun : Pronoun_Entry;
-      propack : Propack_Entry;
-      adjective : Adjective_Entry;
-      numeral : Numeral_Entry;
-      adverb : Adverb_Entry;
-      verb : Verb_Entry;
+      Noun  : Noun_Entry;
+      Pronoun : Pronoun_Entry;
+      Propack : Propack_Entry;
+      Adjective : Adjective_Entry;
+      Numeral : Numeral_Entry;
+      Adverb : Adverb_Entry;
+      Verb : Verb_Entry;
 
       --  NOUN_KIND  : NOUN_KIND_TYPE;
       --  PRONOUN_KIND : PRONOUN_KIND_TYPE;

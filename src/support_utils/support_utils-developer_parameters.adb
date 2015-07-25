@@ -483,134 +483,134 @@ package body Support_Utils.Developer_Parameters is
       return Special_Graphical (C);
    end Is_Special_Graphical;
 
-   procedure Put_mdevs is
-      use mdev_type_io;
-      use reply_type_io;
+   procedure Put_Mdevs is
+      use Mdev_Type_Io;
+      use Reply_Type_Io;
    begin
-      if Is_Open (mdev_file)  then
-         Close (mdev_file);
+      if Is_Open (Mdev_File)  then
+         Close (Mdev_File);
       end if;
-      Create (mdev_file, Out_File, mdev_full_name);
-      for i in words_mdev'Range  loop
-         Put (mdev_file, i);
-         Set_Col (mdev_file, 35);
-         Put (mdev_file, reply (words_mdev (i)));
-         New_Line (mdev_file);
+      Create (Mdev_File, Out_File, Mdev_Full_Name);
+      for I in Words_Mdev'Range  loop
+         Put (Mdev_File, I);
+         Set_Col (Mdev_File, 35);
+         Put (Mdev_File, Reply (Words_Mdev (I)));
+         New_Line (Mdev_File);
       end loop;
-      Put (mdev_file, "START_FILE_CHARACTER             '" &
-        start_file_Character & "'");
-      New_Line (mdev_file);
-      Put (mdev_file, "CHANGE_PARAMETERS_CHARACTER      '" &
-        change_parameters_Character & "'");
-      New_Line (mdev_file);
-      Put (mdev_file, "CHANGE_DEVELOPER_MODES_CHARACTER '" &
-        change_developer_modes_Character & "'");
-      New_Line (mdev_file);
-      Close (mdev_file);
-   end Put_mdevs;
+      Put (Mdev_File, "START_FILE_CHARACTER             '" &
+        Start_File_Character & "'");
+      New_Line (Mdev_File);
+      Put (Mdev_File, "CHANGE_PARAMETERS_CHARACTER      '" &
+        Change_Parameters_Character & "'");
+      New_Line (Mdev_File);
+      Put (Mdev_File, "CHANGE_DEVELOPER_MODES_CHARACTER '" &
+        Change_Developer_Modes_Character & "'");
+      New_Line (Mdev_File);
+      Close (Mdev_File);
+   end Put_Mdevs;
 
-   procedure Get_mdevs is
-      use mdev_type_io;
-      use reply_type_io;
-      mo : mdev_type;
-      rep : reply_type;
-      line : String (1 .. 100) := (others => ' ');
-      last : Integer := 0;
+   procedure Get_Mdevs is
+      use Mdev_Type_Io;
+      use Reply_Type_Io;
+      Mo : Mdev_Type;
+      Rep : Reply_Type;
+      Line : String (1 .. 100) := (others => ' ');
+      Last : Integer := 0;
    begin
-      Open (mdev_file, In_File, mdev_full_name);
-      for i in words_mdev'Range  loop
-         Get (mdev_file, mo);
-         Get (mdev_file, rep);
-         words_mdev (mo) := mdev_of_reply (rep);
+      Open (Mdev_File, In_File, Mdev_Full_Name);
+      for I in Words_Mdev'Range  loop
+         Get (Mdev_File, Mo);
+         Get (Mdev_File, Rep);
+         Words_Mdev (Mo) := Mdev_Of_Reply (Rep);
       end loop;
-      Skip_Line (mdev_file);
+      Skip_Line (Mdev_File);
 
-      Get_Line (mdev_file, line, last);
-      if line (1 .. 20) = "START_FILE_CHARACTER"  then
-         if Is_Special_Graphical (line (35)) and
-           (line (35) /= change_parameters_Character)  and
-           (line (35) /= change_developer_modes_Character)
+      Get_Line (Mdev_File, Line, Last);
+      if Line (1 .. 20) = "START_FILE_CHARACTER"  then
+         if Is_Special_Graphical (Line (35)) and
+           (Line (35) /= Change_Parameters_Character)  and
+           (Line (35) /= Change_Developer_Modes_Character)
          then
-            start_file_Character := line (35);
+            Start_File_Character := Line (35);
          else
             Put_Line ("Not an acceptable START_FILE_CHARACTER, may conflict");
             Put_Line ("NO CHANGE  !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
          end if;
       else
-         raise bad_mdev_file;
+         raise Bad_Mdev_File;
       end if;
 
-      Get_Line (mdev_file, line, last);
-      if line (1 .. 27) = "CHANGE_PARAMETERS_CHARACTER"  then
-         if Is_Special_Graphical (line (35)) and
-           (line (35) /= start_file_Character)  and
-           (line (35) /= change_developer_modes_Character)
+      Get_Line (Mdev_File, Line, Last);
+      if Line (1 .. 27) = "CHANGE_PARAMETERS_CHARACTER"  then
+         if Is_Special_Graphical (Line (35)) and
+           (Line (35) /= Start_File_Character)  and
+           (Line (35) /= Change_Developer_Modes_Character)
          then
-            change_parameters_Character := line (35);
+            Change_Parameters_Character := Line (35);
          else
             Put_Line
               ("Not an acceptable CHANGE_PARAMETERS_CHARACTER, may conflict");
             Put_Line ("NO CHANGE  !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
          end if;
       else
-         raise bad_mdev_file;
+         raise Bad_Mdev_File;
       end if;
 
-      Get_Line (mdev_file, line, last);
-      if line (1 .. 32) = "CHANGE_DEVELOPER_MODES_CHARACTER"  then
-         if Is_Special_Graphical (line (35)) and
-           (line (35) /= start_file_Character)  and
-           (line (35) /= change_parameters_Character)
+      Get_Line (Mdev_File, Line, Last);
+      if Line (1 .. 32) = "CHANGE_DEVELOPER_MODES_CHARACTER"  then
+         if Is_Special_Graphical (Line (35)) and
+           (Line (35) /= Start_File_Character)  and
+           (Line (35) /= Change_Parameters_Character)
          then
-            change_developer_modes_Character := line (35);
+            Change_Developer_Modes_Character := Line (35);
          else
             Put_Line ("Not an acceptable CHANGE_DEVELOPER_MODES_CHARACTER," &
               " may conflict");
             Put_Line ("NO CHANGE  !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
          end if;
       else
-         raise bad_mdev_file;
+         raise Bad_Mdev_File;
       end if;
-      Close (mdev_file);
+      Close (Mdev_File);
 
    exception
       when Name_Error  =>
          raise;
       when others =>
-         raise bad_mdev_file;
-   end Get_mdevs;
+         raise Bad_Mdev_File;
+   end Get_Mdevs;
 
-   procedure inquire (mo : mdev_type; help : in help_type := no_help) is
-      use mdev_type_io;
-      use reply_type_io;
-      l1 : String (1 .. 100);
-      ll : Natural;
-      r  : reply_type;
+   procedure Inquire (Mo : Mdev_Type; Help : in Help_Type := No_Help) is
+      use Mdev_Type_Io;
+      use Reply_Type_Io;
+      L1 : String (1 .. 100);
+      Ll : Natural;
+      R  : Reply_Type;
    begin
-      Put (mo);
+      Put (Mo);
       Put (" ?  "); Set_Col (45); Put ("(Currently  ");
-      Put (reply (words_mdev (mo))); Put (" =>");
-      Get_Line (l1, ll);
-      if ll /= 0  then
-         if Trim (l1 (1 .. ll)) = ""  then
+      Put (Reply (Words_Mdev (Mo))); Put (" =>");
+      Get_Line (L1, Ll);
+      if Ll /= 0  then
+         if Trim (L1 (1 .. Ll)) = ""  then
             Put_Line
               ("Blank Input, skipping the rest of CHANGE_DEVELOPER_MODES");
-            raise blank_Input;
-         elsif l1 (1) = '?'  then
-            Put (help);
-            inquire (mo, help);
+            raise Blank_Input;
+         elsif L1 (1) = '?'  then
+            Put (Help);
+            Inquire (Mo, Help);
          else
-            Get (l1 (1 .. ll), r, ll);
-            words_mdev (mo) := mdev_of_reply (r);
+            Get (L1 (1 .. Ll), R, Ll);
+            Words_Mdev (Mo) := Mdev_Of_Reply (R);
          end if;
       end if;
       New_Line;
-   end inquire;
+   end Inquire;
 
-   procedure change_developer_modes is
-      l1 : String (1 .. 100);
-      ll : Natural;
-      r  : reply_type;
+   procedure Change_Developer_Modes is
+      L1 : String (1 .. 100);
+      Ll : Natural;
+      R  : Reply_Type;
 
    begin
 

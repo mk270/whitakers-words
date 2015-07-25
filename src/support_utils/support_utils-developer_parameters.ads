@@ -38,65 +38,65 @@ package Support_Utils.Developer_Parameters is
    --  DEBUG_FULL_NAME : constant STRING := "WORD.DBG";
 
    --  STATS collects statistics on the program, stems used, inflections, etc.
-   stats : Ada.Text_IO.File_Type;
-   stats_full_name : constant String := "WORD.STA";
+   Stats : Ada.Text_IO.File_Type;
+   Stats_Full_Name : constant String := "WORD.STA";
 
-   type mdev_type is (
+   type Mdev_Type is (
      --               HAVE_DEBUG_FILE,      --  No longer in use
      --               WRITE_DEBUG_FILE,
 
-     have_statistics_file,
-     Write_statistics_file,
+     Have_Statistics_File,
+     Write_Statistics_File,
 
-     show_dictionary,
-     show_dictionary_line,
-     show_dictionary_codes,
-     do_pearse_codes,
+     Show_Dictionary,
+     Show_Dictionary_Line,
+     Show_Dictionary_Codes,
+     Do_Pearse_Codes,
 
-     do_only_initial_word,
-     for_word_list_check,
+     Do_Only_Initial_Word,
+     For_Word_List_Check,
 
-     do_only_fixes,
-     do_fixes_anyway,
-     use_prefixes,
-     use_suffixes,
-     use_tackons,
+     Do_Only_Fixes,
+     Do_Fixes_Anyway,
+     Use_Prefixes,
+     Use_Suffixes,
+     Use_Tackons,
 
-     do_medieval_tricks,
+     Do_Medieval_Tricks,
 
-     do_syncope,
-     do_two_words,
-     include_unknown_context,
-     no_meanings,
+     Do_Syncope,
+     Do_Two_Words,
+     Include_Unknown_Context,
+     No_Meanings,
 
-     omit_archaic,
-     omit_medieval,
-     omit_uncommon,
+     Omit_Archaic,
+     Omit_Medieval,
+     Omit_Uncommon,
 
-     do_i_for_j,
-     do_u_for_v,
+     Do_I_For_J,
+     Do_U_For_V,
 
-     pause_in_screen_Output,
-     no_screen_activity,
+     Pause_In_Screen_Output,
+     No_Screen_Activity,
 
-     update_local_dictionary,
-     update_meanings,
+     Update_Local_Dictionary,
+     Update_Meanings,
 
-     minimize_Output);
+     Minimize_Output);
 
-   package mdev_type_io is new Ada.Text_IO.Enumeration_IO (mdev_type);
+   package Mdev_Type_Io is new Ada.Text_IO.Enumeration_IO (Mdev_Type);
 
-   type mdev_array is array (mdev_type) of Boolean;
+   type Mdev_Array is array (Mdev_Type) of Boolean;
 
-   words_mdev : mdev_array;        --  Initialized in body
+   Words_Mdev : Mdev_Array;        --  Initialized in body
 
-   start_file_Character               : Character := '@';
-   change_developer_modes_Character   : Character := '!';
+   Start_File_Character               : Character := '@';
+   Change_Developer_Modes_Character   : Character := '!';
 
-   procedure change_developer_modes;
+   procedure Change_Developer_Modes;
 
-   procedure update_local_dictionary_file;
+   procedure Update_Local_Dictionary_File;
 
-   procedure initialize_developer_parameters;
+   procedure Initialize_Developer_Parameters;
 
 end Support_Utils.Developer_Parameters;

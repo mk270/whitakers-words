@@ -38,17 +38,17 @@ package Latin_Utils.Latin_File_Names is
    --  These files are Input files and may have any name legal in your system
    --  and contain the ASCII information copied from the porting system
 
-   inflections_full_name     : constant String := "INFLECTS.LAT";
-   inflections_sections_name : constant String := "INFLECTS.SEC";
+   Inflections_Full_Name     : constant String := "INFLECTS.LAT";
+   Inflections_Sections_Name : constant String := "INFLECTS.SEC";
 
-   uniques_full_name      : constant String := "UNIQUES.LAT";
-   addons_full_name       : constant String := "ADDONS.LAT";
+   Uniques_Full_Name      : constant String := "UNIQUES.LAT";
+   Addons_Full_Name       : constant String := "ADDONS.LAT";
 
    --  These files may be Created and used by the program
-   mode_full_name         : constant String := "WORD.MOD";
-   Output_full_name       : constant String := "WORD.OUT";
-   unknowns_full_name     : constant String := "WORD.UNK";
-   parse_full_name        : constant String := "WORD.PRS";
+   Mode_Full_Name         : constant String := "WORD.MOD";
+   Output_Full_Name       : constant String := "WORD.OUT";
+   Unknowns_Full_Name     : constant String := "WORD.UNK";
+   Parse_Full_Name        : constant String := "WORD.PRS";
 
    --  These file names are used with extensions (e.g., GEN, SPE, LOC)
    --  for the various dictionaries
@@ -57,14 +57,14 @@ package Latin_Utils.Latin_File_Names is
    --  Note that for DOS they are not complete names (no '.')
    --  but DOS is forgiving and will give it a pass
 
-   dictionary_file_name  : constant String := "DICT";
-   dict_file_name        : constant String := "DICTFILE";
-   dict_line_name        : constant String := "DICTLINE";
-   stem_list_name        : constant String := "STEMLIST";
-   stem_file_name        : constant String := "STEMFILE";
-   indx_file_name        : constant String := "INDXFILE";
+   Dictionary_File_Name  : constant String := "DICT";
+   Dict_File_Name        : constant String := "DICTFILE";
+   Dict_Line_Name        : constant String := "DICTLINE";
+   Stem_List_Name        : constant String := "STEMLIST";
+   Stem_File_Name        : constant String := "STEMFILE";
+   Indx_File_Name        : constant String := "INDXFILE";
 
-   function add_file_name_extension (name, extension : String) return String;
+   function Add_File_Name_Extension (Name, Extension : String) return String;
    --  This is the function that Creates a file name legal for your system
    --  with a FILE_NAME defined above and a program specified extension
 

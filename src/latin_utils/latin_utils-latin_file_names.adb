@@ -16,22 +16,22 @@
 
 package body Latin_Utils.Latin_File_Names is
 
-   function add_file_name_extension (name, extension : String) return String is
+   function Add_File_Name_Extension (Name, Extension : String) return String is
       --  This is the version that Creates a DOS file name
       --  One that has a name, a '.', and an extension no longer than 3 chars
       --  Arbitarily, we also truncate the NAME to 8 Characters
       --  To port to another system, one needs to do this function appropriately
-      name_length : Integer := name'Length;
-      extension_length : Integer := extension'Length;
+      Name_Length : Integer := Name'Length;
+      Extension_Length : Integer := Extension'Length;
    begin
-      if name_length >= 8  then
-         name_length := 8;
+      if Name_Length >= 8  then
+         Name_Length := 8;
       end if;
-      if extension'Length >= 3  then
-         extension_length := 3;
+      if Extension'Length >= 3  then
+         Extension_Length := 3;
       end if;
-      return name (name'First .. name_length) & '.'
-        & extension (extension'First .. extension_length);
-   end add_file_name_extension;
+      return Name (Name'First .. Name_Length) & '.'
+        & Extension (Extension'First .. Extension_Length);
+   end Add_File_Name_Extension;
 
 end Latin_Utils.Latin_File_Names;
