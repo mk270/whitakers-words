@@ -18,86 +18,86 @@ with Text_IO;
 with Direct_IO;
 with Latin_Utils.Strings_Package; use Latin_Utils.Strings_Package;
 with Latin_Utils.Dictionary_Package; use Latin_Utils.Dictionary_Package;
-procedure sorter is
+procedure Sorter is
    --  This program sorts a file of lines (Strings) on 4 subStrings Mx .. Nx
    --  Sort by Stringwise (different cases), numeric, or POS enumeration
 
-   package Boolean_io is new Text_IO.Enumeration_IO (Boolean);
-   use Boolean_io;
+   package Boolean_Io is new Text_IO.Enumeration_IO (Boolean);
+   use Boolean_Io;
    package Integer_IO is new Text_IO.Integer_IO (Integer);
    use Integer_IO;
    package Float_IO is new Text_IO.Float_IO (Float);
    use Float_IO;
    use Text_IO;
 
-   name_length : constant := 80;
-   enter_line : String (1 .. name_length) := (others => ' ');
-   ls, last : Integer := 0;
-   input_name : String (1 .. 80) := (others => ' ');
+   Name_Length : constant := 80;
+   Enter_Line : String (1 .. Name_Length) := (others => ' ');
+   Ls, Last : Integer := 0;
+   Input_Name : String (1 .. 80) := (others => ' ');
 
-   line_length : constant := 300;
+   Line_Length : constant := 300;
    --  ##################################
    --  Max line length on input file
    --  Shorter => less disk space to sort
 
-   current_length : Integer := 0;
-   subtype text_type is String (1 .. line_length);
+   Current_Length : Integer := 0;
+   subtype Text_Type is String (1 .. Line_Length);
    --type LINE_TYPE is
    -- record
    --   CURRENT_LENGTH : CURRENT_LINE_LENGTH_TYPE := 0;
    --   TEXT : TEXT_TYPE;
    -- end record;
-   package line_io is new Direct_IO (text_type);
-   use line_io;
-   blank_text : constant text_type := (others => ' ');
+   package Line_Io is new Direct_IO (Text_Type);
+   use Line_Io;
+   Blank_Text : constant Text_Type := (others => ' ');
 
-   line_text : text_type := blank_text;
-   old_line : text_type := blank_text;
-   p_line : text_type := blank_text;
+   Line_Text : Text_Type := Blank_Text;
+   Old_Line : Text_Type := Blank_Text;
+   P_Line : Text_Type := Blank_Text;
 
-   type sort_type is (a, c, g, u, n, f, p, s);
-   package sort_type_io is new Text_IO.Enumeration_IO (sort_type);
-   use sort_type_io;
+   type Sort_Type is (A, C, G, U, N, F, P, S);
+   package Sort_Type_Io is new Text_IO.Enumeration_IO (Sort_Type);
+   use Sort_Type_Io;
 
-   type way_type is (i, d);
-   package way_type_io is new Text_IO.Enumeration_IO (way_type);
-   use way_type_io;
+   type Way_Type is (I, D);
+   package Way_Type_Io is new Text_IO.Enumeration_IO (Way_Type);
+   use Way_Type_Io;
 
-   input  : Text_IO.File_Type;
-   output : Text_IO.File_Type;
-   work   : line_io.File_Type;
+   Input  : Text_IO.File_Type;
+   Output : Text_IO.File_Type;
+   Work   : Line_Io.File_Type;
 
-   m1, m2, m3, m4 : Natural := 1;
-   n1, n2, n3, n4 : Natural := line_length;
+   M1, M2, M3, M4 : Natural := 1;
+   N1, N2, N3, N4 : Natural := Line_Length;
 
-   s1, s2, s3, s4 : sort_type := a;
-   w1, w2, w3, w4 : way_type := i;
+   S1, S2, S3, S4 : Sort_Type := A;
+   W1, W2, W3, W4 : Way_Type := I;
 
-   entry_finished : exception;
+   Entry_Finished : exception;
 
    --  For section numbering of large documents and standards
-   type section_type is
+   type Section_Type is
       record
-         first_level   : Integer := 0;
-         second_level  : Integer := 0;
-         third_level   : Integer := 0;
-         fourth_level  : Integer := 0;
-         fifth_level   : Integer := 0;
+         First_Level   : Integer := 0;
+         Second_Level  : Integer := 0;
+         Third_Level   : Integer := 0;
+         Fourth_Level  : Integer := 0;
+         Fifth_Level   : Integer := 0;
       end record;
 
-   no_section : constant section_type := (0, 0, 0, 0, 0);
+   No_Section : constant Section_Type := (0, 0, 0, 0, 0);
 
-   type appendix_type is (none, a, b, c, d, e, f, g, h, i, j, k, l, m,
-     n, o, p, q, r, s, t, u, v, w, x, y, z);
-   package appendix_io is new Text_IO.Enumeration_IO (appendix_type);
+   type Appendix_Type is (None, A, B, C, D, E, F, G, H, I, J, K, L, M,
+     N, O, P, Q, R, S, T, U, V, W, X, Y, Z);
+   package Appendix_Io is new Text_IO.Enumeration_IO (Appendix_Type);
 
-   type appendix_section_type is    record
-      appendix : appendix_type := none;
-      section  : section_type  := no_section;
+   type Appendix_Section_Type is    record
+      Appendix : Appendix_Type := None;
+      Section  : Section_Type  := No_Section;
    end record;
 
-   no_appendix_section : constant appendix_section_type :=
-     (none, (0, 0, 0, 0, 0));
+   No_Appendix_Section : constant Appendix_Section_Type :=
+     (None, (0, 0, 0, 0, 0));
 
    --  procedure PUT (OUTPUT : TEXT_IO.FILE_TYPE; S : SECTION_TYPE);
    --  procedure PUT (S : SECTION_TYPE);
@@ -111,86 +111,86 @@ procedure sorter is
    --                   S : out APPENDIX_SECTION_TYPE; LAST : out POSITIVE);
    --  function "<"(A, B : APPENDIX_SECTION_TYPE) return BOOLEAN;
    --
-   procedure Get (from : in String;
-                  s : out section_type; last : out Integer) is
-      l  : Integer := 0;
-      lt : constant Integer := from'Last;
+   procedure Get (From : in String;
+                  S : out Section_Type; Last : out Integer) is
+      L  : Integer := 0;
+      Lt : constant Integer := From'Last;
    begin
-      s := no_section;
-      if Trim (from)'Last < from'First   then
-         last := from'First - 1; -- Nothing got processed
+      S := No_Section;
+      if Trim (From)'Last < From'First   then
+         Last := From'First - 1; -- Nothing got processed
          return;   --  Empty String, no data         --  Return default
       end if;
 
-      Get (from, s.first_level, l);
-      if l + 1 >= lt  then
-         last := l;
+      Get (From, S.First_Level, L);
+      if L + 1 >= Lt  then
+         Last := L;
          return;
       end if;
-      Get (from (l + 2 .. lt), s.second_level, l);
-      if l + 1 >= lt  then
-         last := l;
+      Get (From (L + 2 .. Lt), S.Second_Level, L);
+      if L + 1 >= Lt  then
+         Last := L;
          return;
       end if;
-      Get (from (l + 2 .. lt), s.third_level, l);
-      if l + 1 >= lt  then
-         last := l;
+      Get (From (L + 2 .. Lt), S.Third_Level, L);
+      if L + 1 >= Lt  then
+         Last := L;
          return;
       end if;
-      Get (from (l + 2 .. lt), s.fourth_level, l);
-      if l + 1 >= lt  then
-         last := l;
+      Get (From (L + 2 .. Lt), S.Fourth_Level, L);
+      if L + 1 >= Lt  then
+         Last := L;
          return;
       end if;
-      Get (from (l + 2 .. lt), s.fifth_level, l);
-      last := l;
+      Get (From (L + 2 .. Lt), S.Fifth_Level, L);
+      Last := L;
       return;
    exception
       when Text_IO.End_Error =>
-         last := l;
+         Last := L;
          return;
       when Text_IO.Data_Error =>
-         last := l;
+         Last := L;
          return;
       when others =>
          Put (" Unexpected exception in GET (FROM; SECTION_TYPE)" &
            " with input =>");
-         Put (from);
+         Put (From);
          New_Line;
-         last := l;
+         Last := L;
          raise;
    end Get;
 
-   procedure Get (from : in String;
-                  s : out appendix_section_type; last : out Integer) is
-      use appendix_io;
-      l  : Integer := 0;
-      ft : constant Integer := from'First;
-      lt : constant Integer := from'Last;
+   procedure Get (From : in String;
+                  S : out Appendix_Section_Type; Last : out Integer) is
+      use Appendix_Io;
+      L  : Integer := 0;
+      Ft : constant Integer := From'First;
+      Lt : constant Integer := From'Last;
    begin
 
-      s := no_appendix_section;
-      if (ft = lt)  or else
-        (Trim (from)'Length = 0)
+      S := No_Appendix_Section;
+      if (Ft = Lt)  or else
+        (Trim (From)'Length = 0)
       then   --  Empty/blank String, no data
          Put ("@");
-         last := from'First - 1; -- Nothing got processed
+         Last := From'First - 1; -- Nothing got processed
          return;                      --  Return default
       end if;
 
       --PUT_LINE ("In GET =>" & FROM & '|');
 
       begin
-         Get (from, s.appendix, l);
+         Get (From, S.Appendix, L);
          --PUT ("A");
-         if l + 1 >= lt  then
-            last := l;
+         if L + 1 >= Lt  then
+            Last := L;
             return;
          end if;
       exception
          when others  =>
-            s.appendix := none;
-            l := ft - 2;
+            S.Appendix := None;
+            L := Ft - 2;
       end;
 
       --    PUT ("B");
@@ -222,57 +222,57 @@ procedure sorter is
       --    LAST := L;
       --PUT ("G");
 
-      Get (from (l + 2 .. lt), s.section, l);
+      Get (From (L + 2 .. Lt), S.Section, L);
       --PUT ("F");
       return;
    exception
       when Text_IO.End_Error =>
-         last := l;
+         Last := L;
          return;
       when Text_IO.Data_Error =>
-         last := l;
+         Last := L;
          return;
       when others =>
          Put
            (" Unexpected exception in GET (FROM; APPENDIX_SECTION_TYPE)" &
            " with input =>");
-         Put (from);
+         Put (From);
          New_Line;
-         last := l;
+         Last := L;
          return;
    end Get;
 
-   function "<"(a, b : appendix_section_type) return Boolean is
+   function "<"(A, B : Appendix_Section_Type) return Boolean is
    begin
 
-      if a.appendix > b.appendix  then
+      if A.Appendix > B.Appendix  then
          return False;
-      elsif a.appendix < b.appendix  then
+      elsif A.Appendix < B.Appendix  then
          return True;
       else
-         if a.section.first_level > b.section.first_level  then
+         if A.Section.First_Level > B.Section.First_Level  then
             return False;
-         elsif a.section.first_level < b.section.first_level  then
+         elsif A.Section.First_Level < B.Section.First_Level  then
             return True;
          else
-            if a.section.second_level > b.section.second_level  then
+            if A.Section.Second_Level > B.Section.Second_Level  then
                return False;
-            elsif a.section.second_level < b.section.second_level  then
+            elsif A.Section.Second_Level < B.Section.Second_Level  then
                return True;
             else
-               if a.section.third_level > b.section.third_level  then
+               if A.Section.Third_Level > B.Section.Third_Level  then
                   return False;
-               elsif a.section.third_level < b.section.third_level  then
+               elsif A.Section.Third_Level < B.Section.Third_Level  then
                   return True;
                else
-                  if a.section.fourth_level > b.section.fourth_level  then
+                  if A.Section.Fourth_Level > B.Section.Fourth_Level  then
                      return False;
-                  elsif a.section.fourth_level < b.section.fourth_level  then
+                  elsif A.Section.Fourth_Level < B.Section.Fourth_Level  then
                      return True;
                   else
-                     if a.section.fifth_level > b.section.fifth_level  then
+                     if A.Section.Fifth_Level > B.Section.Fifth_Level  then
                         return False;
-                     elsif a.section.fifth_level < b.section.fifth_level  then
+                     elsif A.Section.Fifth_Level < B.Section.Fifth_Level  then
                         return True;
                      else
                         return False;
@@ -284,302 +284,302 @@ procedure sorter is
       end if;
    end "<";
 
-   procedure prompt_for_entry (entry_number : String) is
+   procedure Prompt_For_Entry (Entry_Number : String) is
    begin
       Put ("Give starting column and size of ");
-      Put (entry_number);
+      Put (Entry_Number);
       Put_Line (" significant sort field ");
       Put ("  with optional sort type and way  => ");
-   end prompt_for_entry;
+   end Prompt_For_Entry;
 
-   procedure get_entry (mx, nx  : out Natural;
-                        sx  : out sort_type;
-                        wx  : out way_type) is
-      m : Natural := 1;
-      n : Natural := line_length;
-      s : sort_type := a;
-      w : way_type := i;
-      z : Natural := 0;
+   procedure Get_Entry (Mx, Nx  : out Natural;
+                        Sx  : out Sort_Type;
+                        Wx  : out Way_Type) is
+      M : Natural := 1;
+      N : Natural := Line_Length;
+      S : Sort_Type := A;
+      W : Way_Type := I;
+      Z : Natural := 0;
 
-      procedure echo_entry is
+      procedure Echo_Entry is
       begin
-         Put ("                    Sorting on LINE ("); Put (m, 3);
-         Put (" .. "); Put (n, 3); Put (")");
-         Put ("  with S = "); Put (s); Put (" and W = "); Put (w);
+         Put ("                    Sorting on LINE ("); Put (M, 3);
+         Put (" .. "); Put (N, 3); Put (")");
+         Put ("  with S = "); Put (S); Put (" and W = "); Put (W);
          New_Line (2);
-      end echo_entry;
+      end Echo_Entry;
 
    begin
 
-      m := 0;
-      n := line_length;
-      s := a;
-      w := i;
+      M := 0;
+      N := Line_Length;
+      S := A;
+      W := I;
 
-      Get_Line (enter_line, ls);
-      if ls = 0  then
-         raise entry_finished;
+      Get_Line (Enter_Line, Ls);
+      if Ls = 0  then
+         raise Entry_Finished;
       end if;
-      Integer_IO.Get (enter_line (1 .. ls), m, last);
+      Integer_IO.Get (Enter_Line (1 .. Ls), M, Last);
       begin
-         Integer_IO.Get (enter_line (last + 1 .. ls), z, last);
-         if  m = 0 or z = 0  then
+         Integer_IO.Get (Enter_Line (Last + 1 .. Ls), Z, Last);
+         if  M = 0 or Z = 0  then
             Put_Line ("Start or size of zero, you must be kidding, aborting");
             raise Program_Error;
-         elsif m + z > line_length  then
+         elsif M + Z > Line_Length  then
             Put_Line ("Size too large, going to end of line");
-            n := line_length;
+            N := Line_Length;
          else
-            n := m + z - 1;
+            N := M + Z - 1;
          end if;
-         sort_type_io.Get (enter_line (last + 1 .. ls), s, last);
-         way_type_io.Get (enter_line (last + 1 .. ls), w, last);
-         mx := m; nx := n;  sx := s; wx := w;
-         echo_entry;
+         Sort_Type_Io.Get (Enter_Line (Last + 1 .. Ls), S, Last);
+         Way_Type_Io.Get (Enter_Line (Last + 1 .. Ls), W, Last);
+         Mx := M; Nx := N;  Sx := S; Wx := W;
+         Echo_Entry;
          return;
       exception
          when Program_Error  =>
             Put_Line ("PROGRAM_ERROR raised in GET_ENTRY");
             raise;
          when others =>
-            mx := m; nx := n; sx := s; wx := w;
-            echo_entry;
+            Mx := M; Nx := N; Sx := S; Wx := W;
+            Echo_Entry;
             return;
       end;
-   end get_entry;
+   end Get_Entry;
 
-   function ignore_separators (s : String) return String is
-      t : String (s'First .. s'Last) := Lower_Case (s);
+   function Ignore_Separators (S : String) return String is
+      T : String (S'First .. S'Last) := Lower_Case (S);
    begin
-      for i in s'First + 1 .. s'Last - 1  loop
-         if (s (i - 1) /= '-'  and then s (i - 1) /= '_')  and then
-           (s (i) = '-'  or else s (i) = '_')  and then
-           (s (i + 1) /= '-'  and then s (i + 1) /= '_')
+      for I in S'First + 1 .. S'Last - 1  loop
+         if (S (I - 1) /= '-'  and then S (I - 1) /= '_')  and then
+           (S (I) = '-'  or else S (I) = '_')  and then
+           (S (I + 1) /= '-'  and then S (I + 1) /= '_')
          then
-            t (i) := ' ';
+            T (I) := ' ';
          end if;
       end loop;
-      return t;
-   end ignore_separators;
+      return T;
+   end Ignore_Separators;
 
-   function ltu (c, d : Character) return Boolean is
+   function Ltu (C, D : Character) return Boolean is
    begin
-      if d = 'v'  then
-         if c < 'u'  then
+      if D = 'v'  then
+         if C < 'u'  then
             return True;
          else
             return False;
          end if;
-      elsif d = 'j'  then
-         if c < 'i'  then
+      elsif D = 'j'  then
+         if C < 'i'  then
             return True;
          else
             return False;
          end if;
-      elsif d = 'V'  then
-         if c < 'U'  then
+      elsif D = 'V'  then
+         if C < 'U'  then
             return True;
          else
             return False;
          end if;
-      elsif d = 'J'  then
-         if c < 'I'  then
+      elsif D = 'J'  then
+         if C < 'I'  then
             return True;
          else
             return False;
          end if;
       else
-         return c < d;
+         return C < D;
       end if;
-   end ltu;
+   end Ltu;
 
-   function equ (c, d : Character) return Boolean is
+   function Equ (C, D : Character) return Boolean is
    begin
-      if (d = 'u') or (d = 'v')  then
-         if (c = 'u') or (c = 'v')  then
+      if (D = 'u') or (D = 'v')  then
+         if (C = 'u') or (C = 'v')  then
             return True;
          else
             return False;
          end if;
-      elsif (d = 'i') or (d = 'j')  then
-         if (c = 'i') or (c = 'j')  then
+      elsif (D = 'i') or (D = 'j')  then
+         if (C = 'i') or (C = 'j')  then
             return True;
          else
             return False;
          end if;
-      elsif (d = 'U') or (d = 'V')  then
-         if (c = 'U') or (c = 'V')  then
+      elsif (D = 'U') or (D = 'V')  then
+         if (C = 'U') or (C = 'V')  then
             return True;
          else
             return False;
          end if;
-      elsif (d = 'I') or (d = 'J')  then
-         if (c = 'I') or (c = 'J')  then
+      elsif (D = 'I') or (D = 'J')  then
+         if (C = 'I') or (C = 'J')  then
             return True;
          else
             return False;
          end if;
       else
-         return c = d;
+         return C = D;
       end if;
-   end equ;
+   end Equ;
 
-   function gtu (c, d : Character) return Boolean is
+   function Gtu (C, D : Character) return Boolean is
    begin
-      if d = 'u'  then
-         if c > 'v'  then
+      if D = 'u'  then
+         if C > 'v'  then
             return True;
          else
             return False;
          end if;
-      elsif d = 'i'  then
-         if c > 'j'  then
+      elsif D = 'i'  then
+         if C > 'j'  then
             return True;
          else
             return False;
          end if;
-      elsif d = 'U'  then
-         if c > 'V'  then
+      elsif D = 'U'  then
+         if C > 'V'  then
             return True;
          else
             return False;
          end if;
-      elsif d = 'I'  then
-         if c > 'J'  then
+      elsif D = 'I'  then
+         if C > 'J'  then
             return True;
          else
             return False;
          end if;
       else
-         return c > d;
+         return C > D;
       end if;
-   end gtu;
+   end Gtu;
 
-   function ltu (s, t : String) return Boolean is
+   function Ltu (S, T : String) return Boolean is
    begin
-      for i in 1 .. s'Length  loop   --  Not TRIMed, so same length
-         if equ (s (s'First + i - 1), t (t'First + i - 1))  then
+      for I in 1 .. S'Length  loop   --  Not TRIMed, so same length
+         if Equ (S (S'First + I - 1), T (T'First + I - 1))  then
             null;
-         elsif gtu (s (s'First + i - 1), t (t'First + i - 1))  then
+         elsif Gtu (S (S'First + I - 1), T (T'First + I - 1))  then
             return False;
-         elsif ltu (s (s'First + i - 1), t (t'First + i - 1))  then
+         elsif Ltu (S (S'First + I - 1), T (T'First + I - 1))  then
             return True;
          end if;
       end loop;
       return False;
-   end ltu;
+   end Ltu;
 
-   function gtu (s, t : String) return Boolean is
+   function Gtu (S, T : String) return Boolean is
    begin
-      for i in 1 .. s'Length  loop
-         if equ (s (s'First + i - 1), t (t'First + i - 1))  then
+      for I in 1 .. S'Length  loop
+         if Equ (S (S'First + I - 1), T (T'First + I - 1))  then
             null;
-         elsif ltu (s (s'First + i - 1), t (t'First + i - 1))  then
+         elsif Ltu (S (S'First + I - 1), T (T'First + I - 1))  then
             return False;
-         elsif gtu (s (s'First + i - 1), t (t'First + i - 1))  then
+         elsif Gtu (S (S'First + I - 1), T (T'First + I - 1))  then
             return True;
          end if;
       end loop;
       return False;
-   end gtu;
+   end Gtu;
 
-   function equ (s, t : String) return Boolean is
+   function Equ (S, T : String) return Boolean is
    begin
-      if s'Length /= t'Length  then
+      if S'Length /= T'Length  then
          return False;
       end if;
 
-      for i in 1 .. s'Length  loop
-         if not equ (s (s'First + i - 1), t (t'First + i - 1))  then
+      for I in 1 .. S'Length  loop
+         if not Equ (S (S'First + I - 1), T (T'First + I - 1))  then
             return False;
          end if;
       end loop;
 
       return True;
-   end equ;
+   end Equ;
 
-   function slt (x, y : String;         --  Make LEFT and RIGHT
-                 st : sort_type := a;
-                 wt : way_type := i) return Boolean is
-      as : String (x'Range) := x;
-      bs : String (y'Range) := y;
-      mn, nn : Integer := 0;
-      fn, gn : Float := 0.0;
+   function Slt (X, Y : String;         --  Make LEFT and RIGHT
+                 St : Sort_Type := A;
+                 Wt : Way_Type := I) return Boolean is
+      As : String (X'Range) := X;
+      Bs : String (Y'Range) := Y;
+      Mn, Nn : Integer := 0;
+      Fn, Gn : Float := 0.0;
       --FS, GS : SECTION_TYPE := NO_SECTION;
-      fs, gs : appendix_section_type := no_appendix_section;
-      px, py : Part_Entry;       --  So I can X here
+      Fs, Gs : Appendix_Section_Type := No_Appendix_Section;
+      Px, Py : Part_Entry;       --  So I can X here
    begin
-      if st = a  then
-         as := Lower_Case (as);
-         bs := Lower_Case (bs);
-         if wt = i  then
-            return as < bs;
+      if St = A  then
+         As := Lower_Case (As);
+         Bs := Lower_Case (Bs);
+         if Wt = I  then
+            return As < Bs;
          else
-            return as > bs;
+            return As > Bs;
          end if;
 
-      elsif st = c  then
-         if wt = i  then
-            return as < bs;
+      elsif St = C  then
+         if Wt = I  then
+            return As < Bs;
          else
-            return as > bs;
+            return As > Bs;
          end if;
 
-      elsif st = g  then
-         as := ignore_separators (as);
-         bs := ignore_separators (bs);
-         if wt = i  then
-            return as < bs;
+      elsif St = G  then
+         As := Ignore_Separators (As);
+         Bs := Ignore_Separators (Bs);
+         if Wt = I  then
+            return As < Bs;
          else
-            return as > bs;
+            return As > Bs;
          end if;
 
-      elsif st = u  then
-         as := Lower_Case (as);
-         bs := Lower_Case (bs);
-         if wt = i  then
-            return ltu (as, bs);
+      elsif St = U  then
+         As := Lower_Case (As);
+         Bs := Lower_Case (Bs);
+         if Wt = I  then
+            return Ltu (As, Bs);
          else
-            return gtu (as, bs);
+            return Gtu (As, Bs);
          end if;
 
-      elsif st = n  then
-         Integer_IO.Get (as, mn, last);
-         Integer_IO.Get (bs, nn, last);
-         if wt = i  then
-            return mn < nn;
+      elsif St = N  then
+         Integer_IO.Get (As, Mn, Last);
+         Integer_IO.Get (Bs, Nn, Last);
+         if Wt = I  then
+            return Mn < Nn;
          else
-            return mn > nn;
+            return Mn > Nn;
          end if;
 
-      elsif st = f  then
-         Float_IO.Get (as, fn, last);
-         Float_IO.Get (bs, gn, last);
-         if wt = i  then
-            return fn < gn;
+      elsif St = F  then
+         Float_IO.Get (As, Fn, Last);
+         Float_IO.Get (Bs, Gn, Last);
+         if Wt = I  then
+            return Fn < Gn;
          else
-            return fn > gn;
+            return Fn > Gn;
          end if;
 
-      elsif st = p  then
-         Part_Entry_IO.Get (as, px, last);
-         Part_Entry_IO.Get (bs, py, last);
-         if wt = i  then
-            return px < py;
+      elsif St = P  then
+         Part_Entry_IO.Get (As, Px, Last);
+         Part_Entry_IO.Get (Bs, Py, Last);
+         if Wt = I  then
+            return Px < Py;
          else
-            return (not (px < py)) and (not (px = py));
+            return (not (Px < Py)) and (not (Px = Py));
          end if;
 
-      elsif st = s  then
+      elsif St = S  then
          --PUT_LINE ("AS =>" & AS & '|');
-         Get (as, fs, last);
+         Get (As, Fs, Last);
          --PUT_LINE ("BS =>" & BS & '|');
-         Get (bs, gs, last);
+         Get (Bs, Gs, Last);
          --PUT_LINE ("GOT AS & BS");
-         if wt = i  then
-            return fs < gs;
+         if Wt = I  then
+            return Fs < Gs;
          else
-            return (not (fs < gs)) and (not (fs = gs));
+            return (not (Fs < Gs)) and (not (Fs = Gs));
          end if;
 
       else
@@ -589,61 +589,61 @@ procedure sorter is
    exception
       when others  =>
          Text_IO.Put_Line ("exception in SLT    showing LEFT and RIGHT");
-         Text_IO.Put_Line (x & "&");
-         Text_IO.Put_Line (y & "|");
+         Text_IO.Put_Line (X & "&");
+         Text_IO.Put_Line (Y & "|");
          raise;
 
-   end slt;
+   end Slt;
 
-   function sort_equal (x, y : String;
-                        st : sort_type := a;
-                        wt : way_type := i) return Boolean
+   function Sort_Equal (X, Y : String;
+                        St : Sort_Type := A;
+                        Wt : Way_Type := I) return Boolean
    is
-      pragma Unreferenced (wt);
-      as : String (x'Range) := x;
-      bs : String (y'Range) := y;
-      mn, nn : Integer := 0;
-      fn, gn : Float := 0.0;
-      fs, gs : appendix_section_type := no_appendix_section;
-      px, py : Part_Entry;
+      pragma Unreferenced (Wt);
+      As : String (X'Range) := X;
+      Bs : String (Y'Range) := Y;
+      Mn, Nn : Integer := 0;
+      Fn, Gn : Float := 0.0;
+      Fs, Gs : Appendix_Section_Type := No_Appendix_Section;
+      Px, Py : Part_Entry;
    begin
-      if st = a  then
-         as := Lower_Case (as);
-         bs := Lower_Case (bs);
-         return as = bs;
+      if St = A  then
+         As := Lower_Case (As);
+         Bs := Lower_Case (Bs);
+         return As = Bs;
 
-      elsif st = c  then
-         return as = bs;
+      elsif St = C  then
+         return As = Bs;
 
-      elsif st = g  then
-         as := ignore_separators (as);
-         bs := ignore_separators (bs);
-         return as = bs;
+      elsif St = G  then
+         As := Ignore_Separators (As);
+         Bs := Ignore_Separators (Bs);
+         return As = Bs;
 
-      elsif st = u  then
-         as := Lower_Case (as);
-         bs := Lower_Case (bs);
-         return equ (as,  bs);
+      elsif St = U  then
+         As := Lower_Case (As);
+         Bs := Lower_Case (Bs);
+         return Equ (As,  Bs);
 
-      elsif st = n  then
-         Integer_IO.Get (as, mn, last);
-         Integer_IO.Get (bs, nn, last);
-         return mn = nn;
+      elsif St = N  then
+         Integer_IO.Get (As, Mn, Last);
+         Integer_IO.Get (Bs, Nn, Last);
+         return Mn = Nn;
 
-      elsif st = f  then
-         Float_IO.Get (as, fn, last);
-         Float_IO.Get (bs, gn, last);
-         return fn = gn;
+      elsif St = F  then
+         Float_IO.Get (As, Fn, Last);
+         Float_IO.Get (Bs, Gn, Last);
+         return Fn = Gn;
 
-      elsif st = p  then
-         Part_Entry_IO.Get (as, px, last);
-         Part_Entry_IO.Get (bs, py, last);
-         return px = py;
+      elsif St = P  then
+         Part_Entry_IO.Get (As, Px, Last);
+         Part_Entry_IO.Get (Bs, Py, Last);
+         return Px = Py;
 
-      elsif st = s  then
-         Get (as, fs, last);
-         Get (bs, gs, last);
-         return fs = gs;
+      elsif St = S  then
+         Get (As, Fs, Last);
+         Get (Bs, Gs, Last);
+         return Fs = Gs;
 
       else
          return False;
@@ -652,34 +652,34 @@ procedure sorter is
    exception
       when others  =>
          Text_IO.Put_Line ("exception in LT    showing LEFT and RIGHT");
-         Text_IO.Put_Line (x & "|");
-         Text_IO.Put_Line (y & "|");
+         Text_IO.Put_Line (X & "|");
+         Text_IO.Put_Line (Y & "|");
          raise;
 
-   end sort_equal;
+   end Sort_Equal;
 
-   function lt  (left, right : text_type) return Boolean is
+   function Lt  (Left, Right : Text_Type) return Boolean is
    begin
 
-      if slt (left (m1 .. n1),  right (m1 .. n1), s1, w1)  then
+      if Slt (Left (M1 .. N1),  Right (M1 .. N1), S1, W1)  then
          return True;
-      elsif sort_equal (left (m1 .. n1),  right (m1 .. n1), s1, w1) then
-         if (n2 > 0) and then
-           slt (left (m2 .. n2),  right (m2 .. n2), s2, w2)
+      elsif Sort_Equal (Left (M1 .. N1),  Right (M1 .. N1), S1, W1) then
+         if (N2 > 0) and then
+           Slt (Left (M2 .. N2),  Right (M2 .. N2), S2, W2)
          then
             return True;
-         elsif (n2 > 0) and then
-           sort_equal (left (m2 .. n2),  right (m2 .. n2), s2, w2)
+         elsif (N2 > 0) and then
+           Sort_Equal (Left (M2 .. N2),  Right (M2 .. N2), S2, W2)
          then
-            if (n3 > 0) and then
-              slt (left (m3 .. n3),  right (m3 .. n3), s3, w3)
+            if (N3 > 0) and then
+              Slt (Left (M3 .. N3),  Right (M3 .. N3), S3, W3)
             then
                return True;
-            elsif (n3 > 0) and then
-              sort_equal (left (m3 .. n3),  right (m3 .. n3), s3, w3)
+            elsif (N3 > 0) and then
+              Sort_Equal (Left (M3 .. N3),  Right (M3 .. N3), S3, W3)
             then
-               if (n4 > 0) and then
-                 slt (left (m4 .. n4),  right (m4 .. n4), s4, w4)
+               if (N4 > 0) and then
+                 Slt (Left (M4 .. N4),  Right (M4 .. N4), S4, W4)
                then
                   return True;
                end if;
@@ -690,14 +690,14 @@ procedure sorter is
    exception
       when others =>
          Text_IO.Put_Line ("exception in LT    showing LEFT and RIGHT");
-         Text_IO.Put_Line (left & "|");
-         Text_IO.Put_Line (right & "|");
+         Text_IO.Put_Line (Left & "|");
+         Text_IO.Put_Line (Right & "|");
          raise;
-   end lt;
+   end Lt;
 
-   procedure open_file_for_input (input : in out Text_IO.File_Type;
-                                  prompt : String := "File for input => ") is
-      last : Natural := 0;
+   procedure Open_File_For_Input (Input : in out Text_IO.File_Type;
+                                  Prompt : String := "File for input => ") is
+      Last : Natural := 0;
    begin
       Get_Input_File :
       loop
@@ -705,9 +705,9 @@ procedure sorter is
             begin
                New_Line;
 
-               Put (prompt);
-               Get_Line (input_name, last);
-               Open (input, In_File, input_name (1 .. last));
+               Put (Prompt);
+               Get_Line (Input_Name, Last);
+               Open (Input, In_File, Input_Name (1 .. Last));
                exit Get_Input_File;
             exception
                when others  =>
@@ -715,13 +715,13 @@ procedure sorter is
             end Check_Input;
       end loop Get_Input_File;
 
-   end open_file_for_input;
+   end Open_File_For_Input;
 
-   procedure create_file_for_output (output : in out Text_IO.File_Type;
-                                     prompt : String := "File for output => ")
+   procedure Create_File_For_Output (Output : in out Text_IO.File_Type;
+                                     Prompt : String := "File for output => ")
    is
-      name : String (1 .. 80) := (others => ' ');
-      last : Natural := 0;
+      Name : String (1 .. 80) := (others => ' ');
+      Last : Natural := 0;
    begin
 
       Get_Output_File :
@@ -730,12 +730,12 @@ procedure sorter is
          begin
             New_Line;
 
-            Put (prompt);
-            Get_Line (name, last);
-            if Trim (name (1 .. last))'Length /= 0  then
-               Create (output, Out_File, name (1 .. last));
+            Put (Prompt);
+            Get_Line (Name, Last);
+            if Trim (Name (1 .. Last))'Length /= 0  then
+               Create (Output, Out_File, Name (1 .. Last));
             else
-               Create (output, Out_File, Trim (input_name));
+               Create (Output, Out_File, Trim (Input_Name));
             end if;
             exit Get_Output_File;
          exception
@@ -744,18 +744,18 @@ procedure sorter is
          end Check_Output;
       end loop Get_Output_File;
 
-   end create_file_for_output;
+   end Create_File_For_Output;
 
-   function graphic (s : String) return String is
-      t : String (1 .. s'Length) := s;
+   function Graphic (S : String) return String is
+      T : String (1 .. S'Length) := S;
    begin
-      for i in s'Range  loop
-         if Character'Pos (s (i)) < 32  then
-            t (i) := ' ';
+      for I in S'Range  loop
+         if Character'Pos (S (I)) < 32  then
+            T (I) := ' ';
          end if;
       end loop;
-      return t;
-   end graphic;
+      return T;
+   end Graphic;
 
 begin
 
@@ -767,12 +767,12 @@ begin
    Put_Line ("         I)ncreasing or D)ecreasing");
    New_Line;
 
-   open_file_for_input (input, "What file to sort from => ");
+   Open_File_For_Input (Input, "What file to sort from => ");
    New_Line;
 
-   prompt_for_entry ("first");
+   Prompt_For_Entry ("first");
    begin
-      get_entry (m1, n1, s1, w1);
+      Get_Entry (M1, N1, S1, W1);
    exception
       when Program_Error  =>
          raise;
@@ -781,16 +781,16 @@ begin
    end;
 
    begin
-      prompt_for_entry ("second");
-      get_entry (m2, n2, s2, w2);
-      prompt_for_entry ("third");
-      get_entry (m3, n3, s3, w3);
-      prompt_for_entry ("fourth");
-      get_entry (m4, n4, s4, w4);
+      Prompt_For_Entry ("second");
+      Get_Entry (M2, N2, S2, W2);
+      Prompt_For_Entry ("third");
+      Get_Entry (M3, N3, S3, W3);
+      Prompt_For_Entry ("fourth");
+      Get_Entry (M4, N4, S4, W4);
    exception
       --when Program_Error  =>
       --   raise;
-      when entry_finished =>
+      when Entry_Finished =>
          null;
       when Text_IO.Data_Error  | Text_IO.End_Error  =>
          null;
@@ -798,82 +798,82 @@ begin
 
    --PUT_LINE ("CREATING WORK FILE");
    New_Line;
-   Create (work, Inout_File, "WORK.");
+   Create (Work, Inout_File, "WORK.");
    Put_Line ("CREATED  WORK FILE");
 
-   while not End_Of_File (input)  loop
+   while not End_Of_File (Input)  loop
       --begin
-      Get_Line (input, line_text, current_length);
+      Get_Line (Input, Line_Text, Current_Length);
       --exception when others  =>
       --TEXT_IO.PUT_LINE ("INPUT GET exception");
       --TEXT_IO.PUT_LINE (LINE_TEXT (1 .. CURRENT_LENGTH) & "|");
       --end;
       --PUT_LINE (LINE_TEXT (1 .. CURRENT_LENGTH));
 
-      if Trim (line_text (1 .. current_length)) /= ""  then
+      if Trim (Line_Text (1 .. Current_Length)) /= ""  then
          --begin
-         Write (work, Head (line_text (1 .. current_length), line_length));
+         Write (Work, Head (Line_Text (1 .. Current_Length), Line_Length));
          --exception when others  =>
          --TEXT_IO.PUT_LINE ("WORK WRITE exception");
          --TEXT_IO.PUT_LINE (LINE_TEXT (1 .. CURRENT_LENGTH) & "|");
          --end;
       end if;
    end loop;
-   Close (input);
+   Close (Input);
 
    Put_Line ("Begin sorting");
 
    Line_Heapsort :
    declare
 
-      l    : line_io.Positive_Count := Size (work) / 2 + 1;
-      ir   : line_io.Positive_Count := Size (work);
-      i, j : line_io.Positive_Count;
+      L    : Line_Io.Positive_Count := Size (Work) / 2 + 1;
+      Ir   : Line_Io.Positive_Count := Size (Work);
+      I, J : Line_Io.Positive_Count;
 
    begin
       Text_IO.Put_Line ("SIZE OF WORK = " &
-        Integer'Image (Integer (Size (work))));
+        Integer'Image (Integer (Size (Work))));
       Main :
       loop
 
-         if l > 1  then
-            l := l - 1;
-            Read (work, line_text, l);
-            old_line := line_text;
+         if L > 1  then
+            L := L - 1;
+            Read (Work, Line_Text, L);
+            Old_Line := Line_Text;
          else
-            Read (work, line_text, ir);
-            old_line := line_text;
-            Read (work, line_text, 1);
-            Write (work, line_text, ir);
-            ir := ir - 1;
-            if ir = 1 then
-               Write (work, old_line, 1);
+            Read (Work, Line_Text, Ir);
+            Old_Line := Line_Text;
+            Read (Work, Line_Text, 1);
+            Write (Work, Line_Text, Ir);
+            Ir := Ir - 1;
+            if Ir = 1 then
+               Write (Work, Old_Line, 1);
                exit Main;
             end if;
          end if;
-         i := l;
-         j := l + l;
+         I := L;
+         J := L + L;
 
-         while j <= ir   loop
-            if j < ir  then
-               Read (work, line_text, j);
-               Read (work, p_line, j + 1);
+         while J <= Ir   loop
+            if J < Ir  then
+               Read (Work, Line_Text, J);
+               Read (Work, P_Line, J + 1);
                --if LT (LINE.TEXT, P_LINE.TEXT)  then
-               if lt (line_text, p_line)  then
-                  j := j + 1;
+               if Lt (Line_Text, P_Line)  then
+                  J := J + 1;
                end if;
             end if;
-            Read (work, line_text, j);
+            Read (Work, Line_Text, J);
             --if OLD_LINE.TEXT < LINE.TEXT  then
-            if lt (old_line, line_text)  then
-               Write (work, line_text, i);
-               i := j;
-               j := j + j;
+            if Lt (Old_Line, Line_Text)  then
+               Write (Work, Line_Text, I);
+               I := J;
+               J := J + J;
             else
-               j := ir + 1;
+               J := Ir + 1;
             end if;
          end loop;
-         Write (work, old_line, i);
+         Write (Work, Old_Line, I);
 
       end loop Main;
 
@@ -884,42 +884,42 @@ begin
 
    Put_Line ("Finished sorting in WORK");
 
-   create_file_for_output (output, "Where to put the output => ");
+   Create_File_For_Output (Output, "Where to put the output => ");
 
    --RESET (WORK);
-   Set_Index (work, 1);
-   while not End_Of_File (work)  loop
-      Read (work, line_text);
-      if Trim (graphic (line_text))'Length > 0  then
+   Set_Index (Work, 1);
+   while not End_Of_File (Work)  loop
+      Read (Work, Line_Text);
+      if Trim (Graphic (Line_Text))'Length > 0  then
          --PUT_LINE (TRIM (LINE_TEXT, RIGHT));
-         Put_Line (output, Trim (line_text, Right));
+         Put_Line (Output, Trim (Line_Text, Right));
       end if;
    end loop;
 
-   Close (work);
-   Close (output);
+   Close (Work);
+   Close (Output);
    Put_Line ("Done!");
    New_Line;
 
 exception
    when Program_Error  =>
       Put_Line ("SORT terminated on a PROGRAM_ERROR");
-      Close (output);
+      Close (Output);
    when Text_IO.Data_Error =>     --Terminate on primary start or size = 0
       Put_Line ("SORT terminated on a DATA_ERROR");
-      Put_Line (line_text);
-      Close (output);
+      Put_Line (Line_Text);
+      Close (Output);
    when Constraint_Error =>       --Terminate on blank line for file name
       Put_Line ("SORT terminated on a CONSTRAINT_ERROR");
-      Close (output);
+      Close (Output);
    when Text_IO.Device_Error  =>     --Ran out of space to write output file
       Put_Line ("SORT terminated on a DEVICE_ERROR");
-      Delete (output);
-      create_file_for_output (output, "Wherelse to put the output => ");
-      Reset (work);
-      while not End_Of_File (work)  loop
-         Read (work, line_text);
-         Put_Line (output, line_text);    --(1 .. LINE.CURRENT_LENGTH));
+      Delete (Output);
+      Create_File_For_Output (Output, "Wherelse to put the output => ");
+      Reset (Work);
+      while not End_Of_File (Work)  loop
+         Read (Work, Line_Text);
+         Put_Line (Output, Line_Text);    --(1 .. LINE.CURRENT_LENGTH));
       end loop;
-      Close (output);
-end sorter;
+      Close (Output);
+end Sorter;
