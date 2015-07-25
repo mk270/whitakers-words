@@ -17,28 +17,28 @@
 with Ada.Text_IO;
 with Latin_Utils.Dictionary_Package; use Latin_Utils.Dictionary_Package;
 with Latin_Utils.Config; use Latin_Utils.Config;
-package list_package is
+package List_Package is
 
    --  SCROLL_LINE_NUMBER : INTEGER := 0;
    --  OUTPUT_SCROLL_COUNT : INTEGER := 0;
    --
 
-   procedure list_stems (configuration : configuration_type;
+   procedure List_Stems (Configuration : Configuration_Type;
                          Output   : Ada.Text_IO.File_Type;
-                         raw_word : String;
+                         Raw_Word : String;
                          Input_Line : String;
-                         pa       : in out Parse_Array;
-                         pa_last  : in out Integer);
+                         Pa       : in out Parse_Array;
+                         Pa_Last  : in out Integer);
 
-   procedure list_entry (Output   : Ada.Text_IO.File_Type;
-                         d_k      : Dictionary_Kind;
-                         mn       : Dict_IO.Count);
+   procedure List_Entry (Output   : Ada.Text_IO.File_Type;
+                         D_K      : Dictionary_Kind;
+                         Mn       : Dict_IO.Count);
 
-   procedure unknown_search (unknown       :  in String;
-                             unknown_count : out Dict_IO.Count);
+   procedure Unknown_Search (Unknown       :  in String;
+                             Unknown_Count : out Dict_IO.Count);
 
-   procedure list_neighborhood
+   procedure List_Neighborhood
      (Output : Ada.Text_IO.File_Type;
-      Input_word : String);
+      Input_Word : String);
 
-end list_package;
+end List_Package;

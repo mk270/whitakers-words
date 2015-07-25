@@ -14,9 +14,9 @@
 -- All parts of the WORDS system, source code and data files, are made freely
 -- available to anyone who wishes to use them, for whatever purpose.
 
-with makedict_main;
-procedure wakedict is
-   porting : constant Boolean := False;
+with Makedict_Main;
+procedure Wakedict is
+   Porting : constant Boolean := False;
 begin
-   makedict_main (porting);
-end wakedict;
+   Makedict_Main (Porting);
+end Wakedict;

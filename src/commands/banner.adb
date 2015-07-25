@@ -17,10 +17,10 @@
 with Latin_Utils.Preface; use Latin_Utils.Preface;
 use Latin_Utils;
 
-package body banner is
-   procedure print_main_banner (start_file_Character : Character;
-                                change_parameters_Character : Character;
-                                help_Character : Character)
+package body Banner is
+   procedure Print_Main_Banner (Start_File_Character : Character;
+                                Change_Parameters_Character : Character;
+                                Help_Character : Character)
    is
       Version : constant String := "Version 1.97FC";
       URL     : constant String := "http://www.erols.com/whitaker/words.htm";
@@ -37,25 +37,25 @@ package body banner is
       Preface.Put_Line (
         "Input a word or line of Latin and ENTER to " &
         "get the forms and meanings");
-      Preface.Put_Line ("    Or Input " & start_file_Character &
+      Preface.Put_Line ("    Or Input " & Start_File_Character &
         " and the name of a file containing words or lines");
-      Preface.Put_Line ("    Or Input " & change_parameters_Character &
+      Preface.Put_Line ("    Or Input " & Change_Parameters_Character &
         " to change parameters and mode of the program");
-      Preface.Put_Line ("    Or Input " & help_Character &
+      Preface.Put_Line ("    Or Input " & Help_Character &
         " to get help wherever available on individual parameters");
       Preface.Put_Line (
         "Two empty lines (just a RETURN/ENTER) from the " &
         "keyboard exits the program");
 
-   end print_main_banner;
+   end Print_Main_Banner;
 
-   procedure print_mode_warning
+   procedure Print_Mode_Warning
    is
    begin
       Preface.Put_Line (
         "THIS VERSION IS HARDCODED TO GIVE DICTIONARY FORM AND MEANINGS ONLY");
       Preface.Put_Line (
         "IT CANNOT BE MODIFIED BY CHANGING THE DO_MEANINGS_ONLY PARAMETER");
-   end print_mode_warning;
+   end Print_Mode_Warning;
 
-end banner;
+end Banner;

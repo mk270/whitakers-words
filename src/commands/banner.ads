@@ -14,10 +14,10 @@
 -- All parts of the WORDS system, source code and data files, are made freely
 -- available to anyone who wishes to use them, for whatever purpose.
 
-package banner is
-   procedure print_main_banner
-     (start_file_Character        : Character;
-      change_parameters_Character : Character;
-      help_Character              : Character);
-   procedure print_mode_warning;
-end banner;
+package Banner is
+   procedure Print_Main_Banner
+     (Start_File_Character        : Character;
+      Change_Parameters_Character : Character;
+      Help_Character              : Character);
+   procedure Print_Mode_Warning;
+end Banner;

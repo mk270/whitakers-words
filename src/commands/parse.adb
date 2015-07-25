@@ -43,125 +43,125 @@ with Latin_Utils.Inflections_Package; use Latin_Utils.Inflections_Package;
 with Latin_Utils.Dictionary_Package; use Latin_Utils.Dictionary_Package;
 with Support_Utils.Addons_Package; use Support_Utils.Addons_Package;
 with Support_Utils.Word_Support_Package; use Support_Utils.Word_Support_Package;
-with word_package; use word_package;
-with list_package; use list_package;
-with tricks_package; use tricks_package;
-with Put_stat;
-with search_english;
+with Word_Package; use Word_Package;
+with List_Package; use List_Package;
+with Tricks_Package; use Tricks_Package;
+with Put_Stat;
+with Search_English;
 with Support_Utils.Char_Utils; use Support_Utils.Char_Utils;
 use Latin_Utils;
 
 pragma Elaborate (Support_Utils.Word_Parameters);
-package body parse
+package body Parse
 is
    use Inflections_Package.Integer_IO;
    use Inflection_Record_IO;
    use Ada.Text_IO;
 
    -- the scope of most of these variables is over-broad
-   Storage_Error_count : Integer := 0;
+   Storage_Error_Count : Integer := 0;
 
-   j2, k : Integer := 0;
+   J2, K : Integer := 0;
 
-   pa : Parse_Array (1 .. 100) := (others => Null_Parse_Record);
-   syncope_max : constant := 20;
-   no_syncope : Boolean := False;
-   tricks_max : constant := 40;
-   sypa : Parse_Array (1 .. syncope_max) := (others => Null_Parse_Record);
-   trpa : Parse_Array (1 .. tricks_max) := (others => Null_Parse_Record);
-   pa_last, sypa_last, trpa_last : Integer := 0;
+   Pa : Parse_Array (1 .. 100) := (others => Null_Parse_Record);
+   Syncope_Max : constant := 20;
+   No_Syncope : Boolean := False;
+   Tricks_Max : constant := 40;
+   Sypa : Parse_Array (1 .. Syncope_Max) := (others => Null_Parse_Record);
+   Trpa : Parse_Array (1 .. Tricks_Max) := (others => Null_Parse_Record);
+   Pa_Last, Sypa_Last, Trpa_Last : Integer := 0;
 
-   type participle is
+   type Participle is
       record
-         ppl_on : Boolean;
-         ppl_info : Vpar_Record;
-         compound_tvm : Inflections_Package.Tense_Voice_Mood_Record;
-         ppp_meaning : Meaning_Type;
+         Ppl_On : Boolean;
+         Ppl_Info : Vpar_Record;
+         Compound_Tvm : Inflections_Package.Tense_Voice_Mood_Record;
+         Ppp_Meaning : Meaning_Type;
       end record;
 
-   type verb_to_be (matches : Boolean) is
+   type Verb_To_Be (Matches : Boolean) is
       record
-         case matches is
+         case Matches is
             when True =>
-               verb_rec : Verb_Record;
+               Verb_Rec : Verb_Record;
             when False =>
                null;
          end case;
       end record;
 
-   function is_esse (t : String) return Boolean is
+   function Is_Esse (T : String) return Boolean is
    begin
-      return Trim (t) = "esse";
-   end is_esse;
+      return Trim (T) = "esse";
+   end Is_Esse;
 
-   function is_fuisse (t : String) return Boolean is
+   function Is_Fuisse (T : String) return Boolean is
    begin
-      return Trim (t) = "fuisse";
-   end is_fuisse;
+      return Trim (T) = "fuisse";
+   end Is_Fuisse;
 
-   function is_iri (t : String) return Boolean is
+   function Is_Iri (T : String) return Boolean is
    begin
-      return Trim (t) = "iri";
-   end is_iri;
+      return Trim (T) = "iri";
+   end Is_Iri;
 
-   function Get_participle_info (vpar : Vpar_Record)
+   function Get_Participle_Info (Vpar : Vpar_Record)
                                 return Vpar_Record
    is
    begin
       return (
-        vpar.Con,     --  In this case, there is 1
-        vpar.Of_Case, --  although several different
-        vpar.Number,  --  dictionary entries may fit
-        vpar.Gender,  --  all have same PPL_INFO
-        vpar.Tense_Voice_Mood
+        Vpar.Con,     --  In this case, there is 1
+        Vpar.Of_Case, --  although several different
+        Vpar.Number,  --  dictionary entries may fit
+        Vpar.Gender,  --  all have same PPL_INFO
+        Vpar.Tense_Voice_Mood
              );
-   end Get_participle_info;
+   end Get_Participle_Info;
 
-   type participle_gloss is
+   type Participle_Gloss is
       record
-         key : Inflections_Package.Tense_Voice_Mood_Record;
-         gloss : String (1 .. 78);
+         Key : Inflections_Package.Tense_Voice_Mood_Record;
+         Gloss : String (1 .. 78);
       end record;
 
    -- should merge the next three arrays
-   type participle_glosses_arr is array (Integer range <>) of participle_gloss;
+   type Participle_Glosses_Arr is array (Integer range <>) of Participle_Gloss;
 
-   participle_glosses : constant participle_glosses_arr :=
+   Participle_Glosses : constant Participle_Glosses_Arr :=
      (
-     (key => (Perf, Passive, Ppl),
-     gloss => "PERF PASSIVE PPL + verb TO_BE => " &
+     (Key => (Perf, Passive, Ppl),
+     Gloss => "PERF PASSIVE PPL + verb TO_BE => " &
      "PASSIVE perfect system                       "),
-     (key => (Fut, Active,  Ppl),
-     gloss => "FUT ACTIVE PPL + verb TO_BE => " &
+     (Key => (Fut, Active,  Ppl),
+     Gloss => "FUT ACTIVE PPL + verb TO_BE => " &
      "ACTIVE Periphrastic - about to, going to       "),
-     (key => (Fut, Passive, Ppl),
-     gloss => "FUT PASSIVE PPL + verb TO_BE => " &
+     (Key => (Fut, Passive, Ppl),
+     Gloss => "FUT PASSIVE PPL + verb TO_BE => " &
      "PASSIVE Periphrastic - should/ought/had to    ")
      );
 
-   participle_glosses_with_esse : constant participle_glosses_arr :=
+   Participle_Glosses_With_Esse : constant Participle_Glosses_Arr :=
      (
-     (key => (Perf, Passive, Ppl),
-     gloss => "PERF PASSIVE PPL + esse => " &
+     (Key => (Perf, Passive, Ppl),
+     Gloss => "PERF PASSIVE PPL + esse => " &
      "PERF PASSIVE INF                                   "),
-     (key => (Fut,  Active,  Ppl),
-     gloss => "FUT ACTIVE PPL + esse => " &
+     (Key => (Fut,  Active,  Ppl),
+     Gloss => "FUT ACTIVE PPL + esse => " &
      "PRES Periphastic/FUT ACTIVE INF - be about/going to  "),
-     (key => (Fut,  Passive, Ppl),
-     gloss => "FUT PASSIVE PPL + esse => " &
+     (Key => (Fut,  Passive, Ppl),
+     Gloss => "FUT PASSIVE PPL + esse => " &
      "PRES PASSIVE INF                                    ")
      );
 
-   participle_glosses_with_fuisse : constant participle_glosses_arr :=
+   Participle_Glosses_With_Fuisse : constant Participle_Glosses_Arr :=
      (
-     (key => (Perf, Passive, Ppl),
-     gloss => "PERF PASSIVE PPL + esse => " &
+     (Key => (Perf, Passive, Ppl),
+     Gloss => "PERF PASSIVE PPL + esse => " &
      "PERF PASSIVE INF                                   "),
-     (key => (Fut,  Active,  Ppl),
-     gloss => "FUT ACT PPL+fuisse => " &
+     (Key => (Fut,  Active,  Ppl),
+     Gloss => "FUT ACT PPL+fuisse => " &
      "PERF ACT INF Periphrastic - to have been about/going to "),
-     (key => (Fut,  Passive, Ppl),
-     gloss => "FUT PASSIVE PPL + fuisse => " &
+     (Key => (Fut,  Passive, Ppl),
+     Gloss => "FUT PASSIVE PPL + fuisse => " &
      "PERF PASSIVE INF Periphrastic - about to, going to")
      );
 
@@ -179,79 +179,79 @@ is
 
    -- compare this function with the very similar one directly below it;
    -- they should be factored back toGether
-   function Get_pas_nom_participle
-     (parsed_verb          : Vpar_Record;
-      sum_info             : Verb_Record;
-      default_ppl_on       : Boolean;
-      default_compound_tvm : Tense_Voice_Mood_Record;
-      default_ppp_meaning  : Meaning_Type;
-      default_ppl_info     : Vpar_Record)
-     return participle
+   function Get_Pas_Nom_Participle
+     (Parsed_Verb          : Vpar_Record;
+      Sum_Info             : Verb_Record;
+      Default_Ppl_On       : Boolean;
+      Default_Compound_Tvm : Tense_Voice_Mood_Record;
+      Default_Ppp_Meaning  : Meaning_Type;
+      Default_Ppl_Info     : Vpar_Record)
+     return Participle
    is
-      compound_tense : Tense_Type := Pres;
+      Compound_Tense : Tense_Type := Pres;
 
-      function Get_compound_tense (tense : Tense_Type) return Tense_Type
+      function Get_Compound_Tense (Tense : Tense_Type) return Tense_Type
       is
       begin
-         case tense is
+         case Tense is
             when Pres | Perf => return Perf; --  Allows PERF for sum
             when Impf | Plup => return Plup;
             when Fut         => return Futp;
             when others      => return X;
          end case;
-      end Get_compound_tense;
+      end Get_Compound_Tense;
 
    begin
 
-      for i in participle_glosses'Range loop
-         if participle_glosses (i).key = parsed_verb.Tense_Voice_Mood then
+      for I in Participle_Glosses'Range loop
+         if Participle_Glosses (I).Key = Parsed_Verb.Tense_Voice_Mood then
 
-            if parsed_verb.Tense_Voice_Mood = (Perf, Passive, Ppl) then
-               compound_tense := Get_compound_tense (
-                 sum_info.Tense_Voice_Mood.Tense);
+            if Parsed_Verb.Tense_Voice_Mood = (Perf, Passive, Ppl) then
+               Compound_Tense := Get_Compound_Tense (
+                 Sum_Info.Tense_Voice_Mood.Tense);
             else
-               compound_tense := sum_info.Tense_Voice_Mood.Tense;
+               Compound_Tense := Sum_Info.Tense_Voice_Mood.Tense;
             end if;
 
             return (
-              ppl_on => True,
-              ppl_info => Get_participle_info (parsed_verb),
-              ppp_meaning => Head (participle_glosses (i).gloss,
+              Ppl_On => True,
+              Ppl_Info => Get_Participle_Info (Parsed_Verb),
+              Ppp_Meaning => Head (Participle_Glosses (I).Gloss,
               Max_Meaning_Size),
-              compound_tvm => (compound_tense, Passive,
-              sum_info.Tense_Voice_Mood.Mood)
+              Compound_Tvm => (Compound_Tense, Passive,
+              Sum_Info.Tense_Voice_Mood.Mood)
                    );
          end if;
       end loop;
 
       return (
-        ppl_on => default_ppl_on,
-        ppl_info => default_ppl_info,
-        ppp_meaning => default_ppp_meaning,
-        compound_tvm => default_compound_tvm
+        Ppl_On => Default_Ppl_On,
+        Ppl_Info => Default_Ppl_Info,
+        Ppp_Meaning => Default_Ppp_Meaning,
+        Compound_Tvm => Default_Compound_Tvm
              );
-   end Get_pas_nom_participle;
+   end Get_Pas_Nom_Participle;
 
    -- this function should be merged with the one above
-   function Get_pas_participle (parsed_verb : Vpar_Record;
-                                Trimmed_next_word : String;
-                                default_ppl_on : Boolean;
-                                default_compound_tvm : Tense_Voice_Mood_Record;
-                                default_ppp_meaning : Meaning_Type;
-                                default_ppl_info : Vpar_Record)
-                               return participle
+   function Get_Pas_Participle (Parsed_Verb : Vpar_Record;
+                                Trimmed_Next_Word : String;
+                                Default_Ppl_On : Boolean;
+                                Default_Compound_Tvm : Tense_Voice_Mood_Record;
+                                Default_Ppp_Meaning : Meaning_Type;
+                                Default_Ppl_Info : Vpar_Record)
+                               return Participle
    is
-      function Get_compound_tense (tense : Tense_Type;
-                                   voice : Voice_Type;
-                                   uses_esse : Boolean) return Tense_Type
+      function Get_Compound_Tense (Tense : Tense_Type;
+                                   Voice : Voice_Type;
+                                   Uses_Esse : Boolean) return Tense_Type
       is
       begin
-         case tense is
+         case Tense is
             when Fut =>
-               case uses_esse is
+               case Uses_Esse is
                   when False => return Perf;
                   when others =>
-                     case voice is
+                     case Voice is
                         when Active => return Fut;
                         when Passive => return Pres;
                         when X => return Fut;
@@ -259,57 +259,57 @@ is
                            -- FIXME: remove 'x' member of voice enumeration
                      end case;
                end case;
-            when others => return tense;
+            when others => return Tense;
          end case;
-      end Get_compound_tense;
+      end Get_Compound_Tense;
 
-      voice : constant Voice_Type := parsed_verb.Tense_Voice_Mood.Voice;
-      uses_esse : constant Boolean := is_esse (Trimmed_next_word);
-      compound_tense : Tense_Type;
+      Voice : constant Voice_Type := Parsed_Verb.Tense_Voice_Mood.Voice;
+      Uses_Esse : constant Boolean := Is_Esse (Trimmed_Next_Word);
+      Compound_Tense : Tense_Type;
 
    begin
       -- voice and mood are always as specified in parsed_verb.tense_voice_mood
       -- if tense is future, then there's a complicated thing to do
 
-      for i in participle_glosses_with_esse'Range loop
-         if participle_glosses_with_esse (i).key =
-           parsed_verb.Tense_Voice_Mood
+      for I in Participle_Glosses_With_Esse'Range loop
+         if Participle_Glosses_With_Esse (I).Key =
+           Parsed_Verb.Tense_Voice_Mood
          then
             declare
-               ppp_meaning_s : String (1 .. 78);
+               Ppp_Meaning_S : String (1 .. 78);
             begin
-               compound_tense := Get_compound_tense (
-                 parsed_verb.Tense_Voice_Mood.Tense,
-                 parsed_verb.Tense_Voice_Mood.Voice,
-                 uses_esse);
+               Compound_Tense := Get_Compound_Tense (
+                 Parsed_Verb.Tense_Voice_Mood.Tense,
+                 Parsed_Verb.Tense_Voice_Mood.Voice,
+                 Uses_Esse);
 
-               if uses_esse then
-                  ppp_meaning_s := participle_glosses_with_esse (i).gloss;
+               if Uses_Esse then
+                  Ppp_Meaning_S := Participle_Glosses_With_Esse (I).Gloss;
                else
-                  ppp_meaning_s := participle_glosses_with_fuisse (i).gloss;
+                  Ppp_Meaning_S := Participle_Glosses_With_Fuisse (I).Gloss;
                end if;
 
                return (
-                 ppl_on => True,
-                 ppl_info => Get_participle_info (parsed_verb),
-                 ppp_meaning => Head (ppp_meaning_s, Max_Meaning_Size),
-                 compound_tvm => (compound_tense, voice, Inf)
+                 Ppl_On => True,
+                 Ppl_Info => Get_Participle_Info (Parsed_Verb),
+                 Ppp_Meaning => Head (Ppp_Meaning_S, Max_Meaning_Size),
+                 Compound_Tvm => (Compound_Tense, Voice, Inf)
                       );
             end;
          end if;
       end loop;
 
       return (
-        ppl_on => default_ppl_on,
-        ppl_info => default_ppl_info,
-        ppp_meaning => default_ppp_meaning,
-        compound_tvm => default_compound_tvm
+        Ppl_On => Default_Ppl_On,
+        Ppl_Info => Default_Ppl_Info,
+        Ppp_Meaning => Default_Ppp_Meaning,
+        Compound_Tvm => Default_Compound_Tvm
              );
 
-   end Get_pas_participle;
+   end Get_Pas_Participle;
 
-   function is_sum (t : String) return verb_to_be is
-      sa : constant array (Mood_Type range Ind .. Sub,
+   function Is_Sum (T : String) return Verb_To_Be is
+      Sa : constant array (Mood_Type range Ind .. Sub,
         Tense_Type range Pres .. Futp,
         Number_Type range S .. P,
         Person_Type range 1 .. 3)
@@ -346,214 +346,214 @@ is
         );
 
    begin
-      if t = ""  then
-         return verb_to_be'(matches => False);
-      elsif t (t'First) /= 's'  and
-        t (t'First) /= 'e'  and
-        t (t'First) /= 'f'
+      if T = ""  then
+         return Verb_To_Be'(Matches => False);
+      elsif T (T'First) /= 's'  and
+        T (T'First) /= 'e'  and
+        T (T'First) /= 'f'
       then
-         return verb_to_be'(matches => False);
+         return Verb_To_Be'(Matches => False);
       end if;
-      for l in Mood_Type range Ind .. Sub  loop
-         for k in Tense_Type range Pres .. Futp  loop
-            for j in Number_Type range S .. P loop
-               for i in Person_Type range 1 .. 3  loop
-                  if Trim (t) = Trim (sa (l, k, j, i))  then
-                     return verb_to_be'(
-                       matches => True,
-                       verb_rec => ((5, 1), (k, Active, l), i, j)
+      for L in Mood_Type range Ind .. Sub  loop
+         for K in Tense_Type range Pres .. Futp  loop
+            for J in Number_Type range S .. P loop
+               for I in Person_Type range 1 .. 3  loop
+                  if Trim (T) = Trim (Sa (L, K, J, I))  then
+                     return Verb_To_Be'(
+                       Matches => True,
+                       Verb_Rec => ((5, 1), (K, Active, L), I, J)
                                        );
                   end if;
                end loop;
             end loop;
          end loop;
       end loop;
-      return verb_to_be'(
-        matches => False
+      return Verb_To_Be'(
+        Matches => False
                         );
-   end is_sum;
+   end Is_Sum;
 
    -- parts of these three do_clear_* functions should be factored together
-   procedure do_clear_pas_nom_ppl (sum_info : in Verb_Record;
-                                   compound_tvm : out Tense_Voice_Mood_Record;
-                                   ppl_on : in out Boolean;
-                                   ppl_info : out Vpar_Record)
+   procedure Do_Clear_Pas_Nom_Ppl (Sum_Info : in Verb_Record;
+                                   Compound_Tvm : out Tense_Voice_Mood_Record;
+                                   Ppl_On : in out Boolean;
+                                   Ppl_Info : out Vpar_Record)
    is
-      j4 : Integer := pa_last;
+      J4 : Integer := Pa_Last;
    begin
-      while j4 >= 1  loop
+      while J4 >= 1  loop
          --  Sweep backwards to kill empty suffixes
-         if pa (j4).IR.qual.pofs in Tackon .. Suffix
-           and then ppl_on
+         if Pa (J4).IR.Qual.Pofs in Tackon .. Suffix
+           and then Ppl_On
          then
             null;
 
-         elsif pa (j4).IR.qual.pofs = Vpar and then
-           pa (j4).IR.qual.Vpar.Of_Case = Nom  and then
-           pa (j4).IR.qual.Vpar.Number = sum_info.Number
+         elsif Pa (J4).IR.Qual.Pofs = Vpar and then
+           Pa (J4).IR.Qual.Vpar.Of_Case = Nom  and then
+           Pa (J4).IR.Qual.Vpar.Number = Sum_Info.Number
          then
             declare
-               part : constant participle :=
-                 Get_pas_nom_participle (pa (j4).IR.qual.Vpar, sum_info,
-                 ppl_on, compound_tvm, ppp_meaning, ppl_info);
+               Part : constant Participle :=
+                 Get_Pas_Nom_Participle (Pa (J4).IR.Qual.Vpar, Sum_Info,
+                 Ppl_On, Compound_Tvm, Ppp_Meaning, Ppl_Info);
             begin
-               ppl_on := part.ppl_on;
-               ppl_info := part.ppl_info;
-               ppp_meaning := part.ppp_meaning;
-               compound_tvm := part.compound_tvm;
+               Ppl_On := Part.Ppl_On;
+               Ppl_Info := Part.Ppl_Info;
+               Ppp_Meaning := Part.Ppp_Meaning;
+               Compound_Tvm := Part.Compound_Tvm;
             end;
          else
-            pa (j4 .. pa_last - 1) := pa (j4 + 1 .. pa_last);
-            pa_last := pa_last - 1;
-            ppl_on := False;
+            Pa (J4 .. Pa_Last - 1) := Pa (J4 + 1 .. Pa_Last);
+            Pa_Last := Pa_Last - 1;
+            Ppl_On := False;
          end if;
-         j4 := j4 - 1;
+         J4 := J4 - 1;
       end loop;
-   end do_clear_pas_nom_ppl;
+   end Do_Clear_Pas_Nom_Ppl;
 
    -- parts of these three do_clear_* functions should be factored together
-   procedure do_clear_pas_ppl (next_word : in String;
-                               compound_tvm : out Tense_Voice_Mood_Record;
-                               ppl_on : in out Boolean;
-                               ppl_info : out Vpar_Record)
+   procedure Do_Clear_Pas_Ppl (Next_Word : in String;
+                               Compound_Tvm : out Tense_Voice_Mood_Record;
+                               Ppl_On : in out Boolean;
+                               Ppl_Info : out Vpar_Record)
    is
-      j5 : Integer := pa_last;
+      J5 : Integer := Pa_Last;
    begin
-      while j5 >= 1  loop
+      while J5 >= 1  loop
          --  Sweep backwards to kill empty suffixes
-         if pa (j5).IR.qual.pofs in Tackon .. Suffix
-           and then ppl_on
+         if Pa (J5).IR.Qual.Pofs in Tackon .. Suffix
+           and then Ppl_On
          then
             null;
-         elsif pa (j5).IR.qual.pofs = Vpar   then
+         elsif Pa (J5).IR.Qual.Pofs = Vpar   then
             declare
-               Trimmed_next_word : constant String := next_word;
-               part : constant participle :=
-                 Get_pas_participle (pa (j5).IR.qual.Vpar,
-                 Trimmed_next_word, ppl_on, compound_tvm, ppp_meaning,
-                 ppl_info);
+               Trimmed_Next_Word : constant String := Next_Word;
+               Part : constant Participle :=
+                 Get_Pas_Participle (Pa (J5).IR.Qual.Vpar,
+                 Trimmed_Next_Word, Ppl_On, Compound_Tvm, Ppp_Meaning,
+                 Ppl_Info);
             begin
-               ppl_on := part.ppl_on;
-               ppl_info := part.ppl_info;
-               ppp_meaning := part.ppp_meaning;
-               compound_tvm := part.compound_tvm;
+               Ppl_On := Part.Ppl_On;
+               Ppl_Info := Part.Ppl_Info;
+               Ppp_Meaning := Part.Ppp_Meaning;
+               Compound_Tvm := Part.Compound_Tvm;
             end;
          else
-            pa (j5 .. pa_last - 1) := pa (j5 + 1 .. pa_last);
-            pa_last := pa_last - 1;
-            ppl_on := False;
+            Pa (J5 .. Pa_Last - 1) := Pa (J5 + 1 .. Pa_Last);
+            Pa_Last := Pa_Last - 1;
+            Ppl_On := False;
          end if;
-         j5 := j5 - 1;
+         J5 := J5 - 1;
       end loop;
-   end do_clear_pas_ppl;
+   end Do_Clear_Pas_Ppl;
 
    -- parts of these three do_clear_* functions should be factored together
-   procedure do_clear_pas_supine (supine_info : out Supine_Record;
-                                  nk : in Integer;
-                                  ppl_on : in out Boolean)
+   procedure Do_Clear_Pas_Supine (Supine_Info : out Supine_Record;
+                                  Nk : in Integer;
+                                  Ppl_On : in out Boolean)
    is
-      j6 : Integer := pa_last;
+      J6 : Integer := Pa_Last;
    begin
-      while j6 >= 1  loop
+      while J6 >= 1  loop
          --  Sweep backwards to kill empty suffixes
-         if pa (j6).IR.qual.pofs in Tackon .. Suffix
-           and then ppl_on
+         if Pa (J6).IR.Qual.Pofs in Tackon .. Suffix
+           and then Ppl_On
          then
             null;
 
-         elsif pa (j6).IR.qual.pofs = Supine  and then
-           pa (j6).IR.qual.Supine.Of_Case = Acc
+         elsif Pa (J6).IR.Qual.Pofs = Supine  and then
+           Pa (J6).IR.Qual.Supine.Of_Case = Acc
          then
 
-            ppl_on := True;
-            supine_info := (pa (j6).IR.qual.Supine.Con,
-              pa (j6).IR.qual.Supine.Of_Case,
-              pa (j6).IR.qual.Supine.Number,
-              pa (j6).IR.qual.Supine.Gender);
+            Ppl_On := True;
+            Supine_Info := (Pa (J6).IR.Qual.Supine.Con,
+              Pa (J6).IR.Qual.Supine.Of_Case,
+              Pa (J6).IR.Qual.Supine.Number,
+              Pa (J6).IR.Qual.Supine.Gender);
 
-            pa_last := pa_last + 1;
-            pa (pa_last) :=
+            Pa_Last := Pa_Last + 1;
+            Pa (Pa_Last) :=
               (Head ("SUPINE + iri", Max_Stem_Size),
               ((V,
-              (supine_info.Con,
+              (Supine_Info.Con,
               (Fut, Passive, Inf),
               0,
               X)
-               ), 0, null_ending_record, x, a),
-              ppp, Null_MNPC);
-            ppp_meaning := Head (
+               ), 0, Null_Ending_Record, X, A),
+              Ppp, Null_MNPC);
+            Ppp_Meaning := Head (
               "SUPINE + iri => " &
               "FUT PASSIVE INF - to be about/going/ready to be ~",
               Max_Meaning_Size);
 
-            k := nk;
+            K := Nk;
 
          else
-            pa (j6 .. pa_last - 1) := pa (j6 + 1 .. pa_last);
-            pa_last := pa_last - 1;
-            ppl_on := False;
+            Pa (J6 .. Pa_Last - 1) := Pa (J6 + 1 .. Pa_Last);
+            Pa_Last := Pa_Last - 1;
+            Ppl_On := False;
          end if;
-         j6 := j6  - 1;
+         J6 := J6  - 1;
       end loop;
-   end do_clear_pas_supine;
+   end Do_Clear_Pas_Supine;
 
-   procedure perform_syncope (Input_word : in String)
+   procedure Perform_Syncope (Input_Word : in String)
    is
    begin
-      sypa_last := 0;
-      if words_mdev (do_syncope) and not no_syncope then
-         syncope (Input_word, sypa, sypa_last);
+      Sypa_Last := 0;
+      if Words_Mdev (Do_Syncope) and not No_Syncope then
+         Syncope (Input_Word, Sypa, Sypa_Last);
 
          --  Make syncope another array to avoid PA-LAST = 0 problems
-         pa_last := pa_last + sypa_last;
+         Pa_Last := Pa_Last + Sypa_Last;
 
          --  Add SYPA to PA
-         pa (1 .. pa_last) :=
-           pa (1 .. pa_last - sypa_last) & sypa (1 .. sypa_last);
+         Pa (1 .. Pa_Last) :=
+           Pa (1 .. Pa_Last - Sypa_Last) & Sypa (1 .. Sypa_Last);
 
          --  Clean up so it does not repeat
-         sypa (1 .. syncope_max) := (1 .. syncope_max => Null_Parse_Record);
-         sypa_last := 0;
+         Sypa (1 .. Syncope_Max) := (1 .. Syncope_Max => Null_Parse_Record);
+         Sypa_Last := 0;
       end if;
-      no_syncope := False;
-   end perform_syncope;
+      No_Syncope := False;
+   end Perform_Syncope;
 
-   procedure enclitic (Input_word : String;
-                       entering_pa_last : in out Integer;
-                       have_done_enclitic : in out Boolean) is
-      save_do_only_fixes : constant Boolean := words_mdev (do_only_fixes);
-      enclitic_limit : Integer := 4;
-      try : constant String := Lower_Case (Input_word);
+   procedure Enclitic (Input_Word : String;
+                       Entering_Pa_Last : in out Integer;
+                       Have_Done_Enclitic : in out Boolean) is
+      Save_Do_Only_Fixes : constant Boolean := Words_Mdev (Do_Only_Fixes);
+      Enclitic_Limit : Integer := 4;
+      Try : constant String := Lower_Case (Input_Word);
    begin
-      if have_done_enclitic  then
+      if Have_Done_Enclitic  then
          return;
       end if;
 
-      entering_pa_last := pa_last;
-      if pa_last > 0 then
-         enclitic_limit := 1;
+      Entering_Pa_Last := Pa_Last;
+      if Pa_Last > 0 then
+         Enclitic_Limit := 1;
       end if;
 
       -- loop_over_enclitic_tackons:
-      for i in 1 .. enclitic_limit  loop
+      for I in 1 .. Enclitic_Limit  loop
          --  If have parse, only do que of que, ne, ve, (est)
 
          -- remove_a_tackon:
          declare
-            less : constant String := subtract_tackon (try, tackons (i));
-            save_pa_last  : Integer := 0;
+            Less : constant String := Subtract_Tackon (Try, Tackons (I));
+            Save_Pa_Last  : Integer := 0;
          begin
-            if less  /= try  then
+            if Less  /= Try  then
                --  LESS is less
                --WORDS_MODE (DO_FIXES) := FALSE;
-               word_package.word (less, pa, pa_last);
+               Word_Package.Word (Less, Pa, Pa_Last);
 
-               if pa_last = 0  then
-                  save_pa_last := pa_last;
-                  try_slury (less, pa, pa_last, line_number, word_number);
-                  if save_pa_last /= 0   then
-                     if (pa_last - 1) - save_pa_last = save_pa_last  then
-                        pa_last := save_pa_last;
+               if Pa_Last = 0  then
+                  Save_Pa_Last := Pa_Last;
+                  Try_Slury (Less, Pa, Pa_Last, Line_Number, Word_Number);
+                  if Save_Pa_Last /= 0   then
+                     if (Pa_Last - 1) - Save_Pa_Last = Save_Pa_Last  then
+                        Pa_Last := Save_Pa_Last;
                      end if;
                   end if;
                end if;
@@ -561,494 +561,494 @@ is
                --  Do not SYNCOPE if there is a verb TO_BE or compound
                --  already there; I do this here and below, it might be
                --  combined but it workd now
-               for i in 1 .. pa_last  loop
-                  if pa (i).IR.qual.pofs = V and then
-                    pa (i).IR.qual.V.Con = (5, 1)
+               for I in 1 .. Pa_Last  loop
+                  if Pa (I).IR.Qual.Pofs = V and then
+                    Pa (I).IR.Qual.V.Con = (5, 1)
                   then
-                     no_syncope := True;
+                     No_Syncope := True;
                   end if;
                end loop;
 
-               perform_syncope (Input_word);
+               Perform_Syncope (Input_Word);
 
                --  Restore FIXES
                --WORDS_MODE (DO_FIXES) := SAVE_DO_FIXES;
 
-               words_mdev (do_only_fixes) := True;
-               word (Input_word, pa, pa_last);
-               words_mdev (do_only_fixes) := save_do_only_fixes;
+               Words_Mdev (Do_Only_Fixes) := True;
+               Word (Input_Word, Pa, Pa_Last);
+               Words_Mdev (Do_Only_Fixes) := Save_Do_Only_Fixes;
 
-               if pa_last > entering_pa_last  then
+               if Pa_Last > Entering_Pa_Last  then
                   --  have a possible word
-                  pa_last := pa_last + 1;
-                  pa (entering_pa_last + 2 .. pa_last) :=
-                    pa (entering_pa_last + 1 .. pa_last - 1);
-                  pa (entering_pa_last + 1) := (tackons (i).tack,
-                    ((Tackon, Null_Tackon_Record), 0, null_ending_record, x, x),
-                    addons, Dict_IO.Count (tackons (i).MNPC));
+                  Pa_Last := Pa_Last + 1;
+                  Pa (Entering_Pa_Last + 2 .. Pa_Last) :=
+                    Pa (Entering_Pa_Last + 1 .. Pa_Last - 1);
+                  Pa (Entering_Pa_Last + 1) := (Tackons (I).Tack,
+                    ((Tackon, Null_Tackon_Record), 0, Null_Ending_Record, X, X),
+                    Addons, Dict_IO.Count (Tackons (I).MNPC));
 
-                  have_done_enclitic := True;
+                  Have_Done_Enclitic := True;
                end if;
                return;
             end if;
          end;
       end loop;
-   end enclitic;
+   end Enclitic;
 
-   procedure tricks_enclitic (Input_word : String;
-                              entering_trpa_last : in out Integer;
-                              have_done_enclitic : Boolean) is
-      try : constant String := Lower_Case (Input_word);
+   procedure Tricks_Enclitic (Input_Word : String;
+                              Entering_Trpa_Last : in out Integer;
+                              Have_Done_Enclitic : Boolean) is
+      Try : constant String := Lower_Case (Input_Word);
    begin
-      if have_done_enclitic then
+      if Have_Done_Enclitic then
          return;
       end if;
 
-      entering_trpa_last := trpa_last;
+      Entering_Trpa_Last := Trpa_Last;
 
-      for i in 1 .. 4  loop   --  que, ne, ve, (est)
+      for I in 1 .. 4  loop   --  que, ne, ve, (est)
 
          declare
-            less : constant String :=
-              subtract_tackon (try, tackons (i));
+            Less : constant String :=
+              Subtract_Tackon (Try, Tackons (I));
          begin
-            if less  /= try  then       --  LESS is less
-               try_tricks (less, trpa, trpa_last, line_number, word_number);
+            if Less  /= Try  then       --  LESS is less
+               Try_Tricks (Less, Trpa, Trpa_Last, Line_Number, Word_Number);
 
-               if trpa_last > entering_trpa_last  then
+               if Trpa_Last > Entering_Trpa_Last  then
                   --  have a possible word
-                  trpa_last := trpa_last + 1;
-                  trpa (entering_trpa_last + 2 .. trpa_last) :=
-                    trpa (entering_trpa_last + 1 .. trpa_last - 1);
-                  trpa (entering_trpa_last + 1) := (tackons (i).tack,
-                    ((Tackon, Null_Tackon_Record), 0, null_ending_record, x, x),
-                    addons, Dict_IO.Count (tackons (i).MNPC));
+                  Trpa_Last := Trpa_Last + 1;
+                  Trpa (Entering_Trpa_Last + 2 .. Trpa_Last) :=
+                    Trpa (Entering_Trpa_Last + 1 .. Trpa_Last - 1);
+                  Trpa (Entering_Trpa_Last + 1) := (Tackons (I).Tack,
+                    ((Tackon, Null_Tackon_Record), 0, Null_Ending_Record, X, X),
+                    Addons, Dict_IO.Count (Tackons (I).MNPC));
                end if;
                return;
             end if;
          end;
       end loop;
-   end tricks_enclitic;
+   end Tricks_Enclitic;
 
-   procedure pass (Input_word : String;
-                   entering_pa_last : in out Integer;
-                   have_done_enclitic : in out Boolean)
+   procedure Pass (Input_Word : String;
+                   Entering_Pa_Last : in out Integer;
+                   Have_Done_Enclitic : in out Boolean)
    is
       --  This is the core logic of the program, everything else is details
-      save_do_fixes : constant Boolean := words_mode (do_fixes);
-      save_do_only_fixes : constant Boolean := words_mdev (do_only_fixes);
+      Save_Do_Fixes : constant Boolean := Words_Mode (Do_Fixes);
+      Save_Do_Only_Fixes : constant Boolean := Words_Mdev (Do_Only_Fixes);
    begin
       --  Do straight WORDS without FIXES/TRICKS, is the word in the dictionary
-      words_mode (do_fixes) := False;
-      roman_numerals (Input_word, pa, pa_last);
-      word (Input_word, pa, pa_last);
+      Words_Mode (Do_Fixes) := False;
+      Roman_Numerals (Input_Word, Pa, Pa_Last);
+      Word (Input_Word, Pa, Pa_Last);
 
-      if pa_last = 0  then
-         try_slury (Input_word, pa, pa_last, line_number, word_number);
+      if Pa_Last = 0  then
+         Try_Slury (Input_Word, Pa, Pa_Last, Line_Number, Word_Number);
       end if;
 
       --  Do not SYNCOPE if there is a verb TO_BE or compound already there
-      for i in 1 .. pa_last  loop
-         if pa (i).IR.qual.pofs = V and then
-           pa (i).IR.qual.V.Con = (5, 1)
+      for I in 1 .. Pa_Last  loop
+         if Pa (I).IR.Qual.Pofs = V and then
+           Pa (I).IR.Qual.V.Con = (5, 1)
          then
-            no_syncope := True;
+            No_Syncope := True;
          end if;
       end loop;
 
       --  Pure SYNCOPE
-      perform_syncope (Input_word);
+      Perform_Syncope (Input_Word);
 
       --  There may be a vaild simple parse, if so it is most probable
       --  But I have to allow for the possibility that -que is answer,
       --  not colloque V
-      enclitic (Input_word, entering_pa_last, have_done_enclitic);
+      Enclitic (Input_Word, Entering_Pa_Last, Have_Done_Enclitic);
 
       --  Restore FIXES
-      words_mode (do_fixes) := save_do_fixes;
+      Words_Mode (Do_Fixes) := Save_Do_Fixes;
 
       --  Now with only fixes
-      if pa_last = 0  and then words_mode (do_fixes) then
-         words_mdev (do_only_fixes) := True;
-         word (Input_word, pa, pa_last);
+      if Pa_Last = 0  and then Words_Mode (Do_Fixes) then
+         Words_Mdev (Do_Only_Fixes) := True;
+         Word (Input_Word, Pa, Pa_Last);
 
-         perform_syncope (Input_word);
+         Perform_Syncope (Input_Word);
 
-         enclitic (Input_word, entering_pa_last, have_done_enclitic);
+         Enclitic (Input_Word, Entering_Pa_Last, Have_Done_Enclitic);
 
-         words_mdev (do_only_fixes) := save_do_only_fixes;
+         Words_Mdev (Do_Only_Fixes) := Save_Do_Only_Fixes;
       end if;
-   end pass;
+   end Pass;
 
-   procedure parse_english_word (Input_word : in String;
-                                 line : in String;
-                                 k : in Integer;
-                                 l : in out Integer)
+   procedure Parse_English_Word (Input_Word : in String;
+                                 Line : in String;
+                                 K : in Integer;
+                                 L : in out Integer)
    is
-      pofs : Part_Of_Speech_Type := X;
+      Pofs : Part_Of_Speech_Type := X;
    begin
       --  Extract from the rest of the line
       --  Should do AUX here !!!!!!!!!!!!!!!!!!!!!!!!
       --extract_pofs:
       begin
-         Part_Of_Speech_Type_IO.Get (line (k + 1 .. l), pofs, l);
+         Part_Of_Speech_Type_IO.Get (Line (K + 1 .. L), Pofs, L);
       exception
-         when others => pofs := X;
+         when others => Pofs := X;
       end;
 
-      search_english (Input_word, pofs);
-   end parse_english_word;
+      Search_English (Input_Word, Pofs);
+   end Parse_English_Word;
 
-   procedure parse_latin_word (configuration : configuration_type;
-                               Input_word : in String;
-                               line : in String;
+   procedure Parse_Latin_Word (Configuration : Configuration_Type;
+                               Input_Word : in String;
+                               Line : in String;
                                Input_Line : in String;
-                               l : Integer)
+                               L : Integer)
    is
-      entering_pa_last : Integer := 0;
-      entering_trpa_last    : Integer := 0;
-      have_done_enclitic : Boolean := False;
+      Entering_Pa_Last : Integer := 0;
+      Entering_Trpa_Last    : Integer := 0;
+      Have_Done_Enclitic : Boolean := False;
    begin   --  PARSE
-      xxx_meaning := Null_Meaning_Type;
+      Xxx_Meaning := Null_Meaning_Type;
 
-      pa_last := 0;
-      word_number := word_number + 1;
+      Pa_Last := 0;
+      Word_Number := Word_Number + 1;
 
-      pass (Input_word, entering_pa_last, have_done_enclitic);
+      Pass (Input_Word, Entering_Pa_Last, Have_Done_Enclitic);
 
       --if (PA_LAST = 0) or DO_TRICKS_ANYWAY  then
       --  WORD failed, try to modify the word
-      if (pa_last = 0)  and then
-        not (words_mode (ignore_unknown_names)  and capitalized)
+      if (Pa_Last = 0)  and then
+        not (Words_Mode (Ignore_Unknown_Names)  and Capitalized)
       then
          --  WORD failed, try to modify the word
-         if words_mode (do_tricks)  then
-            words_mode (do_tricks) := False;
+         if Words_Mode (Do_Tricks)  then
+            Words_Mode (Do_Tricks) := False;
             --  Turn it off so wont be circular
-            try_tricks (Input_word, trpa, trpa_last, line_number, word_number);
-            if trpa_last = 0  then
-               tricks_enclitic (Input_word, entering_trpa_last,
-                 have_done_enclitic);
+            Try_Tricks (Input_Word, Trpa, Trpa_Last, Line_Number, Word_Number);
+            if Trpa_Last = 0  then
+               Tricks_Enclitic (Input_Word, Entering_Trpa_Last,
+                 Have_Done_Enclitic);
             end if;
-            words_mode (do_tricks) := True;   --  Turn it back on
+            Words_Mode (Do_Tricks) := True;   --  Turn it back on
          end if;
 
-         pa_last := pa_last + trpa_last;
+         Pa_Last := Pa_Last + Trpa_Last;
          --  Make TRICKS another array to avoid PA-LAST = 0 problems
-         pa (1 .. pa_last) :=
-           pa (1 .. pa_last - trpa_last) & trpa (1 .. trpa_last);
+         Pa (1 .. Pa_Last) :=
+           Pa (1 .. Pa_Last - Trpa_Last) & Trpa (1 .. Trpa_Last);
          --  Add SYPA to PA
-         trpa (1 .. tricks_max) :=
-           (1 .. tricks_max => Null_Parse_Record);
+         Trpa (1 .. Tricks_Max) :=
+           (1 .. Tricks_Max => Null_Parse_Record);
          --  Clean up so it does not repeat
-         trpa_last := 0;
+         Trpa_Last := 0;
 
       end if;
       --  At this point we have done what we can with individual words
       --  Now see if there is something we can do with word combinations
       --  For this we have to look ahead
 
-      if pa_last > 0   then
+      if Pa_Last > 0   then
          --  But PA may be killed by ALLOW in LIST_STEMS
-         if words_mode (do_compounds)  and
-           not (configuration = only_meanings)
+         if Words_Mode (Do_Compounds)  and
+           not (Configuration = Only_Meanings)
          then
 
-            compounds_with_sum :
+            Compounds_With_Sum :
             declare
-               nw : String (1 .. 2500) := (others => ' ');
-               nk : Integer := 0;
+               Nw : String (1 .. 2500) := (others => ' ');
+               Nk : Integer := 0;
 
-               compound_tvm   : Inflections_Package.Tense_Voice_Mood_Record;
-               ppl_on : Boolean := False;
+               Compound_Tvm   : Inflections_Package.Tense_Voice_Mood_Record;
+               Ppl_On : Boolean := False;
 
-               sum_info : Verb_Record := ((5, 1), (X, Active, X), 0, X);
-               ppl_info : Vpar_Record := ((0, 0), X, X, X, (X, X, X));
-               supine_info : Supine_Record := ((0, 0), X, X, X);
+               Sum_Info : Verb_Record := ((5, 1), (X, Active, X), 0, X);
+               Ppl_Info : Vpar_Record := ((0, 0), X, X, X, (X, X, X));
+               Supine_Info : Supine_Record := ((0, 0), X, X, X);
 
-               procedure look_ahead is
-                  j3 : Integer := 0;
+               procedure Look_Ahead is
+                  J3 : Integer := 0;
                begin
-                  for i in k + 2 .. l  loop
+                  for I in K + 2 .. L  loop
                      --  Although I have removed punctuation above,
                      --  it may not always be so
-                     exit when Is_Punctuation (line (i));
-                     j3 := j3 + 1;
-                     nw (j3) := line (i);
-                     nk := i;
+                     exit when Is_Punctuation (Line (I));
+                     J3 := J3 + 1;
+                     Nw (J3) := Line (I);
+                     Nk := I;
                   end loop;
-               end look_ahead;
+               end Look_Ahead;
 
-               function next_word return String is
+               function Next_Word return String is
                begin
-                  return Trim (nw);
-               end next_word;
+                  return Trim (Nw);
+               end Next_Word;
 
-               is_verb_to_be : Boolean := False;
+               Is_Verb_To_Be : Boolean := False;
 
             begin
 
                --  Look ahead for sum
-               look_ahead;
+               Look_Ahead;
 
                declare
-                  tmp : constant verb_to_be := is_sum (next_word);
+                  Tmp : constant Verb_To_Be := Is_Sum (Next_Word);
                begin
-                  case tmp.matches is
-                     when True => sum_info := tmp.verb_rec;
+                  case Tmp.Matches is
+                     when True => Sum_Info := Tmp.Verb_Rec;
                      when False => null;
                   end case;
-                  is_verb_to_be := tmp.matches;
+                  Is_Verb_To_Be := Tmp.Matches;
                end;
 
-               if is_verb_to_be then
+               if Is_Verb_To_Be then
                   --  On NEXT_WORD = sum, esse, iri
 
-                  for i in 1 .. pa_last  loop    --  Check for PPL
-                     if pa (i).IR.qual.pofs = Vpar and then
-                       pa (i).IR.qual.Vpar.Of_Case = Nom  and then
-                       pa (i).IR.qual.Vpar.Number = sum_info.Number  and then
-                       ((pa (i).IR.qual.Vpar.Tense_Voice_Mood =
+                  for I in 1 .. Pa_Last  loop    --  Check for PPL
+                     if Pa (I).IR.Qual.Pofs = Vpar and then
+                       Pa (I).IR.Qual.Vpar.Of_Case = Nom  and then
+                       Pa (I).IR.Qual.Vpar.Number = Sum_Info.Number  and then
+                       ((Pa (I).IR.Qual.Vpar.Tense_Voice_Mood =
                        (Perf, Passive, Ppl)) or
-                       (pa (i).IR.qual.Vpar.Tense_Voice_Mood =
+                       (Pa (I).IR.Qual.Vpar.Tense_Voice_Mood =
                        (Fut, Active,  Ppl)) or
-                       (pa (i).IR.qual.Vpar.Tense_Voice_Mood =
+                       (Pa (I).IR.Qual.Vpar.Tense_Voice_Mood =
                        (Fut, Passive, Ppl)))
                      then
 
                         --  There is at least one hit;
                         --  fix PA, and advance J over the sum
-                        k := nk;
+                        K := Nk;
                      end if;
                   end loop;
 
-                  if k = nk  then
+                  if K = Nk  then
                      --  There was a PPL hit
-                     do_clear_pas_nom_ppl (sum_info, compound_tvm, ppl_on,
-                       ppl_info);
+                     Do_Clear_Pas_Nom_Ppl (Sum_Info, Compound_Tvm, Ppl_On,
+                       Ppl_Info);
 
-                     pa_last := pa_last + 1;
-                     pa (pa_last) :=
-                       (Head ("PPL+" & next_word, Max_Stem_Size),
+                     Pa_Last := Pa_Last + 1;
+                     Pa (Pa_Last) :=
+                       (Head ("PPL+" & Next_Word, Max_Stem_Size),
                        ((V,
-                       (ppl_info.Con,
-                       compound_tvm,
-                       sum_info.Person,
-                       sum_info.Number)
-                        ), 0, null_ending_record, x, a),
-                       ppp, Null_MNPC);
+                       (Ppl_Info.Con,
+                       Compound_Tvm,
+                       Sum_Info.Person,
+                       Sum_Info.Number)
+                        ), 0, Null_Ending_Record, X, A),
+                       Ppp, Null_MNPC);
                   end if;
 
-               elsif is_esse (next_word) or is_fuisse (next_word)  then
+               elsif Is_Esse (Next_Word) or Is_Fuisse (Next_Word)  then
                   --  On NEXT_WORD
 
-                  for i in 1 .. pa_last  loop    --  Check for PPL
-                     if pa (i).IR.qual.pofs = Vpar and then
-                       (((pa (i).IR.qual.Vpar.Tense_Voice_Mood =
+                  for I in 1 .. Pa_Last  loop    --  Check for PPL
+                     if Pa (I).IR.Qual.Pofs = Vpar and then
+                       (((Pa (I).IR.Qual.Vpar.Tense_Voice_Mood =
                        (Perf, Passive, Ppl)) and
-                       is_esse (next_word)) or
-                       ((pa (i).IR.qual.Vpar.Tense_Voice_Mood =
+                       Is_Esse (Next_Word)) or
+                       ((Pa (I).IR.Qual.Vpar.Tense_Voice_Mood =
                        (Fut,  Active,  Ppl)) or
-                       (pa (i).IR.qual.Vpar.Tense_Voice_Mood =
+                       (Pa (I).IR.Qual.Vpar.Tense_Voice_Mood =
                        (Fut,  Passive, Ppl))))
                      then
 
                         --  There is at least one hit;
                         --  fix PA, and advance J over the sum
-                        k := nk;
+                        K := Nk;
                      end if;
                   end loop;
 
-                  if k = nk  then
+                  if K = Nk  then
                      --  There was a PPL hit
-                     do_clear_pas_ppl (next_word, compound_tvm,
-                       ppl_on, ppl_info);
+                     Do_Clear_Pas_Ppl (Next_Word, Compound_Tvm,
+                       Ppl_On, Ppl_Info);
 
-                     pa_last := pa_last + 1;
-                     pa (pa_last) :=
-                       (Head ("PPL+" & next_word, Max_Stem_Size),
+                     Pa_Last := Pa_Last + 1;
+                     Pa (Pa_Last) :=
+                       (Head ("PPL+" & Next_Word, Max_Stem_Size),
                        ((V,
-                       (ppl_info.Con,
-                       compound_tvm,
+                       (Ppl_Info.Con,
+                       Compound_Tvm,
                        0,
                        X)
-                        ), 0, null_ending_record, x, a),
-                       ppp, Null_MNPC);
+                        ), 0, Null_Ending_Record, X, A),
+                       Ppp, Null_MNPC);
                   end if;
 
-               elsif is_iri (next_word)  then
+               elsif Is_Iri (Next_Word)  then
                   --  On NEXT_WORD = sum, esse, iri
                   --  Look ahead for sum
 
-                  for j in 1 .. pa_last  loop    --  Check for SUPINE
-                     if pa (j).IR.qual.pofs = Supine   and then
-                       pa (j).IR.qual.Supine.Of_Case = Acc
+                  for J in 1 .. Pa_Last  loop    --  Check for SUPINE
+                     if Pa (J).IR.Qual.Pofs = Supine   and then
+                       Pa (J).IR.Qual.Supine.Of_Case = Acc
                      then
                         --  There is at least one hit;
                         --  fix PA, and advance J over the iri
-                        k := nk;
+                        K := Nk;
 
                      end if;
                   end loop;
 
-                  if k = nk  then      --  There was a SUPINE hit
-                     do_clear_pas_supine (supine_info, nk, ppl_on);
+                  if K = Nk  then      --  There was a SUPINE hit
+                     Do_Clear_Pas_Supine (Supine_Info, Nk, Ppl_On);
                   end if;
                end if;       --  On NEXT_WORD = sum, esse, iri
-            end compounds_with_sum;
+            end Compounds_With_Sum;
          end if;       --  On WORDS_MODE (DO_COMPOUNDS)
       end if;
 
-      if  words_mode (Write_Output_to_file)      then
-         list_stems (configuration, Output, Input_word,
-           Input_Line, pa, pa_last);
+      if  Words_Mode (Write_Output_To_File)      then
+         List_Stems (Configuration, Output, Input_Word,
+           Input_Line, Pa, Pa_Last);
       else
-         list_stems (configuration, Current_Output, Input_word,
-           Input_Line, pa, pa_last);
+         List_Stems (Configuration, Current_Output, Input_Word,
+           Input_Line, Pa, Pa_Last);
       end if;
 
-      pa_last := 0;
+      Pa_Last := 0;
 
    exception
       when others  =>
-         Put_stat ("Exception    at "
-           & Head (Integer'Image (line_number), 8)
-           & Head (Integer'Image (word_number), 4)
-           & "   " & Head (Input_word, 28) & "   "  & Input_Line);
+         Put_Stat ("Exception    at "
+           & Head (Integer'Image (Line_Number), 8)
+           & Head (Integer'Image (Word_Number), 4)
+           & "   " & Head (Input_Word, 28) & "   "  & Input_Line);
          raise;
 
-   end parse_latin_word;
+   end Parse_Latin_Word;
 
-   procedure parse_line (configuration : configuration_type;
+   procedure Parse_Line (Configuration : Configuration_Type;
                          Input_Line : String) is
-      l : Integer := Trim (Input_Line)'Last;
-      line : String (1 .. 2500) := (others => ' ');
-      w : String (1 .. l) := (others => ' ');
+      L : Integer := Trim (Input_Line)'Last;
+      Line : String (1 .. 2500) := (others => ' ');
+      W : String (1 .. L) := (others => ' ');
    begin
-      word_number := 0;
-      line (1 .. l) := Trim (Input_Line);
+      Word_Number := 0;
+      Line (1 .. L) := Trim (Input_Line);
 
       --  Someday I ought to be interested in punctuation and numbers,
       --  but not now
       --      eliminate_not_letters:
-      for i in 1 .. l  loop
-         if Is_Alpha_Etc (line (i)) then
+      for I in 1 .. L  loop
+         if Is_Alpha_Etc (Line (I)) then
             null;
          else
-            line (i) := ' ';
+            Line (I) := ' ';
          end if;
       end loop;
 
-      j2 := 1;
-      k := 0;
+      J2 := 1;
+      K := 0;
 
       -- loop over line
-      while j2 <= l  loop
+      while J2 <= L  loop
 
          --  Skip over leading and intervening blanks, looking for comments
          --  Punctuation, numbers, and special Characters were cleared above
-         for i in k + 1 .. l  loop
-            exit when line (j2) in 'A' .. 'Z';
-            exit when line (j2) in 'a' .. 'z';
-            if i < l and then line (i .. i + 1) = "--" then
+         for I in K + 1 .. L  loop
+            exit when Line (J2) in 'A' .. 'Z';
+            exit when Line (J2) in 'a' .. 'z';
+            if I < L and then Line (I .. I + 1) = "--" then
                return;      --  the rest of the line is comment
             end if;
-            j2 := i + 1;
+            J2 := I + 1;
          end loop;
 
-         exit when j2 > l;             --  Kludge
+         exit when J2 > L;             --  Kludge
 
-         follows_period := False;
-         if followed_by_period  then
-            followed_by_period := False;
-            follows_period := True;
+         Follows_Period := False;
+         if Followed_By_Period  then
+            Followed_By_Period := False;
+            Follows_Period := True;
          end if;
 
-         capitalized := False;
-         all_caps := False;
+         Capitalized := False;
+         All_Caps := False;
 
          --  Extract the word
-         for i in j2 .. l  loop
+         for I in J2 .. L  loop
 
             --  Although I have removed punctuation above,
             --  it may not always be so
-            if line (i) = '.'  then
-               followed_by_period := True;
+            if Line (I) = '.'  then
+               Followed_By_Period := True;
                exit;
             end if;
-            exit when line (i) not in 'A' .. 'Z' and line (i) not in 'a' .. 'z';
-            w (i) := line (i);
-            k := i;
+            exit when Line (I) not in 'A' .. 'Z' and Line (I) not in 'a' .. 'z';
+            W (I) := Line (I);
+            K := I;
 
          end loop;
 
-         if w (j2) in 'A' .. 'Z'  and then
-           k - j2 >= 1  and then
-           w (j2 + 1) in 'a' .. 'z'
+         if W (J2) in 'A' .. 'Z'  and then
+           K - J2 >= 1  and then
+           W (J2 + 1) in 'a' .. 'z'
          then
-            capitalized := True;
+            Capitalized := True;
          end if;
 
-         all_caps := True;
-         for i in j2 .. k  loop
-            if w (i) = Lower_Case (w (i))  then
-               all_caps := False;
+         All_Caps := True;
+         for I in J2 .. K  loop
+            if W (I) = Lower_Case (W (I))  then
+               All_Caps := False;
                exit;
             end if;
          end loop;
 
-         for i in j2 .. k - 1  loop               --  Kludge for QVAE
-            if w (i) = 'Q'  and then w (i + 1) = 'V'  then
-               w (i + 1) := 'U';
+         for I in J2 .. K - 1  loop               --  Kludge for QVAE
+            if W (I) = 'Q'  and then W (I + 1) = 'V'  then
+               W (I + 1) := 'U';
             end if;
          end loop;
 
-         if language = english_to_latin  then
-            parse_english_word (w (j2 .. k), line, k, l);
+         if Language = English_To_Latin  then
+            Parse_English_Word (W (J2 .. K), Line, K, L);
             exit;
          end if;
 
          -- split parse_line () at this point, into two functions
 
-         parse_latin_word (configuration, w (j2 .. k), line, Input_Line, l);
+         Parse_Latin_Word (Configuration, W (J2 .. K), Line, Input_Line, L);
          ----------------------------------------------------------------------
          ----------------------------------------------------------------------
 
-         j2 := k + 1;    --  In case it is end of line and we don't look for ' '
+         J2 := K + 1;    --  In case it is end of line and we don't look for ' '
 
-         exit when words_mdev (do_only_initial_word);
+         exit when Words_Mdev (Do_Only_Initial_Word);
 
       end loop;        --  Loop on line
 
    exception
       --   Have STORAGE_ERROR check in WORD too  ?????????????
       when Storage_Error  =>    --  I want to again, at least twice
-         if words_mdev (do_pearse_codes) then
+         if Words_Mdev (Do_Pearse_Codes) then
             Ada.Text_IO.Put ("00 ");
          end if;
          Ada.Text_IO.Put_Line (    --  ERROR_FILE,
            "STORAGE_ERROR Exception in WORDS, try again");
-         Storage_Error_count := Storage_Error_count + 1;
-         if Storage_Error_count >= 4 then
+         Storage_Error_Count := Storage_Error_Count + 1;
+         if Storage_Error_Count >= 4 then
             raise;
          end if;
-         pa_last := 0;
-      when give_up =>
-         pa_last := 0;
+         Pa_Last := 0;
+      when Give_Up =>
+         Pa_Last := 0;
          raise;
       when others  =>    --  I want to try to Get on with the next line
          Ada.Text_IO.Put_Line (    --  ERROR_FILE,
            "Exception in PARSE_LINE processing " & Input_Line);
-         if words_mode (Write_unknowns_to_file)  then
-            if words_mdev (do_pearse_codes) then
-               Ada.Text_IO.Put (unknowns, "00 ");
+         if Words_Mode (Write_Unknowns_To_File)  then
+            if Words_Mdev (Do_Pearse_Codes) then
+               Ada.Text_IO.Put (Unknowns, "00 ");
             end if;
-            Ada.Text_IO.Put (unknowns, Input_Line (j2 .. k));
-            Ada.Text_IO.Set_Col (unknowns, 30);
-            Inflections_Package.Integer_IO.Put (unknowns, line_number, 5);
-            Inflections_Package.Integer_IO.Put (unknowns, word_number, 3);
-            Ada.Text_IO.Put_Line (unknowns, "    ========   ERROR      ");
+            Ada.Text_IO.Put (Unknowns, Input_Line (J2 .. K));
+            Ada.Text_IO.Set_Col (Unknowns, 30);
+            Inflections_Package.Integer_IO.Put (Unknowns, Line_Number, 5);
+            Inflections_Package.Integer_IO.Put (Unknowns, Word_Number, 3);
+            Ada.Text_IO.Put_Line (Unknowns, "    ========   ERROR      ");
          end if;
-         pa_last := 0;
-   end parse_line;
-end parse;
+         Pa_Last := 0;
+   end Parse_Line;
+end Parse;

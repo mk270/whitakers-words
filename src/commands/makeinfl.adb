@@ -21,298 +21,298 @@ with Latin_Utils.Inflections_Package; use Latin_Utils.Inflections_Package;
 with IO_Exceptions;
 with Ada.Exceptions;
 
-procedure makeinfl is
+procedure Makeinfl is
    package Integer_IO is new Ada.Text_IO.Integer_IO (Integer);
    use Ada.Text_IO;
    use Integer_IO;
    use Stem_Key_Type_IO;
    use Inflection_Record_IO;
-   use quality_record_io;
-   use ending_record_io;
+   use Quality_Record_Io;
+   use Ending_Record_Io;
    use Age_Type_IO;
    use Frequency_Type_IO;
-   use lel_section_io;
+   use Lel_Section_Io;
 
-   porting : constant Boolean := True;    --FALSE for WAKEINFL;
+   Porting : constant Boolean := True;    --FALSE for WAKEINFL;
 
-   m : Integer := 0;
-   n1, n2, n3, n4, n5 : Integer := 0;
+   M : Integer := 0;
+   N1, N2, N3, N4, N5 : Integer := 0;
 
    Output : Ada.Text_IO.File_Type;
-   inflections_sections_file : lel_section_io.File_Type;
+   Inflections_Sections_File : Lel_Section_Io.File_Type;
 
-   procedure file_inflections_sections is
+   procedure File_Inflections_Sections is
       --  Reads the INFLECTS. file and prepares an inflections list
       --  Then it Writes that list into an array
       --  Loads the inflection array into a file for later retrieval
-      inflections_file : Ada.Text_IO.File_Type;
-      inflections_sections_file : lel_section_io.File_Type;
-      ir : Inflection_Record;
-      line : String (1 .. 100) := (others => ' ');
-      last, l : Integer := 0;
-      sn : ending_size_type := ending_size_type'First;
-      sx : Character := ' ';
+      Inflections_File : Ada.Text_IO.File_Type;
+      Inflections_Sections_File : Lel_Section_Io.File_Type;
+      Ir : Inflection_Record;
+      Line : String (1 .. 100) := (others => ' ');
+      Last, L : Integer := 0;
+      Sn : Ending_Size_Type := Ending_Size_Type'First;
+      Sx : Character := ' ';
 
-      type inflection_item;
-      type inflection_list is access inflection_item;
+      type Inflection_Item;
+      type Inflection_List is access Inflection_Item;
 
-      type inflection_item is
+      type Inflection_Item is
          record
-            ir   : Inflection_Record;
-            succ : inflection_list;
+            Ir   : Inflection_Record;
+            Succ : Inflection_List;
          end record;
 
-      type latin_inflections is array (Integer range 0 .. max_ending_size,
-        Character  range ' ' .. 'z') of inflection_list;
-      null_latin_inflections : constant latin_inflections :=
+      type Latin_Inflections is array (Integer range 0 .. Max_Ending_Size,
+        Character  range ' ' .. 'z') of Inflection_List;
+      Null_Latin_Inflections : constant Latin_Inflections :=
         (others => (others => null));
 
-      l_i : latin_inflections := null_latin_inflections;
+      L_I : Latin_Inflections := Null_Latin_Inflections;
 
-      lel : lel_section := (others => Null_Inflection_Record);
-      j1, j2, j3, j4, j5 : Integer := 0;
+      Lel : Lel_Section := (others => Null_Inflection_Record);
+      J1, J2, J3, J4, J5 : Integer := 0;
 
-      procedure null_lel is
+      procedure Null_Lel is
       begin
-         for i in lel'Range loop
-            lel (i) := Null_Inflection_Record;
+         for I in Lel'Range loop
+            Lel (I) := Null_Inflection_Record;
          end loop;
-      end null_lel;
+      end Null_Lel;
 
-      procedure load_inflections_list is
+      procedure Load_Inflections_List is
          --  Takes the INFLECT. file and populates the L_I list of inflections
          --  indexed on ending size and last letter of ending
       begin
          Put_Line ("Begin  LOAD_INFLECTIONS_LIST");
-         number_of_inflections := 0;
+         Number_Of_Inflections := 0;
 
-         l_i := null_latin_inflections;
-         Open (inflections_file, In_File, inflections_full_name);
+         L_I := Null_Latin_Inflections;
+         Open (Inflections_File, In_File, Inflections_Full_Name);
          Ada.Text_IO.Put ("INFLECTIONS file loading");
-         while not End_Of_File (inflections_file)  loop
+         while not End_Of_File (Inflections_File)  loop
             -- read_a_line :
             begin
-               Get_Non_Comment_Line (inflections_file, line, last);
+               Get_Non_Comment_Line (Inflections_File, Line, Last);
 
-               if last > 0  then
-                  Get (line (1 .. last), ir, l);
-                  sn := ir.ending.size;
-                  if sn = 0  then
-                     sx := ' ';
+               if Last > 0  then
+                  Get (Line (1 .. Last), Ir, L);
+                  Sn := Ir.Ending.Size;
+                  if Sn = 0  then
+                     Sx := ' ';
                   else
-                     sx := ir.ending.suf (sn);
+                     Sx := Ir.Ending.Suf (Sn);
                   end if;
-                  l_i (sn, sx) := new inflection_item'(ir, l_i (sn, sx));
-                  number_of_inflections := number_of_inflections + 1;
+                  L_I (Sn, Sx) := new Inflection_Item'(Ir, L_I (Sn, Sx));
+                  Number_Of_Inflections := Number_Of_Inflections + 1;
                end if;
             exception
                when E : Constraint_Error | IO_Exceptions.Data_Error  =>
                   Put_Line ("");
                   Put_Line (Ada.Exceptions.Exception_Name (E) & ": " &
-                    line (1 .. last));
+                    Line (1 .. Last));
                   raise;
             end;
 
          end loop;
-         Close (inflections_file);
+         Close (Inflections_File);
          Put_Line ("INFLECTIONS_LIST LOADED   "
-           & Integer'Image (number_of_inflections));
-      end load_inflections_list;
+           & Integer'Image (Number_Of_Inflections));
+      end Load_Inflections_List;
 
-      procedure list_to_lel_file  is
+      procedure List_To_Lel_File  is
          --  From ILC (=L_I) list of inflections,
          --  prepares the LEL inflections array
-         ilc : latin_inflections := l_i;
+         Ilc : Latin_Inflections := L_I;
       begin
-         Create (inflections_sections_file, Out_File,
-           inflections_sections_name);
+         Create (Inflections_Sections_File, Out_File,
+           Inflections_Sections_Name);
 
-         null_lel;
-         ilc := l_i;                      --  Resetting the list to start over
-         while ilc (0, ' ') /= null  loop
-            j5 := j5 + 1;
-            lel (j5) := ilc (0, ' ').ir;
-            ilc (0, ' ') := ilc (0, ' ').succ;
+         Null_Lel;
+         Ilc := L_I;                      --  Resetting the list to start over
+         while Ilc (0, ' ') /= null  loop
+            J5 := J5 + 1;
+            Lel (J5) := Ilc (0, ' ').Ir;
+            Ilc (0, ' ') := Ilc (0, ' ').Succ;
          end loop;
-         Write (inflections_sections_file, lel, 5);
-         n5 := j5;
+         Write (Inflections_Sections_File, Lel, 5);
+         N5 := J5;
 
-         null_lel;
-         ilc := l_i;                      --  Resetting the list to start over
-         for ch in Character range 'a' .. 'z'  loop
-            for n in reverse 1 .. max_ending_size  loop
-               while ilc (n, ch) /= null  loop
+         Null_Lel;
+         Ilc := L_I;                      --  Resetting the list to start over
+         for Ch in Character range 'a' .. 'z'  loop
+            for N in reverse 1 .. Max_Ending_Size  loop
+               while Ilc (N, Ch) /= null  loop
                   if   not
-                    (ilc (n, ch).ir.qual.pofs = Pron  and then
-                    (ilc (n, ch).ir.qual.Pron.Decl.Which = 1  or
-                    ilc (n, ch).ir.qual.Pron.Decl.Which = 2))
+                    (Ilc (N, Ch).Ir.Qual.Pofs = Pron  and then
+                    (Ilc (N, Ch).Ir.Qual.Pron.Decl.Which = 1  or
+                    Ilc (N, Ch).Ir.Qual.Pron.Decl.Which = 2))
                   then
-                     if ch in inflections_section_1  then
-                        j1 := j1 + 1;
-                        lel (j1) := ilc (n, ch).ir;
+                     if Ch in Inflections_Section_1  then
+                        J1 := J1 + 1;
+                        Lel (J1) := Ilc (N, Ch).Ir;
                      end if;
                   end if;
-                  ilc (n, ch) := ilc (n, ch).succ;
+                  Ilc (N, Ch) := Ilc (N, Ch).Succ;
                end loop;
             end loop;
          end loop;
-         Write (inflections_sections_file, lel, 1);
-         n1 := j1;
+         Write (Inflections_Sections_File, Lel, 1);
+         N1 := J1;
 
-         null_lel;
-         ilc := l_i;                       --  Resetting the list to start over
-         for ch in Character range 'a' .. 'z'  loop
-            for n in reverse 1 .. max_ending_size  loop
-               while ilc (n, ch) /= null  loop
+         Null_Lel;
+         Ilc := L_I;                       --  Resetting the list to start over
+         for Ch in Character range 'a' .. 'z'  loop
+            for N in reverse 1 .. Max_Ending_Size  loop
+               while Ilc (N, Ch) /= null  loop
                   if   not
-                    (ilc (n, ch).ir.qual.pofs = Pron  and then
-                    (ilc (n, ch).ir.qual.Pron.Decl.Which = 1  or
-                    ilc (n, ch).ir.qual.Pron.Decl.Which = 2))
+                    (Ilc (N, Ch).Ir.Qual.Pofs = Pron  and then
+                    (Ilc (N, Ch).Ir.Qual.Pron.Decl.Which = 1  or
+                    Ilc (N, Ch).Ir.Qual.Pron.Decl.Which = 2))
                   then
-                     if ch in inflections_section_2  then
-                        j2 := j2 + 1;
-                        lel (j2) := ilc (n, ch).ir;
+                     if Ch in Inflections_Section_2  then
+                        J2 := J2 + 1;
+                        Lel (J2) := Ilc (N, Ch).Ir;
                      end if;
                   end if;
-                  ilc (n, ch) := ilc (n, ch).succ;
+                  Ilc (N, Ch) := Ilc (N, Ch).Succ;
                end loop;
             end loop;
          end loop;
-         Write (inflections_sections_file, lel, 2);
-         n2 := j2;
+         Write (Inflections_Sections_File, Lel, 2);
+         N2 := J2;
 
-         null_lel;
-         ilc := l_i;                      --  Resetting the list to start over
-         for ch in Character range 'a' .. 'z'  loop
-            for n in reverse 1 .. max_ending_size  loop
-               while ilc (n, ch) /= null  loop
+         Null_Lel;
+         Ilc := L_I;                      --  Resetting the list to start over
+         for Ch in Character range 'a' .. 'z'  loop
+            for N in reverse 1 .. Max_Ending_Size  loop
+               while Ilc (N, Ch) /= null  loop
                   if   not
-                    (ilc (n, ch).ir.qual.pofs = Pron  and then
-                    (ilc (n, ch).ir.qual.Pron.Decl.Which = 1  or
-                    ilc (n, ch).ir.qual.Pron.Decl.Which = 2))
+                    (Ilc (N, Ch).Ir.Qual.Pofs = Pron  and then
+                    (Ilc (N, Ch).Ir.Qual.Pron.Decl.Which = 1  or
+                    Ilc (N, Ch).Ir.Qual.Pron.Decl.Which = 2))
                   then
-                     if ch in inflections_section_3  then
-                        j3 := j3 + 1;
-                        lel (j3) := ilc (n, ch).ir;
+                     if Ch in Inflections_Section_3  then
+                        J3 := J3 + 1;
+                        Lel (J3) := Ilc (N, Ch).Ir;
                      end if;
                   end if;
-                  ilc (n, ch) := ilc (n, ch).succ;
+                  Ilc (N, Ch) := Ilc (N, Ch).Succ;
                end loop;
             end loop;
          end loop;
-         Write (inflections_sections_file, lel, 3);
-         n3 := j3;
+         Write (Inflections_Sections_File, Lel, 3);
+         N3 := J3;
 
-         null_lel;
-         ilc := l_i;                      --  Resetting the list to start over
-         for ch in Character range 'a' .. 'z'  loop
-            for n in reverse 1 .. max_ending_size  loop
-               while ilc (n, ch) /= null  loop
+         Null_Lel;
+         Ilc := L_I;                      --  Resetting the list to start over
+         for Ch in Character range 'a' .. 'z'  loop
+            for N in reverse 1 .. Max_Ending_Size  loop
+               while Ilc (N, Ch) /= null  loop
                   if   not
-                    (ilc (n, ch).ir.qual.pofs = Pron  and then
-                    (ilc (n, ch).ir.qual.Pron.Decl.Which = 1  or
-                    ilc (n, ch).ir.qual.Pron.Decl.Which = 2))
+                    (Ilc (N, Ch).Ir.Qual.Pofs = Pron  and then
+                    (Ilc (N, Ch).Ir.Qual.Pron.Decl.Which = 1  or
+                    Ilc (N, Ch).Ir.Qual.Pron.Decl.Which = 2))
                   then
-                     if ch in inflections_section_4 then
-                        j4 := j4 + 1;
-                        lel (j4) := ilc (n, ch).ir;
+                     if Ch in Inflections_Section_4 then
+                        J4 := J4 + 1;
+                        Lel (J4) := Ilc (N, Ch).Ir;
                      end if;
                   end if;
-                  ilc (n, ch) := ilc (n, ch).succ;
+                  Ilc (N, Ch) := Ilc (N, Ch).Succ;
                end loop;
             end loop;
          end loop;
 
          --  Now Put the PACK in 4       --  Maybe it should be in 5 ????
-         ilc := l_i;                     --  Resetting the list to start over
-         for ch in Character range 'a' .. 'z'  loop
-            for n in reverse 1 .. max_ending_size  loop
-               while ilc (n, ch) /= null  loop
-                  if ilc (n, ch).ir.qual.pofs = Pron  and then
-                    (ilc (n, ch).ir.qual.Pron.Decl.Which = 1  or
-                    ilc (n, ch).ir.qual.Pron.Decl.Which = 2)
+         Ilc := L_I;                     --  Resetting the list to start over
+         for Ch in Character range 'a' .. 'z'  loop
+            for N in reverse 1 .. Max_Ending_Size  loop
+               while Ilc (N, Ch) /= null  loop
+                  if Ilc (N, Ch).Ir.Qual.Pofs = Pron  and then
+                    (Ilc (N, Ch).Ir.Qual.Pron.Decl.Which = 1  or
+                    Ilc (N, Ch).Ir.Qual.Pron.Decl.Which = 2)
                   then  --  2 no longer PACK
-                     j4 := j4 + 1;
-                     lel (j4) := ilc (n, ch).ir;
+                     J4 := J4 + 1;
+                     Lel (J4) := Ilc (N, Ch).Ir;
                   end if;
-                  ilc (n, ch) := ilc (n, ch).succ;
+                  Ilc (N, Ch) := Ilc (N, Ch).Succ;
                end loop;
             end loop;
          end loop;
-         Write (inflections_sections_file, lel, 4);
-         n4 := j4;
+         Write (Inflections_Sections_File, Lel, 4);
+         N4 := J4;
 
-         Close (inflections_sections_file);
-      end list_to_lel_file;
+         Close (Inflections_Sections_File);
+      end List_To_Lel_File;
 
    begin
-      load_inflections_list;
+      Load_Inflections_List;
 
       Ada.Text_IO.Set_Col (33);
       Ada.Text_IO.Put ("--  ");
-      Integer_IO.Put (number_of_inflections);
+      Integer_IO.Put (Number_Of_Inflections);
       Ada.Text_IO.Put_Line (" entries    --  Loaded correctly");
 
-      list_to_lel_file;                     --  Load arrays to file
+      List_To_Lel_File;                     --  Load arrays to file
       Ada.Text_IO.Put_Line ("File INFLECTS.SEC  --  Loaded");
 
    exception
       when others =>
          Ada.Text_IO.Put_Line ("Exception in FILE_INFLECTIONS_SECTIONS");
-   end file_inflections_sections;
+   end File_Inflections_Sections;
 
 begin
 
    Put_Line ("Produces INFLECTS.SEC file from INFLECTS.");
 
-   file_inflections_sections;
+   File_Inflections_Sections;
 
-   if not porting  then
+   if not Porting  then
       Put_Line
         ("using FILE_INFLECTIONS_SECTIONS, also produces INFLECTS.LIN file");
 
       Create (Output, Out_File, "INFLECTS.LIN");
    end if;
 
-   establish_inflections_section;
+   Establish_Inflections_Section;
 
-   lel_section_io.Open (inflections_sections_file, In_File,
-     inflections_sections_name);
+   Lel_Section_Io.Open (Inflections_Sections_File, In_File,
+     Inflections_Sections_Name);
 
-   if not porting then
-      for i in bel'Range loop                     --  Blank endings
-         if  bel (i) /= Null_Inflection_Record  then
-            m := m + 1;
-            Put (Output, bel (i).qual);
+   if not Porting then
+      for I in Bel'Range loop                     --  Blank endings
+         if  Bel (I) /= Null_Inflection_Record  then
+            M := M + 1;
+            Put (Output, Bel (I).Qual);
             Set_Col (Output, 50);
-            Put (Output, bel (i).key, 1);
+            Put (Output, Bel (I).Key, 1);
             Set_Col (Output, 52);
-            Put (Output, bel (i).ending);
+            Put (Output, Bel (I).Ending);
             Set_Col (Output, 62);
-            Put (Output, bel (i).age);
+            Put (Output, Bel (I).Age);
             Set_Col (Output, 64);
-            Put (Output, bel (i).freq);
+            Put (Output, Bel (I).Freq);
             New_Line (Output);
          end if;
       end loop;
    end if;
 
-   for n in 1 .. 4  loop
-      Read (inflections_sections_file, lel, lel_section_io.Positive_Count (n));
+   for N in 1 .. 4  loop
+      Read (Inflections_Sections_File, Lel, Lel_Section_Io.Positive_Count (N));
 
-      if not porting then
-         for i in lel'Range loop                     --  Non-blank endings
-            if  lel (i) /= Null_Inflection_Record  then
-               m := m + 1;
-               Put (Output, lel (i).qual);
+      if not Porting then
+         for I in Lel'Range loop                     --  Non-blank endings
+            if  Lel (I) /= Null_Inflection_Record  then
+               M := M + 1;
+               Put (Output, Lel (I).Qual);
                Set_Col (Output, 50);
-               Put (Output, lel (i).key, 1);
+               Put (Output, Lel (I).Key, 1);
                Set_Col (Output, 52);
-               Put (Output, lel (i).ending);
+               Put (Output, Lel (I).Ending);
                Set_Col (Output, 62);
-               Put (Output, lel (i).age);
+               Put (Output, Lel (I).Age);
                Set_Col (Output, 64);
-               Put (Output, lel (i).freq);
+               Put (Output, Lel (I).Freq);
                New_Line (Output);
             end if;
          end loop;
@@ -321,45 +321,45 @@ begin
    end loop;
 
    New_Line;
-   Put ("LINE_INFLECTIONS finds "); Put (m); Put_Line (" inflections");
+   Put ("LINE_INFLECTIONS finds "); Put (M); Put_Line (" inflections");
    New_Line;
 
-   for i in Character range ' ' .. ' '  loop
-      Integer_IO.Put (0); Put ("    "); Put (i); Put ("    ");
-      Put (belf (0, i));
-      Put ("  ");   Put (bell (0, i));
-      Put ("    "); Put (bell (0, i) - belf (0, i) + 1); New_Line;
+   for I in Character range ' ' .. ' '  loop
+      Integer_IO.Put (0); Put ("    "); Put (I); Put ("    ");
+      Put (Belf (0, I));
+      Put ("  ");   Put (Bell (0, I));
+      Put ("    "); Put (Bell (0, I) - Belf (0, I) + 1); New_Line;
    end loop;
    New_Line;
 
-   for i in Character range 'a' .. 'z'  loop
-      for n in reverse 1 .. max_ending_size  loop
-         if (lell (n, i) > 0)  and then (lelf (n, i) <= lell (n, i))  then
-            Put (n); Put ("    "); Put (i); Put ("    "); Put (lelf (n, i));
-            Put ("  ");   Put (lell (n, i));
-            Put ("    "); Put (lell (n, i) - lelf (n, i) + 1); New_Line;
+   for I in Character range 'a' .. 'z'  loop
+      for N in reverse 1 .. Max_Ending_Size  loop
+         if (Lell (N, I) > 0)  and then (Lelf (N, I) <= Lell (N, I))  then
+            Put (N); Put ("    "); Put (I); Put ("    "); Put (Lelf (N, I));
+            Put ("  ");   Put (Lell (N, I));
+            Put ("    "); Put (Lell (N, I) - Lelf (N, I) + 1); New_Line;
          end if;
       end loop;
    end loop;
    New_Line;
 
-   for i in Character range 'a' .. 'z'  loop
-      for n in reverse 1 .. max_ending_size  loop
-         if (pell (n, i) > 0)  and then (pelf (n, i) <= pell (n, i))  then
-            Put (n); Put ("    "); Put (i); Put ("    "); Put (pelf (n, i));
-            Put ("  ");   Put (pell (n, i));
-            Put ("    "); Put (pell (n, i) - pelf (n, i) + 1); New_Line;
+   for I in Character range 'a' .. 'z'  loop
+      for N in reverse 1 .. Max_Ending_Size  loop
+         if (Pell (N, I) > 0)  and then (Pelf (N, I) <= Pell (N, I))  then
+            Put (N); Put ("    "); Put (I); Put ("    "); Put (Pelf (N, I));
+            Put ("  ");   Put (Pell (N, I));
+            Put ("    "); Put (Pell (N, I) - Pelf (N, I) + 1); New_Line;
          end if;
       end loop;
    end loop;
    New_Line;
 
    New_Line;
-   Put (n5);  Put ("    ");
-   Put (n1);  Put ("    ");
-   Put (n2);  Put ("    ");
-   Put (n3);  Put ("    ");
-   Put (n4);  Put ("    ");
+   Put (N5);  Put ("    ");
+   Put (N1);  Put ("    ");
+   Put (N2);  Put ("    ");
+   Put (N3);  Put ("    ");
+   Put (N4);  Put ("    ");
    New_Line;
 
-end makeinfl;
+end Makeinfl;
