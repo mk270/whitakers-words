@@ -15,106 +15,106 @@
 -- available to anyone who wishes to use them, for whatever purpose.
 
 with Ada.Text_IO;
-procedure slash is
+procedure Slash is
    package Integer_IO is new Ada.Text_IO.Integer_IO (Integer);
    use Ada.Text_IO;
    use Integer_IO;
 
-   f1, f2, f3  : File_Type;
-   f           : String (1 .. 100);
-   s           : String (1 .. 2500);
-   bs          : constant String (1 .. 2500) := (others => ' ');
-   n           : Integer := 0;
-   l           : Integer := 0;
-   ls          : Integer := 0;
+   F1, F2, F3  : File_Type;
+   F           : String (1 .. 100);
+   S           : String (1 .. 2500);
+   Bs          : constant String (1 .. 2500) := (others => ' ');
+   N           : Integer := 0;
+   L           : Integer := 0;
+   Ls          : Integer := 0;
 
-   type reply_type is (columns, lines);
-   reply : reply_type;
-   reply_Character : Character;
+   type Reply_Type is (Columns, Lines);
+   Reply : Reply_Type;
+   Reply_Character : Character;
 
-   function which (r : Character) return reply_type is
+   function Which (R : Character) return Reply_Type is
    begin
-      case r is
-         when 'C' | 'c'  =>  return columns;
-         when 'L' | 'l'  =>  return lines;
+      case R is
+         when 'C' | 'c'  =>  return Columns;
+         when 'L' | 'l'  =>  return Lines;
          when others     =>
             raise Data_Error;
       end case;
-   end which;
+   end Which;
 
 begin
    Put_Line ("Breaks a file into two, by row or column.");
 
    Put ("What file to SLASH from =>");
-   Get_Line (f, l);
+   Get_Line (F, L);
    Put ("=> ");
-   Open (f1, In_File, f (1 .. l));
+   Open (F1, In_File, F (1 .. L));
    Put_Line ("Opened input file");
 
    Put ("Do you wish to SLASH C)olumns or L)ines? =>");
-   Get (reply_Character);
+   Get (Reply_Character);
    Skip_Line;
-   reply := which (reply_Character);
+   Reply := Which (Reply_Character);
    New_Line;
 
    Put ("How many lines/columns to leave after SLASHing =>");
-   Get (n);
+   Get (N);
    Skip_Line;
    New_Line;
 
    Put ("Where to put the first  =>");
-   Get_Line (f, l);
+   Get_Line (F, L);
    Put ("=> ");
-   Create (f2, Out_File, f (1 .. l));
+   Create (F2, Out_File, F (1 .. L));
    Put_Line ("Created SLASH file first");
 
    Put ("Where to put the rest  =>");
-   Get_Line (f, l);
+   Get_Line (F, L);
    Put ("=> ");
-   Create (f3, Out_File, f (1 .. l));
+   Create (F3, Out_File, F (1 .. L));
    Put_Line ("Created SLASH file rest");
 
-   if reply = columns  then
+   if Reply = Columns  then
 
-      while not End_Of_File (f1) loop
-         s := bs;
-         Get_Line (f1, s, ls);
-         if ls <= n then            --  Line shorter than break
-            Put_Line (f2, s (1 .. ls));
-            Put_Line (f3, "");      --  Put a blank line so there will be a line
+      while not End_Of_File (F1) loop
+         S := Bs;
+         Get_Line (F1, S, Ls);
+         if Ls <= N then            --  Line shorter than break
+            Put_Line (F2, S (1 .. Ls));
+            Put_Line (F3, "");      --  Put a blank line so there will be a line
          else                       --  Line runs past break
-            Put_Line (f2, s (1 .. n));
-            Put_Line (f3, s (n + 1 .. ls));
+            Put_Line (F2, S (1 .. N));
+            Put_Line (F3, S (N + 1 .. Ls));
          end if;
       end loop;
-      Close (f2);
-      Close (f3);
+      Close (F2);
+      Close (F3);
 
-   elsif reply = lines  then
+   elsif Reply = Lines  then
 
       First :
       begin
-         for i in 1 .. n loop
-            Get_Line (f1, s, ls);
-            Put_Line (f2, s (1 .. ls));
+         for I in 1 .. N loop
+            Get_Line (F1, S, Ls);
+            Put_Line (F2, S (1 .. Ls));
          end loop;
       exception
          when End_Error  =>
             null;
       end First;
-      Close (f2);
+      Close (F2);
 
       Second :
       begin
          loop
-            Get_Line (f1, s, ls);
-            Put_Line (f3, s (1 .. ls));
+            Get_Line (F1, S, Ls);
+            Put_Line (F3, S (1 .. Ls));
          end loop;
       exception
          when End_Error  =>
             null;
       end Second;
-      Close (f3);
+      Close (F3);
 
    end if;
 
