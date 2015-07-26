@@ -738,12 +738,15 @@ package Latin_Utils.Inflections_Package is
    -- FIXME results in erroneous execution in case of Tackon .. Suffix
    function "<" (Left, Right : Quality_Record) return Boolean;
 
+   -- FIXME: These subprograms don't check if Is_Open (File)
    package Quality_Record_IO is
+      -- FIXME: This probably should be constant.
       Default_Width : Natural;
       procedure Get (File : in  File_Type; Item : out Quality_Record);
       procedure Get (Item : out Quality_Record);
       procedure Put (File : in  File_Type; Item : in  Quality_Record);
       procedure Put (Item : in Quality_Record);
+      -- TODO: Document meaning of Last
       procedure Get
         (Source : in  String;
          Target : out Quality_Record;
@@ -759,7 +762,8 @@ package Latin_Utils.Inflections_Package is
    Max_Ending_Size : constant := 7;
    subtype Ending_Size_Type is Integer range 0 .. Max_Ending_Size;
 
-   Ending_Size_Type_Io_Default_Width : Integer := 3;
+   -- FIXME: This probably should be constant.
+   Ending_Size_Type_IO_Default_Width : Integer := 3;
 
    subtype Ending is String (1 .. Max_Ending_Size);
 
@@ -769,17 +773,26 @@ package Latin_Utils.Inflections_Package is
          Suf  : Ending := (others => ' ');
       end record;
 
-   package Ending_Record_Io is
+   -- FIXME: These subprograms don't check if Is_Open (File)
+   package Ending_Record_IO is
+      -- FIXME: This probably should be constant.
       Default_Width : Natural;
-      procedure Get (F : in File_Type; X : out Ending_Record);
-      procedure Get (X : out Ending_Record);
-      procedure Put (F : in File_Type; X : in Ending_Record);
-      procedure Put (X : in Ending_Record);
-      procedure Get (S : in String; X : out Ending_Record; Last : out Integer);
-      procedure Put (S : out String; X : in Ending_Record);
-   end Ending_Record_Io;
+      procedure Get (File : in  File_Type; Item : out Ending_Record);
+      procedure Get (Item : out Ending_Record);
+      procedure Put (File : in  File_Type; Item : in  Ending_Record);
+      procedure Put (Item : in  Ending_Record);
+      -- TODO: Document meaning of Last
+      procedure Get
+         (Source : in  String;
+          Target : out Ending_Record;
+          Last   : out Integer
+         );
+      procedure Put (Target : out String; Item : in Ending_Record);
+   end Ending_Record_IO;
 
-   Null_Ending_Record : Ending_Record;
+   Null_Ending_Record : constant Ending_Record := (0, (others => ' '));
+
+   ---------------------------------------------------------------------------
 
    type Age_Type is (
      X,   --              --  In use throughout the ages/unknown -- the default
