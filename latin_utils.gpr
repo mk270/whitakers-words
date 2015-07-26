@@ -35,6 +35,7 @@ project Latin_Utils is
         "latin_utils-inflections_package-adverb_record_io.adb",
         "latin_utils-inflections_package-conjunction_record_io.adb",
         "latin_utils-inflections_package-decn_record_io.adb",
+        "latin_utils-inflections_package-ending_record_io.adb",
         "latin_utils-inflections_package-interjection_record_io.adb",
         "latin_utils-inflections_package-noun_record_io.adb",
         "latin_utils-inflections_package-numeral_record_io.adb",

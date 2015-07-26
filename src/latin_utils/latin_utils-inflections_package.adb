@@ -14,6 +14,7 @@
 -- All parts of the WORDS system, source code and data files, are made freely
 -- available to anyone who wishes to use them, for whatever purpose.
 
+with Ada.Integer_Text_IO;
 with Latin_Utils.Latin_File_Names; use Latin_Utils.Latin_File_Names;
 with Latin_Utils.Preface;
 package body Latin_Utils.Inflections_Package is
@@ -425,112 +426,12 @@ package body Latin_Utils.Inflections_Package is
 
    package body Quality_Record_IO is separate;
 
-   package body Ending_Record_Io is
-      use Integer_IO;
-      Spacer : Character := ' ';
-
-      Sf : Ending := (others => ' ');
-      Blanks : constant Ending := (others => ' ');
-      N : Ending_Size_Type := 0;
-
-      procedure Get (F : in File_Type; X : out Ending_Record) is
-      begin
-         Sf := Blanks;
-         Get (F, N);
-         if N = 0  then
-            X := Null_Ending_Record;
-         else
-            Get (F, Spacer);             --  Note this means exactly one blank
-            Get (F, Sf (1 .. N));
-            X := (N, Sf);
-         end if;
-      end Get;
-
-      procedure Get (X : out Ending_Record) is
-      begin
-         Sf := Blanks;
-         Get (N);
-         if N = 0  then
-            X := Null_Ending_Record;
-         else
-            Get (Spacer);
-            Get (Sf (1 .. N));
-            X := (N, Sf);
-         end if;
-      end Get;
-
-      procedure Put (F : in File_Type; X : in Ending_Record) is
-      begin
-         Put (F, X.Size, 1);
-         Put (F, ' ');
-         Put (F, X.Suf (1 .. X.Size) & Blanks (X.Size + 1 .. Max_Ending_Size));
-      end Put;
-
-      procedure Put (X : in Ending_Record) is
-      begin
-         Put (X.Size, 1);
-         Put (' ');
-         Put (X.Suf (1 .. X.Size) & Blanks (X.Size + 1 .. Max_Ending_Size));
-      end Put;
-
-      procedure Get
-        (S : in String;
-         X : out Ending_Record;
-         Last : out Integer)
-      is
-         L : Integer := S'First - 1;
-      begin
-         Sf := Blanks;
-         Get (S (L + 1 .. S'Last), N, L);
-         if N = 0  then
-            X := Null_Ending_Record;
-            Last := L;
-         else
-            L := L + 1;
-            --if S (L+N - 1) = ' '  or else
-            --   S (L+N + 1) /= ' '  then
-            --if
-            --   S (L+N + 1) /= ' '  then
-            -- TEXT_IO.PUT_LINE ("ERROR in INFLECTION =>" & S);
-            --else
-            Sf := S (L + 1 .. L + N) & Blanks (N + 1 .. Max_Ending_Size);
-            Last := L + N;
-            X := (N, Sf (1 .. N) & Blanks (N + 1 .. Max_Ending_Size));
-            --end if;
-         end if;
-      exception
-         when others =>
-            Ada.Text_IO.Put_Line ("ENDING ERROR " & S);
-            raise;
-      end Get;
-
-      procedure Put (S : out String; X : in Ending_Record) is
-         L : Integer := S'First - 1;
-         M : Integer := 0;
-      begin
-         M := L + 2;
-         Put (S (L + 1 .. M), X.Size);
-         M := M  + 1;
-         S (M) := ' ';
-         if X.Size > 0  then
-            L := M;
-            M := L + X.Size;
-            S (L + 1 .. M) := X.Suf (1 .. X.Size);
-         end if;
-         --  Being very careful here, first to fill out to the MAX_ENDING_SIZE
-         L := M;
-         M := L + Max_Ending_Size - X.Size;
-         S (L + 1 .. M) := (others => ' ');
-         --  Then to fill out the rest of the out String, if any
-         S (M + 1 .. S'Last) := (others => ' ');
-      end Put;
-
-   end Ending_Record_Io;
+   package body Ending_Record_IO is separate;
 
    package body Inflection_Record_IO is
       use Quality_Record_IO;
       use Stem_Key_Type_IO;
-      use Ending_Record_Io;
+      use Ending_Record_IO;
       use Age_Type_IO;
       use Frequency_Type_IO;
       Spacer : Character := ' ';
@@ -621,7 +522,7 @@ package body Latin_Utils.Inflections_Package is
          Put (S (L + 1 .. M), P.Key);
          L := M + 1;
          S (L) :=  ' ';
-         M := L + Ending_Record_Io.Default_Width;
+         M := L + Ending_Record_IO.Default_Width;
          Put (S (L + 1 .. M), P.Ending);
          L := M + 1;
          S (L) :=  ' ';
@@ -931,12 +832,12 @@ begin
    Quality_Record_IO.Default_Width := Part_Of_Speech_Type_IO.Default_Width + 1 +
      Vpar_Record_IO.Default_Width; --  Largest
 
-   Ending_Record_Io.Default_Width := 3 + 1 +
+   Ending_Record_IO.Default_Width := 3 + 1 +
      Max_Ending_Size;
 
    Inflection_Record_IO.Default_Width := Quality_Record_IO.Default_Width + 1 +
      1  + 1 +
-     Ending_Record_Io.Default_Width + 1 +
+     Ending_Record_IO.Default_Width + 1 +
      Age_Type_IO.Default_Width + 1 +
      Frequency_Type_IO.Default_Width;
 
