@@ -548,19 +548,11 @@ package body Latin_Utils.Inflections_Package is
             I := I + 1;
          end loop;
 
-         -- FIXME: deduplicat the ten lines below, and the following block
-         Number_Of_Inflections := Number_Of_Inflections + I - 1;
-
-         Read_Inflections (P1);
-         Number_Of_Inflections := Number_Of_Inflections + I - 1;
-
-         Read_Inflections (P2);
-         Number_Of_Inflections := Number_Of_Inflections + I - 1;
-
-         Read_Inflections (P3);
-         Number_Of_Inflections := Number_Of_Inflections + I - 1;
-
-         Read_Inflections (P4);
+         -- FIXME: deduplicat the ten lines below
+         for K in Paradigm'Range loop
+            Number_Of_Inflections := Number_Of_Inflections + I - 1;
+            Read_Inflections (K);
+         end loop;
 
          begin
 
