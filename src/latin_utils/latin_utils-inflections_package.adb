@@ -388,47 +388,31 @@ package body Latin_Utils.Inflections_Package is
       end if;
    end "<=";
 
+   ---------------------------------------------------------------------------
+
    package body Stem_Type_IO is separate;
-
    package body Decn_Record_IO is separate;
-
    package body Tense_Voice_Mood_Record_IO is separate;
-
    package body Noun_Record_IO is separate;
-
    package body Pronoun_Record_IO is separate;
-
    package body Propack_Record_IO is separate;
-
    package body Adjective_Record_IO is separate;
-
    package body Numeral_Record_IO is separate;
-
    package body Adverb_Record_IO is separate;
-
    package body Verb_Record_IO is separate;
-
    package body Vpar_Record_IO is separate;
-
    package body Supine_Record_IO is separate;
-
    package body Preposition_Record_IO is separate;
-
    package body Conjunction_Record_IO is separate;
-
    package body Interjection_Record_IO is separate;
-
    package body Tackon_Record_IO is separate;
-
    package body Prefix_Record_IO is separate;
-
    package body Suffix_Record_IO is separate;
-
    package body Quality_Record_IO is separate;
-
    package body Ending_Record_IO is separate;
-
    package body Inflection_Record_IO is separate;
+
+   ---------------------------------------------------------------------------
 
    procedure Establish_Inflections_Section  is
       --  Loads the inflection array from the file prepared in
