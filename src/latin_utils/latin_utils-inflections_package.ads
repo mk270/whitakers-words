@@ -834,29 +834,38 @@ package Latin_Utils.Inflections_Package is
 
    package Frequency_Type_IO is new Ada.Text_IO.Enumeration_IO (Frequency_Type);
 
+   ---------------------------------------------------------------------------
+
    type Inflection_Record is
       record
-         Qual   : Quality_Record   := Null_Quality_Record;
-         Key    : Stem_Key_Type := 0;
-         Ending : Ending_Record := Null_Ending_Record;
-         Age    : Age_Type      := X;
-         Freq   : Frequency_Type      := X;
+         Qual   : Quality_Record := Null_Quality_Record;
+         Key    : Stem_Key_Type  := 0;
+         Ending : Ending_Record  := Null_Ending_Record;
+         Age    : Age_Type       := X;
+         Freq   : Frequency_Type := X;
       end record;
 
-   Null_Inflection_Record : Inflection_Record;
+   Null_Inflection_Record : constant Inflection_Record :=
+      (Null_Quality_Record, 0, Null_Ending_Record, X, X);
 
+   -- FIXME: These subprograms don't check if Is_Open (File)
    package Inflection_Record_IO is
+      -- FIXME: This probably should be constant.
       Default_Width : Natural;
-      procedure Get (F : in File_Type; P : out Inflection_Record);
-      procedure Get (P : out Inflection_Record);
-      procedure Put (F : in File_Type; P : in Inflection_Record);
-      procedure Put (P : in Inflection_Record);
-      procedure Get (S : in String;
-                     P : out Inflection_Record;
-                     Last : out Integer);
-      procedure Put (S : out String; P : in Inflection_Record);
+      procedure Get (File : in  File_Type; Item : out Inflection_Record);
+      procedure Get (Item : out Inflection_Record);
+      procedure Put (File : in  File_Type; Item : in  Inflection_Record);
+      procedure Put (Item : in  Inflection_Record);
+      -- TODO: Document meaning of Last
+      procedure Get
+         (Source : in  String;
+          Target : out Inflection_Record;
+          Last   : out Integer
+         );
+      procedure Put (Target : out String; Item : in Inflection_Record);
    end Inflection_Record_IO;
 
+   ---------------------------------------------------------------------------
    --  This implies a knowledge of the inflections last Character
    subtype Inflections_Section_1 is Character range 'a' .. 'i';
    subtype Inflections_Section_2 is Character range 'm' .. 'r';
