@@ -886,6 +886,7 @@ package Latin_Utils.Inflections_Package is
    type Inflection_Array_Index is array (Integer range <>,
      Character range <>) of Integer;
 
+   -- FIXME: Following 6 variables are global state. This should be eliminated.
    Belf, Bell : Inflection_Array_Index (0 .. 0, ' ' .. ' ') :=
      (0 => (others => 0));
    Lelf, Lell : Inflection_Array_Index (1 .. Max_Ending_Size,
