@@ -434,20 +434,9 @@ package body Latin_Utils.Inflections_Package is
          -- FIXME: this algebraic type and its values are obviously misnomers
          type Paradigm is (P1, P2, P3, P4);
 
-         function Section_Count (P : Paradigm) return Integer
-         is
-         begin
-            case P is
-               when P1 => return 1;
-               when P2 => return 2;
-               when P3 => return 3;
-               when P4 => return 4;
-            end case;
-         end Section_Count;
-
          procedure Read_Inflections (P : Paradigm)
          is
-            Count : constant Integer := Section_Count (P);
+            Count : constant Integer := Paradigm'Pos (P) + 1;
          begin
             Lel_Section_Io.Read (Inflections_Sections_File,
               Lel,
