@@ -432,32 +432,37 @@ package body Latin_Utils.Inflections_Package is
          Inflections_Sections_File : Lel_Section_Io.File_Type;
 
          -- FIXME: this algebraic type and its values are obviously misnomers
-         type Paradigm is (P1, P2, P3, P4);
+         type Paradigm is (P1, P2, P3, P4, P5);
 
          procedure Read_Inflections (P : Paradigm)
          is
             Count : constant Integer := Paradigm'Pos (P) + 1;
          begin
-            Lel_Section_Io.Read (Inflections_Sections_File,
-              Lel,
-              Lel_Section_Io.Positive_Count (Count));
-
-            I := 1;
+            if P /= P5 then
+               Lel_Section_Io.Read (Inflections_Sections_File,
+                 Lel,
+                 Lel_Section_Io.Positive_Count (Count));
+               I := 1;
+            end if;
 
             N := Lel (I).Ending.Size;
-
             Ch := Lel (I).Ending.Suf (N);
 
             Xn := N;
             Xch := Ch;
-            Lelf (N, Ch) := I;
+            if P /= P5 then
+               Lelf (N, Ch) := I;
+            else
+               Pelf (N, Ch) := I;
+               Pell (N, Ch) := 0;
+            end if;
 
             C1_Loop :
             loop
                N1_Loop :
                loop
                   case P is
-                     when P1 | P2 | P3 =>
+                     when P1 | P2 | P3 | P5 =>
                         exit C1_Loop when Lel (I) = Null_Inflection_Record;
                      when P4 =>
                         exit C1_Loop when  Lel (I).Qual.Pofs = Pron  and then
@@ -466,11 +471,10 @@ package body Latin_Utils.Inflections_Package is
                   end case;
 
                   N := Lel (I).Ending.Size;
-
                   Ch := Lel (I).Ending.Suf (N);
 
                   case P is
-                     when P1 | P4 =>
+                     when P1 | P4 | P5 =>
                         null;
                      when P2 =>
                         exit N1_Loop when Ch > 'r';
@@ -478,28 +482,44 @@ package body Latin_Utils.Inflections_Package is
                         exit N1_Loop when Ch > 's';
                   end case;
 
-                  if Ch /= Xch  then
-                     Lell (Xn, Xch) := I - 1;
-                     Lelf (N, Ch) := I;
-                     Lell (N, Ch) := 0;
-                     Xch := Ch;
-                     Xn := N;
-                  elsif N /= Xn  then
-                     Lell (Xn, Ch) := I - 1;
-                     Lelf (N, Ch) := I;
-                     Lell (N, Ch) := 0;
-                     Xn := N;
-                     exit N1_Loop;
+                  if P /= P5 then
+                     if Ch /= Xch  then
+                        Lell (Xn, Xch) := I - 1;
+                        Lelf (N, Ch) := I;
+                        Lell (N, Ch) := 0;
+                        Xch := Ch;
+                        Xn := N;
+                     elsif N /= Xn  then
+                        Lell (Xn, Ch) := I - 1;
+                        Lelf (N, Ch) := I;
+                        Lell (N, Ch) := 0;
+                        Xn := N;
+                        exit N1_Loop;
+                     end if;
+                  else
+                     if Ch /= Xch  then
+                        Pell (Xn, Xch) := I - 1;
+                        Pelf (N, Ch) := I;
+                        Pell (N, Ch) := 0;
+                        Xch := Ch;
+                        Xn := N;
+                     elsif N /= Xn  then
+                        Pell (Xn, Ch) := I - 1;
+                        Pelf (N, Ch) := I;
+                        Pell (N, Ch) := 0;
+                        Xn := N;
+                        exit N1_Loop;
+                     end if;
                   end if;
 
                   I := I + 1;
 
                end loop N1_Loop;
-
             end loop C1_Loop;
 
-            Lell (Xn, Xch) := I - 1;
-
+            if P /= P5 then
+               Lell (Xn, Xch) := I - 1;
+            end if;
          end Read_Inflections;
 
       begin
@@ -521,53 +541,12 @@ package body Latin_Utils.Inflections_Package is
             I := I + 1;
          end loop;
 
-         -- FIXME: deduplicat the ten lines below
          for K in Paradigm'Range loop
-            Number_Of_Inflections := Number_Of_Inflections + I - 1;
+            if K /= P5 then
+               Number_Of_Inflections := Number_Of_Inflections + I - 1;
+            end if;
             Read_Inflections (K);
          end loop;
-
-         begin
-
-            N := Lel (I).Ending.Size;
-
-            Ch := Lel (I).Ending.Suf (N);
-
-            Xn := N;
-            Xch := Ch;
-            Pelf (N,  Ch) := I;
-            Pell (N,  Ch) := 0;
-
-            C_P_Loop :
-            loop
-               N_P_Loop :
-               loop
-                  exit C_P_Loop when Lel (I) = Null_Inflection_Record;
-
-                  N := Lel (I).Ending.Size;
-
-                  Ch := Lel (I).Ending.Suf (N);
-
-                  if Ch /= Xch  then
-                     Pell (Xn, Xch) := I - 1;
-                     Pelf (N, Ch) := I;
-                     Pell (N, Ch) := 0;
-                     Xch := Ch;
-                     Xn := N;
-                  elsif N /= Xn  then
-                     Pell (Xn, Ch) := I - 1;
-                     Pelf (N, Ch) := I;
-                     Pell (N, Ch) := 0;
-                     Xn  := N;
-                     exit N_P_Loop;
-                  end if;
-
-                  I := I + 1;
-               end loop N_P_Loop;
-            end loop C_P_Loop;
-         exception
-            when Constraint_Error => null;
-         end;
 
          Pell (Xn, Xch) := I - 1;
          Number_Of_Inflections := Number_Of_Inflections + I - 1;
