@@ -1,0 +1,12 @@
+r.em                 N      5 1 ACC S F                 
+res, rei  N (5th) F   [XXXAX]  
+thing; event/affair/business; fact; cause; property; [~ familiaris => property]
+
+ac.u                 N      4 1 ABL S F                 
+acus, acus  N (4th) F   [XXXBO]  
+needle, pin; hair-pin; pipefish, needlefish; detail; husks/chaff (pl.);
+*
+tetig.isti           V      3 1 PERF ACTIVE  IND 2 S    
+tango, tangere, tetigi, tactus  V (3rd)   [XXXAX]  
+touch, strike; border on, influence; mention;
+
