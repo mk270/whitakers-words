@@ -28,7 +28,7 @@ procedure Makeinfl is
    use Stem_Key_Type_IO;
    use Inflection_Record_IO;
    use Quality_Record_IO;
-   use Ending_Record_Io;
+   use Ending_Record_IO;
    use Age_Type_IO;
    use Frequency_Type_IO;
    use Lel_Section_Io;

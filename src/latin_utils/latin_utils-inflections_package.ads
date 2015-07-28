@@ -738,12 +738,15 @@ package Latin_Utils.Inflections_Package is
    -- FIXME results in erroneous execution in case of Tackon .. Suffix
    function "<" (Left, Right : Quality_Record) return Boolean;
 
+   -- FIXME: These subprograms don't check if Is_Open (File)
    package Quality_Record_IO is
+      -- FIXME: This probably should be constant.
       Default_Width : Natural;
       procedure Get (File : in  File_Type; Item : out Quality_Record);
       procedure Get (Item : out Quality_Record);
       procedure Put (File : in  File_Type; Item : in  Quality_Record);
       procedure Put (Item : in Quality_Record);
+      -- TODO: Document meaning of Last
       procedure Get
         (Source : in  String;
          Target : out Quality_Record;
@@ -759,7 +762,8 @@ package Latin_Utils.Inflections_Package is
    Max_Ending_Size : constant := 7;
    subtype Ending_Size_Type is Integer range 0 .. Max_Ending_Size;
 
-   Ending_Size_Type_Io_Default_Width : Integer := 3;
+   -- FIXME: This probably should be constant.
+   Ending_Size_Type_IO_Default_Width : Integer := 3;
 
    subtype Ending is String (1 .. Max_Ending_Size);
 
@@ -769,17 +773,26 @@ package Latin_Utils.Inflections_Package is
          Suf  : Ending := (others => ' ');
       end record;
 
-   package Ending_Record_Io is
+   -- FIXME: These subprograms don't check if Is_Open (File)
+   package Ending_Record_IO is
+      -- FIXME: This probably should be constant.
       Default_Width : Natural;
-      procedure Get (F : in File_Type; X : out Ending_Record);
-      procedure Get (X : out Ending_Record);
-      procedure Put (F : in File_Type; X : in Ending_Record);
-      procedure Put (X : in Ending_Record);
-      procedure Get (S : in String; X : out Ending_Record; Last : out Integer);
-      procedure Put (S : out String; X : in Ending_Record);
-   end Ending_Record_Io;
+      procedure Get (File : in  File_Type; Item : out Ending_Record);
+      procedure Get (Item : out Ending_Record);
+      procedure Put (File : in  File_Type; Item : in  Ending_Record);
+      procedure Put (Item : in  Ending_Record);
+      -- TODO: Document meaning of Last
+      procedure Get
+         (Source : in  String;
+          Target : out Ending_Record;
+          Last   : out Integer
+         );
+      procedure Put (Target : out String; Item : in Ending_Record);
+   end Ending_Record_IO;
 
-   Null_Ending_Record : Ending_Record;
+   Null_Ending_Record : constant Ending_Record := (0, (others => ' '));
+
+   ---------------------------------------------------------------------------
 
    type Age_Type is (
      X,   --              --  In use throughout the ages/unknown -- the default
@@ -821,29 +834,38 @@ package Latin_Utils.Inflections_Package is
 
    package Frequency_Type_IO is new Ada.Text_IO.Enumeration_IO (Frequency_Type);
 
+   ---------------------------------------------------------------------------
+
    type Inflection_Record is
       record
-         Qual   : Quality_Record   := Null_Quality_Record;
-         Key    : Stem_Key_Type := 0;
-         Ending : Ending_Record := Null_Ending_Record;
-         Age    : Age_Type      := X;
-         Freq   : Frequency_Type      := X;
+         Qual   : Quality_Record := Null_Quality_Record;
+         Key    : Stem_Key_Type  := 0;
+         Ending : Ending_Record  := Null_Ending_Record;
+         Age    : Age_Type       := X;
+         Freq   : Frequency_Type := X;
       end record;
 
-   Null_Inflection_Record : Inflection_Record;
+   Null_Inflection_Record : constant Inflection_Record :=
+      (Null_Quality_Record, 0, Null_Ending_Record, X, X);
 
+   -- FIXME: These subprograms don't check if Is_Open (File)
    package Inflection_Record_IO is
+      -- FIXME: This probably should be constant.
       Default_Width : Natural;
-      procedure Get (F : in File_Type; P : out Inflection_Record);
-      procedure Get (P : out Inflection_Record);
-      procedure Put (F : in File_Type; P : in Inflection_Record);
-      procedure Put (P : in Inflection_Record);
-      procedure Get (S : in String;
-                     P : out Inflection_Record;
-                     Last : out Integer);
-      procedure Put (S : out String; P : in Inflection_Record);
+      procedure Get (File : in  File_Type; Item : out Inflection_Record);
+      procedure Get (Item : out Inflection_Record);
+      procedure Put (File : in  File_Type; Item : in  Inflection_Record);
+      procedure Put (Item : in  Inflection_Record);
+      -- TODO: Document meaning of Last
+      procedure Get
+         (Source : in  String;
+          Target : out Inflection_Record;
+          Last   : out Integer
+         );
+      procedure Put (Target : out String; Item : in Inflection_Record);
    end Inflection_Record_IO;
 
+   ---------------------------------------------------------------------------
    --  This implies a knowledge of the inflections last Character
    subtype Inflections_Section_1 is Character range 'a' .. 'i';
    subtype Inflections_Section_2 is Character range 'm' .. 'r';
