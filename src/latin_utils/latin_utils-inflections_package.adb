@@ -426,12 +426,12 @@ package body Latin_Utils.Inflections_Package is
       procedure Load_Lel_Indexes is
          --  Load arrays from file
          I  : Integer := 0;
-         --IR : INFLECTION_RECORD;
          N, Xn : Integer := 0;
          Ch, Xch : Character := ' ';
          Inflections_Sections_File : Lel_Section_Io.File_Type;
 
-         -- FIXME: this algebraic type and its values are obviously misnomers
+         -- FIXME: This enumeration and its values should be changed to
+         -- something more meaningful.
          type Paradigm is (P1, P2, P3, P4, P5);
 
          procedure Read_Inflections (P : Paradigm)
@@ -574,7 +574,6 @@ package body Latin_Utils.Inflections_Package is
 
 begin
    --  initialization of body of INFLECTIONS_PACKAGE
-   --TEXT_IO.PUT_LINE ("Initializing INFLECTIONS_PACKAGE");
 
    Part_Of_Speech_Type_IO.Default_Width := Part_Of_Speech_Type'Width;
    Gender_Type_IO.Default_Width := Gender_Type'Width;
