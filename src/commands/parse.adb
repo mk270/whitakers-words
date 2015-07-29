@@ -699,11 +699,13 @@ is
       Search_English (Input_Word, Pofs);
    end Parse_English_Word;
 
-   procedure Parse_Latin_Word (Configuration : Configuration_Type;
-                               Input_Word : in String;
-                               Line : in String;
-                               Input_Line : in String;
-                               L : Integer)
+   procedure Parse_Latin_Word
+     (Configuration : in Configuration_Type;
+      Input_Word    : in String;
+      Line          : in String;
+      Input_Line    : in String;
+      L             : in Integer)
+
    is
       Entering_Pa_Last : Integer := 0;
       Entering_Trpa_Last    : Integer := 0;
