@@ -32,3 +32,8 @@ clean:
 	rm -f -- obj/commands/* obj/latin_utils/* obj/support_utils/* bin/* lib/*
 	rm -f -- CHECKEWD.
 	rm -f -- DICTFILE.GEN STEMFILE.GEN INDXFILE.GEN EWDSLIST.GEN INFLECTS.SEC
+
+.PHONY: test
+
+test:
+	(cd test; ./run-tests.sh)

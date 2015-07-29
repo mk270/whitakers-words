@@ -4,6 +4,8 @@ obj/
 bin/
 lib/
 _site/
+WORD.MOD
+WORD.MDV
 DICTFILE.GEN
 INDXFILE.GEN
 INFLECTS.SEC
