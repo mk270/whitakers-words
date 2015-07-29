@@ -430,7 +430,7 @@ package body List_Package is
                        "th (part) (fract w/pars?);", Max_Meaning_Size);
                   when Dist  =>
                      S := Head (Integer'Image (N) &
-                       " each/apiece/times/fold/toGether/at a time" &
+                       " each/apiece/times/fold/together/at a time" &
                        " - 'how many each'; by " &
                        Integer'Image (N) & "s; ", Max_Meaning_Size);
                   when Adverb =>

@@ -249,7 +249,7 @@ begin
      W = "forth"   or
      W = "foward"   or
      W = "about"   or
-     W = "toGether"   or
+     W = "together"   or
      W = "off"     or
 
      --Adverbs (pure)

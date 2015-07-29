@@ -632,7 +632,7 @@ package body Word_Package is
          Preface.Put_Line
            ("Language changed to " & Language_Type'Image (Language));
          Preface.Put_Line
-           ("InPut a single English word (+ part of speech - " &
+           ("Input a single English word (+ part of speech - " &
             "N, ADJ, V, PREP, . .. )");
       else
          Preface.Put_Line ("No English dictionary available");

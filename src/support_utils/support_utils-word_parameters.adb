@@ -174,7 +174,7 @@ package body Support_Utils.Word_Parameters is
      "match in the dictionary, and after various prefixes and suffixes, to  ",
      "try every dirty Latin trick it can think of, mainly common letter     ",
      "replacements like cl -> cul, vul -> vol, ads -> ass, inp -> imp, etc. ",
-     "ToGether these tricks are useful, but may give False Positives (>10%).",
+     "Together these tricks are useful, but may give False Positives (>10%).",
      "They provide for recognized varients in classical spelling.  Most of  ",
      "the texts with which this program will be used have been well edited  ",
      "and standardized in spelling.  Now, moreover,  the dictionary is being",
