@@ -208,10 +208,14 @@ package body List_Package is
             Stem : Stem_Type          := Null_Stem_Type;
             Ir   : Inflection_Record  := Null_Inflection_Record;
          end record;
-      Null_Stem_Inflection_Record : Stem_Inflection_Record;
+
+      Null_Stem_Inflection_Record      : constant Stem_Inflection_Record :=
+        (Stem => Null_Stem_Type,
+         Ir => Null_Inflection_Record);
 
       Stem_Inflection_Array_Size       : constant := 10;
       Stem_Inflection_Array_Array_Size : constant := 40;
+
       type Stem_Inflection_Array is
         array (Integer range <>) of Stem_Inflection_Record;
       type Stem_Inflection_Array_Array is array (Integer range <>)
