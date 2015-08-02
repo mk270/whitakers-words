@@ -14,6 +14,16 @@
 -- All parts of the WORDS system, source code and data files, are made freely
 -- available to anyone who wishes to use them, for whatever purpose.
 
+--
+-- This file contains the key routine `List_Stems`; this currently uses too
+-- much state; ideally it should be a pure function, and making it so is
+-- an important step in simplifying WORDS and exposing its engine to other
+-- interfaces.
+--
+-- `List_Stems` contains a *lot* of duplicated code that could be factored
+-- out, to be marked with "FACTOR OUT".
+--
+
 with Latin_Utils.Strings_Package; use Latin_Utils.Strings_Package;
 with Latin_Utils.Latin_File_Names; use Latin_Utils.Latin_File_Names;
 with Support_Utils.Word_Parameters; use Support_Utils.Word_Parameters;
@@ -223,11 +233,14 @@ package body List_Package is
 
       Osra : Stem_Inflection_Array (1 .. Stem_Inflection_Array_Size)
         := (others => (Null_Stem_Type, Null_Inflection_Record));
+
       Sra, Null_Sra :
         constant Stem_Inflection_Array (1 .. Stem_Inflection_Array_Size)
         := (others => (Null_Stem_Type, Null_Inflection_Record));
+
       Sraa : Stem_Inflection_Array_Array (1 .. Stem_Inflection_Array_Array_Size)
         := (others => Null_Sra);
+
       Null_Sraa :
         constant Stem_Inflection_Array_Array
         (1 .. Stem_Inflection_Array_Array_Size)
