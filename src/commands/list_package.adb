@@ -24,7 +24,6 @@
 -- `List_Stems` contains a *lot* of duplicated code that could be factored
 -- out, to be marked with "FACTOR OUT".
 
-
 with Latin_Utils.Strings_Package; use Latin_Utils.Strings_Package;
 with Latin_Utils.Latin_File_Names; use Latin_Utils.Latin_File_Names;
 with Support_Utils.Word_Parameters; use Support_Utils.Word_Parameters;
