@@ -14,7 +14,8 @@
 -- All parts of the WORDS system, source code and data files, are made freely
 -- available to anyone who wishes to use them, for whatever purpose.
 
---
+-------------------------------------------------------------------------
+
 -- This file contains the key routine `List_Stems`; this currently uses too
 -- much state; ideally it should be a pure function, and making it so is
 -- an important step in simplifying WORDS and exposing its engine to other
@@ -22,7 +23,7 @@
 --
 -- `List_Stems` contains a *lot* of duplicated code that could be factored
 -- out, to be marked with "FACTOR OUT".
---
+
 
 with Latin_Utils.Strings_Package; use Latin_Utils.Strings_Package;
 with Latin_Utils.Latin_File_Names; use Latin_Utils.Latin_File_Names;
@@ -484,6 +485,7 @@ package body List_Package is
                Ada.Text_IO.New_Line (Output);
             end if;
          else
+            -- TODO: FACTOR OUT
             if Dm.D_K = Rrr  then
                if Rrr_Meaning /= Null_Meaning_Type   then
                   --PUT_DICTIONARY_FLAGS;
@@ -607,6 +609,7 @@ package body List_Package is
                  Ppp, Null_MNPC);
                --PARSE_RECORD_IO.PUT (PA (PA_LAST)); TEXT_IO.NEW_LINE;
                Pa_Last := Pa_Last + 1;
+               -- TODO: FACTOR OUT
                if Pa (J2 + 1).IR.Qual.Adj.Comparison = Pos   then
 
                   Pa (Pa_Last) := (Pa (J2 + 1).Stem,
@@ -642,6 +645,7 @@ package body List_Package is
 
       if  Words_Mdev (Write_Statistics_File)    then
          --  Omit rest of Output
+         -- TODO: FACTOR OUT
          for I in 1 .. Pa_Last  loop                       --  Just to PUT_STAT
             if Pa (I).D_K = Addons then
                if Pa (I).IR.Qual.Pofs = Prefix  then
@@ -693,6 +697,8 @@ package body List_Package is
             I := I + 1;
          else
             case Pa (I).IR.Qual.Pofs  is
+               -- TODO: FACTOR OUT (or at least split these things into their
+               -- own functions
                when N =>
                   Osra := Null_Sra;
                   --ODM := NULL_DICTIONARY_MNPC_RECORD;
@@ -937,6 +943,7 @@ package body List_Package is
       --                    LIST_SWEEP  -  PA_LAST = 0
       if Pa_Last = 0  then
          --  WORD failed
+         -- TODO: FACTOR OUT
          if Words_Mode (Ignore_Unknown_Names)  and Capitalized  then
             Nnn_Meaning := Head (
               "Assume this is capitalized proper name/abbr," &
@@ -967,7 +974,7 @@ package body List_Package is
       end if;
 
       if Pa_Last = 0   then
-
+         -- TODO: FACTOR OUT
          if  Words_Mode (Write_Output_To_File)      then
             if Words_Mdev (Do_Pearse_Codes) then
                Ada.Text_IO.Put (Output, "04 ");
