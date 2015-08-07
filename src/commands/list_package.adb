@@ -488,7 +488,6 @@ package body List_Package is
             end if;
          end Put_Word_Meaning;
       begin
-         -- FIXME: use case construct
          case Dm.D_K is
             when Rrr =>
                Put_Word_Meaning (Rrr_Meaning, "03 "); --  Roman Numeral
