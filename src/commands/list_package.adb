@@ -625,25 +625,27 @@ package body List_Package is
          -- TODO: FACTOR OUT
          for I in 1 .. Pa_Last  loop                       --  Just to PUT_STAT
             if Pa (I).D_K = Addons then
-               if Pa (I).IR.Qual.Pofs = Prefix  then
-                  Put_Stat ("ADDON PREFIX at "
-                    & Head (Integer'Image (Line_Number), 8) &
-                    Head (Integer'Image (Word_Number), 4)
-                    & "   " & Head (W, 20) & "   "  & Pa (I).Stem &
-                    "  " & Integer'Image (Integer (Pa (I).MNPC)));
-               elsif Pa (I).IR.Qual.Pofs = Suffix  then
-                  Put_Stat ("ADDON SUFFIX at "
-                    & Head (Integer'Image (Line_Number), 8) &
-                    Head (Integer'Image (Word_Number), 4)
-                    & "   " & Head (W, 20) & "   "  & Pa (I).Stem &
-                    "  " & Integer'Image (Integer (Pa (I).MNPC)));
-               elsif Pa (I).IR.Qual.Pofs = Tackon  then
-                  Put_Stat ("ADDON TACKON at "
-                    & Head (Integer'Image (Line_Number), 8) &
-                    Head (Integer'Image (Word_Number), 4)
-                    & "   " & Head (W, 20) & "   "  & Pa (I).Stem &
-                    "  " & Integer'Image (Integer (Pa (I).MNPC)));
-               end if;
+               case Pa (I).IR.Qual.Pofs is
+                  when Prefix =>
+                     Put_Stat ("ADDON PREFIX at "
+                       & Head (Integer'Image (Line_Number), 8) &
+                       Head (Integer'Image (Word_Number), 4)
+                       & "   " & Head (W, 20) & "   "  & Pa (I).Stem &
+                       "  " & Integer'Image (Integer (Pa (I).MNPC)));
+                  when Suffix =>
+                     Put_Stat ("ADDON SUFFIX at "
+                       & Head (Integer'Image (Line_Number), 8) &
+                       Head (Integer'Image (Word_Number), 4)
+                       & "   " & Head (W, 20) & "   "  & Pa (I).Stem &
+                       "  " & Integer'Image (Integer (Pa (I).MNPC)));
+                  when Tackon =>
+                     Put_Stat ("ADDON TACKON at "
+                       & Head (Integer'Image (Line_Number), 8) &
+                       Head (Integer'Image (Word_Number), 4)
+                       & "   " & Head (W, 20) & "   "  & Pa (I).Stem &
+                       "  " & Integer'Image (Integer (Pa (I).MNPC)));
+                  when others => null;
+               end case;
             end if;
          end loop;
       end if;
