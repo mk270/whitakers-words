@@ -660,8 +660,6 @@ package body List_Package is
       Cycle_Over_Pa :
       while I <= Pa_Last  loop
          --  I cycles over full PA array
-
-         --TEXT_IO.PUT_LINE ("Starting loop for I    I = " & INTEGER'IMAGE (I));
          Odm := Null_Dictionary_MNPC_Record;
 
          if Pa (I).D_K = Unique  then
@@ -724,9 +722,7 @@ package body List_Package is
 
                   when Adj =>
                      while Pa (I).IR.Qual.Pofs = Adj and I <= Pa_Last loop
-                        --TEXT_IO.PUT_LINE ("SRAA - ADJ");
                         Handle_Parse_Record;
-                        --TEXT_IO.PUT_LINE ("SRAA  + ADJ");
                         I := I + 1;            --  I cycles over full PA array
                      end loop;
 
