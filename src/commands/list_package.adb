@@ -489,49 +489,37 @@ package body List_Package is
                Ada.Text_IO.New_Line (Output);
             end if;
          else
-            -- TODO: FACTOR OUT
-            if Dm.D_K = Rrr  then
-               if Rrr_Meaning /= Null_Meaning_Type   then
-                  --PUT_DICTIONARY_FLAGS;
-                  Put_Pearse_Code (Output, "03 ");
-                  Put_Meaning (Output, Rrr_Meaning);      --  Roman Numeral
-                  Rrr_Meaning := Null_Meaning_Type;
-                  Ada.Text_IO.New_Line (Output);
-               end if;
-            elsif Dm.D_K = Nnn then
-               if Nnn_Meaning /= Null_Meaning_Type  then
-                  --PUT_DICTIONARY_FLAGS;
-                  Put_Pearse_Code (Output, "03 ");
-                  Put_Meaning (Output, Nnn_Meaning);  --  Unknown Name
-                  Nnn_Meaning := Null_Meaning_Type;
-                  Ada.Text_IO.New_Line (Output);
-               end if;
-            elsif Dm.D_K = Xxx  then
-               if Xxx_Meaning /= Null_Meaning_Type  then
+            declare
+               procedure Put_Word_Meaning
+                 (Meaning : in out Meaning_Type;
+                  Code    : in     String)
+               is
+               begin
+                  if Meaning /= Null_Meaning_Type then
+                     Put_Pearse_Code (Output, Code);
+                     Put_Meaning (Output, Meaning);
+                     Meaning := Null_Meaning_Type;
+                     Ada.Text_IO.New_Line (Output);
+                  end if;
+               end Put_Word_Meaning;
+            begin
+               -- FIXME: use case construct
+               if Dm.D_K = Rrr then
+                  Put_Word_Meaning (Rrr_Meaning, "03 "); --  Roman Numeral
+               elsif Dm.D_K = Nnn then
+                  Put_Word_Meaning (Nnn_Meaning, "06 "); --  Unknown Name
+               elsif Dm.D_K = Xxx then
+                  Put_Word_Meaning (Xxx_Meaning, "06 "); --  TRICKS
+               elsif Dm.D_K = Yyy then
+                  Put_Word_Meaning (Yyy_Meaning, "06 "); --  Syncope
+               elsif Dm.D_K = Ppp then
+                  Put_Word_Meaning (Ppp_Meaning, "06 "); --  Compounds
+               elsif Dm.D_K = Addons then
                   Put_Pearse_Code (Output, "06 ");
-                  Put_Meaning (Output, Xxx_Meaning);  --  TRICKS
-                  Xxx_Meaning := Null_Meaning_Type;
+                  Put_Meaning (Output, Means (Integer (Dm.MNPC)));
                   Ada.Text_IO.New_Line (Output);
                end if;
-            elsif Dm.D_K = Yyy  then
-               if Yyy_Meaning /= Null_Meaning_Type  then
-                  Put_Pearse_Code (Output, "06 ");
-                  Put_Meaning (Output, Yyy_Meaning);  --  Syncope
-                  Yyy_Meaning := Null_Meaning_Type;
-                  Ada.Text_IO.New_Line (Output);
-               end if;
-            elsif Dm.D_K = Ppp  then
-               if Ppp_Meaning /= Null_Meaning_Type  then
-                  Put_Pearse_Code (Output, "06 ");
-                  Put_Meaning (Output, Ppp_Meaning); --  Compounds
-                  Ppp_Meaning := Null_Meaning_Type;
-                  Ada.Text_IO.New_Line (Output);
-               end if;
-            elsif Dm.D_K = Addons  then
-               Put_Pearse_Code (Output, "06 ");
-               Put_Meaning (Output, Means (Integer (Dm.MNPC)));
-               Ada.Text_IO.New_Line (Output);
-            end if;
+            end;
          end if;
       end Put_Meaning_Line;
 
