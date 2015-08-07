@@ -743,7 +743,7 @@ package body List_Package is
                            Dma (J) := Dm;
                            Odm := Dm;
                         else
-                           Handle_Parse_Record
+                           Handle_Parse_Record;
                         end if;
 
                         I := I + 1;              --  I cycles over full PA array
