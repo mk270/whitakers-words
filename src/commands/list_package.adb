@@ -700,15 +700,17 @@ package body List_Package is
 
                case Pa (I).IR.Qual.Pofs  is
                   -- TODO: FACTOR OUT
+                  --
+                  -- the first four branches are completely regular;
+                  -- work out how to reduce the remaining branches
                   when N =>
-                     while (Pa (I).IR.Qual.Pofs = N) and (I <= Pa_Last) loop
+                     while Pa (I).IR.Qual.Pofs = N and I <= Pa_Last loop
                         Handle_Parse_Record;
                         I := I + 1;           --  I cycles over full PA array
                      end loop;
 
                   when Pron =>
-                     while Pa (I).IR.Qual.Pofs = Pron   and
-                       I <= Pa_Last                   loop
+                     while Pa (I).IR.Qual.Pofs = Pron and I <= Pa_Last loop
                         Handle_Parse_Record;
                         I := I + 1;           --  I cycles over full PA array
                      end loop;
