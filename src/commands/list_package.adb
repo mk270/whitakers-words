@@ -489,33 +489,34 @@ package body List_Package is
          end Put_Word_Meaning;
       begin
          -- FIXME: use case construct
-         if Dm.D_K = Rrr then
-            Put_Word_Meaning (Rrr_Meaning, "03 "); --  Roman Numeral
-         elsif Dm.D_K = Nnn then
-            Put_Word_Meaning (Nnn_Meaning, "06 "); --  Unknown Name
-         elsif Dm.D_K = Xxx then
-            Put_Word_Meaning (Xxx_Meaning, "06 "); --  TRICKS
-         elsif Dm.D_K = Yyy then
-            Put_Word_Meaning (Yyy_Meaning, "06 "); --  Syncope
-         elsif Dm.D_K = Ppp then
-            Put_Word_Meaning (Ppp_Meaning, "06 "); --  Compounds
-         elsif Dm.D_K = Addons then
-            Put_Pearse_Code (Output, "06 ");
-            Put_Meaning (Output, Means (Integer (Dm.MNPC)));
-            Ada.Text_IO.New_Line (Output);
-         else
-            Put_Pearse_Code (Output, "03 ");
-            if Dm.De.Part.Pofs = Num  and then Dm.De.Part.Num.Value > 0  then
-               Ada.Text_IO.Put_Line (Output, Constructed_Meaning (Sr, Dm));
-               --  Constructed MEANING
-            elsif Dm.D_K = Unique  then
-               Put_Meaning (Output, Uniques_De (Dm.MNPC).Mean);
+         case Dm.D_K is
+            when Rrr =>
+               Put_Word_Meaning (Rrr_Meaning, "03 "); --  Roman Numeral
+            when Nnn =>
+               Put_Word_Meaning (Nnn_Meaning, "06 "); --  Unknown Name
+            when Xxx =>
+               Put_Word_Meaning (Xxx_Meaning, "06 "); --  TRICKS
+            when Yyy =>
+               Put_Word_Meaning (Yyy_Meaning, "06 "); --  Syncope
+            when Ppp =>
+               Put_Word_Meaning (Ppp_Meaning, "06 "); --  Compounds
+            when Addons =>
+               Put_Pearse_Code (Output, "06 ");
+               Put_Meaning (Output, Means (Integer (Dm.MNPC)));
                Ada.Text_IO.New_Line (Output);
-            else
-               Put_Meaning (Output, Trim_Bar (Dm.De.Mean));
-               Ada.Text_IO.New_Line (Output);
-            end if;
-         end if;
+            when others =>
+               Put_Pearse_Code (Output, "03 ");
+               if Dm.De.Part.Pofs = Num  and then Dm.De.Part.Num.Value > 0  then
+                  Ada.Text_IO.Put_Line (Output, Constructed_Meaning (Sr, Dm));
+                  --  Constructed MEANING
+               elsif Dm.D_K = Unique  then
+                  Put_Meaning (Output, Uniques_De (Dm.MNPC).Mean);
+                  Ada.Text_IO.New_Line (Output);
+               else
+                  Put_Meaning (Output, Trim_Bar (Dm.De.Mean));
+                  Ada.Text_IO.New_Line (Output);
+               end if;
+         end case;
       end Put_Meaning_Line;
 
    begin
