@@ -941,7 +941,6 @@ package body List_Package is
       end if;
 
       if Pa_Last = 0   then
-         -- TODO: FACTOR OUT
          if  Words_Mode (Write_Output_To_File)      then
             Put_Pearse_Code (Output, "04 ");
             Ada.Text_IO.Put (Output, Raw_Word);
@@ -949,7 +948,6 @@ package body List_Package is
             Inflections_Package.Integer_IO.Put (Output, Line_Number, 7);
             Inflections_Package.Integer_IO.Put (Output, Word_Number, 7);
             Ada.Text_IO.Put_Line (Output, "    ========   UNKNOWN    ");
-            --TEXT_IO.NEW_LINE (OUTPUT);
          else              --  Just screen Output
             if Words_Mdev (Do_Pearse_Codes) then
                Ada.Text_IO.Put ("04 ");
@@ -957,7 +955,6 @@ package body List_Package is
             Ada.Text_IO.Put (Raw_Word);
             Ada.Text_IO.Set_Col (30);
             Ada.Text_IO.Put_Line ("    ========   UNKNOWN    ");
-            --TEXT_IO.NEW_LINE;
          end if;
 
          if Words_Mode (Write_Unknowns_To_File)  then
@@ -1031,8 +1028,6 @@ package body List_Package is
             Osra := Sraa (J);
          end if;
 
-         --TEXT_IO.PUT_LINE ("PUTting FORM");
-
          Putting_Form :
          begin
             if J = 1  or else
@@ -1044,7 +1039,6 @@ package body List_Package is
             end if;
          end Putting_Form;
 
-         --TEXT_IO.PUT_LINE ("PUTting MEANING");
          Putting_Meaning :
          begin
             if Dma (J).D_K in General .. Unique then
