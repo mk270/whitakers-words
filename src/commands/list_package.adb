@@ -60,6 +60,10 @@ package body List_Package is
          Ir   : Inflection_Record  := Null_Inflection_Record;
       end record;
 
+   Null_Stem_Inflection_Record      : constant Stem_Inflection_Record :=
+     (Stem => Null_Stem_Type,
+     Ir => Null_Inflection_Record);
+
    type Stem_Inflection_Array is
      array (Integer range <>) of Stem_Inflection_Record;
    type Stem_Inflection_Array_Array is array (Integer range <>)
@@ -527,6 +531,220 @@ package body List_Package is
            & "   " & Head (W, 20) & "   "  & Pa (I).Stem);
    end Cycle_Over_Pa;
 
+   procedure Put_Inflection
+     (Configuration : Configuration_Type;
+      Output        : Ada.Text_IO.File_Type;
+      Sr            : Stem_Inflection_Record;
+      Dm            : Dictionary_MNPC_Record)
+   is
+      --  Handles Putting ONLY_MEAN, PEARSE_CODES, CAPS, QUAL, V_KIND, FLAGS
+      procedure Put_Inflection_Flags is
+      begin
+         if (Words_Mode (Show_Age)   or
+           (Sr.Ir.Age /= X))  and     --  Warn even if not to show AGE
+           Trim (Inflection_Age (Sr.Ir.Age))'Length /= 0
+         then
+            Ada.Text_IO.Put (Output, "  " & Inflection_Age (Sr.Ir.Age));
+         end if;
+         if (Words_Mode (Show_Frequency)  or
+           (Sr.Ir.Freq >= C))  and    --  Warn regardless
+           Trim (Inflection_Frequency (Sr.Ir.Freq))'Length /= 0
+         then
+            Ada.Text_IO.Put (Output, "  " &
+              Inflection_Frequency (Sr.Ir.Freq));
+         end if;
+      end Put_Inflection_Flags;
+
+   begin
+      --TEXT_IO.PUT_LINE ("PUT_INFLECTION ");
+      if not Words_Mode (Do_Only_Meanings) and
+        not (Configuration = Only_Meanings)
+      then
+         Ada.Text_IO.Set_Col (Output, 1);
+
+         if Dm.D_K = Addons then
+            Put_Pearse_Code (Output, "05 ");
+         elsif Dm.D_K in Xxx .. Yyy then
+            Put_Pearse_Code (Output, "06 ");
+         else
+            Put_Pearse_Code (Output, "01 ");
+         end if;
+
+         --TEXT_IO.PUT (OUTPUT, CAP_STEM (TRIM (SR.STEM)));
+         Ada.Text_IO.Put (Output, (Trim (Sr.Stem)));
+         if Sr.Ir.Ending.Size > 0  then
+            Ada.Text_IO.Put (Output, ".");
+            --TEXT_IO.PUT (OUTPUT, TRIM (CAP_ENDING (SR.IR.ENDING.SUF)));
+            Ada.Text_IO.Put (Output, Trim ((Sr.Ir.Ending.Suf)));
+         end if;
+
+         if Words_Mdev (Do_Pearse_Codes) then
+            Ada.Text_IO.Set_Col (Output, 25);
+         else
+            Ada.Text_IO.Set_Col (Output, 22);
+         end if;
+
+         if Sr.Ir /= Null_Inflection_Record  then
+
+            Print_Modified_Qual :
+            declare
+               Out_String : String (1 .. Quality_Record_IO.Default_Width);
+               Passive_Start  : constant Integer :=
+                 Part_Of_Speech_Type_IO.Default_Width + 1 +
+                 Decn_Record_IO.Default_Width + 1 +
+                 Tense_Type_IO.Default_Width + 1;
+               Passive_Finish : constant Integer :=
+                 Passive_Start +
+                 Voice_Type_IO.Default_Width;
+               Ppl_Start      : constant Integer :=
+                 Part_Of_Speech_Type_IO.Default_Width + 1 +
+                 Decn_Record_IO.Default_Width + 1 +
+                 Case_Type_IO.Default_Width + 1 +
+                 Number_Type_IO.Default_Width + 1 +
+                 Gender_Type_IO.Default_Width + 1 +
+                 Tense_Type_IO.Default_Width + 1;
+               Ppl_Finish : constant Integer :=
+                 Ppl_Start +
+                 Voice_Type_IO.Default_Width;
+               Passive_Blank :
+                 constant String (1 .. Voice_Type_IO.Default_Width) :=
+                 (others => ' ');
+            begin
+
+               Quality_Record_IO.Put (Out_String, Sr.Ir.Qual);
+               if Dm.D_K in General .. Local then  --  UNIQUES has no DE
+
+                  if (Sr.Ir.Qual.Pofs = V)    and then
+                    (Dm.De.Part.V.Kind = Dep)       and then
+                    (Sr.Ir.Qual.Verb.Tense_Voice_Mood.Mood in Ind .. Inf)
+                  then
+                     --TEXT_IO.PUT_LINE ("START PRINT MODIFIED QUAL   V");
+                     Out_String (Passive_Start + 1 .. Passive_Finish) :=
+                       Passive_Blank;
+                  elsif (Sr.Ir.Qual.Pofs = Vpar)    and then
+                    (Dm.De.Part.V.Kind = Dep)    and then
+                    (Sr.Ir.Qual.Vpar.Tense_Voice_Mood.Mood = Ppl)
+                  then
+                     --TEXT_IO.PUT_LINE ("START PRINT MODIFIED QUAL   VPAR");
+                     Out_String (Ppl_Start + 1 .. Ppl_Finish) :=
+                       Passive_Blank;
+                  end if;
+               end if;
+
+               Ada.Text_IO.Put (Output, Out_String);
+               --TEXT_IO.PUT_LINE ("PRINT MODIFIED QUAL 4");
+            end Print_Modified_Qual;
+
+            --               if ((SR.IR.QUAL.POFS = NUM)  and
+            --                          -- Don't want on inflection
+            --                   (DM.D_K in GENERAL .. UNIQUE))  and then
+            --                   (DM.DE.KIND.NUM_VALUE > 0)  then
+            --                 TEXT_IO.PUT (OUTPUT, "  ");
+            --                 INFLECTIONS_PACKAGE.INTEGER_IO.PUT
+            --                    (OUTPUT, DM.DE.KIND.NUM_VALUE);
+            --               end if;
+            Put_Inflection_Flags;
+            Ada.Text_IO.New_Line (Output);
+            Put_Example_Line (Configuration, Output, Sr.Ir, Dm.De);
+            --  Only full when DO_EXAMPLES
+         else
+            Ada.Text_IO.New_Line (Output);
+         end if;
+      end if;
+   end Put_Inflection;
+
+   --  Handles PEARSE_CODES and DICTIONARY_FORM (which has FLAGS) and D_K
+   --  The Pearse 02 is handled in PUT_DICTIONARY_FORM
+   procedure Put_Form
+     (Output : Ada.Text_IO.File_Type;
+      Sr     : Stem_Inflection_Record;
+      Dm     : Dictionary_MNPC_Record)
+   is
+   begin
+      if (Sr.Ir.Qual.Pofs not in Xons)  and
+        (Dm.D_K in General .. Unique)
+      then
+         --DICTIONARY_ENTRY_IO.PUT (DM.DE);
+         Put_Dictionary_Form (Output, Dm.D_K, Dm.MNPC, Dm.De);
+      end if;
+   end Put_Form;
+
+   procedure Put_Parse_Details
+     (Configuration : Configuration_Type;
+      Output        : Ada.Text_IO.File_Type;
+      Dma           : Dictionary_MNPC_Array;
+      Sraa          : Stem_Inflection_Array_Array;
+      Mm            : Integer;
+      I_Is_Pa_Last  : Boolean)
+   is
+   begin
+      --TEXT_IO.PUT_LINE ("PUTting INFLECTIONS");
+      declare
+         J : Integer := 1;
+         Osra : Stem_Inflection_Array (1 .. Stem_Inflection_Array_Size)
+           := Null_Sra;
+      begin
+
+         Output_Loop :
+         while  Dma (J) /= Null_Dictionary_MNPC_Record  loop
+            --  Skips one identical SRA no matter what comes next
+            if Sraa (J) /= Osra  then
+
+               Put_Inflection_Array_J :
+               for K in Sraa (J)'Range loop
+                  exit Put_Inflection_Array_J when Sraa (J)(K) =
+                    Null_Stem_Inflection_Record;
+
+                  Put_Inflection (Configuration, Output, Sraa (J)(K), Dma (J));
+                  if Sraa (J)(K).Stem (1 .. 3) = "PPL"  then
+                     Ada.Text_IO.Put_Line (Output, Head (Ppp_Meaning, Mm));
+                  end if;
+               end loop Put_Inflection_Array_J;
+               Osra := Sraa (J);
+            end if;
+
+            Putting_Form :
+            begin
+               if J = 1  or else
+                 Support_Utils.Dictionary_Form (Dma (J).De) /=
+                 Support_Utils.Dictionary_Form (Dma (J - 1).De)
+               then
+                  --  Put at first chance, skip duplicates
+                  Put_Form (Output, Sraa (J)(1), Dma (J));
+               end if;
+            end Putting_Form;
+
+            Putting_Meaning :
+            begin
+               if Dma (J).D_K in General .. Unique then
+                  if Dma (J).De.Mean /= Dma (J + 1).De.Mean then
+                     --  Hhandle simple multiple MEAN with same IR and FORM
+                     --  by anticipating duplicates and waiting until change
+                     Put_Meaning_Line (Output, Sraa (J)(1), Dma (J), Mm);
+                  end if;
+               else
+                  Put_Meaning_Line (Output, Sraa (J)(1), Dma (J), Mm);
+               end if;
+            end Putting_Meaning;
+
+            Do_Pause :
+            begin
+               if I_Is_Pa_Last  then
+                  Ada.Text_IO.New_Line (Output);
+               elsif Integer (Ada.Text_IO.Line (Output)) >
+                 Scroll_Line_Number + Output_Screen_Size
+               then
+                  Pause (Output);
+                  Scroll_Line_Number := Integer (Ada.Text_IO.Line (Output));
+               end if;
+            end Do_Pause;
+
+            J := J + 1;
+         end loop Output_Loop;
+         --TEXT_IO.PUT_LINE ("Finished OUTPUT_LOOP");
+      end;
+   end Put_Parse_Details;
+
    procedure List_Stems
      (Configuration : Configuration_Type;
       Output        : Ada.Text_IO.File_Type;
@@ -566,10 +784,6 @@ package body List_Package is
       --  but breaking it into two arrays allows different manipulation
       --  These are only within this routine, used to clean up the Output
 
-      Null_Stem_Inflection_Record      : constant Stem_Inflection_Record :=
-        (Stem => Null_Stem_Type,
-         Ir => Null_Inflection_Record);
-
       Null_Sraa : constant Stem_Inflection_Array_Array
         (1 .. Stem_Inflection_Array_Array_Size)
         := (others => Null_Sra);
@@ -599,137 +813,6 @@ package body List_Package is
 
       I_Is_Pa_Last : Boolean := False;
       Mm : Integer := Max_Meaning_Size;
-
-      procedure  Put_Inflection (Sr : Stem_Inflection_Record;
-                                 Dm : Dictionary_MNPC_Record) is
-         --  Handles Putting ONLY_MEAN, PEARSE_CODES, CAPS, QUAL, V_KIND, FLAGS
-         procedure Put_Inflection_Flags is
-         begin
-            if (Words_Mode (Show_Age)   or
-              (Sr.Ir.Age /= X))  and     --  Warn even if not to show AGE
-              Trim (Inflection_Age (Sr.Ir.Age))'Length /= 0
-            then
-               Ada.Text_IO.Put (Output, "  " & Inflection_Age (Sr.Ir.Age));
-            end if;
-            if (Words_Mode (Show_Frequency)  or
-              (Sr.Ir.Freq >= C))  and    --  Warn regardless
-              Trim (Inflection_Frequency (Sr.Ir.Freq))'Length /= 0
-            then
-               Ada.Text_IO.Put (Output, "  " &
-                 Inflection_Frequency (Sr.Ir.Freq));
-            end if;
-         end Put_Inflection_Flags;
-
-      begin
-         --TEXT_IO.PUT_LINE ("PUT_INFLECTION ");
-         if not Words_Mode (Do_Only_Meanings) and
-           not (Configuration = Only_Meanings)
-         then
-            Ada.Text_IO.Set_Col (Output, 1);
-
-            if Dm.D_K = Addons then
-               Put_Pearse_Code (Output, "05 ");
-            elsif Dm.D_K in Xxx .. Yyy then
-               Put_Pearse_Code (Output, "06 ");
-            else
-               Put_Pearse_Code (Output, "01 ");
-            end if;
-
-            --TEXT_IO.PUT (OUTPUT, CAP_STEM (TRIM (SR.STEM)));
-            Ada.Text_IO.Put (Output, (Trim (Sr.Stem)));
-            if Sr.Ir.Ending.Size > 0  then
-               Ada.Text_IO.Put (Output, ".");
-               --TEXT_IO.PUT (OUTPUT, TRIM (CAP_ENDING (SR.IR.ENDING.SUF)));
-               Ada.Text_IO.Put (Output, Trim ((Sr.Ir.Ending.Suf)));
-            end if;
-
-            if Words_Mdev (Do_Pearse_Codes) then
-               Ada.Text_IO.Set_Col (Output, 25);
-            else
-               Ada.Text_IO.Set_Col (Output, 22);
-            end if;
-
-            if Sr.Ir /= Null_Inflection_Record  then
-
-               Print_Modified_Qual :
-               declare
-                  Out_String : String (1 .. Quality_Record_IO.Default_Width);
-                  Passive_Start  : constant Integer :=
-                    Part_Of_Speech_Type_IO.Default_Width + 1 +
-                    Decn_Record_IO.Default_Width + 1 +
-                    Tense_Type_IO.Default_Width + 1;
-                  Passive_Finish : constant Integer :=
-                    Passive_Start +
-                    Voice_Type_IO.Default_Width;
-                  Ppl_Start      : constant Integer :=
-                    Part_Of_Speech_Type_IO.Default_Width + 1 +
-                    Decn_Record_IO.Default_Width + 1 +
-                    Case_Type_IO.Default_Width + 1 +
-                    Number_Type_IO.Default_Width + 1 +
-                    Gender_Type_IO.Default_Width + 1 +
-                    Tense_Type_IO.Default_Width + 1;
-                  Ppl_Finish : constant Integer :=
-                    Ppl_Start +
-                    Voice_Type_IO.Default_Width;
-                  Passive_Blank :
-                    constant String (1 .. Voice_Type_IO.Default_Width) :=
-                    (others => ' ');
-               begin
-
-                  Quality_Record_IO.Put (Out_String, Sr.Ir.Qual);
-                  if Dm.D_K in General .. Local then  --  UNIQUES has no DE
-
-                     if (Sr.Ir.Qual.Pofs = V)    and then
-                       (Dm.De.Part.V.Kind = Dep)       and then
-                       (Sr.Ir.Qual.Verb.Tense_Voice_Mood.Mood in Ind .. Inf)
-                     then
-                        --TEXT_IO.PUT_LINE ("START PRINT MODIFIED QUAL   V");
-                        Out_String (Passive_Start + 1 .. Passive_Finish) :=
-                          Passive_Blank;
-                     elsif (Sr.Ir.Qual.Pofs = Vpar)    and then
-                       (Dm.De.Part.V.Kind = Dep)    and then
-                       (Sr.Ir.Qual.Vpar.Tense_Voice_Mood.Mood = Ppl)
-                     then
-                        --TEXT_IO.PUT_LINE ("START PRINT MODIFIED QUAL   VPAR");
-                        Out_String (Ppl_Start + 1 .. Ppl_Finish) :=
-                          Passive_Blank;
-                     end if;
-                  end if;
-
-                  Ada.Text_IO.Put (Output, Out_String);
-                  --TEXT_IO.PUT_LINE ("PRINT MODIFIED QUAL 4");
-               end Print_Modified_Qual;
-
-               --               if ((SR.IR.QUAL.POFS = NUM)  and
-               --                          -- Don't want on inflection
-               --                   (DM.D_K in GENERAL .. UNIQUE))  and then
-               --                   (DM.DE.KIND.NUM_VALUE > 0)  then
-               --                 TEXT_IO.PUT (OUTPUT, "  ");
-               --                 INFLECTIONS_PACKAGE.INTEGER_IO.PUT
-               --                    (OUTPUT, DM.DE.KIND.NUM_VALUE);
-               --               end if;
-               Put_Inflection_Flags;
-               Ada.Text_IO.New_Line (Output);
-               Put_Example_Line (Configuration, Output, Sr.Ir, Dm.De);
-               --  Only full when DO_EXAMPLES
-            else
-               Ada.Text_IO.New_Line (Output);
-            end if;
-         end if;
-      end Put_Inflection;
-
-      procedure Put_Form (Sr : Stem_Inflection_Record;
-                          Dm : Dictionary_MNPC_Record) is
-         --  Handles PEARSE_CODES and DICTIONARY_FORM (which has FLAGS) and D_K
-         --  The Pearse 02 is handled in PUT_DICTIONARY_FORM
-      begin
-         if (Sr.Ir.Qual.Pofs not in Xons)  and
-           (Dm.D_K in General .. Unique)
-         then
-            --DICTIONARY_ENTRY_IO.PUT (DM.DE);
-            Put_Dictionary_Form (Output, Dm.D_K, Dm.MNPC, Dm.De);
-         end if;
-      end Put_Form;
 
    begin
       Trimmed := False;
@@ -951,71 +1034,7 @@ package body List_Package is
          return;
       end if;
 
-      --TEXT_IO.PUT_LINE ("PUTting INFLECTIONS");
-      declare
-         J : Integer := 1;
-         Osra : Stem_Inflection_Array (1 .. Stem_Inflection_Array_Size)
-           := Null_Sra;
-      begin
-
-         Output_Loop :
-         while  Dma (J) /= Null_Dictionary_MNPC_Record  loop
-            --  Skips one identical SRA no matter what comes next
-            if Sraa (J) /= Osra  then
-
-               Put_Inflection_Array_J :
-               for K in Sraa (J)'Range loop
-                  exit Put_Inflection_Array_J when Sraa (J)(K) =
-                    Null_Stem_Inflection_Record;
-
-                  Put_Inflection (Sraa (J)(K), Dma (J));
-                  if Sraa (J)(K).Stem (1 .. 3) = "PPL"  then
-                     Ada.Text_IO.Put_Line (Output, Head (Ppp_Meaning, Mm));
-                  end if;
-               end loop Put_Inflection_Array_J;
-               Osra := Sraa (J);
-            end if;
-
-            Putting_Form :
-            begin
-               if J = 1  or else
-                 Support_Utils.Dictionary_Form (Dma (J).De) /=
-                 Support_Utils.Dictionary_Form (Dma (J - 1).De)
-               then
-                  --  Put at first chance, skip duplicates
-                  Put_Form (Sraa (J)(1), Dma (J));
-               end if;
-            end Putting_Form;
-
-            Putting_Meaning :
-            begin
-               if Dma (J).D_K in General .. Unique then
-                  if Dma (J).De.Mean /= Dma (J + 1).De.Mean then
-                     --  Hhandle simple multiple MEAN with same IR and FORM
-                     --  by anticipating duplicates and waiting until change
-                     Put_Meaning_Line (Output, Sraa (J)(1), Dma (J), Mm);
-                  end if;
-               else
-                  Put_Meaning_Line (Output, Sraa (J)(1), Dma (J), Mm);
-               end if;
-            end Putting_Meaning;
-
-            Do_Pause :
-            begin
-               if I_Is_Pa_Last  then
-                  Ada.Text_IO.New_Line (Output);
-               elsif Integer (Ada.Text_IO.Line (Output)) >
-                 Scroll_Line_Number + Output_Screen_Size
-               then
-                  Pause (Output);
-                  Scroll_Line_Number := Integer (Ada.Text_IO.Line (Output));
-               end if;
-            end Do_Pause;
-
-            J := J + 1;
-         end loop Output_Loop;
-         --TEXT_IO.PUT_LINE ("Finished OUTPUT_LOOP");
-      end;
+      Put_Parse_Details (Configuration, Output, Dma, Sraa, Mm, I_Is_Pa_Last);
 
       if Trimmed then
          Put (Output, '*');
