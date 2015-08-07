@@ -275,16 +275,11 @@ package body List_Package is
       end Put_Word_Meaning;
    begin
       case Dm.D_K is
-         when Rrr =>
-            Put_Word_Meaning (Rrr_Meaning, "03 "); --  Roman Numeral
-         when Nnn =>
-            Put_Word_Meaning (Nnn_Meaning, "06 "); --  Unknown Name
-         when Xxx =>
-            Put_Word_Meaning (Xxx_Meaning, "06 "); --  TRICKS
-         when Yyy =>
-            Put_Word_Meaning (Yyy_Meaning, "06 "); --  Syncope
-         when Ppp =>
-            Put_Word_Meaning (Ppp_Meaning, "06 "); --  Compounds
+         when Rrr => Put_Word_Meaning (Rrr_Meaning, "03 "); --  Roman Numeral
+         when Nnn => Put_Word_Meaning (Nnn_Meaning, "06 "); --  Unknown Name
+         when Xxx => Put_Word_Meaning (Xxx_Meaning, "06 "); --  TRICKS
+         when Yyy => Put_Word_Meaning (Yyy_Meaning, "06 "); --  Syncope
+         when Ppp => Put_Word_Meaning (Ppp_Meaning, "06 "); --  Compounds
          when Addons =>
             Put_Pearse_Code (Output, "06 ");
             Put_Meaning (Output, Means (Integer (Dm.MNPC)));
