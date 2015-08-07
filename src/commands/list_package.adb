@@ -51,6 +51,29 @@ package body List_Package is
    Null_Dictionary_MNPC_Record : constant Dictionary_MNPC_Record
      := (X, Null_MNPC, Null_Dictionary_Entry);
 
+   Stem_Inflection_Array_Size       : constant := 10;
+   Stem_Inflection_Array_Array_Size : constant := 40;
+
+   type Stem_Inflection_Record is
+      record
+         Stem : Stem_Type          := Null_Stem_Type;
+         Ir   : Inflection_Record  := Null_Inflection_Record;
+      end record;
+
+   type Stem_Inflection_Array is
+     array (Integer range <>) of Stem_Inflection_Record;
+   type Stem_Inflection_Array_Array is array (Integer range <>)
+     of Stem_Inflection_Array (1 .. Stem_Inflection_Array_Size);
+
+   Sra, Null_Sra :
+     constant Stem_Inflection_Array (1 .. Stem_Inflection_Array_Size)
+     := (others => (Null_Stem_Type, Null_Inflection_Record));
+
+   Dictionary_MNPC_Array_Size : constant := 40;
+
+   type Dictionary_MNPC_Array is array (1 .. Dictionary_MNPC_Array_Size)
+     of Dictionary_MNPC_Record;
+
    Max_Meaning_Print_Size : constant := 79;
 
    Inflection_Frequency : constant array (Frequency_Type) of String (1 .. 8) :=
@@ -182,12 +205,6 @@ package body List_Package is
 
    end Put_Dictionary_Form;
 
-   type Stem_Inflection_Record is
-      record
-         Stem : Stem_Type          := Null_Stem_Type;
-         Ir   : Inflection_Record  := Null_Inflection_Record;
-      end record;
-
    function Constructed_Meaning
      (Sr  : Stem_Inflection_Record;
       Dm  : Dictionary_MNPC_Record)
@@ -298,6 +315,222 @@ package body List_Package is
       end case;
    end Put_Meaning_Line;
 
+   procedure Cycle_Over_Pa
+     (Pa : Parse_Array;
+      Pa_Last : Integer;
+      Sraa : in out Stem_Inflection_Array_Array; -- FIXME
+      Dm : in out Dictionary_MNPC_Record; -- FIXME?
+      Dma : out Dictionary_MNPC_Array; -- FIXME
+      Osra : out Stem_Inflection_Array;
+      Sra : in Stem_Inflection_Array;
+      I_Is_Pa_Last : out Boolean;
+      Raw_Word, W : in String
+     )
+      --  Convert from PARSE_RECORDs to DICTIONARY_MNPC_RECORD
+      ---   and STEM_INFLECTION_RECORD
+      --I := 1;           --  I cycles on PA
+      --J := 0;           --  J indexes the number of DMA arrays --  Initialize
+      -- the J variable is mutated within Cycle_Over_Pa, but its value
+      -- is not read once this routine is exited (it is instead unconditionally
+      -- assigned to a constant value)
+      --
+      -- the I variable is only read once after Cycle_Over_Pa, in a comparison
+      -- with Pa_Last; it is not assigned to after the Cycle_Over_Pa routine
+      -- is exited
+   is
+      use Ada.Text_IO;
+      use Dict_IO;
+      I   : Integer := 1;
+      J   : Integer := 0;
+      K   : Integer := 0;
+      Odm : Dictionary_MNPC_Record := Null_Dictionary_MNPC_Record;
+      Dea : Dictionary_Entry := Null_Dictionary_Entry;
+   begin
+
+      while I <= Pa_Last  loop
+         --  I cycles over full PA array
+         Odm := Null_Dictionary_MNPC_Record;
+
+         if Pa (I).D_K = Unique  then
+            J := J + 1;
+            Sraa (J)(1) := (Pa (I).Stem, Pa (I).IR);
+
+            Dm := Null_Dictionary_MNPC_Record;
+            Dm.D_K := Unique;
+            Dm.MNPC := Pa (I).MNPC;
+            Dm.De := Uniques_De (Pa (I).MNPC);
+            Dma (J) := Dm;
+            I := I + 1;
+         else
+            declare
+               procedure Handle_Parse_Record is
+               begin
+                  if Pa (I).MNPC /= Odm.MNPC then
+                     -- Encountering new MNPC
+                     Osra := Sra;
+                     K := 1;
+                     -- K indexes within the MNPCA array -- Initialise
+                     J := J + 1;
+                     -- J indexes the number of MNPCA arrays - Next MNPCA
+                     Sraa (J)(K) := (Pa (I).Stem, Pa (I).IR);
+                     Dict_IO.Set_Index (Dict_File (Pa (I).D_K), Pa (I).MNPC);
+                     Dict_IO.Read (Dict_File (Pa (I).D_K), Dea);
+                     Dm := (Pa (I).D_K, Pa (I).MNPC, Dea);
+                     Dma (J) := Dm;
+                     Odm := Dm;
+                  else
+                     K := K + 1;
+                     -- K indexes within the MNPCA array -- Next MNPC
+                     Sraa (J)(K) := (Pa (I).Stem, Pa (I).IR);
+                  end if;
+               end Handle_Parse_Record;
+            begin
+               Osra := Null_Sra;
+
+               case Pa (I).IR.Qual.Pofs  is
+                  -- TODO: FACTOR OUT
+                  --
+                  -- the first four branches are completely regular;
+                  -- work out how to reduce the remaining branches
+                  when N =>
+                     while Pa (I).IR.Qual.Pofs = N and I <= Pa_Last loop
+                        Handle_Parse_Record;
+                        I := I + 1;           --  I cycles over full PA array
+                     end loop;
+
+                  when Pron =>
+                     while Pa (I).IR.Qual.Pofs = Pron and I <= Pa_Last loop
+                        Handle_Parse_Record;
+                        I := I + 1;           --  I cycles over full PA array
+                     end loop;
+
+                  when Pack =>
+                     while Pa (I).IR.Qual.Pofs = Pack and I <= Pa_Last loop
+                        Handle_Parse_Record;
+                        I := I + 1;           --  I cycles over full PA array
+                     end loop;
+
+                  when Adj =>
+                     while Pa (I).IR.Qual.Pofs = Adj and I <= Pa_Last loop
+                        Handle_Parse_Record;
+                        I := I + 1;         --  I cycles over full PA array
+                     end loop;
+
+                  when Num  =>
+                     while Pa (I).IR.Qual.Pofs = Num   and
+                       I <= Pa_Last                   loop
+                        if Pa (I).D_K = Rrr then        --  Roman numeral
+                           Osra := Sra;
+                           K := 1;
+                           --  K indexes within the MNPCA array -- Initialize
+                           J := J + 1;
+                           --  J indexes the number of MNPCA arrays
+                           Sraa (J)(K) := (Pa (I).Stem, Pa (I).IR);
+
+                           Dea := Null_Dictionary_Entry;
+                           Dm := (Pa (I).D_K, Pa (I).MNPC, Dea);
+                           Dma (J) := Dm;
+                           Odm := Dm;
+                        else
+                           Handle_Parse_Record;
+                        end if;
+
+                        I := I + 1;           --  I cycles over full PA array
+                     end loop;
+
+                  when V | Vpar | Supine  =>
+                     while (Pa (I).IR.Qual.Pofs = V      or
+                       Pa (I).IR.Qual.Pofs = Vpar   or
+                       Pa (I).IR.Qual.Pofs = Supine)   and
+                       I <= Pa_Last                   loop
+                        if (Pa (I).MNPC  /= Odm.MNPC) and
+                          (Pa (I).D_K /= Ppp)
+                        then   --  Encountering new MNPC
+                           Osra := Sra;  --  But not for compound
+                           K := 1;
+                           --  K indexes within the MNPCA array -- Initialize
+
+                           J := J + 1;
+                           --  J indexes the number of MNPCA arrays
+                           Sraa (J)(K) := (Pa (I).Stem, Pa (I).IR);
+                           if Pa (I).D_K /= Ppp  then
+                              Dict_IO.Set_Index
+                                (Dict_File (Pa (I).D_K), Pa (I).MNPC);
+                              Dict_IO.Read (Dict_File (Pa (I).D_K), Dea);
+                           end if;     --  use previous DEA
+                           Dm := (Pa (I).D_K, Pa (I).MNPC, Dea);
+                           Dma (J) := Dm;
+                           Odm := Dm;
+                        else
+                           K := K + 1;
+                           --  K indexes within the MNPCA array  - Next MNPC
+                           Sraa (J)(K) := (Pa (I).Stem, Pa (I).IR);
+                        end if;
+
+                        I := I + 1;           --  I cycles over full PA array
+                     end loop;
+
+                  when others  =>
+                     --TEXT_IO.PUT_LINE ("Others");
+                     while I <= Pa_Last                   loop
+                        if (Odm.D_K  /= Pa (I).D_K)  or
+                          (Odm.MNPC /= Pa (I).MNPC)
+                        then   --  Encountering new single (K only 1)
+                           Osra := Sra;
+                           K := 1;
+                           --  K indexes within the MNPCA array -- Initialize
+
+                           J := J + 1;
+                           --  J indexes the number of MNPCA array
+
+                           Sraa (J)(K) := (Pa (I).Stem, Pa (I).IR);
+                           if Pa (I).MNPC /= Null_MNPC  then
+                              if Pa (I).D_K = Addons  then
+                                 Dea :=  Null_Dictionary_Entry;
+                                 --  Fix for ADDONS in MEANS, not DICT_IO
+                              else
+                                 Dict_IO.Set_Index (Dict_File (Pa (I).D_K),
+                                   Pa (I).MNPC);
+                                 Dict_IO.Read (Dict_File (Pa (I).D_K), Dea);
+                              end if;
+                           else                 --  Has no dictionary to read
+                              Dea := Null_Dictionary_Entry;
+                           end if;
+                           Dm := (Pa (I).D_K, Pa (I).MNPC, Dea);
+                           Dma (J) := Dm;
+                           Odm := Dm;
+                           --else
+                           --  K := K + 1;
+                           --  K indexes within the MNPCA array  - Next MNPC
+                           --  SRAA (J)(K) := (PA (I).STEM, PA (I).IR);
+                        end if;
+
+                        I := I + 1;           --  I cycles over full PA array
+                        exit;
+                        --  Since Other is only one, don't loop
+                     end loop;
+               end case;
+            end;
+         end if;
+
+      end loop;
+
+      if I = Pa_Last then
+         I_Is_Pa_Last := True;
+      else
+         I_Is_Pa_Last := False;
+      end if;
+
+   exception
+      when others  =>
+         Ada.Text_IO.Put_Line
+           ("Unexpected exception in CYCLE_OVER_PA processing " & Raw_Word);
+         Put_Stat ("EXCEPTION LS at "
+           & Head (Integer'Image (Line_Number), 8) &
+           Head (Integer'Image (Word_Number), 4)
+           & "   " & Head (W, 20) & "   "  & Pa (I).Stem);
+   end Cycle_Over_Pa;
+
    procedure List_Stems
      (Configuration : Configuration_Type;
       Output        : Ada.Text_IO.File_Type;
@@ -341,19 +574,7 @@ package body List_Package is
         (Stem => Null_Stem_Type,
          Ir => Null_Inflection_Record);
 
-      Stem_Inflection_Array_Size       : constant := 10;
-      Stem_Inflection_Array_Array_Size : constant := 40;
-
-      type Stem_Inflection_Array is
-        array (Integer range <>) of Stem_Inflection_Record;
-      type Stem_Inflection_Array_Array is array (Integer range <>)
-        of Stem_Inflection_Array (1 .. Stem_Inflection_Array_Size);
-
       Osra : Stem_Inflection_Array (1 .. Stem_Inflection_Array_Size)
-        := (others => (Null_Stem_Type, Null_Inflection_Record));
-
-      Sra, Null_Sra :
-        constant Stem_Inflection_Array (1 .. Stem_Inflection_Array_Size)
         := (others => (Null_Stem_Type, Null_Inflection_Record));
 
       Sraa : Stem_Inflection_Array_Array (1 .. Stem_Inflection_Array_Array_Size)
@@ -373,19 +594,13 @@ package body List_Package is
       --                            := (X, NULL_MNPC, NULL_DICTIONARY_ENTRY);
       Dm : Dictionary_MNPC_Record := Null_Dictionary_MNPC_Record;
 
-      Dictionary_MNPC_Array_Size : constant := 40;
-
-      type Dictionary_MNPC_Array is array (1 .. Dictionary_MNPC_Array_Size)
-        of Dictionary_MNPC_Record;
       Dma, Null_Dma : Dictionary_MNPC_Array;
 
       --MEANING_ARRAY_SIZE : constant := 5;
       --MEANING_ARRAY : array (1 .. MEANING_ARRAY_SIZE) of MEANING_TYPE;
 
-      Dea : Dictionary_Entry := Null_Dictionary_Entry;
-
       W : constant String := Raw_Word;
-      J1, J2, K : Integer := 0;
+      J1, J2 : Integer := 0;
       There_Is_An_Adverb : Boolean := False;
 
       I_Is_Pa_Last : Boolean := False;
@@ -651,206 +866,9 @@ package body List_Package is
 
       Sraa := Null_Sraa;
       Dma := Null_Dma;
-      --  Convert from PARSE_RECORDs to DICTIONARY_MNPC_RECORD
-      ---   and STEM_INFLECTION_RECORD
-      --I := 1;           --  I cycles on PA
-      --J := 0;           --  J indexes the number of DMA arrays --  Initialize
-      -- the J variable is mutated within Cycle_Over_Pa, but its value
-      -- is not read once this routine is exited (it is instead unconditionally
-      -- assigned to a constant value)
-      --
-      -- the I variable is only read once after Cycle_Over_Pa, in a comparison
-      -- with Pa_Last; it is not assigned to after the Cycle_Over_Pa routine
-      -- is exited
 
-      declare
-         I   : Integer := 1;
-         J   : Integer := 0;
-         Odm : Dictionary_MNPC_Record := Null_Dictionary_MNPC_Record;
-      begin
-
-         Cycle_Over_Pa :
-         while I <= Pa_Last  loop
-            --  I cycles over full PA array
-            Odm := Null_Dictionary_MNPC_Record;
-
-            if Pa (I).D_K = Unique  then
-               J := J + 1;
-               Sraa (J)(1) := (Pa (I).Stem, Pa (I).IR);
-
-               Dm := Null_Dictionary_MNPC_Record;
-               Dm.D_K := Unique;
-               Dm.MNPC := Pa (I).MNPC;
-               Dm.De := Uniques_De (Pa (I).MNPC);
-               Dma (J) := Dm;
-               I := I + 1;
-            else
-               declare
-                  procedure Handle_Parse_Record is
-                  begin
-                     if Pa (I).MNPC /= Odm.MNPC then
-                        -- Encountering new MNPC
-                        Osra := Sra;
-                        K := 1;
-                        -- K indexes within the MNPCA array -- Initialise
-                        J := J + 1;
-                        -- J indexes the number of MNPCA arrays - Next MNPCA
-                        Sraa (J)(K) := (Pa (I).Stem, Pa (I).IR);
-                        Dict_IO.Set_Index (Dict_File (Pa (I).D_K), Pa (I).MNPC);
-                        Dict_IO.Read (Dict_File (Pa (I).D_K), Dea);
-                        Dm := (Pa (I).D_K, Pa (I).MNPC, Dea);
-                        Dma (J) := Dm;
-                        Odm := Dm;
-                     else
-                        K := K + 1;
-                        -- K indexes within the MNPCA array -- Next MNPC
-                        Sraa (J)(K) := (Pa (I).Stem, Pa (I).IR);
-                     end if;
-                  end Handle_Parse_Record;
-               begin
-                  Osra := Null_Sra;
-
-                  case Pa (I).IR.Qual.Pofs  is
-                     -- TODO: FACTOR OUT
-                     --
-                     -- the first four branches are completely regular;
-                     -- work out how to reduce the remaining branches
-                     when N =>
-                        while Pa (I).IR.Qual.Pofs = N and I <= Pa_Last loop
-                           Handle_Parse_Record;
-                           I := I + 1;           --  I cycles over full PA array
-                        end loop;
-
-                     when Pron =>
-                        while Pa (I).IR.Qual.Pofs = Pron and I <= Pa_Last loop
-                           Handle_Parse_Record;
-                           I := I + 1;           --  I cycles over full PA array
-                        end loop;
-
-                     when Pack =>
-                        while Pa (I).IR.Qual.Pofs = Pack and I <= Pa_Last loop
-                           Handle_Parse_Record;
-                           I := I + 1;           --  I cycles over full PA array
-                        end loop;
-
-                     when Adj =>
-                        while Pa (I).IR.Qual.Pofs = Adj and I <= Pa_Last loop
-                           Handle_Parse_Record;
-                           I := I + 1;         --  I cycles over full PA array
-                        end loop;
-
-                     when Num  =>
-                        while Pa (I).IR.Qual.Pofs = Num   and
-                          I <= Pa_Last                   loop
-                           if Pa (I).D_K = Rrr then        --  Roman numeral
-                              Osra := Sra;
-                              K := 1;
-                              --  K indexes within the MNPCA array -- Initialize
-                              J := J + 1;
-                              --  J indexes the number of MNPCA arrays
-                              Sraa (J)(K) := (Pa (I).Stem, Pa (I).IR);
-
-                              Dea := Null_Dictionary_Entry;
-                              Dm := (Pa (I).D_K, Pa (I).MNPC, Dea);
-                              Dma (J) := Dm;
-                              Odm := Dm;
-                           else
-                              Handle_Parse_Record;
-                           end if;
-
-                           I := I + 1;           --  I cycles over full PA array
-                        end loop;
-
-                     when V | Vpar | Supine  =>
-                        while (Pa (I).IR.Qual.Pofs = V      or
-                          Pa (I).IR.Qual.Pofs = Vpar   or
-                          Pa (I).IR.Qual.Pofs = Supine)   and
-                          I <= Pa_Last                   loop
-                           if (Pa (I).MNPC  /= Odm.MNPC) and
-                             (Pa (I).D_K /= Ppp)
-                           then   --  Encountering new MNPC
-                              Osra := Sra;  --  But not for compound
-                              K := 1;
-                              --  K indexes within the MNPCA array -- Initialize
-
-                              J := J + 1;
-                              --  J indexes the number of MNPCA arrays
-                              Sraa (J)(K) := (Pa (I).Stem, Pa (I).IR);
-                              if Pa (I).D_K /= Ppp  then
-                                 Dict_IO.Set_Index
-                                   (Dict_File (Pa (I).D_K), Pa (I).MNPC);
-                                 Dict_IO.Read (Dict_File (Pa (I).D_K), Dea);
-                              end if;     --  use previous DEA
-                              Dm := (Pa (I).D_K, Pa (I).MNPC, Dea);
-                              Dma (J) := Dm;
-                              Odm := Dm;
-                           else
-                              K := K + 1;
-                              --  K indexes within the MNPCA array  - Next MNPC
-                              Sraa (J)(K) := (Pa (I).Stem, Pa (I).IR);
-                           end if;
-
-                           I := I + 1;           --  I cycles over full PA array
-                        end loop;
-
-                     when others  =>
-                        --TEXT_IO.PUT_LINE ("Others");
-                        while I <= Pa_Last                   loop
-                           if (Odm.D_K  /= Pa (I).D_K)  or
-                             (Odm.MNPC /= Pa (I).MNPC)
-                           then   --  Encountering new single (K only 1)
-                              Osra := Sra;
-                              K := 1;
-                              --  K indexes within the MNPCA array -- Initialize
-
-                              J := J + 1;
-                              --  J indexes the number of MNPCA array
-
-                              Sraa (J)(K) := (Pa (I).Stem, Pa (I).IR);
-                              if Pa (I).MNPC /= Null_MNPC  then
-                                 if Pa (I).D_K = Addons  then
-                                    Dea :=  Null_Dictionary_Entry;
-                                    --  Fix for ADDONS in MEANS, not DICT_IO
-                                 else
-                                    Dict_IO.Set_Index (Dict_File (Pa (I).D_K),
-                                      Pa (I).MNPC);
-                                    Dict_IO.Read (Dict_File (Pa (I).D_K), Dea);
-                                 end if;
-                              else                 --  Has no dictionary to read
-                                 Dea := Null_Dictionary_Entry;
-                              end if;
-                              Dm := (Pa (I).D_K, Pa (I).MNPC, Dea);
-                              Dma (J) := Dm;
-                              Odm := Dm;
-                              --else
-                              --  K := K + 1;
-                              --  K indexes within the MNPCA array  - Next MNPC
-                              --  SRAA (J)(K) := (PA (I).STEM, PA (I).IR);
-                           end if;
-
-                           I := I + 1;           --  I cycles over full PA array
-                           exit;
-                           --  Since Other is only one, don't loop
-                        end loop;
-                  end case;
-               end;
-            end if;
-
-         end loop Cycle_Over_Pa;
-
-         if I = Pa_Last then
-            I_Is_Pa_Last := True;
-         end if;
-
-      exception
-         when others  =>
-            Ada.Text_IO.Put_Line
-              ("Unexpected exception in CYCLE_OVER_PA processing " & Raw_Word);
-            Put_Stat ("EXCEPTION LS at "
-              & Head (Integer'Image (Line_Number), 8) &
-              Head (Integer'Image (Word_Number), 4)
-              & "   " & Head (W, 20) & "   "  & Pa (I).Stem);
-      end;
+      Cycle_Over_Pa (Pa, Pa_Last, Sraa, Dm, Dma, Osra, Sra, I_Is_Pa_Last,
+                    Raw_Word, W);
 
       --  Sets + if capitalized
       --  Strangely enough, it may enter LIST_STEMS with PA_LAST /= 0
