@@ -372,7 +372,7 @@ package body List_Package is
       --      end record;
       --      NULL_DICTIONARY_MNPC_RECORD : DICTIONARY_MNPC_RECORD
       --                            := (X, NULL_MNPC, NULL_DICTIONARY_ENTRY);
-      Dm, Odm : Dictionary_MNPC_Record := Null_Dictionary_MNPC_Record;
+      Dm : Dictionary_MNPC_Record := Null_Dictionary_MNPC_Record;
 
       Dictionary_MNPC_Array_Size : constant := 40;
 
@@ -660,7 +660,8 @@ package body List_Package is
       Dma := Null_Dma;
 
       declare
-         I : Integer := 1;
+         I   : Integer := 1;
+         Odm : Dictionary_MNPC_Record := Null_Dictionary_MNPC_Record;
       begin
 
          Cycle_Over_Pa :
