@@ -316,15 +316,15 @@ package body List_Package is
    end Put_Meaning_Line;
 
    procedure Cycle_Over_Pa
-     (Pa            : Parse_Array;
-      Pa_Last       : Integer;
+     (Pa            :  in Parse_Array;
+      Pa_Last       :  in Integer;
       Sraa          : out Stem_Inflection_Array_Array;
       Dm            : out Dictionary_MNPC_Record;
       Dma           : out Dictionary_MNPC_Array;
       Osra          : out Stem_Inflection_Array;
-      Sra           : in Stem_Inflection_Array;
+      Sra           :  in Stem_Inflection_Array;
       I_Is_Pa_Last  : out Boolean;
-      Raw_Word, W   : in String
+      Raw_Word, W   :  in String
      )
 
    is
