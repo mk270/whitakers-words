@@ -473,8 +473,11 @@ package body List_Package is
          return S;
       end Constructed_Meaning;
 
-      procedure Put_Meaning_Line (Sr  : Stem_Inflection_Record;
-                                  Dm  : Dictionary_MNPC_Record) is
+      procedure Put_Meaning_Line
+        (Output : Ada.Text_IO.File_Type;
+         Sr     : Stem_Inflection_Record;
+         Dm     : Dictionary_MNPC_Record)
+      is
          procedure Put_Word_Meaning
            (Meaning : in out Meaning_Type;
             Code    : in     String)
@@ -1059,10 +1062,10 @@ package body List_Package is
                if Dma (J).De.Mean /= Dma (J + 1).De.Mean then
                   --  This if handles simple multiple MEAN with same IR and FORM
                   --  by anticipating duplicates and waiting until change
-                  Put_Meaning_Line (Sraa (J)(1), Dma (J));
+                  Put_Meaning_Line (Output, Sraa (J)(1), Dma (J));
                end if;
             else
-               Put_Meaning_Line (Sraa (J)(1), Dma (J));
+               Put_Meaning_Line (Output, Sraa (J)(1), Dma (J));
             end if;
          end Putting_Meaning;
 
