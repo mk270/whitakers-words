@@ -577,11 +577,10 @@ package body List_Package is
       Osra : Stem_Inflection_Array (1 .. Stem_Inflection_Array_Size)
         := (others => (Null_Stem_Type, Null_Inflection_Record));
 
-      Sraa : Stem_Inflection_Array_Array (1 .. Stem_Inflection_Array_Array_Size)
-        := (others => Null_Sra);
+      Sraa : Stem_Inflection_Array_Array
+        (1 .. Stem_Inflection_Array_Array_Size);
 
-      Null_Sraa :
-        constant Stem_Inflection_Array_Array
+      Null_Sraa : constant Stem_Inflection_Array_Array
         (1 .. Stem_Inflection_Array_Array_Size)
         := (others => Null_Sra);
 
