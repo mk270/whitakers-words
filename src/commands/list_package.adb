@@ -791,13 +791,6 @@ package body List_Package is
       Sraa : Stem_Inflection_Array_Array
         (1 .. Stem_Inflection_Array_Array_Size) := Null_Sraa;
 
-      --      type DICTIONARY_MNPC_RECORD is record
-      --        D_K  : DICTIONARY_KIND := DEFAULT_DICTIONARY_KIND;
-      --        MNPC : MNPC_TYPE := NULL_MNPC;
-      --        DE   : DICTIONARY_ENTRY := NULL_DICTIONARY_ENTRY;
-      --      end record;
-      --      NULL_DICTIONARY_MNPC_RECORD : DICTIONARY_MNPC_RECORD
-      --                            := (X, NULL_MNPC, NULL_DICTIONARY_ENTRY);
       Dm : Dictionary_MNPC_Record := Null_Dictionary_MNPC_Record;
 
       Null_Dma : constant Dictionary_MNPC_Array :=
