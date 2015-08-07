@@ -699,8 +699,7 @@ package body List_Package is
                Osra := Null_Sra;
 
                case Pa (I).IR.Qual.Pofs  is
-                  -- TODO: FACTOR OUT (or at least split these things into
-                  -- their own functions
+                  -- TODO: FACTOR OUT
                   when N =>
                      while (Pa (I).IR.Qual.Pofs = N) and (I <= Pa_Last) loop
                         Handle_Parse_Record;
