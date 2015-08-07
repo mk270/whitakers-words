@@ -488,7 +488,22 @@ package body List_Package is
             end if;
          end Put_Word_Meaning;
       begin
-         if Dm.D_K not in Addons .. Ppp  then
+         -- FIXME: use case construct
+         if Dm.D_K = Rrr then
+            Put_Word_Meaning (Rrr_Meaning, "03 "); --  Roman Numeral
+         elsif Dm.D_K = Nnn then
+            Put_Word_Meaning (Nnn_Meaning, "06 "); --  Unknown Name
+         elsif Dm.D_K = Xxx then
+            Put_Word_Meaning (Xxx_Meaning, "06 "); --  TRICKS
+         elsif Dm.D_K = Yyy then
+            Put_Word_Meaning (Yyy_Meaning, "06 "); --  Syncope
+         elsif Dm.D_K = Ppp then
+            Put_Word_Meaning (Ppp_Meaning, "06 "); --  Compounds
+         elsif Dm.D_K = Addons then
+            Put_Pearse_Code (Output, "06 ");
+            Put_Meaning (Output, Means (Integer (Dm.MNPC)));
+            Ada.Text_IO.New_Line (Output);
+         else
             Put_Pearse_Code (Output, "03 ");
             if Dm.De.Part.Pofs = Num  and then Dm.De.Part.Num.Value > 0  then
                Ada.Text_IO.Put_Line (Output, Constructed_Meaning (Sr, Dm));
@@ -498,23 +513,6 @@ package body List_Package is
                Ada.Text_IO.New_Line (Output);
             else
                Put_Meaning (Output, Trim_Bar (Dm.De.Mean));
-               Ada.Text_IO.New_Line (Output);
-            end if;
-         else
-            -- FIXME: use case construct
-            if Dm.D_K = Rrr then
-               Put_Word_Meaning (Rrr_Meaning, "03 "); --  Roman Numeral
-            elsif Dm.D_K = Nnn then
-               Put_Word_Meaning (Nnn_Meaning, "06 "); --  Unknown Name
-            elsif Dm.D_K = Xxx then
-               Put_Word_Meaning (Xxx_Meaning, "06 "); --  TRICKS
-            elsif Dm.D_K = Yyy then
-               Put_Word_Meaning (Yyy_Meaning, "06 "); --  Syncope
-            elsif Dm.D_K = Ppp then
-               Put_Word_Meaning (Ppp_Meaning, "06 "); --  Compounds
-            elsif Dm.D_K = Addons then
-               Put_Pearse_Code (Output, "06 ");
-               Put_Meaning (Output, Means (Integer (Dm.MNPC)));
                Ada.Text_IO.New_Line (Output);
             end if;
          end if;
