@@ -324,9 +324,7 @@ package body List_Package is
       Osra          : out Stem_Inflection_Array;
       Sra           :  in Stem_Inflection_Array;
       I_Is_Pa_Last  : out Boolean;
-      Raw_Word, W   :  in String
-     )
-
+      Raw_Word, W   :  in String)
    is
       --  Convert from PARSE_RECORDs to DICTIONARY_MNPC_RECORD
       ---   and STEM_INFLECTION_RECORD
