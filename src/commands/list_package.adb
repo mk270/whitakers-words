@@ -593,7 +593,9 @@ package body List_Package is
       --                            := (X, NULL_MNPC, NULL_DICTIONARY_ENTRY);
       Dm : Dictionary_MNPC_Record := Null_Dictionary_MNPC_Record;
 
-      Dma, Null_Dma : Dictionary_MNPC_Array;
+      Null_Dma : constant Dictionary_MNPC_Array :=
+        (others => Null_Dictionary_MNPC_Record);
+      Dma : Dictionary_MNPC_Array := Null_Dma;
 
       --MEANING_ARRAY_SIZE : constant := 5;
       --MEANING_ARRAY : array (1 .. MEANING_ARRAY_SIZE) of MEANING_TYPE;
@@ -862,8 +864,6 @@ package body List_Package is
             end if;
          end loop;
       end if;
-
-      Dma := Null_Dma;
 
       Cycle_Over_Pa (Pa, Pa_Last, Sraa, Dm, Dma, Osra, Sra, I_Is_Pa_Last,
                     Raw_Word, W);
