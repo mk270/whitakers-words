@@ -52,7 +52,6 @@ package body List_Package is
      := (X, Null_MNPC, Null_Dictionary_Entry);
 
    Max_Meaning_Print_Size : constant := 79;
-   Mm : Integer := Max_Meaning_Size;
 
    Inflection_Frequency : constant array (Frequency_Type) of String (1 .. 8) :=
      ("        ",  --  X
@@ -249,7 +248,8 @@ package body List_Package is
    procedure Put_Meaning_Line
      (Output : Ada.Text_IO.File_Type;
       Sr     : Stem_Inflection_Record;
-      Dm     : Dictionary_MNPC_Record)
+      Dm     : Dictionary_MNPC_Record;
+      Mm     : Integer)
    is
       use Dict_IO;
 
@@ -389,6 +389,7 @@ package body List_Package is
       There_Is_An_Adverb : Boolean := False;
 
       I_Is_Pa_Last : Boolean := False;
+      Mm : Integer := Max_Meaning_Size;
 
       procedure  Put_Inflection (Sr : Stem_Inflection_Record;
                                  Dm : Dictionary_MNPC_Record) is
@@ -920,14 +921,14 @@ package body List_Package is
             if  Words_Mode (Write_Output_To_File)  and then
               not Words_Mode (Write_Unknowns_To_File)
             then
-               List_Neighborhood (Output, Raw_Word);
+               List_Neighborhood (Output, Raw_Word, Mm);
             elsif  Words_Mode (Write_Output_To_File)  and then
               Words_Mode (Write_Unknowns_To_File)
             then
-               List_Neighborhood (Output, Raw_Word);
-               List_Neighborhood (Unknowns, Raw_Word);
+               List_Neighborhood (Output, Raw_Word, Mm);
+               List_Neighborhood (Unknowns, Raw_Word, Mm);
             elsif Name (Current_Input) = Name (Standard_Input) then
-               List_Neighborhood (Output, Raw_Word);
+               List_Neighborhood (Output, Raw_Word, Mm);
             end if;
          end if;
       end if;
@@ -989,10 +990,10 @@ package body List_Package is
                   if Dma (J).De.Mean /= Dma (J + 1).De.Mean then
                      --  Hhandle simple multiple MEAN with same IR and FORM
                      --  by anticipating duplicates and waiting until change
-                     Put_Meaning_Line (Output, Sraa (J)(1), Dma (J));
+                     Put_Meaning_Line (Output, Sraa (J)(1), Dma (J), Mm);
                   end if;
                else
-                  Put_Meaning_Line (Output, Sraa (J)(1), Dma (J));
+                  Put_Meaning_Line (Output, Sraa (J)(1), Dma (J), Mm);
                end if;
             end Putting_Meaning;
 
@@ -1030,7 +1031,8 @@ package body List_Package is
 
    procedure List_Entry (Output   : Ada.Text_IO.File_Type;
                          D_K      : Dictionary_Kind;
-                         Mn       : Dict_IO.Count) is
+                         Mn       : Dict_IO.Count;
+                         Mm       : Integer) is
       De : Dictionary_Entry;
    begin
       Dict_IO.Read (Dict_File (D_K), De, Mn);
@@ -1162,7 +1164,8 @@ package body List_Package is
    end Unknown_Search;
 
    procedure List_Neighborhood (Output : Ada.Text_IO.File_Type;
-                                Input_Word : String) is
+                                Input_Word : String;
+                                Mm : out Integer) is
 
       D_K : constant Dictionary_Kind := General;
       Unk_MNPC : Dict_IO.Count;
@@ -1189,7 +1192,7 @@ package body List_Package is
          Pause (Output);
          for Mn in Dict_IO.Count (Integer (Unk_MNPC) - 5) ..
            Dict_IO.Count (Integer (Unk_MNPC) + 3)  loop
-            List_Entry (Output, D_K, Mn);
+            List_Entry (Output, D_K, Mn, Mm);
 
          end loop;
       end if;

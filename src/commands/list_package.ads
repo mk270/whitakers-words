@@ -32,13 +32,15 @@ package List_Package is
 
    procedure List_Entry (Output   : Ada.Text_IO.File_Type;
                          D_K      : Dictionary_Kind;
-                         Mn       : Dict_IO.Count);
+                         Mn       : Dict_IO.Count;
+                         Mm       : Integer);
 
    procedure Unknown_Search (Unknown       :  in String;
                              Unknown_Count : out Dict_IO.Count);
 
    procedure List_Neighborhood
-     (Output : Ada.Text_IO.File_Type;
-      Input_Word : String);
+     (Output     : Ada.Text_IO.File_Type;
+      Input_Word : String;
+      Mm         : out Integer);
 
 end List_Package;
