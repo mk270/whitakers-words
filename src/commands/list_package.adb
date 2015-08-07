@@ -316,16 +316,18 @@ package body List_Package is
    end Put_Meaning_Line;
 
    procedure Cycle_Over_Pa
-     (Pa : Parse_Array;
-      Pa_Last : Integer;
-      Sraa : out Stem_Inflection_Array_Array; -- FIXME
-      Dm : out Dictionary_MNPC_Record; -- FIXME?
-      Dma : out Dictionary_MNPC_Array; -- FIXME
-      Osra : out Stem_Inflection_Array;
-      Sra : in Stem_Inflection_Array;
-      I_Is_Pa_Last : out Boolean;
-      Raw_Word, W : in String
+     (Pa            : Parse_Array;
+      Pa_Last       : Integer;
+      Sraa          : out Stem_Inflection_Array_Array;
+      Dm            : out Dictionary_MNPC_Record;
+      Dma           : out Dictionary_MNPC_Array;
+      Osra          : out Stem_Inflection_Array;
+      Sra           : in Stem_Inflection_Array;
+      I_Is_Pa_Last  : out Boolean;
+      Raw_Word, W   : in String
      )
+
+   is
       --  Convert from PARSE_RECORDs to DICTIONARY_MNPC_RECORD
       ---   and STEM_INFLECTION_RECORD
       --I := 1;           --  I cycles on PA
@@ -337,7 +339,6 @@ package body List_Package is
       -- the I variable is only read once after Cycle_Over_Pa, in a comparison
       -- with Pa_Last; it is not assigned to after the Cycle_Over_Pa routine
       -- is exited
-   is
       use Ada.Text_IO;
       use Dict_IO;
       I   : Integer := 1;
