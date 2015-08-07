@@ -934,14 +934,14 @@ package body List_Package is
             if  Words_Mode (Write_Output_To_File)  and then
               not Words_Mode (Write_Unknowns_To_File)
             then
-               List_Neighborhood (Output, Raw_Word, Mm);
+               List_Neighborhood (Output, Raw_Word);
             elsif  Words_Mode (Write_Output_To_File)  and then
               Words_Mode (Write_Unknowns_To_File)
             then
-               List_Neighborhood (Output, Raw_Word, Mm);
-               List_Neighborhood (Unknowns, Raw_Word, Mm);
+               List_Neighborhood (Output, Raw_Word);
+               List_Neighborhood (Unknowns, Raw_Word);
             elsif Name (Current_Input) = Name (Standard_Input) then
-               List_Neighborhood (Output, Raw_Word, Mm);
+               List_Neighborhood (Output, Raw_Word);
             end if;
          end if;
       end if;
@@ -1182,16 +1182,11 @@ package body List_Package is
    end Unknown_Search;
 
    procedure List_Neighborhood (Output : Ada.Text_IO.File_Type;
-                                Input_Word : String;
-                                Mm : out Integer) is
-
+                                Input_Word : String) is
       D_K : constant Dictionary_Kind := General;
       Unk_MNPC : Dict_IO.Count;
-
+      Mm : constant Integer := Get_Max_Meaning_Size (Output);
    begin
-
-      Mm := Get_Max_Meaning_Size (Output);
-
       Unknown_Search (Head (Input_Word, Max_Stem_Size), Unk_MNPC);
       --TEXT_IO.PUT_LINE ("UNK_MNPC = " & INTEGER'IMAGE (INTEGER (UNK_MNPC)));
       if Integer (Unk_MNPC) > 0  then

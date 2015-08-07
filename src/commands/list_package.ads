@@ -35,7 +35,6 @@ package List_Package is
 
    procedure List_Neighborhood
      (Output     : Ada.Text_IO.File_Type;
-      Input_Word : String;
-      Mm         : out Integer);
+      Input_Word : String);
 
 end List_Package;
