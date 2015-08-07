@@ -749,8 +749,6 @@ package body List_Package is
       --  (or all of a class) it must fix up the rest of the parse array,
       --  e.g., it must clean out dangling prefixes and suffixes
 
-      Mm := Get_Max_Meaning_Size (Output);
-
       -------  The gimick of adding an ADV if there is only ADJ VOC  ----
       --TEXT_IO.PUT_LINE ("About to do the ADJ -> ADV kludge");
       for I in Pa'First .. Pa_Last  loop
@@ -946,9 +944,6 @@ package body List_Package is
          end if;
       end if;
 
-      -- Mm is set but not read by List_Neighborhood which may have
-      -- been called above; we set it again here, such that we may
-      -- later remove the interaction with List_Neighborhood
       Mm := Get_Max_Meaning_Size (Output);
 
       if Pa_Last = 0 then
