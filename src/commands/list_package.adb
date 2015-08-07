@@ -65,7 +65,7 @@ package body List_Package is
    type Stem_Inflection_Array_Array is array (Integer range <>)
      of Stem_Inflection_Array (1 .. Stem_Inflection_Array_Size);
 
-   Sra, Null_Sra :
+   Null_Sra :
      constant Stem_Inflection_Array (1 .. Stem_Inflection_Array_Size)
      := (others => (Null_Stem_Type, Null_Inflection_Record));
 
@@ -337,8 +337,6 @@ package body List_Package is
       Sraa          : out Stem_Inflection_Array_Array;
       Dm            : out Dictionary_MNPC_Record;
       Dma           : out Dictionary_MNPC_Array;
-      Osra          : out Stem_Inflection_Array;
-      Sra           :  in Stem_Inflection_Array;
       I_Is_Pa_Last  : out Boolean;
       Raw_Word, W   :  in String)
    is
@@ -371,7 +369,6 @@ package body List_Package is
                begin
                   if Pa (I).MNPC /= Odm.MNPC then
                      -- Encountering new MNPC
-                     Osra := Sra;
                      K := 1;
                      -- K indexes within the MNPCA array -- Initialise
                      J := J + 1;
@@ -389,8 +386,6 @@ package body List_Package is
                   end if;
                end Handle_Parse_Record;
             begin
-               Osra := Null_Sra;
-
                case Pa (I).IR.Qual.Pofs  is
                   -- TODO: FACTOR OUT
                   --
@@ -424,7 +419,6 @@ package body List_Package is
                      while Pa (I).IR.Qual.Pofs = Num   and
                        I <= Pa_Last                   loop
                         if Pa (I).D_K = Rrr then        --  Roman numeral
-                           Osra := Sra;
                            K := 1;
                            --  K indexes within the MNPCA array -- Initialize
                            J := J + 1;
@@ -450,7 +444,6 @@ package body List_Package is
                         if (Pa (I).MNPC  /= Odm.MNPC) and
                           (Pa (I).D_K /= Ppp)
                         then   --  Encountering new MNPC
-                           Osra := Sra;  --  But not for compound
                            K := 1;
                            --  K indexes within the MNPCA array -- Initialize
 
@@ -480,7 +473,6 @@ package body List_Package is
                         if (Odm.D_K  /= Pa (I).D_K)  or
                           (Odm.MNPC /= Pa (I).MNPC)
                         then   --  Encountering new single (K only 1)
-                           Osra := Sra;
                            K := 1;
                            --  K indexes within the MNPCA array -- Initialize
 
@@ -577,9 +569,6 @@ package body List_Package is
       Null_Stem_Inflection_Record      : constant Stem_Inflection_Record :=
         (Stem => Null_Stem_Type,
          Ir => Null_Inflection_Record);
-
-      Osra : Stem_Inflection_Array (1 .. Stem_Inflection_Array_Size)
-        := (others => (Null_Stem_Type, Null_Inflection_Record));
 
       Null_Sraa : constant Stem_Inflection_Array_Array
         (1 .. Stem_Inflection_Array_Array_Size)
@@ -860,7 +849,7 @@ package body List_Package is
          end loop;
       end if;
 
-      Cycle_Over_Pa (Pa, Pa_Last, Sraa, Dm, Dma, Osra, Sra, I_Is_Pa_Last,
+      Cycle_Over_Pa (Pa, Pa_Last, Sraa, Dm, Dma, I_Is_Pa_Last,
                     Raw_Word, W);
 
       --  Sets + if capitalized
@@ -965,6 +954,8 @@ package body List_Package is
       --TEXT_IO.PUT_LINE ("PUTting INFLECTIONS");
       declare
          J : Integer := 1;
+         Osra : Stem_Inflection_Array (1 .. Stem_Inflection_Array_Size)
+           := (others => (Null_Stem_Type, Null_Inflection_Record));
       begin
          Osra := Null_Sra;
 
