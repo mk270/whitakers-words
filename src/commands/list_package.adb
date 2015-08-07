@@ -184,6 +184,126 @@ package body List_Package is
 
    end Put_Dictionary_Form;
 
+   type Stem_Inflection_Record is
+      record
+         Stem : Stem_Type          := Null_Stem_Type;
+         Ir   : Inflection_Record  := Null_Inflection_Record;
+      end record;
+
+   function Constructed_Meaning
+     (Sr  : Stem_Inflection_Record;
+      Dm  : Dictionary_MNPC_Record)
+     return String
+   is
+      --  Constructs the meaning for NUM from NUM.SORT and NUM_VALUE
+      S : String (1 .. Max_Meaning_Size) := Null_Meaning_Type;
+      N : Integer := 0;
+   begin
+      if Dm.De.Part.Pofs = Num  then
+         N := Dm.De.Part.Num.Value;
+         if Sr.Ir.Qual.Pofs = Num  then    --  Normal parse
+            case Sr.Ir.Qual.Num.Sort is
+               when Card  =>
+                  S := Head (Integer'Image (N) &
+                    " - (CARD answers 'how many');", Max_Meaning_Size);
+               when Ord   =>
+                  S := Head (Integer'Image (N) &
+                    "th - (ORD, 'in series'); (a/the)" & Integer'Image (N) &
+                    "th (part) (fract w/pars?);", Max_Meaning_Size);
+               when Dist  =>
+                  S := Head (Integer'Image (N) &
+                    " each/apiece/times/fold/together/at a time" &
+                    " - 'how many each'; by " &
+                    Integer'Image (N) & "s; ", Max_Meaning_Size);
+               when Adverb =>
+                  S := Head (Integer'Image (N) &
+                    " times, on" & Integer'Image (N) &
+                    " occasions - (ADVERB answers 'how often');",
+                    Max_Meaning_Size);
+               when others =>
+                  null;
+            end case;
+         else  -- there is fix so POFS is not NUM
+            S := Head ("Number " & Integer'Image (N), Max_Meaning_Size);
+         end if;
+      end if;
+
+      return S;
+   end Constructed_Meaning;
+
+   function Trim_Bar (S : String) return String is
+      --  Takes vertical bars from begining of MEAN and TRIMs
+   begin
+      if S'Length > 3  and then S (S'First .. S'First + 3) = "||||"  then
+         return Trim (S (S'First + 4 .. S'Last));
+      elsif S'Length > 2  and then S (S'First .. S'First + 2) = "|||"  then
+         return Trim (S (S'First + 3 .. S'Last));
+      elsif S'Length > 1  and then  S (S'First .. S'First + 1) = "||"  then
+         return Trim (S (S'First + 2 .. S'Last));
+      elsif S (S'First) = '|'  then
+         return Trim (S (S'First + 1 .. S'Last));
+      else
+         return Trim (S);
+      end if;
+   end Trim_Bar;
+
+   procedure Put_Meaning_Line
+     (Output : Ada.Text_IO.File_Type;
+      Sr     : Stem_Inflection_Record;
+      Dm     : Dictionary_MNPC_Record)
+   is
+      use Dict_IO;
+
+      procedure Put_Meaning (Output      : Ada.Text_IO.File_Type;
+                             Raw_Meaning : String) is
+         --  Handles the MM screen line limit and TRIM_BAR, then TRIMs
+      begin
+         Ada.Text_IO.Put (Output, Trim (Head (Trim_Bar (Raw_Meaning), Mm)));
+      end Put_Meaning;
+
+      procedure Put_Word_Meaning
+        (Meaning : in out Meaning_Type;
+         Code    : in     String)
+      is
+      begin
+         if Meaning /= Null_Meaning_Type then
+            Put_Pearse_Code (Output, Code);
+            Put_Meaning (Output, Meaning);
+            Meaning := Null_Meaning_Type;
+            Ada.Text_IO.New_Line (Output);
+         end if;
+      end Put_Word_Meaning;
+   begin
+      case Dm.D_K is
+         when Rrr =>
+            Put_Word_Meaning (Rrr_Meaning, "03 "); --  Roman Numeral
+         when Nnn =>
+            Put_Word_Meaning (Nnn_Meaning, "06 "); --  Unknown Name
+         when Xxx =>
+            Put_Word_Meaning (Xxx_Meaning, "06 "); --  TRICKS
+         when Yyy =>
+            Put_Word_Meaning (Yyy_Meaning, "06 "); --  Syncope
+         when Ppp =>
+            Put_Word_Meaning (Ppp_Meaning, "06 "); --  Compounds
+         when Addons =>
+            Put_Pearse_Code (Output, "06 ");
+            Put_Meaning (Output, Means (Integer (Dm.MNPC)));
+            Ada.Text_IO.New_Line (Output);
+         when others =>
+            Put_Pearse_Code (Output, "03 ");
+            if Dm.De.Part.Pofs = Num  and then Dm.De.Part.Num.Value > 0  then
+               Ada.Text_IO.Put_Line (Output, Constructed_Meaning (Sr, Dm));
+               --  Constructed MEANING
+            elsif Dm.D_K = Unique  then
+               Put_Meaning (Output, Uniques_De (Dm.MNPC).Mean);
+               Ada.Text_IO.New_Line (Output);
+            else
+               Put_Meaning (Output, Trim_Bar (Dm.De.Mean));
+               Ada.Text_IO.New_Line (Output);
+            end if;
+      end case;
+   end Put_Meaning_Line;
+
    procedure List_Stems (Configuration : Configuration_Type;
                          Output   : Ada.Text_IO.File_Type;
                          Raw_Word : String;
@@ -220,12 +340,6 @@ package body List_Package is
       --  containing the same data plus the DICTFILE data DICTIONARY_ENTRY
       --  but breaking it into two arrays allows different manipulation
       --  These are only within this routine, used to clean up the Output
-
-      type Stem_Inflection_Record is
-         record
-            Stem : Stem_Type          := Null_Stem_Type;
-            Ir   : Inflection_Record  := Null_Inflection_Record;
-         end record;
 
       Null_Stem_Inflection_Record      : constant Stem_Inflection_Record :=
         (Stem => Null_Stem_Type,
@@ -408,118 +522,6 @@ package body List_Package is
             Put_Dictionary_Form (Output, Dm.D_K, Dm.MNPC, Dm.De);
          end if;
       end Put_Form;
-
-      function Trim_Bar (S : String) return String is
-         --  Takes vertical bars from begining of MEAN and TRIMs
-      begin
-         if S'Length > 3  and then S (S'First .. S'First + 3) = "||||"  then
-            return Trim (S (S'First + 4 .. S'Last));
-         elsif S'Length > 2  and then S (S'First .. S'First + 2) = "|||"  then
-            return Trim (S (S'First + 3 .. S'Last));
-         elsif S'Length > 1  and then  S (S'First .. S'First + 1) = "||"  then
-            return Trim (S (S'First + 2 .. S'Last));
-         elsif S (S'First) = '|'  then
-            return Trim (S (S'First + 1 .. S'Last));
-         else
-            return Trim (S);
-         end if;
-      end Trim_Bar;
-
-      procedure Put_Meaning (Output : Ada.Text_IO.File_Type;
-                             Raw_Meaning : String) is
-         --  Handles the MM screen line limit and TRIM_BAR, then TRIMs
-      begin
-         Ada.Text_IO.Put (Output, Trim (Head (Trim_Bar (Raw_Meaning), Mm)));
-      end Put_Meaning;
-
-      function Constructed_Meaning
-        (Sr : Stem_Inflection_Record;
-         Dm  : Dictionary_MNPC_Record)
-        return String
-      is
-         --  Constructs the meaning for NUM from NUM.SORT and NUM_VALUE
-         S : String (1 .. Max_Meaning_Size) := Null_Meaning_Type;
-         N : Integer := 0;
-      begin
-         if Dm.De.Part.Pofs = Num  then
-            N := Dm.De.Part.Num.Value;
-            if Sr.Ir.Qual.Pofs = Num  then    --  Normal parse
-               case Sr.Ir.Qual.Num.Sort is
-                  when Card  =>
-                     S := Head (Integer'Image (N) &
-                       " - (CARD answers 'how many');", Max_Meaning_Size);
-                  when Ord   =>
-                     S := Head (Integer'Image (N) &
-                       "th - (ORD, 'in series'); (a/the)" & Integer'Image (N) &
-                       "th (part) (fract w/pars?);", Max_Meaning_Size);
-                  when Dist  =>
-                     S := Head (Integer'Image (N) &
-                       " each/apiece/times/fold/together/at a time" &
-                       " - 'how many each'; by " &
-                       Integer'Image (N) & "s; ", Max_Meaning_Size);
-                  when Adverb =>
-                     S := Head (Integer'Image (N) &
-                       " times, on" & Integer'Image (N) &
-                       " occasions - (ADVERB answers 'how often');",
-                       Max_Meaning_Size);
-                  when others =>
-                     null;
-               end case;
-            else  -- there is fix so POFS is not NUM
-               S := Head ("Number " & Integer'Image (N), Max_Meaning_Size);
-            end if;
-         end if;
-
-         return S;
-      end Constructed_Meaning;
-
-      procedure Put_Meaning_Line
-        (Output : Ada.Text_IO.File_Type;
-         Sr     : Stem_Inflection_Record;
-         Dm     : Dictionary_MNPC_Record)
-      is
-         procedure Put_Word_Meaning
-           (Meaning : in out Meaning_Type;
-            Code    : in     String)
-         is
-         begin
-            if Meaning /= Null_Meaning_Type then
-               Put_Pearse_Code (Output, Code);
-               Put_Meaning (Output, Meaning);
-               Meaning := Null_Meaning_Type;
-               Ada.Text_IO.New_Line (Output);
-            end if;
-         end Put_Word_Meaning;
-      begin
-         case Dm.D_K is
-            when Rrr =>
-               Put_Word_Meaning (Rrr_Meaning, "03 "); --  Roman Numeral
-            when Nnn =>
-               Put_Word_Meaning (Nnn_Meaning, "06 "); --  Unknown Name
-            when Xxx =>
-               Put_Word_Meaning (Xxx_Meaning, "06 "); --  TRICKS
-            when Yyy =>
-               Put_Word_Meaning (Yyy_Meaning, "06 "); --  Syncope
-            when Ppp =>
-               Put_Word_Meaning (Ppp_Meaning, "06 "); --  Compounds
-            when Addons =>
-               Put_Pearse_Code (Output, "06 ");
-               Put_Meaning (Output, Means (Integer (Dm.MNPC)));
-               Ada.Text_IO.New_Line (Output);
-            when others =>
-               Put_Pearse_Code (Output, "03 ");
-               if Dm.De.Part.Pofs = Num  and then Dm.De.Part.Num.Value > 0  then
-                  Ada.Text_IO.Put_Line (Output, Constructed_Meaning (Sr, Dm));
-                  --  Constructed MEANING
-               elsif Dm.D_K = Unique  then
-                  Put_Meaning (Output, Uniques_De (Dm.MNPC).Mean);
-                  Ada.Text_IO.New_Line (Output);
-               else
-                  Put_Meaning (Output, Trim_Bar (Dm.De.Mean));
-                  Ada.Text_IO.New_Line (Output);
-               end if;
-         end case;
-      end Put_Meaning_Line;
 
    begin
       Trimmed := False;
