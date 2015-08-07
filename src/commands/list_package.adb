@@ -318,8 +318,8 @@ package body List_Package is
    procedure Cycle_Over_Pa
      (Pa : Parse_Array;
       Pa_Last : Integer;
-      Sraa : in out Stem_Inflection_Array_Array; -- FIXME
-      Dm : in out Dictionary_MNPC_Record; -- FIXME?
+      Sraa : out Stem_Inflection_Array_Array; -- FIXME
+      Dm : out Dictionary_MNPC_Record; -- FIXME?
       Dma : out Dictionary_MNPC_Array; -- FIXME
       Osra : out Stem_Inflection_Array;
       Sra : in Stem_Inflection_Array;
