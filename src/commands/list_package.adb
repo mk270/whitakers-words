@@ -386,7 +386,7 @@ package body List_Package is
       Dea : Dictionary_Entry := Null_Dictionary_Entry;
 
       W : constant String := Raw_Word;
-      J, J1, J2, K : Integer := 0;
+      J1, J2, K : Integer := 0;
       There_Is_An_Adverb : Boolean := False;
 
       I_Is_Pa_Last : Boolean := False;
@@ -547,76 +547,80 @@ package body List_Package is
          end if;
       end loop;
 
-      if (not There_Is_An_Adverb) and (Words_Mode (Do_Fixes))  then
-         --TEXT_IO.PUT_LINE ("In the ADJ -> ADV kludge  There is no ADV");
-         for I in reverse Pa'First .. Pa_Last  loop
-            if Pa (I).IR.Qual.Pofs = Adj and then
-              (Pa (I).IR.Qual.Adj = ((1, 1), Voc, S, M, Pos)    or
-              ((Pa (I).IR.Qual.Adj.Of_Case = Voc)   and
-              (Pa (I).IR.Qual.Adj.Number = S)   and
-              (Pa (I).IR.Qual.Adj.Gender = M)   and
-              (Pa (I).IR.Qual.Adj.Comparison = Super)))
-            then
-               J := I;
+      declare
+         J : Integer := 0;
+      begin
+         if (not There_Is_An_Adverb) and (Words_Mode (Do_Fixes))  then
+            --TEXT_IO.PUT_LINE ("In the ADJ -> ADV kludge  There is no ADV");
+            for I in reverse Pa'First .. Pa_Last  loop
+               if Pa (I).IR.Qual.Pofs = Adj and then
+                 (Pa (I).IR.Qual.Adj = ((1, 1), Voc, S, M, Pos)    or
+                 ((Pa (I).IR.Qual.Adj.Of_Case = Voc)   and
+                 (Pa (I).IR.Qual.Adj.Number = S)   and
+                 (Pa (I).IR.Qual.Adj.Gender = M)   and
+                 (Pa (I).IR.Qual.Adj.Comparison = Super)))
+               then
+                  J := I;
 
-               while J >=  Pa'First  loop  --Back through other ADJ cases
-                  if Pa (J).IR.Qual.Pofs /= Adj  then
-                     J2 := J;
-                     --  J2 is first (reverse) that is not ADJ
-                     exit;
-                  end if;
-                  J := J - 1;
-               end loop;
-               while J >=  Pa'First  loop  --  Sweep up associated fixes
-                  if Pa (J).IR.Qual.Pofs not in Xons  then
-                     J1 := J;
-                     --  J1 is first (reverse) that is not XONS
-                     exit;
-                  end if;
-                  J := J - 1;
-               end loop;
+                  while J >=  Pa'First  loop  --Back through other ADJ cases
+                     if Pa (J).IR.Qual.Pofs /= Adj  then
+                        J2 := J;
+                        --  J2 is first (reverse) that is not ADJ
+                        exit;
+                     end if;
+                     J := J - 1;
+                  end loop;
+                  while J >=  Pa'First  loop  --  Sweep up associated fixes
+                     if Pa (J).IR.Qual.Pofs not in Xons  then
+                        J1 := J;
+                        --  J1 is first (reverse) that is not XONS
+                        exit;
+                     end if;
+                     J := J - 1;
+                  end loop;
 
-               for J in J1 + 1 .. J2  loop
-                  Pa (Pa_Last + J - J1 + 1) := Pa (J);
-               end loop;
+                  for J in J1 + 1 .. J2  loop
+                     Pa (Pa_Last + J - J1 + 1) := Pa (J);
+                  end loop;
 
-               Pa_Last := Pa_Last + J2 - J1 + 1;
-               Pa (Pa_Last) := Pa (J2 + 1);
+                  Pa_Last := Pa_Last + J2 - J1 + 1;
+                  Pa (Pa_Last) := Pa (J2 + 1);
 
-               Pa (Pa_Last) := ("e                 ",
-                 ((Suffix, Null_Suffix_Record), 0, Null_Ending_Record, X, B),
-                 Ppp, Null_MNPC);
-               --PARSE_RECORD_IO.PUT (PA (PA_LAST)); TEXT_IO.NEW_LINE;
-               Pa_Last := Pa_Last + 1;
+                  Pa (Pa_Last) := ("e                 ",
+                    ((Suffix, Null_Suffix_Record), 0, Null_Ending_Record, X, B),
+                    Ppp, Null_MNPC);
+                  --PARSE_RECORD_IO.PUT (PA (PA_LAST)); TEXT_IO.NEW_LINE;
+                  Pa_Last := Pa_Last + 1;
 
-               declare
-                  procedure Handle_Degree
-                    (E       : Ending_Record;
-                     Caption : String) is
+                  declare
+                     procedure Handle_Degree
+                       (E       : Ending_Record;
+                        Caption : String) is
+                     begin
+                        Pa (Pa_Last) := (Pa (J2 + 1).Stem,
+                          ((Pofs => Adv,
+                          Adv => (Comparison =>
+                          Pa (J2 + 1).IR.Qual.Adj.Comparison)),
+                          Key => 0, Ending => E, Age => X, Freq => B),
+                          Pa (J2 + 1).D_K,
+                          Pa (J2 + 1).MNPC);
+
+                        Ppp_Meaning := Head (Caption, Max_Meaning_Size);
+                     end Handle_Degree;
                   begin
-                     Pa (Pa_Last) := (Pa (J2 + 1).Stem,
-                       ((Pofs => Adv,
-                       Adv => (Comparison =>
-                       Pa (J2 + 1).IR.Qual.Adj.Comparison)),
-                       Key => 0, Ending => E, Age => X, Freq => B),
-                       Pa (J2 + 1).D_K,
-                       Pa (J2 + 1).MNPC);
-
-                     Ppp_Meaning := Head (Caption, Max_Meaning_Size);
-                  end Handle_Degree;
-               begin
-                  if Pa (J2 + 1).IR.Qual.Adj.Comparison = Pos then
-                     Handle_Degree ((1, "e      "),
-                       "-ly; -ily;  Converting ADJ to ADV");
-                  elsif Pa (J2 + 1).IR.Qual.Adj.Comparison = Super then
-                     Handle_Degree ((2, "me     "),
-                       "-estly; -estily; most -ly, very -ly" &
-                       "  Converting ADJ to ADV");
-                  end if;
-               end;
-            end if;           --  PA (I).IR.QUAL.POFS = ADJ
-         end loop;
-      end if;           --  not THERE_IS_AN_ADVERB
+                     if Pa (J2 + 1).IR.Qual.Adj.Comparison = Pos then
+                        Handle_Degree ((1, "e      "),
+                          "-ly; -ily;  Converting ADJ to ADV");
+                     elsif Pa (J2 + 1).IR.Qual.Adj.Comparison = Super then
+                        Handle_Degree ((2, "me     "),
+                          "-estly; -estily; most -ly, very -ly" &
+                          "  Converting ADJ to ADV");
+                     end if;
+                  end;
+               end if;           --  PA (I).IR.QUAL.POFS = ADJ
+            end loop;
+         end if;           --  not THERE_IS_AN_ADVERB
+      end;
 
       List_Sweep (Pa (1 .. Pa_Last), Pa_Last);
 
@@ -648,7 +652,7 @@ package body List_Package is
       --  Convert from PARSE_RECORDs to DICTIONARY_MNPC_RECORD
       ---   and STEM_INFLECTION_RECORD
       --I := 1;           --  I cycles on PA
-      J := 0;           --  J indexes the number of DMA arrays  --  Initialize
+      --J := 0;           --  J indexes the number of DMA arrays --  Initialize
       -- the J variable is mutated within Cycle_Over_Pa, but its value
       -- is not read once this routine is exited (it is instead unconditionally
       -- assigned to a constant value)
@@ -661,6 +665,7 @@ package body List_Package is
 
       declare
          I   : Integer := 1;
+         J   : Integer := 0;
          Odm : Dictionary_MNPC_Record := Null_Dictionary_MNPC_Record;
       begin
 
@@ -945,66 +950,69 @@ package body List_Package is
       end if;
 
       --TEXT_IO.PUT_LINE ("PUTting INFLECTIONS");
-      J := 1;
-      Osra := Null_Sra;
+      declare
+         J : Integer := 1;
+      begin
+         Osra := Null_Sra;
 
-      Output_Loop :
-      while  Dma (J) /= Null_Dictionary_MNPC_Record  loop
-         --  Skips one identical SRA no matter what comes next
-         if Sraa (J) /= Osra  then
+         Output_Loop :
+         while  Dma (J) /= Null_Dictionary_MNPC_Record  loop
+            --  Skips one identical SRA no matter what comes next
+            if Sraa (J) /= Osra  then
 
-            Put_Inflection_Array_J :
-            for K in Sraa (J)'Range loop
-               exit Put_Inflection_Array_J when Sraa (J)(K) =
-                 Null_Stem_Inflection_Record;
+               Put_Inflection_Array_J :
+               for K in Sraa (J)'Range loop
+                  exit Put_Inflection_Array_J when Sraa (J)(K) =
+                    Null_Stem_Inflection_Record;
 
-               Put_Inflection (Sraa (J)(K), Dma (J));
-               if Sraa (J)(K).Stem (1 .. 3) = "PPL"  then
-                  Ada.Text_IO.Put_Line (Output, Head (Ppp_Meaning, Mm));
-               end if;
-            end loop Put_Inflection_Array_J;
-            Osra := Sraa (J);
-         end if;
-
-         Putting_Form :
-         begin
-            if J = 1  or else
-              Support_Utils.Dictionary_Form (Dma (J).De) /=
-              Support_Utils.Dictionary_Form (Dma (J - 1).De)
-            then
-               --  Put at first chance, skip duplicates
-               Put_Form (Sraa (J)(1), Dma (J));
+                  Put_Inflection (Sraa (J)(K), Dma (J));
+                  if Sraa (J)(K).Stem (1 .. 3) = "PPL"  then
+                     Ada.Text_IO.Put_Line (Output, Head (Ppp_Meaning, Mm));
+                  end if;
+               end loop Put_Inflection_Array_J;
+               Osra := Sraa (J);
             end if;
-         end Putting_Form;
 
-         Putting_Meaning :
-         begin
-            if Dma (J).D_K in General .. Unique then
-               if Dma (J).De.Mean /= Dma (J + 1).De.Mean then
-                  --  This if handles simple multiple MEAN with same IR and FORM
-                  --  by anticipating duplicates and waiting until change
+            Putting_Form :
+            begin
+               if J = 1  or else
+                 Support_Utils.Dictionary_Form (Dma (J).De) /=
+                 Support_Utils.Dictionary_Form (Dma (J - 1).De)
+               then
+                  --  Put at first chance, skip duplicates
+                  Put_Form (Sraa (J)(1), Dma (J));
+               end if;
+            end Putting_Form;
+
+            Putting_Meaning :
+            begin
+               if Dma (J).D_K in General .. Unique then
+                  if Dma (J).De.Mean /= Dma (J + 1).De.Mean then
+                     --  Hhandle simple multiple MEAN with same IR and FORM
+                     --  by anticipating duplicates and waiting until change
+                     Put_Meaning_Line (Output, Sraa (J)(1), Dma (J));
+                  end if;
+               else
                   Put_Meaning_Line (Output, Sraa (J)(1), Dma (J));
                end if;
-            else
-               Put_Meaning_Line (Output, Sraa (J)(1), Dma (J));
-            end if;
-         end Putting_Meaning;
+            end Putting_Meaning;
 
-         Do_Pause :
-         begin
-            if I_Is_Pa_Last  then
-               Ada.Text_IO.New_Line (Output);
-            elsif Integer (Ada.Text_IO.Line (Output)) >
-              Scroll_Line_Number + Output_Screen_Size
-            then
-               Pause (Output);
-               Scroll_Line_Number := Integer (Ada.Text_IO.Line (Output));
-            end if;
-         end Do_Pause;
+            Do_Pause :
+            begin
+               if I_Is_Pa_Last  then
+                  Ada.Text_IO.New_Line (Output);
+               elsif Integer (Ada.Text_IO.Line (Output)) >
+                 Scroll_Line_Number + Output_Screen_Size
+               then
+                  Pause (Output);
+                  Scroll_Line_Number := Integer (Ada.Text_IO.Line (Output));
+               end if;
+            end Do_Pause;
 
-         J := J + 1;
-      end loop Output_Loop;
-      --TEXT_IO.PUT_LINE ("Finished OUTPUT_LOOP");
+            J := J + 1;
+         end loop Output_Loop;
+         --TEXT_IO.PUT_LINE ("Finished OUTPUT_LOOP");
+      end;
 
       if Trimmed then
          Put (Output, '*');
