@@ -647,6 +647,9 @@ package body List_Package is
       ---   and STEM_INFLECTION_RECORD
       I := 1;           --  I cycles on PA
       J := 0;           --  J indexes the number of DMA arrays  --  Initialize
+      -- the J variable is mutated within Cycle_Over_Pa, but its value
+      -- is not read once this routine is exited (it is instead unconditionally
+      -- assigned to a constant value)
       Sraa := Null_Sraa;
       Dma := Null_Dma;
 
