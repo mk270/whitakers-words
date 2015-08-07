@@ -649,6 +649,8 @@ package body List_Package is
          end loop;
       end if;
 
+      Sraa := Null_Sraa;
+      Dma := Null_Dma;
       --  Convert from PARSE_RECORDs to DICTIONARY_MNPC_RECORD
       ---   and STEM_INFLECTION_RECORD
       --I := 1;           --  I cycles on PA
@@ -660,8 +662,6 @@ package body List_Package is
       -- the I variable is only read once after Cycle_Over_Pa, in a comparison
       -- with Pa_Last; it is not assigned to after the Cycle_Over_Pa routine
       -- is exited
-      Sraa := Null_Sraa;
-      Dma := Null_Dma;
 
       declare
          I   : Integer := 1;
