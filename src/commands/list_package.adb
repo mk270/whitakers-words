@@ -315,6 +315,8 @@ package body List_Package is
       end case;
    end Put_Meaning_Line;
 
+   --  Convert from PARSE_RECORDs to DICTIONARY_MNPC_RECORD
+   --    and STEM_INFLECTION_RECORD
    procedure Cycle_Over_Pa
      (Pa            :  in Parse_Array;
       Pa_Last       :  in Integer;
@@ -326,8 +328,6 @@ package body List_Package is
       I_Is_Pa_Last  : out Boolean;
       Raw_Word, W   :  in String)
    is
-      --  Convert from PARSE_RECORDs to DICTIONARY_MNPC_RECORD
-      ---   and STEM_INFLECTION_RECORD
       use Ada.Text_IO;
       use Dict_IO;
       I   : Integer := 1;
