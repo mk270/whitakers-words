@@ -586,34 +586,32 @@ package body List_Package is
                  Ppp, Null_MNPC);
                --PARSE_RECORD_IO.PUT (PA (PA_LAST)); TEXT_IO.NEW_LINE;
                Pa_Last := Pa_Last + 1;
-               -- TODO: FACTOR OUT
-               if Pa (J2 + 1).IR.Qual.Adj.Comparison = Pos   then
 
-                  Pa (Pa_Last) := (Pa (J2 + 1).Stem,
-                    ((Pofs => Adv,
-                      Adv => (Comparison =>
-                              Pa (J2 + 1).IR.Qual.Adj.Comparison)),
-                    Key => 0, Ending => (1, "e      "), Age => X, Freq => B),
-                    Pa (J2 + 1).D_K,
-                    Pa (J2 + 1).MNPC);
-                  --PARSE_RECORD_IO.PUT (PA (PA_LAST)); TEXT_IO.NEW_LINE;
-                  Ppp_Meaning :=
-                    Head ("-ly; -ily;  Converting ADJ to ADV",
-                    Max_Meaning_Size);
+               declare
+                  procedure Handle_Degree
+                    (E       : Ending_Record;
+                     Caption : String) is
+                  begin
+                     Pa (Pa_Last) := (Pa (J2 + 1).Stem,
+                       ((Pofs => Adv,
+                       Adv => (Comparison =>
+                       Pa (J2 + 1).IR.Qual.Adj.Comparison)),
+                       Key => 0, Ending => E, Age => X, Freq => B),
+                       Pa (J2 + 1).D_K,
+                       Pa (J2 + 1).MNPC);
 
-               elsif Pa (J2 + 1).IR.Qual.Adj.Comparison = Super  then
-                  Pa (Pa_Last) := (Pa (J2 + 1).Stem,
-                    ((Pofs => Adv,
-                      Adv => (Comparison =>
-                              Pa (J2 + 1).IR.Qual.Adj.Comparison)),
-                    Key => 0, Ending => (2, "me     "), Age => X, Freq => B),
-                    Pa (J2 + 1).D_K,
-                    Pa (J2 + 1).MNPC);
-                  Ppp_Meaning :=
-                    Head ("-estly; -estily; most -ly, very -ly" &
-                    "  Converting ADJ to ADV",
-                    Max_Meaning_Size);
-               end if;
+                     Ppp_Meaning := Head (Caption, Max_Meaning_Size);
+                  end Handle_Degree;
+               begin
+                  if Pa (J2 + 1).IR.Qual.Adj.Comparison = Pos then
+                     Handle_Degree ((1, "e      "),
+                       "-ly; -ily;  Converting ADJ to ADV");
+                  elsif Pa (J2 + 1).IR.Qual.Adj.Comparison = Super then
+                     Handle_Degree ((2, "me     "),
+                       "-estly; -estily; most -ly, very -ly" &
+                       "  Converting ADJ to ADV");
+                  end if;
+               end;
             end if;           --  PA (I).IR.QUAL.POFS = ADJ
          end loop;
       end if;           --  not THERE_IS_AN_ADVERB
