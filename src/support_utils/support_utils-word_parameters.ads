@@ -37,6 +37,7 @@ package Support_Utils.Word_Parameters is
    Unknowns : Ada.Text_IO.File_Type;
 
    --  This is a flag to tell if there has been Trim ming for this word
+   -- FIXME : this obviously should not exist
    Trimmed : Boolean := False;
 
    type Mode_Type is (
