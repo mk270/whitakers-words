@@ -330,15 +330,6 @@ package body List_Package is
    is
       --  Convert from PARSE_RECORDs to DICTIONARY_MNPC_RECORD
       ---   and STEM_INFLECTION_RECORD
-      --I := 1;           --  I cycles on PA
-      --J := 0;           --  J indexes the number of DMA arrays --  Initialize
-      -- the J variable is mutated within Cycle_Over_Pa, but its value
-      -- is not read once this routine is exited (it is instead unconditionally
-      -- assigned to a constant value)
-      --
-      -- the I variable is only read once after Cycle_Over_Pa, in a comparison
-      -- with Pa_Last; it is not assigned to after the Cycle_Over_Pa routine
-      -- is exited
       use Ada.Text_IO;
       use Dict_IO;
       I   : Integer := 1;
