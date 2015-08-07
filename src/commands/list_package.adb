@@ -748,24 +748,8 @@ package body List_Package is
                            Dm := (Pa (I).D_K, Pa (I).MNPC, Dea);
                            Dma (J) := Dm;
                            Odm := Dm;
-                        elsif Pa (I).MNPC /= Odm.MNPC then
-                           --  Encountering new MNPC
-                           Osra := Sra;
-                           K := 1;
-                           --  K indexes within the MNPCA array --  Initialize
-                           J := J + 1;
-                           --  J indexes the number of MNPCA arrays - Next MNPCA
-                           Sraa (J)(K) := (Pa (I).Stem, Pa (I).IR);
-                           Dict_IO.Set_Index (Dict_File (Pa (I).D_K),
-                             Pa (I).MNPC);
-                           Dict_IO.Read (Dict_File (Pa (I).D_K), Dea);
-                           Dm := (Pa (I).D_K, Pa (I).MNPC, Dea);
-                           Dma (J) := Dm;
-                           Odm := Dm;
                         else
-                           K := K + 1;
-                           --  K indexes within the MNPCA array  - Next MNPC
-                           Sraa (J)(K) := (Pa (I).Stem, Pa (I).IR);
+                           Handle_Parse_Record
                         end if;
 
                         I := I + 1;              --  I cycles over full PA array
