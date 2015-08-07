@@ -475,6 +475,18 @@ package body List_Package is
 
       procedure Put_Meaning_Line (Sr : Stem_Inflection_Record;
                                   Dm  : Dictionary_MNPC_Record) is
+         procedure Put_Word_Meaning
+           (Meaning : in out Meaning_Type;
+            Code    : in     String)
+         is
+         begin
+            if Meaning /= Null_Meaning_Type then
+               Put_Pearse_Code (Output, Code);
+               Put_Meaning (Output, Meaning);
+               Meaning := Null_Meaning_Type;
+               Ada.Text_IO.New_Line (Output);
+            end if;
+         end Put_Word_Meaning;
       begin
          if Dm.D_K not in Addons .. Ppp  then
             Put_Pearse_Code (Output, "03 ");
@@ -489,37 +501,22 @@ package body List_Package is
                Ada.Text_IO.New_Line (Output);
             end if;
          else
-            declare
-               procedure Put_Word_Meaning
-                 (Meaning : in out Meaning_Type;
-                  Code    : in     String)
-               is
-               begin
-                  if Meaning /= Null_Meaning_Type then
-                     Put_Pearse_Code (Output, Code);
-                     Put_Meaning (Output, Meaning);
-                     Meaning := Null_Meaning_Type;
-                     Ada.Text_IO.New_Line (Output);
-                  end if;
-               end Put_Word_Meaning;
-            begin
-               -- FIXME: use case construct
-               if Dm.D_K = Rrr then
-                  Put_Word_Meaning (Rrr_Meaning, "03 "); --  Roman Numeral
-               elsif Dm.D_K = Nnn then
-                  Put_Word_Meaning (Nnn_Meaning, "06 "); --  Unknown Name
-               elsif Dm.D_K = Xxx then
-                  Put_Word_Meaning (Xxx_Meaning, "06 "); --  TRICKS
-               elsif Dm.D_K = Yyy then
-                  Put_Word_Meaning (Yyy_Meaning, "06 "); --  Syncope
-               elsif Dm.D_K = Ppp then
-                  Put_Word_Meaning (Ppp_Meaning, "06 "); --  Compounds
-               elsif Dm.D_K = Addons then
-                  Put_Pearse_Code (Output, "06 ");
-                  Put_Meaning (Output, Means (Integer (Dm.MNPC)));
-                  Ada.Text_IO.New_Line (Output);
-               end if;
-            end;
+            -- FIXME: use case construct
+            if Dm.D_K = Rrr then
+               Put_Word_Meaning (Rrr_Meaning, "03 "); --  Roman Numeral
+            elsif Dm.D_K = Nnn then
+               Put_Word_Meaning (Nnn_Meaning, "06 "); --  Unknown Name
+            elsif Dm.D_K = Xxx then
+               Put_Word_Meaning (Xxx_Meaning, "06 "); --  TRICKS
+            elsif Dm.D_K = Yyy then
+               Put_Word_Meaning (Yyy_Meaning, "06 "); --  Syncope
+            elsif Dm.D_K = Ppp then
+               Put_Word_Meaning (Ppp_Meaning, "06 "); --  Compounds
+            elsif Dm.D_K = Addons then
+               Put_Pearse_Code (Output, "06 ");
+               Put_Meaning (Output, Means (Integer (Dm.MNPC)));
+               Ada.Text_IO.New_Line (Output);
+            end if;
          end if;
       end Put_Meaning_Line;
 
