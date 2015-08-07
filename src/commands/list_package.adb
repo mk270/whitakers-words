@@ -622,30 +622,25 @@ package body List_Package is
 
       if  Words_Mdev (Write_Statistics_File)    then
          --  Omit rest of Output
-         -- TODO: FACTOR OUT
          for I in 1 .. Pa_Last  loop                       --  Just to PUT_STAT
             if Pa (I).D_K = Addons then
-               case Pa (I).IR.Qual.Pofs is
-                  when Prefix =>
-                     Put_Stat ("ADDON PREFIX at "
+               declare
+                  procedure Put_Addon_Info (Caption : String) is
+                  begin
+                     Put_Stat ("ADDON " & Caption & " at "
                        & Head (Integer'Image (Line_Number), 8) &
                        Head (Integer'Image (Word_Number), 4)
                        & "   " & Head (W, 20) & "   "  & Pa (I).Stem &
                        "  " & Integer'Image (Integer (Pa (I).MNPC)));
-                  when Suffix =>
-                     Put_Stat ("ADDON SUFFIX at "
-                       & Head (Integer'Image (Line_Number), 8) &
-                       Head (Integer'Image (Word_Number), 4)
-                       & "   " & Head (W, 20) & "   "  & Pa (I).Stem &
-                       "  " & Integer'Image (Integer (Pa (I).MNPC)));
-                  when Tackon =>
-                     Put_Stat ("ADDON TACKON at "
-                       & Head (Integer'Image (Line_Number), 8) &
-                       Head (Integer'Image (Word_Number), 4)
-                       & "   " & Head (W, 20) & "   "  & Pa (I).Stem &
-                       "  " & Integer'Image (Integer (Pa (I).MNPC)));
-                  when others => null;
-               end case;
+                  end Put_Addon_Info;
+               begin
+                  case Pa (I).IR.Qual.Pofs is
+                     when Prefix => Put_Addon_Info ("PREFIX");
+                     when Suffix => Put_Addon_Info ("SUFFIX");
+                     when Tackon => Put_Addon_Info ("TACKON");
+                     when others => null;
+                  end case;
+               end;
             end if;
          end loop;
       end if;
