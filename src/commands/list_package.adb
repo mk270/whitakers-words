@@ -946,6 +946,11 @@ package body List_Package is
          end if;
       end if;
 
+      -- Mm is set but not read by List_Neighborhood which may have
+      -- been called above; we set it again here, such that we may
+      -- later remove the interaction with List_Neighborhood
+      Mm := Get_Max_Meaning_Size (Output);
+
       if Pa_Last = 0 then
          if Words_Mdev (Update_Local_Dictionary)  and
            -- Don't if reading from file
