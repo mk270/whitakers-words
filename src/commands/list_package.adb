@@ -650,6 +650,10 @@ package body List_Package is
       -- the J variable is mutated within Cycle_Over_Pa, but its value
       -- is not read once this routine is exited (it is instead unconditionally
       -- assigned to a constant value)
+      --
+      -- the I variable is only read once after Cycle_Over_Pa, in a comparison
+      -- with Pa_Last; it is not assigned to after the Cycle_Over_Pa routine
+      -- is exited
       Sraa := Null_Sraa;
       Dma := Null_Dma;
 
