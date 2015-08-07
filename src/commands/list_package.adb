@@ -121,6 +121,20 @@ package body List_Package is
      "NeoLatin",   --  G
      "Modern  "); --  H
 
+   function Get_Max_Meaning_Size (Output : Ada.Text_IO.File_Type)
+     return Integer
+   is
+   begin
+      if Ada.Text_IO.Name (Output) =
+        Ada.Text_IO.Name (Ada.Text_IO.Standard_Output)
+      then
+         --  to keep from overflowing screen line or even adding blank line
+         return Max_Meaning_Print_Size;
+      else
+         return Max_Meaning_Size;
+      end if;
+   end Get_Max_Meaning_Size;
+
    procedure Put_Pearse_Code (Output : Ada.Text_IO.File_Type;
                               Code   : String) is
    begin
@@ -735,14 +749,7 @@ package body List_Package is
       --  (or all of a class) it must fix up the rest of the parse array,
       --  e.g., it must clean out dangling prefixes and suffixes
 
-      if Ada.Text_IO.Name (Output) =
-        Ada.Text_IO.Name (Ada.Text_IO.Standard_Output)
-      then
-         --  to keep from overflowing screen line or even adding blank line
-         Mm := Max_Meaning_Print_Size;
-      else
-         Mm := Max_Meaning_Size;
-      end if;
+      Mm := Get_Max_Meaning_Size (Output);
 
       -------  The gimick of adding an ADV if there is only ADJ VOC  ----
       --TEXT_IO.PUT_LINE ("About to do the ADJ -> ADV kludge");
@@ -1177,16 +1184,8 @@ package body List_Package is
       Unk_MNPC : Dict_IO.Count;
 
    begin
-      --TEXT_IO.PUT_LINE ("Entering LIST_NEIGHBORHOOD");
 
-      if Ada.Text_IO.Name (Output) =
-        Ada.Text_IO.Name (Ada.Text_IO.Standard_Output)
-      then
-         Mm := Max_Meaning_Print_Size;
-         --  to keep from overflowing screen line
-      else
-         Mm := Max_Meaning_Size;
-      end if;
+      Mm := Get_Max_Meaning_Size (Output);
 
       Unknown_Search (Head (Input_Word, Max_Stem_Size), Unk_MNPC);
       --TEXT_IO.PUT_LINE ("UNK_MNPC = " & INTEGER'IMAGE (INTEGER (UNK_MNPC)));
