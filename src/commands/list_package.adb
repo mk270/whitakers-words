@@ -473,7 +473,7 @@ package body List_Package is
          return S;
       end Constructed_Meaning;
 
-      procedure Put_Meaning_Line (Sr : Stem_Inflection_Record;
+      procedure Put_Meaning_Line (Sr  : Stem_Inflection_Record;
                                   Dm  : Dictionary_MNPC_Record) is
          procedure Put_Word_Meaning
            (Meaning : in out Meaning_Type;
