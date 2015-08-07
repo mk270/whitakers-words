@@ -674,9 +674,9 @@ package body List_Package is
       Output        : Ada.Text_IO.File_Type;
       Dma           : Dictionary_MNPC_Array;
       Sraa          : Stem_Inflection_Array_Array;
-      Mm            : Integer;
       I_Is_Pa_Last  : Boolean)
    is
+      Mm            : constant Integer := Get_Max_Meaning_Size (Output);
    begin
       --TEXT_IO.PUT_LINE ("PUTting INFLECTIONS");
       declare
@@ -812,7 +812,6 @@ package body List_Package is
       There_Is_An_Adverb : Boolean := False;
 
       I_Is_Pa_Last : Boolean := False;
-      Mm : Integer := Max_Meaning_Size;
 
    begin
       Trimmed := False;
@@ -1016,8 +1015,6 @@ package body List_Package is
          end if;
       end if;
 
-      Mm := Get_Max_Meaning_Size (Output);
-
       if Pa_Last = 0 then
          if Words_Mdev (Update_Local_Dictionary)  and
            -- Don't if reading from file
@@ -1034,7 +1031,7 @@ package body List_Package is
          return;
       end if;
 
-      Put_Parse_Details (Configuration, Output, Dma, Sraa, Mm, I_Is_Pa_Last);
+      Put_Parse_Details (Configuration, Output, Dma, Sraa, I_Is_Pa_Last);
 
       if Trimmed then
          Put (Output, '*');
