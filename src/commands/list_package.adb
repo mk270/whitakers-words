@@ -698,18 +698,18 @@ package body List_Package is
                   end if;
                end Handle_Parse_Record;
             begin
+               Osra := Null_Sra;
+
                case Pa (I).IR.Qual.Pofs  is
                   -- TODO: FACTOR OUT (or at least split these things into
                   -- their own functions
                   when N =>
-                     Osra := Null_Sra;
                      while (Pa (I).IR.Qual.Pofs = N) and (I <= Pa_Last) loop
                         Handle_Parse_Record;
                         I := I + 1;           --  I cycles over full PA array
                      end loop;
 
                   when Pron =>
-                     Osra := Null_Sra;
                      while Pa (I).IR.Qual.Pofs = Pron   and
                        I <= Pa_Last                   loop
                         Handle_Parse_Record;
