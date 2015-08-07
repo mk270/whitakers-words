@@ -845,7 +845,7 @@ package body List_Package is
       exception
          when others  =>
             Ada.Text_IO.Put_Line
-              ("Unexpected exception in LIST_STEMS processing " & Raw_Word);
+              ("Unexpected exception in CYCLE_OVER_PA processing " & Raw_Word);
             Put_Stat ("EXCEPTION LS at "
               & Head (Integer'Image (Line_Number), 8) &
               Head (Integer'Image (Word_Number), 4)
