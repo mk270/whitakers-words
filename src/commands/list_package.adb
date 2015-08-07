@@ -917,34 +917,29 @@ package body List_Package is
       --                    LIST_SWEEP  -  PA_LAST = 0
       if Pa_Last = 0  then
          --  WORD failed
-         -- TODO: FACTOR OUT
-         if Words_Mode (Ignore_Unknown_Names)  and Capitalized  then
-            Nnn_Meaning := Head (
-              "Assume this is capitalized proper name/abbr," &
-              " under MODE IGNORE_UNKNOWN_NAME ",
-              Max_Meaning_Size);
-            Pa (1) := (Head (Raw_Word, Max_Stem_Size),
-              ((N, ((0, 0), X, X, X)), 0, Null_Ending_Record, X, X),
-              Nnn, Null_MNPC);
-            Pa_Last := 1;    --  So LIST_NEIGHBORHOOD will not be called
-            Sraa := Null_Sraa;
-            Dma := Null_Dma;
-            Sraa (1)(1) := (Pa (1).Stem, Pa (1).IR);
-            Dma (1) := (Nnn, 0, Null_Dictionary_Entry);
-         elsif  Words_Mode (Ignore_Unknown_Caps)  and All_Caps  then
-            Nnn_Meaning := Head (
-              "Assume this is capitalized proper name/abbr," &
-              " under MODE IGNORE_UNKNOWN_CAPS ",
-              Max_Meaning_Size);
-            Pa (1) := (Head (Raw_Word, Max_Stem_Size),
-              ((N, ((0, 0), X, X, X)), 0, Null_Ending_Record, X, X),
-              Nnn, Null_MNPC);
-            Pa_Last := 1;
-            Sraa := Null_Sraa;
-            Dma := Null_Dma;
-            Sraa (1)(1) := (Pa (1).Stem, Pa (1).IR);
-            Dma (1) := (Nnn, 0, Null_Dictionary_Entry);
-         end if;
+         declare
+            procedure Do_Ignore_Unknown (Caption : String) is
+            begin
+               Nnn_Meaning := Head (
+                 "Assume this is capitalized proper name/abbr," &
+                 " under MODE " & Caption & " ",
+                 Max_Meaning_Size);
+               Pa (1) := (Head (Raw_Word, Max_Stem_Size),
+                 ((N, ((0, 0), X, X, X)), 0, Null_Ending_Record, X, X),
+                 Nnn, Null_MNPC);
+               Pa_Last := 1;    --  So LIST_NEIGHBORHOOD will not be called
+               Sraa := Null_Sraa;
+               Dma := Null_Dma;
+               Sraa (1)(1) := (Pa (1).Stem, Pa (1).IR);
+               Dma (1) := (Nnn, 0, Null_Dictionary_Entry);
+            end Do_Ignore_Unknown;
+         begin
+            if Words_Mode (Ignore_Unknown_Names) and Capitalized then
+               Do_Ignore_Unknown ("IGNORE_UNKNOWN_NAME");
+            elsif Words_Mode (Ignore_Unknown_Caps) and All_Caps then
+               Do_Ignore_Unknown ("IGNORE_UNKNOWN_CAPS");
+            end if;
+         end;
       end if;
 
       if Pa_Last = 0   then
