@@ -30,11 +30,6 @@ package List_Package is
                          Pa       : in out Parse_Array;
                          Pa_Last  : in out Integer);
 
-   procedure List_Entry (Output   : Ada.Text_IO.File_Type;
-                         D_K      : Dictionary_Kind;
-                         Mn       : Dict_IO.Count;
-                         Mm       : Integer);
-
    procedure Unknown_Search (Unknown       :  in String;
                              Unknown_Count : out Dict_IO.Count);
 
