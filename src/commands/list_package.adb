@@ -339,7 +339,6 @@ package body List_Package is
      (Pa            :  in Parse_Array;
       Pa_Last       :  in Integer;
       Sraa          : out Stem_Inflection_Array_Array;
-      Dm            : out Dictionary_MNPC_Record;
       Dma           : out Dictionary_MNPC_Array;
       I_Is_Pa_Last  : out Boolean;
       Raw_Word, W   :  in String)
@@ -349,6 +348,7 @@ package body List_Package is
       I   : Integer := 1;
       J   : Integer := 0;
       K   : Integer := 0;
+      Dm  : Dictionary_MNPC_Record := Null_Dictionary_MNPC_Record;
       Odm : Dictionary_MNPC_Record := Null_Dictionary_MNPC_Record;
       Dea : Dictionary_Entry := Null_Dictionary_Entry;
    begin
@@ -791,8 +791,6 @@ package body List_Package is
       Sraa : Stem_Inflection_Array_Array
         (1 .. Stem_Inflection_Array_Array_Size) := Null_Sraa;
 
-      Dm : Dictionary_MNPC_Record := Null_Dictionary_MNPC_Record;
-
       Null_Dma : constant Dictionary_MNPC_Array :=
         (others => Null_Dictionary_MNPC_Record);
       Dma : Dictionary_MNPC_Array := Null_Dma;
@@ -924,7 +922,7 @@ package body List_Package is
          end loop;
       end if;
 
-      Cycle_Over_Pa (Pa, Pa_Last, Sraa, Dm, Dma, I_Is_Pa_Last,
+      Cycle_Over_Pa (Pa, Pa_Last, Sraa, Dma, I_Is_Pa_Last,
                     Raw_Word, W);
 
       --  Sets + if capitalized
