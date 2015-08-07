@@ -299,12 +299,14 @@ package body List_Package is
       end case;
    end Put_Meaning_Line;
 
-   procedure List_Stems (Configuration : Configuration_Type;
-                         Output   : Ada.Text_IO.File_Type;
-                         Raw_Word : String;
-                         Input_Line : String;
-                         Pa       : in out Parse_Array;
-                         Pa_Last  : in out Integer) is
+   procedure List_Stems
+     (Configuration : Configuration_Type;
+      Output        : Ada.Text_IO.File_Type;
+      Raw_Word      : String;
+      Input_Line    : String;
+      Pa            : in out Parse_Array;
+      Pa_Last       : in out Integer)
+   is
       use Ada.Text_IO;
       use Dict_IO;
 
