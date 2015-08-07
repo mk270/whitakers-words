@@ -717,14 +717,12 @@ package body List_Package is
                      end loop;
 
                   when Pack =>
-                     Osra := Null_Sra;
                      while Pa (I).IR.Qual.Pofs = Pack and I <= Pa_Last loop
                         Handle_Parse_Record;
                         I := I + 1;           --  I cycles over full PA array
                      end loop;
 
                   when Adj =>
-                     Osra := Null_Sra;
                      while Pa (I).IR.Qual.Pofs = Adj and I <= Pa_Last loop
                         --TEXT_IO.PUT_LINE ("SRAA - ADJ");
                         Handle_Parse_Record;
@@ -733,7 +731,6 @@ package body List_Package is
                      end loop;
 
                   when Num  =>
-                     Osra := Null_Sra;
                      while Pa (I).IR.Qual.Pofs = Num   and
                        I <= Pa_Last                   loop
                         if Pa (I).D_K = Rrr then        --  Roman numeral
@@ -756,7 +753,6 @@ package body List_Package is
                      end loop;
 
                   when V | Vpar | Supine  =>
-                     Osra := Null_Sra;
                      while (Pa (I).IR.Qual.Pofs = V      or
                        Pa (I).IR.Qual.Pofs = Vpar   or
                        Pa (I).IR.Qual.Pofs = Supine)   and
@@ -791,7 +787,6 @@ package body List_Package is
 
                   when others  =>
                      --TEXT_IO.PUT_LINE ("Others");
-                     Osra := Null_Sra;
                      while I <= Pa_Last                   loop
                         if (Odm.D_K  /= Pa (I).D_K)  or
                           (Odm.MNPC /= Pa (I).MNPC)
