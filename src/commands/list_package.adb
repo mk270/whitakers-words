@@ -53,7 +53,6 @@ package body List_Package is
 
    Max_Meaning_Print_Size : constant := 79;
    Mm : Integer := Max_Meaning_Size;
-   --I : Integer := 0;
 
    Inflection_Frequency : constant array (Frequency_Type) of String (1 .. 8) :=
      ("        ",  --  X
