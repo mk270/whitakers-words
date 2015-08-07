@@ -955,9 +955,8 @@ package body List_Package is
       declare
          J : Integer := 1;
          Osra : Stem_Inflection_Array (1 .. Stem_Inflection_Array_Size)
-           := (others => (Null_Stem_Type, Null_Inflection_Record));
+           := Null_Sra;
       begin
-         Osra := Null_Sra;
 
          Output_Loop :
          while  Dma (J) /= Null_Dictionary_MNPC_Record  loop
