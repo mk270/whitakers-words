@@ -577,12 +577,12 @@ package body List_Package is
       Osra : Stem_Inflection_Array (1 .. Stem_Inflection_Array_Size)
         := (others => (Null_Stem_Type, Null_Inflection_Record));
 
-      Sraa : Stem_Inflection_Array_Array
-        (1 .. Stem_Inflection_Array_Array_Size);
-
       Null_Sraa : constant Stem_Inflection_Array_Array
         (1 .. Stem_Inflection_Array_Array_Size)
         := (others => Null_Sra);
+
+      Sraa : Stem_Inflection_Array_Array
+        (1 .. Stem_Inflection_Array_Array_Size) := Null_Sraa;
 
       --      type DICTIONARY_MNPC_RECORD is record
       --        D_K  : DICTIONARY_KIND := DEFAULT_DICTIONARY_KIND;
@@ -863,7 +863,6 @@ package body List_Package is
          end loop;
       end if;
 
-      Sraa := Null_Sraa;
       Dma := Null_Dma;
 
       Cycle_Over_Pa (Pa, Pa_Last, Sraa, Dm, Dma, Osra, Sra, I_Is_Pa_Last,
