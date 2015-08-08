@@ -46,43 +46,43 @@ thereby been made system independent.
 There are four supporting programs
 
   * `makedict.adb`
-  * makestem.adb
-  * makeinfl.adb
-  * makeefil.adb
+  * `makestem.adb`
+  * `makeinfl.adb`
+  * `makeefil.adb`
 
 and DOS ASCII data files for them to act upon to produce WORDS data files
 
-  * DICTLINE.GEN
-  * STEMLIST.GEN
-  * EWDSLIST.GEN
-  * INFLECTS.LAT
+  * `DICTLINE.GEN`
+  * `STEMLIST.GEN`
+  * `EWDSLIST.GEN`
+  * `INFLECTS.LAT`
 
 and other WORDS DOS ASCII supporting files
 
-  * ADDONS.LAT
-  * UNIQUES.LAT
+  * `ADDONS.LAT`
+  * `UNIQUES.LAT`
 
 The wordy file names are for
 compliance with the restrictions of the GNAT system.
 
-The system produces executables for WORDS, MAKEDICT, MAKESTEM,
-MAKEEFIL, and MAKEINFL.  Executing the latter four against the input
+The system produces executables for `WORDS`, `MAKEDICT`, `MAKESTEM`,
+`MAKEEFIL`, and `MAKEINFL`.  Executing the latter four against the input
 respectively of
 
-  * DICTLINE.GEN
-  * STEMLIST.GEN
-  * EWDSLIST.GEN
-  * INFLECTS.LAT
+  * `DICTLINE.GEN`
+  * `STEMLIST.GEN`
+  * `EWDSLIST.GEN`
+  * `INFLECTS.LAT`
 
 (when they ask for DICTIONARY say G) producing
 
-  * DICTFILE.GEN
-  * STEMFILE.GEN
-  * INDXFILE.GEN
-  * EWDSFILE.GEN
-  * INFLECTS.SEC
+  * `DICTFILE.GEN`
+  * `STEMFILE.GEN`
+  * `INDXFILE.GEN`
+  * `EWDSFILE.GEN`
+  * `INFLECTS.SEC`
 
-Along with ADDONS.LAT and UNIQUES.LAT, this is the set of data for WORDS.
+Along with `ADDONS.LAT` and `UNIQUES.LAT`, this is the set of data for WORDS.
 
 The only problem that has appeared on porting so far is that one must be
 careful of file names.  Problems sometimes turn up but have been easily
