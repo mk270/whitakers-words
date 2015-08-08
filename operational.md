@@ -888,29 +888,12 @@ abb.          |               | abbreviation
 esp.          | especially    | indicates a significant association, but is only advisory.
 (King James)  |               | is used to designate those words for which the meaning has been derived or modified by examination of the King James Bible in connection with the Latin Vulgate Bible of St Jerome; may also appear as (KJames)
 (KLUDGE)      |               | This indicates that the particular form is distorted in order to make it come out correctly.  This usually takes the form of a special conjugational form applied to a few words, not applicable to other words of the same conjugation or declension.  The user can expect the form and meaning to be correct, but the numerical coding will be odd.
-(L+S)         | Lewis & Short | is used to indicate that the meaning starting from
-
-the previous semicolon is information from Lewis and Short 'A Latin
-Dictionary' that differs from, or significantly expands on, the meaning in
-the 'Oxford Latin Dictionary' (OLD) which is the baseline for this
-program.  This is not to imply that the meaning listed is otherwise taken
-directly from the OLD, just that it is not inconsistent with OLD, but the
-L+S information either inconsistent (likely OLD knows better) or Lewis and
-Short has included meanings appropriate for late Latin writers beyond the
-scope of OLD.  The program is just warning the reader that there may be
-some difference.  There are cases in which this indication occurs in
-entries that have Lewis and Short as the source.  In those cases, the
-basic word is in OLD but the entry is a variant form or spelling not cited
-there.  There are cases where OLD and L+S give somewhat different
-spellings and meanings for the 'same' word (same in the sense that both
-dictionaries point to the same citation).  In these cases a combination of
-meanings are given for both entries with the (L+S) code distinction and
-the entries of different spelling or declension have the SOURCE coded.
+(L+S)         | Lewis & Short | is used to indicate that the meaning starting from the previous semicolon is information from Lewis and Short 'A Latin Dictionary' that differs from, or significantly expands on, the meaning in the 'Oxford Latin Dictionary' (OLD) which is the baseline for this program.  This is not to imply that the meaning listed is otherwise taken directly from the OLD, just that it is not inconsistent with OLD, but the L+S information either inconsistent (likely OLD knows better) or Lewis and Short has included meanings appropriate for late Latin writers beyond the scope of OLD.  The program is just warning the reader that there may be some difference.  There are cases in which this indication occurs in entries that have Lewis and Short as the source.  In those cases, the basic word is in OLD but the entry is a variant form or spelling not cited there.  There are cases where OLD and L+S give somewhat different spellings and meanings for the 'same' word (same in the sense that both dictionaries point to the same citation).  In these cases a combination of meanings are given for both entries with the (L+S) code distinction and the entries of different spelling or declension have the SOURCE coded. 
+NT            | New Testament | is a reference in the Bible.
 
 
-NT [New Testament] is a reference in the Bible.
-<BR>
-(OLD) [Oxford Latin Dictionary] is used to indicate an additional meaning
+(OLD)         | Oxford Latin Dictionary | is used to indicate an additional meaning
+
 taken from the Oxford Latin Dictionary in an entry that is otherwise
 attributed.  While it is usually true that if a classical word has other
 than OLD as the listed source then it does not appear in that form in OLD,
