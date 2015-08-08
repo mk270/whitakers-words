@@ -43,7 +43,8 @@ sources of this information will be:
 Dictionary sourcing
 ===================
 
-A corrections and updates mechanism will be provided. William Whitaker, the
+A [corrections and updates mechanism](slips.html) will be provided. 
+William Whitaker, the
 original author, intended to include a lot more words than are presently
 available:
 
