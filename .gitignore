@@ -3,3 +3,7 @@ _site/
 obj/
 *.GEN
 CHECKEWD.
+bin/
+lib/
+WORD.MDV
+INFLECTS.SEC
