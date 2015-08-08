@@ -93,7 +93,7 @@ handle the non-specialized words is a large part of the effort.
 The development system allows the inclusion of specialized vocabulary (for
 instance a SPEcial dictionary for specialized words not wanted in most
 dictionaries), and the opportunity for the user to add additional words to
-a DICT.LOC.
+a `DICT.LOC`.
 
 It was initially expected that there would be special dictionaries for
 special applications.  That is why there is the possibility of a SPECIAL
