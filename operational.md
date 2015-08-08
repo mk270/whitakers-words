@@ -167,12 +167,14 @@ are controlling, even for command line input.
 Single argument, either a simple Latin word or an input file.
 
 
-WORDS amo
+    WORDS amo
+
 <BR>which will cause it to execute for that input and then terminate.  This is
 for a quick word.
 
 
-WORDS infile
+    WORDS infile
+
 <BR>causes WORDS to execute with the contents of the inflie.
 The infile may be from any folder if the full path name is given.
 
@@ -182,7 +184,8 @@ two Latin words, or a language shift to English (Latin being the startup default
 and an English  word (with no part of speech).
 
 
-WORDS infile outfile
+    WORDS infile outfile
+
 <BR>The program will read as input the INFILE and write
 the output to the OUTFILE (as though it were `WORD.OUT`).  It will then
 await further input from the user.  It terminates with a return.  If the
@@ -190,10 +193,11 @@ parameters are not legal file names, the program will assume they are
 Latin words to be processed as command line input.
 
 
-WORDS amo amas
+    WORDS amo amas
 
 
-WORDS ^e  love
+    WORDS ^e  love
+
 <BR>switches to English input from the default Latin and searches for love.
 
 
@@ -201,16 +205,16 @@ With three arguments there could be three Latin words or a language shift
 and and English word and part of speech.
 
 
-WORDS amo amas amat
+    WORDS amo amas amat
 
 
-WORDS ^e love v
+    WORDS ^e love v
 
 
 More than three arguments must all be Latin words.
 
 
-WORDS amo amas amat amamus amatis amant
+    WORDS amo amas amat amamus amatis amant
 
 
 There cannot be more than one English word in the argument list,
