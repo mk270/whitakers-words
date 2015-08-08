@@ -886,21 +886,10 @@ abb.          |               | abbreviation
 (Douay)       |               | is used to designate those words for which the meaning has been derived or modified by examination of the Douay translation of the Latin Vulgate Bible of St Jerome.
 (eccl.)       | ecclesiastical| designating a special church meaning in a list of conventional meanings, an additional meaning not sufficient to justify a separate entry with an ecclesiastical code.
 esp.          | especially    | indicates a significant association, but is only advisory.
+(King James)  |               | is used to designate those words for which the meaning has been derived or modified by examination of the King James Bible in connection with the Latin Vulgate Bible of St Jerome; may also appear as (KJames)
+(KLUDGE)      |               | This indicates that the particular form is distorted in order to make it come out correctly.  This usually takes the form of a special conjugational form applied to a few words, not applicable to other words of the same conjugation or declension.  The user can expect the form and meaning to be correct, but the numerical coding will be odd.
+(L+S)         | Lewis & Short | is used to indicate that the meaning starting from
 
-
-(King James) or (KJames) is used to designate those words for which the
-meaning has been derived or modified by examination of the King James
-Bible in connection with the Latin Vulgate Bible of St Jerome.
-
-
-(KLUDGE) This indicates that the particular form is distorted in order to
-make it come out correctly.  This usually takes the form of a special
-conjugational form applied to a few words, not applicable to other words
-of the same conjugation or declension.  The user can expect the form and
-meaning to be correct, but the numerical coding will be odd.
-
-
-(L+S) [Lewis and Short] is used to indicate that the meaning starting from
 the previous semicolon is information from Lewis and Short 'A Latin
 Dictionary' that differs from, or significantly expands on, the meaning in
 the 'Oxford Latin Dictionary' (OLD) which is the baseline for this
