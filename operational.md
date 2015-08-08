@@ -879,7 +879,7 @@ Sign          | Description   | Meaning
 
 Sign          | Description   | Meaning
 --------------|---------------|--------
-/             | solidus       | means 'or' or gives an alternative word.  It sometimes replaces the comma and is often used to compress the meaning into a short line.
+slash         | solidus       | means 'or' or gives an alternative word.  It sometimes replaces the comma and is often used to compress the meaning into a short line.
 
 Sign          | Description   | Meaning
 --------------|---------------|--------
