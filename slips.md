@@ -1,6 +1,6 @@
 ---
 layout: default
-title: Plan
+title: Slips
 ---
 
 [Development Plan](plan.html) |
