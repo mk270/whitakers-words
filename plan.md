@@ -5,7 +5,8 @@ title: Plan
 
 [Development Plan](plan.html) |
 [Programming](developers.html) |
-[Testing](tests.html)
+[Testing](tests.html) |
+[Slips](slips.html)
 
 Organisation
 ============

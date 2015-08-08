@@ -5,7 +5,8 @@ title: Tests and status
 
 [Development Plan](plan.html) |
 [Programming](developers.html) |
-[Testing](tests.html)
+[Testing](tests.html) |
+[Slips](slips.html)
 
 Tests and status
 ================
