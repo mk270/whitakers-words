@@ -6,7 +6,9 @@ title: Slips
 [Development Plan](plan.html) |
 [Programming](developers.html) |
 [Testing](tests.html) |
-[Slips](slips.html)
+[Slips](slips.html) |
+[Roadmap](roadmap.html)
+
 
 How we could "crowd"-source lexical data
 ========================================
