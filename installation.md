@@ -30,7 +30,7 @@ system and execute/decompress it in your chosen subdirectory on the hard
 disk, creating the necessary files.  Then call/run WORDS, or do as instructed
 in any README.
 
-The load includes SPQR.ICO, a possible icon for WORDS,
+The load includes `SPQR.ICO`, a possible icon for WORDS,
 but just that, only an icon.
 You have to install the program as per the directions
 (put the downloaded files in a folder,
@@ -60,10 +60,10 @@ Is There a Problem?
 * Did you execute/run/unzip these programs?
 * If self-extracted, were you asked where to put the generated files? (Maybe a default C:\WORDS)?
 * If not, did you put them in the folder/subdirectory from which you wish to operate?
-* Can you verify that the full set of files (about 10 MB) was generated in that folder/subdirectory, or wherever you chose? At least WORDS.EXE, INFLECT.SEC, UNIQUES.LAT, ADDONS.LAT, STEMFILE.GEN, INDXFILE.GEN, and DICTFILE.GEN, plus documentation.
+* Can you verify that the full set of files (about 10 MB) was generated in that folder/subdirectory, or wherever you chose? At least `WORDS.EXE`, `INFLECT.SEC`, `UNIQUES.LAT`, `ADDONS.LAT`, `STEMFILE.GEN`, `INDXFILE.GEN`, and `DICTFILE.GEN`, plus documentation.
 * Did you run/execute WORDS in that folder/subdirectory?  e.g. C:\WORDS
-* If when you try to run there is no WORDS.EXE (or equivalent), the system should let you know.
-* If there is no INFLECTS.SEC, the program will say so and abort immediately.
+* If when you try to run there is no `WORDS.EXE` (or equivalent), the system should let you know.
+* If there is no `INFLECTS.SEC`, the program will say so and abort immediately.
 * If there are no dictionary files, the program will tell you, but will start (you can get Roman numerals!).
-* If there is no ADDONS.LAT or UNIQUES.LAT, the program will tell you, and if they are there it will tell you how many.
+* If there is no `ADDONS.LAT` or `UNIQUES.LAT`, the program will tell you, and if they are there it will tell you how many.
 
