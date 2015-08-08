@@ -5,7 +5,8 @@ title: Developers and Rehosting
 
 [Development Plan](plan.html) |
 [Programming](developers.html) |
-[Testing](tests.html)
+[Testing](tests.html) |
+[Slips](slips.html)
 
 Development and Rehosting
 =========================
