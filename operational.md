@@ -879,8 +879,7 @@ Sign          | Description   | Meaning
 
 Sign          | Description   | Meaning
 --------------|---------------|--------
-/             | solidus       | means 'or' or gives an alternative word.  It sometimes replaces the comma and is often used to compress the meaning into a short
-line.
+/             | solidus       | means 'or' or gives an alternative word.  It sometimes replaces the comma and is often used to compress the meaning into a short line.
 
 Sign          | Description   | Meaning
 --------------|---------------|--------
@@ -889,22 +888,9 @@ Sign          | Description   | Meaning
 ~             | tilde         |  stands for the stem or word in question.  Usually it does not have an ending affixed, as is the convention in other dictionaries, but represents the word with whatever ending is proper.  It is just a space saving shorthand or abbreviation.
 {~            | tilde         | also is the flag for changing the language base.  ~E (plus Enter/CR) changes from Latin-to-English to English-to-Latin.  ~L changes back.)
 =&gt;         |               | in meaning this indicates a translation example.
-
-
-abb.  abbreviation.
-
-
-(Dif) - [Diferrari] is used to indicate an additional meaning taken from A
-Latin-English Dictionary of St. Thomas Aquinas by Roy J. Diferrari.  This
-is singled out because of the importance of Aquinas.  The reference is to
-be applied from the last semicolon before the mark.  It is likely that the
-meaning diverges from the base by being medieval and ecclesiastical, but
-not so overwhelming as to deserve a separate entry.
-
-
-(Douay) is used to designate those words for which the meaning has been
-derived or modified by examination of the Douay translation of the Latin
-Vulgate Bible of St Jerome.
+abb.          |               | abbreviation
+(Dif) -       | Diferrari     | is used to indicate an additional meaning taken from A Latin-English Dictionary of St. Thomas Aquinas by Roy J. Diferrari.  This is singled out because of the importance of Aquinas.  The reference is to be applied from the last semicolon before the mark.  It is likely that the meaning diverges from the base by being medieval and ecclesiastical, but not so overwhelming as to deserve a separate entry.
+(Douay)       |               | is used to designate those words for which the meaning has been derived or modified by examination of the Douay translation of the Latin Vulgate Bible of St Jerome.
 
 
 (eccl.) ecclesiastical - designating a special church meaning in a list of
