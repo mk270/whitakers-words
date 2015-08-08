@@ -25,11 +25,11 @@ this be augmented with the following facilities:
 * allow users to add citations
 * allow users to submit missing words
 * provide web links to targeted search results for a particular word
- * on the Web
- * within our citations dataset
+ ** on the Web
+ ** within our citations dataset
 * suggest to a user
- * a word in respect of which a citation is required
- * a citation purportedly including a word currently lacking one
+ ** a word in respect of which a citation is required
+ ** a citation purportedly including a word currently lacking one
 * allow a user to authenticate with a particular identity
 * allow administrators to accredit known users as reliable
 
