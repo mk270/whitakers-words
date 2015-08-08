@@ -879,7 +879,7 @@ Sign          | Description   | Meaning
 (...)         | parentheses   | set off and optional word or modifier, e.g., '(nearly) white' means 'white' or 'nearly white', (matter in) dispute means either the matter in dispute or the dispute itself.  They are also used to set off an explanation, further information about the word or meaning, or an example of a translation or a word combination.
 ?             | question mark | in a meaning implies a doubt about the interpretation, or even about the existence of the word at all.  For the purposes of this program, it does not matter much.  If the dubious word does not exist, no one will ask for it.  If it appears in his text, the reader is warned that the interpretation may be questionable to some degree, but is what is available.  May indicate somewhat more doubt than (perh.).
 ~             | tilde         |  stands for the stem or word in question.  Usually it does not have an ending affixed, as is the convention in other dictionaries, but represents the word with whatever ending is proper.  It is just a space saving shorthand or abbreviation.
-{~            | tilde         | also is the flag for changing the language base.  ~E (plus Enter/CR) changes from Latin-to-English to English-to-Latin.  ~L changes back.)
+~             | tilde         | also is the flag for changing the language base.  ~E (plus Enter/CR) changes from Latin-to-English to English-to-Latin.  ~L changes back.
 =&gt;         |               | in meaning this indicates a translation example.
 abb.          |               | abbreviation
 (Dif) -       | Diferrari     | is used to indicate an additional meaning taken from A Latin-English Dictionary of St. Thomas Aquinas by Roy J. Diferrari.  This is singled out because of the importance of Aquinas.  The reference is to be applied from the last semicolon before the mark.  It is likely that the meaning diverges from the base by being medieval and ecclesiastical, but not so overwhelming as to deserve a separate entry.
@@ -890,23 +890,13 @@ esp.          | especially    | indicates a significant association, but is only
 (KLUDGE)      |               | This indicates that the particular form is distorted in order to make it come out correctly.  This usually takes the form of a special conjugational form applied to a few words, not applicable to other words of the same conjugation or declension.  The user can expect the form and meaning to be correct, but the numerical coding will be odd.
 (L+S)         | Lewis & Short | is used to indicate that the meaning starting from the previous semicolon is information from Lewis and Short 'A Latin Dictionary' that differs from, or significantly expands on, the meaning in the 'Oxford Latin Dictionary' (OLD) which is the baseline for this program.  This is not to imply that the meaning listed is otherwise taken directly from the OLD, just that it is not inconsistent with OLD, but the L+S information either inconsistent (likely OLD knows better) or Lewis and Short has included meanings appropriate for late Latin writers beyond the scope of OLD.  The program is just warning the reader that there may be some difference.  There are cases in which this indication occurs in entries that have Lewis and Short as the source.  In those cases, the basic word is in OLD but the entry is a variant form or spelling not cited there.  There are cases where OLD and L+S give somewhat different spellings and meanings for the 'same' word (same in the sense that both dictionaries point to the same citation).  In these cases a combination of meanings are given for both entries with the (L+S) code distinction and the entries of different spelling or declension have the SOURCE coded. 
 NT            | New Testament | is a reference in the Bible.
+(OLD)         | Oxford Latin Dictionary | is used to indicate an additional meaning taken from the Oxford Latin Dictionary in an entry that is otherwise attributed.  While it is usually true that if a classical word has other than OLD as the listed source then it does not appear in that form in OLD, this is not always the case.  On occasion some other dictionary gives a much better or more complete and understandable definition and the honor of source is thereto given. 
+OT            | Old Testament           | is a reference in the Bible.
 
-
-(OLD)         | Oxford Latin Dictionary | is used to indicate an additional meaning
-
-taken from the Oxford Latin Dictionary in an entry that is otherwise
-attributed.  While it is usually true that if a classical word has other
-than OLD as the listed source then it does not appear in that form in OLD,
-this is not always the case.  On occasion some other dictionary gives a
-much better or more complete and understandable definition and the honor
-of source is thereto given.
-
-
-OT [Old Testament] is a reference in the Bible.
-<BR>
 Other source indicators are occasionally used and are indicated
 in the general discription of SOURCE below.
-<BR><BR>
+
+
 (PASS) [passive] - indicates a special, unexpected meaning for the passive
 form of the verb, not easily associated with the active meaning.
 In addition this is often used to remind the user that compounds of facio
