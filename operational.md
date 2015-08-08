@@ -870,74 +870,40 @@ of a modern dictionary source (e.g,. Cal), the user should take this into consid
 
 ### Signs and Abbreviations in Meaning
 
-Sign          | Description   | Meaning
---------------|---------------|--------
-,             | comma         | is used to separate meanings that are similar.  The philosophy has been to list a number of synonyms just to key the reader in making his translation.
-;             | semicolon     | is used to separate sets of meanings that differ in intent. This is just a general tendency and is not always rigorously enforced.
-\:            | colon         | is used with an AREA code to specify a single special meaning appropriate for that AREA in a series of general meanings.  For example, L: has the same impact as (legal) before or after a defination in meaning. This supplements the use of the AREA code in the set of flags, which implies that all or most of the meanings are associated with that area.
-/             | solidus       | means 'or' or gives an alternative word.  It sometimes replaces the comma and is often used to compress the meaning into a short line.
-(...)         | parentheses   | set off and optional word or modifier, e.g., '(nearly) white' means 'white' or 'nearly white', (matter in) dispute means either the matter in dispute or the dispute itself.  They are also used to set off an explanation, further information about the word or meaning, or an example of a translation or a word combination.
-?             | question mark | in a meaning implies a doubt about the interpretation, or even about the existence of the word at all.  For the purposes of this program, it does not matter much.  If the dubious word does not exist, no one will ask for it.  If it appears in his text, the reader is warned that the interpretation may be questionable to some degree, but is what is available.  May indicate somewhat more doubt than (perh.).
-~             | tilde         |  stands for the stem or word in question.  Usually it does not have an ending affixed, as is the convention in other dictionaries, but represents the word with whatever ending is proper.  It is just a space saving shorthand or abbreviation.
-~             | tilde         | also is the flag for changing the language base.  ~E (plus Enter/CR) changes from Latin-to-English to English-to-Latin.  ~L changes back.
-=&gt;         |               | in meaning this indicates a translation example.
-abb.          |               | abbreviation
-(Dif) -       | Diferrari     | is used to indicate an additional meaning taken from A Latin-English Dictionary of St. Thomas Aquinas by Roy J. Diferrari.  This is singled out because of the importance of Aquinas.  The reference is to be applied from the last semicolon before the mark.  It is likely that the meaning diverges from the base by being medieval and ecclesiastical, but not so overwhelming as to deserve a separate entry.
-(Douay)       |               | is used to designate those words for which the meaning has been derived or modified by examination of the Douay translation of the Latin Vulgate Bible of St Jerome.
-(eccl.)       | ecclesiastical| designating a special church meaning in a list of conventional meanings, an additional meaning not sufficient to justify a separate entry with an ecclesiastical code.
-esp.          | especially    | indicates a significant association, but is only advisory.
-(King James)  |               | is used to designate those words for which the meaning has been derived or modified by examination of the King James Bible in connection with the Latin Vulgate Bible of St Jerome; may also appear as (KJames)
-(KLUDGE)      |               | This indicates that the particular form is distorted in order to make it come out correctly.  This usually takes the form of a special conjugational form applied to a few words, not applicable to other words of the same conjugation or declension.  The user can expect the form and meaning to be correct, but the numerical coding will be odd.
-(L+S)         | Lewis & Short | is used to indicate that the meaning starting from the previous semicolon is information from Lewis and Short 'A Latin Dictionary' that differs from, or significantly expands on, the meaning in the 'Oxford Latin Dictionary' (OLD) which is the baseline for this program.  This is not to imply that the meaning listed is otherwise taken directly from the OLD, just that it is not inconsistent with OLD, but the L+S information either inconsistent (likely OLD knows better) or Lewis and Short has included meanings appropriate for late Latin writers beyond the scope of OLD.  The program is just warning the reader that there may be some difference.  There are cases in which this indication occurs in entries that have Lewis and Short as the source.  In those cases, the basic word is in OLD but the entry is a variant form or spelling not cited there.  There are cases where OLD and L+S give somewhat different spellings and meanings for the 'same' word (same in the sense that both dictionaries point to the same citation).  In these cases a combination of meanings are given for both entries with the (L+S) code distinction and the entries of different spelling or declension have the SOURCE coded. 
-NT            | New Testament | is a reference in the Bible.
+Sign          | Description             | Meaning
+--------------|-------------------------|--------
+,             | comma                   | is used to separate meanings that are similar.  The philosophy has been to list a number of synonyms just to key the reader in making his translation.
+;             | semicolon               | is used to separate sets of meanings that differ in intent. This is just a general tendency and is not always rigorously enforced.
+\:            | colon                   | is used with an AREA code to specify a single special meaning appropriate for that AREA in a series of general meanings.  For example, L: has the same impact as (legal) before or after a defination in meaning. This supplements the use of the AREA code in the set of flags, which implies that all or most of the meanings are associated with that area.
+/             | solidus                 | means 'or' or gives an alternative word.  It sometimes replaces the comma and is often used to compress the meaning into a short line.
+(...)         | parentheses             | set off and optional word or modifier, e.g., '(nearly) white' means 'white' or 'nearly white', (matter in) dispute means either the matter in dispute or the dispute itself.  They are also used to set off an explanation, further information about the word or meaning, or an example of a translation or a word combination.
+?             | question mark           | in a meaning implies a doubt about the interpretation, or even about the existence of the word at all.  For the purposes of this program, it does not matter much.  If the dubious word does not exist, no one will ask for it.  If it appears in his text, the reader is warned that the interpretation may be questionable to some degree, but is what is available.  May indicate somewhat more doubt than (perh.).
+~             | tilde                   |  stands for the stem or word in question.  Usually it does not have an ending affixed, as is the convention in other dictionaries, but represents the word with whatever ending is proper.  It is just a space saving shorthand or abbreviation.
+~             | tilde                   | also is the flag for changing the language base.  ~E (plus Enter/CR) changes from Latin-to-English to English-to-Latin.  ~L changes back.
+=&gt;         |                         | in meaning this indicates a translation example.
+abb.          |                         | abbreviation
+(Dif) -       | Diferrari               | is used to indicate an additional meaning taken from A Latin-English Dictionary of St. Thomas Aquinas by Roy J. Diferrari.  This is singled out because of the importance of Aquinas.  The reference is to be applied from the last semicolon before the mark.  It is likely that the meaning diverges from the base by being medieval and ecclesiastical, but not so overwhelming as to deserve a separate entry.
+(Douay)       |                         | is used to designate those words for which the meaning has been derived or modified by examination of the Douay translation of the Latin Vulgate Bible of St Jerome.
+(eccl.)       | ecclesiastical          | designating a special church meaning in a list of conventional meanings, an additional meaning not sufficient to justify a separate entry with an ecclesiastical code.
+esp.          | especially              | indicates a significant association, but is only advisory.
+(King James)  |                         | is used to designate those words for which the meaning has been derived or modified by examination of the King James Bible in connection with the Latin Vulgate Bible of St Jerome; may also appear as (KJames)
+(KLUDGE)      |                         | This indicates that the particular form is distorted in order to make it come out correctly.  This usually takes the form of a special conjugational form applied to a few words, not applicable to other words of the same conjugation or declension.  The user can expect the form and meaning to be correct, but the numerical coding will be odd.
+(L+S)         | Lewis & Short           | is used to indicate that the meaning starting from the previous semicolon is information from Lewis and Short 'A Latin Dictionary' that differs from, or significantly expands on, the meaning in the 'Oxford Latin Dictionary' (OLD) which is the baseline for this program.  This is not to imply that the meaning listed is otherwise taken directly from the OLD, just that it is not inconsistent with OLD, but the L+S information either inconsistent (likely OLD knows better) or Lewis and Short has included meanings appropriate for late Latin writers beyond the scope of OLD.  The program is just warning the reader that there may be some difference.  There are cases in which this indication occurs in entries that have Lewis and Short as the source.  In those cases, the basic word is in OLD but the entry is a variant form or spelling not cited there.  There are cases where OLD and L+S give somewhat different spellings and meanings for the 'same' word (same in the sense that both dictionaries point to the same citation).  In these cases a combination of meanings are given for both entries with the (L+S) code distinction and the entries of different spelling or declension have the SOURCE coded. 
+NT            | New Testament           | is a reference in the Bible.
 (OLD)         | Oxford Latin Dictionary | is used to indicate an additional meaning taken from the Oxford Latin Dictionary in an entry that is otherwise attributed.  While it is usually true that if a classical word has other than OLD as the listed source then it does not appear in that form in OLD, this is not always the case.  On occasion some other dictionary gives a much better or more complete and understandable definition and the honor of source is thereto given. 
 OT            | Old Testament           | is a reference in the Bible.
 
 Other source indicators are occasionally used and are indicated
 in the general discription of SOURCE below.
 
-
-(PASS) [passive] - indicates a special, unexpected meaning for the passive
-form of the verb, not easily associated with the active meaning.
-In addition this is often used to remind the user that compounds of facio
-form the passive by using the active of fio.  Ex: calefio (calefacio PASS).
-There may be more translation information in the base word cited and
-the user is encouraged to refer to it.
-
-
-perh.  [perhaps] - denotes an additional uncertainty, but not as strong as
-(?).
-
-
-(pl.) [plural] means that the Latin word is believed by scholars to be
-used (almost) always in the plural form, with the meaning stated, even
-though that meaning in English may be singular.  If it appears in the
-beginning of the meaning, before the first comma, it applies to all the
-meanings.  If it appears later, it applies only to that and later
-meanings.  For the purpose of this program, this is only advisory.  While
-it is used by some tools to find the expected dictionary entry, the
-program does not necessarily exclude a singular form in the output.  While it may be
-true that in good, classical Latin it is never used in the singular, this
-does not mean that some text somewhere might not use the singular, nor
-that it is uncommon in later Latin. The TRIM_OUTPUT option may cause only plural
-forms to appear, with no TRIM_OUTPUT the singular will be shown.
-
-
-prob.  [probably] - denotes some uncertainty, but not as much as
-(perh.).
-
-
-pure Latin ...  indicates a pure Latin term for a word which is derived
-from another language (almost certainly Greek).
-
-
-(rude) - indicates that this meaning was used in a rude, vulgar, coarse,
-or obscene manner, not what one should hear in polite company.  Such use
-is likely from graffiti or epigrams, or in plays in which the dialogue is
-to indicate that the characters are low or crude.  Meanings given by the
-program for these words are more polite, and the user is invited to
-substitute the current street language or obscenity of his choice to get
-the flavor of text.
+Sign          | Description             | Meaning
+--------------|-------------------------|--------
+(PASS)        | passive                 | indicates a special, unexpected meaning for the passive form of the verb, not easily associated with the active meaning. In addition this is often used to remind the user that compounds of facio form the passive by using the active of fio.  Ex: calefio (calefacio PASS). There may be more translation information in the base word cited and the user is encouraged to refer to it. 
+perh.         | perhaps                 | denotes an additional uncertainty, but not as strong as (?).
+(pl.)         | plural                  | means that the Latin word is believed by scholars to be used (almost) always in the plural form, with the meaning stated, even though that meaning in English may be singular.  If it appears in the beginning of the meaning, before the first comma, it applies to all the meanings.  If it appears later, it applies only to that and later meanings.  For the purpose of this program, this is only advisory.  While it is used by some tools to find the expected dictionary entry, the program does not necessarily exclude a singular form in the output.  While it may be true that in good, classical Latin it is never used in the singular, this does not mean that some text somewhere might not use the singular, nor that it is uncommon in later Latin. The TRIM_OUTPUT option may cause only plural forms to appear, with no TRIM_OUTPUT the singular will be shown. 
+prob.         | probably                | denotes some uncertainty, but not as much as (perh.).
+pure Latin ...|                         | indicates a pure Latin term for a word which is derived from another language (almost certainly Greek).
+(rude)        |                         | indicates that this meaning was used in a rude, vulgar, coarse, or obscene manner, not what one should hear in polite company.  Such use is likely from graffiti or epigrams, or in plays in which the dialogue is to indicate that the characters are low or crude.  Meanings given by the program for these words are more polite, and the user is invited to substitute the current street language or obscenity of his choice to get the flavor of text.
 
 
 (sg.) [singular] means that the Latin word is believed by scholars to be
