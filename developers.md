@@ -45,7 +45,7 @@ thereby been made system independent.
 
 There are four supporting programs
 
-  * makedict.adb
+  * `makedict.adb`
   * makestem.adb
   * makeinfl.adb
   * makeefil.adb
