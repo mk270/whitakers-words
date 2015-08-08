@@ -875,14 +875,7 @@ Sign          | Description   | Meaning
 ,             | comma         | is used to separate meanings that are similar.  The philosophy has been to list a number of synonyms just to key the reader in making his translation.
 ;             | semicolon     | is used to separate sets of meanings that differ in intent. This is just a general tendency and is not always rigorously enforced.
 \:            | colon         | is used with an AREA code to specify a single special meaning appropriate for that AREA in a series of general meanings.  For example, L: has the same impact as (legal) before or after a defination in meaning. This supplements the use of the AREA code in the set of flags, which implies that all or most of the meanings are associated with that area.
-
-
-Sign          | Description   | Meaning
---------------|---------------|--------
 slash         | solidus       | means 'or' or gives an alternative word.  It sometimes replaces the comma and is often used to compress the meaning into a short line.
-
-Sign          | Description   | Meaning
---------------|---------------|--------
 (...)         | parentheses   | set off and optional word or modifier, e.g., '(nearly) white' means 'white' or 'nearly white', (matter in) dispute means either the matter in dispute or the dispute itself.  They are also used to set off an explanation, further information about the word or meaning, or an example of a translation or a word combination.
 ?             | question mark | in a meaning implies a doubt about the interpretation, or even about the existence of the word at all.  For the purposes of this program, it does not matter much.  If the dubious word does not exist, no one will ask for it.  If it appears in his text, the reader is warned that the interpretation may be questionable to some degree, but is what is available.  May indicate somewhat more doubt than (perh.).
 ~             | tilde         |  stands for the stem or word in question.  Usually it does not have an ending affixed, as is the convention in other dictionaries, but represents the word with whatever ending is proper.  It is just a space saving shorthand or abbreviation.
