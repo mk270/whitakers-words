@@ -904,18 +904,6 @@ perh.         | perhaps                 | denotes an additional uncertainty, but
 prob.         | probably                | denotes some uncertainty, but not as much as (perh.).
 pure Latin ...|                         | indicates a pure Latin term for a word which is derived from another language (almost certainly Greek).
 (rude)        |                         | indicates that this meaning was used in a rude, vulgar, coarse, or obscene manner, not what one should hear in polite company.  Such use is likely from graffiti or epigrams, or in plays in which the dialogue is to indicate that the characters are low or crude.  Meanings given by the program for these words are more polite, and the user is invited to substitute the current street language or obscenity of his choice to get the flavor of text.
-
-
-(sg.) [singular] means that the Latin word is believed by scholars to be
-used always in the singular.  If it appears in the beginning of the
-meaning, before the first comma, it applies to all the meanings.  If it
-appears later, it applies only to that and later meanings.  For the
-purpose of this program, this is only advisory.
-
-
-usu.  [usually] is weakly advisory.  (usu.  pl.) is even weaker than (pl.)
-and may imply that the plural tendency occurred only during certain periods.
-
-
-
-w/ means 'with'.
+(sg.)         | singular                | means that the Latin word is believed by scholars to be used always in the singular.  If it appears in the beginning of the meaning, before the first comma, it applies to all the meanings.  If it appears later, it applies only to that and later meanings.  For the purpose of this program, this is only advisory.
+usu.          | usually                 | is weakly advisory.  (usu.  pl.) is even weaker than (pl.) and may imply that the plural tendency occurred only during certain periods.
+w/            |                         | means 'with'.
