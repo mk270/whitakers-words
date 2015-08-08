@@ -44,3 +44,9 @@ long) containing the lexical item, and a well-formed unique identifier for
 the passage.
 
 There shall be a many-to-many relation between lexical items and citations.
+
+Testing
+-------
+
+It may be necessary to avoid circularity by excluding cited material from the
+test cases used to develop the programme itself.
