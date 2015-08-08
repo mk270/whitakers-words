@@ -884,15 +884,8 @@ slash         | solidus       | means 'or' or gives an alternative word.  It som
 abb.          |               | abbreviation
 (Dif) -       | Diferrari     | is used to indicate an additional meaning taken from A Latin-English Dictionary of St. Thomas Aquinas by Roy J. Diferrari.  This is singled out because of the importance of Aquinas.  The reference is to be applied from the last semicolon before the mark.  It is likely that the meaning diverges from the base by being medieval and ecclesiastical, but not so overwhelming as to deserve a separate entry.
 (Douay)       |               | is used to designate those words for which the meaning has been derived or modified by examination of the Douay translation of the Latin Vulgate Bible of St Jerome.
-
-
-(eccl.) ecclesiastical - designating a special church meaning in a list of
-conventional meanings, an additional meaning not sufficient to justify a
-separate entry with an ecclesiastical code.
-
-
-esp.  [especially] - indicates a significant association, but is only
-advisory.
+(eccl.)       | ecclesiastical| designating a special church meaning in a list of conventional meanings, an additional meaning not sufficient to justify a separate entry with an ecclesiastical code.
+esp.          | especially    | indicates a significant association, but is only advisory.
 
 
 (King James) or (KJames) is used to designate those words for which the
