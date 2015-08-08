@@ -25,7 +25,7 @@ centrally that they can be included in the public release for everyone.
 
 However, it is possible for a user to enhance the dictionary for special
 situations.  This may be accomplished either by providing new dictionary
-entries in a DICT.LOC file, those to be processed in the regular manner,
+entries in a `DICT.LOC` file, those to be processed in the regular manner,
 or to add a unique (single case/number/gender/...) in a text file called
 UNIQUES.
 
@@ -33,7 +33,7 @@ DICT.LOC
 --------
 
 A dictionary entry for WORDS (in the simplest, editable form as read in a
-DICT.LOC) is
+`DICT.LOC`) is
 
 
     aqu   aqu
@@ -62,7 +62,7 @@ To these stems are applied, as appropriate, the endings
 
 Or rather, the input word is analyzed for possible endings, and when these
 are subtracted a match is sought with the dictionary stems.  A file
-(INFLECTS.LAT) gives all the endings.
+(`INFLECTS.LAT`) gives all the endings.
 
 In this example, the first line
 
@@ -86,7 +86,7 @@ says it is a noun (N), of the first declension, first variant, is feminine
 (F), and is a thing (T), as opposed to a person, location, etc.  The X X X
 X X represents coding about the age in which it is applicable, the
 geographic and application area of the word, its frequency of use, and the
-dictionary source of the entry.  None of this is necessary in a DICT.LOC
+dictionary source of the entry.  None of this is necessary in a `DICT.LOC`
 although something must be filled in and X X X X X is always satisfactory.
 
 The last line is the English definition.  It can be as long as 80
@@ -289,7 +289,7 @@ There is one other remark.  It is probably wise to include in the
 definition a more complete English meaning.  Just saying the meaning of appendiculatus is
 appendiculate is not as interesting as it might be.
 
-All the inflections are in a file called INFLECTS.LAT now a part of the
+All the inflections are in a file called `INFLECTS.LAT` now a part of the
 general distribution of [source code and data files](https://github.com/mk270/whitakers-words/).
 
 Here is a quick reference for the most common types.
@@ -474,7 +474,7 @@ with all the other safeguards that that implies!) as a consequence is
 unforgiving.  The exact form is required.  If you want to be sloppy you
 have to deliberately program that in.
 
-The following examples, and an examination of the UNIQUES.LAT file, should
+The following examples, and an examination of the `UNIQUES.LAT` file, should
 allow the user to insert any unique necessary.
 
 

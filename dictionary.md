@@ -634,10 +634,10 @@ about 3 MB.
 I have done a lot of Latin spell checking directly with WORDS.
 All you have to do is put the text in a file,
 run WORDS with a text file (@) input,
-and require output of an WORD.UNK file (see # parameters).
+and require output of an `WORD.UNK` file (see # parameters).
 It is sometimes useful to run without FIXes and TRICKS first,
 then run the resulting first-pass UNKNOWNs
-and look at the full WORD.OUT to make sure the modifications are reasonable.
+and look at the full `WORD.OUT` to make sure the modifications are reasonable.
 
 
 There are other techniques.

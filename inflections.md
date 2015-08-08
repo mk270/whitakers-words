@@ -13,10 +13,10 @@ title: Inflections
 Inflections
 ===========
 
-Inflections for WORDS are in a human-readable file called INFLECTS.LAT.
+Inflections for WORDS are in a human-readable file called `INFLECTS.LAT`.
 Presently there are almost 1800 separate entries.
-This data is processed to produce a file INFLECTS.SEC used by the code.
-The format of INFLECTS.LAT is simple, as for example:
+This data is processed to produce a file `INFLECTS.SEC` used by the code.
+The format of `INFLECTS.LAT` is simple, as for example:
 
 
     N     1 1 NOM S C                 1 1 a             X A

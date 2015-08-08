@@ -19,7 +19,7 @@ Up to now there is no satisfactory computer facility for this.
 The best on the net is a search of the Perseus dictionary,
 finding all uses of the English word in the text of the dictionary.
 One can do the same with the WORDS dictionary,
-and DICTPAGE.TXT is a convenient form for that purpose.
+and `DICTPAGE.TXT` is a convenient form for that purpose.
 In the present release of WORDS, a primitive English-to-Latin
 facility has been implemented, based on this inverted dictionary method.
 
