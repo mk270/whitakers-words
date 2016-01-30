@@ -472,6 +472,7 @@ package body List_Package is
                            --  SRAA (J)(K) := (PA (I).STEM, PA (I).IR);
                         end if;
 
+                        I := I + 1;           --  I cycles over full PA array
                         exit;
                         --  Since Other is only one, don't loop
                   end case;
