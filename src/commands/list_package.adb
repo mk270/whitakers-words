@@ -389,39 +389,17 @@ package body List_Package is
                      Sraa (J)(K) := (Pa (I).Stem, Pa (I).IR);
                   end if;
                end Handle_Parse_Record;
+
+               pofs : Part_Of_Speech_Type;
             begin
-               case Pa (I).IR.Qual.Pofs  is
-                  -- TODO: FACTOR OUT
-                  --
-                  -- the first four branches are completely regular;
-                  -- work out how to reduce the remaining branches
-                  when N =>
-                     while Pa (I).IR.Qual.Pofs = N and I <= Pa_Last loop
-                        Handle_Parse_Record;
-                        I := I + 1;           --  I cycles over full PA array
-                     end loop;
 
-                  when Pron =>
-                     while Pa (I).IR.Qual.Pofs = Pron and I <= Pa_Last loop
+               pofs := Pa (I).IR.Qual.Pofs;
+               while I <= Pa_Last and Pa (I).IR.Qual.Pofs = pofs  loop
+                  case pofs is
+                     when N | Pron | Pack | Adj =>
                         Handle_Parse_Record;
-                        I := I + 1;           --  I cycles over full PA array
-                     end loop;
 
-                  when Pack =>
-                     while Pa (I).IR.Qual.Pofs = Pack and I <= Pa_Last loop
-                        Handle_Parse_Record;
-                        I := I + 1;           --  I cycles over full PA array
-                     end loop;
-
-                  when Adj =>
-                     while Pa (I).IR.Qual.Pofs = Adj and I <= Pa_Last loop
-                        Handle_Parse_Record;
-                        I := I + 1;         --  I cycles over full PA array
-                     end loop;
-
-                  when Num  =>
-                     while Pa (I).IR.Qual.Pofs = Num   and
-                       I <= Pa_Last                   loop
+                     when Num  =>
                         if Pa (I).D_K = Rrr then        --  Roman numeral
                            K := 1;
                            --  K indexes within the MNPCA array -- Initialize
@@ -437,14 +415,7 @@ package body List_Package is
                            Handle_Parse_Record;
                         end if;
 
-                        I := I + 1;           --  I cycles over full PA array
-                     end loop;
-
-                  when V | Vpar | Supine  =>
-                     while (Pa (I).IR.Qual.Pofs = V      or
-                       Pa (I).IR.Qual.Pofs = Vpar   or
-                       Pa (I).IR.Qual.Pofs = Supine)   and
-                       I <= Pa_Last                   loop
+                     when V | Vpar | Supine  =>
                         if (Pa (I).MNPC  /= Odm.MNPC) and
                           (Pa (I).D_K /= Ppp)
                         then   --  Encountering new MNPC
@@ -468,12 +439,8 @@ package body List_Package is
                            Sraa (J)(K) := (Pa (I).Stem, Pa (I).IR);
                         end if;
 
-                        I := I + 1;           --  I cycles over full PA array
-                     end loop;
-
-                  when others  =>
-                     --TEXT_IO.PUT_LINE ("Others");
-                     while I <= Pa_Last                   loop
+                     when others  =>
+                        --TEXT_IO.PUT_LINE ("Others");
                         if (Odm.D_K  /= Pa (I).D_K)  or
                           (Odm.MNPC /= Pa (I).MNPC)
                         then   --  Encountering new single (K only 1)
@@ -505,11 +472,11 @@ package body List_Package is
                            --  SRAA (J)(K) := (PA (I).STEM, PA (I).IR);
                         end if;
 
-                        I := I + 1;           --  I cycles over full PA array
                         exit;
                         --  Since Other is only one, don't loop
-                     end loop;
-               end case;
+                  end case;
+                  I := I + 1;           --  I cycles over full PA array
+               end loop;
             end;
          end if;
 
