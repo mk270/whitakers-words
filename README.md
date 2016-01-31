@@ -39,6 +39,12 @@ Build-time Dependencies
 * GPRBuild
 * gnat
 
+Running in Docker
+=======================
+
+    $ docker build -t whitakers-words .
+    $ docker run -it whitakers-words
+
 Licensing
 =========
 
