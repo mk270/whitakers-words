@@ -379,9 +379,8 @@ is
                                    Ppl_On : in out Boolean;
                                    Ppl_Info : out Vpar_Record)
    is
-      J4 : Integer := Pa_Last;
    begin
-      while J4 >= 1  loop
+      for J4 in reverse 1 .. Pa_Last loop
          --  Sweep backwards to kill empty suffixes
          if Pa (J4).IR.Qual.Pofs in Tackon .. Suffix
            and then Ppl_On
@@ -407,7 +406,6 @@ is
             Pa_Last := Pa_Last - 1;
             Ppl_On := False;
          end if;
-         J4 := J4 - 1;
       end loop;
    end Do_Clear_Pas_Nom_Ppl;
 
@@ -417,9 +415,8 @@ is
                                Ppl_On : in out Boolean;
                                Ppl_Info : out Vpar_Record)
    is
-      J5 : Integer := Pa_Last;
    begin
-      while J5 >= 1  loop
+      for J5 in reverse 1 .. Pa_Last loop
          --  Sweep backwards to kill empty suffixes
          if Pa (J5).IR.Qual.Pofs in Tackon .. Suffix
            and then Ppl_On
@@ -443,7 +440,6 @@ is
             Pa_Last := Pa_Last - 1;
             Ppl_On := False;
          end if;
-         J5 := J5 - 1;
       end loop;
    end Do_Clear_Pas_Ppl;
 
@@ -452,9 +448,8 @@ is
                                   Nk : in Integer;
                                   Ppl_On : in out Boolean)
    is
-      J6 : Integer := Pa_Last;
    begin
-      while J6 >= 1  loop
+      for J6 in reverse 1 .. Pa_Last loop
          --  Sweep backwards to kill empty suffixes
          if Pa (J6).IR.Qual.Pofs in Tackon .. Suffix
            and then Ppl_On
@@ -493,7 +488,6 @@ is
             Pa_Last := Pa_Last - 1;
             Ppl_On := False;
          end if;
-         J6 := J6  - 1;
       end loop;
    end Do_Clear_Pas_Supine;
 

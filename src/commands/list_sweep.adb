@@ -34,7 +34,7 @@ procedure List_Sweep (Pa : in out Parse_Array; Pa_Last : in out Integer) is
 
    Pr, Opr : Parse_Record := Null_Parse_Record;
    De : Dictionary_Entry := Null_Dictionary_Entry;
-   I, J, Jj : Integer := 0;
+   J, Jj : Integer := 0;
    Diff_J : Integer := 0;
 
    Not_Only_Archaic  : Boolean := False;
@@ -419,19 +419,16 @@ procedure List_Sweep (Pa : in out Parse_Array; Pa_Last : in out Integer) is
          --  big set PA also
          --  Kill not ALLOWED first, then check the remaining from the top
          --  I am assuming there is no Trim ming of FIXES for AGE/ .. .
-         I := Sl_Last;
-         while I >= Sl'First  loop
+         for I in reverse Sl'First .. Sl_Last loop
             --  Remove not ALLOWED_STEM & null
             if not Allowed_Stem (Sl (I)) or (Pa (I) = Null_Parse_Record) then
                Sl (I .. Sl_Last - 1) := Sl (I + 1 .. Sl_Last);
                Sl_Last := Sl_Last - 1;
                Trimmed := True;
             end if;
-            I := I - 1;
          end loop;
 
-         I := Sl_Last;
-         while I >= Sl'First  loop
+         for I in reverse Sl'First .. Sl_Last loop
             --TEXT_IO.PUT_LINE ("TRIMMING FOR TRIM   I = " & INTEGER'IMAGE (I));
             if (Not_Only_Archaic and Words_Mdev (Omit_Archaic)) and then
               Sl (I).IR.Age = A
@@ -446,11 +443,9 @@ procedure List_Sweep (Pa : in out Parse_Array; Pa_Last : in out Integer) is
                Sl_Last := Sl_Last - 1;
                Trimmed := True;
             end if;
-            I := I - 1;
          end loop;
 
-         I := Sl_Last;
-         while I >= Sl'First  loop
+         for I in reverse Sl'First .. Sl_Last loop
             if (Not_Only_Uncommon and Words_Mdev (Omit_Uncommon)) and then
               Sl (I).IR.Freq >= C
             then      --  Remember A < C
@@ -458,7 +453,6 @@ procedure List_Sweep (Pa : in out Parse_Array; Pa_Last : in out Integer) is
                Sl_Last := Sl_Last - 1;
                Trimmed := True;
             end if;
-            I := I - 1;
          end loop;
 
          ----Big problem.  This area has been generaing exceptions.
@@ -483,8 +477,7 @@ procedure List_Sweep (Pa : in out Parse_Array; Pa_Last : in out Integer) is
          --  This is really working much too hard!
          --  just to kill Roman numeral for three single letters
          --  Also strange in that code depends on dictionary knowledge
-         I := Sl_Last;
-         while I >= Sl'First  loop
+         for I in reverse Sl'First .. Sl_Last loop
             if Has_Noun_Abbreviation    and then
               (All_Caps and Followed_By_Period)
             then
@@ -504,7 +497,6 @@ procedure List_Sweep (Pa : in out Parse_Array; Pa_Last : in out Integer) is
                   Trimmed := True;
                end if;
             end if;
-            I := I - 1;
          end loop;
 
       end if;   --  On TRIM
@@ -556,9 +548,7 @@ begin                               --  LIST_SWEEP
       P_Last  : Integer := 0;
       subtype Xons is Part_Of_Speech_Type range Tackon .. Suffix;
    begin
-      J := Pa_Last;
-
-      while J >= 1  loop        --  Sweep backwards over PA
+      for J in reverse 1 .. Pa_Last loop --  Sweep backwards over PA
 
          if ((Pa (J).D_K in Addons .. Yyy) or (Pa (J).IR.Qual.Pofs in Xons))
            and then (Pw_On)
@@ -608,7 +598,6 @@ begin                               --  LIST_SWEEP
             end if;
          end if;                                      --  check PART
 
-         J := J - 1;
       end loop;                          --  loop sweep over PA
    end Sweeping;
 
