@@ -614,13 +614,7 @@ begin                               --  LIST_SWEEP
          declare
             function "<=" (A, B : Parse_Record) return Boolean is
             begin                             --  !!!!!!!!!!!!!!!!!!!!!!!!!!
-               if A.IR.Qual = B.IR.Qual  and
-                 A.MNPC    = B.MNPC
-               then
-                  return True;
-               else
-                  return False;
-               end if;
+               return A.IR.Qual = B.IR.Qual and A.MNPC = B.MNPC;
             end "<=";
          begin
             if (Pr.D_K /= Xxx) and (Pr.D_K /= Yyy) and  (Pr.D_K /= Ppp) then
