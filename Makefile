@@ -29,7 +29,10 @@ clean_data:
 	rm -f -- $(GENERATED_DATA_FILES)
 
 clean:
-	rm -f -- obj/commands/* obj/latin_utils/* obj/support_utils/* bin/* lib/*
+	gprclean -Pwords
+	gprclean -Platin_utils
+	gprclean -Psupport_utils
+	gprclean -Pwords-tools
 	rm -f -- CHECKEWD.
 	rm -f -- DICTFILE.GEN STEMFILE.GEN INDXFILE.GEN EWDSLIST.GEN INFLECTS.SEC
 
