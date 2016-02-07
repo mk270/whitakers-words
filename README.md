@@ -39,6 +39,10 @@ Build-time Dependencies
 * GPRBuild
 * gnat
 
+On a Debian-like system, you can install these roughly as follows:
+
+    $ apt-get install gprbuild gnat
+
 Licensing
 =========
 
