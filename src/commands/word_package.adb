@@ -66,95 +66,50 @@ package body Word_Package is
 
    function Ltu (C, D : Character) return Boolean is
    begin
-      if D = 'v' then
-         if C < 'u' then
-            return True;
-         else
-            return False;
-         end if;
-      elsif D = 'j' then
-         if C < 'i' then
-            return True;
-         else
-            return False;
-         end if;
-      elsif D = 'V' then
-         if C < 'U' then
-            return True;
-         else
-            return False;
-         end if;
-      elsif D = 'J' then
-         if C < 'I' then
-            return True;
-         else
-            return False;
-         end if;
-      else
-         return C < D;
-      end if;
+      case D is
+         when 'v' =>
+            return C < 'u';
+         when 'j' =>
+            return C < 'i';
+         when 'V' =>
+            return C < 'U';
+         when 'J' =>
+            return C < 'I';
+         when others =>
+            return C < D;
+      end case;
    end Ltu;
 
    function Equ (C, D : Character) return Boolean is
    begin
-      if (D = 'u') or (D = 'v')  then
-         if (C = 'u') or (C = 'v')  then
-            return True;
-         else
-            return False;
-         end if;
-      elsif (D = 'i') or (D = 'j')  then
-         if (C = 'i') or (C = 'j')  then
-            return True;
-         else
-            return False;
-         end if;
-      elsif (D = 'U') or (D = 'V')  then
-         if (C = 'U') or (C = 'V')  then
-            return True;
-         else
-            return False;
-         end if;
-      elsif (D = 'I') or (D = 'J')  then
-         if (C = 'I') or (C = 'J')  then
-            return True;
-         else
-            return False;
-         end if;
-      else
-         return C = D;
-      end if;
+      case D is
+         when 'u' | 'v' =>
+            return (C = 'u') or (C = 'v');
+         when 'i' | 'j' =>
+            return (C = 'i') or (C = 'j');
+         when 'U' | 'V' =>
+            return (C = 'U') or (C = 'V');
+         when 'I' | 'J' =>
+            return (C = 'I') or (C = 'J');
+         when others =>
+            return C = D;
+      end case;
    end Equ;
 
    function Gtu (C, D : Character) return Boolean is
    begin
-      if D = 'u' then
-         if C > 'v' then
-            return True;
-         else
-            return False;
-         end if;
-      elsif D = 'i' then
-         if C > 'j' then
-            return True;
-         else
-            return False;
-         end if;
-      elsif D = 'U' then
-         if C > 'V' then
-            return True;
-         else
-            return False;
-         end if;
-      elsif D = 'I' then
-         if C > 'J' then
-            return True;
-         else
-            return False;
-         end if;
-      else
-         return C > D;
-      end if;
+      case D is
+         when 'u' =>
+            return C > 'v';
+         when 'i' =>
+            return C > 'j';
+         when 'U' =>
+            return C > 'V';
+         when 'I' =>
+            return C > 'J';
+         when others =>
+            return C > D;
+      end case;
    end Gtu;
 
    function Ltu (S, T : String) return Boolean is
