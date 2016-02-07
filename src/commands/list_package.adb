@@ -24,6 +24,8 @@
 -- `List_Stems` contains a *lot* of duplicated code that could be factored
 -- out, to be marked with "FACTOR OUT".
 
+with Ada.Strings.Fixed;
+with Ada.Strings.Maps;
 with Latin_Utils.Strings_Package; use Latin_Utils.Strings_Package;
 with Latin_Utils.Latin_File_Names; use Latin_Utils.Latin_File_Names;
 with Support_Utils.Word_Parameters; use Support_Utils.Word_Parameters;
@@ -267,17 +269,8 @@ package body List_Package is
    function Trim_Bar (S : String) return String is
       --  Takes vertical bars from begining of MEAN and TRIMs
    begin
-      if S'Length > 3  and then S (S'First .. S'First + 3) = "||||"  then
-         return Trim (S (S'First + 4 .. S'Last));
-      elsif S'Length > 2  and then S (S'First .. S'First + 2) = "|||"  then
-         return Trim (S (S'First + 3 .. S'Last));
-      elsif S'Length > 1  and then  S (S'First .. S'First + 1) = "||"  then
-         return Trim (S (S'First + 2 .. S'Last));
-      elsif S (S'First) = '|'  then
-         return Trim (S (S'First + 1 .. S'Last));
-      else
-         return Trim (S);
-      end if;
+      return Trim (Ada.Strings.Fixed.Trim (S, Ada.Strings.Maps.To_Set ('|'),
+                                              Ada.Strings.Maps.Null_Set));
    end Trim_Bar;
 
    procedure Put_Meaning_Line
