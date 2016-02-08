@@ -915,9 +915,7 @@ package body List_Package is
                Do_Ignore_Unknown ("IGNORE_UNKNOWN_CAPS");
             end if;
          end;
-      end if;
 
-      if Pa_Last = 0   then
          if  Words_Mode (Write_Output_To_File)      then
             Put_Pearse_Code (Output, "04 ");
             Ada.Text_IO.Put (Output, Raw_Word);
@@ -948,9 +946,7 @@ package body List_Package is
             Inflections_Package.Integer_IO.Put (Unknowns, Word_Number, 7);
             Ada.Text_IO.Put_Line (Unknowns, "    ========   UNKNOWN    ");
          end if;
-      end if;
 
-      if Pa_Last = 0   then
          if Words_Mode (Do_Stems_For_Unknown)   then
             if  Words_Mode (Write_Output_To_File)  and then
               not Words_Mode (Write_Unknowns_To_File)
@@ -965,9 +961,7 @@ package body List_Package is
                List_Neighborhood (Output, Raw_Word);
             end if;
          end if;
-      end if;
 
-      if Pa_Last = 0 then
          if Words_Mdev (Update_Local_Dictionary)  and
            -- Don't if reading from file
            (Name (Current_Input) = Name (Standard_Input))
