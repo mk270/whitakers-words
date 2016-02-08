@@ -364,68 +364,46 @@ package body List_Package is
             declare
                procedure Handle_Parse_Record is
                begin
-                  if Pa (I).MNPC /= Odm.MNPC then
-                     -- Encountering new MNPC
-                     K := 1;
-                     -- K indexes within the MNPCA array -- Initialise
-                     J := J + 1;
-                     -- J indexes the number of MNPCA arrays - Next MNPCA
-                     Sraa (J)(K) := (Pa (I).Stem, Pa (I).IR);
-                     Dict_IO.Set_Index (Dict_File (Pa (I).D_K), Pa (I).MNPC);
-                     Dict_IO.Read (Dict_File (Pa (I).D_K), Dea);
-                     Dm := (Pa (I).D_K, Pa (I).MNPC, Dea);
-                     Dma (J) := Dm;
-                     Odm := Dm;
-                  else
-                     K := K + 1;
-                     -- K indexes within the MNPCA array -- Next MNPC
-                     Sraa (J)(K) := (Pa (I).Stem, Pa (I).IR);
-                  end if;
+                  K := 1;
+                  -- K indexes within the MNPCA array -- Initialise
+                  J := J + 1;
+                  -- J indexes the number of MNPCA arrays - Next MNPCA
+                  Sraa (J)(K) := (Pa (I).Stem, Pa (I).IR);
+                  Dm := (Pa (I).D_K, Pa (I).MNPC, Dea);
+                  Dma (J) := Dm;
+                  Odm := Dm;
                end Handle_Parse_Record;
 
-               pofs : Part_Of_Speech_Type;
+               pofs : constant Part_Of_Speech_Type := Pa (I).IR.Qual.Pofs;
             begin
-
-               pofs := Pa (I).IR.Qual.Pofs;
                while I <= Pa_Last and Pa (I).IR.Qual.Pofs = pofs  loop
                   case pofs is
-                     when N | Pron | Pack | Adj =>
-                        Handle_Parse_Record;
-
-                     when Num  =>
-                        if Pa (I).D_K = Rrr then        --  Roman numeral
-                           K := 1;
-                           --  K indexes within the MNPCA array -- Initialize
-                           J := J + 1;
-                           --  J indexes the number of MNPCA arrays
-                           Sraa (J)(K) := (Pa (I).Stem, Pa (I).IR);
-
+                     when N | Pron | Pack | Adj | Num =>
+                        if (pofs = Num) and (Pa (I).D_K = Rrr) then
+                           -- Roman numeral
                            Dea := Null_Dictionary_Entry;
-                           Dm := (Pa (I).D_K, Pa (I).MNPC, Dea);
-                           Dma (J) := Dm;
-                           Odm := Dm;
-                        else
                            Handle_Parse_Record;
+                        elsif Pa (I).MNPC /= Odm.MNPC then
+                           Dict_IO.Set_Index
+                              (Dict_File (Pa (I).D_K), Pa (I).MNPC);
+                           Dict_IO.Read (Dict_File (Pa (I).D_K), Dea);
+                           Handle_Parse_Record;
+                        else
+                           K := K + 1;
+                           -- K indexes within the MNPCA array -- Next MNPC
+                           Sraa (J)(K) := (Pa (I).Stem, Pa (I).IR);
                         end if;
 
                      when V | Vpar | Supine  =>
                         if (Pa (I).MNPC  /= Odm.MNPC) and
                           (Pa (I).D_K /= Ppp)
                         then   --  Encountering new MNPC
-                           K := 1;
-                           --  K indexes within the MNPCA array -- Initialize
-
-                           J := J + 1;
-                           --  J indexes the number of MNPCA arrays
-                           Sraa (J)(K) := (Pa (I).Stem, Pa (I).IR);
                            if Pa (I).D_K /= Ppp  then
                               Dict_IO.Set_Index
                                 (Dict_File (Pa (I).D_K), Pa (I).MNPC);
                               Dict_IO.Read (Dict_File (Pa (I).D_K), Dea);
                            end if;     --  use previous DEA
-                           Dm := (Pa (I).D_K, Pa (I).MNPC, Dea);
-                           Dma (J) := Dm;
-                           Odm := Dm;
+                           Handle_Parse_Record;
                         else
                            K := K + 1;
                            --  K indexes within the MNPCA array  - Next MNPC
@@ -437,13 +415,6 @@ package body List_Package is
                         if (Odm.D_K  /= Pa (I).D_K)  or
                           (Odm.MNPC /= Pa (I).MNPC)
                         then   --  Encountering new single (K only 1)
-                           K := 1;
-                           --  K indexes within the MNPCA array -- Initialize
-
-                           J := J + 1;
-                           --  J indexes the number of MNPCA array
-
-                           Sraa (J)(K) := (Pa (I).Stem, Pa (I).IR);
                            if Pa (I).MNPC /= Null_MNPC  then
                               if Pa (I).D_K = Addons  then
                                  Dea :=  Null_Dictionary_Entry;
@@ -456,9 +427,7 @@ package body List_Package is
                            else                 --  Has no dictionary to read
                               Dea := Null_Dictionary_Entry;
                            end if;
-                           Dm := (Pa (I).D_K, Pa (I).MNPC, Dea);
-                           Dma (J) := Dm;
-                           Odm := Dm;
+                           Handle_Parse_Record;
                            --else
                            --  K := K + 1;
                            --  K indexes within the MNPCA array  - Next MNPC
