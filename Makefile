@@ -29,10 +29,7 @@ clean_data:
 	rm -f -- $(GENERATED_DATA_FILES)
 
 clean:
-	gprclean -q -Pwords
-	gprclean -q -Platin_utils
-	gprclean -q -Psupport_utils
-	gprclean -q -Pwords-tools
+	gprclean -q -r -Pwords
 	rm -f -- CHECKEWD.
 	rm -f -- DICTFILE.GEN STEMFILE.GEN INDXFILE.GEN EWDSLIST.GEN INFLECTS.SEC
 
