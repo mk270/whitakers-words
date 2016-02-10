@@ -903,8 +903,6 @@ is
            Input_Line, Pa, Pa_Last);
       end if;
 
-      Pa_Last := 0;
-
    exception
       when others  =>
          Put_Stat ("Exception    at "
@@ -1028,9 +1026,7 @@ is
          if Storage_Error_Count >= 4 then
             raise;
          end if;
-         Pa_Last := 0;
       when Give_Up =>
-         Pa_Last := 0;
          raise;
       when others  =>    --  I want to try to Get on with the next line
          Ada.Text_IO.Put_Line (    --  ERROR_FILE,
@@ -1045,6 +1041,5 @@ is
             Inflections_Package.Integer_IO.Put (Unknowns, Word_Number, 3);
             Ada.Text_IO.Put_Line (Unknowns, "    ========   ERROR      ");
          end if;
-         Pa_Last := 0;
    end Parse_Line;
 end Parse;
