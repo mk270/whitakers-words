@@ -856,28 +856,28 @@ package body List_Package is
       Pa_Last : Integer)
    is
    begin
-         --  Omit rest of Output
-         for I in 1 .. Pa_Last  loop                       --  Just to PUT_STAT
-            if Pa (I).D_K = Addons then
-               declare
-                  procedure Put_Addon_Info (Caption : String) is
-                  begin
-                     Put_Stat ("ADDON " & Caption & " at "
-                       & Head (Integer'Image (Line_Number), 8) &
-                       Head (Integer'Image (Word_Number), 4)
-                       & "   " & Head (W, 20) & "   "  & Pa (I).Stem &
-                       "  " & Integer'Image (Integer (Pa (I).MNPC)));
-                  end Put_Addon_Info;
+      --  Omit rest of Output
+      for I in 1 .. Pa_Last  loop                       --  Just to PUT_STAT
+         if Pa (I).D_K = Addons then
+            declare
+               procedure Put_Addon_Info (Caption : String) is
                begin
-                  case Pa (I).IR.Qual.Pofs is
-                     when Prefix => Put_Addon_Info ("PREFIX");
-                     when Suffix => Put_Addon_Info ("SUFFIX");
-                     when Tackon => Put_Addon_Info ("TACKON");
-                     when others => null;
-                  end case;
-               end;
-            end if;
-         end loop;
+                  Put_Stat ("ADDON " & Caption & " at "
+                    & Head (Integer'Image (Line_Number), 8) &
+                    Head (Integer'Image (Word_Number), 4)
+                    & "   " & Head (W, 20) & "   "  & Pa (I).Stem &
+                    "  " & Integer'Image (Integer (Pa (I).MNPC)));
+               end Put_Addon_Info;
+            begin
+               case Pa (I).IR.Qual.Pofs is
+                  when Prefix => Put_Addon_Info ("PREFIX");
+                  when Suffix => Put_Addon_Info ("SUFFIX");
+                  when Tackon => Put_Addon_Info ("TACKON");
+                  when others => null;
+               end case;
+            end;
+         end if;
+      end loop;
    end Write_Addons_Stats;
 
    --  The main WORD processing has been to produce an array of PARSE_RECORD
