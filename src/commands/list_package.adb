@@ -752,6 +752,17 @@ package body List_Package is
       end loop;
    end Fix_Adverb;
 
+   --  The main WORD processing has been to produce an array of PARSE_RECORD
+   --  as defined in Latin_Utils.Dictionary_Package.
+   --  This has involved STEMFILE and INFLECTS, no DICTFILE
+
+   --  PARSE_RECORD is Put through the LIST_SWEEP procedure that does TRIMing
+   --  Then, for processing for Output, the data is converted to arrays of
+   --  type STEM_INFLECTION_RECORD, defined above, and
+   --  type DICTIONARY_MNPC_RECORD,
+   --  containing the same data plus the DICTFILE data DICTIONARY_ENTRY
+   --  but breaking it into two arrays allows different manipulation
+   --  These are only within this routine, used to clean up the Output
    procedure List_Stems
      (Configuration : Configuration_Type;
       Output        : Ada.Text_IO.File_Type;
@@ -762,18 +773,6 @@ package body List_Package is
    is
       use Ada.Text_IO;
       use Dict_IO;
-
-      --  The main WORD processing has been to produce an array of PARSE_RECORD
-      --  as defined in Latin_Utils.Dictionary_Package.
-      --  This has involved STEMFILE and INFLECTS, no DICTFILE
-
-      --  PARSE_RECORD is Put through the LIST_SWEEP procedure that does TRIMing
-      --  Then, for processing for Output, the data is converted to arrays of
-      --  type STEM_INFLECTION_RECORD, defined above, and
-      --  type DICTIONARY_MNPC_RECORD,
-      --  containing the same data plus the DICTFILE data DICTIONARY_ENTRY
-      --  but breaking it into two arrays allows different manipulation
-      --  These are only within this routine, used to clean up the Output
 
       Null_Sraa : constant Stem_Inflection_Array_Array
         (1 .. Stem_Inflection_Array_Array_Size)
