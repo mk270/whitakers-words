@@ -770,84 +770,84 @@ package body List_Package is
       use Ada.Text_IO;
       use Dict_IO;
    begin
-         declare
-            procedure Do_Ignore_Unknown (Caption : String) is
-            begin
-               Nnn_Meaning := Head (
-                 "Assume this is capitalized proper name/abbr," &
-                 " under MODE " & Caption & " ",
-                 Max_Meaning_Size);
-               Pa (1) := (Head (Raw_Word, Max_Stem_Size),
-                 ((N, ((0, 0), X, X, X)), 0, Null_Ending_Record, X, X),
-                 Nnn, Null_MNPC);
-               Pa_Last := 1;    --  So LIST_NEIGHBORHOOD will not be called
-               Sraa := Null_Sraa;
-               Dma := Null_Dma;
-               Sraa (1)(1) := (Pa (1).Stem, Pa (1).IR);
-               Dma (1) := (Nnn, 0, Null_Dictionary_Entry);
-            end Do_Ignore_Unknown;
+      declare
+         procedure Do_Ignore_Unknown (Caption : String) is
          begin
-            if Words_Mode (Ignore_Unknown_Names) and Capitalized then
-               Do_Ignore_Unknown ("IGNORE_UNKNOWN_NAME");
-            elsif Words_Mode (Ignore_Unknown_Caps) and All_Caps then
-               Do_Ignore_Unknown ("IGNORE_UNKNOWN_CAPS");
-            end if;
-         end;
-
-         if  Words_Mode (Write_Output_To_File)      then
-            Put_Pearse_Code (Output, "04 ");
-            Ada.Text_IO.Put (Output, Raw_Word);
-            Ada.Text_IO.Set_Col (Output, 30);
-            Inflections_Package.Integer_IO.Put (Output, Line_Number, 7);
-            Inflections_Package.Integer_IO.Put (Output, Word_Number, 7);
-            Ada.Text_IO.Put_Line (Output, "    ========   UNKNOWN    ");
-         else              --  Just screen Output
-            if Words_Mdev (Do_Pearse_Codes) then
-               Ada.Text_IO.Put ("04 ");
-            end if;
-            Ada.Text_IO.Put (Raw_Word);
-            Ada.Text_IO.Set_Col (30);
-            Ada.Text_IO.Put_Line ("    ========   UNKNOWN    ");
+            Nnn_Meaning := Head (
+              "Assume this is capitalized proper name/abbr," &
+              " under MODE " & Caption & " ",
+              Max_Meaning_Size);
+            Pa (1) := (Head (Raw_Word, Max_Stem_Size),
+              ((N, ((0, 0), X, X, X)), 0, Null_Ending_Record, X, X),
+              Nnn, Null_MNPC);
+            Pa_Last := 1;    --  So LIST_NEIGHBORHOOD will not be called
+            Sraa := Null_Sraa;
+            Dma := Null_Dma;
+            Sraa (1)(1) := (Pa (1).Stem, Pa (1).IR);
+            Dma (1) := (Nnn, 0, Null_Dictionary_Entry);
+         end Do_Ignore_Unknown;
+      begin
+         if Words_Mode (Ignore_Unknown_Names) and Capitalized then
+            Do_Ignore_Unknown ("IGNORE_UNKNOWN_NAME");
+         elsif Words_Mode (Ignore_Unknown_Caps) and All_Caps then
+            Do_Ignore_Unknown ("IGNORE_UNKNOWN_CAPS");
          end if;
+      end;
 
-         if Words_Mode (Write_Unknowns_To_File)  then
-            if Words_Mdev (Include_Unknown_Context) or
-              Words_Mdev (Do_Only_Initial_Word)
-            then
-               Ada.Text_IO.Put_Line (Input_Line);
-               Ada.Text_IO.Put_Line (Unknowns, Input_Line);
-            end if;
-            Put_Pearse_Code (Unknowns, "04 ");
-            Ada.Text_IO.Put (Unknowns, Raw_Word);
-            Ada.Text_IO.Set_Col (Unknowns, 30);
-            Inflections_Package.Integer_IO.Put (Unknowns, Line_Number, 7);
-            Inflections_Package.Integer_IO.Put (Unknowns, Word_Number, 7);
-            Ada.Text_IO.Put_Line (Unknowns, "    ========   UNKNOWN    ");
+      if  Words_Mode (Write_Output_To_File)      then
+         Put_Pearse_Code (Output, "04 ");
+         Ada.Text_IO.Put (Output, Raw_Word);
+         Ada.Text_IO.Set_Col (Output, 30);
+         Inflections_Package.Integer_IO.Put (Output, Line_Number, 7);
+         Inflections_Package.Integer_IO.Put (Output, Word_Number, 7);
+         Ada.Text_IO.Put_Line (Output, "    ========   UNKNOWN    ");
+      else              --  Just screen Output
+         if Words_Mdev (Do_Pearse_Codes) then
+            Ada.Text_IO.Put ("04 ");
          end if;
+         Ada.Text_IO.Put (Raw_Word);
+         Ada.Text_IO.Set_Col (30);
+         Ada.Text_IO.Put_Line ("    ========   UNKNOWN    ");
+      end if;
 
-         if Words_Mode (Do_Stems_For_Unknown)   then
-            if  Words_Mode (Write_Output_To_File)  and then
-              not Words_Mode (Write_Unknowns_To_File)
-            then
-               List_Neighborhood (Output, Raw_Word);
-            elsif  Words_Mode (Write_Output_To_File)  and then
-              Words_Mode (Write_Unknowns_To_File)
-            then
-               List_Neighborhood (Output, Raw_Word);
-               List_Neighborhood (Unknowns, Raw_Word);
-            elsif Name (Current_Input) = Name (Standard_Input) then
-               List_Neighborhood (Output, Raw_Word);
-            end if;
-         end if;
-
-         if Words_Mdev (Update_Local_Dictionary)  and
-           -- Don't if reading from file
-           (Name (Current_Input) = Name (Standard_Input))
+      if Words_Mode (Write_Unknowns_To_File)  then
+         if Words_Mdev (Include_Unknown_Context) or
+           Words_Mdev (Do_Only_Initial_Word)
          then
-            Update_Local_Dictionary_File;
-            Word (Raw_Word, Pa, Pa_Last);
-            --  Circular if you dont update!!!!!
+            Ada.Text_IO.Put_Line (Input_Line);
+            Ada.Text_IO.Put_Line (Unknowns, Input_Line);
          end if;
+         Put_Pearse_Code (Unknowns, "04 ");
+         Ada.Text_IO.Put (Unknowns, Raw_Word);
+         Ada.Text_IO.Set_Col (Unknowns, 30);
+         Inflections_Package.Integer_IO.Put (Unknowns, Line_Number, 7);
+         Inflections_Package.Integer_IO.Put (Unknowns, Word_Number, 7);
+         Ada.Text_IO.Put_Line (Unknowns, "    ========   UNKNOWN    ");
+      end if;
+
+      if Words_Mode (Do_Stems_For_Unknown)   then
+         if  Words_Mode (Write_Output_To_File)  and then
+           not Words_Mode (Write_Unknowns_To_File)
+         then
+            List_Neighborhood (Output, Raw_Word);
+         elsif  Words_Mode (Write_Output_To_File)  and then
+           Words_Mode (Write_Unknowns_To_File)
+         then
+            List_Neighborhood (Output, Raw_Word);
+            List_Neighborhood (Unknowns, Raw_Word);
+         elsif Name (Current_Input) = Name (Standard_Input) then
+            List_Neighborhood (Output, Raw_Word);
+         end if;
+      end if;
+
+      if Words_Mdev (Update_Local_Dictionary)  and
+        -- Don't if reading from file
+        (Name (Current_Input) = Name (Standard_Input))
+      then
+         Update_Local_Dictionary_File;
+         Word (Raw_Word, Pa, Pa_Last);
+         --  Circular if you dont update!!!!!
+      end if;
    end List_Unknowns;
 
    --  The main WORD processing has been to produce an array of PARSE_RECORD
