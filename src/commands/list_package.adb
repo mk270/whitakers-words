@@ -75,10 +75,17 @@ package body List_Package is
      constant Stem_Inflection_Array (1 .. Stem_Inflection_Array_Size)
      := (others => (Null_Stem_Type, Null_Inflection_Record));
 
+   Null_Sraa : constant Stem_Inflection_Array_Array
+     (1 .. Stem_Inflection_Array_Array_Size)
+     := (others => Null_Sra);
+
    Dictionary_MNPC_Array_Size : constant := 40;
 
    type Dictionary_MNPC_Array is array (1 .. Dictionary_MNPC_Array_Size)
      of Dictionary_MNPC_Record;
+
+   Null_Dma : constant Dictionary_MNPC_Array :=
+     (others => Null_Dictionary_MNPC_Record);
 
    Max_Meaning_Print_Size : constant := 79;
 
@@ -752,103 +759,17 @@ package body List_Package is
       end loop;
    end Fix_Adverb;
 
-   --  The main WORD processing has been to produce an array of PARSE_RECORD
-   --  as defined in Latin_Utils.Dictionary_Package.
-   --  This has involved STEMFILE and INFLECTS, no DICTFILE
-
-   --  PARSE_RECORD is Put through the LIST_SWEEP procedure that does TRIMing
-   --  Then, for processing for Output, the data is converted to arrays of
-   --  type STEM_INFLECTION_RECORD, defined above, and
-   --  type DICTIONARY_MNPC_RECORD,
-   --  containing the same data plus the DICTFILE data DICTIONARY_ENTRY
-   --  but breaking it into two arrays allows different manipulation
-   --  These are only within this routine, used to clean up the Output
-   procedure List_Stems
-     (Configuration : Configuration_Type;
-      Output        : Ada.Text_IO.File_Type;
-      Raw_Word      : String;
-      Input_Line    : String;
-      Pa            : in out Parse_Array;
-      Pa_Last       : in out Integer)
+   procedure List_Unknowns
+     (Sraa       : in out Stem_Inflection_Array_Array;
+      Dma        : in out Dictionary_MNPC_Array;
+      Input_Line :        String;
+      Raw_Word   :        String;
+      Pa         : in out Parse_Array;
+      Pa_Last    : in out Integer)
    is
       use Ada.Text_IO;
       use Dict_IO;
-
-      Null_Sraa : constant Stem_Inflection_Array_Array
-        (1 .. Stem_Inflection_Array_Array_Size)
-        := (others => Null_Sra);
-
-      Sraa : Stem_Inflection_Array_Array
-        (1 .. Stem_Inflection_Array_Array_Size) := Null_Sraa;
-
-      Null_Dma : constant Dictionary_MNPC_Array :=
-        (others => Null_Dictionary_MNPC_Record);
-      Dma : Dictionary_MNPC_Array := Null_Dma;
-
-      --MEANING_ARRAY_SIZE : constant := 5;
-      --MEANING_ARRAY : array (1 .. MEANING_ARRAY_SIZE) of MEANING_TYPE;
-
-      W : constant String := Raw_Word;
-      There_Is_An_Adverb : Boolean := False;
-
-      I_Is_Pa_Last : Boolean := False;
-
    begin
-      Trimmed := False;
-
-      --  Since this procedure weeds out possible parses, if it weeds out all
-      --  (or all of a class) it must fix up the rest of the parse array,
-      --  e.g., it must clean out dangling prefixes and suffixes
-
-      -------  The gimick of adding an ADV if there is only ADJ VOC  ----
-      --TEXT_IO.PUT_LINE ("About to do the ADJ -> ADV kludge");
-      for I in Pa'First .. Pa_Last  loop
-         if Pa (I).IR.Qual.Pofs = Adv   then
-            There_Is_An_Adverb := True;
-            exit;
-         end if;
-      end loop;
-
-      if (not There_Is_An_Adverb) and (Words_Mode (Do_Fixes))  then
-         Fix_Adverb (Pa, Pa_Last);
-      end if;
-
-      List_Sweep (Pa (1 .. Pa_Last), Pa_Last);
-
-      if  Words_Mdev (Write_Statistics_File)    then
-         --  Omit rest of Output
-         for I in 1 .. Pa_Last  loop                       --  Just to PUT_STAT
-            if Pa (I).D_K = Addons then
-               declare
-                  procedure Put_Addon_Info (Caption : String) is
-                  begin
-                     Put_Stat ("ADDON " & Caption & " at "
-                       & Head (Integer'Image (Line_Number), 8) &
-                       Head (Integer'Image (Word_Number), 4)
-                       & "   " & Head (W, 20) & "   "  & Pa (I).Stem &
-                       "  " & Integer'Image (Integer (Pa (I).MNPC)));
-                  end Put_Addon_Info;
-               begin
-                  case Pa (I).IR.Qual.Pofs is
-                     when Prefix => Put_Addon_Info ("PREFIX");
-                     when Suffix => Put_Addon_Info ("SUFFIX");
-                     when Tackon => Put_Addon_Info ("TACKON");
-                     when others => null;
-                  end case;
-               end;
-            end if;
-         end loop;
-      end if;
-
-      Cycle_Over_Pa (Pa, Pa_Last, Sraa, Dma, I_Is_Pa_Last,
-                    Raw_Word, W);
-
-      --  Sets + if capitalized
-      --  Strangely enough, it may enter LIST_STEMS with PA_LAST /= 0
-      --  but be weeded and end up with no parse after
-      --                    LIST_SWEEP  -  PA_LAST = 0
-      if Pa_Last = 0  then
-         --  WORD failed
          declare
             procedure Do_Ignore_Unknown (Caption : String) is
             begin
@@ -927,6 +848,100 @@ package body List_Package is
             Word (Raw_Word, Pa, Pa_Last);
             --  Circular if you dont update!!!!!
          end if;
+   end List_Unknowns;
+
+   --  The main WORD processing has been to produce an array of PARSE_RECORD
+   --  as defined in Latin_Utils.Dictionary_Package.
+   --  This has involved STEMFILE and INFLECTS, no DICTFILE
+
+   --  PARSE_RECORD is Put through the LIST_SWEEP procedure that does TRIMing
+   --  Then, for processing for Output, the data is converted to arrays of
+   --  type STEM_INFLECTION_RECORD, defined above, and
+   --  type DICTIONARY_MNPC_RECORD,
+   --  containing the same data plus the DICTFILE data DICTIONARY_ENTRY
+   --  but breaking it into two arrays allows different manipulation
+   --  These are only within this routine, used to clean up the Output
+   procedure List_Stems
+     (Configuration : Configuration_Type;
+      Output        : Ada.Text_IO.File_Type;
+      Raw_Word      : String;
+      Input_Line    : String;
+      Pa            : in out Parse_Array;
+      Pa_Last       : in out Integer)
+   is
+      use Ada.Text_IO;
+      use Dict_IO;
+
+      Sraa : Stem_Inflection_Array_Array
+        (1 .. Stem_Inflection_Array_Array_Size) := Null_Sraa;
+
+      Dma : Dictionary_MNPC_Array := Null_Dma;
+
+      --MEANING_ARRAY_SIZE : constant := 5;
+      --MEANING_ARRAY : array (1 .. MEANING_ARRAY_SIZE) of MEANING_TYPE;
+
+      W : constant String := Raw_Word;
+      There_Is_An_Adverb : Boolean := False;
+
+      I_Is_Pa_Last : Boolean := False;
+
+   begin
+      Trimmed := False;
+
+      --  Since this procedure weeds out possible parses, if it weeds out all
+      --  (or all of a class) it must fix up the rest of the parse array,
+      --  e.g., it must clean out dangling prefixes and suffixes
+
+      -------  The gimick of adding an ADV if there is only ADJ VOC  ----
+      --TEXT_IO.PUT_LINE ("About to do the ADJ -> ADV kludge");
+      for I in Pa'First .. Pa_Last  loop
+         if Pa (I).IR.Qual.Pofs = Adv   then
+            There_Is_An_Adverb := True;
+            exit;
+         end if;
+      end loop;
+
+      if (not There_Is_An_Adverb) and (Words_Mode (Do_Fixes))  then
+         Fix_Adverb (Pa, Pa_Last);
+      end if;
+
+      List_Sweep (Pa (1 .. Pa_Last), Pa_Last);
+
+      if  Words_Mdev (Write_Statistics_File)    then
+         --  Omit rest of Output
+         for I in 1 .. Pa_Last  loop                       --  Just to PUT_STAT
+            if Pa (I).D_K = Addons then
+               declare
+                  procedure Put_Addon_Info (Caption : String) is
+                  begin
+                     Put_Stat ("ADDON " & Caption & " at "
+                       & Head (Integer'Image (Line_Number), 8) &
+                       Head (Integer'Image (Word_Number), 4)
+                       & "   " & Head (W, 20) & "   "  & Pa (I).Stem &
+                       "  " & Integer'Image (Integer (Pa (I).MNPC)));
+                  end Put_Addon_Info;
+               begin
+                  case Pa (I).IR.Qual.Pofs is
+                     when Prefix => Put_Addon_Info ("PREFIX");
+                     when Suffix => Put_Addon_Info ("SUFFIX");
+                     when Tackon => Put_Addon_Info ("TACKON");
+                     when others => null;
+                  end case;
+               end;
+            end if;
+         end loop;
+      end if;
+
+      Cycle_Over_Pa (Pa, Pa_Last, Sraa, Dma, I_Is_Pa_Last,
+                    Raw_Word, W);
+
+      --  Sets + if capitalized
+      --  Strangely enough, it may enter LIST_STEMS with PA_LAST /= 0
+      --  but be weeded and end up with no parse after
+      --                    LIST_SWEEP  -  PA_LAST = 0
+      if Pa_Last = 0  then
+         --  WORD failed
+         List_Unknowns (Sraa, Dma, Input_Line, Raw_Word, Pa, Pa_Last);
       end if;
 
       --  Exit if UNKNOWNS ONLY (but had to do STATS above)
