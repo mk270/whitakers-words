@@ -604,7 +604,7 @@ package body List_Package is
       Output        : Ada.Text_IO.File_Type;
       Dma           : Dictionary_MNPC_Array;
       Sraa          : Stem_Inflection_Array_Array;
-      I_Is_Pa_Last  : Boolean)
+      I_Is_Pa_Last  : in Boolean)
    is
       Mm            : constant Integer := Get_Max_Meaning_Size (Output);
    begin
