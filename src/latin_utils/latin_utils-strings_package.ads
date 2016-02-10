@@ -32,11 +32,6 @@ package Latin_Utils.Strings_Package is
    Null_String : constant String (2 .. 1) := (others => ' ');
 
    ---------------------------------------------------------------------------
-   -- NOTE: Why are there numerical functions in String package?
-   function Max (A, B : Integer) return Integer;
-   function Min (A, B : Integer) return Integer;
-
-   ---------------------------------------------------------------------------
 
    function Lower_Case (C : Character) return Character;
    function Lower_Case (S : String) return String;

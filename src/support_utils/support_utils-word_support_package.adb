@@ -194,14 +194,6 @@ package body Support_Utils.Word_Support_Package is
       S : String (1 .. 100) := (others => ' ');
       Last, L : Integer := 0;
 
-      function Max (A, B : Stem_Io.Count) return Stem_Io.Count is
-      begin
-         if A >= B then
-            return A;
-         end if;
-         return B;
-      end Max;
-
    begin
       Open (Indx_File (D_K), Ada.Text_IO.In_File,
         Add_File_Name_Extension (Indx_File_Name,
@@ -218,7 +210,7 @@ package body Support_Utils.Word_Support_Package is
          Bblf (Ch (1), Ch (2), D_K) := M;
          Get (S (L + 1  .. Last), N, L);
          Bbll (Ch (1), Ch (2), D_K) := N;
-         Number_Of_Blank_Stems := Max (Number_Of_Blank_Stems, N);
+         Number_Of_Blank_Stems := Stem_Io.Count'Max (Number_Of_Blank_Stems, N);
       end if;
 
       while not End_Of_File (Indx_File (D_K))  loop
@@ -234,10 +226,12 @@ package body Support_Utils.Word_Support_Package is
          Get (S (L + 1 .. Last), N, L);
          if Ch (2) = ' '  then
             Bdll (Ch (1), Ch (2), D_K) := N;
-            Number_Of_Blank_Stems := Max (Number_Of_Blank_Stems, N);
+            Number_Of_Blank_Stems := Stem_Io.Count'Max
+               (Number_Of_Blank_Stems, N);
          else
             Ddll (Ch (1), Ch (2), D_K) := N;
-            Number_Of_Non_Blank_Stems := Max (Number_Of_Non_Blank_Stems, N);
+            Number_Of_Non_Blank_Stems := Stem_Io.Count'Max
+               (Number_Of_Non_Blank_Stems, N);
          end if;
       end loop;
       Close (Indx_File (D_K));

@@ -60,8 +60,6 @@ package Word_Package is
 
    procedure Pause (Output : Ada.Text_IO.File_Type);
 
-   function Min (A, B : Integer) return Integer;
-
    function Ltu (C, D : Character) return Boolean;
 
    function Equ (C, D : Character) return Boolean;
