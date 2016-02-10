@@ -15,7 +15,7 @@ EWDSLIST.GEN: DICTLINE.GEN bin/makeewds
 	echo g | bin/makeewds $< > /dev/null
 
 INFLECTS.SEC: INFLECTS.LAT bin/makeinfl
-	bin/makeinfl $<
+	bin/makeinfl $< > /dev/null
 
 STEMFILE.GEN: STEMLIST.GEN bin/makestem
 	echo g | bin/makestem $< > /dev/null
