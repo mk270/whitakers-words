@@ -56,14 +56,6 @@ package body Word_Package is
          Ada.Text_IO.Put_Line ("Unexpected exception in PAUSE");
    end Pause;
 
-   function Min (A, B : Integer) return Integer is
-   begin
-      if A <= B  then
-         return A;
-      end if;
-      return B;
-   end Min;
-
    function Ltu (C, D : Character) return Boolean is
    begin
       case D is
@@ -266,7 +258,7 @@ package body Word_Package is
       end if;
 
       --  Now do the non-blank endings      --  Only go to LENGTH_OF_WORD
-      for Z in reverse 1 .. Min (Max_Ending_Size, Length_Of_Word)  loop
+      for Z in reverse 1 .. Integer'Min (Max_Ending_Size, Length_Of_Word)  loop
 
          --  Check if Z agrees with a PDL SIZE  !!!!!!!!!!!!!!!!!!!!!!!!!!!!
          --  Maybe make PDL on size, if it has to be a list,
@@ -1315,7 +1307,7 @@ package body Word_Package is
          Generate_Reduced_Stem_Array :
          begin
             J := 1;
-            for Z in 0 .. Min (Max_Stem_Size, Len (Input_Word))  loop
+            for Z in 0 .. Integer'Min (Max_Stem_Size, Len (Input_Word))  loop
                if Sa (Z) /= Not_A_Stem  then
                   --PUT (Z); PUT (J); PUT ("  "); PUT_LINE (SA (Z));
                   Ssa (J) := Sa (Z);
@@ -1424,7 +1416,7 @@ package body Word_Package is
                   M := 0;
 
                   On_Inflects :
-                  for Z in reverse 1 .. Min (6, Length_Of_Word)  loop
+                  for Z in reverse 1 .. Integer'Min (6, Length_Of_Word)  loop
                      --  optimum for qu-pronouns
                      if Pell (Z, Last_Of_Word) > 0  then
                         --  Any possible inflections at all
@@ -1553,7 +1545,7 @@ package body Word_Package is
          M := 0;
 
          On_Inflects :
-         for Z in reverse 1 .. Min (4, Length_Of_Word)  loop
+         for Z in reverse 1 .. Integer'Min (4, Length_Of_Word)  loop
             --  optimized for qu-pronouns
             if Pell (Z, Last_Of_Word) > 0  then
                --  Any possible inflections at all
