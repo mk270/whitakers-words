@@ -695,9 +695,9 @@ is
 
    procedure Parse_Latin_Word
      (Configuration : in Configuration_Type;
-      Input_Word    : in String;
-      Line          : in String;
-      Input_Line    : in String;
+      Input_Word    : in String; -- a trimmed single word
+      Line          : in String; -- left trimmed, punctuation removed
+      Input_Line    : in String; -- what the user actually typed
       L             : in Integer)
 
    is
