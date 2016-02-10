@@ -682,74 +682,74 @@ package body List_Package is
       J1, J2 : Integer := 0;
       J : Integer := 0;
    begin
-            --TEXT_IO.PUT_LINE ("In the ADJ -> ADV kludge  There is no ADV");
-            for I in reverse Pa'First .. Pa_Last  loop
-               if Pa (I).IR.Qual.Pofs = Adj and then
-                 (Pa (I).IR.Qual.Adj = ((1, 1), Voc, S, M, Pos)    or
-                 ((Pa (I).IR.Qual.Adj.Of_Case = Voc)   and
-                 (Pa (I).IR.Qual.Adj.Number = S)   and
-                 (Pa (I).IR.Qual.Adj.Gender = M)   and
-                 (Pa (I).IR.Qual.Adj.Comparison = Super)))
-               then
-                  J := I;
+      --TEXT_IO.PUT_LINE ("In the ADJ -> ADV kludge  There is no ADV");
+      for I in reverse Pa'First .. Pa_Last  loop
+         if Pa (I).IR.Qual.Pofs = Adj and then
+           (Pa (I).IR.Qual.Adj = ((1, 1), Voc, S, M, Pos)    or
+           ((Pa (I).IR.Qual.Adj.Of_Case = Voc)   and
+           (Pa (I).IR.Qual.Adj.Number = S)   and
+           (Pa (I).IR.Qual.Adj.Gender = M)   and
+           (Pa (I).IR.Qual.Adj.Comparison = Super)))
+         then
+            J := I;
 
-                  while J >=  Pa'First  loop  --Back through other ADJ cases
-                     if Pa (J).IR.Qual.Pofs /= Adj  then
-                        J2 := J;
-                        --  J2 is first (reverse) that is not ADJ
-                        exit;
-                     end if;
-                     J := J - 1;
-                  end loop;
-                  while J >=  Pa'First  loop  --  Sweep up associated fixes
-                     if Pa (J).IR.Qual.Pofs not in Xons  then
-                        J1 := J;
-                        --  J1 is first (reverse) that is not XONS
-                        exit;
-                     end if;
-                     J := J - 1;
-                  end loop;
-
-                  for J in J1 + 1 .. J2  loop
-                     Pa (Pa_Last + J - J1 + 1) := Pa (J);
-                  end loop;
-
-                  Pa_Last := Pa_Last + J2 - J1 + 1;
-                  Pa (Pa_Last) := Pa (J2 + 1);
-
-                  Pa (Pa_Last) := ("e                 ",
-                    ((Suffix, Null_Suffix_Record), 0, Null_Ending_Record, X, B),
-                    Ppp, Null_MNPC);
-                  --PARSE_RECORD_IO.PUT (PA (PA_LAST)); TEXT_IO.NEW_LINE;
-                  Pa_Last := Pa_Last + 1;
-
-                  declare
-                     procedure Handle_Degree
-                       (E       : Ending_Record;
-                        Caption : String) is
-                     begin
-                        Pa (Pa_Last) := (Pa (J2 + 1).Stem,
-                          ((Pofs => Adv,
-                          Adv => (Comparison =>
-                          Pa (J2 + 1).IR.Qual.Adj.Comparison)),
-                          Key => 0, Ending => E, Age => X, Freq => B),
-                          Pa (J2 + 1).D_K,
-                          Pa (J2 + 1).MNPC);
-
-                        Ppp_Meaning := Head (Caption, Max_Meaning_Size);
-                     end Handle_Degree;
-                  begin
-                     if Pa (J2 + 1).IR.Qual.Adj.Comparison = Pos then
-                        Handle_Degree ((1, "e      "),
-                          "-ly; -ily;  Converting ADJ to ADV");
-                     elsif Pa (J2 + 1).IR.Qual.Adj.Comparison = Super then
-                        Handle_Degree ((2, "me     "),
-                          "-estly; -estily; most -ly, very -ly" &
-                          "  Converting ADJ to ADV");
-                     end if;
-                  end;
-               end if;           --  PA (I).IR.QUAL.POFS = ADJ
+            while J >=  Pa'First  loop  --Back through other ADJ cases
+               if Pa (J).IR.Qual.Pofs /= Adj  then
+                  J2 := J;
+                  --  J2 is first (reverse) that is not ADJ
+                  exit;
+               end if;
+               J := J - 1;
             end loop;
+            while J >=  Pa'First  loop  --  Sweep up associated fixes
+               if Pa (J).IR.Qual.Pofs not in Xons  then
+                  J1 := J;
+                  --  J1 is first (reverse) that is not XONS
+                  exit;
+               end if;
+               J := J - 1;
+            end loop;
+
+            for J in J1 + 1 .. J2  loop
+               Pa (Pa_Last + J - J1 + 1) := Pa (J);
+            end loop;
+
+            Pa_Last := Pa_Last + J2 - J1 + 1;
+            Pa (Pa_Last) := Pa (J2 + 1);
+
+            Pa (Pa_Last) := ("e                 ",
+              ((Suffix, Null_Suffix_Record), 0, Null_Ending_Record, X, B),
+              Ppp, Null_MNPC);
+            --PARSE_RECORD_IO.PUT (PA (PA_LAST)); TEXT_IO.NEW_LINE;
+            Pa_Last := Pa_Last + 1;
+
+            declare
+               procedure Handle_Degree
+                 (E       : Ending_Record;
+                  Caption : String) is
+               begin
+                  Pa (Pa_Last) := (Pa (J2 + 1).Stem,
+                    ((Pofs => Adv,
+                    Adv => (Comparison =>
+                    Pa (J2 + 1).IR.Qual.Adj.Comparison)),
+                    Key => 0, Ending => E, Age => X, Freq => B),
+                    Pa (J2 + 1).D_K,
+                    Pa (J2 + 1).MNPC);
+
+                  Ppp_Meaning := Head (Caption, Max_Meaning_Size);
+               end Handle_Degree;
+            begin
+               if Pa (J2 + 1).IR.Qual.Adj.Comparison = Pos then
+                  Handle_Degree ((1, "e      "),
+                    "-ly; -ily;  Converting ADJ to ADV");
+               elsif Pa (J2 + 1).IR.Qual.Adj.Comparison = Super then
+                  Handle_Degree ((2, "me     "),
+                    "-estly; -estily; most -ly, very -ly" &
+                    "  Converting ADJ to ADV");
+               end if;
+            end;
+         end if;           --  PA (I).IR.QUAL.POFS = ADJ
+      end loop;
    end Fix_Adverb;
 
    procedure List_Stems
