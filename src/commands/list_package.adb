@@ -675,85 +675,13 @@ package body List_Package is
       end;
    end Put_Parse_Details;
 
-   procedure List_Stems
-     (Configuration : Configuration_Type;
-      Output        : Ada.Text_IO.File_Type;
-      Raw_Word      : String;
-      Input_Line    : String;
-      Pa            : in out Parse_Array;
-      Pa_Last       : in out Integer)
+   procedure Fix_Adverb
+     (Pa      : in out Parse_Array;
+      Pa_Last : in out Integer)
    is
-      use Ada.Text_IO;
-      use Dict_IO;
-
-      --  The main WORD processing has been to produce an array of PARSE_RECORD
-      --      type PARSE_RECORD is
-      --        record
-      --          STEM  : STEM_TYPE := NULL_STEM_TYPE;
-      --          IR    : INFLECTION_RECORD := NULL_INFLECTION_RECORD;
-      --          D_K   : DICTIONARY_KIND := DEFAULT_DICTIONARY_KIND;
-      --          MNPC  : DICT_IO.COUNT := NULL_MNPC;
-      --        end record;
-      --  This has involved STEMFILE and INFLECTS, no DICTFILE
-
-      --  PARSE_RECORD is Put through the LIST_SWEEP procedure that does TRIMing
-      --  Then, for processing for Output, the data is converted to arrays of
-      --      type STEM_INFLECTION_RECORD is
-      --        record
-      --          STEM : STEM_TYPE          := NULL_STEM_TYPE;
-      --          IR   : INFLECTION_RECORD  := NULL_INFLECTION_RECORD;
-      --        end record;
-      --  and
-      --      type DICTIONARY_MNPC_RECORD is
-      --        record
-      --          D_K  : DICTIONARY_KIND;
-      --          MNPC : MNPC_TYPE;
-      --          DE   : DICTIONARY_ENTRY;
-      --        end record;
-      --  containing the same data plus the DICTFILE data DICTIONARY_ENTRY
-      --  but breaking it into two arrays allows different manipulation
-      --  These are only within this routine, used to clean up the Output
-
-      Null_Sraa : constant Stem_Inflection_Array_Array
-        (1 .. Stem_Inflection_Array_Array_Size)
-        := (others => Null_Sra);
-
-      Sraa : Stem_Inflection_Array_Array
-        (1 .. Stem_Inflection_Array_Array_Size) := Null_Sraa;
-
-      Null_Dma : constant Dictionary_MNPC_Array :=
-        (others => Null_Dictionary_MNPC_Record);
-      Dma : Dictionary_MNPC_Array := Null_Dma;
-
-      --MEANING_ARRAY_SIZE : constant := 5;
-      --MEANING_ARRAY : array (1 .. MEANING_ARRAY_SIZE) of MEANING_TYPE;
-
-      W : constant String := Raw_Word;
       J1, J2 : Integer := 0;
-      There_Is_An_Adverb : Boolean := False;
-
-      I_Is_Pa_Last : Boolean := False;
-
+      J : Integer := 0;
    begin
-      Trimmed := False;
-
-      --  Since this procedure weeds out possible parses, if it weeds out all
-      --  (or all of a class) it must fix up the rest of the parse array,
-      --  e.g., it must clean out dangling prefixes and suffixes
-
-      -------  The gimick of adding an ADV if there is only ADJ VOC  ----
-      --TEXT_IO.PUT_LINE ("About to do the ADJ -> ADV kludge");
-      for I in Pa'First .. Pa_Last  loop
-         if Pa (I).IR.Qual.Pofs = Adv   then
-            There_Is_An_Adverb := True;
-            exit;
-         end if;
-      end loop;
-
-      declare
-         J : Integer := 0;
-      begin
-         if (not There_Is_An_Adverb) and (Words_Mode (Do_Fixes))  then
             --TEXT_IO.PUT_LINE ("In the ADJ -> ADV kludge  There is no ADV");
             for I in reverse Pa'First .. Pa_Last  loop
                if Pa (I).IR.Qual.Pofs = Adj and then
@@ -822,8 +750,85 @@ package body List_Package is
                   end;
                end if;           --  PA (I).IR.QUAL.POFS = ADJ
             end loop;
-         end if;           --  not THERE_IS_AN_ADVERB
-      end;
+   end Fix_Adverb;
+
+   procedure List_Stems
+     (Configuration : Configuration_Type;
+      Output        : Ada.Text_IO.File_Type;
+      Raw_Word      : String;
+      Input_Line    : String;
+      Pa            : in out Parse_Array;
+      Pa_Last       : in out Integer)
+   is
+      use Ada.Text_IO;
+      use Dict_IO;
+
+      --  The main WORD processing has been to produce an array of PARSE_RECORD
+      --      type PARSE_RECORD is
+      --        record
+      --          STEM  : STEM_TYPE := NULL_STEM_TYPE;
+      --          IR    : INFLECTION_RECORD := NULL_INFLECTION_RECORD;
+      --          D_K   : DICTIONARY_KIND := DEFAULT_DICTIONARY_KIND;
+      --          MNPC  : DICT_IO.COUNT := NULL_MNPC;
+      --        end record;
+      --  This has involved STEMFILE and INFLECTS, no DICTFILE
+
+      --  PARSE_RECORD is Put through the LIST_SWEEP procedure that does TRIMing
+      --  Then, for processing for Output, the data is converted to arrays of
+      --      type STEM_INFLECTION_RECORD is
+      --        record
+      --          STEM : STEM_TYPE          := NULL_STEM_TYPE;
+      --          IR   : INFLECTION_RECORD  := NULL_INFLECTION_RECORD;
+      --        end record;
+      --  and
+      --      type DICTIONARY_MNPC_RECORD is
+      --        record
+      --          D_K  : DICTIONARY_KIND;
+      --          MNPC : MNPC_TYPE;
+      --          DE   : DICTIONARY_ENTRY;
+      --        end record;
+      --  containing the same data plus the DICTFILE data DICTIONARY_ENTRY
+      --  but breaking it into two arrays allows different manipulation
+      --  These are only within this routine, used to clean up the Output
+
+      Null_Sraa : constant Stem_Inflection_Array_Array
+        (1 .. Stem_Inflection_Array_Array_Size)
+        := (others => Null_Sra);
+
+      Sraa : Stem_Inflection_Array_Array
+        (1 .. Stem_Inflection_Array_Array_Size) := Null_Sraa;
+
+      Null_Dma : constant Dictionary_MNPC_Array :=
+        (others => Null_Dictionary_MNPC_Record);
+      Dma : Dictionary_MNPC_Array := Null_Dma;
+
+      --MEANING_ARRAY_SIZE : constant := 5;
+      --MEANING_ARRAY : array (1 .. MEANING_ARRAY_SIZE) of MEANING_TYPE;
+
+      W : constant String := Raw_Word;
+      There_Is_An_Adverb : Boolean := False;
+
+      I_Is_Pa_Last : Boolean := False;
+
+   begin
+      Trimmed := False;
+
+      --  Since this procedure weeds out possible parses, if it weeds out all
+      --  (or all of a class) it must fix up the rest of the parse array,
+      --  e.g., it must clean out dangling prefixes and suffixes
+
+      -------  The gimick of adding an ADV if there is only ADJ VOC  ----
+      --TEXT_IO.PUT_LINE ("About to do the ADJ -> ADV kludge");
+      for I in Pa'First .. Pa_Last  loop
+         if Pa (I).IR.Qual.Pofs = Adv   then
+            There_Is_An_Adverb := True;
+            exit;
+         end if;
+      end loop;
+
+      if (not There_Is_An_Adverb) and (Words_Mode (Do_Fixes))  then
+         Fix_Adverb (Pa, Pa_Last);
+      end if;
 
       List_Sweep (Pa (1 .. Pa_Last), Pa_Last);
 
