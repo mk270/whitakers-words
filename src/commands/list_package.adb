@@ -850,6 +850,36 @@ package body List_Package is
       end if;
    end List_Unknowns;
 
+   procedure Write_Addons_Stats
+     (W       : String;
+      Pa      : Parse_Array;
+      Pa_Last : Integer)
+   is
+   begin
+         --  Omit rest of Output
+         for I in 1 .. Pa_Last  loop                       --  Just to PUT_STAT
+            if Pa (I).D_K = Addons then
+               declare
+                  procedure Put_Addon_Info (Caption : String) is
+                  begin
+                     Put_Stat ("ADDON " & Caption & " at "
+                       & Head (Integer'Image (Line_Number), 8) &
+                       Head (Integer'Image (Word_Number), 4)
+                       & "   " & Head (W, 20) & "   "  & Pa (I).Stem &
+                       "  " & Integer'Image (Integer (Pa (I).MNPC)));
+                  end Put_Addon_Info;
+               begin
+                  case Pa (I).IR.Qual.Pofs is
+                     when Prefix => Put_Addon_Info ("PREFIX");
+                     when Suffix => Put_Addon_Info ("SUFFIX");
+                     when Tackon => Put_Addon_Info ("TACKON");
+                     when others => null;
+                  end case;
+               end;
+            end if;
+         end loop;
+   end Write_Addons_Stats;
+
    --  The main WORD processing has been to produce an array of PARSE_RECORD
    --  as defined in Latin_Utils.Dictionary_Package.
    --  This has involved STEMFILE and INFLECTS, no DICTFILE
@@ -876,9 +906,6 @@ package body List_Package is
         (1 .. Stem_Inflection_Array_Array_Size) := Null_Sraa;
 
       Dma : Dictionary_MNPC_Array := Null_Dma;
-
-      --MEANING_ARRAY_SIZE : constant := 5;
-      --MEANING_ARRAY : array (1 .. MEANING_ARRAY_SIZE) of MEANING_TYPE;
 
       W : constant String := Raw_Word;
       There_Is_An_Adverb : Boolean := False;
@@ -908,28 +935,7 @@ package body List_Package is
       List_Sweep (Pa (1 .. Pa_Last), Pa_Last);
 
       if  Words_Mdev (Write_Statistics_File)    then
-         --  Omit rest of Output
-         for I in 1 .. Pa_Last  loop                       --  Just to PUT_STAT
-            if Pa (I).D_K = Addons then
-               declare
-                  procedure Put_Addon_Info (Caption : String) is
-                  begin
-                     Put_Stat ("ADDON " & Caption & " at "
-                       & Head (Integer'Image (Line_Number), 8) &
-                       Head (Integer'Image (Word_Number), 4)
-                       & "   " & Head (W, 20) & "   "  & Pa (I).Stem &
-                       "  " & Integer'Image (Integer (Pa (I).MNPC)));
-                  end Put_Addon_Info;
-               begin
-                  case Pa (I).IR.Qual.Pofs is
-                     when Prefix => Put_Addon_Info ("PREFIX");
-                     when Suffix => Put_Addon_Info ("SUFFIX");
-                     when Tackon => Put_Addon_Info ("TACKON");
-                     when others => null;
-                  end case;
-               end;
-            end if;
-         end loop;
+         Write_Addons_Stats (W, Pa, Pa_Last);
       end if;
 
       Cycle_Over_Pa (Pa, Pa_Last, Sraa, Dma, I_Is_Pa_Last,
