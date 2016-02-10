@@ -764,29 +764,13 @@ package body List_Package is
       use Dict_IO;
 
       --  The main WORD processing has been to produce an array of PARSE_RECORD
-      --      type PARSE_RECORD is
-      --        record
-      --          STEM  : STEM_TYPE := NULL_STEM_TYPE;
-      --          IR    : INFLECTION_RECORD := NULL_INFLECTION_RECORD;
-      --          D_K   : DICTIONARY_KIND := DEFAULT_DICTIONARY_KIND;
-      --          MNPC  : DICT_IO.COUNT := NULL_MNPC;
-      --        end record;
+      --  as defined in Latin_Utils.Dictionary_Package.
       --  This has involved STEMFILE and INFLECTS, no DICTFILE
 
       --  PARSE_RECORD is Put through the LIST_SWEEP procedure that does TRIMing
       --  Then, for processing for Output, the data is converted to arrays of
-      --      type STEM_INFLECTION_RECORD is
-      --        record
-      --          STEM : STEM_TYPE          := NULL_STEM_TYPE;
-      --          IR   : INFLECTION_RECORD  := NULL_INFLECTION_RECORD;
-      --        end record;
-      --  and
-      --      type DICTIONARY_MNPC_RECORD is
-      --        record
-      --          D_K  : DICTIONARY_KIND;
-      --          MNPC : MNPC_TYPE;
-      --          DE   : DICTIONARY_ENTRY;
-      --        end record;
+      --  type STEM_INFLECTION_RECORD, defined above, and
+      --  type DICTIONARY_MNPC_RECORD,
       --  containing the same data plus the DICTFILE data DICTIONARY_ENTRY
       --  but breaking it into two arrays allows different manipulation
       --  These are only within this routine, used to clean up the Output
