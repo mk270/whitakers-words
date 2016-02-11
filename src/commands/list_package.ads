@@ -27,8 +27,8 @@ package List_Package is
                          Output   : Ada.Text_IO.File_Type;
                          Raw_Word : String;
                          Input_Line : String;
-                         Pa       : in out Parse_Array;
-                         Pa_Last  : in out Integer);
+                         Orig_Pa  : in Parse_Array;
+                         Orig_Pa_Last  : in Integer);
 
    procedure Unknown_Search (Unknown       :  in String;
                              Unknown_Count : out Dict_IO.Count);

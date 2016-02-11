@@ -896,11 +896,14 @@ package body List_Package is
       Output        : Ada.Text_IO.File_Type;
       Raw_Word      : String;
       Input_Line    : String;
-      Pa            : in out Parse_Array;
-      Pa_Last       : in out Integer)
+      Orig_Pa       : in Parse_Array;
+      Orig_Pa_Last  : in Integer)
    is
       use Ada.Text_IO;
       use Dict_IO;
+
+      Pa : Parse_Array := Orig_Pa;
+      Pa_Last : Integer := Orig_Pa_Last;
 
       Sraa : Stem_Inflection_Array_Array
         (1 .. Stem_Inflection_Array_Array_Size) := Null_Sraa;
