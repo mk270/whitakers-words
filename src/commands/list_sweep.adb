@@ -64,22 +64,7 @@ procedure List_Sweep (Pa : in out Parse_Array; Pa_Last : in out Integer) is
                elsif (Nom <= Pr.IR.Qual.Noun.Of_Case) and then
                  (Pr.IR.Qual.Noun.Number = P)
                then
-
-                  Search_For_Pl :
-                  declare
-                     De : Dictionary_Entry;
-                     Mean : Meaning_Type := Null_Meaning_Type;
-                  begin
-                     Allowed := False;
-                     Dict_IO.Read (Dict_File (Pr.D_K), De, Pr.MNPC);
-                     Mean := De.Mean;
-                     for J in Meaning_Type'First .. Meaning_Type'Last - 2  loop
-                        if Mean (J .. J + 2) = "pl."  then
-                           Allowed := True;
-                           exit;
-                        end if;
-                     end loop;
-                  end Search_For_Pl;
+                  null;
                else
                   Allowed := False;
                end if;
