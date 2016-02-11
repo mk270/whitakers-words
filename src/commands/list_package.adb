@@ -626,58 +626,62 @@ package body List_Package is
 
          Output_Loop :
          while  Dma (J) /= Null_Dictionary_MNPC_Record  loop
-            --  Skips one identical SRA no matter what comes next
-            if Sraa (J) /= Osra  then
+            declare
+               Sra : constant Stem_Inflection_Array := Sraa (J);
+            begin
+               --  Skips one identical SRA no matter what comes next
+               if Sra /= Osra  then
 
-               Put_Inflection_Array_J :
-               for K in Sraa (J)'Range loop
-                  exit Put_Inflection_Array_J when Sraa (J)(K) =
-                    Null_Stem_Inflection_Record;
+                  Put_Inflection_Array_J :
+                  for K in Sra'Range loop
+                     exit Put_Inflection_Array_J when Sra (K) =
+                       Null_Stem_Inflection_Record;
 
-                  Put_Inflection (Configuration, Output, Sraa (J)(K), Dma (J));
-                  if Sraa (J)(K).Stem (1 .. 3) = "PPL"  then
-                     Ada.Text_IO.Put_Line (Output, Head (Ppp_Meaning, Mm));
+                     Put_Inflection (Configuration, Output, Sra (K),
+                       Dma (J));
+                     if Sra (K).Stem (1 .. 3) = "PPL"  then
+                        Ada.Text_IO.Put_Line (Output, Head (Ppp_Meaning, Mm));
+                     end if;
+                  end loop Put_Inflection_Array_J;
+                  Osra := Sra;
+               end if;
+
+               Putting_Form :
+               begin
+                  if J = 1  or else
+                    Support_Utils.Dictionary_Form (Dma (J).De) /=
+                    Support_Utils.Dictionary_Form (Dma (J - 1).De)
+                  then
+                     --  Put at first chance, skip duplicates
+                     Put_Form (Output, Sra (1), Dma (J));
                   end if;
-               end loop Put_Inflection_Array_J;
-               Osra := Sraa (J);
-            end if;
+               end Putting_Form;
 
-            Putting_Form :
-            begin
-               if J = 1  or else
-                 Support_Utils.Dictionary_Form (Dma (J).De) /=
-                 Support_Utils.Dictionary_Form (Dma (J - 1).De)
-               then
-                  --  Put at first chance, skip duplicates
-                  Put_Form (Output, Sraa (J)(1), Dma (J));
-               end if;
-            end Putting_Form;
-
-            Putting_Meaning :
-            begin
-               if Dma (J).D_K in General .. Unique then
-                  if Dma (J).De.Mean /= Dma (J + 1).De.Mean then
-                     --  Hhandle simple multiple MEAN with same IR and FORM
-                     --  by anticipating duplicates and waiting until change
-                     Put_Meaning_Line (Output, Sraa (J)(1), Dma (J), Mm);
+               Putting_Meaning :
+               begin
+                  if Dma (J).D_K in General .. Unique then
+                     if Dma (J).De.Mean /= Dma (J + 1).De.Mean then
+                        --  Hhandle simple multiple MEAN with same IR and FORM
+                        --  by anticipating duplicates and waiting until change
+                        Put_Meaning_Line (Output, Sra (1), Dma (J), Mm);
+                     end if;
+                  else
+                     Put_Meaning_Line (Output, Sra (1), Dma (J), Mm);
                   end if;
-               else
-                  Put_Meaning_Line (Output, Sraa (J)(1), Dma (J), Mm);
-               end if;
-            end Putting_Meaning;
+               end Putting_Meaning;
 
-            Do_Pause :
-            begin
-               if I_Is_Pa_Last  then
-                  Ada.Text_IO.New_Line (Output);
-               elsif Integer (Ada.Text_IO.Line (Output)) >
-                 Scroll_Line_Number + Output_Screen_Size
-               then
-                  Pause (Output);
-                  Scroll_Line_Number := Integer (Ada.Text_IO.Line (Output));
-               end if;
-            end Do_Pause;
-
+               Do_Pause :
+               begin
+                  if I_Is_Pa_Last  then
+                     Ada.Text_IO.New_Line (Output);
+                  elsif Integer (Ada.Text_IO.Line (Output)) >
+                    Scroll_Line_Number + Output_Screen_Size
+                  then
+                     Pause (Output);
+                     Scroll_Line_Number := Integer (Ada.Text_IO.Line (Output));
+                  end if;
+               end Do_Pause;
+            end;
             J := J + 1;
          end loop Output_Loop;
          --TEXT_IO.PUT_LINE ("Finished OUTPUT_LOOP");
