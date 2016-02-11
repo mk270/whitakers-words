@@ -21,10 +21,6 @@
 
 -- to factor out:
 
---   the if-branches and functions dealing with participles/supines
-
---   anything nested more than about six levels deep
-
 --   the subprogramme "parse_latin_word" is 300-odd lines long, and depends on
 --   variables defined outside it and a bunch of variables from other
 --   source files
