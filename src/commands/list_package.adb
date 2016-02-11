@@ -622,6 +622,8 @@ package body List_Package is
            := Null_Sra;
       begin
 
+         pragma Assert (Dma'First = Sraa'First);
+
          Output_Loop :
          while  Dma (J) /= Null_Dictionary_MNPC_Record  loop
             --  Skips one identical SRA no matter what comes next
