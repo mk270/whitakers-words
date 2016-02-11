@@ -617,7 +617,7 @@ package body List_Package is
    begin
       --TEXT_IO.PUT_LINE ("PUTting INFLECTIONS");
       declare
-         J : Integer := 1;
+         J : Integer := Dma'First;
          Osra : Stem_Inflection_Array (1 .. Stem_Inflection_Array_Size)
            := Null_Sra;
       begin
