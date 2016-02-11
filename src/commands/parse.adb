@@ -89,6 +89,13 @@ is
          end case;
       end record;
 
+   procedure Clear_Parse_Array (Any_Pa : out Parse_Array) is
+   begin
+      for I in Any_Pa'Range loop
+         Any_Pa (I) := Null_Parse_Record;
+      end loop;
+   end Clear_Parse_Array;
+
    function Is_Esse (T : String) return Boolean is
    begin
       return Trim (T) = "esse";
@@ -706,6 +713,14 @@ is
       Have_Done_Enclitic : Boolean := False;
    begin   --  PARSE
       Xxx_Meaning := Null_Meaning_Type;
+
+      -- This step is actually redundant; it is mentioned here simply to
+      -- make it explicit that the contents of Pa are discarded after each
+      -- word is handled; Pa and friends do not need to be package-global,
+      -- but could have been local to this procedure
+      Clear_Parse_Array (Pa);
+      Clear_Parse_Array (Trpa);
+      Clear_Parse_Array (Sypa);
 
       Pa_Last := 0;
       Word_Number := Word_Number + 1;
