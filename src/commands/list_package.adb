@@ -26,6 +26,7 @@
 
 with Ada.Strings.Fixed;
 with Ada.Strings.Maps;
+with Ada.Exceptions;  use Ada.Exceptions;
 with Latin_Utils.Strings_Package; use Latin_Utils.Strings_Package;
 with Latin_Utils.Latin_File_Names; use Latin_Utils.Latin_File_Names;
 with Support_Utils.Word_Parameters; use Support_Utils.Word_Parameters;
@@ -972,9 +973,10 @@ package body List_Package is
       Ada.Text_IO.New_Line (Output);
 
    exception
-      when others =>
+      when Error : others =>
          Ada.Text_IO.Put_Line
            ("Unexpected exception in LIST_STEMS processing " & Raw_Word);
+         Ada.Text_IO.Put_Line (Exception_Information (Error));
          Put_Stat ("EXCEPTION LS at "
            & Head (Integer'Image (Line_Number), 8) &
            Head (Integer'Image (Word_Number), 4)
