@@ -85,6 +85,9 @@ package body List_Package is
    type Dictionary_MNPC_Array is array (1 .. Dictionary_MNPC_Array_Size)
      of Dictionary_MNPC_Record;
 
+   type Dyn_Dictionary_MNPC_Array is array (Positive range <>)
+     of Dictionary_MNPC_Record;
+
    Null_Dma : constant Dictionary_MNPC_Array :=
      (others => Null_Dictionary_MNPC_Record);
 
@@ -607,10 +610,25 @@ package body List_Package is
       end if;
    end Put_Form;
 
+   procedure Do_Pause
+     (Output       :    Ada.Text_IO.File_Type;
+      I_Is_Pa_Last : in Boolean)
+   is
+   begin
+      if I_Is_Pa_Last  then
+         Ada.Text_IO.New_Line (Output);
+      elsif Integer (Ada.Text_IO.Line (Output)) >
+        Scroll_Line_Number + Output_Screen_Size
+      then
+         Pause (Output);
+         Scroll_Line_Number := Integer (Ada.Text_IO.Line (Output));
+      end if;
+   end Do_Pause;
+
    procedure Put_Parse_Details
      (Configuration : Configuration_Type;
       Output        : Ada.Text_IO.File_Type;
-      Dma           : Dictionary_MNPC_Array;
+      Dma           : Dyn_Dictionary_MNPC_Array;
       Sraa          : Stem_Inflection_Array_Array;
       I_Is_Pa_Last  : in Boolean)
    is
@@ -618,7 +636,6 @@ package body List_Package is
    begin
       --TEXT_IO.PUT_LINE ("PUTting INFLECTIONS");
       declare
-         J : Integer := Dma'First;
          Osra : Stem_Inflection_Array (1 .. Stem_Inflection_Array_Size)
            := Null_Sra;
       begin
@@ -626,7 +643,7 @@ package body List_Package is
          pragma Assert (Dma'First = Sraa'First);
 
          Output_Loop :
-         while  Dma (J) /= Null_Dictionary_MNPC_Record  loop
+         for J in Dma'Range loop
             declare
                Sra : constant Stem_Inflection_Array := Sraa (J);
             begin
@@ -649,7 +666,7 @@ package body List_Package is
 
                Putting_Form :
                begin
-                  if J = 1  or else
+                  if J = Dma'First or else
                     Support_Utils.Dictionary_Form (Dma (J).De) /=
                     Support_Utils.Dictionary_Form (Dma (J - 1).De)
                   then
@@ -661,7 +678,9 @@ package body List_Package is
                Putting_Meaning :
                begin
                   if Dma (J).D_K in General .. Unique then
-                     if Dma (J).De.Mean /= Dma (J + 1).De.Mean then
+                     if J + 1 > Dma'Last or else
+                       Dma (J).De.Mean /= Dma (J + 1).De.Mean
+                     then
                         --  Hhandle simple multiple MEAN with same IR and FORM
                         --  by anticipating duplicates and waiting until change
                         Put_Meaning_Line (Output, Sra (1), Dma (J), Mm);
@@ -671,21 +690,9 @@ package body List_Package is
                   end if;
                end Putting_Meaning;
 
-               Do_Pause :
-               begin
-                  if I_Is_Pa_Last  then
-                     Ada.Text_IO.New_Line (Output);
-                  elsif Integer (Ada.Text_IO.Line (Output)) >
-                    Scroll_Line_Number + Output_Screen_Size
-                  then
-                     Pause (Output);
-                     Scroll_Line_Number := Integer (Ada.Text_IO.Line (Output));
-                  end if;
-               end Do_Pause;
+               Do_Pause (Output, I_Is_Pa_Last);
             end;
-            J := J + 1;
          end loop Output_Loop;
-         --TEXT_IO.PUT_LINE ("Finished OUTPUT_LOOP");
       end;
    end Put_Parse_Details;
 
@@ -922,6 +929,7 @@ package body List_Package is
 
       I_Is_Pa_Last : Boolean := False;
 
+      Dma_Size : Integer := Dma'First - 1;
    begin
       Trimmed := False;
 
@@ -965,7 +973,24 @@ package body List_Package is
          return;
       end if;
 
-      Put_Parse_Details (Configuration, Output, Dma, Sraa, I_Is_Pa_Last);
+      --  FIXME: this is a terrible kludge
+      loop
+         if Dma (Dma_Size + 1) = Null_Dictionary_MNPC_Record then
+            exit;
+         end if;
+         Dma_Size := Dma_Size + 1;
+      end loop;
+
+      declare
+         Dma_Temp : Dyn_Dictionary_MNPC_Array (1 .. Dma_Size);
+      begin
+         for I in Dma_Temp'Range loop
+            Dma_Temp (I) := Dma (I);
+         end loop;
+
+         Put_Parse_Details (Configuration, Output, Dma_Temp,
+           Sraa, I_Is_Pa_Last);
+      end;
 
       if Trimmed then
          Put (Output, '*');
