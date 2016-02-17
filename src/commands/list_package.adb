@@ -894,6 +894,26 @@ package body List_Package is
       end loop;
    end Write_Addons_Stats;
 
+   procedure Handle_Adverb
+     (Pa      : in out Parse_Array;
+      Pa_Last : in out Integer)
+   is
+      There_Is_An_Adverb : Boolean := False;
+   begin
+      -------  The gimick of adding an ADV if there is only ADJ VOC  ----
+      --TEXT_IO.PUT_LINE ("About to do the ADJ -> ADV kludge");
+      for I in Pa'First .. Pa_Last  loop
+         if Pa (I).IR.Qual.Pofs = Adv   then
+            There_Is_An_Adverb := True;
+            exit;
+         end if;
+      end loop;
+
+      if (not There_Is_An_Adverb) and (Words_Mode (Do_Fixes))  then
+         Fix_Adverb (Pa, Pa_Last);
+      end if;
+   end Handle_Adverb;
+
    --  The main WORD processing has been to produce an array of PARSE_RECORD
    --  as defined in Latin_Utils.Dictionary_Package.
    --  This has involved STEMFILE and INFLECTS, no DICTFILE
@@ -925,30 +945,16 @@ package body List_Package is
       Dma : Dictionary_MNPC_Array := Null_Dma;
 
       W : constant String := Raw_Word;
-      There_Is_An_Adverb : Boolean := False;
-
       I_Is_Pa_Last : Boolean := False;
 
       Dma_Size : Integer := Dma'First - 1;
    begin
       Trimmed := False;
-
       --  Since this procedure weeds out possible parses, if it weeds out all
       --  (or all of a class) it must fix up the rest of the parse array,
       --  e.g., it must clean out dangling prefixes and suffixes
 
-      -------  The gimick of adding an ADV if there is only ADJ VOC  ----
-      --TEXT_IO.PUT_LINE ("About to do the ADJ -> ADV kludge");
-      for I in Pa'First .. Pa_Last  loop
-         if Pa (I).IR.Qual.Pofs = Adv   then
-            There_Is_An_Adverb := True;
-            exit;
-         end if;
-      end loop;
-
-      if (not There_Is_An_Adverb) and (Words_Mode (Do_Fixes))  then
-         Fix_Adverb (Pa, Pa_Last);
-      end if;
+      Handle_Adverb (Pa, Pa_Last);
 
       List_Sweep (Pa (1 .. Pa_Last), Pa_Last);
 
