@@ -933,8 +933,6 @@ package body List_Package is
       Orig_Pa       : in Parse_Array;
       Orig_Pa_Last  : in Integer)
    is
-      use Dict_IO;
-
       Pa : Parse_Array := Orig_Pa;
       Pa_Last : Integer := Orig_Pa_Last;
 
