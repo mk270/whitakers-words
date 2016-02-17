@@ -870,6 +870,10 @@ package body List_Package is
       Pa_Last : Integer)
    is
    begin
+      if not Words_Mdev (Write_Statistics_File) then
+         return;
+      end if;
+
       --  Omit rest of Output
       for I in 1 .. Pa_Last  loop                       --  Just to PUT_STAT
          if Pa (I).D_K = Addons then
@@ -955,9 +959,7 @@ package body List_Package is
 
       List_Sweep (Pa (1 .. Pa_Last), Pa_Last);
 
-      if  Words_Mdev (Write_Statistics_File)    then
-         Write_Addons_Stats (W, Pa, Pa_Last);
-      end if;
+      Write_Addons_Stats (W, Pa, Pa_Last);
 
       Cycle_Over_Pa (Pa, Pa_Last, Sraa, Dma, I_Is_Pa_Last,
                     Raw_Word, W);
