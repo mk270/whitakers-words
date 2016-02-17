@@ -933,7 +933,6 @@ package body List_Package is
       Orig_Pa       : in Parse_Array;
       Orig_Pa_Last  : in Integer)
    is
-      use Ada.Text_IO;
       use Dict_IO;
 
       Pa : Parse_Array := Orig_Pa;
@@ -999,7 +998,7 @@ package body List_Package is
       end;
 
       if Trimmed then
-         Put (Output, '*');
+         Ada.Text_IO.Put (Output, '*');
       end if;
       Ada.Text_IO.New_Line (Output);
 
