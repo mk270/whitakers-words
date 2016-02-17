@@ -918,6 +918,22 @@ package body List_Package is
       end if;
    end Handle_Adverb;
 
+   function Count_Used_Dma
+     (Dma : Dictionary_MNPC_Array)
+     return Integer
+   is
+      Dma_Size : Integer := Dma'First - 1;
+   begin
+      --  FIXME: this is a terrible kludge
+      loop
+         if Dma (Dma_Size + 1) = Null_Dictionary_MNPC_Record then
+            exit;
+         end if;
+         Dma_Size := Dma_Size + 1;
+      end loop;
+      return Dma_Size;
+   end Count_Used_Dma;
+
    --  The main WORD processing has been to produce an array of PARSE_RECORD
    --  as defined in Latin_Utils.Dictionary_Package.
    --  This has involved STEMFILE and INFLECTS, no DICTFILE
@@ -947,8 +963,6 @@ package body List_Package is
 
       W : constant String := Raw_Word;
       I_Is_Pa_Last : Boolean := False;
-
-      Dma_Size : Integer := Dma'First - 1;
    begin
       --  Since this procedure weeds out possible parses, if it weeds out all
       --  (or all of a class) it must fix up the rest of the parse array,
@@ -973,15 +987,9 @@ package body List_Package is
          return;
       end if;
 
-      --  FIXME: this is a terrible kludge
-      loop
-         if Dma (Dma_Size + 1) = Null_Dictionary_MNPC_Record then
-            exit;
-         end if;
-         Dma_Size := Dma_Size + 1;
-      end loop;
-
+      -- horrible kludge, but sets things up for the dynamic future
       declare
+         Dma_Size : constant Integer := Count_Used_Dma (Dma);
          Dma_Temp : Dyn_Dictionary_MNPC_Array (1 .. Dma_Size);
       begin
          for I in Dma_Temp'Range loop
