@@ -884,7 +884,7 @@ package body List_Package is
    --  as defined in Latin_Utils.Dictionary_Package.
    --  This has involved STEMFILE and INFLECTS, no DICTFILE
 
-   --  PARSE_RECORD is Put through the LIST_SWEEP procedure that does TRIMing
+   --  PARSE_RECORD is put through the LIST_SWEEP procedure that does TRIMing
    --  Then, for processing for Output, the data is converted to arrays of
    --  type STEM_INFLECTION_RECORD, defined above, and
    --  type DICTIONARY_MNPC_RECORD,

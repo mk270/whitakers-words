@@ -16,9 +16,9 @@
 
 with Ada.Text_IO;
 package Support_Utils.Word_Parameters is
-   --  This package defines a number of parameters that areused in the program
+   --  This package defines a number of parameters that are used in the program
    --  The default values are set in the body, so that they may be changed
-   --- easily
+   --  easily
 
    Change_Parameters_Character        : Character := '#';
    Change_Language_Character          : Character := '~';
