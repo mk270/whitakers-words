@@ -950,19 +950,14 @@ package body List_Package is
 
       Dma_Size : Integer := Dma'First - 1;
    begin
-      Trimmed := False;
       --  Since this procedure weeds out possible parses, if it weeds out all
       --  (or all of a class) it must fix up the rest of the parse array,
       --  e.g., it must clean out dangling prefixes and suffixes
-
+      Trimmed := False;
       Handle_Adverb (Pa, Pa_Last);
-
       List_Sweep (Pa (1 .. Pa_Last), Pa_Last);
-
       Write_Addons_Stats (W, Pa, Pa_Last);
-
-      Cycle_Over_Pa (Pa, Pa_Last, Sraa, Dma, I_Is_Pa_Last,
-                    Raw_Word, W);
+      Cycle_Over_Pa (Pa, Pa_Last, Sraa, Dma, I_Is_Pa_Last, Raw_Word, W);
 
       --  Sets + if capitalized
       --  Strangely enough, it may enter LIST_STEMS with PA_LAST /= 0
