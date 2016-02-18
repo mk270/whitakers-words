@@ -232,13 +232,14 @@ is
    end Get_Pas_Nom_Participle;
 
    -- this function should be merged with the one above
-   function Get_Pas_Participle (Parsed_Verb : Vpar_Record;
-                                Trimmed_Next_Word : String;
-                                Default_Ppl_On : Boolean;
-                                Default_Compound_Tvm : Tense_Voice_Mood_Record;
-                                Default_Ppp_Meaning : Meaning_Type;
-                                Default_Ppl_Info : Vpar_Record)
-                               return Participle
+   function Get_Pas_Participle
+     (Parsed_Verb          : Vpar_Record;
+      Trimmed_Next_Word    : String;
+      Default_Ppl_On       : Boolean;
+      Default_Compound_Tvm : Tense_Voice_Mood_Record;
+      Default_Ppp_Meaning  : Meaning_Type;
+      Default_Ppl_Info     : Vpar_Record)
+     return Participle
    is
       function Get_Compound_Tense (Tense : Tense_Type;
                                    Voice : Voice_Type;
@@ -373,12 +374,13 @@ is
    end Is_Sum;
 
    -- parts of these three do_clear_* functions should be factored together
-   procedure Do_Clear_Pas_Nom_Ppl (Sum_Info : in Verb_Record;
-                                   Compound_Tvm : out Tense_Voice_Mood_Record;
-                                   Ppl_On : in out Boolean;
-                                   Ppl_Info : out Vpar_Record;
-                                   Pa : in out Parse_Array;
-                                   Pa_Last : in out Integer)
+   procedure Do_Clear_Pas_Nom_Ppl
+     (Sum_Info     : in     Verb_Record;
+      Compound_Tvm :    out Tense_Voice_Mood_Record;
+      Ppl_On       : in out Boolean;
+      Ppl_Info     :    out Vpar_Record;
+      Pa           : in out Parse_Array;
+      Pa_Last      : in out Integer)
    is
    begin
       for J4 in reverse 1 .. Pa_Last loop
@@ -411,12 +413,12 @@ is
    end Do_Clear_Pas_Nom_Ppl;
 
    -- parts of these three do_clear_* functions should be factored together
-   procedure Do_Clear_Pas_Ppl (Next_Word : in String;
-                               Compound_Tvm : out Tense_Voice_Mood_Record;
-                               Ppl_On : in out Boolean;
-                               Ppl_Info : out Vpar_Record;
-                               Pa : in out Parse_Array;
-                               Pa_Last : in out Integer)
+   procedure Do_Clear_Pas_Ppl (Next_Word    : in     String;
+                               Compound_Tvm :    out Tense_Voice_Mood_Record;
+                               Ppl_On       : in out Boolean;
+                               Ppl_Info     :    out Vpar_Record;
+                               Pa           : in out Parse_Array;
+                               Pa_Last      : in out Integer)
    is
    begin
       for J5 in reverse 1 .. Pa_Last loop
@@ -447,11 +449,11 @@ is
    end Do_Clear_Pas_Ppl;
 
    -- parts of these three do_clear_* functions should be factored together
-   procedure Do_Clear_Pas_Supine (Supine_Info : out Supine_Record;
-                                  Nk : in Integer;
-                                  Ppl_On : in out Boolean;
-                                  Pa : in out Parse_Array;
-                                  Pa_Last : in out Integer)
+   procedure Do_Clear_Pas_Supine (Supine_Info :    out Supine_Record;
+                                  Nk          : in     Integer;
+                                  Ppl_On      : in out Boolean;
+                                  Pa          : in out Parse_Array;
+                                  Pa_Last     : in out Integer)
    is
    begin
       for J6 in reverse 1 .. Pa_Last loop
@@ -496,9 +498,9 @@ is
       end loop;
    end Do_Clear_Pas_Supine;
 
-   procedure Perform_Syncope (Input_Word : in String;
-                              Pa : in out Parse_Array;
-                              Pa_Last : in out Integer)
+   procedure Perform_Syncope (Input_Word : in     String;
+                              Pa         : in out Parse_Array;
+                              Pa_Last    : in out Integer)
    is
       Sypa : Parse_Array (1 .. Syncope_Max) := (others => Null_Parse_Record);
       Sypa_Last : Integer := 0;
@@ -521,11 +523,11 @@ is
       No_Syncope := False;
    end Perform_Syncope;
 
-   procedure Enclitic (Input_Word : String;
-                       Entering_Pa_Last : in out Integer;
+   procedure Enclitic (Input_Word         :        String;
+                       Entering_Pa_Last   : in out Integer;
                        Have_Done_Enclitic : in out Boolean;
-                       Pa : in out Parse_Array;
-                       Pa_Last : in out Integer) is
+                       Pa                 : in out Parse_Array;
+                       Pa_Last            : in out Integer) is
       Save_Do_Only_Fixes : constant Boolean := Words_Mdev (Do_Only_Fixes);
       Enclitic_Limit : Integer := 4;
       Try : constant String := Lower_Case (Input_Word);
@@ -600,11 +602,11 @@ is
       end loop;
    end Enclitic;
 
-   procedure Tricks_Enclitic (Input_Word : String;
+   procedure Tricks_Enclitic (Input_Word         :        String;
                               Entering_Trpa_Last : in out Integer;
-                              Have_Done_Enclitic : Boolean;
-                              Trpa : in out Parse_Array;
-                              Trpa_Last : in out Integer) is
+                              Have_Done_Enclitic :        Boolean;
+                              Trpa               : in out Parse_Array;
+                              Trpa_Last          : in out Integer) is
       Try : constant String := Lower_Case (Input_Word);
    begin
       if Have_Done_Enclitic then
@@ -637,11 +639,11 @@ is
       end loop;
    end Tricks_Enclitic;
 
-   procedure Pass (Input_Word : String;
-                   Entering_Pa_Last : in out Integer;
+   procedure Pass (Input_Word         :        String;
+                   Entering_Pa_Last   : in out Integer;
                    Have_Done_Enclitic : in out Boolean;
-                   Pa : in out Parse_Array;
-                   Pa_Last : in out Integer)
+                   Pa                 : in out Parse_Array;
+                   Pa_Last            : in out Integer)
    is
       --  This is the core logic of the program, everything else is details
       Save_Do_Fixes : constant Boolean := Words_Mode (Do_Fixes);
@@ -690,10 +692,10 @@ is
       end if;
    end Pass;
 
-   procedure Parse_English_Word (Input_Word : in String;
-                                 Line : in String;
-                                 K : in Integer;
-                                 L : in out Integer)
+   procedure Parse_English_Word (Input_Word : in     String;
+                                 Line       : in     String;
+                                 K          : in     Integer;
+                                 L          : in out Integer)
    is
       Pofs : Part_Of_Speech_Type := X;
    begin
