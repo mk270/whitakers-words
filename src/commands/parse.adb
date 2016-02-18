@@ -1050,7 +1050,6 @@ is
 
       -- loop over line
       while J2 <= L  loop
-
          --  Skip over leading and intervening blanks, looking for comments
          --  Punctuation, numbers, and special Characters were cleared above
          for I in K + 1 .. L  loop
