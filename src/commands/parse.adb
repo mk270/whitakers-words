@@ -950,7 +950,7 @@ is
 
    procedure Parse_Line (Configuration : Configuration_Type;
                          Input_Line : String) is
-      L : Integer := Trim (Input_Line)'Last;
+      L : constant Integer := Trim (Input_Line)'Last;
       Line : String (1 .. 2500) := (others => ' ');
       W : String (1 .. L) := (others => ' ');
       J2, K : Integer := 0;
@@ -1034,8 +1034,12 @@ is
          end loop;
 
          if Language = English_To_Latin  then
-            Parse_English_Word (W (J2 .. K), Line, K, L);
-            exit;
+            declare
+               L2 : Integer := L;
+            begin
+               Parse_English_Word (W (J2 .. K), Line, K, L2);
+               exit;
+            end;
          end if;
 
          -- split parse_line () at this point, into two functions
