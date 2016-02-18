@@ -59,7 +59,6 @@ is
 
    J2, K : Integer := 0;
 
---   Pa : Parse_Array (1 .. 100) := (others => Null_Parse_Record);
    Syncope_Max : constant := 20;
    No_Syncope : Boolean := False;
    Tricks_Max : constant := 40;
