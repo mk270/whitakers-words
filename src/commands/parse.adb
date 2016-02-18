@@ -57,8 +57,6 @@ is
    -- the scope of most of these variables is over-broad
    Storage_Error_Count : Integer := 0;
 
-   K : Integer := 0;
-
    Syncope_Max : constant := 20;
    No_Syncope : Boolean := False;
    Tricks_Max : constant := 40;
@@ -453,7 +451,8 @@ is
                                   Nk          : in     Integer;
                                   Ppl_On      : in out Boolean;
                                   Pa          : in out Parse_Array;
-                                  Pa_Last     : in out Integer)
+                                  Pa_Last     : in out Integer;
+                                  K           : in out Integer)
    is
    begin
       for J6 in reverse 1 .. Pa_Last loop
@@ -716,7 +715,8 @@ is
       Input_Word    : in String; -- a trimmed single word
       Line          : in String; -- left trimmed, punctuation removed
       Input_Line    : in String; -- what the user actually typed
-      L             : in Integer)
+      L             : in Integer;
+      K             : in out Integer)
 
    is
       Pa : Parse_Array (1 .. 100) := (others => Null_Parse_Record);
@@ -918,7 +918,8 @@ is
                   end loop;
 
                   if K = Nk  then      --  There was a SUPINE hit
-                     Do_Clear_Pas_Supine (Supine_Info, Nk, Ppl_On, Pa, Pa_Last);
+                     Do_Clear_Pas_Supine (Supine_Info, Nk, Ppl_On,
+                       Pa, Pa_Last, K);
                   end if;
                end if;       --  On NEXT_WORD = sum, esse, iri
             end Compounds_With_Sum;
@@ -948,7 +949,7 @@ is
       L : Integer := Trim (Input_Line)'Last;
       Line : String (1 .. 2500) := (others => ' ');
       W : String (1 .. L) := (others => ' ');
-      J2 : Integer := 0;
+      J2, K : Integer := 0;
    begin
       Word_Number := 0;
       Line (1 .. L) := Trim (Input_Line);
@@ -1035,7 +1036,7 @@ is
 
          -- split parse_line () at this point, into two functions
 
-         Parse_Latin_Word (Configuration, W (J2 .. K), Line, Input_Line, L);
+         Parse_Latin_Word (Configuration, W (J2 .. K), Line, Input_Line, L, K);
          ----------------------------------------------------------------------
          ----------------------------------------------------------------------
 
