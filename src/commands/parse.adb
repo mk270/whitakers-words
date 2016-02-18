@@ -62,9 +62,8 @@ is
    Syncope_Max : constant := 20;
    No_Syncope : Boolean := False;
    Tricks_Max : constant := 40;
-   Sypa : Parse_Array (1 .. Syncope_Max) := (others => Null_Parse_Record);
    Trpa : Parse_Array (1 .. Tricks_Max) := (others => Null_Parse_Record);
-   Sypa_Last, Trpa_Last : Integer := 0;
+   Trpa_Last : Integer := 0;
 
    type Participle is
       record
@@ -503,8 +502,10 @@ is
                               Pa : in out Parse_Array;
                               Pa_Last : in out Integer)
    is
+      Sypa : Parse_Array (1 .. Syncope_Max) := (others => Null_Parse_Record);
+      Sypa_Last : Integer := 0;
    begin
-      Sypa_Last := 0;
+      Clear_Parse_Array (Sypa); -- FIXME: presumably redundant
       if Words_Mdev (Do_Syncope) and not No_Syncope then
          Syncope (Input_Word, Sypa, Sypa_Last);
 
@@ -731,7 +732,6 @@ is
       -- but could have been local to this procedure
       Clear_Parse_Array (Pa);
       Clear_Parse_Array (Trpa);
-      Clear_Parse_Array (Sypa);
 
       Pa_Last := 0;
       Word_Number := Word_Number + 1;
