@@ -969,6 +969,18 @@ is
       return True;
    end Is_All_Caps;
 
+   procedure Do_Qvae_Kludge
+     (W     : in out String;
+      J2, K : in     Integer) is
+   begin
+      -- QVAE Kludge? No-one's seen QVAAKLUDES since the '70s!
+      for I in J2 .. K - 1  loop
+         if W (I) = 'Q'  and then W (I + 1) = 'V'  then
+            W (I + 1) := 'U';
+         end if;
+      end loop;
+   end Do_Qvae_Kludge;
+
    -- forward declarations for exception handlers
    procedure Report_Storage_Error;
    procedure Report_Unknown_Error (Input_Line : String; J2, K : Integer);
@@ -1068,13 +1080,7 @@ is
 
          Capitalized := Is_Capitalized (W, J2, K);
          All_Caps := Is_All_Caps (W, J2, K);
-
-         -- QVAE Kludge? No-one's seen QVAAKLUDES since the '70s!
-         for I in J2 .. K - 1  loop
-            if W (I) = 'Q'  and then W (I + 1) = 'V'  then
-               W (I + 1) := 'U';
-            end if;
-         end loop;
+         Do_Qvae_Kludge (W, J2, K);
 
          if Language = English_To_Latin  then
             declare
