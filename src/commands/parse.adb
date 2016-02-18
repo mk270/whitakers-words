@@ -951,6 +951,19 @@ is
 
    end Parse_Latin_Word;
 
+   function Is_Capitalized (W : String; J2, K : Integer) return Boolean
+   is
+   begin
+      if W (J2) in 'A' .. 'Z'  and then
+        K - J2 >= 1  and then
+        W (J2 + 1) in 'a' .. 'z'
+      then
+         return True;
+      else
+         return False;
+      end if;
+   end Is_Capitalized;
+
    -- forward declarations for exception handlers
    procedure Report_Storage_Error;
    procedure Report_Unknown_Error (Input_Line : String; J2, K : Integer);
@@ -1034,7 +1047,6 @@ is
          exit when J2 > L;             --  Kludge
 
          Followed_By_Period := False;
-         Capitalized := False;
          All_Caps := False;
 
          --  Extract the word
@@ -1050,12 +1062,7 @@ is
             K := I;
          end loop;
 
-         if W (J2) in 'A' .. 'Z'  and then
-           K - J2 >= 1  and then
-           W (J2 + 1) in 'a' .. 'z'
-         then
-            Capitalized := True;
-         end if;
+         Capitalized := Is_Capitalized (W, J2, K);
 
          All_Caps := True;
          for I in J2 .. K  loop
