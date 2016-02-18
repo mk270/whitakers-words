@@ -954,14 +954,8 @@ is
    function Is_Capitalized (W : String; J2, K : Integer) return Boolean
    is
    begin
-      if W (J2) in 'A' .. 'Z'  and then
-        K - J2 >= 1  and then
-        W (J2 + 1) in 'a' .. 'z'
-      then
-         return True;
-      else
-         return False;
-      end if;
+      return W (J2) in 'A' .. 'Z' and then K - J2 >= 1  and then
+        W (J2 + 1) in 'a' .. 'z';
    end Is_Capitalized;
 
    -- forward declarations for exception handlers
