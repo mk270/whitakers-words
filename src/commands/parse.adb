@@ -979,6 +979,20 @@ is
    -- J2         : roughly, the index in Line where W starts
    -- K          : roughly, the index in Line where W ends
 
+   -- What the main loop actually does:
+   --
+   -- replace complement of [a-zA-Z.-] with spaces
+   --
+   -- ignore everything after a double dash
+   --
+   -- set (Followed_By_Period, Capitalized, All_Caps) appropriately
+   --
+   -- apply QVAE kludge
+   --
+   -- if doing English, do first word then quit
+   -- otherwise, we are doing Latin, so do a word
+   -- quit after first word if appropriate config value set
+
    procedure Parse_Line (Configuration : Configuration_Type;
                          Input_Line    : String)
    is
