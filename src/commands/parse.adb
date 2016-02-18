@@ -987,6 +987,7 @@ is
       Line  : String (1 .. 2500) := (others => ' ');
       J2, K : Integer := 0;
    begin
+      Followed_By_Period := False;
       Word_Number := 0;
       Line (1 .. L) := Trim (Input_Line);
 
