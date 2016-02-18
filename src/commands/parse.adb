@@ -62,8 +62,6 @@ is
    Syncope_Max : constant := 20;
    No_Syncope : Boolean := False;
    Tricks_Max : constant := 40;
-   Trpa : Parse_Array (1 .. Tricks_Max) := (others => Null_Parse_Record);
-   Trpa_Last : Integer := 0;
 
    type Participle is
       record
@@ -604,7 +602,9 @@ is
 
    procedure Tricks_Enclitic (Input_Word : String;
                               Entering_Trpa_Last : in out Integer;
-                              Have_Done_Enclitic : Boolean) is
+                              Have_Done_Enclitic : Boolean;
+                              Trpa : in out Parse_Array;
+                              Trpa_Last : in out Integer) is
       Try : constant String := Lower_Case (Input_Word);
    begin
       if Have_Done_Enclitic then
@@ -719,6 +719,8 @@ is
    is
       Pa : Parse_Array (1 .. 100) := (others => Null_Parse_Record);
       Pa_Last : Integer := 0;
+      Trpa : Parse_Array (1 .. Tricks_Max) := (others => Null_Parse_Record);
+      Trpa_Last : Integer := 0;
 
       Entering_Pa_Last : Integer := 0;
       Entering_Trpa_Last    : Integer := 0;
@@ -750,7 +752,7 @@ is
             Try_Tricks (Input_Word, Trpa, Trpa_Last, Line_Number, Word_Number);
             if Trpa_Last = 0  then
                Tricks_Enclitic (Input_Word, Entering_Trpa_Last,
-                 Have_Done_Enclitic);
+                 Have_Done_Enclitic, Trpa, Trpa_Last);
             end if;
             Words_Mode (Do_Tricks) := True;   --  Turn it back on
          end if;
