@@ -1051,7 +1051,8 @@ is
             end if;
          end loop;
 
-         for I in J2 .. K - 1  loop               --  Kludge for QVAE
+         -- QVAE Kludge? No-one's seen QVAAKLUDES since the '70s!
+         for I in J2 .. K - 1  loop
             if W (I) = 'Q'  and then W (I + 1) = 'V'  then
                W (I + 1) := 'U';
             end if;
