@@ -944,6 +944,10 @@ is
 
    end Parse_Latin_Word;
 
+   -- forward declarations for exception handlers
+   procedure Report_Storage_Error;
+   procedure Report_Unknown_Error (Input_Line : String; J2, K : Integer);
+
    procedure Parse_Line (Configuration : Configuration_Type;
                          Input_Line : String) is
       L : Integer := Trim (Input_Line)'Last;
@@ -1049,29 +1053,41 @@ is
    exception
       --   Have STORAGE_ERROR check in WORD too  ?????????????
       when Storage_Error  =>    --  I want to again, at least twice
-         if Words_Mdev (Do_Pearse_Codes) then
-            Ada.Text_IO.Put ("00 ");
-         end if;
-         Ada.Text_IO.Put_Line (    --  ERROR_FILE,
-           "STORAGE_ERROR Exception in WORDS, try again");
-         Storage_Error_Count := Storage_Error_Count + 1;
+         Report_Storage_Error;
          if Storage_Error_Count >= 4 then
             raise;
          end if;
       when Give_Up =>
          raise;
       when others  =>    --  I want to try to Get on with the next line
-         Ada.Text_IO.Put_Line (    --  ERROR_FILE,
-           "Exception in PARSE_LINE processing " & Input_Line);
-         if Words_Mode (Write_Unknowns_To_File)  then
-            if Words_Mdev (Do_Pearse_Codes) then
-               Ada.Text_IO.Put (Unknowns, "00 ");
-            end if;
-            Ada.Text_IO.Put (Unknowns, Input_Line (J2 .. K));
-            Ada.Text_IO.Set_Col (Unknowns, 30);
-            Inflections_Package.Integer_IO.Put (Unknowns, Line_Number, 5);
-            Inflections_Package.Integer_IO.Put (Unknowns, Word_Number, 3);
-            Ada.Text_IO.Put_Line (Unknowns, "    ========   ERROR      ");
-         end if;
+         Report_Unknown_Error (Input_Line, J2, K);
    end Parse_Line;
+
+   procedure Report_Storage_Error
+   is
+   begin
+      if Words_Mdev (Do_Pearse_Codes) then
+         Ada.Text_IO.Put ("00 ");
+      end if;
+      Ada.Text_IO.Put_Line (    --  ERROR_FILE,
+        "STORAGE_ERROR Exception in WORDS, try again");
+      Storage_Error_Count := Storage_Error_Count + 1;
+   end Report_Storage_Error;
+
+   procedure Report_Unknown_Error (Input_Line : String; J2, K : Integer)
+   is
+   begin
+      Ada.Text_IO.Put_Line (    --  ERROR_FILE,
+        "Exception in PARSE_LINE processing " & Input_Line);
+      if Words_Mode (Write_Unknowns_To_File)  then
+         if Words_Mdev (Do_Pearse_Codes) then
+            Ada.Text_IO.Put (Unknowns, "00 ");
+         end if;
+         Ada.Text_IO.Put (Unknowns, Input_Line (J2 .. K));
+         Ada.Text_IO.Set_Col (Unknowns, 30);
+         Inflections_Package.Integer_IO.Put (Unknowns, Line_Number, 5);
+         Inflections_Package.Integer_IO.Put (Unknowns, Word_Number, 3);
+         Ada.Text_IO.Put_Line (Unknowns, "    ========   ERROR      ");
+      end if;
+   end Report_Unknown_Error;
 end Parse;
