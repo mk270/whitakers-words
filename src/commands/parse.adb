@@ -59,13 +59,13 @@ is
 
    J2, K : Integer := 0;
 
-   Pa : Parse_Array (1 .. 100) := (others => Null_Parse_Record);
+--   Pa : Parse_Array (1 .. 100) := (others => Null_Parse_Record);
    Syncope_Max : constant := 20;
    No_Syncope : Boolean := False;
    Tricks_Max : constant := 40;
    Sypa : Parse_Array (1 .. Syncope_Max) := (others => Null_Parse_Record);
    Trpa : Parse_Array (1 .. Tricks_Max) := (others => Null_Parse_Record);
-   Pa_Last, Sypa_Last, Trpa_Last : Integer := 0;
+   Sypa_Last, Trpa_Last : Integer := 0;
 
    type Participle is
       record
@@ -380,7 +380,9 @@ is
    procedure Do_Clear_Pas_Nom_Ppl (Sum_Info : in Verb_Record;
                                    Compound_Tvm : out Tense_Voice_Mood_Record;
                                    Ppl_On : in out Boolean;
-                                   Ppl_Info : out Vpar_Record)
+                                   Ppl_Info : out Vpar_Record;
+                                   Pa : in out Parse_Array;
+                                   Pa_Last : in out Integer)
    is
    begin
       for J4 in reverse 1 .. Pa_Last loop
@@ -416,7 +418,9 @@ is
    procedure Do_Clear_Pas_Ppl (Next_Word : in String;
                                Compound_Tvm : out Tense_Voice_Mood_Record;
                                Ppl_On : in out Boolean;
-                               Ppl_Info : out Vpar_Record)
+                               Ppl_Info : out Vpar_Record;
+                               Pa : in out Parse_Array;
+                               Pa_Last : in out Integer)
    is
    begin
       for J5 in reverse 1 .. Pa_Last loop
@@ -449,7 +453,9 @@ is
    -- parts of these three do_clear_* functions should be factored together
    procedure Do_Clear_Pas_Supine (Supine_Info : out Supine_Record;
                                   Nk : in Integer;
-                                  Ppl_On : in out Boolean)
+                                  Ppl_On : in out Boolean;
+                                  Pa : in out Parse_Array;
+                                  Pa_Last : in out Integer)
    is
    begin
       for J6 in reverse 1 .. Pa_Last loop
@@ -494,7 +500,9 @@ is
       end loop;
    end Do_Clear_Pas_Supine;
 
-   procedure Perform_Syncope (Input_Word : in String)
+   procedure Perform_Syncope (Input_Word : in String;
+                              Pa : in out Parse_Array;
+                              Pa_Last : in out Integer)
    is
    begin
       Sypa_Last := 0;
@@ -517,7 +525,9 @@ is
 
    procedure Enclitic (Input_Word : String;
                        Entering_Pa_Last : in out Integer;
-                       Have_Done_Enclitic : in out Boolean) is
+                       Have_Done_Enclitic : in out Boolean;
+                       Pa : in out Parse_Array;
+                       Pa_Last : in out Integer) is
       Save_Do_Only_Fixes : constant Boolean := Words_Mdev (Do_Only_Fixes);
       Enclitic_Limit : Integer := 4;
       Try : constant String := Lower_Case (Input_Word);
@@ -566,7 +576,7 @@ is
                   end if;
                end loop;
 
-               Perform_Syncope (Input_Word);
+               Perform_Syncope (Input_Word, Pa, Pa_Last);
 
                --  Restore FIXES
                --WORDS_MODE (DO_FIXES) := SAVE_DO_FIXES;
@@ -629,7 +639,9 @@ is
 
    procedure Pass (Input_Word : String;
                    Entering_Pa_Last : in out Integer;
-                   Have_Done_Enclitic : in out Boolean)
+                   Have_Done_Enclitic : in out Boolean;
+                   Pa : in out Parse_Array;
+                   Pa_Last : in out Integer)
    is
       --  This is the core logic of the program, everything else is details
       Save_Do_Fixes : constant Boolean := Words_Mode (Do_Fixes);
@@ -654,12 +666,12 @@ is
       end loop;
 
       --  Pure SYNCOPE
-      Perform_Syncope (Input_Word);
+      Perform_Syncope (Input_Word, Pa, Pa_Last);
 
       --  There may be a vaild simple parse, if so it is most probable
       --  But I have to allow for the possibility that -que is answer,
       --  not colloque V
-      Enclitic (Input_Word, Entering_Pa_Last, Have_Done_Enclitic);
+      Enclitic (Input_Word, Entering_Pa_Last, Have_Done_Enclitic, Pa, Pa_Last);
 
       --  Restore FIXES
       Words_Mode (Do_Fixes) := Save_Do_Fixes;
@@ -669,9 +681,10 @@ is
          Words_Mdev (Do_Only_Fixes) := True;
          Word (Input_Word, Pa, Pa_Last);
 
-         Perform_Syncope (Input_Word);
+         Perform_Syncope (Input_Word, Pa, Pa_Last);
 
-         Enclitic (Input_Word, Entering_Pa_Last, Have_Done_Enclitic);
+         Enclitic (Input_Word, Entering_Pa_Last, Have_Done_Enclitic,
+           Pa, Pa_Last);
 
          Words_Mdev (Do_Only_Fixes) := Save_Do_Only_Fixes;
       end if;
@@ -704,6 +717,9 @@ is
       L             : in Integer)
 
    is
+      Pa : Parse_Array (1 .. 100) := (others => Null_Parse_Record);
+      Pa_Last : Integer := 0;
+
       Entering_Pa_Last : Integer := 0;
       Entering_Trpa_Last    : Integer := 0;
       Have_Done_Enclitic : Boolean := False;
@@ -721,7 +737,7 @@ is
       Pa_Last := 0;
       Word_Number := Word_Number + 1;
 
-      Pass (Input_Word, Entering_Pa_Last, Have_Done_Enclitic);
+      Pass (Input_Word, Entering_Pa_Last, Have_Done_Enclitic, Pa, Pa_Last);
 
       --if (PA_LAST = 0) or DO_TRICKS_ANYWAY  then
       --  WORD failed, try to modify the word
@@ -832,7 +848,7 @@ is
                   if K = Nk  then
                      --  There was a PPL hit
                      Do_Clear_Pas_Nom_Ppl (Sum_Info, Compound_Tvm, Ppl_On,
-                       Ppl_Info);
+                       Ppl_Info, Pa, Pa_Last);
 
                      Pa_Last := Pa_Last + 1;
                      Pa (Pa_Last) :=
@@ -869,7 +885,7 @@ is
                   if K = Nk  then
                      --  There was a PPL hit
                      Do_Clear_Pas_Ppl (Next_Word, Compound_Tvm,
-                       Ppl_On, Ppl_Info);
+                       Ppl_On, Ppl_Info, Pa, Pa_Last);
 
                      Pa_Last := Pa_Last + 1;
                      Pa (Pa_Last) :=
@@ -899,7 +915,7 @@ is
                   end loop;
 
                   if K = Nk  then      --  There was a SUPINE hit
-                     Do_Clear_Pas_Supine (Supine_Info, Nk, Ppl_On);
+                     Do_Clear_Pas_Supine (Supine_Info, Nk, Ppl_On, Pa, Pa_Last);
                   end if;
                end if;       --  On NEXT_WORD = sum, esse, iri
             end Compounds_With_Sum;
