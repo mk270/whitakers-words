@@ -1025,7 +1025,6 @@ is
 
          --  Extract the word
          for I in J2 .. L  loop
-
             --  Although I have removed punctuation above,
             --  it may not always be so
             if Line (I) = '.'  then
@@ -1035,7 +1034,6 @@ is
             exit when Line (I) not in 'A' .. 'Z' and Line (I) not in 'a' .. 'z';
             W (I) := Line (I);
             K := I;
-
          end loop;
 
          if W (J2) in 'A' .. 'Z'  and then
