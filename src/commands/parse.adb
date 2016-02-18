@@ -955,6 +955,30 @@ is
    procedure Report_Storage_Error;
    procedure Report_Unknown_Error (Input_Line : String; J2, K : Integer);
 
+   -- Parse_Line (..., Input_Line : String)
+   --
+   -- This procedure massages the Input_Line, dealing with capitalisation,
+   -- punctuation, trimming, and so on; it splits the line into separate
+   -- words, and tries to look them up.
+   --
+   -- When looking up English words, it only deals with the first word of
+   -- input; similarly, an option can be specified to make it only look up
+   -- the first Latin word on a line.
+   --
+   -- The procedure has far too many moving parts and conflation of concerns.
+   --
+   -- Ultimately, it should break the input line into a vector of strings,
+   -- and hand this (or its first element) off to the subsequent routines
+   --
+   -- Formal args and local vars:
+   --
+   -- Input_Line :
+   -- L          :
+   -- W          :
+   -- Line       :
+   -- J2         :
+   -- K          :
+
    procedure Parse_Line (Configuration : Configuration_Type;
                          Input_Line    : String)
    is
