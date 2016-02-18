@@ -1072,16 +1072,9 @@ is
             end;
          end if;
 
-         -- split parse_line () at this point, into two functions
-
          Parse_Latin_Word (Configuration, W (J2 .. K), Line, Input_Line, L, K);
-         ----------------------------------------------------------------------
-         ----------------------------------------------------------------------
-
          J2 := K + 1;    --  In case it is end of line and we don't look for ' '
-
          exit when Words_Mdev (Do_Only_Initial_Word);
-
       end loop;        --  Loop on line
 
    exception
