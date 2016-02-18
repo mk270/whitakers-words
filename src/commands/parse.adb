@@ -1027,6 +1027,7 @@ is
                          Input_Line    : String)
    is
       L     : constant Integer   := Trim (Input_Line)'Last;
+      L2    :          Integer   := L;
       W     : String (1 .. L)    := (others => ' ');
       Line  : String (1 .. 2500) := (others => ' ');
       J2, K : Integer := 0;
@@ -1083,12 +1084,8 @@ is
          Do_Qvae_Kludge (W, J2, K);
 
          if Language = English_To_Latin  then
-            declare
-               L2 : Integer := L;
-            begin
-               Parse_English_Word (W (J2 .. K), Line, K, L2);
-               exit;
-            end;
+            Parse_English_Word (W (J2 .. K), Line, K, L2);
+            exit;
          end if;
 
          Parse_Latin_Word (Configuration, W (J2 .. K), Line, Input_Line, L, K);
