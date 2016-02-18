@@ -994,9 +994,7 @@ is
       --  but not now
       --      eliminate_not_letters:
       for I in 1 .. L  loop
-         if Is_Alpha_Etc (Line (I)) then
-            null;
-         else
+         if not Is_Alpha_Etc (Line (I)) then
             Line (I) := ' ';
          end if;
       end loop;
