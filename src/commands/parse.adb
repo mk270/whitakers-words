@@ -926,13 +926,20 @@ is
          end if;       --  On WORDS_MODE (DO_COMPOUNDS)
       end if;
 
-      if  Words_Mode (Write_Output_To_File)      then
-         List_Stems (Configuration, Output, Input_Word,
+      -- hack around the weird reimplementation of output redirection
+      declare
+         type File_Type_Access is access constant Ada.Text_IO.File_Type;
+         O : File_Type_Access;
+      begin
+         if Words_Mode (Write_Output_To_File) then
+            O := Output'Access;
+         else
+            O := Current_Output.all'Access; -- Current_Output is a procedure
+         end if;
+
+         List_Stems (Configuration, O.all, Input_Word,
            Input_Line, Pa, Pa_Last);
-      else
-         List_Stems (Configuration, Current_Output, Input_Word,
-           Input_Line, Pa, Pa_Last);
-      end if;
+      end;
 
    exception
       when others  =>

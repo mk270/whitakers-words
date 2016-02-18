@@ -31,7 +31,7 @@ package Support_Utils.Word_Parameters is
    Mode_File : Ada.Text_IO.File_Type;
 
    --  OUTPUT is used to Write out and save the results of a run
-   Output : Ada.Text_IO.File_Type;
+   Output : aliased Ada.Text_IO.File_Type;
    Input  : Ada.Text_IO.File_Type;
    --  UNKNOWNS is used to record the words that the program fails to find
    Unknowns : Ada.Text_IO.File_Type;
