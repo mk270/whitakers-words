@@ -1087,15 +1087,14 @@ is
       end loop;        --  Loop on line
 
    exception
-      --   Have STORAGE_ERROR check in WORD too  ?????????????
-      when Storage_Error  =>    --  I want to again, at least twice
+      when Storage_Error =>
          Report_Storage_Error;
          if Storage_Error_Count >= 4 then
             raise;
          end if;
       when Give_Up =>
          raise;
-      when others  =>    --  I want to try to Get on with the next line
+      when others =>
          Report_Unknown_Error (Input_Line, J2, K);
    end Parse_Line;
 
