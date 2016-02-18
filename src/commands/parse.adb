@@ -1020,7 +1020,6 @@ is
          exit when J2 > L;             --  Kludge
 
          Followed_By_Period := False;
-
          Capitalized := False;
          All_Caps := False;
 
