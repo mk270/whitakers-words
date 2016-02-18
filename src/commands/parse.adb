@@ -972,12 +972,12 @@ is
    --
    -- Formal args and local vars:
    --
-   -- Input_Line :
-   -- L          :
-   -- W          :
-   -- Line       :
-   -- J2         :
-   -- K          :
+   -- Input_Line : the text entered by the user
+   -- L          : the length of the text, ignoring trailing whitespace
+   -- W          : the word currently being worked on
+   -- Line       : the working copy of the input, e.g., strip punctuation
+   -- J2         : roughly, the index in Line where W starts
+   -- K          : roughly, the index in Line where W ends
 
    procedure Parse_Line (Configuration : Configuration_Type;
                          Input_Line    : String)
