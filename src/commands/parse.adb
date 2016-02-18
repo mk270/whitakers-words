@@ -958,6 +958,17 @@ is
         W (J2 + 1) in 'a' .. 'z';
    end Is_Capitalized;
 
+   function Is_All_Caps (W : String; J2, K : Integer) return Boolean
+   is
+   begin
+      for I in J2 .. K  loop
+         if W (I) = Lower_Case (W (I))  then
+            return False;
+         end if;
+      end loop;
+      return True;
+   end Is_All_Caps;
+
    -- forward declarations for exception handlers
    procedure Report_Storage_Error;
    procedure Report_Unknown_Error (Input_Line : String; J2, K : Integer);
@@ -1041,7 +1052,6 @@ is
          exit when J2 > L;             --  Kludge
 
          Followed_By_Period := False;
-         All_Caps := False;
 
          --  Extract the word
          for I in J2 .. L  loop
@@ -1057,14 +1067,7 @@ is
          end loop;
 
          Capitalized := Is_Capitalized (W, J2, K);
-
-         All_Caps := True;
-         for I in J2 .. K  loop
-            if W (I) = Lower_Case (W (I))  then
-               All_Caps := False;
-               exit;
-            end if;
-         end loop;
+         All_Caps := Is_All_Caps (W, J2, K);
 
          -- QVAE Kludge? No-one's seen QVAAKLUDES since the '70s!
          for I in J2 .. K - 1  loop
