@@ -57,7 +57,7 @@ is
    -- the scope of most of these variables is over-broad
    Storage_Error_Count : Integer := 0;
 
-   J2, K : Integer := 0;
+   K : Integer := 0;
 
    Syncope_Max : constant := 20;
    No_Syncope : Boolean := False;
@@ -948,6 +948,7 @@ is
       L : Integer := Trim (Input_Line)'Last;
       Line : String (1 .. 2500) := (others => ' ');
       W : String (1 .. L) := (others => ' ');
+      J2 : Integer := 0;
    begin
       Word_Number := 0;
       Line (1 .. L) := Trim (Input_Line);
