@@ -956,10 +956,10 @@ is
    procedure Report_Unknown_Error (Input_Line : String; J2, K : Integer);
 
    procedure Parse_Line (Configuration : Configuration_Type;
-                         Input_Line : String)
+                         Input_Line    : String)
    is
-      L     : constant Integer := Trim (Input_Line)'Last;
-      W     : String (1 .. L) := (others => ' ');
+      L     : constant Integer   := Trim (Input_Line)'Last;
+      W     : String (1 .. L)    := (others => ' ');
       Line  : String (1 .. 2500) := (others => ' ');
       J2, K : Integer := 0;
    begin
