@@ -1019,9 +1019,7 @@ is
 
          exit when J2 > L;             --  Kludge
 
-         if Followed_By_Period  then
-            Followed_By_Period := False;
-         end if;
+         Followed_By_Period := False;
 
          Capitalized := False;
          All_Caps := False;
