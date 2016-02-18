@@ -54,12 +54,12 @@ is
    use Inflection_Record_IO;
    use Ada.Text_IO;
 
-   -- the scope of most of these variables is over-broad
-   Storage_Error_Count : Integer := 0;
-
    Syncope_Max : constant := 20;
-   No_Syncope : Boolean := False;
    Tricks_Max : constant := 40;
+
+   -- the scope of these variables is over-broad
+   Storage_Error_Count : Integer := 0;
+   No_Syncope : Boolean := False;
 
    type Participle is
       record
