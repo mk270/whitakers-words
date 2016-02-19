@@ -860,6 +860,7 @@ is
                            --  fix PA, and advance J over the sum
                            K := Nk;
                            Used_Next_Word := True;
+                           exit;
                         end if;
                      end;
                   end loop;
@@ -902,6 +903,7 @@ is
                            --  fix PA, and advance J over the sum
                            K := Nk;
                            Used_Next_Word := True;
+                           exit;
                         end if;
                      end;
                   end loop;
@@ -938,6 +940,7 @@ is
                            --  fix PA, and advance J over the iri
                            K := Nk;
                            Used_Next_Word := True;
+                           exit;
                         end if;
                      end;
                   end loop;
