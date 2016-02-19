@@ -447,12 +447,13 @@ is
    end Do_Clear_Pas_Ppl;
 
    -- parts of these three do_clear_* functions should be factored together
-   procedure Do_Clear_Pas_Supine (Supine_Info :    out Supine_Record;
-                                  Nk          : in     Integer;
-                                  Ppl_On      : in out Boolean;
-                                  Pa          : in out Parse_Array;
-                                  Pa_Last     : in out Integer;
-                                  K           : in out Integer)
+   procedure Do_Clear_Pas_Supine (Supine_Info    :    out Supine_Record;
+                                  Nk             : in     Integer;
+                                  Ppl_On         : in out Boolean;
+                                  Pa             : in out Parse_Array;
+                                  Pa_Last        : in out Integer;
+                                  K              : in out Integer;
+                                  Used_Next_Word : in out Boolean)
    is
    begin
       for J6 in reverse 1 .. Pa_Last loop
@@ -488,7 +489,7 @@ is
               Max_Meaning_Size);
 
             K := Nk;
-
+            Used_Next_Word := True;
          else
             Pa (J6 .. Pa_Last - 1) := Pa (J6 + 1 .. Pa_Last);
             Pa_Last := Pa_Last - 1;
@@ -712,13 +713,13 @@ is
    end Parse_English_Word;
 
    procedure Parse_Latin_Word
-     (Configuration : in Configuration_Type;
-      Input_Word    : in String; -- a trimmed single word
-      Line          : in String; -- left trimmed, punctuation removed
-      Input_Line    : in String; -- what the user actually typed
-      L             : in Integer;
-      K             : in out Integer)
-
+     (Configuration  : in Configuration_Type;
+      Input_Word     : in String; -- a trimmed single word
+      Line           : in String; -- left trimmed, punctuation removed
+      Input_Line     : in String; -- what the user actually typed
+      L              : in Integer;
+      K              : in out Integer;
+      Used_Next_Word : out Boolean)
    is
       Pa : Parse_Array (1 .. 100) := (others => Null_Parse_Record);
       Pa_Last : Integer := 0;
@@ -729,6 +730,7 @@ is
       Entering_Trpa_Last    : Integer := 0;
       Have_Done_Enclitic : Boolean := False;
    begin   --  PARSE
+      Used_Next_Word := False;
       Xxx_Meaning := Null_Meaning_Type;
 
       -- This step is actually redundant; it is mentioned here simply to
@@ -846,6 +848,7 @@ is
                         --  There is at least one hit;
                         --  fix PA, and advance J over the sum
                         K := Nk;
+                        Used_Next_Word := True;
                      end if;
                   end loop;
 
@@ -883,6 +886,7 @@ is
                         --  There is at least one hit;
                         --  fix PA, and advance J over the sum
                         K := Nk;
+                        Used_Next_Word := True;
                      end if;
                   end loop;
 
@@ -914,13 +918,13 @@ is
                         --  There is at least one hit;
                         --  fix PA, and advance J over the iri
                         K := Nk;
-
+                        Used_Next_Word := True;
                      end if;
                   end loop;
 
                   if K = Nk  then      --  There was a SUPINE hit
                      Do_Clear_Pas_Supine (Supine_Info, Nk, Ppl_On,
-                       Pa, Pa_Last, K);
+                       Pa, Pa_Last, K, Used_Next_Word);
                   end if;
                end if;       --  On NEXT_WORD = sum, esse, iri
             end Compounds_With_Sum;
@@ -1038,6 +1042,7 @@ is
       W     : String (1 .. L)    := (others => ' ');
       Line  : String (1 .. 2500) := (others => ' ');
       J2, K : Integer := 0;
+      Used_Next_Word : Boolean;
    begin
       Followed_By_Period := False;
       Word_Number := 0;
@@ -1099,7 +1104,7 @@ is
             end if;
 
             Parse_Latin_Word (Configuration, Input_Word, Line,
-              Input_Line, L, K);
+              Input_Line, L, K, Used_Next_Word);
             J2 := K + 1; --  In case it is end of line and we don't look for ' '
          end;
 
