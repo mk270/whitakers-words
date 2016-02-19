@@ -1085,13 +1085,19 @@ is
          All_Caps := Is_All_Caps (W, J2, K);
          Do_Qvae_Kludge (W, J2, K);
 
-         if Language = English_To_Latin  then
-            Parse_English_Word (W (J2 .. K), Line, K, L);
-            exit;
-         end if;
+         declare
+            Input_Word : constant String := W (J2 .. K);
+         begin
+            if Language = English_To_Latin  then
+               Parse_English_Word (Input_Word, Line, K, L);
+               exit;
+            end if;
 
-         Parse_Latin_Word (Configuration, W (J2 .. K), Line, Input_Line, L, K);
-         J2 := K + 1;    --  In case it is end of line and we don't look for ' '
+            Parse_Latin_Word (Configuration, Input_Word, Line,
+              Input_Line, L, K);
+            J2 := K + 1; --  In case it is end of line and we don't look for ' '
+         end;
+
          exit when Words_Mdev (Do_Only_Initial_Word);
       end loop;        --  Loop on line
 
