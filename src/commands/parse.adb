@@ -691,11 +691,12 @@ is
       end if;
    end Pass;
 
-   procedure Parse_English_Word (Input_Word : in     String;
-                                 Line       : in     String;
-                                 K          : in     Integer;
-                                 L          : in out Integer)
+   procedure Parse_English_Word (Input_Word : in String;
+                                 Line       : in String;
+                                 K          : in Integer;
+                                 L2         : in Integer)
    is
+      L    : Integer             := L2;
       Pofs : Part_Of_Speech_Type := X;
    begin
       --  Extract from the rest of the line
@@ -1030,7 +1031,6 @@ is
                          Input_Line    : String)
    is
       L     : constant Integer   := Trim (Input_Line)'Last;
-      L2    :          Integer   := L;
       W     : String (1 .. L)    := (others => ' ');
       Line  : String (1 .. 2500) := (others => ' ');
       J2, K : Integer := 0;
@@ -1086,7 +1086,7 @@ is
          Do_Qvae_Kludge (W, J2, K);
 
          if Language = English_To_Latin  then
-            Parse_English_Word (W (J2 .. K), Line, K, L2);
+            Parse_English_Word (W (J2 .. K), Line, K, L);
             exit;
          end if;
 
