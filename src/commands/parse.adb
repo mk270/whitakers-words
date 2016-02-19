@@ -1070,8 +1070,6 @@ is
 
          --  Extract the word
          for I in J2 .. L  loop
-            --  Although I have removed punctuation above,
-            --  it may not always be so
             if Line (I) = '.'  then
                Followed_By_Period := True;
                exit;
