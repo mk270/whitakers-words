@@ -865,7 +865,7 @@ is
                      end;
                   end loop;
 
-                  if K = Nk  then
+                  if Used_Next_Word  then
                      --  There was a PPL hit
                      Do_Clear_Pas_Nom_Ppl (Sum_Info, Compound_Tvm, Ppl_On,
                        Ppl_Info, Pa, Pa_Last);
@@ -908,7 +908,7 @@ is
                      end;
                   end loop;
 
-                  if K = Nk  then
+                  if Used_Next_Word  then
                      --  There was a PPL hit
                      Do_Clear_Pas_Ppl (Next_Word, Compound_Tvm,
                        Ppl_On, Ppl_Info, Pa, Pa_Last);
@@ -945,7 +945,7 @@ is
                      end;
                   end loop;
 
-                  if K = Nk  then      --  There was a SUPINE hit
+                  if Used_Next_Word  then      --  There was a SUPINE hit
                      Do_Clear_Pas_Supine (Supine_Info, Nk, Ppl_On,
                        Pa, Pa_Last, K, Used_Next_Word);
                   end if;
