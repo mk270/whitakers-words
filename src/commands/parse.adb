@@ -963,11 +963,11 @@ is
         Input_Word (Input_Word'First + 1) in 'a' .. 'z';
    end Is_Capitalized;
 
-   function Is_All_Caps (W : String; J2, K : Integer) return Boolean
+   function Is_All_Caps (Input_Word : String) return Boolean
    is
    begin
-      for I in J2 .. K  loop
-         if W (I) = Lower_Case (W (I))  then
+      for I in Input_Word'Range  loop
+         if Input_Word (I) = Lower_Case (Input_Word (I))  then
             return False;
          end if;
       end loop;
@@ -1086,12 +1086,12 @@ is
          -- to the final alpha char therein
 
          Do_Qvae_Kludge (W, J2, K);
-         All_Caps := Is_All_Caps (W, J2, K);
 
          declare
             Input_Word : constant String := W (J2 .. K);
          begin
             Capitalized := Is_Capitalized (Input_Word);
+            All_Caps    := Is_All_Caps (Input_Word);
 
             if Language = English_To_Latin  then
                Parse_English_Word (Input_Word, Line, K, L);
