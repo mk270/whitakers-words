@@ -1078,6 +1078,8 @@ is
             W (I) := Line (I);
             K := I;
          end loop;
+         -- after this point, W (J2 .. K) contains the word, and K points
+         -- to the final alpha char therein
 
          Capitalized := Is_Capitalized (W, J2, K);
          All_Caps := Is_All_Caps (W, J2, K);
