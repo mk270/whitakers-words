@@ -1081,9 +1081,9 @@ is
          -- after this point, W (J2 .. K) contains the word, and K points
          -- to the final alpha char therein
 
+         Do_Qvae_Kludge (W, J2, K);
          Capitalized := Is_Capitalized (W, J2, K);
          All_Caps := Is_All_Caps (W, J2, K);
-         Do_Qvae_Kludge (W, J2, K);
 
          declare
             Input_Word : constant String := W (J2 .. K);
