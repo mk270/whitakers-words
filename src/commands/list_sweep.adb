@@ -389,12 +389,9 @@ procedure List_Sweep (Pa : in out Parse_Array; Pa_Last : in out Integer) is
                Sl (I .. Sl_Last - 1) := Sl (I + 1 .. Sl_Last);
                Sl_Last := Sl_Last - 1;
                Trimmed := True;
-            end if;
-         end loop;
 
-         for I in reverse Sl'First .. Sl_Last loop
             --TEXT_IO.PUT_LINE ("TRIMMING FOR TRIM   I = " & INTEGER'IMAGE (I));
-            if (Not_Only_Archaic and Words_Mdev (Omit_Archaic)) and then
+            elsif (Not_Only_Archaic and Words_Mdev (Omit_Archaic)) and then
               Sl (I).IR.Age = A
             then
                Sl (I .. Sl_Last - 1) := Sl (I + 1 .. Sl_Last);
@@ -406,43 +403,37 @@ procedure List_Sweep (Pa : in out Parse_Array; Pa_Last : in out Integer) is
                Sl (I .. Sl_Last - 1) := Sl (I + 1 .. Sl_Last);
                Sl_Last := Sl_Last - 1;
                Trimmed := True;
-            end if;
-         end loop;
 
-         for I in reverse Sl'First .. Sl_Last loop
-            if (Not_Only_Uncommon and Words_Mdev (Omit_Uncommon)) and then
+            elsif (Not_Only_Uncommon and Words_Mdev (Omit_Uncommon)) and then
               Sl (I).IR.Freq >= C
             then      --  Remember A < C
                Sl (I .. Sl_Last - 1) := Sl (I + 1 .. Sl_Last);
                Sl_Last := Sl_Last - 1;
                Trimmed := True;
-            end if;
-         end loop;
 
-         ----Big problem.  This area has been generaing exceptions.
-         ----At least one difficulty is that suffixes change POFS.
-         ----So one has a N inflection (SL) but a V DE
-         ----When the program checks for VOC, it wants a N
-         ---- and then asks about KIND (P, N, T, .. .)
-         ---- But the DE (v) does not have those
-         ---- The solution would be to fix ADD SUFFIX to do somethnig about
-         --   passing the ADDON KIND
-         ----  I do not want to face that now
-         ----  It is likely that all this VOC/LOC is worthless anyway.
-         ---    Maybe lower FREQ in INFLECTS
-         ----
-         ----  A further complication is the GANT and AO give
-         --    different results (AO no exception)
-         ----  That is probably because the program is in
-         --    error and the result threrfore unspecified
-         ----
-         ----
+            ----Big problem.  This area has been generaing exceptions.
+            ----At least one difficulty is that suffixes change POFS.
+            ----So one has a N inflection (SL) but a V DE
+            ----When the program checks for VOC, it wants a N
+            ---- and then asks about KIND (P, N, T, .. .)
+            ---- But the DE (v) does not have those
+            ---- The solution would be to fix ADD SUFFIX to do somethnig about
+            --   passing the ADDON KIND
+            ----  I do not want to face that now
+            ----  It is likely that all this VOC/LOC is worthless anyway.
+            ---    Maybe lower FREQ in INFLECTS
+            ----
+            ----  A further complication is the GANT and AO give
+            --    different results (AO no exception)
+            ----  That is probably because the program is in
+            --    error and the result threrfore unspecified
+            ----
+            ----
 
-         --  This is really working much too hard!
-         --  just to kill Roman numeral for three single letters
-         --  Also strange in that code depends on dictionary knowledge
-         for I in reverse Sl'First .. Sl_Last loop
-            if Has_Noun_Abbreviation    and then
+            --  This is really working much too hard!
+            --  just to kill Roman numeral for three single letters
+            --  Also strange in that code depends on dictionary knowledge
+            elsif Has_Noun_Abbreviation    and then
               (All_Caps and Followed_By_Period)
             then
                if (Sl (I).IR.Qual.Pofs /= N) or
