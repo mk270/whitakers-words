@@ -728,7 +728,9 @@ is
       Input_Line     : in String; -- what the user actually typed
       L              : in Integer;
       K              : in out Integer;
-      Used_Next_Word : out Boolean)
+      Used_Next_Word : out Boolean;
+      Word_After     : in String -- placeholder for "Next_Word"
+     )
    is
       Pa : Parse_Array (1 .. 100) := (others => Null_Parse_Record);
       Pa_Last : Integer := 0;
@@ -739,6 +741,9 @@ is
       Entering_Trpa_Last    : Integer := 0;
       Have_Done_Enclitic : Boolean := False;
    begin   --  PARSE
+      if Word_After'Length = 0 then
+         null;
+      end if;
       Used_Next_Word := False;
       Xxx_Meaning := Null_Meaning_Type;
 
@@ -1127,7 +1132,7 @@ is
             end if;
 
             Parse_Latin_Word (Configuration, Input_Word, Line,
-              Input_Line, L, K, Used_Next_Word);
+              Input_Line, L, K, Used_Next_Word, Input_Word);
             J2 := K + 1; --  In case it is end of line and we don't look for ' '
          end;
 
