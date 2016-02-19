@@ -843,22 +843,25 @@ is
                   --  On NEXT_WORD = sum, esse, iri
 
                   for I in 1 .. Pa_Last  loop    --  Check for PPL
-                     if Pa (I).IR.Qual.Pofs = Vpar and then
-                       Pa (I).IR.Qual.Vpar.Of_Case = Nom  and then
-                       Pa (I).IR.Qual.Vpar.Number = Sum_Info.Number  and then
-                       ((Pa (I).IR.Qual.Vpar.Tense_Voice_Mood =
-                       (Perf, Passive, Ppl)) or
-                       (Pa (I).IR.Qual.Vpar.Tense_Voice_Mood =
-                       (Fut, Active,  Ppl)) or
-                       (Pa (I).IR.Qual.Vpar.Tense_Voice_Mood =
-                       (Fut, Passive, Ppl)))
-                     then
-
-                        --  There is at least one hit;
-                        --  fix PA, and advance J over the sum
-                        K := Nk;
-                        Used_Next_Word := True;
-                     end if;
+                     declare
+                        Q : constant Quality_Record := Pa (I).IR.Qual;
+                     begin
+                        if Q.Pofs = Vpar and then
+                          Q.Vpar.Of_Case = Nom  and then
+                          Q.Vpar.Number = Sum_Info.Number  and then
+                          ((Q.Vpar.Tense_Voice_Mood =
+                          (Perf, Passive, Ppl)) or
+                          (Q.Vpar.Tense_Voice_Mood =
+                          (Fut, Active,  Ppl)) or
+                          (Q.Vpar.Tense_Voice_Mood =
+                          (Fut, Passive, Ppl)))
+                        then
+                           --  There is at least one hit;
+                           --  fix PA, and advance J over the sum
+                           K := Nk;
+                           Used_Next_Word := True;
+                        end if;
+                     end;
                   end loop;
 
                   if K = Nk  then
@@ -882,21 +885,25 @@ is
                   --  On NEXT_WORD
 
                   for I in 1 .. Pa_Last  loop    --  Check for PPL
-                     if Pa (I).IR.Qual.Pofs = Vpar and then
-                       (((Pa (I).IR.Qual.Vpar.Tense_Voice_Mood =
-                       (Perf, Passive, Ppl)) and
-                       Is_Esse (Next_Word)) or
-                       ((Pa (I).IR.Qual.Vpar.Tense_Voice_Mood =
-                       (Fut,  Active,  Ppl)) or
-                       (Pa (I).IR.Qual.Vpar.Tense_Voice_Mood =
-                       (Fut,  Passive, Ppl))))
-                     then
-
-                        --  There is at least one hit;
-                        --  fix PA, and advance J over the sum
-                        K := Nk;
-                        Used_Next_Word := True;
-                     end if;
+                     declare
+                        Q : constant Quality_Record :=
+                          Pa (I).IR.Qual;
+                     begin
+                        if Q.Pofs = Vpar and then
+                          (((Q.Vpar.Tense_Voice_Mood =
+                          (Perf, Passive, Ppl)) and
+                          Is_Esse (Next_Word)) or
+                          ((Q.Vpar.Tense_Voice_Mood =
+                          (Fut,  Active,  Ppl)) or
+                          (Q.Vpar.Tense_Voice_Mood =
+                          (Fut,  Passive, Ppl))))
+                        then
+                           --  There is at least one hit;
+                           --  fix PA, and advance J over the sum
+                           K := Nk;
+                           Used_Next_Word := True;
+                        end if;
+                     end;
                   end loop;
 
                   if K = Nk  then
@@ -921,14 +928,18 @@ is
                   --  Look ahead for sum
 
                   for J in 1 .. Pa_Last  loop    --  Check for SUPINE
-                     if Pa (J).IR.Qual.Pofs = Supine   and then
-                       Pa (J).IR.Qual.Supine.Of_Case = Acc
-                     then
-                        --  There is at least one hit;
-                        --  fix PA, and advance J over the iri
-                        K := Nk;
-                        Used_Next_Word := True;
-                     end if;
+                     declare
+                        Q : constant Quality_Record := Pa (J).IR.Qual;
+                     begin
+                        if Q.Pofs = Supine   and then
+                          Q.Supine.Of_Case = Acc
+                        then
+                           --  There is at least one hit;
+                           --  fix PA, and advance J over the iri
+                           K := Nk;
+                           Used_Next_Word := True;
+                        end if;
+                     end;
                   end loop;
 
                   if K = Nk  then      --  There was a SUPINE hit
