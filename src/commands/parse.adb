@@ -712,6 +712,15 @@ is
       Search_English (Input_Word, Pofs);
    end Parse_English_Word;
 
+   -- the K variable is passed in as Input_Word'Last, but it can be modified
+   -- by this routine, in the case where a multi-word compound is detected,
+   -- e.g., "movendi sunt"; the value is read in the caller, and employed to
+   -- update an iterator over the whole input line. Used_Next_Word is also
+   -- set in these circumstances, but is currently unused
+
+   -- in future, we shall pass in the next word, if any, in the input line
+   -- to this function, obviating the need to go grovelling around further
+   -- down the string, and saving wear and tear on variables like K
    procedure Parse_Latin_Word
      (Configuration  : in Configuration_Type;
       Input_Word     : in String; -- a trimmed single word
