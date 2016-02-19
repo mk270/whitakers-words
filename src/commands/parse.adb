@@ -1062,8 +1062,8 @@ is
             end if;
             J2 := I + 1;
          end loop;
-
-         exit when J2 > L;             --  Kludge
+         exit when J2 > L; --  Kludge;
+         -- J2 must now point at first alpha char in Line
 
          Followed_By_Period := False;
 
