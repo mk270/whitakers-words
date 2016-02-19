@@ -952,11 +952,15 @@ is
 
    end Parse_Latin_Word;
 
-   function Is_Capitalized (W : String; J2, K : Integer) return Boolean
+   function Is_Capitalized (Input_Word : String) return Boolean
    is
    begin
-      return W (J2) in 'A' .. 'Z' and then K - J2 >= 1  and then
-        W (J2 + 1) in 'a' .. 'z';
+      if Input_Word'Length <= 1 then
+         return False;
+      end if;
+      return
+        Input_Word (Input_Word'First) in 'A' .. 'Z' and then
+        Input_Word (Input_Word'First + 1) in 'a' .. 'z';
    end Is_Capitalized;
 
    function Is_All_Caps (W : String; J2, K : Integer) return Boolean
@@ -1082,12 +1086,13 @@ is
          -- to the final alpha char therein
 
          Do_Qvae_Kludge (W, J2, K);
-         Capitalized := Is_Capitalized (W, J2, K);
          All_Caps := Is_All_Caps (W, J2, K);
 
          declare
             Input_Word : constant String := W (J2 .. K);
          begin
+            Capitalized := Is_Capitalized (Input_Word);
+
             if Language = English_To_Latin  then
                Parse_English_Word (Input_Word, Line, K, L);
                exit;
