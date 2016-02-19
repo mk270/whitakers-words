@@ -1009,9 +1009,11 @@ is
    -- J2         : roughly, the index in Line where W starts
    -- K          : roughly, the index in Line where W ends
 
+
+   -- Before the main loop, we convert all non-alpha characters to spaces,
+   -- where non-alpha means the complement of [a-zA-Z.-]
+
    -- What the main loop actually does:
-   --
-   -- replace complement of [a-zA-Z.-] with spaces
    --
    -- ignore everything after a double dash
    --
