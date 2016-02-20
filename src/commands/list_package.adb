@@ -991,7 +991,7 @@ package body List_Package is
       --                    LIST_SWEEP  -  PA_LAST = 0
       if Pa_Last = 0  then
          --  WORD failed
-         List_Unknowns (Sraa, Dma, Input_Line, Raw_Word, Pa, Pa_Last);
+         List_Unknowns (WA.Stem, WA.Dict, Input_Line, Raw_Word, Pa, Pa_Last);
       end if;
 
       --  Exit if UNKNOWNS ONLY (but had to do STATS above)
@@ -1009,7 +1009,7 @@ package body List_Package is
          end loop;
 
          Put_Parse_Details (Configuration, Output, Dma_Temp,
-           Sraa, I_Is_Pa_Last);
+           WA.Stem, I_Is_Pa_Last);
       end;
 
       if Trimmed then
