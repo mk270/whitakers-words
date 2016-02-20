@@ -454,11 +454,9 @@ is
 
    -- parts of these three do_clear_* functions should be factored together
    procedure Do_Clear_Pas_Supine (Supine_Info    :    out Supine_Record;
-                                  Nk             : in     Integer;
                                   Ppl_On         : in out Boolean;
                                   Pa             : in out Parse_Array;
                                   Pa_Last        : in out Integer;
-                                  K              : in out Integer;
                                   Used_Next_Word : in out Boolean)
    is
    begin
@@ -494,7 +492,6 @@ is
               "FUT PASSIVE INF - to be about/going/ready to be ~",
               Max_Meaning_Size);
 
-            K := Nk;
             Used_Next_Word := True;
          else
             Pa (J6 .. Pa_Last - 1) := Pa (J6 + 1 .. Pa_Last);
@@ -929,8 +926,8 @@ is
                   end loop;
 
                   if Used_Next_Word  then      --  There was a SUPINE hit
-                     Do_Clear_Pas_Supine (Supine_Info, Nk, Ppl_On,
-                       Pa, Pa_Last, K, Used_Next_Word);
+                     Do_Clear_Pas_Supine (Supine_Info, Ppl_On,
+                       Pa, Pa_Last, Used_Next_Word);
                   end if;
                end if;       --  On NEXT_WORD = sum, esse, iri
             end Compounds_With_Sum;
