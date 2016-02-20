@@ -942,6 +942,36 @@ package body List_Package is
       return Dma_Size;
    end Count_Used_Dma;
 
+   function Analyse_Word
+     (Orig_Pa      : Parse_Array;
+      Orig_Pa_Last : Integer;
+      Raw_Word     : String)
+     return Word_Analysis
+   is
+      Pa : Parse_Array := Orig_Pa;
+      Pa_Last : Integer := Orig_Pa_Last;
+
+      W : constant String := Raw_Word;
+      Sraa : Stem_Inflection_Array_Array
+        (1 .. Stem_Inflection_Array_Array_Size) := Null_Sraa;
+      Dma : Dictionary_MNPC_Array := Null_Dma;
+
+      I_Is_Pa_Last : Boolean := False;
+      WA : Word_Analysis;
+   begin
+      --  Since this procedure weeds out possible parses, if it weeds out all
+      --  (or all of a class) it must fix up the rest of the parse array,
+      --  e.g., it must clean out dangling prefixes and suffixes
+      Trimmed := False;
+      Handle_Adverb (Pa, Pa_Last);
+      List_Sweep (Pa (1 .. Pa_Last), Pa_Last);
+      Write_Addons_Stats (W, Pa, Pa_Last);
+      Cycle_Over_Pa (Pa, Pa_Last, Sraa, Dma, I_Is_Pa_Last, Raw_Word, W);
+
+      WA := (Stem => Sraa, Dict => Dma, I_Is_Pa_Last => I_Is_Pa_Last);
+      return WA;
+   end Analyse_Word;
+
    --  The main WORD processing has been to produce an array of PARSE_RECORD
    --  as defined in Latin_Utils.Dictionary_Package.
    --  This has involved STEMFILE and INFLECTS, no DICTFILE
@@ -964,26 +994,9 @@ package body List_Package is
       Pa : Parse_Array := Orig_Pa;
       Pa_Last : Integer := Orig_Pa_Last;
 
-      Sraa : Stem_Inflection_Array_Array
-        (1 .. Stem_Inflection_Array_Array_Size) := Null_Sraa;
-
-      Dma : Dictionary_MNPC_Array := Null_Dma;
-
-      W : constant String := Raw_Word;
-      I_Is_Pa_Last : Boolean := False;
-
       WA : Word_Analysis;
    begin
-      --  Since this procedure weeds out possible parses, if it weeds out all
-      --  (or all of a class) it must fix up the rest of the parse array,
-      --  e.g., it must clean out dangling prefixes and suffixes
-      Trimmed := False;
-      Handle_Adverb (Pa, Pa_Last);
-      List_Sweep (Pa (1 .. Pa_Last), Pa_Last);
-      Write_Addons_Stats (W, Pa, Pa_Last);
-      Cycle_Over_Pa (Pa, Pa_Last, Sraa, Dma, I_Is_Pa_Last, Raw_Word, W);
-
-      WA := (Stem => Sraa, Dict => Dma, I_Is_Pa_Last => I_Is_Pa_Last);
+      WA := Analyse_Word (Pa, Pa_Last, Raw_Word);
 
       --  Sets + if capitalized
       --  Strangely enough, it may enter LIST_STEMS with PA_LAST /= 0
@@ -1009,7 +1022,7 @@ package body List_Package is
          end loop;
 
          Put_Parse_Details (Configuration, Output, Dma_Temp,
-           WA.Stem, I_Is_Pa_Last);
+           WA.Stem, WA.I_Is_Pa_Last);
       end;
 
       if Trimmed then
@@ -1025,7 +1038,7 @@ package body List_Package is
          Put_Stat ("EXCEPTION LS at "
            & Head (Integer'Image (Line_Number), 8) &
            Head (Integer'Image (Word_Number), 4)
-           & "   " & Head (W, 20));
+           & "   " & Head (Raw_Word, 20));
    end List_Stems;
 
    procedure List_Entry (Output   : Ada.Text_IO.File_Type;
