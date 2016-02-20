@@ -44,7 +44,10 @@ with List_Package; use List_Package;
 with Tricks_Package; use Tricks_Package;
 with Put_Stat;
 with Search_English;
-with Support_Utils.Char_Utils; use Support_Utils.Char_Utils;
+--with Support_Utils.Char_Utils; use Support_Utils.Char_Utils;
+with Ada.Containers.Vectors; use Ada.Containers;
+with Ada.Strings.Unbounded; use Ada.Strings.Unbounded;
+with Ada.Strings.Fixed;
 use Latin_Utils;
 
 pragma Elaborate (Support_Utils.Word_Parameters);
@@ -53,6 +56,9 @@ is
    use Inflections_Package.Integer_IO;
    use Inflection_Record_IO;
    use Ada.Text_IO;
+
+   package Word_Container is new Vectors (Natural, Unbounded_String);
+   use Word_Container;
 
    Syncope_Max : constant := 20;
    Tricks_Max : constant := 40;
@@ -724,12 +730,10 @@ is
    procedure Parse_Latin_Word
      (Configuration  : in Configuration_Type;
       Input_Word     : in String; -- a trimmed single word
-      Line           : in String; -- left trimmed, punctuation removed
       Input_Line     : in String; -- what the user actually typed
-      L              : in Integer;
       K              : in out Integer;
       Used_Next_Word : out Boolean;
-      Word_After     : in String -- placeholder for "Next_Word"
+      Next_Word      : in String
      )
    is
       Pa : Parse_Array (1 .. 100) := (others => Null_Parse_Record);
@@ -741,9 +745,6 @@ is
       Entering_Trpa_Last    : Integer := 0;
       Have_Done_Enclitic : Boolean := False;
    begin   --  PARSE
-      if Word_After'Length = 0 then
-         null;
-      end if;
       Used_Next_Word := False;
       Xxx_Meaning := Null_Meaning_Type;
 
@@ -799,8 +800,8 @@ is
 
             Compounds_With_Sum :
             declare
-               Nw : String (1 .. 2500) := (others => ' ');
-               Nk : Integer := 0;
+               -- Nw : String (1 .. 2500) := (others => ' ');
+               Nk : constant Integer := 0;
 
                Compound_Tvm   : Inflections_Package.Tense_Voice_Mood_Record;
                Ppl_On : Boolean := False;
@@ -809,31 +810,8 @@ is
                Ppl_Info : Vpar_Record := ((0, 0), X, X, X, (X, X, X));
                Supine_Info : Supine_Record := ((0, 0), X, X, X);
 
-               procedure Look_Ahead is
-                  J3 : Integer := 0;
-               begin
-                  for I in K + 2 .. L  loop
-                     --  Although I have removed punctuation above,
-                     --  it may not always be so
-                     exit when Is_Punctuation (Line (I));
-                     J3 := J3 + 1;
-                     Nw (J3) := Line (I);
-                     Nk := I;
-                  end loop;
-               end Look_Ahead;
-
-               function Next_Word return String is
-               begin
-                  return Trim (Nw);
-               end Next_Word;
-
                Is_Verb_To_Be : Boolean := False;
-
             begin
-
-               --  Look ahead for sum
-               Look_Ahead;
-
                declare
                   Tmp : constant Verb_To_Be := Is_Sum (Next_Word);
                begin
@@ -1018,9 +996,82 @@ is
       end loop;
    end Do_Qvae_Kludge;
 
+   function String_Before_Dash (S : String) return String is
+   begin
+      if Ada.Strings.Fixed.Index (S, "--") > S'First then
+         return S (S'First .. Ada.Strings.Fixed.Index (S, "--"));
+      else
+         return S;
+      end if;
+   end String_Before_Dash;
+
+   function Strip_Non_Alpha_Etc (S : String) return String is
+      Twice : constant Integer := 2 * S'Length;
+      S2 : String (1 .. Twice);
+      J : Integer := S'First - 1;
+
+      function Is_Alpha_Etc (C : Character) return Boolean is
+      begin
+         if C in 'a' .. 'z' or else C in 'A' .. 'Z'
+           or else C = ' ' or else C = '.'
+         then
+            return True;
+         else
+            return False;
+         end if;
+      end Is_Alpha_Etc;
+   begin
+      for I in S'Range loop
+         if Is_Alpha_Etc (S (I)) then
+            J := J + 1;
+            S2 (J) := S (I);
+            if S (I) = '.' then
+               J := J + 1;
+               S2 (J) := ' ';
+            end if;
+         else
+            J := J + 1;
+            S2 (J) := ' ';
+         end if;
+      end loop;
+      return S2 (1 .. J);
+   end Strip_Non_Alpha_Etc;
+
+   function Make_Words (Line : String) return Vector
+   is
+      Words : Vector;
+      Indices : array (Line'Range) of Natural;
+      Next_Index : Natural := Indices'First;
+   begin
+      if Line'Length = 0 then
+         return Words;
+      end if;
+
+      Indices (Next_Index) := Line'First;
+      while Indices (Next_Index) < Line'Last loop
+         Next_Index := Next_Index + 1;
+         Indices (Next_Index) := 1 +
+           Ada.Strings.Fixed.Index (Line (Indices (Next_Index - 1) ..
+                                                      Line'Last), " ");
+         if Indices (Next_Index) = 1 then
+            Indices (Next_Index) := Line'Last + 2;
+         end if;
+
+         declare
+            S : constant String := Line (
+              Indices (Next_Index - 1) .. Indices (Next_Index) - 2);
+         begin
+            if S /= "" and S /= "." then
+               Words.Append (To_Unbounded_String (S));
+            end if;
+         end;
+      end loop;
+      return Words;
+   end Make_Words;
+
    -- forward declarations for exception handlers
    procedure Report_Storage_Error;
-   procedure Report_Unknown_Error (Input_Line : String; J2, K : Integer);
+   procedure Report_Unknown_Error (Input_Line : String);
 
    -- Parse_Line (..., Input_Line : String)
    --
@@ -1031,22 +1082,6 @@ is
    -- When looking up English words, it only deals with the first word of
    -- input; similarly, an option can be specified to make it only look up
    -- the first Latin word on a line.
-   --
-   -- The procedure has far too many moving parts and conflation of concerns.
-   --
-   -- Ultimately, it should break the input line into a vector of strings,
-   -- and hand this (or its first element) off to the subsequent routines
-   --
-   -- Formal args and local vars:
-   --
-   -- Input_Line : the text entered by the user
-   -- L          : the length of the text, ignoring trailing whitespace
-   -- W          : the word currently being worked on
-   -- Line       : the working copy of the input, e.g., strip punctuation
-   -- J2         : roughly, the index in Line where W starts
-   -- K          : roughly, the index in Line where W ends
-
-   --
 
    -- Before the main loop, we convert all non-alpha characters to spaces,
    -- where non-alpha means the complement of [a-zA-Z.-]
@@ -1067,77 +1102,66 @@ is
                          Input_Line    : String)
    is
       L     : constant Integer   := Trim (Input_Line)'Last;
-      W     : String (1 .. L)    := (others => ' ');
       Line  : String (1 .. 2500) := (others => ' ');
-      J2, K : Integer := 0;
-      Used_Next_Word : Boolean;
+      Used_Next_Word : Boolean := False;
+
+      Undashed : constant String := String_Before_Dash (Input_Line);
+      Stripped : constant String := Strip_Non_Alpha_Etc (Undashed);
+      S : constant Vector := Make_Words (Stripped);
+
+      function Word_After (I : Count_Type) return String is
+      begin
+         if I + 1 >= S.Length then
+            return "";
+         else
+            return To_String (Element (Container => S,
+                                       Index => Integer'Val (I + 1)));
+         end if;
+      end Word_After;
    begin
-      Followed_By_Period := False;
       Word_Number := 0;
       Line (1 .. L) := Trim (Input_Line);
 
-      --  Someday I ought to be interested in punctuation and numbers,
-      --  but not now
-      --      eliminate_not_letters:
-      for I in 1 .. L  loop
-         if not Is_Alpha_Etc (Line (I)) then
-            Line (I) := ' ';
+      for I in 0 .. (S.Length - 1) loop
+         if Used_Next_Word then
+            Used_Next_Word := False;
+            goto Continue;
          end if;
-      end loop;
-
-      J2 := 1;
-      K := 0;
-
-      -- loop over line
-      while J2 <= L  loop
-         --  Skip over leading and intervening blanks, looking for comments
-         --  Punctuation, numbers, and special Characters were cleared above
-         for I in K + 1 .. L  loop
-            exit when Line (J2) in 'A' .. 'Z';
-            exit when Line (J2) in 'a' .. 'z';
-            if I < L and then Line (I .. I + 1) = "--" then
-               return;      --  the rest of the line is comment
-            end if;
-            J2 := I + 1;
-         end loop;
-         exit when J2 > L; --  Kludge;
-         -- J2 must now point at first alpha char in Line
 
          Followed_By_Period := False;
-
-         --  Extract the word
-         for I in J2 .. L  loop
-            if Line (I) = '.'  then
-               Followed_By_Period := True;
-               exit;
-            end if;
-            exit when Line (I) not in 'A' .. 'Z' and Line (I) not in 'a' .. 'z';
-            W (I) := Line (I);
-            K := I;
-         end loop;
-         -- after this point, W (J2 .. K) contains the word, and K points
-         -- to the final alpha char therein
-
-         Do_Qvae_Kludge (W, J2, K);
+         Used_Next_Word := False;
 
          declare
-            Input_Word : constant String := W (J2 .. K);
+            W : String := To_String (Element (Container => S,
+                                              Index => Integer'Val (I)));
+            Last : Integer := W'Last;
+            Next_Word : constant String := Word_After (I);
          begin
-            Capitalized := Is_Capitalized (Input_Word);
-            All_Caps    := Is_All_Caps (Input_Word);
-
-            if Language = English_To_Latin  then
-               Parse_English_Word (Input_Word, Line, K, L);
-               exit;
+            if W (W'Last) = '.' then
+               Followed_By_Period := True;
+               Last := W'Last - 1;
             end if;
 
-            Parse_Latin_Word (Configuration, Input_Word, Line,
-              Input_Line, L, K, Used_Next_Word, Input_Word);
-            J2 := K + 1; --  In case it is end of line and we don't look for ' '
-         end;
+            Do_Qvae_Kludge (W, W'First, Last);
+            declare
+               Input_Word : constant String := W (W'First .. Last);
+            begin
+               Capitalized := Is_Capitalized (Input_Word);
+               All_Caps    := Is_All_Caps (Input_Word);
 
+               if Language = English_To_Latin  then
+                  Parse_English_Word (Input_Word, Line, Last, L);
+                  exit;
+               end if;
+
+               Parse_Latin_Word (Configuration, Input_Word,
+                 Input_Line, Last, Used_Next_Word, Next_Word);
+
+            end;
+         end;
+         <<Continue>>
          exit when Words_Mdev (Do_Only_Initial_Word);
-      end loop;        --  Loop on line
+      end loop;
 
    exception
       when Storage_Error =>
@@ -1148,7 +1172,7 @@ is
       when Give_Up =>
          raise;
       when others =>
-         Report_Unknown_Error (Input_Line, J2, K);
+         Report_Unknown_Error (Input_Line);
    end Parse_Line;
 
    procedure Report_Storage_Error
@@ -1162,7 +1186,7 @@ is
       Storage_Error_Count := Storage_Error_Count + 1;
    end Report_Storage_Error;
 
-   procedure Report_Unknown_Error (Input_Line : String; J2, K : Integer)
+   procedure Report_Unknown_Error (Input_Line : String)
    is
    begin
       Ada.Text_IO.Put_Line (    --  ERROR_FILE,
@@ -1171,7 +1195,7 @@ is
          if Words_Mdev (Do_Pearse_Codes) then
             Ada.Text_IO.Put (Unknowns, "00 ");
          end if;
-         Ada.Text_IO.Put (Unknowns, Input_Line (J2 .. K));
+         Ada.Text_IO.Put (Unknowns, Input_Line);
          Ada.Text_IO.Set_Col (Unknowns, 30);
          Inflections_Package.Integer_IO.Put (Unknowns, Line_Number, 5);
          Inflections_Package.Integer_IO.Put (Unknowns, Word_Number, 3);
