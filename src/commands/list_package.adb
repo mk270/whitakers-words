@@ -91,6 +91,14 @@ package body List_Package is
    Null_Dma : constant Dictionary_MNPC_Array :=
      (others => Null_Dictionary_MNPC_Record);
 
+   type Word_Analysis is
+      record
+         Stem : Stem_Inflection_Array_Array
+           (1 .. Stem_Inflection_Array_Array_Size);
+         Dict : Dictionary_MNPC_Array;
+         I_Is_Pa_Last : Boolean;
+      end record;
+
    Max_Meaning_Print_Size : constant := 79;
 
    Inflection_Frequency : constant array (Frequency_Type) of String (1 .. 8) :=
@@ -963,6 +971,8 @@ package body List_Package is
 
       W : constant String := Raw_Word;
       I_Is_Pa_Last : Boolean := False;
+
+      WA : Word_Analysis;
    begin
       --  Since this procedure weeds out possible parses, if it weeds out all
       --  (or all of a class) it must fix up the rest of the parse array,
@@ -972,6 +982,8 @@ package body List_Package is
       List_Sweep (Pa (1 .. Pa_Last), Pa_Last);
       Write_Addons_Stats (W, Pa, Pa_Last);
       Cycle_Over_Pa (Pa, Pa_Last, Sraa, Dma, I_Is_Pa_Last, Raw_Word, W);
+
+      WA := (Stem => Sraa, Dict => Dma, I_Is_Pa_Last => I_Is_Pa_Last);
 
       --  Sets + if capitalized
       --  Strangely enough, it may enter LIST_STEMS with PA_LAST /= 0
@@ -989,11 +1001,11 @@ package body List_Package is
 
       -- horrible kludge, but sets things up for the dynamic future
       declare
-         Dma_Size : constant Integer := Count_Used_Dma (Dma);
+         Dma_Size : constant Integer := Count_Used_Dma (WA.Dict);
          Dma_Temp : Dyn_Dictionary_MNPC_Array (1 .. Dma_Size);
       begin
          for I in Dma_Temp'Range loop
-            Dma_Temp (I) := Dma (I);
+            Dma_Temp (I) := WA.Dict (I);
          end loop;
 
          Put_Parse_Details (Configuration, Output, Dma_Temp,
