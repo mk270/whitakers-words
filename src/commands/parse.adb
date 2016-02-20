@@ -728,7 +728,6 @@ is
      (Configuration  : in Configuration_Type;
       Input_Word     : in String; -- a trimmed single word
       Input_Line     : in String; -- what the user actually typed
-      K              : in out Integer;
       Used_Next_Word : out Boolean;
       Next_Word      : in String
      )
@@ -797,9 +796,6 @@ is
 
             Compounds_With_Sum :
             declare
-               -- Nw : String (1 .. 2500) := (others => ' ');
-               Nk : constant Integer := 0;
-
                Compound_Tvm   : Inflections_Package.Tense_Voice_Mood_Record;
                Ppl_On : Boolean := False;
 
@@ -838,7 +834,6 @@ is
                         then
                            --  There is at least one hit;
                            --  fix PA, and advance J over the sum
-                           K := Nk;
                            Used_Next_Word := True;
                            exit;
                         end if;
@@ -881,7 +876,6 @@ is
                         then
                            --  There is at least one hit;
                            --  fix PA, and advance J over the sum
-                           K := Nk;
                            Used_Next_Word := True;
                            exit;
                         end if;
@@ -918,7 +912,6 @@ is
                         then
                            --  There is at least one hit;
                            --  fix PA, and advance J over the iri
-                           K := Nk;
                            Used_Next_Word := True;
                            exit;
                         end if;
@@ -1152,7 +1145,7 @@ is
                end if;
 
                Parse_Latin_Word (Configuration, Input_Word,
-                 Input_Line, Last, Used_Next_Word, Next_Word);
+                 Input_Line, Used_Next_Word, Next_Word);
 
             end;
          end;
