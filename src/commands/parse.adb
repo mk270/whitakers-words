@@ -715,6 +715,141 @@ is
       Search_English (Input_Word, Pofs);
    end Parse_English_Word;
 
+   procedure Compounds_With_Sum
+     (Pa             : in out Parse_Array;
+      Pa_Last        : in out Integer;
+      Next_Word      :        String;
+      Used_Next_Word : in out Boolean)
+   is
+      Compound_Tvm   : Inflections_Package.Tense_Voice_Mood_Record;
+      Ppl_On : Boolean := False;
+
+      Sum_Info : Verb_Record := ((5, 1), (X, Active, X), 0, X);
+      Ppl_Info : Vpar_Record := ((0, 0), X, X, X, (X, X, X));
+      Supine_Info : Supine_Record := ((0, 0), X, X, X);
+
+      Is_Verb_To_Be : Boolean := False;
+   begin
+      declare
+         Tmp : constant Verb_To_Be := Is_Sum (Next_Word);
+      begin
+         case Tmp.Matches is
+            when True => Sum_Info := Tmp.Verb_Rec;
+            when False => null;
+         end case;
+         Is_Verb_To_Be := Tmp.Matches;
+      end;
+
+      if Is_Verb_To_Be then
+         --  On NEXT_WORD = sum, esse, iri
+
+         for I in 1 .. Pa_Last  loop    --  Check for PPL
+            declare
+               Q : constant Quality_Record := Pa (I).IR.Qual;
+            begin
+               if Q.Pofs = Vpar and then
+                 Q.Vpar.Of_Case = Nom  and then
+                 Q.Vpar.Number = Sum_Info.Number  and then
+                 ((Q.Vpar.Tense_Voice_Mood =
+                 (Perf, Passive, Ppl)) or
+                 (Q.Vpar.Tense_Voice_Mood =
+                 (Fut, Active,  Ppl)) or
+                 (Q.Vpar.Tense_Voice_Mood =
+                 (Fut, Passive, Ppl)))
+               then
+                  --  There is at least one hit;
+                  --  fix PA, and advance J over the sum
+                  Used_Next_Word := True;
+                  exit;
+               end if;
+            end;
+         end loop;
+
+         if Used_Next_Word  then
+            --  There was a PPL hit
+            Do_Clear_Pas_Nom_Ppl (Sum_Info, Compound_Tvm, Ppl_On,
+              Ppl_Info, Pa, Pa_Last);
+
+            Pa_Last := Pa_Last + 1;
+            Pa (Pa_Last) :=
+              (Head ("PPL+" & Next_Word, Max_Stem_Size),
+              ((V,
+              (Ppl_Info.Con,
+              Compound_Tvm,
+              Sum_Info.Person,
+              Sum_Info.Number)
+               ), 0, Null_Ending_Record, X, A),
+              Ppp, Null_MNPC);
+         end if;
+
+      elsif Is_Esse (Next_Word) or Is_Fuisse (Next_Word)  then
+         --  On NEXT_WORD
+
+         for I in 1 .. Pa_Last  loop    --  Check for PPL
+            declare
+               Q : constant Quality_Record :=
+                 Pa (I).IR.Qual;
+            begin
+               if Q.Pofs = Vpar and then
+                 (((Q.Vpar.Tense_Voice_Mood =
+                 (Perf, Passive, Ppl)) and
+                 Is_Esse (Next_Word)) or
+                 ((Q.Vpar.Tense_Voice_Mood =
+                 (Fut,  Active,  Ppl)) or
+                 (Q.Vpar.Tense_Voice_Mood =
+                 (Fut,  Passive, Ppl))))
+               then
+                  --  There is at least one hit;
+                  --  fix PA, and advance J over the sum
+                  Used_Next_Word := True;
+                  exit;
+               end if;
+            end;
+         end loop;
+
+         if Used_Next_Word  then
+            --  There was a PPL hit
+            Do_Clear_Pas_Ppl (Next_Word, Compound_Tvm,
+              Ppl_On, Ppl_Info, Pa, Pa_Last);
+
+            Pa_Last := Pa_Last + 1;
+            Pa (Pa_Last) :=
+              (Head ("PPL+" & Next_Word, Max_Stem_Size),
+              ((V,
+              (Ppl_Info.Con,
+              Compound_Tvm,
+              0,
+              X)
+               ), 0, Null_Ending_Record, X, A),
+              Ppp, Null_MNPC);
+         end if;
+
+      elsif Is_Iri (Next_Word)  then
+         --  On NEXT_WORD = sum, esse, iri
+         --  Look ahead for sum
+
+         for J in 1 .. Pa_Last  loop    --  Check for SUPINE
+            declare
+               Q : constant Quality_Record := Pa (J).IR.Qual;
+            begin
+               if Q.Pofs = Supine   and then
+                 Q.Supine.Of_Case = Acc
+               then
+                  --  There is at least one hit;
+                  --  fix PA, and advance J over the iri
+                  Used_Next_Word := True;
+                  exit;
+               end if;
+            end;
+         end loop;
+
+         if Used_Next_Word  then      --  There was a SUPINE hit
+            Do_Clear_Pas_Supine (Supine_Info, Ppl_On,
+              Pa, Pa_Last, Used_Next_Word);
+         end if;
+      end if;       --  On NEXT_WORD = sum, esse, iri
+   end Compounds_With_Sum;
+
    -- the K variable is passed in as Input_Word'Last, but it can be modified
    -- by this routine, in the case where a multi-word compound is detected,
    -- e.g., "movendi sunt"; the value is read in the caller, and employed to
@@ -793,137 +928,7 @@ is
          if Words_Mode (Do_Compounds)  and
            not (Configuration = Only_Meanings)
          then
-
-            Compounds_With_Sum :
-            declare
-               Compound_Tvm   : Inflections_Package.Tense_Voice_Mood_Record;
-               Ppl_On : Boolean := False;
-
-               Sum_Info : Verb_Record := ((5, 1), (X, Active, X), 0, X);
-               Ppl_Info : Vpar_Record := ((0, 0), X, X, X, (X, X, X));
-               Supine_Info : Supine_Record := ((0, 0), X, X, X);
-
-               Is_Verb_To_Be : Boolean := False;
-            begin
-               declare
-                  Tmp : constant Verb_To_Be := Is_Sum (Next_Word);
-               begin
-                  case Tmp.Matches is
-                     when True => Sum_Info := Tmp.Verb_Rec;
-                     when False => null;
-                  end case;
-                  Is_Verb_To_Be := Tmp.Matches;
-               end;
-
-               if Is_Verb_To_Be then
-                  --  On NEXT_WORD = sum, esse, iri
-
-                  for I in 1 .. Pa_Last  loop    --  Check for PPL
-                     declare
-                        Q : constant Quality_Record := Pa (I).IR.Qual;
-                     begin
-                        if Q.Pofs = Vpar and then
-                          Q.Vpar.Of_Case = Nom  and then
-                          Q.Vpar.Number = Sum_Info.Number  and then
-                          ((Q.Vpar.Tense_Voice_Mood =
-                          (Perf, Passive, Ppl)) or
-                          (Q.Vpar.Tense_Voice_Mood =
-                          (Fut, Active,  Ppl)) or
-                          (Q.Vpar.Tense_Voice_Mood =
-                          (Fut, Passive, Ppl)))
-                        then
-                           --  There is at least one hit;
-                           --  fix PA, and advance J over the sum
-                           Used_Next_Word := True;
-                           exit;
-                        end if;
-                     end;
-                  end loop;
-
-                  if Used_Next_Word  then
-                     --  There was a PPL hit
-                     Do_Clear_Pas_Nom_Ppl (Sum_Info, Compound_Tvm, Ppl_On,
-                       Ppl_Info, Pa, Pa_Last);
-
-                     Pa_Last := Pa_Last + 1;
-                     Pa (Pa_Last) :=
-                       (Head ("PPL+" & Next_Word, Max_Stem_Size),
-                       ((V,
-                       (Ppl_Info.Con,
-                       Compound_Tvm,
-                       Sum_Info.Person,
-                       Sum_Info.Number)
-                        ), 0, Null_Ending_Record, X, A),
-                       Ppp, Null_MNPC);
-                  end if;
-
-               elsif Is_Esse (Next_Word) or Is_Fuisse (Next_Word)  then
-                  --  On NEXT_WORD
-
-                  for I in 1 .. Pa_Last  loop    --  Check for PPL
-                     declare
-                        Q : constant Quality_Record :=
-                          Pa (I).IR.Qual;
-                     begin
-                        if Q.Pofs = Vpar and then
-                          (((Q.Vpar.Tense_Voice_Mood =
-                          (Perf, Passive, Ppl)) and
-                          Is_Esse (Next_Word)) or
-                          ((Q.Vpar.Tense_Voice_Mood =
-                          (Fut,  Active,  Ppl)) or
-                          (Q.Vpar.Tense_Voice_Mood =
-                          (Fut,  Passive, Ppl))))
-                        then
-                           --  There is at least one hit;
-                           --  fix PA, and advance J over the sum
-                           Used_Next_Word := True;
-                           exit;
-                        end if;
-                     end;
-                  end loop;
-
-                  if Used_Next_Word  then
-                     --  There was a PPL hit
-                     Do_Clear_Pas_Ppl (Next_Word, Compound_Tvm,
-                       Ppl_On, Ppl_Info, Pa, Pa_Last);
-
-                     Pa_Last := Pa_Last + 1;
-                     Pa (Pa_Last) :=
-                       (Head ("PPL+" & Next_Word, Max_Stem_Size),
-                       ((V,
-                       (Ppl_Info.Con,
-                       Compound_Tvm,
-                       0,
-                       X)
-                        ), 0, Null_Ending_Record, X, A),
-                       Ppp, Null_MNPC);
-                  end if;
-
-               elsif Is_Iri (Next_Word)  then
-                  --  On NEXT_WORD = sum, esse, iri
-                  --  Look ahead for sum
-
-                  for J in 1 .. Pa_Last  loop    --  Check for SUPINE
-                     declare
-                        Q : constant Quality_Record := Pa (J).IR.Qual;
-                     begin
-                        if Q.Pofs = Supine   and then
-                          Q.Supine.Of_Case = Acc
-                        then
-                           --  There is at least one hit;
-                           --  fix PA, and advance J over the iri
-                           Used_Next_Word := True;
-                           exit;
-                        end if;
-                     end;
-                  end loop;
-
-                  if Used_Next_Word  then      --  There was a SUPINE hit
-                     Do_Clear_Pas_Supine (Supine_Info, Ppl_On,
-                       Pa, Pa_Last, Used_Next_Word);
-                  end if;
-               end if;       --  On NEXT_WORD = sum, esse, iri
-            end Compounds_With_Sum;
+            Compounds_With_Sum (Pa, Pa_Last, Next_Word, Used_Next_Word);
          end if;       --  On WORDS_MODE (DO_COMPOUNDS)
       end if;
 
