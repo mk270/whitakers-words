@@ -16,9 +16,9 @@
 
 with Ada.Text_IO;
 package Support_Utils.Word_Parameters is
-   --  This package defines a number of parameters that areused in the program
+   --  This package defines a number of parameters that are used in the program
    --  The default values are set in the body, so that they may be changed
-   --- easily
+   --  easily
 
    Change_Parameters_Character        : Character := '#';
    Change_Language_Character          : Character := '~';
@@ -31,7 +31,7 @@ package Support_Utils.Word_Parameters is
    Mode_File : Ada.Text_IO.File_Type;
 
    --  OUTPUT is used to Write out and save the results of a run
-   Output : Ada.Text_IO.File_Type;
+   Output : aliased Ada.Text_IO.File_Type;
    Input  : Ada.Text_IO.File_Type;
    --  UNKNOWNS is used to record the words that the program fails to find
    Unknowns : Ada.Text_IO.File_Type;

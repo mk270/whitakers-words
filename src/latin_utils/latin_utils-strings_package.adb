@@ -21,24 +21,6 @@ package body Latin_Utils.Strings_Package is
 
    ---------------------------------------------------------------------------
 
-   function Max (A, B : Integer) return Integer is
-   begin
-      if A >= B then
-         return A;
-      end if;
-      return B;
-   end Max;
-
-   function Min (A, B : Integer) return Integer is
-   begin
-      if A <= B then
-         return A;
-      end if;
-      return B;
-   end Min;
-
-   ---------------------------------------------------------------------------
-
    function Lower_Case (C : Character) return Character
       renames Ada.Characters.Handling.To_Lower;
 

@@ -21,10 +21,6 @@
 
 -- to factor out:
 
---   the if-branches and functions dealing with participles/supines
-
---   anything nested more than about six levels deep
-
 --   the subprogramme "parse_latin_word" is 300-odd lines long, and depends on
 --   variables defined outside it and a bunch of variables from other
 --   source files
@@ -48,7 +44,10 @@ with List_Package; use List_Package;
 with Tricks_Package; use Tricks_Package;
 with Put_Stat;
 with Search_English;
-with Support_Utils.Char_Utils; use Support_Utils.Char_Utils;
+--with Support_Utils.Char_Utils; use Support_Utils.Char_Utils;
+with Ada.Containers.Vectors; use Ada.Containers;
+with Ada.Strings.Unbounded; use Ada.Strings.Unbounded;
+with Ada.Strings.Fixed;
 use Latin_Utils;
 
 pragma Elaborate (Support_Utils.Word_Parameters);
@@ -58,18 +57,15 @@ is
    use Inflection_Record_IO;
    use Ada.Text_IO;
 
-   -- the scope of most of these variables is over-broad
-   Storage_Error_Count : Integer := 0;
+   package Word_Container is new Vectors (Natural, Unbounded_String);
+   use Word_Container;
 
-   J2, K : Integer := 0;
-
-   Pa : Parse_Array (1 .. 100) := (others => Null_Parse_Record);
    Syncope_Max : constant := 20;
-   No_Syncope : Boolean := False;
    Tricks_Max : constant := 40;
-   Sypa : Parse_Array (1 .. Syncope_Max) := (others => Null_Parse_Record);
-   Trpa : Parse_Array (1 .. Tricks_Max) := (others => Null_Parse_Record);
-   Pa_Last, Sypa_Last, Trpa_Last : Integer := 0;
+
+   -- the scope of these variables is over-broad
+   Storage_Error_Count : Integer := 0;
+   No_Syncope : Boolean := False;
 
    type Participle is
       record
@@ -88,6 +84,13 @@ is
                null;
          end case;
       end record;
+
+   procedure Clear_Parse_Array (Any_Pa : out Parse_Array) is
+   begin
+      for I in Any_Pa'Range loop
+         Any_Pa (I) := Null_Parse_Record;
+      end loop;
+   end Clear_Parse_Array;
 
    function Is_Esse (T : String) return Boolean is
    begin
@@ -233,13 +236,14 @@ is
    end Get_Pas_Nom_Participle;
 
    -- this function should be merged with the one above
-   function Get_Pas_Participle (Parsed_Verb : Vpar_Record;
-                                Trimmed_Next_Word : String;
-                                Default_Ppl_On : Boolean;
-                                Default_Compound_Tvm : Tense_Voice_Mood_Record;
-                                Default_Ppp_Meaning : Meaning_Type;
-                                Default_Ppl_Info : Vpar_Record)
-                               return Participle
+   function Get_Pas_Participle
+     (Parsed_Verb          : Vpar_Record;
+      Trimmed_Next_Word    : String;
+      Default_Ppl_On       : Boolean;
+      Default_Compound_Tvm : Tense_Voice_Mood_Record;
+      Default_Ppp_Meaning  : Meaning_Type;
+      Default_Ppl_Info     : Vpar_Record)
+     return Participle
    is
       function Get_Compound_Tense (Tense : Tense_Type;
                                    Voice : Voice_Type;
@@ -374,10 +378,13 @@ is
    end Is_Sum;
 
    -- parts of these three do_clear_* functions should be factored together
-   procedure Do_Clear_Pas_Nom_Ppl (Sum_Info : in Verb_Record;
-                                   Compound_Tvm : out Tense_Voice_Mood_Record;
-                                   Ppl_On : in out Boolean;
-                                   Ppl_Info : out Vpar_Record)
+   procedure Do_Clear_Pas_Nom_Ppl
+     (Sum_Info     : in     Verb_Record;
+      Compound_Tvm :    out Tense_Voice_Mood_Record;
+      Ppl_On       : in out Boolean;
+      Ppl_Info     :    out Vpar_Record;
+      Pa           : in out Parse_Array;
+      Pa_Last      : in out Integer)
    is
    begin
       for J4 in reverse 1 .. Pa_Last loop
@@ -410,10 +417,12 @@ is
    end Do_Clear_Pas_Nom_Ppl;
 
    -- parts of these three do_clear_* functions should be factored together
-   procedure Do_Clear_Pas_Ppl (Next_Word : in String;
-                               Compound_Tvm : out Tense_Voice_Mood_Record;
-                               Ppl_On : in out Boolean;
-                               Ppl_Info : out Vpar_Record)
+   procedure Do_Clear_Pas_Ppl (Next_Word    : in     String;
+                               Compound_Tvm :    out Tense_Voice_Mood_Record;
+                               Ppl_On       : in out Boolean;
+                               Ppl_Info     :    out Vpar_Record;
+                               Pa           : in out Parse_Array;
+                               Pa_Last      : in out Integer)
    is
    begin
       for J5 in reverse 1 .. Pa_Last loop
@@ -444,9 +453,11 @@ is
    end Do_Clear_Pas_Ppl;
 
    -- parts of these three do_clear_* functions should be factored together
-   procedure Do_Clear_Pas_Supine (Supine_Info : out Supine_Record;
-                                  Nk : in Integer;
-                                  Ppl_On : in out Boolean)
+   procedure Do_Clear_Pas_Supine (Supine_Info    :    out Supine_Record;
+                                  Ppl_On         : in out Boolean;
+                                  Pa             : in out Parse_Array;
+                                  Pa_Last        : in out Integer;
+                                  Used_Next_Word : in out Boolean)
    is
    begin
       for J6 in reverse 1 .. Pa_Last loop
@@ -481,8 +492,7 @@ is
               "FUT PASSIVE INF - to be about/going/ready to be ~",
               Max_Meaning_Size);
 
-            K := Nk;
-
+            Used_Next_Word := True;
          else
             Pa (J6 .. Pa_Last - 1) := Pa (J6 + 1 .. Pa_Last);
             Pa_Last := Pa_Last - 1;
@@ -491,10 +501,14 @@ is
       end loop;
    end Do_Clear_Pas_Supine;
 
-   procedure Perform_Syncope (Input_Word : in String)
+   procedure Perform_Syncope (Input_Word : in     String;
+                              Pa         : in out Parse_Array;
+                              Pa_Last    : in out Integer)
    is
+      Sypa : Parse_Array (1 .. Syncope_Max) := (others => Null_Parse_Record);
+      Sypa_Last : Integer := 0;
    begin
-      Sypa_Last := 0;
+      Clear_Parse_Array (Sypa); -- FIXME: presumably redundant
       if Words_Mdev (Do_Syncope) and not No_Syncope then
          Syncope (Input_Word, Sypa, Sypa_Last);
 
@@ -512,9 +526,11 @@ is
       No_Syncope := False;
    end Perform_Syncope;
 
-   procedure Enclitic (Input_Word : String;
-                       Entering_Pa_Last : in out Integer;
-                       Have_Done_Enclitic : in out Boolean) is
+   procedure Enclitic (Input_Word         :        String;
+                       Entering_Pa_Last   : in out Integer;
+                       Have_Done_Enclitic : in out Boolean;
+                       Pa                 : in out Parse_Array;
+                       Pa_Last            : in out Integer) is
       Save_Do_Only_Fixes : constant Boolean := Words_Mdev (Do_Only_Fixes);
       Enclitic_Limit : Integer := 4;
       Try : constant String := Lower_Case (Input_Word);
@@ -563,7 +579,7 @@ is
                   end if;
                end loop;
 
-               Perform_Syncope (Input_Word);
+               Perform_Syncope (Input_Word, Pa, Pa_Last);
 
                --  Restore FIXES
                --WORDS_MODE (DO_FIXES) := SAVE_DO_FIXES;
@@ -589,9 +605,11 @@ is
       end loop;
    end Enclitic;
 
-   procedure Tricks_Enclitic (Input_Word : String;
+   procedure Tricks_Enclitic (Input_Word         :        String;
                               Entering_Trpa_Last : in out Integer;
-                              Have_Done_Enclitic : Boolean) is
+                              Have_Done_Enclitic :        Boolean;
+                              Trpa               : in out Parse_Array;
+                              Trpa_Last          : in out Integer) is
       Try : constant String := Lower_Case (Input_Word);
    begin
       if Have_Done_Enclitic then
@@ -624,9 +642,11 @@ is
       end loop;
    end Tricks_Enclitic;
 
-   procedure Pass (Input_Word : String;
-                   Entering_Pa_Last : in out Integer;
-                   Have_Done_Enclitic : in out Boolean)
+   procedure Pass (Input_Word         :        String;
+                   Entering_Pa_Last   : in out Integer;
+                   Have_Done_Enclitic : in out Boolean;
+                   Pa                 : in out Parse_Array;
+                   Pa_Last            : in out Integer)
    is
       --  This is the core logic of the program, everything else is details
       Save_Do_Fixes : constant Boolean := Words_Mode (Do_Fixes);
@@ -651,12 +671,12 @@ is
       end loop;
 
       --  Pure SYNCOPE
-      Perform_Syncope (Input_Word);
+      Perform_Syncope (Input_Word, Pa, Pa_Last);
 
       --  There may be a vaild simple parse, if so it is most probable
       --  But I have to allow for the possibility that -que is answer,
       --  not colloque V
-      Enclitic (Input_Word, Entering_Pa_Last, Have_Done_Enclitic);
+      Enclitic (Input_Word, Entering_Pa_Last, Have_Done_Enclitic, Pa, Pa_Last);
 
       --  Restore FIXES
       Words_Mode (Do_Fixes) := Save_Do_Fixes;
@@ -666,19 +686,21 @@ is
          Words_Mdev (Do_Only_Fixes) := True;
          Word (Input_Word, Pa, Pa_Last);
 
-         Perform_Syncope (Input_Word);
+         Perform_Syncope (Input_Word, Pa, Pa_Last);
 
-         Enclitic (Input_Word, Entering_Pa_Last, Have_Done_Enclitic);
+         Enclitic (Input_Word, Entering_Pa_Last, Have_Done_Enclitic,
+           Pa, Pa_Last);
 
          Words_Mdev (Do_Only_Fixes) := Save_Do_Only_Fixes;
       end if;
    end Pass;
 
    procedure Parse_English_Word (Input_Word : in String;
-                                 Line : in String;
-                                 K : in Integer;
-                                 L : in out Integer)
+                                 Line       : in String;
+                                 K          : in Integer;
+                                 L2         : in Integer)
    is
+      L    : Integer             := L2;
       Pofs : Part_Of_Speech_Type := X;
    begin
       --  Extract from the rest of the line
@@ -693,24 +715,181 @@ is
       Search_English (Input_Word, Pofs);
    end Parse_English_Word;
 
-   procedure Parse_Latin_Word
-     (Configuration : in Configuration_Type;
-      Input_Word    : in String;
-      Line          : in String;
-      Input_Line    : in String;
-      L             : in Integer)
-
+   procedure Compounds_With_Sum
+     (Pa             : in out Parse_Array;
+      Pa_Last        : in out Integer;
+      Next_Word      :        String;
+      Used_Next_Word : in out Boolean)
    is
+      Compound_Tvm   : Inflections_Package.Tense_Voice_Mood_Record;
+      Ppl_On : Boolean := False;
+
+      Sum_Info : Verb_Record := ((5, 1), (X, Active, X), 0, X);
+      Ppl_Info : Vpar_Record := ((0, 0), X, X, X, (X, X, X));
+      Supine_Info : Supine_Record := ((0, 0), X, X, X);
+
+      Is_Verb_To_Be : Boolean := False;
+   begin
+      declare
+         Tmp : constant Verb_To_Be := Is_Sum (Next_Word);
+      begin
+         case Tmp.Matches is
+            when True => Sum_Info := Tmp.Verb_Rec;
+            when False => null;
+         end case;
+         Is_Verb_To_Be := Tmp.Matches;
+      end;
+
+      if Is_Verb_To_Be then
+         --  On NEXT_WORD = sum, esse, iri
+
+         for I in 1 .. Pa_Last  loop    --  Check for PPL
+            declare
+               Q : constant Quality_Record := Pa (I).IR.Qual;
+            begin
+               if Q.Pofs = Vpar and then
+                 Q.Vpar.Of_Case = Nom  and then
+                 Q.Vpar.Number = Sum_Info.Number  and then
+                 ((Q.Vpar.Tense_Voice_Mood =
+                 (Perf, Passive, Ppl)) or
+                 (Q.Vpar.Tense_Voice_Mood =
+                 (Fut, Active,  Ppl)) or
+                 (Q.Vpar.Tense_Voice_Mood =
+                 (Fut, Passive, Ppl)))
+               then
+                  --  There is at least one hit;
+                  --  fix PA, and advance J over the sum
+                  Used_Next_Word := True;
+                  exit;
+               end if;
+            end;
+         end loop;
+
+         if Used_Next_Word  then
+            --  There was a PPL hit
+            Do_Clear_Pas_Nom_Ppl (Sum_Info, Compound_Tvm, Ppl_On,
+              Ppl_Info, Pa, Pa_Last);
+
+            Pa_Last := Pa_Last + 1;
+            Pa (Pa_Last) :=
+              (Head ("PPL+" & Next_Word, Max_Stem_Size),
+              ((V,
+              (Ppl_Info.Con,
+              Compound_Tvm,
+              Sum_Info.Person,
+              Sum_Info.Number)
+               ), 0, Null_Ending_Record, X, A),
+              Ppp, Null_MNPC);
+         end if;
+
+      elsif Is_Esse (Next_Word) or Is_Fuisse (Next_Word)  then
+         --  On NEXT_WORD
+
+         for I in 1 .. Pa_Last  loop    --  Check for PPL
+            declare
+               Q : constant Quality_Record :=
+                 Pa (I).IR.Qual;
+            begin
+               if Q.Pofs = Vpar and then
+                 (((Q.Vpar.Tense_Voice_Mood =
+                 (Perf, Passive, Ppl)) and
+                 Is_Esse (Next_Word)) or
+                 ((Q.Vpar.Tense_Voice_Mood =
+                 (Fut,  Active,  Ppl)) or
+                 (Q.Vpar.Tense_Voice_Mood =
+                 (Fut,  Passive, Ppl))))
+               then
+                  --  There is at least one hit;
+                  --  fix PA, and advance J over the sum
+                  Used_Next_Word := True;
+                  exit;
+               end if;
+            end;
+         end loop;
+
+         if Used_Next_Word  then
+            --  There was a PPL hit
+            Do_Clear_Pas_Ppl (Next_Word, Compound_Tvm,
+              Ppl_On, Ppl_Info, Pa, Pa_Last);
+
+            Pa_Last := Pa_Last + 1;
+            Pa (Pa_Last) :=
+              (Head ("PPL+" & Next_Word, Max_Stem_Size),
+              ((V,
+              (Ppl_Info.Con,
+              Compound_Tvm,
+              0,
+              X)
+               ), 0, Null_Ending_Record, X, A),
+              Ppp, Null_MNPC);
+         end if;
+
+      elsif Is_Iri (Next_Word)  then
+         --  On NEXT_WORD = sum, esse, iri
+         --  Look ahead for sum
+
+         for J in 1 .. Pa_Last  loop    --  Check for SUPINE
+            declare
+               Q : constant Quality_Record := Pa (J).IR.Qual;
+            begin
+               if Q.Pofs = Supine   and then
+                 Q.Supine.Of_Case = Acc
+               then
+                  --  There is at least one hit;
+                  --  fix PA, and advance J over the iri
+                  Used_Next_Word := True;
+                  exit;
+               end if;
+            end;
+         end loop;
+
+         if Used_Next_Word  then      --  There was a SUPINE hit
+            Do_Clear_Pas_Supine (Supine_Info, Ppl_On,
+              Pa, Pa_Last, Used_Next_Word);
+         end if;
+      end if;       --  On NEXT_WORD = sum, esse, iri
+   end Compounds_With_Sum;
+
+   -- the K variable is passed in as Input_Word'Last, but it can be modified
+   -- by this routine, in the case where a multi-word compound is detected,
+   -- e.g., "movendi sunt"; the value is read in the caller, and employed to
+   -- update an iterator over the whole input line. Used_Next_Word is also
+   -- set in these circumstances, but is currently unused
+
+   -- in future, we shall pass in the next word, if any, in the input line
+   -- to this function, obviating the need to go grovelling around further
+   -- down the string, and saving wear and tear on variables like K
+   procedure Parse_Latin_Word
+     (Configuration  : in Configuration_Type;
+      Input_Word     : in String; -- a trimmed single word
+      Input_Line     : in String; -- what the user actually typed
+      Used_Next_Word : out Boolean;
+      Next_Word      : in String
+     )
+   is
+      Pa : Parse_Array (1 .. 100) := (others => Null_Parse_Record);
+      Pa_Last : Integer := 0;
+      Trpa : Parse_Array (1 .. Tricks_Max) := (others => Null_Parse_Record);
+      Trpa_Last : Integer := 0;
+
       Entering_Pa_Last : Integer := 0;
       Entering_Trpa_Last    : Integer := 0;
       Have_Done_Enclitic : Boolean := False;
    begin   --  PARSE
+      Used_Next_Word := False;
       Xxx_Meaning := Null_Meaning_Type;
+
+      -- This step is actually redundant; it is mentioned here simply to
+      -- make it explicit that the contents of Pa are discarded after each
+      -- word is handled; Pa and friends do not need to be package-global,
+      -- but could have been local to this procedure
+      Clear_Parse_Array (Pa);
+      Clear_Parse_Array (Trpa);
 
       Pa_Last := 0;
       Word_Number := Word_Number + 1;
 
-      Pass (Input_Word, Entering_Pa_Last, Have_Done_Enclitic);
+      Pass (Input_Word, Entering_Pa_Last, Have_Done_Enclitic, Pa, Pa_Last);
 
       --if (PA_LAST = 0) or DO_TRICKS_ANYWAY  then
       --  WORD failed, try to modify the word
@@ -724,7 +903,7 @@ is
             Try_Tricks (Input_Word, Trpa, Trpa_Last, Line_Number, Word_Number);
             if Trpa_Last = 0  then
                Tricks_Enclitic (Input_Word, Entering_Trpa_Last,
-                 Have_Done_Enclitic);
+                 Have_Done_Enclitic, Trpa, Trpa_Last);
             end if;
             Words_Mode (Do_Tricks) := True;   --  Turn it back on
          end if;
@@ -749,161 +928,26 @@ is
          if Words_Mode (Do_Compounds)  and
            not (Configuration = Only_Meanings)
          then
-
-            Compounds_With_Sum :
-            declare
-               Nw : String (1 .. 2500) := (others => ' ');
-               Nk : Integer := 0;
-
-               Compound_Tvm   : Inflections_Package.Tense_Voice_Mood_Record;
-               Ppl_On : Boolean := False;
-
-               Sum_Info : Verb_Record := ((5, 1), (X, Active, X), 0, X);
-               Ppl_Info : Vpar_Record := ((0, 0), X, X, X, (X, X, X));
-               Supine_Info : Supine_Record := ((0, 0), X, X, X);
-
-               procedure Look_Ahead is
-                  J3 : Integer := 0;
-               begin
-                  for I in K + 2 .. L  loop
-                     --  Although I have removed punctuation above,
-                     --  it may not always be so
-                     exit when Is_Punctuation (Line (I));
-                     J3 := J3 + 1;
-                     Nw (J3) := Line (I);
-                     Nk := I;
-                  end loop;
-               end Look_Ahead;
-
-               function Next_Word return String is
-               begin
-                  return Trim (Nw);
-               end Next_Word;
-
-               Is_Verb_To_Be : Boolean := False;
-
-            begin
-
-               --  Look ahead for sum
-               Look_Ahead;
-
-               declare
-                  Tmp : constant Verb_To_Be := Is_Sum (Next_Word);
-               begin
-                  case Tmp.Matches is
-                     when True => Sum_Info := Tmp.Verb_Rec;
-                     when False => null;
-                  end case;
-                  Is_Verb_To_Be := Tmp.Matches;
-               end;
-
-               if Is_Verb_To_Be then
-                  --  On NEXT_WORD = sum, esse, iri
-
-                  for I in 1 .. Pa_Last  loop    --  Check for PPL
-                     if Pa (I).IR.Qual.Pofs = Vpar and then
-                       Pa (I).IR.Qual.Vpar.Of_Case = Nom  and then
-                       Pa (I).IR.Qual.Vpar.Number = Sum_Info.Number  and then
-                       ((Pa (I).IR.Qual.Vpar.Tense_Voice_Mood =
-                       (Perf, Passive, Ppl)) or
-                       (Pa (I).IR.Qual.Vpar.Tense_Voice_Mood =
-                       (Fut, Active,  Ppl)) or
-                       (Pa (I).IR.Qual.Vpar.Tense_Voice_Mood =
-                       (Fut, Passive, Ppl)))
-                     then
-
-                        --  There is at least one hit;
-                        --  fix PA, and advance J over the sum
-                        K := Nk;
-                     end if;
-                  end loop;
-
-                  if K = Nk  then
-                     --  There was a PPL hit
-                     Do_Clear_Pas_Nom_Ppl (Sum_Info, Compound_Tvm, Ppl_On,
-                       Ppl_Info);
-
-                     Pa_Last := Pa_Last + 1;
-                     Pa (Pa_Last) :=
-                       (Head ("PPL+" & Next_Word, Max_Stem_Size),
-                       ((V,
-                       (Ppl_Info.Con,
-                       Compound_Tvm,
-                       Sum_Info.Person,
-                       Sum_Info.Number)
-                        ), 0, Null_Ending_Record, X, A),
-                       Ppp, Null_MNPC);
-                  end if;
-
-               elsif Is_Esse (Next_Word) or Is_Fuisse (Next_Word)  then
-                  --  On NEXT_WORD
-
-                  for I in 1 .. Pa_Last  loop    --  Check for PPL
-                     if Pa (I).IR.Qual.Pofs = Vpar and then
-                       (((Pa (I).IR.Qual.Vpar.Tense_Voice_Mood =
-                       (Perf, Passive, Ppl)) and
-                       Is_Esse (Next_Word)) or
-                       ((Pa (I).IR.Qual.Vpar.Tense_Voice_Mood =
-                       (Fut,  Active,  Ppl)) or
-                       (Pa (I).IR.Qual.Vpar.Tense_Voice_Mood =
-                       (Fut,  Passive, Ppl))))
-                     then
-
-                        --  There is at least one hit;
-                        --  fix PA, and advance J over the sum
-                        K := Nk;
-                     end if;
-                  end loop;
-
-                  if K = Nk  then
-                     --  There was a PPL hit
-                     Do_Clear_Pas_Ppl (Next_Word, Compound_Tvm,
-                       Ppl_On, Ppl_Info);
-
-                     Pa_Last := Pa_Last + 1;
-                     Pa (Pa_Last) :=
-                       (Head ("PPL+" & Next_Word, Max_Stem_Size),
-                       ((V,
-                       (Ppl_Info.Con,
-                       Compound_Tvm,
-                       0,
-                       X)
-                        ), 0, Null_Ending_Record, X, A),
-                       Ppp, Null_MNPC);
-                  end if;
-
-               elsif Is_Iri (Next_Word)  then
-                  --  On NEXT_WORD = sum, esse, iri
-                  --  Look ahead for sum
-
-                  for J in 1 .. Pa_Last  loop    --  Check for SUPINE
-                     if Pa (J).IR.Qual.Pofs = Supine   and then
-                       Pa (J).IR.Qual.Supine.Of_Case = Acc
-                     then
-                        --  There is at least one hit;
-                        --  fix PA, and advance J over the iri
-                        K := Nk;
-
-                     end if;
-                  end loop;
-
-                  if K = Nk  then      --  There was a SUPINE hit
-                     Do_Clear_Pas_Supine (Supine_Info, Nk, Ppl_On);
-                  end if;
-               end if;       --  On NEXT_WORD = sum, esse, iri
-            end Compounds_With_Sum;
+            Compounds_With_Sum (Pa, Pa_Last, Next_Word, Used_Next_Word);
          end if;       --  On WORDS_MODE (DO_COMPOUNDS)
       end if;
 
-      if  Words_Mode (Write_Output_To_File)      then
-         List_Stems (Configuration, Output, Input_Word,
-           Input_Line, Pa, Pa_Last);
-      else
-         List_Stems (Configuration, Current_Output, Input_Word,
-           Input_Line, Pa, Pa_Last);
-      end if;
+      -- hack around the weird reimplementation of output redirection
+      declare
+         type File_Type_Access is access constant Ada.Text_IO.File_Type;
+         O : File_Type_Access;
+         WA : Word_Analysis;
+      begin
+         if Words_Mode (Write_Output_To_File) then
+            O := Output'Access;
+         else
+            O := Current_Output.all'Access; -- Current_Output is a procedure
+         end if;
 
-      Pa_Last := 0;
+         WA := Analyse_Word (Pa, Pa_Last, Input_Word);
+         List_Stems (Configuration, O.all, Input_Word,
+           Input_Line, WA);
+      end;
 
    exception
       when others  =>
@@ -915,136 +959,244 @@ is
 
    end Parse_Latin_Word;
 
+   function Is_Capitalized (Input_Word : String) return Boolean
+   is
+   begin
+      if Input_Word'Length <= 1 then
+         return False;
+      end if;
+      return
+        Input_Word (Input_Word'First) in 'A' .. 'Z' and then
+        Input_Word (Input_Word'First + 1) in 'a' .. 'z';
+   end Is_Capitalized;
+
+   function Is_All_Caps (Input_Word : String) return Boolean
+   is
+   begin
+      for I in Input_Word'Range  loop
+         if Input_Word (I) = Lower_Case (Input_Word (I))  then
+            return False;
+         end if;
+      end loop;
+      return True;
+   end Is_All_Caps;
+
+   procedure Do_Qvae_Kludge
+     (W     : in out String;
+      J2, K : in     Integer) is
+   begin
+      -- QVAE Kludge? No-one's seen QVAAKLUDES since the '70s!
+      for I in J2 .. K - 1  loop
+         if W (I) = 'Q'  and then W (I + 1) = 'V'  then
+            W (I + 1) := 'U';
+         end if;
+      end loop;
+   end Do_Qvae_Kludge;
+
+   function String_Before_Dash (S : String) return String is
+   begin
+      if Ada.Strings.Fixed.Index (S, "--") > S'First then
+         return S (S'First .. Ada.Strings.Fixed.Index (S, "--"));
+      else
+         return S;
+      end if;
+   end String_Before_Dash;
+
+   function Strip_Non_Alpha_Etc (S : String) return String is
+      Twice : constant Integer := 2 * S'Length;
+      S2 : String (1 .. Twice);
+      J : Integer := S'First - 1;
+
+      function Is_Alpha_Etc (C : Character) return Boolean is
+      begin
+         if C in 'a' .. 'z' or else C in 'A' .. 'Z'
+           or else C = ' ' or else C = '.'
+         then
+            return True;
+         else
+            return False;
+         end if;
+      end Is_Alpha_Etc;
+   begin
+      for I in S'Range loop
+         if Is_Alpha_Etc (S (I)) then
+            J := J + 1;
+            S2 (J) := S (I);
+            if S (I) = '.' then
+               J := J + 1;
+               S2 (J) := ' ';
+            end if;
+         else
+            J := J + 1;
+            S2 (J) := ' ';
+         end if;
+      end loop;
+      return S2 (1 .. J);
+   end Strip_Non_Alpha_Etc;
+
+   function Make_Words (Line : String) return Vector
+   is
+      Words : Vector;
+      Indices : array (Line'Range) of Natural;
+      Next_Index : Natural := Indices'First;
+   begin
+      if Line'Length = 0 then
+         return Words;
+      end if;
+
+      Indices (Next_Index) := Line'First;
+      while Indices (Next_Index) < Line'Last loop
+         Next_Index := Next_Index + 1;
+         Indices (Next_Index) := 1 +
+           Ada.Strings.Fixed.Index (Line (Indices (Next_Index - 1) ..
+                                                      Line'Last), " ");
+         if Indices (Next_Index) = 1 then
+            Indices (Next_Index) := Line'Last + 2;
+         end if;
+
+         declare
+            S : constant String := Line (
+              Indices (Next_Index - 1) .. Indices (Next_Index) - 2);
+         begin
+            if S /= "" and S /= "." then
+               Words.Append (To_Unbounded_String (S));
+            end if;
+         end;
+      end loop;
+      return Words;
+   end Make_Words;
+
+   -- forward declarations for exception handlers
+   procedure Report_Storage_Error;
+   procedure Report_Unknown_Error (Input_Line : String);
+
+   -- Parse_Line (..., Input_Line : String)
+   --
+   -- This procedure massages the Input_Line, dealing with capitalisation,
+   -- punctuation, trimming, and so on; it splits the line into separate
+   -- words, and tries to look them up.
+   --
+   -- When looking up English words, it only deals with the first word of
+   -- input; similarly, an option can be specified to make it only look up
+   -- the first Latin word on a line.
+
+   -- Before the main loop, we convert all non-alpha characters to spaces,
+   -- where non-alpha means the complement of [a-zA-Z.-]
+
+   -- What the main loop actually does:
+   --
+   -- ignore everything after a double dash
+   --
+   -- set (Followed_By_Period, Capitalized, All_Caps) appropriately
+   --
+   -- apply QVAE kludge
+   --
+   -- if doing English, do first word then quit
+   -- otherwise, we are doing Latin, so do a word
+   -- quit after first word if appropriate config value set
+
    procedure Parse_Line (Configuration : Configuration_Type;
-                         Input_Line : String) is
-      L : Integer := Trim (Input_Line)'Last;
-      Line : String (1 .. 2500) := (others => ' ');
-      W : String (1 .. L) := (others => ' ');
+                         Input_Line    : String)
+   is
+      L     : constant Integer   := Trim (Input_Line)'Last;
+      Line  : String (1 .. 2500) := (others => ' ');
+      Used_Next_Word : Boolean := False;
+
+      Undashed : constant String := String_Before_Dash (Input_Line);
+      Stripped : constant String := Strip_Non_Alpha_Etc (Undashed);
+      S : constant Vector := Make_Words (Stripped);
+
+      function Word_After (I : Count_Type) return String is
+      begin
+         if I + 1 >= S.Length then
+            return "";
+         else
+            return To_String (Element (Container => S,
+                                       Index => Integer'Val (I + 1)));
+         end if;
+      end Word_After;
    begin
       Word_Number := 0;
       Line (1 .. L) := Trim (Input_Line);
 
-      --  Someday I ought to be interested in punctuation and numbers,
-      --  but not now
-      --      eliminate_not_letters:
-      for I in 1 .. L  loop
-         if Is_Alpha_Etc (Line (I)) then
-            null;
-         else
-            Line (I) := ' ';
+      for I in 0 .. (S.Length - 1) loop
+         if Used_Next_Word then
+            Used_Next_Word := False;
+            goto Continue;
          end if;
+
+         Followed_By_Period := False;
+         Used_Next_Word := False;
+
+         declare
+            W : String := To_String (Element (Container => S,
+                                              Index => Integer'Val (I)));
+            Last : Integer := W'Last;
+            Next_Word : constant String := Word_After (I);
+         begin
+            if W (W'Last) = '.' then
+               Followed_By_Period := True;
+               Last := W'Last - 1;
+            end if;
+
+            Do_Qvae_Kludge (W, W'First, Last);
+            declare
+               Input_Word : constant String := W (W'First .. Last);
+            begin
+               Capitalized := Is_Capitalized (Input_Word);
+               All_Caps    := Is_All_Caps (Input_Word);
+
+               if Language = English_To_Latin  then
+                  Parse_English_Word (Input_Word, Line, Last, L);
+                  exit;
+               end if;
+
+               Parse_Latin_Word (Configuration, Input_Word,
+                 Input_Line, Used_Next_Word, Next_Word);
+
+            end;
+         end;
+         <<Continue>>
+         exit when Words_Mdev (Do_Only_Initial_Word);
       end loop;
 
-      J2 := 1;
-      K := 0;
-
-      -- loop over line
-      while J2 <= L  loop
-
-         --  Skip over leading and intervening blanks, looking for comments
-         --  Punctuation, numbers, and special Characters were cleared above
-         for I in K + 1 .. L  loop
-            exit when Line (J2) in 'A' .. 'Z';
-            exit when Line (J2) in 'a' .. 'z';
-            if I < L and then Line (I .. I + 1) = "--" then
-               return;      --  the rest of the line is comment
-            end if;
-            J2 := I + 1;
-         end loop;
-
-         exit when J2 > L;             --  Kludge
-
-         Follows_Period := False;
-         if Followed_By_Period  then
-            Followed_By_Period := False;
-            Follows_Period := True;
-         end if;
-
-         Capitalized := False;
-         All_Caps := False;
-
-         --  Extract the word
-         for I in J2 .. L  loop
-
-            --  Although I have removed punctuation above,
-            --  it may not always be so
-            if Line (I) = '.'  then
-               Followed_By_Period := True;
-               exit;
-            end if;
-            exit when Line (I) not in 'A' .. 'Z' and Line (I) not in 'a' .. 'z';
-            W (I) := Line (I);
-            K := I;
-
-         end loop;
-
-         if W (J2) in 'A' .. 'Z'  and then
-           K - J2 >= 1  and then
-           W (J2 + 1) in 'a' .. 'z'
-         then
-            Capitalized := True;
-         end if;
-
-         All_Caps := True;
-         for I in J2 .. K  loop
-            if W (I) = Lower_Case (W (I))  then
-               All_Caps := False;
-               exit;
-            end if;
-         end loop;
-
-         for I in J2 .. K - 1  loop               --  Kludge for QVAE
-            if W (I) = 'Q'  and then W (I + 1) = 'V'  then
-               W (I + 1) := 'U';
-            end if;
-         end loop;
-
-         if Language = English_To_Latin  then
-            Parse_English_Word (W (J2 .. K), Line, K, L);
-            exit;
-         end if;
-
-         -- split parse_line () at this point, into two functions
-
-         Parse_Latin_Word (Configuration, W (J2 .. K), Line, Input_Line, L);
-         ----------------------------------------------------------------------
-         ----------------------------------------------------------------------
-
-         J2 := K + 1;    --  In case it is end of line and we don't look for ' '
-
-         exit when Words_Mdev (Do_Only_Initial_Word);
-
-      end loop;        --  Loop on line
-
    exception
-      --   Have STORAGE_ERROR check in WORD too  ?????????????
-      when Storage_Error  =>    --  I want to again, at least twice
-         if Words_Mdev (Do_Pearse_Codes) then
-            Ada.Text_IO.Put ("00 ");
-         end if;
-         Ada.Text_IO.Put_Line (    --  ERROR_FILE,
-           "STORAGE_ERROR Exception in WORDS, try again");
-         Storage_Error_Count := Storage_Error_Count + 1;
+      when Storage_Error =>
+         Report_Storage_Error;
          if Storage_Error_Count >= 4 then
             raise;
          end if;
-         Pa_Last := 0;
       when Give_Up =>
-         Pa_Last := 0;
          raise;
-      when others  =>    --  I want to try to Get on with the next line
-         Ada.Text_IO.Put_Line (    --  ERROR_FILE,
-           "Exception in PARSE_LINE processing " & Input_Line);
-         if Words_Mode (Write_Unknowns_To_File)  then
-            if Words_Mdev (Do_Pearse_Codes) then
-               Ada.Text_IO.Put (Unknowns, "00 ");
-            end if;
-            Ada.Text_IO.Put (Unknowns, Input_Line (J2 .. K));
-            Ada.Text_IO.Set_Col (Unknowns, 30);
-            Inflections_Package.Integer_IO.Put (Unknowns, Line_Number, 5);
-            Inflections_Package.Integer_IO.Put (Unknowns, Word_Number, 3);
-            Ada.Text_IO.Put_Line (Unknowns, "    ========   ERROR      ");
-         end if;
-         Pa_Last := 0;
+      when others =>
+         Report_Unknown_Error (Input_Line);
    end Parse_Line;
+
+   procedure Report_Storage_Error
+   is
+   begin
+      if Words_Mdev (Do_Pearse_Codes) then
+         Ada.Text_IO.Put ("00 ");
+      end if;
+      Ada.Text_IO.Put_Line (    --  ERROR_FILE,
+        "STORAGE_ERROR Exception in WORDS, try again");
+      Storage_Error_Count := Storage_Error_Count + 1;
+   end Report_Storage_Error;
+
+   procedure Report_Unknown_Error (Input_Line : String)
+   is
+   begin
+      Ada.Text_IO.Put_Line (    --  ERROR_FILE,
+        "Exception in PARSE_LINE processing " & Input_Line);
+      if Words_Mode (Write_Unknowns_To_File)  then
+         if Words_Mdev (Do_Pearse_Codes) then
+            Ada.Text_IO.Put (Unknowns, "00 ");
+         end if;
+         Ada.Text_IO.Put (Unknowns, Input_Line);
+         Ada.Text_IO.Set_Col (Unknowns, 30);
+         Inflections_Package.Integer_IO.Put (Unknowns, Line_Number, 5);
+         Inflections_Package.Integer_IO.Put (Unknowns, Word_Number, 3);
+         Ada.Text_IO.Put_Line (Unknowns, "    ========   ERROR      ");
+      end if;
+   end Report_Unknown_Error;
 end Parse;

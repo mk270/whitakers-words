@@ -20,8 +20,7 @@ with Latin_Utils.Inflections_Package; use Latin_Utils.Inflections_Package;
 with Latin_Utils.Dictionary_Package; use Latin_Utils.Dictionary_Package;
 package Support_Utils.Word_Support_Package is
 
-   Followed_By_Period, Follows_Period, Capitalized, All_Caps :
-     Boolean := False;
+   Followed_By_Period, Capitalized, All_Caps : Boolean := False;
 
    type Dictionary_Stem is
       record

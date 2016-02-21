@@ -26,6 +26,7 @@
 
 with Ada.Strings.Fixed;
 with Ada.Strings.Maps;
+with Ada.Exceptions;  use Ada.Exceptions;
 with Latin_Utils.Strings_Package; use Latin_Utils.Strings_Package;
 with Latin_Utils.Latin_File_Names; use Latin_Utils.Latin_File_Names;
 with Support_Utils.Word_Parameters; use Support_Utils.Word_Parameters;
@@ -34,7 +35,6 @@ with Support_Utils.Uniques_Package; use Support_Utils.Uniques_Package;
 with Support_Utils.Word_Support_Package; use Support_Utils.Word_Support_Package;
 with Support_Utils.Developer_Parameters; use Support_Utils.Developer_Parameters;
 with Word_Package; use Word_Package;
-with Latin_Utils.Inflections_Package; use Latin_Utils.Inflections_Package;
 with Support_Utils.Char_Utils;
 with Support_Utils.Dictionary_Form;
 with Put_Example_Line;
@@ -45,40 +45,23 @@ package body List_Package is
 
    subtype Xons is Part_Of_Speech_Type range Tackon .. Suffix;
 
-   type Dictionary_MNPC_Record is record
-      D_K  : Dictionary_Kind := Default_Dictionary_Kind;
-      MNPC : MNPC_Type := Null_MNPC;
-      De   : Dictionary_Entry := Null_Dictionary_Entry;
-   end record;
    Null_Dictionary_MNPC_Record : constant Dictionary_MNPC_Record
      := (X, Null_MNPC, Null_Dictionary_Entry);
-
-   Stem_Inflection_Array_Size       : constant := 10;
-   Stem_Inflection_Array_Array_Size : constant := 40;
-
-   type Stem_Inflection_Record is
-      record
-         Stem : Stem_Type          := Null_Stem_Type;
-         Ir   : Inflection_Record  := Null_Inflection_Record;
-      end record;
 
    Null_Stem_Inflection_Record      : constant Stem_Inflection_Record :=
      (Stem => Null_Stem_Type,
      Ir => Null_Inflection_Record);
 
-   type Stem_Inflection_Array is
-     array (Integer range <>) of Stem_Inflection_Record;
-   type Stem_Inflection_Array_Array is array (Integer range <>)
-     of Stem_Inflection_Array (1 .. Stem_Inflection_Array_Size);
-
    Null_Sra :
      constant Stem_Inflection_Array (1 .. Stem_Inflection_Array_Size)
      := (others => (Null_Stem_Type, Null_Inflection_Record));
 
-   Dictionary_MNPC_Array_Size : constant := 40;
+   Null_Sraa : constant Stem_Inflection_Array_Array
+     (1 .. Stem_Inflection_Array_Array_Size)
+     := (others => Null_Sra);
 
-   type Dictionary_MNPC_Array is array (1 .. Dictionary_MNPC_Array_Size)
-     of Dictionary_MNPC_Record;
+   Null_Dma : constant Dictionary_MNPC_Array :=
+     (others => Null_Dictionary_MNPC_Record);
 
    Max_Meaning_Print_Size : constant := 79;
 
@@ -599,148 +582,267 @@ package body List_Package is
       end if;
    end Put_Form;
 
+   procedure Do_Pause
+     (Output       :    Ada.Text_IO.File_Type;
+      I_Is_Pa_Last : in Boolean)
+   is
+   begin
+      if I_Is_Pa_Last  then
+         Ada.Text_IO.New_Line (Output);
+      elsif Integer (Ada.Text_IO.Line (Output)) >
+        Scroll_Line_Number + Output_Screen_Size
+      then
+         Pause (Output);
+         Scroll_Line_Number := Integer (Ada.Text_IO.Line (Output));
+      end if;
+   end Do_Pause;
+
    procedure Put_Parse_Details
      (Configuration : Configuration_Type;
       Output        : Ada.Text_IO.File_Type;
-      Dma           : Dictionary_MNPC_Array;
-      Sraa          : Stem_Inflection_Array_Array;
-      I_Is_Pa_Last  : Boolean)
+      WA            : Word_Analysis)
    is
       Mm            : constant Integer := Get_Max_Meaning_Size (Output);
    begin
       --TEXT_IO.PUT_LINE ("PUTting INFLECTIONS");
       declare
-         J : Integer := 1;
          Osra : Stem_Inflection_Array (1 .. Stem_Inflection_Array_Size)
            := Null_Sra;
       begin
 
+         pragma Assert (WA.Dict'First = WA.Stem'First);
+
          Output_Loop :
-         while  Dma (J) /= Null_Dictionary_MNPC_Record  loop
-            --  Skips one identical SRA no matter what comes next
-            if Sraa (J) /= Osra  then
+         for J in WA.Dict'Range loop
+            declare
+               Sra : constant Stem_Inflection_Array := WA.Stem (J);
+            begin
+               -- hack to work around static/dynamic schizophrenia
+               if WA.Dict (J) = Null_Dictionary_MNPC_Record then
+                  exit Output_Loop;
+               end if;
 
-               Put_Inflection_Array_J :
-               for K in Sraa (J)'Range loop
-                  exit Put_Inflection_Array_J when Sraa (J)(K) =
-                    Null_Stem_Inflection_Record;
+               --  Skips one identical SRA no matter what comes next
+               if Sra /= Osra  then
 
-                  Put_Inflection (Configuration, Output, Sraa (J)(K), Dma (J));
-                  if Sraa (J)(K).Stem (1 .. 3) = "PPL"  then
-                     Ada.Text_IO.Put_Line (Output, Head (Ppp_Meaning, Mm));
+                  Put_Inflection_Array_J :
+                  for K in Sra'Range loop
+                     exit Put_Inflection_Array_J when Sra (K) =
+                       Null_Stem_Inflection_Record;
+
+                     Put_Inflection (Configuration, Output, Sra (K),
+                       WA.Dict (J));
+                     if Sra (K).Stem (1 .. 3) = "PPL"  then
+                        Ada.Text_IO.Put_Line (Output, Head (Ppp_Meaning, Mm));
+                     end if;
+                  end loop Put_Inflection_Array_J;
+                  Osra := Sra;
+               end if;
+
+               Putting_Form :
+               begin
+                  if J = WA.Dict'First or else
+                    Support_Utils.Dictionary_Form (WA.Dict (J).De) /=
+                    Support_Utils.Dictionary_Form (WA.Dict (J - 1).De)
+                  then
+                     --  Put at first chance, skip duplicates
+                     Put_Form (Output, Sra (1), WA.Dict (J));
                   end if;
-               end loop Put_Inflection_Array_J;
-               Osra := Sraa (J);
-            end if;
+               end Putting_Form;
 
-            Putting_Form :
-            begin
-               if J = 1  or else
-                 Support_Utils.Dictionary_Form (Dma (J).De) /=
-                 Support_Utils.Dictionary_Form (Dma (J - 1).De)
-               then
-                  --  Put at first chance, skip duplicates
-                  Put_Form (Output, Sraa (J)(1), Dma (J));
-               end if;
-            end Putting_Form;
-
-            Putting_Meaning :
-            begin
-               if Dma (J).D_K in General .. Unique then
-                  if Dma (J).De.Mean /= Dma (J + 1).De.Mean then
-                     --  Hhandle simple multiple MEAN with same IR and FORM
-                     --  by anticipating duplicates and waiting until change
-                     Put_Meaning_Line (Output, Sraa (J)(1), Dma (J), Mm);
+               Putting_Meaning :
+               begin
+                  if WA.Dict (J).D_K in General .. Unique then
+                     if J + 1 > WA.Dict'Last or else
+                       WA.Dict (J).De.Mean /= WA.Dict (J + 1).De.Mean
+                     then
+                        --  Hhandle simple multiple MEAN with same IR and FORM
+                        --  by anticipating duplicates and waiting until change
+                        Put_Meaning_Line (Output, Sra (1), WA.Dict (J), Mm);
+                     end if;
+                  else
+                     Put_Meaning_Line (Output, Sra (1), WA.Dict (J), Mm);
                   end if;
-               else
-                  Put_Meaning_Line (Output, Sraa (J)(1), Dma (J), Mm);
-               end if;
-            end Putting_Meaning;
+               end Putting_Meaning;
 
-            Do_Pause :
-            begin
-               if I_Is_Pa_Last  then
-                  Ada.Text_IO.New_Line (Output);
-               elsif Integer (Ada.Text_IO.Line (Output)) >
-                 Scroll_Line_Number + Output_Screen_Size
-               then
-                  Pause (Output);
-                  Scroll_Line_Number := Integer (Ada.Text_IO.Line (Output));
-               end if;
-            end Do_Pause;
-
-            J := J + 1;
+               Do_Pause (Output, WA.I_Is_Pa_Last);
+            end;
          end loop Output_Loop;
-         --TEXT_IO.PUT_LINE ("Finished OUTPUT_LOOP");
       end;
    end Put_Parse_Details;
 
-   procedure List_Stems
-     (Configuration : Configuration_Type;
-      Output        : Ada.Text_IO.File_Type;
-      Raw_Word      : String;
-      Input_Line    : String;
-      Pa            : in out Parse_Array;
-      Pa_Last       : in out Integer)
+   procedure Fix_Adverb
+     (Pa      : in out Parse_Array;
+      Pa_Last : in out Integer)
+   is
+      J1, J2 : Integer := 0;
+      J : Integer := 0;
+   begin
+      --TEXT_IO.PUT_LINE ("In the ADJ -> ADV kludge  There is no ADV");
+      for I in reverse Pa'First .. Pa_Last  loop
+         if Pa (I).IR.Qual.Pofs = Adj and then
+           (Pa (I).IR.Qual.Adj = ((1, 1), Voc, S, M, Pos)    or
+           ((Pa (I).IR.Qual.Adj.Of_Case = Voc)   and
+           (Pa (I).IR.Qual.Adj.Number = S)   and
+           (Pa (I).IR.Qual.Adj.Gender = M)   and
+           (Pa (I).IR.Qual.Adj.Comparison = Super)))
+         then
+            J := I;
+
+            while J >=  Pa'First  loop  --Back through other ADJ cases
+               if Pa (J).IR.Qual.Pofs /= Adj  then
+                  J2 := J;
+                  --  J2 is first (reverse) that is not ADJ
+                  exit;
+               end if;
+               J := J - 1;
+            end loop;
+            while J >=  Pa'First  loop  --  Sweep up associated fixes
+               if Pa (J).IR.Qual.Pofs not in Xons  then
+                  J1 := J;
+                  --  J1 is first (reverse) that is not XONS
+                  exit;
+               end if;
+               J := J - 1;
+            end loop;
+
+            for J in J1 + 1 .. J2  loop
+               Pa (Pa_Last + J - J1 + 1) := Pa (J);
+            end loop;
+
+            Pa_Last := Pa_Last + J2 - J1 + 1;
+            Pa (Pa_Last) := Pa (J2 + 1);
+
+            Pa (Pa_Last) := ("e                 ",
+              ((Suffix, Null_Suffix_Record), 0, Null_Ending_Record, X, B),
+              Ppp, Null_MNPC);
+            --PARSE_RECORD_IO.PUT (PA (PA_LAST)); TEXT_IO.NEW_LINE;
+            Pa_Last := Pa_Last + 1;
+
+            declare
+               procedure Handle_Degree
+                 (E       : Ending_Record;
+                  Caption : String) is
+               begin
+                  Pa (Pa_Last) := (Pa (J2 + 1).Stem,
+                    ((Pofs => Adv,
+                    Adv => (Comparison =>
+                    Pa (J2 + 1).IR.Qual.Adj.Comparison)),
+                    Key => 0, Ending => E, Age => X, Freq => B),
+                    Pa (J2 + 1).D_K,
+                    Pa (J2 + 1).MNPC);
+
+                  Ppp_Meaning := Head (Caption, Max_Meaning_Size);
+               end Handle_Degree;
+            begin
+               if Pa (J2 + 1).IR.Qual.Adj.Comparison = Pos then
+                  Handle_Degree ((1, "e      "),
+                    "-ly; -ily;  Converting ADJ to ADV");
+               elsif Pa (J2 + 1).IR.Qual.Adj.Comparison = Super then
+                  Handle_Degree ((2, "me     "),
+                    "-estly; -estily; most -ly, very -ly" &
+                    "  Converting ADJ to ADV");
+               end if;
+            end;
+         end if;           --  PA (I).IR.QUAL.POFS = ADJ
+      end loop;
+   end Fix_Adverb;
+
+   -- update local dictionary, and handling of caps, temporarily disabled
+   procedure List_Unknowns
+     (Input_Line :        String;
+      Raw_Word   :        String)
    is
       use Ada.Text_IO;
       use Dict_IO;
-
-      --  The main WORD processing has been to produce an array of PARSE_RECORD
-      --      type PARSE_RECORD is
-      --        record
-      --          STEM  : STEM_TYPE := NULL_STEM_TYPE;
-      --          IR    : INFLECTION_RECORD := NULL_INFLECTION_RECORD;
-      --          D_K   : DICTIONARY_KIND := DEFAULT_DICTIONARY_KIND;
-      --          MNPC  : DICT_IO.COUNT := NULL_MNPC;
-      --        end record;
-      --  This has involved STEMFILE and INFLECTS, no DICTFILE
-
-      --  PARSE_RECORD is Put through the LIST_SWEEP procedure that does TRIMing
-      --  Then, for processing for Output, the data is converted to arrays of
-      --      type STEM_INFLECTION_RECORD is
-      --        record
-      --          STEM : STEM_TYPE          := NULL_STEM_TYPE;
-      --          IR   : INFLECTION_RECORD  := NULL_INFLECTION_RECORD;
-      --        end record;
-      --  and
-      --      type DICTIONARY_MNPC_RECORD is
-      --        record
-      --          D_K  : DICTIONARY_KIND;
-      --          MNPC : MNPC_TYPE;
-      --          DE   : DICTIONARY_ENTRY;
-      --        end record;
-      --  containing the same data plus the DICTFILE data DICTIONARY_ENTRY
-      --  but breaking it into two arrays allows different manipulation
-      --  These are only within this routine, used to clean up the Output
-
-      Null_Sraa : constant Stem_Inflection_Array_Array
-        (1 .. Stem_Inflection_Array_Array_Size)
-        := (others => Null_Sra);
-
-      Sraa : Stem_Inflection_Array_Array
-        (1 .. Stem_Inflection_Array_Array_Size) := Null_Sraa;
-
-      Null_Dma : constant Dictionary_MNPC_Array :=
-        (others => Null_Dictionary_MNPC_Record);
-      Dma : Dictionary_MNPC_Array := Null_Dma;
-
-      --MEANING_ARRAY_SIZE : constant := 5;
-      --MEANING_ARRAY : array (1 .. MEANING_ARRAY_SIZE) of MEANING_TYPE;
-
-      W : constant String := Raw_Word;
-      J1, J2 : Integer := 0;
-      There_Is_An_Adverb : Boolean := False;
-
-      I_Is_Pa_Last : Boolean := False;
-
    begin
-      Trimmed := False;
+      if  Words_Mode (Write_Output_To_File)      then
+         Put_Pearse_Code (Output, "04 ");
+         Ada.Text_IO.Put (Output, Raw_Word);
+         Ada.Text_IO.Set_Col (Output, 30);
+         Inflections_Package.Integer_IO.Put (Output, Line_Number, 7);
+         Inflections_Package.Integer_IO.Put (Output, Word_Number, 7);
+         Ada.Text_IO.Put_Line (Output, "    ========   UNKNOWN    ");
+      else              --  Just screen Output
+         if Words_Mdev (Do_Pearse_Codes) then
+            Ada.Text_IO.Put ("04 ");
+         end if;
+         Ada.Text_IO.Put (Raw_Word);
+         Ada.Text_IO.Set_Col (30);
+         Ada.Text_IO.Put_Line ("    ========   UNKNOWN    ");
+      end if;
 
-      --  Since this procedure weeds out possible parses, if it weeds out all
-      --  (or all of a class) it must fix up the rest of the parse array,
-      --  e.g., it must clean out dangling prefixes and suffixes
+      if Words_Mode (Write_Unknowns_To_File)  then
+         if Words_Mdev (Include_Unknown_Context) or
+           Words_Mdev (Do_Only_Initial_Word)
+         then
+            Ada.Text_IO.Put_Line (Input_Line);
+            Ada.Text_IO.Put_Line (Unknowns, Input_Line);
+         end if;
+         Put_Pearse_Code (Unknowns, "04 ");
+         Ada.Text_IO.Put (Unknowns, Raw_Word);
+         Ada.Text_IO.Set_Col (Unknowns, 30);
+         Inflections_Package.Integer_IO.Put (Unknowns, Line_Number, 7);
+         Inflections_Package.Integer_IO.Put (Unknowns, Word_Number, 7);
+         Ada.Text_IO.Put_Line (Unknowns, "    ========   UNKNOWN    ");
+      end if;
 
+      if Words_Mode (Do_Stems_For_Unknown)   then
+         if  Words_Mode (Write_Output_To_File)  and then
+           not Words_Mode (Write_Unknowns_To_File)
+         then
+            List_Neighborhood (Output, Raw_Word);
+         elsif  Words_Mode (Write_Output_To_File)  and then
+           Words_Mode (Write_Unknowns_To_File)
+         then
+            List_Neighborhood (Output, Raw_Word);
+            List_Neighborhood (Unknowns, Raw_Word);
+         elsif Name (Current_Input) = Name (Standard_Input) then
+            List_Neighborhood (Output, Raw_Word);
+         end if;
+      end if;
+   end List_Unknowns;
+
+   procedure Write_Addons_Stats
+     (W       : String;
+      Pa      : Parse_Array;
+      Pa_Last : Integer)
+   is
+   begin
+      if not Words_Mdev (Write_Statistics_File) then
+         return;
+      end if;
+
+      --  Omit rest of Output
+      for I in 1 .. Pa_Last  loop                       --  Just to PUT_STAT
+         if Pa (I).D_K = Addons then
+            declare
+               procedure Put_Addon_Info (Caption : String) is
+               begin
+                  Put_Stat ("ADDON " & Caption & " at "
+                    & Head (Integer'Image (Line_Number), 8) &
+                    Head (Integer'Image (Word_Number), 4)
+                    & "   " & Head (W, 20) & "   "  & Pa (I).Stem &
+                    "  " & Integer'Image (Integer (Pa (I).MNPC)));
+               end Put_Addon_Info;
+            begin
+               case Pa (I).IR.Qual.Pofs is
+                  when Prefix => Put_Addon_Info ("PREFIX");
+                  when Suffix => Put_Addon_Info ("SUFFIX");
+                  when Tackon => Put_Addon_Info ("TACKON");
+                  when others => null;
+               end case;
+            end;
+         end if;
+      end loop;
+   end Write_Addons_Stats;
+
+   procedure Handle_Adverb
+     (Pa      : in out Parse_Array;
+      Pa_Last : in out Integer)
+   is
+      There_Is_An_Adverb : Boolean := False;
+   begin
       -------  The gimick of adding an ADV if there is only ADJ VOC  ----
       --TEXT_IO.PUT_LINE ("About to do the ADJ -> ADV kludge");
       for I in Pa'First .. Pa_Last  loop
@@ -750,195 +852,68 @@ package body List_Package is
          end if;
       end loop;
 
-      declare
-         J : Integer := 0;
-      begin
-         if (not There_Is_An_Adverb) and (Words_Mode (Do_Fixes))  then
-            --TEXT_IO.PUT_LINE ("In the ADJ -> ADV kludge  There is no ADV");
-            for I in reverse Pa'First .. Pa_Last  loop
-               if Pa (I).IR.Qual.Pofs = Adj and then
-                 (Pa (I).IR.Qual.Adj = ((1, 1), Voc, S, M, Pos)    or
-                 ((Pa (I).IR.Qual.Adj.Of_Case = Voc)   and
-                 (Pa (I).IR.Qual.Adj.Number = S)   and
-                 (Pa (I).IR.Qual.Adj.Gender = M)   and
-                 (Pa (I).IR.Qual.Adj.Comparison = Super)))
-               then
-                  J := I;
-
-                  while J >=  Pa'First  loop  --Back through other ADJ cases
-                     if Pa (J).IR.Qual.Pofs /= Adj  then
-                        J2 := J;
-                        --  J2 is first (reverse) that is not ADJ
-                        exit;
-                     end if;
-                     J := J - 1;
-                  end loop;
-                  while J >=  Pa'First  loop  --  Sweep up associated fixes
-                     if Pa (J).IR.Qual.Pofs not in Xons  then
-                        J1 := J;
-                        --  J1 is first (reverse) that is not XONS
-                        exit;
-                     end if;
-                     J := J - 1;
-                  end loop;
-
-                  for J in J1 + 1 .. J2  loop
-                     Pa (Pa_Last + J - J1 + 1) := Pa (J);
-                  end loop;
-
-                  Pa_Last := Pa_Last + J2 - J1 + 1;
-                  Pa (Pa_Last) := Pa (J2 + 1);
-
-                  Pa (Pa_Last) := ("e                 ",
-                    ((Suffix, Null_Suffix_Record), 0, Null_Ending_Record, X, B),
-                    Ppp, Null_MNPC);
-                  --PARSE_RECORD_IO.PUT (PA (PA_LAST)); TEXT_IO.NEW_LINE;
-                  Pa_Last := Pa_Last + 1;
-
-                  declare
-                     procedure Handle_Degree
-                       (E       : Ending_Record;
-                        Caption : String) is
-                     begin
-                        Pa (Pa_Last) := (Pa (J2 + 1).Stem,
-                          ((Pofs => Adv,
-                          Adv => (Comparison =>
-                          Pa (J2 + 1).IR.Qual.Adj.Comparison)),
-                          Key => 0, Ending => E, Age => X, Freq => B),
-                          Pa (J2 + 1).D_K,
-                          Pa (J2 + 1).MNPC);
-
-                        Ppp_Meaning := Head (Caption, Max_Meaning_Size);
-                     end Handle_Degree;
-                  begin
-                     if Pa (J2 + 1).IR.Qual.Adj.Comparison = Pos then
-                        Handle_Degree ((1, "e      "),
-                          "-ly; -ily;  Converting ADJ to ADV");
-                     elsif Pa (J2 + 1).IR.Qual.Adj.Comparison = Super then
-                        Handle_Degree ((2, "me     "),
-                          "-estly; -estily; most -ly, very -ly" &
-                          "  Converting ADJ to ADV");
-                     end if;
-                  end;
-               end if;           --  PA (I).IR.QUAL.POFS = ADJ
-            end loop;
-         end if;           --  not THERE_IS_AN_ADVERB
-      end;
-
-      List_Sweep (Pa (1 .. Pa_Last), Pa_Last);
-
-      if  Words_Mdev (Write_Statistics_File)    then
-         --  Omit rest of Output
-         for I in 1 .. Pa_Last  loop                       --  Just to PUT_STAT
-            if Pa (I).D_K = Addons then
-               declare
-                  procedure Put_Addon_Info (Caption : String) is
-                  begin
-                     Put_Stat ("ADDON " & Caption & " at "
-                       & Head (Integer'Image (Line_Number), 8) &
-                       Head (Integer'Image (Word_Number), 4)
-                       & "   " & Head (W, 20) & "   "  & Pa (I).Stem &
-                       "  " & Integer'Image (Integer (Pa (I).MNPC)));
-                  end Put_Addon_Info;
-               begin
-                  case Pa (I).IR.Qual.Pofs is
-                     when Prefix => Put_Addon_Info ("PREFIX");
-                     when Suffix => Put_Addon_Info ("SUFFIX");
-                     when Tackon => Put_Addon_Info ("TACKON");
-                     when others => null;
-                  end case;
-               end;
-            end if;
-         end loop;
+      if (not There_Is_An_Adverb) and (Words_Mode (Do_Fixes))  then
+         Fix_Adverb (Pa, Pa_Last);
       end if;
+   end Handle_Adverb;
 
-      Cycle_Over_Pa (Pa, Pa_Last, Sraa, Dma, I_Is_Pa_Last,
-                    Raw_Word, W);
+   function Analyse_Word
+     (Pa       : Parse_Array;
+      Pa_Last  : Integer;
+      Raw_Word : String)
+     return Word_Analysis
+   is
+      Var_Pa : Parse_Array := Pa;
+      Var_Pa_Last : Integer := Pa_Last;
 
+      W : constant String := Raw_Word;
+      Sraa : Stem_Inflection_Array_Array
+        (1 .. Stem_Inflection_Array_Array_Size) := Null_Sraa;
+      Dma : Dictionary_MNPC_Array := Null_Dma;
+
+      I_Is_Pa_Last : Boolean := False;
+      WA : Word_Analysis;
+   begin
+      --  Since this procedure weeds out possible parses, if it weeds out all
+      --  (or all of a class) it must fix up the rest of the parse array,
+      --  e.g., it must clean out dangling prefixes and suffixes
+      Trimmed := False;
+      Handle_Adverb (Var_Pa, Var_Pa_Last);
+      List_Sweep (Var_Pa (1 .. Var_Pa_Last), Var_Pa_Last);
+      Write_Addons_Stats (W, Var_Pa, Var_Pa_Last);
+      Cycle_Over_Pa (Var_Pa, Var_Pa_Last, Sraa, Dma, I_Is_Pa_Last, Raw_Word, W);
+
+      WA := (Stem => Sraa, Dict => Dma, I_Is_Pa_Last => I_Is_Pa_Last,
+             Unknowns => Var_Pa_Last = 0);
+      return WA;
+   end Analyse_Word;
+
+   --  The main WORD processing has been to produce an array of PARSE_RECORD
+   --  as defined in Latin_Utils.Dictionary_Package.
+   --  This has involved STEMFILE and INFLECTS, no DICTFILE
+
+   --  PARSE_RECORD is put through the LIST_SWEEP procedure that does TRIMing
+   --  Then, for processing for Output, the data is converted to arrays of
+   --  type STEM_INFLECTION_RECORD, defined above, and
+   --  type DICTIONARY_MNPC_RECORD,
+   --  containing the same data plus the DICTFILE data DICTIONARY_ENTRY
+   --  but breaking it into two arrays allows different manipulation
+   --  These are only within this routine, used to clean up the Output
+   procedure List_Stems
+     (Configuration : Configuration_Type;
+      Output        : Ada.Text_IO.File_Type;
+      Raw_Word      : String;
+      Input_Line    : String;
+      WA            : Word_Analysis)
+   is
+   begin
       --  Sets + if capitalized
       --  Strangely enough, it may enter LIST_STEMS with PA_LAST /= 0
       --  but be weeded and end up with no parse after
       --                    LIST_SWEEP  -  PA_LAST = 0
-      if Pa_Last = 0  then
+      if WA.Unknowns then
          --  WORD failed
-         declare
-            procedure Do_Ignore_Unknown (Caption : String) is
-            begin
-               Nnn_Meaning := Head (
-                 "Assume this is capitalized proper name/abbr," &
-                 " under MODE " & Caption & " ",
-                 Max_Meaning_Size);
-               Pa (1) := (Head (Raw_Word, Max_Stem_Size),
-                 ((N, ((0, 0), X, X, X)), 0, Null_Ending_Record, X, X),
-                 Nnn, Null_MNPC);
-               Pa_Last := 1;    --  So LIST_NEIGHBORHOOD will not be called
-               Sraa := Null_Sraa;
-               Dma := Null_Dma;
-               Sraa (1)(1) := (Pa (1).Stem, Pa (1).IR);
-               Dma (1) := (Nnn, 0, Null_Dictionary_Entry);
-            end Do_Ignore_Unknown;
-         begin
-            if Words_Mode (Ignore_Unknown_Names) and Capitalized then
-               Do_Ignore_Unknown ("IGNORE_UNKNOWN_NAME");
-            elsif Words_Mode (Ignore_Unknown_Caps) and All_Caps then
-               Do_Ignore_Unknown ("IGNORE_UNKNOWN_CAPS");
-            end if;
-         end;
-
-         if  Words_Mode (Write_Output_To_File)      then
-            Put_Pearse_Code (Output, "04 ");
-            Ada.Text_IO.Put (Output, Raw_Word);
-            Ada.Text_IO.Set_Col (Output, 30);
-            Inflections_Package.Integer_IO.Put (Output, Line_Number, 7);
-            Inflections_Package.Integer_IO.Put (Output, Word_Number, 7);
-            Ada.Text_IO.Put_Line (Output, "    ========   UNKNOWN    ");
-         else              --  Just screen Output
-            if Words_Mdev (Do_Pearse_Codes) then
-               Ada.Text_IO.Put ("04 ");
-            end if;
-            Ada.Text_IO.Put (Raw_Word);
-            Ada.Text_IO.Set_Col (30);
-            Ada.Text_IO.Put_Line ("    ========   UNKNOWN    ");
-         end if;
-
-         if Words_Mode (Write_Unknowns_To_File)  then
-            if Words_Mdev (Include_Unknown_Context) or
-              Words_Mdev (Do_Only_Initial_Word)
-            then
-               Ada.Text_IO.Put_Line (Input_Line);
-               Ada.Text_IO.Put_Line (Unknowns, Input_Line);
-            end if;
-            Put_Pearse_Code (Unknowns, "04 ");
-            Ada.Text_IO.Put (Unknowns, Raw_Word);
-            Ada.Text_IO.Set_Col (Unknowns, 30);
-            Inflections_Package.Integer_IO.Put (Unknowns, Line_Number, 7);
-            Inflections_Package.Integer_IO.Put (Unknowns, Word_Number, 7);
-            Ada.Text_IO.Put_Line (Unknowns, "    ========   UNKNOWN    ");
-         end if;
-
-         if Words_Mode (Do_Stems_For_Unknown)   then
-            if  Words_Mode (Write_Output_To_File)  and then
-              not Words_Mode (Write_Unknowns_To_File)
-            then
-               List_Neighborhood (Output, Raw_Word);
-            elsif  Words_Mode (Write_Output_To_File)  and then
-              Words_Mode (Write_Unknowns_To_File)
-            then
-               List_Neighborhood (Output, Raw_Word);
-               List_Neighborhood (Unknowns, Raw_Word);
-            elsif Name (Current_Input) = Name (Standard_Input) then
-               List_Neighborhood (Output, Raw_Word);
-            end if;
-         end if;
-
-         if Words_Mdev (Update_Local_Dictionary)  and
-           -- Don't if reading from file
-           (Name (Current_Input) = Name (Standard_Input))
-         then
-            Update_Local_Dictionary_File;
-            Word (Raw_Word, Pa, Pa_Last);
-            --  Circular if you dont update!!!!!
-         end if;
+         List_Unknowns (Input_Line, Raw_Word);
       end if;
 
       --  Exit if UNKNOWNS ONLY (but had to do STATS above)
@@ -946,21 +921,22 @@ package body List_Package is
          return;
       end if;
 
-      Put_Parse_Details (Configuration, Output, Dma, Sraa, I_Is_Pa_Last);
+      Put_Parse_Details (Configuration, Output, WA);
 
       if Trimmed then
-         Put (Output, '*');
+         Ada.Text_IO.Put (Output, '*');
       end if;
       Ada.Text_IO.New_Line (Output);
 
    exception
-      when others =>
+      when Error : others =>
          Ada.Text_IO.Put_Line
            ("Unexpected exception in LIST_STEMS processing " & Raw_Word);
+         Ada.Text_IO.Put_Line (Exception_Information (Error));
          Put_Stat ("EXCEPTION LS at "
            & Head (Integer'Image (Line_Number), 8) &
            Head (Integer'Image (Word_Number), 4)
-           & "   " & Head (W, 20));
+           & "   " & Head (Raw_Word, 20));
    end List_Stems;
 
    procedure List_Entry (Output   : Ada.Text_IO.File_Type;
