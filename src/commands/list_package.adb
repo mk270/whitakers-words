@@ -748,6 +748,7 @@ package body List_Package is
       end loop;
    end Fix_Adverb;
 
+   -- update local dictionary, and handling of caps, temporarily disabled
    procedure List_Unknowns
      (Input_Line :        String;
       Raw_Word   :        String)
