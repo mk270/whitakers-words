@@ -85,9 +85,6 @@ package body List_Package is
    type Dictionary_MNPC_Array is array (1 .. Dictionary_MNPC_Array_Size)
      of Dictionary_MNPC_Record;
 
-   type Dyn_Dictionary_MNPC_Array is array (Positive range <>)
-     of Dictionary_MNPC_Record;
-
    Null_Dma : constant Dictionary_MNPC_Array :=
      (others => Null_Dictionary_MNPC_Record);
 
@@ -930,22 +927,6 @@ package body List_Package is
       end if;
    end Handle_Adverb;
 
-   function Count_Used_Dma
-     (Dma : Dictionary_MNPC_Array)
-     return Integer
-   is
-      Dma_Size : Integer := Dma'First - 1;
-   begin
-      --  FIXME: this is a terrible kludge
-      loop
-         if Dma (Dma_Size + 1) = Null_Dictionary_MNPC_Record then
-            exit;
-         end if;
-         Dma_Size := Dma_Size + 1;
-      end loop;
-      return Dma_Size;
-   end Count_Used_Dma;
-
    function Analyse_Word
      (Orig_Pa      : Parse_Array;
       Orig_Pa_Last : Integer;
@@ -1017,17 +998,7 @@ package body List_Package is
          return;
       end if;
 
-      -- horrible kludge, but sets things up for the dynamic future
-      declare
-         Dma_Size : constant Integer := Count_Used_Dma (WA.Dict);
-         Dma_Temp : Dyn_Dictionary_MNPC_Array (1 .. Dma_Size);
-      begin
-         for I in Dma_Temp'Range loop
-            Dma_Temp (I) := WA.Dict (I);
-         end loop;
-
-         Put_Parse_Details (Configuration, Output, WA);
-      end;
+      Put_Parse_Details (Configuration, Output, WA);
 
       if Trimmed then
          Ada.Text_IO.Put (Output, '*');
