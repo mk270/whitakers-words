@@ -637,9 +637,7 @@ package body List_Package is
    procedure Put_Parse_Details
      (Configuration : Configuration_Type;
       Output        : Ada.Text_IO.File_Type;
-      Dma           : Dyn_Dictionary_MNPC_Array;
-      Sraa          : Stem_Inflection_Array_Array;
-      I_Is_Pa_Last  : in Boolean)
+      WA            : Word_Analysis)
    is
       Mm            : constant Integer := Get_Max_Meaning_Size (Output);
    begin
@@ -649,13 +647,18 @@ package body List_Package is
            := Null_Sra;
       begin
 
-         pragma Assert (Dma'First = Sraa'First);
+         pragma Assert (WA.Dict'First = WA.Stem'First);
 
          Output_Loop :
-         for J in Dma'Range loop
+         for J in WA.Dict'Range loop
             declare
-               Sra : constant Stem_Inflection_Array := Sraa (J);
+               Sra : constant Stem_Inflection_Array := WA.Stem (J);
             begin
+               -- hack to work around static/dynamic schizophrenia
+               if WA.Dict (J) = Null_Dictionary_MNPC_Record then
+                  exit Output_Loop;
+               end if;
+
                --  Skips one identical SRA no matter what comes next
                if Sra /= Osra  then
 
@@ -665,7 +668,7 @@ package body List_Package is
                        Null_Stem_Inflection_Record;
 
                      Put_Inflection (Configuration, Output, Sra (K),
-                       Dma (J));
+                       WA.Dict (J));
                      if Sra (K).Stem (1 .. 3) = "PPL"  then
                         Ada.Text_IO.Put_Line (Output, Head (Ppp_Meaning, Mm));
                      end if;
@@ -675,31 +678,31 @@ package body List_Package is
 
                Putting_Form :
                begin
-                  if J = Dma'First or else
-                    Support_Utils.Dictionary_Form (Dma (J).De) /=
-                    Support_Utils.Dictionary_Form (Dma (J - 1).De)
+                  if J = WA.Dict'First or else
+                    Support_Utils.Dictionary_Form (WA.Dict (J).De) /=
+                    Support_Utils.Dictionary_Form (WA.Dict (J - 1).De)
                   then
                      --  Put at first chance, skip duplicates
-                     Put_Form (Output, Sra (1), Dma (J));
+                     Put_Form (Output, Sra (1), WA.Dict (J));
                   end if;
                end Putting_Form;
 
                Putting_Meaning :
                begin
-                  if Dma (J).D_K in General .. Unique then
-                     if J + 1 > Dma'Last or else
-                       Dma (J).De.Mean /= Dma (J + 1).De.Mean
+                  if WA.Dict (J).D_K in General .. Unique then
+                     if J + 1 > WA.Dict'Last or else
+                       WA.Dict (J).De.Mean /= WA.Dict (J + 1).De.Mean
                      then
                         --  Hhandle simple multiple MEAN with same IR and FORM
                         --  by anticipating duplicates and waiting until change
-                        Put_Meaning_Line (Output, Sra (1), Dma (J), Mm);
+                        Put_Meaning_Line (Output, Sra (1), WA.Dict (J), Mm);
                      end if;
                   else
-                     Put_Meaning_Line (Output, Sra (1), Dma (J), Mm);
+                     Put_Meaning_Line (Output, Sra (1), WA.Dict (J), Mm);
                   end if;
                end Putting_Meaning;
 
-               Do_Pause (Output, I_Is_Pa_Last);
+               Do_Pause (Output, WA.I_Is_Pa_Last);
             end;
          end loop Output_Loop;
       end;
@@ -1023,8 +1026,7 @@ package body List_Package is
             Dma_Temp (I) := WA.Dict (I);
          end loop;
 
-         Put_Parse_Details (Configuration, Output, Dma_Temp,
-           WA.Stem, WA.I_Is_Pa_Last);
+         Put_Parse_Details (Configuration, Output, WA);
       end;
 
       if Trimmed then
