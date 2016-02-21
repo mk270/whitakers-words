@@ -97,6 +97,7 @@ package body List_Package is
            (1 .. Stem_Inflection_Array_Array_Size);
          Dict : Dictionary_MNPC_Array;
          I_Is_Pa_Last : Boolean;
+         Unknowns : Boolean;
       end record;
 
    Max_Meaning_Print_Size : constant := 79;
@@ -968,7 +969,8 @@ package body List_Package is
       Write_Addons_Stats (W, Pa, Pa_Last);
       Cycle_Over_Pa (Pa, Pa_Last, Sraa, Dma, I_Is_Pa_Last, Raw_Word, W);
 
-      WA := (Stem => Sraa, Dict => Dma, I_Is_Pa_Last => I_Is_Pa_Last);
+      WA := (Stem => Sraa, Dict => Dma, I_Is_Pa_Last => I_Is_Pa_Last,
+             Unknowns => Pa_Last = 0);
       return WA;
    end Analyse_Word;
 
@@ -1002,7 +1004,7 @@ package body List_Package is
       --  Strangely enough, it may enter LIST_STEMS with PA_LAST /= 0
       --  but be weeded and end up with no parse after
       --                    LIST_SWEEP  -  PA_LAST = 0
-      if Pa_Last = 0  then
+      if WA.Unknowns then
          --  WORD failed
          List_Unknowns (WA.Stem, WA.Dict, Input_Line, Raw_Word, Pa, Pa_Last);
       end if;
