@@ -936,6 +936,7 @@ is
       declare
          type File_Type_Access is access constant Ada.Text_IO.File_Type;
          O : File_Type_Access;
+         WA : Word_Analysis;
       begin
          if Words_Mode (Write_Output_To_File) then
             O := Output'Access;
@@ -943,8 +944,9 @@ is
             O := Current_Output.all'Access; -- Current_Output is a procedure
          end if;
 
+         WA := Analyse_Word (Pa, Pa_Last, Input_Word);
          List_Stems (Configuration, O.all, Input_Word,
-           Input_Line, Pa, Pa_Last);
+           Input_Line, WA);
       end;
 
    exception

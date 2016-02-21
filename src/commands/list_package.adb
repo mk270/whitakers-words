@@ -749,40 +749,12 @@ package body List_Package is
    end Fix_Adverb;
 
    procedure List_Unknowns
-     (Sraa       : in out Stem_Inflection_Array_Array;
-      Dma        : in out Dictionary_MNPC_Array;
-      Input_Line :        String;
-      Raw_Word   :        String;
-      Pa         : in out Parse_Array;
-      Pa_Last    : in out Integer)
+     (Input_Line :        String;
+      Raw_Word   :        String)
    is
       use Ada.Text_IO;
       use Dict_IO;
    begin
-      declare
-         procedure Do_Ignore_Unknown (Caption : String) is
-         begin
-            Nnn_Meaning := Head (
-              "Assume this is capitalized proper name/abbr," &
-              " under MODE " & Caption & " ",
-              Max_Meaning_Size);
-            Pa (1) := (Head (Raw_Word, Max_Stem_Size),
-              ((N, ((0, 0), X, X, X)), 0, Null_Ending_Record, X, X),
-              Nnn, Null_MNPC);
-            Pa_Last := 1;    --  So LIST_NEIGHBORHOOD will not be called
-            Sraa := Null_Sraa;
-            Dma := Null_Dma;
-            Sraa (1)(1) := (Pa (1).Stem, Pa (1).IR);
-            Dma (1) := (Nnn, 0, Null_Dictionary_Entry);
-         end Do_Ignore_Unknown;
-      begin
-         if Words_Mode (Ignore_Unknown_Names) and Capitalized then
-            Do_Ignore_Unknown ("IGNORE_UNKNOWN_NAME");
-         elsif Words_Mode (Ignore_Unknown_Caps) and All_Caps then
-            Do_Ignore_Unknown ("IGNORE_UNKNOWN_CAPS");
-         end if;
-      end;
-
       if  Words_Mode (Write_Output_To_File)      then
          Put_Pearse_Code (Output, "04 ");
          Ada.Text_IO.Put (Output, Raw_Word);
@@ -827,15 +799,6 @@ package body List_Package is
          elsif Name (Current_Input) = Name (Standard_Input) then
             List_Neighborhood (Output, Raw_Word);
          end if;
-      end if;
-
-      if Words_Mdev (Update_Local_Dictionary)  and
-        -- Don't if reading from file
-        (Name (Current_Input) = Name (Standard_Input))
-      then
-         Update_Local_Dictionary_File;
-         Word (Raw_Word, Pa, Pa_Last);
-         --  Circular if you dont update!!!!!
       end if;
    end List_Unknowns;
 
@@ -940,23 +903,16 @@ package body List_Package is
       Output        : Ada.Text_IO.File_Type;
       Raw_Word      : String;
       Input_Line    : String;
-      Orig_Pa       : in Parse_Array;
-      Orig_Pa_Last  : in Integer)
+      WA            : Word_Analysis)
    is
-      Pa : Parse_Array := Orig_Pa;
-      Pa_Last : Integer := Orig_Pa_Last;
-
-      WA : Word_Analysis;
    begin
-      WA := Analyse_Word (Pa, Pa_Last, Raw_Word);
-
       --  Sets + if capitalized
       --  Strangely enough, it may enter LIST_STEMS with PA_LAST /= 0
       --  but be weeded and end up with no parse after
       --                    LIST_SWEEP  -  PA_LAST = 0
       if WA.Unknowns then
          --  WORD failed
-         List_Unknowns (WA.Stem, WA.Dict, Input_Line, Raw_Word, Pa, Pa_Last);
+         List_Unknowns (Input_Line, Raw_Word);
       end if;
 
       --  Exit if UNKNOWNS ONLY (but had to do STATS above)
