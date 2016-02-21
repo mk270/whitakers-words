@@ -35,7 +35,6 @@ with Support_Utils.Uniques_Package; use Support_Utils.Uniques_Package;
 with Support_Utils.Word_Support_Package; use Support_Utils.Word_Support_Package;
 with Support_Utils.Developer_Parameters; use Support_Utils.Developer_Parameters;
 with Word_Package; use Word_Package;
-with Latin_Utils.Inflections_Package; use Latin_Utils.Inflections_Package;
 with Support_Utils.Char_Utils;
 with Support_Utils.Dictionary_Form;
 with Put_Example_Line;
@@ -46,31 +45,12 @@ package body List_Package is
 
    subtype Xons is Part_Of_Speech_Type range Tackon .. Suffix;
 
-   type Dictionary_MNPC_Record is record
-      D_K  : Dictionary_Kind := Default_Dictionary_Kind;
-      MNPC : MNPC_Type := Null_MNPC;
-      De   : Dictionary_Entry := Null_Dictionary_Entry;
-   end record;
    Null_Dictionary_MNPC_Record : constant Dictionary_MNPC_Record
      := (X, Null_MNPC, Null_Dictionary_Entry);
-
-   Stem_Inflection_Array_Size       : constant := 10;
-   Stem_Inflection_Array_Array_Size : constant := 40;
-
-   type Stem_Inflection_Record is
-      record
-         Stem : Stem_Type          := Null_Stem_Type;
-         Ir   : Inflection_Record  := Null_Inflection_Record;
-      end record;
 
    Null_Stem_Inflection_Record      : constant Stem_Inflection_Record :=
      (Stem => Null_Stem_Type,
      Ir => Null_Inflection_Record);
-
-   type Stem_Inflection_Array is
-     array (Integer range <>) of Stem_Inflection_Record;
-   type Stem_Inflection_Array_Array is array (Integer range <>)
-     of Stem_Inflection_Array (1 .. Stem_Inflection_Array_Size);
 
    Null_Sra :
      constant Stem_Inflection_Array (1 .. Stem_Inflection_Array_Size)
@@ -80,22 +60,8 @@ package body List_Package is
      (1 .. Stem_Inflection_Array_Array_Size)
      := (others => Null_Sra);
 
-   Dictionary_MNPC_Array_Size : constant := 40;
-
-   type Dictionary_MNPC_Array is array (1 .. Dictionary_MNPC_Array_Size)
-     of Dictionary_MNPC_Record;
-
    Null_Dma : constant Dictionary_MNPC_Array :=
      (others => Null_Dictionary_MNPC_Record);
-
-   type Word_Analysis is
-      record
-         Stem : Stem_Inflection_Array_Array
-           (1 .. Stem_Inflection_Array_Array_Size);
-         Dict : Dictionary_MNPC_Array;
-         I_Is_Pa_Last : Boolean;
-         Unknowns : Boolean;
-      end record;
 
    Max_Meaning_Print_Size : constant := 79;
 
@@ -928,13 +894,13 @@ package body List_Package is
    end Handle_Adverb;
 
    function Analyse_Word
-     (Orig_Pa      : Parse_Array;
-      Orig_Pa_Last : Integer;
-      Raw_Word     : String)
+     (Pa       : Parse_Array;
+      Pa_Last  : Integer;
+      Raw_Word : String)
      return Word_Analysis
    is
-      Pa : Parse_Array := Orig_Pa;
-      Pa_Last : Integer := Orig_Pa_Last;
+      Var_Pa : Parse_Array := Pa;
+      Var_Pa_Last : Integer := Pa_Last;
 
       W : constant String := Raw_Word;
       Sraa : Stem_Inflection_Array_Array
@@ -948,13 +914,13 @@ package body List_Package is
       --  (or all of a class) it must fix up the rest of the parse array,
       --  e.g., it must clean out dangling prefixes and suffixes
       Trimmed := False;
-      Handle_Adverb (Pa, Pa_Last);
-      List_Sweep (Pa (1 .. Pa_Last), Pa_Last);
-      Write_Addons_Stats (W, Pa, Pa_Last);
-      Cycle_Over_Pa (Pa, Pa_Last, Sraa, Dma, I_Is_Pa_Last, Raw_Word, W);
+      Handle_Adverb (Var_Pa, Var_Pa_Last);
+      List_Sweep (Var_Pa (1 .. Var_Pa_Last), Var_Pa_Last);
+      Write_Addons_Stats (W, Var_Pa, Var_Pa_Last);
+      Cycle_Over_Pa (Var_Pa, Var_Pa_Last, Sraa, Dma, I_Is_Pa_Last, Raw_Word, W);
 
       WA := (Stem => Sraa, Dict => Dma, I_Is_Pa_Last => I_Is_Pa_Last,
-             Unknowns => Pa_Last = 0);
+             Unknowns => Var_Pa_Last = 0);
       return WA;
    end Analyse_Word;
 

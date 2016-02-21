@@ -17,11 +17,19 @@
 with Ada.Text_IO;
 with Latin_Utils.Dictionary_Package; use Latin_Utils.Dictionary_Package;
 with Latin_Utils.Config; use Latin_Utils.Config;
+with Latin_Utils.Inflections_Package; use Latin_Utils.Inflections_Package;
+
 package List_Package is
 
    --  SCROLL_LINE_NUMBER : INTEGER := 0;
    --  OUTPUT_SCROLL_COUNT : INTEGER := 0;
    --
+
+   type Word_Analysis is private;
+
+   function Analyse_Word (Pa       : Parse_Array;
+                          Pa_Last  : Integer;
+                          Raw_Word : String) return Word_Analysis;
 
    procedure List_Stems (Configuration :    Configuration_Type;
                          Output        :    Ada.Text_IO.File_Type;
@@ -36,5 +44,40 @@ package List_Package is
    procedure List_Neighborhood
      (Output     : Ada.Text_IO.File_Type;
       Input_Word : String);
+
+private
+   type Stem_Inflection_Record is
+      record
+         Stem : Stem_Type          := Null_Stem_Type;
+         Ir   : Inflection_Record  := Null_Inflection_Record;
+      end record;
+
+   Stem_Inflection_Array_Size       : constant := 10;
+   Stem_Inflection_Array_Array_Size : constant := 40;
+
+   type Stem_Inflection_Array is
+     array (Integer range <>) of Stem_Inflection_Record;
+   type Stem_Inflection_Array_Array is array (Integer range <>)
+     of Stem_Inflection_Array (1 .. Stem_Inflection_Array_Size);
+
+   type Dictionary_MNPC_Record is record
+      D_K  : Dictionary_Kind := Default_Dictionary_Kind;
+      MNPC : MNPC_Type := Null_MNPC;
+      De   : Dictionary_Entry := Null_Dictionary_Entry;
+   end record;
+
+   Dictionary_MNPC_Array_Size : constant := 40;
+
+   type Dictionary_MNPC_Array is array (1 .. Dictionary_MNPC_Array_Size)
+     of Dictionary_MNPC_Record;
+
+   type Word_Analysis is
+      record
+         Stem : Stem_Inflection_Array_Array
+           (1 .. Stem_Inflection_Array_Array_Size);
+         Dict : Dictionary_MNPC_Array;
+         I_Is_Pa_Last : Boolean;
+         Unknowns : Boolean;
+      end record;
 
 end List_Package;
