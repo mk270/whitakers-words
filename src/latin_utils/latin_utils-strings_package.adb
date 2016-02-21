@@ -76,7 +76,6 @@ package body Latin_Utils.Strings_Package is
             Trimmed_Head : constant String := Head (Trim (Line), 250)(1 .. 2);
          begin
             if Trimmed_Head (1) = Character'Val (13) then
-               LX := Length;
                exit File_Loop;
             end if;
 

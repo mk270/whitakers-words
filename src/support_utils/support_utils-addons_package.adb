@@ -28,7 +28,7 @@ package body Support_Utils.Addons_Package is
    function Equ (C, D : Character) return Boolean is
    begin
       if (D = 'u') or (D = 'v')  then
-         return (C = 'u') or (C = 'v')
+         return (C = 'u') or (C = 'v');
       else
          return C = D;
       end if;
