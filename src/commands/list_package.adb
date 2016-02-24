@@ -884,7 +884,8 @@ package body List_Package is
       Cycle_Over_Pa (Var_Pa, Var_Pa_Last, Sraa, Dma, I_Is_Pa_Last, Raw_Word, W);
 
       WA := (Stem => Sraa, Dict => Dma, I_Is_Pa_Last => I_Is_Pa_Last,
-             Unknowns => Var_Pa_Last = 0);
+             Unknowns => Var_Pa_Last = 0,
+             The_Word => To_Unbounded_String (Raw_Word));
       return WA;
    end Analyse_Word;
 
@@ -902,10 +903,10 @@ package body List_Package is
    procedure List_Stems
      (Configuration : Configuration_Type;
       Output        : Ada.Text_IO.File_Type;
-      Raw_Word      : String;
-      Input_Line    : String;
-      WA            : Word_Analysis)
+      WA            : Word_Analysis;
+      Input_Line    : String)
    is
+      Raw_Word : constant String := To_String (WA.The_Word);
    begin
       --  Sets + if capitalized
       --  Strangely enough, it may enter LIST_STEMS with PA_LAST /= 0

@@ -67,6 +67,7 @@ is
      record
         WA : Word_Analysis;
         Used_Next_Word : Boolean;
+        The_Word : Unbounded_String;
      end record;
 
    Syncope_Max : constant := 20;
@@ -945,7 +946,8 @@ is
          WA : Word_Analysis;
       begin
          WA := Analyse_Word (Pa, Pa_Last, Input_Word);
-         return (WA => WA, Used_Next_Word => Used_Next_Word);
+         return (WA => WA, Used_Next_Word => Used_Next_Word,
+           The_Word => To_Unbounded_String (Input_Word));
       end;
 
    exception
@@ -1127,8 +1129,7 @@ is
             O := Current_Output.all'Access; -- Current_Output is a proc
          end if;
 
-         List_Stems (Configuration, O.all, "Input_Word", Undashed,
-           Analysis);
+         List_Stems (Configuration, O.all, Analysis, Undashed);
       end Put_Analysis;
 
       procedure Print_Analyses

@@ -18,6 +18,7 @@ with Ada.Text_IO;
 with Latin_Utils.Dictionary_Package; use Latin_Utils.Dictionary_Package;
 with Latin_Utils.Config; use Latin_Utils.Config;
 with Latin_Utils.Inflections_Package; use Latin_Utils.Inflections_Package;
+with Ada.Strings.Unbounded; use Ada.Strings.Unbounded;
 
 package List_Package is
 
@@ -33,9 +34,8 @@ package List_Package is
 
    procedure List_Stems (Configuration :    Configuration_Type;
                          Output        :    Ada.Text_IO.File_Type;
-                         Raw_Word      :    String;
-                         Input_Line    :    String;
-                         WA            :    Word_Analysis);
+                         WA            :    Word_Analysis;
+                         Input_Line    :    String);
 
    procedure Unknown_Search (Unknown       :  in String;
                              Unknown_Count : out Dict_IO.Count);
@@ -77,6 +77,7 @@ private
          Dict : Dictionary_MNPC_Array;
          I_Is_Pa_Last : Boolean;
          Unknowns : Boolean;
+         The_Word : Unbounded_String;
       end record;
 
 end List_Package;
