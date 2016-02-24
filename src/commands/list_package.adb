@@ -885,7 +885,8 @@ package body List_Package is
 
       WA := (Stem => Sraa, Dict => Dma, I_Is_Pa_Last => I_Is_Pa_Last,
              Unknowns => Var_Pa_Last = 0,
-             The_Word => To_Unbounded_String (Raw_Word));
+             The_Word => To_Unbounded_String (Raw_Word),
+             Was_Trimmed => Trimmed);
       return WA;
    end Analyse_Word;
 
@@ -924,7 +925,7 @@ package body List_Package is
 
       Put_Parse_Details (Configuration, Output, WA);
 
-      if Trimmed then
+      if WA.Was_Trimmed then
          Ada.Text_IO.Put (Output, '*');
       end if;
       Ada.Text_IO.New_Line (Output);

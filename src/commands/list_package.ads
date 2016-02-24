@@ -78,6 +78,7 @@ private
          I_Is_Pa_Last : Boolean;
          Unknowns : Boolean;
          The_Word : Unbounded_String;
+         Was_Trimmed : Boolean;
       end record;
 
 end List_Package;
