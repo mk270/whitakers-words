@@ -66,7 +66,7 @@ is
    type Word_Analysis_Result is
      record
         WA : Word_Analysis;
-        Use_Next_Word : Boolean;
+        Used_Next_Word : Boolean;
      end record;
 
    Syncope_Max : constant := 20;
