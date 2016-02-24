@@ -57,8 +57,17 @@ is
    use Inflection_Record_IO;
    use Ada.Text_IO;
 
+   type Word_Analysis_Result is
+     record
+        WA : Word_Analysis;
+        Use_Next_Word : Boolean;
+     end record;
+
    package Word_Container is new Vectors (Natural, Unbounded_String);
    use Word_Container;
+
+   package Result_Container is new Vectors (Natural, Word_Analysis_Result);
+   use Result_Container;
 
    Syncope_Max : constant := 20;
    Tricks_Max : constant := 40;
@@ -1034,9 +1043,9 @@ is
       return S2 (1 .. J);
    end Strip_Non_Alpha_Etc;
 
-   function Make_Words (Line : String) return Vector
+   function Make_Words (Line : String) return Word_Container.Vector
    is
-      Words : Vector;
+      Words : Word_Container.Vector;
       Indices : array (Line'Range) of Natural;
       Next_Index : Natural := Indices'First;
    begin
@@ -1104,7 +1113,7 @@ is
 
       Undashed : constant String := String_Before_Dash (Input_Line);
       Stripped : constant String := Strip_Non_Alpha_Etc (Undashed);
-      S : constant Vector := Make_Words (Stripped);
+      S : constant Word_Container.Vector := Make_Words (Stripped);
 
       function Word_After (I : Count_Type) return String is
       begin
