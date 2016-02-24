@@ -1104,6 +1104,7 @@ is
       Undashed : constant String := String_Before_Dash (Input_Line);
       Stripped : constant String := Strip_Non_Alpha_Etc (Undashed);
       S : constant Word_Container.Vector := Make_Words (Stripped);
+      Analyses : Result_Container.Vector;
 
       function Word_After (I : Count_Type) return String is
       begin
@@ -1164,6 +1165,7 @@ is
                   O := Current_Output.all'Access; -- Current_Output is a proc
                end if;
 
+               Analyses.Append (Result.WA);
                List_Stems (Configuration, O.all, Input_Word, Input_Line,
                  Result.WA);
             end;
