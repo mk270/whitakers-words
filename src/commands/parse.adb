@@ -1115,6 +1115,28 @@ is
                                        Index => Integer'Val (I + 1)));
          end if;
       end Word_After;
+
+      procedure Put_Analysis (A_Cursor : Result_Container.Cursor) is
+         Analysis : constant Word_Analysis := Element (Position => A_Cursor);
+         type File_Type_Access is access constant Ada.Text_IO.File_Type;
+         O : File_Type_Access;
+      begin
+         if Words_Mode (Write_Output_To_File) then
+            O := Output'Access;
+         else
+            O := Current_Output.all'Access; -- Current_Output is a proc
+         end if;
+
+         List_Stems (Configuration, O.all, "Input_Word", Undashed,
+           Analysis);
+      end Put_Analysis;
+
+      procedure Print_Analyses
+        (Analyses : Result_Container.Vector)
+      is
+      begin
+         Analyses.Iterate (Process => Put_Analysis'Access);
+      end Print_Analyses;
    begin
       Word_Number := 0;
       Line (1 .. L) := Trim (Input_Line);
@@ -1144,8 +1166,6 @@ is
                Input_Word : constant String := W (W'First .. Last);
                Result     : Word_Analysis_Result;
 
-               type File_Type_Access is access constant Ada.Text_IO.File_Type;
-               O : File_Type_Access;
             begin
                Capitalized := Is_Capitalized (Input_Word);
                All_Caps    := Is_All_Caps (Input_Word);
@@ -1159,20 +1179,14 @@ is
                  Input_Line, Next_Word);
                Used_Next_Word := Result.Used_Next_Word;
 
-               if Words_Mode (Write_Output_To_File) then
-                  O := Output'Access;
-               else
-                  O := Current_Output.all'Access; -- Current_Output is a proc
-               end if;
-
                Analyses.Append (Result.WA);
-               List_Stems (Configuration, O.all, Input_Word, Input_Line,
-                 Result.WA);
             end;
          end;
          <<Continue>>
          exit when Words_Mdev (Do_Only_Initial_Word);
       end loop;
+
+      Print_Analyses (Analyses);
 
    exception
       when Storage_Error =>
