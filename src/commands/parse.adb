@@ -57,17 +57,17 @@ is
    use Inflection_Record_IO;
    use Ada.Text_IO;
 
+   package Word_Container is new Vectors (Natural, Unbounded_String);
+   use Word_Container;
+
+   package Result_Container is new Vectors (Natural, Word_Analysis);
+   use Result_Container;
+
    type Word_Analysis_Result is
      record
         WA : Word_Analysis;
         Use_Next_Word : Boolean;
      end record;
-
-   package Word_Container is new Vectors (Natural, Unbounded_String);
-   use Word_Container;
-
-   package Result_Container is new Vectors (Natural, Word_Analysis_Result);
-   use Result_Container;
 
    Syncope_Max : constant := 20;
    Tricks_Max : constant := 40;
