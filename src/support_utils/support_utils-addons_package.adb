@@ -28,11 +28,7 @@ package body Support_Utils.Addons_Package is
    function Equ (C, D : Character) return Boolean is
    begin
       if (D = 'u') or (D = 'v')  then
-         if (C = 'u') or (C = 'v')  then
-            return True;
-         else
-            return False;
-         end if;
+         return (C = 'u') or (C = 'v');
       else
          return C = D;
       end if;
@@ -69,27 +65,6 @@ package body Support_Utils.Addons_Package is
       Tn : Tackon_Entry;
       Pm : Prefix_Item;
       Ts : Stem_Type;
-
-      procedure Get_No_Comment_Line (F : in Ada.Text_IO.File_Type;
-                                     S : out String; Last : out Integer) is
-         T : String (1 .. 250) := (others => ' ');
-         L : Integer := 0;
-      begin
-         Last := 0;
-         while not End_Of_File (F)  loop
-            Get_Line (F, T, L);
-            if L >= 2  and then
-              (Head (Trim (T), 250)(1 .. 2) = "--"  or
-              Head (Trim (T), 250)(1 .. 2) = "  ")
-            then
-               null;
-            else
-               S (S'First .. L) := T (1 .. L);
-               Last := L;
-               exit;
-            end if;
-         end loop;
-      end Get_No_Comment_Line;
 
       procedure Extract_Fix (S : in String;
                              Xfix : out Fix_Type; Xc : out Character) is
@@ -132,7 +107,7 @@ package body Support_Utils.Addons_Package is
       --
       while not End_Of_File (Addons_File)  loop
 
-         Get_No_Comment_Line (Addons_File, S, Last);
+         Get_Non_Comment_Line (Addons_File, S, Last);
          --TEXT_IO.PUT_LINE (S (1 .. LAST));
          Get (S (1 .. Last), Pofs, L);
          case Pofs is
