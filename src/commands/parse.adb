@@ -942,19 +942,9 @@ is
 
       -- hack around the weird reimplementation of output redirection
       declare
-         type File_Type_Access is access constant Ada.Text_IO.File_Type;
-         O : File_Type_Access;
          WA : Word_Analysis;
       begin
-         if Words_Mode (Write_Output_To_File) then
-            O := Output'Access;
-         else
-            O := Current_Output.all'Access; -- Current_Output is a procedure
-         end if;
-
          WA := Analyse_Word (Pa, Pa_Last, Input_Word);
-         List_Stems (Configuration, O.all, Input_Word,
-           Input_Line, WA);
          return (WA => WA, Used_Next_Word => Used_Next_Word);
       end;
 
@@ -1152,6 +1142,9 @@ is
             declare
                Input_Word : constant String := W (W'First .. Last);
                Result     : Word_Analysis_Result;
+
+               type File_Type_Access is access constant Ada.Text_IO.File_Type;
+               O : File_Type_Access;
             begin
                Capitalized := Is_Capitalized (Input_Word);
                All_Caps    := Is_All_Caps (Input_Word);
@@ -1164,6 +1157,15 @@ is
                Result := Parse_Latin_Word (Configuration, Input_Word,
                  Input_Line, Next_Word);
                Used_Next_Word := Result.Used_Next_Word;
+
+               if Words_Mode (Write_Output_To_File) then
+                  O := Output'Access;
+               else
+                  O := Current_Output.all'Access; -- Current_Output is a proc
+               end if;
+
+               List_Stems (Configuration, O.all, Input_Word, Input_Line,
+                 Result.WA);
             end;
          end;
          <<Continue>>
