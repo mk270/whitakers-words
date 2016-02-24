@@ -868,13 +868,12 @@ is
    -- in future, we shall pass in the next word, if any, in the input line
    -- to this function, obviating the need to go grovelling around further
    -- down the string, and saving wear and tear on variables like K
-   procedure Parse_Latin_Word
-     (Configuration  : in Configuration_Type;
-      Input_Word     : in String; -- a trimmed single word
-      Input_Line     : in String; -- what the user actually typed
-      Used_Next_Word : out Boolean;
-      Next_Word      : in String
-     )
+   function Parse_Latin_Word
+     (Configuration  : Configuration_Type;
+      Input_Word     : String; -- a trimmed single word
+      Input_Line     : String; -- what the user actually typed
+      Next_Word      : String
+     ) return Word_Analysis_Result
    is
       Pa : Parse_Array (1 .. 100) := (others => Null_Parse_Record);
       Pa_Last : Integer := 0;
@@ -884,8 +883,8 @@ is
       Entering_Pa_Last : Integer := 0;
       Entering_Trpa_Last    : Integer := 0;
       Have_Done_Enclitic : Boolean := False;
+      Used_Next_Word : Boolean := False;
    begin   --  PARSE
-      Used_Next_Word := False;
       Xxx_Meaning := Null_Meaning_Type;
 
       -- This step is actually redundant; it is mentioned here simply to
@@ -956,6 +955,7 @@ is
          WA := Analyse_Word (Pa, Pa_Last, Input_Word);
          List_Stems (Configuration, O.all, Input_Word,
            Input_Line, WA);
+         return (WA => WA, Used_Next_Word => Used_Next_Word);
       end;
 
    exception
@@ -1151,6 +1151,7 @@ is
             Do_Qvae_Kludge (W, W'First, Last);
             declare
                Input_Word : constant String := W (W'First .. Last);
+               Result     : Word_Analysis_Result;
             begin
                Capitalized := Is_Capitalized (Input_Word);
                All_Caps    := Is_All_Caps (Input_Word);
@@ -1160,9 +1161,9 @@ is
                   exit;
                end if;
 
-               Parse_Latin_Word (Configuration, Input_Word,
-                 Input_Line, Used_Next_Word, Next_Word);
-
+               Result := Parse_Latin_Word (Configuration, Input_Word,
+                 Input_Line, Next_Word);
+               Used_Next_Word := Result.Used_Next_Word;
             end;
          end;
          <<Continue>>
