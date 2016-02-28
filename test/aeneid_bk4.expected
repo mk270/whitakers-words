@@ -1944,8 +1944,13 @@ despect.us           VPAR   3 1 NOM S M PERF PASSIVE PPL
 despicio, despicere, despexi, despectus  V (3rd)   [XXXBO]  
 look down on/over; relax attention; disdain, despise; express contempt for;
 
-iarbas                           ========   UNKNOWN    
-
+Two words            
+May be 2 words combined (iar+bas) If not obvious, probably incorrect
+bas                  N      3 9 NOM S F                 
+bas                  N      3 9 VOC S F                 
+bas, baseos/is  N F   [XXXBO]  
+pedestal; base, point of attachment; foundation, support; chord (of an arc);
+*
 
 =>
 que                  TACKON                             
@@ -2775,8 +2780,15 @@ aquos.us             ADJ    1 1 NOM S M POS
 aquosus, aquosa -um, aquosior -or -us, aquosissimus -a -um  ADJ   [XXXCO]  
 abounding in water, well watered, wet; humid, rainy; clear as water, watery;
 
-orion                            ========   UNKNOWN    
-
+Two words            
+May be 2 words combined (or+ion) If not obvious, probably incorrect
+ion                  N      9 9 X   X F                 
+Ion, undeclined  N F   [XEXCS]  
+ion                  N      3 1 NOM S F                 
+ion                  N      3 1 VOC S F                 
+Ion, Ionis  N (3rd) F   [XEXCS]  
+Isis; daughter of Inachus;
+*
 
 =>
 que                  TACKON                             
@@ -3785,8 +3797,35 @@ peragro, peragrare, peragravi, peragratus  V (1st)   [XXXDX]    lesser
 travel over every part of, scour;
 
 
-=>dictaeos                       ========   UNKNOWN    
-
+=>
+Two words            
+May be 2 words combined (dicta+eos) If not obvious, probably incorrect
+dict.a               VPAR   3 1 NOM S F PERF PASSIVE PPL
+dict.a               VPAR   3 1 VOC S F PERF PASSIVE PPL
+dict.a               VPAR   3 1 ABL S F PERF PASSIVE PPL
+dict.a               VPAR   3 1 NOM P N PERF PASSIVE PPL
+dict.a               VPAR   3 1 VOC P N PERF PASSIVE PPL
+dict.a               VPAR   3 1 ACC P N PERF PASSIVE PPL
+dico, dicere, dixi, dictus  V (3rd)   [XXXAO]  
+say, declare, state; allege, declare positively; assert; plead (case);
+talk/speak; make speech; play (instrument); pronounce, articulate; utter; mean;
+name/call; appoint, fix/set (date); designate, declare intention of giving;
+dict.a               N      2 2 NOM P N                 
+dict.a               N      2 2 VOC P N                 
+dict.a               N      2 2 ACC P N                 
+dictum, dicti  N (2nd) N   [XXXCO]  
+words/utterance/remark; one's word/promise; saying/maxim; bon mot, witticism;
+dict.a               V      1 1 PRES ACTIVE  IMP 2 S    
+dicto, dictare, dictavi, dictatus  V (1st) TRANS   [XXXBO]  
+dictate (for writing/speaking); compose; draw up; order/prescribe; fix (survey)
+say/declare/assert repeatedly/habitually/often/frequently; reiterate; recite;
+e.os                 PRON   4 1 ACC P M                 
+is, ea, id  PRON   [XXXAX]  
+he/she/it/they (by GENDER/NUMBER); DEMONST: that, he/she/it, they/them;
+e.os                 PRON   4 2 ACC P M                 
+idem, eadem, idem  PRON   [XXXAX]  
+(w/-dem ONLY, idem, eadem, idem) same, the same, the very same, also;
+*
 haer.et              V      2 1 PRES ACTIVE  IND 3 S    
 haereo, haerere, haesi, haesus  V (2nd)   [XXXBX]  
 stick, adhere, cling to; hesitate; be in difficulties (sticky situation?);
@@ -4284,8 +4323,17 @@ gremi.o              N      2 4 ABL S N
 gremium, gremi(i)  N (2nd) N   [XXXBX]  
 lap, bosom; womb, interior; female genital parts;
 
-ascanium                         ========   UNKNOWN    
-
+Two words            
+May be 2 words combined (as+canium) If not obvious, probably incorrect
+as                   N      3 3 NOM S M                 
+as                   N      3 3 VOC S M                 
+as, assis  N (3rd) M   [XLXAO]  
+penny, copper coin; a pound; one, whole, unit; circular flap/valve; round slice
+can.ium              N      3 3 GEN P C                 
+canes, canis  N (3rd) C   [BAXDO]    Early  lesser
+canis, canis  N (3rd) C   [XAXAO]  
+dog; hound; subordinate; "jackal"; dog-star/fish; lowest dice throw; clamp;
+*
 genitor.is           N      3 1 GEN S M                 
 genitor, genitoris  N (3rd) M   [XXXBX]  
 father; creator; originator;
@@ -10506,8 +10554,17 @@ tor.is               N      2 1 ABL P M
 torus, tori  N (2nd) M   [XXXDX]    lesser
 swelling, protuberance; mussel, brawn; bed, couch, stuffed bolster, cushion;
 
-lenaeum                          ========   UNKNOWN    
-
+Two words            
+May be 2 words combined (lena+eum) If not obvious, probably incorrect
+e.um                 PRON   4 1 ACC S M                 
+is, ea, id  PRON   [XXXAX]  
+he/she/it/they (by GENDER/NUMBER); DEMONST: that, he/she/it, they/them;
+len.a                N      1 1 NOM S F                 
+len.a                N      1 1 VOC S F                 
+len.a                N      1 1 ABL S F                 
+lena, lenae  N (1st) F   [XXXDX]    lesser
+procuress; brothel-keeper;
+*
 lib.at               V      1 1 PRES ACTIVE  IND 3 S    
 libo, libare, libavi, libatus  V (1st)   [XXXBX]  
 nibble, sip; pour in offering/a libation; impair; graze, touch, skim (over);
@@ -13996,8 +14053,18 @@ labor/toil/exertion/effort/work; task/undertaking; production; childbirth;
 preoccupation/concern; struggle/suffering/distress/hardship/stress; wear+tear;
 
 
-=>ascanium                       ========   UNKNOWN    
-
+=>
+Two words            
+May be 2 words combined (as+canium) If not obvious, probably incorrect
+as                   N      3 3 NOM S M                 
+as                   N      3 3 VOC S M                 
+as, assis  N (3rd) M   [XLXAO]  
+penny, copper coin; a pound; one, whole, unit; circular flap/valve; round slice
+can.ium              N      3 3 GEN P C                 
+canes, canis  N (3rd) C   [BAXDO]    Early  lesser
+canis, canis  N (3rd) C   [XAXAO]  
+dog; hound; subordinate; "jackal"; dog-star/fish; lowest dice throw; clamp;
+*
 surg.entem           VPAR   3 1 ACC S C PRES ACTIVE  PPL
 surgo, surgere, surrexi, surrectus  V (3rd)   [XXXAX]  
 rise, lift; grow;
@@ -14655,8 +14722,33 @@ visit, go to see; look at;
 
 =>mnesthea                       ========   UNKNOWN    
 
-sergestumque                     ========   UNKNOWN    
-
+que                  TACKON                             
+-que = and (enclitic, translated before attached word); completes plerus/uter;
+Two words            
+May be 2 words combined (ser+gestum) If not obvious, probably incorrect
+gest.um              VPAR   3 1 NOM S N PERF PASSIVE PPL
+gest.um              VPAR   3 1 VOC S N PERF PASSIVE PPL
+gest.um              VPAR   3 1 ACC S M PERF PASSIVE PPL
+gest.um              VPAR   3 1 ACC S N PERF PASSIVE PPL
+gero, gerere, gessi, gestus  V (3rd)   [XXXAX]  
+gest.um              SUPINE 3 1 ACC S N                 
+bear, carry, wear; carry on; manage, govern; (se gerere = to conduct oneself);
+gest.um              N      2 2 NOM S N                 
+gest.um              N      2 2 VOC S N                 
+gest.um              N      2 2 ACC S N                 
+gestum, gesti  N (2nd) N   [XXXDX]    lesser
+what has been carried out, a business; deeds (pl.), exploits;
+gest.um              N      4 1 ACC S M                 
+gestus, gestus  N (4th) M   [XXXDX]    lesser
+movement of the limbs, bodily action, carriage, gesture; performance (duty);
+ser                  N      9 8 X   X M                 
+Ser., abb.  N M   [XXXDX]    lesser
+Servius (Roman praenomen); (abb. Ser.);
+ser                  N      3 1 NOM S C                 
+ser                  N      3 1 VOC S C                 
+Ser, Seris  N (3rd) C   [XXXDO]    lesser
+Chinese (people); inhabitants of region beyond Scythia and India;
+*
 voc.at               V      1 1 PRES ACTIVE  IND 3 S    
 voco, vocare, vocavi, vocatus  V (1st)   [XXXAX]  
 call, summon; name; call upon;
@@ -14670,8 +14762,16 @@ fort.em              ADJ    3 2 ACC S C POS
 fortis, forte, fortior -or -us, fortissimus -a -um  ADJ   [XXXAX]  
 strong, powerful, mighty, vigorous, firm, steadfast, courageous, brave, bold;
 
-serestum                         ========   UNKNOWN    
-
+Two words            
+May be 2 words combined (se+restum) If not obvious, probably incorrect
+rest.um              N      3 3 GEN P F                 
+restis, restis  N (3rd) F   [XXXDX]    lesser
+rope, cord;
+s.e                  PRON   5 4 ABL X C                 
+s.e                  PRON   5 4 ACC X C                 
+ [XXXAX]  
+him/her/it/ones-self; him/her/it; them (selves) (pl.); each other, one another;
+*
 
 =>
 class.em             N      3 3 ACC S F                 
@@ -16573,8 +16673,13 @@ lead, command; think, consider, regard; prolong;
 
 gaetulus                         ========   UNKNOWN    
 
-iarbas                           ========   UNKNOWN    
-
+Two words            
+May be 2 words combined (iar+bas) If not obvious, probably incorrect
+bas                  N      3 9 NOM S F                 
+bas                  N      3 9 VOC S F                 
+bas, baseos/is  N F   [XXXBO]  
+pedestal; base, point of attachment; foundation, support; chord (of an arc);
+*
 
 =>
 salt.em              V      1 1 PRES ACTIVE  SUB 1 S    
@@ -17514,8 +17619,17 @@ lay (foundation/keel); found (town), build; plant (trees); provide/serve;
 put/lay down (load/arms), take off (clothes); shed (leaves); cut (nails);
 esteem/value/count; impose; ordain; lend, put out, offer, wager; rid/drop;
 
-pergama                          ========   UNKNOWN    
-
+Two words            
+May be 2 words combined (perg+ama) If not obvious, probably incorrect
+am.a                 N      1 1 NOM S F                 
+am.a                 N      1 1 VOC S F                 
+am.a                 N      1 1 ABL S F                 
+ama, amae  N (1st) F   [XXXDO]    lesser
+bucket; water bucket; (esp. fireman's bucket);
+am.a                 V      1 1 PRES ACTIVE  IMP 2 S    
+amo, amare, amavi, amatus  V (1st)   [XXXAO]  
+love, like; fall in love with; be fond of; have a tendency to;
+*
 vict.is              VPAR   3 1 DAT P X PERF PASSIVE PPL
 vict.is              VPAR   3 1 ABL P X PERF PASSIVE PPL
 vinco, vincere, vici, victus  V (3rd)   [XXXAX]  
@@ -21623,8 +21737,17 @@ cum  PREP  ABL   [XXXAO]
 with, together/jointly/along/simultaneous with, amid; supporting; attached;
 under command/at the head of; having/containing/including; using/by means of;
 
-danais                           ========   UNKNOWN    
-
+Two words            
+May be 2 words combined (da+nais) If not obvious, probably incorrect
+d.a                  V      1 1 PRES ACTIVE  IMP 2 S    
+do, dare, dedi, datus  V (1st) TRANS   [XXXAO]  
+give; dedicate; sell; pay; grant/bestow/impart/offer/lend; devote; allow; make;
+surrender/give over; send to die; ascribe/attribute; give birth/produce; utter;
+nais                 N      3 7 NOM S F                 
+nais                 N      3 7 VOC S F                 
+Nais, Naidos/is  N F   [XXXDX]    lesser
+Naiad; water nymph; nymph;
+*
 troian.am            ADJ    1 1 ACC S F POS             
 Trojanus, Trojana, Trojanum  ADJ   [XXXFS]    veryrare
 Trojan;
@@ -21659,8 +21782,17 @@ ad                   PREP   ACC
 ad  PREP  ACC   [XXXAO]  
 to, up to, towards; near, at; until, on, by; almost; according to; about w/NUM;
 
-pergama                          ========   UNKNOWN    
-
+Two words            
+May be 2 words combined (perg+ama) If not obvious, probably incorrect
+am.a                 N      1 1 NOM S F                 
+am.a                 N      1 1 VOC S F                 
+am.a                 N      1 1 ABL S F                 
+ama, amae  N (1st) F   [XXXDO]    lesser
+bucket; water bucket; (esp. fireman's bucket);
+am.a                 V      1 1 PRES ACTIVE  IMP 2 S    
+amo, amare, amavi, amatus  V (1st)   [XXXAO]  
+love, like; fall in love with; be fond of; have a tendency to;
+*
 mis.i                V      3 1 PERF ACTIVE  IND 1 S    
 mitto, mittere, misi, missus  V (3rd)   [XXXAX]  
 send, throw, hurl, cast; let out, release, dismiss; disregard;
@@ -24572,8 +24704,19 @@ sacerdos, sacerdotis  N (3rd) C   [XEXAX]
 priest, priestess;
 
 
-=>hesperidum                     ========   UNKNOWN    
-
+=>
+Two words            
+May be 2 words combined (hesperi+dum) If not obvious, probably incorrect
+dum                  CONJ                               
+dum  CONJ   [XXXAX]  
+while, as long as, until; provided that;
+hesper.i             N      2 1 GEN S M                 
+hesper.i             N      2 1 LOC S M                 
+hesper.i             N      2 1 NOM P M                 
+hesper.i             N      2 1 VOC P M                 
+Hesperus, Hesperi  N (2nd) M   [XXXDX]    lesser
+evening-star;
+*
 templ.i              N      2 2 GEN S N                 
 templ.i              N      2 2 LOC S N                 
 templum, templi  N (2nd) N   [XXXAX]  
@@ -25909,8 +26052,23 @@ de.os                N      2 1 ACC P M
 Deus, Dei  N (2nd) M   [XEXAO]  
 God (Christian text); god; divine essence/being, supreme being; statue of god;
 *
-erebumque                        ========   UNKNOWN    
-
+que                  TACKON                             
+-que = and (enclitic, translated before attached word); completes plerus/uter;
+Two words            
+May be 2 words combined (ere+bum) If not obvious, probably incorrect
+b.um                 N      4 1 ACC S C                 
+b.um                 N      4 1 GEN P C                   Classic   uncommon
+bus, bus  N (4th) C   [BAXDO]    Early  lesser
+ox, bull; cow; cattle (pl.); (odd form mostly in Varro);
+er.e                 N      2 1 VOC S M                 
+erus, eri  N (2nd) M   [XXXDX]    lesser
+master, owner;
+er.e                 N      3 3 LOC S M                 
+er.e                 N      3 3 DAT S M                   Early   
+er.e                 N      3 3 ABL S M                 
+eris, eris  N (3rd) M   [XAXFO]    veryrare
+hedgehog;
+*
 que                  TACKON                             
 -que = and (enclitic, translated before attached word); completes plerus/uter;
 cha.os               N      2 6 NOM S N                 
@@ -30680,8 +30838,18 @@ ferrum, ferri  N (2nd) N   [XXXAX]
 iron; any tool of iron; weapon, sword;
 
 
-=>ascanium                       ========   UNKNOWN    
-
+=>
+Two words            
+May be 2 words combined (as+canium) If not obvious, probably incorrect
+as                   N      3 3 NOM S M                 
+as                   N      3 3 VOC S M                 
+as, assis  N (3rd) M   [XLXAO]  
+penny, copper coin; a pound; one, whole, unit; circular flap/valve; round slice
+can.ium              N      3 3 GEN P C                 
+canes, canis  N (3rd) C   [BAXDO]    Early  lesser
+canis, canis  N (3rd) C   [XAXAO]  
+dog; hound; subordinate; "jackal"; dog-star/fish; lowest dice throw; clamp;
+*
 que                  TACKON                             
 -que = and (enclitic, translated before attached word); completes plerus/uter;
 patri.is             N      1 1 LOC P F                 
@@ -31078,8 +31246,21 @@ nocturn.is           ADJ    1 1 ABL P X POS
 nocturnus, nocturna, nocturnum  ADJ   [XXXAX]  
 nocturnal, of night, at night, by night;
 
-hecate                           ========   UNKNOWN    
-
+Two words            
+May be 2 words combined (he+cate) If not obvious, probably incorrect
+cat.e                N      2 1 VOC S M                 
+catus, cati  N (2nd) M   [EABCM]    Later
+cat; wild cat; kind of trout; siege engine; male cat (L+S);
+cat.e                ADJ    1 1 VOC S M POS             
+catus, cata, catum  ADJ   [XXXCO]  
+knowing, clever, shrewd, wise, prudent, circumspect; shrill/clear (sound);
+cate                 ADV    POS                         
+cate  ADV   [XXXEO]    uncommon
+well, sagaciously, wisely, intelligently; clearly; slyly, craftily, artfully;
+he                   N      9 9 X   X N                 
+he, undeclined  N N   [DEQEW]    Late  uncommon
+he; (5th letter of Hebrew alphabet); (transliterate as H);
+*
 trivi.is             N      2 4 LOC P N                 
 trivi.is             N      2 4 DAT P N                 
 trivi.is             N      2 4 ABL P N                 
@@ -32412,8 +32593,17 @@ habeo, habere, habui, habitus  V (2nd)   [XXXAX]
 have, hold, consider, think, reason; manage, keep; spend/pass (time);
 
 
-=>annam                          ========   UNKNOWN    
-
+=>
+Two words            
+May be 2 words combined (an+nam) If not obvious, probably incorrect
+an                   CONJ                               
+an  CONJ   [XXXCO]  
+can it be that (introduces question expecting negative answer/further question)
+whether; (utrum ... an = whether ... or); or; either;
+nam                  CONJ                               
+nam  CONJ   [XXXAX]  
+for, on the other hand; for instance;
+*
 car.a                ADJ    1 1 NOM S F POS             
 car.a                ADJ    1 1 VOC S F POS             
 car.a                ADJ    1 1 ABL S F POS             
@@ -35648,8 +35838,14 @@ flav.um              ADJ    1 1 ACC S N POS
 flavus, flava, flavum  ADJ   [XXXBX]  
 yellow, golden, gold colored; flaxen, blond; golden-haired (Latham);
 
-proserpina                       ========   UNKNOWN    
-
+Two words            
+May be 2 words combined (proserp+ina) If not obvious, probably incorrect
+in.a                 N      1 1 NOM S F                 
+in.a                 N      1 1 VOC S F                 
+in.a                 N      1 1 ABL S F                 
+ina, inae  N (1st) F   [XXXEO]    uncommon
+fiber; sinew, tendon; strip; papyrus/paper fiber;
+*
 vertic.e             N      3 1 LOC S M                 
 vertic.e             N      3 1 DAT S M                   Early   
 vertic.e             N      3 1 ABL S M                 
