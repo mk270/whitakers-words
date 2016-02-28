@@ -20,6 +20,17 @@ fi
 
 bin/words 'rem acu tetigisti' | diff -q -- - test/expected.txt
 
-bin/words < test/aeneid_bk4.txt | diff -q -w -- - test/aeneid_bk4.expected
+TEMP=$(tempfile)
+if ! ( bin/words < test/aeneid_bk4.txt | \
+       diff -u -- - test/aeneid_bk4.expected > $TEMP ); then
+  rv=$?
+  if [ -s "$TEMP" ]; then
+    cat $TEMP
+  fi
+  rm -f -- $TEMP
+  echo FAIL
+  exit $?
+fi
+rm -f -- $TEMP
 
 echo PASS
