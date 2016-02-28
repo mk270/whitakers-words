@@ -20,6 +20,6 @@ fi
 
 bin/words 'rem acu tetigisti' | diff -q -- - test/expected.txt
 
-bin/words < test/aeneid_bk4.txt | diff -q -- - test/aeneid_bk4.expected
+bin/words < test/aeneid_bk4.txt | diff -q -w -- - test/aeneid_bk4.expected
 
 echo PASS
