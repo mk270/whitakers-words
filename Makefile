@@ -3,12 +3,12 @@ PROGRAMMES := bin/words bin/makedict bin/makestem bin/makeefil bin/makeewds bin/
 all: $(PROGRAMMES) data
 
 $(PROGRAMMES):
-	gprbuild -Pwords
+	gprbuild -Pwords $(notdir $@)
 
 DICTFILE.GEN: DICTLINE.GEN bin/makedict
 	echo g | bin/makedict $< > /dev/null
 
-EWDSFILE.GEN:
+EWDSFILE.GEN: EWDSLIST.GEN
 	bin/makeefil
 
 EWDSLIST.GEN: DICTLINE.GEN bin/makeewds
@@ -33,7 +33,7 @@ clean:
 	rm -f -- CHECKEWD.
 	rm -f -- DICTFILE.GEN STEMFILE.GEN INDXFILE.GEN EWDSLIST.GEN INFLECTS.SEC
 
-.PHONY: test
+.PHONY: test $(PROGRAMMES)
 
 test:
 	(cd test; ./run-tests.sh)
