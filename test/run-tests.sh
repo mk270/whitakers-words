@@ -29,7 +29,7 @@ if ! ( bin/words < test/aeneid_bk4.txt | \
   fi
   rm -f -- $TEMP
   echo FAIL
-  exit $?
+  exit $rv
 fi
 rm -f -- $TEMP
 
