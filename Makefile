@@ -13,6 +13,7 @@ EWDSFILE.GEN: EWDSLIST.GEN
 
 EWDSLIST.GEN: DICTLINE.GEN bin/makeewds
 	echo g | bin/makeewds $< > /dev/null
+	sort -o $@ $@
 
 INFLECTS.SEC: INFLECTS.LAT bin/makeinfl
 	bin/makeinfl $< > /dev/null
@@ -21,7 +22,7 @@ STEMFILE.GEN: STEMLIST.GEN bin/makestem
 	echo g | bin/makestem $< > /dev/null
 
 GENERATED_DATA_FILES := DICTFILE.GEN STEMFILE.GEN INDXFILE.GEN EWDSLIST.GEN \
-					INFLECTS.SEC
+					INFLECTS.SEC EWDSFILE.GEN
 
 data: $(GENERATED_DATA_FILES)
 

@@ -3,7 +3,6 @@ INFLECTION_ARRAY being loaded   --    1785 entries    --  Loaded correctly
 GENERAL Dictionary loading      --   62085 stems      --  Loaded correctly
 UNIQUES file loading            --      74 entries    --  Loaded correctly
 ADDONS loading 18+11 TACKONS 6+129 PREFIXES 179 SUFFIXES   --  Loaded correctly
-No English available
 Copyright (c) 1993-2006 - Free for any use - Version 1.97FC
 For updates and latest version check http://www.erols.com/whitaker/words.htm
 Comments? William Whitaker, Box 51225  Midland  TX  79710  USA - whitaker@erols.com
@@ -13,6 +12,8 @@ Input a word or line of Latin and ENTER to get the forms and meanings
     Or Input # to change parameters and mode of the program
     Or Input ? to get help wherever available on individual parameters
 Two empty lines (just a RETURN/ENTER) from the keyboard exits the program
+English-to-Latin available
+~E changes to English-to-Latin, ~L changes back     [tilde E]
 
 =>Blank exits =>
 at                   CONJ                               
