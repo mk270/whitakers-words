@@ -285,11 +285,11 @@ package body List_Package is
       end Put_Word_Meaning;
    begin
       case Dm.D_K is
-         when Rrr => Put_Word_Meaning (Rrr_Meaning, "03 "); --  Roman Numeral
-         when Nnn => Put_Word_Meaning (Nnn_Meaning, "06 "); --  Unknown Name
-         when Xxx => Put_Word_Meaning (Xxx_Meaning, "06 "); --  TRICKS
-         when Yyy => Put_Word_Meaning (Yyy_Meaning, "06 "); --  Syncope
-         when Ppp => Put_Word_Meaning (Ppp_Meaning, "06 "); --  Compounds
+         when Rrr => Put_Word_Meaning (Xp.Rrr_Meaning, "03 "); --  Roman Numeral
+         when Nnn => Put_Word_Meaning (Xp.Nnn_Meaning, "06 "); --  Unknown Name
+         when Xxx => Put_Word_Meaning (Xp.Xxx_Meaning, "06 "); --  TRICKS
+         when Yyy => Put_Word_Meaning (Xp.Yyy_Meaning, "06 "); --  Syncope
+         when Ppp => Put_Word_Meaning (Xp.Ppp_Meaning, "06 "); --  Compounds
          when Addons =>
             Put_Pearse_Code (Output, "06 ");
             Put_Meaning (Output, Means (Integer (Dm.MNPC)));
@@ -633,7 +633,8 @@ package body List_Package is
                      Put_Inflection (Configuration, Output, Sra (K),
                        WA.Dict (J));
                      if Sra (K).Stem (1 .. 3) = "PPL"  then
-                        Ada.Text_IO.Put_Line (Output, Head (Ppp_Meaning, Mm));
+                        Ada.Text_IO.Put_Line (Output,
+                                              Head (Xp.Ppp_Meaning, Mm));
                      end if;
                   end loop Put_Inflection_Array_J;
                   Osra := Sra;
@@ -732,7 +733,7 @@ package body List_Package is
                     Pa (J2 + 1).D_K,
                     Pa (J2 + 1).MNPC);
 
-                  Ppp_Meaning := Head (Caption, Max_Meaning_Size);
+                  Xp.Ppp_Meaning := Head (Caption, Max_Meaning_Size);
                end Handle_Degree;
             begin
                if Pa (J2 + 1).IR.Qual.Adj.Comparison = Pos then

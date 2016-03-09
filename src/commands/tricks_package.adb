@@ -362,7 +362,7 @@ package body Tricks_Package is
            Freq => A),
            D_K => Rrr,
            MNPC => Null_MNPC);
-         Rrr_Meaning := Head (Integer'Image (Roman_Number_W) &
+         Xp.Rrr_Meaning := Head (Integer'Image (Roman_Number_W) &
            "  as a ROMAN NUMERAL;",
            Max_Meaning_Size);
       else
@@ -425,7 +425,7 @@ package body Tricks_Package is
 
       --  Syncopated forms (see Gildersleeve and Lodge, 131)
 
-      Yyy_Meaning := Null_Meaning_Type;
+      Xp.Yyy_Meaning := Null_Meaning_Type;
 
       --  This one has to go first --  special for 3 4
       --  ivi  => ii ,  in perfect  (esp. for V 3 4)
@@ -448,7 +448,7 @@ package body Tricks_Package is
         --PA (PA_LAST).IR.QUAL.V.CON = (3, 4)/(6, 1) and then
         Pa (Pa_Last).IR.Key = 3
       then          --  Perfect system
-         Yyy_Meaning := Head (
+         Xp.Yyy_Meaning := Head (
            "Syncopated perfect ivi can drop 'v' without contracting vowel "
            , Max_Meaning_Size);
 
@@ -484,7 +484,7 @@ package body Tricks_Package is
         Pa (Pa_Last).IR.Qual.Pofs = V and then
         Pa (Pa_Last).IR.Key = 3
       then          --  Perfect system
-         Yyy_Meaning := Head (
+         Xp.Yyy_Meaning := Head (
            "Syncopated perfect often drops the 'v' and contracts vowel "
            , Max_Meaning_Size);
          Put_Stat ("SYNCOPE  vis at "
@@ -520,7 +520,7 @@ package body Tricks_Package is
         Pa (Pa_Last).IR.Qual.Pofs = V and then
         Pa (Pa_Last).IR.Key = 3
       then          --  Perfect system
-         Yyy_Meaning := Head (
+         Xp.Yyy_Meaning := Head (
            "Syncopated perfect often drops the 'v' and contracts vowel "
            , Max_Meaning_Size);
 
@@ -550,7 +550,7 @@ package body Tricks_Package is
         Pa (Pa_Last).IR.Qual.Pofs = V and then
         Pa (Pa_Last).IR.Key = 3
       then          --  Perfect system
-         Yyy_Meaning := Head (
+         Xp.Yyy_Meaning := Head (
            "Syncopated perfect often drops the 'v' and contracts vowel "
            , Max_Meaning_Size);
 
@@ -584,7 +584,7 @@ package body Tricks_Package is
         Pa (Pa_Last).IR.Qual.Pofs = V and then
         Pa (Pa_Last).IR.Key = 3
       then          --  Perfect system
-         Yyy_Meaning := Head (
+         Xp.Yyy_Meaning := Head (
            "Syncopated perfect sometimes drops the 'is' after 's' or 'x' "
            , Max_Meaning_Size);
          Put_Stat ("SYNCOPEx/sis at "
@@ -648,12 +648,12 @@ package body Tricks_Package is
               (Pa (Pa_Last - 1).IR.Qual.Pofs /= Tackon)
             then
                if Explanation = ""  then
-                  Xxx_Meaning := Head (
+                  Xp.Xxx_Meaning := Head (
                     "An initial '" & X1 &
                     "' may have replaced usual '" & X2 & "'"
                     , Max_Meaning_Size);
                else
-                  Xxx_Meaning := Head (Explanation, Max_Meaning_Size);
+                  Xp.Xxx_Meaning := Head (Explanation, Max_Meaning_Size);
                end if;
                Put_Stat ("TRICK   FLIP at "
                  & Head (Integer'Image (Line_Number), 8) &
@@ -688,11 +688,11 @@ package body Tricks_Package is
             then
                --TEXT_IO.PUT_LINE ("FLIPF worked");
                if Explanation = ""  then
-                  Xxx_Meaning := Head (
+                  Xp.Xxx_Meaning := Head (
                     "An initial '" & X1 & "' may be rendered by '" & X2 & "'"
                     , Max_Meaning_Size);
                else
-                  Xxx_Meaning := Head (Explanation, Max_Meaning_Size);
+                  Xp.Xxx_Meaning := Head (Explanation, Max_Meaning_Size);
                end if;
                Put_Stat ("TRICK  FLIPF at "
                  & Head (Integer'Image (Line_Number), 8) &
@@ -720,11 +720,11 @@ package body Tricks_Package is
             then
                --TEXT_IO.PUT_LINE ("FFLOP worked");
                if Explanation = ""  then
-                  Xxx_Meaning := Head (
+                  Xp.Xxx_Meaning := Head (
                     "An initial '" & X2 & "' may be rendered by '" & X1 & "'"
                     , Max_Meaning_Size);
                else
-                  Xxx_Meaning := Head (Explanation, Max_Meaning_Size);
+                  Xp.Xxx_Meaning := Head (Explanation, Max_Meaning_Size);
                end if;
                Put_Stat ("TRICK  FFLOP at "
                  & Head (Integer'Image (Line_Number), 8) &
@@ -757,12 +757,12 @@ package body Tricks_Package is
                  (Pa (Pa_Last - 1).IR.Qual.Pofs /= Tackon)
                then
                   if Explanation = ""  then
-                     Xxx_Meaning := Head (
+                     Xp.Xxx_Meaning := Head (
                        "An internal '" & X1 &
                        "' might be rendered by '" & X2 & "'"
                        , Max_Meaning_Size);
                   else
-                     Xxx_Meaning := Head (Explanation, Max_Meaning_Size);
+                     Xp.Xxx_Meaning := Head (Explanation, Max_Meaning_Size);
                   end if;
                   Put_Stat ("TRICK   INTR at "
                     & Head (Integer'Image (Line_Number), 8) &
@@ -808,11 +808,11 @@ package body Tricks_Package is
             end if;
             if Pa_Last > Pa_Save + 1 then
                if Explanation = ""  then
-                  Xxx_Meaning := Head
+                  Xp.Xxx_Meaning := Head
                     ("A Terminal 'iis' on ADJ 1 1 DAT/ABL P might drop 'i'",
                     Max_Meaning_Size);
                else
-                  Xxx_Meaning := Head (Explanation, Max_Meaning_Size);
+                  Xp.Xxx_Meaning := Head (Explanation, Max_Meaning_Size);
                end if;
                Put_Stat ("TRICK  ADJIS at "
                  & Head (Integer'Image (Line_Number), 8)
@@ -848,11 +848,11 @@ package body Tricks_Package is
                  (Pa (Pa_Last - 1).IR.Qual.Pofs /= Tackon)
                then
                   if Explanation = ""  then
-                     Xxx_Meaning := Head (
+                     Xp.Xxx_Meaning := Head (
                        "A doubled consonant may be rendered by just the single"
                        & "  MEDIEVAL", Max_Meaning_Size);
                   else
-                     Xxx_Meaning := Head (Explanation, Max_Meaning_Size);
+                     Xp.Xxx_Meaning := Head (Explanation, Max_Meaning_Size);
                   end if;
                   Put_Stat ("TRICK   2CON at "
                     & Head (Integer'Image (Line_Number), 8)
@@ -994,7 +994,7 @@ package body Tricks_Package is
                         end if;
                      end loop;
 
-                     Xxx_Meaning := Head (
+                     Xp.Xxx_Meaning := Head (
                        "It is very likely a compound number    " &
                        S (S'First .. S'First + I - 1) & " + " &
                        S (S'First + I .. S'Last), Max_Meaning_Size);
@@ -1004,7 +1004,7 @@ package body Tricks_Package is
                        & "   " & Head (W, 20) & "   "  &
                        S (1 .. I_Mid) & '+' & S (I_Mid + 1 .. S'Last));
                   else
-                     Xxx_Meaning := Head (
+                     Xp.Xxx_Meaning := Head (
                        "May be 2 words combined (" &
                        S (S'First .. S'First + I - 1) & "+" &
                        S (S'First + I .. S'Last) &
@@ -1017,7 +1017,7 @@ package body Tricks_Package is
                        S (1 .. I_Mid) & '+' & S (I_Mid + 1 .. S'Last));
                   end if;
                else
-                  Xxx_Meaning := Head (Explanation, Max_Meaning_Size);
+                  Xp.Xxx_Meaning := Head (Explanation, Max_Meaning_Size);
                end if;
 
                return;
@@ -1046,7 +1046,7 @@ package body Tricks_Package is
       --  These things might be genericized, at least the PA (1) assignments
       --TEXT_IO.PUT_LINE ("TRICKS called");
 
-      Xxx_Meaning := Null_Meaning_Type;
+      Xp.Xxx_Meaning := Null_Meaning_Type;
 
       --  If there is no satisfaction from above, we will try further
 
@@ -1227,7 +1227,7 @@ package body Tricks_Package is
               Pa (Pa_Last).IR.Qual.Pofs = V and then
               Pa (Pa_Last).IR.Qual.Verb.Con = (6, 1)
             then  --    Check it is V 6 1 eo
-               Xxx_Meaning := Head (
+               Xp.Xxx_Meaning := Head (
                  "Some forms of eo stem 'i' grates with " &
                  "an 'is .. .' ending, so 'is' -> 'iis' "
                  , Max_Meaning_Size);
@@ -1622,9 +1622,9 @@ package body Tricks_Package is
          Pa_Last := 1;
          Pa (1) := ("Bad Roman Numeral?", Null_Inflection_Record,
            Xxx, Null_MNPC);
-         Xxx_Meaning := Null_Meaning_Type;
+         Xp.Xxx_Meaning := Null_Meaning_Type;
 
-         Rrr_Meaning := Head (Integer'Image (Bad_Roman_Number (W))
+         Xp.Rrr_Meaning := Head (Integer'Image (Bad_Roman_Number (W))
            & "  as ill-formed ROMAN NUMERAL?;",
            Max_Meaning_Size);
          Pa_Last := Pa_Last + 1;
@@ -1697,11 +1697,11 @@ package body Tricks_Package is
               (Pa (Pa_Last - 1).IR.Qual.Pofs /= Tackon)
             then
                if Explanation = ""  then
-                  Xxx_Meaning := Head (
+                  Xp.Xxx_Meaning := Head (
                     "An initial '" & X1 & "' may be rendered by '" & X2 & "'"
                     , Max_Meaning_Size);
                else
-                  Xxx_Meaning := Head (Explanation, Max_Meaning_Size);
+                  Xp.Xxx_Meaning := Head (Explanation, Max_Meaning_Size);
                end if;
                Put_Stat ("SLURY   FLIP at "
                  & Head (Integer'Image (Line_Number), 8)
@@ -1734,11 +1734,11 @@ package body Tricks_Package is
               (Pa (Pa_Last - 1).IR.Qual.Pofs /= Tackon)
             then
                if Explanation = ""  then
-                  Xxx_Meaning := Head (
+                  Xp.Xxx_Meaning := Head (
                     "An initial '" & X1 & "' may be rendered by '" & X2 & "'"
                     , Max_Meaning_Size);
                else
-                  Xxx_Meaning := Head (Explanation, Max_Meaning_Size);
+                  Xp.Xxx_Meaning := Head (Explanation, Max_Meaning_Size);
                end if;
                Put_Stat ("SLURY   FLOP at "
                  & Head (Integer'Image (Line_Number), 8)
@@ -1761,11 +1761,11 @@ package body Tricks_Package is
               (Pa (Pa_Last - 1).IR.Qual.Pofs /= Tackon)
             then
                if Explanation = ""  then
-                  Xxx_Meaning := Head (
+                  Xp.Xxx_Meaning := Head (
                     "An initial '" & X1 & "' may be rendered by '" & X2 & "'"
                     , Max_Meaning_Size);
                else
-                  Xxx_Meaning := Head (Explanation, Max_Meaning_Size);
+                  Xp.Xxx_Meaning := Head (Explanation, Max_Meaning_Size);
                end if;
                Put_Stat ("SLURY   FLOP at "
                  & Head (Integer'Image (Line_Number), 8)
@@ -1801,12 +1801,12 @@ package body Tricks_Package is
                  (Pa (Pa_Last - 1).IR.Qual.Pofs /= Tackon)
                then
                   if Explanation = ""  then
-                     Xxx_Meaning := Head (
+                     Xp.Xxx_Meaning := Head (
                        "An initial '" & X1 & "' may be rendered by "
                        & X1 (X1'First .. X1'Last - 1) & "~",
                        Max_Meaning_Size);
                   else
-                     Xxx_Meaning := Head (Explanation, Max_Meaning_Size);
+                     Xp.Xxx_Meaning := Head (Explanation, Max_Meaning_Size);
                   end if;
                   Put_Stat ("SLURY   SLUR at "
                     & Head (Integer'Image (Line_Number), 8)
@@ -1833,12 +1833,12 @@ package body Tricks_Package is
                  (Pa (Pa_Last - 1).IR.Qual.Pofs /= Tackon)
                then
                   if Explanation = ""  then
-                     Xxx_Meaning := Head (
+                     Xp.Xxx_Meaning := Head (
                        "An initial '" & X1 (X1'First .. Sl - 1)
                        & "~" & "' may be rendered by " & X1
                        , Max_Meaning_Size);
                   else
-                     Xxx_Meaning := Head (Explanation, Max_Meaning_Size);
+                     Xp.Xxx_Meaning := Head (Explanation, Max_Meaning_Size);
                   end if;
                   Put_Stat ("SLURY   SLUR at "
                     & Head (Integer'Image (Line_Number), 8)

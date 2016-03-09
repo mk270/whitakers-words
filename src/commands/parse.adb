@@ -411,11 +411,11 @@ is
             declare
                Part : constant Participle :=
                  Get_Pas_Nom_Participle (Pa (J4).IR.Qual.Vpar, Sum_Info,
-                 Ppl_On, Compound_Tvm, Ppp_Meaning, Ppl_Info);
+                 Ppl_On, Compound_Tvm, Xp.Ppp_Meaning, Ppl_Info);
             begin
                Ppl_On := Part.Ppl_On;
                Ppl_Info := Part.Ppl_Info;
-               Ppp_Meaning := Part.Ppp_Meaning;
+               Xp.Ppp_Meaning := Part.Ppp_Meaning;
                Compound_Tvm := Part.Compound_Tvm;
             end;
          else
@@ -446,12 +446,12 @@ is
                Trimmed_Next_Word : constant String := Next_Word;
                Part : constant Participle :=
                  Get_Pas_Participle (Pa (J5).IR.Qual.Vpar,
-                 Trimmed_Next_Word, Ppl_On, Compound_Tvm, Ppp_Meaning,
+                 Trimmed_Next_Word, Ppl_On, Compound_Tvm, Xp.Ppp_Meaning,
                  Ppl_Info);
             begin
                Ppl_On := Part.Ppl_On;
                Ppl_Info := Part.Ppl_Info;
-               Ppp_Meaning := Part.Ppp_Meaning;
+               Xp.Ppp_Meaning := Part.Ppp_Meaning;
                Compound_Tvm := Part.Compound_Tvm;
             end;
          else
@@ -497,7 +497,7 @@ is
               X)
                ), 0, Null_Ending_Record, X, A),
               Ppp, Null_MNPC);
-            Ppp_Meaning := Head (
+            Xp.Ppp_Meaning := Head (
               "SUPINE + iri => " &
               "FUT PASSIVE INF - to be about/going/ready to be ~",
               Max_Meaning_Size);
@@ -886,7 +886,7 @@ is
       Have_Done_Enclitic : Boolean := False;
       Used_Next_Word : Boolean := False;
    begin   --  PARSE
-      Xxx_Meaning := Null_Meaning_Type;
+      Xp.Xxx_Meaning := Null_Meaning_Type;
 
       -- This step is actually redundant; it is mentioned here simply to
       -- make it explicit that the contents of Pa are discarded after each
