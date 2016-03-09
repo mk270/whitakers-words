@@ -53,7 +53,8 @@ package body Tricks_Package is
    procedure Syncope (W       :        String;
                       Pa      : in out Parse_Array;
                       Pa_Last : in out Integer;
-                      Xp      : in out Explanations) is
+                      Xp      : in out Explanations)
+   is
       S  : constant String (1 .. W'Length) := Lower_Case (W);
       Pa_Save : constant Integer := Pa_Last;
       Syncope_Inflection_Record : constant Inflection_Record :=
