@@ -60,6 +60,14 @@ package body Tricks_Package is
       Syncope_Inflection_Record : constant Inflection_Record :=
         Null_Inflection_Record;
       --     ((V, ((0, 0), (X, X, X), 0, X, X)), 0, NULL_ENDING_RECORD, X, A);
+
+      procedure Explain_Syncope (Explanatory_Text, Stat_Text : String) is
+      begin
+         Xp.Yyy_Meaning := Head (Explanatory_Text, Max_Meaning_Size);
+         Put_Stat (Stat_Text & Head (Integer'Image (Line_Number), 8) &
+                               Head (Integer'Image (Word_Number), 4) &
+           "   " & Head (W, 20) & "   " & Pa (Pa_Save + 1).Stem);
+      end Explain_Syncope;
    begin
 
       --  Syncopated forms (see Gildersleeve and Lodge, 131)
@@ -87,14 +95,9 @@ package body Tricks_Package is
         --PA (PA_LAST).IR.QUAL.V.CON = (3, 4)/(6, 1) and then
         Pa (Pa_Last).IR.Key = 3
       then          --  Perfect system
-         Xp.Yyy_Meaning := Head (
-           "Syncopated perfect ivi can drop 'v' without contracting vowel "
-           , Max_Meaning_Size);
-
-         Put_Stat ("SYNCOPE  ivi at "
-           & Head (Integer'Image (Line_Number), 8) &
-           Head (Integer'Image (Word_Number), 4)
-           & "   " & Head (W, 20) & "   "  & Pa (Pa_Save + 1).Stem);
+         Explain_Syncope
+           ("Syncopated perfect ivi can drop 'v' without contracting vowel ",
+           " SYNCOPE  ivi at ");
          return;
       else
          Pa_Last := Pa_Save;
@@ -123,13 +126,9 @@ package body Tricks_Package is
         Pa (Pa_Last).IR.Qual.Pofs = V and then
         Pa (Pa_Last).IR.Key = 3
       then          --  Perfect system
-         Xp.Yyy_Meaning := Head (
-           "Syncopated perfect often drops the 'v' and contracts vowel "
-           , Max_Meaning_Size);
-         Put_Stat ("SYNCOPE  vis at "
-           & Head (Integer'Image (Line_Number), 8) &
-           Head (Integer'Image (Word_Number), 4)
-           & "   " & Head (W, 20) & "   "  & Pa (Pa_Save + 1).Stem);
+         Explain_Syncope
+           ("Syncopated perfect often drops the 'v' and contracts vowel ",
+            "SYNCOPE  vis at ");
       end if;
       --  end loop;   --  over resulting solutions
       if Pa_Last > Pa_Save + 1  then
@@ -159,14 +158,9 @@ package body Tricks_Package is
         Pa (Pa_Last).IR.Qual.Pofs = V and then
         Pa (Pa_Last).IR.Key = 3
       then          --  Perfect system
-         Xp.Yyy_Meaning := Head (
-           "Syncopated perfect often drops the 'v' and contracts vowel "
-           , Max_Meaning_Size);
-
-         Put_Stat ("SYNCOPE  ver at "
-           & Head (Integer'Image (Line_Number), 8) &
-           Head (Integer'Image (Word_Number), 4)
-           & "   " & Head (W, 20) & "   "  & Pa (Pa_Save + 1).Stem);
+         Explain_Syncope
+           ("Syncopated perfect often drops the 'v' and contracts vowel ",
+            "SYNCOPE  ver at ");
          return;
       else
          Pa_Last := Pa_Save;
@@ -189,14 +183,9 @@ package body Tricks_Package is
         Pa (Pa_Last).IR.Qual.Pofs = V and then
         Pa (Pa_Last).IR.Key = 3
       then          --  Perfect system
-         Xp.Yyy_Meaning := Head (
-           "Syncopated perfect often drops the 'v' and contracts vowel "
-           , Max_Meaning_Size);
-
-         Put_Stat ("SYNCOPE  ier at "
-           & Head (Integer'Image (Line_Number), 8) &
-           Head (Integer'Image (Word_Number), 4)
-           & "   " & Head (W, 20) & "   "  & Pa (Pa_Save + 1).Stem);
+         Explain_Syncope
+           ("Syncopated perfect often drops the 'v' and contracts vowel ",
+            "SYNCOPE  ier at ");
          return;
       else
          Pa_Last := Pa_Save;
@@ -223,13 +212,9 @@ package body Tricks_Package is
         Pa (Pa_Last).IR.Qual.Pofs = V and then
         Pa (Pa_Last).IR.Key = 3
       then          --  Perfect system
-         Xp.Yyy_Meaning := Head (
-           "Syncopated perfect sometimes drops the 'is' after 's' or 'x' "
-           , Max_Meaning_Size);
-         Put_Stat ("SYNCOPEx/sis at "
-           & Head (Integer'Image (Line_Number), 8) &
-           Head (Integer'Image (Word_Number), 4)
-           & "   " & Head (W, 20) & "   "  & Pa (Pa_Save + 1).Stem);
+         Explain_Syncope
+           ("Syncopated perfect sometimes drops the 'is' after 's' or 'x' ",
+            "SYNCOPEx/sis at ");
          return;
       else
          Pa_Last := Pa_Save;
