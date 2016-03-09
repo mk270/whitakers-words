@@ -48,6 +48,7 @@ with Search_English;
 with Ada.Containers.Vectors; use Ada.Containers;
 with Ada.Strings.Unbounded; use Ada.Strings.Unbounded;
 with Ada.Strings.Fixed;
+with Explanation_Package; use Explanation_Package;
 use Latin_Utils;
 
 pragma Elaborate (Support_Utils.Word_Parameters);

@@ -15,7 +15,7 @@
 -- available to anyone who wishes to use them, for whatever purpose.
 
 with Latin_Utils.Dictionary_Package; use Latin_Utils.Dictionary_Package;
-with Word_Package;
+with Explanation_Package; use Explanation_Package;
 
 package Tricks_Package is
 
@@ -23,7 +23,7 @@ package Tricks_Package is
      (W       : String;
       Pa      : in out Parse_Array;
       Pa_Last : in out Integer;
-      Xp      : in out Word_Package.Explanations);
+      Xp      : in out Explanations);
 
    procedure Try_Tricks
      (W           : String;
@@ -31,7 +31,7 @@ package Tricks_Package is
       Pa_Last     : in out Integer;
       Line_Number : Integer;
       Word_Number : Integer;
-      Xp          : in out Word_Package.Explanations);
+      Xp          : in out Explanations);
 
    procedure Try_Slury
      (W           : String;
@@ -39,12 +39,12 @@ package Tricks_Package is
       Pa_Last     : in out Integer;
       Line_Number : Integer;
       Word_Number : Integer;
-      Xp          : in out Word_Package.Explanations);
+      Xp          : in out Explanations);
 
    procedure Roman_Numerals
      (Input_Word : String;
       Pa         : in out Parse_Array;
       Pa_Last    : in out Integer;
-      Xp         : in out Word_Package.Explanations);
+      Xp         : in out Explanations);
 
 end Tricks_Package;
