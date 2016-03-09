@@ -105,21 +105,26 @@ package body Tricks_Package is
 
       -- avis => as, evis => es, ivis => is, ovis => os   in perfect
       for I in reverse S'First .. S'Last - 2  loop     --  Need isse
-         if (S (I .. I + 1) = "as")  or
-           (S (I .. I + 1) = "es")  or
-           (S (I .. I + 1) = "is")  or
-           (S (I .. I + 1) = "os")
-         then
-            Pa_Last := Pa_Last + 1;
-            Pa (Pa_Last)         :=
-              ("Syncope   s => vis", Syncope_Inflection_Record,
-              Yyy, Null_MNPC);
-            Word (S (S'First .. I) & "vi" & S (I + 1 .. S'Last), Pa, Pa_Last);
-            if Pa_Last > Pa_Save + 1  then
-               exit;               --  Exit loop here if SYNCOPE found hit
+         declare
+            Fragment : constant String := S (I .. I + 1);
+         begin
+            if (Fragment = "as")  or
+              (Fragment = "es")  or
+              (Fragment = "is")  or
+              (Fragment = "os")
+            then
+               Pa_Last := Pa_Last + 1;
+               Pa (Pa_Last)         :=
+                 ("Syncope   s => vis", Syncope_Inflection_Record,
+                 Yyy, Null_MNPC);
+               Word (S (S'First .. I) & "vi" & S (I + 1 .. S'Last),
+                 Pa, Pa_Last);
+               if Pa_Last > Pa_Save + 1  then
+                  exit;               --  Exit loop here if SYNCOPE found hit
+               end if;
             end if;
-         end if;
-         Pa_Last := Pa_Save;     --  No luck, or it would have exited above
+            Pa_Last := Pa_Save;     --  No luck, or it would have exited above
+         end;
       end loop;
       --  Loop over the resulting solutions
       if Pa_Last > Pa_Save + 1  and then
@@ -139,19 +144,24 @@ package body Tricks_Package is
 
       -- aver => ar, ever => er, in perfect
       for I in reverse S'First + 1 .. S'Last - 2  loop
-         if (S (I .. I + 1) = "ar")  or
-           (S (I .. I + 1) = "er")  or
-           (S (I .. I + 1) = "or")
-         then
-            Pa_Last := Pa_Last + 1;
-            Pa (Pa_Last) := ("Syncope   r => v.r", Syncope_Inflection_Record,
-              Yyy, Null_MNPC);
-            Word (S (S'First .. I) & "ve" & S (I + 1 .. S'Last), Pa, Pa_Last);
-            if Pa_Last > Pa_Save + 1  then
-               exit;
+         declare
+            Fragment : constant String := S (I .. I + 1);
+         begin
+            if (Fragment = "ar")  or
+              (Fragment = "er")  or
+              (Fragment = "or")
+            then
+               Pa_Last := Pa_Last + 1;
+               Pa (Pa_Last) := ("Syncope   r => v.r", Syncope_Inflection_Record,
+                 Yyy, Null_MNPC);
+               Word (S (S'First .. I) & "ve" & S (I + 1 .. S'Last),
+                 Pa, Pa_Last);
+               if Pa_Last > Pa_Save + 1  then
+                  exit;
+               end if;
             end if;
-         end if;
-         Pa_Last := Pa_Save;     --  No luck, or it would have exited above
+            Pa_Last := Pa_Save;     --  No luck, or it would have exited above
+         end;
       end loop;
 
       if Pa_Last > Pa_Save + 1  and then
@@ -193,19 +203,24 @@ package body Tricks_Package is
 
       --         -- sis => s, xis => x, in perfect
       for I in reverse S'First .. S'Last - 2  loop
-         if (S (I) = 's')  or
-           (S (I) = 'x')
-         then
-            Pa_Last := Pa_Last + 1;
-            Pa (Pa_Last)         :=
-              ("Syncope s/x => +is", Syncope_Inflection_Record,
-              Yyy, Null_MNPC);
-            Word (S (S'First .. I) & "is" & S (I + 1 .. S'Last), Pa, Pa_Last);
-            if Pa_Last > Pa_Save + 1  then
-               exit;               --  Exit loop here if SYNCOPE found hit
+         declare
+            Fragment : constant Character := S (I);
+         begin
+            if (Fragment = 's')  or
+              (Fragment = 'x')
+            then
+               Pa_Last := Pa_Last + 1;
+               Pa (Pa_Last)         :=
+                 ("Syncope s/x => +is", Syncope_Inflection_Record,
+                 Yyy, Null_MNPC);
+               Word (S (S'First .. I) & "is" & S (I + 1 .. S'Last),
+                 Pa, Pa_Last);
+               if Pa_Last > Pa_Save + 1  then
+                  exit;               --  Exit loop here if SYNCOPE found hit
+               end if;
             end if;
-         end if;
-         Pa_Last := Pa_Save;     --  No luck, or it would have exited above
+            Pa_Last := Pa_Save;     --  No luck, or it would have exited above
+         end;
       end loop;
       --  Loop over the resulting solutions
       if Pa_Last > Pa_Save + 1  and then
