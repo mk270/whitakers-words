@@ -14,23 +14,6 @@
 -- All parts of the WORDS system, source code and data files, are made freely
 -- available to anyone who wishes to use them, for whatever purpose.
 
----------------------------------------------------------------------------
-
--- This file contains an alarming amount of repetitive code, to the extent of
--- unintelligbility
-
--- to factor out:
-
---   the subprogramme "parse_latin_word" is 300-odd lines long, and depends on
---   variables defined outside it and a bunch of variables from other
---   source files
-
---   the use of labels entails negatively indenting source lines, and is
---   a major readability/intelligibility problem
-
---  there are some instances of variables shadowed, e.g., "j" was
---  shadowed twice in nested declare blocks
-
 with Ada.Text_IO;
 with Latin_Utils.Strings_Package; use Latin_Utils.Strings_Package;
 with Support_Utils.Word_Parameters; use Support_Utils.Word_Parameters;
