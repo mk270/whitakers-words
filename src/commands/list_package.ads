@@ -19,6 +19,7 @@ with Latin_Utils.Dictionary_Package; use Latin_Utils.Dictionary_Package;
 with Latin_Utils.Config; use Latin_Utils.Config;
 with Latin_Utils.Inflections_Package; use Latin_Utils.Inflections_Package;
 with Ada.Strings.Unbounded; use Ada.Strings.Unbounded;
+with Word_Package;
 
 package List_Package is
 
@@ -30,7 +31,9 @@ package List_Package is
 
    function Analyse_Word (Pa       : Parse_Array;
                           Pa_Last  : Integer;
-                          Raw_Word : String) return Word_Analysis;
+                          Raw_Word : String;
+                          Xp       : Word_Package.Explanations)
+                         return Word_Analysis;
 
    procedure List_Stems (Configuration :    Configuration_Type;
                          Output        :    Ada.Text_IO.File_Type;
@@ -79,6 +82,7 @@ private
          Unknowns : Boolean;
          The_Word : Unbounded_String;
          Was_Trimmed : Boolean;
+         Xp : Word_Package.Explanations;
       end record;
 
 end List_Package;

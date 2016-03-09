@@ -337,7 +337,8 @@ package body Tricks_Package is
    procedure Roman_Numerals
      (Input_Word : String;
       Pa : in out Parse_Array;
-      Pa_Last : in out Integer) is
+      Pa_Last : in out Integer;
+      Xp : in out Explanations) is
 
       W : constant String := Trim (Input_Word);
       Roman_Number_W : constant Integer := Roman_Number (W);
@@ -414,8 +415,10 @@ package body Tricks_Package is
          return 0;
    end Bad_Roman_Number;
 
-   procedure Syncope (W : String;
-                      Pa : in out Parse_Array; Pa_Last : in out Integer) is
+   procedure Syncope (W       :        String;
+                      Pa      : in out Parse_Array;
+                      Pa_Last : in out Integer;
+                      Xp      : in out Explanations) is
       S  : constant String (1 .. W'Length) := Lower_Case (W);
       Pa_Save : constant Integer := Pa_Last;
       Syncope_Inflection_Record : constant Inflection_Record :=
@@ -617,7 +620,8 @@ package body Tricks_Package is
       Pa          : in out Parse_Array;
       Pa_Last     : in out Integer;
       Line_Number : Integer;
-      Word_Number : Integer)
+      Word_Number : Integer;
+      Xp          : in out Explanations)
    is
       --  Since the chances are 1/1000 that we have one,
       --  Ignore the possibility of two in the same word
@@ -629,7 +633,7 @@ package body Tricks_Package is
                        Pa : in out Parse_Array; Pa_Last : in out Integer) is
       begin
          Word_Package.Word (W, Pa, Pa_Last);
-         Syncope (W, Pa, Pa_Last);
+         Syncope (W, Pa, Pa_Last, Xp);
       end Tword;
 
       procedure Flip (X1, X2 : String; Explanation : String := "") is
@@ -1663,7 +1667,8 @@ package body Tricks_Package is
       Pa          : in out Parse_Array;
       Pa_Last     : in out Integer;
       Line_Number : Integer;
-      Word_Number : Integer)
+      Word_Number : Integer;
+      Xp          : in out Explanations)
    is
       --  Since the chances are 1/1000 that we have one,
       --  Ignore the possibility of two in the same word
@@ -1677,7 +1682,7 @@ package body Tricks_Package is
       begin
          Words_Mdev (Use_Prefixes) := False;
          Word_Package.Word (W, Pa, Pa_Last);
-         Syncope (W, Pa, Pa_Last);
+         Syncope (W, Pa, Pa_Last, Xp);
          Words_Mdev (Use_Prefixes) := Save_Use_Prefixes;
       end Tword;
 

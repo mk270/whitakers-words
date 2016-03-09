@@ -58,9 +58,6 @@ package Word_Package is
         Ppp_Meaning : Meaning_Type := Null_Meaning_Type;
      end record;
 
-   -- temporary hack
-   Xp : Explanations;
-
    --Xxx_Meaning : Meaning_Type := Null_Meaning_Type;  --  For TRICKS
    --Yyy_Meaning : Meaning_Type := Null_Meaning_Type;  --  For SYNCOPE
    --Nnn_Meaning : Meaning_Type := Null_Meaning_Type;  --  For Names

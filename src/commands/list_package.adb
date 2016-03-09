@@ -260,7 +260,8 @@ package body List_Package is
      (Output : Ada.Text_IO.File_Type;
       Sr     : Stem_Inflection_Record;
       Dm     : Dictionary_MNPC_Record;
-      Mm     : Integer)
+      Mm     : Integer;
+      Xp     : in out Explanations)
    is
       use Dict_IO;
 
@@ -600,7 +601,8 @@ package body List_Package is
    procedure Put_Parse_Details
      (Configuration : Configuration_Type;
       Output        : Ada.Text_IO.File_Type;
-      WA            : Word_Analysis)
+      WA            : Word_Analysis;
+      Xp            : in out Explanations)
    is
       Mm            : constant Integer := Get_Max_Meaning_Size (Output);
    begin
@@ -659,10 +661,10 @@ package body List_Package is
                      then
                         --  Hhandle simple multiple MEAN with same IR and FORM
                         --  by anticipating duplicates and waiting until change
-                        Put_Meaning_Line (Output, Sra (1), WA.Dict (J), Mm);
+                        Put_Meaning_Line (Output, Sra (1), WA.Dict (J), Mm, Xp);
                      end if;
                   else
-                     Put_Meaning_Line (Output, Sra (1), WA.Dict (J), Mm);
+                     Put_Meaning_Line (Output, Sra (1), WA.Dict (J), Mm, Xp);
                   end if;
                end Putting_Meaning;
 
@@ -674,7 +676,8 @@ package body List_Package is
 
    procedure Fix_Adverb
      (Pa      : in out Parse_Array;
-      Pa_Last : in out Integer)
+      Pa_Last : in out Integer;
+      Xp      : in out Explanations)
    is
       J1, J2 : Integer := 0;
       J : Integer := 0;
@@ -840,7 +843,8 @@ package body List_Package is
 
    procedure Handle_Adverb
      (Pa      : in out Parse_Array;
-      Pa_Last : in out Integer)
+      Pa_Last : in out Integer;
+      Xp      : in out Explanations)
    is
       There_Is_An_Adverb : Boolean := False;
    begin
@@ -854,18 +858,20 @@ package body List_Package is
       end loop;
 
       if (not There_Is_An_Adverb) and (Words_Mode (Do_Fixes))  then
-         Fix_Adverb (Pa, Pa_Last);
+         Fix_Adverb (Pa, Pa_Last, Xp);
       end if;
    end Handle_Adverb;
 
    function Analyse_Word
      (Pa       : Parse_Array;
       Pa_Last  : Integer;
-      Raw_Word : String)
+      Raw_Word : String;
+      Xp       : Explanations)
      return Word_Analysis
    is
       Var_Pa : Parse_Array := Pa;
       Var_Pa_Last : Integer := Pa_Last;
+      Var_Xp : Explanations := Xp;
 
       W : constant String := Raw_Word;
       Sraa : Stem_Inflection_Array_Array
@@ -879,7 +885,7 @@ package body List_Package is
       --  (or all of a class) it must fix up the rest of the parse array,
       --  e.g., it must clean out dangling prefixes and suffixes
       Trimmed := False;
-      Handle_Adverb (Var_Pa, Var_Pa_Last);
+      Handle_Adverb (Var_Pa, Var_Pa_Last, Var_Xp);
       List_Sweep (Var_Pa (1 .. Var_Pa_Last), Var_Pa_Last);
       Write_Addons_Stats (W, Var_Pa, Var_Pa_Last);
       Cycle_Over_Pa (Var_Pa, Var_Pa_Last, Sraa, Dma, I_Is_Pa_Last, Raw_Word, W);
@@ -887,7 +893,7 @@ package body List_Package is
       WA := (Stem => Sraa, Dict => Dma, I_Is_Pa_Last => I_Is_Pa_Last,
              Unknowns => Var_Pa_Last = 0,
              The_Word => To_Unbounded_String (Raw_Word),
-             Was_Trimmed => Trimmed);
+             Was_Trimmed => Trimmed, Xp => Var_Xp);
       return WA;
    end Analyse_Word;
 
@@ -908,6 +914,7 @@ package body List_Package is
       WA            : Word_Analysis;
       Input_Line    : String)
    is
+      Var_Xp : Explanations := WA.Xp;
       Raw_Word : constant String := To_String (WA.The_Word);
    begin
       --  Sets + if capitalized
@@ -924,7 +931,7 @@ package body List_Package is
          return;
       end if;
 
-      Put_Parse_Details (Configuration, Output, WA);
+      Put_Parse_Details (Configuration, Output, WA, Var_Xp);
 
       if WA.Was_Trimmed then
          Ada.Text_IO.Put (Output, '*');
