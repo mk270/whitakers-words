@@ -894,7 +894,7 @@ is
       Entering_Trpa_Last    : Integer := 0;
       Have_Done_Enclitic : Boolean := False;
       Used_Next_Word : Boolean := False;
-      Xp : Explanations;
+      Xp : Explanations; -- to store the previously global state
    begin   --  PARSE
       Xp.Xxx_Meaning := Null_Meaning_Type;
 
