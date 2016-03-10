@@ -14,6 +14,15 @@
 -- All parts of the WORDS system, source code and data files, are made freely
 -- available to anyone who wishes to use them, for whatever purpose.
 
+--
+-- This file still needs a lot of work.
+-- To do:
+--
+--  * analyse all the things which can be factored back together
+--  * factor together the 9 instances of "Sxx (M) := "
+--  * factor together the two branches of Apply_Suffix ()
+--
+
 with Support_Utils.Addons_Package; use Support_Utils.Addons_Package;
 with Latin_Utils.Latin_File_Names; use Latin_Utils.Latin_File_Names;
 with Latin_Utils.Strings_Package; use Latin_Utils.Strings_Package;

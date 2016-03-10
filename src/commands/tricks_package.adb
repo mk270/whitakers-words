@@ -14,6 +14,11 @@
 -- All parts of the WORDS system, source code and data files, are made freely
 -- available to anyone who wishes to use them, for whatever purpose.
 
+--
+-- This file needs a lot of work; details are in the comments at the bottom
+-- of the file.
+--
+
 with Ada.Text_IO;
 with Latin_Utils.Strings_Package; use Latin_Utils.Strings_Package;
 with Support_Utils.Word_Parameters; use Support_Utils.Word_Parameters;
@@ -1613,3 +1618,19 @@ package body Tricks_Package is
    end Try_Slury;
 
 end Tricks_Package;
+
+-- Work remaining to be done:
+--
+--  * analyse all the things that can be factored back together
+--  * factor out the 4 branches of Syncope ()
+--  * make a function for testing if a string matches any member of a list
+--  * move tabular data into own package, use following hack:
+--
+-- function "+" (Source : String) return Ada.Strings.Unbounded.Unbounded_String
+--     renames Ada.Strings.Unbounded.To_Unbounded_String;
+--
+-- procedure anyname is
+--     input_array : array(1..5) of Ada.Strings.Unbounded.Unbounded_String;
+-- begin
+--     input_array(1) := +"12345";  -- uses renaming "+" operator
+-- end anyname;
