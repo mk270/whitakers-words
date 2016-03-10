@@ -84,5 +84,15 @@ on, it needs to be made more readily intelligible. In general, this entails:
 * less reliance on dummy values in enumerations
 * documentation of the various packages and how they fit together
 
+Medium-term plan
+================
 
-Martin Keegan, originally written June 2015
+* expose the ability to parse a line of text into lexical and morphological analyses, via a function call
+* move the parsing engine into a library, leaving only actual commands in `commands`
+* establish optional build-time dependencies on AUnit and GNATColl
+* create an extendable test suite using AUnit
+* create a specification for a JSON format representing the results of a parse
+* provide a separate executable which outputs analyses in this JSON format
+* expose the details of the analyses via the CGI interface to WORDS
+
+Martin Keegan, originally written June 2015; substantially updated March 2016

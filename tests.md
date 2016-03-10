@@ -13,8 +13,26 @@ title: Tests and status
 Tests and status
 ================
 
-Testing
--------
+Test system
+-----------
+
+The code now (as of March 2016) comes with a trivial regression test, which
+is to take the text of a book of the Aeneid and run it through WORDS,
+comparing it with a saved copy of the output from an earlier date. This
+catches quite a few bugs, and is automatically incorporated in the
+[Travis continuous integration
+testing](https://travis-ci.org/mk270/whitakers-words/builds) of WORDS.
+
+In the future, there will be a suite of unit tests for WORDS, operating
+via AUnit. If you know Latin and a little programming (you don't really
+need to know Ada), and are willing to help out with this, please get
+in contact.
+
+The commentary below is from Whitaker's original collateral distributed with
+the WORDS source code; it is largely still valid.
+
+Coverage
+--------
 
 The program has been run against common classical texts.  Initially
 this was mostly a check of the process and reliability of the program.  It
