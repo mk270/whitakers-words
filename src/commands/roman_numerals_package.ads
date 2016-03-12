@@ -17,29 +17,11 @@
 with Latin_Utils.Dictionary_Package; use Latin_Utils.Dictionary_Package;
 with Explanation_Package; use Explanation_Package;
 
-package Tricks_Package is
+package Roman_Numerals_Package is
 
-   procedure Syncope
-     (W       : String;
-      Pa      : in out Parse_Array;
-      Pa_Last : in out Integer;
-      Xp      : in out Explanations);
+   function Only_Roman_Digits (S : String) return Boolean;
 
-   procedure Try_Tricks
-     (W           : String;
-      Pa          : in out Parse_Array;
-      Pa_Last     : in out Integer;
-      Line_Number : Integer;
-      Word_Number : Integer;
-      Xp          : in out Explanations);
-
-   procedure Try_Slury
-     (W           : String;
-      Pa          : in out Parse_Array;
-      Pa_Last     : in out Integer;
-      Line_Number : Integer;
-      Word_Number : Integer;
-      Xp          : in out Explanations);
+   function Bad_Roman_Number (S : String) return Natural;
 
    procedure Roman_Numerals
      (Input_Word : String;
@@ -47,4 +29,4 @@ package Tricks_Package is
       Pa_Last    : in out Integer;
       Xp         : in out Explanations);
 
-end Tricks_Package;
+end Roman_Numerals_Package;

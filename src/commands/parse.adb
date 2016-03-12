@@ -23,14 +23,13 @@ with Latin_Utils.Dictionary_Package; use Latin_Utils.Dictionary_Package;
 with Support_Utils.Addons_Package; use Support_Utils.Addons_Package;
 with Support_Utils.Word_Support_Package; use Support_Utils.Word_Support_Package;
 with Word_Package; use Word_Package;
-with List_Package; use List_Package;
 with Tricks_Package; use Tricks_Package;
 with Put_Stat;
 with Search_English;
 --with Support_Utils.Char_Utils; use Support_Utils.Char_Utils;
-with Ada.Containers.Vectors; use Ada.Containers;
 with Ada.Strings.Unbounded; use Ada.Strings.Unbounded;
 with Ada.Strings.Fixed;
+with Explanation_Package; use Explanation_Package;
 use Latin_Utils;
 
 pragma Elaborate (Support_Utils.Word_Parameters);
@@ -43,13 +42,13 @@ is
    package Word_Container is new Vectors (Natural, Unbounded_String);
    use Word_Container;
 
-   package Result_Container is new Vectors (Natural, Word_Analysis);
    use Result_Container;
 
    type Word_Analysis_Result is
      record
         WA : Word_Analysis;
         Used_Next_Word : Boolean;
+        The_Word : Unbounded_String;
      end record;
 
    Syncope_Max : constant := 20;
@@ -376,7 +375,8 @@ is
       Ppl_On       : in out Boolean;
       Ppl_Info     :    out Vpar_Record;
       Pa           : in out Parse_Array;
-      Pa_Last      : in out Integer)
+      Pa_Last      : in out Integer;
+      Xp           : in out Explanations)
    is
    begin
       for J4 in reverse 1 .. Pa_Last loop
@@ -393,11 +393,11 @@ is
             declare
                Part : constant Participle :=
                  Get_Pas_Nom_Participle (Pa (J4).IR.Qual.Vpar, Sum_Info,
-                 Ppl_On, Compound_Tvm, Ppp_Meaning, Ppl_Info);
+                 Ppl_On, Compound_Tvm, Xp.Ppp_Meaning, Ppl_Info);
             begin
                Ppl_On := Part.Ppl_On;
                Ppl_Info := Part.Ppl_Info;
-               Ppp_Meaning := Part.Ppp_Meaning;
+               Xp.Ppp_Meaning := Part.Ppp_Meaning;
                Compound_Tvm := Part.Compound_Tvm;
             end;
          else
@@ -414,7 +414,8 @@ is
                                Ppl_On       : in out Boolean;
                                Ppl_Info     :    out Vpar_Record;
                                Pa           : in out Parse_Array;
-                               Pa_Last      : in out Integer)
+                               Pa_Last      : in out Integer;
+                               Xp           : in out Explanations)
    is
    begin
       for J5 in reverse 1 .. Pa_Last loop
@@ -428,12 +429,12 @@ is
                Trimmed_Next_Word : constant String := Next_Word;
                Part : constant Participle :=
                  Get_Pas_Participle (Pa (J5).IR.Qual.Vpar,
-                 Trimmed_Next_Word, Ppl_On, Compound_Tvm, Ppp_Meaning,
+                 Trimmed_Next_Word, Ppl_On, Compound_Tvm, Xp.Ppp_Meaning,
                  Ppl_Info);
             begin
                Ppl_On := Part.Ppl_On;
                Ppl_Info := Part.Ppl_Info;
-               Ppp_Meaning := Part.Ppp_Meaning;
+               Xp.Ppp_Meaning := Part.Ppp_Meaning;
                Compound_Tvm := Part.Compound_Tvm;
             end;
          else
@@ -449,7 +450,8 @@ is
                                   Ppl_On         : in out Boolean;
                                   Pa             : in out Parse_Array;
                                   Pa_Last        : in out Integer;
-                                  Used_Next_Word : in out Boolean)
+                                  Used_Next_Word : in out Boolean;
+                                  Xp             : in out Explanations)
    is
    begin
       for J6 in reverse 1 .. Pa_Last loop
@@ -479,7 +481,7 @@ is
               X)
                ), 0, Null_Ending_Record, X, A),
               Ppp, Null_MNPC);
-            Ppp_Meaning := Head (
+            Xp.Ppp_Meaning := Head (
               "SUPINE + iri => " &
               "FUT PASSIVE INF - to be about/going/ready to be ~",
               Max_Meaning_Size);
@@ -495,14 +497,15 @@ is
 
    procedure Perform_Syncope (Input_Word : in     String;
                               Pa         : in out Parse_Array;
-                              Pa_Last    : in out Integer)
+                              Pa_Last    : in out Integer;
+                              Xp         : in out Explanations)
    is
       Sypa : Parse_Array (1 .. Syncope_Max) := (others => Null_Parse_Record);
       Sypa_Last : Integer := 0;
    begin
       Clear_Parse_Array (Sypa); -- FIXME: presumably redundant
       if Words_Mdev (Do_Syncope) and not No_Syncope then
-         Syncope (Input_Word, Sypa, Sypa_Last);
+         Syncope (Input_Word, Sypa, Sypa_Last, Xp);
 
          --  Make syncope another array to avoid PA-LAST = 0 problems
          Pa_Last := Pa_Last + Sypa_Last;
@@ -522,7 +525,8 @@ is
                        Entering_Pa_Last   : in out Integer;
                        Have_Done_Enclitic : in out Boolean;
                        Pa                 : in out Parse_Array;
-                       Pa_Last            : in out Integer) is
+                       Pa_Last            : in out Integer;
+                       Xp                 : in out Explanations) is
       Save_Do_Only_Fixes : constant Boolean := Words_Mdev (Do_Only_Fixes);
       Enclitic_Limit : Integer := 4;
       Try : constant String := Lower_Case (Input_Word);
@@ -552,7 +556,7 @@ is
 
                if Pa_Last = 0  then
                   Save_Pa_Last := Pa_Last;
-                  Try_Slury (Less, Pa, Pa_Last, Line_Number, Word_Number);
+                  Try_Slury (Less, Pa, Pa_Last, Line_Number, Word_Number, Xp);
                   if Save_Pa_Last /= 0   then
                      if (Pa_Last - 1) - Save_Pa_Last = Save_Pa_Last  then
                         Pa_Last := Save_Pa_Last;
@@ -571,7 +575,7 @@ is
                   end if;
                end loop;
 
-               Perform_Syncope (Input_Word, Pa, Pa_Last);
+               Perform_Syncope (Input_Word, Pa, Pa_Last, Xp);
 
                --  Restore FIXES
                --WORDS_MODE (DO_FIXES) := SAVE_DO_FIXES;
@@ -601,7 +605,8 @@ is
                               Entering_Trpa_Last : in out Integer;
                               Have_Done_Enclitic :        Boolean;
                               Trpa               : in out Parse_Array;
-                              Trpa_Last          : in out Integer) is
+                              Trpa_Last          : in out Integer;
+                              Xp                 : in out Explanations) is
       Try : constant String := Lower_Case (Input_Word);
    begin
       if Have_Done_Enclitic then
@@ -617,7 +622,7 @@ is
               Subtract_Tackon (Try, Tackons (I));
          begin
             if Less  /= Try  then       --  LESS is less
-               Try_Tricks (Less, Trpa, Trpa_Last, Line_Number, Word_Number);
+               Try_Tricks (Less, Trpa, Trpa_Last, Line_Number, Word_Number, Xp);
 
                if Trpa_Last > Entering_Trpa_Last  then
                   --  have a possible word
@@ -638,7 +643,8 @@ is
                    Entering_Pa_Last   : in out Integer;
                    Have_Done_Enclitic : in out Boolean;
                    Pa                 : in out Parse_Array;
-                   Pa_Last            : in out Integer)
+                   Pa_Last            : in out Integer;
+                   Xp                 : in out Explanations)
    is
       --  This is the core logic of the program, everything else is details
       Save_Do_Fixes : constant Boolean := Words_Mode (Do_Fixes);
@@ -646,11 +652,11 @@ is
    begin
       --  Do straight WORDS without FIXES/TRICKS, is the word in the dictionary
       Words_Mode (Do_Fixes) := False;
-      Roman_Numerals (Input_Word, Pa, Pa_Last);
+      Roman_Numerals (Input_Word, Pa, Pa_Last, Xp);
       Word (Input_Word, Pa, Pa_Last);
 
       if Pa_Last = 0  then
-         Try_Slury (Input_Word, Pa, Pa_Last, Line_Number, Word_Number);
+         Try_Slury (Input_Word, Pa, Pa_Last, Line_Number, Word_Number, Xp);
       end if;
 
       --  Do not SYNCOPE if there is a verb TO_BE or compound already there
@@ -663,12 +669,13 @@ is
       end loop;
 
       --  Pure SYNCOPE
-      Perform_Syncope (Input_Word, Pa, Pa_Last);
+      Perform_Syncope (Input_Word, Pa, Pa_Last, Xp);
 
       --  There may be a vaild simple parse, if so it is most probable
       --  But I have to allow for the possibility that -que is answer,
       --  not colloque V
-      Enclitic (Input_Word, Entering_Pa_Last, Have_Done_Enclitic, Pa, Pa_Last);
+      Enclitic (Input_Word, Entering_Pa_Last, Have_Done_Enclitic, Pa, Pa_Last,
+                Xp);
 
       --  Restore FIXES
       Words_Mode (Do_Fixes) := Save_Do_Fixes;
@@ -678,10 +685,10 @@ is
          Words_Mdev (Do_Only_Fixes) := True;
          Word (Input_Word, Pa, Pa_Last);
 
-         Perform_Syncope (Input_Word, Pa, Pa_Last);
+         Perform_Syncope (Input_Word, Pa, Pa_Last, Xp);
 
          Enclitic (Input_Word, Entering_Pa_Last, Have_Done_Enclitic,
-           Pa, Pa_Last);
+           Pa, Pa_Last, Xp);
 
          Words_Mdev (Do_Only_Fixes) := Save_Do_Only_Fixes;
       end if;
@@ -711,7 +718,8 @@ is
      (Pa             : in out Parse_Array;
       Pa_Last        : in out Integer;
       Next_Word      :        String;
-      Used_Next_Word : in out Boolean)
+      Used_Next_Word : in out Boolean;
+      Xp             : in out Explanations)
    is
       Compound_Tvm   : Inflections_Package.Tense_Voice_Mood_Record;
       Ppl_On : Boolean := False;
@@ -760,7 +768,7 @@ is
          if Used_Next_Word  then
             --  There was a PPL hit
             Do_Clear_Pas_Nom_Ppl (Sum_Info, Compound_Tvm, Ppl_On,
-              Ppl_Info, Pa, Pa_Last);
+              Ppl_Info, Pa, Pa_Last, Xp);
 
             Pa_Last := Pa_Last + 1;
             Pa (Pa_Last) :=
@@ -802,7 +810,7 @@ is
          if Used_Next_Word  then
             --  There was a PPL hit
             Do_Clear_Pas_Ppl (Next_Word, Compound_Tvm,
-              Ppl_On, Ppl_Info, Pa, Pa_Last);
+              Ppl_On, Ppl_Info, Pa, Pa_Last, Xp);
 
             Pa_Last := Pa_Last + 1;
             Pa (Pa_Last) :=
@@ -837,7 +845,7 @@ is
 
          if Used_Next_Word  then      --  There was a SUPINE hit
             Do_Clear_Pas_Supine (Supine_Info, Ppl_On,
-              Pa, Pa_Last, Used_Next_Word);
+              Pa, Pa_Last, Used_Next_Word, Xp);
          end if;
       end if;       --  On NEXT_WORD = sum, esse, iri
    end Compounds_With_Sum;
@@ -867,8 +875,9 @@ is
       Entering_Trpa_Last    : Integer := 0;
       Have_Done_Enclitic : Boolean := False;
       Used_Next_Word : Boolean := False;
+      Xp : Explanations; -- to store the previously global state
    begin   --  PARSE
-      Xxx_Meaning := Null_Meaning_Type;
+      Xp.Xxx_Meaning := Null_Meaning_Type;
 
       -- This step is actually redundant; it is mentioned here simply to
       -- make it explicit that the contents of Pa are discarded after each
@@ -880,7 +889,7 @@ is
       Pa_Last := 0;
       Word_Number := Word_Number + 1;
 
-      Pass (Input_Word, Entering_Pa_Last, Have_Done_Enclitic, Pa, Pa_Last);
+      Pass (Input_Word, Entering_Pa_Last, Have_Done_Enclitic, Pa, Pa_Last, Xp);
 
       --if (PA_LAST = 0) or DO_TRICKS_ANYWAY  then
       --  WORD failed, try to modify the word
@@ -891,10 +900,11 @@ is
          if Words_Mode (Do_Tricks)  then
             Words_Mode (Do_Tricks) := False;
             --  Turn it off so wont be circular
-            Try_Tricks (Input_Word, Trpa, Trpa_Last, Line_Number, Word_Number);
+            Try_Tricks (Input_Word, Trpa, Trpa_Last, Line_Number,
+              Word_Number, Xp);
             if Trpa_Last = 0  then
                Tricks_Enclitic (Input_Word, Entering_Trpa_Last,
-                 Have_Done_Enclitic, Trpa, Trpa_Last);
+                 Have_Done_Enclitic, Trpa, Trpa_Last, Xp);
             end if;
             Words_Mode (Do_Tricks) := True;   --  Turn it back on
          end if;
@@ -919,7 +929,7 @@ is
          if Words_Mode (Do_Compounds)  and
            not (Configuration = Only_Meanings)
          then
-            Compounds_With_Sum (Pa, Pa_Last, Next_Word, Used_Next_Word);
+            Compounds_With_Sum (Pa, Pa_Last, Next_Word, Used_Next_Word, Xp);
          end if;       --  On WORDS_MODE (DO_COMPOUNDS)
       end if;
 
@@ -927,8 +937,9 @@ is
       declare
          WA : Word_Analysis;
       begin
-         WA := Analyse_Word (Pa, Pa_Last, Input_Word);
-         return (WA => WA, Used_Next_Word => Used_Next_Word);
+         WA := Analyse_Word (Pa, Pa_Last, Input_Word, Xp);
+         return (WA => WA, Used_Next_Word => Used_Next_Word,
+           The_Word => To_Unbounded_String (Input_Word));
       end;
 
    exception
@@ -1052,7 +1063,7 @@ is
    procedure Report_Storage_Error;
    procedure Report_Unknown_Error (Input_Line : String);
 
-   -- Parse_Line (..., Input_Line : String)
+   -- Analyse_Line (..., Input_Line : String)
    --
    -- This procedure massages the Input_Line, dealing with capitalisation,
    -- punctuation, trimming, and so on; it splits the line into separate
@@ -1077,8 +1088,9 @@ is
    -- otherwise, we are doing Latin, so do a word
    -- quit after first word if appropriate config value set
 
-   procedure Parse_Line (Configuration : Configuration_Type;
-                         Input_Line    : String)
+   function Analyse_Line (Configuration : Configuration_Type;
+                          Input_Line    : String)
+     return Result_Container.Vector
    is
       L     : constant Integer   := Trim (Input_Line)'Last;
       Line  : String (1 .. 2500) := (others => ' ');
@@ -1087,6 +1099,7 @@ is
       Undashed : constant String := String_Before_Dash (Input_Line);
       Stripped : constant String := Strip_Non_Alpha_Etc (Undashed);
       S : constant Word_Container.Vector := Make_Words (Stripped);
+      Analyses : Result_Container.Vector;
 
       function Word_After (I : Count_Type) return String is
       begin
@@ -1126,8 +1139,6 @@ is
                Input_Word : constant String := W (W'First .. Last);
                Result     : Word_Analysis_Result;
 
-               type File_Type_Access is access constant Ada.Text_IO.File_Type;
-               O : File_Type_Access;
             begin
                Capitalized := Is_Capitalized (Input_Word);
                All_Caps    := Is_All_Caps (Input_Word);
@@ -1141,20 +1152,45 @@ is
                  Input_Line, Next_Word);
                Used_Next_Word := Result.Used_Next_Word;
 
-               if Words_Mode (Write_Output_To_File) then
-                  O := Output'Access;
-               else
-                  O := Current_Output.all'Access; -- Current_Output is a proc
-               end if;
-
-               List_Stems (Configuration, O.all, Input_Word, Input_Line,
-                 Result.WA);
+               Analyses.Append (Result.WA);
             end;
          end;
          <<Continue>>
          exit when Words_Mdev (Do_Only_Initial_Word);
       end loop;
 
+      return Analyses;
+   end Analyse_Line;
+
+   procedure Parse_Line (Configuration : Configuration_Type;
+                         Input_Line    : String)
+   is
+      Analyses : Result_Container.Vector;
+      Undashed : constant String := String_Before_Dash (Input_Line);
+
+      procedure Put_Analysis (A_Cursor : Result_Container.Cursor) is
+         Analysis : constant Word_Analysis := Element (Position => A_Cursor);
+         type File_Type_Access is access constant Ada.Text_IO.File_Type;
+         O : File_Type_Access;
+      begin
+         if Words_Mode (Write_Output_To_File) then
+            O := Output'Access;
+         else
+            O := Current_Output.all'Access; -- Current_Output is a proc
+         end if;
+
+         List_Stems (Configuration, O.all, Analysis, Undashed);
+      end Put_Analysis;
+
+      procedure Print_Analyses
+        (Analyses : Result_Container.Vector)
+      is
+      begin
+         Analyses.Iterate (Process => Put_Analysis'Access);
+      end Print_Analyses;
+   begin
+      Analyses := Analyse_Line (Configuration, Input_Line);
+      Print_Analyses (Analyses);
    exception
       when Storage_Error =>
          Report_Storage_Error;

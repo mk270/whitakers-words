@@ -18,6 +18,8 @@ with Ada.Text_IO;
 with Latin_Utils.Dictionary_Package; use Latin_Utils.Dictionary_Package;
 with Latin_Utils.Config; use Latin_Utils.Config;
 with Latin_Utils.Inflections_Package; use Latin_Utils.Inflections_Package;
+with Ada.Strings.Unbounded; use Ada.Strings.Unbounded;
+with Explanation_Package; use Explanation_Package;
 
 package List_Package is
 
@@ -29,13 +31,14 @@ package List_Package is
 
    function Analyse_Word (Pa       : Parse_Array;
                           Pa_Last  : Integer;
-                          Raw_Word : String) return Word_Analysis;
+                          Raw_Word : String;
+                          Xp       : Explanations)
+                         return Word_Analysis;
 
    procedure List_Stems (Configuration :    Configuration_Type;
                          Output        :    Ada.Text_IO.File_Type;
-                         Raw_Word      :    String;
-                         Input_Line    :    String;
-                         WA            :    Word_Analysis);
+                         WA            :    Word_Analysis;
+                         Input_Line    :    String);
 
    procedure Unknown_Search (Unknown       :  in String;
                              Unknown_Count : out Dict_IO.Count);
@@ -77,6 +80,9 @@ private
          Dict : Dictionary_MNPC_Array;
          I_Is_Pa_Last : Boolean;
          Unknowns : Boolean;
+         The_Word : Unbounded_String;
+         Was_Trimmed : Boolean;
+         Xp : Explanations;
       end record;
 
 end List_Package;

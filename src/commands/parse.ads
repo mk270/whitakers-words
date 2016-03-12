@@ -15,8 +15,22 @@
 -- available to anyone who wishes to use them, for whatever purpose.
 
 with Latin_Utils.Config; use Latin_Utils.Config;
+with Ada.Containers.Vectors; use Ada.Containers;
+with List_Package; use List_Package;
 
 package Parse is
+   package Result_Container is new Vectors (Natural, Word_Analysis);
+
+   -- Parse (and *print*) a line of Latin or English
    procedure Parse_Line (Configuration : Configuration_Type;
                          Input_Line    : String);
+
+   -- This function provides access to the raw Ada types used by the
+   -- WORDS engine; these are not currently understood or documented,
+   -- which is a job for the future. The function is being exposed now
+   -- to encourage the development or documentation of an API to WORDS'
+   -- internals
+   function Analyse_Line (Configuration : Configuration_Type;
+                          Input_Line    : String)
+     return Result_Container.Vector;
 end Parse;

@@ -49,12 +49,6 @@ package Word_Package is
 
    type Dict_Restriction is (X, Regular, Qu_Pron_Only, Pack_Only);
 
-   Xxx_Meaning : Meaning_Type := Null_Meaning_Type;  --  For TRICKS
-   Yyy_Meaning : Meaning_Type := Null_Meaning_Type;  --  For SYNCOPE
-   Nnn_Meaning : Meaning_Type := Null_Meaning_Type;  --  For Names
-   Rrr_Meaning : Meaning_Type := Null_Meaning_Type;  --  For Roman Numerals
-   Ppp_Meaning : Meaning_Type := Null_Meaning_Type;  --  For COMPOUNDED
-
    Scroll_Line_Number : Integer := 0;
    Output_Scroll_Count : Integer := 0;
 

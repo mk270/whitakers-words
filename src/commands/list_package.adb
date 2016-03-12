@@ -260,7 +260,8 @@ package body List_Package is
      (Output : Ada.Text_IO.File_Type;
       Sr     : Stem_Inflection_Record;
       Dm     : Dictionary_MNPC_Record;
-      Mm     : Integer)
+      Mm     : Integer;
+      Xp     : in out Explanations)
    is
       use Dict_IO;
 
@@ -285,11 +286,11 @@ package body List_Package is
       end Put_Word_Meaning;
    begin
       case Dm.D_K is
-         when Rrr => Put_Word_Meaning (Rrr_Meaning, "03 "); --  Roman Numeral
-         when Nnn => Put_Word_Meaning (Nnn_Meaning, "06 "); --  Unknown Name
-         when Xxx => Put_Word_Meaning (Xxx_Meaning, "06 "); --  TRICKS
-         when Yyy => Put_Word_Meaning (Yyy_Meaning, "06 "); --  Syncope
-         when Ppp => Put_Word_Meaning (Ppp_Meaning, "06 "); --  Compounds
+         when Rrr => Put_Word_Meaning (Xp.Rrr_Meaning, "03 "); --  Roman Numeral
+         when Nnn => Put_Word_Meaning (Xp.Nnn_Meaning, "06 "); --  Unknown Name
+         when Xxx => Put_Word_Meaning (Xp.Xxx_Meaning, "06 "); --  TRICKS
+         when Yyy => Put_Word_Meaning (Xp.Yyy_Meaning, "06 "); --  Syncope
+         when Ppp => Put_Word_Meaning (Xp.Ppp_Meaning, "06 "); --  Compounds
          when Addons =>
             Put_Pearse_Code (Output, "06 ");
             Put_Meaning (Output, Means (Integer (Dm.MNPC)));
@@ -600,7 +601,8 @@ package body List_Package is
    procedure Put_Parse_Details
      (Configuration : Configuration_Type;
       Output        : Ada.Text_IO.File_Type;
-      WA            : Word_Analysis)
+      WA            : Word_Analysis;
+      Xp            : in out Explanations)
    is
       Mm            : constant Integer := Get_Max_Meaning_Size (Output);
    begin
@@ -633,7 +635,8 @@ package body List_Package is
                      Put_Inflection (Configuration, Output, Sra (K),
                        WA.Dict (J));
                      if Sra (K).Stem (1 .. 3) = "PPL"  then
-                        Ada.Text_IO.Put_Line (Output, Head (Ppp_Meaning, Mm));
+                        Ada.Text_IO.Put_Line (Output,
+                                              Head (Xp.Ppp_Meaning, Mm));
                      end if;
                   end loop Put_Inflection_Array_J;
                   Osra := Sra;
@@ -658,10 +661,10 @@ package body List_Package is
                      then
                         --  Hhandle simple multiple MEAN with same IR and FORM
                         --  by anticipating duplicates and waiting until change
-                        Put_Meaning_Line (Output, Sra (1), WA.Dict (J), Mm);
+                        Put_Meaning_Line (Output, Sra (1), WA.Dict (J), Mm, Xp);
                      end if;
                   else
-                     Put_Meaning_Line (Output, Sra (1), WA.Dict (J), Mm);
+                     Put_Meaning_Line (Output, Sra (1), WA.Dict (J), Mm, Xp);
                   end if;
                end Putting_Meaning;
 
@@ -673,7 +676,8 @@ package body List_Package is
 
    procedure Fix_Adverb
      (Pa      : in out Parse_Array;
-      Pa_Last : in out Integer)
+      Pa_Last : in out Integer;
+      Xp      : in out Explanations)
    is
       J1, J2 : Integer := 0;
       J : Integer := 0;
@@ -732,7 +736,7 @@ package body List_Package is
                     Pa (J2 + 1).D_K,
                     Pa (J2 + 1).MNPC);
 
-                  Ppp_Meaning := Head (Caption, Max_Meaning_Size);
+                  Xp.Ppp_Meaning := Head (Caption, Max_Meaning_Size);
                end Handle_Degree;
             begin
                if Pa (J2 + 1).IR.Qual.Adj.Comparison = Pos then
@@ -839,7 +843,8 @@ package body List_Package is
 
    procedure Handle_Adverb
      (Pa      : in out Parse_Array;
-      Pa_Last : in out Integer)
+      Pa_Last : in out Integer;
+      Xp      : in out Explanations)
    is
       There_Is_An_Adverb : Boolean := False;
    begin
@@ -853,18 +858,20 @@ package body List_Package is
       end loop;
 
       if (not There_Is_An_Adverb) and (Words_Mode (Do_Fixes))  then
-         Fix_Adverb (Pa, Pa_Last);
+         Fix_Adverb (Pa, Pa_Last, Xp);
       end if;
    end Handle_Adverb;
 
    function Analyse_Word
      (Pa       : Parse_Array;
       Pa_Last  : Integer;
-      Raw_Word : String)
+      Raw_Word : String;
+      Xp       : Explanations)
      return Word_Analysis
    is
       Var_Pa : Parse_Array := Pa;
       Var_Pa_Last : Integer := Pa_Last;
+      Var_Xp : Explanations := Xp;
 
       W : constant String := Raw_Word;
       Sraa : Stem_Inflection_Array_Array
@@ -878,13 +885,15 @@ package body List_Package is
       --  (or all of a class) it must fix up the rest of the parse array,
       --  e.g., it must clean out dangling prefixes and suffixes
       Trimmed := False;
-      Handle_Adverb (Var_Pa, Var_Pa_Last);
+      Handle_Adverb (Var_Pa, Var_Pa_Last, Var_Xp);
       List_Sweep (Var_Pa (1 .. Var_Pa_Last), Var_Pa_Last);
       Write_Addons_Stats (W, Var_Pa, Var_Pa_Last);
       Cycle_Over_Pa (Var_Pa, Var_Pa_Last, Sraa, Dma, I_Is_Pa_Last, Raw_Word, W);
 
       WA := (Stem => Sraa, Dict => Dma, I_Is_Pa_Last => I_Is_Pa_Last,
-             Unknowns => Var_Pa_Last = 0);
+             Unknowns => Var_Pa_Last = 0,
+             The_Word => To_Unbounded_String (Raw_Word),
+             Was_Trimmed => Trimmed, Xp => Var_Xp);
       return WA;
    end Analyse_Word;
 
@@ -902,10 +911,11 @@ package body List_Package is
    procedure List_Stems
      (Configuration : Configuration_Type;
       Output        : Ada.Text_IO.File_Type;
-      Raw_Word      : String;
-      Input_Line    : String;
-      WA            : Word_Analysis)
+      WA            : Word_Analysis;
+      Input_Line    : String)
    is
+      Var_Xp : Explanations := WA.Xp;
+      Raw_Word : constant String := To_String (WA.The_Word);
    begin
       --  Sets + if capitalized
       --  Strangely enough, it may enter LIST_STEMS with PA_LAST /= 0
@@ -921,9 +931,9 @@ package body List_Package is
          return;
       end if;
 
-      Put_Parse_Details (Configuration, Output, WA);
+      Put_Parse_Details (Configuration, Output, WA, Var_Xp);
 
-      if Trimmed then
+      if WA.Was_Trimmed then
          Ada.Text_IO.Put (Output, '*');
       end if;
       Ada.Text_IO.New_Line (Output);

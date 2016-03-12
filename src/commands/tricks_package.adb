@@ -14,6 +14,11 @@
 -- All parts of the WORDS system, source code and data files, are made freely
 -- available to anyone who wishes to use them, for whatever purpose.
 
+--
+-- This file needs a lot of work; details are in the comments at the bottom
+-- of the file.
+--
+
 with Ada.Text_IO;
 with Latin_Utils.Strings_Package; use Latin_Utils.Strings_Package;
 with Support_Utils.Word_Parameters; use Support_Utils.Word_Parameters;
@@ -22,6 +27,8 @@ with Latin_Utils.Inflections_Package; use Latin_Utils.Inflections_Package;
 with Support_Utils.Word_Support_Package; use Support_Utils.Word_Support_Package;
 with Word_Package; use Word_Package;
 with Put_Stat;
+with Roman_Numerals_Package; use Roman_Numerals_Package;
+
 package body Tricks_Package is
 
    function Is_A_Vowel (C : Character) return Boolean is
@@ -39,393 +46,38 @@ package body Tricks_Package is
       end if;
    end Is_A_Vowel;
 
-   function A_Roman_Digit (Char : Character) return Boolean is
-   begin
-      case Char is
-         when 'M' | 'm'  =>
-            return True;
-         when 'D' | 'd'  =>
-            return True;
-         when 'C' | 'c'  =>
-            return True;
-         when 'L' | 'l'  =>
-            return True;
-         when 'X' | 'x'  =>
-            return True;
-            --when 'U' | 'u'  => return TRUE;  --  possible but unlikely
-         when 'V' | 'v'  =>
-            return True;
-         when 'I' | 'i'  =>
-            return True;
-         when others =>
-            return False;
-      end case;
-   end A_Roman_Digit;
-
-   function Value (Char : Character) return Natural is
-   begin
-      case Char is
-         when 'M' | 'm'  =>
-            return 1000;
-         when 'D' | 'd'  =>
-            return  500;
-         when 'C' | 'c'  =>
-            return  100;
-         when 'L' | 'l'  =>
-            return   50;
-         when 'X' | 'x'  =>
-            return   10;
-            --when 'U' | 'u'  => return    5;  --  possible but unlikely
-         when 'V' | 'v'  =>
-            return    5;
-         when 'I' | 'i'  =>
-            return    1;
-         when others =>
-            return    0;
-      end case;
-   end Value;
-
-   function Only_Roman_Digits (S : String) return Boolean is
-   begin
-
-      for I in S'Range  loop
-         if not A_Roman_Digit (S (I))  then
-            return False;
-         end if;
-      end loop;
-      return True;
-   end Only_Roman_Digits;
-
-   function Roman_Number (St : String) return Natural is
-      --  Determines and returns the value of a Roman numeral, or 0 if invalid
-
-      use Ada.Text_IO;
-      Total : Natural := 0;
-      Invalid : exception;
-      J : Integer := 0;
-      S : constant String := Upper_Case (St);
-
-   begin
-      if Only_Roman_Digits (S)  then
-
-         --
-         --NUMERALS IN A STRING ARE ADDED: CC = 200 ; CCX = 210.
-         --ONE NUMERAL TO THE LEFT of A LARGER NUMERAL IS SUBTRACTED FROM
-         --THAT NUMBER: IX = 9
-         --
-         --SUBTRACT ONLY A SINGLE LETTER FROM A SINGLE NUMERAL.
-         --VIII FOR 8, NOT IIX; 19 IS XIX, NOT IXX.
-         --
-         --SUBTRACT ONLY POWERS of TEN, SUCH AS I, X, or C.
-         --NOT VL FOR 45, BUT XLV.
-         --
-         --DON'T SUBTRACT A LETTER FROM ANOTHER LETTER MORE THAN TEN TIMES
-         --GREATER.
-         --ONLY SUBTRACT I FROM V or X, and X FROM L or C.
-         --NOT IL FOR 49, BUT XLIX. MIM is ILLEGAL.
-         --
-         --ONLY IF ANY NUMERAL PRECEEDING IS AT LEAST TEN TIMES LARGER.
-         --NOT VIX FOR 14, BUT XIV.
-         --NOT  IIX, BUT VIII.
-         --ONLY IF ANY NUMERAL FOLLOWING IS SMALLER.
-         --NOT XCL FOR 140, BUT CXL.
-         --
-         J := S'Last;
-
-         Evaluate :
-         while J >= S'First  loop
-            --
-            --Legal in the Ones position
-            --  I
-            --  II
-            --  III
-            --  IIII    IV
-            --  V
-            --  VI
-            --  VII
-            --  VIII
-            --  VIIII   IX
-            --
-            --
-            --  Ones
-            if S (J) = 'I' then
-               Total := Total + 1;
-               J := J - 1;
-               exit Evaluate when J < S'First;
-               while S (J) = 'I'  loop
-                  Total := Total + 1;
-                  if Total >= 5  then
-                     raise Invalid;
-                  end if;
-                  J := J - 1;
-                  exit Evaluate when J < S'First;
-               end loop;
-            end if;
-
-            if S (J) = 'V'  then
-               Total := Total + 5;
-               J := J - 1;
-               exit Evaluate when J < S'First;
-               if S (J) = 'I'  and Total = 5  then
-                  Total := Total - 1;
-                  J := J - 1;
-                  exit Evaluate when J < S'First;
-               end if;
-
-               if S (J) = 'I' or S (J) = 'V'  then
-                  raise Invalid;
-               end if;
-            end if;
-
-            --
-            --Legal in the tens position
-            --  X
-            --  XX
-            --  XXX
-            --  XXXX    XL
-            --  L
-            --  LX
-            --  LXX
-            --  LXXX
-            --  LXXXX   XC
-            --
-
-            --  Tens
-            if S (J) = 'X'  then
-               Total := Total + 10;
-               J := J - 1;
-               exit Evaluate when J < S'First;
-               while S (J) = 'X'  loop
-                  Total := Total + 10;
-                  if Total >= 50 then
-                     raise Invalid;
-                  end if;
-                  J := J - 1;
-                  exit Evaluate when J < S'First;
-               end loop;
-
-               if S (J) = 'I'  and Total = 10  then
-                  Total := Total - 1;
-                  J := J - 1;
-                  exit Evaluate when J < S'First;
-               end if;
-
-               if S (J) = 'I' or S (J) = 'V'  then
-                  raise Invalid;
-               end if;
-            end if;
-
-            if S (J) = 'L'  then
-               Total := Total + 50;
-               J := J - 1;
-               exit Evaluate when J < S'First;
-
-               if S (J) = 'X'  and Total <= 59  then
-                  Total := Total - 10;
-                  J := J - 1;
-                  exit Evaluate when J < S'First;
-               end if;
-
-               if S (J) = 'I' or S (J) = 'V'
-                 or S (J) = 'X'  or S (J) = 'L'
-               then
-                  raise Invalid;
-               end if;
-
-               if S (J) = 'C'  then
-                  Total := Total + 100;
-                  J := J - 1;
-                  exit Evaluate when J < S'First;
-                  if S (J) = 'X'  and Total = 100  then
-                     Total := Total - 10;
-                     J := J - 1;
-                     exit Evaluate when J < S'First;
-                  end if;
-               end if;
-
-               if S (J) = 'I' or S (J) = 'V'  or
-                  S (J) = 'X'  or S (J) = 'L'
-               then
-                  raise Invalid;
-               end if;
-            end if;
-
-            if S (J) = 'C'  then
-               Total := Total + 100;
-               J := J - 1;
-               exit Evaluate when J < S'First;
-               while S (J) = 'C'  loop
-                  Total := Total + 100;
-                  if Total >= 500  then
-                     raise Invalid;
-                  end if;
-                  J := J - 1;
-                  exit Evaluate when J < S'First;
-               end loop;
-               if S (J) = 'X'  and Total <= 109  then
-                  Total := Total - 10;
-                  J := J - 1;
-                  exit Evaluate when J < S'First;
-               end if;
-               if S (J) = 'I' or S (J) = 'V'  or
-                  S (J) = 'X' or S (J) = 'L'
-               then
-                  raise Invalid;
-               end if;
-            end if;
-
-            if S (J) = 'D'  then
-               Total := Total + 500;
-               J := J - 1;
-               exit Evaluate when J < S'First;
-               if S (J) = 'C'  and Total <= 599  then
-                  Total := Total - 100;
-                  J := J - 1;
-                  exit Evaluate when J < S'First;
-               end if;
-               if S (J) = 'M'  then
-                  Total := Total + 1000;
-                  J := J - 1;
-                  exit Evaluate when J < S'First;
-               end if;
-               if S (J) = 'C'  and Total <= 1099  then
-                  Total := Total - 100;
-                  J := J - 1;
-                  exit Evaluate when J < S'First;
-               end if;
-               if S (J) = 'I' or S (J) = 'V' or
-                  S (J) = 'X' or S (J) = 'L' or S (J) = 'C' or S (J) = 'D'
-               then
-                  raise Invalid;
-               end if;
-            end if;
-
-            if S (J) = 'M'  then
-               Total := Total + 1000;
-               J := J - 1;
-               exit Evaluate when J < S'First;
-               while S (J) = 'M'  loop
-                  Total := Total + 1000;
-                  if Total >= 5000  then
-                     raise Invalid;
-                  end if;
-                  J := J - 1;
-                  exit Evaluate when J < S'First;
-               end loop;
-               if S (J) = 'C'  and Total <= 1099  then
-                  Total := Total - 100;
-                  J := J - 1;
-                  exit Evaluate when J < S'First;
-               end if;
-               if S (J) = 'I' or S (J) = 'V' or
-                  S (J) = 'X' or S (J) = 'L' or S (J) = 'C' or S (J) = 'D'
-               then
-                  raise Invalid;
-               end if;
-            end if;
-         end loop Evaluate;
-      end if;  --  On Only Roman digits
-
-      return Total;
-   exception
-      when Invalid  =>
-         return 0;
-      when Constraint_Error  =>
-         return 0;
-   end Roman_Number;
-
    procedure Roman_Numerals
      (Input_Word : String;
-      Pa : in out Parse_Array;
-      Pa_Last : in out Integer) is
-
-      W : constant String := Trim (Input_Word);
-      Roman_Number_W : constant Integer := Roman_Number (W);
-
+      Pa         : in out Parse_Array;
+      Pa_Last    : in out Integer;
+      Xp         : in out Explanations) is
    begin
-      if Only_Roman_Digits (W) and then (Roman_Number_W /= 0)  then
-         Pa_Last := Pa_Last + 1;
-         Pa (Pa_Last) := (Stem => Head (W, Max_Stem_Size),
-           IR => (
-           Qual => (
-           Pofs => Num,
-           Num => (
-           Decl    => (2, 0),
-           Of_Case => X,
-           Number  => X,
-           Gender  => X,
-           Sort    => Card)),
-
-           Key => 0,
-           Ending => Null_Ending_Record,
-           Age => X,
-           Freq => A),
-           D_K => Rrr,
-           MNPC => Null_MNPC);
-         Rrr_Meaning := Head (Integer'Image (Roman_Number_W) &
-           "  as a ROMAN NUMERAL;",
-           Max_Meaning_Size);
-      else
-         null;    --  Is not ROMAN NUMERAL, so go on and try something else
-      end if;
+      Roman_Numerals_Package.Roman_Numerals (Input_Word, Pa, Pa_Last, Xp);
    end Roman_Numerals;
 
-   function Bad_Roman_Number (S : String) return Natural is
-      --  Determines and returns the value of a Roman numeral, or 0 if invalid
-      --  This seems to allow all of Caesar's.   Actually there are no rules
-      --  if you look at some of the 12-15 century stuff
-      use Ada.Text_IO;
-      Total : Integer := 0;
-      Decremented_From : Integer := 0;
-
-   begin
-
-      --  Already known that all the Characters may be valid numerals
-      --  Loop over the String to check validity, start with second place
-      --PUT_LINE (" In function BAD_ROMAN_NUMBER ");
-      --PUT_LINE (" BEFORE LOOP      S = " & S);
-      Total := Value (S (S'Last));
-      Decremented_From := Value (S (S'Last));
-      for I in reverse S'First .. S'Last - 1  loop
-
-         if Value (S (I)) < Value (S (I + 1))  then
-            --  Decrement
-            Total := Total - Value (S (I));
-            Decremented_From := Value (S (I + 1));
-         elsif Value (S (I)) = Value (S (I + 1))  then
-            if  Value (S (I)) < Decremented_From  then
-               Total := Total - Value (S (I));   --  IIX = 8 !
-            else
-               Total := Total + Value (S (I));
-            end if;
-         elsif  Value (S (I)) > Value (S (I + 1))  then
-            Total := Total + Value (S (I));
-            Decremented_From := Value (S (I + 1));
-         end if;
-      end loop;
-      if Total > 0  then
-         return Total;
-      else
-         return 0;
-      end if;
-
-   exception
-      when others  =>
-         return 0;
-   end Bad_Roman_Number;
-
-   procedure Syncope (W : String;
-                      Pa : in out Parse_Array; Pa_Last : in out Integer) is
+   procedure Syncope (W       :        String;
+                      Pa      : in out Parse_Array;
+                      Pa_Last : in out Integer;
+                      Xp      : in out Explanations)
+   is
       S  : constant String (1 .. W'Length) := Lower_Case (W);
       Pa_Save : constant Integer := Pa_Last;
       Syncope_Inflection_Record : constant Inflection_Record :=
         Null_Inflection_Record;
       --     ((V, ((0, 0), (X, X, X), 0, X, X)), 0, NULL_ENDING_RECORD, X, A);
+
+      procedure Explain_Syncope (Explanatory_Text, Stat_Text : String) is
+      begin
+         Xp.Yyy_Meaning := Head (Explanatory_Text, Max_Meaning_Size);
+         Put_Stat (Stat_Text & Head (Integer'Image (Line_Number), 8) &
+                               Head (Integer'Image (Word_Number), 4) &
+           "   " & Head (W, 20) & "   " & Pa (Pa_Save + 1).Stem);
+      end Explain_Syncope;
    begin
 
       --  Syncopated forms (see Gildersleeve and Lodge, 131)
 
-      Yyy_Meaning := Null_Meaning_Type;
+      Xp.Yyy_Meaning := Null_Meaning_Type;
 
       --  This one has to go first --  special for 3 4
       --  ivi  => ii ,  in perfect  (esp. for V 3 4)
@@ -448,14 +100,9 @@ package body Tricks_Package is
         --PA (PA_LAST).IR.QUAL.V.CON = (3, 4)/(6, 1) and then
         Pa (Pa_Last).IR.Key = 3
       then          --  Perfect system
-         Yyy_Meaning := Head (
-           "Syncopated perfect ivi can drop 'v' without contracting vowel "
-           , Max_Meaning_Size);
-
-         Put_Stat ("SYNCOPE  ivi at "
-           & Head (Integer'Image (Line_Number), 8) &
-           Head (Integer'Image (Word_Number), 4)
-           & "   " & Head (W, 20) & "   "  & Pa (Pa_Save + 1).Stem);
+         Explain_Syncope
+           ("Syncopated perfect ivi can drop 'v' without contracting vowel ",
+           " SYNCOPE  ivi at ");
          return;
       else
          Pa_Last := Pa_Save;
@@ -463,34 +110,35 @@ package body Tricks_Package is
 
       -- avis => as, evis => es, ivis => is, ovis => os   in perfect
       for I in reverse S'First .. S'Last - 2  loop     --  Need isse
-         if (S (I .. I + 1) = "as")  or
-           (S (I .. I + 1) = "es")  or
-           (S (I .. I + 1) = "is")  or
-           (S (I .. I + 1) = "os")
-         then
-            Pa_Last := Pa_Last + 1;
-            Pa (Pa_Last)         :=
-              ("Syncope   s => vis", Syncope_Inflection_Record,
-              Yyy, Null_MNPC);
-            Word (S (S'First .. I) & "vi" & S (I + 1 .. S'Last), Pa, Pa_Last);
-            if Pa_Last > Pa_Save + 1  then
-               exit;               --  Exit loop here if SYNCOPE found hit
+         declare
+            Fragment : constant String := S (I .. I + 1);
+         begin
+            if (Fragment = "as")  or
+              (Fragment = "es")  or
+              (Fragment = "is")  or
+              (Fragment = "os")
+            then
+               Pa_Last := Pa_Last + 1;
+               Pa (Pa_Last)         :=
+                 ("Syncope   s => vis", Syncope_Inflection_Record,
+                 Yyy, Null_MNPC);
+               Word (S (S'First .. I) & "vi" & S (I + 1 .. S'Last),
+                 Pa, Pa_Last);
+               if Pa_Last > Pa_Save + 1  then
+                  exit;               --  Exit loop here if SYNCOPE found hit
+               end if;
             end if;
-         end if;
-         Pa_Last := Pa_Save;     --  No luck, or it would have exited above
+            Pa_Last := Pa_Save;     --  No luck, or it would have exited above
+         end;
       end loop;
       --  Loop over the resulting solutions
       if Pa_Last > Pa_Save + 1  and then
         Pa (Pa_Last).IR.Qual.Pofs = V and then
         Pa (Pa_Last).IR.Key = 3
       then          --  Perfect system
-         Yyy_Meaning := Head (
-           "Syncopated perfect often drops the 'v' and contracts vowel "
-           , Max_Meaning_Size);
-         Put_Stat ("SYNCOPE  vis at "
-           & Head (Integer'Image (Line_Number), 8) &
-           Head (Integer'Image (Word_Number), 4)
-           & "   " & Head (W, 20) & "   "  & Pa (Pa_Save + 1).Stem);
+         Explain_Syncope
+           ("Syncopated perfect often drops the 'v' and contracts vowel ",
+            "SYNCOPE  vis at ");
       end if;
       --  end loop;   --  over resulting solutions
       if Pa_Last > Pa_Save + 1  then
@@ -501,33 +149,33 @@ package body Tricks_Package is
 
       -- aver => ar, ever => er, in perfect
       for I in reverse S'First + 1 .. S'Last - 2  loop
-         if (S (I .. I + 1) = "ar")  or
-           (S (I .. I + 1) = "er")  or
-           (S (I .. I + 1) = "or")
-         then
-            Pa_Last := Pa_Last + 1;
-            Pa (Pa_Last) := ("Syncope   r => v.r", Syncope_Inflection_Record,
-              Yyy, Null_MNPC);
-            Word (S (S'First .. I) & "ve" & S (I + 1 .. S'Last), Pa, Pa_Last);
-            if Pa_Last > Pa_Save + 1  then
-               exit;
+         declare
+            Fragment : constant String := S (I .. I + 1);
+         begin
+            if (Fragment = "ar")  or
+              (Fragment = "er")  or
+              (Fragment = "or")
+            then
+               Pa_Last := Pa_Last + 1;
+               Pa (Pa_Last) := ("Syncope   r => v.r", Syncope_Inflection_Record,
+                 Yyy, Null_MNPC);
+               Word (S (S'First .. I) & "ve" & S (I + 1 .. S'Last),
+                 Pa, Pa_Last);
+               if Pa_Last > Pa_Save + 1  then
+                  exit;
+               end if;
             end if;
-         end if;
-         Pa_Last := Pa_Save;     --  No luck, or it would have exited above
+            Pa_Last := Pa_Save;     --  No luck, or it would have exited above
+         end;
       end loop;
 
       if Pa_Last > Pa_Save + 1  and then
         Pa (Pa_Last).IR.Qual.Pofs = V and then
         Pa (Pa_Last).IR.Key = 3
       then          --  Perfect system
-         Yyy_Meaning := Head (
-           "Syncopated perfect often drops the 'v' and contracts vowel "
-           , Max_Meaning_Size);
-
-         Put_Stat ("SYNCOPE  ver at "
-           & Head (Integer'Image (Line_Number), 8) &
-           Head (Integer'Image (Word_Number), 4)
-           & "   " & Head (W, 20) & "   "  & Pa (Pa_Save + 1).Stem);
+         Explain_Syncope
+           ("Syncopated perfect often drops the 'v' and contracts vowel ",
+            "SYNCOPE  ver at ");
          return;
       else
          Pa_Last := Pa_Save;
@@ -550,14 +198,9 @@ package body Tricks_Package is
         Pa (Pa_Last).IR.Qual.Pofs = V and then
         Pa (Pa_Last).IR.Key = 3
       then          --  Perfect system
-         Yyy_Meaning := Head (
-           "Syncopated perfect often drops the 'v' and contracts vowel "
-           , Max_Meaning_Size);
-
-         Put_Stat ("SYNCOPE  ier at "
-           & Head (Integer'Image (Line_Number), 8) &
-           Head (Integer'Image (Word_Number), 4)
-           & "   " & Head (W, 20) & "   "  & Pa (Pa_Save + 1).Stem);
+         Explain_Syncope
+           ("Syncopated perfect often drops the 'v' and contracts vowel ",
+            "SYNCOPE  ier at ");
          return;
       else
          Pa_Last := Pa_Save;
@@ -565,32 +208,33 @@ package body Tricks_Package is
 
       --         -- sis => s, xis => x, in perfect
       for I in reverse S'First .. S'Last - 2  loop
-         if (S (I) = 's')  or
-           (S (I) = 'x')
-         then
-            Pa_Last := Pa_Last + 1;
-            Pa (Pa_Last)         :=
-              ("Syncope s/x => +is", Syncope_Inflection_Record,
-              Yyy, Null_MNPC);
-            Word (S (S'First .. I) & "is" & S (I + 1 .. S'Last), Pa, Pa_Last);
-            if Pa_Last > Pa_Save + 1  then
-               exit;               --  Exit loop here if SYNCOPE found hit
+         declare
+            Fragment : constant Character := S (I);
+         begin
+            if (Fragment = 's')  or
+              (Fragment = 'x')
+            then
+               Pa_Last := Pa_Last + 1;
+               Pa (Pa_Last)         :=
+                 ("Syncope s/x => +is", Syncope_Inflection_Record,
+                 Yyy, Null_MNPC);
+               Word (S (S'First .. I) & "is" & S (I + 1 .. S'Last),
+                 Pa, Pa_Last);
+               if Pa_Last > Pa_Save + 1  then
+                  exit;               --  Exit loop here if SYNCOPE found hit
+               end if;
             end if;
-         end if;
-         Pa_Last := Pa_Save;     --  No luck, or it would have exited above
+            Pa_Last := Pa_Save;     --  No luck, or it would have exited above
+         end;
       end loop;
       --  Loop over the resulting solutions
       if Pa_Last > Pa_Save + 1  and then
         Pa (Pa_Last).IR.Qual.Pofs = V and then
         Pa (Pa_Last).IR.Key = 3
       then          --  Perfect system
-         Yyy_Meaning := Head (
-           "Syncopated perfect sometimes drops the 'is' after 's' or 'x' "
-           , Max_Meaning_Size);
-         Put_Stat ("SYNCOPEx/sis at "
-           & Head (Integer'Image (Line_Number), 8) &
-           Head (Integer'Image (Word_Number), 4)
-           & "   " & Head (W, 20) & "   "  & Pa (Pa_Save + 1).Stem);
+         Explain_Syncope
+           ("Syncopated perfect sometimes drops the 'is' after 's' or 'x' ",
+            "SYNCOPEx/sis at ");
          return;
       else
          Pa_Last := Pa_Save;
@@ -617,7 +261,8 @@ package body Tricks_Package is
       Pa          : in out Parse_Array;
       Pa_Last     : in out Integer;
       Line_Number : Integer;
-      Word_Number : Integer)
+      Word_Number : Integer;
+      Xp          : in out Explanations)
    is
       --  Since the chances are 1/1000 that we have one,
       --  Ignore the possibility of two in the same word
@@ -629,7 +274,7 @@ package body Tricks_Package is
                        Pa : in out Parse_Array; Pa_Last : in out Integer) is
       begin
          Word_Package.Word (W, Pa, Pa_Last);
-         Syncope (W, Pa, Pa_Last);
+         Syncope (W, Pa, Pa_Last, Xp);
       end Tword;
 
       procedure Flip (X1, X2 : String; Explanation : String := "") is
@@ -648,12 +293,12 @@ package body Tricks_Package is
               (Pa (Pa_Last - 1).IR.Qual.Pofs /= Tackon)
             then
                if Explanation = ""  then
-                  Xxx_Meaning := Head (
+                  Xp.Xxx_Meaning := Head (
                     "An initial '" & X1 &
                     "' may have replaced usual '" & X2 & "'"
                     , Max_Meaning_Size);
                else
-                  Xxx_Meaning := Head (Explanation, Max_Meaning_Size);
+                  Xp.Xxx_Meaning := Head (Explanation, Max_Meaning_Size);
                end if;
                Put_Stat ("TRICK   FLIP at "
                  & Head (Integer'Image (Line_Number), 8) &
@@ -688,11 +333,11 @@ package body Tricks_Package is
             then
                --TEXT_IO.PUT_LINE ("FLIPF worked");
                if Explanation = ""  then
-                  Xxx_Meaning := Head (
+                  Xp.Xxx_Meaning := Head (
                     "An initial '" & X1 & "' may be rendered by '" & X2 & "'"
                     , Max_Meaning_Size);
                else
-                  Xxx_Meaning := Head (Explanation, Max_Meaning_Size);
+                  Xp.Xxx_Meaning := Head (Explanation, Max_Meaning_Size);
                end if;
                Put_Stat ("TRICK  FLIPF at "
                  & Head (Integer'Image (Line_Number), 8) &
@@ -720,11 +365,11 @@ package body Tricks_Package is
             then
                --TEXT_IO.PUT_LINE ("FFLOP worked");
                if Explanation = ""  then
-                  Xxx_Meaning := Head (
+                  Xp.Xxx_Meaning := Head (
                     "An initial '" & X2 & "' may be rendered by '" & X1 & "'"
                     , Max_Meaning_Size);
                else
-                  Xxx_Meaning := Head (Explanation, Max_Meaning_Size);
+                  Xp.Xxx_Meaning := Head (Explanation, Max_Meaning_Size);
                end if;
                Put_Stat ("TRICK  FFLOP at "
                  & Head (Integer'Image (Line_Number), 8) &
@@ -757,12 +402,12 @@ package body Tricks_Package is
                  (Pa (Pa_Last - 1).IR.Qual.Pofs /= Tackon)
                then
                   if Explanation = ""  then
-                     Xxx_Meaning := Head (
+                     Xp.Xxx_Meaning := Head (
                        "An internal '" & X1 &
                        "' might be rendered by '" & X2 & "'"
                        , Max_Meaning_Size);
                   else
-                     Xxx_Meaning := Head (Explanation, Max_Meaning_Size);
+                     Xp.Xxx_Meaning := Head (Explanation, Max_Meaning_Size);
                   end if;
                   Put_Stat ("TRICK   INTR at "
                     & Head (Integer'Image (Line_Number), 8) &
@@ -808,11 +453,11 @@ package body Tricks_Package is
             end if;
             if Pa_Last > Pa_Save + 1 then
                if Explanation = ""  then
-                  Xxx_Meaning := Head
+                  Xp.Xxx_Meaning := Head
                     ("A Terminal 'iis' on ADJ 1 1 DAT/ABL P might drop 'i'",
                     Max_Meaning_Size);
                else
-                  Xxx_Meaning := Head (Explanation, Max_Meaning_Size);
+                  Xp.Xxx_Meaning := Head (Explanation, Max_Meaning_Size);
                end if;
                Put_Stat ("TRICK  ADJIS at "
                  & Head (Integer'Image (Line_Number), 8)
@@ -848,11 +493,11 @@ package body Tricks_Package is
                  (Pa (Pa_Last - 1).IR.Qual.Pofs /= Tackon)
                then
                   if Explanation = ""  then
-                     Xxx_Meaning := Head (
+                     Xp.Xxx_Meaning := Head (
                        "A doubled consonant may be rendered by just the single"
                        & "  MEDIEVAL", Max_Meaning_Size);
                   else
-                     Xxx_Meaning := Head (Explanation, Max_Meaning_Size);
+                     Xp.Xxx_Meaning := Head (Explanation, Max_Meaning_Size);
                   end if;
                   Put_Stat ("TRICK   2CON at "
                     & Head (Integer'Image (Line_Number), 8)
@@ -994,7 +639,7 @@ package body Tricks_Package is
                         end if;
                      end loop;
 
-                     Xxx_Meaning := Head (
+                     Xp.Xxx_Meaning := Head (
                        "It is very likely a compound number    " &
                        S (S'First .. S'First + I - 1) & " + " &
                        S (S'First + I .. S'Last), Max_Meaning_Size);
@@ -1004,7 +649,7 @@ package body Tricks_Package is
                        & "   " & Head (W, 20) & "   "  &
                        S (1 .. I_Mid) & '+' & S (I_Mid + 1 .. S'Last));
                   else
-                     Xxx_Meaning := Head (
+                     Xp.Xxx_Meaning := Head (
                        "May be 2 words combined (" &
                        S (S'First .. S'First + I - 1) & "+" &
                        S (S'First + I .. S'Last) &
@@ -1017,7 +662,7 @@ package body Tricks_Package is
                        S (1 .. I_Mid) & '+' & S (I_Mid + 1 .. S'Last));
                   end if;
                else
-                  Xxx_Meaning := Head (Explanation, Max_Meaning_Size);
+                  Xp.Xxx_Meaning := Head (Explanation, Max_Meaning_Size);
                end if;
 
                return;
@@ -1046,7 +691,7 @@ package body Tricks_Package is
       --  These things might be genericized, at least the PA (1) assignments
       --TEXT_IO.PUT_LINE ("TRICKS called");
 
-      Xxx_Meaning := Null_Meaning_Type;
+      Xp.Xxx_Meaning := Null_Meaning_Type;
 
       --  If there is no satisfaction from above, we will try further
 
@@ -1227,7 +872,7 @@ package body Tricks_Package is
               Pa (Pa_Last).IR.Qual.Pofs = V and then
               Pa (Pa_Last).IR.Qual.Verb.Con = (6, 1)
             then  --    Check it is V 6 1 eo
-               Xxx_Meaning := Head (
+               Xp.Xxx_Meaning := Head (
                  "Some forms of eo stem 'i' grates with " &
                  "an 'is .. .' ending, so 'is' -> 'iis' "
                  , Max_Meaning_Size);
@@ -1622,9 +1267,9 @@ package body Tricks_Package is
          Pa_Last := 1;
          Pa (1) := ("Bad Roman Numeral?", Null_Inflection_Record,
            Xxx, Null_MNPC);
-         Xxx_Meaning := Null_Meaning_Type;
+         Xp.Xxx_Meaning := Null_Meaning_Type;
 
-         Rrr_Meaning := Head (Integer'Image (Bad_Roman_Number (W))
+         Xp.Rrr_Meaning := Head (Integer'Image (Bad_Roman_Number (W))
            & "  as ill-formed ROMAN NUMERAL?;",
            Max_Meaning_Size);
          Pa_Last := Pa_Last + 1;
@@ -1663,7 +1308,8 @@ package body Tricks_Package is
       Pa          : in out Parse_Array;
       Pa_Last     : in out Integer;
       Line_Number : Integer;
-      Word_Number : Integer)
+      Word_Number : Integer;
+      Xp          : in out Explanations)
    is
       --  Since the chances are 1/1000 that we have one,
       --  Ignore the possibility of two in the same word
@@ -1677,7 +1323,7 @@ package body Tricks_Package is
       begin
          Words_Mdev (Use_Prefixes) := False;
          Word_Package.Word (W, Pa, Pa_Last);
-         Syncope (W, Pa, Pa_Last);
+         Syncope (W, Pa, Pa_Last, Xp);
          Words_Mdev (Use_Prefixes) := Save_Use_Prefixes;
       end Tword;
 
@@ -1697,11 +1343,11 @@ package body Tricks_Package is
               (Pa (Pa_Last - 1).IR.Qual.Pofs /= Tackon)
             then
                if Explanation = ""  then
-                  Xxx_Meaning := Head (
+                  Xp.Xxx_Meaning := Head (
                     "An initial '" & X1 & "' may be rendered by '" & X2 & "'"
                     , Max_Meaning_Size);
                else
-                  Xxx_Meaning := Head (Explanation, Max_Meaning_Size);
+                  Xp.Xxx_Meaning := Head (Explanation, Max_Meaning_Size);
                end if;
                Put_Stat ("SLURY   FLIP at "
                  & Head (Integer'Image (Line_Number), 8)
@@ -1734,11 +1380,11 @@ package body Tricks_Package is
               (Pa (Pa_Last - 1).IR.Qual.Pofs /= Tackon)
             then
                if Explanation = ""  then
-                  Xxx_Meaning := Head (
+                  Xp.Xxx_Meaning := Head (
                     "An initial '" & X1 & "' may be rendered by '" & X2 & "'"
                     , Max_Meaning_Size);
                else
-                  Xxx_Meaning := Head (Explanation, Max_Meaning_Size);
+                  Xp.Xxx_Meaning := Head (Explanation, Max_Meaning_Size);
                end if;
                Put_Stat ("SLURY   FLOP at "
                  & Head (Integer'Image (Line_Number), 8)
@@ -1761,11 +1407,11 @@ package body Tricks_Package is
               (Pa (Pa_Last - 1).IR.Qual.Pofs /= Tackon)
             then
                if Explanation = ""  then
-                  Xxx_Meaning := Head (
+                  Xp.Xxx_Meaning := Head (
                     "An initial '" & X1 & "' may be rendered by '" & X2 & "'"
                     , Max_Meaning_Size);
                else
-                  Xxx_Meaning := Head (Explanation, Max_Meaning_Size);
+                  Xp.Xxx_Meaning := Head (Explanation, Max_Meaning_Size);
                end if;
                Put_Stat ("SLURY   FLOP at "
                  & Head (Integer'Image (Line_Number), 8)
@@ -1801,12 +1447,12 @@ package body Tricks_Package is
                  (Pa (Pa_Last - 1).IR.Qual.Pofs /= Tackon)
                then
                   if Explanation = ""  then
-                     Xxx_Meaning := Head (
+                     Xp.Xxx_Meaning := Head (
                        "An initial '" & X1 & "' may be rendered by "
                        & X1 (X1'First .. X1'Last - 1) & "~",
                        Max_Meaning_Size);
                   else
-                     Xxx_Meaning := Head (Explanation, Max_Meaning_Size);
+                     Xp.Xxx_Meaning := Head (Explanation, Max_Meaning_Size);
                   end if;
                   Put_Stat ("SLURY   SLUR at "
                     & Head (Integer'Image (Line_Number), 8)
@@ -1833,12 +1479,12 @@ package body Tricks_Package is
                  (Pa (Pa_Last - 1).IR.Qual.Pofs /= Tackon)
                then
                   if Explanation = ""  then
-                     Xxx_Meaning := Head (
+                     Xp.Xxx_Meaning := Head (
                        "An initial '" & X1 (X1'First .. Sl - 1)
                        & "~" & "' may be rendered by " & X1
                        , Max_Meaning_Size);
                   else
-                     Xxx_Meaning := Head (Explanation, Max_Meaning_Size);
+                     Xp.Xxx_Meaning := Head (Explanation, Max_Meaning_Size);
                   end if;
                   Put_Stat ("SLURY   SLUR at "
                     & Head (Integer'Image (Line_Number), 8)
@@ -1972,3 +1618,19 @@ package body Tricks_Package is
    end Try_Slury;
 
 end Tricks_Package;
+
+-- Work remaining to be done:
+--
+--  * analyse all the things that can be factored back together
+--  * factor out the 4 branches of Syncope ()
+--  * make a function for testing if a string matches any member of a list
+--  * move tabular data into own package, use following hack:
+--
+-- function "+" (Source : String) return Ada.Strings.Unbounded.Unbounded_String
+--     renames Ada.Strings.Unbounded.To_Unbounded_String;
+--
+-- procedure anyname is
+--     input_array : array(1..5) of Ada.Strings.Unbounded.Unbounded_String;
+-- begin
+--     input_array(1) := +"12345";  -- uses renaming "+" operator
+-- end anyname;
