@@ -15,8 +15,15 @@
 -- available to anyone who wishes to use them, for whatever purpose.
 
 with Latin_Utils.Config; use Latin_Utils.Config;
+with Ada.Containers.Vectors; use Ada.Containers;
+with List_Package; use List_Package;
 
 package Parse is
+   package Result_Container is new Vectors (Natural, Word_Analysis);
+
    procedure Parse_Line (Configuration : Configuration_Type;
                          Input_Line    : String);
+   function Analyse_Line (Configuration : Configuration_Type;
+                          Input_Line    : String)
+     return Result_Container.Vector;
 end Parse;

@@ -23,12 +23,10 @@ with Latin_Utils.Dictionary_Package; use Latin_Utils.Dictionary_Package;
 with Support_Utils.Addons_Package; use Support_Utils.Addons_Package;
 with Support_Utils.Word_Support_Package; use Support_Utils.Word_Support_Package;
 with Word_Package; use Word_Package;
-with List_Package; use List_Package;
 with Tricks_Package; use Tricks_Package;
 with Put_Stat;
 with Search_English;
 --with Support_Utils.Char_Utils; use Support_Utils.Char_Utils;
-with Ada.Containers.Vectors; use Ada.Containers;
 with Ada.Strings.Unbounded; use Ada.Strings.Unbounded;
 with Ada.Strings.Fixed;
 with Explanation_Package; use Explanation_Package;
@@ -44,7 +42,6 @@ is
    package Word_Container is new Vectors (Natural, Unbounded_String);
    use Word_Container;
 
-   package Result_Container is new Vectors (Natural, Word_Analysis);
    use Result_Container;
 
    type Word_Analysis_Result is
@@ -1091,8 +1088,9 @@ is
    -- otherwise, we are doing Latin, so do a word
    -- quit after first word if appropriate config value set
 
-   procedure Analyse_Line (Configuration : Configuration_Type;
-                         Input_Line    : String)
+   function Analyse_Line (Configuration : Configuration_Type;
+                          Input_Line    : String)
+     return Result_Container.Vector
    is
       L     : constant Integer   := Trim (Input_Line)'Last;
       Line  : String (1 .. 2500) := (others => ' ');
@@ -1112,27 +1110,6 @@ is
                                        Index => Integer'Val (I + 1)));
          end if;
       end Word_After;
-
-      procedure Put_Analysis (A_Cursor : Result_Container.Cursor) is
-         Analysis : constant Word_Analysis := Element (Position => A_Cursor);
-         type File_Type_Access is access constant Ada.Text_IO.File_Type;
-         O : File_Type_Access;
-      begin
-         if Words_Mode (Write_Output_To_File) then
-            O := Output'Access;
-         else
-            O := Current_Output.all'Access; -- Current_Output is a proc
-         end if;
-
-         List_Stems (Configuration, O.all, Analysis, Undashed);
-      end Put_Analysis;
-
-      procedure Print_Analyses
-        (Analyses : Result_Container.Vector)
-      is
-      begin
-         Analyses.Iterate (Process => Put_Analysis'Access);
-      end Print_Analyses;
    begin
       Word_Number := 0;
       Line (1 .. L) := Trim (Input_Line);
@@ -1182,8 +1159,38 @@ is
          exit when Words_Mdev (Do_Only_Initial_Word);
       end loop;
 
-      Print_Analyses (Analyses);
+      return Analyses;
+   end Analyse_Line;
 
+   procedure Parse_Line (Configuration : Configuration_Type;
+                         Input_Line    : String)
+   is
+      Analyses : Result_Container.Vector;
+      Undashed : constant String := String_Before_Dash (Input_Line);
+
+      procedure Put_Analysis (A_Cursor : Result_Container.Cursor) is
+         Analysis : constant Word_Analysis := Element (Position => A_Cursor);
+         type File_Type_Access is access constant Ada.Text_IO.File_Type;
+         O : File_Type_Access;
+      begin
+         if Words_Mode (Write_Output_To_File) then
+            O := Output'Access;
+         else
+            O := Current_Output.all'Access; -- Current_Output is a proc
+         end if;
+
+         List_Stems (Configuration, O.all, Analysis, Undashed);
+      end Put_Analysis;
+
+      procedure Print_Analyses
+        (Analyses : Result_Container.Vector)
+      is
+      begin
+         Analyses.Iterate (Process => Put_Analysis'Access);
+      end Print_Analyses;
+   begin
+      Analyses := Analyse_Line (Configuration, Input_Line);
+      Print_Analyses (Analyses);
    exception
       when Storage_Error =>
          Report_Storage_Error;
@@ -1194,13 +1201,6 @@ is
          raise;
       when others =>
          Report_Unknown_Error (Input_Line);
-   end Analyse_Line;
-
-   procedure Parse_Line (Configuration : Configuration_Type;
-                         Input_Line    : String)
-   is
-   begin
-      Analyse_Line (Configuration, Input_Line);
    end Parse_Line;
 
    procedure Report_Storage_Error
