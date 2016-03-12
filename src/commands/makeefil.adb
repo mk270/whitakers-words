@@ -15,7 +15,9 @@
 -- available to anyone who wishes to use them, for whatever purpose.
 
 with Ada.Text_IO;
-with English_Support_Package; use English_Support_Package;
+with Words_Engine.English_Support_Package;
+use Words_Engine.English_Support_Package;
+
 procedure Makeefil is
    use Ada.Text_IO;
    use Ewds_Direct_Io;

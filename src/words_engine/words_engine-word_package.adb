@@ -32,8 +32,10 @@ with Support_Utils.Word_Parameters; use Support_Utils.Word_Parameters;
 with Latin_Utils.Preface;
 with Support_Utils.Developer_Parameters; use Support_Utils.Developer_Parameters;
 with Support_Utils.Line_Stuff; use Support_Utils.Line_Stuff;
-with English_Support_Package; use English_Support_Package;
-package body Word_Package is
+with Words_Engine.English_Support_Package;
+use Words_Engine.English_Support_Package;
+
+package body Words_Engine.Word_Package is
 
    Inflections_Sections_File : Lel_Section_Io.File_Type;
 
@@ -1949,4 +1951,4 @@ package body Word_Package is
 
    end Initialize_Word_Package;
 
-end Word_Package;
+end Words_Engine.Word_Package;

@@ -19,9 +19,9 @@ with Latin_Utils.Dictionary_Package; use Latin_Utils.Dictionary_Package;
 with Latin_Utils.Config; use Latin_Utils.Config;
 with Latin_Utils.Inflections_Package; use Latin_Utils.Inflections_Package;
 with Ada.Strings.Unbounded; use Ada.Strings.Unbounded;
-with Explanation_Package; use Explanation_Package;
+with Words_Engine.Explanation_Package; use Words_Engine.Explanation_Package;
 
-package List_Package is
+package Words_Engine.List_Package is
 
    --  SCROLL_LINE_NUMBER : INTEGER := 0;
    --  OUTPUT_SCROLL_COUNT : INTEGER := 0;
@@ -85,4 +85,4 @@ private
          Xp : Explanations;
       end record;
 
-end List_Package;
+end Words_Engine.List_Package;

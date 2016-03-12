@@ -14,14 +14,19 @@
 -- All parts of the WORDS system, source code and data files, are made freely
 -- available to anyone who wishes to use them, for whatever purpose.
 
-with Latin_Utils.Inflections_Package; use Latin_Utils.Inflections_Package;
-package Explanation_Package is
-   type Explanations is
-     record
-        Xxx_Meaning : Meaning_Type := Null_Meaning_Type; --  For TRICKS
-        Yyy_Meaning : Meaning_Type := Null_Meaning_Type; --  For SYNCOPE
-        Nnn_Meaning : Meaning_Type := Null_Meaning_Type; --  For Names
-        Rrr_Meaning : Meaning_Type := Null_Meaning_Type; --  For Roman Numerals
-        Ppp_Meaning : Meaning_Type := Null_Meaning_Type; --  For COMPOUNDED
-     end record;
-end Explanation_Package;
+with Latin_Utils.Dictionary_Package; use Latin_Utils.Dictionary_Package;
+with Words_Engine.Explanation_Package; use Words_Engine.Explanation_Package;
+
+package Words_Engine.Roman_Numerals_Package is
+
+   function Only_Roman_Digits (S : String) return Boolean;
+
+   function Bad_Roman_Number (S : String) return Natural;
+
+   procedure Roman_Numerals
+     (Input_Word : String;
+      Pa         : in out Parse_Array;
+      Pa_Last    : in out Integer;
+      Xp         : in out Explanations);
+
+end Words_Engine.Roman_Numerals_Package;

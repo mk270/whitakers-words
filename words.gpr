@@ -1,4 +1,4 @@
-with "support_utils.gpr";
+with "words_engine.gpr";
 project Words is
    for Exec_Dir use "bin";
    for Source_Dirs use ("src/commands");

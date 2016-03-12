@@ -34,14 +34,14 @@ with Support_Utils.Addons_Package; use Support_Utils.Addons_Package;
 with Support_Utils.Uniques_Package; use Support_Utils.Uniques_Package;
 with Support_Utils.Word_Support_Package; use Support_Utils.Word_Support_Package;
 with Support_Utils.Developer_Parameters; use Support_Utils.Developer_Parameters;
-with Word_Package; use Word_Package;
+with Words_Engine.Word_Package; use Words_Engine.Word_Package;
 with Support_Utils.Char_Utils;
 with Support_Utils.Dictionary_Form;
-with Put_Example_Line;
-with List_Sweep;
-with Put_Stat;
+with Words_Engine.Put_Example_Line;
+with Words_Engine.List_Sweep;
+with Words_Engine.Put_Stat;
 use Latin_Utils;
-package body List_Package is
+package body Words_Engine.List_Package is
 
    subtype Xons is Part_Of_Speech_Type range Tackon .. Suffix;
 
@@ -1108,4 +1108,4 @@ package body List_Package is
 
    end List_Neighborhood;
 
-end List_Package;
+end Words_Engine.List_Package;

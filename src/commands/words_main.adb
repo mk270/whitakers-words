@@ -21,7 +21,7 @@ use Latin_Utils;
 with Latin_Utils.Config; use Latin_Utils.Config;
 with Support_Utils.Word_Parameters; use Support_Utils.Word_Parameters;
 with Support_Utils.Developer_Parameters; use Support_Utils.Developer_Parameters;
-with Word_Package; use Word_Package;
+with Words_Engine.Word_Package; use Words_Engine.Word_Package;
 with Process_Input;
 
 procedure Words_Main (Configuration : Configuration_Type) is

@@ -17,7 +17,7 @@
 with Latin_Utils.Strings_Package; use Latin_Utils.Strings_Package;
 with Latin_Utils.Inflections_Package; use Latin_Utils.Inflections_Package;
 
-package body Roman_Numerals_Package is
+package body Words_Engine.Roman_Numerals_Package is
 
    function A_Roman_Digit (Char : Character) return Boolean is
    begin
@@ -392,4 +392,4 @@ package body Roman_Numerals_Package is
       when others  =>
          return 0;
    end Bad_Roman_Number;
-end Roman_Numerals_Package;
+end Words_Engine.Roman_Numerals_Package;

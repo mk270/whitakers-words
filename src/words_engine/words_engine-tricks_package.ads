@@ -15,9 +15,9 @@
 -- available to anyone who wishes to use them, for whatever purpose.
 
 with Latin_Utils.Dictionary_Package; use Latin_Utils.Dictionary_Package;
-with Explanation_Package; use Explanation_Package;
+with Words_Engine.Explanation_Package; use Words_Engine.Explanation_Package;
 
-package Tricks_Package is
+package Words_Engine.Tricks_Package is
 
    procedure Syncope
      (W       : String;
@@ -47,4 +47,4 @@ package Tricks_Package is
       Pa_Last    : in out Integer;
       Xp         : in out Explanations);
 
-end Tricks_Package;
+end Words_Engine.Tricks_Package;

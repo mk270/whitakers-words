@@ -21,12 +21,13 @@ with Support_Utils.Word_Parameters; use Support_Utils.Word_Parameters;
 with Latin_Utils.Inflections_Package; use Latin_Utils.Inflections_Package;
 with Latin_Utils.Dictionary_Package; use Latin_Utils.Dictionary_Package;
 with Support_Utils.Developer_Parameters; use Support_Utils.Developer_Parameters;
-with Word_Package; use Word_Package;
-with English_Support_Package; use English_Support_Package;
+with Words_Engine.Word_Package; use Words_Engine.Word_Package;
+with Words_Engine.English_Support_Package;
+use Words_Engine.English_Support_Package;
 with Support_Utils.Dictionary_Form;
 use Latin_Utils;
 
-procedure Search_English
+procedure Words_Engine.Search_English
   (Input_English_Word : String;
    Pofs : Part_Of_Speech_Type := X)
 is
@@ -260,4 +261,4 @@ exception
       Ada.Text_IO.Put_Line ("exception SEARCH NUMBER_OF_HITS = " &
         Integer'Image (Number_Of_Hits));
       raise;
-end Search_English;
+end Words_Engine.Search_English;

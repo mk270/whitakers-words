@@ -14,7 +14,7 @@
 -- All parts of the WORDS system, source code and data files, are made freely
 -- available to anyone who wishes to use them, for whatever purpose.
 
-package body English_Support_Package is
+package body Words_Engine.English_Support_Package is
    --use EWDS_DIRECT_IO;
    use Ada.Text_IO;
 
@@ -157,4 +157,4 @@ package body English_Support_Package is
 
    end Ewds_Record_Io;
 
-end English_Support_Package;
+end Words_Engine.English_Support_Package;

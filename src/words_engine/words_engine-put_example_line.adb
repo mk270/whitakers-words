@@ -20,7 +20,7 @@ with Latin_Utils.Dictionary_Package; use Latin_Utils.Dictionary_Package;
 with Latin_Utils.Config; use Latin_Utils.Config;
 with Support_Utils.Word_Parameters; use Support_Utils.Word_Parameters;
 --with LATIN_DEBUG;
-procedure Put_Example_Line
+procedure Words_Engine.Put_Example_Line
   (Configuration : Configuration_Type;
    Output        : Ada.Text_IO.File_Type;
    Ir            : in Inflection_Record;
@@ -420,4 +420,4 @@ begin    --  PUT_EXAMPLE_LINE
       --TEXT_IO.NEW_LINE (OUTPUT);
    end if;
 
-end Put_Example_Line;
+end Words_Engine.Put_Example_Line;

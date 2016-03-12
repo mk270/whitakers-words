@@ -23,13 +23,14 @@ with Latin_Utils.Inflections_Package; use Latin_Utils.Inflections_Package;
 with Latin_Utils.Dictionary_Package; use Latin_Utils.Dictionary_Package;
 with Support_Utils.Word_Support_Package; use Support_Utils.Word_Support_Package;
 with Latin_Utils.Preface;
-with Word_Package; use Word_Package;
+with Words_Engine.Word_Package; use Words_Engine.Word_Package;
 with Latin_Utils.Config; use Latin_Utils.Config;
-with English_Support_Package; use English_Support_Package;
+with Words_Engine.English_Support_Package;
+use Words_Engine.English_Support_Package;
 with Banner; use Banner;
 use Latin_Utils;
 
-with Parse; use Parse;
+with Words_Engine.Parse; use Words_Engine.Parse;
 
 pragma Elaborate (Support_Utils.Word_Parameters);
 
@@ -134,7 +135,7 @@ is
             --  Count lines to be parsed
             Line_Number := Line_Number + 1;
 
-            Parse.Parse_Line (Configuration, Line (1 .. L));
+            Words_Engine.Parse.Parse_Line (Configuration, Line (1 .. L));
          end if;
       end if;
 
@@ -173,7 +174,7 @@ begin
    --  PARSE
    if Method = Command_Line_Input  then
       if Trim (Command_Line) /= ""  then
-         Parse.Parse_Line (Configuration, Command_Line);
+         Words_Engine.Parse.Parse_Line (Configuration, Command_Line);
       end if;
 
    else

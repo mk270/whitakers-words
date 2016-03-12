@@ -23,7 +23,10 @@ with Support_Utils.Developer_Parameters; use Support_Utils.Developer_Parameters;
 with Support_Utils.Word_Support_Package; use Support_Utils.Word_Support_Package;
 use Latin_Utils;
 
-procedure List_Sweep (Pa : in out Parse_Array; Pa_Last : in out Integer) is
+procedure Words_Engine.List_Sweep
+  (Pa      : in out Parse_Array;
+   Pa_Last : in out Integer)
+is
    --  This procedure is supposed to process the Output PARSE_ARRAY at PA level
    --  before it Get turned into SIRAA and DMNPCA in LIST_PACKAGE
    --  Since it does only PARSE_ARRAY it is just cheaking INFLECTIONS, not
@@ -609,4 +612,4 @@ begin                               --  LIST_SWEEP
          end if;
       end if;
    end loop;
-end List_Sweep;
+end Words_Engine.List_Sweep;

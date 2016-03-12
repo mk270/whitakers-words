@@ -18,7 +18,7 @@ with Ada.Text_IO;
 with Ada.Direct_IO;
 with Latin_Utils.Inflections_Package; use Latin_Utils.Inflections_Package;
 with Latin_Utils.Dictionary_Package; use Latin_Utils.Dictionary_Package;
-package English_Support_Package is
+package Words_Engine.English_Support_Package is
 
    Eword_Size    : constant := 24;
    Aux_Word_Size : constant := 12;
@@ -69,4 +69,4 @@ package English_Support_Package is
 
    Ewds_File : Ewds_Direct_Io.File_Type;
 
-end English_Support_Package;
+end Words_Engine.English_Support_Package;

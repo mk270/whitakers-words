@@ -16,9 +16,9 @@
 
 with Latin_Utils.Config; use Latin_Utils.Config;
 with Ada.Containers.Vectors; use Ada.Containers;
-with List_Package; use List_Package;
+with Words_Engine.List_Package; use Words_Engine.List_Package;
 
-package Parse is
+package Words_Engine.Parse is
    package Result_Container is new Vectors (Natural, Word_Analysis);
 
    -- Parse (and *print*) a line of Latin or English
@@ -33,4 +33,4 @@ package Parse is
    function Analyse_Line (Configuration : Configuration_Type;
                           Input_Line    : String)
      return Result_Container.Vector;
-end Parse;
+end Words_Engine.Parse;

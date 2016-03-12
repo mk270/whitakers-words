@@ -25,11 +25,12 @@ with Support_Utils.Word_Parameters; use Support_Utils.Word_Parameters;
 with Support_Utils.Developer_Parameters; use Support_Utils.Developer_Parameters;
 with Latin_Utils.Inflections_Package; use Latin_Utils.Inflections_Package;
 with Support_Utils.Word_Support_Package; use Support_Utils.Word_Support_Package;
-with Word_Package; use Word_Package;
-with Put_Stat;
-with Roman_Numerals_Package; use Roman_Numerals_Package;
+with Words_Engine.Word_Package; use Words_Engine.Word_Package;
+with Words_Engine.Put_Stat;
+with Words_Engine.Roman_Numerals_Package;
+use Words_Engine.Roman_Numerals_Package;
 
-package body Tricks_Package is
+package body Words_Engine.Tricks_Package is
 
    function Is_A_Vowel (C : Character) return Boolean is
    begin
@@ -1617,7 +1618,7 @@ package body Tricks_Package is
            "Exception in TRY_SLURY processing " & W);
    end Try_Slury;
 
-end Tricks_Package;
+end Words_Engine.Tricks_Package;
 
 -- Work remaining to be done:
 --

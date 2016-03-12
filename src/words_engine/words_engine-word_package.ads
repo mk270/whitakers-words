@@ -19,7 +19,7 @@ with Latin_Utils.Inflections_Package; use Latin_Utils.Inflections_Package;
 use Latin_Utils;
 with Latin_Utils.Dictionary_Package; use Latin_Utils.Dictionary_Package;
 with Support_Utils.Word_Support_Package; use Support_Utils.Word_Support_Package;
-package Word_Package is
+package Words_Engine.Word_Package is
 
    Line_Number, Word_Number : Integer := 0;
 
@@ -81,4 +81,4 @@ package Word_Package is
 
    procedure Initialize_Word_Package;
 
-end Word_Package;
+end Words_Engine.Word_Package;

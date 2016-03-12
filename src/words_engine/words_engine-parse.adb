@@ -22,18 +22,18 @@ with Latin_Utils.Inflections_Package; use Latin_Utils.Inflections_Package;
 with Latin_Utils.Dictionary_Package; use Latin_Utils.Dictionary_Package;
 with Support_Utils.Addons_Package; use Support_Utils.Addons_Package;
 with Support_Utils.Word_Support_Package; use Support_Utils.Word_Support_Package;
-with Word_Package; use Word_Package;
-with Tricks_Package; use Tricks_Package;
-with Put_Stat;
-with Search_English;
+with Words_Engine.Word_Package; use Words_Engine.Word_Package;
+with Words_Engine.Tricks_Package; use Words_Engine.Tricks_Package;
+with Words_Engine.Put_Stat;
+with Words_Engine.Search_English;
 --with Support_Utils.Char_Utils; use Support_Utils.Char_Utils;
 with Ada.Strings.Unbounded; use Ada.Strings.Unbounded;
 with Ada.Strings.Fixed;
-with Explanation_Package; use Explanation_Package;
+with Words_Engine.Explanation_Package; use Words_Engine.Explanation_Package;
 use Latin_Utils;
 
 pragma Elaborate (Support_Utils.Word_Parameters);
-package body Parse
+package body Words_Engine.Parse
 is
    use Inflections_Package.Integer_IO;
    use Inflection_Record_IO;
@@ -1230,4 +1230,4 @@ is
          Ada.Text_IO.Put_Line (Unknowns, "    ========   ERROR      ");
       end if;
    end Report_Unknown_Error;
-end Parse;
+end Words_Engine.Parse;
