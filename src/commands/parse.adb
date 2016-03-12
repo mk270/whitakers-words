@@ -1066,7 +1066,7 @@ is
    procedure Report_Storage_Error;
    procedure Report_Unknown_Error (Input_Line : String);
 
-   -- Parse_Line (..., Input_Line : String)
+   -- Analyse_Line (..., Input_Line : String)
    --
    -- This procedure massages the Input_Line, dealing with capitalisation,
    -- punctuation, trimming, and so on; it splits the line into separate
@@ -1091,7 +1091,7 @@ is
    -- otherwise, we are doing Latin, so do a word
    -- quit after first word if appropriate config value set
 
-   procedure Parse_Line (Configuration : Configuration_Type;
+   procedure Analyse_Line (Configuration : Configuration_Type;
                          Input_Line    : String)
    is
       L     : constant Integer   := Trim (Input_Line)'Last;
@@ -1194,6 +1194,13 @@ is
          raise;
       when others =>
          Report_Unknown_Error (Input_Line);
+   end Analyse_Line;
+
+   procedure Parse_Line (Configuration : Configuration_Type;
+                         Input_Line    : String)
+   is
+   begin
+      Analyse_Line (Configuration, Input_Line);
    end Parse_Line;
 
    procedure Report_Storage_Error
