@@ -94,5 +94,6 @@ Medium-term plan
 * create a specification for a JSON format representing the results of a parse
 * provide a separate executable which outputs analyses in this JSON format
 * expose the details of the analyses via the CGI interface to WORDS
+* define and expose a C API
 
 Martin Keegan, originally written June 2015; substantially updated March 2016
