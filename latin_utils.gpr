@@ -62,8 +62,8 @@ project Latin_Utils is
  
    for Library_Name use Name;
    for Library_Dir use "lib";
-   for Library_Kind use "static";
-   --for Library_Version use "lib" & Name & ".so." & Version;
+   for Library_Kind use "dynamic";
+   for Library_Version use "lib" & Name & ".so." & Version;
    for Library_Interface use (
       "latin_utils",
       "latin_utils.config",
