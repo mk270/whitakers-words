@@ -933,7 +933,6 @@ is
          end if;       --  On WORDS_MODE (DO_COMPOUNDS)
       end if;
 
-      -- hack around the weird reimplementation of output redirection
       declare
          WA : Word_Analysis;
       begin
@@ -1168,6 +1167,7 @@ is
       Analyses : Result_Container.Vector;
       Undashed : constant String := String_Before_Dash (Input_Line);
 
+      -- hack around the weird reimplementation of output redirection
       procedure Put_Analysis (A_Cursor : Result_Container.Cursor) is
          Analysis : constant Word_Analysis := Element (Position => A_Cursor);
          type File_Type_Access is access constant Ada.Text_IO.File_Type;
