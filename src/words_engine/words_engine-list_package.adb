@@ -136,7 +136,7 @@ package body Words_Engine.List_Package is
                                    De     : Dictionary_Entry;
                                    Hit    : out Boolean) is
    begin
-
+      Hit := False;
       if Words_Mode (Show_Age)   or
         (Trim (Dictionary_Age (De.Tran.Age))'Length /= 0)  --  Not X
       then
