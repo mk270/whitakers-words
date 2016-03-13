@@ -64,6 +64,17 @@ project Latin_Utils is
    for Library_Dir use "lib";
    for Library_Kind use "dynamic";
    for Library_Version use "lib" & Name & ".so." & Version;
+   for Library_Interface use (
+      "latin_utils",
+      "latin_utils.config",
+      "latin_utils.dictionary_package",
+      "latin_utils.general",
+      "latin_utils.inflections_package",
+      "latin_utils.strings_package",
+      "latin_utils.latin_file_names",
+      "latin_utils.preface"
+   );
+   for Library_Src_Dir use "lib";
  
    package Compiler is
       Default_Ada :=

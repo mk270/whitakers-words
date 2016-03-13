@@ -28,12 +28,21 @@ project Words_Engine is
         "words_engine-list_sweep.adb",
         "words_engine-put_stat.adb"
       );
- 
+
    for Library_Name use Name;
    for Library_Dir use "lib";
    for Library_Kind use "dynamic";
    for Library_Version use "lib" & Name & ".so." & Version;
- 
+   for Library_Interface use (
+      "words_engine",
+      "words_engine.parse",
+      "words_engine.english_support_package",
+      "words_engine.word_package",
+      "words_engine.list_package",
+      "words_engine.explanation_package"
+   );
+   for Library_Src_Dir use "lib";
+
    package Compiler is
       Default_Ada :=
          ( "-gnatwa", "-Wall", "-fstack-check", "-gnato", "-gnateE",
