@@ -48,7 +48,6 @@ is
      record
         WA : Word_Analysis;
         Used_Next_Word : Boolean;
-        The_Word : Unbounded_String;
      end record;
 
    Syncope_Max : constant := 20;
@@ -937,8 +936,7 @@ is
          WA : Word_Analysis;
       begin
          WA := Analyse_Word (Pa, Pa_Last, Input_Word, Xp);
-         return (WA => WA, Used_Next_Word => Used_Next_Word,
-           The_Word => To_Unbounded_String (Input_Word));
+         return (WA => WA, Used_Next_Word => Used_Next_Word);
       end;
 
    exception
