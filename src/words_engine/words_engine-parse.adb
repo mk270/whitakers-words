@@ -40,9 +40,6 @@ is
    use Ada.Text_IO;
 
    package Word_Container is new Vectors (Natural, Unbounded_String);
-   use Word_Container;
-
-   use Result_Container;
 
    type Word_Analysis_Result is
      record
@@ -1106,7 +1103,7 @@ is
          if I + 1 >= S.Length then
             return "";
          else
-            return To_String (Element (Container => S,
+            return To_String (Word_Container.Element (Container => S,
                                        Index => Integer'Val (I + 1)));
          end if;
       end Word_After;
@@ -1124,7 +1121,7 @@ is
          Used_Next_Word := False;
 
          declare
-            W : String := To_String (Element (Container => S,
+            W : String := To_String (Word_Container.Element (Container => S,
                                               Index => Integer'Val (I)));
             Last : Integer := W'Last;
             Next_Word : constant String := Word_After (I);
@@ -1169,7 +1166,8 @@ is
       Undashed : constant String := String_Before_Dash (Input_Line);
 
       procedure Put_Analysis (A_Cursor : Result_Container.Cursor) is
-         Analysis : constant Word_Analysis := Element (Position => A_Cursor);
+         Analysis : constant Word_Analysis :=
+           Result_Container.Element (Position => A_Cursor);
          type File_Type_Access is access constant Ada.Text_IO.File_Type;
          O : File_Type_Access;
       begin
