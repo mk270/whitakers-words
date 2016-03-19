@@ -17,6 +17,9 @@
 with Ada.Integer_Text_IO;
 with Latin_Utils.Latin_File_Names; use Latin_Utils.Latin_File_Names;
 with Latin_Utils.Preface;
+
+pragma Elaborate (Latin_Utils.Preface);
+
 package body Latin_Utils.Inflections_Package is
 
    ---------------------------------------------------------------------------
