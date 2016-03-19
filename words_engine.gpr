@@ -33,7 +33,8 @@ project Words_Engine is
    for Library_Dir use "lib";
    for Library_Kind use "dynamic";
    for Library_Version use "lib" & Name & ".so." & Version;
- 
+   for Library_Src_Dir use "lib";
+
    package Compiler is
       Default_Ada :=
          ( "-gnatwa", "-Wall", "-fstack-check", "-gnato", "-gnateE",
