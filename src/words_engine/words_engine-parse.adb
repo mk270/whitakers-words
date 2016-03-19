@@ -1030,6 +1030,7 @@ is
       Indices : array (Line'Range) of Natural;
       Next_Index : Natural := Indices'First;
    begin
+      Words.Clear;
       if Line'Length = 0 then
          return Words;
       end if;
