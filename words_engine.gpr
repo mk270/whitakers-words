@@ -42,7 +42,9 @@ project Words_Engine is
       "words_engine.word_package",
       "words_engine.list_package",
       "words_engine.explanation_package",
-      "words_engine.initialization"
+      "words_engine.initialization",
+      "words_engine.roman_numerals_package",
+      "words_engine.tricks_package"
    );
    for Library_Src_Dir use "lib";
 
