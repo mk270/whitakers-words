@@ -79,7 +79,8 @@ project Latin_Utils is
    package Compiler is
       Default_Ada :=
          ( "-gnatwa", "-Wall", "-fstack-check", "-gnato", "-gnateE",
-           "-gnata", "-gnatU", "-gnatf", "-gnat05", "-gnatwe"
+           "-gnata", "-gnatU", "-gnatf", "-gnat05", "-gnatwe",
+           "-g"
          );
       Style := ("-gnaty3aAbefhiklnOM80prtSux");
       for Default_Switches ("Ada") use Default_Ada & Style;

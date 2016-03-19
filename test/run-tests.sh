@@ -3,7 +3,7 @@
 # This script runs an absolutely trivial smoke test; we'll replace it
 # with something better in due course
 
-set -eu
+set -eux
 
 cd $(dirname $0)/..
 
@@ -21,8 +21,25 @@ fi
 bin/words 'rem acu tetigisti' | diff -q -- - test/expected.txt
 
 TEMP=$(tempfile)
-if ! ( bin/words < test/aeneid_bk4.txt | \
-       diff -u -- - test/aeneid_bk4.expected > $TEMP ); then
+
+run-tests () {
+    set +u
+    if [ "$TRAVIS" = "true" ]; then
+        set -u
+        TEMP2=$(tempfile)
+        bin/words < test/aeneid_bk4.txt | tee $TEMP2
+        diff -u -- - test/aeneid_bk4.txt.expected < $TEMP2 > $TEMP
+        rv=$?
+        rm -f -- $TEMP2 || true
+        return $rv
+    else
+        set -u
+        bin/words < test/aeneid_bk4.txt | \
+        diff -u -- - test/aeneid_bk4.expected > $TEMP
+    fi
+}
+    
+if ! ( run-tests ); then
   rv=$?
   if [ -s "$TEMP" ]; then
     cat $TEMP

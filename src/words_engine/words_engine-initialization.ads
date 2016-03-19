@@ -14,14 +14,6 @@
 -- All parts of the WORDS system, source code and data files, are made freely
 -- available to anyone who wishes to use them, for whatever purpose.
 
-   ---------------------------------------------------------------------------
-   -- A package comprising the WORDS language engine
-   ---------------------------------------------------------------------------
-
-package Words_Engine is
-
-   ---------------------------------------------------------------------------
-
-   ---------------------------------------------------------------------------
-
-end Words_Engine;
+package Words_Engine.Initialization is
+   procedure Initialize_Engine;
+end Words_Engine.Initialization;

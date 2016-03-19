@@ -45,7 +45,6 @@ is
      record
         WA : Word_Analysis;
         Used_Next_Word : Boolean;
-        The_Word : Unbounded_String;
      end record;
 
    Syncope_Max : constant := 20;
@@ -930,13 +929,11 @@ is
          end if;       --  On WORDS_MODE (DO_COMPOUNDS)
       end if;
 
-      -- hack around the weird reimplementation of output redirection
       declare
          WA : Word_Analysis;
       begin
          WA := Analyse_Word (Pa, Pa_Last, Input_Word, Xp);
-         return (WA => WA, Used_Next_Word => Used_Next_Word,
-           The_Word => To_Unbounded_String (Input_Word));
+         return (WA => WA, Used_Next_Word => Used_Next_Word);
       end;
 
    exception
@@ -1169,6 +1166,7 @@ is
       Analyses : Result_Container.Vector;
       Undashed : constant String := String_Before_Dash (Input_Line);
 
+      -- hack around the weird reimplementation of output redirection
       procedure Put_Analysis (A_Cursor : Result_Container.Cursor) is
          Analysis : constant Word_Analysis :=
            Result_Container.Element (Position => A_Cursor);
@@ -1193,6 +1191,7 @@ is
    begin
       Analyses := Analyse_Line (Configuration, Input_Line);
       Print_Analyses (Analyses);
+      Clear (Analyses);
    exception
       when Storage_Error =>
          Report_Storage_Error;

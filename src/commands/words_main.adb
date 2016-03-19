@@ -20,13 +20,14 @@ with Latin_Utils.Strings_Package; use Latin_Utils.Strings_Package;
 use Latin_Utils;
 with Latin_Utils.Config; use Latin_Utils.Config;
 with Support_Utils.Word_Parameters; use Support_Utils.Word_Parameters;
-with Support_Utils.Developer_Parameters; use Support_Utils.Developer_Parameters;
 with Words_Engine.Word_Package; use Words_Engine.Word_Package;
+with Words_Engine.Initialization;
 with Process_Input;
 
 procedure Words_Main (Configuration : Configuration_Type) is
    Input_Line  : String (1 .. 250) := (others => ' ');
    Arguments_Start : Integer := 1;
+
 begin
    --  The language shift in argumants must take place here
    --  since later parsing of line ignores non-letter Characters
@@ -38,9 +39,7 @@ begin
       Method := Interactive;                          --  Interactive
       Suppress_Preface := False;
       Set_Output (Ada.Text_IO.Standard_Output);
-      Initialize_Word_Parameters;
-      Initialize_Developer_Parameters;
-      Initialize_Word_Package;
+      Words_Engine.Initialization.Initialize_Engine;
       Process_Input (Configuration);
 
       --But there are other, command line options.
@@ -49,9 +48,7 @@ begin
       --
    else
       Suppress_Preface := True;
-      Initialize_Word_Parameters;
-      Initialize_Developer_Parameters;
-      Initialize_Word_Package;
+      Words_Engine.Initialization.Initialize_Engine;
 
       --Single parameter, either a simple Latin word or an Input file.
       --WORDS amo

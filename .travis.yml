@@ -1,3 +1,5 @@
 language: c
 sudo: required
 script: bash -eux .travis-ci.sh
+env:
+  - TRAVIS=true

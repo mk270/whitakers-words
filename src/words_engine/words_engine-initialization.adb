@@ -14,14 +14,15 @@
 -- All parts of the WORDS system, source code and data files, are made freely
 -- available to anyone who wishes to use them, for whatever purpose.
 
-   ---------------------------------------------------------------------------
-   -- A package comprising the WORDS language engine
-   ---------------------------------------------------------------------------
+with Support_Utils.Word_Parameters; use Support_Utils.Word_Parameters;
+with Support_Utils.Developer_Parameters; use Support_Utils.Developer_Parameters;
+with Words_Engine.Word_Package; use Words_Engine.Word_Package;
 
-package Words_Engine is
-
-   ---------------------------------------------------------------------------
-
-   ---------------------------------------------------------------------------
-
-end Words_Engine;
+package body Words_Engine.Initialization is
+   procedure Initialize_Engine is
+   begin
+      Initialize_Word_Parameters;
+      Initialize_Developer_Parameters;
+      Initialize_Word_Package;
+   end Initialize_Engine;
+end Words_Engine.Initialization;

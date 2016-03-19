@@ -26,7 +26,9 @@ project Words_Engine is
         "words_engine-explanation_package.ads",
         "words_engine-search_english.adb",
         "words_engine-list_sweep.adb",
-        "words_engine-put_stat.adb"
+        "words_engine-put_stat.adb",
+        "words_engine-initialization.ads",
+        "words_engine-initialization.adb"
       );
 
    for Library_Name use Name;
@@ -39,14 +41,16 @@ project Words_Engine is
       "words_engine.english_support_package",
       "words_engine.word_package",
       "words_engine.list_package",
-      "words_engine.explanation_package"
+      "words_engine.explanation_package",
+      "words_engine.initialization"
    );
    for Library_Src_Dir use "lib";
 
    package Compiler is
       Default_Ada :=
          ( "-gnatwa", "-Wall", "-fstack-check", "-gnato", "-gnateE",
-           "-gnata", "-gnatU", "-gnatf", "-gnat05", "-gnatwe"
+           "-gnata", "-gnatU", "-gnatf", "-gnat05", "-gnatwe",
+           "-g"
          );
       Style := ("-gnaty3aAbefhiklnOM80prtSux");
       for Default_Switches ("Ada") use Default_Ada & Style;
