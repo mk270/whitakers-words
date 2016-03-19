@@ -1189,6 +1189,7 @@ is
    begin
       Analyses := Analyse_Line (Configuration, Input_Line);
       Print_Analyses (Analyses);
+      Clear (Analyses);
    exception
       when Storage_Error =>
          Report_Storage_Error;
