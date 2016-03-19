@@ -1049,7 +1049,7 @@ is
          begin
             if S /= "" and S /= "." then
                Put_Line (Standard_Error, "Appending Word: [" & S & "]");
-               Word_Container.Append (Words, US);
+               Word_Container.Append (Container => Words, New_Item => US);
                Put_Line (Standard_Error, "Appended Word: [" & S & "]");
             end if;
          end;
