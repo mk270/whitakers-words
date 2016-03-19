@@ -16,14 +16,16 @@
 
 with Ada.Integer_Text_IO;
 with Latin_Utils.Config;
-use Latin_Utils;
+
+pragma Elaborate (Latin_Utils.Config);
+
 package body Latin_Utils.Preface is
 
    ---------------------------------------------------------------------------
 
    procedure Put (Item : String) is
    begin
-      if not Config.Suppress_Preface then
+      if not Latin_Utils.Config.Suppress_Preface then
          Ada.Text_IO.Put (Ada.Text_IO.Current_Output, Item);
       end if;
    end Put;
@@ -32,7 +34,7 @@ package body Latin_Utils.Preface is
 
    procedure Set_Col (To : Ada.Text_IO.Positive_Count) is
    begin
-      if not Config.Suppress_Preface then
+      if not Latin_Utils.Config.Suppress_Preface then
          Ada.Text_IO.Set_Col (Ada.Text_IO.Current_Output, To);
       end if;
    end Set_Col;
@@ -41,7 +43,7 @@ package body Latin_Utils.Preface is
 
    procedure Put_Line (Item : String) is
    begin
-      if not Config.Suppress_Preface then
+      if not Latin_Utils.Config.Suppress_Preface then
          Ada.Text_IO.Put_Line (Ada.Text_IO.Current_Output, Item);
       end if;
    end Put_Line;
@@ -50,7 +52,7 @@ package body Latin_Utils.Preface is
 
    procedure New_Line (Spacing : Ada.Text_IO.Positive_Count := 1) is
    begin
-      if not Config.Suppress_Preface then
+      if not Latin_Utils.Config.Suppress_Preface then
          Ada.Text_IO.New_Line (Ada.Text_IO.Current_Output, Spacing);
       end if;
    end New_Line;
@@ -59,7 +61,7 @@ package body Latin_Utils.Preface is
 
    procedure Put (Item : Integer; Width : Ada.Text_IO.Field := Integer'Width) is
    begin
-      if not Config.Suppress_Preface then
+      if not Latin_Utils.Config.Suppress_Preface then
          Ada.Integer_Text_IO.Put (Ada.Text_IO.Current_Output, Item, Width);
       end if;
    end Put;
