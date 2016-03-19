@@ -15,6 +15,9 @@
 -- available to anyone who wishes to use them, for whatever purpose.
 
 with Latin_Utils.Strings_Package; use Latin_Utils.Strings_Package;
+
+pragma Elaborate (Latin_Utils.Strings_Package);
+
 package body Latin_Utils.Dictionary_Package is
 
    ---------------------------------------------------------------------------

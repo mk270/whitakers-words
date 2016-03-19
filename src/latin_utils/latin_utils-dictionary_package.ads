@@ -17,6 +17,9 @@
 with Ada.Text_IO;
 with Ada.Direct_IO;
 with Latin_Utils.Inflections_Package; use Latin_Utils.Inflections_Package;
+
+pragma Elaborate (Latin_Utils.Inflections_Package);
+
 package Latin_Utils.Dictionary_Package is
 
    ---------------------------------------------------------------------------
