@@ -1050,7 +1050,7 @@ is
               Indices (Next_Index - 1) .. Indices (Next_Index) - 2);
          begin
             if S /= "" and S /= "." then
-               Put_Line ("Appending Word: [" & S & "]");
+               Put_Line (Standard_Error, "Appending Word: [" & S & "]");
                Words.Append (To_Unbounded_String (S));
             end if;
          end;
