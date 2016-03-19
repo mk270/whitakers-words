@@ -1048,10 +1048,11 @@ is
          declare
             S : constant String := Line (
               Indices (Next_Index - 1) .. Indices (Next_Index) - 2);
+            US : constant Unbounded_String := To_Unbounded_String (S);
          begin
             if S /= "" and S /= "." then
                Put_Line (Standard_Error, "Appending Word: [" & S & "]");
-               Word_Container.Append (Words, To_Unbounded_String (S));
+               Word_Container.Append (Words, US);
                Put_Line (Standard_Error, "Appended Word: [" & S & "]");
             end if;
          end;
