@@ -18,6 +18,7 @@
 -- marked here with comments saying "apparently redundant?"; unsure
 -- whether this is a bug
 
+with Ada.Strings.Fixed;
 with Support_Utils.Word_Support_Package; use Support_Utils.Word_Support_Package;
 with Latin_Utils.Strings_Package; use Latin_Utils.Strings_Package;
 with Latin_Utils.Latin_File_Names; use Latin_Utils.Latin_File_Names;
@@ -48,13 +49,9 @@ package body Support_Utils.Line_Stuff is
       procedure Get_Stem (S : in String;
                           Stem : out Stem_Type; Last : out Integer) is
          I  : Integer := 1;
-         L  : Integer := S'First;
+         L  : Integer := Ada.Strings.Fixed.Index_Non_Blank (S);
       begin
          Stem := Null_Stem_Type;
-         --  Squeeze left
-         while L <= S'Last and then S (L) = ' '  loop
-            L := L + 1;
-         end loop;
          --  Count until the first blank
          --  Return that String
          while L <= S'Last and then S (L) /= ' '  loop
