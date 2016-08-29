@@ -22,21 +22,10 @@ package body Words_Engine.Roman_Numerals_Package is
    function A_Roman_Digit (Char : Character) return Boolean is
    begin
       case Char is
-         when 'M' | 'm'  =>
+         when 'M' | 'm' | 'D' | 'd' | 'C' | 'c' | 'L' |
+              'l' | 'X' | 'x' | 'V' | 'v' | 'I' | 'i'  =>
             return True;
-         when 'D' | 'd'  =>
-            return True;
-         when 'C' | 'c'  =>
-            return True;
-         when 'L' | 'l'  =>
-            return True;
-         when 'X' | 'x'  =>
-            return True;
-            --when 'U' | 'u'  => return TRUE;  --  possible but unlikely
-         when 'V' | 'v'  =>
-            return True;
-         when 'I' | 'i'  =>
-            return True;
+         --when 'U' | 'u'  => return TRUE;  --  possible but unlikely
          when others =>
             return False;
       end case;
