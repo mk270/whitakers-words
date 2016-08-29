@@ -20,43 +20,37 @@ package body Support_Utils.Char_Utils is
 
    function Is_Punctuation (C : Character) return Boolean
    is
-      Permitted : constant array (Character) of Boolean :=
-        (' ' => True, ',' => True, '-' => True, ';' => True, ':' => True,
-         '.' => True, '(' => True, '[' => True, '{' => True, '<' => True,
-         ')' => True, ']' => True, '}' => True, '>' => True,
-         others => False
-        );
    begin
-      return Permitted (C);
+      case C is
+         when ' ' | ',' | '-' | ';' | ':' | '.' | '(' | '[' | '{' | '<' | ')' |
+              ']' | '}' | '>' => return True;
+         when others => return False;
+      end case;
    end Is_Punctuation;
 
    ---------------------------------------------------------------------------
 
    function Is_Alpha_Etc (C : Character) return Boolean
    is
-      Alpha_Etc : constant array (Character) of Boolean :=
-         ('A' .. 'Z' => True, 'a' .. 'z' => True, '-' => True, '.' => True,
-          others => False
-         );
    begin
-      return Alpha_Etc (C);
+      case C is
+         when 'A' .. 'Z' | 'a' .. 'z' | '-' | '.' => return True;
+         when others => return False;
+      end case;
    end Is_Alpha_Etc;
 
    ---------------------------------------------------------------------------
 
    function V_To_U_And_J_To_I (C : Character) return Character
    is
-      Convert_P : constant array (Character) of Character :=
-         ('V' => 'U', 'v' => 'u',
-          'J' => 'I', 'j' => 'i',
-           others => ' '
-         );
    begin
-      if Convert_P (C) /= ' ' then
-         return Convert_P (C);
-      else
-         return C;
-      end if;
+      case C is
+         when 'V' => return 'U';
+         when 'v' => return 'u';
+         when 'J' => return 'I';
+         when 'j' => return 'i';
+         when others => return C;
+      end case;
    end V_To_U_And_J_To_I;
 
    procedure V_To_U_And_J_To_I (C : in out Character)
