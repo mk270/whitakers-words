@@ -72,98 +72,102 @@ begin
    end if;
 
    if De.Part.Pofs = N    then
-      if De.Part.N.Decl.Which = 1  then
-         case De.Part.N.Decl.Var is
-            when 1 =>
-               Ox (1) := Add (De.Stems (1), "a");
-               Ox (2) := Add (De.Stems (2), "ae");
-            when 6 =>
-               Ox (1) := Add (De.Stems (1), "e");
-               Ox (2) := Add (De.Stems (2), "es");
-            when 7 =>
-               Ox (1) := Add (De.Stems (1), "es");
-               Ox (2) := Add (De.Stems (2), "ae");
-            when 8 =>
-               Ox (1) := Add (De.Stems (1), "as");
-               Ox (2) := Add (De.Stems (2), "ae");
-            when others => null;
-         end case;
+      case De.Part.N.Decl.Which is
+         when 1 =>
+            case De.Part.N.Decl.Var is
+               when 1 =>
+                  Ox (1) := Add (De.Stems (1), "a");
+                  Ox (2) := Add (De.Stems (2), "ae");
+               when 6 =>
+                  Ox (1) := Add (De.Stems (1), "e");
+                  Ox (2) := Add (De.Stems (2), "es");
+               when 7 =>
+                  Ox (1) := Add (De.Stems (1), "es");
+                  Ox (2) := Add (De.Stems (2), "ae");
+               when 8 =>
+                  Ox (1) := Add (De.Stems (1), "as");
+                  Ox (2) := Add (De.Stems (2), "ae");
+               when others => null;
+            end case;
 
-      elsif De.Part.N.Decl.Which = 2  then
-         case De.Part.N.Decl.Var is
-            when 1 =>
-               Ox (1) := Add (De.Stems (1), "us");
-               Ox (2) := Add (De.Stems (2), "i");
-            when 2 =>
-               Ox (1) := Add (De.Stems (1), "um");
-               Ox (2) := Add (De.Stems (2), "i");
-            when 3 =>
-               Ox (1) := Add (De.Stems (1), "");
-               Ox (2) := Add (De.Stems (2), "i");
-            when 4 =>
-               if De.Part.N.Gender = N  then
-                  Ox (1) := Add (De.Stems (1), "um");
-               else
+         when 2 =>
+            case De.Part.N.Decl.Var is
+               when 1 =>
                   Ox (1) := Add (De.Stems (1), "us");
-               end if;
-               Ox (2) := Add (De.Stems (2), "(i)");
-            when 5 =>
-               Ox (1) := Add (De.Stems (1), "us");
-               Ox (2) := Add (De.Stems (2), "");
-            when 6 =>
-               Ox (1) := Add (De.Stems (1), "os");
-               Ox (2) := Add (De.Stems (2), "i");
-            when 7 =>
-               Ox (1) := Add (De.Stems (1), "os");
-               Ox (2) := Add (De.Stems (2), "i");
-            when 8 =>
-               Ox (1) := Add (De.Stems (1), "on");
-               Ox (2) := Add (De.Stems (2), "i");
-            when 9 =>
-               Ox (1) := Add (De.Stems (1), "us");
-               Ox (2) := Add (De.Stems (2), "i");
-            when others => null;
-         end case;
+                  Ox (2) := Add (De.Stems (2), "i");
+               when 2 =>
+                  Ox (1) := Add (De.Stems (1), "um");
+                  Ox (2) := Add (De.Stems (2), "i");
+               when 3 =>
+                  Ox (1) := Add (De.Stems (1), "");
+                  Ox (2) := Add (De.Stems (2), "i");
+               when 4 =>
+                  if De.Part.N.Gender = N  then
+                     Ox (1) := Add (De.Stems (1), "um");
+                  else
+                     Ox (1) := Add (De.Stems (1), "us");
+                  end if;
+                  Ox (2) := Add (De.Stems (2), "(i)");
+               when 5 =>
+                  Ox (1) := Add (De.Stems (1), "us");
+                  Ox (2) := Add (De.Stems (2), "");
+               when 6 =>
+                  Ox (1) := Add (De.Stems (1), "os");
+                  Ox (2) := Add (De.Stems (2), "i");
+               when 7 =>
+                  Ox (1) := Add (De.Stems (1), "os");
+                  Ox (2) := Add (De.Stems (2), "i");
+               when 8 =>
+                  Ox (1) := Add (De.Stems (1), "on");
+                  Ox (2) := Add (De.Stems (2), "i");
+               when 9 =>
+                  Ox (1) := Add (De.Stems (1), "us");
+                  Ox (2) := Add (De.Stems (2), "i");
+               when others => null;
+            end case;
 
-      elsif De.Part.N.Decl.Which = 3  then
-         Ox (1) := Add (De.Stems (1), "");
-         if (De.Part.N.Decl.Var = 7)  or
-           (De.Part.N.Decl.Var = 9)
-         then
-            Ox (2) := Add (De.Stems (2), "os/is");
-         else
-            Ox (2) := Add (De.Stems (2), "is");
-         end if;
+         when 3 =>
+            Ox (1) := Add (De.Stems (1), "");
+            if (De.Part.N.Decl.Var = 7)  or
+              (De.Part.N.Decl.Var = 9)
+            then
+               Ox (2) := Add (De.Stems (2), "os/is");
+            else
+               Ox (2) := Add (De.Stems (2), "is");
+            end if;
 
-      elsif De.Part.N.Decl.Which = 4  then
-         case De.Part.N.Decl.Var is
-            when 1 =>
-               Ox (1) := Add (De.Stems (1), "us");
-               Ox (2) := Add (De.Stems (2), "us");
-            when 2 =>
-               Ox (1) := Add (De.Stems (1), "u");
-               Ox (2) := Add (De.Stems (2), "us");
-            when 3 =>
-               Ox (1) := Add (De.Stems (1), "us");
-               Ox (2) := Add (De.Stems (2), "u");
-            when others => null;
-         end case;
+         when 4 =>
+            case De.Part.N.Decl.Var is
+               when 1 =>
+                  Ox (1) := Add (De.Stems (1), "us");
+                  Ox (2) := Add (De.Stems (2), "us");
+               when 2 =>
+                  Ox (1) := Add (De.Stems (1), "u");
+                  Ox (2) := Add (De.Stems (2), "us");
+               when 3 =>
+                  Ox (1) := Add (De.Stems (1), "us");
+                  Ox (2) := Add (De.Stems (2), "u");
+               when others => null;
+            end case;
 
-      elsif De.Part.N.Decl.Which = 5  then
-         Ox (1) := Add (De.Stems (1), "es");
-         Ox (2) := Add (De.Stems (2), "ei");
+         when 5 =>
+            Ox (1) := Add (De.Stems (1), "es");
+            Ox (2) := Add (De.Stems (2), "ei");
 
-      elsif De.Part.N.Decl = (9, 8)  then
-         Ox (1) := Add (De.Stems (1), ".");
-         Ox (2) := Add (Null_Ox, "abb.");
+         when 9 =>
+            case De.Part.N.Decl.Var is
+               when 8 =>
+                  Ox (1) := Add (De.Stems (1), ".");
+                  Ox (2) := Add (Null_Ox, "abb.");
+               when 9 =>
+                  Ox (1) := Add (De.Stems (1), "");
+                  Ox (2) := Add (Null_Ox, "undeclined");
+               when others => null;
+            end case;
 
-      elsif De.Part.N.Decl = (9, 9)  then
-         Ox (1) := Add (De.Stems (1), "");
-         Ox (2) := Add (Null_Ox, "undeclined");
-
-      else
-         raise Not_Found;
-      end if;     --  N
+         when others =>
+            raise Not_Found;
+      end case;
 
    elsif De.Part.Pofs = Pron    then
       if De.Part.Pron.Decl.Which = 1  then
