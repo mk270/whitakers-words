@@ -73,11 +73,13 @@ begin
 
    if De.Part.Pofs = N    then
       case De.Part.N.Decl.Which is
+         -- First declension noun
          when 1 =>
             case De.Part.N.Decl.Var is
                when 1 =>
                   Ox (1) := Add (De.Stems (1), "a");
                   Ox (2) := Add (De.Stems (2), "ae");
+               -- Greek nouns
                when 6 =>
                   Ox (1) := Add (De.Stems (1), "e");
                   Ox (2) := Add (De.Stems (2), "es");
@@ -90,6 +92,7 @@ begin
                when others => null;
             end case;
 
+         -- Second declension noun
          when 2 =>
             case De.Part.N.Decl.Var is
                when 1 =>
@@ -126,6 +129,7 @@ begin
                when others => null;
             end case;
 
+         -- Third declension noun
          when 3 =>
             Ox (1) := Add (De.Stems (1), "");
             if (De.Part.N.Decl.Var = 7)  or
@@ -136,6 +140,7 @@ begin
                Ox (2) := Add (De.Stems (2), "is");
             end if;
 
+         -- Fourth declension noun
          when 4 =>
             case De.Part.N.Decl.Var is
                when 1 =>
@@ -150,6 +155,7 @@ begin
                when others => null;
             end case;
 
+         -- Fifth decelnsion noun
          when 5 =>
             Ox (1) := Add (De.Stems (1), "es");
             Ox (2) := Add (De.Stems (2), "ei");
@@ -171,6 +177,7 @@ begin
 
    elsif De.Part.Pofs = Pron    then
       case De.Part.Pron.Decl.Which is
+         -- Proximal demonstrative pronoun (hic, haec, hoc)
          when 3 =>
             Ox (1) := Add (De.Stems (1), "ic");
             Ox (2) := Add (De.Stems (1), "aec");
@@ -191,6 +198,8 @@ begin
                Ox (3) := Add (De.Stems (1), "dem");
             end if;
 
+         -- Distal (ille, illa, illud) and medial (iste, ista, istud)
+         -- demonstrative pronoun
          when 6 =>
             Ox (1) := Add (De.Stems (1), "e");
             Ox (2) := Add (De.Stems (1), "a");
@@ -229,6 +238,7 @@ begin
          Ox (3) := Add (De.Stems (1), "mum");
 
       elsif De.Part.Adj.Co = Pos  then
+         -- First declension adjective
          if De.Part.Adj.Decl.Which = 1  then
             case De.Part.Adj.Decl.Var is
                when 1 =>
@@ -255,6 +265,7 @@ begin
                   raise Not_Found;
             end case;
 
+         -- Second declension adjective
          elsif De.Part.Adj.Decl.Which = 2  then
             case De.Part.Adj.Decl.Var is
                when 1 =>
@@ -284,6 +295,7 @@ begin
                when others => null;
             end case;
 
+         -- Third declension adjective
          elsif De.Part.Adj.Decl.Which = 3  then
             case De.Part.Adj.Decl.Var is
                when 1 =>
