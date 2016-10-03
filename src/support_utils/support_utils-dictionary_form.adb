@@ -465,66 +465,70 @@ begin
          end if;
 
          --  OX 2
-         if De.Part.V.Con.Which = 1  then
-            Ox (2) := Add (De.Stems (2), "are");
-         elsif De.Part.V.Con.Which = 2  then
-            Ox (2) := Add (De.Stems (2), "ere");
-         elsif De.Part.V.Con.Which = 3  then
-            case De.Part.V.Con.Var is
-               when 2 =>
+         case De.Part.V.Con.Which is
+            when 1 =>
+               Ox (2) := Add (De.Stems (2), "are");
+            when 2 =>
+               Ox (2) := Add (De.Stems (2), "ere");
+            when 3 =>
+               case De.Part.V.Con.Var is
+                  when 2 =>
+                     Ox (2) := Add (De.Stems (2), "re");
+                  when 3 =>
+                     -- Special case for fio, fieri: it follows the usual
+                     -- conjugation everywhere except for present infinitive
+                     if Trim (De.Stems (2)) = "f" then
+                        Ox (2) := Add (De.Stems (2), "ieri");
+                     else
+                        Ox (2) := Add (De.Stems (2), "eri");
+                     end if;
+                  when 4 =>
+                     Ox (2) := Add (De.Stems (2), "ire");
+                  when others =>
+                     Ox (2) := Add (De.Stems (2), "ere");
+               end case;
+               --            elsif DE.PART.V.CON.WHICH = 4  then
+               --              OX (2) := ADD (DE.STEMS (2), "ire");
+            when 5 =>
+               if De.Part.V.Con.Var = 1  then
+                  Ox (2) := Add (De.Stems (2), "esse");
+               elsif De.Part.V.Con.Var = 2  then
+                  Ox (2) := Add (De.Stems (1), "e");  --  tricky, but it is 1
+               end if;
+            when 6 =>
+               if De.Part.V.Con.Var = 1  then
                   Ox (2) := Add (De.Stems (2), "re");
-               when 3 =>
-                  -- Special case for fio, fieri: it follows the usual
-                  -- conjugation everywhere except for present infinitive
-                  if Trim (De.Stems (2)) = "f" then
-                     Ox (2) := Add (De.Stems (2), "ieri");
-                  else
-                     Ox (2) := Add (De.Stems (2), "eri");
-                  end if;
-               when 4 =>
-                  Ox (2) := Add (De.Stems (2), "ire");
-               when others =>
-                  Ox (2) := Add (De.Stems (2), "ere");
-            end case;
-            --            elsif DE.PART.V.CON.WHICH = 4  then
-            --              OX (2) := ADD (DE.STEMS (2), "ire");
-         elsif De.Part.V.Con.Which = 5  then
-            if De.Part.V.Con.Var = 1  then
-               Ox (2) := Add (De.Stems (2), "esse");
-            elsif De.Part.V.Con.Var = 2  then
-               Ox (2) := Add (De.Stems (1), "e");  --  tricky, but it is 1
-            end if;
-         elsif De.Part.V.Con.Which = 6  then
-            if De.Part.V.Con.Var = 1  then
-               Ox (2) := Add (De.Stems (2), "re");
-            elsif De.Part.V.Con.Var = 2  then
-               Ox (2) := Add (De.Stems (2), "le");
-            end if;
-         elsif De.Part.V.Con.Which = 7  then
-            if De.Part.V.Con.Var = 3  then
-               Ox (2) := Add (De.Stems (2), "se");
-            end if;
-         elsif De.Part.V.Con.Which = 8  then
-            case De.Part.V.Con.Var is
-               when 1 =>
-                  Ox (2) := Add (De.Stems (2), "are");
-               when 2 =>
-                  Ox (2) := Add (De.Stems (2), "ere");
-               when 3 =>
-                  Ox (2) := Add (De.Stems (2), "ere");
-               when 4 =>
-                  Ox (2) := Add (De.Stems (2), "ire");
-               when others =>
-                  Ox (2) := Add (De.Stems (2), "ere");
-            end case;
-         elsif De.Part.V.Con = (9, 8)  then
-            Ox (1) := Add (De.Stems (1), ".");
-            Ox (2) := Add (Null_Ox, "abb.");
-         elsif De.Part.V.Con = (9, 9)  then
-            Ox (1) := Add (De.Stems (1), "");
-            Ox (2) := Add (Null_Ox, "undeclined");
+               elsif De.Part.V.Con.Var = 2  then
+                  Ox (2) := Add (De.Stems (2), "le");
+               end if;
+            when 7 =>
+               if De.Part.V.Con.Var = 3  then
+                  Ox (2) := Add (De.Stems (2), "se");
+               end if;
+            when 8 =>
+               case De.Part.V.Con.Var is
+                  when 1 =>
+                     Ox (2) := Add (De.Stems (2), "are");
+                  when 2 =>
+                     Ox (2) := Add (De.Stems (2), "ere");
+                  when 3 =>
+                     Ox (2) := Add (De.Stems (2), "ere");
+                  when 4 =>
+                     Ox (2) := Add (De.Stems (2), "ire");
+                  when others =>
+                     Ox (2) := Add (De.Stems (2), "ere");
+               end case;
+            when 9 =>
+               if De.Part.V.Con.Var = 8  then
+                  Ox (1) := Add (De.Stems (1), ".");
+                  Ox (2) := Add (Null_Ox, "abb.");
+               elsif De.Part.V.Con.Var = 9  then
+                  Ox (1) := Add (De.Stems (1), "");
+                  Ox (2) := Add (Null_Ox, "undeclined");
+               end if;
+            when others => null;
 
-         end if;                        --  OX (2) handled
+         end case;                        --  OX (2) handled
 
          --  OX 3 & 4
          if De.Part.V.Kind = Impers  then
