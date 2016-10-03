@@ -56,10 +56,8 @@ begin
         "  " & Case_Type'Image (De.Part.Prep.Obj);
    end if;
 
-   if De.Stems (2) = Null_Stem_Type  and
-     De.Stems (3) = Null_Stem_Type  and
-     De.Stems (4) = Null_Stem_Type       and not
-     (((De.Part.Pofs = N)  and then (De.Part.N.Decl.Which = 9))  or
+   if De.Stems (2 .. 4) = (Null_Stem_Type, Null_Stem_Type, Null_Stem_Type)  and
+     not (((De.Part.Pofs = N)  and then (De.Part.N.Decl.Which = 9))  or
      ((De.Part.Pofs = Adj)  and then
      ((De.Part.Adj.Decl.Which = 9) or
      (De.Part.Adj.Co = Comp or De.Part.Adj.Co = Super))) or
