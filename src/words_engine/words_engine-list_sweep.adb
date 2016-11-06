@@ -14,6 +14,8 @@
 -- All parts of the WORDS system, source code and data files, are made freely
 -- available to anyone who wishes to use them, for whatever purpose.
 
+-- with Ada.Text_IO;
+with Ada.Exceptions; use Ada.Exceptions;
 with Latin_Utils.Strings_Package; use Latin_Utils.Strings_Package;
 with Support_Utils.Word_Parameters; use Support_Utils.Word_Parameters;
 with Latin_Utils.Inflections_Package; use Latin_Utils.Inflections_Package;
@@ -500,6 +502,7 @@ begin                               --  LIST_SWEEP
    Sweeping :
    --  To remove disallowed stems/inflections and resulting dangling fixes
    declare
+      Internal_Loop_Error : exception;
       Fix_On : Boolean := False;
       Pw_On  : Boolean := False;
       P_First : Integer := 1;
@@ -518,6 +521,8 @@ begin                               --  LIST_SWEEP
             Jj := J;
             while Pa (Jj + 1).IR.Qual.Pofs = Pa (Jj).IR.Qual.Pofs  loop
                P_Last := Jj + 1;
+               Raise_Exception (Internal_Loop_Error'Identity,
+                                "Internal programming error; known bug, #70");
             end loop;
 
             ----Order internal to this set of inflections
