@@ -16,7 +16,7 @@ This write up is rudimentary and assumes that the user is experienced with
 computers, and as an example assumes a PC with a Windows OS.
 Other systems operate essentially the same.
 
-The WORDS program, Version 1.97E, with it's accompanying data files should
+The WORDS program, Version 1.97E, with its accompanying data files should
 run on PC in Windows 95/98/NT, any monitor.  Simply download the
 self-extracting EXE file and execute it in your chosen subdirectory/folder to
 UNZIP the files into a subdirectory of a hard disk.  Then call WORDS.
