@@ -13,7 +13,7 @@ title: Programme description
 # Programme description
 
 
-A effect of the program is to derive the structure and meaning of
+The function of the program is to derive the structure and meaning of
 individual Latin words.  A procedure was devised to: examine the ending of
 a word, compare it with the standard endings, derive the possible stems
 that could be consistent, compare those stems with a dictionary of stems,
@@ -445,7 +445,7 @@ The various help displays are listed here:
        This option instructs the program to only Output those words that it
        cannot resolve.  Of course, it has to do processing on all words, but
        those that are found (with prefix/suffix, if that option in on) will
-       be ignored.  The purpose of this option is t allow a quick look to
+       be ignored.  The purpose of this option is to allow a quick look to
        determine if the dictionary and process is going to do an acceptable
        job on the current text.  It also allows the user to assemble a list
        of unknown words to look up manually, and perhaps augment the system
@@ -459,7 +459,7 @@ The various help displays are listed here:
     WRITE_UNKNOWNS_TO_FILE_HELP
        This option instructs the program to Write all unresolved words to a
        UNKNOWNS file named  WORD.UNK
-       With this option on , the file of unknowns is written, even though
+       With this option on, the file of unknowns is written, even though
        the main Output contains both known and unknown (unresolved) words.
        One may wish to save the unknowns for later analysis, testing, or to
        form the basis for dictionary additions.  When this option is turned
