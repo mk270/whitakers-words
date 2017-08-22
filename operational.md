@@ -137,7 +137,7 @@ the ! parameter (this is the tricky one, requiring two parameters set)
 <BR>
 DO_ONLY_INITIAL_WORD => Yes
 <BR>
-This will ten require you to input one enrty per line, which is not
+This will ten require you to input one entry per line, which is not
 unreasonable for a dictionary look-up process.  Then you will be offered
 another, otherwise unavailable, option
 <BR>
@@ -175,7 +175,7 @@ for a quick word.
 
     WORDS infile
 
-<BR>causes WORDS to execute with the contents of the inflie.
+<BR>causes WORDS to execute with the contents of the infile.
 The infile may be from any folder if the full path name is given.
 
 
@@ -223,13 +223,13 @@ since there can only be one English word per line for WORDS input.
 
 
 An input file (either from interactive with @ or from command line)
-can have changes of language, but the ^E or ^L must be on a seperate line.
+can have changes of language, but the ^E or ^L must be on a separate line.
 Note that this capability can create confusing situations.
 An input file that starts off Latin then switches to English will be
-correctly processed.  But if it is followed by a similiar input file, the
+correctly processed.  But if it is followed by a similar input file, the
 second file will start off English (from the setting in the earlier file) and fail
 on the Latin input.  Thus even submitting the same file twice in a run
-will give different results.  Ithis problem can be alleviated by starting each
+will give different results.  This problem can be alleviated by starting each
 input file with an explicit language instruction, but this will not normally be
 the situation.
 
@@ -262,28 +262,28 @@ The stem is given as 'agricol' and the ending is
 and may not always correspond to conventional usage.
 
 On the next line is given the expansion of the form that one might find
-in a paper dictionary, the nominitive and genitive (agricola, agricolae).
+in a paper dictionary, the nominative and genitive (agricola, agricolae).
 The [XAXBO] is an internal code of the program and is documented below as Dictionary Codes.
 Several codes are associated with each dictionary entry (presently AGE, AREA, GEO, FREQ, SOURCE).
 These provide some information to enhance the interpretation of the dictionary entry.
 In this case, the interesting piece is the B, which signifies
 that this word is found frequently in texts, in the top 10 percent.
 The O says it has been verified in the Oxford Latin Dictionary.
-The A says it is an agrigultural word.
+The A says it is an agricultural word.
 
 The declension/conjugation numbers for nouns and verbs are
-essentially arbitary (but will be familiar to Latin students).
+essentially arbitrary (but will be familiar to Latin students).
 The variants are complete inventions.
 They have no real meaning, just codes for the program.
 
-(In the case of adjectives, they are even more arbitary,
+(In the case of adjectives, they are even more arbitrary,
 although a Latin student might see how I came by them.
 Again they are only codes for the program.
 The initial release of the program did not put these out,
 but there is some interest on the part of students, so they are now included.
 The user may ignore them altogether.
 There is no relation between the declension/variant codes of a noun
-and the accompaning adjective.
+and the accompanying adjective.
 They only agree in case, number, and gender (NOM S N),
 which are listed in the output.)
 
@@ -478,11 +478,11 @@ Here is the SUPINE of the verb in the ABLative Singular.
     ori.etur             V      4 1 FUT          IND 3 S
     orior, oriri, oritus sum  V    DEP   [XXXAO]
     rise (sun/river); arise/emerge, crop up; get up (wake); begin; originate from;
-    be born/created; be born of, decend/spring from; proceed/be derived (from);
+    be born/created; be born of, descend/spring from; proceed/be derived (from);
     ori.etur             V      3 1 FUT          IND 3 S
     orior, ori, ortus sum  V    DEP   [XXXBO]
     rise (sun/river); arise/emerge, crop up; get up (wake); begin; originate from;
-    be born/created; be born of, decend/spring from; proceed/be derived (from);
+    be born/created; be born of, descend/spring from; proceed/be derived (from);
 
 
 
@@ -517,7 +517,7 @@ Here is a PREPosition that takes an ABLative for an object.
 
 
 Here is a PREPosition that might also be a Verb or a Noun.
-While as a preperation it is so common that it is unlikely
+While as a preparation it is so common that it is unlikely
 that any other use would occur, there is no way to indicate that.
 Just be reminded that the frequency given for a verb is for the
 sum of all the couple of hundred forms of the verb, not just
@@ -625,16 +625,16 @@ comparative (-er) and superlative (-est).
 For a few adjectives, the only stem in the dictionary is COMP or SUPER.
 When there is just one comparison,
 the WORDS dictionary gives that expanded meaning.
-This might be considered inconsistant,
+This might be considered inconsistent,
 in that it expects the user to observe the FORM to interpret the meaning,
-but it is consisent with ordinary dictionary practice.
+but it is consistent with ordinary dictionary practice.
 
 
 Initially there were more defective adjective entries.
 I had accepted assertions in OLD or L+S and others like
 'comparative does not exist'.
 Later on I went over to the position that
-even if theCicero did not use it, someone might.
+even if Cicero did not use it, someone might.
 I started generating COMP and SUPER where it seemed reasonable.
 One can also count on a suffix to correct most omissions, and it will.
 
@@ -667,7 +667,7 @@ English mode, it must be one word per line.
 Output looks much like a paper dictionary entry, with form, part of speech,
 gender, etc.  Also included are the WORDS coded declension/conjugation and the
 TRANS flags, which give age, frequency and source, information for the user
-in selecting the best trnslation.  The output may also contain a vertical bar
+in selecting the best translation.  The output may also contain a vertical bar
 leading the meaning.  This is a continuation symbol which states that there
 are other meanings for the Latin word.  The user might want to run the Latin
 phase of WORDS to get the full set of meanings so that no unintended conflicts
@@ -809,15 +809,15 @@ and they will likely cover the needs of a student, the full set
 (setting # parameter to not TRIM) contains much valuable information
 for the advanced translator.  For instance for the verb live vivo
 usually works, but there are other options associated with specific
-situations: cohabito meand live together, ruror means live in the country,
+situations: cohabito means live together, ruror means live in the country,
 adjaceo means live near, judaizo means live in the Jewish manner keeping the law.
 These sorts of meanings are often conveyed in Latin by a single word,
-while in English one might just use live and a modifing word or phrase.
+while in English one might just use live and a modifying word or phrase.
 
 ## Design of the Meaning Line
 
 The role and complexity of the WORDS meaning line has evolved over time.
-Initially it reflected an elementry, back-of-the-book,  textbook dictionary
+Initially it reflected an elementary, back-of-the-book,  textbook dictionary
 with a single word or two for each entry.
 Nevertheless, the size of the MEAN element was set at 80 characters
 (as God, Holerith and IBM decreed),
@@ -828,11 +828,11 @@ characters of the century-old IBM card was chosen.
 They will likely appear on printed output.)
 
 
-With expansion of the dictionary beyond a few thousand elementary seentries
+With expansion of the dictionary beyond a few thousand elementary entries
 and the extensive inclusion of the Oxford dictionaries,
 a much larger set of possible interpretations surfaced for many words,
 filling and exceeding the 80 character limit.
-A certain disipline was introduced to structure the line.
+A certain discipline was introduced to structure the line.
 
 
 Through the many phases of development of the
@@ -844,7 +844,7 @@ in line with these rules.
 
 A decision was made to include as many meanings and synonyms as
 convenient.  The OLD will sometimes list a dozen or more meaning
-groups with notably different senses, each with several similiar meanings.
+groups with notably different senses, each with several similar meanings.
 Presumably these different meanings were the product of different
 translations of the Latin word, different translators,
 different context, and different eras.
@@ -857,7 +857,7 @@ respect may be found to also mean fear (which may be the basis of all
 respect for the Romans), and that will certainly color the interpretation
 of a passage.
 Going the other way, one might not want to
-apply it to a discription of Mother Teressa.
+apply it to a description of Mother Teressa.
 Also one should be warned if an otherwise simple word also is used as a rude
 reference to female anatomy.
 
@@ -874,7 +874,7 @@ Sign          | Description             | Meaning
 --------------|-------------------------|--------
 ,             | comma                   | is used to separate meanings that are similar.  The philosophy has been to list a number of synonyms just to key the reader in making his translation.
 ;             | semicolon               | is used to separate sets of meanings that differ in intent. This is just a general tendency and is not always rigorously enforced.
-\:            | colon                   | is used with an AREA code to specify a single special meaning appropriate for that AREA in a series of general meanings.  For example, L: has the same impact as (legal) before or after a defination in meaning. This supplements the use of the AREA code in the set of flags, which implies that all or most of the meanings are associated with that area.
+\:            | colon                   | is used with an AREA code to specify a single special meaning appropriate for that AREA in a series of general meanings.  For example, L: has the same impact as (legal) before or after a definition in meaning. This supplements the use of the AREA code in the set of flags, which implies that all or most of the meanings are associated with that area.
 /             | solidus                 | means 'or' or gives an alternative word.  It sometimes replaces the comma and is often used to compress the meaning into a short line.
 (...)         | parentheses             | set off and optional word or modifier, e.g., '(nearly) white' means 'white' or 'nearly white', (matter in) dispute means either the matter in dispute or the dispute itself.  They are also used to set off an explanation, further information about the word or meaning, or an example of a translation or a word combination.
 ?             | question mark           | in a meaning implies a doubt about the interpretation, or even about the existence of the word at all.  For the purposes of this program, it does not matter much.  If the dubious word does not exist, no one will ask for it.  If it appears in his text, the reader is warned that the interpretation may be questionable to some degree, but is what is available.  May indicate somewhat more doubt than (perh.).
@@ -894,7 +894,7 @@ NT            | New Testament           | is a reference in the Bible.
 OT            | Old Testament           | is a reference in the Bible.
 
 Other source indicators are occasionally used and are indicated
-in the general discription of SOURCE below.
+in the general description of SOURCE below.
 
 Sign          | Description             | Meaning
 --------------|-------------------------|--------

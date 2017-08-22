@@ -38,7 +38,7 @@ of all the Ada source files to port WORDS, and
 support programs and data to generate the necessary dictionaries and
 inflections for re-hosting the WORDS Latin dictionary
 parsing/translation system on any machine with an Ada 95 compiler.  (It
-can be made to work with Ada 83 also by replacing just tha short driver routine.)
+can be made to work with Ada 83 also by replacing just the short driver routine.)
 
 
 This a console program (keyboard entry), without fancy Windows GUI, and has

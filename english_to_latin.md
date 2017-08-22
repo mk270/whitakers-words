@@ -55,30 +55,30 @@ Nevertheless, WORDS now has some primitive capability.
 The raw inversion produces almost 200_000 English words.
 WEEDing them by the present algorithms (eliminate a, the, to, ...,
 and a number of common modifiers when included in meanings not of
-their part of speach)
+their part of speech)
 reduces this number only by a third.
 But this finally results in only somewhat over 20_000 unique words,
 less than the number of Latin entries!
 This probably reflects more on dictionary makers than on the languages.
 
 
-English is certainly a far richer lanaguage than Latin, measured
+English is certainly a far richer language than Latin, measured
 by the number of individual words.
 WORDS has about 40_000 Latin entries, and the corresponding inversion to
 English yields only 22_000 unique English words.
 
 
-The reason seens to be that,
+The reason seems to be that,
 while English may have lots of words for love or hate,
 in making up a Latin
 dictionary one will opt to give a simple translation.
 So while love is a proper translation of a number of Latin words,
 and one could as well replace it with any of dozens of English synonyms,
-a dictionary compiller will usually take the simplest English word
+a dictionary compiler will usually take the simplest English word
 that provides the reader with the meaning.   That is what the reader usually wants.
 
 
-Starting from an English basis to produce an English-to-Latin dictinoary
+Starting from an English basis to produce an English-to-Latin dictionary
 gives an entirely different outcome.
 In that case, the full power of English can be invoked,
 and it is the Latin that will seem simple by comparison.
@@ -128,11 +128,11 @@ MEAN contains the search word, no more.  However one should be aware that
 participles of appropriate verbs can also serve as adjectives and may be
 a better choice.
 
-At the present time there is no complex constrution/deconstruction
+At the present time there is no complex construction/deconstruction
 of the English input.  Thus if the input is 'kill', only Latin entries
 with the exact word 'kill' in their MEAN will be selected.  The suffixed words
 'kills'/'killing'/'killed'/'killer'/etc. will not be found.  They must
-be queried seperately.
+be queried separately.
 Likewise, unlike the Latin phase of WORDS, prefixes are not extracted.
 It may be desirable in the future to provide such additional capabilities.
 This would be value added over simple search by the program.
@@ -141,9 +141,9 @@ This would be value added over simple search by the program.
 ## English Parsing of Meanings
 
 
-Puncuation in meanings is now formalized, in order
+Punctuation in meanings is now formalized, in order
 to allow computer processing of the text.
-Diviation from these rules would make parsing
+Deviation from these rules would make parsing
 of the English very difficult, so they must be enforced.
 There is nothing which will mislead the user,
 but it goes beyond standard text practice.
@@ -162,19 +162,19 @@ Any PURE meaning (one not involving modifiers) set off by
 commas or slashes, is assigned a high priority on output that
 a modified/compound meaning in the same MEAN SEMI.
 
-Semicolons seperate meaning groups that have a different
+Semicolons separate meaning groups that have a different
 flavor/sense.
 Initially the interpretation and selection among these were left
 to the user, as in paper dictionaries.
 Recent requirements demand an ordering of these groups.
 The order of the semicolon groups (called SEMIs in the code) should
 indicate the frequency or probability of that meaning
-among different groups, where this inferrence can be made.
+among different groups, where this inference can be made.
 This ideal is not yet rigorously enforced, even in recent entries,
 and less so in those earlier in the update.
 
 Commas separate meanings that are roughly equivalent -
-synomyns. In parsing, a COMMA consistes of the words between commas.
+synonyms. In parsing, a COMMA consists of the words between commas.
 There is no inherent logical order within a SEMI, however,
 to support another application for the dictionary,
 full sentence Latin-to-English translation,
@@ -186,7 +186,7 @@ Question marks and exclamation points may appear as
 an integral part of the meaning.  They do not replace
 the comma/semicolon separator, as in normal text.
 
-The soldius/slash (/) does the work of 'or' in many cases.
+The solidus/slash (/) does the work of 'or' in many cases.
 It is used solely to conserve space,
 to compress the meaning line to no more than 80 characters.
 It separates (generally close) synonyms and
@@ -198,7 +198,7 @@ It s a full separator, between two words, each recognized separately.
 
 Hyphen (-) should be is used in the dictionary only to break
 into two words in the parse, each recognized separately.
-Thus, book-keeper will appear in the English pharse as two words.
+Thus, book-keeper will appear in the English phrase as two words.
 But it is likely that a user looking for an accountant would search
 for bookkeeper, rather than book or keeper.
 The dictionary has not yet been scrubbed for this situation.
@@ -226,24 +226,24 @@ Brackets should never be use where parentheses are appropriate.
 Generally, articles (a, an, the) are omitted in meanings.
 While this compresses the line, it also reflects the fact
 that Latin does not distinguish between those uses.
-To define agricola as 'a' farmer would disparage the possiblity
+To define agricola as 'a' farmer would disparage the possibility
 of the proper translation being 'the' farmer.  Most dictionaries
 report nouns without an article.  This one go further and
 avoids the use of articles almost everywhere.
 
 Some dictionaries prefix verb meanings with TO.
-This is superfulous, except in the case of a list of meanings
+This is superfluous, except in the case of a list of meanings
 not distinguished by part of speech (to cut, a cut), not
 the situation for this dictionary.
 
-Vertical bars at the begining indicate continuation meaning lines.
+Vertical bars at the beginning indicate continuation meaning lines.
 There may be several continuation lines,
 numbered/ordered by the number of leading vertical bars.
 For words with a large number of meanings,
 additional meaning lines are provided by another entry for the same stems
 and part with what amounts to a continuation line for MEAN.
 In order to associate the resulting series of meaning lines,
-a vertical bar (|)is placed at the begining of the
+a vertical bar (|)is placed at the beginning of the
 first continuation MEAN, two bars for the second, etc.
 The dictionary is sorted so as to assure that
 these entries are grouped and ordered.
@@ -263,11 +263,11 @@ really different words,
 different derivation and completely different meanings.
 These will not be | coded and will be reported separately in output.
 {NOTE: The vertical bar should not appear anywhere in meanings except
-at the begining as a continuation flag.)
+at the beginning as a continuation flag.)
 
 Correct use of symbols/codes in MEAN is very important.
 One must not use them 'free form'.
-They are used in the parsing of MEAN and inproper use can defeat a processing program.
+They are used in the parsing of MEAN and improper use can defeat a processing program.
 While some main programs have many built-in checks,
 there are a number of secondary tools which are not so 'fool proof'.
 MAKEEWDS is a complicated program which I did not do well.
@@ -281,7 +281,7 @@ and may or may not not give a report on the failure.
 
 Essentially we start by associating English words in the dictionary entry meaning
 with the entry number (line number in DICTLINE).
-The list of English words (EWDSLIST) is sorted so that all occurances of a particular word are together.
+The list of English words (EWDSLIST) is sorted so that all occurrences of a particular word are together.
 Then, upon inquiry, a list of the associated Latin dictionary entries is output.
 Unfortunately this list could be large (a hundred or more for some common words) and thereby user-unfriendly.
 The task is to order the list and reduce the output to a few most likely
@@ -322,7 +322,7 @@ which would be roughly:
 However these would weight the A frequency so heavily
 that it would be impossible to overcome with anything
 that could be applied to lower frequencies.  So we must reject this scale
-for a more managable set:
+for a more manageable set:
 
 
     A=>70
@@ -374,6 +374,6 @@ Example: for lamp - lanum N 3 2 N
     FREQ A => 70
     Compound No => 10
     Semi 2 => -3
-    Continuattion Line No => 0
+    Continuation Line No => 0
     Pure 1st No => 0
     RANK/priority => 77

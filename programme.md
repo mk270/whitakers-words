@@ -115,7 +115,7 @@ Thus, an entry corresponding to 'amo amare amavi amatus' is:
 
 
 Endings may not uniquely determine which stem, and therefore the right
-meaning.  'portas' could be the accusitive plural of 'gate', or the second
+meaning.  'portas' could be the accusative plural of 'gate', or the second
 person, singular, present indicative active of 'carry'.  In both cases the
 stem is 'port'.  All possibilities are reported.
 
@@ -251,7 +251,7 @@ in present usage.
               LOC,       --  LOCative
               DAT,       --  DATive
               ABL,       --  ABLative
-              ACC        --  ACCusitive
+              ACC        --  ACCusative
 
       type NUMBER_TYPE
               X,         --  all, none, or unknown
@@ -292,7 +292,7 @@ in present usage.
               IND,       --  INDicative
               SUB,       --  SUBjunctive
               IMP,       --  IMPerative
-              INF,       --  INFinative
+              INF,       --  INFinitive
               PPL        --  ParticiPLe
 
       type NOUN_KIND_TYPE
@@ -438,7 +438,7 @@ The various help displays are listed here:
        thereby capturing only certain desired results.  If the option
        HAVE_OUTPUT_FILE is off, the user will not be given a chance to turn
        this one on.  Only for INTERACTIVE running.         Default is N(o).
-       This works in English mode, but output in somewhat diffeent so far.
+       This works in English mode, but output in somewhat different so far.
 
     DO_UNKNOWNS_ONLY_HELP
        This option instructs the program to only output those words that it
@@ -473,7 +473,7 @@ The various help displays are listed here:
        longer than three letters is a proper name.  As no dictionary can be
        expected to account for many proper names, many such occur that would
        be called UNKNOWN.  This contaminates the output in most cases, and
-       it is often convenient to ignore these sperious UNKNOWN hits.  This
+       it is often convenient to ignore these spurious UNKNOWN hits.  This
        option implements that mode, and calls such words proper names.
        Any proper names that are in the dictionary are handled in the normal
        manner.                                The default is Y(es).
@@ -482,9 +482,9 @@ The various help displays are listed here:
        This option instructs the program to assume that any all caps word
        is a proper name or similar designation.  This convention is often
        used to designate speakers in a discussion or play.  No dictionary can
-       claim to be exaustive on proper names, so many such occur that would
+       claim to be exhaustive on proper names, so many such occur that would
        be called UNKNOWN.  This contaminates the output in most cases, and
-       it is often convenient to ignore these sperious UNKNOWN hits.  This
+       it is often convenient to ignore these spurious UNKNOWN hits.  This
        option implements that mode, and calls such words names.  Any similar
        designations that are in the dictionary are handled in the normal
        manner, as are normal words in all caps.    The default is Y(es).
@@ -492,7 +492,7 @@ The various help displays are listed here:
     DO_COMPOUNDS_HELP
        This option instructs the program to look ahead for the verb TO_BE (or
        iri) when it finds a verb participle, with the expectation of finding
-       a compound perfect tense or periphastic.  This option can also be a
+       a compound perfect tense or periphrastic.  This option can also be a
        trimming of the output, in that VPAR that do not fit (not NOM) will be
        excluded, possible interpretations are lost.  Default choice is Y(es).
        This processing is turned off with the choice of N(o).
@@ -515,13 +515,13 @@ The various help displays are listed here:
        try every dirty Latin trick it can think of, mainly common letter
        replacements like cl -> cul, vul -> vol, ads -> ass, inp -> imp, etc.
        Together these tricks are useful, but may give false positives (>10%).
-       They provide for recognized varients in classical spelling.  Most of
+       They provide for recognized variants in classical spelling.  Most of
        the texts with which this program will be used have been well edited
        and standardized in spelling.  Now, moreover,  the dictionary is being
        populated to such a state that the hit rate on tricks has fallen to a
        low level.  It is very seldom productive, and it is always expensive.
        The only excuse for keeping it as default is that now the dictionary
-       is quite extensive and misses are rare.         Default is now Y(es). ) ;
+       is quite extensive and misses are rare.         Default is now Y(es).
 
     DO_DICTIONARY_FORMS_HELP
        This option instructs the program to output a line with the forms
@@ -549,7 +549,7 @@ The various help displays are listed here:
     DO_EXAMPLES_HELP
        This option instructs the program to provide examples of usage of the
        cases/tenses/etc. that were constructed.  The default choice is N(o).
-       This produces lengthly output and is turned on with the choice Y(es).
+       This produces lengthy output and is turned on with the choice Y(es).
 
     DO_ONLY_MEANINGS_HELP
        This option instructs the program to only output the MEANING for a
@@ -632,7 +632,7 @@ by a return.
        This option causes special codes to be output flagging the different
        kinds of output lines.  01 for forms, 02 for dictionary forms, and
        03 for meaning. The default choice is N(o).  It is activated by Y(es).
-      There are no Pearse codes in English mode.
+       There are no Pearse codes in English mode.
 
     DO_ONLY_INITIAL_WORD_HELP
        This option instructs the program to only analyze the initial word on
@@ -642,7 +642,7 @@ by a return.
 
     FOR_WORD_LIST_CHECK_HELP
        This option works in conjunction with DO_ONLY_INITIAL_WORD to allow
-       the processing of scanned dictionarys or text word lists.  It accepts
+       the processing of scanned dictionaries or text word lists.  It accepts
        only the forms common in dictionary entries, like NOM S for N or ADJ,
        or PRES ACTIVE IND 1 S for V.  It is be used only with DO_INITIAL_WORD
        The default choice is N(o), but it can be turned on with a Y(es).
@@ -706,9 +706,9 @@ by a return.
     DO_MEDIEVAL_TRICKS_HELP
        This option instructs the program, when it is unable to find a proper
        match in the dictionary, and after various prefixes and suffixes, and
-       tring every Classical Latin trick it can think of, to go to a few that
-       are usually only found in medieval Latin, replacements of caul -> col,
-       st -> est, z -> di, ix -> is, nct -> nt.  It also tries some things
+       trying every Classical Latin trick it can think of, to go to a few 
+       that are usually only found in medieval Latin, replacements of z -> di
+       caul -> col, st -> est, ix -> is, nct -> nt. It also tries some things
        like replacing doubled consonants in classical with a single one.
        Together these tricks are useful, but may give false positives (>20%).
        This option is only available if the general DO_TRICKS is chosen.
@@ -720,27 +720,27 @@ by a return.
 
     DO_SYNCOPE_HELP
        This option instructs the program to postulate that syncope of
-       perfect stem verbs may have occured (e.g, aver -> ar in the perfect),
+       perfect stem verbs may have occurred (e.g, aver -> ar in the perfect),
        and to try various possibilities for the insertion of a removed 'v'.
        To do this it has to fully process the modified candidates, which can
-       have a consderable impact on the speed of processind a large file.
-       However, this trick seldom producesa false positive, and syncope is
+       have a considerable impact on the speed of processing a large file.
+       However, this trick seldom produces a false positive, and syncope is
        very common in Latin (first year texts excepted).  Default is Y(es).
        This processing is turned off with the choice of N(o).
 
     DO_TWO_WORDS_HELP
-       There are some few common Lain expressions that combine two inflected
+       There are some few common Latin expressions that combine two inflected
        words (e.g. respublica, paterfamilias).  There are numerous examples
        of numbers composed of two words combined together.
        Sometimes a text or inscription will have words run together.
        When WORDS is unable to reach a satisfactory solution with all other
        tricks, as a last stab it will try to break the input into two words.
-       This most often fails.  Even if mechnically successful, the result is
+       This most often fails.  Even if mechanically successful, the result is
        usually false and must be examined by the user.  If the result is
        correct, it is probably clear to the user.  Otherwise,  beware.
        This problem will not occur for a well edited text, such as one will
        find on your Latin exam, but sometimes with raw text.
-       Since this is a last chanceand infrequent, the default is Y(es);
+       Since this is a last chance and infrequent, the default is Y(es);
        This processing is turned off with the choice of N(o).
 
     INCLUDE_UNKNOWN_CONTEXT_HELP
@@ -782,17 +782,17 @@ by a return.
 
     DO_I_FOR_J_HELP
        This option instructs the program to modify the output so that the j/J
-       is represented as i/I.  The consonant i was writen as j in cursive in
+       is represented as i/I.  The consonant i was written as j in cursive in
        Imperial times and called i longa, and often rendered as j in medieval
        times.  The capital is usually rendered as I, as in inscriptions.
        If this is NO/FALSE, the output will have the same character as input.
        The program default, and the dictionary convention is to retain the j.
-       Reset if this ia unsuitable for your application. The default is N(o).
+       Reset if this is unsuitable for your application. The default is N(o).
 
     DO_U_FOR_V_HELP
        This option instructs the program to modify the output so that the u
-       is represented as v.  The consonant u was writen sometimes as uu.
-       The pronounciation was as current w, and important for poetic meter.
+       is represented as v.  The consonant u was written sometimes as uu.
+       The pronunciation was as current w, and important for poetic meter.
        With the printing press came the practice of distinguishing consonant
        u with the character v, and was common for centuries.  The practice of
        using only u has been adopted in some 20th century publications (OLD),
@@ -800,7 +800,7 @@ by a return.
        V in any case, as it was and is in inscriptions (easier to chisel).
        If this is NO/FALSE, the output will have the same character as input.
        The program default, and the dictionary convention is to retain the v.
-       Reset If this ia unsuitable for your application. The default is N(o).
+       Reset If this is unsuitable for your application. The default is N(o).
 
     PAUSE_IN_SCREEN_OUTPUT_HELP
        This option instructs the program to pause in output on the screen
@@ -840,11 +840,11 @@ by a return.
        This option instructs the program to invite the user to modify the
        meaning displayed on a word translation.  This is only active if the
        program is not using an (@) input file!  These changes are put into
-       the dictionary right then and permenently, and are available from
+       the dictionary right then and permanently, and are available from
        then on, in this session, and all later sessions.   Unfortunately,
        these changes will not survive the replacement of the dictionary by a
        new version from the developer.  Changes can only be recovered by
-       considerable prcessing by the deneloper, and should be left there.
+       considerable processing by the developer, and should be left there.
        This option is only for experienced users and should remain off.
                                                  The default is N(o).
              ------    NOT AVAILABLE IN THIS VERSION   -------

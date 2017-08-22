@@ -38,7 +38,7 @@ There is some measure of period and frequency that can be used to
 discriminate between identical forms, but if there is only one possible
 match to an input word, it will be displayed no matter its era or rarity.
 The user can choose to display age and frequency warnings associated with
-stems and meanings, but the present default is not to, although inflectios
+stems and meanings, but the present default is not to, although inflections
 are so identified by default.
 
 So far these codes have not been of much use, especially since the only
@@ -116,7 +116,7 @@ and so is called out.
                             B,      --  Biological, Medical, Body Parts
                             D,      --  Drama, Music, Theater, Art, Painting, Sculpture
                             E,      --  Ecclesiastic, Biblical, Religious
-                            G,      --  Grammar, Retoric, Logic, Literature, Schools
+                            G,      --  Grammar, Rhetoric, Logic, Literature, Schools
                             L,      --  Legal, Government, Tax, Financial, Political, Titles
                             P,      --  Poetic
                             S,      --  Science, Philosophy, Mathematics, Units/Measures
@@ -134,7 +134,7 @@ was the subject of the text.  This is a dual usage, origin or subject.
     type GEO_TYPE is (
                            X,      --  All or none
                            A,      --  Africa
-                           B,      --  Britian
+                           B,      --  Britain
                            C,      --  China
                            D,      --  Scandinavia
                            E,      --  Egypt
@@ -266,7 +266,7 @@ dictionary, in blessed innocence, records all forms without bias.
 
         type FREQUENCY_TYPE is (     --  For dictionary entries
         X,    --              --  Unknown or unspecified
-        A,    --  very freq   --  Very frequent, in all Elementry Latin books, top 1000+ words
+        A,    --  very freq   --  Very frequent, in all Elementary Latin books, top 1000+ words
         B,    --  frequent    --  Frequent, next 2000+ words
         C,    --  common      --  For Dictionary, in top 10,000 words
         D,    --  lesser      --  For Dictionary, in top 20,000 words
@@ -326,9 +326,9 @@ declension and meaning is mine.
 Each entry is
 my responsibility alone, and there are significant differences and
 elaborations.  They may not necessarily be found as
-primary entries, or even directly referrenced, but they will have been
+primary entries, or even directly referenced, but they will have been
 constructed from information in that source.  For instance, the remark 'adp see app'
-in a source dictionary may generate 'adp' WORDS entries that are not explicitlt mentioned in the
+in a source dictionary may generate 'adp' WORDS entries that are not explicitly mentioned in the
 source dictionary.
 There might be occasions where the source gives a noun
 but on my own initiative I have also introduced the corresponding adjective
@@ -349,7 +349,7 @@ of modern, 20th century Latin and its meanings should probably not be applied to
 earlier texts.
 
 
-OLD is taken as the most authorative source
+OLD is taken as the most authoritative source
 and if it is in OLD then it was used in classical times within a very limited period.
 An entry with source O will have AGE X (or C if it is unique to classical).
 This also define good Latin and the usage should be valid for all ages.
@@ -358,7 +358,7 @@ This also define good Latin and the usage should be valid for all ages.
 Lewis and Short (S) is next in authority and also somewhat in time.
 It covers, in addition to classical, a later period.  That a word appears in S but not in O
 may mean it is a somewhat later usage.
-If that poiint is well established, the AGE is D.
+If that point is well established, the AGE is D.
 But most often the main source is OLD and there are additional meanings
 indicated as L+S.  The user is warned that this may be a case of modified meaning
 coming into use at a later age.
@@ -383,9 +383,9 @@ Next in line in time is Latham (M) for medieval Latin.
 
 
 Souter and Latham are poorly represented.  There is no attempt to include these sources
-with the throughness of the OLD and L+S effort.
+with the thoroughness of the OLD and L+S effort.
 Entries from these sources come up only when a particular
-word is submitted from a text and no other source serves, giving credance to the assumption that
+word is submitted from a text and no other source serves, giving credence to the assumption that
 such entries belong to a later AGE..
 
 
@@ -445,7 +445,7 @@ extensively used.  Others have only been used for an occasional check
         --  Consulted but used only indirectly
         --  Liddell + Scott Greek-English Lexicon
     
-        --  Consulted but used only occasionally, seperately referenced
+        --  Consulted but used only occasionally, separately referenced
         --  Allen + Greenough, New Latin Grammar, 1888 (A+G)
         --  Harrington/Pucci/Elliott, Medieval Latin 2nd Ed 1997 (Harr)
         --  C.C./C.L. Scanlon Latin Grammar/Second Latin, TAN 1976 (SCANLON)
@@ -571,7 +571,7 @@ names are likewise coded, although with less confidence.
 ### Vertical Bar
 
 While not visible to the user, the dictionary contains certain meanings
-starting with a vertical bar (|).  This is a code used to identify meanigs
+starting with a vertical bar (|).  This is a code used to identify meanings
 that run beyond the conventional 80 characters.  One or more vertical bars
 leading the meaning allows tools to recognize that they are additional
 meanings to an entry already encountered, usually the entry immediately
@@ -617,7 +617,7 @@ all great dictionaries.  First stage refinement has proceeded through DI.
 In response to many requests, a simple ASCII text list has been created of
 the WORDS dictionary, in what might be called the paper dictionary form.
 Each coded dictionary entry has been expanded to its dictionary form
-(nominitive and genitive for nouns, four principle parts for verbs, etc.).
+(nominative and genitive for nouns, four principle parts for verbs, etc.).
 In content it is like a paper dictionary, but each entry is on one long line
 and the headwords are in all capitals, convenient for case-sensitive search.
 The headwords are listed alphabetically (not the same as the coded file)
@@ -652,7 +652,7 @@ to many "words", often hundreds.
 The present WORDS raw dictionary would expand to an enormous number of simple words,
 but that is not the end of it.
 Each of those words might have attached prefixes and suffixes, enclitics, and spelling variations.
-Literaly billions of different words can be parsed and analyzed by the WORDS program.
+Literally billions of different words can be parsed and analyzed by the WORDS program.
 These are legal Latin words, whether any Roman actually spoke them.
 Of course, one could make a list of all the words in Cicero, or in the Vulgate,
 and make a dictionary of those (and we are close to that),
@@ -681,14 +681,14 @@ Otherwise, completeness would require their addition to every word,
 quadrupling the size of the list.
 
 2. Many Latin verb forms are subject to syncope, contracting the
-form for pronounciation.  In WORDS this is handled by a process.
+form for pronunciation.  In WORDS this is handled by a process.
 For the list another method must be used and the contracted words
-generated by modifing both stem and ending.
+generated by modifying both stem and ending.
 
 3. There are some common combined words in Latin in which the first
 part of the word is declined, followed by a fixed form.  Unlike the
 enclitic situation, these forms are limited and should be generated
-seperately (quidam).  Other qu- pronouns are handled seperately
+separately (quidam).  Other qu- pronouns are handled separately
 in WORDS and need special processing here also.
 
 4. Uniques have not yet been added.  This is a trivial
@@ -718,7 +718,7 @@ sense.  It is not a process to be applied mechanically.
 7. There is a divergence in the way editors treat the non-Latin
 characters J and V.  These are the consonant forms of I and U.
 They are explicit in English, so for convenience, familiarity, and
-pronounciation general practice in the past has been to use them.
+pronunciation general practice in the past has been to use them.
 More recently, some academic purists have rejected this and eliminated
 J and V altogether.  (Note that the same purists use lower case
 letters, in spite of the fact that the Romans had only the upper case.)
@@ -727,7 +727,7 @@ to a single character in processing.  A list could include both
 expressions, and it would only add a few percent in size.  However,
 that would allow inconsistent spelling choices in a text.  This
 seems to be contrary to the goals of a spell checker.
-It is probably better eventually to offer two seperate lists so that the user
+It is probably better eventually to offer two separate lists so that the user
 may select the option appropriate for his work.
 
 

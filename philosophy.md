@@ -115,8 +115,8 @@ There are a large number of paths and possibilities.  Choices have been
 made in the code that result in the exclusion of some.  It is hoped that
 they were the best choices.  The method was constructed by taking a number
 of primary procedures and combining/assembling them in such a way as to
-give reasonable parses for a number of test cases.  Basicly, this is
-hacking, but it might be considered and emperical starting point from
+give reasonable parses for a number of test cases.  Basically, this is
+hacking, but it might be considered an empirical starting point from
 which one could construct a logical rationale.
 
 Therefore, the philosophy is to populate the stem list as densely as
@@ -166,7 +166,7 @@ Whether Cicero used them or not, some later text might.
 In some cases I also have expanded adjectives and adverbs to include comparative
 and superlative stems where they seem reasonable or have corresponding English
 instances, even when there is no specific dictionary citation.
-This effort was modivated primarily by finding examples of such comparisons
+This effort was motivated primarily by finding examples of such comparisons
 in processing of large amounts of text beyond the classical
 works upon which authoritative dictionaries are based, but even classical
 works yielded examples.  The point is that, while these forms would usually be
@@ -192,7 +192,7 @@ that may be either adjective or noun, usually by leading with the
 adjective and mentioning its use as a noun.  A much larger set of
 adjective/noun pairs is favored with separate entries.  It is the
 philosophy of this program to make separate entries whenever there is an
-example in any reference dictionary.  This might faciliate the task of a
+example in any reference dictionary.  This might facilitate the task of a
 larger translation program which would handle phrases or sentences.
 However there has been no effort to explicitly generate such pair
 expansion if there is no precedent, and the user must still recognize the
@@ -204,9 +204,9 @@ processing time for search of the stems (this is far offset by the
 processing which would be required to construct or analyze words working
 from a smaller stem list).
 
-A significant objection is that artifically generated stems may conflict with
+A significant objection is that artificially generated stems may conflict with
 real/common ones and produce false output confusing to the user.  A certain
-amount of this is eliminated by trimming the output to emphisize the most
+amount of this is eliminated by trimming the output to emphasize the most
 probable results, but it is still a problem.
 
 Perhaps a counterexample would be an inferred fourth stem to no/nare (swim).
@@ -225,7 +225,7 @@ not on the lips of every centurion and his girl friend, or that it might
 not find its way into medieval texts.
 
 It may be argued in some cases that forms are missing because their
-pronounciation would be awkward.  This may well be true when Cicero is the
+pronunciation would be awkward.  This may well be true when Cicero is the
 arbiter, but others may not be so elegant.  Moreover, much of the texts
 are represented by medieval documents, Latin the was written but may not
 have been spoken, so the problem did not arise.
@@ -257,7 +257,7 @@ the best dictionaries.  Otherwise how can one explain four alternate
 spellings for a word which apparently only appears in citation as a single
 inscription.
 
-In a some few cases I have infered a declension to certain very obscure Greek words
+In a some few cases I have inferred a declension to certain very obscure Greek words
 which other dictionaries have treated as indeclinable
 (having only a single classical example of its use).
 My argument is that some later writer, using this word, might attempt
@@ -279,7 +279,7 @@ is tried.  This is effective if very few words get this far.  It is
 expected that application of single tricks will solve most of the
 resolvable difficulties.  It would be impractical to mechanically apply
 several tricks in series to a word.  A large stem population reduces the
-likelyhood of multiple tricks being required.  If the dictionary is heavily and
+likelihood of multiple tricks being required.  If the dictionary is heavily and
 redundantly populated, tricks are rarely necessary (and therefore not an
 overall processing burden) and largely successful (if the input word is a
 valid, but unusual, variant/construction).
@@ -363,10 +363,10 @@ usually not sensitive to derivations, but sometimes supports multiple
 entries for vastly different meanings, application areas, or eras.
 
 
-In a very small number of cases a source, such as OLD, will have an entry for which no English meaning is ptovifrd.
-Instead, a few words of Latin text containg the word is given.
+In a very small number of cases a source, such as OLD, will have an entry for which no English meaning is provided.
+Instead, a few words of Latin text containing the word is given.
 If they cannot figure it out, I certainly cannot.
-Such a source entry is usually omitted ftom WORDS.
+Such a source entry is usually omitted from WORDS.
 
 
 ## Proper Names

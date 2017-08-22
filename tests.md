@@ -38,11 +38,11 @@ The program has been run against common classical texts.  Initially
 this was mostly a check of the process and reliability of the program.  It
 is now possible to run real texts and get valid statistics.  Relatively
 few texts have been run multiple times in order to understand exactly
-where failure occured and to regression test the solutions.  Such testing
+where failure occurred and to regression test the solutions.  Such testing
 has taken place on texts totaling well over a million words.  The best
 results come from those which have been run the most times.  Caesar and
-the Vulgate are essentially without unknowns (excluding proper names.,
-Seutonius and Virgil are at the 0.1% level, Varro and Pliny have somewhat
+the Vulgate are essentially without unknowns (excluding proper names),
+Suetonius and Virgil are at the 0.1% level, Varro and Pliny have somewhat
 more than 1% unknowns due to their specialized vocabulary.  While this is
 a mechanical test and does not assure that the form and meaning reported
 by the program is always correct, the actual number of misses found by
@@ -73,13 +73,13 @@ English-to-Latin Tests
 ----------------------
 
 So far there have been no formal validation of the English-to-Latin capability.
-There have been numerous individual checks and anacdotal testing, as well
-as some mechnical performance tests, but nothing fundemental.
+There have been numerous individual checks and anecdotal testing, as well
+as some mechanical performance tests, but nothing fundamental.
 
 The first test proposed is to take a small English-to-Latin dictionary,
 say from the back of an introductory textbook, and check that the Latin
 suggested for each entry is found in the top six returned by WORDS.
-It is expected that there will be a high corespondence (to be shown).
+It is expected that there will be a high correspondence (to be shown).
 Taking a much larger example may give a different result.
 It may be that the Latin words chosen by WORDS are not the same as
 the paper dictionary.
