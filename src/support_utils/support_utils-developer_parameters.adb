@@ -158,7 +158,7 @@ package body Support_Utils.Developer_Parameters is
 
    For_Word_List_Check_Help : constant Help_Type :=  (
      "This option works in conjunction with DO_ONLY_INITIAL_WORD to allow   ",
-     "the processing of scanned dictionarys or text word lists.  It accepts ",
+     "the processing of scanned dictionaries or text word lists.  It accepts",
      "only the forms common in dictionary entries, like NOM S for N or ADJ, ",
      "or PRES ACTIVE IND 1 S for V.  It is be used only with DO_INITIAL_WORD",
      "The default choice is N(o), but it can be turned on with a Y(es).     ");
@@ -222,9 +222,9 @@ package body Support_Utils.Developer_Parameters is
    Do_Medieval_Tricks_Help : constant Help_Type :=  (
      "This option instructs the program, when it is unable to find a proper ",
      "match in the dictionary, and after various prefixes and suffixes, and ",
-     "tring every Classical Latin trick it can think of, to go to a few that",
-     "are usually only found in medieval Latin, replacements of caul -> col,",
-     "st -> est, z -> di, ix -> is, nct -> nt.  It also tries some things   ",
+     "trying every Classical Latin trick it can think of, to go to a few    ",
+     "that are usually only found in medieval Latin, replacements of z -> di",
+     "caul -> col, st -> est, ix -> is, nct -> nt. It also tries some things",
      "like replacing doubled consonants in classical with a single one.     ",
      "Together these tricks are useful, but may give False Positives (>20%).",
      "This option is only available if the general DO_TRICKS is chosen.     ",
@@ -236,25 +236,25 @@ package body Support_Utils.Developer_Parameters is
 
    Do_Syncope_Help : constant Help_Type :=  (
      "This option instructs the program to postulate that syncope of        ",
-     "perfect stem verbs may have occured (e.g, aver -> ar in the perfect), ",
+     "perfect stem verbs may have occurred (e.g, aver -> ar in the perfect),",
      "and to try various possibilities for the insertion of a removed 'v'.  ",
      "To do this it has to fully process the modified candidates, which can ",
-     "have a consderable impact on the speed of processind a large file.    ",
-     "However, this trick seldom producesa False Positive, and syncope is   ",
+     "have a considerable impact on the speed of processing a large file.   ",
+     "However, this trick seldom produces a False Positive, and syncope is  ",
      "very common in Latin (first year texts excepted).  Default is Y(es).  ",
      "This processing is turned off with the choice of N(o).                ");
 
    Do_Two_Words_Help : constant Help_Type :=  (
-     "There are some few common Lain expressions that combine two inflected ",
+     "There are some few common Latin expressions that combine two inflected",
      "words (e.g. respublica, paterfamilias).  There are numerous examples  ",
      "of numbers composed of two words combined together.                   ",
      "Sometimes a text or inscription will have words run together.         ",
      "When WORDS is unable to reach a satisfactory solution with all other  ",
      "tricks, as a last stab it will try to break the Input into two words. ",
-     "This most often fails.  Even if mechnically successful, the result is ",
+     "This most often fails.  Even if mechanically successful, the result is",
      "usually False and must be examined by the user.  If the result is     ",
      "correct, it is probably clear to the user.  Otherwise,  beware.  .    ",
-     "Since this is a last chanceand infrequent, the default is Y(es);      ",
+     "Since this is a last chance and infrequent, the default is Y(es);     ",
      "This processing is turned off with the choice of N(o).                ");
 
    Include_Unknown_Context_Help : constant Help_Type :=  (
@@ -296,17 +296,17 @@ package body Support_Utils.Developer_Parameters is
 
    Do_I_For_J_Help : constant Help_Type :=  (
      "This option instructs the program to modify the Output so that the j/J",
-     "is represented as i/I.  The consonant i was Writen as j in cursive in ",
+     "is represented as i/I.  The consonant i was Written as j in cursive in",
      "Imperial times and called i longa, and often rendered as j in medieval",
      "times.  The capital is usually rendered as I, as in inscriptions.     ",
      "If this is NO/FALSE, the Output will have the same Character as Input.",
      "The program default, and the dictionary convention is to retain the j.",
-     "Reset if this ia unsuitable for your application. The default is N(o).");
+     "Reset if this is unsuitable for your application. The default is N(o).");
 
    Do_U_For_V_Help : constant Help_Type :=  (
      "This option instructs the program to modify the Output so that the u  ",
-     "is represented as v.  The consonant u was Writen sometimes as uu.     ",
-     "The pronounciation was as current w, and important for poetic meter.  ",
+     "is represented as v.  The consonant u was Written sometimes as uu.    ",
+     "The pronunciation was as current w, and important for poetic meter.   ",
      "With the printing press came the practice of distinguishing consonant ",
      "u with the Character v, and was common for centuries.  The practice of",
      "using only u has been adopted in some 20th century publications (OLD),",
@@ -314,7 +314,7 @@ package body Support_Utils.Developer_Parameters is
      "V in any case, as it was and is in inscriptions (easier to chisel).   ",
      "If this is NO/FALSE, the Output will have the same Character as Input.",
      "The program default, and the dictionary convention is to retain the v.",
-     "Reset If this ia unsuitable for your application. The default is N(o).");
+     "Reset If this is unsuitable for your application. The default is N(o).");
 
    Pause_In_Screen_Output_Help : constant Help_Type :=  (
      "This option instructs the program to pause in Output on the screen    ",
@@ -354,11 +354,11 @@ package body Support_Utils.Developer_Parameters is
      "This option instructs the program to invite the user to modify the    ",
      "meaning displayed on a word translation.  This is only active if the  ",
      "program is not using an (@) Input file!  These changes are Put into   ",
-     "the dictionary right then and permenently, and are available from     ",
+     "the dictionary right then and permanently, and are available from     ",
      "then on, in this session, and all later sessions.   Unfortunately,    ",
      "these changes will not survive the replacement of the dictionary by a ",
      "new version from the developer.  Changes can only be recovered by     ",
-     "considerable prcessing by the deneloper, and should be left there.    ",
+     "considerable processing by the developer, and should be left there.   ",
      "This option is only for experienced users and should remain off.      ",
      "                                          The default is N(o).        ",
      "      ------    NOT AVAILABLE IN THIS VERSION   -------               ");

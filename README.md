@@ -31,7 +31,9 @@ Usage
 Documentation
 =============
 
-See the wordsdoc.htm file included.
+See the HOWTO.txt file included, 
+and documentation on the [Project Website](http://mk270.github.io/whitakers-words/operational.html)
+
 
 Build-time Dependencies
 =======================
