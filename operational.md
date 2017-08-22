@@ -196,7 +196,7 @@ Latin words to be processed as command line input.
     WORDS amo amas
 
 
-    WORDS ^e  love
+    WORDS ~e  love
 
 <BR>switches to English input from the default Latin and searches for love.
 
@@ -208,7 +208,7 @@ and and English word and part of speech.
     WORDS amo amas amat
 
 
-    WORDS ^e love v
+    WORDS ~e love v
 
 
 More than three arguments must all be Latin words.
@@ -223,7 +223,7 @@ since there can only be one English word per line for WORDS input.
 
 
 An input file (either from interactive with @ or from command line)
-can have changes of language, but the ^E or ^L must be on a separate line.
+can have changes of language, but the ~E or ~L must be on a separate line.
 Note that this capability can create confusing situations.
 An input file that starts off Latin then switches to English will be
 correctly processed.  But if it is followed by a similar input file, the
@@ -517,7 +517,7 @@ Here is a PREPosition that takes an ABLative for an object.
 
 
 Here is a PREPosition that might also be a Verb or a Noun.
-While as a preparation it is so common that it is unlikely
+While as a preposition it is so common that it is unlikely
 that any other use would occur, there is no way to indicate that.
 Just be reminded that the frequency given for a verb is for the
 sum of all the couple of hundred forms of the verb, not just

@@ -13,7 +13,7 @@ title: Programme description
 # Programme description
 
 
-A effect of the program is to derive the structure and meaning of
+The function of the program is to derive the structure and meaning of
 individual Latin words.  A procedure was devised to: examine the ending of
 a word, compare it with the standard endings, derive the possible stems
 that could be consistent, compare those stems with a dictionary of stems,
@@ -406,115 +406,116 @@ necessarily complete,
 The various help displays are listed here:
 
 
-    TRIM_OUTPUT_HELP
-       This option instructs the program to remove from the output list of
+    TRIM_OUTPUT
+       This option instructs the program to remove from the Output list of
        possible constructs those which are least likely.  There is now a fair
        amount of trimming, killing LOC and VOC plus removing Uncommon and
        non-classical (Archaic/Medieval) when more common results are found
        and this action is requested (turn it off in MDV (!) parameters).
-       When a TRIM has been done, the output is followed by an asterix (*).
+       When a TRIM has been done, Output is usually followed by asterix (*).
+       The asterix may be missing depending on where the TRIM is done.
        There certainly is no absolute assurence that the items removed are
        not correct, just that they are statistically less likely.
        Note that poets are likely to employ unusual words and inflections for
        various reasons.  These may be trimmed out if this parameter in on.
-       When in English mode, trim just reduces the output to the top six
-       results, if there are that many.  Asterix means there are more
+       When in English mode, trim just reduces the Output to the top six
+       results, if there are that many.  Asterix means there are more.
                                                        The default is Y(es)
 
-    HAVE_OUTPUT_FILE_HELP
-       This option instructs the program to create a file which can hold the
-       output for later study, otherwise the results are just displayed on
-       the screen.  The output file is named  WORD.OUT
-       This means that one run will necessarily overwrite a previous run,
+    HAVE_OUTPUT_FILE
+       This option instructs the program to Create a file which can hold the
+       Output for later study, otherwise the results are just displayed on
+       the screen.  The Output file is named  WORD.OUT
+       This means that one run will necessarily overWrite a previous run,
        unless the previous results are renamed or copied to a file of another
        name.  This is available if the METHOD is INTERACTIVE, no parameters.
        The default is N(o), since this prevents the program from overwriting
-       previous work unintentionally.  Y(es) creates the output file.
+       previous work unintentionally.  Y(es) Creates the Output file.
 
-    WRITE_OUTPUT_TO_FILE_HELP
+    WRITE_OUTPUT_TO_FILE
        This option instructs the program, when HAVE_OUTPUT_FILE is on, to
-       write results to the WORD.OUT file.
+       Write results to the WORD.OUT file.
        This option may be turned on and off during running of the program,
        thereby capturing only certain desired results.  If the option
        HAVE_OUTPUT_FILE is off, the user will not be given a chance to turn
        this one on.  Only for INTERACTIVE running.         Default is N(o).
-       This works in English mode, but output in somewhat different so far.
+       This works in English mode, but Output in somewhat different so far.
 
-    DO_UNKNOWNS_ONLY_HELP
-       This option instructs the program to only output those words that it
+    DO_UNKNOWNS_ONLY
+       This option instructs the program to only Output those words that it
        cannot resolve.  Of course, it has to do processing on all words, but
        those that are found (with prefix/suffix, if that option in on) will
-       be ignored.  The purpose of this option is t allow a quick look to
+       be ignored.  The purpose of this option is to allow a quick look to
        determine if the dictionary and process is going to do an acceptable
        job on the current text.  It also allows the user to assemble a list
        of unknown words to look up manually, and perhaps augment the system
        dictionary.  For those purposes, the system is usually run with the
        MINIMIZE_OUTPUT option, just producing a list.  Another use is to run
-       without MINIMIZE to an output file.  This gives a list of the input
+       without MINIMIZE to an Output file.  This gives a list of the Input
        text with the unknown words, by line.  This functions as a spelling
        checker for Latin texts.  The default is N(o).
        This does not work in English mode, but may in the future.
 
-    WRITE_UNKNOWNS_TO_FILE_HELP
-       This option instructs the program to write all unresolved words to a
+    WRITE_UNKNOWNS_TO_FILE
+       This option instructs the program to Write all unresolved words to a
        UNKNOWNS file named  WORD.UNK
-       With this option on , the file of unknowns is written, even though
-       the main output contains both known and unknown (unresolved) words.
+       With this option on, the file of unknowns is written, even though
+       the main Output contains both known and unknown (unresolved) words.
        One may wish to save the unknowns for later analysis, testing, or to
        form the basis for dictionary additions.  When this option is turned
        on, the UNKNOWNS file is written, destroying any file from a previous
-       run.  However, the write may be turned on and off during a single run
+       run.  However, the Write may be turned on and off during a single run
        without destroying the information written in that run.
        This option is for specialized use, so its default is N(o).
        This does not work in English mode, but may in the future.
 
-    IGNORE_UNKNOWN_NAMES_HELP
+    IGNORE_UNKNOWN_NAMES
        This option instructs the program to assume that any capitalized word
        longer than three letters is a proper name.  As no dictionary can be
        expected to account for many proper names, many such occur that would
-       be called UNKNOWN.  This contaminates the output in most cases, and
+       be called UNKNOWN.  This contaminates the Output in most cases, and
        it is often convenient to ignore these spurious UNKNOWN hits.  This
        option implements that mode, and calls such words proper names.
        Any proper names that are in the dictionary are handled in the normal
        manner.                                The default is Y(es).
 
-    IGNORE_UNKNOWN_CAPS_HELP
+    IGNORE_UNKNOWN_CAPS
        This option instructs the program to assume that any all caps word
        is a proper name or similar designation.  This convention is often
        used to designate speakers in a discussion or play.  No dictionary can
        claim to be exhaustive on proper names, so many such occur that would
-       be called UNKNOWN.  This contaminates the output in most cases, and
+       be called UNKNOWN.  This contaminates the Output in most cases, and
        it is often convenient to ignore these spurious UNKNOWN hits.  This
        option implements that mode, and calls such words names.  Any similar
        designations that are in the dictionary are handled in the normal
        manner, as are normal words in all caps.    The default is Y(es).
 
-    DO_COMPOUNDS_HELP
+    DO_COMPOUNDS
        This option instructs the program to look ahead for the verb TO_BE (or
        iri) when it finds a verb participle, with the expectation of finding
        a compound perfect tense or periphrastic.  This option can also be a
-       trimming of the output, in that VPAR that do not fit (not NOM) will be
+       trimming of the Output, in that VPAR that do not fit (not NOM) will be
        excluded, possible interpretations are lost.  Default choice is Y(es).
        This processing is turned off with the choice of N(o).
 
-    DO_FIXES_HELP
+    DO_FIXES
        This option instructs the program, when it is unable to find a proper
        match in the dictionary, to attach various prefixes and suffixes and
        try again.  This effort is successful in about a quarter of the cases
        which would otherwise give UNKNOWN results, or so it seems in limited
        tests.  For those cases in which a result is produced, about half give
-       easily interpreted output; many of the rest are etymologically true,
+       easily interpreted Output; many of the rest are etymologically True,
        but not necessarily obvious; about a tenth give entirely spurious
        derivations.  The user must proceed with caution.
        The default choice is Y(es), since the results are generally useful.
        This processing can be turned off with the choice of N(o).
 
-    DO_TRICKS_HELP
+    DO_TRICKS
        This option instructs the program, when it is unable to find a proper
        match in the dictionary, and after various prefixes and suffixes, to
        try every dirty Latin trick it can think of, mainly common letter
        replacements like cl -> cul, vul -> vol, ads -> ass, inp -> imp, etc.
-       Together these tricks are useful, but may give false positives (>10%).
+       Together these tricks are useful, but may give False Positives (>10%).
        They provide for recognized variants in classical spelling.  Most of
        the texts with which this program will be used have been well edited
        and standardized in spelling.  Now, moreover,  the dictionary is being
@@ -523,43 +524,43 @@ The various help displays are listed here:
        The only excuse for keeping it as default is that now the dictionary
        is quite extensive and misses are rare.         Default is now Y(es).
 
-    DO_DICTIONARY_FORMS_HELP
-       This option instructs the program to output a line with the forms
+    DO_DICTIONARY_FORMS
+       This option instructs the program to Output a line with the forms
        normally associated with a dictionary entry (NOM and GEN of a noun,
        the four principal parts of a verb, M-F-N NOM of an adjective, ...).
-       This occurs when there is other output (i.e., not with UNKNOWNS_ONLY).
+       This occurs when there is other Output (i.e., not with UNKNOWNS_ONLY).
        The default choice is N(o), but it can be turned on with a Y(es).
 
-    SHOW_AGE_HELP
+    SHOW_AGE
        This option causes a flag, like '<Late>' to appear for inflection or
-       form in the output.  The AGE indicates when this word/inflection was
+       form in the Output.  The AGE indicates when this word/inflection was
        in use, at least from indications is dictionary citations.  It is
        just an indication, not controlling, useful when there are choices.
        No indication means that it is common throughout all periods.
        The default choice is Y(es), but it can be turned off with a N(o).
 
-    SHOW_FREQUENCY_HELP
+    SHOW_FREQUENCY
        This option causes a flag, like '<rare>' to appear for inflection or
-       form in the output.  The FREQ is indicates the relative usage of the
+       form in the Output.  The FREQ is indicates the relative usage of the
        word or inflection, from indications is dictionary citations.  It is
        just an indication, not controlling, useful when there are choices.
        No indication means that it is common throughout all periods.
        The default choice is Y(es), but it can be turned off with a N(o).
 
-    DO_EXAMPLES_HELP
+    DO_EXAMPLES
        This option instructs the program to provide examples of usage of the
        cases/tenses/etc. that were constructed.  The default choice is N(o).
-       This produces lengthy output and is turned on with the choice Y(es).
+       This produces lengthy Output and is turned on with the choice Y(es).
 
-    DO_ONLY_MEANINGS_HELP
-       This option instructs the program to only output the MEANING for a
+    DO_ONLY_MEANINGS
+       This option instructs the program to only Output the MEANING for a
        word, and omit the inflection details.  This is primarily used in
        analyzing new dictionary material, comparing with the existing.
        However it may be of use for the translator who knows most all of
        the words and just needs a little reminder for a few.
        The default choice is N(o), but it can be turned on with a Y(es).
 
-    DO_STEMS_FOR_UNKNOWN_HELP
+    DO_STEMS_FOR_UNKNOWN
        This option instructs the program, when it is unable to find a proper
        match in the dictionary, and after various prefixes and suffixes, to
        list the dictionary entries around the unknown.  This will likely
@@ -569,14 +570,14 @@ The various help displays are listed here:
        from full translations, therefore the default choice is N(o).
        This processing can be turned on with the choice of Y(es).
 
-    SAVE_PARAMETERS_HELP
+    SAVE_PARAMETERS
        This option instructs the program, to save the current parameters, as
        just established by the user, in a file WORD.MOD.  If such a file
        exists, the program will load those parameters at the start.  If no
        such file can be found in the current subdirectory, the program will
        start with a default set of parameters.  Since this parameter file is
-       human-readable ASCII, it may also be created with a text editor.  If
-       the file found has been improperly created, is in the wrong format, or
+       human-readable ASCII, it may also be Created with a text editor.  If
+       the file found has been improperly Created, is in the wrong format, or
        otherwise uninterpretable by the program, it will be ignored and the
        default parameters used, until a proper parameter file in written by
        the program.  Since one may want to make temporary changes during a
@@ -594,16 +595,16 @@ change procedure by inputting a '!' [exclamation sign] character, followed
 by a return.
 
 
-    HAVE_STATISTICS_FILE_HELP
-       This option instructs the program to create a file which can hold
+    HAVE_STATISTICS_FILE
+       This option instructs the program to Create a file which can hold
        certain statistical information about the process.  The file is
        overwritten for new invocation of the program, so old data must be
        explicitly saved if it is to be retained.  The statistics are in TEXT
        format.     The statistics file is named  WORD.STA
        This information is only of development use, so the default is N(o).
 
-    WRITE_STATISTICS_FILE_HELP
-       This option instructs the program, with HAVE_STATISTICS_FILE, to put
+    WRITE_STATISTICS_FILE
+       This option instructs the program, with HAVE_STATISTICS_FILE, to Put
        derived statistics in a file named  WORD.STA
        This option may be turned on and off while running of the program,
        thereby capturing only certain desired results.  The file is reset at
@@ -611,43 +612,43 @@ by a return.
        If the option HAVE_STATISTICS_FILE is off, the user will not be given
        a chance to turn this one on.                Default is N(o).
 
-    SHOW_DICTIONARY_HELP
-       This option causes a flag, like 'GEN>' to be put before the meaning
-       in the output.  While this is useful for certain development purposes,
-       it forces off a few characters from the meaning, and is really of no
+    SHOW_DICTIONARY
+       This option causes a flag, like 'GEN>' to be Put before the meaning
+       in the Output.  While this is useful for certain development purposes,
+       it forces off a few Characters from the meaning, and is really of no
        interest to most users.
        The default choice is N(o), but it can be turned on with a Y(es).
 
-    SHOW_DICTIONARY_LINE_HELP
+    SHOW_DICTIONARY_LINE
        This option causes the number of the dictionary line for the current
-       meaning to be output.  This is of use to no one but the dictionary
+       meaning to be Output.  This is of use to no one but the dictionary
        maintainer.  The default choice is N(o).  It is activated by Y(es).
 
-    SHOW_DICTIONARY_CODES_HELP
+    SHOW_DICTIONARY_CODES
        This option causes the codes for the dictionary entry for the current
-       meaning to be output.  This may not be useful to any but the most
+       meaning to be Output.  This may not be useful to any but the most
        involved user.  The default choice is N(o).  It is activated by Y(es).
 
-    DO_PEARSE_CODES_HELP
-       This option causes special codes to be output flagging the different
-       kinds of output lines.  01 for forms, 02 for dictionary forms, and
+    DO_PEARSE_CODES
+       This option causes special codes to be Output flagging the different
+       kinds of Output lines.  01 for forms, 02 for dictionary forms, and
        03 for meaning. The default choice is N(o).  It is activated by Y(es).
        There are no Pearse codes in English mode.
 
-    DO_ONLY_INITIAL_WORD_HELP
+    DO_ONLY_INITIAL_WORD
        This option instructs the program to only analyze the initial word on
        each line submitted.  This is a tool for checking and integrating new
-       dictionary input, and will be of no interest to the general user.
+       dictionary Input, and will be of no interest to the general user.
        The default choice is N(o), but it can be turned on with a Y(es).
 
-    FOR_WORD_LIST_CHECK_HELP
+    FOR_WORD_LIST_CHECK
        This option works in conjunction with DO_ONLY_INITIAL_WORD to allow
        the processing of scanned dictionaries or text word lists.  It accepts
        only the forms common in dictionary entries, like NOM S for N or ADJ,
        or PRES ACTIVE IND 1 S for V.  It is be used only with DO_INITIAL_WORD
        The default choice is N(o), but it can be turned on with a Y(es).
 
-    DO_ONLY_FIXES_HELP
+    DO_ONLY_FIXES
        This option instructs the program to ignore the normal dictionary
        search and to go direct to attach various prefixes and suffixes before
        processing. This is a pure research tool.  It allows one to examine
@@ -657,7 +658,7 @@ by a return.
        conventional translation situations, so the default choice is N(o).
        This processing can be turned on with the choice of Y(es).
 
-    DO_FIXES_ANYWAY_HELP
+    DO_FIXES_ANYWAY
        This option instructs the program to do both the normal dictionary
        search and then process for the various prefixes and suffixes too.
        This is a pure research tool allowing one to consider the possibility
@@ -670,7 +671,7 @@ by a return.
        This processing can be turned on with the choice of Y(es).
              ------    PRESENTLY NOT IMPLEMENTED    ------
 
-    USE_PREFIXES_HELP
+    USE_PREFIXES
        This option instructs the program to implement prefixes from ADDONS
        whenever and wherever FIXES are called for.  The purpose of this
        option is to allow some flexibility while the program in running to
@@ -681,7 +682,7 @@ by a return.
        This is primarily a development tool, so the conventional user should
        probably maintain the default  choice of Y(es).
 
-    USE_SUFFIXES_HELP
+    USE_SUFFIXES
        This option instructs the program to implement suffixes from ADDONS
        whenever and wherever FIXES are called for.  The purpose of this
        option is to allow some flexibility while the program in running to
@@ -692,7 +693,7 @@ by a return.
        This is primarily a development tool, so the conventional user should
        probably maintain the default  choice of Y(es).
 
-    USE_TACKONS_HELP
+    USE_TACKONS
        This option instructs the program to implement TACKONS from ADDONS
        whenever and wherever FIXES are called for.  The purpose of this
        option is to allow some flexibility while the program in running to
@@ -703,14 +704,14 @@ by a return.
        This is primarily a development tool, so the conventional user should
        probably maintain the default  choice of Y(es).
 
-    DO_MEDIEVAL_TRICKS_HELP
+    DO_MEDIEVAL_TRICKS
        This option instructs the program, when it is unable to find a proper
        match in the dictionary, and after various prefixes and suffixes, and
        trying every Classical Latin trick it can think of, to go to a few 
        that are usually only found in medieval Latin, replacements of z -> di
        caul -> col, st -> est, ix -> is, nct -> nt. It also tries some things
        like replacing doubled consonants in classical with a single one.
-       Together these tricks are useful, but may give false positives (>20%).
+       Together these tricks are useful, but may give False Positives (>20%).
        This option is only available if the general DO_TRICKS is chosen.
        If the text is late or medieval, this option is much more useful than
        tricks for classical.  The dictionary can never contain all spelling
@@ -718,53 +719,51 @@ by a return.
        The default choice is N(o), since the results are iffy, medieval only,
        and expensive.  This processing is turned on with the choice of Y(es).
 
-    DO_SYNCOPE_HELP
+    DO_SYNCOPE
        This option instructs the program to postulate that syncope of
        perfect stem verbs may have occurred (e.g, aver -> ar in the perfect),
        and to try various possibilities for the insertion of a removed 'v'.
        To do this it has to fully process the modified candidates, which can
        have a considerable impact on the speed of processing a large file.
-       However, this trick seldom produces a false positive, and syncope is
+       However, this trick seldom produces a False Positive, and syncope is
        very common in Latin (first year texts excepted).  Default is Y(es).
        This processing is turned off with the choice of N(o).
 
-    DO_TWO_WORDS_HELP
+    DO_TWO_WORDS
        There are some few common Latin expressions that combine two inflected
        words (e.g. respublica, paterfamilias).  There are numerous examples
-       of numbers composed of two words combined together.
-       Sometimes a text or inscription will have words run together.
+       of numbers composed of two words combined toGether.
+       Sometimes a text or inscription will have words run toGether.
        When WORDS is unable to reach a satisfactory solution with all other
-       tricks, as a last stab it will try to break the input into two words.
+       tricks, as a last stab it will try to break the Input into two words.
        This most often fails.  Even if mechanically successful, the result is
-       usually false and must be examined by the user.  If the result is
+       usually False and must be examined by the user.  If the result is
        correct, it is probably clear to the user.  Otherwise,  beware.
-       This problem will not occur for a well edited text, such as one will
-       find on your Latin exam, but sometimes with raw text.
        Since this is a last chance and infrequent, the default is Y(es);
        This processing is turned off with the choice of N(o).
 
-    INCLUDE_UNKNOWN_CONTEXT_HELP
+    INCLUDE_UNKNOWN_CONTEXT
        This option instructs the program, when writing to an UNKNOWNS file,
-       to put out the whole context of the UNKNOWN (the whole input line on
+       to Put out the whole context of the UNKNOWN (the whole Input line on
        which the UNKNOWN was found).  This is appropriate for processing
        large text files in which it is expected that there will be relatively
        few UNKNOWNS.    The main use at the moment is to provide display
-       of the input line on the output file in the case of UNKNOWNS_ONLY.
+       of the Input line on the Output file in the case of UNKNOWNS_ONLY.
 
-    NO_MEANINGS_HELP
-       This option instructs the program to omit putting out meanings.
+    NO_MEANINGS
+       This option instructs the program to omit Putting out meanings.
        This is only useful for certain dictionary maintenance procedures.
        The combination not DO_DICTIONARY_FORMS, MEANINGS_ONLY, NO_MEANINGS
-       results in no visible output, except spacing lines.    Default is N)o.
+       results in no visible Output, except spacing lines.    Default is N)o.
 
-    OMIT_ARCHAIC_HELP
+    OMIT_ARCHAIC
        THIS OPTION IS CAN ONLY BE ACTIVE IF WORDS_MODE(TRIM_OUTPUT) IS SET!
        This option instructs the program to omit inflections and dictionary
        entries with an AGE code of A (Archaic).  Archaic results are rarely
        of interest in general use.  If there is no other possible form, then
        the Archaic (roughly defined) will be reported.  The default is Y(es).
 
-    OMIT_MEDIEVAL_HELP
+    OMIT_MEDIEVAL
        THIS OPTION IS CAN ONLY BE ACTIVE IF WORDS_MODE(TRIM_OUTPUT) IS SET!
        This option instructs the program to omit inflections and dictionary
        entries with AGE codes of E or later, those not in use in Roman times.
@@ -772,7 +771,7 @@ by a return.
        will not want them.  If there is no other possible form, then the
        Medieval (roughly defined) will be reported.   The default is Y(es).
 
-    OMIT_UNCOMMON_HELP
+    OMIT_UNCOMMON
        THIS OPTION IS CAN ONLY BE ACTIVE IF WORDS_MODE(TRIM_OUTPUT) IS SET!
        This option instructs the program to omit inflections and dictionary
        entries with FREQ codes indicating that the selection is uncommon.
@@ -780,49 +779,49 @@ by a return.
        will not want them.  If there is no other possible form, then the
        uncommon (roughly defined) will be reported.   The default is Y(es).
 
-    DO_I_FOR_J_HELP
-       This option instructs the program to modify the output so that the j/J
-       is represented as i/I.  The consonant i was written as j in cursive in
+    DO_I_FOR_J
+       This option instructs the program to modify the Output so that the j/J
+       is represented as i/I.  The consonant i was Written as j in cursive in
        Imperial times and called i longa, and often rendered as j in medieval
        times.  The capital is usually rendered as I, as in inscriptions.
-       If this is NO/FALSE, the output will have the same character as input.
+       If this is NO/FALSE, the Output will have the same Character as Input.
        The program default, and the dictionary convention is to retain the j.
        Reset if this is unsuitable for your application. The default is N(o).
 
-    DO_U_FOR_V_HELP
-       This option instructs the program to modify the output so that the u
-       is represented as v.  The consonant u was written sometimes as uu.
+    DO_U_FOR_V
+       This option instructs the program to modify the Output so that the u
+       is represented as v.  The consonant u was Written sometimes as uu.
        The pronunciation was as current w, and important for poetic meter.
        With the printing press came the practice of distinguishing consonant
-       u with the character v, and was common for centuries.  The practice of
+       u with the Character v, and was common for centuries.  The practice of
        using only u has been adopted in some 20th century publications (OLD),
         but it is confusing to many modern readers.  The capital is commonly
        V in any case, as it was and is in inscriptions (easier to chisel).
-       If this is NO/FALSE, the output will have the same character as input.
+       If this is NO/FALSE, the Output will have the same Character as Input.
        The program default, and the dictionary convention is to retain the v.
        Reset If this is unsuitable for your application. The default is N(o).
 
-    PAUSE_IN_SCREEN_OUTPUT_HELP
-       This option instructs the program to pause in output on the screen
-       after about 16 lines so that the user can read the output, otherwise
+    PAUSE_IN_SCREEN_OUTPUT
+       This option instructs the program to pause in Output on the screen
+       after about 16 lines so that the user can read the Output, otherwise
        it would just scroll off the top.  A RETURN/ENTER gives another page.
-       If the program is waiting for a return, it cannot take other input.
-       This option is active only for keyboard entry or command line input,
-       and only when there is no output file.  It is moot if only single word
-       input or brief output.                 The default is Y(es).
+       If the program is waiting for a return, it cannot take other Input.
+       This option is active only for keyboard entry or command line Input,
+       and only when there is no Output file.  It is moot if only single word
+       Input or brief Output.                 The default is Y(es).
 
-    NO_SCREEN_ACTIVITY_HELP
+    NO_SCREEN_ACTIVITY
        This option instructs the program not to keep a running screen of the
-       input.  This is probably only to be used by the developer to calibrate
-       run times for large text file input, removing the time necessary to
-       write to screen.                       The default is N(o).
+       Input.  This is probably only to be used by the developer to calibrate
+       run times for large text file Input, removing the time necessary to
+       Write to screen.                       The default is N(o).
 
-    UPDATE_LOCAL_DICTIONARY_HELP
-       This option instructs the program to invite the user to input a new
+    UPDATE_LOCAL_DICTIONARY
+       This option instructs the program to invite the user to Input a new
        word to the local dictionary on the fly.  This is only active if the
-       program is not using an (@) input file!  If an UNKNOWN is discovered,
+       program is not using an (@) Input file!  If an UNKNOWN is discovered,
        the program asks for STEM, PART, and MEAN, the basic elements of a
-       dictionary entry.  These are put into the local dictionary right then,
+       dictionary entry.  These are Put into the local dictionary right then,
        and are available for the rest of the session, and all later sessions.
        The use of this option requires a detailed knowledge of the structure
        of dictionary entries, and is not for the average user.  If the entry
@@ -836,10 +835,10 @@ by a return.
                                                  The default is N(o).
              ------    NOT AVAILABLE IN THIS VERSION   -------
 
-    UPDATE_MEANINGS_HELP
+    UPDATE_MEANINGS
        This option instructs the program to invite the user to modify the
        meaning displayed on a word translation.  This is only active if the
-       program is not using an (@) input file!  These changes are put into
+       program is not using an (@) Input file!  These changes are Put into
        the dictionary right then and permanently, and are available from
        then on, in this session, and all later sessions.   Unfortunately,
        these changes will not survive the replacement of the dictionary by a
@@ -849,19 +848,19 @@ by a return.
                                                  The default is N(o).
              ------    NOT AVAILABLE IN THIS VERSION   -------
 
-    MINIMIZE_OUTPUT_HELP
-       This option instructs the program to minimize the output.  This is a
+    MINIMIZE_OUTPUT
+       This option instructs the program to minimize the Output.  This is a
        somewhat flexible term, but the use of this option will probably lead
-       to less output.                        The default is Y(es).
+       to less Output.                        The default is Y(es).
 
-    SAVE_PARAMETERS_HELP
+    SAVE_PARAMETERS
        This option instructs the program, to save the current parameters, as
        just established by the user, in a file WORD.MDV.  If such a file
        exists, the program will load those parameters at the start.  If no
        such file can be found in the current subdirectory, the program will
        start with a default set of parameters.  Since this parameter file is
-       human-readable ASCII, it may also be created with a text editor.  If
-       the file found has been improperly created, is in the wrong format, or
+       human-readable ASCII, it may also be Created with a text editor.  If
+       the file found has been improperly Created, is in the wrong format, or
        otherwise uninterpretable by the program, it will be ignored and the
        default parameters used, until a proper parameter file in written by
        the program.  Since one may want to make temporary changes during a
