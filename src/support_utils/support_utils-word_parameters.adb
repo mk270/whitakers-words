@@ -75,7 +75,7 @@ package body Support_Utils.Word_Parameters is
      "Note that poets are likely to employ unusual words and inflections for",
      "various reasons.  These may be trimmed out if this parameter in on.   ",
      "When in English mode, trim just reduces the Output to the top six     ",
-     "results, if there are that many.  Asterix means there are more        ",
+     "results, if there are that many.  Asterix means there are more.       ",
      "                                                The default is Y(es)  ");
 
    Have_Output_File_Help : constant Help_Type :=  (
@@ -97,13 +97,13 @@ package body Support_Utils.Word_Parameters is
      "thereby capturing only certain desired results.  If the option        ",
      "HAVE_OUTPUT_FILE is off, the user will not be given a chance to turn  ",
      "this one on.  Only for INTERACTIVE running.         Default is N(o).  ",
-     "This works in English mode, but Output in somewhat diffeent so far.   ");
+     "This works in English mode, but Output in somewhat different so far.  ");
 
    Do_Unknowns_Only_Help : constant Help_Type :=  (
      "This option instructs the program to only Output those words that it  ",
      "cannot resolve.  Of course, it has to do processing on all words, but ",
      "those that are found (with prefix/suffix, if that option in on) will  ",
-     "be ignored.  The purpose of this option is t allow a quick look to    ",
+     "be ignored.  The purpose of this option is to allow a quick look to   ",
      "determine if the dictionary and process is going to do an acceptable  ",
      "job on the current text.  It also allows the user to assemble a list  ",
      "of unknown words to look up manually, and perhaps augment the system  ",
@@ -118,7 +118,7 @@ package body Support_Utils.Word_Parameters is
      "This option instructs the program to Write all unresolved words to a  ",
      "UNKNOWNS file named " & Unknowns_Full_Name
      & (21 + Unknowns_Full_Name'Length .. 70 => ' '),
-     "With this option on , the file of unknowns is written, even though    ",
+     "With this option on, the file of unknowns is written, even though     ",
      "the main Output contains both known and unknown (unresolved) words.   ",
      "One may wish to save the unknowns for later analysis, testing, or to  ",
      "form the basis for dictionary additions.  When this option is turned  ",
@@ -133,7 +133,7 @@ package body Support_Utils.Word_Parameters is
      "longer than three letters is a proper name.  As no dictionary can be  ",
      "expected to account for many proper names, many such occur that would ",
      "be called UNKNOWN.  This contaminates the Output in most cases, and   ",
-     "it is often convenient to ignore these sperious UNKNOWN hits.  This   ",
+     "it is often convenient to ignore these spurious UNKNOWN hits.  This   ",
      "option implements that mode, and calls such words proper names.       ",
      "Any proper names that are in the dictionary are handled in the normal ",
      "manner.                                The default is Y(es).          ");
@@ -142,9 +142,9 @@ package body Support_Utils.Word_Parameters is
      "This option instructs the program to assume that any all caps word    ",
      "is a proper name or similar designation.  This convention is often    ",
      "used to designate speakers in a discussion or play.  No dictionary can",
-     "claim to be exaustive on proper names, so many such occur that would  ",
+     "claim to be exhaustive on proper names, so many such occur that would ",
      "be called UNKNOWN.  This contaminates the Output in most cases, and   ",
-     "it is often convenient to ignore these sperious UNKNOWN hits.  This   ",
+     "it is often convenient to ignore these spurious UNKNOWN hits.  This   ",
      "option implements that mode, and calls such words names.  Any similar ",
      "designations that are in the dictionary are handled in the normal     ",
      "manner, as are normal words in all caps.    The default is Y(es).     ");
@@ -152,7 +152,7 @@ package body Support_Utils.Word_Parameters is
    Do_Compounds_Help : constant Help_Type :=  (
      "This option instructs the program to look ahead for the verb TO_BE (or",
      "iri) when it finds a verb participle, with the expectation of finding ",
-     "a compound perfect tense or periphastic.  This option can also be a   ",
+     "a compound perfect tense or periphrastic.  This option can also be a  ",
      "trimming of the output, in that VPAR that do not fit (not NOM) will be",
      "excluded, possible interpretations are lost.  Default choice is Y(es).",
      "This processing is turned off with the choice of N(o).                ");
@@ -175,7 +175,7 @@ package body Support_Utils.Word_Parameters is
      "try every dirty Latin trick it can think of, mainly common letter     ",
      "replacements like cl -> cul, vul -> vol, ads -> ass, inp -> imp, etc. ",
      "Together these tricks are useful, but may give False Positives (>10%).",
-     "They provide for recognized varients in classical spelling.  Most of  ",
+     "They provide for recognized variants in classical spelling.  Most of  ",
      "the texts with which this program will be used have been well edited  ",
      "and standardized in spelling.  Now, moreover,  the dictionary is being",
      "populated to such a state that the hit rate on tricks has fallen to a ",
@@ -209,7 +209,7 @@ package body Support_Utils.Word_Parameters is
    Do_Examples_Help : constant Help_Type :=  (
      "This option instructs the program to provide examples of usage of the ",
      "cases/tenses/etc. that were constructed.  The default choice is N(o). ",
-     "This produces lengthly Output and is turned on with the choice Y(es). ");
+     "This produces lengthy Output and is turned on with the choice Y(es).  ");
 
    Do_Only_Meanings_Help : constant Help_Type :=  (
      "This option instructs the program to only Output the MEANING for a    ",

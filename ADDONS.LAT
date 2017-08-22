@@ -46,7 +46,7 @@
 --  when applied to different parts.  "sub" applied to an adjective
 --  adds the meaning "somewhat", when applied to a verb it means "under".
 --  The parts of speech (from and to) are listed on the second line,
---  but are always the same.  The redundency is the result of a generality
+--  but are always the same.  The redundancy is the result of a generality
 --  built into the data structure initially and never changed.
 --  
 --  The third line gives the meaning, using 78 characters or less.
