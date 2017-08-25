@@ -54,7 +54,7 @@ private
          Ir   : Inflection_Record  := Null_Inflection_Record;
       end record;
 
-   Stem_Inflection_Array_Size       : constant := 10;
+   Stem_Inflection_Array_Size       : constant := 12;
    Stem_Inflection_Array_Array_Size : constant := 40;
 
    type Stem_Inflection_Array is
