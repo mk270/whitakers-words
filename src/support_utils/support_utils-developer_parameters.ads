@@ -19,7 +19,6 @@ package Support_Utils.Developer_Parameters is
 
    --  These are a few strange declarations to be used in diagnostics;
    Sra_Max, Sraa_Max, Dma_Max : Integer := 0;
-   Pa_Last_Max, Final_Pa_Last_Max : Integer := 0;
 
    --  This package defines a number of parameters that areused in the program
    --  The default values are set in the body, so that they may be changed
