@@ -1162,7 +1162,6 @@ is
    procedure Parse_Line (Configuration : Configuration_Type;
                          Input_Line    : String)
    is
-      Analyses : Result_Container.Vector;
       Undashed : constant String := String_Before_Dash (Input_Line);
 
       -- hack around the weird reimplementation of output redirection
@@ -1187,9 +1186,13 @@ is
          Analyses.Iterate (Process => Put_Analysis'Access);
       end Print_Analyses;
    begin
-      Analyses := Analyse_Line (Configuration, Input_Line);
-      Print_Analyses (Analyses);
-      Clear (Analyses);
+      declare
+         Analyses : Result_Container.Vector := Analyse_Line (Configuration,
+           Input_Line);
+      begin
+         Print_Analyses (Analyses);
+         Clear (Analyses);
+      end;
    exception
       when Storage_Error =>
          Report_Storage_Error;
