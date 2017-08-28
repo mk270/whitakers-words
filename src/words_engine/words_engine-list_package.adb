@@ -612,12 +612,12 @@ package body Words_Engine.List_Package is
            := Null_Sra;
       begin
 
-         pragma Assert (WA.Dict'First = WA.Stem'First);
+         pragma Assert (WA.Dict'First = WA.Stem_IAA'First);
 
          Output_Loop :
          for J in WA.Dict'Range loop
             declare
-               Sra : constant Stem_Inflection_Array := WA.Stem (J);
+               Sra : constant Stem_Inflection_Array := WA.Stem_IAA (J);
             begin
                -- hack to work around static/dynamic schizophrenia
                if WA.Dict (J) = Null_Dictionary_MNPC_Record then
@@ -890,7 +890,7 @@ package body Words_Engine.List_Package is
       Write_Addons_Stats (W, Var_Pa, Var_Pa_Last);
       Cycle_Over_Pa (Var_Pa, Var_Pa_Last, Sraa, Dma, I_Is_Pa_Last, Raw_Word, W);
 
-      WA := (Stem => Sraa, Dict => Dma, I_Is_Pa_Last => I_Is_Pa_Last,
+      WA := (Stem_IAA => Sraa, Dict => Dma, I_Is_Pa_Last => I_Is_Pa_Last,
              Unknowns => Var_Pa_Last = 0,
              The_Word => To_Unbounded_String (Raw_Word),
              Was_Trimmed => Trimmed, Xp => Var_Xp);

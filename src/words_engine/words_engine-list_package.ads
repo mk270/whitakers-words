@@ -75,7 +75,7 @@ private
 
    type Word_Analysis is
       record
-         Stem : Stem_Inflection_Array_Array
+         Stem_IAA : Stem_Inflection_Array_Array
            (1 .. Stem_Inflection_Array_Array_Size);
          Dict : Dictionary_MNPC_Array;
          I_Is_Pa_Last : Boolean;
