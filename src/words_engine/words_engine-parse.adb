@@ -32,6 +32,8 @@ with Ada.Strings.Fixed;
 with Words_Engine.Explanation_Package; use Words_Engine.Explanation_Package;
 use Latin_Utils;
 
+with Words_Engine.Pearse_Code; use Words_Engine.Pearse_Code;
+
 pragma Elaborate (Support_Utils.Word_Parameters);
 package body Words_Engine.Parse
 is
@@ -1209,7 +1211,8 @@ is
    is
    begin
       if Words_Mdev (Do_Pearse_Codes) then
-         Ada.Text_IO.Put ("00 ");
+         --Ada.Text_IO.Put ("00 ");
+         Ada.Text_IO.Put (Pearse_Code.Format (Unknown));
       end if;
       Ada.Text_IO.Put_Line (    --  ERROR_FILE,
         "STORAGE_ERROR Exception in WORDS, try again");
@@ -1223,7 +1226,7 @@ is
         "Exception in PARSE_LINE processing " & Input_Line);
       if Words_Mode (Write_Unknowns_To_File)  then
          if Words_Mdev (Do_Pearse_Codes) then
-            Ada.Text_IO.Put (Unknowns, "00 ");
+            Ada.Text_IO.Put (Unknowns, Pearse_Code.Format (Unknown));
          end if;
          Ada.Text_IO.Put (Unknowns, Input_Line);
          Ada.Text_IO.Set_Col (Unknowns, 30);

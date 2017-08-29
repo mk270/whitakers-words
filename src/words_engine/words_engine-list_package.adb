@@ -40,7 +40,10 @@ with Support_Utils.Dictionary_Form;
 with Words_Engine.Put_Example_Line;
 with Words_Engine.List_Sweep;
 with Words_Engine.Put_Stat;
+with Words_Engine.Pearse_Code; use Words_Engine.Pearse_Code;
+
 use Latin_Utils;
+
 package body Words_Engine.List_Package is
 
    subtype Xons is Part_Of_Speech_Type range Tackon .. Suffix;
@@ -125,10 +128,10 @@ package body Words_Engine.List_Package is
    end Get_Max_Meaning_Size;
 
    procedure Put_Pearse_Code (Output : Ada.Text_IO.File_Type;
-                              Code   : String) is
+                              Code   : Symbol) is
    begin
       if Words_Mdev (Do_Pearse_Codes) then
-         Ada.Text_IO.Put (Output, Code);
+         Ada.Text_IO.Put (Output, Format (Code));
       end if;
    end Put_Pearse_Code;
 
@@ -162,7 +165,7 @@ package body Words_Engine.List_Package is
       Dictionary_Line_Number : constant Integer := Integer (MNPC);
    begin                               --  PUT_DICTIONARY_FORM
       if Words_Mode (Do_Dictionary_Forms)  then
-         Put_Pearse_Code (Output, "02 ");
+         Put_Pearse_Code (Output, Citation_Form);
          if Words_Mdev (Do_Pearse_Codes) then
             Dhit := True;
          end if;
@@ -274,7 +277,7 @@ package body Words_Engine.List_Package is
 
       procedure Put_Word_Meaning
         (Meaning : in out Meaning_Type;
-         Code    : in     String)
+         Code    : in     Symbol)
       is
       begin
          if Meaning /= Null_Meaning_Type then
@@ -286,17 +289,17 @@ package body Words_Engine.List_Package is
       end Put_Word_Meaning;
    begin
       case Dm.D_K is
-         when Rrr => Put_Word_Meaning (Xp.Rrr_Meaning, "03 "); --  Roman Numeral
-         when Nnn => Put_Word_Meaning (Xp.Nnn_Meaning, "06 "); --  Unknown Name
-         when Xxx => Put_Word_Meaning (Xp.Xxx_Meaning, "06 "); --  TRICKS
-         when Yyy => Put_Word_Meaning (Xp.Yyy_Meaning, "06 "); --  Syncope
-         when Ppp => Put_Word_Meaning (Xp.Ppp_Meaning, "06 "); --  Compounds
+         when Rrr => Put_Word_Meaning (Xp.Rrr_Meaning, Gloss); --  Roman Numeral
+         when Nnn => Put_Word_Meaning (Xp.Nnn_Meaning, Trick); --  Unknown Name
+         when Xxx => Put_Word_Meaning (Xp.Xxx_Meaning, Trick); --  TRICKS
+         when Yyy => Put_Word_Meaning (Xp.Yyy_Meaning, Trick); --  Syncope
+         when Ppp => Put_Word_Meaning (Xp.Ppp_Meaning, Trick); --  Compounds
          when Addons =>
-            Put_Pearse_Code (Output, "06 ");
+            Put_Pearse_Code (Output, Trick);
             Put_Meaning (Output, Means (Integer (Dm.MNPC)));
             Ada.Text_IO.New_Line (Output);
          when others =>
-            Put_Pearse_Code (Output, "03 ");
+            Put_Pearse_Code (Output, Words_Engine.Pearse_Code.Gloss);
             if Dm.De.Part.Pofs = Num  and then Dm.De.Part.Num.Value > 0  then
                Ada.Text_IO.Put_Line (Output, Constructed_Meaning (Sr, Dm));
                --  Constructed MEANING
@@ -477,11 +480,11 @@ package body Words_Engine.List_Package is
          Ada.Text_IO.Set_Col (Output, 1);
 
          if Dm.D_K = Addons then
-            Put_Pearse_Code (Output, "05 ");
+            Put_Pearse_Code (Output, Affix);
          elsif Dm.D_K in Xxx .. Yyy then
-            Put_Pearse_Code (Output, "06 ");
+            Put_Pearse_Code (Output, Trick);
          else
-            Put_Pearse_Code (Output, "01 ");
+            Put_Pearse_Code (Output, Inflection);
          end if;
 
          --TEXT_IO.PUT (OUTPUT, CAP_STEM (TRIM (SR.STEM)));
@@ -761,7 +764,7 @@ package body Words_Engine.List_Package is
       use Dict_IO;
    begin
       if  Words_Mode (Write_Output_To_File)      then
-         Put_Pearse_Code (Output, "04 ");
+         Put_Pearse_Code (Output, Unknowns_2);
          Ada.Text_IO.Put (Output, Raw_Word);
          Ada.Text_IO.Set_Col (Output, 30);
          Inflections_Package.Integer_IO.Put (Output, Line_Number, 7);
@@ -783,7 +786,7 @@ package body Words_Engine.List_Package is
             Ada.Text_IO.Put_Line (Input_Line);
             Ada.Text_IO.Put_Line (Unknowns, Input_Line);
          end if;
-         Put_Pearse_Code (Unknowns, "04 ");
+         Put_Pearse_Code (Unknowns, Unknowns_2);
          Ada.Text_IO.Put (Unknowns, Raw_Word);
          Ada.Text_IO.Set_Col (Unknowns, 30);
          Inflections_Package.Integer_IO.Put (Unknowns, Line_Number, 7);

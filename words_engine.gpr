@@ -10,6 +10,8 @@ project Words_Engine is
    for Exec_Dir use ".";
    for Source_Files use
       ( "words_engine.ads",
+        "words_engine-pearse_code.ads",
+        "words_engine-pearse_code.adb",
         "words_engine-parse.ads",
         "words_engine-parse.adb",
         "words_engine-english_support_package.ads",
