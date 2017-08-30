@@ -14,8 +14,9 @@
 -- All parts of the WORDS system, source code and data files, are made freely
 -- available to anyone who wishes to use them, for whatever purpose.
 
-
+--
 -- These codes are named for classicist and WORDS redistributor Roger Pearse
+--
 
 package Words_Engine.Pearse_Code is
 
