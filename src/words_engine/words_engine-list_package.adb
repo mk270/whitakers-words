@@ -474,99 +474,100 @@ package body Words_Engine.List_Package is
 
    begin
       --TEXT_IO.PUT_LINE ("PUT_INFLECTION ");
-      if not Words_Mode (Do_Only_Meanings) and
-        not (Configuration = Only_Meanings)
+      if Words_Mode (Do_Only_Meanings) or (Configuration = Only_Meanings)
       then
-         Ada.Text_IO.Set_Col (Output, 1);
+         return;
+      end if;
 
-         if Dm.D_K = Addons then
-            Put_Pearse_Code (Output, Affix);
-         elsif Dm.D_K in Xxx .. Yyy then
-            Put_Pearse_Code (Output, Trick);
-         else
-            Put_Pearse_Code (Output, Inflection);
-         end if;
+      Ada.Text_IO.Set_Col (Output, 1);
 
-         --TEXT_IO.PUT (OUTPUT, CAP_STEM (TRIM (SR.STEM)));
-         Ada.Text_IO.Put (Output, (Trim (Sr.Stem)));
-         if Sr.Ir.Ending.Size > 0  then
-            Ada.Text_IO.Put (Output, ".");
-            --TEXT_IO.PUT (OUTPUT, TRIM (CAP_ENDING (SR.IR.ENDING.SUF)));
-            Ada.Text_IO.Put (Output, Trim ((Sr.Ir.Ending.Suf)));
-         end if;
+      if Dm.D_K = Addons then
+         Put_Pearse_Code (Output, Affix);
+      elsif Dm.D_K in Xxx .. Yyy then
+         Put_Pearse_Code (Output, Trick);
+      else
+         Put_Pearse_Code (Output, Inflection);
+      end if;
 
-         if Words_Mdev (Do_Pearse_Codes) then
-            Ada.Text_IO.Set_Col (Output, 25);
-         else
-            Ada.Text_IO.Set_Col (Output, 22);
-         end if;
+      --TEXT_IO.PUT (OUTPUT, CAP_STEM (TRIM (SR.STEM)));
+      Ada.Text_IO.Put (Output, (Trim (Sr.Stem)));
+      if Sr.Ir.Ending.Size > 0  then
+         Ada.Text_IO.Put (Output, ".");
+         --TEXT_IO.PUT (OUTPUT, TRIM (CAP_ENDING (SR.IR.ENDING.SUF)));
+         Ada.Text_IO.Put (Output, Trim ((Sr.Ir.Ending.Suf)));
+      end if;
 
-         if Sr.Ir /= Null_Inflection_Record  then
+      if Words_Mdev (Do_Pearse_Codes) then
+         Ada.Text_IO.Set_Col (Output, 25);
+      else
+         Ada.Text_IO.Set_Col (Output, 22);
+      end if;
 
-            Print_Modified_Qual :
-            declare
-               Out_String : String (1 .. Quality_Record_IO.Default_Width);
-               Passive_Start  : constant Integer :=
-                 Part_Of_Speech_Type_IO.Default_Width + 1 +
-                 Decn_Record_IO.Default_Width + 1 +
-                 Tense_Type_IO.Default_Width + 1;
-               Passive_Finish : constant Integer :=
-                 Passive_Start +
-                 Voice_Type_IO.Default_Width;
-               Ppl_Start      : constant Integer :=
-                 Part_Of_Speech_Type_IO.Default_Width + 1 +
-                 Decn_Record_IO.Default_Width + 1 +
-                 Case_Type_IO.Default_Width + 1 +
-                 Number_Type_IO.Default_Width + 1 +
-                 Gender_Type_IO.Default_Width + 1 +
-                 Tense_Type_IO.Default_Width + 1;
-               Ppl_Finish : constant Integer :=
-                 Ppl_Start +
-                 Voice_Type_IO.Default_Width;
-               Passive_Blank :
-                 constant String (1 .. Voice_Type_IO.Default_Width) :=
-                 (others => ' ');
-            begin
+      if Sr.Ir /= Null_Inflection_Record  then
 
-               Quality_Record_IO.Put (Out_String, Sr.Ir.Qual);
-               if Dm.D_K in General .. Local then  --  UNIQUES has no DE
+         Print_Modified_Qual :
+         declare
+            Out_String : String (1 .. Quality_Record_IO.Default_Width);
+            Passive_Start  : constant Integer :=
+              Part_Of_Speech_Type_IO.Default_Width + 1 +
+              Decn_Record_IO.Default_Width + 1 +
+              Tense_Type_IO.Default_Width + 1;
+            Passive_Finish : constant Integer :=
+              Passive_Start +
+              Voice_Type_IO.Default_Width;
+            Ppl_Start      : constant Integer :=
+              Part_Of_Speech_Type_IO.Default_Width + 1 +
+              Decn_Record_IO.Default_Width + 1 +
+              Case_Type_IO.Default_Width + 1 +
+              Number_Type_IO.Default_Width + 1 +
+              Gender_Type_IO.Default_Width + 1 +
+              Tense_Type_IO.Default_Width + 1;
+            Ppl_Finish : constant Integer :=
+              Ppl_Start +
+              Voice_Type_IO.Default_Width;
+            Passive_Blank :
+              constant String (1 .. Voice_Type_IO.Default_Width) :=
+              (others => ' ');
+         begin
 
-                  if (Sr.Ir.Qual.Pofs = V)    and then
-                    (Dm.De.Part.V.Kind = Dep)       and then
-                    (Sr.Ir.Qual.Verb.Tense_Voice_Mood.Mood in Ind .. Inf)
-                  then
-                     --TEXT_IO.PUT_LINE ("START PRINT MODIFIED QUAL   V");
-                     Out_String (Passive_Start + 1 .. Passive_Finish) :=
-                       Passive_Blank;
-                  elsif (Sr.Ir.Qual.Pofs = Vpar)    and then
-                    (Dm.De.Part.V.Kind = Dep)    and then
-                    (Sr.Ir.Qual.Vpar.Tense_Voice_Mood.Mood = Ppl)
-                  then
-                     --TEXT_IO.PUT_LINE ("START PRINT MODIFIED QUAL   VPAR");
-                     Out_String (Ppl_Start + 1 .. Ppl_Finish) :=
-                       Passive_Blank;
-                  end if;
+            Quality_Record_IO.Put (Out_String, Sr.Ir.Qual);
+            if Dm.D_K in General .. Local then  --  UNIQUES has no DE
+
+               if (Sr.Ir.Qual.Pofs = V)    and then
+                 (Dm.De.Part.V.Kind = Dep)       and then
+                 (Sr.Ir.Qual.Verb.Tense_Voice_Mood.Mood in Ind .. Inf)
+               then
+                  --TEXT_IO.PUT_LINE ("START PRINT MODIFIED QUAL   V");
+                  Out_String (Passive_Start + 1 .. Passive_Finish) :=
+                    Passive_Blank;
+               elsif (Sr.Ir.Qual.Pofs = Vpar)    and then
+                 (Dm.De.Part.V.Kind = Dep)    and then
+                 (Sr.Ir.Qual.Vpar.Tense_Voice_Mood.Mood = Ppl)
+               then
+                  --TEXT_IO.PUT_LINE ("START PRINT MODIFIED QUAL   VPAR");
+                  Out_String (Ppl_Start + 1 .. Ppl_Finish) :=
+                    Passive_Blank;
                end if;
+            end if;
 
-               Ada.Text_IO.Put (Output, Out_String);
-               --TEXT_IO.PUT_LINE ("PRINT MODIFIED QUAL 4");
-            end Print_Modified_Qual;
+            Ada.Text_IO.Put (Output, Out_String);
+            --TEXT_IO.PUT_LINE ("PRINT MODIFIED QUAL 4");
+         end Print_Modified_Qual;
 
-            --               if ((SR.IR.QUAL.POFS = NUM)  and
-            --                          -- Don't want on inflection
-            --                   (DM.D_K in GENERAL .. UNIQUE))  and then
-            --                   (DM.DE.KIND.NUM_VALUE > 0)  then
-            --                 TEXT_IO.PUT (OUTPUT, "  ");
-            --                 INFLECTIONS_PACKAGE.INTEGER_IO.PUT
-            --                    (OUTPUT, DM.DE.KIND.NUM_VALUE);
-            --               end if;
-            Put_Inflection_Flags;
-            Ada.Text_IO.New_Line (Output);
-            Put_Example_Line (Configuration, Output, Sr.Ir, Dm.De);
-            --  Only full when DO_EXAMPLES
-         else
-            Ada.Text_IO.New_Line (Output);
-         end if;
+         --               if ((SR.IR.QUAL.POFS = NUM)  and
+         --                          -- Don't want on inflection
+         --                   (DM.D_K in GENERAL .. UNIQUE))  and then
+         --                   (DM.DE.KIND.NUM_VALUE > 0)  then
+         --                 TEXT_IO.PUT (OUTPUT, "  ");
+         --                 INFLECTIONS_PACKAGE.INTEGER_IO.PUT
+         --                    (OUTPUT, DM.DE.KIND.NUM_VALUE);
+         --               end if;
+         Put_Inflection_Flags;
+         Ada.Text_IO.New_Line (Output);
+         Put_Example_Line (Configuration, Output, Sr.Ir, Dm.De);
+         --  Only full when DO_EXAMPLES
+      else
+         Ada.Text_IO.New_Line (Output);
       end if;
    end Put_Inflection;
 
