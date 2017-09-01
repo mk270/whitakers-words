@@ -3,7 +3,7 @@ PROGRAMMES := bin/words bin/makedict bin/makestem bin/makeefil bin/makeewds bin/
 all: $(PROGRAMMES) data
 
 $(PROGRAMMES):
-	gprbuild -Pwords $(notdir $@)
+	gprbuild -j4 -Pwords $(notdir $@)
 
 DICTFILE.GEN: DICTLINE.GEN bin/makedict
 	echo g | bin/makedict $< > /dev/null
