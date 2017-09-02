@@ -663,7 +663,7 @@ package body Words_Engine.List_Package is
                      if J + 1 > WA.Dict'Last or else
                        WA.Dict (J).De.Mean /= WA.Dict (J + 1).De.Mean
                      then
-                        --  Hhandle simple multiple MEAN with same IR and FORM
+                        --  Handle simple multiple MEAN with same IR and FORM
                         --  by anticipating duplicates and waiting until change
                         Put_Meaning_Line (Output, Sra (1), WA.Dict (J), Mm, Xp);
                      end if;
