@@ -34,17 +34,12 @@ package body Words_Engine.Tricks_Package is
 
    function Is_A_Vowel (C : Character) return Boolean is
    begin
-      if Lower_Case (C) = 'a'  or
-        Lower_Case (C) = 'e'  or
-        Lower_Case (C) = 'i'  or
-        Lower_Case (C) = 'o'  or
-        Lower_Case (C) = 'u'  or
-        Lower_Case (C) = 'y'
-      then
-         return True;
-      else
-         return False;
-      end if;
+      case Lower_Case (C) is
+         when 'a' | 'e' | 'i' | 'o' | 'u' | 'y' =>
+            return True;
+         when others =>
+            return False;
+      end case;
    end Is_A_Vowel;
 
    procedure Roman_Numerals
