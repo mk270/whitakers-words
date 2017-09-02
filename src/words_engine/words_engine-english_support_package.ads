@@ -26,9 +26,9 @@ package Words_Engine.English_Support_Package is
    Priority_Width : constant := 3;
 
    subtype Eword is String (1 .. Eword_Size);
-   Null_Eword : Eword := (others => ' ');
+   Null_Eword : constant Eword := (others => ' ');
    subtype Auxword is String (1 .. Aux_Word_Size);
-   Null_Auxword : Auxword := (others => ' ');
+   Null_Auxword : constant Auxword := (others => ' ');
    subtype Priority_Type is Integer range 0 .. 99;
 
    Number_Of_Ewords : Integer := 0;
@@ -45,7 +45,7 @@ package Words_Engine.English_Support_Package is
          Rank : Integer := 0;
       end record;
 
-   Null_Ewds_Record : Ewds_Record := ((others => ' '),
+   Null_Ewds_Record : constant Ewds_Record := ((others => ' '),
      (others => ' '), 0, X, X, 0, 0, 0);
 
    type Ewds_Array is array (Positive range <>) of Ewds_Record;
