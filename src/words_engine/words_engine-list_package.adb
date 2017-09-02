@@ -326,7 +326,7 @@ package body Words_Engine.List_Package is
       use Ada.Text_IO;
       use Dict_IO;
       I   : Integer := 1;
-      J   : Integer := 0;
+      J   : Integer range 0 .. Stem_Inflection_Array_Array_Size := 0;
       K   : Integer := 0;
       Dm  : Dictionary_MNPC_Record := Null_Dictionary_MNPC_Record;
       Odm : Dictionary_MNPC_Record := Null_Dictionary_MNPC_Record;
