@@ -621,10 +621,11 @@ package body Words_Engine.List_Package is
          Output_Loop :
          for J in WA.Dict'Range loop
             declare
-               Sra : constant Stem_Inflection_Array := WA.Stem_IAA (J);
+               Sra : constant Stem_Inflection_Array  := WA.Stem_IAA (J);
+               DER : constant Dictionary_MNPC_Record := WA.Dict (J);
             begin
                -- hack to work around static/dynamic schizophrenia
-               if WA.Dict (J) = Null_Dictionary_MNPC_Record then
+               if DER = Null_Dictionary_MNPC_Record then
                   exit Output_Loop;
                end if;
 
@@ -637,7 +638,7 @@ package body Words_Engine.List_Package is
                        Null_Stem_Inflection_Record;
 
                      Put_Inflection (Configuration, Output, Sra (K),
-                       WA.Dict (J));
+                       DER);
                      if Sra (K).Stem (1 .. 3) = "PPL"  then
                         Ada.Text_IO.Put_Line (Output,
                                               Head (Xp.Ppp_Meaning, Mm));
@@ -649,26 +650,26 @@ package body Words_Engine.List_Package is
                Putting_Form :
                begin
                   if J = WA.Dict'First or else
-                    Support_Utils.Dictionary_Form (WA.Dict (J).De) /=
+                    Support_Utils.Dictionary_Form (DER.De) /=
                     Support_Utils.Dictionary_Form (WA.Dict (J - 1).De)
                   then
                      --  Put at first chance, skip duplicates
-                     Put_Form (Output, Sra (1), WA.Dict (J));
+                     Put_Form (Output, Sra (1), DER);
                   end if;
                end Putting_Form;
 
                Putting_Meaning :
                begin
-                  if WA.Dict (J).D_K in General .. Unique then
+                  if DER.D_K in General .. Unique then
                      if J + 1 > WA.Dict'Last or else
-                       WA.Dict (J).De.Mean /= WA.Dict (J + 1).De.Mean
+                       DER.De.Mean /= WA.Dict (J + 1).De.Mean
                      then
                         --  Handle simple multiple MEAN with same IR and FORM
                         --  by anticipating duplicates and waiting until change
-                        Put_Meaning_Line (Output, Sra (1), WA.Dict (J), Mm, Xp);
+                        Put_Meaning_Line (Output, Sra (1), DER, Mm, Xp);
                      end if;
                   else
-                     Put_Meaning_Line (Output, Sra (1), WA.Dict (J), Mm, Xp);
+                     Put_Meaning_Line (Output, Sra (1), DER, Mm, Xp);
                   end if;
                end Putting_Meaning;
 
