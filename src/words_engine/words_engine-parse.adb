@@ -1205,6 +1205,7 @@ is
          raise;
       when others =>
          Report_Unknown_Error (Input_Line);
+         raise;
    end Parse_Line;
 
    procedure Report_Storage_Error

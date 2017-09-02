@@ -446,6 +446,7 @@ package body Words_Engine.List_Package is
            & Head (Integer'Image (Line_Number), 8) &
            Head (Integer'Image (Word_Number), 4)
            & "   " & Head (W, 20) & "   "  & Pa (I).Stem);
+         raise;
    end Cycle_Over_Pa;
 
    procedure Put_Inflection
@@ -952,6 +953,7 @@ package body Words_Engine.List_Package is
            & Head (Integer'Image (Line_Number), 8) &
            Head (Integer'Image (Word_Number), 4)
            & "   " & Head (Raw_Word, 20));
+         raise;
    end List_Stems;
 
    procedure List_Entry (Output   : Ada.Text_IO.File_Type;
