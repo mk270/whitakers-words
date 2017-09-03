@@ -35,10 +35,10 @@ package Words_Engine.List_Package is
                           Xp       : Explanations)
                          return Word_Analysis;
 
-   procedure List_Stems (Configuration :    Configuration_Type;
-                         Output        :    Ada.Text_IO.File_Type;
-                         WA            :    Word_Analysis;
-                         Input_Line    :    String);
+   procedure List_Stems (Configuration : Configuration_Type;
+                         Output        : Ada.Text_IO.File_Type;
+                         WA            : Word_Analysis;
+                         Input_Line    : String);
 
    procedure Unknown_Search (Unknown       :  in String;
                              Unknown_Count : out Dict_IO.Count);
