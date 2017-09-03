@@ -3,7 +3,7 @@
 # This script runs an absolutely trivial smoke test; we'll replace it
 # with something better in due course
 
-set -eux
+set -eu
 
 cd $(dirname $0)/..
 
