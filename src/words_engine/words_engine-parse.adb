@@ -1001,13 +1001,12 @@ is
 
       function Is_Alpha_Etc (C : Character) return Boolean is
       begin
-         if C in 'a' .. 'z' or else C in 'A' .. 'Z'
-           or else C = ' ' or else C = '.'
-         then
-            return True;
-         else
-            return False;
-         end if;
+         case C is
+            when 'a' .. 'z' | 'A' .. 'Z' | ' ' | '.' =>
+               return True;
+            when others =>
+               return False;
+         end case;
       end Is_Alpha_Etc;
    begin
       for I in S'Range loop
@@ -1205,6 +1204,7 @@ is
          raise;
       when others =>
          Report_Unknown_Error (Input_Line);
+         raise;
    end Parse_Line;
 
    procedure Report_Storage_Error

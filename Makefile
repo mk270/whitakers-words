@@ -36,5 +36,5 @@ clean:
 
 .PHONY: test $(PROGRAMMES)
 
-test:
+test: $(PROGRAMMES) $(GENERATED_DATA_FILES)
 	(cd test; ./run-tests.sh)
