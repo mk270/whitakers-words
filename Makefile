@@ -33,6 +33,7 @@ clean:
 	gprclean -q -r -Pwords
 	rm -f -- CHECKEWD.
 	rm -f -- DICTFILE.GEN STEMFILE.GEN INDXFILE.GEN EWDSLIST.GEN INFLECTS.SEC
+	rm -f -- EWDSFILE.GEN
 
 .PHONY: test $(PROGRAMMES)
 
