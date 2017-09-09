@@ -613,13 +613,9 @@ package body Words_Engine.List_Package is
       Xp            : in out Explanations)
    is
       Mm            : constant Integer := Get_Max_Meaning_Size (Output);
-   begin
-      --TEXT_IO.PUT_LINE ("PUTting INFLECTIONS");
-      declare
-         Osra : Stem_Inflection_Array (1 .. Stem_Inflection_Array_Size)
+      Osra          : Stem_Inflection_Array (1 .. Stem_Inflection_Array_Size)
            := Null_Sra;
-      begin
-
+   begin
          pragma Assert (WA.Dict'First = WA.Stem_IAA'First);
 
          Output_Loop :
@@ -677,7 +673,6 @@ package body Words_Engine.List_Package is
                Do_Pause (Output, WA.I_Is_Pa_Last);
             end;
          end loop Output_Loop;
-      end;
    end Put_Parse_Details;
 
    procedure Fix_Adverb
