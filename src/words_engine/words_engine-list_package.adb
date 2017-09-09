@@ -284,15 +284,13 @@ package body Words_Engine.List_Package is
       end Put_Meaning;
 
       procedure Put_Word_Meaning
-        (Meaning : in out Meaning_Type;
+        (Meaning : in     Meaning_Type;
          Code    : in     Symbol)
       is
       begin
          if not Used_Meanings (Dm.D_K) then
-            --         if Meaning /= Null_Meaning_Type then
             Put_Pearse_Code (Output, Code);
             Put_Meaning (Output, Meaning);
-            Meaning := Null_Meaning_Type;
             Used_Meanings (Dm.D_K) := True;
          end if;
       end Put_Word_Meaning;
