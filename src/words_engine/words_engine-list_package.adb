@@ -603,6 +603,9 @@ package body Words_Engine.List_Package is
       end if;
    end Do_Pause;
 
+   -- output the details of a word or group of words
+   --
+   -- this might handle a group of words, e.g., "factus est"
    procedure Put_Parse_Details
      (Configuration : Configuration_Type;
       Output        : Ada.Text_IO.File_Type;
