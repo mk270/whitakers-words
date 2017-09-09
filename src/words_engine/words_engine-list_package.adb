@@ -225,31 +225,35 @@ package body Words_Engine.List_Package is
       end if;
 
       N := Dm.De.Part.Num.Value;
-      if Sr.Ir.Qual.Pofs = Num  then    --  Normal parse
-         case Sr.Ir.Qual.Num.Sort is
-            when Card  =>
-               S := Head (Integer'Image (N) &
-                 " - (CARD answers 'how many');", Max_Meaning_Size);
-            when Ord   =>
-               S := Head (Integer'Image (N) &
-                 "th - (ORD, 'in series'); (a/the)" & Integer'Image (N) &
-                 "th (part) (fract w/pars?);", Max_Meaning_Size);
-            when Dist  =>
-               S := Head (Integer'Image (N) &
-                 " each/apiece/times/fold/together/at a time" &
-                 " - 'how many each'; by " &
-                 Integer'Image (N) & "s; ", Max_Meaning_Size);
-            when Adverb =>
-               S := Head (Integer'Image (N) &
-                 " times, on" & Integer'Image (N) &
-                 " occasions - (ADVERB answers 'how often');",
-                 Max_Meaning_Size);
-            when others =>
-               null;
-         end case;
-      else  -- there is fix so POFS is not NUM
+
+      if Sr.Ir.Qual.Pofs /= Num  then
+         -- there is fix so POFS is not NUM
          S := Head ("Number " & Integer'Image (N), Max_Meaning_Size);
+         return S;
       end if;
+
+      --  Normal parse
+      case Sr.Ir.Qual.Num.Sort is
+         when Card  =>
+            S := Head (Integer'Image (N) &
+              " - (CARD answers 'how many');", Max_Meaning_Size);
+         when Ord   =>
+            S := Head (Integer'Image (N) &
+              "th - (ORD, 'in series'); (a/the)" & Integer'Image (N) &
+              "th (part) (fract w/pars?);", Max_Meaning_Size);
+         when Dist  =>
+            S := Head (Integer'Image (N) &
+              " each/apiece/times/fold/together/at a time" &
+              " - 'how many each'; by " &
+              Integer'Image (N) & "s; ", Max_Meaning_Size);
+         when Adverb =>
+            S := Head (Integer'Image (N) &
+              " times, on" & Integer'Image (N) &
+              " occasions - (ADVERB answers 'how often');",
+              Max_Meaning_Size);
+         when others =>
+            null;
+      end case;
 
       return S;
    end Constructed_Meaning;
