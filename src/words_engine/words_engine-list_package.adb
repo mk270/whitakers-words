@@ -270,7 +270,7 @@ package body Words_Engine.List_Package is
       Sr            : Stem_Inflection_Record;
       Dm            : Dictionary_MNPC_Record;
       Mm            : Integer;
-      Xp            : in out Explanations;
+      Xp            : in     Explanations;
       Used_Meanings : in out Meaning_Cache)
    is
       use Dict_IO;
