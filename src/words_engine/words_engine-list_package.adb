@@ -661,15 +661,12 @@ package body Words_Engine.List_Package is
 
                Putting_Meaning :
                begin
-                  if DER.D_K in General .. Unique then
-                     if J + 1 > WA.Dict'Last or else
-                       DER.De.Mean /= WA.Dict (J + 1).De.Mean
-                     then
-                        --  Handle simple multiple MEAN with same IR and FORM
-                        --  by anticipating duplicates and waiting until change
-                        Put_Meaning_Line (Output, Sra (1), DER, Mm, Xp);
-                     end if;
-                  else
+                  if DER.D_K not in General .. Unique or else (
+                    J + 1 > WA.Dict'Last or else
+                       DER.De.Mean /= WA.Dict (J + 1).De.Mean)
+                  then
+                     --  Handle simple multiple MEAN with same IR and FORM
+                     --  by anticipating duplicates and waiting until change
                      Put_Meaning_Line (Output, Sra (1), DER, Mm, Xp);
                   end if;
                end Putting_Meaning;
