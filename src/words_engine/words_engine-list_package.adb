@@ -617,6 +617,7 @@ package body Words_Engine.List_Package is
            := Null_Sra;
    begin
       pragma Assert (WA.Dict'First = WA.Stem_IAA'First);
+      pragma Assert (WA.Dict'Last  = WA.Stem_IAA'Last);
 
       Output_Loop :
       for J in WA.Dict'Range loop
