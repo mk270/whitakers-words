@@ -614,7 +614,7 @@ package body Words_Engine.List_Package is
      (Configuration : Configuration_Type;
       Output        : Ada.Text_IO.File_Type;
       WA            : Word_Analysis;
-      Xp            : in out Explanations)
+      Xp            : in Explanations)
    is
       Mm            : constant Integer := Get_Max_Meaning_Size (Output);
       Osra          : Stem_Inflection_Array (1 .. Stem_Inflection_Array_Size)
@@ -921,7 +921,6 @@ package body Words_Engine.List_Package is
       WA            : Word_Analysis;
       Input_Line    : String)
    is
-      Var_Xp : Explanations := WA.Xp;
       Raw_Word : constant String := To_String (WA.The_Word);
    begin
       --  Sets + if capitalized
@@ -938,7 +937,7 @@ package body Words_Engine.List_Package is
          return; --  Omit rest of output
       end if;
 
-      Put_Parse_Details (Configuration, Output, WA, Var_Xp);
+      Put_Parse_Details (Configuration, Output, WA, WA.Xp);
 
       if WA.Was_Trimmed then
          Ada.Text_IO.Put (Output, '*');
