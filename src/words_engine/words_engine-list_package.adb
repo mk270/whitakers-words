@@ -276,6 +276,7 @@ package body Words_Engine.List_Package is
          --  Handles the MM screen line limit and TRIM_BAR, then TRIMs
       begin
          Ada.Text_IO.Put (Output, Trim (Head (Trim_Bar (Raw_Meaning), Mm)));
+         Ada.Text_IO.New_Line (Output);
       end Put_Meaning;
 
       procedure Put_Word_Meaning
@@ -287,7 +288,6 @@ package body Words_Engine.List_Package is
             Put_Pearse_Code (Output, Code);
             Put_Meaning (Output, Meaning);
             Meaning := Null_Meaning_Type;
-            Ada.Text_IO.New_Line (Output);
          end if;
       end Put_Word_Meaning;
    begin
@@ -300,7 +300,6 @@ package body Words_Engine.List_Package is
          when Addons =>
             Put_Pearse_Code (Output, Trick);
             Put_Meaning (Output, Means (Integer (Dm.MNPC)));
-            Ada.Text_IO.New_Line (Output);
          when others =>
             Put_Pearse_Code (Output, Words_Engine.Pearse_Code.Gloss);
             if Dm.De.Part.Pofs = Num  and then Dm.De.Part.Num.Value > 0  then
@@ -308,10 +307,8 @@ package body Words_Engine.List_Package is
                --  Constructed MEANING
             elsif Dm.D_K = Unique  then
                Put_Meaning (Output, Uniques_De (Dm.MNPC).Mean);
-               Ada.Text_IO.New_Line (Output);
             else
                Put_Meaning (Output, Trim_Bar (Dm.De.Mean));
-               Ada.Text_IO.New_Line (Output);
             end if;
       end case;
    end Put_Meaning_Line;
