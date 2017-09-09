@@ -641,8 +641,8 @@ package body Words_Engine.List_Package is
                   exit Put_Inflection_Array_J when Sra (K) =
                     Null_Stem_Inflection_Record;
 
-                  Put_Inflection (Configuration, Output, Sra (K),
-                    DER);
+                  Put_Inflection (Configuration, Output, Sra (K), DER);
+
                   if Sra (K).Stem (1 .. 3) = "PPL"  then
                      Ada.Text_IO.Put_Line (Output,
                                            Head (WA.Xp.Ppp_Meaning, Mm));
