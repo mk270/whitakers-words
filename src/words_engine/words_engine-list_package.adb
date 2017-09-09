@@ -619,7 +619,6 @@ package body Words_Engine.List_Package is
       pragma Assert (WA.Dict'First = WA.Stem_IAA'First);
       pragma Assert (WA.Dict'Last  = WA.Stem_IAA'Last);
 
-      Output_Loop :
       for J in WA.Dict'Range loop
          declare
             Sra : constant Stem_Inflection_Array  := WA.Stem_IAA (J);
@@ -627,7 +626,7 @@ package body Words_Engine.List_Package is
          begin
             -- hack to work around static/dynamic schizophrenia
             if DER = Null_Dictionary_MNPC_Record then
-               exit Output_Loop;
+               return;
             end if;
 
             --  Skips one identical SRA no matter what comes next
@@ -673,7 +672,7 @@ package body Words_Engine.List_Package is
 
             Do_Pause (Output, WA.I_Is_Pa_Last);
          end;
-      end loop Output_Loop;
+      end loop;
    end Put_Parse_Details;
 
    procedure Fix_Adverb
