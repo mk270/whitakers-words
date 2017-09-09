@@ -613,8 +613,7 @@ package body Words_Engine.List_Package is
    procedure Put_Parse_Details
      (Configuration : Configuration_Type;
       Output        : Ada.Text_IO.File_Type;
-      WA            : Word_Analysis;
-      Xp            : in Explanations)
+      WA            : Word_Analysis)
    is
       Mm            : constant Integer := Get_Max_Meaning_Size (Output);
       Osra          : Stem_Inflection_Array (1 .. Stem_Inflection_Array_Size)
@@ -646,7 +645,7 @@ package body Words_Engine.List_Package is
                     DER);
                   if Sra (K).Stem (1 .. 3) = "PPL"  then
                      Ada.Text_IO.Put_Line (Output,
-                                           Head (Xp.Ppp_Meaning, Mm));
+                                           Head (WA.Xp.Ppp_Meaning, Mm));
                   end if;
                end loop Put_Inflection_Array_J;
                Osra := Sra;
@@ -671,7 +670,7 @@ package body Words_Engine.List_Package is
                then
                   --  Handle simple multiple MEAN with same IR and FORM
                   --  by anticipating duplicates and waiting until change
-                  Put_Meaning_Line (Output, Sra (1), DER, Mm, Xp,
+                  Put_Meaning_Line (Output, Sra (1), DER, Mm, WA.Xp,
                                    Used_Meanings);
                end if;
             end Putting_Meaning;
@@ -937,7 +936,7 @@ package body Words_Engine.List_Package is
          return; --  Omit rest of output
       end if;
 
-      Put_Parse_Details (Configuration, Output, WA, WA.Xp);
+      Put_Parse_Details (Configuration, Output, WA);
 
       if WA.Was_Trimmed then
          Ada.Text_IO.Put (Output, '*');
