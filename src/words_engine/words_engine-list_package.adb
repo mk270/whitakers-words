@@ -113,6 +113,9 @@ package body Words_Engine.List_Package is
      "NeoLatin",   --  G
      "Modern  "); --  H
 
+   subtype Meaning_Cache_Type is Dictionary_Kind range Xxx .. Ppp;
+   type Meaning_Cache is array (Meaning_Cache_Type) of Boolean;
+
    function Get_Max_Meaning_Size (Output : Ada.Text_IO.File_Type)
      return Integer
    is
@@ -263,11 +266,12 @@ package body Words_Engine.List_Package is
    end Trim_Bar;
 
    procedure Put_Meaning_Line
-     (Output : Ada.Text_IO.File_Type;
-      Sr     : Stem_Inflection_Record;
-      Dm     : Dictionary_MNPC_Record;
-      Mm     : Integer;
-      Xp     : in out Explanations)
+     (Output        : Ada.Text_IO.File_Type;
+      Sr            : Stem_Inflection_Record;
+      Dm            : Dictionary_MNPC_Record;
+      Mm            : Integer;
+      Xp            : in out Explanations;
+      Used_Meanings : in out Meaning_Cache)
    is
       use Dict_IO;
 
@@ -284,10 +288,12 @@ package body Words_Engine.List_Package is
          Code    : in     Symbol)
       is
       begin
-         if Meaning /= Null_Meaning_Type then
+         if not Used_Meanings (Dm.D_K) then
+            --         if Meaning /= Null_Meaning_Type then
             Put_Pearse_Code (Output, Code);
             Put_Meaning (Output, Meaning);
             Meaning := Null_Meaning_Type;
+            Used_Meanings (Dm.D_K) := True;
          end if;
       end Put_Word_Meaning;
    begin
@@ -615,6 +621,7 @@ package body Words_Engine.List_Package is
       Mm            : constant Integer := Get_Max_Meaning_Size (Output);
       Osra          : Stem_Inflection_Array (1 .. Stem_Inflection_Array_Size)
            := Null_Sra;
+      Used_Meanings : Meaning_Cache := (others => False);
    begin
       pragma Assert (WA.Dict'First = WA.Stem_IAA'First);
       pragma Assert (WA.Dict'Last  = WA.Stem_IAA'Last);
@@ -666,7 +673,8 @@ package body Words_Engine.List_Package is
                then
                   --  Handle simple multiple MEAN with same IR and FORM
                   --  by anticipating duplicates and waiting until change
-                  Put_Meaning_Line (Output, Sra (1), DER, Mm, Xp);
+                  Put_Meaning_Line (Output, Sra (1), DER, Mm, Xp,
+                                   Used_Meanings);
                end if;
             end Putting_Meaning;
 
