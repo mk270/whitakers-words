@@ -30,9 +30,9 @@ procedure Words_Engine.List_Sweep
    Pa_Last : in out Integer)
 is
    --  This procedure is supposed to process the Output PARSE_ARRAY at PA level
-   --  before it Get turned into SIRAA and DMNPCA in LIST_PACKAGE
+   --  before it gets turned into SIRAA and DMNPCA in LIST_PACKAGE
    --  Since it does only PARSE_ARRAY it is just cheaking INFLECTIONS, not
-   --  DICTIOARY
+   --  DICTIONARY
 
    use Inflection_Record_IO;
    use Dict_IO;
