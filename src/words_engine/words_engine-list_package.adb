@@ -933,8 +933,8 @@ package body Words_Engine.List_Package is
       end if;
 
       --  Exit if UNKNOWNS ONLY (but had to do STATS above)
-      if  Words_Mode (Do_Unknowns_Only)    then      --  Omit rest of Output
-         return;
+      if  Words_Mode (Do_Unknowns_Only) then
+         return; --  Omit rest of output
       end if;
 
       Put_Parse_Details (Configuration, Output, WA, Var_Xp);
