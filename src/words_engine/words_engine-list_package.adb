@@ -217,7 +217,7 @@ package body Words_Engine.List_Package is
      return String
    is
       --  Constructs the meaning for NUM from NUM.SORT and NUM_VALUE
-      S : String (1 .. Max_Meaning_Size) := Null_Meaning_Type;
+      S : constant String (1 .. Max_Meaning_Size) := Null_Meaning_Type;
       N : Integer := 0;
    begin
       if Dm.De.Part.Pofs /= Num  then
@@ -228,34 +228,31 @@ package body Words_Engine.List_Package is
 
       if Sr.Ir.Qual.Pofs /= Num  then
          -- there is fix so POFS is not NUM
-         S := Head ("Number " & Integer'Image (N), Max_Meaning_Size);
-         return S;
+         return Head ("Number " & Integer'Image (N), Max_Meaning_Size);
       end if;
 
       --  Normal parse
       case Sr.Ir.Qual.Num.Sort is
          when Card  =>
-            S := Head (Integer'Image (N) &
+            return Head (Integer'Image (N) &
               " - (CARD answers 'how many');", Max_Meaning_Size);
          when Ord   =>
-            S := Head (Integer'Image (N) &
+            return Head (Integer'Image (N) &
               "th - (ORD, 'in series'); (a/the)" & Integer'Image (N) &
               "th (part) (fract w/pars?);", Max_Meaning_Size);
          when Dist  =>
-            S := Head (Integer'Image (N) &
+            return Head (Integer'Image (N) &
               " each/apiece/times/fold/together/at a time" &
               " - 'how many each'; by " &
               Integer'Image (N) & "s; ", Max_Meaning_Size);
          when Adverb =>
-            S := Head (Integer'Image (N) &
+            return Head (Integer'Image (N) &
               " times, on" & Integer'Image (N) &
               " occasions - (ADVERB answers 'how often');",
               Max_Meaning_Size);
          when others =>
-            null;
+            return S;
       end case;
-
-      return S;
    end Constructed_Meaning;
 
    function Trim_Bar (S : String) return String is
