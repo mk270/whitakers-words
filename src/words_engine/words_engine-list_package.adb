@@ -273,7 +273,6 @@ package body Words_Engine.List_Package is
       Xp            : in     Explanations;
       Used_Meanings : in out Meaning_Cache)
    is
-      use Dict_IO;
 
       procedure Put_Meaning (Output      : Ada.Text_IO.File_Type;
                              Raw_Meaning : String) is
@@ -327,7 +326,6 @@ package body Words_Engine.List_Package is
       I_Is_Pa_Last  : out Boolean;
       Raw_Word, W   :  in String)
    is
-      use Ada.Text_IO;
       use Dict_IO;
       I   : Integer := 1;
       J   : Integer range 0 .. Stem_Inflection_Array_Array_Size := 0;
@@ -764,7 +762,6 @@ package body Words_Engine.List_Package is
       Raw_Word   :        String)
    is
       use Ada.Text_IO;
-      use Dict_IO;
    begin
       if  Words_Mode (Write_Output_To_File)      then
          Put_Pearse_Code (Output, Unknowns_2);

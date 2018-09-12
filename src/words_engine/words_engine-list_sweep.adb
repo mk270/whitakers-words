@@ -34,7 +34,6 @@ is
    --  Since it does only PARSE_ARRAY it is just cheaking INFLECTIONS, not
    --  DICTIONARY
 
-   use Inflection_Record_IO;
    use Dict_IO;
 
    Pr, Opr : Parse_Record := Null_Parse_Record;

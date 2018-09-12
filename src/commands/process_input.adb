@@ -27,10 +27,10 @@ with Words_Engine.Word_Package; use Words_Engine.Word_Package;
 with Latin_Utils.Config; use Latin_Utils.Config;
 with Words_Engine.English_Support_Package;
 use Words_Engine.English_Support_Package;
-with Banner; use Banner;
+with Banner;
 use Latin_Utils;
 
-with Words_Engine.Parse; use Words_Engine.Parse;
+with Words_Engine.Parse;
 
 pragma Elaborate (Support_Utils.Word_Parameters);
 
