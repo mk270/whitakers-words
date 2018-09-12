@@ -213,7 +213,6 @@ package body Words_Engine.Word_Package is
       --  Trys all possible inflections against the Input word in S
       --  and constructs a STEM_LIST of those that survive SL
       use Lel_Section_Io;
-      use Inflection_Record_IO;
       Word : constant String := Lower_Case (Trim (S));
       Last_Of_Word : constant Character := Word (Word'Last);
       Length_Of_Word   : constant Integer := Word'Length;
@@ -617,7 +616,6 @@ package body Words_Engine.Word_Package is
       Ss, Sss : Sal := (others => Null_Parse_Record);
 
       procedure Order_Stems (Sx : in out Sal) is
-         use Inflection_Record_IO;
          use Dict_IO;
          Hits : Integer := 0;
          Sl : Sal := Sx;
