@@ -420,7 +420,6 @@ package body Latin_Utils.Inflections_Package is
       --  If N = 0 (an artifical flag for the section for blank
       --  inflections = 5)
       --  computes the LELL .. LELF indices for use in WORD
-      use Inflection_Record_IO;
       use Lel_Section_Io;
 
       procedure Load_Lel_Indexes is

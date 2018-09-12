@@ -867,9 +867,7 @@ package body Support_Utils.Line_Stuff is
 
    procedure Load_Uniques (Unq : in out Latin_Uniques; File_Name : in String) is
       use Quality_Record_IO;
-      use Part_Entry_IO;
       use Kind_Entry_IO;
-      use Translation_Record_IO;
       use Dict_IO;
 
       Uniques_File : Ada.Text_IO.File_Type;

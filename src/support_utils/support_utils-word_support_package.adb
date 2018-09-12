@@ -184,7 +184,6 @@ package body Support_Utils.Word_Support_Package is
 
    procedure Load_Indices_From_Indx_File (D_K : Dictionary_Kind) is
       use Ada.Text_IO;
-      use Inflections_Package.Integer_IO;
       use Stem_Io;
       use Count_Io;
       Ch : String (1 .. 2);

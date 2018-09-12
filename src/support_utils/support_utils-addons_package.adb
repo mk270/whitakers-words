@@ -21,7 +21,6 @@ package body Support_Utils.Addons_Package is
    use Ada.Text_IO;
    use Part_Of_Speech_Type_IO;
    use Target_Entry_Io;
-   use Part_Entry_IO;
    --use KIND_ENTRY_IO;
    use Stem_Key_Type_IO;
 
