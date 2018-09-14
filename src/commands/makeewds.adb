@@ -30,12 +30,9 @@ procedure Makeewds is
    package Integer_IO is new Ada.Text_IO.Integer_IO (Integer);
    use Ada.Text_IO;
    use Integer_IO;
-   use Stem_Key_Type_IO;
    use Dictionary_Entry_IO;
    use Part_Entry_IO;
    use Part_Of_Speech_Type_IO;
-   use Kind_Entry_IO;
-   use Translation_Record_IO;
    use Age_Type_IO;
    use Area_Type_IO;
    use Geo_Type_IO;
