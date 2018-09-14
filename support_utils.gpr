@@ -28,7 +28,7 @@ project Support_Utils is
  
    for Library_Name use Name;
    for Library_Dir use "lib";
-   for Library_Kind use "dynamic";
+   for Library_Kind use "static";
    for Library_Version use "lib" & Name & ".so." & Version;
  
    package Compiler is
