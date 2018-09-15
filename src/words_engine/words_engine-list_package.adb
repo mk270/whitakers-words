@@ -113,6 +113,9 @@ package body Words_Engine.List_Package is
      "NeoLatin",   --  G
      "Modern  "); --  H
 
+   subtype Meaning_Cache_Type is Dictionary_Kind range Xxx .. Ppp;
+   type Meaning_Cache is array (Meaning_Cache_Type) of Boolean;
+
    function Get_Max_Meaning_Size (Output : Ada.Text_IO.File_Type)
      return Integer
    is
@@ -217,39 +220,42 @@ package body Words_Engine.List_Package is
      return String
    is
       --  Constructs the meaning for NUM from NUM.SORT and NUM_VALUE
-      S : String (1 .. Max_Meaning_Size) := Null_Meaning_Type;
+      S : constant String (1 .. Max_Meaning_Size) := Null_Meaning_Type;
       N : Integer := 0;
    begin
-      if Dm.De.Part.Pofs = Num  then
-         N := Dm.De.Part.Num.Value;
-         if Sr.Ir.Qual.Pofs = Num  then    --  Normal parse
-            case Sr.Ir.Qual.Num.Sort is
-               when Card  =>
-                  S := Head (Integer'Image (N) &
-                    " - (CARD answers 'how many');", Max_Meaning_Size);
-               when Ord   =>
-                  S := Head (Integer'Image (N) &
-                    "th - (ORD, 'in series'); (a/the)" & Integer'Image (N) &
-                    "th (part) (fract w/pars?);", Max_Meaning_Size);
-               when Dist  =>
-                  S := Head (Integer'Image (N) &
-                    " each/apiece/times/fold/together/at a time" &
-                    " - 'how many each'; by " &
-                    Integer'Image (N) & "s; ", Max_Meaning_Size);
-               when Adverb =>
-                  S := Head (Integer'Image (N) &
-                    " times, on" & Integer'Image (N) &
-                    " occasions - (ADVERB answers 'how often');",
-                    Max_Meaning_Size);
-               when others =>
-                  null;
-            end case;
-         else  -- there is fix so POFS is not NUM
-            S := Head ("Number " & Integer'Image (N), Max_Meaning_Size);
-         end if;
+      if Dm.De.Part.Pofs /= Num  then
+         return S;
       end if;
 
-      return S;
+      N := Dm.De.Part.Num.Value;
+
+      if Sr.Ir.Qual.Pofs /= Num  then
+         -- there is fix so POFS is not NUM
+         return Head ("Number " & Integer'Image (N), Max_Meaning_Size);
+      end if;
+
+      --  Normal parse
+      case Sr.Ir.Qual.Num.Sort is
+         when Card  =>
+            return Head (Integer'Image (N) &
+              " - (CARD answers 'how many');", Max_Meaning_Size);
+         when Ord   =>
+            return Head (Integer'Image (N) &
+              "th - (ORD, 'in series'); (a/the)" & Integer'Image (N) &
+              "th (part) (fract w/pars?);", Max_Meaning_Size);
+         when Dist  =>
+            return Head (Integer'Image (N) &
+              " each/apiece/times/fold/together/at a time" &
+              " - 'how many each'; by " &
+              Integer'Image (N) & "s; ", Max_Meaning_Size);
+         when Adverb =>
+            return Head (Integer'Image (N) &
+              " times, on" & Integer'Image (N) &
+              " occasions - (ADVERB answers 'how often');",
+              Max_Meaning_Size);
+         when others =>
+            return S;
+      end case;
    end Constructed_Meaning;
 
    function Trim_Bar (S : String) return String is
@@ -260,31 +266,31 @@ package body Words_Engine.List_Package is
    end Trim_Bar;
 
    procedure Put_Meaning_Line
-     (Output : Ada.Text_IO.File_Type;
-      Sr     : Stem_Inflection_Record;
-      Dm     : Dictionary_MNPC_Record;
-      Mm     : Integer;
-      Xp     : in out Explanations)
+     (Output        : Ada.Text_IO.File_Type;
+      Sr            : Stem_Inflection_Record;
+      Dm            : Dictionary_MNPC_Record;
+      Mm            : Integer;
+      Xp            : in     Explanations;
+      Used_Meanings : in out Meaning_Cache)
    is
-      use Dict_IO;
 
       procedure Put_Meaning (Output      : Ada.Text_IO.File_Type;
                              Raw_Meaning : String) is
          --  Handles the MM screen line limit and TRIM_BAR, then TRIMs
       begin
          Ada.Text_IO.Put (Output, Trim (Head (Trim_Bar (Raw_Meaning), Mm)));
+         Ada.Text_IO.New_Line (Output);
       end Put_Meaning;
 
       procedure Put_Word_Meaning
-        (Meaning : in out Meaning_Type;
+        (Meaning : in     Meaning_Type;
          Code    : in     Symbol)
       is
       begin
-         if Meaning /= Null_Meaning_Type then
+         if not Used_Meanings (Dm.D_K) then
             Put_Pearse_Code (Output, Code);
             Put_Meaning (Output, Meaning);
-            Meaning := Null_Meaning_Type;
-            Ada.Text_IO.New_Line (Output);
+            Used_Meanings (Dm.D_K) := True;
          end if;
       end Put_Word_Meaning;
    begin
@@ -297,7 +303,6 @@ package body Words_Engine.List_Package is
          when Addons =>
             Put_Pearse_Code (Output, Affix_meaning);
             Put_Meaning (Output, Means (Integer (Dm.MNPC)));
-            Ada.Text_IO.New_Line (Output);
          when others =>
             Put_Pearse_Code (Output, Words_Engine.Pearse_Code.Gloss);
             if Dm.De.Part.Pofs = Num  and then Dm.De.Part.Num.Value > 0  then
@@ -305,10 +310,8 @@ package body Words_Engine.List_Package is
                --  Constructed MEANING
             elsif Dm.D_K = Unique  then
                Put_Meaning (Output, Uniques_De (Dm.MNPC).Mean);
-               Ada.Text_IO.New_Line (Output);
             else
                Put_Meaning (Output, Trim_Bar (Dm.De.Mean));
-               Ada.Text_IO.New_Line (Output);
             end if;
       end case;
    end Put_Meaning_Line;
@@ -323,7 +326,6 @@ package body Words_Engine.List_Package is
       I_Is_Pa_Last  : out Boolean;
       Raw_Word, W   :  in String)
    is
-      use Ada.Text_IO;
       use Dict_IO;
       I   : Integer := 1;
       J   : Integer range 0 .. Stem_Inflection_Array_Array_Size := 0;
@@ -603,81 +605,77 @@ package body Words_Engine.List_Package is
       end if;
    end Do_Pause;
 
+   -- output the details of a word or group of words
+   --
+   -- this might handle a group of words, e.g., "factus est"
    procedure Put_Parse_Details
      (Configuration : Configuration_Type;
       Output        : Ada.Text_IO.File_Type;
-      WA            : Word_Analysis;
-      Xp            : in out Explanations)
+      WA            : Word_Analysis)
    is
       Mm            : constant Integer := Get_Max_Meaning_Size (Output);
-   begin
-      --TEXT_IO.PUT_LINE ("PUTting INFLECTIONS");
-      declare
-         Osra : Stem_Inflection_Array (1 .. Stem_Inflection_Array_Size)
+      Osra          : Stem_Inflection_Array (1 .. Stem_Inflection_Array_Size)
            := Null_Sra;
-      begin
+      Used_Meanings : Meaning_Cache := (others => False);
+   begin
+      pragma Assert (WA.Dict'First = WA.Stem_IAA'First);
+      pragma Assert (WA.Dict'Last  = WA.Stem_IAA'Last);
 
-         pragma Assert (WA.Dict'First = WA.Stem_IAA'First);
+      for J in WA.Dict'Range loop
+         declare
+            Sra : constant Stem_Inflection_Array  := WA.Stem_IAA (J);
+            DER : constant Dictionary_MNPC_Record := WA.Dict (J);
+         begin
+            -- hack to work around static/dynamic schizophrenia
+            if DER = Null_Dictionary_MNPC_Record then
+               return;
+            end if;
 
-         Output_Loop :
-         for J in WA.Dict'Range loop
-            declare
-               Sra : constant Stem_Inflection_Array  := WA.Stem_IAA (J);
-               DER : constant Dictionary_MNPC_Record := WA.Dict (J);
+            --  Skips one identical SRA no matter what comes next
+            if Sra /= Osra  then
+
+               Put_Inflection_Array_J :
+               for K in Sra'Range loop
+                  exit Put_Inflection_Array_J when Sra (K) =
+                    Null_Stem_Inflection_Record;
+
+                  Put_Inflection (Configuration, Output, Sra (K), DER);
+
+                  if Sra (K).Stem (1 .. 3) = "PPL"  then
+                     Ada.Text_IO.Put_Line (Output,
+                                           Head (WA.Xp.Ppp_Meaning, Mm));
+                  end if;
+               end loop Put_Inflection_Array_J;
+               Osra := Sra;
+            end if;
+
+            Putting_Form :
             begin
-               -- hack to work around static/dynamic schizophrenia
-               if DER = Null_Dictionary_MNPC_Record then
-                  exit Output_Loop;
+               if J = WA.Dict'First or else
+                 Support_Utils.Dictionary_Form (DER.De) /=
+                 Support_Utils.Dictionary_Form (WA.Dict (J - 1).De)
+               then
+                  --  Put at first chance, skip duplicates
+                  Put_Form (Output, Sra (1), DER);
                end if;
+            end Putting_Form;
 
-               --  Skips one identical SRA no matter what comes next
-               if Sra /= Osra  then
-
-                  Put_Inflection_Array_J :
-                  for K in Sra'Range loop
-                     exit Put_Inflection_Array_J when Sra (K) =
-                       Null_Stem_Inflection_Record;
-
-                     Put_Inflection (Configuration, Output, Sra (K),
-                       DER);
-                     if Sra (K).Stem (1 .. 3) = "PPL"  then
-                        Ada.Text_IO.Put_Line (Output,
-                                              Head (Xp.Ppp_Meaning, Mm));
-                     end if;
-                  end loop Put_Inflection_Array_J;
-                  Osra := Sra;
+            Putting_Meaning :
+            begin
+               if DER.D_K not in General .. Unique or else (
+                 J + 1 > WA.Dict'Last or else
+                    DER.De.Mean /= WA.Dict (J + 1).De.Mean)
+               then
+                  --  Handle simple multiple MEAN with same IR and FORM
+                  --  by anticipating duplicates and waiting until change
+                  Put_Meaning_Line (Output, Sra (1), DER, Mm, WA.Xp,
+                                   Used_Meanings);
                end if;
+            end Putting_Meaning;
 
-               Putting_Form :
-               begin
-                  if J = WA.Dict'First or else
-                    Support_Utils.Dictionary_Form (DER.De) /=
-                    Support_Utils.Dictionary_Form (WA.Dict (J - 1).De)
-                  then
-                     --  Put at first chance, skip duplicates
-                     Put_Form (Output, Sra (1), DER);
-                  end if;
-               end Putting_Form;
-
-               Putting_Meaning :
-               begin
-                  if DER.D_K in General .. Unique then
-                     if J + 1 > WA.Dict'Last or else
-                       DER.De.Mean /= WA.Dict (J + 1).De.Mean
-                     then
-                        --  Handle simple multiple MEAN with same IR and FORM
-                        --  by anticipating duplicates and waiting until change
-                        Put_Meaning_Line (Output, Sra (1), DER, Mm, Xp);
-                     end if;
-                  else
-                     Put_Meaning_Line (Output, Sra (1), DER, Mm, Xp);
-                  end if;
-               end Putting_Meaning;
-
-               Do_Pause (Output, WA.I_Is_Pa_Last);
-            end;
-         end loop Output_Loop;
-      end;
+            Do_Pause (Output, WA.I_Is_Pa_Last);
+         end;
+      end loop;
    end Put_Parse_Details;
 
    procedure Fix_Adverb
@@ -764,7 +762,6 @@ package body Words_Engine.List_Package is
       Raw_Word   :        String)
    is
       use Ada.Text_IO;
-      use Dict_IO;
    begin
       if  Words_Mode (Write_Output_To_File)      then
          Put_Pearse_Code (Output, Unknowns_2);
@@ -920,7 +917,6 @@ package body Words_Engine.List_Package is
       WA            : Word_Analysis;
       Input_Line    : String)
    is
-      Var_Xp : Explanations := WA.Xp;
       Raw_Word : constant String := To_String (WA.The_Word);
    begin
       --  Sets + if capitalized
@@ -933,11 +929,11 @@ package body Words_Engine.List_Package is
       end if;
 
       --  Exit if UNKNOWNS ONLY (but had to do STATS above)
-      if  Words_Mode (Do_Unknowns_Only)    then      --  Omit rest of Output
-         return;
+      if  Words_Mode (Do_Unknowns_Only) then
+         return; --  Omit rest of output
       end if;
 
-      Put_Parse_Details (Configuration, Output, WA, Var_Xp);
+      Put_Parse_Details (Configuration, Output, WA);
 
       if WA.Was_Trimmed then
          Ada.Text_IO.Put (Output, '*');
