@@ -84,8 +84,8 @@ package Latin_Utils.Inflections_Package is
    subtype Which_Type   is Natural range 0 .. 9;
    subtype Variant_Type is Natural range 0 .. 9;
 
-   Which_Type_IO_Default_Width   : Integer := 1;
-   Variant_Type_IO_Default_Width : Integer := 1;
+   Which_Type_IO_Default_Width   : constant Integer := 1;
+   Variant_Type_IO_Default_Width : constant Integer := 1;
 
    ---------------------------------------------------------------------------
 
@@ -99,7 +99,9 @@ package Latin_Utils.Inflections_Package is
 
    -- FIXME: These subprograms don't check if Is_Open (File)
    package Decn_Record_IO is
-      Default_Width : Natural;
+      Default_Width : constant Natural :=
+         Which_Type_IO_Default_Width + 1 +
+         Variant_Type_IO_Default_Width;
       procedure Get (File : in File_Type; Item : out Decn_Record);
       procedure Get (Item : out Decn_Record);
       procedure Put (File : in File_Type; Item : in Decn_Record);

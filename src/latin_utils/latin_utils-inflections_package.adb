@@ -590,9 +590,6 @@ begin
    Age_Type_IO.Default_Width := Age_Type'Width;
    Frequency_Type_IO.Default_Width := Frequency_Type'Width;
 
-   Decn_Record_IO.Default_Width :=
-     1 + 1 +   --WHICH_TYPE_IO_DEFAULT_WIDTH + 1 +
-     1;        --VARIANT_TYPE_IO_DEFAULT_WIDTH;
    Tense_Voice_Mood_Record_IO.Default_Width :=
      Tense_Type_IO.Default_Width + 1 +
      Voice_Type_IO.Default_Width + 1 +
