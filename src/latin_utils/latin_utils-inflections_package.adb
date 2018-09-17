@@ -580,9 +580,11 @@ begin
    Number_Type_IO.Default_Width := Number_Type'Width;
    Person_Type_IO.Default_Width := 1;
    Comparison_Type_IO.Default_Width := Comparison_Type'Width;
+
    Tense_Type_IO.Default_Width := Tense_Type'Width;
    Voice_Type_IO.Default_Width := Voice_Type'Width;
    Mood_Type_IO.Default_Width := Mood_Type'Width;
+
    Noun_Kind_Type_IO.Default_Width := Noun_Kind_Type'Width;
    Pronoun_Kind_Type_IO.Default_Width := Pronoun_Kind_Type'Width;
    Verb_Kind_Type_IO.Default_Width := Verb_Kind_Type'Width;
