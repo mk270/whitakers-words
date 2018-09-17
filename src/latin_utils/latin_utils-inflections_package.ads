@@ -238,7 +238,10 @@ package Latin_Utils.Inflections_Package is
    -- FIXME: These subprograms don't check if Is_Open (File)
    package Tense_Voice_Mood_Record_IO is
       -- FIXME: This probably should be constant.
-      Default_Width : Natural;
+      Default_Width : constant Natural :=
+        Tense_Type'Width + 1 +
+        Voice_Type'Width + 1 +
+        Mood_Type'Width;
       procedure Get (File : in  File_Type; Item : out Tense_Voice_Mood_Record);
       procedure Get (Item : out Tense_Voice_Mood_Record);
       procedure Put (File : in  File_Type; Item : in  Tense_Voice_Mood_Record);
@@ -289,7 +292,7 @@ package Latin_Utils.Inflections_Package is
 
    subtype Numeral_Value_Type is Natural range 0 .. 1000;
 
-   Numeral_Value_Type_IO_Default_Width : Integer := 5;
+   Numeral_Value_Type_IO_Default_Width : constant Integer := 5;
 
    ---------------------------------------------------------------------------
 

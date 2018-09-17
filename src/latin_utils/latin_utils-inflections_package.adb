@@ -590,11 +590,6 @@ begin
    Age_Type_IO.Default_Width := Age_Type'Width;
    Frequency_Type_IO.Default_Width := Frequency_Type'Width;
 
-   Tense_Voice_Mood_Record_IO.Default_Width :=
-     Tense_Type_IO.Default_Width + 1 +
-     Voice_Type_IO.Default_Width + 1 +
-     Mood_Type_IO.Default_Width;
-
    Noun_Record_IO.Default_Width :=
      Decn_Record_IO.Default_Width + 1 +
      Case_Type_IO.Default_Width + 1 +
