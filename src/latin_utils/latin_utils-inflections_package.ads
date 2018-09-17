@@ -399,7 +399,11 @@ package Latin_Utils.Inflections_Package is
    -- FIXME: These subprograms don't check if Is_Open (File)
    package Propack_Record_IO is
       -- FIXME: This probably should be constant.
-      Default_Width : Natural;
+      Default_Width : constant Natural :=
+        Decn_Record_IO.Default_Width + 1 +
+        Case_Type'Width + 1 +
+        Number_Type'Width + 1 +
+        Gender_Type'Width;
       procedure Get (File : in  File_Type; Item : out Propack_Record);
       procedure Get (Item : out Propack_Record);
       procedure Put (File : in  File_Type; Item : in  Propack_Record);
@@ -427,7 +431,12 @@ package Latin_Utils.Inflections_Package is
    -- FIXME: These subprograms don't check if Is_Open (File)
    package Adjective_Record_IO is
       -- FIXME: This probably should be constant.
-      Default_Width : Natural;
+      Default_Width : constant Natural :=
+        Decn_Record_IO.Default_Width + 1 +
+        Case_Type'Width + 1 +
+        Number_Type'Width + 1 +
+        Gender_Type'Width + 1 +
+        Comparison_Type'Width;
       procedure Get (File : in File_Type; Item : out Adjective_Record);
       procedure Get (Item : out Adjective_Record);
       procedure Put (File : in File_Type; Item : in Adjective_Record);
