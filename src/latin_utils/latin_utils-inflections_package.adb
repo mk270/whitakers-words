@@ -590,18 +590,6 @@ begin
    Age_Type_IO.Default_Width := Age_Type'Width;
    Frequency_Type_IO.Default_Width := Frequency_Type'Width;
 
-   Noun_Record_IO.Default_Width :=
-     Decn_Record_IO.Default_Width + 1 +
-     Case_Type_IO.Default_Width + 1 +
-     Number_Type_IO.Default_Width + 1 +
-     Gender_Type_IO.Default_Width;
-
-   Pronoun_Record_IO.Default_Width :=
-     Decn_Record_IO.Default_Width + 1 +
-     Case_Type_IO.Default_Width + 1 +
-     Number_Type_IO.Default_Width + 1 +
-     Gender_Type_IO.Default_Width;
-
    Propack_Record_IO.Default_Width :=
      Decn_Record_IO.Default_Width + 1 +
      Case_Type_IO.Default_Width + 1 +
