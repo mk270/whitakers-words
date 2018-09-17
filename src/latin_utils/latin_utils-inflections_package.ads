@@ -14,6 +14,12 @@
 -- All parts of the WORDS system, source code and data files, are made freely
 -- available to anyone who wishes to use them, for whatever purpose.
 
+--
+-- NOTE: Default_Widths in various nested IO packages are declared as
+-- constants due to the fact that modifying Default_Width would break
+-- IO routines in given package (and packages using it).
+--
+
 with Ada.Text_IO; use Ada.Text_IO;
 with Ada.Direct_IO;
 package Latin_Utils.Inflections_Package is
