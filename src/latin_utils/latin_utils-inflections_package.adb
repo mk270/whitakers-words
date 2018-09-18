@@ -589,7 +589,5 @@ begin
    Pronoun_Kind_Type_IO.Default_Width := Pronoun_Kind_Type'Width;
    Verb_Kind_Type_IO.Default_Width := Verb_Kind_Type'Width;
    Numeral_Sort_Type_IO.Default_Width := Numeral_Sort_Type'Width;
-   Age_Type_IO.Default_Width := Age_Type'Width;
-   Frequency_Type_IO.Default_Width := Frequency_Type'Width;
 
 end Latin_Utils.Inflections_Package;
