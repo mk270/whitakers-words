@@ -585,8 +585,6 @@ begin
    Voice_Type_IO.Default_Width := Voice_Type'Width;
    Mood_Type_IO.Default_Width := Mood_Type'Width;
 
-   Noun_Kind_Type_IO.Default_Width := Noun_Kind_Type'Width;
-   Pronoun_Kind_Type_IO.Default_Width := Pronoun_Kind_Type'Width;
    Verb_Kind_Type_IO.Default_Width := Verb_Kind_Type'Width;
    Numeral_Sort_Type_IO.Default_Width := Numeral_Sort_Type'Width;
 
