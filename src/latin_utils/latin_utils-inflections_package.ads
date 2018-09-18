@@ -464,7 +464,12 @@ package Latin_Utils.Inflections_Package is
    -- FIXME: These subprograms don't check if Is_Open (File)
    package Numeral_Record_IO is
       -- FIXME: This probably should be constant.
-      Default_Width : Natural;
+      Default_Width : constant Natural :=
+        Decn_Record_IO.Default_Width + 1 +
+        Case_Type'Width + 1 +
+        Number_Type'Width + 1 +
+        Gender_Type'Width + 1 +
+        Numeral_Sort_Type'Width;
       procedure Get (File : in  File_Type; Item : out Numeral_Record);
       -- FIXME: This subprogram seems to be incorrect
       procedure Get (Item : out Numeral_Record);
@@ -489,7 +494,8 @@ package Latin_Utils.Inflections_Package is
    -- FIXME: These subprograms don't check if Is_Open (File)
    package Adverb_Record_IO is
       -- FIXME: This probably should be constant.
-      Default_Width : Natural;
+      Default_Width : constant Natural :=
+        Comparison_Type'Width;
       procedure Get (File : in  File_Type; Item : out Adverb_Record);
       procedure Get (Item : out Adverb_Record);
       procedure Put (File : in  File_Type; Item : in  Adverb_Record);
@@ -516,7 +522,11 @@ package Latin_Utils.Inflections_Package is
    -- FIXME: These subprograms don't check if Is_Open (File)
    package Verb_Record_IO is
       -- FIXME: This probably should be constant.
-      Default_Width : Natural;
+      Default_Width : constant Natural :=
+        Decn_Record_IO.Default_Width + 1 +
+        Tense_Voice_Mood_Record_IO.Default_Width + 1 +
+        Person_Type'Width + 1 +
+        Number_Type'Width;
       procedure Get (File : in  File_Type; Item : out Verb_Record);
       procedure Get (Item : out Verb_Record);
       procedure Put (File : in  File_Type; Item : in  Verb_Record);
@@ -544,7 +554,12 @@ package Latin_Utils.Inflections_Package is
    -- FIXME: These subprograms don't check if Is_Open (File)
    package Vpar_Record_IO is
       -- FIXME: This probably should be constant.
-      Default_Width : Natural;
+      Default_Width : constant Natural :=
+        Decn_Record_IO.Default_Width + 1 +
+        Case_Type'Width + 1 +
+        Number_Type'Width + 1 +
+        Gender_Type'Width + 1 +
+        Tense_Voice_Mood_Record_IO.Default_Width;
       procedure Get (File : in  File_Type; Item : out Vpar_Record);
       procedure Get (Item : out Vpar_Record);
       procedure Put (File : in  File_Type; Item : in  Vpar_Record);
@@ -571,7 +586,11 @@ package Latin_Utils.Inflections_Package is
    -- FIXME: These subprograms don't check if Is_Open (File)
    package Supine_Record_IO is
       -- FIXME: This probably should be constant.
-      Default_Width : Natural;
+      Default_Width : constant Natural :=
+        Decn_Record_IO.Default_Width + 1 +
+        Case_Type'Width + 1 +
+        Number_Type'Width + 1 +
+        Gender_Type'Width;
       procedure Get (File : in  File_Type; Item : out Supine_Record);
       procedure Get (Item : out Supine_Record);
       procedure Put (File : in  File_Type; Item : in  Supine_Record);
@@ -595,7 +614,7 @@ package Latin_Utils.Inflections_Package is
    -- FIXME: These subprograms don't check if Is_Open (File)
    package Preposition_Record_IO is
       -- FIXME: This probably should be constant.
-      Default_Width : Natural;
+      Default_Width : constant Natural := Case_Type'Width;
       procedure Get (File : in  File_Type; Item : out Preposition_Record);
       procedure Get (Item : out Preposition_Record);
       procedure Put (File : in  File_Type; Item : in  Preposition_Record);
@@ -616,7 +635,7 @@ package Latin_Utils.Inflections_Package is
    -- FIXME: These subprograms don't check if Is_Open (File)
    package Conjunction_Record_IO is
       -- FIXME: This probably should be constant.
-      Default_Width : Natural;
+      Default_Width : constant Natural := 0;
       procedure Get (File : in  File_Type; Item : out Conjunction_Record);
       procedure Get (Item : out Conjunction_Record);
       procedure Put (File : in  File_Type; Item : in  Conjunction_Record);
@@ -637,7 +656,7 @@ package Latin_Utils.Inflections_Package is
    -- FIXME: These subprograms don't check if Is_Open (File)
    package Interjection_Record_IO is
       -- FIXME: This probably should be constant.
-      Default_Width : Natural;
+      Default_Width : constant Natural := 0;
       procedure Get (File : in  File_Type; Item : out Interjection_Record);
       procedure Get (Item : out Interjection_Record);
       procedure Put (File : in  File_Type; Item : in  Interjection_Record);
@@ -661,7 +680,7 @@ package Latin_Utils.Inflections_Package is
    -- FIXME: These subprograms don't check if Is_Open (File)
    package Tackon_Record_IO is
       -- FIXME: This probably should be constant.
-      Default_Width : Natural;
+      Default_Width : constant Natural := 0;
       procedure Get (File : in  File_Type; Item : out Tackon_Record);
       procedure Get (Item : out Tackon_Record);
       procedure Put (File : in  File_Type; Item : in  Tackon_Record);
@@ -684,7 +703,7 @@ package Latin_Utils.Inflections_Package is
    -- FIXME: These subprograms don't check if Is_Open (File)
    package Prefix_Record_IO is
       -- FIXME: This probably should be constant.
-      Default_Width : Natural;
+      Default_Width : constant Natural := 0;
       procedure Get (File : in  File_Type; Item : out Prefix_Record);
       procedure Get (Item : out Prefix_Record);
       procedure Put (File : in  File_Type; Item : in  Prefix_Record);
@@ -707,7 +726,7 @@ package Latin_Utils.Inflections_Package is
    -- FIXME: These subprograms don't check if Is_Open (File)
    package Suffix_Record_IO is
       -- FIXME: This probably should be constant.
-      Default_Width : Natural;
+      Default_Width : constant Natural := 0;
       procedure Get (File : in  File_Type; Item : out Suffix_Record);
       procedure Get (Item : out Suffix_Record);
       procedure Put (File : in  File_Type; Item : in  Suffix_Record);
@@ -769,7 +788,9 @@ package Latin_Utils.Inflections_Package is
    -- FIXME: These subprograms don't check if Is_Open (File)
    package Quality_Record_IO is
       -- FIXME: This probably should be constant.
-      Default_Width : Natural;
+      Default_Width : constant Natural :=
+        Part_Of_Speech_Type'Width + 1 +
+        Vpar_Record_IO.Default_Width; --  Largest
       procedure Get (File : in  File_Type; Item : out Quality_Record);
       procedure Get (Item : out Quality_Record);
       procedure Put (File : in  File_Type; Item : in  Quality_Record);
@@ -804,7 +825,7 @@ package Latin_Utils.Inflections_Package is
    -- FIXME: These subprograms don't check if Is_Open (File)
    package Ending_Record_IO is
       -- FIXME: This probably should be constant.
-      Default_Width : Natural;
+      Default_Width : constant Natural := 3 + 1 + Max_Ending_Size;
       procedure Get (File : in  File_Type; Item : out Ending_Record);
       procedure Get (Item : out Ending_Record);
       procedure Put (File : in  File_Type; Item : in  Ending_Record);
@@ -879,7 +900,12 @@ package Latin_Utils.Inflections_Package is
    -- FIXME: These subprograms don't check if Is_Open (File)
    package Inflection_Record_IO is
       -- FIXME: This probably should be constant.
-      Default_Width : Natural;
+      Default_Width : constant Natural :=
+        Quality_Record_IO.Default_Width + 1 +
+        1  + 1 +
+        Ending_Record_IO.Default_Width + 1 +
+        Age_Type'Width + 1 +
+        Frequency_Type'Width;
       procedure Get (File : in  File_Type; Item : out Inflection_Record);
       procedure Get (Item : out Inflection_Record);
       procedure Put (File : in  File_Type; Item : in  Inflection_Record);
