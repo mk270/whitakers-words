@@ -330,17 +330,12 @@ package body Support_Utils.Addons_Package is
       end if;
    end Add_Suffix;
 
-   --  package body TACKON_LINE_IO is separate;
-   --  package body PREFIX_LINE_IO is separate;
-   --  package body SUFFIX_LINE_IO is separate;
-
    package body Target_Entry_Io is separate;
    package body Tackon_Entry_Io is separate;
    package body Prefix_Entry_Io is separate;
    package body Suffix_Entry_Io is separate;
 
-begin    --  Initiate body of ADDONS_PACKAGE
-         --TEXT_IO.PUT_LINE ("Initializing ADDONS_PACKAGE");
+begin
 
    Prefix_Entry_Io.Default_Width := Part_Of_Speech_Type_IO.Default_Width + 1 +
      Part_Of_Speech_Type_IO.Default_Width;
