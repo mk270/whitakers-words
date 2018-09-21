@@ -201,8 +201,6 @@ is
 
       use Dict_IO;
 
-      Pr, Opr : Parse_Record := Null_Parse_Record;
-
       Not_Only_Archaic  : Boolean := False;
       Not_Only_Medieval : Boolean := False;
       Not_Only_Uncommon : Boolean := False;
@@ -579,10 +577,11 @@ is
          end loop;                          --  loop sweep over PA
       end Sweeping;
 
-      Opr := Pa (1);
       --  Last chance to weed out duplicates
       declare
-         J : Integer := 2;
+         Pr  : Parse_Record := Null_Parse_Record;
+         Opr : Parse_Record := Pa (1);
+         J   : Integer      := 2;
       begin
          Compress_Loop :
          loop
