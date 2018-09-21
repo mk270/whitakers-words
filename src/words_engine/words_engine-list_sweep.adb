@@ -189,6 +189,282 @@ is
       return Allowed;
    end Allowed_Stem;
 
+   -- FIXME: Pa is effectively passed in twice; Sl is often a slice of Pa
+   procedure Order_Parse_Array
+     (Sl     : in out Parse_Array;
+      Diff_J : out Integer;
+      Pa     : in Parse_Array)
+   is
+      use Dict_IO;
+
+      Hits                       : Integer := 0;
+      Sl_Last                    : Integer := Sl'Last;
+      Sl_Last_Initial            : constant Integer := Sl_Last;
+      Sm                         : Parse_Record;
+      Has_Noun_Abbreviation      : Boolean := False;
+
+      Not_Only_Archaic           : Boolean := False;
+      Not_Only_Medieval          : Boolean := False;
+      Not_Only_Uncommon          : Boolean := False;
+
+      function Depr (Pr : Parse_Record) return Dictionary_Entry is
+         De : Dictionary_Entry;
+      begin
+         -- TEXT_IO.PUT ("DEPR  ");
+         -- PARSE_RECORD_IO.PUT (PR);
+         -- TEXT_IO.NEW_LINE;
+         -- FIXME: duplicates (commented) code above
+         if Pr.MNPC = Null_MNPC  then
+            return Null_Dictionary_Entry;
+         else
+            if Pr.D_K in General .. Local  then
+               --if PR.MNPC /= OMNPC  then
+               Dict_IO.Set_Index (Dict_File (Pr.D_K), Pr.MNPC);
+               Dict_IO.Read (Dict_File (Pr.D_K), De);
+               --OMNPC := PR.MNPC;
+               --ODE := DE;
+               --else
+               --DE := ODE;
+               --end if;
+            elsif Pr.D_K = Unique  then
+               De :=  Uniques_De (Pr.MNPC);
+            end if;
+         end if;
+
+         return De;
+      end Depr;
+
+   begin
+
+      if Sl'Length = 0 then
+         Diff_J := Sl_Last_Initial - Sl_Last;
+         return;
+      end if;
+
+      -- FIXME: this code looks like it's duplicated in another file
+
+      --  Bubble sort since this list should usually be very small (1-5)
+      Hit_Loop :
+      loop
+         Hits := 0;
+
+         --------------------------------------------------
+
+         Switch :
+         declare
+            function "<" (Left, Right : Quality_Record) return Boolean is
+            begin
+               if Left.Pofs = Right.Pofs  and then
+                 Left.Pofs = Pron        and then
+                 Left.Pron.Decl.Which = 1
+               then
+                  return (Left.Pron.Decl.Var < Right.Pron.Decl.Var);
+               else
+                  return Inflections_Package."<"(Left, Right);
+               end if;
+            end "<";
+
+            function Equ (Left, Right : Quality_Record) return Boolean is
+            begin
+               if Left.Pofs = Right.Pofs  and then
+                 Left.Pofs = Pron        and then
+                 Left.Pron.Decl.Which = 1
+               then
+                  return (Left.Pron.Decl.Var = Right.Pron.Decl.Var);
+               else
+                  return Inflections_Package."="(Left, Right);
+               end if;
+            end Equ;
+
+            function Meaning (Pr : Parse_Record) return Meaning_Type is
+            begin
+               return Depr (Pr).Mean;
+            end Meaning;
+
+         begin
+            --  Need to remove duplicates in ARRAY_STEMS
+            --  This sort is very sloppy
+            --  One problem is that it can mix up some of the order of
+            --  PREFIX, XXX, LOC
+
+            --  I ought to do this for every set of results from
+            --  different approaches not just in one fell swoop
+            --  at the end !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+            Inner_Loop :
+            for I in Sl'First .. Sl_Last - 1  loop
+               --  Maybe <   =  on PR.STEM  -  will have to make up "<"
+               --  Actually STEM and PART  --  and check that later in print
+               if Sl (I + 1).D_K  > Sl (I).D_K
+                 or else  --  Let DICT.LOC list first
+
+                 (Sl (I + 1).D_K  = Sl (I).D_K    and then
+                 Sl (I + 1).MNPC  < Sl (I).MNPC)   or else
+
+                 (Sl (I + 1).D_K  = Sl (I).D_K    and then
+                 Sl (I + 1).MNPC  = Sl (I).MNPC    and then
+                 Sl (I + 1).IR.Qual < Sl (I).IR.Qual)  or else
+
+                 (Sl (I + 1).D_K  = Sl (I).D_K    and then
+                 Sl (I + 1).MNPC  = Sl (I).MNPC    and then
+                 Equ (Sl (I + 1).IR.Qual, Sl (I).IR.Qual)  and then
+                 Meaning (Sl (I + 1)) < Meaning (Sl (I)))
+                 or else   --  | is > letter
+
+                 (Sl (I + 1).D_K  = Sl (I).D_K  and then
+                 Sl (I + 1).MNPC  = Sl (I).MNPC    and then
+                 Equ (Sl (I + 1).IR.Qual, Sl (I).IR.Qual)  and then
+                 Meaning (Sl (I + 1)) = Meaning (Sl (I))   and then
+                 Sl (I + 1).IR.Ending.Size < Sl (I).IR.Ending.Size)  or else
+
+                 (Sl (I + 1).D_K  = Sl (I).D_K  and then
+                 Sl (I + 1).MNPC  = Sl (I).MNPC    and then
+                 Equ (Sl (I + 1).IR.Qual, Sl (I).IR.Qual)  and then
+                 Meaning (Sl (I + 1)) = Meaning (Sl (I))   and then
+                 Sl (I + 1).IR.Ending.Size = Sl (I).IR.Ending.Size  and then
+                 Inflections_Package."<"(Sl (I + 1).IR.Qual, Sl (I).IR.Qual))
+               then
+
+                  Sm := Sl (I);
+                  Sl (I) := Sl (I + 1);
+                  Sl (I + 1) := Sm;
+                  Hits := Hits + 1;
+
+               end if;
+
+            end loop Inner_Loop;
+
+         end Switch;
+         --------------------------------------------------
+
+         exit Hit_Loop when Hits = 0;
+      end loop Hit_Loop;
+
+      --  Fix up the Archaic/Medieval
+      if Words_Mode (Trim_Output)  then
+         --  Check to see if we can afford to TRIM,
+         --  if there will be something left over
+         for I in Sl'First .. Sl_Last
+         loop
+            declare
+               De : Dictionary_Entry;
+            begin
+               if Sl (I).D_K in General .. Local  then
+
+                  Dict_IO.Set_Index (Dict_File (Sl (I).D_K), Sl (I).MNPC);
+                  --TEXT_IO.PUT (INTEGER'IMAGE (INTEGER (SL (I).MNPC)));
+                  Dict_IO.Read (Dict_File (Sl (I).D_K), De);
+                  --DICTIONARY_ENTRY_IO.PUT (DE); TEXT_IO.NEW_LINE;
+
+                  if ((Sl (I).IR.Age = X) or else (Sl (I).IR.Age > A))  and
+                    ((De.Tran.Age = X) or else (De.Tran.Age > A))
+                  then
+                     Not_Only_Archaic := True;
+                  end if;
+                  if ((Sl (I).IR.Age = X) or else (Sl (I).IR.Age < F))  and
+                    --  Or E????
+                    ((De.Tran.Age = X) or else (De.Tran.Age < F))
+                  then
+                     Not_Only_Medieval := True;
+                  end if;
+                  if ((Sl (I).IR.Freq = X) or else (Sl (I).IR.Freq < C)) and
+                    --  A/X < C   --  C for inflections is uncommon  !!!!
+                    ((De.Tran.Freq = X) or else (De.Tran.Freq < D))
+                    --     --  E for DICTLINE is uncommon  !!!!
+                  then
+                     Not_Only_Uncommon := True;
+                  end if;
+
+                  if Sl (I).IR.Qual.Pofs = N  and then
+                    Sl (I).IR.Qual.Noun.Decl = (9, 8)
+                  then
+                     Has_Noun_Abbreviation := True;
+                  end if;
+               end if;
+            end;
+         end loop;
+
+         --  We order and Trim  within a subset SL, but have to correct the
+         --  big set PA also
+         --  Kill not ALLOWED first, then check the remaining from the top
+         --  I am assuming there is no Trim ming of FIXES for AGE/ .. .
+         for I in reverse Sl'First .. Sl_Last loop
+            --  Remove not ALLOWED_STEM & null
+            if not Allowed_Stem (Sl (I)) or (Pa (I) = Null_Parse_Record)
+            then
+               Sl (I .. Sl_Last - 1) := Sl (I + 1 .. Sl_Last);
+               Sl_Last := Sl_Last - 1;
+               Trimmed := True;
+            elsif (Not_Only_Archaic and Words_Mdev (Omit_Archaic)) and then
+              Sl (I).IR.Age = A
+            then
+               Sl (I .. Sl_Last - 1) := Sl (I + 1 .. Sl_Last);
+               Sl_Last := Sl_Last - 1;
+               Trimmed := True;
+            elsif (Not_Only_Medieval and Words_Mdev (Omit_Medieval)) and then
+              Sl (I).IR.Age >= F
+            then
+               Sl (I .. Sl_Last - 1) := Sl (I + 1 .. Sl_Last);
+               Sl_Last := Sl_Last - 1;
+               Trimmed := True;
+
+            elsif (Not_Only_Uncommon and Words_Mdev (Omit_Uncommon)) and then
+              Sl (I).IR.Freq >= C
+            then      --  Remember A < C
+               Sl (I .. Sl_Last - 1) := Sl (I + 1 .. Sl_Last);
+               Sl_Last := Sl_Last - 1;
+               Trimmed := True;
+
+            ----Big problem.  This area has been generaing exceptions.
+            ----At least one difficulty is that suffixes change POFS.
+            ----So one has a N inflection (SL) but a V DE
+            ----When the program checks for VOC, it wants a N
+            ---- and then asks about KIND (P, N, T, .. .)
+            ---- But the DE (v) does not have those
+            ---- The solution would be to fix ADD SUFFIX
+            ---- to do somethnig about
+            --   passing the ADDON KIND
+            ----  I do not want to face that now
+            ----  It is likely that all this VOC/LOC is worthless anyway.
+            ---    Maybe lower FREQ in INFLECTS
+            ----
+            ----  A further complication is the GANT and AO give
+            --    different results (AO no exception)
+            ----  That is probably because the program is in
+            --    error and the result threrfore unspecified
+            ----
+            ----
+
+            --  This is really working much too hard!
+            --  just to kill Roman numeral for three single letters
+            --  Also strange in that code depends on dictionary knowledge
+            elsif Has_Noun_Abbreviation    and then
+              (All_Caps and Followed_By_Period)
+            then
+               if (Sl (I).IR.Qual.Pofs /= N) or
+                 ((Sl (I).IR.Qual /= (N, ((9, 8), X, X, M)))  and
+                 (Trim (Sl (I).Stem)'Length = 1  and then
+                 (Sl (I).Stem (1) = 'A'  or
+                 Sl (I).Stem (1) = 'C'  or
+                 Sl (I).Stem (1) = 'D'  or
+                 --SL (I).STEM (1) = 'K'  or      --  No problem here
+                 Sl (I).Stem (1) = 'L'  or
+                 Sl (I).Stem (1) = 'M'            --  or
+                 )))
+               then
+                  Sl (I .. Sl_Last - 1) := Sl (I + 1 .. Sl_Last);
+                  Sl_Last := Sl_Last - 1;
+                  Trimmed := True;
+               end if;
+            end if;
+         end loop;
+
+      end if;   --  On TRIM
+
+      Diff_J := Sl_Last_Initial - Sl_Last;
+
+   end Order_Parse_Array;
+
    procedure List_Sweep
      (Pa      : in out Parse_Array;
       Pa_Last : in out Integer)
@@ -199,282 +475,7 @@ is
       --  Since it does only PARSE_ARRAY it is just cheaking INFLECTIONS, not
       --  DICTIONARY
 
-      use Dict_IO;
-
       -----------------------------------------------------------
-
-      procedure Order_Parse_Array
-        (Sl     : in out Parse_Array;
-         Diff_J : out Integer)
-      is
-         Hits                       : Integer := 0;
-         Sl_Last                    : Integer := Sl'Last;
-         Sl_Last_Initial            : constant Integer := Sl_Last;
-         Sm                         : Parse_Record;
-         Has_Noun_Abbreviation      : Boolean := False;
-
-         Not_Only_Archaic           : Boolean := False;
-         Not_Only_Medieval          : Boolean := False;
-         Not_Only_Uncommon          : Boolean := False;
-
-         function Depr (Pr : Parse_Record) return Dictionary_Entry is
-            De : Dictionary_Entry;
-         begin
-            -- TEXT_IO.PUT ("DEPR  ");
-            -- PARSE_RECORD_IO.PUT (PR);
-            -- TEXT_IO.NEW_LINE;
-            -- FIXME: duplicates (commented) code above
-            if Pr.MNPC = Null_MNPC  then
-               return Null_Dictionary_Entry;
-            else
-               if Pr.D_K in General .. Local  then
-                  --if PR.MNPC /= OMNPC  then
-                  Dict_IO.Set_Index (Dict_File (Pr.D_K), Pr.MNPC);
-                  Dict_IO.Read (Dict_File (Pr.D_K), De);
-                  --OMNPC := PR.MNPC;
-                  --ODE := DE;
-                  --else
-                  --DE := ODE;
-                  --end if;
-               elsif Pr.D_K = Unique  then
-                  De :=  Uniques_De (Pr.MNPC);
-               end if;
-            end if;
-
-            return De;
-         end Depr;
-
-      begin
-
-         if Sl'Length = 0 then
-            Diff_J := Sl_Last_Initial - Sl_Last;
-            return;
-         end if;
-
-         -- FIXME: this code looks like it's duplicated in another file
-
-         --  Bubble sort since this list should usually be very small (1-5)
-         Hit_Loop :
-         loop
-            Hits := 0;
-
-            --------------------------------------------------
-
-            Switch :
-            declare
-               function "<" (Left, Right : Quality_Record) return Boolean is
-               begin
-                  if Left.Pofs = Right.Pofs  and then
-                    Left.Pofs = Pron        and then
-                    Left.Pron.Decl.Which = 1
-                  then
-                     return (Left.Pron.Decl.Var < Right.Pron.Decl.Var);
-                  else
-                     return Inflections_Package."<"(Left, Right);
-                  end if;
-               end "<";
-
-               function Equ (Left, Right : Quality_Record) return Boolean is
-               begin
-                  if Left.Pofs = Right.Pofs  and then
-                    Left.Pofs = Pron        and then
-                    Left.Pron.Decl.Which = 1
-                  then
-                     return (Left.Pron.Decl.Var = Right.Pron.Decl.Var);
-                  else
-                     return Inflections_Package."="(Left, Right);
-                  end if;
-               end Equ;
-
-               function Meaning (Pr : Parse_Record) return Meaning_Type is
-               begin
-                  return Depr (Pr).Mean;
-               end Meaning;
-
-            begin
-               --  Need to remove duplicates in ARRAY_STEMS
-               --  This sort is very sloppy
-               --  One problem is that it can mix up some of the order of
-               --  PREFIX, XXX, LOC
-
-               --  I ought to do this for every set of results from
-               --  different approaches not just in one fell swoop
-               --  at the end !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-
-               Inner_Loop :
-               for I in Sl'First .. Sl_Last - 1  loop
-                  --  Maybe <   =  on PR.STEM  -  will have to make up "<"
-                  --  Actually STEM and PART  --  and check that later in print
-                  if Sl (I + 1).D_K  > Sl (I).D_K
-                    or else  --  Let DICT.LOC list first
-
-                    (Sl (I + 1).D_K  = Sl (I).D_K    and then
-                    Sl (I + 1).MNPC  < Sl (I).MNPC)   or else
-
-                    (Sl (I + 1).D_K  = Sl (I).D_K    and then
-                    Sl (I + 1).MNPC  = Sl (I).MNPC    and then
-                    Sl (I + 1).IR.Qual < Sl (I).IR.Qual)  or else
-
-                    (Sl (I + 1).D_K  = Sl (I).D_K    and then
-                    Sl (I + 1).MNPC  = Sl (I).MNPC    and then
-                    Equ (Sl (I + 1).IR.Qual, Sl (I).IR.Qual)  and then
-                    Meaning (Sl (I + 1)) < Meaning (Sl (I)))
-                    or else   --  | is > letter
-
-                    (Sl (I + 1).D_K  = Sl (I).D_K  and then
-                    Sl (I + 1).MNPC  = Sl (I).MNPC    and then
-                    Equ (Sl (I + 1).IR.Qual, Sl (I).IR.Qual)  and then
-                    Meaning (Sl (I + 1)) = Meaning (Sl (I))   and then
-                    Sl (I + 1).IR.Ending.Size < Sl (I).IR.Ending.Size)  or else
-
-                    (Sl (I + 1).D_K  = Sl (I).D_K  and then
-                    Sl (I + 1).MNPC  = Sl (I).MNPC    and then
-                    Equ (Sl (I + 1).IR.Qual, Sl (I).IR.Qual)  and then
-                    Meaning (Sl (I + 1)) = Meaning (Sl (I))   and then
-                    Sl (I + 1).IR.Ending.Size = Sl (I).IR.Ending.Size  and then
-                    Inflections_Package."<"(Sl (I + 1).IR.Qual, Sl (I).IR.Qual))
-                  then
-
-                     Sm := Sl (I);
-                     Sl (I) := Sl (I + 1);
-                     Sl (I + 1) := Sm;
-                     Hits := Hits + 1;
-
-                  end if;
-
-               end loop Inner_Loop;
-
-            end Switch;
-            --------------------------------------------------
-
-            exit Hit_Loop when Hits = 0;
-         end loop Hit_Loop;
-
-         --  Fix up the Archaic/Medieval
-         if Words_Mode (Trim_Output)  then
-            --  Check to see if we can afford to TRIM,
-            --  if there will be something left over
-            for I in Sl'First .. Sl_Last
-            loop
-               declare
-                  De : Dictionary_Entry;
-               begin
-                  if Sl (I).D_K in General .. Local  then
-
-                     Dict_IO.Set_Index (Dict_File (Sl (I).D_K), Sl (I).MNPC);
-                     --TEXT_IO.PUT (INTEGER'IMAGE (INTEGER (SL (I).MNPC)));
-                     Dict_IO.Read (Dict_File (Sl (I).D_K), De);
-                     --DICTIONARY_ENTRY_IO.PUT (DE); TEXT_IO.NEW_LINE;
-
-                     if ((Sl (I).IR.Age = X) or else (Sl (I).IR.Age > A))  and
-                       ((De.Tran.Age = X) or else (De.Tran.Age > A))
-                     then
-                        Not_Only_Archaic := True;
-                     end if;
-                     if ((Sl (I).IR.Age = X) or else (Sl (I).IR.Age < F))  and
-                       --  Or E????
-                       ((De.Tran.Age = X) or else (De.Tran.Age < F))
-                     then
-                        Not_Only_Medieval := True;
-                     end if;
-                     if ((Sl (I).IR.Freq = X) or else (Sl (I).IR.Freq < C)) and
-                       --  A/X < C   --  C for inflections is uncommon  !!!!
-                       ((De.Tran.Freq = X) or else (De.Tran.Freq < D))
-                       --     --  E for DICTLINE is uncommon  !!!!
-                     then
-                        Not_Only_Uncommon := True;
-                     end if;
-
-                     if Sl (I).IR.Qual.Pofs = N  and then
-                       Sl (I).IR.Qual.Noun.Decl = (9, 8)
-                     then
-                        Has_Noun_Abbreviation := True;
-                     end if;
-                  end if;
-               end;
-            end loop;
-
-            --  We order and Trim  within a subset SL, but have to correct the
-            --  big set PA also
-            --  Kill not ALLOWED first, then check the remaining from the top
-            --  I am assuming there is no Trim ming of FIXES for AGE/ .. .
-            for I in reverse Sl'First .. Sl_Last loop
-               --  Remove not ALLOWED_STEM & null
-               if not Allowed_Stem (Sl (I)) or (Pa (I) = Null_Parse_Record)
-               then
-                  Sl (I .. Sl_Last - 1) := Sl (I + 1 .. Sl_Last);
-                  Sl_Last := Sl_Last - 1;
-                  Trimmed := True;
-               elsif (Not_Only_Archaic and Words_Mdev (Omit_Archaic)) and then
-                 Sl (I).IR.Age = A
-               then
-                  Sl (I .. Sl_Last - 1) := Sl (I + 1 .. Sl_Last);
-                  Sl_Last := Sl_Last - 1;
-                  Trimmed := True;
-               elsif (Not_Only_Medieval and Words_Mdev (Omit_Medieval)) and then
-                 Sl (I).IR.Age >= F
-               then
-                  Sl (I .. Sl_Last - 1) := Sl (I + 1 .. Sl_Last);
-                  Sl_Last := Sl_Last - 1;
-                  Trimmed := True;
-
-               elsif (Not_Only_Uncommon and Words_Mdev (Omit_Uncommon)) and then
-                 Sl (I).IR.Freq >= C
-               then      --  Remember A < C
-                  Sl (I .. Sl_Last - 1) := Sl (I + 1 .. Sl_Last);
-                  Sl_Last := Sl_Last - 1;
-                  Trimmed := True;
-
-               ----Big problem.  This area has been generaing exceptions.
-               ----At least one difficulty is that suffixes change POFS.
-               ----So one has a N inflection (SL) but a V DE
-               ----When the program checks for VOC, it wants a N
-               ---- and then asks about KIND (P, N, T, .. .)
-               ---- But the DE (v) does not have those
-               ---- The solution would be to fix ADD SUFFIX
-               ---- to do somethnig about
-               --   passing the ADDON KIND
-               ----  I do not want to face that now
-               ----  It is likely that all this VOC/LOC is worthless anyway.
-               ---    Maybe lower FREQ in INFLECTS
-               ----
-               ----  A further complication is the GANT and AO give
-               --    different results (AO no exception)
-               ----  That is probably because the program is in
-               --    error and the result threrfore unspecified
-               ----
-               ----
-
-               --  This is really working much too hard!
-               --  just to kill Roman numeral for three single letters
-               --  Also strange in that code depends on dictionary knowledge
-               elsif Has_Noun_Abbreviation    and then
-                 (All_Caps and Followed_By_Period)
-               then
-                  if (Sl (I).IR.Qual.Pofs /= N) or
-                    ((Sl (I).IR.Qual /= (N, ((9, 8), X, X, M)))  and
-                    (Trim (Sl (I).Stem)'Length = 1  and then
-                    (Sl (I).Stem (1) = 'A'  or
-                    Sl (I).Stem (1) = 'C'  or
-                    Sl (I).Stem (1) = 'D'  or
-                    --SL (I).STEM (1) = 'K'  or      --  No problem here
-                    Sl (I).Stem (1) = 'L'  or
-                    Sl (I).Stem (1) = 'M'            --  or
-                    )))
-                  then
-                     Sl (I .. Sl_Last - 1) := Sl (I + 1 .. Sl_Last);
-                     Sl_Last := Sl_Last - 1;
-                     Trimmed := True;
-                  end if;
-               end if;
-            end loop;
-
-         end if;   --  On TRIM
-
-         Diff_J := Sl_Last_Initial - Sl_Last;
-
-      end Order_Parse_Array;
-
    begin                               --  LIST_SWEEP
 
       if Pa'Length = 0 then
@@ -540,7 +541,7 @@ is
 
                ----Order internal to this set of inflections
 
-               Order_Parse_Array (Pa (P_First .. P_Last), Diff_J);
+               Order_Parse_Array (Pa (P_First .. P_Last), Diff_J, Pa);
                Pa (P_Last - Diff_J + 1 .. Pa_Last - Diff_J) :=
                  Pa (P_Last + 1 .. Pa_Last);
                Pa_Last := Pa_Last - Diff_J;
@@ -567,7 +568,7 @@ is
                   P_Last := J;
                end if;
                if J = 1  then
-                  Order_Parse_Array (Pa (1 .. P_Last), Diff_J);
+                  Order_Parse_Array (Pa (1 .. P_Last), Diff_J, Pa);
                   Pa (P_Last - Diff_J + 1 .. Pa_Last - Diff_J) :=
                     Pa (P_Last + 1 .. Pa_Last);
                   Pa_Last := Pa_Last - Diff_J;
@@ -591,6 +592,7 @@ is
                Supress_Key_Check :
                declare
                   function "<=" (A, B : Parse_Record) return Boolean is
+                     use Dict_IO;
                   begin                  --  !!!!!!!!!!!!!!!!!!!!!!!!!!
                      return A.IR.Qual = B.IR.Qual and A.MNPC = B.MNPC;
                   end "<=";
