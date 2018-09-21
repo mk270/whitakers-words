@@ -201,10 +201,6 @@ is
 
       use Dict_IO;
 
-      Not_Only_Archaic  : Boolean := False;
-      Not_Only_Medieval : Boolean := False;
-      Not_Only_Uncommon : Boolean := False;
-
       -----------------------------------------------------------
 
       procedure Order_Parse_Array
@@ -216,6 +212,10 @@ is
          Sl_Last_Initial            : constant Integer := Sl_Last;
          Sm                         : Parse_Record;
          Has_Noun_Abbreviation      : Boolean := False;
+
+         Not_Only_Archaic           : Boolean := False;
+         Not_Only_Medieval          : Boolean := False;
+         Not_Only_Uncommon          : Boolean := False;
 
          function Depr (Pr : Parse_Record) return Dictionary_Entry is
             De : Dictionary_Entry;
