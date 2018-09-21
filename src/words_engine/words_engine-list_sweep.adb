@@ -518,12 +518,12 @@ is
       --  To remove disallowed stems/inflections and resulting dangling fixes
       declare
          Internal_Loop_Error : exception;
-         Fix_On : Boolean := False;
-         Pw_On  : Boolean := False;
+         Fix_On  : Boolean := False;
+         Pw_On   : Boolean := False;
          P_First : Integer := 1;
          P_Last  : Integer := 0;
          Jj      : Integer := 0;
-         Diff_J : Integer := 0;
+         Diff_J  : Integer := 0;
          subtype Xons is Part_Of_Speech_Type range Tackon .. Suffix;
       begin
          for J in reverse 1 .. Pa_Last loop --  Sweep backwards over PA
