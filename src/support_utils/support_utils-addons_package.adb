@@ -21,7 +21,6 @@ package body Support_Utils.Addons_Package is
    use Ada.Text_IO;
    use Part_Of_Speech_Type_IO;
    use Target_Entry_Io;
-   --use KIND_ENTRY_IO;
    use Stem_Key_Type_IO;
 
    function Equ (C, D : Character) return Boolean is
@@ -52,7 +51,6 @@ package body Support_Utils.Addons_Package is
       use Tackon_Entry_Io;
       use Prefix_Entry_Io;
       use Suffix_Entry_Io;
-      --use DICT_IO;
 
       S : String (1 .. 100);
       L, Last, Tic, Pre, Suf, Tac, Pac : Integer := 0;
@@ -60,7 +58,6 @@ package body Support_Utils.Addons_Package is
       Pofs : Part_Of_Speech_Type;
       Mean : Meaning_Type := Null_Meaning_Type;
       M : Integer := 1;
-      --TG : TARGET_ENTRY;
       Tn : Tackon_Entry;
       Pm : Prefix_Item;
       Ts : Stem_Type;
@@ -388,30 +385,25 @@ package body Support_Utils.Addons_Package is
          case Ps is
             when N =>
                Get (F, Noun);
-               --GET (F, NOUN_KIND);
-               P := (N, Noun);  --, NOUN_KIND);
+               P := (N, Noun);
             when Pron =>
                Get (F, Pronoun);
-               --GET (F, PRONOUN_KIND);
-               P := (Pron, Pronoun);  --, PRONOUN_KIND);
+               P := (Pron, Pronoun);
             when Pack =>
                Get (F, Propack);
-               --GET (F, PROPACK_KIND);
-               P := (Pack, Propack);  --, PROPACK_KIND);
+               P := (Pack, Propack);
             when Adj =>
                Get (F, Adjective);
                P := (Adj, Adjective);
             when Num =>
                Get (F, Numeral);
-               --GET (F, NUMERAL_VALUE);
-               P := (Num, Numeral);  --, NUMERAL_VALUE);
+               P := (Num, Numeral);
             when Adv =>
                Get (F, Adverb);
                P := (Adv, Adverb);
             when V =>
                Get (F, Verb);
-               --GET (F, VERB_KIND);
-               P := (V, Verb);  --, VERB_KIND);
+               P := (V, Verb);
             when X =>
                P := (Pofs => X);
          end case;
@@ -426,30 +418,25 @@ package body Support_Utils.Addons_Package is
          case Ps is
             when N =>
                Get (Noun);
-               --GET (NOUN_KIND);
-               P := (N, Noun);  --, NOUN_KIND);
+               P := (N, Noun);
             when Pron =>
                Get (Pronoun);
-               --GET (PRONOUN_KIND);
-               P := (Pron, Pronoun);  --, PRONOUN_KIND);
+               P := (Pron, Pronoun);
             when Pack =>
                Get (Propack);
-               --GET (PROPACK_KIND);
-               P := (Pack, Propack);  --, PROPACK_KIND);
+               P := (Pack, Propack);
             when Adj =>
                Get (Adjective);
                P := (Adj, Adjective);
             when Num =>
                Get (Numeral);
-               --GET (NUMERAL_VALUE);
-               P := (Num, Numeral);  --, NUMERAL_VALUE);
+               P := (Num, Numeral);
             when Adv =>
                Get (Adverb);
                P := (Adv, Adverb);
             when V =>
                Get (Verb);
-               --GET (VERB_KIND);
-               P := (V, Verb);  --, VERB_KIND);
+               P := (V, Verb);
             when X =>
                P := (Pofs => X);
          end case;
@@ -464,23 +451,18 @@ package body Support_Utils.Addons_Package is
          case P.Pofs is
             when N =>
                Put (F, P.N);
-               --PUT (F, P.NOUN_KIND);
             when Pron =>
                Put (F, P.Pron);
-               --PUT (F, P.PRONOUN_KIND);
             when Pack =>
                Put (F, P.Pack);
-               --PUT (F, P.PROPACK_KIND);
             when Adj =>
                Put (F, P.Adj);
             when Num =>
                Put (F, P.Num);
-               --PUT (F, P.NUMERAL_VALUE);
             when Adv =>
                Put (F, P.Adv);
             when V =>
                Put (F, P.V);
-               --PUT (F, P.VERB_KIND);
             when others =>
                null;
          end case;
@@ -497,23 +479,18 @@ package body Support_Utils.Addons_Package is
          case P.Pofs is
             when N =>
                Put (P.N);
-               --PUT (P.NOUN_KIND);
             when Pron =>
                Put (P.Pron);
-               --PUT (P.PRONOUN_KIND);
             when Pack =>
                Put (P.Pack);
-               --PUT (P.PROPACK_KIND);
             when Adj =>
                Put (P.Adj);
             when Num =>
                Put (P.Num);
-               --PUT (P.NUMERAL_VALUE);
             when Adv =>
                Put (P.Adv);
             when V =>
                Put (P.V);
-               --PUT (P.VERB_KIND);
             when others =>
                null;
          end case;
@@ -531,30 +508,25 @@ package body Support_Utils.Addons_Package is
          case Ps is
             when N =>
                Get (S (L + 1 .. S'Last), Noun, Last);
-               --GET (S (L + 1 .. S'LAST), NOUN_KIND, LAST);
-               P := (N, Noun);  --, NOUN_KIND);
+               P := (N, Noun);
             when Pron =>
                Get (S (L + 1 .. S'Last), Pronoun, Last);
-               --GET (S (L + 1 .. S'LAST), PRONOUN_KIND, LAST);
-               P := (Pron, Pronoun);  --, PRONOUN_KIND);
+               P := (Pron, Pronoun);
             when Pack =>
                Get (S (L + 1 .. S'Last), Propack, Last);
-               --GET (S (L + 1 .. S'LAST), PROPACK_KIND, LAST);
-               P := (Pack, Propack);  --, PROPACK_KIND);
+               P := (Pack, Propack);
             when Adj =>
                Get (S (L + 1 .. S'Last), Adjective, Last);
                P := (Adj, Adjective);
             when Num =>
                Get (S (L + 1 .. S'Last), Numeral, Last);
-               --GET (S (L + 1 .. S'LAST), NUMERAL_VALUE, LAST);
-               P := (Num, Numeral);  --, NUMERAL_VALUE);
+               P := (Num, Numeral);
             when Adv =>
                Get (S (L + 1 .. S'Last), Adverb, Last);
                P := (Adv, Adverb);
             when V =>
                Get (S (L + 1 .. S'Last), Verb, Last);
-               --GET (S (L + 1 .. S'LAST), VERB_KIND, LAST);
-               P := (V, Verb);  --, VERB_KIND);
+               P := (V, Verb);
             when X =>
                P := (Pofs => X);
          end case;
@@ -573,34 +545,24 @@ package body Support_Utils.Addons_Package is
             when N =>
                M := L + Noun_Entry_IO.Default_Width;
                Put (S (L + 1 .. M), P.N);
-               --        M := L + NOUN_KIND_TYPE_IO.DEFAULT_WIDTH;
-               --        PUT (S (L + 1 .. M), P.NOUN_KIND);
             when Pron =>
                M := L + Pronoun_Entry_IO.Default_Width;
                Put (S (L + 1 .. M), P.Pron);
-               --        M := L + PRONOUN_KIND_TYPE_IO.DEFAULT_WIDTH;
-               --        PUT (S (L + 1 .. M), P.PRONOUN_KIND);
             when Pack =>
                M := L + Propack_Entry_IO.Default_Width;
                Put (S (L + 1 .. M), P.Pack);
-               --        M := L + PRONOUN_KIND_TYPE_IO.DEFAULT_WIDTH;
-               --        PUT (S (L + 1 .. M), P.PROPACK_KIND);
             when Adj =>
                M := L + Adjective_Entry_IO.Default_Width;
                Put (S (L + 1 .. M), P.Adj);
             when Num =>
                M := L + Numeral_Entry_IO.Default_Width;
                Put (S (L + 1 .. M), P.Num);
-               --        M := L + NUMERAL_VALUE_TYPE_IO_DEFAULT_WIDTH;
-               --        PUT (S (L + 1 .. M), P.PRONOUN_KIND);
             when Adv =>
                M := L + Adverb_Entry_IO.Default_Width;
                Put (S (L + 1 .. M), P.Adv);
             when V =>
                M := L + Verb_Entry_IO.Default_Width;
                Put (S (L + 1 .. M), P.V);
-               --        M := L + PRONOUN_KIND_TYPE_IO.DEFAULT_WIDTH;
-               --        PUT (S (L + 1 .. M), P.PRONOUN_KIND);
             when others =>
                null;
          end case;
