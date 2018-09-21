@@ -202,7 +202,6 @@ is
       use Dict_IO;
 
       Pr, Opr : Parse_Record := Null_Parse_Record;
-      Diff_J : Integer := 0;
 
       Not_Only_Archaic  : Boolean := False;
       Not_Only_Medieval : Boolean := False;
@@ -522,6 +521,7 @@ is
          P_First : Integer := 1;
          P_Last  : Integer := 0;
          Jj      : Integer := 0;
+         Diff_J : Integer := 0;
          subtype Xons is Part_Of_Speech_Type range Tackon .. Suffix;
       begin
          for J in reverse 1 .. Pa_Last loop --  Sweep backwards over PA
