@@ -285,7 +285,7 @@ is
             begin
                --  Maybe <   =  on PR.STEM  -  will have to make up "<"
                --  Actually STEM and PART  --  and check that later in print
-               if R.D_K  > L.D_K
+               return R.D_K  > L.D_K
                  or else  --  Let DICT.LOC list first
 
                  (R.D_K  = L.D_K    and then
@@ -312,12 +312,7 @@ is
                  Equ (R.IR.Qual, L.IR.Qual)  and then
                  Meaning (R) = Meaning (L)   and then
                  R.IR.Ending.Size = L.IR.Ending.Size  and then
-                 Inflections_Package."<"(R.IR.Qual, L.IR.Qual))
-               then
-                  return True;
-               else
-                  return False;
-               end if;
+                 Inflections_Package."<"(R.IR.Qual, L.IR.Qual));
             end Compare;
 
          begin
