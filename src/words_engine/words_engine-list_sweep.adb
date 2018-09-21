@@ -280,6 +280,46 @@ is
                return Depr (Pr).Mean;
             end Meaning;
 
+            function Compare (L : Parse_Record;
+                              R : Parse_Record) return Boolean is
+            begin
+               --  Maybe <   =  on PR.STEM  -  will have to make up "<"
+               --  Actually STEM and PART  --  and check that later in print
+               if R.D_K  > L.D_K
+                 or else  --  Let DICT.LOC list first
+
+                 (R.D_K  = L.D_K    and then
+                 R.MNPC  < L.MNPC)   or else
+
+                 (R.D_K  = L.D_K    and then
+                 R.MNPC  = L.MNPC    and then
+                 R.IR.Qual < L.IR.Qual)  or else
+
+                 (R.D_K  = L.D_K    and then
+                 R.MNPC  = L.MNPC    and then
+                 Equ (R.IR.Qual, L.IR.Qual)  and then
+                 Meaning (R) < Meaning (L))
+                 or else   --  | is > letter
+
+                 (R.D_K  = L.D_K  and then
+                 R.MNPC  = L.MNPC    and then
+                 Equ (R.IR.Qual, L.IR.Qual)  and then
+                 Meaning (R) = Meaning (L)   and then
+                 R.IR.Ending.Size < L.IR.Ending.Size)  or else
+
+                 (R.D_K  = L.D_K  and then
+                 R.MNPC  = L.MNPC    and then
+                 Equ (R.IR.Qual, L.IR.Qual)  and then
+                 Meaning (R) = Meaning (L)   and then
+                 R.IR.Ending.Size = L.IR.Ending.Size  and then
+                 Inflections_Package."<"(R.IR.Qual, L.IR.Qual))
+               then
+                  return True;
+               else
+                  return False;
+               end if;
+            end Compare;
+
          begin
             --  Need to remove duplicates in ARRAY_STEMS
             --  This sort is very sloppy
@@ -292,38 +332,7 @@ is
 
             Inner_Loop :
             for I in Sl'First .. Sl_Last - 1  loop
-               --  Maybe <   =  on PR.STEM  -  will have to make up "<"
-               --  Actually STEM and PART  --  and check that later in print
-               if Sl (I + 1).D_K  > Sl (I).D_K
-                 or else  --  Let DICT.LOC list first
-
-                 (Sl (I + 1).D_K  = Sl (I).D_K    and then
-                 Sl (I + 1).MNPC  < Sl (I).MNPC)   or else
-
-                 (Sl (I + 1).D_K  = Sl (I).D_K    and then
-                 Sl (I + 1).MNPC  = Sl (I).MNPC    and then
-                 Sl (I + 1).IR.Qual < Sl (I).IR.Qual)  or else
-
-                 (Sl (I + 1).D_K  = Sl (I).D_K    and then
-                 Sl (I + 1).MNPC  = Sl (I).MNPC    and then
-                 Equ (Sl (I + 1).IR.Qual, Sl (I).IR.Qual)  and then
-                 Meaning (Sl (I + 1)) < Meaning (Sl (I)))
-                 or else   --  | is > letter
-
-                 (Sl (I + 1).D_K  = Sl (I).D_K  and then
-                 Sl (I + 1).MNPC  = Sl (I).MNPC    and then
-                 Equ (Sl (I + 1).IR.Qual, Sl (I).IR.Qual)  and then
-                 Meaning (Sl (I + 1)) = Meaning (Sl (I))   and then
-                 Sl (I + 1).IR.Ending.Size < Sl (I).IR.Ending.Size)  or else
-
-                 (Sl (I + 1).D_K  = Sl (I).D_K  and then
-                 Sl (I + 1).MNPC  = Sl (I).MNPC    and then
-                 Equ (Sl (I + 1).IR.Qual, Sl (I).IR.Qual)  and then
-                 Meaning (Sl (I + 1)) = Meaning (Sl (I))   and then
-                 Sl (I + 1).IR.Ending.Size = Sl (I).IR.Ending.Size  and then
-                 Inflections_Package."<"(Sl (I + 1).IR.Qual, Sl (I).IR.Qual))
-               then
-
+               if Compare (Sl (I), Sl (I + 1)) then
                   Sm := Sl (I);
                   Sl (I) := Sl (I + 1);
                   Sl (I + 1) := Sm;
