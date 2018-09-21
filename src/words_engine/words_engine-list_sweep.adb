@@ -203,7 +203,7 @@ is
 
       Pr, Opr : Parse_Record := Null_Parse_Record;
       -- De : Dictionary_Entry := Null_Dictionary_Entry;
-      J, Jj : Integer := 0;
+      J : Integer := 0;
       Diff_J : Integer := 0;
 
       Not_Only_Archaic  : Boolean := False;
@@ -523,6 +523,7 @@ is
          Pw_On  : Boolean := False;
          P_First : Integer := 1;
          P_Last  : Integer := 0;
+         Jj      : Integer := 0;
          subtype Xons is Part_Of_Speech_Type range Tackon .. Suffix;
       begin
          for J in reverse 1 .. Pa_Last loop --  Sweep backwards over PA
