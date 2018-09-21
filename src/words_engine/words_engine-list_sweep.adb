@@ -14,7 +14,6 @@
 -- All parts of the WORDS system, source code and data files, are made freely
 -- available to anyone who wishes to use them, for whatever purpose.
 
--- with Ada.Text_IO;
 with Ada.Exceptions; use Ada.Exceptions;
 with Latin_Utils.Strings_Package; use Latin_Utils.Strings_Package;
 with Support_Utils.Word_Parameters; use Support_Utils.Word_Parameters;
