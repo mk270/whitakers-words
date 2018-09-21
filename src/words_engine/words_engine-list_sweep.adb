@@ -400,7 +400,8 @@ is
             --  I am assuming there is no Trim ming of FIXES for AGE/ .. .
             for I in reverse Sl'First .. Sl_Last loop
                --  Remove not ALLOWED_STEM & null
-               if not Allowed_Stem (Sl (I)) or (Pa (I) = Null_Parse_Record) then
+               if not Allowed_Stem (Sl (I)) or (Pa (I) = Null_Parse_Record)
+               then
                   Sl (I .. Sl_Last - 1) := Sl (I + 1 .. Sl_Last);
                   Sl_Last := Sl_Last - 1;
                   Trimmed := True;
