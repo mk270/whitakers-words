@@ -202,8 +202,6 @@ is
       use Dict_IO;
 
       Pr, Opr : Parse_Record := Null_Parse_Record;
-      -- De : Dictionary_Entry := Null_Dictionary_Entry;
-      J : Integer := 0;
       Diff_J : Integer := 0;
 
       Not_Only_Archaic  : Boolean := False;
@@ -583,38 +581,41 @@ is
 
       Opr := Pa (1);
       --  Last chance to weed out duplicates
-      J := 2;
-
-      Compress_Loop :
-      loop
-         exit Compress_Loop when J > Pa_Last;
-         Pr := Pa (J);
-         if Pr /= Opr  then
-            Supress_Key_Check :
-            declare
-               function "<=" (A, B : Parse_Record) return Boolean is
-               begin                             --  !!!!!!!!!!!!!!!!!!!!!!!!!!
-                  return A.IR.Qual = B.IR.Qual and A.MNPC = B.MNPC;
-               end "<=";
-            begin
-               if (Pr.D_K /= Xxx) and (Pr.D_K /= Yyy) and  (Pr.D_K /= Ppp) then
-                  if Pr <= Opr then
-                     --  Get rid of duplicates, if ORDER is OK
-                     Pa (J .. Pa_Last - 1) := Pa (J + 1 .. Pa_Last);
-                     --  Shift PA down 1
-                     Pa_Last := Pa_Last - 1;
-                     --  because found key duplicate
+      declare
+         J : Integer := 2;
+      begin
+         Compress_Loop :
+         loop
+            exit Compress_Loop when J > Pa_Last;
+            Pr := Pa (J);
+            if Pr /= Opr  then
+               Supress_Key_Check :
+               declare
+                  function "<=" (A, B : Parse_Record) return Boolean is
+                  begin                  --  !!!!!!!!!!!!!!!!!!!!!!!!!!
+                     return A.IR.Qual = B.IR.Qual and A.MNPC = B.MNPC;
+                  end "<=";
+               begin
+                  if (Pr.D_K /= Xxx) and (Pr.D_K /= Yyy) and (Pr.D_K /= Ppp)
+                  then
+                     if Pr <= Opr then
+                        --  Get rid of duplicates, if ORDER is OK
+                        Pa (J .. Pa_Last - 1) := Pa (J + 1 .. Pa_Last);
+                        --  Shift PA down 1
+                        Pa_Last := Pa_Last - 1;
+                        --  because found key duplicate
+                     end if;
+                  else
+                     J := J + 1;
                   end if;
-               else
-                  J := J + 1;
-               end if;
-            end Supress_Key_Check;
-         else
-            J := J + 1;
-         end if;
+               end Supress_Key_Check;
+            else
+               J := J + 1;
+            end if;
 
-         Opr := Pr;
-      end loop Compress_Loop;
+            Opr := Pr;
+         end loop Compress_Loop;
+      end;
 
       for I in 1 .. Pa_Last  loop
          --  Destroy the artificial VAR for PRON 1 X
