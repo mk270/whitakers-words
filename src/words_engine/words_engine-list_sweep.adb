@@ -202,7 +202,7 @@ is
       use Dict_IO;
 
       Pr, Opr : Parse_Record := Null_Parse_Record;
-      De : Dictionary_Entry := Null_Dictionary_Entry;
+      -- De : Dictionary_Entry := Null_Dictionary_Entry;
       J, Jj : Integer := 0;
       Diff_J : Integer := 0;
 
@@ -359,39 +359,44 @@ is
          if Words_Mode (Trim_Output)  then
             --  Check to see if we can afford to TRIM,
             --  if there will be something left over
-            for I in Sl'First .. Sl_Last  loop
-               if Sl (I).D_K in General .. Local  then
+            for I in Sl'First .. Sl_Last
+            loop
+               declare
+                  De : Dictionary_Entry;
+               begin
+                  if Sl (I).D_K in General .. Local  then
 
-                  Dict_IO.Set_Index (Dict_File (Sl (I).D_K), Sl (I).MNPC);
-                  --TEXT_IO.PUT (INTEGER'IMAGE (INTEGER (SL (I).MNPC)));
-                  Dict_IO.Read (Dict_File (Sl (I).D_K), De);
-                  --DICTIONARY_ENTRY_IO.PUT (DE); TEXT_IO.NEW_LINE;
+                     Dict_IO.Set_Index (Dict_File (Sl (I).D_K), Sl (I).MNPC);
+                     --TEXT_IO.PUT (INTEGER'IMAGE (INTEGER (SL (I).MNPC)));
+                     Dict_IO.Read (Dict_File (Sl (I).D_K), De);
+                     --DICTIONARY_ENTRY_IO.PUT (DE); TEXT_IO.NEW_LINE;
 
-                  if ((Sl (I).IR.Age = X) or else (Sl (I).IR.Age > A))  and
-                    ((De.Tran.Age = X) or else (De.Tran.Age > A))
-                  then
-                     Not_Only_Archaic := True;
-                  end if;
-                  if ((Sl (I).IR.Age = X) or else (Sl (I).IR.Age < F))  and
-                    --  Or E????
-                    ((De.Tran.Age = X) or else (De.Tran.Age < F))
-                  then
-                     Not_Only_Medieval := True;
-                  end if;
-                  if ((Sl (I).IR.Freq = X) or else (Sl (I).IR.Freq < C))   and
-                    --  A/X < C   --  C for inflections is uncommon  !!!!
-                    ((De.Tran.Freq = X) or else (De.Tran.Freq < D))
-                     --     --  E for DICTLINE is uncommon  !!!!
-                  then
-                     Not_Only_Uncommon := True;
-                  end if;
+                     if ((Sl (I).IR.Age = X) or else (Sl (I).IR.Age > A))  and
+                       ((De.Tran.Age = X) or else (De.Tran.Age > A))
+                     then
+                        Not_Only_Archaic := True;
+                     end if;
+                     if ((Sl (I).IR.Age = X) or else (Sl (I).IR.Age < F))  and
+                       --  Or E????
+                       ((De.Tran.Age = X) or else (De.Tran.Age < F))
+                     then
+                        Not_Only_Medieval := True;
+                     end if;
+                     if ((Sl (I).IR.Freq = X) or else (Sl (I).IR.Freq < C)) and
+                       --  A/X < C   --  C for inflections is uncommon  !!!!
+                       ((De.Tran.Freq = X) or else (De.Tran.Freq < D))
+                       --     --  E for DICTLINE is uncommon  !!!!
+                     then
+                        Not_Only_Uncommon := True;
+                     end if;
 
-                  if Sl (I).IR.Qual.Pofs = N  and then
-                    Sl (I).IR.Qual.Noun.Decl = (9, 8)
-                  then
-                     Has_Noun_Abbreviation := True;
+                     if Sl (I).IR.Qual.Pofs = N  and then
+                       Sl (I).IR.Qual.Noun.Decl = (9, 8)
+                     then
+                        Has_Noun_Abbreviation := True;
+                     end if;
                   end if;
-               end if;
+               end;
             end loop;
 
             --  We order and Trim  within a subset SL, but have to correct the
