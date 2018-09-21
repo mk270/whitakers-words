@@ -27,6 +27,168 @@ use Latin_Utils;
 package body Words_Engine.List_Sweep
 is
 
+   function Allowed_Stem (Pr : Parse_Record) return Boolean is
+      Allowed : Boolean := True;
+      --  modify as necessary and return it
+      De : Dictionary_Entry;
+   begin
+      -- TEXT_IO.PUT ("ALLOWED? >");
+      -- PARSE_RECORD_IO.PUT (PR);
+      -- TEXT_IO.NEW_LINE;
+      -- FIXME: duplicates (commented) code below
+      if Pr.D_K not in General .. Local  then
+         return True;
+      end if;
+
+      Dict_IO.Read (Dict_File (Pr.D_K), De, Pr.MNPC);
+
+      --  NOUN CHECKS
+      case  Pr.IR.Qual.Pofs is
+         when N  =>
+            if  Words_Mdev (For_Word_List_Check)  then
+               if (Nom <= Pr.IR.Qual.Noun.Of_Case) and then
+                 (S <= Pr.IR.Qual.Noun.Number)
+               then
+                  Allowed := True;
+               elsif (Nom <= Pr.IR.Qual.Noun.Of_Case) and then
+                 (Pr.IR.Qual.Noun.Number = P)
+               then
+
+                  Search_For_Pl :
+                  declare
+                     De : Dictionary_Entry;
+                     Mean : Meaning_Type := Null_Meaning_Type;
+                  begin
+                     Allowed := False;
+                     Dict_IO.Read (Dict_File (Pr.D_K), De, Pr.MNPC);
+                     Mean := De.Mean;
+                     for J in Meaning_Type'First .. Meaning_Type'Last - 2
+                     loop
+                        if Mean (J .. J + 2) = "pl."  then
+                           Allowed := True;
+                           exit;
+                        end if;
+                     end loop;
+                  end Search_For_Pl;
+               else
+                  Allowed := False;
+               end if;
+            end if;
+
+         when  Adj  =>
+            if  Words_Mdev (For_Word_List_Check)  then
+               Allowed := (Nom <= Pr.IR.Qual.Adj.Of_Case) and then
+                          (S <= Pr.IR.Qual.Adj.Number) and then
+                          (M <= Pr.IR.Qual.Adj.Gender);
+            end if;
+            --  VERB CHECKS
+         when  V  =>
+            --TEXT_IO.PUT ("VERB  ");
+            --  Check for Verb 3 1  dic/duc/fac/fer shortened imperative
+            --  See G&L 130.5
+            declare
+               Stem : constant String := Trim (Pr.Stem);
+               Last_Three : String (1 .. 3);
+            begin
+               if (Pr.IR.Qual.Verb = ((3, 1), (Pres, Active, Imp), 2, S)) and
+                 (Pr.IR.Ending.Size = 0)
+               then    --  For this special case
+                  if Stem'Length >= 3  then
+                     Last_Three := Stem (Stem'Last - 2 .. Stem'Last);
+                     if not ((Last_Three = "dic")  or
+                             (Last_Three = "duc")  or
+                             (Last_Three = "fac")  or
+                             (Last_Three = "fer"))
+                     then
+                        Allowed := False;
+                     end if;
+                  else
+                     Allowed := False;
+                  end if;
+               end if;
+            end;
+
+            --  Check for Verb Imperative being in permitted person
+            if Pr.IR.Qual.Verb.Tense_Voice_Mood.Mood = Imp and then
+               not (((Pr.IR.Qual.Verb.Tense_Voice_Mood.Tense = Pres) and
+                     (Pr.IR.Qual.Verb.Person = 2)) or else
+
+                    ((Pr.IR.Qual.Verb.Tense_Voice_Mood.Tense = Fut) and
+                     (Pr.IR.Qual.Verb.Person = 2 or
+                      Pr.IR.Qual.Verb.Person = 3)))
+            then
+               Allowed := False;
+            end if;
+
+            --  Check for V IMPERS and demand that only 3rd person
+            if De.Part.V.Kind = Impers and then Pr.IR.Qual.Verb.Person /= 3
+            then
+               Allowed := False;
+            end if;
+
+            --  Check for V DEP    and demand PASSIVE
+            if De.Part.V.Kind = Dep then
+               --TEXT_IO.PUT ("DEP  ");
+               if (Pr.IR.Qual.Verb.Tense_Voice_Mood.Voice = Active)  and
+                 (Pr.IR.Qual.Verb.Tense_Voice_Mood.Mood = Inf)  and
+                 (Pr.IR.Qual.Verb.Tense_Voice_Mood.Tense = Fut)
+               then
+                  --TEXT_IO.PUT ("PASSIVE  ");
+                  Allowed := True;
+               elsif (Pr.IR.Qual.Verb.Tense_Voice_Mood.Voice = Active)  and
+                 (Pr.IR.Qual.Verb.Tense_Voice_Mood.Mood in Ind .. Inf)
+               then
+                  --TEXT_IO.PUT ("ACTIVE  ");
+                  Allowed := False;
+               else
+                  --TEXT_IO.PUT ("??????  ");
+                  null;
+               end if;
+            end if;
+
+            --  Check for V SEMIDEP    and demand PASSIVE ex Perf
+            if De.Part.V.Kind = Semidep and
+               (Pr.IR.Qual.Verb.Tense_Voice_Mood.Mood in Ind .. Imp) and
+               (((Pr.IR.Qual.Verb.Tense_Voice_Mood.Voice = Passive) and
+                 (Pr.IR.Qual.Verb.Tense_Voice_Mood.Tense in Pres .. Fut)) or
+                ((Pr.IR.Qual.Verb.Tense_Voice_Mood.Voice = Active) and
+                 (Pr.IR.Qual.Verb.Tense_Voice_Mood.Tense in Perf .. Futp)))
+            then
+               Allowed := False;
+            end if;
+
+            if  Words_Mdev (For_Word_List_Check)  then
+               if (Pr.IR.Qual.Verb.Person = 1) and then
+                 (Pr.IR.Qual.Verb.Number = S)
+               then
+                  Allowed := (Pr.IR.Qual.Verb.Tense_Voice_Mood =
+                     (Pres, Active, Ind)) and
+                    ((De.Part.V.Kind in X .. Intrans) or else
+                     (De.Part.V.Kind = Dep) or else
+                     (De.Part.V.Kind = Semidep) or else
+                     (De.Part.V.Kind = Perfdef));
+               elsif De.Part.V.Kind = Impers then
+                  Allowed := (Pr.IR.Qual.Verb.Person = 3)  and then
+                    (Pr.IR.Qual.Verb.Number = S)  and then
+                    (Pr.IR.Qual.Verb.Tense_Voice_Mood = (Pres, Active, Ind));
+               else
+                  Allowed := False;
+               end if;
+            end if;
+
+         when  others  =>
+            null;
+
+      end case;
+
+      if  Words_Mdev (For_Word_List_Check) then       --  Non parts
+         if Pr.IR.Qual.Pofs in Vpar .. Supine then
+            Allowed := False;
+         end if;
+      end if;                                           --  Non parts
+      return Allowed;
+   end Allowed_Stem;
+
    procedure List_Sweep
      (Pa      : in out Parse_Array;
       Pa_Last : in out Integer)
@@ -47,168 +209,6 @@ is
       Not_Only_Archaic  : Boolean := False;
       Not_Only_Medieval : Boolean := False;
       Not_Only_Uncommon : Boolean := False;
-
-      function Allowed_Stem (Pr : Parse_Record) return Boolean is
-         Allowed : Boolean := True;
-         --  modify as necessary and return it
-         --DE : DICTIONARY_ENTRY;
-      begin
-         -- TEXT_IO.PUT ("ALLOWED? >");
-         -- PARSE_RECORD_IO.PUT (PR);
-         -- TEXT_IO.NEW_LINE;
-         -- FIXME: duplicates (commented) code below
-         if Pr.D_K not in General .. Local  then
-            return True;
-         end if;
-
-         Dict_IO.Read (Dict_File (Pr.D_K), De, Pr.MNPC);
-
-         --  NOUN CHECKS
-         case  Pr.IR.Qual.Pofs is
-            when N  =>
-               if  Words_Mdev (For_Word_List_Check)  then
-                  if (Nom <= Pr.IR.Qual.Noun.Of_Case) and then
-                    (S <= Pr.IR.Qual.Noun.Number)
-                  then
-                     Allowed := True;
-                  elsif (Nom <= Pr.IR.Qual.Noun.Of_Case) and then
-                    (Pr.IR.Qual.Noun.Number = P)
-                  then
-
-                     Search_For_Pl :
-                     declare
-                        De : Dictionary_Entry;
-                        Mean : Meaning_Type := Null_Meaning_Type;
-                     begin
-                        Allowed := False;
-                        Dict_IO.Read (Dict_File (Pr.D_K), De, Pr.MNPC);
-                        Mean := De.Mean;
-                        for J in Meaning_Type'First .. Meaning_Type'Last - 2
-                        loop
-                           if Mean (J .. J + 2) = "pl."  then
-                              Allowed := True;
-                              exit;
-                           end if;
-                        end loop;
-                     end Search_For_Pl;
-                  else
-                     Allowed := False;
-                  end if;
-               end if;
-
-            when  Adj  =>
-               if  Words_Mdev (For_Word_List_Check)  then
-                  Allowed := (Nom <= Pr.IR.Qual.Adj.Of_Case) and then
-                             (S <= Pr.IR.Qual.Adj.Number) and then
-                             (M <= Pr.IR.Qual.Adj.Gender);
-               end if;
-               --  VERB CHECKS
-            when  V  =>
-               --TEXT_IO.PUT ("VERB  ");
-               --  Check for Verb 3 1  dic/duc/fac/fer shortened imperative
-               --  See G&L 130.5
-               declare
-                  Stem : constant String := Trim (Pr.Stem);
-                  Last_Three : String (1 .. 3);
-               begin
-                  if (Pr.IR.Qual.Verb = ((3, 1), (Pres, Active, Imp), 2, S)) and
-                    (Pr.IR.Ending.Size = 0)
-                  then    --  For this special case
-                     if Stem'Length >= 3  then
-                        Last_Three := Stem (Stem'Last - 2 .. Stem'Last);
-                        if not ((Last_Three = "dic")  or
-                                (Last_Three = "duc")  or
-                                (Last_Three = "fac")  or
-                                (Last_Three = "fer"))
-                        then
-                           Allowed := False;
-                        end if;
-                     else
-                        Allowed := False;
-                     end if;
-                  end if;
-               end;
-
-               --  Check for Verb Imperative being in permitted person
-               if Pr.IR.Qual.Verb.Tense_Voice_Mood.Mood = Imp and then
-                  not (((Pr.IR.Qual.Verb.Tense_Voice_Mood.Tense = Pres) and
-                        (Pr.IR.Qual.Verb.Person = 2)) or else
-
-                       ((Pr.IR.Qual.Verb.Tense_Voice_Mood.Tense = Fut) and
-                        (Pr.IR.Qual.Verb.Person = 2 or
-                         Pr.IR.Qual.Verb.Person = 3)))
-               then
-                  Allowed := False;
-               end if;
-
-               --  Check for V IMPERS and demand that only 3rd person
-               if De.Part.V.Kind = Impers and then Pr.IR.Qual.Verb.Person /= 3
-               then
-                  Allowed := False;
-               end if;
-
-               --  Check for V DEP    and demand PASSIVE
-               if De.Part.V.Kind = Dep then
-                  --TEXT_IO.PUT ("DEP  ");
-                  if (Pr.IR.Qual.Verb.Tense_Voice_Mood.Voice = Active)  and
-                    (Pr.IR.Qual.Verb.Tense_Voice_Mood.Mood = Inf)  and
-                    (Pr.IR.Qual.Verb.Tense_Voice_Mood.Tense = Fut)
-                  then
-                     --TEXT_IO.PUT ("PASSIVE  ");
-                     Allowed := True;
-                  elsif (Pr.IR.Qual.Verb.Tense_Voice_Mood.Voice = Active)  and
-                    (Pr.IR.Qual.Verb.Tense_Voice_Mood.Mood in Ind .. Inf)
-                  then
-                     --TEXT_IO.PUT ("ACTIVE  ");
-                     Allowed := False;
-                  else
-                     --TEXT_IO.PUT ("??????  ");
-                     null;
-                  end if;
-               end if;
-
-               --  Check for V SEMIDEP    and demand PASSIVE ex Perf
-               if De.Part.V.Kind = Semidep and
-                  (Pr.IR.Qual.Verb.Tense_Voice_Mood.Mood in Ind .. Imp) and
-                  (((Pr.IR.Qual.Verb.Tense_Voice_Mood.Voice = Passive) and
-                    (Pr.IR.Qual.Verb.Tense_Voice_Mood.Tense in Pres .. Fut)) or
-                   ((Pr.IR.Qual.Verb.Tense_Voice_Mood.Voice = Active) and
-                    (Pr.IR.Qual.Verb.Tense_Voice_Mood.Tense in Perf .. Futp)))
-               then
-                  Allowed := False;
-               end if;
-
-               if  Words_Mdev (For_Word_List_Check)  then
-                  if (Pr.IR.Qual.Verb.Person = 1) and then
-                    (Pr.IR.Qual.Verb.Number = S)
-                  then
-                     Allowed := (Pr.IR.Qual.Verb.Tense_Voice_Mood =
-                        (Pres, Active, Ind)) and
-                       ((De.Part.V.Kind in X .. Intrans) or else
-                        (De.Part.V.Kind = Dep) or else
-                        (De.Part.V.Kind = Semidep) or else
-                        (De.Part.V.Kind = Perfdef));
-                  elsif De.Part.V.Kind = Impers then
-                     Allowed := (Pr.IR.Qual.Verb.Person = 3)  and then
-                       (Pr.IR.Qual.Verb.Number = S)  and then
-                       (Pr.IR.Qual.Verb.Tense_Voice_Mood = (Pres, Active, Ind));
-                  else
-                     Allowed := False;
-                  end if;
-               end if;
-
-            when  others  =>
-               null;
-
-         end case;
-
-         if  Words_Mdev (For_Word_List_Check) then       --  Non parts
-            if Pr.IR.Qual.Pofs in Vpar .. Supine then
-               Allowed := False;
-            end if;
-         end if;                                           --  Non parts
-         return Allowed;
-      end Allowed_Stem;
 
       -----------------------------------------------------------
 
