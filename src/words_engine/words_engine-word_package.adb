@@ -160,7 +160,6 @@ package body Words_Engine.Word_Package is
 
    procedure Run_Uniques
      (S : in String;
-      Unique_Found : out Boolean;
       Pa : in out Parse_Array; Pa_Last : in out Integer)
    is
       Sl : constant String        --  BAD NAME!!!!!!!!!!!!!!!!!!
@@ -168,7 +167,6 @@ package body Words_Engine.Word_Package is
       St : constant Stem_Type := Head (Sl, Max_Stem_Size);
       Unql : Unique_List;   --  Unique list for a letter
    begin
-      Unique_Found := False;
       if Sl (Sl'First) = 'v'  then
          Unql := Unq ('u');   --  Unique list for a letter
       elsif Sl (Sl'First) = 'j'  then
@@ -198,7 +196,6 @@ package body Words_Engine.Word_Package is
               Unique,
               Unql.MNPC);
 
-            Unique_Found := True;
          end if;
          Unql := Unql.Succ;
       end loop;
@@ -610,8 +607,6 @@ package body Words_Engine.Word_Package is
 
       Input_Word : constant String := Lower_Case (Raw_Word);
       Pa_Save : constant Integer := Pa_Last;
-
-      Unique_Found : Boolean := False;
 
       Ss, Sss : Sal := (others => Null_Parse_Record);
 
@@ -1756,7 +1751,7 @@ package body Words_Engine.Word_Package is
          return;
       end if;
 
-      Run_Uniques (Input_Word, Unique_Found, Pa, Pa_Last);
+      Run_Uniques (Input_Word, Pa, Pa_Last);
 
       Qu :
       declare
