@@ -603,10 +603,11 @@ package body Words_Engine.Word_Package is
    end Change_Language;
 
    procedure Word (Raw_Word : in String;
-                   Pa : in out Parse_Array; Pa_Last : in out Integer) is
-
-      Input_Word : constant String := Lower_Case (Raw_Word);
-      Pa_Save : constant Integer := Pa_Last;
+                   Pa       : in out Parse_Array;
+                   Pa_Last  : in out Integer)
+   is
+      Input_Word : constant String  := Lower_Case (Raw_Word);
+      Pa_Save    : constant Integer := Pa_Last;
 
       procedure Order_Stems (Sx : in out Sal) is
          use Dict_IO;
