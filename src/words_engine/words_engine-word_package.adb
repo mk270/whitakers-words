@@ -646,34 +646,46 @@ package body Words_Engine.Word_Package is
                --  PREFIX, XXX, LOC; I ought to do this for every set of
                --  results from different approaches not just in one fell
                --  swoop at the end !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-               Inner_Loop :
-               for I in 1 .. Sl_Last - 1  loop
-                  if Sl (I + 1) /= Null_Parse_Record  then
-                     -- the following condition is absurd and should be
-                     -- rewritten
-                     if (Sl (I + 1).MNPC < Sl (I).MNPC) or else
-                       (Sl (I + 1).MNPC = Sl (I).MNPC and then
-                       Sl (I + 1).IR.Ending.Size <
-                         Sl (I).IR.Ending.Size) or else
-                       (Sl (I + 1).MNPC = Sl (I).MNPC and then
-                       Sl (I + 1).IR.Ending.Size =
-                         Sl (I).IR.Ending.Size and then
-                       Sl (I + 1).IR.Qual < Sl (I).IR.Qual) or else
-                       (Sl (I + 1).MNPC = Sl (I).MNPC and then
-                       Sl (I + 1).IR.Ending.Size =
-                         Sl (I).IR.Ending.Size and then
-                       Sl (I + 1).IR.Qual = Sl (I).IR.Qual and then
-                       Sl (I + 1).D_K  < Sl (I).D_K)
+               declare
+                  function Compare (L : Parse_Record;
+                                    R : Parse_Record) return Boolean is
+                  begin
+                     if (R.MNPC < L.MNPC) or else
+                       (R.MNPC = L.MNPC and then
+                       R.IR.Ending.Size <
+                       L.IR.Ending.Size) or else
+                       (R.MNPC = L.MNPC and then
+                       R.IR.Ending.Size =
+                       L.IR.Ending.Size and then
+                       R.IR.Qual < L.IR.Qual) or else
+                       (R.MNPC = L.MNPC and then
+                       R.IR.Ending.Size =
+                       L.IR.Ending.Size and then
+                       R.IR.Qual = L.IR.Qual and then
+                       R.D_K  < L.D_K)
                      then
-                        Sm := Sl (I);
-                        Sl (I) := Sl (I + 1);
-                        Sl (I + 1) := Sm;
-                        Hits := Hits + 1;
+                        return True;
+                     else
+                        return False;
                      end if;
-                  else
-                     exit Inner_Loop;
-                  end if;
-               end loop Inner_Loop;
+                  end Compare;
+               begin
+                  Inner_Loop :
+                  for I in 1 .. Sl_Last - 1  loop
+                     if Sl (I + 1) /= Null_Parse_Record  then
+                        -- the following condition is absurd and should be
+                        -- rewritten
+                        if Compare (Sl (I), Sl (I + 1)) then
+                           Sm := Sl (I);
+                           Sl (I) := Sl (I + 1);
+                           Sl (I + 1) := Sm;
+                           Hits := Hits + 1;
+                        end if;
+                     else
+                        exit Inner_Loop;
+                     end if;
+                  end loop Inner_Loop;
+               end;
             end Switch;
 
             exit Hit_Loop when Hits = 0;
