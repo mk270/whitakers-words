@@ -832,20 +832,13 @@ package body Words_Engine.Word_Package is
                then
                   --  Transform PDL_PART to TARGET
                   case Suffix.Entr.Target.Pofs is
-                     when N =>
-                        Pdl_Part := (N, Suffix.Entr.Target.N);
-                     when Pron =>
-                        Pdl_Part := (Pron, Suffix.Entr.Target.Pron);
-                     when Adj =>
-                        Pdl_Part := (Adj, Suffix.Entr.Target.Adj);
-                     when Num =>
-                        Pdl_Part := (Num, Suffix.Entr.Target.Num);
-                     when Adv =>
-                        Pdl_Part := (Adv, Suffix.Entr.Target.Adv);
-                     when V =>
-                        Pdl_Part := (V, Suffix.Entr.Target.V);
-                     when others  =>
-                        null;        --  No others so far, except X = all
+                     when N =>    Pdl_Part := (N,    Suffix.Entr.Target.N);
+                     when Pron => Pdl_Part := (Pron, Suffix.Entr.Target.Pron);
+                     when Adj =>  Pdl_Part := (Adj,  Suffix.Entr.Target.Adj);
+                     when Num =>  Pdl_Part := (Num,  Suffix.Entr.Target.Num);
+                     when Adv =>  Pdl_Part := (Adv,  Suffix.Entr.Target.Adv);
+                     when V =>    Pdl_Part := (V,    Suffix.Entr.Target.V);
+                     when others => null; --  No others so far, except X = all
                   end case;
                   Pdl_Key := Suffix.Entr.Target_Key;
                   Pdl_P  := Pdl_Part.Pofs;  --  Used only for FIX logic below
