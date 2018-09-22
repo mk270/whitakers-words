@@ -905,20 +905,20 @@ package body Words_Engine.Word_Package is
                         M := M + 1;
                         Sxx (M) :=
                           (Stem => Subtract_Prefix (Sl (I).Stem, Prefix),
-                          IR => (
-                          Qual => (
-                          Pofs => N,
-                          Noun => (
-                          Pdl_Part.N.Decl,
-                          Sl (I).IR.Qual.Noun.Of_Case,
-                          Sl (I).IR.Qual.Noun.Number,
-                          Pdl_Part.N.Gender)),
-                          Key => Sl (I).IR.Key,
-                          Ending => Sl (I).IR.Ending,
-                          Age => Sl (I).IR.Age,
-                          Freq => Sl (I).IR.Freq),
-                          D_K => Pdl (J).D_K,
-                          MNPC => MNPC_Part);
+                           IR => (
+                            Qual => (
+                             Pofs => N,
+                             Noun => (
+                              Pdl_Part.N.Decl,
+                              Sl (I).IR.Qual.Noun.Of_Case,
+                              Sl (I).IR.Qual.Noun.Number,
+                              Pdl_Part.N.Gender)),
+                            Key => Sl (I).IR.Key,
+                            Ending => Sl (I).IR.Ending,
+                            Age => Sl (I).IR.Age,
+                            Freq => Sl (I).IR.Freq),
+                           D_K => Pdl (J).D_K,
+                           MNPC => MNPC_Part);
 
                      elsif Pdl_Part.Pofs = Pron and then
                        Pdl_Part.Pron.Decl <= Sl (I).IR.Qual.Pron.Decl
@@ -929,20 +929,20 @@ package body Words_Engine.Word_Package is
                         M := M + 1;
                         Sxx (M) :=
                           (Stem => Subtract_Prefix (Sl (I).Stem, Prefix),
-                          IR => (
-                          Qual => (
-                          Pofs => Pron,
-                          Pron => (
-                          Pdl_Part.Pron.Decl,
-                          Sl (I).IR.Qual.Pron.Of_Case,
-                          Sl (I).IR.Qual.Pron.Number,
-                          Sl (I).IR.Qual.Pron.Gender)),
-                          Key => Sl (I).IR.Key,
-                          Ending => Sl (I).IR.Ending,
-                          Age => Sl (I).IR.Age,
-                          Freq => Sl (I).IR.Freq),
-                          D_K => Pdl (J).D_K,
-                          MNPC => MNPC_Part);
+                           IR => (
+                            Qual => (
+                             Pofs => Pron,
+                             Pron => (
+                              Pdl_Part.Pron.Decl,
+                              Sl (I).IR.Qual.Pron.Of_Case,
+                              Sl (I).IR.Qual.Pron.Number,
+                              Sl (I).IR.Qual.Pron.Gender)),
+                            Key => Sl (I).IR.Key,
+                            Ending => Sl (I).IR.Ending,
+                            Age => Sl (I).IR.Age,
+                            Freq => Sl (I).IR.Freq),
+                           D_K => Pdl (J).D_K,
+                           MNPC => MNPC_Part);
 
                      elsif (Pdl_Part.Pofs = Adj) and then
                        (Pdl_Part.Adj.Decl <= Sl (I).IR.Qual.Adj.Decl) and then
@@ -964,21 +964,21 @@ package body Words_Engine.Word_Package is
                         M := M + 1;
                         Sxx (M) :=
                           (Stem => Subtract_Prefix (Sl (I).Stem, Prefix),
-                          IR => (
-                          Qual => (
-                          Pofs => Adj,
-                          Adj => (
-                          Pdl_Part.Adj.Decl,
-                          Sl (I).IR.Qual.Adj.Of_Case,
-                          Sl (I).IR.Qual.Adj.Number,
-                          Sl (I).IR.Qual.Adj.Gender,
-                          Com)),
-                          Key => Sl (I).IR.Key,
-                          Ending => Sl (I).IR.Ending,
-                          Age => Sl (I).IR.Age,
-                          Freq => Sl (I).IR.Freq),
-                          D_K => Pdl (J).D_K,
-                          MNPC => MNPC_Part);
+                           IR => (
+                            Qual => (
+                             Pofs => Adj,
+                             Adj => (
+                              Pdl_Part.Adj.Decl,
+                              Sl (I).IR.Qual.Adj.Of_Case,
+                              Sl (I).IR.Qual.Adj.Number,
+                              Sl (I).IR.Qual.Adj.Gender,
+                              Com)),
+                            Key => Sl (I).IR.Key,
+                            Ending => Sl (I).IR.Ending,
+                            Age => Sl (I).IR.Age,
+                            Freq => Sl (I).IR.Freq),
+                           D_K => Pdl (J).D_K,
+                           MNPC => MNPC_Part);
 
                      elsif (Pdl_Part.Pofs = Num) and then
                        (Pdl_Part.Num.Decl <= Sl (I).IR.Qual.Num.Decl) and then
@@ -996,21 +996,21 @@ package body Words_Engine.Word_Package is
                         M := M + 1;
                         Sxx (M) :=
                           (Stem => Subtract_Prefix (Sl (I).Stem, Prefix),
-                          IR => (
-                          Qual => (
-                          Pofs => Num,
-                          Num => (
-                          Pdl_Part.Num.Decl,
-                          Sl (I).IR.Qual.Num.Of_Case,
-                          Sl (I).IR.Qual.Num.Number,
-                          Sl (I).IR.Qual.Num.Gender,
-                          Num_Sort)),
-                          Key => Sl (I).IR.Key,
-                          Ending => Sl (I).IR.Ending,
-                          Age => Sl (I).IR.Age,
-                          Freq => Sl (I).IR.Freq),
-                          D_K => Pdl (J).D_K,
-                          MNPC => MNPC_Part);
+                           IR => (
+                            Qual => (
+                             Pofs => Num,
+                             Num => (
+                              Pdl_Part.Num.Decl,
+                              Sl (I).IR.Qual.Num.Of_Case,
+                              Sl (I).IR.Qual.Num.Number,
+                              Sl (I).IR.Qual.Num.Gender,
+                              Num_Sort)),
+                            Key => Sl (I).IR.Key,
+                            Ending => Sl (I).IR.Ending,
+                            Age => Sl (I).IR.Age,
+                            Freq => Sl (I).IR.Freq),
+                           D_K => Pdl (J).D_K,
+                           MNPC => MNPC_Part);
 
                      elsif (Pdl_Part.Pofs = Adv) and then
                        ((Pdl_Part.Adv.Co <= Sl (I).IR.Qual.Adv.Comparison) or
@@ -1030,17 +1030,17 @@ package body Words_Engine.Word_Package is
                         M := M + 1;
                         Sxx (M) :=
                           (Stem => Subtract_Prefix (Sl (I).Stem, Prefix),
-                          IR => (
-                          Qual => (
-                          Pofs => Adv,
-                          Adv => (
-                          Comparison => Com)),
-                          Key => Sl (I).IR.Key,
-                          Ending => Sl (I).IR.Ending,
-                          Age => Sl (I).IR.Age,
-                          Freq => Sl (I).IR.Freq),
-                          D_K => Pdl (J).D_K,
-                          MNPC => MNPC_Part);
+                           IR => (
+                            Qual => (
+                             Pofs => Adv,
+                             Adv => (
+                              Comparison => Com)),
+                            Key => Sl (I).IR.Key,
+                            Ending => Sl (I).IR.Ending,
+                            Age => Sl (I).IR.Age,
+                            Freq => Sl (I).IR.Freq),
+                           D_K => Pdl (J).D_K,
+                           MNPC => MNPC_Part);
 
                      elsif Pdl_Part.Pofs = V then
                         --TEXT_IO.PUT_LINE ("V found, now check CON");
@@ -1051,20 +1051,20 @@ package body Words_Engine.Word_Package is
                            M := M + 1;
                            Sxx (M) :=
                              (Stem => Subtract_Prefix (Sl (I).Stem, Prefix),
-                             IR => (
-                             Qual => (
-                             Pofs => V,
-                             Verb => (
-                             Pdl_Part.V.Con,
-                             Sl (I).IR.Qual.Verb.Tense_Voice_Mood,
-                             Sl (I).IR.Qual.Verb.Person,
-                             Sl (I).IR.Qual.Verb.Number)),
-                             Key => Sl (I).IR.Key,
-                             Ending => Sl (I).IR.Ending,
-                             Age => Sl (I).IR.Age,
-                             Freq => Sl (I).IR.Freq),
-                             D_K => Pdl (J).D_K,
-                             MNPC => MNPC_Part);
+                              IR => (
+                               Qual => (
+                                Pofs => V,
+                                Verb => (
+                                 Pdl_Part.V.Con,
+                                 Sl (I).IR.Qual.Verb.Tense_Voice_Mood,
+                                 Sl (I).IR.Qual.Verb.Person,
+                                 Sl (I).IR.Qual.Verb.Number)),
+                               Key => Sl (I).IR.Key,
+                               Ending => Sl (I).IR.Ending,
+                               Age => Sl (I).IR.Age,
+                               Freq => Sl (I).IR.Freq),
+                              D_K => Pdl (J).D_K,
+                              MNPC => MNPC_Part);
 
                         elsif Sl (I).IR.Qual.Pofs = Vpar   and then
                           (Pdl_Part.V.Con <= Sl (I).IR.Qual.Vpar.Con)
@@ -1073,21 +1073,21 @@ package body Words_Engine.Word_Package is
                            M := M + 1;
                            Sxx (M) :=
                              (Stem => Subtract_Prefix (Sl (I).Stem, Prefix),
-                             IR => (
-                             Qual => (
-                             Pofs => Vpar,
-                             Vpar => (
-                             Pdl_Part.V.Con,
-                             Sl (I).IR.Qual.Vpar.Of_Case,
-                             Sl (I).IR.Qual.Vpar.Number,
-                             Sl (I).IR.Qual.Vpar.Gender,
-                             Sl (I).IR.Qual.Vpar.Tense_Voice_Mood)),
-                             Key => Sl (I).IR.Key,
-                             Ending => Sl (I).IR.Ending,
-                             Age => Sl (I).IR.Age,
-                             Freq => Sl (I).IR.Freq),
-                             D_K => Pdl (J).D_K,
-                             MNPC => MNPC_Part);
+                              IR => (
+                               Qual => (
+                                Pofs => Vpar,
+                                Vpar => (
+                                 Pdl_Part.V.Con,
+                                 Sl (I).IR.Qual.Vpar.Of_Case,
+                                 Sl (I).IR.Qual.Vpar.Number,
+                                 Sl (I).IR.Qual.Vpar.Gender,
+                                 Sl (I).IR.Qual.Vpar.Tense_Voice_Mood)),
+                               Key => Sl (I).IR.Key,
+                               Ending => Sl (I).IR.Ending,
+                               Age => Sl (I).IR.Age,
+                               Freq => Sl (I).IR.Freq),
+                              D_K => Pdl (J).D_K,
+                              MNPC => MNPC_Part);
 
                         elsif Sl (I).IR.Qual.Pofs = Supine   and then
                           (Pdl_Part.V.Con <= Sl (I).IR.Qual.Supine.Con)
@@ -1096,20 +1096,20 @@ package body Words_Engine.Word_Package is
                            M := M + 1;
                            Sxx (M) :=
                              (Stem => Subtract_Prefix (Sl (I).Stem, Prefix),
-                             IR => (
-                             Qual => (
-                             Pofs => Supine,
-                             Supine => (
-                             Pdl_Part.V.Con,
-                             Sl (I).IR.Qual.Supine.Of_Case,
-                             Sl (I).IR.Qual.Supine.Number,
-                             Sl (I).IR.Qual.Supine.Gender)),
-                             Key => Sl (I).IR.Key,
-                             Ending => Sl (I).IR.Ending,
-                             Age => Sl (I).IR.Age,
-                             Freq => Sl (I).IR.Freq),
-                             D_K => Pdl (J).D_K,
-                             MNPC => MNPC_Part);
+                              IR => (
+                               Qual => (
+                                Pofs => Supine,
+                                Supine => (
+                                 Pdl_Part.V.Con,
+                                 Sl (I).IR.Qual.Supine.Of_Case,
+                                 Sl (I).IR.Qual.Supine.Number,
+                                 Sl (I).IR.Qual.Supine.Gender)),
+                               Key => Sl (I).IR.Key,
+                               Ending => Sl (I).IR.Ending,
+                               Age => Sl (I).IR.Age,
+                               Freq => Sl (I).IR.Freq),
+                              D_K => Pdl (J).D_K,
+                              MNPC => MNPC_Part);
                         end if;
 
                      elsif Pdl_Part.Pofs = Prep and then
