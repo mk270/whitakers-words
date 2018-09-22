@@ -14,10 +14,6 @@
 -- All parts of the WORDS system, source code and data files, are made freely
 -- available to anyone who wishes to use them, for whatever purpose.
 
--- N.B: there is a set of duff assignments in the original source,
--- marked here with comments saying "apparently redundant?"; unsure
--- whether this is a bug
-
 separate (Support_Utils.Line_Stuff)
 package body Prefix_Line_Io is
    use Part_Of_Speech_Type_IO;
@@ -88,7 +84,6 @@ package body Prefix_Line_Io is
       P.Fix := S (L + 1 .. M);
       L := M;
       L := L + 1;
-      -- m := l + 1; -- apparently redundant?
       P.Connect := S (L + 1);
       L := L + 1;
       M := L + Prefix_Entry_Io.Default_Width;
@@ -111,7 +106,6 @@ package body Prefix_Line_Io is
       S (L + 1 .. M) := P.Fix;
       L := M + 1;
       S (L) :=  ' ';
-      -- m := l + 1; -- apparently redundant?
       S (L + 1) := P.Connect;
       M := L + Prefix_Entry_Io.Default_Width;
       Put (S (L + 1 .. M), P.Entr);

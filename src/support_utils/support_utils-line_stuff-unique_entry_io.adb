@@ -14,10 +14,6 @@
 -- All parts of the WORDS system, source code and data files, are made freely
 -- available to anyone who wishes to use them, for whatever purpose.
 
--- N.B: there is a set of duff assignments in the original source,
--- marked here with comments saying "apparently redundant?"; unsure
--- whether this is a bug
-
 separate (Support_Utils.Line_Stuff)
 package body Unique_Entry_Io is
    use Quality_Record_IO;
@@ -79,13 +75,10 @@ package body Unique_Entry_Io is
       M := L + Max_Stem_Size;
       P.Stem := S (L + 1 .. M);
       L := L + 1;
-      -- m := l + quality_record_io.Default_Width; -- apparently redundant?
       Get (S (L + 1 .. S'Last), P.Qual, L);
       L := L + 1;
-      -- m := l + Kind_Entry_IO.Default_Width; -- apparently redundant?
       Get (S (L + 1 .. S'Last), P.Qual.Pofs, P.Kind, L);
       L := L + 1;
-      -- m := l + Max_Meaning_Size; -- apparently redundant?
       Get (S (L + 1 .. S'Last), P.Tran, Last);
    end Get;
 

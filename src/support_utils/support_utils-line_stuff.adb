@@ -14,10 +14,6 @@
 -- All parts of the WORDS system, source code and data files, are made freely
 -- available to anyone who wishes to use them, for whatever purpose.
 
--- N.B: there is a set of duff assignments in the original source,
--- marked here with comments saying "apparently redundant?"; unsure
--- whether this is a bug
-
 with Ada.Strings.Fixed;
 with Support_Utils.Word_Support_Package; use Support_Utils.Word_Support_Package;
 with Latin_Utils.Strings_Package; use Latin_Utils.Strings_Package;
