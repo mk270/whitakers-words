@@ -608,8 +608,6 @@ package body Words_Engine.Word_Package is
       Input_Word : constant String := Lower_Case (Raw_Word);
       Pa_Save : constant Integer := Pa_Last;
 
-      Ss, Sss : Sal := (others => Null_Parse_Record);
-
       procedure Order_Stems (Sx : in out Sal) is
          use Dict_IO;
          Hits : Integer := 0;
@@ -1846,13 +1844,18 @@ package body Words_Engine.Word_Package is
       end Qu;
 
       --==========================================================
-      Run_Inflections (Input_Word, Ss);
-      Prune_Stems (Input_Word, Ss, Sss);
-      if Sss (1) /= Null_Parse_Record   then
-         Order_Stems (Sss);
-         Array_Stems (Sss, Pa, Pa_Last);
-         Sss (1) := Null_Parse_Record;
-      end if;
+      declare
+         Sss : Sal := (others => Null_Parse_Record);
+         Ss  : Sal := (others => Null_Parse_Record);
+      begin
+         Run_Inflections (Input_Word, Ss);
+         Prune_Stems (Input_Word, Ss, Sss);
+         if Sss (1) /= Null_Parse_Record   then
+            Order_Stems (Sss);
+            Array_Stems (Sss, Pa, Pa_Last);
+            Sss (1) := Null_Parse_Record;
+         end if;
+      end;
       --==========================================================
 
       if Pa_Last = Pa_Save  then
