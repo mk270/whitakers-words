@@ -34,7 +34,8 @@ package body Latin_Utils.Inflections_Package is
    end "<";
 
    ---------------------------------------------------------------------------
-
+   -- FIXME: should the function below, comparing two Quality_Records
+   -- not call the function above, comparing two Decn_Records?
    function "<" (Left, Right : Quality_Record) return Boolean is
    begin
       if Left.Pofs = Right.Pofs  then
