@@ -1515,107 +1515,93 @@ package body Words_Engine.Tricks_Package is
 
       --  If there is no satisfaction from above, we will try further
 
-      if S (S'First) = 'a'  then
+      case S (S'First) is
+         when 'a' =>
+            Flip_Flop ("abs", "aps");
+            if Pa_Last > 0  then
+               return;
+            end if;
+            Flip_Flop ("acq", "adq");
+            if Pa_Last > 0  then
+               return;
+            end if;
+            Flip_Flop ("ante",  "anti");
+            if Pa_Last > 0  then
+               return;
+            end if;
+            Flip_Flop ("auri",  "aure");
+            if Pa_Last > 0  then
+               return;
+            end if;
+            Flip_Flop ("auri",  "auru");
+            if Pa_Last > 0  then
+               return;
+            end if;
+            Slur ("ad");
+            if Pa_Last > 0  then
+               return;
+            end if;
+         when 'c' =>
+            Flip ("circum", "circun");
+            if Pa_Last > 0  then
+               return;
+            end if;
+            Flip_Flop ("con", "com");
+            if Pa_Last > 0  then
+               return;
+            end if;
+            Flip ("co", "com");
+            if Pa_Last > 0  then
+               return;
+            end if;
+            Flip ("co", "con");
+            if Pa_Last > 0  then
+               return;
+            end if;
+            Flip_Flop ("conl", "coll");
+            if Pa_Last > 0  then
+               return;
+            end if;
+         when 'i' =>
+            Slur ("in");
+            if Pa_Last > 1 then
+               return;
+            end if;
 
-         Flip_Flop ("abs", "aps");
-         if Pa_Last > 0  then
-            return;
-         end if;
-         Flip_Flop ("acq", "adq");
-         if Pa_Last > 0  then
-            return;
-         end if;
-         Flip_Flop ("ante",  "anti");
-         if Pa_Last > 0  then
-            return;
-         end if;
-         Flip_Flop ("auri",  "aure");
-         if Pa_Last > 0  then
-            return;
-         end if;
-         Flip_Flop ("auri",  "auru");
-         if Pa_Last > 0  then
-            return;
-         end if;
-         Slur ("ad");
-         if Pa_Last > 0  then
-            return;
-         end if;
-
-      elsif S (S'First) = 'c'  then
-
-         Flip ("circum", "circun");
-         if Pa_Last > 0  then
-            return;
-         end if;
-         Flip_Flop ("con", "com");
-         if Pa_Last > 0  then
-            return;
-         end if;
-         Flip ("co", "com");
-         if Pa_Last > 0  then
-            return;
-         end if;
-         Flip ("co", "con");
-         if Pa_Last > 0  then
-            return;
-         end if;
-         Flip_Flop ("conl", "coll");
-         if Pa_Last > 0  then
-            return;
-         end if;
-
-      elsif S (S'First) = 'i'  then
-
-         Slur ("in");
-         if Pa_Last > 1 then
-            return;
-         end if;
-
-         Flip_Flop ("inb", "imb");
-         if Pa_Last > 1 then
-            return;
-         end if;
-         Flip_Flop ("inp", "imp");
-         if Pa_Last > 1 then
-            return;
-         end if;
-
-         --  for some forms of eo the stem "i" grates with an "is .. ." ending
-
-      elsif S (S'First) = 'n'  then
-
-         Flip ("nun",  "non");
-         if Pa_Last > 0  then
-            return;
-         end if;
-
-      elsif S (S'First) = 'o'  then
-
-         Slur ("ob");
-         if Pa_Last > 0  then
-            return;
-         end if;
-
-      elsif S (S'First) = 'q'  then
-
-         Flip_Flop ("quadri",  "quadru");
-         if Pa_Last > 0  then
-            return;
-         end if;
-
-      elsif S (S'First) = 's'  then
-
-         Flip ("se",  "ce");     --  Latham
-         if Pa_Last > 0  then
-            return;
-         end if;
-
-         --  From Oxford Latin Dictionary p.1835 "sub-"
-
-         Slur ("sub");
-
-      end if;   --  if on first letter
+            Flip_Flop ("inb", "imb");
+            if Pa_Last > 1 then
+               return;
+            end if;
+            Flip_Flop ("inp", "imp");
+            if Pa_Last > 1 then
+               return;
+            end if;
+            -- for some forms of eo the stem "i" grates with an "is .. ." ending
+         when 'n' =>
+            Flip ("nun",  "non");
+            if Pa_Last > 0  then
+               return;
+            end if;
+         when 'o' =>
+            Slur ("ob");
+            if Pa_Last > 0  then
+               return;
+            end if;
+         when 'q' =>
+            Flip_Flop ("quadri",  "quadru");
+            if Pa_Last > 0  then
+               return;
+            end if;
+         when 's' =>
+            Flip ("se",  "ce");     --  Latham
+            if Pa_Last > 0  then
+               return;
+            end if;
+            --  From Oxford Latin Dictionary p.1835 "sub-"
+            Slur ("sub");
+         when others =>
+            null;
+      end case;   --  if on first letter
 
    exception
       when others  =>    --  I want to ignore anything that happens in SLURY
