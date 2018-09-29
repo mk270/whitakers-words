@@ -571,12 +571,7 @@ package body Words_Engine.Tricks_Package is
               +"trans"
               );
          begin
-            if Member (+S, Common_Prefixes)
-            then
-               return True;
-            else
-               return False;
-            end if;
+            return Member (+S, Common_Prefixes);
          end Common_Prefix;
 
       begin
