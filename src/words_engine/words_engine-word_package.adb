@@ -1499,19 +1499,20 @@ package body Words_Engine.Word_Package is
                                  Packon_First_Hit := False;
                               end if;
                               Pa_Last := Pa_Last + 1;
-                              Pa (Pa_Last) := (Stem => Sl (M).Stem,
+                              Pa (Pa_Last) := (
+                                Stem => Sl (M).Stem,
                                 IR => (
-                                Qual => (
-                                Pofs => Pron,
-                                Pron => (
-                                Pdl (J).Ds.Part.Pack.Decl,
-                                Sl (M).IR.Qual.Pron.Of_Case,
-                                Sl (M).IR.Qual.Pron.Number,
-                                Sl (M).IR.Qual.Pron.Gender)),
-                                Key => Sl (M).IR.Key,
-                                Ending => Sl (M).IR.Ending,
-                                Age => Sl (M).IR.Age,
-                                Freq => Sl (M).IR.Freq),
+                                 Qual => (
+                                  Pofs => Pron,
+                                  Pron => (
+                                   Pdl (J).Ds.Part.Pack.Decl,
+                                   Sl (M).IR.Qual.Pron.Of_Case,
+                                   Sl (M).IR.Qual.Pron.Number,
+                                   Sl (M).IR.Qual.Pron.Gender)),
+                                 Key => Sl (M).IR.Key,
+                                 Ending => Sl (M).IR.Ending,
+                                 Age => Sl (M).IR.Age,
+                                 Freq => Sl (M).IR.Freq),
                                 D_K => Pdl (J).D_K,
                                 MNPC => Pdl (J).Ds.MNPC);
                               --end if;
@@ -1596,19 +1597,20 @@ package body Words_Engine.Word_Package is
                --  Over all inflection hits
                if Pdl (J).Ds.Part.Pron.Decl = Sl (M).IR.Qual.Pron.Decl then
                   Pa_Last := Pa_Last + 1;
-                  Pa (Pa_Last) := (Stem => Sl (M).Stem,
+                  Pa (Pa_Last) := (
+                    Stem => Sl (M).Stem,
                     IR => (
-                    Qual => (
-                    Pofs => Pron,
-                    Pron => (
-                    Pdl (J).Ds.Part.Pron.Decl,
-                    Sl (M).IR.Qual.Pron.Of_Case,
-                    Sl (M).IR.Qual.Pron.Number,
-                    Sl (M).IR.Qual.Pron.Gender)),
-                    Key => Sl (M).IR.Key,
-                    Ending => Sl (M).IR.Ending,
-                    Age => Sl (M).IR.Age,
-                    Freq => Sl (M).IR.Freq),
+                     Qual => (
+                      Pofs => Pron,
+                      Pron => (
+                       Pdl (J).Ds.Part.Pron.Decl,
+                       Sl (M).IR.Qual.Pron.Of_Case,
+                       Sl (M).IR.Qual.Pron.Number,
+                       Sl (M).IR.Qual.Pron.Gender)),
+                     Key => Sl (M).IR.Key,
+                     Ending => Sl (M).IR.Ending,
+                     Age => Sl (M).IR.Age,
+                     Freq => Sl (M).IR.Freq),
                     D_K => Pdl (J).D_K,
                     MNPC => Pdl (J).Ds.MNPC);
                end if;
