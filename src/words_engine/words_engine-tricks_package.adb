@@ -125,12 +125,10 @@ package body Words_Engine.Tricks_Package is
       -- avis => as, evis => es, ivis => is, ovis => os   in perfect
       for I in reverse S'First .. S'Last - 2  loop     --  Need isse
          declare
-            Fragment : constant String := S (I .. I + 1);
+            Fragment  : constant String  := S (I .. I + 1);
+            Fragments : constant Strings := (+"as", +"es", +"is", +"os");
          begin
-            if (Fragment = "as")  or
-              (Fragment = "es")  or
-              (Fragment = "is")  or
-              (Fragment = "os")
+            if Member (+Fragment, Fragments)
             then
                Pa_Last := Pa_Last + 1;
                Pa (Pa_Last)         :=
