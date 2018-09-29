@@ -29,8 +29,26 @@ with Words_Engine.Word_Package; use Words_Engine.Word_Package;
 with Words_Engine.Put_Stat;
 with Words_Engine.Roman_Numerals_Package;
 use Words_Engine.Roman_Numerals_Package;
+with Ada.Strings.Unbounded; use Ada.Strings.Unbounded;
 
 package body Words_Engine.Tricks_Package is
+   type Strings is array (Integer range <>) of Unbounded_String;
+
+   function "+" (Source : String) return Unbounded_String
+     renames To_Unbounded_String;
+
+   function Member (Needle   : Unbounded_String;
+                    Haystack : Strings)
+                   return Boolean
+   is
+   begin
+      for S in Haystack'Range loop
+         if Needle = Haystack (S) then
+            return True;
+         end if;
+      end loop;
+      return False;
+   end Member;
 
    function Is_A_Vowel (C : Character) return Boolean is
    begin
@@ -539,18 +557,21 @@ package body Words_Engine.Tricks_Package is
             --  Common prefixes that have corresponding words (prepositions
             --  usually) which could confuse TWO_WORDS.  We wish to reject
             --  these.
+            Common_Prefixes : constant Strings := (
+              +"dis",
+              +"ex",
+              +"in",
+              +"per",
+              +"prae",
+              +"pro",
+              +"re",
+              +"si",
+              +"sub",
+              +"super",
+              +"trans"
+              );
          begin
-            if S = "dis"  or
-              S = "ex"   or
-              S = "in"   or
-              S = "per"  or
-              S = "prae" or
-              S = "pro"  or
-              S = "re"   or
-              S = "si"  or
-              S = "sub"  or
-              S = "super" or
-              S = "trans"
+            if Member (+S, Common_Prefixes)
             then
                return True;
             else
