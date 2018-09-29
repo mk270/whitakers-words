@@ -162,11 +162,10 @@ package body Words_Engine.Tricks_Package is
       -- aver => ar, ever => er, in perfect
       for I in reverse S'First + 1 .. S'Last - 2  loop
          declare
-            Fragment : constant String := S (I .. I + 1);
+            Fragment  : constant String  := S (I .. I + 1);
+            Fragments : constant Strings := (+"ar", +"er", +"or");
          begin
-            if (Fragment = "ar")  or
-              (Fragment = "er")  or
-              (Fragment = "or")
+            if Member (+Fragment, Fragments)
             then
                Pa_Last := Pa_Last + 1;
                Pa (Pa_Last) := ("Syncope   r => v.r", Syncope_Inflection_Record,
