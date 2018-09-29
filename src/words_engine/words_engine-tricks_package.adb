@@ -1632,14 +1632,4 @@ end Words_Engine.Tricks_Package;
 --
 --  * analyse all the things that can be factored back together
 --  * factor out the 4 branches of Syncope ()
---  * make a function for testing if a string matches any member of a list
---  * move tabular data into own package, use following hack:
---
--- function "+" (Source : String) return Ada.Strings.Unbounded.Unbounded_String
---     renames Ada.Strings.Unbounded.To_Unbounded_String;
---
--- procedure anyname is
---     input_array : array(1..5) of Ada.Strings.Unbounded.Unbounded_String;
--- begin
---     input_array(1) := +"12345";  -- uses renaming "+" operator
--- end anyname;
+--  * move tabular data into own package
