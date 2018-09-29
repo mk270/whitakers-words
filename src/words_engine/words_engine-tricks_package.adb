@@ -1282,21 +1282,21 @@ package body Words_Engine.Tricks_Package is
            & "  as ill-formed ROMAN NUMERAL?;",
            Max_Meaning_Size);
          Pa_Last := Pa_Last + 1;
-         Pa (Pa_Last) := (Stem => Head (W, Max_Stem_Size),
+         Pa (Pa_Last) := (
+           Stem => Head (W, Max_Stem_Size),
            IR => (
-           Qual => (
-           Pofs => Num,
-           Num => (
-           Decl    => (2, 0),
-           Of_Case => X,
-           Number  => X,
-           Gender  => X,
-           Sort    => Card)),
-
-           Key => 0,
-           Ending => Null_Ending_Record,
-           Age => X,
-           Freq => D),
+            Qual => (
+             Pofs => Num,
+             Num => (
+              Decl    => (2, 0),
+              Of_Case => X,
+              Number  => X,
+              Gender  => X,
+              Sort    => Card)),
+            Key => 0,
+            Ending => Null_Ending_Record,
+            Age => X,
+            Freq => D),
            D_K => Rrr,
            MNPC => Null_MNPC);
 
