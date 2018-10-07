@@ -18,7 +18,7 @@ with Words_Main;
 with Latin_Utils.Config; use Latin_Utils.Config;
 procedure Words is
 begin
-   --  The language shift in argumants must take place here
+   --  The language shift in arguments must take place here
    --  since later parsing of line ignores non-letter Characters
    Words_Main (Developer_Version);
 end Words;

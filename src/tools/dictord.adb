@@ -23,7 +23,7 @@ with Latin_Utils.Dictionary_Package; use Latin_Utils.Dictionary_Package;
 with Support_Utils.Dictionary_Form;
 procedure Dictord is
    --  DICTORD.IN -> DICTORD.OUT
-   --  Takes DICTLINE form, puts # and dictionary form at begining,
+   --  Takes DICTLINE form, puts # and dictionary form at beginning,
    --  a file that can be sorted to produce word order of paper dictionary
    package Integer_IO is new Text_IO.Integer_IO (Integer);
    use Text_IO;
@@ -50,7 +50,7 @@ procedure Dictord is
 
 begin
    Put_Line ("DICTORD.IN -> DICTORD.OUT     For dictionary updates.");
-   Put_Line ("Takes DICTLINE form, puts # and dictionary form at begining,");
+   Put_Line ("Takes DICTLINE form, puts # and dictionary form at beginning,");
    Put_Line ("a file for sorting to produce word order of paper dictionary");
    Create (Output, Out_File, "DICTORD.OUT");
    Open (Input, In_File, "DICTORD.IN");

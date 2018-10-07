@@ -210,7 +210,7 @@ package body Words_Engine.Word_Package is
       Sl : in out Sal;
       Restriction : Dict_Restriction := Regular)
    is
-      --  Trys all possible inflections against the Input word in S
+      --  Tries all possible inflections against the Input word in S
       --  and constructs a STEM_LIST of those that survive SL
       use Lel_Section_Io;
       Word : constant String := Lower_Case (Trim (S));
@@ -532,7 +532,8 @@ package body Words_Engine.Word_Package is
       --  but need not always be so
 
       --  Determine if there is a blank stem  (SC = ' ')
-      --  Prepare for the posibility that one stem is short but there are others
+      --  Prepare for the possibility that one stem is short but there
+      --  are others
       Fc := ' ';
       if Ssa (Ssa'First)(1) = ' ' then
          if Ssa'Length > 1  and then Ssa (Ssa'First + 1)(2) = ' '  then
@@ -596,12 +597,12 @@ package body Words_Engine.Word_Package is
       end if;
    else
       Preface.Put_Line
-        ("Bad LANGAUGE Input - no change, remains " &
+        ("Bad LANGUAGE Input - no change, remains " &
          Language_Type'Image (Language));
    end if;
    exception
       when others  =>
-         Preface.Put_Line ("Bad LANGAUGE Input - no change, remains " &
+         Preface.Put_Line ("Bad LANGUAGE Input - no change, remains " &
            Language_Type'Image (Language));
    end Change_Language;
 
@@ -1465,7 +1466,7 @@ package body Words_Engine.Word_Package is
                   Pdl_Loop :
                   for J in 1 .. Pdl_Index  loop
                      --  Go through all dictionary hits to see
-                     --  M used here wher I is used in REDUCE,
+                     --  M used here where I is used in REDUCE,
                      --  maybe make consistent
                      M := 1;
 
