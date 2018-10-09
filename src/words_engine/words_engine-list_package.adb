@@ -38,7 +38,7 @@ with Words_Engine.Word_Package; use Words_Engine.Word_Package;
 with Support_Utils.Char_Utils;
 with Support_Utils.Dictionary_Form;
 with Words_Engine.Put_Example_Line;
-with Words_Engine.List_Sweep;
+with Words_Engine.List_Sweep; use Words_Engine.List_Sweep;
 with Words_Engine.Put_Stat;
 with Words_Engine.Pearse_Code; use Words_Engine.Pearse_Code;
 
@@ -259,7 +259,7 @@ package body Words_Engine.List_Package is
    end Constructed_Meaning;
 
    function Trim_Bar (S : String) return String is
-      --  Takes vertical bars from begining of MEAN and TRIMs
+      --  Takes vertical bars from beginning of MEAN and TRIMs
    begin
       return Trim (Ada.Strings.Fixed.Trim (S, Ada.Strings.Maps.To_Set ('|'),
                                               Ada.Strings.Maps.Null_Set));
@@ -889,7 +889,7 @@ package body Words_Engine.List_Package is
       --  e.g., it must clean out dangling prefixes and suffixes
       Trimmed := False;
       Handle_Adverb (Var_Pa, Var_Pa_Last, Var_Xp);
-      List_Sweep (Var_Pa (1 .. Var_Pa_Last), Var_Pa_Last);
+      List_Sweep.List_Sweep (Var_Pa (1 .. Var_Pa_Last), Var_Pa_Last);
       Write_Addons_Stats (W, Var_Pa, Var_Pa_Last);
       Cycle_Over_Pa (Var_Pa, Var_Pa_Last, Sraa, Dma, I_Is_Pa_Last, Raw_Word, W);
 
@@ -963,7 +963,7 @@ package body Words_Engine.List_Package is
       --TEXT_IO.PUT_LINE (OUTPUT, DICTIONARY_FORM (DE));
       Put_Dictionary_Form (Output, D_K, Mn, De);
       Ada.Text_IO.Put_Line (Output,
-        Trim (Head (De.Mean, Mm)));  --  so it wont line wrap/Put CR
+        Trim (Head (De.Mean, Mm)));  --  so it won't line wrap/Put CR
 
    end List_Entry;
 

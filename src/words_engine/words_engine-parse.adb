@@ -167,7 +167,7 @@ is
 
    -- retaining the "defaults" allows us to (re)assign the values
    -- in the caller, which is effectively a no-op in the fall-through
-   -- code path; we should pass thie information in as a record of type
+   -- code path; we should pass this information in as a record of type
    -- "participle" rather than as four separate values, to be clearer
    -- about what is going on, and save wear-and-tear on the stack frame
 
@@ -671,7 +671,7 @@ is
       --  Pure SYNCOPE
       Perform_Syncope (Input_Word, Pa, Pa_Last, Xp);
 
-      --  There may be a vaild simple parse, if so it is most probable
+      --  There may be a valid simple parse, if so it is most probable
       --  But I have to allow for the possibility that -que is answer,
       --  not colloque V
       Enclitic (Input_Word, Entering_Pa_Last, Have_Done_Enclitic, Pa, Pa_Last,
@@ -899,7 +899,7 @@ is
          --  WORD failed, try to modify the word
          if Words_Mode (Do_Tricks)  then
             Words_Mode (Do_Tricks) := False;
-            --  Turn it off so wont be circular
+            --  Turn it off so won't be circular
             Try_Tricks (Input_Word, Trpa, Trpa_Last, Line_Number,
               Word_Number, Xp);
             if Trpa_Last = 0  then

@@ -29,8 +29,26 @@ with Words_Engine.Word_Package; use Words_Engine.Word_Package;
 with Words_Engine.Put_Stat;
 with Words_Engine.Roman_Numerals_Package;
 use Words_Engine.Roman_Numerals_Package;
+with Ada.Strings.Unbounded; use Ada.Strings.Unbounded;
 
 package body Words_Engine.Tricks_Package is
+   type Strings is array (Integer range <>) of Unbounded_String;
+
+   function "+" (Source : String) return Unbounded_String
+     renames To_Unbounded_String;
+
+   function Member (Needle   : Unbounded_String;
+                    Haystack : Strings)
+                   return Boolean
+   is
+   begin
+      for S in Haystack'Range loop
+         if Needle = Haystack (S) then
+            return True;
+         end if;
+      end loop;
+      return False;
+   end Member;
 
    function Is_A_Vowel (C : Character) return Boolean is
    begin
@@ -107,12 +125,10 @@ package body Words_Engine.Tricks_Package is
       -- avis => as, evis => es, ivis => is, ovis => os   in perfect
       for I in reverse S'First .. S'Last - 2  loop     --  Need isse
          declare
-            Fragment : constant String := S (I .. I + 1);
+            Fragment  : constant String  := S (I .. I + 1);
+            Fragments : constant Strings := (+"as", +"es", +"is", +"os");
          begin
-            if (Fragment = "as")  or
-              (Fragment = "es")  or
-              (Fragment = "is")  or
-              (Fragment = "os")
+            if Member (+Fragment, Fragments)
             then
                Pa_Last := Pa_Last + 1;
                Pa (Pa_Last)         :=
@@ -146,11 +162,10 @@ package body Words_Engine.Tricks_Package is
       -- aver => ar, ever => er, in perfect
       for I in reverse S'First + 1 .. S'Last - 2  loop
          declare
-            Fragment : constant String := S (I .. I + 1);
+            Fragment  : constant String  := S (I .. I + 1);
+            Fragments : constant Strings := (+"ar", +"er", +"or");
          begin
-            if (Fragment = "ar")  or
-              (Fragment = "er")  or
-              (Fragment = "or")
+            if Member (+Fragment, Fragments)
             then
                Pa_Last := Pa_Last + 1;
                Pa (Pa_Last) := ("Syncope   r => v.r", Syncope_Inflection_Record,
@@ -243,12 +258,12 @@ package body Words_Engine.Tricks_Package is
          Pa_Last := Pa_Save;
       end if;
 
-      Pa (Pa_Last + 1) := Null_Parse_Record;     --  Just to clear the trys
+      Pa (Pa_Last + 1) := Null_Parse_Record;     --  Just to clear the tries
 
    exception
       when others  =>
          Pa_Last := Pa_Save;
-         Pa (Pa_Last + 1) := Null_Parse_Record;     --  Just to clear the trys
+         Pa (Pa_Last + 1) := Null_Parse_Record;     --  Just to clear the tries
 
    end Syncope;
 
@@ -274,7 +289,7 @@ package body Words_Engine.Tricks_Package is
       end Tword;
 
       procedure Flip (X1, X2 : String; Explanation : String := "") is
-         --  At the begining of Input word, replaces X1 by X2
+         --  At the beginning of Input word, replaces X1 by X2
          Pa_Save : constant Integer := Pa_Last;
       begin
          if S'Length >= X1'Length + 2  and then
@@ -309,7 +324,7 @@ package body Words_Engine.Tricks_Package is
       end Flip;
 
       procedure Flip_Flop (X1, X2 : String; Explanation : String := "") is
-         --  At the begining of Input word, replaces X1 by X2 - then X2 by X1
+         --  At the beginning of Input word, replaces X1 by X2 - then X2 by X1
          --  To be used only when X1 and X2 start with the same letter because
          --  it will be called from a point where the first letter is
          --  established
@@ -474,7 +489,7 @@ package body Words_Engine.Tricks_Package is
          --  The problem is to take possible medieval words
          --  and double (all) (isolated) consonants
          for I in S'First + 1 .. S'Last - 1 loop
-            --  probably dont need to go to end
+            --  probably don't need to go to end
             if (not Is_A_Vowel (S (I))) and then
               (Is_A_Vowel (S (I - 1)) and Is_A_Vowel (S (I + 1)))
             then
@@ -539,29 +554,27 @@ package body Words_Engine.Tricks_Package is
             --  Common prefixes that have corresponding words (prepositions
             --  usually) which could confuse TWO_WORDS.  We wish to reject
             --  these.
+            Common_Prefixes : constant Strings := (
+              +"dis",
+              +"ex",
+              +"in",
+              +"per",
+              +"prae",
+              +"pro",
+              +"re",
+              +"si",
+              +"sub",
+              +"super",
+              +"trans"
+              );
          begin
-            if S = "dis"  or
-              S = "ex"   or
-              S = "in"   or
-              S = "per"  or
-              S = "prae" or
-              S = "pro"  or
-              S = "re"   or
-              S = "si"  or
-              S = "sub"  or
-              S = "super" or
-              S = "trans"
-            then
-               return True;
-            else
-               return False;
-            end if;
+            return Member (+S, Common_Prefixes);
          end Common_Prefix;
 
       begin
          --if S (S'FIRST) /= 'q'  then    --  qu words more complicated
 
-         if S'Length  < 5  then    --  Dont try on too short words
+         if S'Length  < 5  then    --  Don't try on too short words
             return;
          end if;
 
@@ -678,10 +691,10 @@ package body Words_Engine.Tricks_Package is
          --  sloppy
       end Two_Words;
 
-      --------------------------------------------------------------------------
-      --------------------------------------------------------------------------
-      --------------------------------------------------------------------------
-      --------------------------------------------------------------------------
+      -------------------------------------------------------------------------
+      -------------------------------------------------------------------------
+      -------------------------------------------------------------------------
+      -------------------------------------------------------------------------
 
    begin
       --  These things might be genericized, at least the PA (1) assignments
@@ -1269,21 +1282,21 @@ package body Words_Engine.Tricks_Package is
            & "  as ill-formed ROMAN NUMERAL?;",
            Max_Meaning_Size);
          Pa_Last := Pa_Last + 1;
-         Pa (Pa_Last) := (Stem => Head (W, Max_Stem_Size),
+         Pa (Pa_Last) := (
+           Stem => Head (W, Max_Stem_Size),
            IR => (
-           Qual => (
-           Pofs => Num,
-           Num => (
-           Decl    => (2, 0),
-           Of_Case => X,
-           Number  => X,
-           Gender  => X,
-           Sort    => Card)),
-
-           Key => 0,
-           Ending => Null_Ending_Record,
-           Age => X,
-           Freq => D),
+            Qual => (
+             Pofs => Num,
+             Num => (
+              Decl    => (2, 0),
+              Of_Case => X,
+              Number  => X,
+              Gender  => X,
+              Sort    => Card)),
+            Key => 0,
+            Ending => Null_Ending_Record,
+            Age => X,
+            Freq => D),
            D_K => Rrr,
            MNPC => Null_MNPC);
 
@@ -1293,7 +1306,7 @@ package body Words_Engine.Tricks_Package is
    exception
       when others  =>    --  I want to ignore anything that happens in TRICKS
          Pa_Last := Pa_Save;
-         Pa (Pa_Last + 1) := Null_Parse_Record;     --  Just to clear the trys
+         Pa (Pa_Last + 1) := Null_Parse_Record;     --  Just to clear the tries
 
          Ada.Text_IO.Put_Line (    --  ERROR_FILE,
            "Exception in TRY_TRICKS processing " & W);
@@ -1324,7 +1337,7 @@ package body Words_Engine.Tricks_Package is
       end Tword;
 
       procedure Flip (X1, X2 : String; Explanation : String := "") is
-         --  At the begining of Input word, replaces X1 by X2
+         --  At the beginning of Input word, replaces X1 by X2
          Pa_Save : constant Integer := Pa_Last;
       begin
          if S'Length >= X1'Length + 2  and then
@@ -1358,8 +1371,8 @@ package body Words_Engine.Tricks_Package is
       end Flip;
 
       procedure Flip_Flop (X1, X2 : String; Explanation : String := "") is
-         --  At the begining of Input word, replaces X1 by X2 - then X2 by X1
-         --  To be uesd only when X1 and X2 start with the same letter because
+         --  At the beginning of Input word, replaces X1 by X2 - then X2 by X1
+         --  To be used only when X1 and X2 start with the same letter because
          --  it will be called from a point where the first letter is
          --  established
          Pa_Save : constant Integer := Pa_Last;
@@ -1502,112 +1515,98 @@ package body Words_Engine.Tricks_Package is
 
       --  If there is no satisfaction from above, we will try further
 
-      if S (S'First) = 'a'  then
+      case S (S'First) is
+         when 'a' =>
+            Flip_Flop ("abs", "aps");
+            if Pa_Last > 0  then
+               return;
+            end if;
+            Flip_Flop ("acq", "adq");
+            if Pa_Last > 0  then
+               return;
+            end if;
+            Flip_Flop ("ante",  "anti");
+            if Pa_Last > 0  then
+               return;
+            end if;
+            Flip_Flop ("auri",  "aure");
+            if Pa_Last > 0  then
+               return;
+            end if;
+            Flip_Flop ("auri",  "auru");
+            if Pa_Last > 0  then
+               return;
+            end if;
+            Slur ("ad");
+            if Pa_Last > 0  then
+               return;
+            end if;
+         when 'c' =>
+            Flip ("circum", "circun");
+            if Pa_Last > 0  then
+               return;
+            end if;
+            Flip_Flop ("con", "com");
+            if Pa_Last > 0  then
+               return;
+            end if;
+            Flip ("co", "com");
+            if Pa_Last > 0  then
+               return;
+            end if;
+            Flip ("co", "con");
+            if Pa_Last > 0  then
+               return;
+            end if;
+            Flip_Flop ("conl", "coll");
+            if Pa_Last > 0  then
+               return;
+            end if;
+         when 'i' =>
+            Slur ("in");
+            if Pa_Last > 1 then
+               return;
+            end if;
 
-         Flip_Flop ("abs", "aps");
-         if Pa_Last > 0  then
-            return;
-         end if;
-         Flip_Flop ("acq", "adq");
-         if Pa_Last > 0  then
-            return;
-         end if;
-         Flip_Flop ("ante",  "anti");
-         if Pa_Last > 0  then
-            return;
-         end if;
-         Flip_Flop ("auri",  "aure");
-         if Pa_Last > 0  then
-            return;
-         end if;
-         Flip_Flop ("auri",  "auru");
-         if Pa_Last > 0  then
-            return;
-         end if;
-         Slur ("ad");
-         if Pa_Last > 0  then
-            return;
-         end if;
-
-      elsif S (S'First) = 'c'  then
-
-         Flip ("circum", "circun");
-         if Pa_Last > 0  then
-            return;
-         end if;
-         Flip_Flop ("con", "com");
-         if Pa_Last > 0  then
-            return;
-         end if;
-         Flip ("co", "com");
-         if Pa_Last > 0  then
-            return;
-         end if;
-         Flip ("co", "con");
-         if Pa_Last > 0  then
-            return;
-         end if;
-         Flip_Flop ("conl", "coll");
-         if Pa_Last > 0  then
-            return;
-         end if;
-
-      elsif S (S'First) = 'i'  then
-
-         Slur ("in");
-         if Pa_Last > 1 then
-            return;
-         end if;
-
-         Flip_Flop ("inb", "imb");
-         if Pa_Last > 1 then
-            return;
-         end if;
-         Flip_Flop ("inp", "imp");
-         if Pa_Last > 1 then
-            return;
-         end if;
-
-         --  for some forms of eo the stem "i" grates with an "is .. ." ending
-
-      elsif S (S'First) = 'n'  then
-
-         Flip ("nun",  "non");
-         if Pa_Last > 0  then
-            return;
-         end if;
-
-      elsif S (S'First) = 'o'  then
-
-         Slur ("ob");
-         if Pa_Last > 0  then
-            return;
-         end if;
-
-      elsif S (S'First) = 'q'  then
-
-         Flip_Flop ("quadri",  "quadru");
-         if Pa_Last > 0  then
-            return;
-         end if;
-
-      elsif S (S'First) = 's'  then
-
-         Flip ("se",  "ce");     --  Latham
-         if Pa_Last > 0  then
-            return;
-         end if;
-
-         --  From Oxford Latin Dictionary p.1835 "sub-"
-
-         Slur ("sub");
-
-      end if;   --  if on first letter
+            Flip_Flop ("inb", "imb");
+            if Pa_Last > 1 then
+               return;
+            end if;
+            Flip_Flop ("inp", "imp");
+            if Pa_Last > 1 then
+               return;
+            end if;
+            -- for some forms of eo the stem "i" grates with an "is .. ." ending
+         when 'n' =>
+            Flip ("nun",  "non");
+            if Pa_Last > 0  then
+               return;
+            end if;
+         when 'o' =>
+            Slur ("ob");
+            if Pa_Last > 0  then
+               return;
+            end if;
+         when 'q' =>
+            Flip_Flop ("quadri",  "quadru");
+            if Pa_Last > 0  then
+               return;
+            end if;
+         when 's' =>
+            Flip ("se",  "ce");     --  Latham
+            if Pa_Last > 0  then
+               return;
+            end if;
+            --  From Oxford Latin Dictionary p.1835 "sub-"
+            Slur ("sub");
+         when others =>
+            null;
+      end case;   --  if on first letter
 
    exception
       when others  =>    --  I want to ignore anything that happens in SLURY
          Pa_Last := Pa_Save;
-         Pa (Pa_Last + 1) := Null_Parse_Record;     --  Just to clear the trys
+         Pa (Pa_Last + 1) := Null_Parse_Record;     --  Just to clear the tries
 
          Ada.Text_IO.Put_Line (    --  ERROR_FILE,
            "Exception in TRY_SLURY processing " & W);
@@ -1619,14 +1618,5 @@ end Words_Engine.Tricks_Package;
 --
 --  * analyse all the things that can be factored back together
 --  * factor out the 4 branches of Syncope ()
---  * make a function for testing if a string matches any member of a list
---  * move tabular data into own package, use following hack:
---
--- function "+" (Source : String) return Ada.Strings.Unbounded.Unbounded_String
---     renames Ada.Strings.Unbounded.To_Unbounded_String;
---
--- procedure anyname is
---     input_array : array(1..5) of Ada.Strings.Unbounded.Unbounded_String;
--- begin
---     input_array(1) := +"12345";  -- uses renaming "+" operator
--- end anyname;
+--  * brances of flip flop are almost identical
+--  * move tabular data into own package

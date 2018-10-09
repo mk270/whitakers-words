@@ -14,11 +14,9 @@
 -- All parts of the WORDS system, source code and data files, are made freely
 -- available to anyone who wishes to use them, for whatever purpose.
 
-with Words_Main;
-with Latin_Utils.Config; use Latin_Utils.Config;
-procedure Words is
-begin
-   --  The language shift in arguments must take place here
-   --  since later parsing of line ignores non-letter Characters
-   Words_Main (Developer_Version);
-end Words;
+with Latin_Utils.Dictionary_Package; use Latin_Utils.Dictionary_Package;
+
+package Words_Engine.List_Sweep is
+   procedure List_Sweep (Pa      : in out Parse_Array;
+                         Pa_Last : in out Integer);
+end Words_Engine.List_Sweep;

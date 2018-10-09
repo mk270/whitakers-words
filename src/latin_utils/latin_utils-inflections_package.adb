@@ -34,7 +34,8 @@ package body Latin_Utils.Inflections_Package is
    end "<";
 
    ---------------------------------------------------------------------------
-
+   -- FIXME: should the function below, comparing two Quality_Records
+   -- not call the function above, comparing two Decn_Records?
    function "<" (Left, Right : Quality_Record) return Boolean is
    begin
       if Left.Pofs = Right.Pofs  then
@@ -417,7 +418,7 @@ package body Latin_Utils.Inflections_Package is
    procedure Establish_Inflections_Section  is
       --  Loads the inflection array from the file prepared in
       --  FILE_INFLECTIONS_SECTION
-      --  If N = 0 (an artifical flag for the section for blank
+      --  If N = 0 (an artificial flag for the section for blank
       --  inflections = 5)
       --  computes the LELL .. LELF indices for use in WORD
       use Lel_Section_Io;
@@ -580,100 +581,11 @@ begin
    Number_Type_IO.Default_Width := Number_Type'Width;
    Person_Type_IO.Default_Width := 1;
    Comparison_Type_IO.Default_Width := Comparison_Type'Width;
+
    Tense_Type_IO.Default_Width := Tense_Type'Width;
    Voice_Type_IO.Default_Width := Voice_Type'Width;
    Mood_Type_IO.Default_Width := Mood_Type'Width;
-   Noun_Kind_Type_IO.Default_Width := Noun_Kind_Type'Width;
-   Pronoun_Kind_Type_IO.Default_Width := Pronoun_Kind_Type'Width;
-   Verb_Kind_Type_IO.Default_Width := Verb_Kind_Type'Width;
+
    Numeral_Sort_Type_IO.Default_Width := Numeral_Sort_Type'Width;
-   Age_Type_IO.Default_Width := Age_Type'Width;
-   Frequency_Type_IO.Default_Width := Frequency_Type'Width;
-
-   Decn_Record_IO.Default_Width :=
-     1 + 1 +   --WHICH_TYPE_IO_DEFAULT_WIDTH + 1 +
-     1;        --VARIANT_TYPE_IO_DEFAULT_WIDTH;
-   Tense_Voice_Mood_Record_IO.Default_Width :=
-     Tense_Type_IO.Default_Width + 1 +
-     Voice_Type_IO.Default_Width + 1 +
-     Mood_Type_IO.Default_Width;
-
-   Noun_Record_IO.Default_Width :=
-     Decn_Record_IO.Default_Width + 1 +
-     Case_Type_IO.Default_Width + 1 +
-     Number_Type_IO.Default_Width + 1 +
-     Gender_Type_IO.Default_Width;
-
-   Pronoun_Record_IO.Default_Width :=
-     Decn_Record_IO.Default_Width + 1 +
-     Case_Type_IO.Default_Width + 1 +
-     Number_Type_IO.Default_Width + 1 +
-     Gender_Type_IO.Default_Width;
-
-   Propack_Record_IO.Default_Width :=
-     Decn_Record_IO.Default_Width + 1 +
-     Case_Type_IO.Default_Width + 1 +
-     Number_Type_IO.Default_Width + 1 +
-     Gender_Type_IO.Default_Width;
-
-   Adjective_Record_IO.Default_Width :=
-     Decn_Record_IO.Default_Width + 1 +
-     Case_Type_IO.Default_Width + 1 +
-     Number_Type_IO.Default_Width + 1 +
-     Gender_Type_IO.Default_Width + 1 +
-     Comparison_Type_IO.Default_Width;
-
-   Adverb_Record_IO.Default_Width :=
-     Comparison_Type_IO.Default_Width;
-
-   Verb_Record_IO.Default_Width :=
-     Decn_Record_IO.Default_Width + 1 +
-     Tense_Voice_Mood_Record_IO.Default_Width + 1 +
-     Person_Type_IO.Default_Width + 1 +
-     Number_Type_IO.Default_Width;
-
-   Vpar_Record_IO.Default_Width :=
-     Decn_Record_IO.Default_Width + 1 +
-     Case_Type_IO.Default_Width + 1 +
-     Number_Type_IO.Default_Width + 1 +
-     Gender_Type_IO.Default_Width + 1 +
-     Tense_Voice_Mood_Record_IO.Default_Width;
-
-   Supine_Record_IO.Default_Width :=
-     Decn_Record_IO.Default_Width + 1 +
-     Case_Type_IO.Default_Width + 1 +
-     Number_Type_IO.Default_Width + 1 +
-     Gender_Type_IO.Default_Width;
-
-   Preposition_Record_IO.Default_Width := Case_Type_IO.Default_Width;
-
-   Conjunction_Record_IO.Default_Width := 0;
-
-   Interjection_Record_IO.Default_Width := 0;
-
-   Numeral_Record_IO.Default_Width :=
-     Decn_Record_IO.Default_Width + 1 +
-     Case_Type_IO.Default_Width + 1 +
-     Number_Type_IO.Default_Width + 1 +
-     Gender_Type_IO.Default_Width + 1 +
-     Numeral_Sort_Type_IO.Default_Width;
-
-   Tackon_Record_IO.Default_Width := 0;
-
-   Prefix_Record_IO.Default_Width := 0;
-
-   Suffix_Record_IO.Default_Width := 0;
-
-   Quality_Record_IO.Default_Width := Part_Of_Speech_Type_IO.Default_Width + 1 +
-     Vpar_Record_IO.Default_Width; --  Largest
-
-   Ending_Record_IO.Default_Width := 3 + 1 +
-     Max_Ending_Size;
-
-   Inflection_Record_IO.Default_Width := Quality_Record_IO.Default_Width + 1 +
-     1  + 1 +
-     Ending_Record_IO.Default_Width + 1 +
-     Age_Type_IO.Default_Width + 1 +
-     Frequency_Type_IO.Default_Width;
 
 end Latin_Utils.Inflections_Package;
