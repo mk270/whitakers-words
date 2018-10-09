@@ -324,7 +324,7 @@ package body Support_Utils.Word_Parameters is
 
       Put_Line ("To set/change parameters reply Y/y or N/n" &
         ".  Return accepts current value.");
-      Put_Line ("A '?' reply gives infomation/help on that parameter." &
+      Put_Line ("A '?' reply gives information/help on that parameter." &
         "  A space skips the rest.");
       New_Line;
 

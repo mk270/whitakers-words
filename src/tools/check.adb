@@ -342,7 +342,7 @@ procedure Check is
               (Sts (1)(Len (Sts (1)) .. Len (Sts (1)) - 1) /=
               Sts (2)(Len (Sts (1)) .. Len (Sts (1)) - 1))
             then
-               Prob ("    EXPECTED  1st and 2nd stems similiar for N 3 X");
+               Prob ("    EXPECTED  1st and 2nd stems similar for N 3 X");
             end if;
          end if;
 
@@ -609,7 +609,7 @@ procedure Check is
 
       elsif Pt.Pofs = V  then
 
-         --  Check that V 9 9 has ony one stem
+         --  Check that V 9 9 has only one stem
          if Pt.V.Con = (9, 9)    then
             if Sts (2) /= Null_Stem_Type  or
                Sts (3) /= Null_Stem_Type  or

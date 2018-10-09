@@ -762,7 +762,7 @@ begin
    New_Line;
    Put_Line ("Sorts a text file of lines four times on subStrings M .. N");
    Put_Line (
-     "A)lphabetic (all case) C)ase sensitive, iG)nore seperators, U)i_is_vj,");
+     "A)lphabetic (all case) C)ase sensitive, iG)nore separators, U)i_is_vj,");
    Put_Line ("    iN)teger, F)loating point, S)ection, or P)art entry");
    Put_Line ("         I)ncreasing or D)ecreasing");
    New_Line;

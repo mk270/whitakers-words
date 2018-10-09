@@ -616,7 +616,7 @@ package body Support_Utils.Developer_Parameters is
 
       Put_Line ("To set developer modes reply Y/y or N/n." &
         "  Return accepts current value.");
-      Put_Line ("A '?' reply gives infomation/help on that parameter." &
+      Put_Line ("A '?' reply gives information/help on that parameter." &
         "  A space skips the rest.");
       Put_Line ("Developer modes are only for special requirements and " &
         "may not all be operable.");
