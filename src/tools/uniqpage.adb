@@ -66,7 +66,7 @@ procedure Uniqpage is
 
 begin
    Put_Line ("UNIQUES.LAT -> UNIQPAGE.PG");
-   Put_Line ("Takes UNIQUES form, single lines it, puts # at begining,");
+   Put_Line ("Takes UNIQUES form, single lines it, puts # at beginning,");
    Put_Line ("producing a .PG file for sorting to produce paper dictionary");
    Create (Uniqpage, Out_File, "UNIQPAGE.PG");
    Open (Uniques_File, In_File, "UNIQUES.LAT");

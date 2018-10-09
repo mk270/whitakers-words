@@ -92,7 +92,7 @@ package body Words_Engine.Roman_Numerals_Package is
          --ONLY SUBTRACT I FROM V or X, and X FROM L or C.
          --NOT IL FOR 49, BUT XLIX. MIM is ILLEGAL.
          --
-         --ONLY IF ANY NUMERAL PRECEEDING IS AT LEAST TEN TIMES LARGER.
+         --ONLY IF ANY NUMERAL PRECEDING IS AT LEAST TEN TIMES LARGER.
          --NOT VIX FOR 14, BUT XIV.
          --NOT  IIX, BUT VIII.
          --ONLY IF ANY NUMERAL FOLLOWING IS SMALLER.

@@ -29,7 +29,7 @@ procedure Words_Main (Configuration : Configuration_Type) is
    Arguments_Start : Integer := 1;
 
 begin
-   --  The language shift in argumants must take place here
+   --  The language shift in arguments must take place here
    --  since later parsing of line ignores non-letter Characters
    -- configuration := developer_version;
 

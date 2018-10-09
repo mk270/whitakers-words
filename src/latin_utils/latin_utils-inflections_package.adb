@@ -417,7 +417,7 @@ package body Latin_Utils.Inflections_Package is
    procedure Establish_Inflections_Section  is
       --  Loads the inflection array from the file prepared in
       --  FILE_INFLECTIONS_SECTION
-      --  If N = 0 (an artifical flag for the section for blank
+      --  If N = 0 (an artificial flag for the section for blank
       --  inflections = 5)
       --  computes the LELL .. LELF indices for use in WORD
       use Lel_Section_Io;

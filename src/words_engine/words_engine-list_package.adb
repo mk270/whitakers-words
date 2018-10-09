@@ -259,7 +259,7 @@ package body Words_Engine.List_Package is
    end Constructed_Meaning;
 
    function Trim_Bar (S : String) return String is
-      --  Takes vertical bars from begining of MEAN and TRIMs
+      --  Takes vertical bars from beginning of MEAN and TRIMs
    begin
       return Trim (Ada.Strings.Fixed.Trim (S, Ada.Strings.Maps.To_Set ('|'),
                                               Ada.Strings.Maps.Null_Set));
@@ -963,7 +963,7 @@ package body Words_Engine.List_Package is
       --TEXT_IO.PUT_LINE (OUTPUT, DICTIONARY_FORM (DE));
       Put_Dictionary_Form (Output, D_K, Mn, De);
       Ada.Text_IO.Put_Line (Output,
-        Trim (Head (De.Mean, Mm)));  --  so it wont line wrap/Put CR
+        Trim (Head (De.Mean, Mm)));  --  so it won't line wrap/Put CR
 
    end List_Entry;
 

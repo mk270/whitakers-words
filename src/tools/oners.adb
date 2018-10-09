@@ -30,7 +30,7 @@ begin
    Put_Line ("Takes a sorted file to produce a file having just" &
      " one of each identical line.");
    Put_Line ("Puts a count of how many identical lines at the" &
-     " begining of each.");
+     " beginning of each.");
 
    Open (Input, In_File, "ONERS.IN");
    Create (Output, Out_File, "ONERS.OUT");

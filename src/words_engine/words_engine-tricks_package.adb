@@ -243,12 +243,12 @@ package body Words_Engine.Tricks_Package is
          Pa_Last := Pa_Save;
       end if;
 
-      Pa (Pa_Last + 1) := Null_Parse_Record;     --  Just to clear the trys
+      Pa (Pa_Last + 1) := Null_Parse_Record;     --  Just to clear the tries
 
    exception
       when others  =>
          Pa_Last := Pa_Save;
-         Pa (Pa_Last + 1) := Null_Parse_Record;     --  Just to clear the trys
+         Pa (Pa_Last + 1) := Null_Parse_Record;     --  Just to clear the tries
 
    end Syncope;
 
@@ -274,7 +274,7 @@ package body Words_Engine.Tricks_Package is
       end Tword;
 
       procedure Flip (X1, X2 : String; Explanation : String := "") is
-         --  At the begining of Input word, replaces X1 by X2
+         --  At the beginning of Input word, replaces X1 by X2
          Pa_Save : constant Integer := Pa_Last;
       begin
          if S'Length >= X1'Length + 2  and then
@@ -309,7 +309,7 @@ package body Words_Engine.Tricks_Package is
       end Flip;
 
       procedure Flip_Flop (X1, X2 : String; Explanation : String := "") is
-         --  At the begining of Input word, replaces X1 by X2 - then X2 by X1
+         --  At the beginning of Input word, replaces X1 by X2 - then X2 by X1
          --  To be used only when X1 and X2 start with the same letter because
          --  it will be called from a point where the first letter is
          --  established
@@ -474,7 +474,7 @@ package body Words_Engine.Tricks_Package is
          --  The problem is to take possible medieval words
          --  and double (all) (isolated) consonants
          for I in S'First + 1 .. S'Last - 1 loop
-            --  probably dont need to go to end
+            --  probably don't need to go to end
             if (not Is_A_Vowel (S (I))) and then
               (Is_A_Vowel (S (I - 1)) and Is_A_Vowel (S (I + 1)))
             then
@@ -561,7 +561,7 @@ package body Words_Engine.Tricks_Package is
       begin
          --if S (S'FIRST) /= 'q'  then    --  qu words more complicated
 
-         if S'Length  < 5  then    --  Dont try on too short words
+         if S'Length  < 5  then    --  Don't try on too short words
             return;
          end if;
 
@@ -1293,7 +1293,7 @@ package body Words_Engine.Tricks_Package is
    exception
       when others  =>    --  I want to ignore anything that happens in TRICKS
          Pa_Last := Pa_Save;
-         Pa (Pa_Last + 1) := Null_Parse_Record;     --  Just to clear the trys
+         Pa (Pa_Last + 1) := Null_Parse_Record;     --  Just to clear the tries
 
          Ada.Text_IO.Put_Line (    --  ERROR_FILE,
            "Exception in TRY_TRICKS processing " & W);
@@ -1324,7 +1324,7 @@ package body Words_Engine.Tricks_Package is
       end Tword;
 
       procedure Flip (X1, X2 : String; Explanation : String := "") is
-         --  At the begining of Input word, replaces X1 by X2
+         --  At the beginning of Input word, replaces X1 by X2
          Pa_Save : constant Integer := Pa_Last;
       begin
          if S'Length >= X1'Length + 2  and then
@@ -1358,8 +1358,8 @@ package body Words_Engine.Tricks_Package is
       end Flip;
 
       procedure Flip_Flop (X1, X2 : String; Explanation : String := "") is
-         --  At the begining of Input word, replaces X1 by X2 - then X2 by X1
-         --  To be uesd only when X1 and X2 start with the same letter because
+         --  At the beginning of Input word, replaces X1 by X2 - then X2 by X1
+         --  To be used only when X1 and X2 start with the same letter because
          --  it will be called from a point where the first letter is
          --  established
          Pa_Save : constant Integer := Pa_Last;
@@ -1607,7 +1607,7 @@ package body Words_Engine.Tricks_Package is
    exception
       when others  =>    --  I want to ignore anything that happens in SLURY
          Pa_Last := Pa_Save;
-         Pa (Pa_Last + 1) := Null_Parse_Record;     --  Just to clear the trys
+         Pa (Pa_Last + 1) := Null_Parse_Record;     --  Just to clear the tries
 
          Ada.Text_IO.Put_Line (    --  ERROR_FILE,
            "Exception in TRY_SLURY processing " & W);

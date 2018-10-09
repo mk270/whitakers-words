@@ -82,7 +82,7 @@ PART and TRAN
 MEAN
 
 For this form, spacing is not important, as long as there are spaces
-seperating individual elements.  
+separating individual elements.  
 
 This is transformed into LIN form by the program LINEDICT
 LINEDICT.IN (ED form) -> LINEDICT.OUT (LIN form)
@@ -100,7 +100,7 @@ run this against the existing WORDS and DICTLINE to check for overlap.
 
 DICTORD makes # file in long format 
 DICTORD.IN -> DICTORD.OUT  
-Takes DICTLINE form, puts # and dictionary form at begining.
+Takes DICTLINE form, puts # and dictionary form at beginning.
 
 This file can be sorted to produce word order of paper dictionary.
 
@@ -139,7 +139,7 @@ of new entries.
 
 DICTORD makes # file in long format
 DICTORD.IN -> DICTORD.OUT  
-Takes DICTLINE form, puts # and dictionary form at begining,
+Takes DICTLINE form, puts # and dictionary form at beginning,
 a file that can be sorted to produce word order of paper dictionary
 
 SORTER on (1 300) 
@@ -175,7 +175,7 @@ While DUPS will catch these, that is a big effort for a full DICTLINE.
 One would rather check just the new input.
 
 Take the input and DICTORD.  This gives a format with the dictionary entry
-word first.  Run the current WORDS aginst that with NO FIXES/TRICKS and 
+word first.  Run the current WORDS against that with NO FIXES/TRICKS and 
 FIRST_WORD and FOR_WORDLIST parameters.  And not UNKNOWN in the output 
 should be examined.
 
@@ -231,7 +231,7 @@ Errors are cites by line number in CHECK.IN.
 Edit examining CHECK.OUT from the bottom, so that changes do not
 affect the numbering of the rest of CHECK.IN
 CHECK is very fussy.  The hits are primarily warnings to look for
-the possiblity of error.  Most will not be wrong.  In fact, over 
+the possibility of error.  Most will not be wrong.  In fact, over 
 one percent of correct lines will trigger some warning, more false
 positives than real errors.
 This make a full run and edit of DICTLINE a considerable burden.
@@ -399,7 +399,7 @@ which comes with distribution and matches that DICTLINE.GEN.
 Otherwise make and run WAKEDICT (Identical to MAKEDICT with
 PORTING parameter set in source).  This produces DICTFILE.GEN 
 and a STEMLIST.GEN, which has to be sorter by SORTER.
-MAKE ABSOLUTELY SURE YOU ARE USIN THE RIGHT MAKEDICT/WAKEDICT!
+MAKE ABSOLUTELY SURE YOU ARE USING THE RIGHT MAKEDICT/WAKEDICT!
 
 Invoke SORTER to sort the stems with I/J and U/V equivalence
 and replace initial STEMLIST with the sorted one.
@@ -423,13 +423,13 @@ if there is a SPECIAL dictionary, DICTLINE.SPE
 
 
 For the English part, if you use the presorted EWDSLIST.GEN 
-run MAKEEFIL aginst it.
+run MAKEEFIL against it.
 
 This assumes that you are using the presorted EWDSLIST.GEN 
 which comes with distribution and matches that DICTLINE.GEN.
 Otherwise make and run MAKEEWDS against DICTLINE.GEN 
 This produces EWSDLIST.GEN which has to be sorted by SORTER.
-Check the begining of EWDSLIST with an editor.  
+Check the beginning of EWDSLIST with an editor.  
 If there are any strange lines, remove them.
 Invoke SORTER.  The input file is EWSDLIST.GEN.  
 The sort fields are
@@ -497,7 +497,7 @@ For a release, DICTPAGE is done before the final DICTLINE,
 because in the process there may be some editing of entries.
 To first order, this is accomplished by running DICTPAGE 
 against DICTLINE, producing a listing of DICTLINE with each
-entry preceeded by # and the DICTIONARY_FORM.  
+entry preceded by # and the DICTIONARY_FORM.  
 DICTPAGE is a simple modification of DICTORD to produce a
 more readable output.
 
@@ -511,7 +511,7 @@ which sorts to #-.  But it is likely the second term which
 you want to represent this entry.  For this and other reasons
 these entries will require some hand editing, so extract them
 from their place at the end of the regular DICTLINE, run DICTPAGE 
-on them, sort output on full line, and process seperately.  
+on them, sort output on full line, and process separately.  
 (About 30 entries, but half handled completely by DICTPAGE)
 It is likely that this set has not changed since the last run,
 so check to see if you have to do it over.
@@ -544,7 +544,7 @@ producing DICTPAGE.RAW
 
 DICTPAGE.RAW is ZIPped to provide a source for others to process for their purposes.
 
-DICTPAGE.RAW is processes herein by PAGE2HTM to give (withthe addition of PREAMBLE.txt
+DICTPAGE.RAW is processes herein by PAGE2HTM to give (with the addition of PREAMBLE.txt
 and an end BODY) to give the presentation form DICTPAGE.HTM
 
 
@@ -673,7 +673,7 @@ Assemble the 6 .PG files to DICTPAGE.PG and sort to produce DICTPAGE.RAW
         DICTPAGE.RAW    --  Where to put result
 
 
-Then process with PAGE2HTM ans add PREAMBLE.TXT at begining and end BODY at end 
+Then process with PAGE2HTM and add PREAMBLE.TXT at beginning and end BODY at end 
 to get DICTPAGE.HTM
 
 ---------------------------------------------------------------------
