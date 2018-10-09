@@ -1,5 +1,31 @@
 language: c
+
 sudo: required
-script: bash -eux .travis-ci.sh
+
+
 env:
   - TRAVIS=true
+
+
+sudo: required
+
+services:
+  - docker
+
+env: SH="docker exec -t ubuntu-test bash -c"
+
+before_install:
+  - docker run -d --name ubuntu-test -e LC_ALL="en_US.UTF-8" -e LANG="en_US.UTF-8" -v $(pwd):/travis -w /travis ubuntu:latest tail -f /dev/null
+  - docker ps
+
+install:
+  - $SH "apt-get update -qq"
+  - $SH "apt-get install -y locales"
+  - $SH "locale-gen en_US.UTF-8"
+  - $SH "apt-get install -y software-properties-common gnat-8"
+
+script:
+  - $SH " bash -eux .travis-ci.sh"
+
+notifications:
+    email: false
