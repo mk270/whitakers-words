@@ -691,7 +691,7 @@ package body Words_Engine.Tricks_Package is
          --  sloppy
       end Two_Words;
 
-      type Trick_Class is (TC_Flip_Flop, TC_Flip);
+      type Trick_Class is (TC_Flip_Flop, TC_Flip, TC_Internal);
       type Trick (Op : Trick_Class := TC_Flip_Flop) is
         record
            Max : Integer := 0;
@@ -702,6 +702,9 @@ package body Words_Engine.Tricks_Package is
               when TC_Flip =>
                  FF3 : Unbounded_String := Null_Unbounded_String;
                  FF4 : Unbounded_String := Null_Unbounded_String;
+              when TC_Internal =>
+                 I1 : Unbounded_String := Null_Unbounded_String;
+                 I2 : Unbounded_String := Null_Unbounded_String;
            end case;
         end record;
       type Tricks is array (Integer range <>) of Trick;
@@ -734,6 +737,10 @@ package body Words_Engine.Tricks_Package is
                   Flip (
                     To_String (TT (T).FF3),
                     To_String (TT (T).FF4));
+               when TC_Internal =>
+                  Internal (
+                    To_String (TT (T).I1),
+                    To_String (TT (T).I2));
             end case;
 
             if Pa_Last > TT (T).Max then
@@ -904,25 +911,25 @@ package body Words_Engine.Tricks_Package is
 
       end case;   --  case on first letter
 
-      (Max => 0, Op => InteTC_Rnal, FFx => "ae", FFy => "e"),
+      (Max => 0, Op => TC_Internal, FFx => "ae", FFy => "e"),
 
-      (Max => 0, Op => InteTC_Rnal, FFx => "bul", FFy => "bol"),
-      (Max => 0, Op => InteTC_Rnal, FFx => "bol", FFy => "bul"),
+      (Max => 0, Op => TC_Internal, FFx => "bul", FFy => "bol"),
+      (Max => 0, Op => TC_Internal, FFx => "bol", FFy => "bul"),
 
-      (Max => 0, Op => InteTC_Rnal, FFx => "cl", FFy => "cul"),
+      (Max => 0, Op => TC_Internal, FFx => "cl", FFy => "cul"),
 
-      (Max => 0, Op => InteTC_Rnal, FFx => "cu", FFy => "quu"),
+      (Max => 0, Op => TC_Internal, FFx => "cu", FFy => "quu"),
 
-      (Max => 0, Op => InteTC_Rnal, FFx => "f", FFy => "ph"),
-      (Max => 0, Op => InteTC_Rnal, FFx => "ph", FFy => "f"),
+      (Max => 0, Op => TC_Internal, FFx => "f", FFy => "ph"),
+      (Max => 0, Op => TC_Internal, FFx => "ph", FFy => "f"),
 
-      (Max => 0, Op => InteTC_Rnal, FFx => "h", FFy => ""),
+      (Max => 0, Op => TC_Internal, FFx => "h", FFy => ""),
 
-      (Max => 0, Op => InteTC_Rnal, FFx => "oe", FFy => "e"),
+      (Max => 0, Op => TC_Internal, FFx => "oe", FFy => "e"),
 
-      (Max => 0, Op => InteTC_Rnal, FFx => "vul", FFy => "vol"),
-      (Max => 0, Op => InteTC_Rnal, FFx => "vol", FFy => "vul"),
-      (Max => 0, Op => InteTC_Rnal, FFx => "uol", FFy => "vul"),
+      (Max => 0, Op => TC_Internal, FFx => "vul", FFy => "vol"),
+      (Max => 0, Op => TC_Internal, FFx => "vol", FFy => "vul"),
+      (Max => 0, Op => TC_Internal, FFx => "uol", FFy => "vul"),
 
       Adj_Terminal_Iis;
       if Pa_Last > 0  then
@@ -936,78 +943,78 @@ package body Words_Engine.Tricks_Package is
 
          --  Harrington/Elliott    1.1.1
 
-         (Max => 0, Op => InteTC_Rnal, FFx => "col", FFy => "caul"),
+         (Max => 0, Op => TC_Internal, FFx => "col", FFy => "caul"),
 
          --TEXT_IO.PUT_LINE ("Trying com -> con");
 
          --  Harrington/Elliott    1.3
 
-         (Max => 0, Op => InteTC_Rnal, FFx => "e", FFy => "ae"),
+         (Max => 0, Op => TC_Internal, FFx => "e", FFy => "ae"),
 
-         (Max => 0, Op => InteTC_Rnal, FFx => "o", FFy => "u"),
+         (Max => 0, Op => TC_Internal, FFx => "o", FFy => "u"),
 
-         (Max => 0, Op => InteTC_Rnal, FFx => "i", FFy => "y"),
+         (Max => 0, Op => TC_Internal, FFx => "i", FFy => "y"),
 
          --  Harrington/Elliott    1.3.1
 
-         (Max => 0, Op => InteTC_Rnal, FFx => "ism", FFy => "sm"),
+         (Max => 0, Op => TC_Internal, FFx => "ism", FFy => "sm"),
 
-         (Max => 0, Op => InteTC_Rnal, FFx => "isp", FFy => "sp"),
+         (Max => 0, Op => TC_Internal, FFx => "isp", FFy => "sp"),
 
-         (Max => 0, Op => InteTC_Rnal, FFx => "ist", FFy => "st"),
+         (Max => 0, Op => TC_Internal, FFx => "ist", FFy => "st"),
 
-         (Max => 0, Op => InteTC_Rnal, FFx => "iz", FFy => "z"),
+         (Max => 0, Op => TC_Internal, FFx => "iz", FFy => "z"),
 
-         (Max => 0, Op => InteTC_Rnal, FFx => "esm", FFy => "sm"),
+         (Max => 0, Op => TC_Internal, FFx => "esm", FFy => "sm"),
 
-         (Max => 0, Op => InteTC_Rnal, FFx => "esp", FFy => "sp"),
+         (Max => 0, Op => TC_Internal, FFx => "esp", FFy => "sp"),
 
          Internal         (Max => 0, OTC_P =>, FFx => "est", FFy => "st"),
 
-         (Max => 0, Op => InteTC_Rnal, FFx => "ez", FFy => "z"),
+         (Max => 0, Op => TC_Internal, FFx => "ez", FFy => "z"),
 
          --  Harrington/Elliott    1.4
 
-         (Max => 0, Op => InteTC_Rnal, FFx => "di", FFy => "z"),
+         (Max => 0, Op => TC_Internal, FFx => "di", FFy => "z"),
 
-         (Max => 0, Op => InteTC_Rnal, FFx => "f", FFy => "ph"),
+         (Max => 0, Op => TC_Internal, FFx => "f", FFy => "ph"),
 
-         (Max => 0, Op => InteTC_Rnal, FFx => "is", FFy => "ix"),
+         (Max => 0, Op => TC_Internal, FFx => "is", FFy => "ix"),
 
-         (Max => 0, Op => InteTC_Rnal, FFx => "b", FFy => "p"),
+         (Max => 0, Op => TC_Internal, FFx => "b", FFy => "p"),
 
-         (Max => 0, Op => InteTC_Rnal, FFx => "d", FFy => "t"),
+         (Max => 0, Op => TC_Internal, FFx => "d", FFy => "t"),
 
-         (Max => 0, Op => InteTC_Rnal, FFx => "v", FFy => "b"),
+         (Max => 0, Op => TC_Internal, FFx => "v", FFy => "b"),
 
-         (Max => 0, Op => InteTC_Rnal, FFx => "v", FFy => "f"),
+         (Max => 0, Op => TC_Internal, FFx => "v", FFy => "f"),
 
          Internal ("v",  "f");
          if Pa_Last > 0  then
             return;
          end if;
 
-         (Max => 0, Op => InteTC_Rnal, FFx => "s", FFy => "x"),
+         (Max => 0, Op => TC_Internal, FFx => "s", FFy => "x"),
 
          --  Harrington/Elliott    1.4.1
 
-         (Max => 0, Op => InteTC_Rnal, FFx => "ci", FFy => "ti"),
+         (Max => 0, Op => TC_Internal, FFx => "ci", FFy => "ti"),
 
          --  Harrington/Elliott    1.4.2
 
-         (Max => 0, Op => InteTC_Rnal, FFx => "nt", FFy => "nct"),
+         (Max => 0, Op => TC_Internal, FFx => "nt", FFy => "nct"),
 
-         (Max => 0, Op => InteTC_Rnal, FFx => "s", FFy => "ns"),
+         (Max => 0, Op => TC_Internal, FFx => "s", FFy => "ns"),
 
          --  Others
 
-         (Max => 0, Op => InteTC_Rnal, FFx => "ch", FFy => "c"),
+         (Max => 0, Op => TC_Internal, FFx => "ch", FFy => "c"),
 
-         (Max => 0, Op => InteTC_Rnal, FFx => "c", FFy => "ch"),
+         (Max => 0, Op => TC_Internal, FFx => "c", FFy => "ch"),
 
-         (Max => 0, Op => InteTC_Rnal, FFx => "th", FFy => "t"),
+         (Max => 0, Op => TC_Internal, FFx => "th", FFy => "t"),
 
-         (Max => 0, Op => InteTC_Rnal, FFx => "t", FFy => "th"),
+         (Max => 0, Op => TC_Internal, FFx => "t", FFy => "th"),
 
          Double_Consonants;
 
