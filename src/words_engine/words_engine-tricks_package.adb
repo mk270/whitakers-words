@@ -691,12 +691,12 @@ package body Words_Engine.Tricks_Package is
          --  sloppy
       end Two_Words;
 
-      type Trick_Class is (TC_Fliplip_Flop, TC_Flip);
-      type Trick (Op : Trick_Class := TC_Fliplip_Flop) is
+      type Trick_Class is (TC_Flip_Flop, TC_Flip);
+      type Trick (Op : Trick_Class := TC_Flip_Flop) is
         record
            Max : Integer := 0;
            case Op is
-              when TC_Fliplip_Flop =>
+              when TC_Flip_Flop =>
                  FF1 : Unbounded_String := Null_Unbounded_String;
                  FF2 : Unbounded_String := Null_Unbounded_String;
               when TC_Flip =>
@@ -707,13 +707,12 @@ package body Words_Engine.Tricks_Package is
       type Tricks is array (Integer range <>) of Trick;
 
       A_Tricks : constant Tricks := (
-        (Max => 0, Op => TC_Fliplip_Flop, FF1 => +"adgn",  FF2 => +"agn"),
-        (Max => 0, Op => TC_Fliplip_Flop, FF1 => +"adsc",  FF2 => +"asc"),
-        (Max => 0, Op => TC_Fliplip_Flop, FF1 => +"adsp",  FF2 => +"asc"),
-        (Max => 0, Op => TC_Fliplip_Flop, FF1 => +"adsp",  FF2 => +"asp"),
-        (Max => 0, Op => TC_Fliplip_Flop, FF1 => +"arqui", FF2 => +"arci"),
-        (Max => 0, Op => TC_Fliplip_Flop, FF1 => +"arqu",  FF2 => +"arcu"),
-        (Max => 0, Op => TC_Flip,  FF3 => +"ae",    FF4 => +"e"),
+        (Max => 0, Op => TC_Flip_Flop, FF1 => +"adgn",  FF2 => +"agn"),
+        (Max => 0, Op => TC_Flip_Flop, FF1 => +"adsc",  FF2 => +"asc"),
+        (Max => 0, Op => TC_Flip_Flop, FF1 => +"adsp",  FF2 => +"asp"),
+        (Max => 0, Op => TC_Flip_Flop, FF1 => +"arqui", FF2 => +"arci"),
+        (Max => 0, Op => TC_Flip_Flop, FF1 => +"arqu",  FF2 => +"arcu"),
+        (Max => 0, Op => TC_Flip,  FF3 => +"ae",    FF4 => +"e")
       );
 
       Finished : Boolean := False;
