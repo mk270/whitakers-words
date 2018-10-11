@@ -37,6 +37,25 @@ package body Words_Engine.Tricks_Package is
    function "+" (Source : String) return Unbounded_String
      renames To_Unbounded_String;
 
+   type Trick_Class is (TC_Flip_Flop, TC_Flip, TC_Internal);
+   type Trick (Op : Trick_Class := TC_Flip_Flop) is
+     record
+        Max : Integer := 0;
+        case Op is
+           when TC_Flip_Flop =>
+              FF1 : Unbounded_String := Null_Unbounded_String;
+              FF2 : Unbounded_String := Null_Unbounded_String;
+           when TC_Flip =>
+              FF3 : Unbounded_String := Null_Unbounded_String;
+              FF4 : Unbounded_String := Null_Unbounded_String;
+           when TC_Internal =>
+              I1 : Unbounded_String := Null_Unbounded_String;
+              I2 : Unbounded_String := Null_Unbounded_String;
+        end case;
+     end record;
+
+   type Tricks is array (Integer range <>) of Trick;
+
    function Member (Needle   : Unbounded_String;
                     Haystack : Strings)
                    return Boolean
@@ -690,24 +709,6 @@ package body Words_Engine.Tricks_Package is
          --  But that is probably being too pedantic for a case which may be
          --  sloppy
       end Two_Words;
-
-      type Trick_Class is (TC_Flip_Flop, TC_Flip, TC_Internal);
-      type Trick (Op : Trick_Class := TC_Flip_Flop) is
-        record
-           Max : Integer := 0;
-           case Op is
-              when TC_Flip_Flop =>
-                 FF1 : Unbounded_String := Null_Unbounded_String;
-                 FF2 : Unbounded_String := Null_Unbounded_String;
-              when TC_Flip =>
-                 FF3 : Unbounded_String := Null_Unbounded_String;
-                 FF4 : Unbounded_String := Null_Unbounded_String;
-              when TC_Internal =>
-                 I1 : Unbounded_String := Null_Unbounded_String;
-                 I2 : Unbounded_String := Null_Unbounded_String;
-           end case;
-        end record;
-      type Tricks is array (Integer range <>) of Trick;
 
       A_Tricks : constant Tricks := (
         (Max => 0, Op => TC_Flip_Flop, FF1 => +"adgn", FF2 => +"agn"),
