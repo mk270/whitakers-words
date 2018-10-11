@@ -710,27 +710,27 @@ package body Words_Engine.Tricks_Package is
       type Tricks is array (Integer range <>) of Trick;
 
       A_Tricks : constant Tricks := (
-        (Max => 0, Op => TC_Flip_Flop, FF1 => +"adgn",  FF2 => +"agn"),
+        (Max => 0, Op => TC_Flip_Flop, FF1 => +"adgn", FF2 => +"agn"),
         (Max => 0, Op => TC_Flip_Flop, FF1 => +"adsc",  FF2 => +"asc"),
         (Max => 0, Op => TC_Flip_Flop, FF1 => +"adsp",  FF2 => +"asp"),
         (Max => 0, Op => TC_Flip_Flop, FF1 => +"arqui", FF2 => +"arci"),
         (Max => 0, Op => TC_Flip_Flop, FF1 => +"arqu",  FF2 => +"arcu"),
         (Max => 0, Op => TC_Flip, FF3 => +"ae",    FF4 => +"e"),
-        (Max => 0, Op => TC_Flip, FFx => "al", FFy => "hal"),
-        (Max => 0, Op => TC_Flip, FFx => "am", FFy => "ham"),
-        (Max => 0, Op => TC_Flip, FFx => "ar", FFy => "har"),
-        (Max => 0, Op => TC_Flip, FFx => "aur", FFy => "or")
+        (Max => 0, Op => TC_Flip, FF3 => "al", FF4 => "hal"),
+        (Max => 0, Op => TC_Flip, FF3 => "am", FF4 => "ham"),
+        (Max => 0, Op => TC_Flip, FF3 => "ar", FF4 => "har"),
+        (Max => 0, Op => TC_Flip, FF3 => "aur", FF4 => "or")
       );
       D_Tricks : constant Tricks := (
-            (Max => 0, Op => TC_Flip, FFx => "dampn", FFy => "damn"),
-            --  OLD p.54,
-            (Max => 0, Op => TC_Flip_Flop, FFx => "dij", FFy => "disj"),
-            --  OLD p.55,
-            (Max => 0, Op => TC_Flip_Flop, FFx => "dir", FFy => "disr"),
-            --  OLD p.54,
-            (Max => 0, Op => TC_Flip_Flop, FFx => "dir", FFy => "der"),
-            --  OLD p.507/54,
-            (Max => 0, Op => TC_Flip_Flop, FFx => "del", FFy => "dil")
+        (Max => 0, Op => TC_Flip, FF3 => "dampn", FF4 => "damn"),
+        --  OLD p.54,
+        (Max => 0, Op => TC_Flip_Flop, FFx => "dij", FFy => "disj"),
+        --  OLD p.55,
+        (Max => 0, Op => TC_Flip_Flop, FFx => "dir", FFy => "disr"),
+        --  OLD p.54,
+        (Max => 0, Op => TC_Flip_Flop, FFx => "dir", FFy => "der"),
+        --  OLD p.507/54,
+        (Max => 0, Op => TC_Flip_Flop, FFx => "del", FFy => "dil")
       );
       Finished : Boolean := False;
 
@@ -810,134 +810,238 @@ package body Words_Engine.Tricks_Package is
             end if;
 
          when 'e'  =>
+            declare
+               E_Tricks : constant Tricks := (
+                 (Max => 0, Op => TC_Flip_Flop, FFx => "ecf", FFy => "eff"),
+                 (Max => 0, Op => TC_Flip_Flop, FFx => "ecs", FFy => "exs"),
+                 (Max => 0, Op => TC_Flip_Flop, FFx => "es", FFy => "ess"),
+                 (Max => 0, Op => TC_Flip_Flop, FFx => "ex", FFy => "exs"),
 
-            (Max => 0, Op => TC_Flip_Flop, FFx => "ecf", FFy => "eff"),
-            (Max => 0, Op => TC_Flip_Flop, FFx => "ecs", FFy => "exs"),
-            (Max => 0, Op => TC_Flip_Flop, FFx => "es", FFy => "ess"),
-            (Max => 0, Op => TC_Flip_Flop, FFx => "ex", FFy => "exs"),
-
-            (Max => 0, Op => TC_Flip, FFx => "eid", FFy => "id"),
-            (Max => 0, Op => TC_Flip, FFx => "el", FFy => "hel"),
-            (Max => 0, Op => TC_Flip, FFx => "e", FFy => "ae"),
-
+                 (Max => 0, Op => TC_Flip, FF3 => "eid", FF4 => "id"),
+                 (Max => 0, Op => TC_Flip, FF3 => "el", FF4 => "hel"),
+                 (Max => 0, Op => TC_Flip, FF3 => "e", FF4 => "ae")
+               );
+            begin
+               Iter_Tricks (E_Tricks);
+               if Finished then
+                  return;
+               end if;
+            end;
          when 'f'  =>
-
-            (Max => 0, Op => TC_Flip_Flop, FFx => "faen", FFy => "fen"),
-
-            (Max => 0, Op => TC_Flip_Flop, FFx => "faen", FFy => "foen"),
-
-            (Max => 0, Op => TC_Flip_Flop, FFx => "fed", FFy => "foed"),
-
-            (Max => 0, Op => TC_Flip_Flop, FFx => "fet", FFy => "foet"),
-
-            (Max => 0, Op => TC_Flip, FFx => "f", FFy => "ph"),
-            -- Try lead then all
-
+            declare
+               F_Tricks : constant Tricks := (
+                 (Max => 0, Op => TC_Flip_Flop, FFx => "faen", FFy => "fen"),
+                 (Max => 0, Op => TC_Flip_Flop, FFx => "faen", FFy => "foen"),
+                 (Max => 0, Op => TC_Flip_Flop, FFx => "fed", FFy => "foed"),
+                 (Max => 0, Op => TC_Flip_Flop, FFx => "fet", FFy => "foet"),
+                 (Max => 0, Op => TC_Flip, FF3 => "f", FF4 => "ph")
+               ); -- Try lead then all
+            begin
+               Iter_Tricks (F_Tricks);
+               if Finished then
+                  return;
+               end if;
+            end;
          when 'g'  =>
-
-            (Max => 0, Op => TC_Flip, FFx => "gna", FFy => "na"),
-
+            declare
+               G_Tricks : constant Tricks := (
+                 (Max => 0, Op => TC_Flip, FF3 => "gna", FF4 => "na")
+               );
+            begin
+               Iter_Tricks (G_Tricks);
+               if Finished then
+                  return;
+               end if;
+            end;
          when 'h'  =>
-
-            (Max => 0, Op => TC_Flip, FFx => "har", FFy => "ar"),
-            (Max => 0, Op => TC_Flip, FFx => "hal", FFy => "al"),
-            (Max => 0, Op => TC_Flip, FFx => "ham", FFy => "am"),
-            (Max => 0, Op => TC_Flip, FFx => "hel", FFy => "el"),
-            (Max => 0, Op => TC_Flip, FFx => "hol", FFy => "ol"),
-            (Max => 0, Op => TC_Flip, FFx => "hum", FFy => "um"),
-
+            declare
+               H_Tricks : constant Tricks := (
+                 (Max => 0, Op => TC_Flip, FF3 => "har", FF4 => "ar"),
+                 (Max => 0, Op => TC_Flip, FF3 => "hal", FF4 => "al"),
+                 (Max => 0, Op => TC_Flip, FF3 => "ham", FF4 => "am"),
+                 (Max => 0, Op => TC_Flip, FF3 => "hel", FF4 => "el"),
+                 (Max => 0, Op => TC_Flip, FF3 => "hol", FF4 => "ol"),
+                 (Max => 0, Op => TC_Flip, FF3 => "hum", FF4 => "um")
+               );
+            begin
+               Iter_Tricks (H_Tricks);
+               if Finished then
+                  return;
+               end if;
+            end;
          when 'k'  =>
-
-            (Max => 0, Op => TC_Flip, FFx => "k", FFy => "c"),
-            (Max => 0, Op => TC_Flip, FFx => "c", FFy => "k"),
-
+            declare
+               K_Tricks : constant Tricks := (
+                 (Max => 0, Op => TC_Flip, FF3 => "k", FF4 => "c"),
+                 (Max => 0, Op => TC_Flip, FF3 => "c", FF4 => "k")
+               );
+            begin
+               Iter_Tricks (K_Tricks);
+               if Finished then
+                  return;
+               end if;
+            end;
          when 'l'  =>
-
-            (Max => 1, Op => Flip_TC_Flop, FFx => "lub", FFy => "lib"),
-
+            declare
+               L_Tricks : constant Tricks := (
+                 (Max => 1, Op => Flip_TC_Flop, FFx => "lub", FFy => "lib")
+               );
+            begin
+               Iter_Tricks (L_Tricks);
+               if Finished then
+                  return;
+               end if;
+            end;
          when 'm'  =>
-
-            (Max => 1, Op => Flip_TC_Flop, FFx => "mani", FFy => "manu"),
-
+            declare
+               M_Tricks : constant Tricks := (
+                 (Max => 1, Op => Flip_TC_Flop, FFx => "mani", FFy => "manu")
+               );
+            begin
+               Iter_Tricks (M_Tricks);
+               if Finished then
+                  return;
+               end if;
+            end;
          when 'n'  =>
-
-            (Max => 0, Op => TC_Flip, FFx => "na", FFy => "gna"),
-
-            (Max => 0, Op => Flip_TC_Flop, FFx => "nihil", FFy => "nil"),
-
+            declare
+               N_Tricks : constant Tricks := (
+                 (Max => 0, Op => TC_Flip, FF3 => "na", FF4 => "gna"),
+                 (Max => 0, Op => Flip_TC_Flop, FFx => "nihil", FFy => "nil")
+               );
+            begin
+               Iter_Tricks (N_Tricks);
+               if Finished then
+                  return;
+               end if;
+            end;
          when 'o'  =>
-
-            (Max => 1, Op => Flip_TC_Flop, FFx => "obt", FFy => "opt"),
-            (Max => 1, Op => Flip_TC_Flop, FFx => "obs", FFy => "ops"),
-            (Max => 0, Op => TC_Flip, FFx => "ol", FFy => "hol"),
-            (Max => 1, Op => TC_Flip, FFx => "opp", FFy => "op"),
-            (Max => 0, Op => TC_Flip, FFx => "or", FFy => "aur"),
-
+            declare
+               O_Tricks : constant Tricks := (
+                 (Max => 1, Op => Flip_TC_Flop, FFx => "obt", FFy => "opt"),
+                 (Max => 1, Op => Flip_TC_Flop, FFx => "obs", FFy => "ops"),
+                 (Max => 0, Op => TC_Flip, FF3 => "ol", FF4 => "hol"),
+                 (Max => 1, Op => TC_Flip, FF3 => "opp", FF4 => "op"),
+                 (Max => 0, Op => TC_Flip, FF3 => "or", FF4 => "aur")
+               );
+            begin
+               Iter_Tricks (O_Tricks);
+               if Finished then
+                  return;
+               end if;
+            end;
          when 'p'  =>
-
-            (Max => 0, Op => TC_Flip, FFx => "ph", FFy => "f"),
-            (Max => 1, Op => Flip_TC_Flop, FFx => "pre", FFy => "prae"),
-
-            --  when 'q'  =>
-
+            declare
+               P_Tricks : constant Tricks := (
+                 (Max => 0, Op => TC_Flip, FF3 => "ph", FF4 => "f"),
+                 (Max => 1, Op => Flip_TC_Flop, FFx => "pre", FFy => "prae")
+               );
+            begin
+               Iter_Tricks (P_Tricks);
+               if Finished then
+                  return;
+               end if;
+            end;
+         --  when 'q'  =>
          when 's'  =>
-
+            declare
+               S_Tricks : constant Tricks := (
+                 (Max => 0, Op => Flip_TC_Flop, FFx => "subsc", FFy => "susc"),
+                 (Max => 0, Op => Flip_TC_Flop, FFx => "subsp", FFy => "susp"),
+                 (Max => 0, Op => Flip_TC_Flop, FFx => "subc", FFy => "susc"),
+                 (Max => 0, Op => Flip_TC_Flop, FFx => "succ", FFy => "susc"),
+                 (Max => 0, Op => Flip_TC_Flop, FFx => "subt", FFy => "supt"),
+                 (Max => 0, Op => Flip_TC_Flop, FFx => "subt", FFy => "sust")
+               );
+            begin
+               Iter_Tricks (S_Tricks);
+               if Finished then
+                  return;
+               end if;
+            end;
             --  From Oxford Latin Dictionary p.1835 "sub-"
-
             --SLUR ("sub");
-
-            (Max => 0, Op => Flip_TC_Flop, FFx => "subsc", FFy => "susc"),
-            (Max => 0, Op => Flip_TC_Flop, FFx => "subsp", FFy => "susp"),
-
-            (Max => 0, Op => Flip_TC_Flop, FFx => "subc", FFy => "susc"),
-            (Max => 0, Op => Flip_TC_Flop, FFx => "succ", FFy => "susc"),
-
-            (Max => 0, Op => Flip_TC_Flop, FFx => "subt", FFy => "supt"),
-            (Max => 0, Op => Flip_TC_Flop, FFx => "subt", FFy => "sust"),
-
          when 't'  =>
-
-            (Max => 0, Op => Flip_TC_Flop, FFx => "transv", FFy => "trav"),
+            declare
+               T_Tricks : constant Tricks := (
+                 (Max => 0, Op => Flip_TC_Flop, FFx => "transv", FFy => "trav")
+               );
+            begin
+               Iter_Tricks (T_Tricks);
+               if Finished then
+                  return;
+               end if;
+            end;
             --            FLIP ("trig",  "tric");
             --            if PA_LAST > 0  then
-
          when 'u'  =>
+            declare
+               U_Tricks : constant Tricks := (
+                 (Max => 0, Op => TC_Flip, FF3 => "ul", FF4 => "hul"),
+                 (Max => 0, Op => TC_Flip, FF3 => "uol", FF4 => "vul")
+               );
+            begin
+               Iter_Tricks (U_Tricks);
+               if Finished then
+                  return;
+               end if;
+            end;
 
-            (Max => 0, Op => TC_Flip, FFx => "ul", FFy => "hul"),
-            (Max => 0, Op => TC_Flip, FFx => "uol", FFy => "vul"),
             --  u is not v for this purpose
-
          when 'y'  =>
-
-            (Max => 0, Op => TC_Flip, FFx => "y", FFy => "i"),
-
+            declare
+               Y_Tricks : constant Tricks := (
+                 (Max => 0, Op => TC_Flip, FF3 => "y", FF4 => "i")
+               );
+            begin
+               Iter_Tricks (Y_Tricks);
+               if Finished then
+                  return;
+               end if;
+            end;
          when 'z'  =>
-
-            (Max => 0, Op => TC_Flip, FFx => "z", FFy => "di"),
-
+            declare
+               Z_Tricks : constant Tricks := (
+                 (Max => 0, Op => TC_Flip, FF3 => "z", FF4 => "di")
+               );
+            begin
+               Iter_Tricks (Z_Tricks);
+               if Finished then
+                  return;
+               end if;
+            end;
          when others  => null;
 
       end case;   --  case on first letter
 
-      (Max => 0, Op => TC_Internal, FFx => "ae", FFy => "e"),
+      declare
+         Any_Tricks : constant Tricks := (
+           (Max => 0, Op => TC_Internal, FFx => "ae", FFy => "e"),
 
-      (Max => 0, Op => TC_Internal, FFx => "bul", FFy => "bol"),
-      (Max => 0, Op => TC_Internal, FFx => "bol", FFy => "bul"),
+           (Max => 0, Op => TC_Internal, FFx => "bul", FFy => "bol"),
+           (Max => 0, Op => TC_Internal, FFx => "bol", FFy => "bul"),
 
-      (Max => 0, Op => TC_Internal, FFx => "cl", FFy => "cul"),
+           (Max => 0, Op => TC_Internal, FFx => "cl", FFy => "cul"),
 
-      (Max => 0, Op => TC_Internal, FFx => "cu", FFy => "quu"),
+           (Max => 0, Op => TC_Internal, FFx => "cu", FFy => "quu"),
 
-      (Max => 0, Op => TC_Internal, FFx => "f", FFy => "ph"),
-      (Max => 0, Op => TC_Internal, FFx => "ph", FFy => "f"),
+           (Max => 0, Op => TC_Internal, FFx => "f", FFy => "ph"),
+           (Max => 0, Op => TC_Internal, FFx => "ph", FFy => "f"),
 
-      (Max => 0, Op => TC_Internal, FFx => "h", FFy => ""),
+           (Max => 0, Op => TC_Internal, FFx => "h", FFy => ""),
 
-      (Max => 0, Op => TC_Internal, FFx => "oe", FFy => "e"),
+           (Max => 0, Op => TC_Internal, FFx => "oe", FFy => "e"),
 
-      (Max => 0, Op => TC_Internal, FFx => "vul", FFy => "vol"),
-      (Max => 0, Op => TC_Internal, FFx => "vol", FFy => "vul"),
-      (Max => 0, Op => TC_Internal, FFx => "uol", FFy => "vul"),
+           (Max => 0, Op => TC_Internal, FFx => "vul", FFy => "vol"),
+           (Max => 0, Op => TC_Internal, FFx => "vol", FFy => "vul"),
+           (Max => 0, Op => TC_Internal, FFx => "uol", FFy => "vul")
+        );
+      begin
+         Iter_Tricks (Any_Tricks);
+         if Finished then
+            return;
+         end if;
+      end;
 
       Adj_Terminal_Iis;
       if Pa_Last > 0  then
@@ -949,14 +1053,12 @@ package body Words_Engine.Tricks_Package is
       if Words_Mdev (Do_Medieval_Tricks)  then
          --      Medieval  ->  Classic
 
+         declare
+            Mediaeval_Tricks : constant Tricks := (
          --  Harrington/Elliott    1.1.1
-
          (Max => 0, Op => TC_Internal, FFx => "col", FFy => "caul"),
 
-         --TEXT_IO.PUT_LINE ("Trying com -> con");
-
          --  Harrington/Elliott    1.3
-
          (Max => 0, Op => TC_Internal, FFx => "e", FFy => "ae"),
 
          (Max => 0, Op => TC_Internal, FFx => "o", FFy => "u"),
@@ -964,7 +1066,6 @@ package body Words_Engine.Tricks_Package is
          (Max => 0, Op => TC_Internal, FFx => "i", FFy => "y"),
 
          --  Harrington/Elliott    1.3.1
-
          (Max => 0, Op => TC_Internal, FFx => "ism", FFy => "sm"),
 
          (Max => 0, Op => TC_Internal, FFx => "isp", FFy => "sp"),
@@ -977,12 +1078,11 @@ package body Words_Engine.Tricks_Package is
 
          (Max => 0, Op => TC_Internal, FFx => "esp", FFy => "sp"),
 
-         Internal         (Max => 0, OTC_P =>, FFx => "est", FFy => "st"),
+         (Max => 0, Op => TC_Internal, FFx => "est", FFy => "st"),
 
          (Max => 0, Op => TC_Internal, FFx => "ez", FFy => "z"),
 
          --  Harrington/Elliott    1.4
-
          (Max => 0, Op => TC_Internal, FFx => "di", FFy => "z"),
 
          (Max => 0, Op => TC_Internal, FFx => "f", FFy => "ph"),
@@ -997,32 +1097,29 @@ package body Words_Engine.Tricks_Package is
 
          (Max => 0, Op => TC_Internal, FFx => "v", FFy => "f"),
 
-         Internal ("v",  "f");
-         if Pa_Last > 0  then
-            return;
-         end if;
+         (Max => 0, Op => TC_Internal, I1 => "v", I2 => "f"),
 
          (Max => 0, Op => TC_Internal, FFx => "s", FFy => "x"),
 
          --  Harrington/Elliott    1.4.1
-
          (Max => 0, Op => TC_Internal, FFx => "ci", FFy => "ti"),
 
          --  Harrington/Elliott    1.4.2
-
          (Max => 0, Op => TC_Internal, FFx => "nt", FFy => "nct"),
-
          (Max => 0, Op => TC_Internal, FFx => "s", FFy => "ns"),
 
          --  Others
-
          (Max => 0, Op => TC_Internal, FFx => "ch", FFy => "c"),
-
          (Max => 0, Op => TC_Internal, FFx => "c", FFy => "ch"),
-
          (Max => 0, Op => TC_Internal, FFx => "th", FFy => "t"),
-
-         (Max => 0, Op => TC_Internal, FFx => "t", FFy => "th"),
+         (Max => 0, Op => TC_Internal, FFx => "t", FFy => "th")
+                                                  );
+         begin
+            Iter_Tricks (Mediaeval_Tricks);
+            if Finished then
+               return;
+            end if;
+         end;
 
          Double_Consonants;
 
@@ -1285,42 +1382,98 @@ package body Words_Engine.Tricks_Package is
 
       case S (S'First) is
          when 'a' =>
-            (Max => 0, Op => Flip_TC_Flop, FFx => "abs", FFy => "aps"),
-            (Max => 0, Op => Flip_TC_Flop, FFx => "acq", FFy => "adq"),
-            (Max => 0, Op => Flip_TC_Flop, FFx => "ante", FFy => "anti"),
-            (Max => 0, Op => Flip_TC_Flop, FFx => "auri", FFy => "aure"),
-            (Max => 0, Op => Flip_TC_Flop, FFx => "auri", FFy => "auru")
-
+            declare
+               A_Tricks : constant Tricks := (
+                 (Max => 0, Op => Flip_TC_Flop, FFx => "abs", FFy => "aps"),
+                 (Max => 0, Op => Flip_TC_Flop, FFx => "acq", FFy => "adq"),
+                 (Max => 0, Op => Flip_TC_Flop, FFx => "ante", FFy => "anti"),
+                 (Max => 0, Op => Flip_TC_Flop, FFx => "auri", FFy => "aure"),
+                 (Max => 0, Op => Flip_TC_Flop, FFx => "auri", FFy => "auru")
+                                             );
+            begin
+               Iter_Tricks (A_Tricks);
+               if Finished then
+                  return;
+               end if;
+            end;
             Slur ("ad");
             if Pa_Last > 0  then
                return;
             end if;
          when 'c' =>
-            (Max => 0, Op => TC_Flip, FFx => "circum", FFy => "circun"),
-            (Max => 0, Op => Flip_TC_Flop, FFx => "con", FFy => "com"),
-            (Max => 0, Op => TC_Flip, FFx => "co", FFy => "com"),
-            (Max => 0, Op => TC_Flip, FFx => "co", FFy => "con"),
-            (Max => 0, Op => Flip_TC_Flop, FFx => "conl", FFy => "coll"),
+            declare
+               C_Tricks : constant Tricks := (
+                 (Max => 0, Op => TC_Flip, FF3 => "circum", FF4 => "circun"),
+                 (Max => 0, Op => Flip_TC_Flop, FFx => "con", FFy => "com"),
+                 (Max => 0, Op => TC_Flip, FF3 => "co", FF4 => "com"),
+                 (Max => 0, Op => TC_Flip, FF3 => "co", FF4 => "con"),
+                 (Max => 0, Op => Flip_TC_Flop, FFx => "conl", FFy => "coll")
+                                             );
+            begin
+               Iter_Tricks (C_Tricks);
+               if Finished then
+                  return;
+               end if;
+            end;
          when 'i' =>
             Slur ("in");
             if Pa_Last > 1 then
                return;
             end if;
-
-            (Max => 1, Op => Flip_TC_Flop, FFx => "inb", FFy => "imb"),
-            (Max => 1, Op => Flip_TC_Flop, FFx => "inp", FFy => "imp"),
-            -- for some forms of eo the stem "i" grates with an "is .. ." ending
+            declare
+               I_Tricks : constant Tricks := (
+                 (Max => 1, Op => Flip_TC_Flop, FFx => "inb", FFy => "imb"),
+                 (Max => 1, Op => Flip_TC_Flop, FFx => "inp", FFy => "imp")
+                 -- for some forms of eo the stem "i" grates with
+                 -- an "is .. ." ending
+                                             );
+            begin
+               Iter_Tricks (I_Tricks);
+               if Finished then
+                  return;
+               end if;
+            end;
          when 'n' =>
-            (Max => 0, Op => TC_Flip, FFx => "nun", FFy => "non"),
+            declare
+               N_Tricks : constant Tricks := (
+            (Max => 0, Op => TC_Flip, FF3 => "nun", FF4 => "non")
+                                              );
+            begin
+               Iter_Tricks (N_Tricks);
+               if Finished then
+                  return;
+               end if;
+            end;
          when 'o' =>
             Slur ("ob");
             if Pa_Last > 0  then
                return;
             end if;
          when 'q' =>
-            (Max => 0, Op => Flip_TC_Flop, FFx => "quadri", FFy => "quadru"),
+            declare
+               Q_Tricks : constant Tricks := (
+                 (Max => 0, Op => Flip_TC_Flop,
+                 FFx => "quadri", FFy => "quadru")
+            );
+            begin
+               Iter_Tricks (N_Tricks);
+               if Finished then
+                  return;
+               end if;
+            end;
+
          when 's' =>
-            (Max => 0, Op => TC_Flip, FFx => "se", FFy => "ce");     --  Latha,
+            declare
+               S_Tricks : constant Tricks := (
+                 (Max => 0, Op => TC_Flip, FF3 => "se", FF4 => "ce")
+               --  Latham,
+                                             );
+               begin
+               Iter_Tricks (N_Tricks);
+               if Finished then
+                  return;
+               end if;
+            end;
             --  From Oxford Latin Dictionary p.1835 "sub-"
             Slur ("sub");
          when others =>
