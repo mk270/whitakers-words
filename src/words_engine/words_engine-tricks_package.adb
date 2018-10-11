@@ -712,7 +712,11 @@ package body Words_Engine.Tricks_Package is
         (Max => 0, Op => TC_Flip_Flop, FF1 => +"adsp",  FF2 => +"asp"),
         (Max => 0, Op => TC_Flip_Flop, FF1 => +"arqui", FF2 => +"arci"),
         (Max => 0, Op => TC_Flip_Flop, FF1 => +"arqu",  FF2 => +"arcu"),
-        (Max => 0, Op => TC_Flip,  FF3 => +"ae",    FF4 => +"e")
+        (Max => 0, Op => TC_Flip, FF3 => +"ae",    FF4 => +"e"),
+        (Max => 0, Op => TC_Flip, FFx => "al", FFy => "hal"),
+        (Max => 0, Op => TC_Flip, FFx => "am", FFy => "ham"),
+        (Max => 0, Op => TC_Flip, FFx => "ar", FFy => "har"),
+        (Max => 0, Op => TC_Flip, FFx => "aur", FFy => "or"),
       );
 
       Finished : Boolean := False;
@@ -757,138 +761,50 @@ package body Words_Engine.Tricks_Package is
                return;
             end if;
 
-            Flip ("al",  "hal");
-            if Pa_Last > 0  then
-               return;
-            end if;
-            Flip ("am",  "ham");
-            if Pa_Last > 0  then
-               return;
-            end if;
-            Flip ("ar",  "har");
-            if Pa_Last > 0  then
-               return;
-            end if;
-            Flip ("aur",  "or");
-            if Pa_Last > 0  then
-               return;
-            end if;
-
          when 'd'  =>
 
-            Flip ("dampn", "damn");
-            if Pa_Last > 0  then
-               return;
-            end if;
-            Flip_Flop ("dij", "disj");       --  OLD p.543
-            if Pa_Last > 0  then
-               return;
-            end if;
-            Flip_Flop ("dir", "disr");       --  OLD p.556
-            if Pa_Last > 0  then
-               return;
-            end if;
-            Flip_Flop ("dir", "der");        --  OLD p.547
-            if Pa_Last > 0  then
-               return;
-            end if;
-            Flip_Flop ("del", "dil");        --  OLD p.507/543
-            if Pa_Last > 0  then
-               return;
-            end if;
+            (Max => 0, Op => TC_Flip, FFx => "dampn", FFy =>"damn"),
+            (Max => 0, Op => TC_Flip_Flop, FFx => "dij", FFy =>"disj"); --  OLD p.54,
+            (Max => 0, Op => TC_Flip_Flop, FFx => "dir", FFy =>"disr"); --  OLD p.55,
+            (Max => 0, Op => TC_Flip_Flop, FFx => "dir", FFy =>"der"); --  OLD p.54,
+            (Max => 0, Op => TC_Flip_Flop, FFx => "del", FFy =>"dil"); --  OLD p.507/54,
 
          when 'e'  =>
 
-            Flip_Flop ("ecf", "eff");
-            if Pa_Last > 0  then
-               return;
-            end if;
-            Flip_Flop ("ecs", "exs");
-            if Pa_Last > 0  then
-               return;
-            end if;
-            Flip_Flop ("es", "ess");
-            if Pa_Last > 0  then
-               return;
-            end if;
-            Flip_Flop ("ex", "exs");
-            if Pa_Last > 0  then
-               return;
-            end if;
+            (Max => 0, Op => TC_Flip_Flop, FFx => "ecf", FFy =>"eff"),
+            (Max => 0, Op => TC_Flip_Flop, FFx => "ecs", FFy =>"exs"),
+            (Max => 0, Op => TC_Flip_Flop, FFx => "es", FFy =>"ess"),
+            (Max => 0, Op => TC_Flip_Flop, FFx => "ex", FFy =>"exs"),
 
-            Flip ("eid",  "id");
-            if Pa_Last > 0  then
-               return;
-            end if;
-            Flip ("el",  "hel");
-            if Pa_Last > 0  then
-               return;
-            end if;
-            Flip ("e",  "ae");
-            if Pa_Last > 0  then
-               return;
-            end if;
+            (Max => 0, Op => TC_Flip, FFx => "eid", FFy => "id"),
+            (Max => 0, Op => TC_Flip, FFx => "el", FFy => "hel"),
+            (Max => 0, Op => TC_Flip, FFx => "e", FFy => "ae"),
 
          when 'f'  =>
 
-            Flip_Flop ("faen", "fen");
-            if Pa_Last > 0  then
-               return;
-            end if;
+            (Max => 0, Op => TC_Flip_Flop, FFx => "faen", FFy =>"fen"),
 
-            Flip_Flop ("faen", "foen");
-            if Pa_Last > 0  then
-               return;
-            end if;
+            (Max => 0, Op => TC_Flip_Flop, FFx => "faen", FFy =>"foen"),
 
-            Flip_Flop ("fed", "foed");
-            if Pa_Last > 0  then
-               return;
-            end if;
+            (Max => 0, Op => TC_Flip_Flop, FFx => "fed", FFy =>"foed"),
 
-            Flip_Flop ("fet", "foet");
-            if Pa_Last > 0  then
-               return;
-            end if;
+            (Max => 0, Op => TC_Flip_Flop, FFx => "fet", FFy =>"foet"),
 
-            Flip ("f",  "ph");
-            if Pa_Last > 0  then
-               return;
-            end if;  -- Try lead then all
+            (Max => 0, Op => TC_Flip, FFx => "f", FFy => "ph"),
+            -- Try lead then all
 
          when 'g'  =>
 
-            Flip ("gna",  "na");
-            if Pa_Last > 0  then
-               return;
-            end if;
+            (Max => 0  , Op =>            TC_Flip, FFx => "gna", FFy => "na"),
 
          when 'h'  =>
 
-            Flip ("har",  "ar");
-            if Pa_Last > 0  then
-               return;
-            end if;
-            Flip ("hal",  "al");
-            if Pa_Last > 0  then
-               return;
-            end if;
-            Flip ("ham",  "am");
-            if Pa_Last > 0  then
-               return;
-            end if;
-            Flip ("hel",  "el");
-            if Pa_Last > 0  then
-               return;
-            end if;
-            Flip ("hol",  "ol");
-            if Pa_Last > 0  then
-               return;
-            end if;
-            Flip ("hum",  "um");
-            if Pa_Last > 0  then
-               return;
-            end if;
+            (Max => 0  , Op =>            TC_Flip, FFx => "har", FFy => "ar"),
+            (Max => 0  , Op =>            TC_Flip, FFx => "hal", FFy => "al"),
+            (Max => 0  , Op =>            TC_Flip, FFx => "ham", FFy => "am"),
+            (Max => 0  , Op =>            TC_Flip, FFx => "hel", FFy => "el"),
+            (Max => 0  , Op =>            TC_Flip, FFx => "hol", FFy => "ol"),
+            (Max => 0  , Op =>            TC_Flip, FFx => "hum", FFy => "um"),
 
          when 'i'  =>
 
@@ -917,74 +833,35 @@ package body Words_Engine.Tricks_Package is
 
          when 'k'  =>
 
-            Flip ("k",  "c");
-            if Pa_Last > 0  then
-               return;
-            end if;
-            Flip ("c",  "k");
-            if Pa_Last > 0  then
-               return;
-            end if;
+            (Max => 0  , Op =>            TC_Flip, FFx => "k", FFy => "c"),
+            (Max => 0  , Op =>            TC_Flip, FFx => "c", FFy => "k"),
 
          when 'l'  =>
 
-            Flip_Flop ("lub", "lib");
-            if Pa_Last > 1 then
-               return;
-            end if;
+            (Max => 1 , Op =>            Flip_TC_Flop, FFx => "lub", FFy =>"lib"),
 
          when 'm'  =>
 
-            Flip_Flop ("mani", "manu");
-            if Pa_Last > 1 then
-               return;
-            end if;
+            (Max => 1 , Op =>            Flip_TC_Flop, FFx => "mani", FFy =>"manu"),
 
          when 'n'  =>
 
-            Flip ("na",  "gna");
-            if Pa_Last > 0  then
-               return;
-            end if;
+            (Max => 0  , Op =>            TC_Flip, FFx => "na", FFy => "gna"),
 
-            Flip_Flop ("nihil",  "nil");
-            if Pa_Last > 0  then
-               return;
-            end if;
+            (Max => 0  , Op =>            Flip_TC_Flop, FFx => "nihil", FFy => "nil"),
 
          when 'o'  =>
 
-            Flip_Flop ("obt", "opt");
-            if Pa_Last > 1 then
-               return;
-            end if;
-            Flip_Flop ("obs", "ops");
-            if Pa_Last > 1 then
-               return;
-            end if;
-            Flip ("ol",  "hol");
-            if Pa_Last > 0  then
-               return;
-            end if;
-            Flip ("opp", "op");
-            if Pa_Last > 1 then
-               return;
-            end if;
-            Flip ("or",  "aur");
-            if Pa_Last > 0  then
-               return;
-            end if;
+            (Max => 1 , Op =>            Flip_TC_Flop, FFx => "obt", FFy =>"opt"),
+            (Max => 1 , Op =>            Flip_TC_Flop, FFx => "obs", FFy =>"ops"),
+            (Max => 0  , Op =>            TC_Flip, FFx => "ol", FFy => "hol"),
+            (Max => 1 , Op =>            TC_Flip, FFx => "opp", FFy =>"op"),
+            (Max => 0  , Op =>            TC_Flip, FFx => "or", FFy => "aur"),
 
          when 'p'  =>
 
-            Flip ("ph",  "f");
-            if Pa_Last > 0  then
-               return;
-            end if;  -- Try lead then all
-            Flip_Flop ("pre", "prae");
-            if Pa_Last > 1 then
-               return;
-            end if;
+            (Max => 0  , Op =>            TC_Flip, FFx => "ph", FFy => "f"),
+            (Max => 1 , Op =>            Flip_TC_Flop, FFx => "pre", FFy =>"prae"),
 
             --  when 'q'  =>
 
@@ -994,126 +871,58 @@ package body Words_Engine.Tricks_Package is
 
             --SLUR ("sub");
 
-            Flip_Flop ("subsc",  "susc");
-            if Pa_Last > 0  then
-               return;
-            end if;
-            Flip_Flop ("subsp",  "susp");
-            if Pa_Last > 0  then
-               return;
-            end if;
+            (Max => 0  , Op =>            Flip_TC_Flop, FFx => "subsc", FFy => "susc"),
+            (Max => 0  , Op =>            Flip_TC_Flop, FFx => "subsp", FFy => "susp"),
 
-            Flip_Flop ("subc",  "susc");
-            if Pa_Last > 0  then
-               return;
-            end if;
-            Flip_Flop ("succ",  "susc");
-            if Pa_Last > 0  then
-               return;
-            end if;
+            (Max => 0  , Op =>            Flip_TC_Flop, FFx => "subc", FFy => "susc"),
+            (Max => 0  , Op =>            Flip_TC_Flop, FFx => "succ", FFy => "susc"),
 
-            Flip_Flop ("subt",  "supt");
-            if Pa_Last > 0  then
-               return;
-            end if;
-            Flip_Flop ("subt",  "sust");
-            if Pa_Last > 0  then
-               return;
-            end if;
+            (Max => 0  , Op =>            Flip_TC_Flop, FFx => "subt", FFy => "supt"),
+            (Max => 0  , Op =>            Flip_TC_Flop, FFx => "subt", FFy => "sust"),
 
          when 't'  =>
 
-            Flip_Flop ("transv",  "trav");
-            if Pa_Last > 0  then
-               return;
-            end if;
+            (Max => 0  , Op =>            Flip_TC_Flop, FFx => "transv", FFy => "trav"),
             --            FLIP ("trig",  "tric");
             --            if PA_LAST > 0  then
 
          when 'u'  =>
 
-            Flip ("ul",  "hul");
-            if Pa_Last > 0  then
-               return;
-            end if;
-            Flip ("uol",  "vul");
-            if Pa_Last > 0  then
-               return;
-            end if;  --  u is not v for this purpose
+            (Max => 0  , Op =>            TC_Flip, FFx => "ul", FFy => "hul"),
+            (Max => 0  , Op =>            TC_Flip, FFx => "uol", FFy => "vul"),
+            --  u is not v for this purpose
 
          when 'y'  =>
 
-            Flip ("y",  "i");
-            if Pa_Last > 0  then
-               return;
-            end if;
+            (Max => 0  , Op =>            TC_Flip, FFx => "y", FFy => "i"),
 
          when 'z'  =>
 
-            Flip ("z",  "di");
-            if Pa_Last > 0  then
-               return;
-            end if;
+            (Max => 0  , Op =>            TC_Flip, FFx => "z", FFy => "di"),
 
          when others  =>  null;
 
       end case;   --  case on first letter
 
-      Internal ("ae",  "e");
-      if Pa_Last > 0  then
-         return;
-      end if;
+      (Max => 0  , Op =>      InteTC_Rnal, FFx => "ae", FFy => "e"),
 
-      Internal ("bul",  "bol");
-      if Pa_Last > 0  then
-         return;
-      end if;
-      Internal ("bol",  "bul");
-      if Pa_Last > 0  then
-         return;
-      end if;
+      (Max => 0  , Op =>      InteTC_Rnal, FFx => "bul", FFy => "bol"),
+      (Max => 0  , Op =>      InteTC_Rnal, FFx => "bol", FFy => "bul"),
 
-      Internal ("cl",  "cul");
-      if Pa_Last > 0  then
-         return;
-      end if;
+      (Max => 0  , Op =>      InteTC_Rnal, FFx => "cl", FFy => "cul"),
 
-      Internal ("cu",  "quu");
-      if Pa_Last > 0  then
-         return;
-      end if;
+      (Max => 0  , Op =>      InteTC_Rnal, FFx => "cu", FFy => "quu"),
 
-      Internal ("f",  "ph");
-      if Pa_Last > 0  then
-         return;
-      end if;
-      Internal ("ph",  "f");
-      if Pa_Last > 0  then
-         return;
-      end if;
+      (Max => 0  , Op =>      InteTC_Rnal, FFx => "f", FFy => "ph"),
+      (Max => 0  , Op =>      InteTC_Rnal, FFx => "ph", FFy => "f"),
 
-      Internal ("h",  "");
-      if Pa_Last > 0  then
-         return;
-      end if;
+      (Max => 0  , Op =>      InteTC_Rnal, FFx => "h", FFy => ""),
 
-      Internal ("oe",  "e");
-      if Pa_Last > 0  then
-         return;
-      end if;
+      (Max => 0  , Op =>      InteTC_Rnal, FFx => "oe", FFy => "e"),
 
-      Internal ("vul",  "vol");
-      if Pa_Last > 0  then
-         return;
-      end if;
-      Internal ("vol",  "vul");
-      if Pa_Last > 0  then
-         return;
-      end if;
-      Internal ("uol",  "vul");
-      if Pa_Last > 0  then
-         return;
-      end if;
+      (Max => 0  , Op =>      InteTC_Rnal, FFx => "vul", FFy => "vol"),
+      (Max => 0  , Op =>      InteTC_Rnal, FFx => "vol", FFy => "vul"),
+      (Max => 0  , Op =>      InteTC_Rnal, FFx => "uol", FFy => "vul"),
 
       Adj_Terminal_Iis;
       if Pa_Last > 0  then
@@ -1127,159 +936,78 @@ package body Words_Engine.Tricks_Package is
 
          --  Harrington/Elliott    1.1.1
 
-         Internal ("col",  "caul");
-         if Pa_Last > 0  then
-            return;
-         end if;
+         (Max => 0  , Op =>         InteTC_Rnal, FFx => "col", FFy => "caul"),
 
          --TEXT_IO.PUT_LINE ("Trying com -> con");
 
          --  Harrington/Elliott    1.3
 
-         Internal ("e",  "ae");
-         if Pa_Last > 0  then
-            return;
-         end if;
+         (Max => 0  , Op =>         InteTC_Rnal, FFx => "e", FFy => "ae"),
 
-         Internal ("o",  "u");
-         if Pa_Last > 0  then
-            return;
-         end if;
+         (Max => 0  , Op =>         InteTC_Rnal, FFx => "o", FFy => "u"),
 
-         Internal ("i",  "y");
-         if Pa_Last > 0  then
-            return;
-         end if;
+         (Max => 0  , Op =>         InteTC_Rnal, FFx => "i", FFy => "y"),
 
          --  Harrington/Elliott    1.3.1
 
-         Internal ("ism",  "sm");
-         if Pa_Last > 0  then
-            return;
-         end if;
+         (Max => 0  , Op =>         InteTC_Rnal, FFx => "ism", FFy => "sm"),
 
-         Internal ("isp",  "sp");
-         if Pa_Last > 0  then
-            return;
-         end if;
+         (Max => 0  , Op =>         InteTC_Rnal, FFx => "isp", FFy => "sp"),
 
-         Internal ("ist",  "st");
-         if Pa_Last > 0  then
-            return;
-         end if;
+         (Max => 0  , Op =>         InteTC_Rnal, FFx => "ist", FFy => "st"),
 
-         Internal ("iz",  "z");
-         if Pa_Last > 0  then
-            return;
-         end if;
+         (Max => 0  , Op =>         InteTC_Rnal, FFx => "iz", FFy => "z"),
 
-         Internal ("esm",  "sm");
-         if Pa_Last > 0  then
-            return;
-         end if;
+         (Max => 0  , Op =>         InteTC_Rnal, FFx => "esm", FFy => "sm"),
 
-         Internal ("esp",  "sp");
-         if Pa_Last > 0  then
-            return;
-         end if;
+         (Max => 0  , Op =>         InteTC_Rnal, FFx => "esp", FFy => "sp"),
 
-         Internal ("est",  "st");
-         if Pa_Last > 0  then
-            return;
-         end if;
+         Internal         (Max => 0  , OTC_P =>, FFx => "est", FFy => "st"),
 
-         Internal ("ez",  "z");
-         if Pa_Last > 0  then
-            return;
-         end if;
+         (Max => 0  , Op =>         InteTC_Rnal, FFx => "ez", FFy => "z"),
 
          --  Harrington/Elliott    1.4
 
-         Internal ("di",  "z");
-         if Pa_Last > 0  then
-            return;
-         end if;
+         (Max => 0  , Op =>         InteTC_Rnal, FFx => "di", FFy => "z"),
 
-         Internal ("f",  "ph");
-         if Pa_Last > 0  then
-            return;
-         end if;
+         (Max => 0  , Op =>         InteTC_Rnal, FFx => "f", FFy => "ph"),
 
-         Internal ("is",  "ix");
-         if Pa_Last > 0  then
-            return;
-         end if;
+         (Max => 0  , Op =>         InteTC_Rnal, FFx => "is", FFy => "ix"),
 
-         Internal ("b",  "p");
-         if Pa_Last > 0  then
-            return;
-         end if;
+         (Max => 0  , Op =>         InteTC_Rnal, FFx => "b", FFy => "p"),
 
-         Internal ("d",  "t");
-         if Pa_Last > 0  then
-            return;
-         end if;
+         (Max => 0  , Op =>         InteTC_Rnal, FFx => "d", FFy => "t"),
 
-         Internal ("v",  "b");
-         if Pa_Last > 0  then
-            return;
-         end if;
+         (Max => 0  , Op =>         InteTC_Rnal, FFx => "v", FFy => "b"),
+
+         (Max => 0  , Op =>         InteTC_Rnal, FFx => "v", FFy => "f"),
 
          Internal ("v",  "f");
          if Pa_Last > 0  then
             return;
          end if;
 
-         Internal ("v",  "f");
-         if Pa_Last > 0  then
-            return;
-         end if;
-
-         Internal ("s",  "x");
-         if Pa_Last > 0  then
-            return;
-         end if;
+         (Max => 0  , Op =>         InteTC_Rnal, FFx => "s", FFy => "x"),
 
          --  Harrington/Elliott    1.4.1
 
-         Internal ("ci",  "ti");
-         if Pa_Last > 0  then
-            return;
-         end if;
+         (Max => 0  , Op =>         InteTC_Rnal, FFx => "ci", FFy => "ti"),
 
          --  Harrington/Elliott    1.4.2
 
-         Internal ("nt",  "nct");
-         if Pa_Last > 0  then
-            return;
-         end if;
+         (Max => 0  , Op =>         InteTC_Rnal, FFx => "nt", FFy => "nct"),
 
-         Internal ("s",  "ns");
-         if Pa_Last > 0  then
-            return;
-         end if;
+         (Max => 0  , Op =>         InteTC_Rnal, FFx => "s", FFy => "ns"),
 
          --  Others
 
-         Internal ("ch",  "c");
-         if Pa_Last > 0  then
-            return;
-         end if;
+         (Max => 0  , Op =>         InteTC_Rnal, FFx => "ch", FFy => "c"),
 
-         Internal ("c",  "ch");
-         if Pa_Last > 0  then
-            return;
-         end if;
+         (Max => 0  , Op =>         InteTC_Rnal, FFx => "c", FFy => "ch"),
 
-         Internal ("th",  "t");
-         if Pa_Last > 0  then
-            return;
-         end if;
+         (Max => 0  , Op =>         InteTC_Rnal, FFx => "th", FFy => "t"),
 
-         Internal ("t",  "th");
-         if Pa_Last > 0  then
-            return;
-         end if;
+         (Max => 0  , Op =>         InteTC_Rnal, FFx => "t", FFy => "th"),
 
          Double_Consonants;
 
@@ -1542,86 +1270,42 @@ package body Words_Engine.Tricks_Package is
 
       case S (S'First) is
          when 'a' =>
-            Flip_Flop ("abs", "aps");
-            if Pa_Last > 0  then
-               return;
-            end if;
-            Flip_Flop ("acq", "adq");
-            if Pa_Last > 0  then
-               return;
-            end if;
-            Flip_Flop ("ante",  "anti");
-            if Pa_Last > 0  then
-               return;
-            end if;
-            Flip_Flop ("auri",  "aure");
-            if Pa_Last > 0  then
-               return;
-            end if;
-            Flip_Flop ("auri",  "auru");
-            if Pa_Last > 0  then
-               return;
-            end if;
+            (Max => 0  , Op =>            Flip_TC_Flop, FFx => "abs", FFy =>"aps"),
+            (Max => 0  , Op =>            Flip_TC_Flop, FFx => "acq", FFy =>"adq"),
+            (Max => 0  , Op =>            Flip_TC_Flop, FFx => "ante", FFy => "anti"),
+            (Max => 0  , Op =>            Flip_TC_Flop, FFx => "auri", FFy => "aure"),
+            (Max => 0  , Op =>            Flip_TC_Flop, FFx => "auri", FFy => "auru")
+
             Slur ("ad");
             if Pa_Last > 0  then
                return;
             end if;
          when 'c' =>
-            Flip ("circum", "circun");
-            if Pa_Last > 0  then
-               return;
-            end if;
-            Flip_Flop ("con", "com");
-            if Pa_Last > 0  then
-               return;
-            end if;
-            Flip ("co", "com");
-            if Pa_Last > 0  then
-               return;
-            end if;
-            Flip ("co", "con");
-            if Pa_Last > 0  then
-               return;
-            end if;
-            Flip_Flop ("conl", "coll");
-            if Pa_Last > 0  then
-               return;
-            end if;
+            (Max => 0  , Op =>            TC_Flip, FFx => "circum", FFy =>"circun"),
+            (Max => 0  , Op =>            Flip_TC_Flop, FFx => "con", FFy =>"com"),
+            (Max => 0  , Op =>            TC_Flip, FFx => "co", FFy =>"com"),
+            (Max => 0  , Op =>            TC_Flip, FFx => "co", FFy =>"con"),
+            (Max => 0  , Op =>            Flip_TC_Flop, FFx => "conl", FFy =>"coll"),
          when 'i' =>
             Slur ("in");
             if Pa_Last > 1 then
                return;
             end if;
 
-            Flip_Flop ("inb", "imb");
-            if Pa_Last > 1 then
-               return;
-            end if;
-            Flip_Flop ("inp", "imp");
-            if Pa_Last > 1 then
-               return;
-            end if;
+            (Max => 1 , Op =>            Flip_TC_Flop, FFx => "inb", FFy =>"imb"),
+            (Max => 1 , Op =>            Flip_TC_Flop, FFx => "inp", FFy =>"imp"),
             -- for some forms of eo the stem "i" grates with an "is .. ." ending
          when 'n' =>
-            Flip ("nun",  "non");
-            if Pa_Last > 0  then
-               return;
-            end if;
+            (Max => 0  , Op =>            TC_Flip, FFx => "nun", FFy => "non"),
          when 'o' =>
             Slur ("ob");
             if Pa_Last > 0  then
                return;
             end if;
          when 'q' =>
-            Flip_Flop ("quadri",  "quadru");
-            if Pa_Last > 0  then
-               return;
-            end if;
+            (Max => 0  , Op =>            Flip_TC_Flop, FFx => "quadri", FFy => "quadru"),
          when 's' =>
-            Flip ("se",  "ce");     --  Latham
-            if Pa_Last > 0  then
-               return;
-            end if;
+            (Max => 0  , Op =>            TC_Flip, FFx => "se", FFy => "ce");     --  Latha,
             --  From Oxford Latin Dictionary p.1835 "sub-"
             Slur ("sub");
          when others =>
