@@ -725,13 +725,13 @@ package body Words_Engine.Tricks_Package is
       D_Tricks : constant Tricks := (
         (Max => 0, Op => TC_Flip, FF3 => +"dampn", FF4 => +"damn"),
         --  OLD p.54,
-        (Max => 0, Op => TC_Flip_Flop, FFx => +"dij", FFy => +"disj"),
+        (Max => 0, Op => TC_Flip_Flop, FF1 => +"dij", FF2 => +"disj"),
         --  OLD p.55,
-        (Max => 0, Op => TC_Flip_Flop, FFx => +"dir", FFy => +"disr"),
+        (Max => 0, Op => TC_Flip_Flop, FF1 => +"dir", FF2 => +"disr"),
         --  OLD p.54,
-        (Max => 0, Op => TC_Flip_Flop, FFx => +"dir", FFy => +"der"),
+        (Max => 0, Op => TC_Flip_Flop, FF1 => +"dir", FF2 => +"der"),
         --  OLD p.507/54,
-        (Max => 0, Op => TC_Flip_Flop, FFx => +"del", FFy => +"dil")
+        (Max => 0, Op => TC_Flip_Flop, FF1 => +"del", FF2 => +"dil")
       );
 
       -- FIXME: next two declarations (Finished and Iter_Tricks) duplicated
@@ -816,10 +816,10 @@ package body Words_Engine.Tricks_Package is
          when 'e'  =>
             declare
                E_Tricks : constant Tricks := (
-                 (Max => 0, Op => TC_Flip_Flop, FFx => +"ecf", FFy => +"eff"),
-                 (Max => 0, Op => TC_Flip_Flop, FFx => +"ecs", FFy => +"exs"),
-                 (Max => 0, Op => TC_Flip_Flop, FFx => +"es", FFy => +"ess"),
-                 (Max => 0, Op => TC_Flip_Flop, FFx => +"ex", FFy => +"exs"),
+                 (Max => 0, Op => TC_Flip_Flop, FF1 => +"ecf", FF2 => +"eff"),
+                 (Max => 0, Op => TC_Flip_Flop, FF1 => +"ecs", FF2 => +"exs"),
+                 (Max => 0, Op => TC_Flip_Flop, FF1 => +"es", FF2 => +"ess"),
+                 (Max => 0, Op => TC_Flip_Flop, FF1 => +"ex", FF2 => +"exs"),
 
                  (Max => 0, Op => TC_Flip, FF3 => +"eid", FF4 => +"id"),
                  (Max => 0, Op => TC_Flip, FF3 => +"el", FF4 => +"hel"),
@@ -834,10 +834,10 @@ package body Words_Engine.Tricks_Package is
          when 'f'  =>
             declare
                F_Tricks : constant Tricks := (
-                 (Max => 0, Op => TC_Flip_Flop, FFx => +"faen", FFy => +"fen"),
-                 (Max => 0, Op => TC_Flip_Flop, FFx => +"faen", FFy => +"foen"),
-                 (Max => 0, Op => TC_Flip_Flop, FFx => +"fed", FFy => +"foed"),
-                 (Max => 0, Op => TC_Flip_Flop, FFx => +"fet", FFy => +"foet"),
+                 (Max => 0, Op => TC_Flip_Flop, FF1 => +"faen", FF2 => +"fen"),
+                 (Max => 0, Op => TC_Flip_Flop, FF1 => +"faen", FF2 => +"foen"),
+                 (Max => 0, Op => TC_Flip_Flop, FF1 => +"fed", FF2 => +"foed"),
+                 (Max => 0, Op => TC_Flip_Flop, FF1 => +"fet", FF2 => +"foet"),
                  (Max => 0, Op => TC_Flip, FF3 => +"f", FF4 => +"ph")
                ); -- Try lead then all
             begin
@@ -848,7 +848,7 @@ package body Words_Engine.Tricks_Package is
             end;
          when 'g'  =>
             declare
-               G_Tricks : constant Tricks := (
+               G_Tricks : constant Tricks := (1 =>
                  (Max => 0, Op => TC_Flip, FF3 => +"gna", FF4 => +"na")
                );
             begin
@@ -887,8 +887,8 @@ package body Words_Engine.Tricks_Package is
             end;
          when 'l'  =>
             declare
-               L_Tricks : constant Tricks := (
-                 (Max => 1, Op => Flip_TC_Flop, FFx => +"lub", FFy => +"lib")
+               L_Tricks : constant Tricks := (1 =>
+                 (Max => 1, Op => TC_Flip_Flop, FF1 => +"lub", FF2 => +"lib")
                );
             begin
                Iter_Tricks (L_Tricks);
@@ -898,8 +898,8 @@ package body Words_Engine.Tricks_Package is
             end;
          when 'm'  =>
             declare
-               M_Tricks : constant Tricks := (
-                 (Max => 1, Op => Flip_TC_Flop, FFx => +"mani", FFy => +"manu")
+               M_Tricks : constant Tricks := (1 =>
+                 (Max => 1, Op => TC_Flip_Flop, FF1 => +"mani", FF2 => +"manu")
                );
             begin
                Iter_Tricks (M_Tricks);
@@ -911,7 +911,7 @@ package body Words_Engine.Tricks_Package is
             declare
                N_Tricks : constant Tricks := (
                  (Max => 0, Op => TC_Flip, FF3 => +"na", FF4 => +"gna"),
-                 (Max => 0, Op => Flip_TC_Flop, FFx => +"nihil", FFy => +"nil")
+                 (Max => 0, Op => TC_Flip_Flop, FF1 => +"nihil", FF2 => +"nil")
                );
             begin
                Iter_Tricks (N_Tricks);
@@ -922,8 +922,8 @@ package body Words_Engine.Tricks_Package is
          when 'o'  =>
             declare
                O_Tricks : constant Tricks := (
-                 (Max => 1, Op => Flip_TC_Flop, FFx => +"obt", FFy => +"opt"),
-                 (Max => 1, Op => Flip_TC_Flop, FFx => +"obs", FFy => +"ops"),
+                 (Max => 1, Op => TC_Flip_Flop, FF1 => +"obt", FF2 => +"opt"),
+                 (Max => 1, Op => TC_Flip_Flop, FF1 => +"obs", FF2 => +"ops"),
                  (Max => 0, Op => TC_Flip, FF3 => +"ol", FF4 => +"hol"),
                  (Max => 1, Op => TC_Flip, FF3 => +"opp", FF4 => +"op"),
                  (Max => 0, Op => TC_Flip, FF3 => +"or", FF4 => +"aur")
@@ -938,7 +938,7 @@ package body Words_Engine.Tricks_Package is
             declare
                P_Tricks : constant Tricks := (
                  (Max => 0, Op => TC_Flip, FF3 => +"ph", FF4 => +"f"),
-                 (Max => 1, Op => Flip_TC_Flop, FFx => +"pre", FFy => +"prae")
+                 (Max => 1, Op => TC_Flip_Flop, FF1 => +"pre", FF2 => +"prae")
                );
             begin
                Iter_Tricks (P_Tricks);
@@ -950,12 +950,14 @@ package body Words_Engine.Tricks_Package is
          when 's'  =>
             declare
                S_Tricks : constant Tricks := (
-                 (Max => 0, Op => Flip_TC_Flop, FFx => +"subsc", FFy => +"susc"),
-                 (Max => 0, Op => Flip_TC_Flop, FFx => +"subsp", FFy => +"susp"),
-                 (Max => 0, Op => Flip_TC_Flop, FFx => +"subc", FFy => +"susc"),
-                 (Max => 0, Op => Flip_TC_Flop, FFx => +"succ", FFy => +"susc"),
-                 (Max => 0, Op => Flip_TC_Flop, FFx => +"subt", FFy => +"supt"),
-                 (Max => 0, Op => Flip_TC_Flop, FFx => +"subt", FFy => +"sust")
+                 (Max => 0, Op => TC_Flip_Flop,
+                  FF1 => +"subsc", FF2 => +"susc"),
+                 (Max => 0, Op => TC_Flip_Flop,
+                  FF1 => +"subsp", FF2 => +"susp"),
+                 (Max => 0, Op => TC_Flip_Flop, FF1 => +"subc", FF2 => +"susc"),
+                 (Max => 0, Op => TC_Flip_Flop, FF1 => +"succ", FF2 => +"susc"),
+                 (Max => 0, Op => TC_Flip_Flop, FF1 => +"subt", FF2 => +"supt"),
+                 (Max => 0, Op => TC_Flip_Flop, FF1 => +"subt", FF2 => +"sust")
                );
             begin
                Iter_Tricks (S_Tricks);
@@ -967,8 +969,9 @@ package body Words_Engine.Tricks_Package is
             --SLUR ("sub");
          when 't'  =>
             declare
-               T_Tricks : constant Tricks := (
-                 (Max => 0, Op => Flip_TC_Flop, FFx => +"transv", FFy => +"trav")
+               T_Tricks : constant Tricks := (1 =>
+                 (Max => 0, Op => TC_Flip_Flop,
+                  FF1 => +"transv", FF2 => +"trav")
                );
             begin
                Iter_Tricks (T_Tricks);
@@ -994,7 +997,7 @@ package body Words_Engine.Tricks_Package is
             --  u is not v for this purpose
          when 'y'  =>
             declare
-               Y_Tricks : constant Tricks := (
+               Y_Tricks : constant Tricks := (1 =>
                  (Max => 0, Op => TC_Flip, FF3 => +"y", FF4 => +"i")
                );
             begin
@@ -1005,7 +1008,7 @@ package body Words_Engine.Tricks_Package is
             end;
          when 'z'  =>
             declare
-               Z_Tricks : constant Tricks := (
+               Z_Tricks : constant Tricks := (1 =>
                  (Max => 0, Op => TC_Flip, FF3 => +"z", FF4 => +"di")
                );
             begin
@@ -1020,25 +1023,25 @@ package body Words_Engine.Tricks_Package is
 
       declare
          Any_Tricks : constant Tricks := (
-           (Max => 0, Op => TC_Internal, FFx => +"ae", FFy => +"e"),
+           (Max => 0, Op => TC_Internal, I1 => +"ae", I2 => +"e"),
 
-           (Max => 0, Op => TC_Internal, FFx => +"bul", FFy => +"bol"),
-           (Max => 0, Op => TC_Internal, FFx => +"bol", FFy => +"bul"),
+           (Max => 0, Op => TC_Internal, I1 => +"bul", I2 => +"bol"),
+           (Max => 0, Op => TC_Internal, I1 => +"bol", I2 => +"bul"),
 
-           (Max => 0, Op => TC_Internal, FFx => +"cl", FFy => +"cul"),
+           (Max => 0, Op => TC_Internal, I1 => +"cl", I2 => +"cul"),
 
-           (Max => 0, Op => TC_Internal, FFx => +"cu", FFy => +"quu"),
+           (Max => 0, Op => TC_Internal, I1 => +"cu", I2 => +"quu"),
 
-           (Max => 0, Op => TC_Internal, FFx => +"f", FFy => +"ph"),
-           (Max => 0, Op => TC_Internal, FFx => +"ph", FFy => +"f"),
+           (Max => 0, Op => TC_Internal, I1 => +"f", I2 => +"ph"),
+           (Max => 0, Op => TC_Internal, I1 => +"ph", I2 => +"f"),
 
-           (Max => 0, Op => TC_Internal, FFx => +"h", FFy => +""),
+           (Max => 0, Op => TC_Internal, I1 => +"h", I2 => +""),
 
-           (Max => 0, Op => TC_Internal, FFx => +"oe", FFy => +"e"),
+           (Max => 0, Op => TC_Internal, I1 => +"oe", I2 => +"e"),
 
-           (Max => 0, Op => TC_Internal, FFx => +"vul", FFy => +"vol"),
-           (Max => 0, Op => TC_Internal, FFx => +"vol", FFy => +"vul"),
-           (Max => 0, Op => TC_Internal, FFx => +"uol", FFy => +"vul")
+           (Max => 0, Op => TC_Internal, I1 => +"vul", I2 => +"vol"),
+           (Max => 0, Op => TC_Internal, I1 => +"vol", I2 => +"vul"),
+           (Max => 0, Op => TC_Internal, I1 => +"uol", I2 => +"vul")
         );
       begin
          Iter_Tricks (Any_Tricks);
@@ -1060,63 +1063,63 @@ package body Words_Engine.Tricks_Package is
          declare
             Mediaeval_Tricks : constant Tricks := (
          --  Harrington/Elliott    1.1.1
-         (Max => 0, Op => TC_Internal, FFx => +"col", FFy => +"caul"),
+         (Max => 0, Op => TC_Internal, I1 => +"col", I2 => +"caul"),
 
          --  Harrington/Elliott    1.3
-         (Max => 0, Op => TC_Internal, FFx => +"e", FFy => +"ae"),
+         (Max => 0, Op => TC_Internal, I1 => +"e", I2 => +"ae"),
 
-         (Max => 0, Op => TC_Internal, FFx => +"o", FFy => +"u"),
+         (Max => 0, Op => TC_Internal, I1 => +"o", I2 => +"u"),
 
-         (Max => 0, Op => TC_Internal, FFx => +"i", FFy => +"y"),
+         (Max => 0, Op => TC_Internal, I1 => +"i", I2 => +"y"),
 
          --  Harrington/Elliott    1.3.1
-         (Max => 0, Op => TC_Internal, FFx => +"ism", FFy => +"sm"),
+         (Max => 0, Op => TC_Internal, I1 => +"ism", I2 => +"sm"),
 
-         (Max => 0, Op => TC_Internal, FFx => +"isp", FFy => +"sp"),
+         (Max => 0, Op => TC_Internal, I1 => +"isp", I2 => +"sp"),
 
-         (Max => 0, Op => TC_Internal, FFx => +"ist", FFy => +"st"),
+         (Max => 0, Op => TC_Internal, I1 => +"ist", I2 => +"st"),
 
-         (Max => 0, Op => TC_Internal, FFx => +"iz", FFy => +"z"),
+         (Max => 0, Op => TC_Internal, I1 => +"iz", I2 => +"z"),
 
-         (Max => 0, Op => TC_Internal, FFx => +"esm", FFy => +"sm"),
+         (Max => 0, Op => TC_Internal, I1 => +"esm", I2 => +"sm"),
 
-         (Max => 0, Op => TC_Internal, FFx => +"esp", FFy => +"sp"),
+         (Max => 0, Op => TC_Internal, I1 => +"esp", I2 => +"sp"),
 
-         (Max => 0, Op => TC_Internal, FFx => +"est", FFy => +"st"),
+         (Max => 0, Op => TC_Internal, I1 => +"est", I2 => +"st"),
 
-         (Max => 0, Op => TC_Internal, FFx => +"ez", FFy => +"z"),
+         (Max => 0, Op => TC_Internal, I1 => +"ez", I2 => +"z"),
 
          --  Harrington/Elliott    1.4
-         (Max => 0, Op => TC_Internal, FFx => +"di", FFy => +"z"),
+         (Max => 0, Op => TC_Internal, I1 => +"di", I2 => +"z"),
 
-         (Max => 0, Op => TC_Internal, FFx => +"f", FFy => +"ph"),
+         (Max => 0, Op => TC_Internal, I1 => +"f", I2 => +"ph"),
 
-         (Max => 0, Op => TC_Internal, FFx => +"is", FFy => +"ix"),
+         (Max => 0, Op => TC_Internal, I1 => +"is", I2 => +"ix"),
 
-         (Max => 0, Op => TC_Internal, FFx => +"b", FFy => +"p"),
+         (Max => 0, Op => TC_Internal, I1 => +"b", I2 => +"p"),
 
-         (Max => 0, Op => TC_Internal, FFx => +"d", FFy => +"t"),
+         (Max => 0, Op => TC_Internal, I1 => +"d", I2 => +"t"),
 
-         (Max => 0, Op => TC_Internal, FFx => +"v", FFy => +"b"),
-
-         (Max => 0, Op => TC_Internal, FFx => +"v", FFy => +"f"),
+         (Max => 0, Op => TC_Internal, I1 => +"v", I2 => +"b"),
 
          (Max => 0, Op => TC_Internal, I1 => +"v", I2 => +"f"),
 
-         (Max => 0, Op => TC_Internal, FFx => +"s", FFy => +"x"),
+         (Max => 0, Op => TC_Internal, I1 => +"v", I2 => +"f"),
+
+         (Max => 0, Op => TC_Internal, I1 => +"s", I2 => +"x"),
 
          --  Harrington/Elliott    1.4.1
-         (Max => 0, Op => TC_Internal, FFx => +"ci", FFy => +"ti"),
+         (Max => 0, Op => TC_Internal, I1 => +"ci", I2 => +"ti"),
 
          --  Harrington/Elliott    1.4.2
-         (Max => 0, Op => TC_Internal, FFx => +"nt", FFy => +"nct"),
-         (Max => 0, Op => TC_Internal, FFx => +"s", FFy => +"ns"),
+         (Max => 0, Op => TC_Internal, I1 => +"nt", I2 => +"nct"),
+         (Max => 0, Op => TC_Internal, I1 => +"s", I2 => +"ns"),
 
          --  Others
-         (Max => 0, Op => TC_Internal, FFx => +"ch", FFy => +"c"),
-         (Max => 0, Op => TC_Internal, FFx => +"c", FFy => +"ch"),
-         (Max => 0, Op => TC_Internal, FFx => +"th", FFy => +"t"),
-         (Max => 0, Op => TC_Internal, FFx => +"t", FFy => +"th")
+         (Max => 0, Op => TC_Internal, I1 => +"ch", I2 => +"c"),
+         (Max => 0, Op => TC_Internal, I1 => +"c", I2 => +"ch"),
+         (Max => 0, Op => TC_Internal, I1 => +"th", I2 => +"t"),
+         (Max => 0, Op => TC_Internal, I1 => +"t", I2 => +"th")
                                                   );
          begin
             Iter_Tricks (Mediaeval_Tricks);
@@ -1395,9 +1398,7 @@ package body Words_Engine.Tricks_Package is
                     To_String (TT (T).FF3),
                     To_String (TT (T).FF4));
                when TC_Internal =>
-                  Internal (
-                    To_String (TT (T).I1),
-                    To_String (TT (T).I2));
+                  null; -- FIXME - should never happen
             end case;
 
             if Pa_Last > TT (T).Max then
@@ -1419,11 +1420,11 @@ package body Words_Engine.Tricks_Package is
          when 'a' =>
             declare
                A_Tricks : constant Tricks := (
-                 (Max => 0, Op => Flip_TC_Flop, FFx => +"abs", FFy => +"aps"),
-                 (Max => 0, Op => Flip_TC_Flop, FFx => +"acq", FFy => +"adq"),
-                 (Max => 0, Op => Flip_TC_Flop, FFx => +"ante", FFy => +"anti"),
-                 (Max => 0, Op => Flip_TC_Flop, FFx => +"auri", FFy => +"aure"),
-                 (Max => 0, Op => Flip_TC_Flop, FFx => +"auri", FFy => +"auru")
+                 (Max => 0, Op => TC_Flip_Flop, FF1 => +"abs", FF2 => +"aps"),
+                 (Max => 0, Op => TC_Flip_Flop, FF1 => +"acq", FF2 => +"adq"),
+                 (Max => 0, Op => TC_Flip_Flop, FF1 => +"ante", FF2 => +"anti"),
+                 (Max => 0, Op => TC_Flip_Flop, FF1 => +"auri", FF2 => +"aure"),
+                 (Max => 0, Op => TC_Flip_Flop, FF1 => +"auri", FF2 => +"auru")
                                              );
             begin
                Iter_Tricks (A_Tricks);
@@ -1439,10 +1440,10 @@ package body Words_Engine.Tricks_Package is
             declare
                C_Tricks : constant Tricks := (
                  (Max => 0, Op => TC_Flip, FF3 => +"circum", FF4 => +"circun"),
-                 (Max => 0, Op => Flip_TC_Flop, FFx => +"con", FFy => +"com"),
+                 (Max => 0, Op => TC_Flip_Flop, FF1 => +"con", FF2 => +"com"),
                  (Max => 0, Op => TC_Flip, FF3 => +"co", FF4 => +"com"),
                  (Max => 0, Op => TC_Flip, FF3 => +"co", FF4 => +"con"),
-                 (Max => 0, Op => Flip_TC_Flop, FFx => +"conl", FFy => +"coll")
+                 (Max => 0, Op => TC_Flip_Flop, FF1 => +"conl", FF2 => +"coll")
                                              );
             begin
                Iter_Tricks (C_Tricks);
@@ -1457,8 +1458,8 @@ package body Words_Engine.Tricks_Package is
             end if;
             declare
                I_Tricks : constant Tricks := (
-                 (Max => 1, Op => Flip_TC_Flop, FFx => +"inb", FFy => +"imb"),
-                 (Max => 1, Op => Flip_TC_Flop, FFx => +"inp", FFy => +"imp")
+                 (Max => 1, Op => TC_Flip_Flop, FF1 => +"inb", FF2 => +"imb"),
+                 (Max => 1, Op => TC_Flip_Flop, FF1 => +"inp", FF2 => +"imp")
                  -- for some forms of eo the stem "i" grates with
                  -- an "is .. ." ending
                                              );
@@ -1470,7 +1471,7 @@ package body Words_Engine.Tricks_Package is
             end;
          when 'n' =>
             declare
-               N_Tricks : constant Tricks := (
+               N_Tricks : constant Tricks := (1 =>
             (Max => 0, Op => TC_Flip, FF3 => +"nun", FF4 => +"non")
                                               );
             begin
@@ -1486,9 +1487,9 @@ package body Words_Engine.Tricks_Package is
             end if;
          when 'q' =>
             declare
-               Q_Tricks : constant Tricks := (
-                 (Max => 0, Op => Flip_TC_Flop,
-                 FFx => +"quadri", FFy => +"quadru")
+               Q_Tricks : constant Tricks := (1 =>
+                 (Max => 0, Op => TC_Flip_Flop,
+                  FF1 => +"quadri", FF2 => +"quadru")
             );
             begin
                Iter_Tricks (Q_Tricks);
@@ -1499,11 +1500,11 @@ package body Words_Engine.Tricks_Package is
 
          when 's' =>
             declare
-               S_Tricks : constant Tricks := (
+               S_Tricks : constant Tricks := (1 =>
                  (Max => 0, Op => TC_Flip, FF3 => +"se", FF4 => +"ce")
                --  Latham,
                                              );
-               begin
+            begin
                Iter_Tricks (S_Tricks);
                if Finished then
                   return;
