@@ -37,7 +37,7 @@ package body Words_Engine.Tricks is
    function "+" (Source : String) return Unbounded_String
      renames To_Unbounded_String;
 
-   type Trick_Class is (TC_Flip_Flop, TC_Flip, TC_Internal);
+   type Trick_Class is (TC_Flip_Flop, TC_Flip, TC_Internal, TC_Slur);
    type Trick (Op : Trick_Class := TC_Flip_Flop) is
      record
         Max : Integer := 0;
@@ -51,6 +51,8 @@ package body Words_Engine.Tricks is
            when TC_Internal =>
               I1 : Unbounded_String := Null_Unbounded_String;
               I2 : Unbounded_String := Null_Unbounded_String;
+           when TC_Slur =>
+              S1 : Unbounded_String := Null_Unbounded_String;
         end case;
      end record;
 
@@ -755,6 +757,8 @@ package body Words_Engine.Tricks is
                   Internal (
                     To_String (TT (T).I1),
                     To_String (TT (T).I2));
+               when TC_Slur =>
+                  null; -- FIXME : should never happen
             end case;
 
             if Pa_Last > TT (T).Max then
@@ -1367,6 +1371,9 @@ package body Words_Engine.Tricks is
                     To_String (TT (T).FF4));
                when TC_Internal =>
                   null; -- FIXME - should never happen
+               when TC_Slur =>
+                  Slur (
+                    To_String (TT (T).S1));
             end case;
 
             if Pa_Last > TT (T).Max then
@@ -1392,18 +1399,15 @@ package body Words_Engine.Tricks is
                  (Max => 0, Op => TC_Flip_Flop, FF1 => +"acq", FF2 => +"adq"),
                  (Max => 0, Op => TC_Flip_Flop, FF1 => +"ante", FF2 => +"anti"),
                  (Max => 0, Op => TC_Flip_Flop, FF1 => +"auri", FF2 => +"aure"),
-                 (Max => 0, Op => TC_Flip_Flop, FF1 => +"auri", FF2 => +"auru")
-                                             );
+                 (Max => 0, Op => TC_Flip_Flop, FF1 => +"auri", FF2 => +"auru"),
+                 (Max => 0, Op => TC_Slur,      S1  => +"ad")
+               );
             begin
                Iter_Tricks (A_Tricks);
                if Finished then
                   return;
                end if;
             end;
-            Slur ("ad");
-            if Pa_Last > 0  then
-               return;
-            end if;
          when 'c' =>
             declare
                C_Tricks : constant Tricks := (
@@ -1420,12 +1424,9 @@ package body Words_Engine.Tricks is
                end if;
             end;
          when 'i' =>
-            Slur ("in");
-            if Pa_Last > 1 then
-               return;
-            end if;
             declare
                I_Tricks : constant Tricks := (
+                 (Max => 1, Op => TC_Slur,      S1  => +"in"),
                  (Max => 1, Op => TC_Flip_Flop, FF1 => +"inb", FF2 => +"imb"),
                  (Max => 1, Op => TC_Flip_Flop, FF1 => +"inp", FF2 => +"imp")
                  -- for some forms of eo the stem "i" grates with
@@ -1440,7 +1441,7 @@ package body Words_Engine.Tricks is
          when 'n' =>
             declare
                N_Tricks : constant Tricks := (1 =>
-            (Max => 0, Op => TC_Flip, FF3 => +"nun", FF4 => +"non")
+                 (Max => 0, Op => TC_Flip, FF3 => +"nun", FF4 => +"non")
                                               );
             begin
                Iter_Tricks (N_Tricks);
@@ -1449,10 +1450,16 @@ package body Words_Engine.Tricks is
                end if;
             end;
          when 'o' =>
-            Slur ("ob");
-            if Pa_Last > 0  then
-               return;
-            end if;
+            declare
+               O_Tricks : constant Tricks := (1 =>
+                 (Max => 0, Op => TC_Slur, S1 => +"ob")
+               );
+            begin
+               Iter_Tricks (O_Tricks);
+               if Finished then
+                  return;
+               end if;
+            end;
          when 'q' =>
             declare
                Q_Tricks : constant Tricks := (1 =>
@@ -1468,18 +1475,18 @@ package body Words_Engine.Tricks is
 
          when 's' =>
             declare
-               S_Tricks : constant Tricks := (1 =>
-                 (Max => 0, Op => TC_Flip, FF3 => +"se", FF4 => +"ce")
-               --  Latham,
-                                             );
+               S_Tricks : constant Tricks := (
+                 --  Latham,
+                 (Max => 0, Op => TC_Flip, FF3 => +"se", FF4 => +"ce"),
+                 --  From Oxford Latin Dictionary p.1835 "sub-"
+                 (Max => 0, Op => TC_Slur, S1  => +"sub")
+               );
             begin
                Iter_Tricks (S_Tricks);
                if Finished then
                   return;
                end if;
             end;
-            --  From Oxford Latin Dictionary p.1835 "sub-"
-            Slur ("sub");
          when others =>
             null;
       end case;   --  if on first letter
