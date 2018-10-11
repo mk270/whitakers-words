@@ -1024,21 +1024,14 @@ package body Words_Engine.Tricks_Package is
       declare
          Any_Tricks : constant Tricks := (
            (Max => 0, Op => TC_Internal, I1 => +"ae", I2 => +"e"),
-
            (Max => 0, Op => TC_Internal, I1 => +"bul", I2 => +"bol"),
            (Max => 0, Op => TC_Internal, I1 => +"bol", I2 => +"bul"),
-
            (Max => 0, Op => TC_Internal, I1 => +"cl", I2 => +"cul"),
-
            (Max => 0, Op => TC_Internal, I1 => +"cu", I2 => +"quu"),
-
            (Max => 0, Op => TC_Internal, I1 => +"f", I2 => +"ph"),
            (Max => 0, Op => TC_Internal, I1 => +"ph", I2 => +"f"),
-
            (Max => 0, Op => TC_Internal, I1 => +"h", I2 => +""),
-
            (Max => 0, Op => TC_Internal, I1 => +"oe", I2 => +"e"),
-
            (Max => 0, Op => TC_Internal, I1 => +"vul", I2 => +"vol"),
            (Max => 0, Op => TC_Internal, I1 => +"vol", I2 => +"vul"),
            (Max => 0, Op => TC_Internal, I1 => +"uol", I2 => +"vul")
@@ -1059,12 +1052,10 @@ package body Words_Engine.Tricks_Package is
 
       if Words_Mdev (Do_Medieval_Tricks)  then
          --      Medieval  ->  Classic
-
          declare
             Mediaeval_Tricks : constant Tricks := (
          --  Harrington/Elliott    1.1.1
          (Max => 0, Op => TC_Internal, I1 => +"col", I2 => +"caul"),
-
          --  Harrington/Elliott    1.3
          (Max => 0, Op => TC_Internal, I1 => +"e", I2 => +"ae"),
 
