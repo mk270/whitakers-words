@@ -691,15 +691,15 @@ package body Words_Engine.Tricks_Package is
          --  sloppy
       end Two_Words;
 
-      type Trick_Class is (TC_FF, TC_F);
-      type Trick (Op : Trick_Class := TC_FF) is
+      type Trick_Class is (TC_Fliplip_Flop, TC_Flip);
+      type Trick (Op : Trick_Class := TC_Fliplip_Flop) is
         record
            Max : Integer := 0;
            case Op is
-              when TC_FF =>
+              when TC_Fliplip_Flop =>
                  FF1 : Unbounded_String := Null_Unbounded_String;
                  FF2 : Unbounded_String := Null_Unbounded_String;
-              when TC_F =>
+              when TC_Flip =>
                  FF3 : Unbounded_String := Null_Unbounded_String;
                  FF4 : Unbounded_String := Null_Unbounded_String;
            end case;
@@ -707,12 +707,12 @@ package body Words_Engine.Tricks_Package is
       type Tricks is array (Integer range <>) of Trick;
 
       A_Tricks : constant Tricks := (
-        (Max => 0, Op => TC_FF, FF1 => +"adgn",  FF2 => +"agn"),
-        (Max => 0, Op => TC_FF, FF1 => +"adsc",  FF2 => +"asc"),
-        (Max => 0, Op => TC_FF, FF1 => +"adsp",  FF2 => +"asc"),
-        (Max => 0, Op => TC_FF, FF1 => +"arqui", FF2 => +"arci"),
-        (Max => 0, Op => TC_FF, FF1 => +"arqu",  FF2 => +"arcu"),
-        (Max => 0, Op => TC_F,  FF3 => +"ae",    FF4 => +"e"),
+        (Max => 0, Op => TC_Fliplip_Flop, FF1 => +"adgn",  FF2 => +"agn"),
+        (Max => 0, Op => TC_Fliplip_Flop, FF1 => +"adsc",  FF2 => +"asc"),
+        (Max => 0, Op => TC_Fliplip_Flop, FF1 => +"adsp",  FF2 => +"asc"),
+        (Max => 0, Op => TC_Fliplip_Flop, FF1 => +"arqui", FF2 => +"arci"),
+        (Max => 0, Op => TC_Fliplip_Flop, FF1 => +"arqu",  FF2 => +"arcu"),
+        (Max => 0, Op => TC_Flip,  FF3 => +"ae",    FF4 => +"e"),
       );
 
       Finished : Boolean := False;
@@ -722,11 +722,11 @@ package body Words_Engine.Tricks_Package is
       begin
          for T in TT'Range loop
             case TT (T).Op is
-               when TC_FF =>
+               when TC_Fliplip_Flop =>
                   Flip_Flop (
                     To_String (TT (T).FF1),
                     To_String (TT (T).FF2));
-               when TC_F =>
+               when TC_Flip =>
                   Flip (
                     To_String (TT (T).FF3),
                     To_String (TT (T).FF4));
