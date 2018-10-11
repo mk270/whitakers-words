@@ -762,6 +762,31 @@ package body Words_Engine.Tricks_Package is
 
       case S (S'First) is
 
+         when 'i'  =>
+
+            -- for some forms of eo the stem "i" grates with an "is .. ." ending
+            if S'Length > 1 and then
+              S (S'First .. S'First + 1) = "is"
+            then
+               Pa (1) := ("Word mod is => iis", Null_Inflection_Record,
+                 Xxx, Null_MNPC);
+               Pa_Last := 1;
+               Tword ("i" & S (S'First .. S'Last), Pa, Pa_Last);
+            end if;
+            if (Pa_Last > Pa_Save + 1)   and then
+              (Pa (Pa_Last - 1).IR.Qual.Pofs /= Tackon)  and then
+              Pa (Pa_Last).IR.Qual.Pofs = V and then
+              Pa (Pa_Last).IR.Qual.Verb.Con = (6, 1)
+            then  --    Check it is V 6 1 eo
+               Xp.Xxx_Meaning := Head (
+                 "Some forms of eo stem 'i' grates with " &
+                 "an 'is .. .' ending, so 'is' -> 'iis' "
+                 , Max_Meaning_Size);
+               return;
+            else
+               Pa_Last := 0;
+            end if;
+
          when 'a'  =>
             Iter_Tricks (A_Tricks);
             if Finished then
@@ -812,31 +837,6 @@ package body Words_Engine.Tricks_Package is
             (Max => 0, Op => TC_Flip, FFx => "hel", FFy => "el"),
             (Max => 0, Op => TC_Flip, FFx => "hol", FFy => "ol"),
             (Max => 0, Op => TC_Flip, FFx => "hum", FFy => "um"),
-
-         when 'i'  =>
-
-            -- for some forms of eo the stem "i" grates with an "is .. ." ending
-            if S'Length > 1 and then
-              S (S'First .. S'First + 1) = "is"
-            then
-               Pa (1) := ("Word mod is => iis", Null_Inflection_Record,
-                 Xxx, Null_MNPC);
-               Pa_Last := 1;
-               Tword ("i" & S (S'First .. S'Last), Pa, Pa_Last);
-            end if;
-            if (Pa_Last > Pa_Save + 1)   and then
-              (Pa (Pa_Last - 1).IR.Qual.Pofs /= Tackon)  and then
-              Pa (Pa_Last).IR.Qual.Pofs = V and then
-              Pa (Pa_Last).IR.Qual.Verb.Con = (6, 1)
-            then  --    Check it is V 6 1 eo
-               Xp.Xxx_Meaning := Head (
-                 "Some forms of eo stem 'i' grates with " &
-                 "an 'is .. .' ending, so 'is' -> 'iis' "
-                 , Max_Meaning_Size);
-               return;
-            else
-               Pa_Last := 0;
-            end if;
 
          when 'k'  =>
 
