@@ -1490,7 +1490,7 @@ package body Words_Engine.Tricks_Package is
                  FFx => "quadri", FFy => "quadru")
             );
             begin
-               Iter_Tricks (N_Tricks);
+               Iter_Tricks (Q_Tricks);
                if Finished then
                   return;
                end if;
@@ -1503,7 +1503,7 @@ package body Words_Engine.Tricks_Package is
                --  Latham,
                                              );
                begin
-               Iter_Tricks (N_Tricks);
+               Iter_Tricks (S_Tricks);
                if Finished then
                   return;
                end if;
