@@ -719,7 +719,7 @@ package body Words_Engine.Tricks_Package is
         (Max => 0, Op => TC_Flip, FFx => "al", FFy => "hal"),
         (Max => 0, Op => TC_Flip, FFx => "am", FFy => "ham"),
         (Max => 0, Op => TC_Flip, FFx => "ar", FFy => "har"),
-        (Max => 0, Op => TC_Flip, FFx => "aur", FFy => "or"),
+        (Max => 0, Op => TC_Flip, FFx => "aur", FFy => "or")
       );
 
       Finished : Boolean := False;
@@ -795,18 +795,18 @@ package body Words_Engine.Tricks_Package is
 
          when 'd'  =>
 
-            (Max => 0, Op => TC_Flip, FFx => "dampn", FFy =>"damn"),
-            (Max => 0, Op => TC_Flip_Flop, FFx => "dij", FFy =>"disj"); --  OLD p.54,
-            (Max => 0, Op => TC_Flip_Flop, FFx => "dir", FFy =>"disr"); --  OLD p.55,
-            (Max => 0, Op => TC_Flip_Flop, FFx => "dir", FFy =>"der"); --  OLD p.54,
-            (Max => 0, Op => TC_Flip_Flop, FFx => "del", FFy =>"dil"); --  OLD p.507/54,
+            (Max => 0, Op => TC_Flip, FFx => "dampn", FFy => "damn"),
+            (Max => 0, Op => TC_Flip_Flop, FFx => "dij", FFy => "disj"); --  OLD p.54,
+            (Max => 0, Op => TC_Flip_Flop, FFx => "dir", FFy => "disr"); --  OLD p.55,
+            (Max => 0, Op => TC_Flip_Flop, FFx => "dir", FFy => "der"); --  OLD p.54,
+            (Max => 0, Op => TC_Flip_Flop, FFx => "del", FFy => "dil"); --  OLD p.507/54,
 
          when 'e'  =>
 
-            (Max => 0, Op => TC_Flip_Flop, FFx => "ecf", FFy =>"eff"),
-            (Max => 0, Op => TC_Flip_Flop, FFx => "ecs", FFy =>"exs"),
-            (Max => 0, Op => TC_Flip_Flop, FFx => "es", FFy =>"ess"),
-            (Max => 0, Op => TC_Flip_Flop, FFx => "ex", FFy =>"exs"),
+            (Max => 0, Op => TC_Flip_Flop, FFx => "ecf", FFy => "eff"),
+            (Max => 0, Op => TC_Flip_Flop, FFx => "ecs", FFy => "exs"),
+            (Max => 0, Op => TC_Flip_Flop, FFx => "es", FFy => "ess"),
+            (Max => 0, Op => TC_Flip_Flop, FFx => "ex", FFy => "exs"),
 
             (Max => 0, Op => TC_Flip, FFx => "eid", FFy => "id"),
             (Max => 0, Op => TC_Flip, FFx => "el", FFy => "hel"),
@@ -814,13 +814,13 @@ package body Words_Engine.Tricks_Package is
 
          when 'f'  =>
 
-            (Max => 0, Op => TC_Flip_Flop, FFx => "faen", FFy =>"fen"),
+            (Max => 0, Op => TC_Flip_Flop, FFx => "faen", FFy => "fen"),
 
-            (Max => 0, Op => TC_Flip_Flop, FFx => "faen", FFy =>"foen"),
+            (Max => 0, Op => TC_Flip_Flop, FFx => "faen", FFy => "foen"),
 
-            (Max => 0, Op => TC_Flip_Flop, FFx => "fed", FFy =>"foed"),
+            (Max => 0, Op => TC_Flip_Flop, FFx => "fed", FFy => "foed"),
 
-            (Max => 0, Op => TC_Flip_Flop, FFx => "fet", FFy =>"foet"),
+            (Max => 0, Op => TC_Flip_Flop, FFx => "fet", FFy => "foet"),
 
             (Max => 0, Op => TC_Flip, FFx => "f", FFy => "ph"),
             -- Try lead then all
@@ -845,11 +845,11 @@ package body Words_Engine.Tricks_Package is
 
          when 'l'  =>
 
-            (Max => 1, Op => Flip_TC_Flop, FFx => "lub", FFy =>"lib"),
+            (Max => 1, Op => Flip_TC_Flop, FFx => "lub", FFy => "lib"),
 
          when 'm'  =>
 
-            (Max => 1, Op => Flip_TC_Flop, FFx => "mani", FFy =>"manu"),
+            (Max => 1, Op => Flip_TC_Flop, FFx => "mani", FFy => "manu"),
 
          when 'n'  =>
 
@@ -859,16 +859,16 @@ package body Words_Engine.Tricks_Package is
 
          when 'o'  =>
 
-            (Max => 1, Op => Flip_TC_Flop, FFx => "obt", FFy =>"opt"),
-            (Max => 1, Op => Flip_TC_Flop, FFx => "obs", FFy =>"ops"),
+            (Max => 1, Op => Flip_TC_Flop, FFx => "obt", FFy => "opt"),
+            (Max => 1, Op => Flip_TC_Flop, FFx => "obs", FFy => "ops"),
             (Max => 0, Op => TC_Flip, FFx => "ol", FFy => "hol"),
-            (Max => 1, Op => TC_Flip, FFx => "opp", FFy =>"op"),
+            (Max => 1, Op => TC_Flip, FFx => "opp", FFy => "op"),
             (Max => 0, Op => TC_Flip, FFx => "or", FFy => "aur"),
 
          when 'p'  =>
 
             (Max => 0, Op => TC_Flip, FFx => "ph", FFy => "f"),
-            (Max => 1, Op => Flip_TC_Flop, FFx => "pre", FFy =>"prae"),
+            (Max => 1, Op => Flip_TC_Flop, FFx => "pre", FFy => "prae"),
 
             --  when 'q'  =>
 
@@ -1277,8 +1277,8 @@ package body Words_Engine.Tricks_Package is
 
       case S (S'First) is
          when 'a' =>
-            (Max => 0, Op => Flip_TC_Flop, FFx => "abs", FFy =>"aps"),
-            (Max => 0, Op => Flip_TC_Flop, FFx => "acq", FFy =>"adq"),
+            (Max => 0, Op => Flip_TC_Flop, FFx => "abs", FFy => "aps"),
+            (Max => 0, Op => Flip_TC_Flop, FFx => "acq", FFy => "adq"),
             (Max => 0, Op => Flip_TC_Flop, FFx => "ante", FFy => "anti"),
             (Max => 0, Op => Flip_TC_Flop, FFx => "auri", FFy => "aure"),
             (Max => 0, Op => Flip_TC_Flop, FFx => "auri", FFy => "auru")
@@ -1288,19 +1288,19 @@ package body Words_Engine.Tricks_Package is
                return;
             end if;
          when 'c' =>
-            (Max => 0, Op => TC_Flip, FFx => "circum", FFy =>"circun"),
-            (Max => 0, Op => Flip_TC_Flop, FFx => "con", FFy =>"com"),
-            (Max => 0, Op => TC_Flip, FFx => "co", FFy =>"com"),
-            (Max => 0, Op => TC_Flip, FFx => "co", FFy =>"con"),
-            (Max => 0, Op => Flip_TC_Flop, FFx => "conl", FFy =>"coll"),
+            (Max => 0, Op => TC_Flip, FFx => "circum", FFy => "circun"),
+            (Max => 0, Op => Flip_TC_Flop, FFx => "con", FFy => "com"),
+            (Max => 0, Op => TC_Flip, FFx => "co", FFy => "com"),
+            (Max => 0, Op => TC_Flip, FFx => "co", FFy => "con"),
+            (Max => 0, Op => Flip_TC_Flop, FFx => "conl", FFy => "coll"),
          when 'i' =>
             Slur ("in");
             if Pa_Last > 1 then
                return;
             end if;
 
-            (Max => 1, Op => Flip_TC_Flop, FFx => "inb", FFy =>"imb"),
-            (Max => 1, Op => Flip_TC_Flop, FFx => "inp", FFy =>"imp"),
+            (Max => 1, Op => Flip_TC_Flop, FFx => "inb", FFy => "imb"),
+            (Max => 1, Op => Flip_TC_Flop, FFx => "inp", FFy => "imp"),
             -- for some forms of eo the stem "i" grates with an "is .. ." ending
          when 'n' =>
             (Max => 0, Op => TC_Flip, FFx => "nun", FFy => "non"),
