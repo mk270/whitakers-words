@@ -721,7 +721,17 @@ package body Words_Engine.Tricks_Package is
         (Max => 0, Op => TC_Flip, FFx => "ar", FFy => "har"),
         (Max => 0, Op => TC_Flip, FFx => "aur", FFy => "or")
       );
-
+      D_Tricks : constant Tricks := (
+            (Max => 0, Op => TC_Flip, FFx => "dampn", FFy => "damn"),
+            --  OLD p.54,
+            (Max => 0, Op => TC_Flip_Flop, FFx => "dij", FFy => "disj"),
+            --  OLD p.55,
+            (Max => 0, Op => TC_Flip_Flop, FFx => "dir", FFy => "disr"),
+            --  OLD p.54,
+            (Max => 0, Op => TC_Flip_Flop, FFx => "dir", FFy => "der"),
+            --  OLD p.507/54,
+            (Max => 0, Op => TC_Flip_Flop, FFx => "del", FFy => "dil")
+      );
       Finished : Boolean := False;
 
       procedure Iter_Tricks (TT : Tricks)
@@ -794,12 +804,10 @@ package body Words_Engine.Tricks_Package is
             end if;
 
          when 'd'  =>
-
-            (Max => 0, Op => TC_Flip, FFx => "dampn", FFy => "damn"),
-            (Max => 0, Op => TC_Flip_Flop, FFx => "dij", FFy => "disj"); --  OLD p.54,
-            (Max => 0, Op => TC_Flip_Flop, FFx => "dir", FFy => "disr"); --  OLD p.55,
-            (Max => 0, Op => TC_Flip_Flop, FFx => "dir", FFy => "der"); --  OLD p.54,
-            (Max => 0, Op => TC_Flip_Flop, FFx => "del", FFy => "dil"); --  OLD p.507/54,
+            Iter_Tricks (D_Tricks);
+            if Finished then
+               return;
+            end if;
 
          when 'e'  =>
 
