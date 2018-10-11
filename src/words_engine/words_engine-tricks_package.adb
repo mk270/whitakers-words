@@ -820,7 +820,6 @@ package body Words_Engine.Tricks_Package is
                  (Max => 0, Op => TC_Flip_Flop, FF1 => +"ecs", FF2 => +"exs"),
                  (Max => 0, Op => TC_Flip_Flop, FF1 => +"es", FF2 => +"ess"),
                  (Max => 0, Op => TC_Flip_Flop, FF1 => +"ex", FF2 => +"exs"),
-
                  (Max => 0, Op => TC_Flip, FF3 => +"eid", FF4 => +"id"),
                  (Max => 0, Op => TC_Flip, FF3 => +"el", FF4 => +"hel"),
                  (Max => 0, Op => TC_Flip, FF3 => +"e", FF4 => +"ae")
