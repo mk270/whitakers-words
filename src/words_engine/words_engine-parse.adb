@@ -23,7 +23,7 @@ with Latin_Utils.Dictionary_Package; use Latin_Utils.Dictionary_Package;
 with Support_Utils.Addons_Package; use Support_Utils.Addons_Package;
 with Support_Utils.Word_Support_Package; use Support_Utils.Word_Support_Package;
 with Words_Engine.Word_Package; use Words_Engine.Word_Package;
-with Words_Engine.Tricks_Package; use Words_Engine.Tricks_Package;
+with Words_Engine.Tricks; use Words_Engine.Tricks;
 with Words_Engine.Put_Stat;
 with Words_Engine.Search_English;
 --with Support_Utils.Char_Utils; use Support_Utils.Char_Utils;

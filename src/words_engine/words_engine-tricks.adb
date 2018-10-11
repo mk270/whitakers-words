@@ -31,7 +31,7 @@ with Words_Engine.Roman_Numerals_Package;
 use Words_Engine.Roman_Numerals_Package;
 with Ada.Strings.Unbounded; use Ada.Strings.Unbounded;
 
-package body Words_Engine.Tricks_Package is
+package body Words_Engine.Tricks is
    type Strings is array (Integer range <>) of Unbounded_String;
 
    function "+" (Source : String) return Unbounded_String
@@ -1493,7 +1493,7 @@ package body Words_Engine.Tricks_Package is
            "Exception in TRY_SLURY processing " & W);
    end Try_Slury;
 
-end Words_Engine.Tricks_Package;
+end Words_Engine.Tricks;
 
 -- Work remaining to be done:
 --

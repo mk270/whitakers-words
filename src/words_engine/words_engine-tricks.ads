@@ -17,7 +17,7 @@
 with Latin_Utils.Dictionary_Package; use Latin_Utils.Dictionary_Package;
 with Words_Engine.Explanation_Package; use Words_Engine.Explanation_Package;
 
-package Words_Engine.Tricks_Package is
+package Words_Engine.Tricks is
 
    procedure Syncope
      (W       : String;
@@ -47,4 +47,4 @@ package Words_Engine.Tricks_Package is
       Pa_Last    : in out Integer;
       Xp         : in out Explanations);
 
-end Words_Engine.Tricks_Package;
+end Words_Engine.Tricks;
