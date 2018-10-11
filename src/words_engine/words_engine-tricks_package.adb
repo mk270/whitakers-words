@@ -710,6 +710,7 @@ package body Words_Engine.Tricks_Package is
         (Max => 0, Op => TC_Fliplip_Flop, FF1 => +"adgn",  FF2 => +"agn"),
         (Max => 0, Op => TC_Fliplip_Flop, FF1 => +"adsc",  FF2 => +"asc"),
         (Max => 0, Op => TC_Fliplip_Flop, FF1 => +"adsp",  FF2 => +"asc"),
+        (Max => 0, Op => TC_Fliplip_Flop, FF1 => +"adsp",  FF2 => +"asp"),
         (Max => 0, Op => TC_Fliplip_Flop, FF1 => +"arqui", FF2 => +"arci"),
         (Max => 0, Op => TC_Fliplip_Flop, FF1 => +"arqu",  FF2 => +"arcu"),
         (Max => 0, Op => TC_Flip,  FF3 => +"ae",    FF4 => +"e"),
