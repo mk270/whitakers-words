@@ -722,7 +722,7 @@ package body Words_Engine.Tricks_Package is
       begin
          for T in TT'Range loop
             case TT (T).Op is
-               when TC_Fliplip_Flop =>
+               when TC_Flip_Flop =>
                   Flip_Flop (
                     To_String (TT (T).FF1),
                     To_String (TT (T).FF2));
