@@ -795,16 +795,16 @@ package body Words_Engine.Tricks_Package is
 
          when 'g'  =>
 
-            (Max => 0, Op =>            TC_Flip, FFx => "gna", FFy => "na"),
+            (Max => 0, Op => TC_Flip, FFx => "gna", FFy => "na"),
 
          when 'h'  =>
 
-            (Max => 0, Op =>            TC_Flip, FFx => "har", FFy => "ar"),
-            (Max => 0, Op =>            TC_Flip, FFx => "hal", FFy => "al"),
-            (Max => 0, Op =>            TC_Flip, FFx => "ham", FFy => "am"),
-            (Max => 0, Op =>            TC_Flip, FFx => "hel", FFy => "el"),
-            (Max => 0, Op =>            TC_Flip, FFx => "hol", FFy => "ol"),
-            (Max => 0, Op =>            TC_Flip, FFx => "hum", FFy => "um"),
+            (Max => 0, Op => TC_Flip, FFx => "har", FFy => "ar"),
+            (Max => 0, Op => TC_Flip, FFx => "hal", FFy => "al"),
+            (Max => 0, Op => TC_Flip, FFx => "ham", FFy => "am"),
+            (Max => 0, Op => TC_Flip, FFx => "hel", FFy => "el"),
+            (Max => 0, Op => TC_Flip, FFx => "hol", FFy => "ol"),
+            (Max => 0, Op => TC_Flip, FFx => "hum", FFy => "um"),
 
          when 'i'  =>
 
@@ -833,35 +833,35 @@ package body Words_Engine.Tricks_Package is
 
          when 'k'  =>
 
-            (Max => 0, Op =>            TC_Flip, FFx => "k", FFy => "c"),
-            (Max => 0, Op =>            TC_Flip, FFx => "c", FFy => "k"),
+            (Max => 0, Op => TC_Flip, FFx => "k", FFy => "c"),
+            (Max => 0, Op => TC_Flip, FFx => "c", FFy => "k"),
 
          when 'l'  =>
 
-            (Max => 1, Op =>            Flip_TC_Flop, FFx => "lub", FFy =>"lib"),
+            (Max => 1, Op => Flip_TC_Flop, FFx => "lub", FFy =>"lib"),
 
          when 'm'  =>
 
-            (Max => 1, Op =>            Flip_TC_Flop, FFx => "mani", FFy =>"manu"),
+            (Max => 1, Op => Flip_TC_Flop, FFx => "mani", FFy =>"manu"),
 
          when 'n'  =>
 
-            (Max => 0, Op =>            TC_Flip, FFx => "na", FFy => "gna"),
+            (Max => 0, Op => TC_Flip, FFx => "na", FFy => "gna"),
 
-            (Max => 0, Op =>            Flip_TC_Flop, FFx => "nihil", FFy => "nil"),
+            (Max => 0, Op => Flip_TC_Flop, FFx => "nihil", FFy => "nil"),
 
          when 'o'  =>
 
-            (Max => 1, Op =>            Flip_TC_Flop, FFx => "obt", FFy =>"opt"),
-            (Max => 1, Op =>            Flip_TC_Flop, FFx => "obs", FFy =>"ops"),
-            (Max => 0, Op =>            TC_Flip, FFx => "ol", FFy => "hol"),
-            (Max => 1, Op =>            TC_Flip, FFx => "opp", FFy =>"op"),
-            (Max => 0, Op =>            TC_Flip, FFx => "or", FFy => "aur"),
+            (Max => 1, Op => Flip_TC_Flop, FFx => "obt", FFy =>"opt"),
+            (Max => 1, Op => Flip_TC_Flop, FFx => "obs", FFy =>"ops"),
+            (Max => 0, Op => TC_Flip, FFx => "ol", FFy => "hol"),
+            (Max => 1, Op => TC_Flip, FFx => "opp", FFy =>"op"),
+            (Max => 0, Op => TC_Flip, FFx => "or", FFy => "aur"),
 
          when 'p'  =>
 
-            (Max => 0, Op =>            TC_Flip, FFx => "ph", FFy => "f"),
-            (Max => 1, Op =>            Flip_TC_Flop, FFx => "pre", FFy =>"prae"),
+            (Max => 0, Op => TC_Flip, FFx => "ph", FFy => "f"),
+            (Max => 1, Op => Flip_TC_Flop, FFx => "pre", FFy =>"prae"),
 
             --  when 'q'  =>
 
@@ -871,58 +871,58 @@ package body Words_Engine.Tricks_Package is
 
             --SLUR ("sub");
 
-            (Max => 0, Op =>            Flip_TC_Flop, FFx => "subsc", FFy => "susc"),
-            (Max => 0, Op =>            Flip_TC_Flop, FFx => "subsp", FFy => "susp"),
+            (Max => 0, Op => Flip_TC_Flop, FFx => "subsc", FFy => "susc"),
+            (Max => 0, Op => Flip_TC_Flop, FFx => "subsp", FFy => "susp"),
 
-            (Max => 0, Op =>            Flip_TC_Flop, FFx => "subc", FFy => "susc"),
-            (Max => 0, Op =>            Flip_TC_Flop, FFx => "succ", FFy => "susc"),
+            (Max => 0, Op => Flip_TC_Flop, FFx => "subc", FFy => "susc"),
+            (Max => 0, Op => Flip_TC_Flop, FFx => "succ", FFy => "susc"),
 
-            (Max => 0, Op =>            Flip_TC_Flop, FFx => "subt", FFy => "supt"),
-            (Max => 0, Op =>            Flip_TC_Flop, FFx => "subt", FFy => "sust"),
+            (Max => 0, Op => Flip_TC_Flop, FFx => "subt", FFy => "supt"),
+            (Max => 0, Op => Flip_TC_Flop, FFx => "subt", FFy => "sust"),
 
          when 't'  =>
 
-            (Max => 0, Op =>            Flip_TC_Flop, FFx => "transv", FFy => "trav"),
+            (Max => 0, Op => Flip_TC_Flop, FFx => "transv", FFy => "trav"),
             --            FLIP ("trig",  "tric");
             --            if PA_LAST > 0  then
 
          when 'u'  =>
 
-            (Max => 0, Op =>            TC_Flip, FFx => "ul", FFy => "hul"),
-            (Max => 0, Op =>            TC_Flip, FFx => "uol", FFy => "vul"),
+            (Max => 0, Op => TC_Flip, FFx => "ul", FFy => "hul"),
+            (Max => 0, Op => TC_Flip, FFx => "uol", FFy => "vul"),
             --  u is not v for this purpose
 
          when 'y'  =>
 
-            (Max => 0, Op =>            TC_Flip, FFx => "y", FFy => "i"),
+            (Max => 0, Op => TC_Flip, FFx => "y", FFy => "i"),
 
          when 'z'  =>
 
-            (Max => 0, Op =>            TC_Flip, FFx => "z", FFy => "di"),
+            (Max => 0, Op => TC_Flip, FFx => "z", FFy => "di"),
 
-         when others  =>  null;
+         when others  => null;
 
       end case;   --  case on first letter
 
-      (Max => 0, Op =>      InteTC_Rnal, FFx => "ae", FFy => "e"),
+      (Max => 0, Op => InteTC_Rnal, FFx => "ae", FFy => "e"),
 
-      (Max => 0, Op =>      InteTC_Rnal, FFx => "bul", FFy => "bol"),
-      (Max => 0, Op =>      InteTC_Rnal, FFx => "bol", FFy => "bul"),
+      (Max => 0, Op => InteTC_Rnal, FFx => "bul", FFy => "bol"),
+      (Max => 0, Op => InteTC_Rnal, FFx => "bol", FFy => "bul"),
 
-      (Max => 0, Op =>      InteTC_Rnal, FFx => "cl", FFy => "cul"),
+      (Max => 0, Op => InteTC_Rnal, FFx => "cl", FFy => "cul"),
 
-      (Max => 0, Op =>      InteTC_Rnal, FFx => "cu", FFy => "quu"),
+      (Max => 0, Op => InteTC_Rnal, FFx => "cu", FFy => "quu"),
 
-      (Max => 0, Op =>      InteTC_Rnal, FFx => "f", FFy => "ph"),
-      (Max => 0, Op =>      InteTC_Rnal, FFx => "ph", FFy => "f"),
+      (Max => 0, Op => InteTC_Rnal, FFx => "f", FFy => "ph"),
+      (Max => 0, Op => InteTC_Rnal, FFx => "ph", FFy => "f"),
 
-      (Max => 0, Op =>      InteTC_Rnal, FFx => "h", FFy => ""),
+      (Max => 0, Op => InteTC_Rnal, FFx => "h", FFy => ""),
 
-      (Max => 0, Op =>      InteTC_Rnal, FFx => "oe", FFy => "e"),
+      (Max => 0, Op => InteTC_Rnal, FFx => "oe", FFy => "e"),
 
-      (Max => 0, Op =>      InteTC_Rnal, FFx => "vul", FFy => "vol"),
-      (Max => 0, Op =>      InteTC_Rnal, FFx => "vol", FFy => "vul"),
-      (Max => 0, Op =>      InteTC_Rnal, FFx => "uol", FFy => "vul"),
+      (Max => 0, Op => InteTC_Rnal, FFx => "vul", FFy => "vol"),
+      (Max => 0, Op => InteTC_Rnal, FFx => "vol", FFy => "vul"),
+      (Max => 0, Op => InteTC_Rnal, FFx => "uol", FFy => "vul"),
 
       Adj_Terminal_Iis;
       if Pa_Last > 0  then
@@ -936,78 +936,78 @@ package body Words_Engine.Tricks_Package is
 
          --  Harrington/Elliott    1.1.1
 
-         (Max => 0, Op =>         InteTC_Rnal, FFx => "col", FFy => "caul"),
+         (Max => 0, Op => InteTC_Rnal, FFx => "col", FFy => "caul"),
 
          --TEXT_IO.PUT_LINE ("Trying com -> con");
 
          --  Harrington/Elliott    1.3
 
-         (Max => 0, Op =>         InteTC_Rnal, FFx => "e", FFy => "ae"),
+         (Max => 0, Op => InteTC_Rnal, FFx => "e", FFy => "ae"),
 
-         (Max => 0, Op =>         InteTC_Rnal, FFx => "o", FFy => "u"),
+         (Max => 0, Op => InteTC_Rnal, FFx => "o", FFy => "u"),
 
-         (Max => 0, Op =>         InteTC_Rnal, FFx => "i", FFy => "y"),
+         (Max => 0, Op => InteTC_Rnal, FFx => "i", FFy => "y"),
 
          --  Harrington/Elliott    1.3.1
 
-         (Max => 0, Op =>         InteTC_Rnal, FFx => "ism", FFy => "sm"),
+         (Max => 0, Op => InteTC_Rnal, FFx => "ism", FFy => "sm"),
 
-         (Max => 0, Op =>         InteTC_Rnal, FFx => "isp", FFy => "sp"),
+         (Max => 0, Op => InteTC_Rnal, FFx => "isp", FFy => "sp"),
 
-         (Max => 0, Op =>         InteTC_Rnal, FFx => "ist", FFy => "st"),
+         (Max => 0, Op => InteTC_Rnal, FFx => "ist", FFy => "st"),
 
-         (Max => 0, Op =>         InteTC_Rnal, FFx => "iz", FFy => "z"),
+         (Max => 0, Op => InteTC_Rnal, FFx => "iz", FFy => "z"),
 
-         (Max => 0, Op =>         InteTC_Rnal, FFx => "esm", FFy => "sm"),
+         (Max => 0, Op => InteTC_Rnal, FFx => "esm", FFy => "sm"),
 
-         (Max => 0, Op =>         InteTC_Rnal, FFx => "esp", FFy => "sp"),
+         (Max => 0, Op => InteTC_Rnal, FFx => "esp", FFy => "sp"),
 
          Internal         (Max => 0, OTC_P =>, FFx => "est", FFy => "st"),
 
-         (Max => 0, Op =>         InteTC_Rnal, FFx => "ez", FFy => "z"),
+         (Max => 0, Op => InteTC_Rnal, FFx => "ez", FFy => "z"),
 
          --  Harrington/Elliott    1.4
 
-         (Max => 0, Op =>         InteTC_Rnal, FFx => "di", FFy => "z"),
+         (Max => 0, Op => InteTC_Rnal, FFx => "di", FFy => "z"),
 
-         (Max => 0, Op =>         InteTC_Rnal, FFx => "f", FFy => "ph"),
+         (Max => 0, Op => InteTC_Rnal, FFx => "f", FFy => "ph"),
 
-         (Max => 0, Op =>         InteTC_Rnal, FFx => "is", FFy => "ix"),
+         (Max => 0, Op => InteTC_Rnal, FFx => "is", FFy => "ix"),
 
-         (Max => 0, Op =>         InteTC_Rnal, FFx => "b", FFy => "p"),
+         (Max => 0, Op => InteTC_Rnal, FFx => "b", FFy => "p"),
 
-         (Max => 0, Op =>         InteTC_Rnal, FFx => "d", FFy => "t"),
+         (Max => 0, Op => InteTC_Rnal, FFx => "d", FFy => "t"),
 
-         (Max => 0, Op =>         InteTC_Rnal, FFx => "v", FFy => "b"),
+         (Max => 0, Op => InteTC_Rnal, FFx => "v", FFy => "b"),
 
-         (Max => 0, Op =>         InteTC_Rnal, FFx => "v", FFy => "f"),
+         (Max => 0, Op => InteTC_Rnal, FFx => "v", FFy => "f"),
 
          Internal ("v",  "f");
          if Pa_Last > 0  then
             return;
          end if;
 
-         (Max => 0, Op =>         InteTC_Rnal, FFx => "s", FFy => "x"),
+         (Max => 0, Op => InteTC_Rnal, FFx => "s", FFy => "x"),
 
          --  Harrington/Elliott    1.4.1
 
-         (Max => 0, Op =>         InteTC_Rnal, FFx => "ci", FFy => "ti"),
+         (Max => 0, Op => InteTC_Rnal, FFx => "ci", FFy => "ti"),
 
          --  Harrington/Elliott    1.4.2
 
-         (Max => 0, Op =>         InteTC_Rnal, FFx => "nt", FFy => "nct"),
+         (Max => 0, Op => InteTC_Rnal, FFx => "nt", FFy => "nct"),
 
-         (Max => 0, Op =>         InteTC_Rnal, FFx => "s", FFy => "ns"),
+         (Max => 0, Op => InteTC_Rnal, FFx => "s", FFy => "ns"),
 
          --  Others
 
-         (Max => 0, Op =>         InteTC_Rnal, FFx => "ch", FFy => "c"),
+         (Max => 0, Op => InteTC_Rnal, FFx => "ch", FFy => "c"),
 
-         (Max => 0, Op =>         InteTC_Rnal, FFx => "c", FFy => "ch"),
+         (Max => 0, Op => InteTC_Rnal, FFx => "c", FFy => "ch"),
 
-         (Max => 0, Op =>         InteTC_Rnal, FFx => "th", FFy => "t"),
+         (Max => 0, Op => InteTC_Rnal, FFx => "th", FFy => "t"),
 
-         (Max => 0, Op =>         InteTC_Rnal, FFx => "t", FFy => "th"),
+         (Max => 0, Op => InteTC_Rnal, FFx => "t", FFy => "th"),
 
          Double_Consonants;
 
@@ -1057,7 +1057,7 @@ package body Words_Engine.Tricks_Package is
       end if;
 
    exception
-      when others  =>    --  I want to ignore anything that happens in TRICKS
+      when others  => --  I want to ignore anything that happens in TRICKS
          Pa_Last := Pa_Save;
          Pa (Pa_Last + 1) := Null_Parse_Record;     --  Just to clear the tries
 
@@ -1270,42 +1270,42 @@ package body Words_Engine.Tricks_Package is
 
       case S (S'First) is
          when 'a' =>
-            (Max => 0, Op =>            Flip_TC_Flop, FFx => "abs", FFy =>"aps"),
-            (Max => 0, Op =>            Flip_TC_Flop, FFx => "acq", FFy =>"adq"),
-            (Max => 0, Op =>            Flip_TC_Flop, FFx => "ante", FFy => "anti"),
-            (Max => 0, Op =>            Flip_TC_Flop, FFx => "auri", FFy => "aure"),
-            (Max => 0, Op =>            Flip_TC_Flop, FFx => "auri", FFy => "auru")
+            (Max => 0, Op => Flip_TC_Flop, FFx => "abs", FFy =>"aps"),
+            (Max => 0, Op => Flip_TC_Flop, FFx => "acq", FFy =>"adq"),
+            (Max => 0, Op => Flip_TC_Flop, FFx => "ante", FFy => "anti"),
+            (Max => 0, Op => Flip_TC_Flop, FFx => "auri", FFy => "aure"),
+            (Max => 0, Op => Flip_TC_Flop, FFx => "auri", FFy => "auru")
 
             Slur ("ad");
             if Pa_Last > 0  then
                return;
             end if;
          when 'c' =>
-            (Max => 0, Op =>            TC_Flip, FFx => "circum", FFy =>"circun"),
-            (Max => 0, Op =>            Flip_TC_Flop, FFx => "con", FFy =>"com"),
-            (Max => 0, Op =>            TC_Flip, FFx => "co", FFy =>"com"),
-            (Max => 0, Op =>            TC_Flip, FFx => "co", FFy =>"con"),
-            (Max => 0, Op =>            Flip_TC_Flop, FFx => "conl", FFy =>"coll"),
+            (Max => 0, Op => TC_Flip, FFx => "circum", FFy =>"circun"),
+            (Max => 0, Op => Flip_TC_Flop, FFx => "con", FFy =>"com"),
+            (Max => 0, Op => TC_Flip, FFx => "co", FFy =>"com"),
+            (Max => 0, Op => TC_Flip, FFx => "co", FFy =>"con"),
+            (Max => 0, Op => Flip_TC_Flop, FFx => "conl", FFy =>"coll"),
          when 'i' =>
             Slur ("in");
             if Pa_Last > 1 then
                return;
             end if;
 
-            (Max => 1, Op =>            Flip_TC_Flop, FFx => "inb", FFy =>"imb"),
-            (Max => 1, Op =>            Flip_TC_Flop, FFx => "inp", FFy =>"imp"),
+            (Max => 1, Op => Flip_TC_Flop, FFx => "inb", FFy =>"imb"),
+            (Max => 1, Op => Flip_TC_Flop, FFx => "inp", FFy =>"imp"),
             -- for some forms of eo the stem "i" grates with an "is .. ." ending
          when 'n' =>
-            (Max => 0, Op =>            TC_Flip, FFx => "nun", FFy => "non"),
+            (Max => 0, Op => TC_Flip, FFx => "nun", FFy => "non"),
          when 'o' =>
             Slur ("ob");
             if Pa_Last > 0  then
                return;
             end if;
          when 'q' =>
-            (Max => 0, Op =>            Flip_TC_Flop, FFx => "quadri", FFy => "quadru"),
+            (Max => 0, Op => Flip_TC_Flop, FFx => "quadri", FFy => "quadru"),
          when 's' =>
-            (Max => 0, Op =>            TC_Flip, FFx => "se", FFy => "ce");     --  Latha,
+            (Max => 0, Op => TC_Flip, FFx => "se", FFy => "ce");     --  Latha,
             --  From Oxford Latin Dictionary p.1835 "sub-"
             Slur ("sub");
          when others =>
@@ -1313,7 +1313,7 @@ package body Words_Engine.Tricks_Package is
       end case;   --  if on first letter
 
    exception
-      when others  =>    --  I want to ignore anything that happens in SLURY
+      when others  => --  I want to ignore anything that happens in SLURY
          Pa_Last := Pa_Save;
          Pa (Pa_Last + 1) := Null_Parse_Record;     --  Just to clear the tries
 
