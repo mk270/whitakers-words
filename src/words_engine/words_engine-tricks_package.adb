@@ -691,10 +691,55 @@ package body Words_Engine.Tricks_Package is
          --  sloppy
       end Two_Words;
 
-      -------------------------------------------------------------------------
-      -------------------------------------------------------------------------
-      -------------------------------------------------------------------------
-      -------------------------------------------------------------------------
+      type Trick_Class is (TC_FF, TC_F);
+      type Trick (Op : Trick_Class := TC_FF) is
+        record
+           Max : Integer := 0;
+           case Op is
+              when TC_FF =>
+                 FF1 : Unbounded_String := Null_Unbounded_String;
+                 FF2 : Unbounded_String := Null_Unbounded_String;
+              when TC_F =>
+                 FF3 : Unbounded_String := Null_Unbounded_String;
+                 FF4 : Unbounded_String := Null_Unbounded_String;
+           end case;
+        end record;
+      type Tricks is array (Integer range <>) of Trick;
+
+      A_Tricks : constant Tricks := (
+        (Max => 0, Op => TC_FF, FF1 => +"adgn",  FF2 => +"agn"),
+        (Max => 0, Op => TC_FF, FF1 => +"adsc",  FF2 => +"asc"),
+        (Max => 0, Op => TC_FF, FF1 => +"adsp",  FF2 => +"asc"),
+        (Max => 0, Op => TC_FF, FF1 => +"arqui", FF2 => +"arci"),
+        (Max => 0, Op => TC_FF, FF1 => +"arqu",  FF2 => +"arcu"),
+        (Max => 0, Op => TC_F,  FF3 => +"ae",    FF4 => +"e"),
+      );
+
+      Finished : Boolean := False;
+
+      procedure Iter_Tricks (TT : Tricks)
+      is
+      begin
+         for T in TT'Range loop
+            case TT (T).Op is
+               when TC_FF =>
+                  Flip_Flop (
+                    To_String (TT (T).FF1),
+                    To_String (TT (T).FF2));
+               when TC_F =>
+                  Flip (
+                    To_String (TT (T).FF3),
+                    To_String (TT (T).FF4));
+            end case;
+
+            if Pa_Last > TT (T).Max then
+               Finished := True;
+               return;
+            end if;
+         end loop;
+
+         Finished := False;
+      end Iter_Tricks;
 
    begin
       --  These things might be genericized, at least the PA (1) assignments
@@ -707,31 +752,11 @@ package body Words_Engine.Tricks_Package is
       case S (S'First) is
 
          when 'a'  =>
+            Iter_Tricks (A_Tricks);
+            if Finished then
+               return;
+            end if;
 
-            Flip_Flop ("adgn", "agn");
-            if Pa_Last > 0  then
-               return;
-            end if;
-            Flip_Flop ("adsc", "asc");
-            if Pa_Last > 0  then
-               return;
-            end if;
-            Flip_Flop ("adsp", "asp");
-            if Pa_Last > 0  then
-               return;
-            end if;
-            Flip_Flop ("arqui",  "arci");
-            if Pa_Last > 0  then
-               return;
-            end if;
-            Flip_Flop ("arqu",  "arcu");
-            if Pa_Last > 0  then
-               return;
-            end if;
-            Flip ("ae",  "e");
-            if Pa_Last > 0  then
-               return;
-            end if;
             Flip ("al",  "hal");
             if Pa_Last > 0  then
                return;
