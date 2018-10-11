@@ -732,6 +732,9 @@ package body Words_Engine.Tricks_Package is
         --  OLD p.507/54,
         (Max => 0, Op => TC_Flip_Flop, FFx => "del", FFy => "dil")
       );
+
+      -- FIXME: next two declarations (Finished and Iter_Tricks) duplicated
+      -- entirely, pending reintegration
       Finished : Boolean := False;
 
       procedure Iter_Tricks (TT : Tricks)
@@ -1373,6 +1376,37 @@ package body Words_Engine.Tricks_Package is
          end if;
          Pa_Last := Pa_Save;
       end Slur;
+      -- FIXME: next two declarations (Finished and Iter_Tricks) duplicated
+      -- entirely, pending reintegration
+      Finished : Boolean := False;
+
+      procedure Iter_Tricks (TT : Tricks)
+      is
+      begin
+         for T in TT'Range loop
+            case TT (T).Op is
+               when TC_Flip_Flop =>
+                  Flip_Flop (
+                    To_String (TT (T).FF1),
+                    To_String (TT (T).FF2));
+               when TC_Flip =>
+                  Flip (
+                    To_String (TT (T).FF3),
+                    To_String (TT (T).FF4));
+               when TC_Internal =>
+                  Internal (
+                    To_String (TT (T).I1),
+                    To_String (TT (T).I2));
+            end case;
+
+            if Pa_Last > TT (T).Max then
+               Finished := True;
+               return;
+            end if;
+         end loop;
+
+         Finished := False;
+      end Iter_Tricks;
 
    begin
 
