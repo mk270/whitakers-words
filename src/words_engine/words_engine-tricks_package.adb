@@ -1344,3 +1344,4 @@ end Words_Engine.Tricks_Package;
 --  * factor out the 4 branches of Syncope ()
 --  * brances of flip flop are almost identical
 --  * move tabular data into own package
+--  * there seem to be two copies of flip and flip flop
