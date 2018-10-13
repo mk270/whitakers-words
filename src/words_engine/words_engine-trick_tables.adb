@@ -74,6 +74,37 @@ package body Words_Engine.Trick_Tables is
      (Max => 0, Op => TC_Flip_Flop, FF1 => +"del", FF2 => +"dil")
    );
 
+   E_Tricks : constant TricksT := (
+     (Max => 0, Op => TC_Flip_Flop, FF1 => +"ecf", FF2 => +"eff"),
+     (Max => 0, Op => TC_Flip_Flop, FF1 => +"ecs", FF2 => +"exs"),
+     (Max => 0, Op => TC_Flip_Flop, FF1 => +"es", FF2 => +"ess"),
+     (Max => 0, Op => TC_Flip_Flop, FF1 => +"ex", FF2 => +"exs"),
+     (Max => 0, Op => TC_Flip, FF3 => +"eid", FF4 => +"id"),
+     (Max => 0, Op => TC_Flip, FF3 => +"el", FF4 => +"hel"),
+     (Max => 0, Op => TC_Flip, FF3 => +"e", FF4 => +"ae")
+   );
+
+   F_Tricks : constant TricksT := (
+     (Max => 0, Op => TC_Flip_Flop, FF1 => +"faen", FF2 => +"fen"),
+     (Max => 0, Op => TC_Flip_Flop, FF1 => +"faen", FF2 => +"foen"),
+     (Max => 0, Op => TC_Flip_Flop, FF1 => +"fed", FF2 => +"foed"),
+     (Max => 0, Op => TC_Flip_Flop, FF1 => +"fet", FF2 => +"foet"),
+     (Max => 0, Op => TC_Flip, FF3 => +"f", FF4 => +"ph")
+   ); -- Try lead then all
+
+   G_Tricks : constant TricksT := (1 =>
+     (Max => 0, Op => TC_Flip, FF3 => +"gna", FF4 => +"na")
+   );
+
+   H_Tricks : constant TricksT := (
+     (Max => 0, Op => TC_Flip, FF3 => +"har", FF4 => +"ar"),
+     (Max => 0, Op => TC_Flip, FF3 => +"hal", FF4 => +"al"),
+     (Max => 0, Op => TC_Flip, FF3 => +"ham", FF4 => +"am"),
+     (Max => 0, Op => TC_Flip, FF3 => +"hel", FF4 => +"el"),
+     (Max => 0, Op => TC_Flip, FF3 => +"hol", FF4 => +"ol"),
+     (Max => 0, Op => TC_Flip, FF3 => +"hum", FF4 => +"um")
+   );
+
    Tricks_Exception : exception;
 
    function Get_Tricks_Table (C : Character) return TricksT is
@@ -83,6 +114,14 @@ package body Words_Engine.Trick_Tables is
             return A_Tricks;
          when 'd' =>
             return D_Tricks;
+         when 'e' =>
+            return E_Tricks;
+         when 'f' =>
+            return F_Tricks;
+         when 'g' =>
+            return G_Tricks;
+         when 'h' =>
+            return H_Tricks;
          when others =>
             raise Tricks_Exception;
       end case;

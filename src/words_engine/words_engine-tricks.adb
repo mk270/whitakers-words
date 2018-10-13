@@ -723,71 +723,11 @@ package body Words_Engine.Tricks is
                Pa_Last := 0;
             end if;
 
-         when 'a' | 'd' =>
+         when 'a' | 'd' | 'e' | 'f' | 'g' | 'h' =>
             Iter_Tricks (Get_Tricks_Table (S (S'First)));
             if Finished then
                return;
             end if;
-
-         when 'e'  =>
-            declare
-               E_Tricks : constant TricksT := (
-                 (Max => 0, Op => TC_Flip_Flop, FF1 => +"ecf", FF2 => +"eff"),
-                 (Max => 0, Op => TC_Flip_Flop, FF1 => +"ecs", FF2 => +"exs"),
-                 (Max => 0, Op => TC_Flip_Flop, FF1 => +"es", FF2 => +"ess"),
-                 (Max => 0, Op => TC_Flip_Flop, FF1 => +"ex", FF2 => +"exs"),
-                 (Max => 0, Op => TC_Flip, FF3 => +"eid", FF4 => +"id"),
-                 (Max => 0, Op => TC_Flip, FF3 => +"el", FF4 => +"hel"),
-                 (Max => 0, Op => TC_Flip, FF3 => +"e", FF4 => +"ae")
-               );
-            begin
-               Iter_Tricks (E_Tricks);
-               if Finished then
-                  return;
-               end if;
-            end;
-         when 'f'  =>
-            declare
-               F_Tricks : constant TricksT := (
-                 (Max => 0, Op => TC_Flip_Flop, FF1 => +"faen", FF2 => +"fen"),
-                 (Max => 0, Op => TC_Flip_Flop, FF1 => +"faen", FF2 => +"foen"),
-                 (Max => 0, Op => TC_Flip_Flop, FF1 => +"fed", FF2 => +"foed"),
-                 (Max => 0, Op => TC_Flip_Flop, FF1 => +"fet", FF2 => +"foet"),
-                 (Max => 0, Op => TC_Flip, FF3 => +"f", FF4 => +"ph")
-               ); -- Try lead then all
-            begin
-               Iter_Tricks (F_Tricks);
-               if Finished then
-                  return;
-               end if;
-            end;
-         when 'g'  =>
-            declare
-               G_Tricks : constant TricksT := (1 =>
-                 (Max => 0, Op => TC_Flip, FF3 => +"gna", FF4 => +"na")
-               );
-            begin
-               Iter_Tricks (G_Tricks);
-               if Finished then
-                  return;
-               end if;
-            end;
-         when 'h'  =>
-            declare
-               H_Tricks : constant TricksT := (
-                 (Max => 0, Op => TC_Flip, FF3 => +"har", FF4 => +"ar"),
-                 (Max => 0, Op => TC_Flip, FF3 => +"hal", FF4 => +"al"),
-                 (Max => 0, Op => TC_Flip, FF3 => +"ham", FF4 => +"am"),
-                 (Max => 0, Op => TC_Flip, FF3 => +"hel", FF4 => +"el"),
-                 (Max => 0, Op => TC_Flip, FF3 => +"hol", FF4 => +"ol"),
-                 (Max => 0, Op => TC_Flip, FF3 => +"hum", FF4 => +"um")
-               );
-            begin
-               Iter_Tricks (H_Tricks);
-               if Finished then
-                  return;
-               end if;
-            end;
          when 'k'  =>
             declare
                K_Tricks : constant TricksT := (
