@@ -1045,101 +1045,12 @@ package body Words_Engine.Tricks is
       --  If there is no satisfaction from above, we will try further
 
       case S (S'First) is
-         when 'a' =>
-            declare
-               A_Tricks : constant TricksT := (
-                 (Max => 0, Op => TC_Flip_Flop, FF1 => +"abs", FF2 => +"aps"),
-                 (Max => 0, Op => TC_Flip_Flop, FF1 => +"acq", FF2 => +"adq"),
-                 (Max => 0, Op => TC_Flip_Flop, FF1 => +"ante", FF2 => +"anti"),
-                 (Max => 0, Op => TC_Flip_Flop, FF1 => +"auri", FF2 => +"aure"),
-                 (Max => 0, Op => TC_Flip_Flop, FF1 => +"auri", FF2 => +"auru"),
-                 (Max => 0, Op => TC_Slur,      S1  => +"ad")
-               );
-            begin
-               Iter_Tricks (A_Tricks);
-               if Finished then
-                  return;
-               end if;
-            end;
-         when 'c' =>
-            declare
-               C_Tricks : constant TricksT := (
-                 (Max => 0, Op => TC_Flip, FF3 => +"circum", FF4 => +"circun"),
-                 (Max => 0, Op => TC_Flip_Flop, FF1 => +"con", FF2 => +"com"),
-                 (Max => 0, Op => TC_Flip, FF3 => +"co", FF4 => +"com"),
-                 (Max => 0, Op => TC_Flip, FF3 => +"co", FF4 => +"con"),
-                 (Max => 0, Op => TC_Flip_Flop, FF1 => +"conl", FF2 => +"coll")
-                                             );
-            begin
-               Iter_Tricks (C_Tricks);
-               if Finished then
-                  return;
-               end if;
-            end;
-         when 'i' =>
-            declare
-               I_Tricks : constant TricksT := (
-                 (Max => 1, Op => TC_Slur,      S1  => +"in"),
-                 (Max => 1, Op => TC_Flip_Flop, FF1 => +"inb", FF2 => +"imb"),
-                 (Max => 1, Op => TC_Flip_Flop, FF1 => +"inp", FF2 => +"imp")
-                 -- for some forms of eo the stem "i" grates with
-                 -- an "is .. ." ending
-                                             );
-            begin
-               Iter_Tricks (I_Tricks);
-               if Finished then
-                  return;
-               end if;
-            end;
-         when 'n' =>
-            declare
-               N_Tricks : constant TricksT := (1 =>
-                 (Max => 0, Op => TC_Flip, FF3 => +"nun", FF4 => +"non")
-                                              );
-            begin
-               Iter_Tricks (N_Tricks);
-               if Finished then
-                  return;
-               end if;
-            end;
-         when 'o' =>
-            declare
-               O_Tricks : constant TricksT := (1 =>
-                 (Max => 0, Op => TC_Slur, S1 => +"ob")
-               );
-            begin
-               Iter_Tricks (O_Tricks);
-               if Finished then
-                  return;
-               end if;
-            end;
-         when 'q' =>
-            declare
-               Q_Tricks : constant TricksT := (1 =>
-                 (Max => 0, Op => TC_Flip_Flop,
-                  FF1 => +"quadri", FF2 => +"quadru")
-            );
-            begin
-               Iter_Tricks (Q_Tricks);
-               if Finished then
-                  return;
-               end if;
-            end;
 
-         when 's' =>
-            declare
-               S_Tricks : constant TricksT := (
-                 --  Latham,
-                 (Max => 0, Op => TC_Flip, FF3 => +"se", FF4 => +"ce"),
-                 --  From Oxford Latin Dictionary p.1835 "sub-"
-                 (Max => 0, Op => TC_Slur, S1  => +"sub")
-               );
-            begin
-               Iter_Tricks (S_Tricks);
-               if Finished then
-                  return;
-               end if;
-            end;
+         when 'a' | 'c' | 'i' | 'n' | 'o' | 'q' | 's' =>
+            Iter_Tricks (Get_Slur_Tricks_Table (S (S'First)));
+            if Finished then
+               return;
+            end if;
          when others =>
             null;
       end case;   --  if on first letter
@@ -1160,5 +1071,4 @@ end Words_Engine.Tricks;
 --  * analyse all the things that can be factored back together
 --  * factor out the 4 branches of Syncope ()
 --  * brances of flip flop are almost identical
---  * move tabular data into own package
 --  * there seem to be two copies of flip and flip flop

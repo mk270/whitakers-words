@@ -54,6 +54,8 @@ package Words_Engine.Trick_Tables is
 
    function Get_Tricks_Table (C : Character) return TricksT;
 
+   function Get_Slur_Tricks_Table (C : Character) return TricksT;
+
    Any_Tricks : constant TricksT := (
      (Max => 0, Op => TC_Internal, I1 => +"ae", I2 => +"e"),
      (Max => 0, Op => TC_Internal, I1 => +"bul", I2 => +"bol"),

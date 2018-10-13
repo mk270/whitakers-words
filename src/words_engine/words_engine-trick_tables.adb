@@ -206,4 +206,71 @@ package body Words_Engine.Trick_Tables is
       end case;
    end Get_Tricks_Table;
 
+   A_Slur_Tricks : constant TricksT := (
+     (Max => 0, Op => TC_Flip_Flop, FF1 => +"abs", FF2 => +"aps"),
+     (Max => 0, Op => TC_Flip_Flop, FF1 => +"acq", FF2 => +"adq"),
+     (Max => 0, Op => TC_Flip_Flop, FF1 => +"ante", FF2 => +"anti"),
+     (Max => 0, Op => TC_Flip_Flop, FF1 => +"auri", FF2 => +"aure"),
+     (Max => 0, Op => TC_Flip_Flop, FF1 => +"auri", FF2 => +"auru"),
+     (Max => 0, Op => TC_Slur,      S1  => +"ad")
+   );
+
+   C_Slur_Tricks : constant TricksT := (
+     (Max => 0, Op => TC_Flip, FF3 => +"circum", FF4 => +"circun"),
+     (Max => 0, Op => TC_Flip_Flop, FF1 => +"con", FF2 => +"com"),
+     (Max => 0, Op => TC_Flip, FF3 => +"co", FF4 => +"com"),
+     (Max => 0, Op => TC_Flip, FF3 => +"co", FF4 => +"con"),
+     (Max => 0, Op => TC_Flip_Flop, FF1 => +"conl", FF2 => +"coll")
+   );
+
+   I_Slur_Tricks : constant TricksT := (
+     (Max => 1, Op => TC_Slur,      S1  => +"in"),
+     (Max => 1, Op => TC_Flip_Flop, FF1 => +"inb", FF2 => +"imb"),
+     (Max => 1, Op => TC_Flip_Flop, FF1 => +"inp", FF2 => +"imp")
+     -- for some forms of eo the stem "i" grates with
+     -- an "is .. ." ending
+   );
+
+   N_Slur_Tricks : constant TricksT := (1 =>
+     (Max => 0, Op => TC_Flip, FF3 => +"nun", FF4 => +"non")
+   );
+
+   O_Slur_Tricks : constant TricksT := (1 =>
+     (Max => 0, Op => TC_Slur, S1 => +"ob")
+   );
+
+   Q_Slur_Tricks : constant TricksT := (1 =>
+     (Max => 0, Op => TC_Flip_Flop,
+      FF1 => +"quadri", FF2 => +"quadru")
+   );
+
+   S_Slur_Tricks : constant TricksT := (
+     --  Latham,
+     (Max => 0, Op => TC_Flip, FF3 => +"se", FF4 => +"ce"),
+     --  From Oxford Latin Dictionary p.1835 "sub-"
+     (Max => 0, Op => TC_Slur, S1  => +"sub")
+   );
+
+   function Get_Slur_Tricks_Table (C : Character) return TricksT is
+   begin
+      case C is
+         when 'a' =>
+            return A_Slur_Tricks;
+         when 'c' =>
+            return C_Slur_Tricks;
+         when 'i' =>
+            return I_Slur_Tricks;
+         when 'n' =>
+            return N_Slur_Tricks;
+         when 'o' =>
+            return O_Slur_Tricks;
+         when 'q' =>
+            return Q_Slur_Tricks;
+         when 's' =>
+            return S_Slur_Tricks;
+         when others =>
+            raise Tricks_Exception;
+      end case;
+   end Get_Slur_Tricks_Table;
+
 end Words_Engine.Trick_Tables;
