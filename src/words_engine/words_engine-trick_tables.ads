@@ -18,6 +18,8 @@ with Ada.Strings.Unbounded; use Ada.Strings.Unbounded;
 
 package Words_Engine.Trick_Tables is
 
+   Tricks_Exception : exception;
+
    type Trick_Class is (TC_Flip_Flop, TC_Flip, TC_Internal, TC_Slur);
 
    type Trick (Op : Trick_Class := TC_Flip_Flop) is

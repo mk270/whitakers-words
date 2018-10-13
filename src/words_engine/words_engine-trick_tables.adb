@@ -105,7 +105,64 @@ package body Words_Engine.Trick_Tables is
      (Max => 0, Op => TC_Flip, FF3 => +"hum", FF4 => +"um")
    );
 
-   Tricks_Exception : exception;
+   K_Tricks : constant TricksT := (
+     (Max => 0, Op => TC_Flip, FF3 => +"k", FF4 => +"c"),
+     (Max => 0, Op => TC_Flip, FF3 => +"c", FF4 => +"k")
+   );
+
+   L_Tricks : constant TricksT := (1 =>
+     (Max => 1, Op => TC_Flip_Flop, FF1 => +"lub", FF2 => +"lib")
+   );
+
+   M_Tricks : constant TricksT := (1 =>
+     (Max => 1, Op => TC_Flip_Flop, FF1 => +"mani", FF2 => +"manu")
+   );
+
+   N_Tricks : constant TricksT := (
+     (Max => 0, Op => TC_Flip, FF3 => +"na", FF4 => +"gna"),
+     (Max => 0, Op => TC_Flip_Flop, FF1 => +"nihil", FF2 => +"nil")
+   );
+
+   O_Tricks : constant TricksT := (
+     (Max => 1, Op => TC_Flip_Flop, FF1 => +"obt", FF2 => +"opt"),
+     (Max => 1, Op => TC_Flip_Flop, FF1 => +"obs", FF2 => +"ops"),
+     (Max => 0, Op => TC_Flip, FF3 => +"ol", FF4 => +"hol"),
+     (Max => 1, Op => TC_Flip, FF3 => +"opp", FF4 => +"op"),
+     (Max => 0, Op => TC_Flip, FF3 => +"or", FF4 => +"aur")
+   );
+
+   P_Tricks : constant TricksT := (
+     (Max => 0, Op => TC_Flip, FF3 => +"ph", FF4 => +"f"),
+     (Max => 1, Op => TC_Flip_Flop, FF1 => +"pre", FF2 => +"prae")
+   );
+
+   --  From Oxford Latin Dictionary p.1835 "sub-"
+   S_Tricks : constant TricksT := (
+     (Max => 0, Op => TC_Flip_Flop, FF1 => +"subsc", FF2 => +"susc"),
+     (Max => 0, Op => TC_Flip_Flop, FF1 => +"subsp", FF2 => +"susp"),
+     (Max => 0, Op => TC_Flip_Flop, FF1 => +"subc", FF2 => +"susc"),
+     (Max => 0, Op => TC_Flip_Flop, FF1 => +"succ", FF2 => +"susc"),
+     (Max => 0, Op => TC_Flip_Flop, FF1 => +"subt", FF2 => +"supt"),
+     (Max => 0, Op => TC_Flip_Flop, FF1 => +"subt", FF2 => +"sust")
+   );
+
+   T_Tricks : constant TricksT := (1 =>
+     (Max => 0, Op => TC_Flip_Flop, FF1 => +"transv", FF2 => +"trav")
+   );
+
+   U_Tricks : constant TricksT := (
+     (Max => 0, Op => TC_Flip, FF3 => +"ul", FF4 => +"hul"),
+     (Max => 0, Op => TC_Flip, FF3 => +"uol", FF4 => +"vul")
+            --  u is not v for this purpose
+   );
+
+   Y_Tricks : constant TricksT := (1 =>
+     (Max => 0, Op => TC_Flip, FF3 => +"y", FF4 => +"i")
+   );
+
+   Z_Tricks : constant TricksT := (1 =>
+     (Max => 0, Op => TC_Flip, FF3 => +"z", FF4 => +"di")
+   );
 
    function Get_Tricks_Table (C : Character) return TricksT is
    begin
@@ -122,6 +179,28 @@ package body Words_Engine.Trick_Tables is
             return G_Tricks;
          when 'h' =>
             return H_Tricks;
+         when 'k' =>
+            return K_Tricks;
+         when 'l' =>
+            return L_Tricks;
+         when 'm' =>
+            return M_Tricks;
+         when 'n' =>
+            return N_Tricks;
+         when 'o' =>
+            return O_Tricks;
+         when 'p' =>
+            return P_Tricks;
+         when 's' =>
+            return S_Tricks;
+         when 't' =>
+            return T_Tricks;
+         when 'u' =>
+            return U_Tricks;
+         when 'y' =>
+            return Y_Tricks;
+         when 'z' =>
+            return Z_Tricks;
          when others =>
             raise Tricks_Exception;
       end case;
