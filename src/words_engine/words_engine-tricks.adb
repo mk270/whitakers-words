@@ -654,18 +654,6 @@ package body Words_Engine.Tricks is
          --  sloppy
       end Two_Words;
 
-      A_Tricks : constant TricksT := (
-        (Max => 0, Op => TC_Flip_Flop, FF1 => +"adgn", FF2 => +"agn"),
-        (Max => 0, Op => TC_Flip_Flop, FF1 => +"adsc",  FF2 => +"asc"),
-        (Max => 0, Op => TC_Flip_Flop, FF1 => +"adsp",  FF2 => +"asp"),
-        (Max => 0, Op => TC_Flip_Flop, FF1 => +"arqui", FF2 => +"arci"),
-        (Max => 0, Op => TC_Flip_Flop, FF1 => +"arqu",  FF2 => +"arcu"),
-        (Max => 0, Op => TC_Flip, FF3 => +"ae",    FF4 => +"e"),
-        (Max => 0, Op => TC_Flip, FF3 => +"al", FF4 => +"hal"),
-        (Max => 0, Op => TC_Flip, FF3 => +"am", FF4 => +"ham"),
-        (Max => 0, Op => TC_Flip, FF3 => +"ar", FF4 => +"har"),
-        (Max => 0, Op => TC_Flip, FF3 => +"aur", FF4 => +"or")
-      );
       D_Tricks : constant TricksT := (
         (Max => 0, Op => TC_Flip, FF3 => +"dampn", FF4 => +"damn"),
         --  OLD p.54,
@@ -748,7 +736,7 @@ package body Words_Engine.Tricks is
             end if;
 
          when 'a'  =>
-            Iter_Tricks (A_Tricks);
+            Iter_Tricks (Get_Tricks_Table (S (S'First)));
             if Finished then
                return;
             end if;

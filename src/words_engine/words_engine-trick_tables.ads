@@ -49,4 +49,7 @@ package Words_Engine.Trick_Tables is
      renames To_Unbounded_String;
 
    function Common_Prefix (S : String) return Boolean;
+
+   function Get_Tricks_Table (C : Character) return TricksT;
+
 end Words_Engine.Trick_Tables;

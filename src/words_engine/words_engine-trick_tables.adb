@@ -48,4 +48,30 @@ package body Words_Engine.Trick_Tables is
    begin
       return Member (+S, Common_Prefixes);
    end Common_Prefix;
+
+   A_Tricks : constant TricksT := (
+     (Max => 0, Op => TC_Flip_Flop, FF1 => +"adgn", FF2 => +"agn"),
+     (Max => 0, Op => TC_Flip_Flop, FF1 => +"adsc",  FF2 => +"asc"),
+     (Max => 0, Op => TC_Flip_Flop, FF1 => +"adsp",  FF2 => +"asp"),
+     (Max => 0, Op => TC_Flip_Flop, FF1 => +"arqui", FF2 => +"arci"),
+     (Max => 0, Op => TC_Flip_Flop, FF1 => +"arqu",  FF2 => +"arcu"),
+     (Max => 0, Op => TC_Flip, FF3 => +"ae",    FF4 => +"e"),
+     (Max => 0, Op => TC_Flip, FF3 => +"al", FF4 => +"hal"),
+     (Max => 0, Op => TC_Flip, FF3 => +"am", FF4 => +"ham"),
+     (Max => 0, Op => TC_Flip, FF3 => +"ar", FF4 => +"har"),
+     (Max => 0, Op => TC_Flip, FF3 => +"aur", FF4 => +"or")
+   );
+
+   Tricks_Exception : exception;
+
+   function Get_Tricks_Table (C : Character) return TricksT is
+   begin
+      case C is
+         when 'a' =>
+            return A_Tricks;
+         when others =>
+            raise Tricks_Exception;
+      end case;
+   end Get_Tricks_Table;
+
 end Words_Engine.Trick_Tables;
