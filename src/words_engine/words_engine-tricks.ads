@@ -16,7 +16,6 @@
 
 with Latin_Utils.Dictionary_Package; use Latin_Utils.Dictionary_Package;
 with Words_Engine.Explanation_Package; use Words_Engine.Explanation_Package;
-with Ada.Strings.Unbounded; use Ada.Strings.Unbounded;
 
 package Words_Engine.Tricks is
 
@@ -47,26 +46,5 @@ package Words_Engine.Tricks is
       Pa         : in out Parse_Array;
       Pa_Last    : in out Integer;
       Xp         : in out Explanations);
-
-   type Trick_Class is (TC_Flip_Flop, TC_Flip, TC_Internal, TC_Slur);
-   type Trick (Op : Trick_Class := TC_Flip_Flop) is
-      record
-         Max : Integer := 0;
-         case Op is
-            when TC_Flip_Flop =>
-               FF1 : Unbounded_String := Null_Unbounded_String;
-               FF2 : Unbounded_String := Null_Unbounded_String;
-            when TC_Flip =>
-               FF3 : Unbounded_String := Null_Unbounded_String;
-               FF4 : Unbounded_String := Null_Unbounded_String;
-            when TC_Internal =>
-               I1 : Unbounded_String := Null_Unbounded_String;
-               I2 : Unbounded_String := Null_Unbounded_String;
-            when TC_Slur =>
-               S1 : Unbounded_String := Null_Unbounded_String;
-         end case;
-      end record;
-
-   type Tricks is array (Integer range <>) of Trick;
 
 end Words_Engine.Tricks;

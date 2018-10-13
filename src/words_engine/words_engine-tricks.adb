@@ -29,6 +29,7 @@ with Words_Engine.Word_Package; use Words_Engine.Word_Package;
 with Words_Engine.Put_Stat;
 with Words_Engine.Roman_Numerals_Package;
 use Words_Engine.Roman_Numerals_Package;
+with Ada.Strings.Unbounded; use Ada.Strings.Unbounded;
 with Words_Engine.Trick_Tables; use Words_Engine.Trick_Tables;
 
 package body Words_Engine.Tricks is
@@ -653,7 +654,7 @@ package body Words_Engine.Tricks is
          --  sloppy
       end Two_Words;
 
-      A_Tricks : constant Tricks := (
+      A_Tricks : constant TricksT := (
         (Max => 0, Op => TC_Flip_Flop, FF1 => +"adgn", FF2 => +"agn"),
         (Max => 0, Op => TC_Flip_Flop, FF1 => +"adsc",  FF2 => +"asc"),
         (Max => 0, Op => TC_Flip_Flop, FF1 => +"adsp",  FF2 => +"asp"),
@@ -665,7 +666,7 @@ package body Words_Engine.Tricks is
         (Max => 0, Op => TC_Flip, FF3 => +"ar", FF4 => +"har"),
         (Max => 0, Op => TC_Flip, FF3 => +"aur", FF4 => +"or")
       );
-      D_Tricks : constant Tricks := (
+      D_Tricks : constant TricksT := (
         (Max => 0, Op => TC_Flip, FF3 => +"dampn", FF4 => +"damn"),
         --  OLD p.54,
         (Max => 0, Op => TC_Flip_Flop, FF1 => +"dij", FF2 => +"disj"),
@@ -681,7 +682,7 @@ package body Words_Engine.Tricks is
       -- entirely, pending reintegration
       Finished : Boolean := False;
 
-      procedure Iter_Tricks (TT : Tricks)
+      procedure Iter_Tricks (TT : TricksT)
       is
       begin
          for T in TT'Range loop
@@ -760,7 +761,7 @@ package body Words_Engine.Tricks is
 
          when 'e'  =>
             declare
-               E_Tricks : constant Tricks := (
+               E_Tricks : constant TricksT := (
                  (Max => 0, Op => TC_Flip_Flop, FF1 => +"ecf", FF2 => +"eff"),
                  (Max => 0, Op => TC_Flip_Flop, FF1 => +"ecs", FF2 => +"exs"),
                  (Max => 0, Op => TC_Flip_Flop, FF1 => +"es", FF2 => +"ess"),
@@ -777,7 +778,7 @@ package body Words_Engine.Tricks is
             end;
          when 'f'  =>
             declare
-               F_Tricks : constant Tricks := (
+               F_Tricks : constant TricksT := (
                  (Max => 0, Op => TC_Flip_Flop, FF1 => +"faen", FF2 => +"fen"),
                  (Max => 0, Op => TC_Flip_Flop, FF1 => +"faen", FF2 => +"foen"),
                  (Max => 0, Op => TC_Flip_Flop, FF1 => +"fed", FF2 => +"foed"),
@@ -792,7 +793,7 @@ package body Words_Engine.Tricks is
             end;
          when 'g'  =>
             declare
-               G_Tricks : constant Tricks := (1 =>
+               G_Tricks : constant TricksT := (1 =>
                  (Max => 0, Op => TC_Flip, FF3 => +"gna", FF4 => +"na")
                );
             begin
@@ -803,7 +804,7 @@ package body Words_Engine.Tricks is
             end;
          when 'h'  =>
             declare
-               H_Tricks : constant Tricks := (
+               H_Tricks : constant TricksT := (
                  (Max => 0, Op => TC_Flip, FF3 => +"har", FF4 => +"ar"),
                  (Max => 0, Op => TC_Flip, FF3 => +"hal", FF4 => +"al"),
                  (Max => 0, Op => TC_Flip, FF3 => +"ham", FF4 => +"am"),
@@ -819,7 +820,7 @@ package body Words_Engine.Tricks is
             end;
          when 'k'  =>
             declare
-               K_Tricks : constant Tricks := (
+               K_Tricks : constant TricksT := (
                  (Max => 0, Op => TC_Flip, FF3 => +"k", FF4 => +"c"),
                  (Max => 0, Op => TC_Flip, FF3 => +"c", FF4 => +"k")
                );
@@ -831,7 +832,7 @@ package body Words_Engine.Tricks is
             end;
          when 'l'  =>
             declare
-               L_Tricks : constant Tricks := (1 =>
+               L_Tricks : constant TricksT := (1 =>
                  (Max => 1, Op => TC_Flip_Flop, FF1 => +"lub", FF2 => +"lib")
                );
             begin
@@ -842,7 +843,7 @@ package body Words_Engine.Tricks is
             end;
          when 'm'  =>
             declare
-               M_Tricks : constant Tricks := (1 =>
+               M_Tricks : constant TricksT := (1 =>
                  (Max => 1, Op => TC_Flip_Flop, FF1 => +"mani", FF2 => +"manu")
                );
             begin
@@ -853,7 +854,7 @@ package body Words_Engine.Tricks is
             end;
          when 'n'  =>
             declare
-               N_Tricks : constant Tricks := (
+               N_Tricks : constant TricksT := (
                  (Max => 0, Op => TC_Flip, FF3 => +"na", FF4 => +"gna"),
                  (Max => 0, Op => TC_Flip_Flop, FF1 => +"nihil", FF2 => +"nil")
                );
@@ -865,7 +866,7 @@ package body Words_Engine.Tricks is
             end;
          when 'o'  =>
             declare
-               O_Tricks : constant Tricks := (
+               O_Tricks : constant TricksT := (
                  (Max => 1, Op => TC_Flip_Flop, FF1 => +"obt", FF2 => +"opt"),
                  (Max => 1, Op => TC_Flip_Flop, FF1 => +"obs", FF2 => +"ops"),
                  (Max => 0, Op => TC_Flip, FF3 => +"ol", FF4 => +"hol"),
@@ -880,7 +881,7 @@ package body Words_Engine.Tricks is
             end;
          when 'p'  =>
             declare
-               P_Tricks : constant Tricks := (
+               P_Tricks : constant TricksT := (
                  (Max => 0, Op => TC_Flip, FF3 => +"ph", FF4 => +"f"),
                  (Max => 1, Op => TC_Flip_Flop, FF1 => +"pre", FF2 => +"prae")
                );
@@ -893,7 +894,7 @@ package body Words_Engine.Tricks is
          --  when 'q'  =>
          when 's'  =>
             declare
-               S_Tricks : constant Tricks := (
+               S_Tricks : constant TricksT := (
                  (Max => 0, Op => TC_Flip_Flop,
                   FF1 => +"subsc", FF2 => +"susc"),
                  (Max => 0, Op => TC_Flip_Flop,
@@ -913,7 +914,7 @@ package body Words_Engine.Tricks is
             --SLUR ("sub");
          when 't'  =>
             declare
-               T_Tricks : constant Tricks := (1 =>
+               T_Tricks : constant TricksT := (1 =>
                  (Max => 0, Op => TC_Flip_Flop,
                   FF1 => +"transv", FF2 => +"trav")
                );
@@ -927,7 +928,7 @@ package body Words_Engine.Tricks is
             --            if PA_LAST > 0  then
          when 'u'  =>
             declare
-               U_Tricks : constant Tricks := (
+               U_Tricks : constant TricksT := (
                  (Max => 0, Op => TC_Flip, FF3 => +"ul", FF4 => +"hul"),
                  (Max => 0, Op => TC_Flip, FF3 => +"uol", FF4 => +"vul")
                );
@@ -941,7 +942,7 @@ package body Words_Engine.Tricks is
             --  u is not v for this purpose
          when 'y'  =>
             declare
-               Y_Tricks : constant Tricks := (1 =>
+               Y_Tricks : constant TricksT := (1 =>
                  (Max => 0, Op => TC_Flip, FF3 => +"y", FF4 => +"i")
                );
             begin
@@ -952,7 +953,7 @@ package body Words_Engine.Tricks is
             end;
          when 'z'  =>
             declare
-               Z_Tricks : constant Tricks := (1 =>
+               Z_Tricks : constant TricksT := (1 =>
                  (Max => 0, Op => TC_Flip, FF3 => +"z", FF4 => +"di")
                );
             begin
@@ -966,7 +967,7 @@ package body Words_Engine.Tricks is
       end case;   --  case on first letter
 
       declare
-         Any_Tricks : constant Tricks := (
+         Any_Tricks : constant TricksT := (
            (Max => 0, Op => TC_Internal, I1 => +"ae", I2 => +"e"),
            (Max => 0, Op => TC_Internal, I1 => +"bul", I2 => +"bol"),
            (Max => 0, Op => TC_Internal, I1 => +"bol", I2 => +"bul"),
@@ -997,7 +998,7 @@ package body Words_Engine.Tricks is
       if Words_Mdev (Do_Medieval_Tricks)  then
          --      Medieval  ->  Classic
          declare
-            Mediaeval_Tricks : constant Tricks := (
+            Mediaeval_Tricks : constant TricksT := (
          --  Harrington/Elliott    1.1.1
          (Max => 0, Op => TC_Internal, I1 => +"col", I2 => +"caul"),
          --  Harrington/Elliott    1.3
@@ -1297,7 +1298,7 @@ package body Words_Engine.Tricks is
       -- entirely, pending reintegration
       Finished : Boolean := False;
 
-      procedure Iter_Tricks (TT : Tricks)
+      procedure Iter_Tricks (TT : TricksT)
       is
       begin
          for T in TT'Range loop
@@ -1335,7 +1336,7 @@ package body Words_Engine.Tricks is
       case S (S'First) is
          when 'a' =>
             declare
-               A_Tricks : constant Tricks := (
+               A_Tricks : constant TricksT := (
                  (Max => 0, Op => TC_Flip_Flop, FF1 => +"abs", FF2 => +"aps"),
                  (Max => 0, Op => TC_Flip_Flop, FF1 => +"acq", FF2 => +"adq"),
                  (Max => 0, Op => TC_Flip_Flop, FF1 => +"ante", FF2 => +"anti"),
@@ -1351,7 +1352,7 @@ package body Words_Engine.Tricks is
             end;
          when 'c' =>
             declare
-               C_Tricks : constant Tricks := (
+               C_Tricks : constant TricksT := (
                  (Max => 0, Op => TC_Flip, FF3 => +"circum", FF4 => +"circun"),
                  (Max => 0, Op => TC_Flip_Flop, FF1 => +"con", FF2 => +"com"),
                  (Max => 0, Op => TC_Flip, FF3 => +"co", FF4 => +"com"),
@@ -1366,7 +1367,7 @@ package body Words_Engine.Tricks is
             end;
          when 'i' =>
             declare
-               I_Tricks : constant Tricks := (
+               I_Tricks : constant TricksT := (
                  (Max => 1, Op => TC_Slur,      S1  => +"in"),
                  (Max => 1, Op => TC_Flip_Flop, FF1 => +"inb", FF2 => +"imb"),
                  (Max => 1, Op => TC_Flip_Flop, FF1 => +"inp", FF2 => +"imp")
@@ -1381,7 +1382,7 @@ package body Words_Engine.Tricks is
             end;
          when 'n' =>
             declare
-               N_Tricks : constant Tricks := (1 =>
+               N_Tricks : constant TricksT := (1 =>
                  (Max => 0, Op => TC_Flip, FF3 => +"nun", FF4 => +"non")
                                               );
             begin
@@ -1392,7 +1393,7 @@ package body Words_Engine.Tricks is
             end;
          when 'o' =>
             declare
-               O_Tricks : constant Tricks := (1 =>
+               O_Tricks : constant TricksT := (1 =>
                  (Max => 0, Op => TC_Slur, S1 => +"ob")
                );
             begin
@@ -1403,7 +1404,7 @@ package body Words_Engine.Tricks is
             end;
          when 'q' =>
             declare
-               Q_Tricks : constant Tricks := (1 =>
+               Q_Tricks : constant TricksT := (1 =>
                  (Max => 0, Op => TC_Flip_Flop,
                   FF1 => +"quadri", FF2 => +"quadru")
             );
@@ -1416,7 +1417,7 @@ package body Words_Engine.Tricks is
 
          when 's' =>
             declare
-               S_Tricks : constant Tricks := (
+               S_Tricks : constant TricksT := (
                  --  Latham,
                  (Max => 0, Op => TC_Flip, FF3 => +"se", FF4 => +"ce"),
                  --  From Oxford Latin Dictionary p.1835 "sub-"
