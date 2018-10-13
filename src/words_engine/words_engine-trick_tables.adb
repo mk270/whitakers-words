@@ -62,6 +62,18 @@ package body Words_Engine.Trick_Tables is
      (Max => 0, Op => TC_Flip, FF3 => +"aur", FF4 => +"or")
    );
 
+   D_Tricks : constant TricksT := (
+     (Max => 0, Op => TC_Flip, FF3 => +"dampn", FF4 => +"damn"),
+     --  OLD p.54,
+     (Max => 0, Op => TC_Flip_Flop, FF1 => +"dij", FF2 => +"disj"),
+     --  OLD p.55,
+     (Max => 0, Op => TC_Flip_Flop, FF1 => +"dir", FF2 => +"disr"),
+     --  OLD p.54,
+     (Max => 0, Op => TC_Flip_Flop, FF1 => +"dir", FF2 => +"der"),
+     --  OLD p.507/54,
+     (Max => 0, Op => TC_Flip_Flop, FF1 => +"del", FF2 => +"dil")
+   );
+
    Tricks_Exception : exception;
 
    function Get_Tricks_Table (C : Character) return TricksT is
@@ -69,6 +81,8 @@ package body Words_Engine.Trick_Tables is
       case C is
          when 'a' =>
             return A_Tricks;
+         when 'd' =>
+            return D_Tricks;
          when others =>
             raise Tricks_Exception;
       end case;

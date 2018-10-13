@@ -654,18 +654,6 @@ package body Words_Engine.Tricks is
          --  sloppy
       end Two_Words;
 
-      D_Tricks : constant TricksT := (
-        (Max => 0, Op => TC_Flip, FF3 => +"dampn", FF4 => +"damn"),
-        --  OLD p.54,
-        (Max => 0, Op => TC_Flip_Flop, FF1 => +"dij", FF2 => +"disj"),
-        --  OLD p.55,
-        (Max => 0, Op => TC_Flip_Flop, FF1 => +"dir", FF2 => +"disr"),
-        --  OLD p.54,
-        (Max => 0, Op => TC_Flip_Flop, FF1 => +"dir", FF2 => +"der"),
-        --  OLD p.507/54,
-        (Max => 0, Op => TC_Flip_Flop, FF1 => +"del", FF2 => +"dil")
-      );
-
       -- FIXME: next two declarations (Finished and Iter_Tricks) duplicated
       -- entirely, pending reintegration
       Finished : Boolean := False;
@@ -735,14 +723,8 @@ package body Words_Engine.Tricks is
                Pa_Last := 0;
             end if;
 
-         when 'a'  =>
+         when 'a' | 'd' =>
             Iter_Tricks (Get_Tricks_Table (S (S'First)));
-            if Finished then
-               return;
-            end if;
-
-         when 'd'  =>
-            Iter_Tricks (D_Tricks);
             if Finished then
                return;
             end if;
