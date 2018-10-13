@@ -14,26 +14,16 @@
 -- All parts of the WORDS system, source code and data files, are made freely
 -- available to anyone who wishes to use them, for whatever purpose.
 
-separate (Words_Engine.Tricks)
-package body Tables is
-   function Common_Prefix (S : String) return Boolean is
-      --  Common prefixes that have corresponding words (prepositions
-      --  usually) which could confuse TWO_WORDS.  We wish to reject
-      --  these.
-      Common_Prefixes : constant Strings := (
-        +"dis",
-        +"ex",
-        +"in",
-        +"per",
-        +"prae",
-        +"pro",
-        +"re",
-        +"si",
-        +"sub",
-        +"super",
-        +"trans"
-        );
-   begin
-      return Member (+S, Common_Prefixes);
-   end Common_Prefix;
-end Tables;
+with Ada.Strings.Unbounded; use Ada.Strings.Unbounded;
+
+package Words_Engine.Trick_Tables is
+   type Strings is array (Integer range <>) of Unbounded_String;
+
+   function Member (Needle   : Unbounded_String;
+                    Haystack : Strings) return Boolean;
+
+   function "+" (Source : String) return Unbounded_String
+     renames To_Unbounded_String;
+
+   function Common_Prefix (S : String) return Boolean;
+end Words_Engine.Trick_Tables;

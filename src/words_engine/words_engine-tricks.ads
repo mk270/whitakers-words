@@ -69,8 +69,4 @@ package Words_Engine.Tricks is
 
    type Tricks is array (Integer range <>) of Trick;
 
-   package Tables is
-      function Common_Prefix (S : String) return Boolean;
-   end Tables;
-
 end Words_Engine.Tricks;

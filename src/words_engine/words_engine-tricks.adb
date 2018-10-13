@@ -29,27 +29,9 @@ with Words_Engine.Word_Package; use Words_Engine.Word_Package;
 with Words_Engine.Put_Stat;
 with Words_Engine.Roman_Numerals_Package;
 use Words_Engine.Roman_Numerals_Package;
+with Words_Engine.Trick_Tables; use Words_Engine.Trick_Tables;
 
 package body Words_Engine.Tricks is
-   type Strings is array (Integer range <>) of Unbounded_String;
-
-   function "+" (Source : String) return Unbounded_String
-     renames To_Unbounded_String;
-
-   function Member (Needle   : Unbounded_String;
-                    Haystack : Strings)
-                   return Boolean
-   is
-   begin
-      for S in Haystack'Range loop
-         if Needle = Haystack (S) then
-            return True;
-         end if;
-      end loop;
-      return False;
-   end Member;
-
-   package body Tables is separate;
 
    function Is_A_Vowel (C : Character) return Boolean is
    begin
@@ -571,7 +553,7 @@ package body Words_Engine.Tricks is
 
             while I < S'Length - 2  loop
                --TEXT_IO.PUT_LINE ("Trying  " & S (S'FIRST .. S'FIRST+I - 1));
-               if not Tables.Common_Prefix (S (S'First .. S'First + I - 1)) then
+               if not Common_Prefix (S (S'First .. S'First + I - 1)) then
                   Words_No_Syncope (S (S'First .. S'First + I - 1),
                     Pa, Pa_Last);
                   if Pa_Last > Pa_Save + 1 then
