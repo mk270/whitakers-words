@@ -49,6 +49,8 @@ package body Words_Engine.Tricks is
       return False;
    end Member;
 
+   package body Tables is separate;
+
    function Is_A_Vowel (C : Character) return Boolean is
    begin
       case Lower_Case (C) is
@@ -549,27 +551,6 @@ package body Words_Engine.Tricks is
             end if;
          end Words_No_Syncope;
 
-         function Common_Prefix (S : String) return Boolean is
-            --  Common prefixes that have corresponding words (prepositions
-            --  usually) which could confuse TWO_WORDS.  We wish to reject
-            --  these.
-            Common_Prefixes : constant Strings := (
-              +"dis",
-              +"ex",
-              +"in",
-              +"per",
-              +"prae",
-              +"pro",
-              +"re",
-              +"si",
-              +"sub",
-              +"super",
-              +"trans"
-              );
-         begin
-            return Member (+S, Common_Prefixes);
-         end Common_Prefix;
-
       begin
          --if S (S'FIRST) /= 'q'  then    --  qu words more complicated
 
@@ -590,7 +571,7 @@ package body Words_Engine.Tricks is
 
             while I < S'Length - 2  loop
                --TEXT_IO.PUT_LINE ("Trying  " & S (S'FIRST .. S'FIRST+I - 1));
-               if not Common_Prefix (S (S'First .. S'First + I - 1))  then
+               if not Tables.Common_Prefix (S (S'First .. S'First + I - 1)) then
                   Words_No_Syncope (S (S'First .. S'First + I - 1),
                     Pa, Pa_Last);
                   if Pa_Last > Pa_Save + 1 then
