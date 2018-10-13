@@ -29,34 +29,12 @@ with Words_Engine.Word_Package; use Words_Engine.Word_Package;
 with Words_Engine.Put_Stat;
 with Words_Engine.Roman_Numerals_Package;
 use Words_Engine.Roman_Numerals_Package;
-with Ada.Strings.Unbounded; use Ada.Strings.Unbounded;
 
 package body Words_Engine.Tricks is
    type Strings is array (Integer range <>) of Unbounded_String;
 
    function "+" (Source : String) return Unbounded_String
      renames To_Unbounded_String;
-
-   type Trick_Class is (TC_Flip_Flop, TC_Flip, TC_Internal, TC_Slur);
-   type Trick (Op : Trick_Class := TC_Flip_Flop) is
-     record
-        Max : Integer := 0;
-        case Op is
-           when TC_Flip_Flop =>
-              FF1 : Unbounded_String := Null_Unbounded_String;
-              FF2 : Unbounded_String := Null_Unbounded_String;
-           when TC_Flip =>
-              FF3 : Unbounded_String := Null_Unbounded_String;
-              FF4 : Unbounded_String := Null_Unbounded_String;
-           when TC_Internal =>
-              I1 : Unbounded_String := Null_Unbounded_String;
-              I2 : Unbounded_String := Null_Unbounded_String;
-           when TC_Slur =>
-              S1 : Unbounded_String := Null_Unbounded_String;
-        end case;
-     end record;
-
-   type Tricks is array (Integer range <>) of Trick;
 
    function Member (Needle   : Unbounded_String;
                     Haystack : Strings)
