@@ -275,6 +275,8 @@ package body Words_Engine.Tricks is
       procedure Flip (X1, X2 : String; Explanation : String := "") is
          --  At the beginning of Input word, replaces X1 by X2
          Pa_Save : constant Integer := Pa_Last;
+         Canned_Explanation : constant String := "' may have replaced usual '";
+         Function_Id : constant String := "TRICK";
       begin
          if S'Length >= X1'Length + 2  and then
            S (S'First .. S'First + X1'Length - 1) = X1
@@ -289,15 +291,14 @@ package body Words_Engine.Tricks is
             then
                if Explanation = ""  then
                   Xp.Xxx_Meaning := Head (
-                    "An initial '" & X1 &
-                    "' may have replaced usual '" & X2 & "'"
+                    "An initial '" & X1 & Canned_Explanation & X2 & "'"
                     , Max_Meaning_Size);
                else
                   Xp.Xxx_Meaning := Head (Explanation, Max_Meaning_Size);
                end if;
-               Put_Stat ("TRICK   FLIP at "
-                 & Head (Integer'Image (Line_Number), 8) &
-                 Head (Integer'Image (Word_Number), 4)
+               Put_Stat (Function_Id & "   FLIP at "
+                 & Head (Integer'Image (Line_Number), 8)
+                 & Head (Integer'Image (Word_Number), 4)
                  & "   " & Head (W, 20) & "   "  & Pa (Pa_Save + 1).Stem);
                return;
             else
@@ -836,6 +837,8 @@ package body Words_Engine.Tricks is
       procedure Flip (X1, X2 : String; Explanation : String := "") is
          --  At the beginning of Input word, replaces X1 by X2
          Pa_Save : constant Integer := Pa_Last;
+         Canned_Explanation : constant String := "' may be rendered by '";
+         Function_Id : constant String := "SLURY";
       begin
          if S'Length >= X1'Length + 2  and then
            S (S'First .. S'First + X1'Length - 1) = X1
@@ -850,12 +853,12 @@ package body Words_Engine.Tricks is
             then
                if Explanation = ""  then
                   Xp.Xxx_Meaning := Head (
-                    "An initial '" & X1 & "' may be rendered by '" & X2 & "'"
+                    "An initial '" & X1 & Canned_Explanation & X2 & "'"
                     , Max_Meaning_Size);
                else
                   Xp.Xxx_Meaning := Head (Explanation, Max_Meaning_Size);
                end if;
-               Put_Stat ("SLURY   FLIP at "
+               Put_Stat (Function_Id & "   FLIP at "
                  & Head (Integer'Image (Line_Number), 8)
                  & Head (Integer'Image (Word_Number), 4)
                  & "   " & Head (W, 20) & "   "  & Pa (Pa_Save + 1).Stem);
