@@ -676,7 +676,7 @@ package body Words_Engine.Tricks is
                     To_String (TT (T).I1),
                     To_String (TT (T).I2));
                when TC_Slur =>
-                  null; -- FIXME : should never happen
+                  raise Tricks_Exception;
             end case;
 
             if Pa_Last > TT (T).Max then
@@ -1023,7 +1023,7 @@ package body Words_Engine.Tricks is
                     To_String (TT (T).FF3),
                     To_String (TT (T).FF4));
                when TC_Internal =>
-                  null; -- FIXME - should never happen
+                  raise Tricks_Exception;
                when TC_Slur =>
                   Slur (
                     To_String (TT (T).S1));
