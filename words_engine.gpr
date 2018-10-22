@@ -29,6 +29,7 @@ project Words_Engine is
         "words_engine-put_example_line.adb",
         "words_engine-explanation_package.ads",
         "words_engine-search_english.adb",
+        "words_engine-list_sweep.ads",
         "words_engine-list_sweep.adb",
         "words_engine-put_stat.adb",
         "words_engine-initialization.ads",
