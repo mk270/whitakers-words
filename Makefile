@@ -3,6 +3,8 @@ CLEAN := gprclean
 
 PROGRAMMES := bin/words bin/makedict bin/makestem bin/makeefil bin/makeewds bin/makeinfl bin/meanings
 
+.PHONY: all
+
 all: $(PROGRAMMES) data
 
 $(PROGRAMMES):
@@ -27,10 +29,16 @@ STEMFILE.GEN: STEMLIST.GEN bin/makestem
 GENERATED_DATA_FILES := DICTFILE.GEN STEMFILE.GEN INDXFILE.GEN EWDSLIST.GEN \
 					INFLECTS.SEC EWDSFILE.GEN
 
+.PHONY: data
+
 data: $(GENERATED_DATA_FILES)
+
+.PHONY: clean_data
 
 clean_data:
 	rm -f -- $(GENERATED_DATA_FILES)
+
+.PHONY: clean
 
 clean:
 	$(CLEAN) -q -r -Pwords
