@@ -35,7 +35,7 @@ clean:
 	rm -f -- DICTFILE.GEN STEMFILE.GEN INDXFILE.GEN EWDSLIST.GEN INFLECTS.SEC
 	rm -f -- EWDSFILE.GEN
 
-.PHONY: test $(PROGRAMMES)
+.PHONY: test
 
 test: $(PROGRAMMES) $(GENERATED_DATA_FILES)
 	(cd test; ./run-tests.sh)
