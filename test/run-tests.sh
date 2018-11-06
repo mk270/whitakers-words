@@ -20,6 +20,8 @@ fi
 
 bin/words 'rem acu tetigisti' | diff -q -- - test/expected.txt
 
+# mktemp () is LSB:
+which tempfile &> /dev/null || tempfile () { mktemp "$@"; }
 TEMP=$(tempfile)
 
 run-tests () {
