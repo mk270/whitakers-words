@@ -22,12 +22,9 @@ procedure Sorter is
    --  This program sorts a file of lines (Strings) on 4 subStrings Mx .. Nx
    --  Sort by Stringwise (different cases), numeric, or POS enumeration
 
-   package Boolean_Io is new Text_IO.Enumeration_IO (Boolean);
-   use Boolean_Io;
    package Integer_IO is new Text_IO.Integer_IO (Integer);
    use Integer_IO;
    package Float_IO is new Text_IO.Float_IO (Float);
-   use Float_IO;
    use Text_IO;
 
    Name_Length : constant := 80;
