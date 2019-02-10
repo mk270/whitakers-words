@@ -29,14 +29,14 @@ run-tests () {
     if [ "$TRAVIS" = "true" ]; then
         set -u
         TEMP2=$(tempfile)
-        bin/words < test/aeneid_bk4.txt | tee $TEMP2
+        bin/words < test/aeneid_bk4.txt | tail -n +19 | tee $TEMP2
         diff -u -- - test/aeneid_bk4.txt.expected < $TEMP2 > $TEMP
         rv=$?
         rm -f -- $TEMP2 || true
         return $rv
     else
         set -u
-        bin/words < test/aeneid_bk4.txt | \
+        bin/words < test/aeneid_bk4.txt | tail -n +19 | \
         diff -u -- - test/aeneid_bk4.expected > $TEMP
     fi
 }
