@@ -13,13 +13,13 @@ $(PROGRAMMES):
 bin/sorter:
 	$(BUILD) -j4 -Ptools $(notdir $@)
 
-DICTFILE.GEN STEMLIST_generated.GEN: DICTLINE.GEN bin/wakedict
+DICTFILE.GEN: DICTLINE.GEN bin/wakedict
 	echo g | bin/wakedict $< > /dev/null
 	mv STEMLIST.GEN STEMLIST_generated.GEN
 
-STEMLIST.GEN: STEMLIST_generated.GEN DICTLINE.GEN bin/sorter
+STEMLIST.GEN: DICTLINE.GEN bin/sorter
 	rm -f -- $@
-	bin/sorter < stemlist-sort.txt
+	bin/sorter < stemlist-sort.txt > /dev/null
 	mv -f -- STEMLIST_new.GEN $@
 	rm -f STEMLIST_generated.GEN
 	rm -f WORK.
