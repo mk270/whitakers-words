@@ -1,7 +1,7 @@
 BUILD := gprbuild
 CLEAN := gprclean
 
-PROGRAMMES := bin/words bin/makedict bin/makestem bin/makeefil bin/makeewds bin/makeinfl bin/meanings
+PROGRAMMES := bin/words bin/makedict bin/wakedict bin/makestem bin/makeefil bin/makeewds bin/makeinfl bin/meanings
 
 .PHONY: all
 
@@ -10,8 +10,19 @@ all: $(PROGRAMMES) data
 $(PROGRAMMES):
 	$(BUILD) -j4 -Pwords $(notdir $@)
 
-DICTFILE.GEN: DICTLINE.GEN bin/makedict
-	echo g | bin/makedict $< > /dev/null
+bin/sorter:
+	$(BUILD) -j4 -Ptools $(notdir $@)
+
+DICTFILE.GEN STEMLIST_generated.GEN: DICTLINE.GEN bin/wakedict
+	echo g | bin/wakedict $< > /dev/null
+	mv STEMLIST.GEN STEMLIST_generated.GEN
+
+STEMLIST.GEN: STEMLIST_generated.GEN DICTLINE.GEN bin/sorter
+	rm -f -- $@
+	bin/sorter < stemlist-sort.txt
+	mv -f -- STEMLIST_new.GEN $@
+	rm -f STEMLIST_generated.GEN
+	rm -f WORK.
 
 EWDSFILE.GEN: EWDSLIST.GEN
 	bin/makeefil
@@ -27,7 +38,7 @@ STEMFILE.GEN: STEMLIST.GEN bin/makestem
 	echo g | bin/makestem $< > /dev/null
 
 GENERATED_DATA_FILES := DICTFILE.GEN STEMFILE.GEN INDXFILE.GEN EWDSLIST.GEN \
-					INFLECTS.SEC EWDSFILE.GEN
+					INFLECTS.SEC EWDSFILE.GEN STEMLIST.GEN
 
 .PHONY: data
 
@@ -42,9 +53,13 @@ clean_data:
 
 clean:
 	$(CLEAN) -q -r -Pwords
+	$(CLEAN) -q -r -Ptools
 	rm -f -- CHECKEWD.
 	rm -f -- DICTFILE.GEN STEMFILE.GEN INDXFILE.GEN EWDSLIST.GEN INFLECTS.SEC
 	rm -f -- EWDSFILE.GEN
+	rm -f -- STEMLIST.GEN
+	rm -f -- WORK.
+	rm -f -- STEMLIST_generated.GEN STEMLIST_new.GEN
 
 .PHONY: test
 

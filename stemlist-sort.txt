@@ -1,0 +1,6 @@
+STEMLIST_generated.GEN
+1    18   U
+20   24   P
+1    18   A
+1    56   C
+STEMLIST_new.GEN
