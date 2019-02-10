@@ -36,7 +36,7 @@ data: $(GENERATED_DATA_FILES)
 .PHONY: clean_data
 
 clean_data:
-	rm -f -- $(GENERATED_DATA_FILES)
+	rm -f -- $(GENERATED_DATA_FILES) CHECKEWD.
 
 .PHONY: clean
 
