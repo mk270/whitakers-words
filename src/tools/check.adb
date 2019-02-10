@@ -903,19 +903,19 @@ begin
          end if;
 
          De.Stems (1) := S (1 .. Max_Stem_Size);
-         De.Stems (2) := S (Max_Stem_Size + 2 .. 2*Max_Stem_Size + 1);
-         De.Stems (3) := S (2*Max_Stem_Size + 3 .. 3*Max_Stem_Size + 2);
-         De.Stems (4) := S (3*Max_Stem_Size + 4 .. 4*Max_Stem_Size + 3);
+         De.Stems (2) := S (Max_Stem_Size + 2 .. 2 * Max_Stem_Size + 1);
+         De.Stems (3) := S (2 * Max_Stem_Size + 3 .. 3 * Max_Stem_Size + 2);
+         De.Stems (4) := S (3 * Max_Stem_Size + 4 .. 4 * Max_Stem_Size + 3);
 
          for I in Stem_Key_Type range 1 .. 4  loop
             if Has_Punctuation (De.Stems (I))  then
                Put (Output, "LINE"); Put (Output, Line_Number);
                Put_Line (Output, "   Offset or Punctuation in line      ");
-               Put_Line (Output, S (1 .. 4*Max_Stem_Size + 3));
+               Put_Line (Output, S (1 .. 4 * Max_Stem_Size + 3));
             end if;
          end loop;
 
-         Get (S (4*Max_Stem_Size + 5 .. Last), De.Part, Ll);
+         Get (S (4 * Max_Stem_Size + 5 .. Last), De.Part, Ll);
          --GET (S (L+1 .. LAST), DE.PART.POFS, DE.PART.POFS.KIND, LL);
 
          De.Mean := S (111 .. 110 + Max_Meaning_Size);
