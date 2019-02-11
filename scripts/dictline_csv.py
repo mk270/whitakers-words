@@ -1,5 +1,9 @@
 #!/usr/bin/env python3
 
+## dictline_csv.py, by Iain Douglas Scott
+##
+## Licence?
+
 import csv
 
 TITLES = ("id",
