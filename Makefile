@@ -8,10 +8,10 @@ PROGRAMMES := bin/words bin/makedict bin/wakedict bin/makestem bin/makeefil bin/
 all: $(PROGRAMMES) data
 
 $(PROGRAMMES):
-	$(BUILD) -j$(nproc) -Pwords $(notdir $@)
+	$(BUILD) -j15 -Pwords $(notdir $@)
 
 bin/sorter:
-	$(BUILD) -j$(nproc) -Ptools $(notdir $@)
+	$(BUILD) -j15 -Ptools $(notdir $@)
 
 DICTFILE.GEN: DICTLINE.GEN bin/wakedict
 	echo g | bin/wakedict $< > /dev/null
