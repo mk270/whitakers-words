@@ -37,7 +37,6 @@ with Words_Engine.Pearse_Code; use Words_Engine.Pearse_Code;
 pragma Elaborate (Support_Utils.Word_Parameters);
 package body Words_Engine.Parse
 is
-   use Inflections_Package.Integer_IO;
    use Ada.Text_IO;
 
    package Word_Container is new Vectors (Natural, Unbounded_String);
