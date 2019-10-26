@@ -1097,7 +1097,7 @@ package body Words_Engine.List_Package is
       if Integer (Unk_MNPC) > 0  then
          Ada.Text_IO.Put_Line (Output,
            "----------  " &
-           "Entries in GENEAL Dictionary around the UNKNOWN" &
+           "Entries in GENERAL Dictionary around the UNKNOWN" &
            "  ----------");
          Pause (Output);
          for Mn in Dict_IO.Count (Integer (Unk_MNPC) - 5) ..
