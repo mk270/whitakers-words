@@ -979,6 +979,8 @@ is
       for I in J2 .. K - 1  loop
          if W (I) = 'Q'  and then W (I + 1) = 'V'  then
             W (I + 1) := 'U';
+         elsif W (I) = 'q'  and then W (I + 1) = 'v'  then
+            W (I + 1) := 'u';
          end if;
       end loop;
    end Do_Qvae_Kludge;
