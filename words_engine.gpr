@@ -45,7 +45,7 @@ project Words_Engine is
    package Compiler is
       Default_Ada :=
          ( "-gnatwa", "-Wall", "-fstack-check", "-gnato", "-gnateE",
-           "-gnata", "-gnatU", "-gnatf", "-gnat05", "-gnatwe",
+           "-gnata", "-gnatU", "-gnatf", "-gnatwe",
            "-g"
          );
       Style := ("-gnaty3aAbefhiklnOM80prtSux");
