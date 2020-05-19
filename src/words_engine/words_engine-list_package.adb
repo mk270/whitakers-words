@@ -567,8 +567,13 @@ package body Words_Engine.List_Package is
          --               end if;
          Put_Inflection_Flags;
          Ada.Text_IO.New_Line (Output);
-         Put_Example_Line (Configuration, Output, Sr.Ir, Dm.De);
-         --  Only full when DO_EXAMPLES
+
+         --  SPR:  This fixes exceptions on some UNIQUES (e.g., mavis)
+         --        which do not have PART entries.
+         if Dm.De.Part /= Null_Dictionary_Entry.Part then
+            Put_Example_Line (Configuration, Output, Sr.Ir, Dm.De);
+            --  Only full when DO_EXAMPLES
+         end if;
       else
          Ada.Text_IO.New_Line (Output);
       end if;
