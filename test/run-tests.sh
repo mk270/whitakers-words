@@ -55,16 +55,13 @@ run-tests () {
     local source=${test_name}.txt
     local expected=${test_name}.expected
 
-    set +u
-    if [ "$TRAVIS" = "true" ]; then
-        set -u
+    if [[ -v TRAVIS ]]; then
         create-tmp TMP_TRANSCRIPT
         $PROG < ${source} | ignore-header | tee $TMP_TRANSCRIPT
         diff -u -- - ${expected} < $TMP_TRANSCRIPT > $TMP_DISCREPANCIES
         rv=$?
         return $rv
     else
-        set -u
         $PROG < ${source} | ignore-header | \
         diff -u -- - ${expected} > $TMP_DISCREPANCIES
     fi
