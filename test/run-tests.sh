@@ -32,19 +32,23 @@ TEMP=$(tempfile)
 tmpfiles+=($TEMP)
 
 run-tests () {
+    local test_name=test/aeneid_bk4
+    local source=${test_name}.txt
+    local expected=${test_name}.expected
+
     set +u
     if [ "$TRAVIS" = "true" ]; then
         set -u
         TEMP2=$(tempfile)
         tmpfiles+=($TEMP2)
-        bin/words < test/aeneid_bk4.txt | tail -n +19 | tee $TEMP2
-        diff -u -- - test/aeneid_bk4.expected < $TEMP2 > $TEMP
+        bin/words < ${source} | tail -n +19 | tee $TEMP2
+        diff -u -- - ${expected} < $TEMP2 > $TEMP
         rv=$?
         return $rv
     else
         set -u
-        bin/words < test/aeneid_bk4.txt | tail -n +19 | \
-        diff -u -- - test/aeneid_bk4.expected > $TEMP
+        bin/words < ${source} | tail -n +19 | \
+        diff -u -- - ${expected} > $TEMP
     fi
 }
     
