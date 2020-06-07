@@ -9,6 +9,21 @@ cd $(dirname $0)/..
 
 declare -a tmpfiles
 
+register-tmp () {
+    local tmpfile=$1
+    tmpfiles+=($tmpfile)
+}
+
+# mktemp () is LSB:
+which tempfile &> /dev/null || tempfile () { mktemp "$@"; }
+
+create-tmp () {
+    declare -n ref=$1
+    local TMP=$(tempfile)
+    register-tmp $TMP
+    ref=$TMP
+}
+
 cleanup () {
     local exit_val=$?
     for t in ${tmpfiles[@]}; do
@@ -21,15 +36,12 @@ trap cleanup EXIT
 
 if [ ! -f WORD.MDV ]; then
     cp test/WORD.MDV_template WORD.MDV
-    tmpfiles+=(WORD.MDV)
+    register-tmp WORD.MDV
 fi
 
 bin/words 'rem acu tetigisti' | diff -q -- - test/expected.txt
 
-# mktemp () is LSB:
-which tempfile &> /dev/null || tempfile () { mktemp "$@"; }
-TEMP=$(tempfile)
-tmpfiles+=($TEMP)
+create-tmp TEMP
 
 ignore-header () {
     tail -n +19
@@ -43,8 +55,7 @@ run-tests () {
     set +u
     if [ "$TRAVIS" = "true" ]; then
         set -u
-        TEMP2=$(tempfile)
-        tmpfiles+=($TEMP2)
+        create-tmp TEMP2
         bin/words < ${source} | ignore-header | tee $TEMP2
         diff -u -- - ${expected} < $TEMP2 > $TEMP
         rv=$?
