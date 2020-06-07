@@ -56,9 +56,9 @@ ignore-header () {
 }
 
 run-tests () {
-    local test_file_name=test/aeneid_bk4
-    local source=${test_file_name}.txt
-    local expected=${test_file_name}.expected
+    local test_file_dir=test/01_aeneid
+    local source=${test_file_dir}/input.txt
+    local expected=${test_file_dir}/expected.txt
 
     create-tmp TMP_TRANSCRIPT
     $PROG < ${source} | ignore-header > $TMP_TRANSCRIPT
