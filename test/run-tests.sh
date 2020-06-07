@@ -7,6 +7,8 @@ set -eu
 
 cd $(dirname $0)/..
 
+PROG=bin/words
+
 declare -a tmpfiles
 
 register-tmp () {
@@ -39,7 +41,7 @@ if [ ! -f WORD.MDV ]; then
     register-tmp WORD.MDV
 fi
 
-bin/words 'rem acu tetigisti' | diff -q -- - test/expected.txt
+$PROG 'rem acu tetigisti' | diff -q -- - test/expected.txt
 
 create-tmp TEMP
 
@@ -56,13 +58,13 @@ run-tests () {
     if [ "$TRAVIS" = "true" ]; then
         set -u
         create-tmp TEMP2
-        bin/words < ${source} | ignore-header | tee $TEMP2
+        $PROG < ${source} | ignore-header | tee $TEMP2
         diff -u -- - ${expected} < $TEMP2 > $TEMP
         rv=$?
         return $rv
     else
         set -u
-        bin/words < ${source} | ignore-header | \
+        $PROG < ${source} | ignore-header | \
         diff -u -- - ${expected} > $TEMP
     fi
 }
