@@ -31,6 +31,10 @@ which tempfile &> /dev/null || tempfile () { mktemp "$@"; }
 TEMP=$(tempfile)
 tmpfiles+=($TEMP)
 
+ignore-header () {
+    tail -n +19
+}
+
 run-tests () {
     local test_name=test/aeneid_bk4
     local source=${test_name}.txt
@@ -41,13 +45,13 @@ run-tests () {
         set -u
         TEMP2=$(tempfile)
         tmpfiles+=($TEMP2)
-        bin/words < ${source} | tail -n +19 | tee $TEMP2
+        bin/words < ${source} | ignore-header | tee $TEMP2
         diff -u -- - ${expected} < $TEMP2 > $TEMP
         rv=$?
         return $rv
     else
         set -u
-        bin/words < ${source} | tail -n +19 | \
+        bin/words < ${source} | ignore-header | \
         diff -u -- - ${expected} > $TEMP
     fi
 }
