@@ -56,9 +56,9 @@ ignore-header () {
 }
 
 run-tests () {
-    local test_name=test/aeneid_bk4
-    local source=${test_name}.txt
-    local expected=${test_name}.expected
+    local test_file_name=test/aeneid_bk4
+    local source=${test_file_name}.txt
+    local expected=${test_file_name}.expected
 
     if [[ -v TRAVIS ]]; then
         create-tmp TMP_TRANSCRIPT
