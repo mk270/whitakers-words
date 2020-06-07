@@ -27,6 +27,8 @@ create-tmp () {
     ref=$TMP
 }
 
+# For belt-and-braces reasons, we try to delete all the temp files
+# here as well
 cleanup () {
     local exit_val=$?
     for t in ${tmpfiles[@]}; do
@@ -58,6 +60,7 @@ report-result () {
 
     echo $test_name .. $result
 }
+
 
 failed=0
 
