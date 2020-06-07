@@ -8,6 +8,7 @@ set -eu
 cd $(dirname $0)/..
 
 PROG=bin/words
+CONF=WORD.MDV
 
 declare -a tmpfiles
 
@@ -36,9 +37,9 @@ cleanup () {
 
 trap cleanup EXIT
 
-if [ ! -f WORD.MDV ]; then
-    cp test/WORD.MDV_template WORD.MDV
-    register-tmp WORD.MDV
+if [ ! -f ${CONF} ]; then
+    cp test/${CONF}_template ${CONF}
+    register-tmp ${CONF}
 fi
 
 $PROG 'rem acu tetigisti' | diff -q -- - test/expected.txt
