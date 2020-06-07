@@ -55,6 +55,13 @@ ignore-header () {
     tail -n +19
 }
 
+report-result () {
+    local test_name=$1
+    local result=$2
+
+    echo $test_name .. $result
+}
+
 run-tests () {
     local test_name=01_aeneid
     local test_file_dir=test/${test_name}
