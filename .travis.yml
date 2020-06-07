@@ -23,7 +23,7 @@ install:
   - $SH "apt-get update -qq"
   - $SH "apt-get install -y locales"
   - $SH "locale-gen en_US.UTF-8"
-  - $SH "apt-get install -y software-properties-common make gcc-7 gnat-7 gprbuild"
+  - $SH "env DEBIAN_FRONTEND=noninteractive apt-get install -y software-properties-common make gcc-7 gnat-7 gprbuild"
 
 script:
   - $SH " bash -eux .travis-ci.sh"
