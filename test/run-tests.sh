@@ -64,8 +64,8 @@ report-result () {
 
 failed=0
 
-run-tests () {
-    local test_name=01_aeneid
+run-test () {
+    local test_name=$1
     local test_file_dir=test/${test_name}
     local source=${test_file_dir}/input.txt
     local expected=${test_file_dir}/expected.txt
