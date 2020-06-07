@@ -42,8 +42,13 @@ if [ ! -f ${CONF} ]; then
     register-tmp ${CONF}
 fi
 
+# Initial smoke test
+#
+# If this fails, we don't waste time on other tests, and just let the
+# whole thing crash.
 $PROG 'rem acu tetigisti' | diff -q -- - test/expected.txt
 
+# Main test(s)
 create-tmp TMP_DISCREPANCIES
 
 ignore-header () {
