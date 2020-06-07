@@ -44,7 +44,7 @@ fi
 
 $PROG 'rem acu tetigisti' | diff -q -- - test/expected.txt
 
-create-tmp TEMP
+create-tmp TMP_DISCREPANCIES
 
 ignore-header () {
     tail -n +19
@@ -58,22 +58,22 @@ run-tests () {
     set +u
     if [ "$TRAVIS" = "true" ]; then
         set -u
-        create-tmp TEMP2
-        $PROG < ${source} | ignore-header | tee $TEMP2
-        diff -u -- - ${expected} < $TEMP2 > $TEMP
+        create-tmp TMP_TRANSCRIPT
+        $PROG < ${source} | ignore-header | tee $TMP_TRANSCRIPT
+        diff -u -- - ${expected} < $TMP_TRANSCRIPT > $TMP_DISCREPANCIES
         rv=$?
         return $rv
     else
         set -u
         $PROG < ${source} | ignore-header | \
-        diff -u -- - ${expected} > $TEMP
+        diff -u -- - ${expected} > $TMP_DISCREPANCIES
     fi
 }
 
 if ! run-tests; then
   rv=$?
-  if [ -s "$TEMP" ]; then
-    cat $TEMP
+  if [ -s "$TMP_DISCREPANCIES" ]; then
+    cat $TMP_DISCREPANCIES
   fi
   echo FAIL
   exit $rv
