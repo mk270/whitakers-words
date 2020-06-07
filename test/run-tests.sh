@@ -79,7 +79,7 @@ run-test () {
     then
         report-result $test_name PASS
     else
-        [ -s "$TMP_DISCREPANCIES" ] && cat $TMP_DISCREPANCIES
+        [ -s "$TMP_DISCREPANCIES" ] && cat $TMP_DISCREPANCIES >&2
         report-result $test_name FAIL
         failed=1
     fi
