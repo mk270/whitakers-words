@@ -13324,10 +13324,7 @@ touch, strike; border on, influence; mention;
 al                   SUFFIX                             
 -al; of a ~, pertaining to a ~, in a condition of ~, in a state of ~;
 magal.ia             ADJ    3 2 NOM P N POS             
-magal.ia             ADJ    3 2 NOM P N POS             
 magal.ia             ADJ    3 2 VOC P N POS             
-magal.ia             ADJ    3 2 VOC P N POS             
-magal.ia             ADJ    3 2 ACC P N POS             
 magal.ia             ADJ    3 2 ACC P N POS             
 magus, magi  N (2nd) M   [XXXDX]    lesser
 wise/learned man; magician (Persian); astrologer;
