@@ -12,7 +12,7 @@ declare -a tmpfiles
 cleanup () {
     local exit_val=$?
     for t in ${tmpfiles[@]}; do
-      rm -f -- $t || true
+        rm -f -- $t || true
     done
     exit $exit_val
 }
