@@ -50,8 +50,8 @@ fi
 # whole thing crash.
 $PROG 'rem acu tetigisti' | diff -q -- - test/expected.txt
 
-ignore-header () {
-    tail -n +19
+ignore-top-and-tail () {
+    tail -n +19 | head -n -1
 }
 
 report-result () {
@@ -72,7 +72,7 @@ run-test () {
 
     create-tmp TMP_DISCREPANCIES
     create-tmp TMP_TRANSCRIPT
-    $PROG < ${source} | ignore-header > $TMP_TRANSCRIPT
+    $PROG < ${source} | ignore-top-and-tail > $TMP_TRANSCRIPT
     [[ -v TRAVIS ]] && cat $TMP_TRANSCRIPT
 
     if diff -u -- - ${expected} < $TMP_TRANSCRIPT > $TMP_DISCREPANCIES
