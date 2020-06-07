@@ -5,6 +5,7 @@ sudo: required
 
 env:
   - TRAVIS=true
+  - DEBIAN_FRONTEND=noninteractive
 
 
 sudo: required
