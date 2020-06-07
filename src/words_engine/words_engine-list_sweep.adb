@@ -608,6 +608,13 @@ is
                         --  Shift PA down 1
                         Pa_Last := Pa_Last - 1;
                         --  because found key duplicate
+                     -- Elsif suppresses duplicate lines; e.g., "ludica"
+                     -- when TRIM_OUTPUT is off.  See #76.
+                     elsif J + 1 <= Pa_Last then
+                        if Pa (J) = Pa (J + 1) then
+                           Pa (J .. Pa_Last - 1) := Pa (J + 1 .. Pa_Last);
+                           Pa_Last := Pa_Last - 1;
+                        end if;
                      end if;
                   else
                      J := J + 1;
