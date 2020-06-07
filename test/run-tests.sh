@@ -48,9 +48,6 @@ fi
 # whole thing crash.
 $PROG 'rem acu tetigisti' | diff -q -- - test/expected.txt
 
-# Main test(s)
-create-tmp TMP_DISCREPANCIES
-
 ignore-header () {
     tail -n +19
 }
@@ -70,6 +67,7 @@ run-test () {
     local source=${test_file_dir}/input.txt
     local expected=${test_file_dir}/expected.txt
 
+    create-tmp TMP_DISCREPANCIES
     create-tmp TMP_TRANSCRIPT
     $PROG < ${source} | ignore-header > $TMP_TRANSCRIPT
     [[ -v TRAVIS ]] && cat $TMP_TRANSCRIPT
@@ -82,7 +80,20 @@ run-test () {
         report-result $test_name FAIL
         failed=1
     fi
+
+    # avoid buildup of temp files
+    rm -f -- $TMP_TRANSCRIPT $TMP_DISCREPANCIES
 }
 
-run-tests
+all-test-names () {
+    for name in test/[0-9][0-9]_*; do
+        basename $name
+    done
+}
+
+# Main test(s)
+for name in $(all-test-names); do
+    run-test $name
+done
+
 exit $failed
