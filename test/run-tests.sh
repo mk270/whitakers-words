@@ -64,8 +64,6 @@ run-tests () {
         create-tmp TMP_TRANSCRIPT
         $PROG < ${source} | ignore-header | tee $TMP_TRANSCRIPT
         diff -u -- - ${expected} < $TMP_TRANSCRIPT > $TMP_DISCREPANCIES
-        rv=$?
-        return $rv
     else
         $PROG < ${source} | ignore-header | \
         diff -u -- - ${expected} > $TMP_DISCREPANCIES
@@ -73,12 +71,11 @@ run-tests () {
 }
 
 if ! run-tests; then
-  rv=$?
   if [ -s "$TMP_DISCREPANCIES" ]; then
     cat $TMP_DISCREPANCIES
   fi
   echo FAIL
-  exit $rv
+  exit 1
 fi
 
 echo PASS
