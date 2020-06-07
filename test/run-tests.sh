@@ -56,7 +56,8 @@ ignore-header () {
 }
 
 run-tests () {
-    local test_file_dir=test/01_aeneid
+    local test_name=01_aeneid
+    local test_file_dir=test/${test_name}
     local source=${test_file_dir}/input.txt
     local expected=${test_file_dir}/expected.txt
 
