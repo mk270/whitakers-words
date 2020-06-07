@@ -9,6 +9,7 @@ cd $(dirname $0)/..
 
 PROG=bin/words
 CONF=WORD.MDV
+TRIM=test/ignore-top-and-tail
 
 declare -a tmpfiles
 
@@ -50,10 +51,6 @@ fi
 # whole thing crash.
 $PROG 'rem acu tetigisti' | diff -q -- - test/expected.txt
 
-ignore-top-and-tail () {
-    tail -n +19 | head -n -1
-}
-
 report-result () {
     local test_name=$1
     local result=$2
@@ -72,7 +69,7 @@ run-test () {
 
     create-tmp TMP_DISCREPANCIES
     create-tmp TMP_TRANSCRIPT
-    $PROG < ${source} | ignore-top-and-tail > $TMP_TRANSCRIPT
+    $PROG < ${source} | $TRIM > $TMP_TRANSCRIPT
     [[ -v TRAVIS ]] && cat $TMP_TRANSCRIPT
 
     if diff -u -- - ${expected} < $TMP_TRANSCRIPT > $TMP_DISCREPANCIES
