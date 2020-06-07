@@ -1,0 +1,24 @@
+ic                   SUFFIX                             
+-ic; of, pertaining/belonging to; connected with; derived/coming from (place);
+ludic.a              ADJ    1 1 NOM S F POS             
+ludic.a              ADJ    1 1 VOC S F POS             
+ludic.a              ADJ    1 1 ABL S F POS             
+ludic.a              ADJ    1 1 NOM P N POS             
+ludic.a              ADJ    1 1 VOC P N POS             
+ludic.a              ADJ    1 1 ACC P N POS             
+ludus, ludi  N (2nd) M   [XXXBX]  
+game, play, sport, pastime, entertainment, fun; school, elementary school;
+c                    SUFFIX                             
+-ic; of, pertaining/belonging to; connected with; derived/coming from (place);
+ludic.a              ADJ    1 1 NOM S F POS             
+ludic.a              ADJ    1 1 VOC S F POS             
+ludic.a              ADJ    1 1 ABL S F POS             
+ludic.a              ADJ    1 1 NOM P N POS             
+ludic.a              ADJ    1 1 VOC P N POS             
+ludic.a              ADJ    1 1 ACC P N POS             
+ludia, ludiae  N (1st) F   [XXXES]    uncommon
+actress; female gladiator;
+ludius, ludi(i)  N (2nd) M   [XDXEO]    uncommon
+dancer; stage performer;
+
+
