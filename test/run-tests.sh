@@ -62,6 +62,8 @@ report-result () {
     echo $test_name .. $result
 }
 
+failed=0
+
 run-tests () {
     local test_name=01_aeneid
     local test_file_dir=test/${test_name}
@@ -71,15 +73,16 @@ run-tests () {
     create-tmp TMP_TRANSCRIPT
     $PROG < ${source} | ignore-header > $TMP_TRANSCRIPT
     [[ -v TRAVIS ]] && cat $TMP_TRANSCRIPT
-    diff -u -- - ${expected} < $TMP_TRANSCRIPT > $TMP_DISCREPANCIES
+
+    if diff -u -- - ${expected} < $TMP_TRANSCRIPT > $TMP_DISCREPANCIES
+    then
+        report-result $test_name PASS
+    else
+        [ -s "$TMP_DISCREPANCIES" ] && cat $TMP_DISCREPANCIES
+        report-result $test_name FAIL
+        failed=1
+    fi
 }
 
-if ! run-tests; then
-  if [ -s "$TMP_DISCREPANCIES" ]; then
-    cat $TMP_DISCREPANCIES
-  fi
-  echo FAIL
-  exit 1
-fi
-
-echo PASS
+run-tests
+exit $failed
