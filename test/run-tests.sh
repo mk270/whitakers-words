@@ -60,13 +60,14 @@ run-tests () {
     local source=${test_file_name}.txt
     local expected=${test_file_name}.expected
 
+    create-tmp TMP_TRANSCRIPT
     if [[ -v TRAVIS ]]; then
-        create-tmp TMP_TRANSCRIPT
-        $PROG < ${source} | ignore-header | tee $TMP_TRANSCRIPT
+        $PROG < ${source} | ignore-header > $TMP_TRANSCRIPT
+        cat $TMP_TRANSCRIPT
         diff -u -- - ${expected} < $TMP_TRANSCRIPT > $TMP_DISCREPANCIES
     else
-        $PROG < ${source} | ignore-header | \
-        diff -u -- - ${expected} > $TMP_DISCREPANCIES
+        $PROG < ${source} | ignore-header > $TMP_TRANSCRIPT
+        diff -u -- - ${expected} < $TMP_TRANSCRIPT > $TMP_DISCREPANCIES
     fi
 }
 
