@@ -55,7 +55,7 @@ run-tests () {
         diff -u -- - ${expected} > $TEMP
     fi
 }
-    
+
 if ! run-tests; then
   rv=$?
   if [ -s "$TEMP" ]; then
