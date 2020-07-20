@@ -27,7 +27,8 @@ package Words_Engine.Pearse_Code is
      Gloss,         -- 03
      Unknowns_2,    -- 04
      Affix,         -- 05
-     Trick          -- 06
+     Affix_meaning, -- 06
+     Trick          -- 07
    );
 
    function Format (S : Symbol) return String;
