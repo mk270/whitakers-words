@@ -43,12 +43,21 @@ give/bring here!/hand over, come (now/here); tell/show us, out with it! behold!
 adesdum
 V    5 1 PRES ACTIVE IMP  2 S TO_BEING              X  X  X  C  X
 come hither; (ades dum);
+Androgeo                                            
+N 2 7 GEN S M P                                     X  X  X  C  O
+Androgeos; (GEN S form apparently preferred by OLD and L+S => Androgeos, -o);
+Androgeonos                                            
+N 2 7 GEN S M P                                     X  X  X  C  O
+Androgeos (son of Minos and Pasiphae; death avenged on Athens); (see Androgeo);
 chely
-N 9 9 VOC S F T                                     X  X  X  C  S
-lyre, harp; tortoise shell (from which lyres were made); tortoise;
+N 9 9 NOM S F T                                     X  X  X  C  O
+lyre, harp; tortoise shell (used to make lyres); tortoise; constellation Lyra;
 chelyn
+N 9 9 VOC S F T                                     X  X  X  C  O
+lyre, harp; tortoise shell (used to make lyres); tortoise; constellation Lyra;
+chelys
 N 9 9 ACC S F T                                     X  X  X  C  O
-lyre, harp; tortoise shell (from which lyres were made); tortoise;
+lyre, harp; tortoise shell (used to make lyres); tortoise; constellation Lyra;
 iusiurandum
 N 2 1 NOM S N t                                     X  X  X  C  X
 an oath (ius iurandum);
