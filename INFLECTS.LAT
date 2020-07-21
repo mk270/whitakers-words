@@ -1,13 +1,13 @@
---                        INFLECTIONS     LATIN 1.97F
+--                        INFLECTIONS     LATIN 1.97F+mk270_spr93_20200720
 
---  Inflections for WORDS are in a human-readable file called INFLECTS.LAT.  
+--  Inflections for WORDS are in a human-readable file called INFLECTS.LAT.
 --  Presently there are almost 1800 separate entries.
 --  This data is processed to produce a file INFLECTS.SEC used by the code.
 
---  The part of speech is given,along with the appropriate characteristics 
---  for a particular inflection.  The inflection/ending is specified by 
+--  The part of speech is given, along with the appropriate characteristics
+--  for a particular inflection.  The inflection/ending is specified by
 --  the stem to which it is attached, a number of characters, and the ending string.
---  There is an AGE and FREQ for each entry. 
+--  There is an AGE and FREQ for each entry.
 
 
 --  This is an ongoing development.  INFLECTS will improve in future versions.
@@ -17,10 +17,10 @@
 --  In other words, the simple inflections of elementary Latin texts are A
 
 --  If there is any discrimination against infrequent cases or tenses
---  this is done on the basis of that case, not the inflection.  
+--  this is done on the basis of that case, not the inflection.
 --  The inflection is still as frequent as that case is.
 
---  Some inflections may be infrequent or early varients, and are so treated
+--  Some inflections may be infrequent or early variants, and are so treated
 
 
 --  The ones without endings
@@ -47,7 +47,7 @@ INTERJ 1 0           X A
 
 --  Inflections are taken primarily from Gildersleeve & Lodge, Latin Grammar
 --  and Allen & Greenough, New Latin Grammar
---  The books are almost identical, any diviations are noted
+--  The books are almost identical, any deviations are noted
 
 
 --                        FIRST DECLENSION
@@ -56,10 +56,10 @@ INTERJ 1 0           X A
 --  While I know of no case in which the NOM and GEN stems are different
 --  we still make provision for two stems in the KEY
 --  to be  consistent with other declensions
---  There are no neuter first declension nouns 
+--  There are no neuter first declension nouns
 --  (all inflections are C), program checks
 
---  All usual first declension nouns - N 1 1 
+--  All usual first declension nouns - N 1 1
 --  Ex: aqua aquae  =>  aqu aqu
 N     1 1 NOM S C  1 1 a         X A
 N     1 1 NOM S M  1 2 as        B D    --  G&L 29 N1
@@ -86,7 +86,7 @@ N     1 0 ACC P C  2 2 as        X A
 
 
 
---  First declension "Greek" nouns  
+--  First declension "Greek" nouns
 --  The plurals are common for all first declension, Latin and "Greek"
 --  Following Gildersleve and Lodge (mostly)
 --  Ex:  epitome, epitomes  =>   epitom epitom
@@ -95,7 +95,7 @@ N     1 6 NOM S C  1 1 e         X A
 N     1 6 VOC S C  1 1 e         X A
 N     1 6 GEN S C  2 2 es        X A
 N     1 6 LOC S C  2 2 es        X D  --  By rule  G&L 29 R 2, unlikely WAW
-N     1 6 ABL S C  2 1 e         X A 
+N     1 6 ABL S C  2 1 e         X A
 N     1 6 ACC S C  2 2 en        X A
 
 
@@ -115,7 +115,7 @@ N     1 7 ACC S C  2 2 am        X B
 
 
 --  Ex:  Archias, Archiae   =>   Archi Archi
---  Ex:  Aeneas, Aeneae     =>   Aene  Aene 
+--  Ex:  Aeneas, Aeneae     =>   Aene  Aene
 N     1 8 NOM S M  1 2 as        X A
 N     1 8 NOM S F  1 1 a         X A    --  My guess from the Greek
 N     1 8 VOC S C  1 1 a         X A
@@ -125,12 +125,12 @@ N     1 8 LOC S C  2 2 ae        X A
 N     1 8 ACC S C  2 2 an        X A
 N     1 8 ACC S C  2 2 am        X B
 N     1 8 ABL S C  2 1 a         X A
-
+N     1 8 ABL S F  2 1 e         X A    -- A&G 44
 
 
 --                        SECOND DECLENSION
 
---  Second declension nouns in "us" - N 2 1 
+--  Second declension nouns in "us" - N 2 1
 --  With the KEY on STEM this covers normal "us" and "ius" both
 --  by including or excluding the "i" in the GEN stem
 --  but the VOC is different ("e") from the "filius" declension following
@@ -138,17 +138,17 @@ N     1 8 ABL S C  2 1 a         X A
 N     2 1 NOM S X  1 2 us        X A       --  Hark 52
 --  GENDER X although only three of  N 2 1 N virus, vulgus, pelagus G&L 33 R 3
 N     2 1 NOM S C  1 2 os        A B       --  Hark 52
-N     2 1 VOC S X  1 1 e         X A       
-N     2 1 GEN S X  2 1 i         X A       
-N     2 0 LOC S X  2 1 i         X A       
+N     2 1 VOC S X  1 1 e         X A
+N     2 1 GEN S X  2 1 i         X A
+N     2 0 LOC S X  2 1 i         X A
 N     2 0 DAT S X  2 1 o         X A
 N     2 0 ABL S X  2 1 o         X A
 N     2 0 ACC S C  2 2 um        X A
 N     2 1 ACC S N  2 2 us        X A       --  GENDER exception for above
 N     2 0 ACC S C  2 2 om        A B       --  Hark 52
 
-N     2 0 NOM P C  2 1 i         X A       --  GENDER X  almost never 
-N     2 1 NOM P N  2 1 e         X A       --  A&G 48 a                
+N     2 0 NOM P C  2 1 i         X A       --  GENDER X  almost never
+N     2 1 NOM P N  2 1 e         X A       --  A&G 48 a
 N     2 0 VOC P C  2 1 i         X A       --  GENDER X  in plural
 N     2 0 GEN P X  2 4 orum      X A
 N     2 0 GEN P X  2 2 um        X C       --  G&L 33 R 4
@@ -159,7 +159,7 @@ N     2 0 ACC P C  2 2 os        X A
 N     2 1 ACC P N  2 1 e         X A
 
 
---  Second declension neuter nouns - N 2 2  
+--  Second declension neuter nouns - N 2 2
 --  This is pretty simple, like first declension, stems are identical
 --  Could reduce the number of inflections by counting on the GENDER,
 --  that is, say NOM C -> us, NOM N -> um, but then vulgus is special case
@@ -176,17 +176,17 @@ N     2 0 ACC P N  2 1 a         X A
 
 
 
---  Second declension nouns in "er" whether of not the "er" in base - N 2 3 
+--  Second declension nouns in "er" whether of not the "er" in base - N 2 3
 --  The two stem and KEY combines the two cases
 --  Ex; puer pueri  =>  puer puer
 --  Ex: ager agri   =>  ager agr
---  Ex: corniger may be the only Neuter example 
+--  Ex: corniger may be the only Neuter example
 N     2 3 NOM S X  1 0           X A
 N     2 3 VOC S X  1 0           X A
 N     2 3 GEN S X  2 1 i         X A
-                
 
---  Early (BC) 2nd declension nouns in ius/ium (not filius-like) - N 2 4 
+
+--  Early (BC) 2nd declension nouns in ius/ium (not filius-like) - N 2 4
 --  for the most part formed GEN S in 'i', not 'ii'   --  G&L 33 R 1
 --  Dictionaries often show as ...(i)i
 --  N 2 4 uses GENDER discrimination to reduce to single VAR
@@ -201,7 +201,7 @@ N     2 4 GEN S X  2 0           B A
 N     2 4 ACC S X  2 2 um        X A
 
 
---  Second declension special nouns in "ius", "filius" and proper names 
+--  Second declension special nouns in "ius", "filius" and proper names
 --  Stem includes "i" mostly, loses the "i" in the VOC and GEN
 --  Note that the "i" is kept in plural
 --  I know of only male entries for this variant
@@ -222,41 +222,49 @@ N     2 6 NOM S X  1 2 os        X A
 N     2 6 VOC S X  1 1 e         X A
 N     2 6 GEN S X  2 1 i         X A
 N     2 6 ACC S C  2 2 on        X A
-N     2 6 ACC S N  2 2 os        X A       
+N     2 6 ACC S N  2 2 os        X A
 
 N     2 6 NOM P X  2 2 oe        B C     --  G&L 66 N4
 N     2 6 NOM P N  2 1 e         B C     --  OLD cetus
 N     2 6 ACC P N  2 1 e         B C     --  OLD cetus
 
 
---  This one is not done very precisely
---  Ex:  Androgeos  Androgeo  =>  Andregeos  Andrege
+--  This artificial declension is a hybrid:  A subset of what A&G 82 call 
+--  Greek third declension proper names plus inflections from what A&G 52  
+--  call Greek second declension. To make things more complicated, OLD and 
+--  L+S often have multiple alternative inflection--and A&G 82(fn) indicate  
+--  that the usual Latin third declension inflections may also apply.
+--  Yet this hybrid, combined with a couple UNIQUES entries, does a pretty 
+--  good job of capturing the dictionary's -ys stem Greek nouns that closely,
+--  but don't exactly, match 2 6.
 --  Also for -ys for Greek -os
---  Ex:  chelys  (-yn ACC)  =>  chelys  chel
 --  Ex:  amphibachys  amphibrachyos  =>  amphibrachys  amphibrach
-N     2 7 NOM S X  1 0           X A
-N     2 7 VOC S X  1 0           X A 
-N     2 7 VOC S X  2 0           X D  -- chelys L+S
-N     2 7 GEN S X  2 1 o         X A
-N     2 7 GEN S X  2 1 i         X B
-N     2 7 GEN S X  2 2 yos       X D  -- Hack for ys->yos
-N     2 7 ACC S X  2 2 on        X A
-N     2 7 ACC S X  2 2 yn        X D  -- Hack for ys->yn (on)
-N     2 7 ACC S X  2 1 o         X B
+N     2 7 NOM S C  1 0           X A
+N     2 7 VOC S C  1 0           X A
+N     2 7 GEN S C  2 3 yos       X A  
+N     2 7 GEN S M  2 2 us        X A 
+-- N     2 7 GEN S C  3 1 o         X A  -- this was only for echo
+N     2 7 GEN S C  2 1 i         X A
+N     2 7 DAT S C  2 1 i         A A  
+N     2 7 ACC S C  2 2 yn        X A  -- Hack for ys->yn (on)
+N     2 7 ACC S C  2 3 yon       X A
+N     2 7 ACC S C  2 1 o         X B  -- ????
 
+N     2 7 ACC P C  2 3 yos       X A
 
 
 --  Nouns from Greek in -on       --  only  N
---  Ex:  Ilion Ilii    =>  Ili  Ili   
+--  Ex:  Ilion Ilii    =>  Ili  Ili
 N     2 8 NOM S N  1 2 on        X A
 N     2 8 VOC S N  2 2 on        X A
 N     2 8 GEN S N  2 1 i         X A
+N     2 8 DAT S N  1 1 o         X A  -- A&G 52
 N     2 8 ACC S N  2 2 on        X A
+N     2 8 ABL S N  1 2 on        X A  -- A&G 52
 
 
 
-
---  Ex:  Panthus, Panthi => Panth Panth  --  only one? 
+--  Ex:  Panthus, Panthi => Panth Panth  --  only one?
 --  Ex:  Teucrus
 --  and even OLD does not give information to allow this designation
 N     2 9 NOM S C  1 2 us        X A
@@ -267,16 +275,16 @@ N     2 9 ACC S C  2 2 un        X A
 
 
 
---  Third declension M or F nouns whose stems end in a consonant - N 3 1 
+--  Third declension M or F nouns whose stems end in a consonant - N 3 1
 --  Ex: miles militis  =>  miles milit
 --  Ex: lex legis  =>  lex leg
 --  Ex: frater fratris  =>  frater fratr
 --  Ex: soror sororis  =>  soror soror
---  All third declension that have the endings -udo, -io, -tas, -x 
+--  All third declension that have the endings -udo, -io, -tas, -x
 --  Ex: pulcritudo pulcritudinis  =>  plucritudo pulcritudin
---  Ex: legio legionis  =>  legio legion    
+--  Ex: legio legionis  =>  legio legion
 --  Ex: varietas varietatis  =>  varietas varietat
---  Ex: radix radicis  =>  radix  radic     
+--  Ex: radix radicis  =>  radix  radic
 N     3 0 NOM S X  1 0           X A
 N     3 0 VOC S X  1 0           X A
 N     3 0 GEN S X  2 2 is        X A
@@ -301,7 +309,7 @@ N     3 1 ACC P C  2 2 is        X C      --  G&L 57 4
 N     3 1 ACC P C  2 2 es        X A
 
 
---  Third declension  N nouns with stems ending in a consonant - N 3 2 
+--  Third declension  N nouns with stems ending in a consonant - N 3 2
 --  Ex: nomen nomenis  =>  nomen nomin
 --  Ex: iter itineris =>  iter itiner
 --  Ex: tempus temporis  =>  tempus  tempor
@@ -315,11 +323,11 @@ N     3 2 GEN P N  2 3 ium       X B      --  G&L 38 2
 N     3 2 ACC P N  2 1 a         X A
 
 
---  Third declension nouns  I-stems (M & F) - N 3 3  
---  Ex: hostis hostis  =>  hostis host 
+--  Third declension nouns  I-stems (M & F) - N 3 3
+--  Ex: hostis hostis  =>  hostis host
 --  Ex: finis finis  =>  finis fin
 --  Consonant i-stems
---  Ex: urbs urbis  =>  urbs urb         
+--  Ex: urbs urbis  =>  urbs urb
 --  Ex: mons montis  =>  mons mont
 --  Also use this for present participles (-ns) used as substantives in M & F
 N     3 3 ABL S C  2 1 i         X B      --  G&L 57 2
@@ -336,11 +344,11 @@ N     3 3 ACC P C  2 2 es        X B
 N     3 3 ACC P C  2 3 eis       A C      --  G&L 57 5
 
 
---  Third declension nouns  I-stems (N) - N 3 4  
+--  Third declension nouns  I-stems (N) - N 3 4
 --  Ex: mare maris  =>  mare mar                       --  ending in "e"
 --  Ex: animal animalis  =>  animal animal             --  ending in "al"
 --  Ex: exemplar exemplaris  =>  exemplar exemplar     --  ending in "ar"
---  Also use this for present participles (-ns) used as substantives in N     
+--  Also use this for present participles (-ns) used as substantives in N
 N     3 4 ABL S N  2 1 i         X A
 N     3 4 ACC S N  1 0           X A
 
@@ -353,13 +361,13 @@ N     3 4 ACC P N  2 2 ia        X A
 
 
 
---  Third declension Greek nouns 
+--  Third declension Greek nouns
 --  Ex:  aer aeris  =>  aer aer
 N     3 6 GEN S C  2 2 is        X A
 N     3 6 ACC S C  2 1 a         X A
 N     3 6 ACC S C  2 2 em        X B
 
-N     3 6 GEN S C  2 2 um        X A   
+N     3 6 GEN S C  2 2 um        X A
 N     3 6 ACC S C  2 2 as        X A
 
 
@@ -372,15 +380,15 @@ N     3 7 ACC S X  2 2 em        X A
 
 N     3 7 NOM P N  2 1 a         X A
 N     3 7 VOC P N  2 1 a         X A
-N     3 7 GEN P X  2 2 um        X A   
-N     3 7 ACC P C  2 2 as        X A   
-N     3 7 ACC P N  2 1 a         X A   
+N     3 7 GEN P X  2 2 um        X A
+N     3 7 ACC P C  2 2 as        X A
+N     3 7 ACC P N  2 1 a         X A
 
 
 
---  Mixec Greek II and III  (V)          --  G&L 65
+--  Mixed Greek II and III  (V)          --  G&L 65
 --  Ex:  Moses, Mosis  =>  Moses Mos     --  Ecc
---  Ex:  Ulixes, Ulixis/i/ei  =>  Uxiles Uxil/Uxile     
+--  Ex:  Ulixes, Ulixis/i/ei  =>  Uxiles Uxil/Uxile
 --  Ex:  Achilles, Achillis  =>  Achilles Achill/Achille
 --N     3 0 VOC S X  1 0           X A
 N     3 8 VOC S X  2 1 e           X A
@@ -393,7 +401,7 @@ N     3 8 ACC S X  2 2 es        X B
 N     3 8 ACC S X  2 2 en        X B     --  G&L 65
 
 N     3 8 GEN P C  2 2 um        X A
-N     3 8 GEN P C  2 3 ium       X B     
+N     3 8 GEN P C  2 3 ium       X B
 N     3 8 ACC P C  2 2 is        X A
 
 
@@ -402,7 +410,7 @@ N     3 8 ACC P C  2 2 is        X A
 --  Ex:  praxis praxios  =>  prax praxi
 --  Ex:  haeresis haereseos  =>  haeres haerese (haeresis, -is is NOT --   of type 3 9, the ACC SING is haeresem)
 --  Ex:  pater patros  =>  pater patr
---  Note that the ACC SING can be derived from either the 1st or the 
+--  Note that the ACC SING can be derived from either the 1st or the
 --   2nd stem (depends on word)
 
 --N     3 0 NOM S X  1 0 NULL          X A
@@ -425,19 +433,19 @@ N     3 9 ACC S X  2 1 a         X B
 --N     3 0 VOC P C  2 2 es        X A
 N     3 9 NOM P N  2 1 a         X A
 N     3 9 VOC P N  2 1 a         X A
-N     3 9 GEN P X  2 3 ium       X A   
+N     3 9 GEN P X  2 3 ium       X A
 N     3 9 GEN P X  2 2 on        X A  -- JFW, Greek GEN plural
 --N     3 0 DAT P X  2 4 ibus      X A
 --N     3 0 ABL P X  2 4 ibus      X A
 --N     3 0 ACC P C  2 2 es        X A
 N     3 9 ACC P C  2 2 is        X A
-N     3 9 ACC P C  2 2 as        X B   
+N     3 9 ACC P C  2 2 as        X B
 N     3 9 ACC P N  2 1 a         X A
 
 
 
 
---  Fourth declension nouns M & F in "us" - N 4 1 
+--  Fourth declension nouns M & F in "us" - N 4 1
 --  Ex: passus passus  =>  pass pass
 --  Ex: manus manus  =>  man man
 N     4 1 NOM S C  1 2 us        X A
@@ -465,7 +473,7 @@ N     4 1 ACC P C  2 2 us        X A
 N     4 1 ACC P C  2 3 uus       D C     --  G&L 61 N 3
 
 
---  Fourth declension nouns N in "u" - N 4 2 
+--  Fourth declension nouns N in "u" - N 4 2
 --  Ex: genu genus  =>  gen gen
 --  Ex: cornu cornus  =>  corn corn
 N     4 2 NOM S N  1 1 u         X A
@@ -480,8 +488,8 @@ N     4 2 ACC P N  2 2 ua        X A
 
 
 --  A sort of artifical fourth declension
---  Just for Jesus, no plural - but there might be others            
---  Ex: Jesus Jesu    =>  Ies Ies  (Jes Jes)  
+--  Just for Jesus, no plural - but there might be others
+--  Ex: Jesus Jesu    =>  Ies Ies  (Jes Jes)
 N     4 3 NOM S C  1 2 us        X A
 N     4 3 VOC S C  1 1 u         X A
 N     4 3 GEN S C  2 1 u         X A
@@ -489,8 +497,21 @@ N     4 3 DAT S C  2 1 u         X A
 N     4 3 ACC S C  2 2 em        X A    --  Stelten, Dict. of Eccl. Latin
 N     4 3 ACC S C  2 2 um        X A    --  Collins, Primer of Eccl. Latin
 
+--  Fourth declension for echo - maybe other Greek nouns
+--  Ex: echo echu  =>  echo ech
+N     4 4 NOM S C  1 0           X A
+N     4 4 VOC S C  1 0           X A
+N     4 4 GEN S C  2 1 o         X A   -- OED for echo
+N     4 4 DAT S C  2 2 ui        X A
+N     4 4 ACC S C  2 1 u         X A
+N     4 4 ACC S C  2 2 on        X A   -- OED for echo
 
---  All fifth declension nouns - N 5 1 
+N     4 4 NOM P C  2 2 us        X A
+N     4 4 VOC P C  2 2 us        X A
+
+
+
+--  All fifth declension nouns - N 5 1
 --  Ex: dies diei  =>  di di
 --  Ex: res rei  =>  r r
 N     5 1 NOM S C  1 2 es        X A
@@ -526,8 +547,8 @@ N     9 9 X X X  1 0     X A
 
 --  FIRST AND SECOND DECLENSION ADJECTIVES
 
---  Adjectives of first and second declension (-us in NOM S M) - ADJ 1 1 
---  Ex: malus mala malum  => mal mal pei pessi 
+--  Adjectives of first and second declension (-us in NOM S M) - ADJ 1 1
+--  Ex: malus mala malum  => mal mal pei pessi
 --  Ex: altus alta altum  =>  alt alt alti altissi
 ADJ   1 1 NOM S M POS   1 2 us    X A
 ADJ   1 1 GEN S M POS   2 1 i     X A
@@ -542,7 +563,7 @@ ADJ   1 0 DAT P X POS   2 2 is    X A
 ADJ   1 0 ACC P M POS   2 2 os    X A
 ADJ   1 0 ABL P X POS   2 2 is    X A
 ADJ   1 0 VOC P M POS   2 1 i     X A
-         
+
 ADJ   1 0 NOM S F POS   2 1 a     X A
 ADJ   1 1 GEN S F POS   2 2 ae    X A
 ADJ   1 1 DAT S F POS   2 2 ae    X A
@@ -590,16 +611,16 @@ ADJ   0 0 VOC P C COMP  3 4 ores      X A
 
 ADJ   0 0 NOM S N COMP  3 2 us        X A
 ADJ   0 0 GEN S N COMP  3 4 oris      X A
---ADJ   0 0 DAT S N COMP  3 3 ori      
+--ADJ   0 0 DAT S N COMP  3 3 ori
 ADJ   0 0 ACC S N COMP  3 2 us        X A
 --ADJ   0 0 ABL S N COMP  3 3 ore       X
 ADJ   0 0 VOC S N COMP  3 2 us        X A
 
 ADJ   0 0 NOM P N COMP  3 3 ora       X A
---ADJ   0 0 GEN P N COMP  3 4 orum    
+--ADJ   0 0 GEN P N COMP  3 4 orum
 --ADJ   0 0 DAT P N COMP  3 6 oribus    X
 ADJ   0 0 ACC P N COMP  3 3 ora       X A
---ADJ   0 0 ABL P N COMP  3 6 oribus   
+--ADJ   0 0 ABL P N COMP  3 6 oribus
 ADJ   0 0 VOC P N COMP  3 3 ora       X A
 
 --  Can include m in ending, since I know of no exception.
@@ -607,7 +628,7 @@ ADJ   0 0 VOC P N COMP  3 3 ora       X A
 --  So on both counts it is easier than the minor/COMP problem above.
 --  Including more is a problem.  Most end in issim, but there are r and l's
 --  And there are worse cases, citimus, extremus, postumus, summus
---  These could also be handled as ADJ 1 1 POS, but this more including 
+--  These could also be handled as ADJ 1 1 POS, but this more including
 ADJ   0 0 NOM S M SUPER 4 3 mus       X A
 ADJ   0 0 GEN S M SUPER 4 2 mi        X A
 ADJ   0 0 DAT S M SUPER 4 2 mo        X A
@@ -647,13 +668,13 @@ ADJ   0 0 NOM P N SUPER 4 2 ma       X A
 ADJ   0 0 GEN P N SUPER 4 5 morum    X A
 --ADJ   0 0 DAT P N SUPER 4 3 mis      X
 ADJ   0 0 ACC P N SUPER 4 2 ma       X A
---ADJ   0 0 ABL P N SUPER 4 3 mis    
+--ADJ   0 0 ABL P N SUPER 4 3 mis
 ADJ   0 0 VOC P N SUPER 4 2 ma       X A
 
 
 
 
---  Adjectives of first and second declension (-er) - ADJ 1 2 
+--  Adjectives of first and second declension (-er) - ADJ 1 2
 --  Ex: miser misera miserum  =>  miser miser miseri miserri
 --  Ex: sacer sacra sacrum  =>  sacer sacr zzz  sacerri     --  no COMP
 --  Ex: pulcher pulchri  =>  pulcher pulchr pulchri pulcherri
@@ -699,9 +720,9 @@ ADJ   1 4 VOC S N POS   2 2 um       X A
 
 
 
---  alius, alia, aliud => ali ali    
+--  alius, alia, aliud => ali ali
 --  (sort of has ius in GEN {but we put i in stem} and i in DAT sing)
---  Has alternative form alterius in GEN SING 
+--  Has alternative form alterius in GEN SING
 ADJ   1 5 NOM S M POS   1 2 us       X A
 ADJ   1 5 GEN S X POS   2 2 us       X C     --  G&L 76 1 R1
 ADJ   1 5 GEN S X POS   2 4 enus     X A     --  G&L 76 1 R1
@@ -737,15 +758,15 @@ ADJ   1 5 ABL P N POS   2 3 eis      X A
 --  For the -os, -on adjectives, which OLD cites
 --  I am saying that -os is the ending for Common, not Masculine
 --  Like other ADJ 1 1, the stems are the same
---  Plurals are the same as ADJ 1 1 
+--  Plurals are the same as ADJ 1 1
 
 --  -, e,-  the F part
 ADJ   2 1 NOM S F X 1 1 e         X A
 ADJ   2 1 VOC S F X 1 1 e         X A
 ADJ   2 1 GEN S F X 2 2 es        X A
 ADJ   2 1 LOC S F X 2 2 es        X A  --  By rule  G&L 29 R 2, unlikely WAW
-ADJ   2 1 DAT S F X 2 2 ae        X A 
-ADJ   2 1 ABL S F X 2 1 e         X A 
+ADJ   2 1 DAT S F X 2 2 ae        X A
+ADJ   2 1 ABL S F X 2 1 e         X A
 ADJ   2 1 ACC S F X 2 2 en        X A
 
 --  -, a,-  the F part
@@ -793,14 +814,14 @@ ADJ   2 8 DAT S N X 2 1 o         X A
 ADJ   2 8 ABL S N X 2 1 o         X A
 ADJ   2 8 ACC S N X 2 2 on        X A
 
---  Plurals are like regular Latin ADJ 1 1 
+--  Plurals are like regular Latin ADJ 1 1
 ADJ   2 0 NOM P M POS   2 1 i     X A
 ADJ   2 0 GEN P M POS   2 4 orum  X A
 ADJ   2 0 DAT P X POS   2 2 is    X A
 ADJ   2 0 ACC P M POS   2 2 os    X A
 ADJ   2 0 ABL P X POS   2 2 is    X A
 ADJ   2 0 VOC P M POS   2 1 i     X A
-         
+
 ADJ   2 0 NOM P F POS   2 2 ae    X A
 ADJ   2 0 GEN P F POS   2 4 arum  X A
 ADJ   2 0 ACC P F POS   2 2 as    X A
@@ -815,7 +836,7 @@ ADJ   2 0 VOC P N POS   2 1 a     X A
 
 --  THIRD DECLENSION ADJECTIVES
 
---  Adjectives of third declension - one ending  - ADJ 3 1 
+--  Adjectives of third declension - one ending  - ADJ 3 1
 --  Ex: audax (gen) audacis  =>  audax audac audaci audacissi
 --  Ex: prudens prudentis  =>  prudens prudent prudenti prudentissi
 ADJ   3 1 NOM S X POS   1 0          X A
@@ -829,7 +850,7 @@ ADJ   3 1 VOC S X POS   1 0          X A
 
 ADJ   3 0 NOM P C POS   2 2 es       X A
 ADJ   3 0 GEN P X POS   2 3 ium      X A
-ADJ   3 0 GEN P X POS   2 2 um       X A --  T  
+ADJ   3 0 GEN P X POS   2 2 um       X A --  T
 ADJ   3 0 DAT P X POS   2 4 ibus     X A
 ADJ   3 0 ACC P C POS   2 2 es       X A
 --  Alternatively
@@ -841,11 +862,11 @@ ADJ   3 0 VOC P C POS   2 2 es       X A
 --ADJ   3 0 GEN S N POS   2 2 is       X
 --ADJ   3 0 DAT S N POS   2 1 i        X
 ADJ   3 1 ACC S N POS   1 0          X A
---ADJ   3 0 ABL S N POS   2 1 i      
+--ADJ   3 0 ABL S N POS   2 1 i
 --ADJ   3 1 VOC S N POS   1 0          X
 
 ADJ   3 0 NOM P N POS   2 2 ia       X A
---ADJ   3 0 GEN P N POS   2 3 ium    
+--ADJ   3 0 GEN P N POS   2 3 ium
 --ADJ   3 0 DAT P N POS   2 4 ibus     X
 ADJ   3 0 ACC P N POS   2 2 ia       X A
 --ADJ   3 0 ABL P N POS   2 4 ibus     X
@@ -853,7 +874,7 @@ ADJ   3 0 VOC P N POS   2 2 ia       X A
 
 
 
---  Adjectives of third declension - two endings   - ADJ 3 2 
+--  Adjectives of third declension - two endings   - ADJ 3 2
 --  Ex: brevis breve  =>  brev brev brevi brevissi
 --  Ex: facil facil   =>  facil facil facili facilli
 ADJ   3 2 NOM S C POS   1 2 is       X A
@@ -866,10 +887,10 @@ ADJ   3 2 ACC S N POS   2 1 e        X A
 ADJ   3 2 VOC S N POS   2 1 e        X A
 
 ADJ   3 2 NOM P C POS   2 3 eis      F B -- Erasmus and neoLatin (JFW)
-ADJ   3 2 ACC P C POS   2 3 eis      F B -- Erasmus and neoLatin (JFW) 
+ADJ   3 2 ACC P C POS   2 3 eis      F B -- Erasmus and neoLatin (JFW)
 
 
---  Adjectives of third declension - three endings  - ADJ 3 3 
+--  Adjectives of third declension - three endings  - ADJ 3 3
 --  Ex: celer celeris  celere  =>  celer celer celeri celerri
 --  Ex: acer acris acre  =>  acer acr acri acerri
 ADJ   3 3 NOM S M POS   1 0          X A
@@ -886,14 +907,14 @@ ADJ   3 3 VOC S N POS   2 1 e        X A
 
 
 --  Greek adjectives of third declension
---  This is a real wild guess, but is generated from the Greek forms 
+--  This is a real wild guess, but is generated from the Greek forms
 --  In Greek there are two endings, but is compressed to one in Latin
 --  Ex: amethystizon amethystizontos => amethystizon amethystizont
 ADJ   3 6 NOM S X POS   1 0          X A
 ADJ   3 6 GEN S X POS   2 2 os       X A
 ADJ   3 6 ACC S C POS   2 1 a        X A
 ADJ   3 6 ACC S N POS   2 0          X A
-ADJ   3 6 VOC S X POS   1 0          X A 
+ADJ   3 6 VOC S X POS   1 0          X A
 
 ADJ   3 6 ACC P C POS   2 2 as       X A
 
@@ -901,12 +922,12 @@ ADJ   3 6 ACC P C POS   2 2 as       X A
 --  For ADJ abbreviations, indeclinable, but a special case vis. capitalization
 ADJ   9 8 X X X X 1 0             X A
 
---  For adjective that is not declined                    
+--  For adjective that is not declined
 ADJ   9 9 X X X X 1 0             X A
 
 
 
---  Verbs of the first conjugation  --  V 1 1  
+--  Verbs of the first conjugation  --  V 1 1
 --  Ex: voco vocare vocavi vocatus  =>  voc voc vocav vocat
 --  Ex: porto portave portavi portatus  =>  port port portav portat
 
@@ -925,7 +946,7 @@ V     1 1 PRES  ACTIVE  IND  3 P  1 3 ant           X A
 V     1 1 IMPF  ACTIVE  IND  1 S  1 4 abam          X A
 V     1 1 IMPF  ACTIVE  IND  2 S  1 4 abas          X A
 V     1 1 IMPF  ACTIVE  IND  3 S  1 4 abat          X A
-                                                         
+
 V     1 1 IMPF  ACTIVE  IND  1 P  1 6 abamus        X A
 V     1 1 IMPF  ACTIVE  IND  2 P  1 6 abatis        X A
 V     1 1 IMPF  ACTIVE  IND  3 P  1 5 abant         X A
@@ -933,7 +954,7 @@ V     1 1 IMPF  ACTIVE  IND  3 P  1 5 abant         X A
 V     1 1 FUT   ACTIVE  IND  1 S  1 3 abo           X A
 V     1 1 FUT   ACTIVE  IND  2 S  1 4 abis          X A
 V     1 1 FUT   ACTIVE  IND  3 S  1 4 abit          X A
-                                                         
+
 V     1 1 FUT   ACTIVE  IND  1 P  1 6 abimus        X A
 V     1 1 FUT   ACTIVE  IND  2 P  1 6 abitis        X A
 V     1 1 FUT   ACTIVE  IND  3 P  1 5 abunt         X A
@@ -941,7 +962,7 @@ V     1 1 FUT   ACTIVE  IND  3 P  1 5 abunt         X A
 V     0 0 PERF  ACTIVE  IND  1 S  3 1 i             X A
 V     0 0 PERF  ACTIVE  IND  2 S  3 4 isti          X A
 V     0 0 PERF  ACTIVE  IND  3 S  3 2 it            X A
-                                                         
+
 V     0 0 PERF  ACTIVE  IND  1 P  3 4 imus          X A
 V     0 0 PERF  ACTIVE  IND  2 P  3 5 istis         X A
 V     0 0 PERF  ACTIVE  IND  3 P  3 5 erunt         X A
@@ -951,7 +972,7 @@ V     0 0 PERF  ACTIVE  IND  3 P  3 3 ere           X B
 V     0 0 PLUP  ACTIVE  IND  1 S  3 4 eram          X A
 V     0 0 PLUP  ACTIVE  IND  2 S  3 4 eras          X A
 V     0 0 PLUP  ACTIVE  IND  3 S  3 4 erat          X A
-                                                         
+
 V     0 0 PLUP  ACTIVE  IND  1 P  3 6 eramus        X A
 V     0 0 PLUP  ACTIVE  IND  2 P  3 6 eratis        X A
 V     0 0 PLUP  ACTIVE  IND  3 P  3 5 erant         X A
@@ -959,7 +980,7 @@ V     0 0 PLUP  ACTIVE  IND  3 P  3 5 erant         X A
 V     0 0 FUTP  ACTIVE  IND  1 S  3 3 ero           X A
 V     0 0 FUTP  ACTIVE  IND  2 S  3 4 eris          X A
 V     0 0 FUTP  ACTIVE  IND  3 S  3 4 erit          X A
-                                                         
+
 V     0 0 FUTP  ACTIVE  IND  1 P  3 6 erimus        X A
 V     0 0 FUTP  ACTIVE  IND  2 P  3 6 eritis        X A
 V     0 0 FUTP  ACTIVE  IND  3 P  3 5 erint         X A
@@ -971,7 +992,7 @@ V     1 1 PRES  PASSIVE IND  2 S  2 4 aris          X A
 --  Alternatively
 V     1 1 PRES  PASSIVE IND  2 S  2 3 are           B B    --  G+L 130 1
 V     1 1 PRES  PASSIVE IND  3 S  2 4 atur          X A
-                                                         
+
 V     1 1 PRES  PASSIVE IND  1 P  2 4 amur          X A
 V     1 1 PRES  PASSIVE IND  2 P  2 5 amini         X A
 V     1 1 PRES  PASSIVE IND  3 P  1 5 antur         X A
@@ -981,7 +1002,7 @@ V     1 1 IMPF  PASSIVE IND  2 S  1 6 abaris        X A
 --  Alternatively
 V     1 1 IMPF  PASSIVE IND  2 S  1 5 abare         X A
 V     1 1 IMPF  PASSIVE IND  3 S  1 6 abatur        X A
-                                                         
+
 V     1 1 IMPF  PASSIVE IND  1 P  1 6 abamur        X A
 V     1 1 IMPF  PASSIVE IND  2 P  1 7 abamini       X A
 V     1 1 IMPF  PASSIVE IND  3 P  1 7 abantur       X A
@@ -991,7 +1012,7 @@ V     1 1 FUT   PASSIVE IND  2 S  1 6 aberis        X A
 --  Alternatively
 V     1 1 FUT   PASSIVE IND  2 S  1 5 abere         X A
 V     1 1 FUT   PASSIVE IND  3 S  1 6 abitur        X A
-                                                         
+
 V     1 1 FUT   PASSIVE IND  1 P  1 6 abimur        X A
 V     1 1 FUT   PASSIVE IND  2 P  1 7 abimini       X A
 V     1 1 FUT   PASSIVE IND  3 P  1 7 abuntur       X A
@@ -1006,7 +1027,7 @@ V     1 1 FUT   PASSIVE IND  3 P  1 7 abuntur       X A
 V     1 1 PRES  ACTIVE  SUB  1 S  1 2 em            X A
 V     1 1 PRES  ACTIVE  SUB  2 S  1 2 es            X A
 V     1 1 PRES  ACTIVE  SUB  3 S  1 2 et            X A
-                                                         
+
 V     1 1 PRES  ACTIVE  SUB  1 P  1 4 emus          X A
 V     1 1 PRES  ACTIVE  SUB  2 P  1 4 etis          X A
 V     1 1 PRES  ACTIVE  SUB  3 P  1 3 ent           X A
@@ -1014,7 +1035,7 @@ V     1 1 PRES  ACTIVE  SUB  3 P  1 3 ent           X A
 V     1 1 IMPF  ACTIVE  SUB  1 S  2 4 arem          X A
 V     1 1 IMPF  ACTIVE  SUB  2 S  2 4 ares          X A
 V     1 1 IMPF  ACTIVE  SUB  3 S  2 4 aret          X A
-                                                         
+
 V     1 1 IMPF  ACTIVE  SUB  1 P  2 6 aremus        X A
 V     1 1 IMPF  ACTIVE  SUB  2 P  2 6 aretis        X A
 V     1 1 IMPF  ACTIVE  SUB  3 P  2 5 arent         X A
@@ -1022,7 +1043,7 @@ V     1 1 IMPF  ACTIVE  SUB  3 P  2 5 arent         X A
 V     0 0 PERF  ACTIVE  SUB  1 S  3 4 erim          X A
 V     0 0 PERF  ACTIVE  SUB  2 S  3 4 eris          X A
 V     0 0 PERF  ACTIVE  SUB  3 S  3 4 erit          X A
-                                                         
+
 V     0 0 PERF  ACTIVE  SUB  1 P  3 6 erimus        X A
 V     0 0 PERF  ACTIVE  SUB  2 P  3 6 eritis        X A
 V     0 0 PERF  ACTIVE  SUB  3 P  3 5 erint         X A
@@ -1030,7 +1051,7 @@ V     0 0 PERF  ACTIVE  SUB  3 P  3 5 erint         X A
 V     0 0 PLUP  ACTIVE  SUB  1 S  3 5 issem         X A
 V     0 0 PLUP  ACTIVE  SUB  2 S  3 5 isses         X A
 V     0 0 PLUP  ACTIVE  SUB  3 S  3 5 isset         X A
-                                                         
+
 V     0 0 PLUP  ACTIVE  SUB  1 P  3 7 issemus       X A
 V     0 0 PLUP  ACTIVE  SUB  2 P  3 7 issetis       X A
 V     0 0 PLUP  ACTIVE  SUB  3 P  3 6 issent        X A
@@ -1042,7 +1063,7 @@ V     1 1 PRES  PASSIVE SUB  2 S  1 4 eris          X A
 --  Alternatively
 V     1 1 PRES  PASSIVE SUB  2 S  1 3 ere           X A
 V     1 1 PRES  PASSIVE SUB  3 S  1 4 etur          X A
-                                                         
+
 V     1 1 PRES  PASSIVE SUB  1 P  1 4 emur          X A
 V     1 1 PRES  PASSIVE SUB  2 P  1 5 emini         X A
 V     1 1 PRES  PASSIVE SUB  3 P  1 5 entur         X A
@@ -1052,7 +1073,7 @@ V     1 1 IMPF  PASSIVE SUB  2 S  2 6 areris        X A
 --  Alternatively
 V     1 1 IMPF  PASSIVE SUB  2 S  2 5 arere         X A
 V     1 1 IMPF  PASSIVE SUB  3 S  2 6 aretur        X A
-                                                         
+
 V     1 1 IMPF  PASSIVE SUB  1 P  2 6 aremur        X A
 V     1 1 IMPF  PASSIVE SUB  2 P  2 7 aremini       X A
 V     1 1 IMPF  PASSIVE SUB  3 P  2 7 arentur       X A
@@ -1061,7 +1082,7 @@ V     1 1 IMPF  PASSIVE SUB  3 P  2 7 arentur       X A
 
 V     1 1 PRES  ACTIVE  IMP  2 S  2 1 a             X A
 V     1 1 PRES  ACTIVE  IMP  2 P  2 3 ate           X A
-                                   
+
 V     1 1 FUT   ACTIVE  IMP  2 S  2 3 ato           X A
 V     1 1 FUT   ACTIVE  IMP  3 S  2 3 ato           X A
 V     1 1 FUT   ACTIVE  IMP  2 P  2 5 atote         X A
@@ -1069,7 +1090,7 @@ V     1 1 FUT   ACTIVE  IMP  3 P  2 4 anto          X A
 
 V     1 1 PRES  PASSIVE IMP  2 S  2 3 are           X A
 V     1 1 PRES  PASSIVE IMP  2 P  2 5 amini         X A
-                              
+
 V     1 1 FUT   PASSIVE IMP  2 S  2 4 ator          X A
 V     1 1 FUT   PASSIVE IMP  3 S  2 4 ator          X A
 V     1 1 FUT   PASSIVE IMP  3 P  2 5 antor         X A
@@ -1110,7 +1131,7 @@ V     2 1 PRES  ACTIVE  IND  3 P  1 3 ent           X A
 V     2 1 IMPF  ACTIVE  IND  1 S  1 4 ebam          X A
 V     2 1 IMPF  ACTIVE  IND  2 S  1 4 ebas          X A
 V     2 1 IMPF  ACTIVE  IND  3 S  1 4 ebat          X A
-                                                         
+
 V     2 1 IMPF  ACTIVE  IND  1 P  1 6 ebamus        X A
 V     2 1 IMPF  ACTIVE  IND  2 P  1 6 ebatis        X A
 V     2 1 IMPF  ACTIVE  IND  3 P  1 5 ebant         X A
@@ -1118,7 +1139,7 @@ V     2 1 IMPF  ACTIVE  IND  3 P  1 5 ebant         X A
 V     2 1 FUT   ACTIVE  IND  1 S  1 3 ebo           X A
 V     2 1 FUT   ACTIVE  IND  2 S  1 4 ebis          X A
 V     2 1 FUT   ACTIVE  IND  3 S  1 4 ebit          X A
-                                                         
+
 V     2 1 FUT   ACTIVE  IND  1 P  1 6 ebimus        X A
 V     2 1 FUT   ACTIVE  IND  2 P  1 6 ebitis        X A
 V     2 1 FUT   ACTIVE  IND  3 P  1 5 ebunt         X A
@@ -1130,7 +1151,7 @@ V     2 1 PRES  PASSIVE IND  1 S  1 3 eor           X A
 V     2 1 PRES  PASSIVE IND  2 S  2 4 eris          X A
 V     2 1 PRES  PASSIVE IND  2 S  2 3 ere           X A
 V     2 1 PRES  PASSIVE IND  3 S  2 4 etur          X A
-                                                         
+
 V     2 1 PRES  PASSIVE IND  1 P  2 4 emur          X A
 V     2 1 PRES  PASSIVE IND  2 P  2 5 emini         X A
 V     2 1 PRES  PASSIVE IND  3 P  1 5 entur         X A
@@ -1139,7 +1160,7 @@ V     2 1 IMPF  PASSIVE IND  1 S  1 4 ebar          X A
 V     2 1 IMPF  PASSIVE IND  2 S  1 6 ebaris        X A
 V     2 1 IMPF  PASSIVE IND  2 S  1 5 ebare         X A
 V     2 1 IMPF  PASSIVE IND  3 S  1 6 ebatur        X A
-                                                         
+
 V     2 1 IMPF  PASSIVE IND  1 P  1 6 ebamur        X A
 V     2 1 IMPF  PASSIVE IND  2 P  1 7 ebamini       X A
 V     2 1 IMPF  PASSIVE IND  3 P  1 7 ebantur       X A
@@ -1148,12 +1169,12 @@ V     2 1 FUT   PASSIVE IND  1 S  1 4 ebor          X A
 V     2 1 FUT   PASSIVE IND  2 S  1 6 eberis        X A
 V     2 1 FUT   PASSIVE IND  2 S  1 5 ebere         X A
 V     2 1 FUT   PASSIVE IND  3 S  1 6 ebitur        X A
-                                                         
+
 V     2 1 FUT   PASSIVE IND  1 P  1 6 ebimur        X A
 V     2 1 FUT   PASSIVE IND  2 P  1 7 ebimini       X A
 V     2 1 FUT   PASSIVE IND  3 P  1 7 ebuntur       X A
 
-    --  Passive Perfect formed with verb to be, no endings    
+    --  Passive Perfect formed with verb to be, no endings
 
 
   --  Subjunctive
@@ -1163,7 +1184,7 @@ V     2 1 FUT   PASSIVE IND  3 P  1 7 ebuntur       X A
 V     2 1 PRES  ACTIVE  SUB  1 S  1 3 eam           X A
 V     2 1 PRES  ACTIVE  SUB  2 S  1 3 eas           X A
 V     2 1 PRES  ACTIVE  SUB  3 S  1 3 eat           X A
-                                                         
+
 V     2 1 PRES  ACTIVE  SUB  1 P  1 5 eamus         X A
 V     2 1 PRES  ACTIVE  SUB  2 P  1 5 eatis         X A
 V     2 1 PRES  ACTIVE  SUB  3 P  1 4 eant          X A
@@ -1171,7 +1192,7 @@ V     2 1 PRES  ACTIVE  SUB  3 P  1 4 eant          X A
 V     2 1 IMPF  ACTIVE  SUB  1 S  2 4 erem          X A
 V     2 1 IMPF  ACTIVE  SUB  2 S  2 4 eres          X A
 V     2 1 IMPF  ACTIVE  SUB  3 S  2 4 eret          X A
-                                                        
+
 V     2 1 IMPF  ACTIVE  SUB  1 P  2 6 eremus        X A
 V     2 1 IMPF  ACTIVE  SUB  2 P  2 6 eretis        X A
 V     2 1 IMPF  ACTIVE  SUB  3 P  2 5 erent         X A
@@ -1182,7 +1203,7 @@ V     2 1 PRES  PASSIVE SUB  1 S  1 3 ear           X A
 V     2 1 PRES  PASSIVE SUB  2 S  1 5 earis         X A
 V     2 1 PRES  PASSIVE SUB  2 S  1 4 eare          B B
 V     2 1 PRES  PASSIVE SUB  3 S  1 5 eatur         X A
-                                                         
+
 V     2 1 PRES  PASSIVE SUB  1 P  1 5 eamur         X A
 V     2 1 PRES  PASSIVE SUB  2 P  1 6 eamini        X A
 V     2 1 PRES  PASSIVE SUB  3 P  1 6 eantur        X A
@@ -1191,7 +1212,7 @@ V     2 1 IMPF  PASSIVE SUB  1 S  2 4 erer          X A
 V     2 1 IMPF  PASSIVE SUB  2 S  2 6 ereris        X A
 V     2 1 IMPF  PASSIVE SUB  2 S  2 5 erere         X A
 V     2 1 IMPF  PASSIVE SUB  3 S  2 6 eretur        X A
-                                                         
+
 V     2 1 IMPF  PASSIVE SUB  1 P  2 6 eremur        X A
 V     2 1 IMPF  PASSIVE SUB  2 P  2 7 eremini       X A
 V     2 1 IMPF  PASSIVE SUB  3 P  2 7 erentur       X A
@@ -1200,7 +1221,7 @@ V     2 1 IMPF  PASSIVE SUB  3 P  2 7 erentur       X A
 
 V     2 1 PRES  ACTIVE  IMP  2 S  2 1 e             X A
 V     2 1 PRES  ACTIVE  IMP  2 P  2 3 ete           X A
-                                   
+
 V     2 1 FUT   ACTIVE  IMP  2 S  2 3 eto           X A
 V     2 1 FUT   ACTIVE  IMP  3 S  2 3 eto           X A
 V     2 1 FUT   ACTIVE  IMP  2 P  2 5 etote         X A
@@ -1208,11 +1229,11 @@ V     2 1 FUT   ACTIVE  IMP  3 P  2 4 ento          X A
 
 V     2 1 PRES  PASSIVE IMP  2 S  2 3 ere           X A
 V     2 1 PRES  PASSIVE IMP  2 P  2 5 emini         X A
-                              
+
 V     2 1 FUT   PASSIVE IMP  2 S  2 4 etor          X A
 V     2 1 FUT   PASSIVE IMP  3 S  2 4 etor          X A
 V     2 1 FUT   PASSIVE IMP  3 P  2 5 entor         X A
-                                    
+
 
   --  Infinitives
 
@@ -1227,7 +1248,7 @@ V     2 1 PRES  PASSIVE INF  0 X  2 5 erier         B B
 
 
 
---  Verbs of the third conjugation, variant 1 - V 3 1   
+--  Verbs of the third conjugation, variant 1 - V 3 1
 --  Ex: rego regere rexi rectum  =>  reg reg rex rect
 --  Ex: pono ponoere posui positus  =>  pon pon posu posit
 --  Ex: capio capere cepi captus  => capi cap cep capt   --  I-stem too w/KEY
@@ -1246,7 +1267,7 @@ V     3 0 PRES  ACTIVE  IND  3 P  1 3 unt           X A
 V     3 0 IMPF  ACTIVE  IND  1 S  1 4 ebam          X A
 V     3 0 IMPF  ACTIVE  IND  2 S  1 4 ebas          X A
 V     3 0 IMPF  ACTIVE  IND  3 S  1 4 ebat          X A
-                                                         
+
 V     3 0 IMPF  ACTIVE  IND  1 P  1 6 ebamus        X A
 V     3 0 IMPF  ACTIVE  IND  2 P  1 6 ebatis        X A
 V     3 0 IMPF  ACTIVE  IND  3 P  1 5 ebant         X A
@@ -1254,7 +1275,7 @@ V     3 0 IMPF  ACTIVE  IND  3 P  1 5 ebant         X A
 V     3 0 FUT   ACTIVE  IND  1 S  1 2 am            X A
 V     3 0 FUT   ACTIVE  IND  2 S  1 2 es            X A
 V     3 0 FUT   ACTIVE  IND  3 S  1 2 et            X A
-                                                         
+
 V     3 0 FUT   ACTIVE  IND  1 P  1 4 emus          X A
 V     3 0 FUT   ACTIVE  IND  2 P  1 4 etis          X A
 V     3 0 FUT   ACTIVE  IND  3 P  1 3 ent           X A
@@ -1266,7 +1287,7 @@ V     3 1 PRES  PASSIVE IND  2 S  2 4 eris          X A
 --  Alternatively
 V     3 1 PRES  PASSIVE IND  2 S  2 3 ere           B C  --  G+L 130 1
 V     3 1 PRES  PASSIVE IND  3 S  2 4 itur          X A
-                                                         
+
 V     3 0 PRES  PASSIVE IND  1 P  2 4 imur          X A
 V     3 0 PRES  PASSIVE IND  2 P  2 5 imini         X A
 V     3 0 PRES  PASSIVE IND  3 P  1 5 untur         X A
@@ -1276,7 +1297,7 @@ V     3 0 IMPF  PASSIVE IND  2 S  1 6 ebaris        X A
 --  Alternatively
 V     3 0 IMPF  PASSIVE IND  2 S  1 5 ebare         X A
 V     3 0 IMPF  PASSIVE IND  3 S  1 6 ebatur        X A
-                                                         
+
 V     3 0 IMPF  PASSIVE IND  1 P  1 6 ebamur        X A
 V     3 0 IMPF  PASSIVE IND  2 P  1 7 ebamini       X A
 V     3 0 IMPF  PASSIVE IND  3 P  1 7 ebantur       X A
@@ -1286,7 +1307,7 @@ V     3 0 FUT   PASSIVE IND  2 S  1 4 eris          X A
 --  Alternatively
 V     3 0 FUT   PASSIVE IND  2 S  1 3 ere           X A
 V     3 0 FUT   PASSIVE IND  3 S  1 4 etur          X A
-                                                         
+
 V     3 0 FUT   PASSIVE IND  1 P  1 4 emur          X A
 V     3 0 FUT   PASSIVE IND  2 P  1 5 emini         X A
 V     3 0 FUT   PASSIVE IND  3 P  1 5 entur         X A
@@ -1301,7 +1322,7 @@ V     3 0 FUT   PASSIVE IND  3 P  1 5 entur         X A
 V     3 0 PRES  ACTIVE  SUB  1 S  1 2 am            X A
 V     3 0 PRES  ACTIVE  SUB  2 S  1 2 as            X A
 V     3 0 PRES  ACTIVE  SUB  3 S  1 2 at            X A
-                                                         
+
 V     3 0 PRES  ACTIVE  SUB  1 P  1 4 amus          X A
 V     3 0 PRES  ACTIVE  SUB  2 P  1 4 atis          X A
 V     3 0 PRES  ACTIVE  SUB  3 P  1 3 ant           X A
@@ -1309,7 +1330,7 @@ V     3 0 PRES  ACTIVE  SUB  3 P  1 3 ant           X A
 V     3 1 IMPF  ACTIVE  SUB  1 S  2 4 erem          X A
 V     3 1 IMPF  ACTIVE  SUB  2 S  2 4 eres          X A
 V     3 1 IMPF  ACTIVE  SUB  3 S  2 4 eret          X A
-                                                         
+
 V     3 1 IMPF  ACTIVE  SUB  1 P  2 6 eremus        X A
 V     3 1 IMPF  ACTIVE  SUB  2 P  2 6 eretis        X A
 V     3 1 IMPF  ACTIVE  SUB  3 P  2 5 erent         X A
@@ -1322,7 +1343,7 @@ V     3 0 PRES  PASSIVE SUB  2 S  1 4 aris          X A
 --  Alternatively
 V     3 0 PRES  PASSIVE SUB  2 S  1 3 are           X A
 V     3 0 PRES  PASSIVE SUB  3 S  1 4 atur          X A
-                                                         
+
 V     3 0 PRES  PASSIVE SUB  1 P  1 4 amur          X A
 V     3 0 PRES  PASSIVE SUB  2 P  1 5 amini         X A
 V     3 0 PRES  PASSIVE SUB  3 P  1 5 antur         X A
@@ -1332,7 +1353,7 @@ V     3 1 IMPF  PASSIVE SUB  2 S  2 6 ereris        X A
 --  Alternatively
 V     3 1 IMPF  PASSIVE SUB  2 S  2 5 erere         X A
 V     3 1 IMPF  PASSIVE SUB  3 S  2 6 eretur        X A
-                                                         
+
 V     3 1 IMPF  PASSIVE SUB  1 P  2 6 eremur        X A
 V     3 1 IMPF  PASSIVE SUB  2 P  2 7 eremini       X A
 V     3 1 IMPF  PASSIVE SUB  3 P  2 7 erentur       X A
@@ -1340,9 +1361,9 @@ V     3 1 IMPF  PASSIVE SUB  3 P  2 7 erentur       X A
   --  Imperative
 
 V     3 1 PRES  ACTIVE  IMP  2 S  2 1 e             X A
-V     3 1 PRES  ACTIVE  IMP  2 S  2 0               X A  --  For stem in -c 
+V     3 1 PRES  ACTIVE  IMP  2 S  2 0               X A  --  For stem in -c
 V     3 1 PRES  ACTIVE  IMP  2 P  2 3 ite           X A
-                                   
+
 V     3 1 FUT   ACTIVE  IMP  2 S  2 3 ito           X A
 V     3 1 FUT   ACTIVE  IMP  3 S  2 3 ito           X A
 V     3 1 FUT   ACTIVE  IMP  2 P  2 5 itote         X A
@@ -1350,7 +1371,7 @@ V     3 1 FUT   ACTIVE  IMP  3 P  2 4 unto          X A
 
 V     3 1 PRES  PASSIVE IMP  2 S  2 3 ere           X A
 V     3 1 PRES  PASSIVE IMP  2 P  2 5 imini         X A
-                              
+
 V     3 1 FUT   PASSIVE IMP  2 S  2 4 itor          X A
 V     3 1 FUT   PASSIVE IMP  3 S  2 4 itor          X A
 V     3 1 FUT   PASSIVE IMP  3 P  2 5 untor         X A
@@ -1366,7 +1387,7 @@ V     3 1 PRES  PASSIVE INF  0 X  2 3 ier           B B
 
 
 
---  Irregular verbs sort of like the third conjugation 
+--  Irregular verbs sort of like the third conjugation
 --  Ex: fero ferre tuli latus  =>  fer fer tul lat
 
   --  Indicative
@@ -1389,7 +1410,7 @@ V     3 2 PRES  PASSIVE IND  3 S  1 3 tur           X A
 
 
 
-    --  Passive Perfect formed with verb to be, no endings     
+    --  Passive Perfect formed with verb to be, no endings
 
 
   --  Subjunctive
@@ -1399,7 +1420,7 @@ V     3 2 PRES  PASSIVE IND  3 S  1 3 tur           X A
 V     3 2 IMPF  ACTIVE  SUB  1 S  2 3 rem           X A
 V     3 2 IMPF  ACTIVE  SUB  2 S  2 3 res           X A
 V     3 2 IMPF  ACTIVE  SUB  3 S  2 3 ret           X A
-                                                         
+
 V     3 2 IMPF  ACTIVE  SUB  1 P  2 5 remus         X A
 V     3 2 IMPF  ACTIVE  SUB  2 P  2 5 retis         X A
 V     3 2 IMPF  ACTIVE  SUB  3 P  2 4 rent          X A
@@ -1412,7 +1433,7 @@ V     3 2 IMPF  PASSIVE SUB  2 S  2 5 reris         X A
 --  Alternatively
 V     3 2 IMPF  PASSIVE SUB  2 S  2 4 rere          X A
 V     3 2 IMPF  PASSIVE SUB  3 S  2 5 retur         X A
-                                                         
+
 V     3 2 IMPF  PASSIVE SUB  1 P  2 5 remur         X A
 V     3 2 IMPF  PASSIVE SUB  2 P  2 6 remini        X A
 V     3 2 IMPF  PASSIVE SUB  3 P  2 6 rentur        X A
@@ -1421,36 +1442,36 @@ V     3 2 IMPF  PASSIVE SUB  3 P  2 6 rentur        X A
 
 V     3 2 PRES  ACTIVE  IMP  2 S  1 0               X A
 V     3 2 PRES  ACTIVE  IMP  2 P  1 2 te            X A
-                                   
+
 V     3 2 PRES  PASSIVE IMP  2 S  1 2 re            X A
 V     3 2 PRES  PASSIVE IMP  2 P  1 5 imini         X A
-                                   
+
 
 V     3 2 FUT   ACTIVE  IMP  2 S  1 2 to            X A
 V     3 2 FUT   ACTIVE  IMP  3 S  1 2 to            X A
-                                   
+
 V     3 2 FUT   ACTIVE  IMP  2 P  1 4 tote          X A
 V     3 2 FUT   ACTIVE  IMP  3 P  1 4 unto          X A
-                                   
+
 V     3 2 FUT   PASSIVE IMP  2 S  1 3 tor           X A
 V     3 2 FUT   PASSIVE IMP  3 S  1 3 tor           X A
-                                   
-V     3 2 FUT   PASSIVE IMP  3 P  1 5 untor         X A
-                                   
 
-  --  Infinitives 
+V     3 2 FUT   PASSIVE IMP  3 P  1 5 untor         X A
+
+
+  --  Infinitives
 
 V     3 2 PRES  ACTIVE  INF  0 X  2 2 re            X A
 V     3 2 PERF  ACTIVE  INF  0 X  3 4 isse          X A
 
 V     3 2 PRES  PASSIVE INF  0 X  2 2 ri            X A
-V     3 2 PRES  PASSIVE INF  0 X  2 4 rier          B B 
+V     3 2 PRES  PASSIVE INF  0 X  2 4 rier          B B
 
 
 
 
---  Irregular verbs sort of like the third/fourth conjugation   -  no prefect system
---  Ex: fio fieri factus sum   =>  fi f zzz fact           
+--  Irregular verbs sort of like the third/fourth conjugation   -  no perfect system
+--  Ex: fio fieri factus sum   =>  fi f zzz fact
 
   --  Indicative
 
@@ -1469,7 +1490,7 @@ V     3 3 PRES  ACTIVE  IND  2 P  2 4 itis          X A
 
 V     3 3 PRES  PASSIVE IND  2 S  2 4 eris          X A
 V     3 3 PRES  PASSIVE IND  3 S  2 4 itur          X A
-                                                         
+
 
 
 
@@ -1480,7 +1501,7 @@ V     3 3 PRES  PASSIVE IND  3 S  2 4 itur          X A
 V     3 3 IMPF  ACTIVE  SUB  1 S  1 4 erem          X A
 V     3 3 IMPF  ACTIVE  SUB  2 S  1 4 eres          X A
 V     3 3 IMPF  ACTIVE  SUB  3 S  1 4 eret          X A
-                                                         
+
 V     3 3 IMPF  ACTIVE  SUB  1 P  1 6 eremus        X A
 V     3 3 IMPF  ACTIVE  SUB  2 P  1 6 eretis        X A
 V     3 3 IMPF  ACTIVE  SUB  3 P  1 5 erent         X A
@@ -1492,7 +1513,7 @@ V     3 3 IMPF  ACTIVE  SUB  3 P  1 5 erent         X A
 V     3 3 IMPF  PASSIVE SUB  1 S  2 4 erer          X A
 V     3 3 IMPF  PASSIVE SUB  2 S  2 6 ereris        X A
 V     3 3 IMPF  PASSIVE SUB  3 S  2 6 eretur        X A
-                                                         
+
 V     3 3 IMPF  PASSIVE SUB  1 P  2 6 eremur        X A
 V     3 3 IMPF  PASSIVE SUB  2 P  2 7 eremini       X A
 V     3 3 IMPF  PASSIVE SUB  3 P  2 7 erentur       X A
@@ -1501,20 +1522,20 @@ V     3 3 IMPF  PASSIVE SUB  3 P  2 7 erentur       X A
 
 V     3 3 PRES  ACTIVE  IMP  2 S  2 1 i             B B
 V     3 3 PRES  ACTIVE  IMP  2 P  2 3 ite           B B
-                                   
+
 V     3 3 FUT   ACTIVE  IMP  2 S  2 3 ito           B B
-V     3 3 FUT   ACTIVE  IMP  3 S  2 3 ito           B B    
+V     3 3 FUT   ACTIVE  IMP  3 S  2 3 ito           B B
 V     3 3 FUT   ACTIVE  IMP  2 P  2 5 itote         B C  --  OLD
 
 
-  --  Infinitives 
+  --  Infinitives
 
 V     3 3 PRES  ACTIVE  INF  0 X  2 4 iere          B C  --  G&L 173 N1
 V     3 3 PRES  ACTIVE  INF  0 X  2 4 ieri          X A
 
 
 
---  Verbs of the fourth conjugation are coded as a variant of third - V 3 4 
+--  Verbs of the fourth conjugation are coded as a variant of third - V 3 4
 --  Effectively V 4 1
 --  Ex: audio audire audivi auditus  =>  audi aud audiv audit
 
@@ -1530,19 +1551,19 @@ V     3 4 PRES  ACTIVE  IND  2 P  2 4 itis          X A
 
 --  V 3 4 sometimes like V 6 1, and V 6 1 sometimes like V 3 4  (Vulgate)
 V     3 4 IMPF  ACTIVE  IND  1 S  2 3 bam           E D
-V     3 4 IMPF  ACTIVE  IND  2 S  2 3 bas           E D 
+V     3 4 IMPF  ACTIVE  IND  2 S  2 3 bas           E D
 V     3 4 IMPF  ACTIVE  IND  3 S  2 3 bat           E D
-                                                         
+
 V     3 4 IMPF  ACTIVE  IND  1 P  2 5 bamus         E D
 V     3 4 IMPF  ACTIVE  IND  2 P  2 5 batis         E D
 V     3 4 IMPF  ACTIVE  IND  3 P  2 4 bant          E D
 
 --  Occasional future in -i.bo, early (G+L 130.4) and late (Vulgate)
---  V 3 4 sometimes like V 6 1, and V 6 1 sometimes like V 3 4 
+--  V 3 4 sometimes like V 6 1, and V 6 1 sometimes like V 3 4
 V     3 4 FUT   ACTIVE  IND  1 S  1 2 bo            X D
 V     3 4 FUT   ACTIVE  IND  2 S  1 3 bis           X D
 V     3 4 FUT   ACTIVE  IND  3 S  1 3 bit           X D
-                                                         
+
 V     3 4 FUT   ACTIVE  IND  1 P  1 5 bimus         X D
 V     3 4 FUT   ACTIVE  IND  2 P  1 5 bitis         X D
 V     3 4 FUT   ACTIVE  IND  3 P  1 4 bunt          X D
@@ -1555,14 +1576,14 @@ V     3 4 PRES  PASSIVE IND  2 S  2 4 iris          X A
 --  Alternatively
 V     3 4 PRES  PASSIVE IND  2 S  2 3 ire           B D  --  G+L 130 1
 V     3 4 PRES  PASSIVE IND  3 S  2 4 itur          X A
-    
+
 --  Occasional future in -i.bo, early (G+L 130.4) and late (Vulgate)
 --  I observe that it occurs also in the passive in Vulgate
---  V 3 4 sometines like V 6 1, and V 6 1 sometimes like V 3 4 
+--  V 3 4 sometines like V 6 1, and V 6 1 sometimes like V 3 4
 V     3 4 FUT   PASSIVE IND  1 S  1 3 bor           E E
 V     3 4 FUT   PASSIVE IND  2 S  1 5 beris         E E
 V     3 4 FUT   PASSIVE IND  3 S  1 5 berit         E E
-                                                         
+
 V     3 4 FUT   PASSIVE IND  1 P  1 5 bimur         E E
 V     3 4 FUT   PASSIVE IND  2 P  1 6 bimini        E E
 V     3 4 FUT   PASSIVE IND  3 P  1 6 buntur        E E
@@ -1578,7 +1599,7 @@ V     3 4 FUT   PASSIVE IND  3 P  1 6 buntur        E E
 V     3 4 IMPF  ACTIVE  SUB  1 S  2 4 irem          X A
 V     3 4 IMPF  ACTIVE  SUB  2 S  2 4 ires          X A
 V     3 4 IMPF  ACTIVE  SUB  3 S  2 4 iret          X A
-                                                         
+
 V     3 4 IMPF  ACTIVE  SUB  1 P  2 6 iremus        X A
 V     3 4 IMPF  ACTIVE  SUB  2 P  2 6 iretis        X A
 V     3 4 IMPF  ACTIVE  SUB  3 P  2 5 irent         X A
@@ -1590,7 +1611,7 @@ V     3 4 IMPF  PASSIVE SUB  2 S  2 6 ireris        X A
 --  Alternatively
 V     3 4 IMPF  PASSIVE SUB  2 S  2 5 irere         X A
 V     3 4 IMPF  PASSIVE SUB  3 S  2 6 iretur        X A
-                                                         
+
 V     3 4 IMPF  PASSIVE SUB  1 P  2 6 iremur        X A
 V     3 4 IMPF  PASSIVE SUB  2 P  2 7 iremini       X A
 V     3 4 IMPF  PASSIVE SUB  3 P  2 7 irentur       X A
@@ -1599,7 +1620,7 @@ V     3 4 IMPF  PASSIVE SUB  3 P  2 7 irentur       X A
 
 V     3 4 PRES  ACTIVE  IMP  2 S  2 1 i             X A
 V     3 4 PRES  ACTIVE  IMP  2 P  2 3 ite           X A
-                                   
+
 V     3 4 FUT   ACTIVE  IMP  2 S  2 3 ito           X A
 V     3 4 FUT   ACTIVE  IMP  3 S  2 3 ito           X A
 V     3 4 FUT   ACTIVE  IMP  2 P  2 5 itote         X A
@@ -1607,7 +1628,7 @@ V     3 4 FUT   ACTIVE  IMP  3 P  1 4 unto          X A
 
 V     3 4 PRES  PASSIVE IMP  2 S  2 3 ire           X A
 V     3 4 PRES  PASSIVE IMP  2 P  2 5 imini         X A
-                              
+
 V     3 4 FUT   PASSIVE IMP  2 S  2 4 itor          X A
 V     3 4 FUT   PASSIVE IMP  3 S  2 4 itor          X A
 V     3 4 FUT   PASSIVE IMP  3 P  1 5 untor         X A
@@ -1619,11 +1640,11 @@ V     3 4 PRES  ACTIVE  INF  0 X  2 3 ire           X A
 V     3 4 PERF  ACTIVE  INF  0 X  3 4 isse          X A
 
 V     3 4 PRES  PASSIVE INF  0 X  2 3 iri           X A
-V     3 4 PRES  PASSIVE INF  0 X  2 5 irier         B B 
+V     3 4 PRES  PASSIVE INF  0 X  2 5 irier         B B
 
 
 
---  Verbs like to be - coded as V 5 1     
+--  Verbs like to be - coded as V 5 1
 --  Ex: sum esse fui futurus  =>  s . fu fut
 --  Ex: adsum adesse adfui adfuturus  =>  ads ad adfu adfut
 
@@ -1642,7 +1663,7 @@ V     5 0 PRES  ACTIVE  IND  3 P  1 3 unt           X A
 V     5 0 IMPF  ACTIVE  IND  1 S  2 4 eram          X A
 V     5 0 IMPF  ACTIVE  IND  2 S  2 4 eras          X A
 V     5 0 IMPF  ACTIVE  IND  3 S  2 4 erat          X A
-                                                         
+
 V     5 0 IMPF  ACTIVE  IND  1 P  2 6 eramus        X A
 V     5 0 IMPF  ACTIVE  IND  2 P  2 6 eratis        X A
 V     5 0 IMPF  ACTIVE  IND  3 P  2 5 erant         X A
@@ -1650,7 +1671,7 @@ V     5 0 IMPF  ACTIVE  IND  3 P  2 5 erant         X A
 V     5 0 FUT   ACTIVE  IND  1 S  2 3 ero           X A
 V     5 0 FUT   ACTIVE  IND  2 S  2 4 eris          X A
 V     5 0 FUT   ACTIVE  IND  3 S  2 4 erit          X A
-                                                         
+
 V     5 0 FUT   ACTIVE  IND  1 P  2 6 erimus        X A
 V     5 0 FUT   ACTIVE  IND  2 P  2 6 eritis        X A
 V     5 0 FUT   ACTIVE  IND  3 P  2 5 erunt         X A
@@ -1665,7 +1686,7 @@ V     5 0 FUT   ACTIVE  IND  3 P  2 5 erint         E D
 V     5 0 PRES  ACTIVE  SUB  1 S  1 2 im            X A
 V     5 0 PRES  ACTIVE  SUB  2 S  1 2 is            X A
 V     5 0 PRES  ACTIVE  SUB  3 S  1 2 it            X A
-                                                         
+
 V     5 0 PRES  ACTIVE  SUB  1 P  1 4 imus          X A
 V     5 0 PRES  ACTIVE  SUB  2 P  1 4 itis          X A
 V     5 0 PRES  ACTIVE  SUB  3 P  1 3 int           X A
@@ -1673,7 +1694,7 @@ V     5 0 PRES  ACTIVE  SUB  3 P  1 3 int           X A
 V     5 1 IMPF  ACTIVE  SUB  1 S  2 5 essem         X A
 V     5 1 IMPF  ACTIVE  SUB  2 S  2 5 esses         X A
 V     5 1 IMPF  ACTIVE  SUB  3 S  2 5 esset         X A
-                                                         
+
 V     5 1 IMPF  ACTIVE  SUB  1 P  2 7 essemus       X A
 V     5 1 IMPF  ACTIVE  SUB  2 P  2 7 essetis       X A
 V     5 1 IMPF  ACTIVE  SUB  3 P  2 6 essent        X A
@@ -1682,7 +1703,7 @@ V     5 1 IMPF  ACTIVE  SUB  3 P  2 6 essent        X A
 V     5 1 IMPF  ACTIVE  SUB  1 S  2 5 forem         X A
 V     5 1 IMPF  ACTIVE  SUB  2 S  2 5 fores         X A
 V     5 1 IMPF  ACTIVE  SUB  3 S  2 5 foret         X A
-                                                         
+
 V     5 1 IMPF  ACTIVE  SUB  1 P  2 7 foremus       X A
 V     5 1 IMPF  ACTIVE  SUB  2 P  2 7 foretis       X A
 V     5 1 IMPF  ACTIVE  SUB  3 P  2 6 forent        X A
@@ -1692,13 +1713,13 @@ V     5 1 IMPF  ACTIVE  SUB  3 P  2 6 forent        X A
 
 V     5 1 PRES  ACTIVE  IMP  2 S  2 2 es            X A
 V     5 1 PRES  ACTIVE  IMP  2 P  2 4 este          X A
-                                   
+
 V     5 1 FUT   ACTIVE  IMP  2 S  2 4 esto          X A
 V     5 1 FUT   ACTIVE  IMP  3 S  2 4 esto          X A
 V     5 1 FUT   ACTIVE  IMP  2 P  2 6 estote        X A
 V     5 1 FUT   ACTIVE  IMP  3 P  1 4 unto          X A
 
-                              
+
   --  Infinitives
 
 V     5 1 PRES  ACTIVE  INF  0 X  2 4 esse          X A
@@ -1708,7 +1729,7 @@ V     5 0 PERF  ACTIVE  INF  0 X  3 4 isse          X A
 V     5 0 FUT   ACTIVE  INF  0 X  2 4 fore          X A
 
 
---  Verbs like to be - almost    
+--  Verbs like to be - almost
 --  Ex: possum posse potui -  =>  poss pot potu -
 
   --  Indicative
@@ -1723,7 +1744,7 @@ V     5 0 FUT   ACTIVE  INF  0 X  2 4 fore          X A
 V     5 2 IMPF  ACTIVE  SUB  1 S  1 2 em            X A
 V     5 2 IMPF  ACTIVE  SUB  2 S  1 2 es            X A
 V     5 2 IMPF  ACTIVE  SUB  3 S  1 2 et            X A
-                                                         
+
 V     5 2 IMPF  ACTIVE  SUB  1 P  1 4 emus          X A
 V     5 2 IMPF  ACTIVE  SUB  2 P  1 4 etis          X A
 V     5 2 IMPF  ACTIVE  SUB  3 P  1 3 ent           X A
@@ -1734,7 +1755,7 @@ V     5 2 FUT   ACTIVE  IND  3 P  2 5 erint         X E
 
   --  Imperative
 
-                              
+
   --  Infinitives
 
 V     5 2 PRES  ACTIVE  INF  0 X  1 1 e             X A
@@ -1763,16 +1784,16 @@ V     6 1 PRES  ACTIVE  IND  3 P  1 3 unt           X A
 V     6 1 IMPF  ACTIVE  IND  1 S  2 3 bam           X A
 V     6 1 IMPF  ACTIVE  IND  2 S  2 3 bas           X A
 V     6 1 IMPF  ACTIVE  IND  3 S  2 3 bat           X A
-                                                         
+
 V     6 1 IMPF  ACTIVE  IND  1 P  2 5 bamus         X A
 V     6 1 IMPF  ACTIVE  IND  2 P  2 5 batis         X A
 V     6 1 IMPF  ACTIVE  IND  3 P  2 4 bant          X A
 
---  At later times (Vulgate on) eo may be conjugated like a V 3 4 
+--  At later times (Vulgate on) eo may be conjugated like a V 3 4
 V     6 1 IMPF  ACTIVE  IND  1 S  2 4 ebam          D B
 V     6 1 IMPF  ACTIVE  IND  2 S  2 4 ebas          D B
 V     6 1 IMPF  ACTIVE  IND  3 S  2 4 ebat          D B
-                                                         
+
 V     6 1 IMPF  ACTIVE  IND  1 P  2 6 ebamus        D B
 V     6 1 IMPF  ACTIVE  IND  2 P  2 6 ebatis        D B
 V     6 1 IMPF  ACTIVE  IND  3 P  2 5 ebant         D B
@@ -1780,16 +1801,16 @@ V     6 1 IMPF  ACTIVE  IND  3 P  2 5 ebant         D B
 V     6 1 FUT   ACTIVE  IND  1 S  2 2 bo            X A
 V     6 1 FUT   ACTIVE  IND  2 S  2 3 bis           X A
 V     6 1 FUT   ACTIVE  IND  3 S  2 3 bit           X A
-                                                         
+
 V     6 1 FUT   ACTIVE  IND  1 P  2 5 bimus         X A
 V     6 1 FUT   ACTIVE  IND  2 P  2 5 bitis         X A
 V     6 1 FUT   ACTIVE  IND  3 P  2 4 bunt          X A
 
---  At later times (Vulgate on) eo may be conjugated like a V 3 4 
+--  At later times (Vulgate on) eo may be conjugated like a V 3 4
 V     6 1 FUT   ACTIVE  IND  1 S  2 2 am            D B
 V     6 1 FUT   ACTIVE  IND  2 S  2 2 es            D B
 V     6 1 FUT   ACTIVE  IND  3 S  2 2 et            D B
-                                                         
+
 V     6 1 FUT   ACTIVE  IND  1 P  2 4 emus          D B
 V     6 1 FUT   ACTIVE  IND  2 P  2 4 etis          D B
 V     6 1 FUT   ACTIVE  IND  3 P  2 3 ent           D B
@@ -1802,47 +1823,47 @@ V     6 1 PRES  PASSIVE IND  2 S  2 3 ris           X A
 --  Alternatively
 V     6 1 PRES  PASSIVE IND  2 S  2 2 re            X A
 V     6 1 PRES  PASSIVE IND  3 S  2 3 tur           X A
-                                                         
+
 V     6 1 PRES  PASSIVE IND  1 P  2 3 mur           X A
 V     6 1 PRES  PASSIVE IND  2 P  2 4 mini          X A
 V     6 1 PRES  PASSIVE IND  3 P  1 5 untur         X A
 
-    
+
 
 V     6 1 IMPF  PASSIVE IND  1 S  2 3 bar          X A
 V     6 1 IMPF  PASSIVE IND  2 S  2 5 baris        X A
 --  Alternatively
 V     6 1 IMPF  PASSIVE IND  2 S  2 4 bare         X A
 V     6 1 IMPF  PASSIVE IND  3 S  2 5 batur        X A
-                                                         
+
 V     6 1 IMPF  PASSIVE IND  1 P  2 5 bamur        X A
 V     6 1 IMPF  PASSIVE IND  2 P  2 6 bamini       X A
 V     6 1 IMPF  PASSIVE IND  3 P  2 6 bantur       X A
 
---  Following Allen & Greenough  203a 
+--  Following Allen & Greenough  203a
 V     6 1 FUT   PASSIVE IND  1 S  2 3 bor            X A
 V     6 1 FUT   PASSIVE IND  2 S  2 5 beris          X A
 --  Alternatively
 V     6 1 FUT   PASSIVE IND  2 S  2 4 bere           X A
 V     6 1 FUT   PASSIVE IND  3 S  2 5 bitur          X A
-                                                         
+
 V     6 1 FUT   PASSIVE IND  1 P  2 5 bimur          X A
 V     6 1 FUT   PASSIVE IND  2 P  2 6 bimini         X A
 V     6 1 FUT   PASSIVE IND  3 P  2 6 buntur         X A
 
 --  Or the V 3 4 form     -- Observed in Vulgate
---  Key=2 used to get the i, which appears in Key=1 in V 3 4 
+--  Key=2 used to get the i, which appears in Key=1 in V 3 4
 V     6 1 FUT   PASSIVE IND  1 S  2 2 ar            E C
 V     6 1 FUT   PASSIVE IND  2 S  2 4 eris          E C
 --  Alternatively
 V     6 1 FUT   PASSIVE IND  2 S  2 3 ere           E C
 V     6 1 FUT   PASSIVE IND  3 S  2 4 etur          E C
-                                                         
+
 V     6 1 FUT   PASSIVE IND  1 P  2 4 emur          E C
 V     6 1 FUT   PASSIVE IND  2 P  2 5 emini         E C
 V     6 1 FUT   PASSIVE IND  3 P  2 5 entur         E C
 
-    --  Passive Perfect formed with verb to be, no endings    
+    --  Passive Perfect formed with verb to be, no endings
 
 
 
@@ -1853,7 +1874,7 @@ V     6 1 FUT   PASSIVE IND  3 P  2 5 entur         E C
 V     6 1 PRES  ACTIVE  SUB  1 S  1 2 am            X A
 V     6 1 PRES  ACTIVE  SUB  2 S  1 2 as            X A
 V     6 1 PRES  ACTIVE  SUB  3 S  1 2 at            X A
-                                                         
+
 V     6 1 PRES  ACTIVE  SUB  1 P  1 4 amus          X A
 V     6 1 PRES  ACTIVE  SUB  2 P  1 4 atis          X A
 V     6 1 PRES  ACTIVE  SUB  3 P  1 3 ant           X A
@@ -1861,7 +1882,7 @@ V     6 1 PRES  ACTIVE  SUB  3 P  1 3 ant           X A
 V     6 1 IMPF  ACTIVE  SUB  1 S  2 3 rem           X A
 V     6 1 IMPF  ACTIVE  SUB  2 S  2 3 res           X A
 V     6 1 IMPF  ACTIVE  SUB  3 S  2 3 ret           X A
-                                                         
+
 V     6 1 IMPF  ACTIVE  SUB  1 P  2 5 remus         X A
 V     6 1 IMPF  ACTIVE  SUB  2 P  2 5 retis         X A
 V     6 1 IMPF  ACTIVE  SUB  3 P  2 4 rent          X A
@@ -1872,10 +1893,10 @@ V     6 1 IMPF  ACTIVE  SUB  3 P  2 4 rent          X A
 
 V     6 1 PRES  PASSIVE SUB  1 S  1 2 ar            X A
 V     6 1 PRES  PASSIVE SUB  2 S  2 4 aris          X A
---  Alternatively                                     
+--  Alternatively
 V     6 1 PRES  PASSIVE SUB  2 S  2 3 are           X A
 V     6 1 PRES  PASSIVE SUB  3 S  2 4 atur          X A
-                                                         
+
 V     6 1 PRES  PASSIVE SUB  1 P  2 4 amur          X A
 V     6 1 PRES  PASSIVE SUB  2 P  2 5 amini         X A
 V     6 1 PRES  PASSIVE SUB  3 P  1 5 antur         X A
@@ -1885,7 +1906,7 @@ V     6 1 IMPF  PASSIVE SUB  2 S  2 5 reris         X A
 --  Alternatively
 V     6 1 IMPF  PASSIVE SUB  2 S  2 4 rere          X A
 V     6 1 IMPF  PASSIVE SUB  3 S  2 5 retur         X A
-                                                         
+
 V     6 1 IMPF  PASSIVE SUB  1 P  2 5 remur         X A
 V     6 1 IMPF  PASSIVE SUB  2 P  2 6 remini        X A
 V     6 1 IMPF  PASSIVE SUB  3 P  2 6 rentur        X A
@@ -1895,7 +1916,7 @@ V     6 1 IMPF  PASSIVE SUB  3 P  2 6 rentur        X A
 
 V     6 1 PRES  ACTIVE  IMP  2 S  2 0               X A
 V     6 1 PRES  ACTIVE  IMP  2 P  2 2 te            X A
-                                   
+
 V     6 1 FUT   ACTIVE  IMP  2 S  2 2 to            X A
 V     6 1 FUT   ACTIVE  IMP  3 S  2 2 to            X A
 V     6 1 FUT   ACTIVE  IMP  2 P  2 4 tote          X A
@@ -1904,13 +1925,13 @@ V     6 1 FUT   ACTIVE  IMP  3 P  1 4 unto          X A
 
 V     6 1 PRES  PASSIVE IMP  2 S  2 3 ere           X A
 V     6 1 PRES  PASSIVE IMP  2 P  2 4 mini          X A
-                              
+
 V     6 1 FUT   PASSIVE IMP  2 S  2 3 tor           X A
 V     6 1 FUT   PASSIVE IMP  3 S  2 3 tor           X A
 V     6 1 FUT   PASSIVE IMP  3 P  1 5 untor         X A
 
 
-                              
+
   --  Infinitives
 
 V     6 1 PRES  ACTIVE  INF  0 X  2 2 re            X A
@@ -1921,7 +1942,7 @@ V     6 1 PRES  PASSIVE INF  0 X  2 4 rier          B B
 
 
 
---  Verbs like volo    
+--  Verbs like volo
 --  Ex: volo velle volui -  =>  vol vel volu -
 --  Ex: nolo nolle nolui -  =>  nol nol nolu -
 --  Ex: malo malle malui -  =>  mal mal malu -
@@ -1936,7 +1957,7 @@ V     6 2 PRES  ACTIVE  IND  1 S  1 1 o             X A
 --V     6 2 PRES  ACTIVE  IND  3 S  1 4 vult          X
 
 V     6 2 PRES  ACTIVE  IND  1 P  1 4 umus          X A
---V     6 2 PRES  ACTIVE  IND  2 P  1 6 vultis      
+--V     6 2 PRES  ACTIVE  IND  2 P  1 6 vultis
 V     6 2 PRES  ACTIVE  IND  3 P  1 3 unt           X A
 
 
@@ -1967,7 +1988,7 @@ V     6 2 FUT   ACTIVE  IND  3 P  1 3 ent           X A
 V     6 2 PRES  ACTIVE  SUB  1 S  2 2 im            X A
 V     6 2 PRES  ACTIVE  SUB  2 S  2 2 is            X A
 V     6 2 PRES  ACTIVE  SUB  3 S  2 2 it            X A
-                                                         
+
 V     6 2 PRES  ACTIVE  SUB  1 P  2 4 imus          X A
 V     6 2 PRES  ACTIVE  SUB  2 P  2 4 itis          X A
 V     6 2 PRES  ACTIVE  SUB  3 P  2 3 int           X A
@@ -1975,7 +1996,7 @@ V     6 2 PRES  ACTIVE  SUB  3 P  2 3 int           X A
 V     6 2 IMPF  ACTIVE  SUB  1 S  2 3 lem           X A
 V     6 2 IMPF  ACTIVE  SUB  2 S  2 3 les           X A
 V     6 2 IMPF  ACTIVE  SUB  3 S  2 3 let           X A
-                                                         
+
 V     6 2 IMPF  ACTIVE  SUB  1 P  2 5 lemus         X A
 V     6 2 IMPF  ACTIVE  SUB  2 P  2 5 letis         X A
 V     6 2 IMPF  ACTIVE  SUB  3 P  2 4 lent          X A
@@ -1985,14 +2006,14 @@ V     6 2 IMPF  ACTIVE  SUB  3 P  2 4 lent          X A
 
 V     6 2 PRES  ACTIVE  IMP  2 S  1 1 i             X A
 V     6 2 PRES  ACTIVE  IMP  2 P  1 3 ite           X A
-                                   
+
 V     6 2 FUT   ACTIVE  IMP  2 S  1 3 ito           X A
 V     6 2 FUT   ACTIVE  IMP  3 S  1 3 ito           X A
 
 V     6 2 FUT   ACTIVE  IMP  2 P  1 5 itote         X A
 V     6 2 FUT   ACTIVE  IMP  3 P  1 4 unto          X A
-                                   
-                              
+
+
   --  Infinitives
 
 V     6 2 PRES  ACTIVE  INF  0 X  2 2 le            X A
@@ -2074,7 +2095,7 @@ V     7 2 PERF  ACTIVE  IND  2 S  2 4 isti          X A
 V     7 2 PERF  ACTIVE  IND  3 S  2 2 it            X A
 
 V     7 2 PRES  ACTIVE  IMP  2 S  2 1 e             X A
-                                   
+
 V     7 2 FUT   ACTIVE  IMP  2 S  2 3 ito           X A
 V     7 2 FUT   ACTIVE  IMP  3 S  2 3 ito           X A
 
@@ -2107,7 +2128,7 @@ V     7 3 PRES  ACTIVE  IND  3 S  2 3 tur           B B    --  estur
     --  Active voice
 
 
-V     7 3 PRES  ACTIVE  SUB  1 S  1 2 im            B B 
+V     7 3 PRES  ACTIVE  SUB  1 S  1 2 im            B B
 V     7 3 PRES  ACTIVE  SUB  2 S  1 2 is            B B
 V     7 3 PRES  ACTIVE  SUB  3 S  1 2 it            B B
 
@@ -2127,10 +2148,10 @@ V     7 3 IMPF  ACTIVE  SUB  3 P  2 4 sent          B B
 
     --  Passive voice
 
-V     7 3 IMPF  ACTIVE  SUB  3 S  2 5 setur         B B    --  essetur 
+V     7 3 IMPF  ACTIVE  SUB  3 S  2 5 setur         B B    --  essetur
 
 
-  --  Imperative 
+  --  Imperative
 
 V     7 3 PRES  ACTIVE  IMP  2 S  2 0               B B
 V     7 3 PRES  ACTIVE  IMP  2 P  2 2 te            B B
@@ -2141,7 +2162,7 @@ V     7 3 FUT   ACTIVE  IMP  3 S  2 2 to            B B
 V     7 3 FUT   ACTIVE  IMP  2 P  2 4 tote          B B
 
 
-  --  Infinitive 
+  --  Infinitive
 
 V     7 3 PRES  ACTIVE  INF  0 X  2 2 se            B B
 
@@ -2162,7 +2183,7 @@ V     7 3 PRES  ACTIVE  INF  0 X  2 2 se            B B
 V     8 0 FUTP  ACTIVE  IND  1 S  3 1 o           B C
 V     8 0 FUTP  ACTIVE  IND  2 S  3 2 is          B C
 V     8 0 FUTP  ACTIVE  IND  3 S  3 2 it          B C
-                                                         
+
 V     8 0 FUTP  ACTIVE  IND  1 P  3 4 imus        B C
 V     8 0 FUTP  ACTIVE  IND  2 P  3 4 itis        B C
 V     8 0 FUTP  ACTIVE  IND  3 P  3 3 int         B C
@@ -2171,21 +2192,21 @@ V     8 0 FUTP  ACTIVE  IND  3 P  3 3 int         B C
 V     8 0 PERF  ACTIVE  SUB  1 S  3 2 im          B C
 V     8 0 PERF  ACTIVE  SUB  2 S  3 2 is          B C
 V     8 0 PERF  ACTIVE  SUB  3 S  3 2 it          B C
-                                                         
+
 V     8 0 PERF  ACTIVE  SUB  1 P  3 4 imus        B D
 V     8 0 PERF  ACTIVE  SUB  2 P  3 4 itis        B D
-V     8 0 PERF  ACTIVE  SUB  3 P  3 3 int         B D  
+V     8 0 PERF  ACTIVE  SUB  3 P  3 3 int         B D
 
 
 V     8 0 PLUP  ACTIVE  SUB  1 S  3 2 em          B E
 V     8 0 PLUP  ACTIVE  SUB  2 S  3 2 es          B E
 V     8 0 PLUP  ACTIVE  SUB  3 S  3 2 et          B E
-                                                         
+
 V     8 0 PLUP  ACTIVE  SUB  1 P  3 4 emus        B E
 V     8 0 PLUP  ACTIVE  SUB  2 P  3 4 etis        B E
 V     8 0 PLUP  ACTIVE  SUB  3 P  3 3 ent         B E
 
---  Infinitive 
+--  Infinitive
 
 V     8 0 PRES  ACTIVE  INF  0 X  2 1 e           B C
 
@@ -2250,7 +2271,7 @@ VPAR 2 0 ACC S N PRES ACTIVE  PPL 1 3 ens          X A
 VPAR 2 0 NOM P N PRES ACTIVE  PPL 1 5 entia        X A
 VPAR 2 0 ACC P N PRES ACTIVE  PPL 1 5 entia        X A
 VPAR 2 0 VOC P N PRES ACTIVE  PPL 1 5 entia        X A
-                               
+
 VPAR 3 0 NOM S X PRES ACTIVE  PPL 1 3 ens          X A
 VPAR 3 0 GEN S X PRES ACTIVE  PPL 1 5 entis        X A
 VPAR 3 0 DAT S X PRES ACTIVE  PPL 1 4 enti         X A
@@ -2299,7 +2320,7 @@ VPAR 5 1 ACC P N PRES ACTIVE  PPL 2 5 entia        X A
 VPAR 5 1 VOC P N PRES ACTIVE  PPL 2 5 entia        X A
 
 
---  This is a  bit tricky  iens, euntis 
+--  This is a  bit tricky  iens, euntis
 VPAR 6 1 NOM S X PRES ACTIVE  PPL 2 3 ens          X A
 VPAR 6 1 GEN S X PRES ACTIVE  PPL 1 5 untis        X A
 VPAR 6 1 DAT S X PRES ACTIVE  PPL 1 4 unti         X A
@@ -2401,9 +2422,9 @@ VPAR 0 0 VOC S F PERF PASSIVE PPL 4 1 a            X A
 
 VPAR 0 0 NOM P F PERF PASSIVE PPL 4 2 ae           X A
 VPAR 0 0 GEN P F PERF PASSIVE PPL 4 4 arum         X A
---VPAR 0 0 DAT P F PERF PASSIVE PPL 4 2 is         
+--VPAR 0 0 DAT P F PERF PASSIVE PPL 4 2 is
 VPAR 0 0 ACC P F PERF PASSIVE PPL 4 2 as           X A
---VPAR 0 0 ABL P F PERF PASSIVE PPL 4 2 is         
+--VPAR 0 0 ABL P F PERF PASSIVE PPL 4 2 is
 VPAR 0 0 VOC P F PERF PASSIVE PPL 4 2 ae           X A
 
 VPAR 0 0 NOM S N PERF PASSIVE PPL 4 2 um           X A
@@ -2415,7 +2436,7 @@ VPAR 0 0 VOC S N PERF PASSIVE PPL 4 2 um           X A
 
 VPAR 0 0 NOM P N PERF PASSIVE PPL 4 1 a            X A
 VPAR 0 0 GEN P N PERF PASSIVE PPL 4 4 orum         X A
---VPAR 0 0 DAT P N PERF PASSIVE PPL 4 2 is         
+--VPAR 0 0 DAT P N PERF PASSIVE PPL 4 2 is
 VPAR 0 0 ACC P N PERF PASSIVE PPL 4 1 a            X A
 --VPAR 0 0 ABL P N PERF PASSIVE PPL 4 2 is           X
 VPAR 0 0 VOC P N PERF PASSIVE PPL 4 1 a            X A
@@ -2487,7 +2508,7 @@ VPAR 1 0 NOM P F FUT  PASSIVE PPL 1 5 andae        X A
 VPAR 1 0 GEN P F FUT  PASSIVE PPL 1 7 andarum      X A
 --VPAR 1 0 DAT P F FUT  PASSIVE PPL 1 5 andis        X
 VPAR 1 0 ACC P F FUT  PASSIVE PPL 1 5 andas        X A
---VPAR 1 0 ABL P F FUT  PASSIVE PPL 1 5 andis        
+--VPAR 1 0 ABL P F FUT  PASSIVE PPL 1 5 andis
 VPAR 1 0 VOC P F FUT  PASSIVE PPL 1 5 andae        X A
 
 VPAR 1 0 NOM S N FUT  PASSIVE PPL 1 5 andum        X A
@@ -2501,7 +2522,7 @@ VPAR 1 0 NOM P N FUT  PASSIVE PPL 1 4 anda         X A
 VPAR 1 0 GEN P N FUT  PASSIVE PPL 1 7 andorum      X A
 --VPAR 1 0 DAT P N FUT  PASSIVE PPL 1 5 andis        X
 VPAR 1 0 ACC P N FUT  PASSIVE PPL 1 4 anda         X A
---VPAR 1 0 ABL P N FUT  PASSIVE PPL 1 5 andis      
+--VPAR 1 0 ABL P N FUT  PASSIVE PPL 1 5 andis
 VPAR 1 0 VOC P N FUT  PASSIVE PPL 1 4 anda         X A
 
 VPAR 2 0 NOM S M FUT  PASSIVE PPL 1 5 endus        X A
@@ -2527,7 +2548,7 @@ VPAR 2 0 VOC S F FUT  PASSIVE PPL 1 4 enda         X A
 
 VPAR 2 0 NOM P F FUT  PASSIVE PPL 1 5 endae        X A
 VPAR 2 0 GEN P F FUT  PASSIVE PPL 1 7 endarum      X A
---VPAR 2 0 DAT P F FUT  PASSIVE PPL 1 5 endis        X 
+--VPAR 2 0 DAT P F FUT  PASSIVE PPL 1 5 endis        X
 VPAR 2 0 ACC P F FUT  PASSIVE PPL 1 5 endas        X A
 --VPAR 2 0 ABL P F FUT  PASSIVE PPL 1 5 endis        X
 VPAR 2 0 VOC P F FUT  PASSIVE PPL 1 5 endae        X A
@@ -2631,11 +2652,11 @@ VPAR 3 0 VOC S N FUT  PASSIVE PPL 1 5 undum        B A
 
 VPAR 3 0 NOM P N FUT  PASSIVE PPL 1 4 unda         B A
 VPAR 3 0 GEN P N FUT  PASSIVE PPL 1 7 undorum      B A
---VPAR 3 0 DAT P N FUT  PASSIVE PPL 1 5 undis        B 
+--VPAR 3 0 DAT P N FUT  PASSIVE PPL 1 5 undis        B
 VPAR 3 0 ACC P N FUT  PASSIVE PPL 1 4 unda         B A
 --VPAR 3 0 ABL P N FUT  PASSIVE PPL 1 5 undis        B
 VPAR 3 0 VOC P N FUT  PASSIVE PPL 1 4 unda         B A
-                                                       
+
 
 
 VPAR 6 1 NOM S M FUT  PASSIVE PPL 1 5 undus        X A
@@ -2701,7 +2722,7 @@ PRON  9 9 X X X  1 0                                X A
 
 --  Pronouns
 
---  For computational convenience the qu cu pronouns are divided 
+--  For computational convenience the qu cu pronouns are divided
 --  With the variations, each pronoun dictionary entry has 5 declensions
 --  Some of these pronouns are used with PACKONS but are declined the same
 --  These qu pronouns are in the dictionary  with part of speech PACK
@@ -2711,42 +2732,42 @@ PRON  9 9 X X X  1 0                                X A
 --  1 0                   common elements, which all QU-PRON will have
 --
 --      1 1   qui         in NOM S M
---      1 2   quis    
+--      1 2   quis
 --
 --      1 3         qua   in NOM S F
 --      1 4         quae
 --      1 5         quis
---      
+--
 --      1 6               id  in NON/ACC S N
 --      1 7               od
 --
---      1 8               qua   in NOM P N  
+--      1 8               qua   in NOM P N
 --      1 9               quae
---      
+--
 --
 --  Each full discription of QU-PRON/PACK must therefore have 5 elements
 --    (1  0)   (1  1..2)  (1  3..5)  (1  6..7)  (1  8..9)
 --
 
 --
---aliquis, aliqua (rare), aliquid (aliquod rare/late) (aliqua P N)    INDEF             
+--aliquis, aliqua (rare), aliquid (aliquod rare/late) (aliqua P N)    INDEF
 --	``
---aliqui, qua, quod  (quid rare/late)  (qua P N)    ADJECT           
+--aliqui, qua, quod  (quid rare/late)  (qua P N)    ADJECT
 --some; any; a few; a particular/certain ~; some other; about/like (NUM);
 --
---quis, qua/quae, quid (qua/quae P N)            INDEF             
+--quis, qua/quae, quid (qua/quae P N)            INDEF
 --anyone/anybody/anything; whoever you pick; something (or other); any (NOM S);
 --
---qui, qua (quae), quod (qua /-quae P N)   ADJECT             
+--qui, qua (quae), quod (qua /-quae P N)   ADJECT
 --any; anyone/anything, any such; unspecified some; (after si/sin/sive/ne);
 --
---qui, quae, quod (quae P N)          REL                 
+--qui, quae, quod (quae P N)          REL
 --who; that; which, what; of which kind/degree; person/thing/time/point that;
 --
---quis, quis, quid (quae P N)          INTERR            
+--quis, quis, quid (quae P N)          INTERR
 --who/what/which?, what/which one/man/person/thing? what kind/type of?
 --
---qui, quae, quod (quae P N)          ADJECT           
+--qui, quae, quod (quae P N)          ADJECT
 --
 --
 
@@ -2801,15 +2822,15 @@ PRON  1 4 NOM S F   1 2 ae                          X A
 PRON  1 4 ABL S F   1 1 a                           X A
 
 --  quis                --  Subsumed in 1 2
---PRON  1 5 NOM S F   1 2 is                          X A  
+--PRON  1 5 NOM S F   1 2 is                          X A
 --PRON  1 5 ABL S F   1 1 o                           X A
 
---  -id or -od NOM/ACC N S; 
+--  -id or -od NOM/ACC N S;
 --  id
 PRON  1 6 NOM S N   1 2 id                          X A
 PRON  1 6 ACC S N   1 2 id                          X A
 
---  od                   
+--  od
 PRON  1 7 NOM S N   1 2 od                          X A
 PRON  1 7 ACC S N   1 2 od                          X A
 
@@ -2841,7 +2862,7 @@ PRON  3 0 ACC P M   1 2 os                          X A
 PRON  3 0 ABL P X   1 2 is                          X A
 PRON  3 0 ABL P X   1 4 ibus                        B E
 PRON  3 0 ABL P X   1 3 iis                         E C  --  Souter/Vulgate
-         
+
 PRON  3 0 NOM S F   1 3 aec                         X A
 PRON  3 0 ACC S F   1 3 anc                         X A
 PRON  3 0 ABL S F   1 2 ac                          X A
@@ -2865,7 +2886,7 @@ PRON  3 2 ACC S N   1 2 uc                          X A
 
 
 
---  Ex: is ea id  =>  i e i 
+--  Ex: is ea id  =>  i e i
 PRON  4 1 NOM S M   1 1 s                           X A
 PRON  4 0 GEN S X   2 3 ius                         X A
 PRON  4 0 DAT S X   2 1 i                           X A
@@ -2877,12 +2898,12 @@ PRON  4 0 NOM P M   1 1 i                           X B  --  A&G 102
 PRON  4 1 GEN P M   2 4 orum                        X A
 PRON  4 0 DAT P X   2 2 is                          X A
 PRON  4 0 DAT P X   1 2 is                          X A
-PRON  4 0 DAT P X   1 1 s                           X C 
+PRON  4 0 DAT P X   1 1 s                           X C
 PRON  4 0 ACC P M   2 2 os                          X A
 PRON  4 0 ABL P X   2 2 is                          X A
 PRON  4 0 ABL P X   1 2 is                          X A
 PRON  4 0 ABL P X   1 1 s                           X C
-         
+
 PRON  4 0 NOM S F   2 1 a                           X A
 PRON  4 1 ACC S F   2 2 am                          X A
 PRON  4 0 ABL S F   2 1 a                           X A
@@ -2917,7 +2938,7 @@ PRON  4 2 NOM P N   2 1 a                           X A
 PRON  4 2 GEN P N   2 4 orun                        X A
 PRON  4 2 ACC P N   2 1 a                           X A
 
---  Ex: ego mei    =>       ego   m   
+--  Ex: ego mei    =>       ego   m
 --  Ex:     mei    =>       zzz   m     reflexive
 PRON  5 1 NOM S C   1 0                             X A
 PRON  5 1 VOC S C   2 1 i                           X A
@@ -2934,7 +2955,7 @@ PRON  5 1 ABL S C   2 3 eme                         X D
 
 PRON  5 1 VOC P C   2 1 i                           D B   --  G&L 100 2.2  VOC of nos
 
---  Ex: tu tui    =>        tu   t     
+--  Ex: tu tui    =>        tu   t
 --  Ex: tui       =>        zzz  t      reflexive
 PRON  5 2 NOM S C   1 0                             X A
 PRON  5 2 VOC S C   1 0                             X A
@@ -2965,7 +2986,7 @@ PRON  5 3 DAT P C   1 4 obis                        X A
 PRON  5 3 ACC P C   1 2 os                          X A
 PRON  5 3 ABL P C   1 4 obis                        X A
 
-         
+
 --  Ex: sui       =>        zzz  s      reflexive
 PRON  5 4 GEN X C   2 2 ui                          X A
 PRON  5 4 DAT X C   2 3 ibi                         X A
@@ -2989,7 +3010,7 @@ PRON  6 0 GEN P M   1 4 orum                        X A
 PRON  6 0 DAT P X   1 2 is                          X A
 PRON  6 0 ACC P M   1 2 os                          X A
 PRON  6 0 ABL P X   1 2 is                          X A
-         
+
 PRON  6 0 NOM S F   1 1 a                           X A
 --PRON  6 0 GEN S F   1 3 ius                         X A
 --PRON  6 0 DAT S F   1 1 i                           X A
@@ -3055,17 +3076,17 @@ NUM    1 1 VOC S N CARD     1 2 um                  X A
 --  For the number two and duals (ambo)
 NUM    1 2 NOM P M CARD     1 1 o                   X A
 NUM    1 2 GEN P M CARD     1 4 orum                X A
-NUM    1 2 GEN P M CARD     1 2 um                  X B  --  G&L 95 N2 
-NUM    1 2 GEN P M CARD     1 2 om                  B C  --  G&L 95 N2 
+NUM    1 2 GEN P M CARD     1 2 um                  X B  --  G&L 95 N2
+NUM    1 2 GEN P M CARD     1 2 om                  B C  --  G&L 95 N2
 NUM    1 2 DAT P M CARD     1 4 obus                X A
 NUM    1 2 ACC P M CARD     1 2 os                  X A
-NUM    1 2 ACC P M CARD     1 1 o                   B B  --  G&L 95 N2 
+NUM    1 2 ACC P M CARD     1 1 o                   B B  --  G&L 95 N2
 NUM    1 2 ABL P M CARD     1 4 obus                X A
 NUM    1 2 VOC P M CARD     1 1 o                   X A
 
 NUM    1 2 NOM P F CARD     1 2 ae                  X A
-NUM    1 2 NOM P F CARD     1 1 o                   X D  --  G&L 95 N2 
-NUM    1 2 NOM P F CARD     1 1 a                   X E  --  G&L 95 N2 
+NUM    1 2 NOM P F CARD     1 1 o                   X D  --  G&L 95 N2
+NUM    1 2 NOM P F CARD     1 1 a                   X E  --  G&L 95 N2
 NUM    1 2 GEN P F CARD     1 4 arum                X A
 NUM    1 2 DAT P F CARD     1 4 abus                X A
 NUM    1 2 ACC P F CARD     1 2 as                  X A
@@ -3074,8 +3095,8 @@ NUM    1 2 VOC P F CARD     1 2 ae                  X A
 
 NUM    1 2 NOM P N CARD     1 1 o                   X A
 NUM    1 2 GEN P N CARD     1 4 orum                X A
-NUM    1 2 GEN P N CARD     1 2 um                  X B  --  G&L 95 N2 
-NUM    1 2 GEN P N CARD     1 2 om                  B C  --  G&L 95 N2 
+NUM    1 2 GEN P N CARD     1 2 um                  X B  --  G&L 95 N2
+NUM    1 2 GEN P N CARD     1 2 om                  B C  --  G&L 95 N2
 NUM    1 2 DAT P N CARD     1 4 obus                X A
 NUM    1 2 ACC P N CARD     1 1 o                   X A
 NUM    1 2 ABL P N CARD     1 4 obus                X A
@@ -3088,7 +3109,7 @@ NUM    1 3 NOM P C CARD     1 2 es                  X A
 NUM    1 3 GEN P X CARD     1 3 ium                 X A
 NUM    1 3 DAT P X CARD     1 4 ibus                X A
 NUM    1 3 ACC P C CARD     1 2 es                  X A
-NUM    1 3 ACC P C CARD     1 2 is        X A  --  G&L 95, L  
+NUM    1 3 ACC P C CARD     1 2 is        X A  --  G&L 95, L
 NUM    1 3 ABL P X CARD     1 4 ibus                X A
 NUM    1 3 VOC P C CARD     1 2 es                  X A
 
@@ -3099,22 +3120,22 @@ NUM    1 3 VOC P N CARD     1 2 ia                  X A
 
 --  For hundreds
 NUM    1 4 NOM P M  CARD     1 1 i                  X A
-NUM    1 4 GEN P M  CARD     1 2 um                 X A  --  G&L 95 R  
-NUM    1 4 GEN P M  CARD     1 4 orum               X A  --  C  
+NUM    1 4 GEN P M  CARD     1 2 um                 X A  --  G&L 95 R
+NUM    1 4 GEN P M  CARD     1 4 orum               X A  --  C
 NUM    1 4 DAT P M  CARD     1 2 is                 X A
 NUM    1 4 ACC P M  CARD     1 2 os                 X A
 NUM    1 4 ABL P M  CARD     1 2 is                 X A
 NUM    1 4 VOC P M  CARD     1 1 i                  X A
-         
+
 NUM    1 4 NOM P F  CARD     1 2 ae                 X A
-NUM    1 4 GEN P F  CARD     1 4 arum               X A -- G&L 95 R  
+NUM    1 4 GEN P F  CARD     1 4 arum               X A -- G&L 95 R
 NUM    1 4 DAT P F  CARD     1 2 is                 X A
 NUM    1 4 ACC P F  CARD     1 2 as                 X A
 NUM    1 4 ABL P F  CARD     1 2 is                 X A
 NUM    1 4 VOC P F  CARD     1 2 ae                 X A
 
 NUM    1 4 NOM P N  CARD     1 1 a                  X A
-NUM    1 4 GEN P N  CARD     1 2 um                 X A -- G&L 95 R  
+NUM    1 4 GEN P N  CARD     1 2 um                 X A -- G&L 95 R
 NUM    1 4 DAT P N  CARD     1 2 is                 X A
 NUM    1 4 ACC P N  CARD     1 1 a                  X A
 NUM    1 4 ABL P N  CARD     1 2 is                 X A
@@ -3142,7 +3163,7 @@ NUM    0 0 DAT P M  ORD     2 2 is                  X A
 NUM    0 0 ACC P M  ORD     2 2 os                  X A
 NUM    0 0 ABL P M  ORD     2 2 is                  X A
 NUM    0 0 VOC P M  ORD     2 1 i                   X A
-         
+
 NUM    0 0 NOM S F  ORD     2 1 a                   X A
 NUM    0 0 GEN S F  ORD     2 2 ae                  X A
 NUM    0 0 DAT S F  ORD     2 2 ae                  X A
@@ -3174,18 +3195,18 @@ NUM    0 0 VOC P N  ORD     2 1 a                   X A
 --  Distributive
 --  Use third stem
 NUM    0 0 NOM P M  DIST     3 1 i                  X A
-NUM    0 0 GEN P C  DIST     3 2 um          X A --  G&L M/N but Caesar F  
+NUM    0 0 GEN P C  DIST     3 2 um          X A --  G&L M/N but Caesar F
 NUM    0 0 GEN P M  DIST     3 4 orum               X A
 NUM    0 0 DAT P X  DIST     3 2 is                 X A
 NUM    0 0 ACC P M  DIST     3 2 os                 X A
 NUM    0 0 ABL P X  DIST     3 2 is                 X A
 NUM    0 0 VOC P M  DIST     3 1 i                  X A
-         
+
 NUM    0 0 NOM P F  DIST     3 2 ae                 X A
 NUM    0 0 GEN P F  DIST     3 4 arum               X A
 NUM    0 0 ACC P F  DIST     3 2 as                 X A
 NUM    0 0 VOC P F  DIST     3 2 ae                 X A
-                                                       
+
 NUM    0 0 NOM P N  DIST     3 1 a                  X A
 NUM    0 0 GEN P N  DIST     3 4 orum               X A
 NUM    0 0 ACC P N  DIST     3 1 a                  X A
