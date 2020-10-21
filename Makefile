@@ -24,7 +24,7 @@ STEMLIST.GEN: DICTLINE.GEN bin/sorter
 	rm -f STEMLIST_generated.GEN
 	rm -f WORK.
 
-EWDSFILE.GEN: EWDSLIST.GEN
+EWDSFILE.GEN: EWDSLIST.GEN bin/makeefil
 	bin/makeefil
 
 EWDSLIST.GEN: DICTLINE.GEN bin/makeewds
