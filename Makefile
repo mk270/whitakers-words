@@ -1,21 +1,28 @@
-BUILD := gprbuild
+GPRBUILD                                := gprbuild
+GPRBUILD_OPTIONS                        := -j4
 
 PROGRAMMES := makedict makeefil makeewds makeinfl makestem meanings wakedict \
   words
 
 .PHONY: all
 
-all: $(PROGRAMMES) data
+all: commands data
+
+# This target is more efficient than separate gprbuild runs because
+# the dependency graph is only constructed once.
+.PHONY: commands
+commands:
+	$(GPRBUILD) -p $(GPRBUILD_OPTIONS) words.gpr
 
 # Targets delegated to gprbuild are declared phony even if they build
 # concrete files, because Make ignores all about Ada dependencies.
 .PHONY: $(PROGRAMMES)
 $(PROGRAMMES):
-	$(BUILD) -p -j4 -Pwords $@
+	$(GPRBUILD) -p $(GPRBUILD_OPTIONS) words.gpr $@
 
 .PHONY: sorter
 sorter:
-	$(BUILD) -p -j4 -Ptools $@
+	$(GPRBUILD) -p $(GPRBUILD_OPTIONS) tools.gpr $@
 
 # Executable targets are phony (see above), so we tell Make to only
 # check that they exist but ignore the timestamp.  This is not
