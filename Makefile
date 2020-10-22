@@ -33,7 +33,7 @@ EWDSLIST.GEN: DICTLINE.GEN bin/makeewds
 INFLECTS.SEC: INFLECTS.LAT bin/makeinfl
 	bin/makeinfl $< > /dev/null
 
-STEMFILE.GEN: STEMLIST.GEN bin/makestem
+STEMFILE.GEN INDXFILE.GEN: STEMLIST.GEN bin/makestem
 	echo g | bin/makestem $< > /dev/null
 
 GENERATED_DATA_FILES := DICTFILE.GEN STEMFILE.GEN INDXFILE.GEN EWDSLIST.GEN \
