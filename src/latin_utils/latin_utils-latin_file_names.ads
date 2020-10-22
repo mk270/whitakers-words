@@ -48,7 +48,6 @@ package Latin_Utils.Latin_File_Names is
    Mode_Full_Name         : constant String := "WORD.MOD";
    Output_Full_Name       : constant String := "WORD.OUT";
    Unknowns_Full_Name     : constant String := "WORD.UNK";
-   Parse_Full_Name        : constant String := "WORD.PRS";
 
    --  These file names are used with extensions (e.g., GEN, SPE, LOC)
    --  for the various dictionaries
