@@ -18,6 +18,7 @@ with Ada.Text_IO; use Ada.Text_IO;
 with Latin_Utils.Strings_Package; use Latin_Utils.Strings_Package;
 
 --  Omit when Put name here
+with Latin_Utils.Config;
 with Latin_Utils.Latin_File_Names; use Latin_Utils.Latin_File_Names;
 with Support_Utils.Word_Parameters; use Support_Utils.Word_Parameters;
 with Latin_Utils.Dictionary_Package; use Latin_Utils.Dictionary_Package;
@@ -407,7 +408,8 @@ package body Support_Utils.Developer_Parameters is
          --  Does this by making a new file and writing the old DICT_LOC into it
          --  If there is not already a DICT_LOC, it Creates one
       begin
-         Open (Dict_Loc_File, In_File, Dict_Loc_Name);
+         Open (Dict_Loc_File, In_File,
+               Latin_Utils.Config.Path (Dict_Loc_Name));
          Create (Dummy, Out_File);
          while not End_Of_File (Dict_Loc_File)  loop
             Get_Line (Dict_Loc_File, Line, L);
@@ -517,7 +519,7 @@ package body Support_Utils.Developer_Parameters is
       Line : String (1 .. 100) := (others => ' ');
       Last : Integer := 0;
    begin
-      Open (Mdev_File, In_File, Mdev_Full_Name);
+      Open (Mdev_File, In_File, Latin_Utils.Config.Path (Mdev_Full_Name));
       for I in Words_Mdev'Range  loop
          Get (Mdev_File, Mo);
          Get (Mdev_File, Rep);

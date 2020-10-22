@@ -114,8 +114,9 @@ package body Support_Utils.Word_Support_Package is
          begin
             if not Is_Open (Stem_File (D_K))  then
                Open (Stem_File (D_K), Stem_Io.In_File,
-                 Add_File_Name_Extension (Stem_File_Name,
-                 Dictionary_Kind'Image (D_K)));
+                 Config.Path
+                 (Add_File_Name_Extension (Stem_File_Name,
+                 Dictionary_Kind'Image (D_K))));
             end if;
             Index_First := Bblf (' ', ' ', D_K);
             Index_Last  := Bbll (' ', ' ', D_K);
@@ -131,13 +132,15 @@ package body Support_Utils.Word_Support_Package is
             when Name_Error =>
                Ada.Text_IO.Put_Line
                  ("LOADING BDL FROM DISK had NAME_ERROR on " &
-                 Add_File_Name_Extension (Stem_File_Name,
-                 Dictionary_Kind'Image (D_K)));
+                 Config.Path
+                 (Add_File_Name_Extension (Stem_File_Name,
+                 Dictionary_Kind'Image (D_K))));
                Ada.Text_IO.Put_Line ("The will be no blank stems loaded");
             when Use_Error =>
                Ada.Text_IO.Put_Line ("LOADING BDL FROM DISK had USE_ERROR on " &
-                 Add_File_Name_Extension (Stem_File_Name,
-                 Dictionary_Kind'Image (D_K)));
+                 Config.Path
+                 (Add_File_Name_Extension (Stem_File_Name,
+                 Dictionary_Kind'Image (D_K))));
                Ada.Text_IO.Put_Line ("There will be no blank stems loaded");
          end Loading_Bdl_From_Disk;
       end if;
@@ -152,8 +155,9 @@ package body Support_Utils.Word_Support_Package is
                --ADD_FILE_NAME_EXTENSION (STEM_FILE_NAME,
                --DICTIONARY_KIND'IMAGE (D_K)));
                Open (Stem_File (D_K), Stem_Io.In_File,
-                 Add_File_Name_Extension (Stem_File_Name,
-                 Dictionary_Kind'Image (D_K)));
+                 Config.Path
+                 (Add_File_Name_Extension (Stem_File_Name,
+                 Dictionary_Kind'Image (D_K))));
                --STEMFILE." & EXT (D_K));
                --PUT_LINE ("OPENing was successful");
             end if;
@@ -195,8 +199,9 @@ package body Support_Utils.Word_Support_Package is
 
    begin
       Open (Indx_File (D_K), Ada.Text_IO.In_File,
-        Add_File_Name_Extension (Indx_File_Name,
-        Dictionary_Kind'Image (D_K)));
+        Config.Path
+        (Add_File_Name_Extension (Indx_File_Name,
+        Dictionary_Kind'Image (D_K))));
       --"INDXFILE." & EXT (D_K)); --  $$$$$$$$$$$$
 
       Preface.Put (Dictionary_Kind'Image (D_K));

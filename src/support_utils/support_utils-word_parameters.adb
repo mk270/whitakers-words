@@ -274,7 +274,7 @@ package body Support_Utils.Word_Parameters is
       Mo : Mode_Type;
       Rep : Reply_Type;
    begin
-      Open (Mode_File, In_File, Mode_Full_Name);
+      Open (Mode_File, In_File, Path (Mode_Full_Name));
       while not End_Of_File (Mode_File)  loop
          Get (Mode_File, Mo);
          Get (Mode_File, Rep);

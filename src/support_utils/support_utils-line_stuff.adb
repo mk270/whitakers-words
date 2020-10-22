@@ -16,6 +16,7 @@
 
 with Ada.Strings.Fixed;
 with Support_Utils.Word_Support_Package; use Support_Utils.Word_Support_Package;
+with Latin_Utils.Config;
 with Latin_Utils.Strings_Package; use Latin_Utils.Strings_Package;
 with Latin_Utils.Latin_File_Names; use Latin_Utils.Latin_File_Names;
 with Support_Utils.Char_Utils;
@@ -62,7 +63,8 @@ package body Support_Utils.Line_Stuff is
 
    begin
 
-      Open (Dictionary_File, In_File, Dictionary_File_Name);
+      Open (Dictionary_File, In_File,
+            Latin_Utils.Config.Path (Dictionary_File_Name));
       Preface.Put ("Dictionary loading");
 
       while not End_Of_File (Dictionary_File)  loop
@@ -492,7 +494,8 @@ package body Support_Utils.Line_Stuff is
 
    begin
       --TEXT_IO.PUT_LINE ("UNIQUES started");
-      Ada.Text_IO.Open (Uniques_File, Ada.Text_IO.In_File, File_Name);
+      Ada.Text_IO.Open (Uniques_File, Ada.Text_IO.In_File,
+                        Latin_Utils.Config.Path (File_Name));
       Preface.Set_Col (1);
       Preface.Put ("UNIQUES file loading");
 

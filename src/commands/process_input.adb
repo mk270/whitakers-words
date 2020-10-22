@@ -48,7 +48,8 @@ is
             Dict_IO.Delete (Dict_File (Dict_Name));
          else
             Dict_IO.Open (Dict_File (Dict_Name), Dict_IO.In_File,
-              Add_File_Name_Extension (Dict_File_Name, Filename));
+              Path
+              (Add_File_Name_Extension (Dict_File_Name, Filename)));
             Dict_IO.Delete (Dict_File (Dict_Name));
          end if;
       exception when others => null;
@@ -200,8 +201,9 @@ begin
 
    begin
       Stem_Io.Open (Stem_File (Local), Stem_Io.In_File,
-        Add_File_Name_Extension (Stem_File_Name,
-        "LOCAL"));
+        Path
+        (Add_File_Name_Extension (Stem_File_Name,
+        "LOCAL")));
       --  Failure to OPEN will raise an exception, to be handled below
       if Stem_Io.Is_Open (Stem_File (Local)) then
          Stem_Io.Delete (Stem_File (Local));

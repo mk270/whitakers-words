@@ -15,6 +15,7 @@
 -- available to anyone who wishes to use them, for whatever purpose.
 
 with Ada.Text_IO;
+with Latin_Utils.Config;
 with Latin_Utils.Strings_Package; use Latin_Utils.Strings_Package;
 with Latin_Utils.Latin_File_Names; use Latin_Utils.Latin_File_Names;
 with Latin_Utils.Inflections_Package; use Latin_Utils.Inflections_Package;
@@ -87,7 +88,8 @@ procedure Makeinfl is
          Number_Of_Inflections := 0;
 
          L_I := Null_Latin_Inflections;
-         Open (Inflections_File, In_File, Inflections_Full_Name);
+         Open (Inflections_File, In_File,
+               Latin_Utils.Config.Path (Inflections_Full_Name));
          Ada.Text_IO.Put ("INFLECTIONS file loading");
          while not End_Of_File (Inflections_File)  loop
             -- read_a_line :
@@ -277,7 +279,8 @@ begin
    Establish_Inflections_Section;
 
    Lel_Section_Io.Open (Inflections_Sections_File, In_File,
-     Inflections_Sections_Name);
+     Latin_Utils.Config.Path
+     (Inflections_Sections_Name));
 
    if not Porting then
       for I in Bel'Range loop                     --  Blank endings

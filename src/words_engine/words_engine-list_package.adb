@@ -1005,8 +1005,9 @@ package body Words_Engine.List_Package is
       if Dictionary_Available (D_K)  then
          if not Is_Open (Stem_File (D_K))  then
             Open (Stem_File (D_K), Stem_Io.In_File,
-              Add_File_Name_Extension (Stem_File_Name,
-              Dictionary_Kind'Image (D_K)));
+              Path
+              (Add_File_Name_Extension (Stem_File_Name,
+              Dictionary_Kind'Image (D_K))));
          end if;
 
          Index_First := First_Index (First_Two (Index_On), D_K);

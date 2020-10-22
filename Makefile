@@ -14,6 +14,18 @@ export latin_utils_soversion            :=
 export support_utils_soversion          :=
 export words_engine_soversion           :=
 
+# Directory where dictionnary files are created and searched for.
+# This variable is expected to be overridden at build time, with some
+# architecture-specific value like $(prefix)/share/whitakers-words).
+# At run time, another directory can be selected via the
+# WHITAKERS_WORDS_DATADIR environment variable.
+datadir                                 := .
+# During (re)builds, the tools must read and test the fresh data and
+# ignore any previous version already installed in $(datadir).
+export WHITAKERS_WORDS_DATADIR := .
+
+generated_sources := src/latin_utils/latin_utils-config.adb
+
 PROGRAMMES := makedict makeefil makeewds makeinfl makestem meanings wakedict \
   words
 
@@ -24,17 +36,17 @@ all: commands data
 # This target is more efficient than separate gprbuild runs because
 # the dependency graph is only constructed once.
 .PHONY: commands
-commands:
+commands: $(generated_sources)
 	$(GPRBUILD) -p $(GPRBUILD_OPTIONS) commands.gpr
 
 # Targets delegated to gprbuild are declared phony even if they build
 # concrete files, because Make ignores all about Ada dependencies.
 .PHONY: $(PROGRAMMES)
-$(PROGRAMMES):
+$(PROGRAMMES): $(generated_sources)
 	$(GPRBUILD) -p $(GPRBUILD_OPTIONS) commands.gpr $@
 
 .PHONY: sorter
-sorter:
+sorter: $(generated_sources)
 	$(GPRBUILD) -p $(GPRBUILD_OPTIONS) tools.gpr $@
 
 # Executable targets are phony (see above), so we tell Make to only
@@ -83,7 +95,10 @@ clean_data:
 
 clean: clean_data
 	rm -fr bin lib obj
-	rm -f WORK. STEMLIST_generated.GEN STEMLIST_new.GEN
+	rm -f WORK. STEMLIST_generated.GEN STEMLIST_new.GEN $(generated_sources)
+
+$(generated_sources): %: %.in Makefile
+	sed 's|@datadir@|$(datadir)|' $< > $@
 
 .PHONY: test
 

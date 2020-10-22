@@ -306,11 +306,13 @@ package body Words_Engine.Word_Package is
    procedure Try_To_Load_Dictionary (D_K : Dictionary_Kind) is
    begin
       Stem_Io.Open (Stem_File (D_K), Stem_Io.In_File,
-        Add_File_Name_Extension (Stem_File_Name,
-        Dictionary_Kind'Image (D_K)));
+        Path
+        (Add_File_Name_Extension (Stem_File_Name,
+        Dictionary_Kind'Image (D_K))));
       Dict_IO.Open (Dict_File (D_K), Dict_IO.In_File,
-        Add_File_Name_Extension (Dict_File_Name,
-        Dictionary_Kind'Image (D_K)));
+        Path
+        (Add_File_Name_Extension (Dict_File_Name,
+        Dictionary_Kind'Image (D_K))));
       Load_Indices_From_Indx_File (D_K);
       Dictionary_Available (D_K) := True;
 
@@ -566,8 +568,9 @@ package body Words_Engine.Word_Package is
          if Dictionary_Available (D_K)  then
             if not Is_Open (Stem_File (D_K))  then
                Open (Stem_File (D_K), Stem_Io.In_File,
-                 Add_File_Name_Extension (Stem_File_Name,
-                 Dictionary_Kind'Image (D_K)));
+                 Path
+                 (Add_File_Name_Extension (Stem_File_Name,
+                 Dictionary_Kind'Image (D_K))));
             end if;
             Dictionary_Search (Ssa, D_K, Restriction);
             Close (Stem_File (D_K));  --??????
@@ -1891,7 +1894,8 @@ package body Words_Engine.Word_Package is
       Establish_Inflections_Section;
 
       Lel_Section_Io.Open (Inflections_Sections_File, Lel_Section_Io.In_File,
-        Inflections_Sections_Name);
+        Path
+        (Inflections_Sections_Name));
 
       Try_To_Load_Dictionary (General);
 
@@ -1905,8 +1909,9 @@ package body Words_Engine.Word_Package is
             Dummy : Ada.Text_IO.File_Type;
          begin
             Ada.Text_IO.Open (Dummy, Ada.Text_IO.In_File,
-              Add_File_Name_Extension (Dictionary_File_Name,
-              "LOCAL"));
+              Path
+              (Add_File_Name_Extension (Dictionary_File_Name,
+              "LOCAL")));
             --  Failure to OPEN will raise an exception, to be handled below
             Ada.Text_IO.Close (Dummy);
          end Check_For_Local_Dictionary;
@@ -1914,7 +1919,8 @@ package body Words_Engine.Word_Package is
          Preface.Put ("LOCAL ");
          Dict_Loc := Null_Dictionary;
          Load_Dictionary (Dict_Loc,
-           Add_File_Name_Extension (Dictionary_File_Name, "LOCAL"));
+           Path
+           (Add_File_Name_Extension (Dictionary_File_Name, "LOCAL")));
          --  Need to carry LOC through consistently on LOAD_D and LOAD_D_FILE
          Load_Stem_File (Local);
          Dictionary_Available (Local) := True;

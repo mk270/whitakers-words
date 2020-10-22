@@ -28,4 +28,15 @@ package Latin_Utils.Config is
 
    Suppress_Preface : Boolean := False;
 
+   --  This function should move out of Latin_Utils, it is useful for
+   --  all kind of input files.
+
+   --  The directory containing external input files depends on the
+   --  architecture.  The default is defined at build time when this
+   --  source is preprocessed.  It can be overridden at run time via
+   --  the WHITAKERS_WORDS_DATADIR environment variable.
+
+   function Path (Name : String) return String;
+   --  Return Name prefixed with the data directory.
+
 end Latin_Utils.Config;

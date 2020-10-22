@@ -15,6 +15,7 @@
 -- available to anyone who wishes to use them, for whatever purpose.
 
 package Latin_Utils.Latin_File_Names is
+
    --  In order to port the program LATIN to another system, the file names
    --  must be made consistent with that system.
    --  This package is withed into all units that declare external file names

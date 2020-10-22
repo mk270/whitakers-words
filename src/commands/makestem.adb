@@ -15,6 +15,7 @@
 -- available to anyone who wishes to use them, for whatever purpose.
 
 with Ada.Text_IO;
+with Latin_Utils.Config;
 with Latin_Utils.Strings_Package; use Latin_Utils.Strings_Package;
 with Latin_Utils.Latin_File_Names; use Latin_Utils.Latin_File_Names;
 with Latin_Utils.Inflections_Package; use Latin_Utils.Inflections_Package;
@@ -92,8 +93,9 @@ begin
    Latin_Utils.General.Load_Dictionary (Line, Last, D_K);
 
    Open (Stem_List (D_K), In_File,
-     Add_File_Name_Extension (Stem_List_Name,
-     Dictionary_Kind'Image (D_K)));
+     Latin_Utils.Config.Path
+     (Add_File_Name_Extension (Stem_List_Name,
+     Dictionary_Kind'Image (D_K))));
 
    Create (Stem_File (D_K), Inout_File,
      Add_File_Name_Extension (Stem_File_Name,

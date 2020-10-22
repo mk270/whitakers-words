@@ -14,6 +14,7 @@
 -- All parts of the WORDS system, source code and data files, are made freely
 -- available to anyone who wishes to use them, for whatever purpose.
 
+with Latin_Utils.Config;
 with Latin_Utils.Strings_Package; use Latin_Utils.Strings_Package;
 with Support_Utils.Developer_Parameters; use Support_Utils.Developer_Parameters;
 with Latin_Utils.Preface;
@@ -88,7 +89,7 @@ package body Support_Utils.Addons_Package is
       end Extract_Fix;
 
    begin
-      Open (Addons_File, In_File, File_Name);
+      Open (Addons_File, In_File, Latin_Utils.Config.Path (File_Name));
       Preface.Put ("ADDONS");
       Preface.Put (" loading ");
 

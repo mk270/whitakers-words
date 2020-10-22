@@ -15,6 +15,7 @@
 -- available to anyone who wishes to use them, for whatever purpose.
 
 with Ada.Text_IO;
+with Latin_Utils.Config;
 with Latin_Utils.Strings_Package; use Latin_Utils.Strings_Package;
 with Latin_Utils.Latin_File_Names; use Latin_Utils.Latin_File_Names;
 with Latin_Utils.Inflections_Package; use Latin_Utils.Inflections_Package;
@@ -61,8 +62,9 @@ begin
    Put_Line ("This version inserts ESSE when D_K = GEN");
    Latin_Utils.General.Load_Dictionary (Line, Last, D_K);
 
-   Open (Input, In_File, Add_File_Name_Extension (Dict_Line_Name,
-     Dictionary_Kind'Image (D_K)));
+   Open (Input, In_File, Latin_Utils.Config.Path
+     (Add_File_Name_Extension (Dict_Line_Name,
+     Dictionary_Kind'Image (D_K))));
 
    if not Porting  then
       Create (Stemlist, Out_File, Add_File_Name_Extension (Stem_List_Name,
