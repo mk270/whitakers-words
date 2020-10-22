@@ -64,4 +64,4 @@ clean:
 .PHONY: test
 
 test: $(PROGRAMMES) $(GENERATED_DATA_FILES)
-	(cd test; ./run-tests.sh)
+	cd test && ./run-tests.sh
