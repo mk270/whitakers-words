@@ -1,5 +1,18 @@
+# Makefile for Whitaker's words
+
 GPRBUILD                                := gprbuild
 GPRBUILD_OPTIONS                        := -j4
+
+# Build flags are commonly found in the environment, but if they are
+# set on our Make command line, forward them to GNAT projects.
+export ADAFLAGS                         ?=
+export LDFLAGS                          ?=
+
+# For each library, a static archive is built by default but a
+# non-empty shared object version selects a relocatable library
+export latin_utils_soversion            :=
+export support_utils_soversion          :=
+export words_engine_soversion           :=
 
 PROGRAMMES := makedict makeefil makeewds makeinfl makestem meanings wakedict \
   words
@@ -12,13 +25,13 @@ all: commands data
 # the dependency graph is only constructed once.
 .PHONY: commands
 commands:
-	$(GPRBUILD) -p $(GPRBUILD_OPTIONS) words.gpr
+	$(GPRBUILD) -p $(GPRBUILD_OPTIONS) commands.gpr
 
 # Targets delegated to gprbuild are declared phony even if they build
 # concrete files, because Make ignores all about Ada dependencies.
 .PHONY: $(PROGRAMMES)
 $(PROGRAMMES):
-	$(GPRBUILD) -p $(GPRBUILD_OPTIONS) words.gpr $@
+	$(GPRBUILD) -p $(GPRBUILD_OPTIONS) commands.gpr $@
 
 .PHONY: sorter
 sorter:
