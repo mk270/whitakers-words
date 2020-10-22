@@ -65,11 +65,9 @@ begin
       end if;
    end if;
 
-   Dict_IO.Open (Dictfile, In_File, Add_File_Name_Extension (Dict_File_Name,
-     Dictionary_Kind'Image (D_K)));
+   Dict_IO.Open (Dictfile, In_File, Dict_File_Name & '.' & Ext (D_K));
 
-   Create (Dictline, Out_File, Add_File_Name_Extension (Dict_Line_Name,
-     "NEW"));
+   Create (Dictline, Out_File, Dict_Line_Name & ".NEW");
    --DICTIONARY_KIND'IMAGE (D_K)));
 
    while not End_Of_File (Dictfile)  loop

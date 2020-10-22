@@ -41,15 +41,14 @@ is
    -- use Inflection_Record_IO;
    use Ada.Text_IO;
 
-   procedure Delete_If_Open (Filename : String; Dict_Name : Dictionary_Kind) is
+   procedure Delete_If_Open (Dict_Name : Dictionary_Kind) is
    begin
       begin
          if Dict_IO.Is_Open (Dict_File (Dict_Name)) then
             Dict_IO.Delete (Dict_File (Dict_Name));
          else
             Dict_IO.Open (Dict_File (Dict_Name), Dict_IO.In_File,
-              Path
-              (Add_File_Name_Extension (Dict_File_Name, Filename)));
+                          Path (Dict_File_Name & '.' & Ext (Dict_Name)));
             Dict_IO.Delete (Dict_File (Dict_Name));
          end if;
       exception when others => null;
@@ -201,9 +200,7 @@ begin
 
    begin
       Stem_Io.Open (Stem_File (Local), Stem_Io.In_File,
-        Path
-        (Add_File_Name_Extension (Stem_File_Name,
-        "LOCAL")));
+                    Path (Stem_File_Name & '.' & Ext (Local)));
       --  Failure to OPEN will raise an exception, to be handled below
       if Stem_Io.Is_Open (Stem_File (Local)) then
          Stem_Io.Delete (Stem_File (Local));
@@ -214,9 +211,9 @@ begin
    end;
    --  The rest of this seems like overkill, it might have been done elsewhere
 
-   Delete_If_Open ("LOCAL", Local);
-   Delete_If_Open ("ADDONS", Addons);
-   Delete_If_Open ("UNIQUE", Unique);
+   Delete_If_Open (Local);
+   Delete_If_Open (Addons);
+   Delete_If_Open (Unique);
 
 exception
    when Storage_Error  =>    --  Have tried at least twice, fail

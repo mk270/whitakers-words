@@ -95,11 +95,9 @@ begin
       end if;
    end if;
 
-   Open (Input, In_File, Add_File_Name_Extension (Dict_Line_Name,
-     Dictionary_Kind'Image (D_K)));
+   Open (Input, In_File, Dict_Line_Name & '.' & Ext (D_K));
 
-   Create (Output, Out_File, Add_File_Name_Extension ("FLAGS",
-     Dictionary_Kind'Image (D_K)));
+   Create (Output, Out_File, "FLAGS." & Ext (D_K));
 
    while not End_Of_File (Input) loop
       S := Blank_Line;
@@ -156,8 +154,7 @@ begin
       end if;
    end loop;
 
-   Text_IO.Put (Output, "Number of lines in DICTLINE "  &
-     Dictionary_Kind'Image (D_K) & "  ");
+   Text_IO.Put (Output, "Number of lines in DICTLINE "  & Ext (D_K) & "  ");
    Integer_IO.Put (Output, Integer (J));
    Text_IO.New_Line (Output);
 

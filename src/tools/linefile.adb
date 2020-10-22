@@ -52,11 +52,9 @@ begin
       end if;
    end if;
 
-   Open (Dictfile, In_File, Add_File_Name_Extension (Dict_File_Name,
-     Dictionary_Kind'Image (D_K)));
+   Open (Dictfile, In_File, Dict_File_Name & '.' & Ext (D_K));
 
-   Create (Output, Out_File, Add_File_Name_Extension ("DICT_NEW",
-     Dictionary_Kind'Image (D_K)));
+   Create (Output, Out_File, "DICT_NEW." & Ext (D_K));
 
    while not End_Of_File (Dictfile)  loop
       Read (Dictfile, De);

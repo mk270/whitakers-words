@@ -400,8 +400,7 @@ package body Support_Utils.Developer_Parameters is
       Dict_Loc_File : File_Type;
       Dummy : File_Type;
       --  Omit when Put name here
-      Dict_Loc_Name : constant String :=
-        Add_File_Name_Extension (Dictionary_File_Name, "LOCAL");
+      Dict_Loc_Name : constant String := Dictionary_File_Name & ".LOC";
 
       procedure Ready_Dict_Loc_File is
          --  Effectively goes to the end of DICT_LOC to ready for appending
@@ -461,8 +460,7 @@ package body Support_Utils.Developer_Parameters is
             Append_To_Dict_Loc_File;
 
             Dict_Loc := Null_Dictionary;
-            Load_Dictionary (Dict_Loc,
-              Add_File_Name_Extension (Dictionary_File_Name, "LOCAL"));
+            Load_Dictionary (Dict_Loc, Dictionary_File_Name & ".LOC");
             --  Need to carry LOC through consistently on LOAD_D and LOAD_D_FILE
             Load_Stem_File (Local);
             Dictionary_Available (Local) := True;

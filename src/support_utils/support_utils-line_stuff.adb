@@ -421,16 +421,12 @@ package body Support_Utils.Line_Stuff is
       if Is_Open (Stem_File (D_K))  then
          Delete (Stem_File (D_K));
       end if;
-      Create (Stem_File (D_K), Inout_File,
-        Add_File_Name_Extension (Stem_File_Name,
-        Dictionary_Kind'Image (D_K)));
+      Create (Stem_File (D_K), Inout_File, Stem_File_Name & '.' & Ext (D_K));
       --PUT_LINE ("LOAD_STEM_FILE for LOC - Created STEM_FILE");
       if Is_Open (Dict_File (D_K))  then
          Delete (Dict_File (D_K));
       end if;
-      Create (Dict_File (D_K), Inout_File,
-        Add_File_Name_Extension (Dict_File_Name,
-        Dictionary_Kind'Image (D_K)));
+      Create (Dict_File (D_K), Inout_File, Dict_File_Name & '.' & Ext (D_K));
       --PUT_LINE ("LOAD_STEM_FILE for LOC - Created DICT_FILE");
 
       --PUT_LINE ("L_D_F  Start  M = " & INTEGER'IMAGE (INTEGER (M)));

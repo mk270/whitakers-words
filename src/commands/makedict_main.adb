@@ -62,17 +62,14 @@ begin
    Put_Line ("This version inserts ESSE when D_K = GEN");
    Latin_Utils.General.Load_Dictionary (Line, Last, D_K);
 
-   Open (Input, In_File, Latin_Utils.Config.Path
-     (Add_File_Name_Extension (Dict_Line_Name,
-     Dictionary_Kind'Image (D_K))));
+   Open (Input, In_File,
+         Latin_Utils.Config.Path (Dict_Line_Name & '.' & Ext (D_K)));
 
    if not Porting  then
-      Create (Stemlist, Out_File, Add_File_Name_Extension (Stem_List_Name,
-        Dictionary_Kind'Image (D_K)));
+      Create (Stemlist, Out_File, Stem_List_Name & '.' & Ext (D_K));
    end if;
 
-   Create (Dictfile, Out_File, Add_File_Name_Extension (Dict_File_Name,
-     Dictionary_Kind'Image (D_K)));
+   Create (Dictfile, Out_File, Dict_File_Name & '.' & Ext (D_K));
    Over_Lines :
    while not End_Of_File (Input) loop
       S := Blank_Line;

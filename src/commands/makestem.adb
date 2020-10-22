@@ -93,17 +93,11 @@ begin
    Latin_Utils.General.Load_Dictionary (Line, Last, D_K);
 
    Open (Stem_List (D_K), In_File,
-     Latin_Utils.Config.Path
-     (Add_File_Name_Extension (Stem_List_Name,
-     Dictionary_Kind'Image (D_K))));
+         Latin_Utils.Config.Path (Stem_List_Name & '.' & Ext (D_K)));
 
-   Create (Stem_File (D_K), Inout_File,
-     Add_File_Name_Extension (Stem_File_Name,
-     Dictionary_Kind'Image (D_K)));
+   Create (Stem_File (D_K), Inout_File, Stem_File_Name & '.' & Ext (D_K));
 
-   Create (Indx_File (D_K), Out_File,
-     Add_File_Name_Extension (Indx_File_Name,
-     Dictionary_Kind'Image (D_K)));
+   Create (Indx_File (D_K), Out_File, Indx_File_Name & '.' & Ext (D_K));
 
    ------------------------------------------------------------------
 
