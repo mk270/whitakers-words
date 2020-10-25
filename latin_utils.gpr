@@ -1,78 +1,24 @@
-project Latin_Utils is
- 
-   Version := "0.1";
-   Name    := "latin_utils";
- 
+with "shared.gpr";
+
+library project Latin_Utils is
+
+   Soversion := External ("latin_utils_shared_object_version", "");
+
    for Languages use ("Ada");
-   for Source_Dirs use ("src/latin_utils");
-   for Object_Dir use "obj/latin_utils";
-   for Exec_Dir use ".";
-   for Source_Files use
-      ( "latin_utils.ads",
-        "latin_utils-config.ads",
-        "latin_utils-dictionary_package.ads",
-        "latin_utils-dictionary_package.adb",
-        "latin_utils-dictionary_package-adjective_entry_io.adb",
-        "latin_utils-dictionary_package-adverb_entry_io.adb",
-        "latin_utils-dictionary_package-conjunction_entry_io.adb",
-        "latin_utils-dictionary_package-dictionary_entry_io.adb",
-        "latin_utils-dictionary_package-interjection_entry_io.adb",
-        "latin_utils-dictionary_package-kind_entry_io.adb",
-        "latin_utils-dictionary_package-noun_entry_io.adb",
-        "latin_utils-dictionary_package-numeral_entry_io.adb",
-        "latin_utils-dictionary_package-parse_record_io.adb",
-        "latin_utils-dictionary_package-part_entry_io.adb",
-        "latin_utils-dictionary_package-preposition_entry_io.adb",
-        "latin_utils-dictionary_package-pronoun_entry_io.adb",
-        "latin_utils-dictionary_package-propack_entry_io.adb",
-        "latin_utils-dictionary_package-translation_record_io.adb",
-        "latin_utils-dictionary_package-verb_entry_io.adb",
-        "latin_utils-general.ads",
-        "latin_utils-general.adb",
-        "latin_utils-inflections_package.ads",
-        "latin_utils-inflections_package.adb",
-        "latin_utils-inflections_package-adjective_record_io.adb",
-        "latin_utils-inflections_package-adverb_record_io.adb",
-        "latin_utils-inflections_package-conjunction_record_io.adb",
-        "latin_utils-inflections_package-decn_record_io.adb",
-        "latin_utils-inflections_package-ending_record_io.adb",
-        "latin_utils-inflections_package-inflection_record_io.adb",
-        "latin_utils-inflections_package-interjection_record_io.adb",
-        "latin_utils-inflections_package-noun_record_io.adb",
-        "latin_utils-inflections_package-numeral_record_io.adb",
-        "latin_utils-inflections_package-preposition_record_io.adb",
-        "latin_utils-inflections_package-prefix_record_io.adb",
-        "latin_utils-inflections_package-pronoun_record_io.adb",
-        "latin_utils-inflections_package-propack_record_io.adb",
-        "latin_utils-inflections_package-quality_record_io.adb",
-        "latin_utils-inflections_package-stem_type_io.adb",
-        "latin_utils-inflections_package-suffix_record_io.adb",
-        "latin_utils-inflections_package-supine_record_io.adb",
-        "latin_utils-inflections_package-tackon_record_io.adb",
-        "latin_utils-inflections_package-tense_voice_mood_record_io.adb",
-        "latin_utils-inflections_package-verb_record_io.adb",
-        "latin_utils-inflections_package-vpar_record_io.adb",
-        "latin_utils-latin_file_names.ads",
-        "latin_utils-latin_file_names.adb",
-        "latin_utils-preface.ads",
-        "latin_utils-preface.adb",
-        "latin_utils-strings_package.ads",
-        "latin_utils-strings_package.adb"
-      );
- 
-   for Library_Name use Name;
-   for Library_Dir use "lib";
-   for Library_Kind use "static";
-   for Library_Version use "lib" & Name & ".so." & Version;
-   for Library_Src_Dir use "lib";
- 
-   package Compiler is
-      Default_Ada :=
-         ( "-gnatwa", "-Wall", "-fstack-check", "-gnato", "-gnateE",
-           "-gnata", "-gnatU", "-gnatf", "-gnatwe",
-           "-g"
-         );
-      Style := ("-gnaty3aAbefhiklnOM80prtSux");
-      for Default_Switches ("Ada") use Default_Ada & Style;
-   end Compiler;
+   for Library_Name use project'Name;
+   case Soversion is
+      when "" =>
+         for Library_Kind use "static";
+      when others =>
+         for Library_Kind use "dynamic";
+         for Library_Version use
+           "lib" & Project'Library_name & ".so." & Soversion;
+         for Leading_Library_Options use Shared.Ldflags;
+   end case;
+   for Source_Dirs use ("src/" & project'Name);
+   for Library_Dir use "lib/" & project'Name & "-" & project'Library_Kind;
+   for Object_Dir  use "obj/" & project'Name & "-" & project'Library_Kind;
+
+   package Compiler renames Shared.Compiler;
+
 end Latin_Utils;

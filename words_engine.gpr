@@ -1,54 +1,25 @@
+with "shared.gpr";
 with "support_utils.gpr";
-project Words_Engine is
 
-   Version := "0.1";
-   Name    := "words_engine";
+library project Words_Engine is
+
+   Soversion := External ("words_engine_shared_object_version", "");
 
    for Languages use ("Ada");
-   for Source_Dirs use ("src/words_engine");
-   for Object_Dir use "obj/words_engine";
-   for Exec_Dir use ".";
-   for Source_Files use
-      ( "words_engine.ads",
-        "words_engine-pearse_code.ads",
-        "words_engine-pearse_code.adb",
-        "words_engine-parse.ads",
-        "words_engine-parse.adb",
-        "words_engine-english_support_package.ads",
-        "words_engine-english_support_package.adb",
-        "words_engine-word_package.ads",
-        "words_engine-word_package.adb",
-        "words_engine-list_package.ads",
-        "words_engine-list_package.adb",
-        "words_engine-trick_tables.adb",
-        "words_engine-trick_tables.ads",
-        "words_engine-tricks.adb",
-        "words_engine-tricks.ads",
-        "words_engine-roman_numerals_package.ads",
-        "words_engine-roman_numerals_package.adb",
-        "words_engine-put_example_line.adb",
-        "words_engine-explanation_package.ads",
-        "words_engine-search_english.adb",
-        "words_engine-list_sweep.ads",
-        "words_engine-list_sweep.adb",
-        "words_engine-put_stat.adb",
-        "words_engine-initialization.ads",
-        "words_engine-initialization.adb"
-      );
+   for Library_Name use project'Name;
+   case Soversion is
+      when "" =>
+         for Library_Kind use "static";
+      when others =>
+         for Library_Kind use "dynamic";
+         for Library_Version use
+           "lib" & Project'Library_name & ".so." & Soversion;
+         for Leading_Library_Options use Shared.Ldflags;
+   end case;
+   for Source_Dirs use ("src/" & project'Name);
+   for Library_Dir use "lib/" & project'Name & "-" & project'Library_Kind;
+   for Object_Dir  use "obj/" & project'Name & "-" & project'Library_Kind;
 
-   for Library_Name use Name;
-   for Library_Dir use "lib";
-   for Library_Kind use "static";
-   for Library_Version use "lib" & Name & ".so." & Version;
-   for Library_Src_Dir use "lib";
+   package Compiler renames Shared.Compiler;
 
-   package Compiler is
-      Default_Ada :=
-         ( "-gnatwa", "-Wall", "-fstack-check", "-gnato", "-gnateE",
-           "-gnata", "-gnatU", "-gnatf", "-gnatwe",
-           "-g"
-         );
-      Style := ("-gnaty3aAbefhiklnOM80prtSux");
-      for Default_Switches ("Ada") use Default_Ada & Style;
-   end Compiler;
 end Words_Engine;

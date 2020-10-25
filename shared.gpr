@@ -1,0 +1,36 @@
+abstract project Shared is
+
+   Adaflags := External_As_List ("ADAFLAGS", " ");
+   Ldflags  := External_As_List ("LDFLAGS", " ");
+
+   package Compiler is
+      for Switches ("Ada") use
+        (--  warnings
+         "-gnatwae", "-Wall",
+         "-fstack-check",
+         --  Enable overflow checking in STRICT (-gnato1) mode (default)
+         "-gnato",
+         -- Generate extra information in exception messages
+         "-gnateE",
+         -- Assertions enabled. Pragma Assert/Debug to be activated
+         "-gnata",
+         -- Enable unique tag for error messages
+         "-gnatU",
+         -- Full errors. Verbose details, all undefined references
+         "-gnatf",
+         --  Generate debugging information
+         "-g",
+         -- Don't quit, write ali/tree file even if compile errors
+         "-gnatQ",
+         -- Style
+         "-gnaty3aAbefhiklnOM80prtSux")
+        --  Put user settings last so that they may override the
+        --  default values.
+        & Adaflags;
+   end Compiler;
+
+   package Linker is
+      for Default_Switches ("Ada") use Ldflags;
+   end Linker;
+
+end Shared;

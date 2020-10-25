@@ -1,51 +1,25 @@
+with "shared.gpr";
 with "latin_utils.gpr";
-project Support_Utils is
- 
-   Version := "0.1";
-   Name    := "support_utils";
- 
+
+library project Support_Utils is
+
+   Soversion := External ("support_utils_shared_object_version", "");
+
    for Languages use ("Ada");
-   for Source_Dirs use ("src/support_utils");
-   for Object_Dir use "obj/support_utils";
-   for Exec_Dir use ".";
-   for Source_Files use
-      ( "support_utils.ads",
-        "support_utils-line_stuff.ads",
-        "support_utils-line_stuff.adb",
-        "support_utils-line_stuff-prefix_line_io.adb",
-        "support_utils-line_stuff-suffix_line_io.adb",
-        "support_utils-line_stuff-tackon_line_io.adb",
-        "support_utils-line_stuff-unique_entry_io.adb",
-        "support_utils-word_support_package.ads",
-        "support_utils-word_support_package.adb",
-        "support_utils-char_utils.ads",
-        "support_utils-char_utils.adb",
-        "support_utils-uniques_package.ads",
-        "support_utils-addons_package.ads",
-        "support_utils-addons_package.adb",
-        "support_utils-addons_package-prefix_entry_io.adb",
-        "support_utils-addons_package-suffix_entry_io.adb",
-        "support_utils-addons_package-tackon_entry_io.adb",
-        "support_utils-addons_package-target_entry_io.adb",
-        "support_utils-developer_parameters.ads",
-        "support_utils-developer_parameters.adb",
-        "support_utils-word_parameters.ads",
-        "support_utils-word_parameters.adb",
-        "support_utils-dictionary_form.adb"
-      );
- 
-   for Library_Name use Name;
-   for Library_Dir use "lib";
-   for Library_Kind use "static";
-   for Library_Version use "lib" & Name & ".so." & Version;
- 
-   package Compiler is
-      Default_Ada :=
-         ( "-gnatwa", "-Wall", "-fstack-check", "-gnato", "-gnateE",
-           "-gnata", "-gnatU", "-gnatf", "-gnatwe",
-           "-g"
-         );
-      Style := ("-gnaty3aAbefhiklnOM80prtSux");
-      for Default_Switches ("Ada") use Default_Ada & Style;
-   end Compiler;
+   for Library_Name use project'Name;
+   case Soversion is
+      when "" =>
+         for Library_Kind use "static";
+      when others =>
+         for Library_Kind use "dynamic";
+         for Library_Version use
+           "lib" & Project'Library_name & ".so." & Soversion;
+         for Leading_Library_Options use Shared.Ldflags;
+   end case;
+   for Source_Dirs use ("src/" & project'Name);
+   for Library_Dir use "lib/" & project'Name & "-" & project'Library_Kind;
+   for Object_Dir  use "obj/" & project'Name & "-" & project'Library_Kind;
+
+   package Compiler renames Shared.Compiler;
+
 end Support_Utils;

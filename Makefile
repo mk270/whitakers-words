@@ -1,39 +1,70 @@
-BUILD := gprbuild
+# Makefile for Whitaker's words
 
-PROGRAMMES := bin/words bin/makedict bin/wakedict bin/makestem bin/makeefil bin/makeewds bin/makeinfl bin/meanings
+GPRBUILD                                := gprbuild
+GPRBUILD_OPTIONS                        := -j4
+
+# Build flags are commonly found in the environment, but if they are
+# set on our Make command line, forward them to GNAT projects.
+export ADAFLAGS                         ?=
+export LDFLAGS                          ?=
+
+# For each library, a static archive is built by default but a
+# non-empty shared object version selects a relocatable library
+export latin_utils_soversion            :=
+export support_utils_soversion          :=
+export words_engine_soversion           :=
+
+PROGRAMMES := makedict makeefil makeewds makeinfl makestem meanings wakedict \
+  words
 
 .PHONY: all
 
-all: $(PROGRAMMES) data
+all: commands data
 
+# This target is more efficient than separate gprbuild runs because
+# the dependency graph is only constructed once.
+.PHONY: commands
+commands:
+	$(GPRBUILD) -p $(GPRBUILD_OPTIONS) commands.gpr
+
+# Targets delegated to gprbuild are declared phony even if they build
+# concrete files, because Make ignores all about Ada dependencies.
+.PHONY: $(PROGRAMMES)
 $(PROGRAMMES):
-	$(BUILD) -p -j4 -Pwords $(notdir $@)
+	$(GPRBUILD) -p $(GPRBUILD_OPTIONS) commands.gpr $@
 
-bin/sorter:
-	$(BUILD) -p -j4 -Ptools $(notdir $@)
+.PHONY: sorter
+sorter:
+	$(GPRBUILD) -p $(GPRBUILD_OPTIONS) tools.gpr $@
 
-DICTFILE.GEN: DICTLINE.GEN bin/wakedict
+# Executable targets are phony (see above), so we tell Make to only
+# check that they exist but ignore the timestamp.  This is not
+# perfect, but at least Make
+# * updates the output data if the input data changes
+# * builds the generator if it does not exist yet
+
+DICTFILE.GEN: DICTLINE.GEN | wakedict
 	echo g | bin/wakedict $< > /dev/null
 	mv STEMLIST.GEN STEMLIST_generated.GEN
 
-STEMLIST.GEN: DICTLINE.GEN bin/sorter
+STEMLIST.GEN: DICTLINE.GEN | sorter
 	rm -f -- $@
 	bin/sorter < stemlist-sort.txt > /dev/null
 	mv -f -- STEMLIST_new.GEN $@
 	rm -f STEMLIST_generated.GEN
 	rm -f WORK.
 
-EWDSFILE.GEN: EWDSLIST.GEN bin/makeefil
+EWDSFILE.GEN: EWDSLIST.GEN | makeefil
 	bin/makeefil
 
-EWDSLIST.GEN: DICTLINE.GEN bin/makeewds
+EWDSLIST.GEN: DICTLINE.GEN | makeewds
 	echo g | bin/makeewds $< > /dev/null
 	sort -o $@ $@
 
-INFLECTS.SEC: INFLECTS.LAT bin/makeinfl
+INFLECTS.SEC: INFLECTS.LAT | makeinfl
 	bin/makeinfl $< > /dev/null
 
-STEMFILE.GEN INDXFILE.GEN: STEMLIST.GEN bin/makestem
+STEMFILE.GEN INDXFILE.GEN: STEMLIST.GEN | makestem
 	echo g | bin/makestem $< > /dev/null
 
 GENERATED_DATA_FILES := DICTFILE.GEN STEMFILE.GEN INDXFILE.GEN EWDSLIST.GEN \
@@ -56,5 +87,5 @@ clean: clean_data
 
 .PHONY: test
 
-test: $(PROGRAMMES) $(GENERATED_DATA_FILES)
+test: all
 	cd test && ./run-tests.sh
