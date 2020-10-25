@@ -975,7 +975,7 @@ package body Words_Engine.List_Package is
       D_K : constant Dictionary_Kind := General;
       J, J1, J2, Jj : Stem_Io.Count := 0;
 
-      Index_On : constant String := Unknown;
+      Index_On : constant String := Lower_Case (Unknown);
       Index_First, Index_Last : Stem_Io.Count := 0;
       Ds : Dictionary_Stem;
       First_Try, Second_Try : Boolean := True;
@@ -1097,7 +1097,7 @@ package body Words_Engine.List_Package is
       if Integer (Unk_MNPC) > 0  then
          Ada.Text_IO.Put_Line (Output,
            "----------  " &
-           "Entries in GENEAL Dictionary around the UNKNOWN" &
+           "Entries in GENERAL Dictionary around the UNKNOWN" &
            "  ----------");
          Pause (Output);
          for Mn in Dict_IO.Count (Integer (Unk_MNPC) - 5) ..
