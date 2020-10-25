@@ -15,6 +15,7 @@
 -- available to anyone who wishes to use them, for whatever purpose.
 
 with Ada.Integer_Text_IO;
+with Latin_Utils.Config;
 with Latin_Utils.Latin_File_Names; use Latin_Utils.Latin_File_Names;
 with Latin_Utils.Preface;
 package body Latin_Utils.Inflections_Package is
@@ -523,7 +524,8 @@ package body Latin_Utils.Inflections_Package is
          end Read_Inflections;
 
       begin
-         Open (Inflections_Sections_File, In_File, Inflections_Sections_Name);
+         Open (Inflections_Sections_File, In_File,
+               Latin_Utils.Config.Path (Inflections_Sections_Name));
          Number_Of_Inflections := 0;
 
          Lel_Section_Io.Read (Inflections_Sections_File,

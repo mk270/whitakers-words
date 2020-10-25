@@ -17,6 +17,7 @@
 with Ada.Text_IO;
 with Words_Engine.English_Support_Package;
 use Words_Engine.English_Support_Package;
+with Latin_Utils.Config;
 
 procedure Makeefil is
    use Ada.Text_IO;
@@ -24,7 +25,7 @@ procedure Makeefil is
    Ewds_List : Ada.Text_IO.File_Type;
    Ewds, New_Ewds : Ewds_Record := Null_Ewds_Record;
 begin
-   Ada.Text_IO.Open (Ewds_List, Ada.Text_IO.In_File, "EWDSLIST.GEN");
+   Open (Ewds_List, In_File, Latin_Utils.Config.Path ("EWDSLIST.GEN"));
    Create (Ewds_File, Out_File, "EWDSFILE.GEN");
 
    while not Ada.Text_IO.End_Of_File (Ewds_List)  loop

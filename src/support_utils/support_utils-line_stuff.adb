@@ -16,6 +16,7 @@
 
 with Ada.Strings.Fixed;
 with Support_Utils.Word_Support_Package; use Support_Utils.Word_Support_Package;
+with Latin_Utils.Config;
 with Latin_Utils.Strings_Package; use Latin_Utils.Strings_Package;
 with Latin_Utils.Latin_File_Names; use Latin_Utils.Latin_File_Names;
 with Support_Utils.Char_Utils;
@@ -62,7 +63,8 @@ package body Support_Utils.Line_Stuff is
 
    begin
 
-      Open (Dictionary_File, In_File, Dictionary_File_Name);
+      Open (Dictionary_File, In_File,
+            Latin_Utils.Config.Path (Dictionary_File_Name));
       Preface.Put ("Dictionary loading");
 
       while not End_Of_File (Dictionary_File)  loop
@@ -419,16 +421,12 @@ package body Support_Utils.Line_Stuff is
       if Is_Open (Stem_File (D_K))  then
          Delete (Stem_File (D_K));
       end if;
-      Create (Stem_File (D_K), Inout_File,
-        Add_File_Name_Extension (Stem_File_Name,
-        Dictionary_Kind'Image (D_K)));
+      Create (Stem_File (D_K), Inout_File, Stem_File_Name & '.' & Ext (D_K));
       --PUT_LINE ("LOAD_STEM_FILE for LOC - Created STEM_FILE");
       if Is_Open (Dict_File (D_K))  then
          Delete (Dict_File (D_K));
       end if;
-      Create (Dict_File (D_K), Inout_File,
-        Add_File_Name_Extension (Dict_File_Name,
-        Dictionary_Kind'Image (D_K)));
+      Create (Dict_File (D_K), Inout_File, Dict_File_Name & '.' & Ext (D_K));
       --PUT_LINE ("LOAD_STEM_FILE for LOC - Created DICT_FILE");
 
       --PUT_LINE ("L_D_F  Start  M = " & INTEGER'IMAGE (INTEGER (M)));
@@ -492,7 +490,8 @@ package body Support_Utils.Line_Stuff is
 
    begin
       --TEXT_IO.PUT_LINE ("UNIQUES started");
-      Ada.Text_IO.Open (Uniques_File, Ada.Text_IO.In_File, File_Name);
+      Ada.Text_IO.Open (Uniques_File, Ada.Text_IO.In_File,
+                        Latin_Utils.Config.Path (File_Name));
       Preface.Set_Col (1);
       Preface.Put ("UNIQUES file loading");
 

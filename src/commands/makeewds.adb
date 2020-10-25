@@ -15,6 +15,7 @@
 -- available to anyone who wishes to use them, for whatever purpose.
 
 with Ada.Text_IO;
+with Latin_Utils.Config;
 with Latin_Utils.Strings_Package; use Latin_Utils.Strings_Package;
 with Latin_Utils.Latin_File_Names; use Latin_Utils.Latin_File_Names;
 with Latin_Utils.Inflections_Package; use Latin_Utils.Inflections_Package;
@@ -623,15 +624,14 @@ begin
    Put_Line ("Takes a DICTLINE.D_K and produces a EWDSLIST.D_K ");
    Latin_Utils.General.Load_Dictionary (Line, Last, D_K);
 
-   Open (Input, In_File, Add_File_Name_Extension (Dict_Line_Name,
-     Dictionary_Kind'Image (D_K)));
+   Open (Input, In_File,
+         Latin_Utils.Config.Path (Dict_Line_Name & '.' & Ext (D_K)));
    --PUT_LINE ("OPEN");
 
    if not Porting  then
       --PUT_LINE ("CREATING");
 
-      Create (Output, Out_File, Add_File_Name_Extension ("EWDSLIST",
-        Dictionary_Kind'Image (D_K)));
+      Create (Output, Out_File, "EWDSLIST." & Ext (D_K));
 
       if Checking  then
          Create (Check, Out_File, "CHECKEWD.");
