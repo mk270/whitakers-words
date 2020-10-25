@@ -1,3 +1,4 @@
 #!/bin/bash
 
-tail -n +19 | head -n -1
+# For input of N line, return lines N-19 through N-1 (inclusive on both ends).
+tail -n +19 | sed -e '$ d'
