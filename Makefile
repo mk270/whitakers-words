@@ -104,3 +104,6 @@ $(generated_sources): %: %.in Makefile
 
 test: all
 	cd test && ./run-tests.sh
+
+# This Makefile does not support parallelism (but gprbuild does).
+.NOTPARALLEL:
