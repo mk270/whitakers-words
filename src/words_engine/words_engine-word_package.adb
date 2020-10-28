@@ -1942,7 +1942,7 @@ package body Words_Engine.Word_Package is
       begin
          English_Dictionary_Available (General) := False;
          Ewds_Direct_Io.Open
-           (Ewds_File, Ewds_Direct_Io.In_File, "EWDSFILE.GEN");
+           (Ewds_File, Ewds_Direct_Io.In_File, Path ("EWDSFILE.GEN"));
 
          English_Dictionary_Available (General) := True;
       exception
