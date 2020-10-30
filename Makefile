@@ -56,12 +56,12 @@ sorter: $(generated_sources)
 # * builds the generator if it does not exist yet
 
 DICTFILE.GEN: DICTLINE.GEN | wakedict
-	echo g | bin/wakedict $< > /dev/null
+	echo g | bin/wakedict $<
 	mv STEMLIST.GEN STEMLIST_generated.GEN
 
 STEMLIST.GEN: DICTLINE.GEN | sorter
 	rm -f -- $@
-	bin/sorter < stemlist-sort.txt > /dev/null
+	bin/sorter < stemlist-sort.txt
 	mv -f -- STEMLIST_new.GEN $@
 	rm -f STEMLIST_generated.GEN
 	rm -f WORK.
@@ -70,14 +70,14 @@ EWDSFILE.GEN: EWDSLIST.GEN | makeefil
 	bin/makeefil
 
 EWDSLIST.GEN: DICTLINE.GEN | makeewds
-	echo g | bin/makeewds $< > /dev/null
+	echo g | bin/makeewds $<
 	LC_COLLATE=C sort -o $@ $@
 
 INFLECTS.SEC: INFLECTS.LAT | makeinfl
-	bin/makeinfl $< > /dev/null
+	bin/makeinfl $<
 
 STEMFILE.GEN INDXFILE.GEN: STEMLIST.GEN | makestem
-	echo g | bin/makestem $< > /dev/null
+	echo g | bin/makestem $<
 
 GENERATED_DATA_FILES := DICTFILE.GEN STEMFILE.GEN INDXFILE.GEN EWDSLIST.GEN \
 					INFLECTS.SEC EWDSFILE.GEN STEMLIST.GEN
