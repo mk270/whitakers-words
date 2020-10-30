@@ -14,6 +14,7 @@
 -- All parts of the WORDS system, source code and data files, are made freely
 -- available to anyone who wishes to use them, for whatever purpose.
 
+with Ada.Integer_Text_IO;
 with Text_IO;
 with Latin_Utils.Strings_Package; use Latin_Utils.Strings_Package;
 --with latin_file_names; use latin_file_names;
@@ -24,7 +25,6 @@ procedure Listord is
    --   LISTORD    Takes # (DICTORD) long format to ED file
    --   (3 lines per entry so it is all on one screen)
    --   LISTORD.IN -> LISTORD.OUT
-   package Integer_IO is new Text_IO.Integer_IO (Integer);
    use Text_IO;
    use Dictionary_Entry_IO;
    use Part_Entry_IO;
@@ -96,7 +96,7 @@ begin
             when others =>
                Put_Line ("Exception");
                Put_Line (S (1 .. Last));
-               Integer_IO.Put (Integer (J)); New_Line;
+               Ada.Integer_Text_IO.Put (Integer (J)); New_Line;
                Put (De); New_Line;
                raise;
          end Form_De;
@@ -120,7 +120,7 @@ exception
       null;
    when others =>
       Put_Line (S (1 .. Last));
-      Integer_IO.Put (Integer (J)); New_Line;
+      Ada.Integer_Text_IO.Put (Integer (J)); New_Line;
       Close (Output);
 
 end Listord;

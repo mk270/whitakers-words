@@ -14,6 +14,7 @@
 -- All parts of the WORDS system, source code and data files, are made freely
 -- available to anyone who wishes to use them, for whatever purpose.
 
+with Ada.Integer_Text_IO;
 separate (Latin_Utils.Dictionary_Package)
 package body Kind_Entry_IO is
 
@@ -68,7 +69,7 @@ package body Kind_Entry_IO is
             Set_Col (File);
             Item := (Pofs => Adj);
          when Num =>
-            Inflections_Package.Integer_IO.Get (File, Numeral_Value);
+            Ada.Integer_Text_IO.Get (File, Numeral_Value);
             Item := (Num, Numeral_Value);
          when Adv =>
             Set_Col (File);
@@ -140,7 +141,7 @@ package body Kind_Entry_IO is
               );
             Item := (Pofs => Adj);
          when Num =>
-            Inflections_Package.Integer_IO.Get (Numeral_Value);
+            Ada.Integer_Text_IO.Get (Numeral_Value);
             Item := (Num, Numeral_Value);
          when Adv =>
             Ada.Text_IO.Set_Col
@@ -223,7 +224,7 @@ package body Kind_Entry_IO is
          when Pack =>
             Pronoun_Kind_Type_IO.Put (File, Item.Pack_Kind);
          when Num =>
-            Inflections_Package.Integer_IO.Put
+            Ada.Integer_Text_IO.Put
                (File, Item.Num_Value, Numeral_Value_Type_IO_Default_Width);
          when V =>
             Verb_Kind_Type_IO.Put (File, Item.V_Kind);
@@ -259,7 +260,7 @@ package body Kind_Entry_IO is
          when Pack =>
             Pronoun_Kind_Type_IO.Put (Item.Pack_Kind);
          when Num =>
-            Inflections_Package.Integer_IO.Put
+            Ada.Integer_Text_IO.Put
                (Item.Num_Value, Numeral_Value_Type_IO_Default_Width);
          when V =>
             Verb_Kind_Type_IO.Put (Item.V_Kind);
@@ -316,7 +317,7 @@ package body Kind_Entry_IO is
          when Adj =>
             Target := (Pofs => Adj);
          when Num =>
-            Inflections_Package.Integer_IO.Get
+            Ada.Integer_Text_IO.Get
                (Source (Low + 1 .. Source'Last), Numeral_Value, Last);
             Target := (Num, Numeral_Value);
          when Adv =>
@@ -376,7 +377,7 @@ package body Kind_Entry_IO is
             Pronoun_Kind_Type_IO.Put (Target (Low + 1 .. High), Item.Pack_Kind);
          when Num =>
             High := Low + Numeral_Value_Type_IO_Default_Width;
-            Inflections_Package.Integer_IO.Put
+            Ada.Integer_Text_IO.Put
                (Target (Low + 1 .. High), Item.Num_Value);
          when V =>
             High := Low + Verb_Kind_Type_IO.Default_Width;

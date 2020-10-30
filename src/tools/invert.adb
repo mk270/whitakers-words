@@ -14,6 +14,7 @@
 -- All parts of the WORDS system, source code and data files, are made freely
 -- available to anyone who wishes to use them, for whatever purpose.
 
+with Ada.Integer_Text_IO;
 with Text_IO; use Text_IO;
 with Latin_Utils.Strings_Package; use Latin_Utils.Strings_Package;
 procedure Invert is
@@ -22,7 +23,6 @@ procedure Invert is
    N1, N2 : Integer;
 
    Input, Output : File_Type;
-   package Integer_IO is new Text_IO.Integer_IO (Integer);
 
    function Invert (S : String) return String is
       T : String (1 .. S'Length);
@@ -40,8 +40,8 @@ begin
    Put ("Give an N1 and N2 => ");
    Get_Line (Parm, Last);
 
-   Integer_IO.Get (Parm (1 .. Last), N1, L);
-   Integer_IO.Get (Parm (L + 1 .. Last), N2, L);
+   Ada.Integer_Text_IO.Get (Parm (1 .. Last), N1, L);
+   Ada.Integer_Text_IO.Get (Parm (L + 1 .. Last), N2, L);
 
    Create (Output, Out_File, "INVERT.OUT");
    Open (Input, In_File, "INVERT.IN");

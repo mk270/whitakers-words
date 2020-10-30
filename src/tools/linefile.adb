@@ -21,7 +21,6 @@ with Latin_Utils.Latin_File_Names; use Latin_Utils.Latin_File_Names;
 with Latin_Utils.Dictionary_Package; use Latin_Utils.Dictionary_Package;
 -- with line_stuff; use line_stuff;
 procedure Linefile is
---   package Integer_IO is new Text_IO.Integer_IO (Integer);
    use Text_IO;
    use Dictionary_Entry_IO;
    use Dict_IO;

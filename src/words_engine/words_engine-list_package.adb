@@ -24,6 +24,7 @@
 -- `List_Stems` contains a *lot* of duplicated code that could be factored
 -- out, to be marked with "FACTOR OUT".
 
+with Ada.Integer_Text_IO;
 with Ada.Strings.Fixed;
 with Ada.Strings.Maps;
 with Ada.Exceptions;  use Ada.Exceptions;
@@ -562,7 +563,7 @@ package body Words_Engine.List_Package is
          --                   (DM.D_K in GENERAL .. UNIQUE))  and then
          --                   (DM.DE.KIND.NUM_VALUE > 0)  then
          --                 TEXT_IO.PUT (OUTPUT, "  ");
-         --                 INFLECTIONS_PACKAGE.INTEGER_IO.PUT
+         --                 Ada.Integer_Text_IO.Put
          --                    (OUTPUT, DM.DE.KIND.NUM_VALUE);
          --               end if;
          Put_Inflection_Flags;
@@ -772,8 +773,8 @@ package body Words_Engine.List_Package is
          Put_Pearse_Code (Output, Unknowns_2);
          Ada.Text_IO.Put (Output, Raw_Word);
          Ada.Text_IO.Set_Col (Output, 30);
-         Inflections_Package.Integer_IO.Put (Output, Line_Number, 7);
-         Inflections_Package.Integer_IO.Put (Output, Word_Number, 7);
+         Ada.Integer_Text_IO.Put (Output, Line_Number, 7);
+         Ada.Integer_Text_IO.Put (Output, Word_Number, 7);
          Ada.Text_IO.Put_Line (Output, "    ========   UNKNOWN    ");
       else              --  Just screen Output
          if Words_Mdev (Do_Pearse_Codes) then
@@ -794,8 +795,8 @@ package body Words_Engine.List_Package is
          Put_Pearse_Code (Unknowns, Unknowns_2);
          Ada.Text_IO.Put (Unknowns, Raw_Word);
          Ada.Text_IO.Set_Col (Unknowns, 30);
-         Inflections_Package.Integer_IO.Put (Unknowns, Line_Number, 7);
-         Inflections_Package.Integer_IO.Put (Unknowns, Word_Number, 7);
+         Ada.Integer_Text_IO.Put (Unknowns, Line_Number, 7);
+         Ada.Integer_Text_IO.Put (Unknowns, Word_Number, 7);
          Ada.Text_IO.Put_Line (Unknowns, "    ========   UNKNOWN    ");
       end if;
 

@@ -37,7 +37,6 @@ pragma Elaborate (Support_Utils.Word_Parameters);
 procedure Process_Input (Configuration : Configuration_Type;
                          Command_Line : String := "")
 is
-   -- use Inflections_Package.Integer_IO;
    -- use Inflection_Record_IO;
    use Ada.Text_IO;
 
