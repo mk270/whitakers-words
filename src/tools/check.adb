@@ -24,7 +24,6 @@ procedure Check is
    use Text_IO;
    use Dictionary_Entry_IO;
    use Part_Entry_IO;
-   use Kind_Entry_IO;
 
    Input, Output : File_Type;
    De : Dictionary_Entry;
