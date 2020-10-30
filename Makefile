@@ -71,7 +71,7 @@ EWDSFILE.GEN: EWDSLIST.GEN | makeefil
 
 EWDSLIST.GEN: DICTLINE.GEN | makeewds
 	echo g | bin/makeewds $< > /dev/null
-	sort -o $@ $@
+	LC_COLLATE=C sort -o $@ $@
 
 INFLECTS.SEC: INFLECTS.LAT | makeinfl
 	bin/makeinfl $< > /dev/null
