@@ -2,7 +2,7 @@ with "shared.gpr";
 
 library project Latin_Utils is
 
-   Soversion := External ("latin_utils_shared_object_version", "");
+   Soversion := External ("latin_utils_soversion", "");
 
    for Languages use ("Ada");
    for Library_Name use project'Name;

@@ -10,6 +10,7 @@ export LDFLAGS                          ?=
 
 # For each library, a static archive is built by default but a
 # non-empty shared object version selects a relocatable library
+# The three libraries must be of the same kind.
 export latin_utils_soversion            :=
 export support_utils_soversion          :=
 export words_engine_soversion           :=
@@ -23,6 +24,12 @@ datadir                                 := .
 # During (re)builds, the tools must read and test the fresh data and
 # ignore any previous version already installed in $(datadir).
 export WHITAKERS_WORDS_DATADIR := .
+
+# If relocatable libraries have been selected, tell the dynamic loader
+# where to find them during tests or generation of the dictionaries.
+ifneq (,$(latin_utils_soversion))
+  export LD_LIBRARY_PATH := $(if $(LD_LIBRARY_PATH),$(LD_LIBRARY_PATH):)lib/latin_utils-dynamic:lib/support_utils-dynamic:lib/words_engine-dynamic
+endif
 
 generated_sources := src/latin_utils/latin_utils-config.adb
 

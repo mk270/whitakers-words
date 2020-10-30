@@ -3,7 +3,7 @@ with "latin_utils.gpr";
 
 library project Support_Utils is
 
-   Soversion := External ("support_utils_shared_object_version", "");
+   Soversion := External ("support_utils_soversion", "");
 
    for Languages use ("Ada");
    for Library_Name use project'Name;

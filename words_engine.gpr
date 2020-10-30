@@ -3,7 +3,7 @@ with "support_utils.gpr";
 
 library project Words_Engine is
 
-   Soversion := External ("words_engine_shared_object_version", "");
+   Soversion := External ("words_engine_soversion", "");
 
    for Languages use ("Ada");
    for Library_Name use project'Name;
