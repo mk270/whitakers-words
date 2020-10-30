@@ -1,5 +1,5 @@
 with "shared.gpr";
-with "words_engine.gpr";
+with "latin_utils.gpr";
 
 standard project Tools is
 
