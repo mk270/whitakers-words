@@ -1,0 +1,139 @@
+name: Build Binaries
+
+# TODO: Have version that runs on PRs and pushes to make and run tests, and another that does that exports the binaries.
+# TODO: Can github releases by used for apt-get?
+# TODO: can github releases by used for homebrew (macOS) formulas?
+on:
+  workflow_dispatch:
+#   push:
+#     branches: [ main ]
+#   pull_request:
+#     branches: [ main ]
+    
+jobs:
+  macOS:
+    runs-on: macos-latest
+
+    steps:
+      - name: GNAT Install
+        run: |
+          mkdir gnat
+          curl https://master.dl.sourceforge.net/project/gnuada/GNAT_GCC%20Mac%20OS%20X/10.1.0/native/gcc-10.1.0-x86_64-apple-darwin15-bin.tar.bz2 | tar -xvz --strip-components 1 -C gnat
+          cd gnat
+          make ins-all prefix=$HOME/gcc version=10.1.0 built_prefix="/Volumes/Miscellaneous/tmp/opt/gcc-10.1.0" machine=x86_64-apple-darwin15
+
+      - name: Whitakers-Words Checkout
+        uses: actions/checkout@v2
+        with: 
+          path: 'whitakers-words'
+
+        # TODO: Fix tests to work with older version of bash. This is a hack.
+      - name: Whitakers-Words Build and Test
+        run: |
+          export PATH="$HOME/gcc/bin:$PATH"
+          cd whitakers-words
+          make all
+
+          brew install bash
+          sed -i '' 's/\/bin/\/usr\/local\/bin/' test/run-tests.sh
+          make test
+          
+      - name: Binary Organize
+        run: |
+          mkdir words
+          mv whitakers-words/LICENCE.txt   words/
+          mv whitakers-words/bin           words/
+          mv whitakers-words/ADDONS.LAT    words/
+          mv whitakers-words/DICTFILE.GEN  words/
+          mv whitakers-words/EWDSFILE.GEN  words/
+          mv whitakers-words/INDXFILE.GEN  words/
+          mv whitakers-words/INFLECTS.SEC  words/
+          mv whitakers-words/STEMFILE.GEN  words/
+          mv whitakers-words/UNIQUES.LAT   words/
+
+        # TODO: How to incorporate build # or version number into filename?
+        # TODO: How to deal with the lack of signing? Will be a pain for end users.
+      - name: Binary Export
+        uses: actions/upload-artifact@v2
+        with:
+          name: words-macOS
+          path: |
+            words
+
+  Linux:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: GNAT Intall
+        run: |
+          sudo apt-get update
+          sudo apt-get install gnat gprbuild
+
+      - name: Whitakers-Words Checkout
+        uses: actions/checkout@v2
+        with: 
+          path: 'whitakers-words'
+
+      - name: Whitakers-Words Build and Test
+        run: |
+          cd whitakers-words
+          make
+          make test
+      
+      - name: Binary Organize
+        run: |
+          mkdir words
+          mv whitakers-words/LICENCE.txt    words/
+          mv whitakers-words/bin            words/
+          mv whitakers-words/ADDONS.LAT     words/
+          mv whitakers-words/DICTFILE.GEN   words/
+          mv whitakers-words/EWDSFILE.GEN   words/
+          mv whitakers-words/INDXFILE.GEN   words/
+          mv whitakers-words/INFLECTS.SEC   words/
+          mv whitakers-words/STEMFILE.GEN   words/
+          mv whitakers-words/UNIQUES.LAT    words/
+
+      - name: Binary Export
+        uses: actions/upload-artifact@v2
+        with:
+          name: words-Linux
+          path: |
+            words
+  
+#   Windows:
+#     runs-on: windows-latest
+
+#     steps:        
+#       - name: GNAT Install
+#         # TODO
+          
+#       - name: Whitakers-Words Checkout
+#         uses: actions/checkout@v2
+#         with: 
+#           path: 'whitakers-words'
+
+#       - name: Whitakers-Words Build and Test
+#         run: |
+#           cd whitakers-words
+#           make all
+#           make test
+
+#       - name: Binary Organize
+#         run: |
+#           mkdir words
+#           mv whitakers-words/LICENCE.txt    words/
+#           mv whitakers-words/bin            words/
+#           mv whitakers-words/ADDONS.LAT     words/
+#           mv whitakers-words/DICTFILE.GEN   words/
+#           mv whitakers-words/EWDSFILE.GEN   words/
+#           mv whitakers-words/INDXFILE.GEN   words/
+#           mv whitakers-words/INFLECTS.SEC   words/
+#           mv whitakers-words/STEMFILE.GEN   words/
+#           mv whitakers-words/UNIQUES.LAT    words/
+      
+#       - name: Binary Export
+#         uses: actions/upload-artifact@v2
+#         with:
+#           name: words-Windows-x64
+#           path: |
+#             words
