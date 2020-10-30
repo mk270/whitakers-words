@@ -31,7 +31,7 @@ endif
 generated_sources := src/latin_utils/latin_utils-config.adb
 
 PROGRAMMES := makedict makeefil makeewds makeinfl makestem meanings wakedict \
-  words
+  words sorter
 
 .PHONY: all
 
@@ -48,10 +48,6 @@ commands: $(generated_sources)
 .PHONY: $(PROGRAMMES)
 $(PROGRAMMES): $(generated_sources)
 	$(GPRBUILD) -p $(GPRBUILD_OPTIONS) commands.gpr $@
-
-.PHONY: sorter
-sorter: $(generated_sources)
-	$(GPRBUILD) -p $(GPRBUILD_OPTIONS) tools.gpr $@
 
 # Executable targets are phony (see above), so we tell Make to only
 # check that they exist but ignore the timestamp.  This is not

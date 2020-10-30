@@ -3,17 +3,40 @@ with "latin_utils.gpr";
 
 standard project Commands is
 
+   for Source_Dirs use
+     ("src/commands",
+      "src/tools");
    for Main use
-     ("makedict.adb",
+     (--  commands
+      "makedict.adb",
       "makeefil.adb",
       "makeewds.adb",
       "makeinfl.adb",
       "makestem.adb",
       "meanings.adb",
       "wakedict.adb",
-      "words.adb");
+      "words.adb",
+      -- tools
+      "check.adb",
+      "dictflag.adb",
+      "dictord.adb",
+      "dictpage.adb",
+      "fil2dict.adb",
+      "fixord.adb",
+      "invert.adb",
+      "invstems.adb",
+      "linedict.adb",
+      "linefile.adb",
+      "listdict.adb",
+      "listord.adb",
+      "number.adb",
+      "oners.adb",
+      "page2htm.adb",
+      "patch.adb",
+      "slash.adb",
+      "sorter.adb",
+      "uniqpage.adb");
 
-   for Source_Dirs use ("src/" & project'Name);
    for Exec_Dir use "bin";
    for Object_Dir use "obj";
 
