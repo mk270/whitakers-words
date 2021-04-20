@@ -1029,7 +1029,7 @@ is
    function Make_Words (Line : String) return Word_Container.Vector
    is
       Words : Word_Container.Vector;
-      Indices : array (Line'Range) of Natural;
+      Indices : array (Line'First .. (Line'Last + 1)) of Natural;
       Next_Index : Natural := Indices'First;
    begin
       if Line'Length = 0 then
@@ -1037,7 +1037,7 @@ is
       end if;
 
       Indices (Next_Index) := Line'First;
-      while Indices (Next_Index) < Line'Last loop
+      while Indices (Next_Index) <= Line'Last loop
          Next_Index := Next_Index + 1;
          Indices (Next_Index) := 1 +
            Ada.Strings.Fixed.Index (Line (Indices (Next_Index - 1) ..
