@@ -602,6 +602,21 @@ procedure Makeewds is
       end loop;   --  loop over MEAN
 
       --PUT_LINE ("SEMI loop Processed");
+
+                  DROP_DUPES :
+      for Z in Ewa'Range loop
+         if Ewa (Z).W /= Null_Eword then
+
+               INNER_LOOP :
+               for ZZ in (Z + 1) .. Ewa'Last loop
+                  if Ewa (Z).W = Ewa (ZZ).W then
+                     Ewa (ZZ).W := Null_Eword;
+                  end if;
+               end loop INNER_LOOP;
+
+         end if;
+      end loop DROP_DUPES;
+
       if Ewa (N) = Null_Ewds_Record  then
          N := N - 1;   --  Clean up danglers
       end if;

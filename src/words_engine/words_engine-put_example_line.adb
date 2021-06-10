@@ -286,11 +286,17 @@ begin    --  PUT_EXAMPLE_LINE
                   Ada.Text_IO.Put (Output, "~'s; of ~");
                   Ada.Text_IO.New_Line (Output);
                when Abl =>
+                  Ada.Text_IO.New_Line (Output);
+                  --  Info too much for same line
+                  Ada.Text_IO.Set_Col (Output, 6);
                   Ada.Text_IO.Put (Output,
                     "from _ (separ); because of ~ (cause);"
                     & " than ~ (compar); of ~ (circumstance)");
                   Ada.Text_IO.New_Line (Output);
                when Dat =>
+                  Ada.Text_IO.New_Line (Output);
+                  --  Info too much for same line
+                  Ada.Text_IO.Set_Col (Output, 6);
                   Ada.Text_IO.Put (Output,
                     "for _ (purpose, reference);"
                     & " to ~ (w/adjectives); to ~ (double dative)");

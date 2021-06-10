@@ -309,7 +309,7 @@ begin
                      Ox (1) := Add (De.Stems (1), "");
                      Ox (2) := Add (De.Stems (2), "is");
                      Ox (3) := Add (De.Stems (2), "e");
-                  when 4 =>
+                  when 6 =>
                      Ox (1) := Add (De.Stems (1), "");
                      Ox (2) := Add (Null_Ox, "(gen.)");
                      Ox (3) := Add (De.Stems (2), "os");
