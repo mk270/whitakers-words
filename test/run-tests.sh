@@ -5,51 +5,50 @@
 
 set -eu
 
+# This script creates a temporary directory, and only writes there.
+# It can be called from any directory, but relative paths in arguments
+# always start from the top source directory.
 cd $(dirname $0)/..
 
+# By default, test the fresh executable and data files located in
 PROG=bin/words
+datadir=.
+# but these values may overridden.
+for arg; do
+    case "$arg" in
+        --prog=*   )    PROG="${arg#--prog=}"    ;;
+        --datadir=*) datadir="${arg#--datadir=}" ;;
+        *)
+            echo "$0: unknown argument '$arg'" >&2
+            exit 1
+            ;;
+    esac
+done
+
 CONF=WORD.MDV
 TRIM=test/ignore-top-and-tail
 
-declare -a tmpfiles
+# This list of files required at run time is copied from HOWTO.txt.
+DATA_FILES='INFLECTS.SEC ADDONS.LAT UNIQUES.LAT DICTFILE.GEN STEMFILE.GEN INDXFILE.GEN EWDSFILE.GEN '
 
-register-tmp () {
-    local tmpfile=$1
-    tmpfiles+=($tmpfile)
-}
+# Create a temporary directory and clean it at exit.
+# Use mktemp if available, else obsolete tempfile.
+tmpdir=`mktemp -d` || tmpdir=`tempfile -d`
+trap 'rm -fr $tmpdir' EXIT
 
-# mktemp () is LSB:
-which tempfile &> /dev/null || tempfile () { mktemp "$@"; }
-
-create-tmp () {
-    declare -n ref=$1
-    local TMP=$(tempfile)
-    register-tmp $TMP
-    ref=$TMP
-}
-
-# For belt-and-braces reasons, we try to delete all the temp files
-# here as well
-cleanup () {
-    local exit_val=$?
-    for t in ${tmpfiles[@]}; do
-        rm -f -- $t || true
-    done
-    exit $exit_val
-}
-
-trap cleanup EXIT
-
-if [ ! -f ${CONF} ]; then
-    cp test/${CONF}_template ${CONF}
-    register-tmp ${CONF}
-fi
+# Create a temporary datadir with the test configuration, mostly in
+# order to select some non-interactive input options.
+for f in $DATA_FILES; do
+    ln -st $tmpdir $(realpath "$datadir/$f")
+done
+ln -st $tmpdir $(realpath test/$CONF)
+export WHITAKERS_WORDS_DATADIR=$tmpdir
 
 # Initial smoke test
 #
 # If this fails, we don't waste time on other tests, and just let the
 # whole thing crash.
-$PROG 'rem acu tetigisti' | diff -q -- - test/expected.txt
+"$PROG" 'rem acu tetigisti' | diff -q - test/expected.txt
 
 report-result () {
     local test_name=$1
@@ -66,23 +65,27 @@ run-test () {
     local test_file_dir=test/${test_name}
     local source=${test_file_dir}/input.txt
     local expected=${test_file_dir}/expected.txt
+    local output=$tmpdir/output
+    local trimmed=$tmpdir/trimmed
 
-    create-tmp TMP_DISCREPANCIES
-    create-tmp TMP_TRANSCRIPT
-    $PROG < ${source} | $TRIM > $TMP_TRANSCRIPT
-    [[ -v TRAVIS ]] && cat $TMP_TRANSCRIPT
-
-    if diff -u -- - ${expected} < $TMP_TRANSCRIPT > $TMP_DISCREPANCIES
+    "$PROG" < $source > $output
+    $TRIM < $output > $trimmed
+    if diff -q $trimmed $expected
     then
         report-result $test_name PASS
     else
-        [ -s "$TMP_DISCREPANCIES" ] && cat $TMP_DISCREPANCIES >&2
         report-result $test_name FAIL
+        echo '########## output:'
+        cat $output
+        echo '########## end of output'
+        echo '########## diff between output and trimmed:'
+        diff -u $output $trimmed || test $? = 1
+        echo '########## end of diff between output and trimmed:'
+        echo '########## diff between trimmed and expected:'
+        diff -u $trimmed $expected || test $? = 1
+        echo '########## end of diff between trimmed and expected:'
         failed=1
     fi
-
-    # avoid buildup of temp files
-    rm -f -- $TMP_TRANSCRIPT $TMP_DISCREPANCIES
 }
 
 all-test-names () {
