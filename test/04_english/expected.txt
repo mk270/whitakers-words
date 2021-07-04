@@ -1,0 +1,161 @@
+Input a single English word (+ part of speech - N, ADJ, V, PREP, . .. )
+
+=>
+agrestis, agrestis, agreste  ADJ    [XAXAO]  
+rustic, inhabiting countryside; rude, wild, savage; of/passing through fields;
+
+agrius, agria, agrium  ADJ    [XAXEO]  
+wild (of plants/other natural products); [staphis ~ => stavesacre];
+
+=>
+alea, aleae  N (1st) F     1 1  F   [XXXBO]  
+game of dice; die; dice-play; gambling, risking; chance, venture, risk, stake;
+
+alearius, alearia, alearium  ADJ    [DXXES]  
+of/pertaining to a game of chance; (friendships) formed at the gaming table;
+
+alearis, alearis, aleare  ADJ    [DXXFS]  
+of/pertaining to a game of chance;
+
+=>No Match
+
+=>
+acus, aceris  N (3rd) N     3 2  N   [XAXCO]  
+husks of grain/beans, chaff;
+
+agna, agnae  N (1st) F     1 1  F   [DAXEO]  
+ear of grain; straw/blade (L+S);
+
+ador, adoris  N (3rd) N     3 2  N   [XXXEO]  
+coarse grain; emmer wheat; spelt;
+
+=>Blank exits =>No Match
+
+=>
+aer, aeris  N C     3 6  C   [XXXCO]  
+air (one of 4 elements); atmosphere, sky; cloud, mist, weather; breeze; odor;
+
+aerius, aeria, aerium  ADJ    [XXXBO]  
+of/produced in/existing in/flying in air, airborne/aerial; towering, airy; blue;
+
+aether, aetheris  N M     3 6  M   [XXXBO]  
+upper air; ether; heaven, sky; sky (as a god); space surrounding a deity;
+
+adparens, (gen.), adparentis  ADJ    [XXXCO]  
+exposed to the air; exposed to view, visible; perceptible, audible; apparent;
+
+aeer, aeeris  N C     3 6  C   [XXXEZ]  
+air(one of 4 elements); atmosphere, sky; cloud, mist, weather; breeze; odor;
+
+aestuarium, aestuari(i)  N (2nd) N     2 4  N   [XXXCO]  
+tidal marsh/inlet/opening, marsh; (river) estuary; air shaft, vent;
+*
+
+=>No Match
+
+=>
+adversum  PREP  ACC    [XXXAO]  
+facing, opposite, against, towards; contrary to; face to face, in presence of;
+
+adversus  PREP  ACC    [XXXAO]  
+facing, opposite, against, towards; contrary to; face to face, in presence of;
+
+advorsum  PREP  ACC    [BXXAX]  
+facing, opposite, against, towards; contrary to; face to face, in presence of;
+
+advorsus  PREP  ACC    [BXXAX]  
+facing, opposite, against, towards; contrary to; face to face, in presence of;
+
+abante  PREP  ABL    [XXXES]  
+from before/in front of;
+
+=>No Match
+
+=>
+adflatus, adflatus  N (4th) M     4 1  M   [XXXBO]  
+breath, snorting; breeze, wind, draught, (hot) blast; stench; inspiration;
+
+afflatus, afflatus  N (4th) M     4 1  M   [XXXBO]  
+breath, snorting; breeze, wind, draught, (hot) blast; stench; inspiration, flash
+
+aer, aeris  N C     3 6  C   [XXXCO]  
+air (one of 4 elements); atmosphere, sky; cloud, mist, weather; breeze; odor;
+
+aeer, aeeris  N C     3 6  C   [XXXEZ]  
+air(one of 4 elements); atmosphere, sky; cloud, mist, weather; breeze; odor;
+
+altanus, altani  N (2nd) M     2 1  M   [XXXEO]  
+south-south-west wind; land breeze;
+
+=>Blank exits =>No Match
+
+=>
+aleatorium, aleatorii  N (2nd) N     2 2  N   [DXXES]  
+gaming house, place where games of chance are played;
+
+alligatus, alligati  N (2nd) M     2 1  M   [DXXES]  
+slaves (pl.) who are fettered;
+
+=>No Match
+
+=>Blank exits =>
+absolvo, absolvere, absolvi, absolutus  V (3rd) TRANS     3 1  TRANS   [XLXAO]  
+free (bonds), release; acquit; vote for/secure acquittal; pay off; sum up;
+
+absum, abesse, afui, afuturus  V     5 1 [XXXAO]  
+be away/absent/distant/missing; be free/removed from; be lacking; be distinct;
+
+adsero, adserere, adserui, adsertus  V (3rd) TRANS     3 1  TRANS   [XXXBO]  
+lay hands on, grasp; assert, allege; free, release; claim; protect, preserve;
+
+A., abb.  N M     9 8  M   [XXXCG]  
+Aulus (Roman praenomen); (abb. A./Au.); [Absolvo, Antiquo => free, reject];
+
+adsertio, adsertionis  N (3rd) F     3 1  F   [XXXDO]  
+act of claiming free or slave (for status); defense/vindication (of character);
+
+absum, abesse, abfui, abfuturus  V     5 1 [XXXDS]  
+be away/absent/distant/missing; be free/removed from; be lacking; be distinct;
+
+=>
+aes, aeris  N (3rd) N     3 2  N   [XXXAO]  
+money, pay, fee, fare; copper/bronze/brass, base metal; (w/alienum) debt; gong;
+
+=>No Match
+
+=>No Match
+
+=>
+altus, alta -um, altior -or -us, altissimus -a -um  ADJ    [XXXAO]  
+high; deep/profound; shrill; lofty/noble; deep rooted; far-fetched; grown great;
+
+altipotens, (gen.), altipotentis  ADJ    [DXXES]  
+very mighty, of high/great power;
+
+=>Blank exits =>No Match
+
+=>No Match
+
+=>
+adamantinus, adamantina, adamantinum  ADJ    [XXXCO]  
+incorruptible, impregnable; inflexible; hard as adamant/diamond/steel;
+
+=>Blank exits =>No Match
+
+=>
+aio, -, -  V     7 1 [XXXAO]  
+say (defective), assert; say yes/so, affirm, assent; prescribe/lay down (law);
+
+addo, addere, addidi, additus  V (3rd) TRANS     3 1  TRANS   [XXXAO]  
+add, insert, bring/attach to, say in addition; increase; impart; associate;
+
+ait, -, -  V IMPERS     7 1  IMPERS   [XXXAO]  
+he says (ait), it is said; they say (aiunt);
+
+adnuntio, adnuntiare, adnuntiavi, adnuntiatus  V (1st) TRANS     1 1  TRANS   [XXXCO]  
+announce, say, make known; report, bring news; prophesy/announce before; preach;
+
+=>No Match
+
+=>Raised END_ERROR, although in STANDARD_INPUT
+^Z is inappropriate keyboard Input, WORDS should be terminated with a blank line
