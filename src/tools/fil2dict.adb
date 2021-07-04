@@ -23,16 +23,7 @@ with Latin_Utils.Dictionary_Package; use Latin_Utils.Dictionary_Package;
 procedure Fil2dict is
 --   package Integer_IO is new Text_IO.Integer_IO (Integer);
    use Text_IO;
---   use Stem_Key_Type_IO;
    use Dictionary_Entry_IO;
-   use Part_Entry_IO;
-   use Kind_Entry_IO;
-   use Translation_Record_IO;
---   use Age_Type_IO;
-   use Area_Type_IO;
-   use Geo_Type_IO;
---   use Frequency_Type_IO;
-   use Source_Type_IO;
    use Dict_IO;
 
    D_K : Dictionary_Kind := Xxx;

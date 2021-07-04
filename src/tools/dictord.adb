@@ -29,8 +29,6 @@ procedure Dictord is
    use Text_IO;
    use Dictionary_Entry_IO;
    use Part_Entry_IO;
-   use Kind_Entry_IO;
-   use Translation_Record_IO;
    use Age_Type_IO;
    use Area_Type_IO;
 
