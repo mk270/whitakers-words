@@ -14,6 +14,7 @@
 -- All parts of the WORDS system, source code and data files, are made freely
 -- available to anyone who wishes to use them, for whatever purpose.
 
+with Ada.Integer_Text_IO;
 with Text_IO;
 with Latin_Utils.Strings_Package; use Latin_Utils.Strings_Package;
 with Latin_Utils.Latin_File_Names; use Latin_Utils.Latin_File_Names;
@@ -21,7 +22,6 @@ with Latin_Utils.Inflections_Package; use Latin_Utils.Inflections_Package;
 with Latin_Utils.Dictionary_Package; use Latin_Utils.Dictionary_Package;
 -- with Support_Utils.Line_Stuff; use Support_Utils.Line_Stuff;
 procedure Dictflag is
-   package Integer_IO is new Text_IO.Integer_IO (Integer);
    use Text_IO;
    use Dictionary_Entry_IO;
    use Part_Entry_IO;
@@ -145,7 +145,7 @@ begin
                New_Line;
                Put_Line ("Exception");
                Put_Line (S (1 .. Last));
-               Integer_IO.Put (Integer (J)); New_Line;
+               Ada.Integer_Text_IO.Put (Integer (J)); New_Line;
                Put (De); New_Line;
          end Form_De;
 
@@ -155,7 +155,7 @@ begin
    end loop;
 
    Text_IO.Put (Output, "Number of lines in DICTLINE "  & Ext (D_K) & "  ");
-   Integer_IO.Put (Output, Integer (J));
+   Ada.Integer_Text_IO.Put (Output, Integer (J));
    Text_IO.New_Line (Output);
 
    Text_IO.New_Line (Output, 4);
@@ -205,7 +205,7 @@ exception
       null;
    when others =>
       Put_Line (S (1 .. Last));
-      Integer_IO.Put (Integer (J)); New_Line;
+      Ada.Integer_Text_IO.Put (Integer (J)); New_Line;
       Close (Output);
 
 end Dictflag;

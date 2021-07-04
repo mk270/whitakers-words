@@ -14,13 +14,13 @@
 -- All parts of the WORDS system, source code and data files, are made freely
 -- available to anyone who wishes to use them, for whatever purpose.
 
+with Ada.Integer_Text_IO;
 with Text_IO; use Text_IO;
 with Latin_Utils.Strings_Package; use Latin_Utils.Strings_Package;
 with Latin_Utils.Inflections_Package; use Latin_Utils.Inflections_Package;
 with Latin_Utils.Dictionary_Package; use Latin_Utils.Dictionary_Package;
 
 procedure Linedict is
-   package Integer_IO is new Text_IO.Integer_IO (Integer);
    use Dictionary_Entry_IO;
    use Part_Entry_IO;
    use Kind_Entry_IO;
@@ -121,6 +121,7 @@ begin
    end loop;
    Close (Dictionary_File);
    Close (Output);
-   Set_Col (33); Put ("--  "); Integer_IO.Put (Number_Of_Dictionary_Entries);
+   Set_Col (33); Put ("--  ");
+   Ada.Integer_Text_IO.Put (Number_Of_Dictionary_Entries);
    Put (" entries");    Set_Col (55); Put_Line ("--  Loaded correctly");
 end Linedict;

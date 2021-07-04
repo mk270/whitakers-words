@@ -14,6 +14,7 @@
 -- All parts of the WORDS system, source code and data files, are made freely
 -- available to anyone who wishes to use them, for whatever purpose.
 
+with Ada.Integer_Text_IO;
 separate (Latin_Utils.Dictionary_Package)
 package body Numeral_Entry_IO is
 
@@ -32,7 +33,7 @@ package body Numeral_Entry_IO is
       Ada.Text_IO.Get (File, Spacer);
       Numeral_Sort_Type_IO.Get (File, Item.Sort);
       Ada.Text_IO.Get (File, Spacer);
-      Inflections_Package.Integer_IO.Get (File, Item.Value);
+      Ada.Integer_Text_IO.Get (File, Item.Value);
    end Get;
 
    ---------------------------------------------------------------------------
@@ -46,7 +47,7 @@ package body Numeral_Entry_IO is
       Ada.Text_IO.Get (Spacer);
       Numeral_Sort_Type_IO.Get (Item.Sort);
       Ada.Text_IO.Get (Spacer);
-      Inflections_Package.Integer_IO.Get (Item.Value);
+      Ada.Integer_Text_IO.Get (Item.Value);
    end Get;
 
    ---------------------------------------------------------------------------
@@ -57,7 +58,7 @@ package body Numeral_Entry_IO is
       Ada.Text_IO.Put (File, ' ');
       Numeral_Sort_Type_IO.Put (File, Item.Sort);
       Ada.Text_IO.Put (File, ' ');
-      Inflections_Package.Integer_IO.Put (File, Item.Value, Num_Out_Size);
+      Ada.Integer_Text_IO.Put (File, Item.Value, Num_Out_Size);
    end Put;
 
    ---------------------------------------------------------------------------
@@ -68,7 +69,7 @@ package body Numeral_Entry_IO is
       Ada.Text_IO.Put (' ');
       Numeral_Sort_Type_IO.Put (Item.Sort);
       Ada.Text_IO.Put (' ');
-      Inflections_Package.Integer_IO.Put (Item.Value, Num_Out_Size);
+      Ada.Integer_Text_IO.Put (Item.Value, Num_Out_Size);
    end Put;
 
    ---------------------------------------------------------------------------
@@ -87,8 +88,8 @@ package body Numeral_Entry_IO is
       Numeral_Sort_Type_IO.Get
          (Source (Low + 1 .. Source'Last), Target.Sort, Low);
       Low := Low + 1;
-      Inflections_Package.Integer_IO.Get
-         (Source (Low + 1 .. Source'Last), Target.Value, Last);
+      Ada.Integer_Text_IO.Get
+        (Source (Low + 1 .. Source'Last), Target.Value, Last);
    end Get;
 
    ---------------------------------------------------------------------------
@@ -114,7 +115,7 @@ package body Numeral_Entry_IO is
       -- Put Integer
       -- High := Low + Numeral_Value_Type_IO.Default_Width;
       High := Low + Num_Out_Size;
-      Inflections_Package.Integer_IO.Put (Target (Low + 1 .. High), Item.Value);
+      Ada.Integer_Text_IO.Put (Target (Low + 1 .. High), Item.Value);
 
       -- Fill remainder of string
       Target (High + 1 .. Target'Last) := (others => ' ');

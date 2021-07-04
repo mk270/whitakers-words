@@ -21,7 +21,6 @@ with Text_IO;
 --with dictionary_package; use dictionary_package;
 --with line_stuff; use line_stuff;
 procedure Number is
---   package Integer_IO is new Text_IO.Integer_IO (Integer);
    use Text_IO;
 
    Input : Text_IO.File_Type;

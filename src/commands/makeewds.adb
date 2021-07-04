@@ -14,6 +14,7 @@
 -- All parts of the WORDS system, source code and data files, are made freely
 -- available to anyone who wishes to use them, for whatever purpose.
 
+with Ada.Integer_Text_IO;
 with Ada.Text_IO;
 with Latin_Utils.Config;
 with Latin_Utils.Strings_Package; use Latin_Utils.Strings_Package;
@@ -28,9 +29,8 @@ with Support_Utils.Dictionary_Form;
 with Latin_Utils.General;
 use Latin_Utils;
 procedure Makeewds is
-   package Integer_IO is new Ada.Text_IO.Integer_IO (Integer);
    use Ada.Text_IO;
-   use Integer_IO;
+   use Ada.Integer_Text_IO;
    use Dictionary_Entry_IO;
    use Part_Entry_IO;
    use Part_Of_Speech_Type_IO;
@@ -679,7 +679,7 @@ begin
                   New_Line;
                   Put_Line ("GET Exception  LAST = " & Integer'Image (Last));
                   Put_Line (S (1 .. Last));
-                  Integer_IO.Put (Line_Number); New_Line;
+                  Put (Line_Number); New_Line;
                   Put (De); New_Line;
             end Form_De;
 
@@ -789,7 +789,7 @@ exception
       null;
    when others =>
       Put_Line (S (1 .. Last));
-      Integer_IO.Put (Line_Number); New_Line;
+      Put (Line_Number); New_Line;
       Close (Output);
       if Checking  then
          Close (Check);

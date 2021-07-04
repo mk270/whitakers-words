@@ -27,7 +27,6 @@ package Latin_Utils.Inflections_Package is
    ---------------------------------------------------------------------------
 
    pragma Elaborate_Body;
-   package Integer_IO is new Ada.Text_IO.Integer_IO (Integer);
 
    ---------------------------------------------------------------------------
    --  Generally simple/enumeration types have names ending in _TYPE

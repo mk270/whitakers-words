@@ -14,6 +14,7 @@
 -- All parts of the WORDS system, source code and data files, are made freely
 -- available to anyone who wishes to use them, for whatever purpose.
 
+with Ada.Integer_Text_IO;
 with Ada.Text_IO;
 with Latin_Utils.Strings_Package; use Latin_Utils.Strings_Package;
 with Support_Utils.Word_Parameters; use Support_Utils.Word_Parameters;
@@ -1230,8 +1231,8 @@ is
          end if;
          Ada.Text_IO.Put (Unknowns, Input_Line);
          Ada.Text_IO.Set_Col (Unknowns, 30);
-         Inflections_Package.Integer_IO.Put (Unknowns, Line_Number, 5);
-         Inflections_Package.Integer_IO.Put (Unknowns, Word_Number, 3);
+         Ada.Integer_Text_IO.Put (Unknowns, Line_Number, 5);
+         Ada.Integer_Text_IO.Put (Unknowns, Word_Number, 3);
          Ada.Text_IO.Put_Line (Unknowns, "    ========   ERROR      ");
       end if;
    end Report_Unknown_Error;

@@ -14,6 +14,7 @@
 -- All parts of the WORDS system, source code and data files, are made freely
 -- available to anyone who wishes to use them, for whatever purpose.
 
+with Ada.Integer_Text_IO;
 with Ada.Text_IO;
 with Latin_Utils.Config;
 with Latin_Utils.Strings_Package; use Latin_Utils.Strings_Package;
@@ -22,7 +23,7 @@ with Latin_Utils.Inflections_Package; use Latin_Utils.Inflections_Package;
 with Latin_Utils.Dictionary_Package; use Latin_Utils.Dictionary_Package;
 with Latin_Utils.General;
 procedure Makedict_Main (Porting : Boolean) is
-   package Integer_IO is new Ada.Text_IO.Integer_IO (Integer);
+   package Integer_IO renames Ada.Integer_Text_IO;
    use Ada.Text_IO;
    use Stem_Key_Type_IO;
    use Dictionary_Entry_IO;

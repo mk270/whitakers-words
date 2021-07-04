@@ -14,15 +14,15 @@
 -- All parts of the WORDS system, source code and data files, are made freely
 -- available to anyone who wishes to use them, for whatever purpose.
 
+with Ada.Integer_Text_IO;
 package body Words_Engine.English_Support_Package is
    --use EWDS_DIRECT_IO;
    use Ada.Text_IO;
 
    package body Ewds_Record_Io is
-      package Integer_IO is new Ada.Text_IO.Integer_IO (Integer);
       use Part_Of_Speech_Type_IO;
       use Frequency_Type_IO;
-      use Integer_IO;
+      use Ada.Integer_Text_IO;
       Spacer : Character := ' ';
       Nwidth : constant := 5;
 

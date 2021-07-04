@@ -22,8 +22,6 @@ with Latin_Utils.Dictionary_Package; use Latin_Utils.Dictionary_Package;
 -- with line_stuff; use line_stuff;
 -- with dictionary_form;
 procedure Uniqpage is
-
---   package Integer_IO is new Text_IO.Integer_IO (Integer);
    use Text_IO;
    use Dictionary_Entry_IO;
    use Part_Entry_IO;

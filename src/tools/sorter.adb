@@ -14,6 +14,8 @@
 -- All parts of the WORDS system, source code and data files, are made freely
 -- available to anyone who wishes to use them, for whatever purpose.
 
+with Ada.Integer_Text_IO;
+with Ada.Float_Text_IO;
 with Text_IO;
 with Direct_IO;
 with Latin_Utils.Strings_Package; use Latin_Utils.Strings_Package;
@@ -22,9 +24,7 @@ procedure Sorter is
    --  This program sorts a file of lines (Strings) on 4 subStrings Mx .. Nx
    --  Sort by Stringwise (different cases), numeric, or POS enumeration
 
-   package Integer_IO is new Text_IO.Integer_IO (Integer);
-   use Integer_IO;
-   package Float_IO is new Text_IO.Float_IO (Float);
+   use Ada.Integer_Text_IO;
    use Text_IO;
 
    Name_Length : constant := 80;
@@ -317,9 +317,9 @@ procedure Sorter is
       if Ls = 0  then
          raise Entry_Finished;
       end if;
-      Integer_IO.Get (Enter_Line (1 .. Ls), M, Last);
+      Get (Enter_Line (1 .. Ls), M, Last);
       begin
-         Integer_IO.Get (Enter_Line (Last + 1 .. Ls), Z, Last);
+         Get (Enter_Line (Last + 1 .. Ls), Z, Last);
          if  M = 0 or Z = 0  then
             Put_Line ("Start or size of zero, you must be kidding, aborting");
             raise Program_Error;
@@ -541,8 +541,8 @@ procedure Sorter is
          end if;
 
       elsif St = N  then
-         Integer_IO.Get (As, Mn, Last);
-         Integer_IO.Get (Bs, Nn, Last);
+         Get (As, Mn, Last);
+         Get (Bs, Nn, Last);
          if Wt = I  then
             return Mn < Nn;
          else
@@ -550,8 +550,8 @@ procedure Sorter is
          end if;
 
       elsif St = F  then
-         Float_IO.Get (As, Fn, Last);
-         Float_IO.Get (Bs, Gn, Last);
+         Ada.Float_Text_IO.Get (As, Fn, Last);
+         Ada.Float_Text_IO.Get (Bs, Gn, Last);
          if Wt = I  then
             return Fn < Gn;
          else
@@ -623,13 +623,13 @@ procedure Sorter is
          return Equ (As,  Bs);
 
       elsif St = N  then
-         Integer_IO.Get (As, Mn, Last);
-         Integer_IO.Get (Bs, Nn, Last);
+         Get (As, Mn, Last);
+         Get (Bs, Nn, Last);
          return Mn = Nn;
 
       elsif St = F  then
-         Float_IO.Get (As, Fn, Last);
-         Float_IO.Get (Bs, Gn, Last);
+         Ada.Float_Text_IO.Get (As, Fn, Last);
+         Ada.Float_Text_IO.Get (Bs, Gn, Last);
          return Fn = Gn;
 
       elsif St = P  then
