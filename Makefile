@@ -5,14 +5,12 @@ GPRBUILD_OPTIONS                        := -j4
 
 # Build flags are commonly found in the environment, but if they are
 # set on our Make command line, forward them to GNAT projects.
-export ADAFLAGS                         ?=
-export LDFLAGS                          ?=
+ADAFLAGS                                ?=
+LDFLAGS                                 ?=
 
-# For each library, a static archive is built by default but a
+# For the library, a static archive is built by default but a
 # non-empty shared object version selects a relocatable library
-export latin_utils_soversion            :=
-export support_utils_soversion          :=
-export words_engine_soversion           :=
+latin_utils_soversion                   :=
 
 # Directory where dictionnary files are created and searched for.
 # This variable is expected to be overridden at build time, with some
@@ -20,90 +18,42 @@ export words_engine_soversion           :=
 # At run time, another directory can be selected via the
 # WHITAKERS_WORDS_DATADIR environment variable.
 datadir                                 := .
-# During (re)builds, the tools must read and test the fresh data and
-# ignore any previous version already installed in $(datadir).
-export WHITAKERS_WORDS_DATADIR := .
 
 generated_sources := src/latin_utils/latin_utils-config.adb
 
-PROGRAMMES := makedict makeefil makeewds makeinfl makestem meanings wakedict \
-  words
+# If a relocatable library has been selected, tell the dynamic loader
+# where to find it during tests or generation of the dictionaries.
+ifneq (,$(latin_utils_soversion))
+  maybe_lib_path := \
+    LD_LIBRARY_PATH=$(if $(LD_LIBRARY_PATH),'$(LD_LIBRARY_PATH)':)lib/latin_utils-dynamic \
+    $()
+endif
 
+# It is convenient to let gprbuild deal with Ada dependencies, and
+# only then let a submake decide which data must be refreshed
+# according to the now up-to-date timestamps of the generators.
 .PHONY: all
-
-all: commands data
+all: commands
+	$(maybe_lib_path)WHITAKERS_WORDS_DATADIR=. $(MAKE) -f Makefile.data.mk
 
 # This target is more efficient than separate gprbuild runs because
 # the dependency graph is only constructed once.
+# It is run either because by an explicit 'commands' target, or
+# because a generated file requires it.
 .PHONY: commands
 commands: $(generated_sources)
-	$(GPRBUILD) -p $(GPRBUILD_OPTIONS) commands.gpr
-
-# Targets delegated to gprbuild are declared phony even if they build
-# concrete files, because Make ignores all about Ada dependencies.
-.PHONY: $(PROGRAMMES)
-$(PROGRAMMES): $(generated_sources)
-	$(GPRBUILD) -p $(GPRBUILD_OPTIONS) commands.gpr $@
-
-.PHONY: sorter
-sorter: $(generated_sources)
-	$(GPRBUILD) -p $(GPRBUILD_OPTIONS) tools.gpr $@
-
-# Executable targets are phony (see above), so we tell Make to only
-# check that they exist but ignore the timestamp.  This is not
-# perfect, but at least Make
-# * updates the output data if the input data changes
-# * builds the generator if it does not exist yet
-
-DICTFILE.GEN: DICTLINE.GEN | wakedict
-	echo g | bin/wakedict $< > /dev/null
-	mv STEMLIST.GEN STEMLIST_generated.GEN
-
-STEMLIST.GEN: DICTLINE.GEN | sorter
-	rm -f -- $@
-	bin/sorter < stemlist-sort.txt > /dev/null
-	mv -f -- STEMLIST_new.GEN $@
-	rm -f STEMLIST_generated.GEN
-	rm -f WORK.
-
-EWDSFILE.GEN: EWDSLIST.GEN | makeefil
-	bin/makeefil
-
-EWDSLIST.GEN: DICTLINE.GEN | makeewds
-	echo g | bin/makeewds $< > /dev/null
-	sort -o $@ $@
-
-INFLECTS.SEC: INFLECTS.LAT | makeinfl
-	bin/makeinfl $< > /dev/null
-
-STEMFILE.GEN INDXFILE.GEN: STEMLIST.GEN | makestem
-	echo g | bin/makestem $< > /dev/null
-
-GENERATED_DATA_FILES := DICTFILE.GEN STEMFILE.GEN INDXFILE.GEN EWDSLIST.GEN \
-					INFLECTS.SEC EWDSFILE.GEN STEMLIST.GEN
-
-.PHONY: data
-
-data: $(GENERATED_DATA_FILES)
-
-.PHONY: clean_data
-
-clean_data:
-	rm -f $(GENERATED_DATA_FILES) CHECKEWD.
+	$(GPRBUILD) -p $(GPRBUILD_OPTIONS) commands.gpr \
+	  $(foreach v,ADAFLAGS LDFLAGS latin_utils_soversion,-X$(v)='$($(v))')
 
 .PHONY: clean
-
-clean: clean_data
+clean:
+	$(MAKE) -f Makefile.data.mk $@
 	rm -fr bin lib obj
-	rm -f WORK. STEMLIST_generated.GEN STEMLIST_new.GEN $(generated_sources)
+	rm -f $(generated_sources)
 
 $(generated_sources): %: %.in Makefile
 	sed 's|@datadir@|$(datadir)|' $< > $@
 
 .PHONY: test
-
 test: all
-	cd test && ./run-tests.sh
-
-# This Makefile does not support parallelism (but gprbuild does).
-.NOTPARALLEL:
+	$(maybe_lib_path)test/run-tests.sh
