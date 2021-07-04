@@ -59,10 +59,18 @@ This is a free program, which means it is proper to copy it and pass
 it on to your friends. Consider it a developmental item for which
 there is no charge. However, just for form, it is Copyrighted
 (c). Permission is hereby freely given for any and all use of program
-and data. You can sell it as your own, but at least tell me.
+and data.
 
 This version is distributed without obligation, but the developer
 would appreciate comments and suggestions.
 
-All parts of the WORDS system, source code and data files, are made freely
-available to anyone who wishes to use them, for whatever purpose.
+The source and data are freely available for anyone to use for any 
+purpose. It may be converted to other languages, used in pieces, or 
+modified in any way without further permission or notification. 
+
+The program source (in Ada) and dictionary are freely available for
+rehosting.
+
+This license grant is taken verbatim from the Development/Rehosting 
+information in the wordsdev.htm file accompanying the original 
+author's 1.97FC release, on which the code in this repository is based.
