@@ -26,13 +26,14 @@ package body Numeral_Entry_IO is
 
    procedure Get (File : in Ada.Text_IO.File_Type; Item : out Numeral_Entry)
    is
-      Spacer : Character := ' ';
-      pragma Unreferenced (Spacer);
+      Spacer1, Spacer2 : Character;
    begin
       Decn_Record_IO.Get (File, Item.Decl);
-      Ada.Text_IO.Get (File, Spacer);
+      Ada.Text_IO.Get (File, Spacer1);
+      pragma Unreferenced (Spacer1);
       Numeral_Sort_Type_IO.Get (File, Item.Sort);
-      Ada.Text_IO.Get (File, Spacer);
+      Ada.Text_IO.Get (File, Spacer2);
+      pragma Unreferenced (Spacer2);
       Ada.Integer_Text_IO.Get (File, Item.Value);
    end Get;
 
@@ -40,13 +41,14 @@ package body Numeral_Entry_IO is
 
    procedure Get (Item : out Numeral_Entry)
    is
-      Spacer : Character := ' ';
-      pragma Unreferenced (Spacer);
+      Spacer1, Spacer2 : Character;
    begin
       Decn_Record_IO.Get (Item.Decl);
-      Ada.Text_IO.Get (Spacer);
+      Ada.Text_IO.Get (Spacer1);
+      pragma Unreferenced (Spacer1);
       Numeral_Sort_Type_IO.Get (Item.Sort);
-      Ada.Text_IO.Get (Spacer);
+      Ada.Text_IO.Get (Spacer2);
+      pragma Unreferenced (Spacer2);
       Ada.Integer_Text_IO.Get (Item.Value);
    end Get;
 

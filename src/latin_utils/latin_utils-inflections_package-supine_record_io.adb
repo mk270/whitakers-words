@@ -21,15 +21,17 @@ package body Supine_Record_IO is
 
    procedure Get (File : in File_Type; Item : out Supine_Record)
    is
-      Spacer : Character := ' ';
-      pragma Unreferenced (Spacer);
+      Spacer1, Spacer2, Spacer3 : Character;
    begin
       Decn_Record_IO.Get (File, Item.Con);
-      Get (File, Spacer);
+      Get (File, Spacer1);
+      pragma Unreferenced (Spacer1);
       Case_Type_IO.Get   (File, Item.Of_Case);
-      Get (File, Spacer);
+      Get (File, Spacer2);
+      pragma Unreferenced (Spacer2);
       Number_Type_IO.Get (File, Item.Number);
-      Get (File, Spacer);
+      Get (File, Spacer3);
+      pragma Unreferenced (Spacer3);
       Gender_Type_IO.Get (File, Item.Gender);
    end Get;
 
@@ -37,15 +39,17 @@ package body Supine_Record_IO is
 
    procedure Get (Item : out Supine_Record)
    is
-      Spacer : Character := ' ';
-      pragma Unreferenced (Spacer);
+      Spacer1, Spacer2, Spacer3 : Character;
    begin
       Decn_Record_IO.Get (Item.Con);
-      Get (Spacer);
+      Get (Spacer1);
+      pragma Unreferenced (Spacer1);
       Case_Type_IO.Get   (Item.Of_Case);
-      Get (Spacer);
+      Get (Spacer2);
+      pragma Unreferenced (Spacer2);
       Number_Type_IO.Get (Item.Number);
-      Get (Spacer);
+      Get (Spacer3);
+      pragma Unreferenced (Spacer3);
       Gender_Type_IO.Get (Item.Gender);
    end Get;
 

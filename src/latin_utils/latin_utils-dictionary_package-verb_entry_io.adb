@@ -22,11 +22,11 @@ package body Verb_Entry_IO is
    procedure Get (File : in Ada.Text_IO.File_Type; Item : out Verb_Entry)
    is
       Spacer : Character;
-      pragma Unreferenced (Spacer);
    begin
       Decn_Record_IO.Get (File, Item.Con);
       Ada.Text_IO.Get (File, Spacer);
       Verb_Kind_Type_IO.Get (File, Item.Kind);
+      pragma Unreferenced (Spacer);
    end Get;
 
    ---------------------------------------------------------------------------
@@ -34,11 +34,11 @@ package body Verb_Entry_IO is
    procedure Get (Item : out Verb_Entry)
    is
       Spacer : Character;
-      pragma Unreferenced (Spacer);
    begin
       Decn_Record_IO.Get (Item.Con);
       Ada.Text_IO.Get (Spacer);
       Verb_Kind_Type_IO.Get (Item.Kind);
+      pragma Unreferenced (Spacer);
    end Get;
 
    ---------------------------------------------------------------------------

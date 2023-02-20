@@ -22,8 +22,7 @@ package body Quality_Record_IO is
    procedure Get (File : in File_Type; Item : out Quality_Record)
    is
       POFS     : Part_Of_Speech_Type := X;
-      Spacer   : Character := ' ';
-      pragma Unreferenced (Spacer);
+      Spacer   : Character;
       Noun     : Noun_Record;
       Pronoun  : Pronoun_Record;
       Propack  : Propack_Record;
@@ -42,6 +41,7 @@ package body Quality_Record_IO is
    begin
       Part_Of_Speech_Type_IO.Get (File, POFS);
       Get (File, Spacer);
+      pragma Unreferenced (Spacer);
       case POFS is
          when N =>
             Noun_Record_IO.Get (File, Noun);
@@ -98,8 +98,7 @@ package body Quality_Record_IO is
    procedure Get (Item : out Quality_Record)
    is
       POFS     : Part_Of_Speech_Type := X;
-      Spacer   : Character := ' ';
-      pragma Unreferenced (Spacer);
+      Spacer   : Character;
       Noun     : Noun_Record;
       Pronoun  : Pronoun_Record;
       Propack  : Propack_Record;
@@ -118,6 +117,7 @@ package body Quality_Record_IO is
    begin
       Part_Of_Speech_Type_IO.Get (POFS);
       Get (Spacer);
+      pragma Unreferenced (Spacer);
       case POFS is
          when N =>
             Noun_Record_IO.Get (Noun);

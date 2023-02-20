@@ -21,13 +21,14 @@ package body Noun_Entry_IO is
 
    procedure Get (File : in Ada.Text_IO.File_Type; Item : out Noun_Entry)
    is
-      Spacer : Character;
-      pragma Unreferenced (Spacer);
+      Spacer1, Spacer2 : Character;
    begin
       Decn_Record_IO.Get (File, Item.Decl);
-      Ada.Text_IO.Get (File, Spacer);
+      Ada.Text_IO.Get (File, Spacer1);
+      pragma Unreferenced (Spacer1);
       Gender_Type_IO.Get (File, Item.Gender);
-      Ada.Text_IO.Get (File, Spacer);
+      Ada.Text_IO.Get (File, Spacer2);
+      pragma Unreferenced (Spacer2);
       Noun_Kind_Type_IO.Get (File, Item.Kind);
    end Get;
 
@@ -35,13 +36,14 @@ package body Noun_Entry_IO is
 
    procedure Get (Item : out Noun_Entry)
    is
-      Spacer : Character;
-      pragma Unreferenced (Spacer);
+      Spacer1, Spacer2 : Character;
    begin
       Decn_Record_IO.Get (Item.Decl);
-      Ada.Text_IO.Get (Spacer);
+      Ada.Text_IO.Get (Spacer1);
+      pragma Unreferenced (Spacer1);
       Gender_Type_IO.Get (Item.Gender);
-      Ada.Text_IO.Get (Spacer);
+      Ada.Text_IO.Get (Spacer2);
+      pragma Unreferenced (Spacer2);
       Noun_Kind_Type_IO.Get (Item.Kind);
    end Get;
 

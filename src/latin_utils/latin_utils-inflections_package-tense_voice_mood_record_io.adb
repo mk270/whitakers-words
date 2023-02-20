@@ -21,13 +21,12 @@ package body Tense_Voice_Mood_Record_IO is
 
    procedure Get (File : in File_Type; Item : out Tense_Voice_Mood_Record)
    is
-      Spacer : Character := ' ';
-      pragma Unreferenced (Spacer);
+      Spacer1, Spacer2 : Character;
    begin
       Tense_Type_IO.Get (File, Item.Tense);
-      Get (File, Spacer);
+      Get (File, Spacer1);
       Voice_Type_IO.Get (File, Item.Voice);
-      Get (File, Spacer);
+      Get (File, Spacer2);
       Mood_Type_IO.Get (File, Item.Mood);
    end Get;
 
@@ -35,13 +34,14 @@ package body Tense_Voice_Mood_Record_IO is
 
    procedure Get (Item : out Tense_Voice_Mood_Record)
    is
-      Spacer : Character := ' ';
-      pragma Unreferenced (Spacer);
+      Spacer1, Spacer2 : Character;
    begin
       Tense_Type_IO.Get (Item.Tense);
-      Get (Spacer);
+      Get (Spacer1);
+      pragma Unreferenced (Spacer1);
       Voice_Type_IO.Get (Item.Voice);
-      Get (Spacer);
+      Get (Spacer2);
+      pragma Unreferenced (Spacer2);
       Mood_Type_IO.Get (Item.Mood);
    end Get;
 
