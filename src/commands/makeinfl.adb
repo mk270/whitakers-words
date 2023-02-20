@@ -14,6 +14,7 @@
 -- All parts of the WORDS system, source code and data files, are made freely
 -- available to anyone who wishes to use them, for whatever purpose.
 
+with Ada.Integer_Text_IO;
 with Ada.Text_IO;
 with Latin_Utils.Config;
 with Latin_Utils.Strings_Package; use Latin_Utils.Strings_Package;
@@ -23,9 +24,8 @@ with IO_Exceptions;
 with Ada.Exceptions;
 
 procedure Makeinfl is
-   package Integer_IO is new Ada.Text_IO.Integer_IO (Integer);
    use Ada.Text_IO;
-   use Integer_IO;
+   use Ada.Integer_Text_IO;
    use Stem_Key_Type_IO;
    use Inflection_Record_IO;
    use Quality_Record_IO;
@@ -252,7 +252,7 @@ procedure Makeinfl is
 
       Ada.Text_IO.Set_Col (33);
       Ada.Text_IO.Put ("--  ");
-      Integer_IO.Put (Number_Of_Inflections);
+      Put (Number_Of_Inflections);
       Ada.Text_IO.Put_Line (" entries    --  Loaded correctly");
 
       List_To_Lel_File;                     --  Load arrays to file
@@ -328,7 +328,7 @@ begin
    New_Line;
 
    for I in Character range ' ' .. ' '  loop
-      Integer_IO.Put (0); Put ("    "); Put (I); Put ("    ");
+      Ada.Integer_Text_IO.Put (0); Put ("    "); Put (I); Put ("    ");
       Put (Belf (0, I));
       Put ("  ");   Put (Bell (0, I));
       Put ("    "); Put (Bell (0, I) - Belf (0, I) + 1); New_Line;

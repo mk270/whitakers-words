@@ -14,11 +14,11 @@
 -- All parts of the WORDS system, source code and data files, are made freely
 -- available to anyone who wishes to use them, for whatever purpose.
 
+with Ada.Integer_Text_IO;
 with Text_IO;
 --with Latin_Utils.Strings_Package; use Latin_Utils.Strings_Package;
 procedure Dups is
-   package Integer_Text_IO is new Text_IO.Integer_IO (Integer);
-   use Integer_Text_IO;
+   use Ada.Integer_Text_IO;
    use Text_IO;
 
    Input, Output : File_Type;

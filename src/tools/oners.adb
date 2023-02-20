@@ -14,10 +14,9 @@
 -- All parts of the WORDS system, source code and data files, are made freely
 -- available to anyone who wishes to use them, for whatever purpose.
 
+with Ada.Integer_Text_IO; use Ada.Integer_Text_IO;
 with Text_IO; use Text_IO;
 procedure Oners is
-   package Integer_IO is new Text_IO.Integer_IO (Integer);
-   use Integer_IO;
 
    Line, Old_Line : String (1 .. 250) := (others => ' ');
    Last, Old_Last : Integer := 0;
