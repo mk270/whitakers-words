@@ -23,7 +23,6 @@ procedure Linedict is
    package Integer_IO is new Text_IO.Integer_IO (Integer);
    use Dictionary_Entry_IO;
    use Part_Entry_IO;
-   use Kind_Entry_IO;
    use Age_Type_IO;
    use Area_Type_IO;
    use Geo_Type_IO;
