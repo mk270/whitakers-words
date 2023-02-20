@@ -72,7 +72,7 @@ run-test () {
     $PROG < ${source} | $TRIM > $TMP_TRANSCRIPT
     [[ -v TRAVIS ]] && cat $TMP_TRANSCRIPT
 
-    if diff -u -- - ${expected} < $TMP_TRANSCRIPT > $TMP_DISCREPANCIES
+    if diff -Z -u -- - ${expected} < $TMP_TRANSCRIPT > $TMP_DISCREPANCIES
     then
         report-result $test_name PASS
     else
