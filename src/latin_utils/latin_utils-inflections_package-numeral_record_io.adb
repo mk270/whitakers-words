@@ -21,17 +21,20 @@ package body Numeral_Record_IO is
 
    procedure Get (File : in File_Type; Item : out Numeral_Record)
    is
-      Spacer : Character := ' ';
-      pragma Unreferenced (Spacer);
+      Spacer1, Spacer2, Spacer3, Spacer4 : Character;
    begin
       Decn_Record_IO.Get (File, Item.Decl);
-      Get (File, Spacer);
+      Get (File, Spacer1);
+      pragma Unreferenced (Spacer1);
       Case_Type_IO.Get (File, Item.Of_Case);
-      Get (File, Spacer);
+      Get (File, Spacer2);
+      pragma Unreferenced (Spacer2);
       Number_Type_IO.Get (File, Item.Number);
-      Get (File, Spacer);
+      Get (File, Spacer3);
+      pragma Unreferenced (Spacer3);
       Gender_Type_IO.Get (File, Item.Gender);
-      Get (File, Spacer);
+      Get (File, Spacer4);
+      pragma Unreferenced (Spacer4);
       Numeral_Sort_Type_IO.Get (File, Item.Sort);
    end Get;
 
@@ -39,16 +42,19 @@ package body Numeral_Record_IO is
 
    procedure Get (Item : out Numeral_Record)
    is
-      Spacer : Character := ' ';
-      pragma Unreferenced (Spacer);
+      Spacer1, Spacer2, Spacer3, Spacer4 : Character;
    begin
       Decn_Record_IO.Get (Item.Decl);
-      Get (Spacer);
-      Get (Spacer);
+      Get (Spacer1);
+      pragma Unreferenced (Spacer1);
+      Get (Spacer2);
+      pragma Unreferenced (Spacer2);
       Number_Type_IO.Get (Item.Number);
-      Get (Spacer);
+      Get (Spacer3);
+      pragma Unreferenced (Spacer3);
       Gender_Type_IO.Get (Item.Gender);
-      Get (Spacer);
+      Get (Spacer4);
+      pragma Unreferenced (Spacer4);
       Numeral_Sort_Type_IO.Get (Item.Sort);
    end Get;
 

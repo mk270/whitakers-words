@@ -21,18 +21,20 @@ package body Dictionary_Entry_IO is
 
    procedure Get (File : in Ada.Text_IO.File_Type; Item : out Dictionary_Entry)
    is
-      Spacer : Character;
-      pragma Unreferenced (Spacer);
+      Spacer1, Spacer2, Spacer3 : Character;
    begin
       for K in Stem_Key_Type range 1 .. 4 loop
          Stem_Type_IO.Get (File, Item.Stems (K));
-         Ada.Text_IO.Get (File, Spacer);
+         Ada.Text_IO.Get (File, Spacer1);
       end loop;
+      pragma Unreferenced (Spacer1);
 
       Part_Entry_IO.Get (File, Item.Part);
-      Ada.Text_IO.Get (File, Spacer);
+      Ada.Text_IO.Get (File, Spacer2);
+      pragma Unreferenced (Spacer2);
       Translation_Record_IO.Get (File, Item.Tran);
-      Ada.Text_IO.Get (File, Spacer);
+      Ada.Text_IO.Get (File, Spacer3);
+      pragma Unreferenced (Spacer3);
       Ada.Text_IO.Get (File, Item.Mean);
    end Get;
 
@@ -40,18 +42,20 @@ package body Dictionary_Entry_IO is
 
    procedure Get (Item : out Dictionary_Entry)
    is
-      Spacer : Character;
-      pragma Unreferenced (Spacer);
+      Spacer1, Spacer2, Spacer3 : Character;
    begin
       for K in Stem_Key_Type range 1 .. 4 loop
          Stem_Type_IO.Get (Item.Stems (K));
-         Ada.Text_IO.Get (Spacer);
+         Ada.Text_IO.Get (Spacer1);
       end loop;
+      pragma Unreferenced (Spacer1);
 
       Part_Entry_IO.Get (Item.Part);
-      Ada.Text_IO.Get (Spacer);
+      Ada.Text_IO.Get (Spacer2);
+      pragma Unreferenced (Spacer2);
       Translation_Record_IO.Get (Item.Tran);
-      Ada.Text_IO.Get (Spacer);
+      Ada.Text_IO.Get (Spacer3);
+      pragma Unreferenced (Spacer3);
       Ada.Text_IO.Get (Item.Mean);
    end Get;
 

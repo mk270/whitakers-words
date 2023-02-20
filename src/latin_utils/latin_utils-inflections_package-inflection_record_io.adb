@@ -21,17 +21,20 @@ package body Inflection_Record_IO is
 
    procedure Get (File : in File_Type; Item : out Inflection_Record)
    is
-      Spacer : Character := ' ';
-      pragma Unreferenced (Spacer);
+      Spacer1, Spacer2, Spacer3, Spacer4 : Character;
    begin
       Quality_Record_IO.Get (File, Item.Qual);
-      Get (File, Spacer);
+      Get (File, Spacer1);
+      pragma Unreferenced (Spacer1);
       Stem_Key_Type_IO.Get (File, Item.Key);
-      Get (File, Spacer);
+      Get (File, Spacer2);
+      pragma Unreferenced (Spacer2);
       Ending_Record_IO.Get (File, Item.Ending);
-      Get (File, Spacer);
+      Get (File, Spacer3);
+      pragma Unreferenced (Spacer3);
       Age_Type_IO.Get (File, Item.Age);
-      Get (File, Spacer);
+      Get (File, Spacer4);
+      pragma Unreferenced (Spacer4);
       Frequency_Type_IO.Get (File, Item.Freq);
    end Get;
 
@@ -39,17 +42,20 @@ package body Inflection_Record_IO is
 
    procedure Get (Item : out Inflection_Record)
    is
-      Spacer : Character := ' ';
-      pragma Unreferenced (Spacer);
+      Spacer1, Spacer2, Spacer3, Spacer4 : Character;
    begin
       Quality_Record_IO.Get (Item.Qual);
-      Get (Spacer);
+      Get (Spacer1);
+      pragma Unreferenced (Spacer1);
       Stem_Key_Type_IO.Get (Item.Key);
-      Get (Spacer);
+      Get (Spacer2);
+      pragma Unreferenced (Spacer2);
       Ending_Record_IO.Get (Item.Ending);
-      Get (Spacer);
+      Get (Spacer3);
+      pragma Unreferenced (Spacer3);
       Age_Type_IO.Get (Item.Age);
-      Get (Spacer);
+      Get (Spacer4);
+      pragma Unreferenced (Spacer4);
       Frequency_Type_IO.Get (Item.Freq);
    end Get;
 

@@ -22,11 +22,11 @@ package body Decn_Record_IO is
 
    procedure Get (File : in File_Type; Item : out Decn_Record)
    is
-      Spacer : Character := ' ';
-      pragma Unreferenced (Spacer);
+      Spacer : Character;
    begin
       Ada.Integer_Text_IO.Get (File, Item.Which);
       Get (File, Spacer);
+      pragma Unreferenced (Spacer);
       Ada.Integer_Text_IO.Get (File, Item.Var);
    end Get;
 
@@ -34,11 +34,11 @@ package body Decn_Record_IO is
 
    procedure Get (Item : out Decn_Record)
    is
-      Spacer : Character := ' ';
-      pragma Unreferenced (Spacer);
+      Spacer : Character;
    begin
       Ada.Integer_Text_IO.Get (Item.Which);
       Get (Spacer);
+      pragma Unreferenced (Spacer);
       Ada.Integer_Text_IO.Get (Item.Var);
    end Get;
 

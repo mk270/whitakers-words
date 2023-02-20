@@ -21,15 +21,17 @@ package body Verb_Record_IO is
 
    procedure Get (File : in File_Type; Item : out Verb_Record)
    is
-      Spacer : Character := ' ';
-      pragma Unreferenced (Spacer);
+      Spacer1, Spacer2, Spacer3 : Character;
    begin
       Decn_Record_IO.Get (File, Item.Con);
-      Get (File, Spacer);
+      Get (File, Spacer1);
+      pragma Unreferenced (Spacer1);
       Tense_Voice_Mood_Record_IO.Get (File, Item.Tense_Voice_Mood);
-      Get (File, Spacer);
+      Get (File, Spacer2);
+      pragma Unreferenced (Spacer2);
       Person_Type_IO.Get (File, Item.Person);
-      Get (File, Spacer);
+      Get (File, Spacer3);
+      pragma Unreferenced (Spacer3);
       Number_Type_IO.Get (File, Item.Number);
    end Get;
 
@@ -37,15 +39,17 @@ package body Verb_Record_IO is
 
    procedure Get (Item : out Verb_Record)
    is
-      Spacer : Character := ' ';
-      pragma Unreferenced (Spacer);
+      Spacer1, Spacer2, Spacer3 : Character;
    begin
       Decn_Record_IO.Get (Item.Con);
-      Get (Spacer);
+      Get (Spacer1);
+      pragma Unreferenced (Spacer1);
       Tense_Voice_Mood_Record_IO.Get (Item.Tense_Voice_Mood);
-      Get (Spacer);
+      Get (Spacer2);
+      pragma Unreferenced (Spacer2);
       Person_Type_IO.Get (Item.Person);
-      Get (Spacer);
+      Get (Spacer3);
+      pragma Unreferenced (Spacer3);
       Number_Type_IO.Get (Item.Number);
    end Get;
 

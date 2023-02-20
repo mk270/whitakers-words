@@ -29,7 +29,6 @@ package body Part_Entry_IO is
       Starting_Col : constant Ada.Text_IO.Positive_Count :=
          Ada.Text_IO.Col (File);
       Spacer : Character;
-      pragma Unreferenced (Spacer);
 
       --------------------------------------------------------------------------
 
@@ -49,6 +48,7 @@ package body Part_Entry_IO is
    begin
       Part_Of_Speech_Type_IO.Get (File, POFS);
       Ada.Text_IO.Get (File, Spacer);
+      pragma Unreferenced (Spacer);
       case POFS is
          when N =>
             Noun_Entry_IO.Get (File, Noun);
@@ -106,7 +106,6 @@ package body Part_Entry_IO is
    is
       POFS : Part_Of_Speech_Type := X;
       Spacer : Character;
-      pragma Unreferenced (Spacer);
 
       --------------------------------------------------------------------------
 
@@ -126,6 +125,7 @@ package body Part_Entry_IO is
    begin
       Part_Of_Speech_Type_IO.Get (POFS);
       Ada.Text_IO.Get (Spacer);
+      pragma Unreferenced (Spacer);
       case POFS is
          when N =>
             Noun_Entry_IO.Get (Noun);

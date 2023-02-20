@@ -23,17 +23,20 @@ package body Translation_Record_IO is
      (File : in Ada.Text_IO.File_Type;
       Item : out Translation_Record)
    is
-      Spacer : Character;
-      pragma Unreferenced (Spacer);
+      Spacer1, Spacer2, Spacer3, Spacer4 : Character;
    begin
       Age_Type_IO.Get (File, Item.Age);
-      Ada.Text_IO.Get (File, Spacer);
+      Ada.Text_IO.Get (File, Spacer1);
+      pragma Unreferenced (Spacer1);
       Area_Type_IO.Get (File, Item.Area);
-      Ada.Text_IO.Get (File, Spacer);
+      Ada.Text_IO.Get (File, Spacer2);
+      pragma Unreferenced (Spacer2);
       Geo_Type_IO.Get (File, Item.Geo);
-      Ada.Text_IO.Get (File, Spacer);
+      Ada.Text_IO.Get (File, Spacer3);
+      pragma Unreferenced (Spacer3);
       Frequency_Type_IO.Get (File, Item.Freq);
-      Ada.Text_IO.Get (File, Spacer);
+      Ada.Text_IO.Get (File, Spacer4);
+      pragma Unreferenced (Spacer4);
       Source_Type_IO.Get (File, Item.Source);
    end Get;
 
@@ -41,17 +44,20 @@ package body Translation_Record_IO is
 
    procedure Get (Item : out Translation_Record)
    is
-      Spacer : Character;
-      pragma Unreferenced (Spacer);
+      Spacer1, Spacer2, Spacer3, Spacer4 : Character;
    begin
       Age_Type_IO.Get (Item.Age);
-      Ada.Text_IO.Get (Spacer);
+      Ada.Text_IO.Get (Spacer1);
+      pragma Unreferenced (Spacer1);
       Area_Type_IO.Get (Item.Area);
-      Ada.Text_IO.Get (Spacer);
+      Ada.Text_IO.Get (Spacer2);
+      pragma Unreferenced (Spacer2);
       Geo_Type_IO.Get (Item.Geo);
-      Ada.Text_IO.Get (Spacer);
+      Ada.Text_IO.Get (Spacer3);
+      pragma Unreferenced (Spacer3);
       Frequency_Type_IO.Get (Item.Freq);
-      Ada.Text_IO.Get (Spacer);
+      Ada.Text_IO.Get (Spacer4);
+      pragma Unreferenced (Spacer4);
       Source_Type_IO.Get (Item.Source);
    end Get;
 

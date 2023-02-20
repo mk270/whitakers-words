@@ -21,15 +21,17 @@ package body Parse_Record_IO is
 
    procedure Get (File : in Ada.Text_IO.File_Type; Item : out Parse_Record)
    is
-      Spacer : Character;
-      pragma Unreferenced (Spacer);
+      Spacer1, Spacer2, Spacer3 : Character;
    begin
       Stem_Type_IO.Get (File, Item.Stem);
-      Ada.Text_IO.Get (File, Spacer);
+      Ada.Text_IO.Get (File, Spacer1);
+      pragma Unreferenced (Spacer1);
       Inflection_Record_IO.Get (File, Item.IR);
-      Ada.Text_IO.Get (File, Spacer);
+      Ada.Text_IO.Get (File, Spacer2);
+      pragma Unreferenced (Spacer2);
       Dictionary_Kind_IO.Get (File, Item.D_K);
-      Ada.Text_IO.Get (File, Spacer);
+      Ada.Text_IO.Get (File, Spacer3);
+      pragma Unreferenced (Spacer3);
       MNPC_IO.Get (File, Item.MNPC);
    end Get;
 
@@ -37,15 +39,17 @@ package body Parse_Record_IO is
 
    procedure Get (Item : out Parse_Record)
    is
-      Spacer : Character;
-      pragma Unreferenced (Spacer);
+      Spacer1, Spacer2, Spacer3 : Character;
    begin
       Stem_Type_IO.Get (Item.Stem);
-      Ada.Text_IO.Get (Spacer);
+      Ada.Text_IO.Get (Spacer1);
+      pragma Unreferenced (Spacer1);
       Inflection_Record_IO.Get (Item.IR);
-      Ada.Text_IO.Get (Spacer);
+      Ada.Text_IO.Get (Spacer2);
+      pragma Unreferenced (Spacer2);
       Dictionary_Kind_IO.Get (Item.D_K);
-      Ada.Text_IO.Get (Spacer);
+      Ada.Text_IO.Get (Spacer3);
+      pragma Unreferenced (Spacer3);
       MNPC_IO.Get (Item.MNPC);
    end Get;
 
