@@ -1,7 +1,7 @@
 
 WORDS, a Latin dictionary, by Colonel William Whitaker (USAF, Retired)
 
-Copyright William A. Whitaker (1936–2010)
+Copyright William A. Whitaker (1936-2010)
 
 This is a free program, which means it is proper to copy it and pass
 it on to your friends. Consider it a developmental item for which
