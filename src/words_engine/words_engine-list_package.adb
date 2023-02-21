@@ -764,7 +764,8 @@ package body Words_Engine.List_Package is
 
    -- update local dictionary, and handling of caps, temporarily disabled
    procedure List_Unknowns
-     (Input_Line :        String;
+     (Output     :        Ada.Text_IO.File_Type;
+      Input_Line :        String;
       Raw_Word   :        String)
    is
       use Ada.Text_IO;
@@ -778,18 +779,18 @@ package body Words_Engine.List_Package is
          Ada.Text_IO.Put_Line (Output, "    ========   UNKNOWN    ");
       else              --  Just screen Output
          if Words_Mdev (Do_Pearse_Codes) then
-            Ada.Text_IO.Put ("04 ");
+            Ada.Text_IO.Put (Output, "04 ");
          end if;
-         Ada.Text_IO.Put (Raw_Word);
+         Ada.Text_IO.Put (Output, Raw_Word);
          Ada.Text_IO.Set_Col (30);
-         Ada.Text_IO.Put_Line ("    ========   UNKNOWN    ");
+         Ada.Text_IO.Put_Line (Output, "    ========   UNKNOWN    ");
       end if;
 
       if Words_Mode (Write_Unknowns_To_File)  then
          if Words_Mdev (Include_Unknown_Context) or
            Words_Mdev (Do_Only_Initial_Word)
          then
-            Ada.Text_IO.Put_Line (Input_Line);
+            Ada.Text_IO.Put_Line (Output, Input_Line);
             Ada.Text_IO.Put_Line (Unknowns, Input_Line);
          end if;
          Put_Pearse_Code (Unknowns, Unknowns_2);
@@ -931,7 +932,7 @@ package body Words_Engine.List_Package is
       --                    LIST_SWEEP  -  PA_LAST = 0
       if WA.Unknowns then
          --  WORD failed
-         List_Unknowns (Input_Line, Raw_Word);
+         List_Unknowns (Output, Input_Line, Raw_Word);
       end if;
 
       --  Exit if UNKNOWNS ONLY (but had to do STATS above)
