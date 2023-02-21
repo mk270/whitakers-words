@@ -18,3 +18,5 @@ STEMFILE.LOC
 EWDSFILE.GEN
 STEMLIST.GEN
 src/latin_utils/latin_utils-config.adb
+.DS_Store
+src/.DS_Store
