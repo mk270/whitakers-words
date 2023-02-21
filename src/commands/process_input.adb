@@ -84,15 +84,8 @@ is
                -- Two in a row
                return False;
             end if;
-         else
-            --  INPUT is file
-
-            --LINE_NUMBER := LINE_NUMBER + 1;
-            --  Count blank lines in file
-            if End_Of_File (Current_Input) then
-               Set_Input (Standard_Input);
-               Close (Input);
-            end if;
+         elsif End_Of_File (Current_Input) then
+               return True;
          end if;
       end if;
 
