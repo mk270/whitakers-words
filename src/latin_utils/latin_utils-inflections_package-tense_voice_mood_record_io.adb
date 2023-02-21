@@ -25,8 +25,10 @@ package body Tense_Voice_Mood_Record_IO is
    begin
       Tense_Type_IO.Get (File, Item.Tense);
       Get (File, Spacer1);
+      pragma Unreferenced (Spacer1);
       Voice_Type_IO.Get (File, Item.Voice);
       Get (File, Spacer2);
+      pragma Unreferenced (Spacer2);
       Mood_Type_IO.Get (File, Item.Mood);
    end Get;
 
