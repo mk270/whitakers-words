@@ -116,8 +116,8 @@ begin
                   Ox (1) := Add (De.Stems (1), "os");
                   Ox (2) := Add (De.Stems (2), "i");
                when 7 =>
-                  Ox (1) := Add (De.Stems (1), "os");
-                  Ox (2) := Add (De.Stems (2), "i");
+                  Ox (1) := Add (De.Stems (1), "");
+                  Ox (2) := Add (De.Stems (2), "yos/i");
                when 8 =>
                   Ox (1) := Add (De.Stems (1), "on");
                   Ox (2) := Add (De.Stems (2), "i");
@@ -149,6 +149,9 @@ begin
                   Ox (2) := Add (De.Stems (2), "us");
                when 3 =>
                   Ox (1) := Add (De.Stems (1), "us");
+                  Ox (2) := Add (De.Stems (2), "u");
+               when 4 =>
+                  Ox (1) := Add (De.Stems (1), "");
                   Ox (2) := Add (De.Stems (2), "u");
                when others => null;
             end case;
