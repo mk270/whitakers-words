@@ -125,7 +125,7 @@ N     1 8 LOC S C  2 2 ae        X A
 N     1 8 ACC S C  2 2 an        X A
 N     1 8 ACC S C  2 2 am        X B
 N     1 8 ABL S C  2 1 a         X A
-
+N     1 8 ABL S F  2 1 e         X A    -- A&G 44
 
 
 --                        SECOND DECLENSION
@@ -229,21 +229,28 @@ N     2 6 NOM P N  2 1 e         B C     --  OLD cetus
 N     2 6 ACC P N  2 1 e         B C     --  OLD cetus
 
 
---  This one is not done very precisely
---  Ex:  Androgeos  Androgeo  =>  Andregeos  Andrege
+--  This artificial declension is a hybrid:  A subset of what A&G 82 call
+--  Greek third declension proper names plus inflections from what A&G 52
+--  call Greek second declension. To make things more complicated, OLD and
+--  L+S often have multiple alternative inflection--and A&G 82(fn) indicate
+--  that the usual Latin third declension inflections may also apply.
+--  Yet this hybrid, combined with a couple UNIQUES entries, does a pretty
+--  good job of capturing the dictionary's -ys stem Greek nouns that closely,
+--  but don't exactly, match 2 6.
 --  Also for -ys for Greek -os
---  Ex:  chelys  (-yn ACC)  =>  chelys  chel
 --  Ex:  amphibachys  amphibrachyos  =>  amphibrachys  amphibrach
-N     2 7 NOM S X  1 0           X A
-N     2 7 VOC S X  1 0           X A 
-N     2 7 VOC S X  2 0           X D  -- chelys L+S
-N     2 7 GEN S X  2 1 o         X A
-N     2 7 GEN S X  2 1 i         X B
-N     2 7 GEN S X  2 2 yos       X D  -- Hack for ys->yos
-N     2 7 ACC S X  2 2 on        X A
-N     2 7 ACC S X  2 2 yn        X D  -- Hack for ys->yn (on)
-N     2 7 ACC S X  2 1 o         X B
+N     2 7 NOM S C  1 0           X A
+N     2 7 VOC S C  1 0           X A
+N     2 7 GEN S C  2 3 yos       X A
+N     2 7 GEN S M  2 2 us        X A
+-- N     2 7 GEN S C  3 1 o         X A  -- this was only for echo
+N     2 7 GEN S C  2 1 i         X A
+N     2 7 DAT S C  2 1 i         A A
+N     2 7 ACC S C  2 2 yn        X A  -- Hack for ys->yn (on)
+N     2 7 ACC S C  2 3 yon       X A
+N     2 7 ACC S C  2 1 o         X B  -- ????
 
+N     2 7 ACC P C  2 3 yos       X A
 
 
 --  Nouns from Greek in -on       --  only  N
@@ -251,8 +258,9 @@ N     2 7 ACC S X  2 1 o         X B
 N     2 8 NOM S N  1 2 on        X A
 N     2 8 VOC S N  2 2 on        X A
 N     2 8 GEN S N  2 1 i         X A
+N     2 8 DAT S N  1 1 o         X A  -- A&G 52
 N     2 8 ACC S N  2 2 on        X A
-
+N     2 8 ABL S N  1 2 on        X A  -- A&G 52
 
 
 
@@ -488,6 +496,19 @@ N     4 3 GEN S C  2 1 u         X A
 N     4 3 DAT S C  2 1 u         X A
 N     4 3 ACC S C  2 2 em        X A    --  Stelten, Dict. of Eccl. Latin
 N     4 3 ACC S C  2 2 um        X A    --  Collins, Primer of Eccl. Latin
+
+--  Fourth declension for echo - maybe other Greek nouns
+--  Ex: echo echu  =>  echo ech
+N     4 4 NOM S C  1 0           X A
+N     4 4 VOC S C  1 0           X A
+N     4 4 GEN S C  2 1 o         X A   -- OED for echo
+N     4 4 DAT S C  2 2 ui        X A
+N     4 4 ACC S C  2 1 u         X A
+N     4 4 ACC S C  2 2 on        X A   -- OED for echo
+
+N     4 4 NOM P C  2 2 us        X A
+N     4 4 VOC P C  2 2 us        X A
+
 
 
 --  All fifth declension nouns - N 5 1 
