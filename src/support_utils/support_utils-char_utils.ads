@@ -14,14 +14,16 @@
 -- All parts of the WORDS system, source code and data files, are made freely
 -- available to anyone who wishes to use them, for whatever purpose.
 
+with Ada.Strings.Maps; use all type Ada.Strings.Maps.Character_Mapping;
+
 package Support_Utils.Char_Utils is
 
    ---------------------------------------------------------------------------
 
-   -- Converts V -> U, v -> u, J -> I, j -> i. Used in few select places.
-   -- Doesn't change character when it is not V/v or J/j.
-   function  V_To_U_And_J_To_I (C : in     Character) return Character;
-   procedure V_To_U_And_J_To_I (C : in out Character);
+   -- Converts v -> u, j -> i and roman letters to lower case.
+   Normalize : constant Ada.Strings.Maps.Character_Mapping := To_Mapping
+     ("ABCDEFGHIJKLMNOPQRSTUVWXYZjv",
+      "abcdefghiiklmnopqrstuuwxyziu");
 
    ---------------------------------------------------------------------------
 

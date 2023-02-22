@@ -982,30 +982,20 @@ package body Words_Engine.List_Package is
       D_K : constant Dictionary_Kind := General;
       J, J1, J2, Jj : Stem_Io.Count := 0;
 
-      Index_On : constant String := Lower_Case (Unknown);
+      --  FIXME: why lowercase all and normalize only two characters?
+      --  'v' could be represented by 'u'
+      --  like the new Oxford Latin Dictionary
+      --  Fixes the first two letters of a word/stem which can be done right
+      First_Two : constant Integer := Integer'Min (Unknown'First + 1,
+                                                   Unknown'Last);
+      Index_On : constant String
+        := Ada.Strings.Fixed.Translate (Unknown (Unknown'First .. First_Two),
+                                        Support_Utils.Char_Utils.Normalize)
+         & Lower_Case (Unknown (First_Two + 1 .. Unknown'Last));
+
       Index_First, Index_Last : Stem_Io.Count := 0;
       Ds : Dictionary_Stem;
       First_Try, Second_Try : Boolean := True;
-
-      function First_Two (W : String) return String is
-         --  'v' could be represented by 'u'
-         --  like the new Oxford Latin Dictionary
-         --  Fixes the first two letters of a word/stem which can be done right
-         S : constant String := Lower_Case (W);
-         Ss : String (W'Range) := W;
-
-      begin
-         if S'Length = 1  then
-            Ss (S'First) :=
-              Support_Utils.Char_Utils.V_To_U_And_J_To_I (W (S'First));
-         else
-            Ss (S'First) :=
-              Support_Utils.Char_Utils.V_To_U_And_J_To_I (W (S'First));
-            Ss (S'First + 1) :=
-              Support_Utils.Char_Utils.V_To_U_And_J_To_I (W (S'First + 1));
-         end if;
-         return Ss;
-      end First_Two;
 
    begin
 
@@ -1015,8 +1005,8 @@ package body Words_Engine.List_Package is
                   Path (Stem_File_Name & '.' & Ext (D_K)));
          end if;
 
-         Index_First := First_Index (First_Two (Index_On), D_K);
-         Index_Last  := Last_Index (First_Two (Index_On), D_K);
+         Index_First := First_Index (Index_On, D_K);
+         Index_Last  := Last_Index (Index_On, D_K);
 
          if Index_First > 0  and then Index_First <= Index_Last then
 
