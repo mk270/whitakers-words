@@ -51,7 +51,6 @@ STEMLIST.GEN: DICTLINE.GEN commands
 	bin/sorter < stemlist-sort.txt
 	mv -f -- STEMLIST_new.GEN $@
 	rm -f STEMLIST_generated.GEN
-	rm -f WORK.
 
 EWDSFILE.GEN: EWDSLIST.GEN commands
 	bin/makeefil
@@ -82,7 +81,7 @@ clean_data:
 
 clean: clean_data
 	rm -fr bin lib obj
-	rm -f WORK. STEMLIST_generated.GEN STEMLIST_new.GEN \
+	rm -f STEMLIST_generated.GEN STEMLIST_new.GEN \
 	  $(generated_sources) commands
 
 $(generated_sources): %: %.in Makefile
