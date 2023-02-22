@@ -16,7 +16,6 @@
 
 with Makedict_Main;
 procedure Makedict is
-   Porting : constant Boolean := True;
 begin
-   Makedict_Main (Porting);
+   Makedict_Main (Porting => True);
 end Makedict;
