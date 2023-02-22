@@ -17,8 +17,6 @@
 package Support_Utils.Char_Utils is
 
    ---------------------------------------------------------------------------
-   -- Is C one of: " ,-;:.([{<)]}>"
-   function Is_Punctuation (C : Character) return Boolean;
 
    -- Is C alphabetic, or '.' or '-' ?
    function Is_Alpha_Etc (C : Character) return Boolean;

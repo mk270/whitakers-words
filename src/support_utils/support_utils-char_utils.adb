@@ -18,18 +18,6 @@ package body Support_Utils.Char_Utils is
 
    ---------------------------------------------------------------------------
 
-   function Is_Punctuation (C : Character) return Boolean
-   is
-   begin
-      case C is
-         when ' ' | ',' | '-' | ';' | ':' | '.' | '(' | '[' | '{' | '<' | ')' |
-              ']' | '}' | '>' => return True;
-         when others => return False;
-      end case;
-   end Is_Punctuation;
-
-   ---------------------------------------------------------------------------
-
    function Is_Alpha_Etc (C : Character) return Boolean
    is
    begin
