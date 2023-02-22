@@ -18,9 +18,6 @@ package Support_Utils.Char_Utils is
 
    ---------------------------------------------------------------------------
 
-   -- Is C alphabetic, or '.' or '-' ?
-   function Is_Alpha_Etc (C : Character) return Boolean;
-
    -- Converts V -> U, v -> u, J -> I, j -> i. Used in few select places.
    -- Doesn't change character when it is not V/v or J/j.
    function  V_To_U_And_J_To_I (C : in     Character) return Character;

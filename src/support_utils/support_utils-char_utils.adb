@@ -18,17 +18,6 @@ package body Support_Utils.Char_Utils is
 
    ---------------------------------------------------------------------------
 
-   function Is_Alpha_Etc (C : Character) return Boolean
-   is
-   begin
-      case C is
-         when 'A' .. 'Z' | 'a' .. 'z' | '-' | '.' => return True;
-         when others => return False;
-      end case;
-   end Is_Alpha_Etc;
-
-   ---------------------------------------------------------------------------
-
    function V_To_U_And_J_To_I (C : Character) return Character
    is
    begin

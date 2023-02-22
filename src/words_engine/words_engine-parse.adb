@@ -999,19 +999,9 @@ is
       Twice : constant Integer := 2 * S'Length;
       S2 : String (1 .. Twice);
       J : Integer := S'First - 1;
-
-      function Is_Alpha_Etc (C : Character) return Boolean is
-      begin
-         case C is
-            when 'a' .. 'z' | 'A' .. 'Z' | ' ' | '.' =>
-               return True;
-            when others =>
-               return False;
-         end case;
-      end Is_Alpha_Etc;
    begin
       for I in S'Range loop
-         if Is_Alpha_Etc (S (I)) then
+         if S (I) in 'a' .. 'z' | 'A' .. 'Z' | ' ' | '.' then
             J := J + 1;
             S2 (J) := S (I);
             if S (I) = '.' then
