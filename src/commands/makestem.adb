@@ -14,6 +14,7 @@
 -- All parts of the WORDS system, source code and data files, are made freely
 -- available to anyone who wishes to use them, for whatever purpose.
 
+with Ada.Strings.Maps; use all type Ada.Strings.Maps.Character_Mapping;
 with Ada.Text_IO;
 with Latin_Utils.Config;
 with Latin_Utils.Strings_Package; use Latin_Utils.Strings_Package;
@@ -159,11 +160,9 @@ begin
                Put_Line ("Trim (Line (1 .. Last)) BLANK");
             end if;
             exit First_Character_Loop when Trim (Line (1 .. Last)) = "";
-            Fc := Lower_Case (Line (1));
-            Sc := Lower_Case (Line (2));
-            --------------------------------------------------------------------
-            Support_Utils.Char_Utils.V_To_U_And_J_To_I (Fc);
-            Support_Utils.Char_Utils.V_To_U_And_J_To_I (Sc);
+            Fc := Value (Support_Utils.Char_Utils.Normalize, Line (1));
+            Sc := Value (Support_Utils.Char_Utils.Normalize, Line (2));
+
             --------------------------------------------------------------------
             I := I + 1;
 
