@@ -103,7 +103,7 @@ $(generated_sources): %: %.in Makefile
 .PHONY: test
 
 test: all
-	cd test && ./run-tests.sh
+	./test/run
 
 # This Makefile does not support parallelism (but gprbuild does).
 .NOTPARALLEL:
