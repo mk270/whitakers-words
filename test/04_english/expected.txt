@@ -1,0 +1,384 @@
+Input a single English word (+ part of speech - N, ADJ, V, PREP, . .. )
+
+=>
+ferus, fera, ferum  ADJ    [XXXAX]  
+wild, savage; uncivilized; untamed; fierce;
+
+ferox, (gen.), ferocis  ADJ    [XXXAX]  
+wild, bold; warlike; cruel; defiant, arrogant;
+
+turbidus, turbida, turbidum  ADJ    [XXXAO]  
+wild/stormy; muddy/turbid; murky/foggy/clouded/opaque; gloomy, frowning;
+
+agrestis, agrestis, agreste  ADJ    [XAXAO]  
+rustic, inhabiting countryside; rude, wild, savage; of/passing through fields;
+
+horridus, horrida, horridum  ADJ    [XXXBX]  
+wild, frightful, rough, bristly, standing on end, unkempt; grim; horrible;
+
+impotens, (gen.), impotentis  ADJ    [XXXBX]  
+powerless, impotent, wild, headstrong; having no control (over), incapable (of);
+*
+
+=>
+ludus, ludi  N (2nd) M     2 1  M   [XXXBX]  
+game, play, sport, pastime, entertainment, fun; school, elementary school;
+
+alea, aleae  N (1st) F     1 1  F   [XXXBO]  
+game of dice; die; dice-play; gambling, risking; chance, venture, risk, stake;
+
+ferina, ferinae  N (1st) F     1 1  F   [XXXDX]  
+game, flesh of wild animals;
+
+calx, calcis  N (3rd) C     3 3  C   [XXXBO]  
+limestone, lime; chalk, goal, goal-line (chalk mark), end of life; game piece;
+
+calculus, calculi  N (2nd) M     2 1  M   [XXXBO]  
+pebble; (bladder) stone; piece for reckoning/voting/game; calculation;
+
+talus, tali  N (2nd) M     2 1  M   [XBXBO]  
+ankle; ankle/pastern bone; sheep knucklebone (marked for dice); dice game (pl.);
+*
+
+=>
+tripudium, tripudi(i)  N (2nd) N     2 4  N   [XXXDX]  
+solemn ritual dance (to Mars); favorable omen when sacred chickens ate greedily;
+
+=>
+frumentum, frumenti  N (2nd) N     2 2  N   [XXXBX]  
+grain; crops;
+
+curculio, curculionis  N (3rd) F     3 1  F   [XAXCO]  
+grain-worm/weevil; weevil;
+
+gurculio, gurculionis  N (3rd) F     3 1  F   [BAXCS]  
+grain-worm/weevil; weevil;
+
+seges, segetis  N (3rd) F     3 1  F   [XXXBX]  
+grain field; crop;
+
+secundus, secunda -um, secundior -or -us, secundissimus -a -um  ADJ    [XXXAX]  
+|favorable, fair (wind/current); fortunate, propitious; smooth, w/the grain;
+
+granum, grani  N (2nd) N     2 2  N   [XXXDX]  
+grain; seed;
+*
+
+=>Blank exits =>
+novus, nova -um, novior -or -us, novissimus -a -um  ADJ    [XXXAX]  
+new, fresh, young; unusual, extraordinary;  (novae res, f. pl. = revolution);
+
+vivus, viva, vivum  ADJ    [XXXAX]  
+alive, fresh; living;
+
+integer, integra -um, integrior -or -us, integerrimus -a -um  ADJ    [XXXAX]  
+untouched, entire, whole, complete; uninjured, sound, fresh (troops), vigorous;
+
+recens, (gen.), recentis  ADJ    [XXXBX]  
+fresh, recent; rested;
+
+viridis, viridis, viride  ADJ    [XXXBX]  
+fresh, green; blooming,youthful;
+
+crudus, cruda -um, crudior -or -us, crudissimus -a -um  ADJ    [XXXAO]  
+|youthful/hardy/vigorous; fresh/green/immature; undigested; w/undigested food;
+*
+
+=>
+spiritus, spiritus  N (4th) M     4 1  M   [XXXAX]  
+breath, breathing, air, soul, life;
+
+nubes, nubis  N (3rd) F     3 3  F   [XXXAO]  
+cloud/mist/haze/dust/smoke; sky/air; billowy formation (hair); swarm/multitude;
+
+coelum, coeli  N (2nd) N     2 2  N   [XSXAS]  
+sky, heaven, heavens; space; air, climate, weather; universe, world; Jehovah;
+
+coelus, coeli  N (2nd) M     2 1  M   [BSXAS]  
+sky, heaven, heavens; space; air, climate, weather; universe, world; Jehovah;
+
+caelum, caeli  N (2nd) N     2 2  N   [XSXAO]  
+heaven, sky, heavens; space; air, climate, weather; universe, world; Jehovah;
+
+caelus, caeli  N (2nd) M     2 1  M   [BSXAO]  
+heaven, sky, heavens; space; air, climate, weather; universe, world; Jehovah;
+*
+
+=>
+convenit, convenire, convenit, conventus est  V (4th) IMPERS     3 4  IMPERS   [XXXCO]  
+it agrees/came together/is agreed/asserted; [bene ~ nobis=>we're on good terms];
+
+contingit, contingere, contigit, contactus est  V (3rd) IMPERS     3 1  IMPERS   [XXXCO]  
+it happens, it turns out; (PERF) it came to pass;
+
+=>
+in  PREP  ABL    [XXXAX]  
+in, on, at (space); in accordance with/regard to/the case of; within (time);
+
+intro  ADV    [XXXAX]  
+within, in; to the inside, indoors;
+
+gener, generi  N (2nd) M     2 3  M   [XXXBX]  
+son-in-law;
+
+ante  PREP  ACC    [XXXAO]  
+in front/presence of, in view; before (space/time/degree); over against, facing;
+
+prae  PREP  ABL    [XXXAX]  
+before, in front; in view of, because of;
+
+super  PREP  ABL    [XXXAX]  
+over (space), above, upon, in addition to; during (time); concerning; beyond;
+*
+
+=>No Match
+
+=>
+aura, aurae  N (1st) F     1 1  F   [XXXBO]  
+breeze, breath (of air), wind; gleam; odor, stench; vapor; air (pl.), heaven;
+
+anima, animae  N (1st) F     1 1  F   [XXXAO]  
+soul, spirit, vital principle; life; breathing; wind, breeze; air (element);
+
+afflatus, afflatus  N (4th) M     4 1  M   [XXXBO]  
+breath, snorting; breeze, wind, draught, (hot) blast; stench; inspiration, flash
+
+adflatus, adflatus  N (4th) M     4 1  M   [XXXBO]  
+breath, snorting; breeze, wind, draught, (hot) blast; stench; inspiration;
+
+flamen, flaminis  N (3rd) N     3 2  N   [XXXCO]  
+gust/blast (of wind); gale; breath/exhalation; wind/breeze; note on woodwind;
+
+aer, aeris  N C     3 6  C   [XXXCO]  
+air (one of 4 elements); atmosphere, sky; cloud, mist, weather; breeze; odor;
+*
+
+=>Blank exits =>No Match
+
+=>
+pila, pilae  N (1st) F     1 1  F   [XXXBO]  
+ball (play/decorative); sphere; mortar, vessel in which things are pounded;
+
+mortarium, mortarii  N (2nd) N     2 2  N   [XXXCO]  
+mortar; bowl/trough in which materials are pounded/ground
+
+isto  ADV    [XXXDX]  
+thither, to you, to where you are; in that matter; to the point you reached;
+
+istuc  ADV    [XXXDX]  
+thither, to you, to where you are; in that direction; to that subject/point;
+
+isti  ADV    [XXXDX]  
+there, in that place; where you are; herein, in this affair;
+
+istic  ADV    [XXXDX]  
+there, over there, in that place; where you are; herein, in this affair;
+*
+
+=>
+delicia, deliciae  N (1st) F     1 1  F   [XXXAO]  
+pleasure/delight/fun (usu. pl.), activity affording enjoyment, luxuries; toys;
+
+ludus, ludi  N (2nd) M     2 1  M   [XXXBX]  
+game, play, sport, pastime, entertainment, fun; school, elementary school;
+
+derideo, deridere, derisi, derisus  V (2nd) TRANS     2 1  TRANS   [XXXCO]  
+mock/deride/laugh at/make fun of; be able to laugh, escape, get off scot free;
+
+cavillor, cavillari, cavillatus sum  V (1st) DEP     1 1  DEP   [XXXCO]  
+jest, banter; make fun of, satirize, mock; use sophistry, quibble, cavil (at);
+
+irrideo, irridere, irrisi, irrisus  V (2nd)     2 1 [XXXDX]  
+ridicule, mock, make fun of; laugh at;
+
+ludibundus, ludibunda, ludibundum  ADJ    [XXXDX]  
+having fun; cares free;
+*
+
+=>Blank exits =>
+apsolvo, apsolvere, apsolvi, apsolutus  V (3rd) TRANS     3 1  TRANS   [XLXAO]  
+free (bonds), release; acquit; vote for/secure acquittal; pay off; sum up;
+
+apertus, aperta -um, apertior -or -us, apertissimus -a -um  ADJ    [XXXAO]  
+open/public/free; uncovered/exposed/opened; frank/clear/manifest; cloudless;
+
+absolvo, absolvere, absolvi, absolutus  V (3rd) TRANS     3 1  TRANS   [XLXAO]  
+free (bonds), release; acquit; vote for/secure acquittal; pay off; sum up;
+
+libero, liberare, liberavi, liberatus  V (1st)     1 1 [XXXAX]  
+free; acquit, absolve; manumit; liberate, release;
+
+liber, libera -um, liberior -or -us, liberrimus -a -um  ADJ    [XXXAO]  
+free (man); unimpeded; void of; independent, outspoken/frank; free from tribute;
+
+solvo, solvere, solvi, solutus  V (3rd)     3 1 [XXXAX]  
+loosen, release, unbind, untie, free; open; set sail; scatter; pay off/back;
+*
+
+=>
+aes, aeris  N (3rd) N     3 2  N   [XXXAO]  
+money, pay, fee, fare; copper/bronze/brass, base metal; (w/alienum) debt; gong;
+
+pecunia, pecuniae  N (1st) F     1 1  F   [XLXAX]  
+money; property;
+
+argentum, argenti  N (2nd) N     2 2  N   [XXXBO]  
+silver; money, cash; silver-plate; [argentum vivum => quicksilver/mercury];
+
+moneta, monetae  N (1st) F     1 1  F   [XXXCO]  
+money/coinage; die on which coin is struck, stamp; mint, temple striking coins;
+
+arca, arcae  N (1st) F     1 1  F   [XXXBO]  
+box, chest; strong-box, coffer; wealth, money; coffin, bier; cell, cage; ark;
+
+lamina, laminae  N (1st) F     1 1  F   [XXXBO]  
+plate; veneer; thin sheet of metal/other material; (blade); money/cash;
+*
+
+=>
+facio, facere, feci, factus  V (3rd) TRANS     3 1  TRANS   [XXXAO]  
+make/build/construct/create/cause/do; have built/made; fashion; work (metal);
+
+como, comere, compsi, comptus  V (3rd) TRANS     3 1  TRANS   [XXXCO]  
+arrange/do (hair); adorn, make beautiful; embellish; arrange in order, set out;
+
+como, comere, comsi, comtus  V (3rd) TRANS     3 1  TRANS   [XXXCS]  
+arrange/do (hair); adorn, make beautiful; embellish; arrange in order, set out;
+
+facio, facere, feci, factus  V (3rd) TRANS     3 1  TRANS   [XXXAO]  
+|||compose/write; classify; provide; do/perform; commit crime; suppose/imagine;
+
+facesso, facessere, facessi, facessitus  V (3rd)     3 1 [XXXDX]  
+do; perpetrate; go away;
+
+=>
+versor, versari, versatus sum  V (1st) DEP     1 1  DEP   [XXXDX]  
+move about; live, dwell; be;
+
+existo, existere, existiti, existitus  V (3rd)     3 1 [XXXDX]  
+step forth, appear; arise; become; prove to be; be (Bee);
+
+consum, conesse, confui, confuturus  V     5 1 [XXXES]  
+be together/with, coexist; be, happen; [confore => to be about to happen];
+
+=>
+amplus, ampla -um, amplior -or -us, amplissimus -a -um  ADJ    [XXXAO]  
+great, large, spacious, wide, ample; distinguished, important, honorable;
+
+magnus, magna -um, major -or -us, maximus -a -um  ADJ    [XXXAO]  
+large/great/big/vast/huge; much; powerful; tall/long/broad; extensive/spacious;
+
+multus, multa -um, -, plurimus -a -um  ADJ    [XXXAX]  
+much, many, great, many a; large, intense, assiduous; tedious;
+
+grandis, grandis, grande  ADJ    [XXXAX]  
+full-grown, grown up; large, great, grand, tall, lofty; powerful; aged, old;
+
+magnus, magna -um, major -or -us, maximus -a -um  ADJ    [XXXAO]  
+|great (achievement); mighty; distinguished; skilled; bold/confident; proud;
+
+nimius, nimia, nimium  ADJ    [XXXAX]  
+excessive, too great;
+*
+
+=>Blank exits =>No Match
+
+=>
+ecce  INTERJ    [XXXAX]  
+behold! see! look! there! here! [ecce eum => here he is];
+
+eccere  INTERJ    [XXXDO]  
+Here she/it is!; Behold!, Observe!, Lo!; There you are!;
+
+eccam  INTERJ    [XXXDO]  
+Here she/it is!; Behold!, Observe!, Lo!;
+
+eccillam  INTERJ    [XXXEO]  
+There she/it is!; Behold!, Observe!, Lo!;
+
+eccillum  INTERJ    [XXXEO]  
+There he/it is!; Behold!, Observe!, Lo!;
+
+eccillud  INTERJ    [XXXFO]  
+There it is!; Behold!, Observe!, Lo!;
+*
+
+=>
+durus, dura -um, durior -or -us, durissimus -a -um  ADJ    [XXXAX]  
+hard, stern; harsh, rough, vigorous; cruel, unfeeling, inflexible; durable;
+
+robustus, robusta -um, robustior -or -us, robustissimus -a -um  ADJ    [XXXAO]  
+of oak; hard/firm/solid; hardy/robust/durable, able to resist change; valiant;
+
+rigidus, rigida, rigidum  ADJ    [XXXBX]  
+stiff, hard; stern; rough;
+
+asper, aspera -um, asperior -or -us, asperrimus -a -um  ADJ    [XXXAO]  
+rude/unrefined; cruel/violent/savage/raging/drastic; stern/severe/bitter; hard;
+
+difficilis, difficile, difficilior -or -us, difficillimus -a -um  ADJ    [XXXBO]  
+difficult, troublesome; hard; hard to please/manage/deal with/carry out;
+
+callosus, callosa -um, callosior -or -us, callosissimus -a -um  ADJ    [XXXCO]  
+tough, hard/thick-skinned; made hard/tough by use; callused, indurated;
+*
+
+=>Blank exits =>
+numquam  ADV    [XXXAX]  
+never;
+
+nequando  ADV    [XXXCW]  
+lest, lest ever; never, not ever;
+
+nunquam  ADV    [XXXDX]  
+at no time, never; not in any circumstances;
+
+nihilominus  ADV    [XXXDX]  
+never/none the less, notwithstanding, just the same; likewise, as well;
+
+inexstinctus, inexstincta, inexstinctum  ADJ    [XXXDX]  
+that is never extinguished;
+
+inocciduus, inoccidua, inocciduum  ADJ    [XXXEC]  
+never setting;
+
+=>
+inquiam, -, -  V     7 2 [XXXAX]  
+say (defective); (postpositive - for direct quote); [inquiens => saying];
+
+dico, dicere, dixi, dictus  V (3rd)     3 1 [XXXAO]  
+say, declare, state; allege, declare positively; assert; plead (case);
+
+aio, -, -  V     7 1 [XXXAO]  
+say (defective), assert; say yes/so, affirm, assent; prescribe/lay down (law);
+
+loquor, loqui, locutus sum  V (3rd) DEP     3 1  DEP   [XXXAX]  
+speak, tell; talk; mention; say, utter; phrase;
+
+addo, addere, addidi, additus  V (3rd) TRANS     3 1  TRANS   [XXXAO]  
+add, insert, bring/attach to, say in addition; increase; impart; associate;
+
+nego, negare, negavi, negatus  V (1st)     1 1 [XXXAX]  
+deny, refuse; say ... not;
+*
+
+=>
+consisto, consistere, constiti, constitus  V (3rd)     3 1 [XXXAO]  
+stop/stand/halt/cease; pause, linger; stop spreading/flowing; take a position;
+
+mansio, mansionis  N (3rd) F     3 1  F   [XXXBO]  
+lodging, stop; day's journey, stage; staying away; abode/quarters/home/dwelling;
+
+desisto, desistere, destiti, destitus  V (3rd)     3 1 [XXXBO]  
+stop/cease/desist (from); give up, leave/stand off; dissociate oneself;
+
+desino, desinere, desivi, desitus  V (3rd)     3 1 [XXXBO]  
+stop/end/finish, abandon/leave/break off, desist/cease; come to/at end/close;
+
+conmoror, conmorari, conmoratus sum  V (1st) DEP     1 1  DEP   [XXXBS]  
+stop/stay/remain, abide; linger, delay; detain, be delayed (menses); dwell on;
+
+commoror, commorari, commoratus sum  V (1st) DEP     1 1  DEP   [XXXBO]  
+stop/stay/remain, abide; linger, delay; detain, be delayed (menses); dwell on;
+*
+
