@@ -40,10 +40,11 @@ Build-time Dependencies
 
 * GPRBuild
 * gnat
+* python3 (for tests)
 
 On a Debian-like system, you can install these roughly as follows:
 
-    $ apt-get install gprbuild gnat
+    $ apt-get install gprbuild gnat python3
 
 GNAT versions before 4.9 are believed to link against a buggy runtime on
 64-bit platforms, so should be avoided.

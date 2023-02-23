@@ -382,3 +382,4 @@ commoror, commorari, commoratus sum  V (1st) DEP     1 1  DEP   [XXXBO]
 stop/stay/remain, abide; linger, delay; detain, be delayed (menses); dwell on;
 *
 
+=>Blank exits =>

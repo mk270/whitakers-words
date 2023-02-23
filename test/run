@@ -1,0 +1,133 @@
+#!/usr/bin/python3
+
+"""Test Whitaker's words."""
+
+import glob
+import os.path
+import shutil
+import subprocess
+import sys
+import tempfile
+
+testdir = os.path.abspath(os.path.dirname(sys.argv[0]))
+
+prog = os.path.join(testdir, '..', 'bin', 'words')
+datadir = os.path.join(testdir, '..')
+for arg_index in range(1, len(sys.argv)):
+    arg = sys.argv[arg_index]
+    if arg.startswith('--prog='):
+        prog = arg[7:]
+    elif arg.startswith('--datadir='):
+        datadir = arg[10:]
+    else:
+        print(sys.argv[0], ': unknown argument:', arg)
+        sys.exit(1)
+
+
+def check(test: str) -> bool:
+    """The test name is a subdirectory in testdir.
+
+    If args.txt exists, each line is a command line arguments.
+
+    If input.txt exists, its content is passed on standard input.
+
+    The standard output must match expected.txt, except that
+    * trailing whitespaces are ignored,
+    * the first 18 lines are ignored in interactive mode (if input.txt
+      exists) because it contains a header, no latin.
+    """
+
+    # Required to test file inclusion.
+    os.chdir(os.path.join(testdir, test))
+
+    args = [prog]
+    args_path = 'args.txt'
+    if os.path.exists(args_path):
+        with open(args_path, encoding='utf-8') as args_fd:
+            args.extend(line.rstrip() for line in args_fd)
+
+    input_path = 'input.txt'
+    if os.path.exists(input_path):
+        with open(input_path, 'rb') as input_fd:
+            input_bytes = input_fd.read()
+    else:
+        input_bytes = b''
+
+    words = subprocess.run(args, input=input_bytes,
+                           capture_output=True, check=False)
+
+    result = True
+
+    if words.returncode != 0:
+        print(f'Test {test}: return code: {words.returncode}')
+        result = False
+
+    if words.stderr != b'':
+        print(f'-- Begin of standard error of {test}')
+        print(words.stderr.decode('utf-8'))
+        print(f'-- End of standard error of {test}')
+        result = False
+
+    expected_path = 'expected.txt'
+    got = words.stdout
+    if input_bytes != b'':
+        # Skip the interactive mode header.
+        got = b'\n'.join(got.split(b'\n')[18:])
+    diff_args = ('diff', '-uZ', expected_path, '-')
+    # This writes the differences on standard output, if any.
+    diff = subprocess.run(diff_args, input=got, check=False)
+    if diff.returncode != 0:
+        print()
+        print()
+        print(f'-- Begin of raw standard output of {test}')
+        print(words.stdout.decode('utf-8'))
+        print(f'-- End of raw standard output of {test} (diff above)')
+        print()
+        print()
+        result = False
+
+    print('Test', test, ':', ('FAIL', 'PASS')[result])
+    return result
+
+
+def run_some_tests() -> dict[str, bool]:
+    """
+    Create a temporary datadir with the test configuration, mostly
+    in order to select some non-interactive input options.  The other
+    files required at run time are copied from HOWTO.txt.
+    """
+
+    results: dict[str, bool] = {}
+
+    with tempfile.TemporaryDirectory() as temp_dir:
+        os.environ['WHITAKERS_WORDS_DATADIR'] = temp_dir
+
+        shutil.copy(os.path.join(testdir, 'WORD.MDV'), temp_dir)
+        for data_file in ('INFLECTS.SEC', 'ADDONS.LAT', 'UNIQUES.LAT',
+                          'DICTFILE.GEN', 'STEMFILE.GEN', 'INDXFILE.GEN',
+                          'EWDSFILE.GEN'):
+            shutil.copy(os.path.join(datadir, data_file), temp_dir)
+
+        # If the initial smoke test fails, don't waste time on other
+        # tests, and just let the whole thing crash.
+        results['smoke'] = check('smoke')
+        if results['smoke']:
+            for test in glob.glob('[0-9][0-9]_*', root_dir=testdir):
+                results[test] = check(test)
+
+    return results
+
+
+def show(results: dict[str, bool]) -> None:
+    """Display a final summary."""
+    if all(results.values()):
+        print('All tests passed')
+    else:
+        print('Some tests failed:')
+        for test, result in results.items():
+            if not result:
+                print(' ', test)
+        sys.exit(1)
+
+
+show(run_some_tests())

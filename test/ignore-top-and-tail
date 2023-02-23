@@ -1,8 +1,0 @@
-#!/bin/sed -f
-
-# Trim header and footer in output of the main executable, in order to
-# ease comparison during tests.
-# A separate command is convenient when updating the expected results.
-
-1,18 d
-$ d
