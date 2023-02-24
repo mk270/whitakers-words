@@ -17,7 +17,7 @@
 with Ada.Integer_Text_IO;
 with Ada.Float_Text_IO;
 with Text_IO;
-with Direct_IO;
+with Ada.Containers.Ordered_Sets;
 with Latin_Utils.Strings_Package; use Latin_Utils.Strings_Package;
 with Latin_Utils.Dictionary_Package; use Latin_Utils.Dictionary_Package;
 procedure Sorter is
@@ -44,13 +44,9 @@ procedure Sorter is
    --   CURRENT_LENGTH : CURRENT_LINE_LENGTH_TYPE := 0;
    --   TEXT : TEXT_TYPE;
    -- end record;
-   package Line_Io is new Direct_IO (Text_Type);
-   use Line_Io;
    Blank_Text : constant Text_Type := (others => ' ');
 
    Line_Text : Text_Type := Blank_Text;
-   Old_Line : Text_Type := Blank_Text;
-   P_Line : Text_Type := Blank_Text;
 
    type Sort_Type is (A, C, G, U, N, F, P, S);
    package Sort_Type_Io is new Text_IO.Enumeration_IO (Sort_Type);
@@ -62,7 +58,6 @@ procedure Sorter is
 
    Input  : Text_IO.File_Type;
    Output : Text_IO.File_Type;
-   Work   : Line_Io.File_Type;
 
    M1, M2, M3, M4 : Natural := 1;
    N1, N2, N3, N4 : Natural := Line_Length;
@@ -754,6 +749,8 @@ procedure Sorter is
       return T;
    end Graphic;
 
+   package Ordered_Sets is new Ada.Containers.Ordered_Sets (Text_Type, Lt);
+   Work : Ordered_Sets.Set;
 begin
 
    New_Line;
@@ -793,11 +790,6 @@ begin
          null;
    end;
 
-   --PUT_LINE ("CREATING WORK FILE");
-   New_Line;
-   Create (Work, Inout_File, "WORK.");
-   Put_Line ("CREATED  WORK FILE");
-
    while not End_Of_File (Input)  loop
       --begin
       Get_Line (Input, Line_Text, Current_Length);
@@ -809,7 +801,7 @@ begin
 
       if Trim (Line_Text (1 .. Current_Length)) /= ""  then
          --begin
-         Write (Work, Head (Line_Text (1 .. Current_Length), Line_Length));
+         Work.Insert (Head (Line_Text (1 .. Current_Length), Line_Length));
          --exception when others  =>
          --TEXT_IO.PUT_LINE ("WORK WRITE exception");
          --TEXT_IO.PUT_LINE (LINE_TEXT (1 .. CURRENT_LENGTH) & "|");
@@ -818,105 +810,31 @@ begin
    end loop;
    Close (Input);
 
-   Put_Line ("Begin sorting");
-
-   Line_Heapsort :
-   declare
-
-      L    : Line_Io.Positive_Count := Size (Work) / 2 + 1;
-      Ir   : Line_Io.Positive_Count := Size (Work);
-      I, J : Line_Io.Positive_Count;
-
-   begin
-      Text_IO.Put_Line ("SIZE OF WORK = " &
-        Integer'Image (Integer (Size (Work))));
-      Main :
-      loop
-
-         if L > 1  then
-            L := L - 1;
-            Read (Work, Line_Text, L);
-            Old_Line := Line_Text;
-         else
-            Read (Work, Line_Text, Ir);
-            Old_Line := Line_Text;
-            Read (Work, Line_Text, 1);
-            Write (Work, Line_Text, Ir);
-            Ir := Ir - 1;
-            if Ir = 1 then
-               Write (Work, Old_Line, 1);
-               exit Main;
-            end if;
-         end if;
-         I := L;
-         J := L + L;
-
-         while J <= Ir   loop
-            if J < Ir  then
-               Read (Work, Line_Text, J);
-               Read (Work, P_Line, J + 1);
-               --if LT (LINE.TEXT, P_LINE.TEXT)  then
-               if Lt (Line_Text, P_Line)  then
-                  J := J + 1;
-               end if;
-            end if;
-            Read (Work, Line_Text, J);
-            --if OLD_LINE.TEXT < LINE.TEXT  then
-            if Lt (Old_Line, Line_Text)  then
-               Write (Work, Line_Text, I);
-               I := J;
-               J := J + J;
-            else
-               J := Ir + 1;
-            end if;
-         end loop;
-         Write (Work, Old_Line, I);
-
-      end loop Main;
-
-   exception
-      when Constraint_Error => Put_Line ("HEAP CONSTRAINT_ERROR");
-      when others           => Put_Line ("HEAP other_ERROR");
-   end Line_Heapsort;
-
-   Put_Line ("Finished sorting in WORK");
-
    Create_File_For_Output (Output, "Where to put the output => ");
 
-   --RESET (WORK);
-   Set_Index (Work, 1);
-   while not End_Of_File (Work)  loop
-      Read (Work, Line_Text);
+   for Line_Text of Work loop
       if Trim (Graphic (Line_Text))'Length > 0  then
          --PUT_LINE (TRIM (LINE_TEXT, RIGHT));
          Put_Line (Output, Trim (Line_Text, Right));
       end if;
    end loop;
 
-   Close (Work);
    Close (Output);
    Put_Line ("Done!");
    New_Line;
 
 exception
-   when Program_Error  =>
-      Put_Line ("SORT terminated on a PROGRAM_ERROR");
-      Close (Output);
-   when Text_IO.Data_Error =>     --Terminate on primary start or size = 0
-      Put_Line ("SORT terminated on a DATA_ERROR");
-      Put_Line (Line_Text);
-      Close (Output);
-   when Constraint_Error =>       --Terminate on blank line for file name
-      Put_Line ("SORT terminated on a CONSTRAINT_ERROR");
-      Close (Output);
-   when Text_IO.Device_Error  =>     --Ran out of space to write output file
-      Put_Line ("SORT terminated on a DEVICE_ERROR");
-      Delete (Output);
-      Create_File_For_Output (Output, "Wherelse to put the output => ");
-      Reset (Work);
-      while not End_Of_File (Work)  loop
-         Read (Work, Line_Text);
-         Put_Line (Output, Line_Text);    --(1 .. LINE.CURRENT_LENGTH));
-      end loop;
-      Close (Output);
+   when others =>
+      if Is_Open (Input) then
+         Put (Standard_Error, "error: ");
+         Put (Standard_Error, Name (Input));
+         Put (Standard_Error, ':');
+         Put (Standard_Error, Line (Input)'Img);
+         New_Line (Standard_Error);
+         Close (Input);
+      end if;
+      if Is_Open (Output) then
+         Close (Output);
+      end if;
+      raise;
 end Sorter;

@@ -8,11 +8,9 @@ GPRBUILD_OPTIONS                        := -j4
 export ADAFLAGS                         ?=
 export LDFLAGS                          ?=
 
-# For each library, a static archive is built by default but a
+# For the library, a static archive is built by default but a
 # non-empty shared object version selects a relocatable library
 export latin_utils_soversion            :=
-export support_utils_soversion          :=
-export words_engine_soversion           :=
 
 # Directory where dictionnary files are created and searched for.
 # This variable is expected to be overridden at build time, with some
@@ -24,10 +22,13 @@ datadir                                 := .
 # ignore any previous version already installed in $(datadir).
 export WHITAKERS_WORDS_DATADIR := .
 
-generated_sources := src/latin_utils/latin_utils-config.adb
+# If a relocatable library has been selected, tell the dynamic loader
+# where to find it during tests or generation of the dictionaries.
+ifneq (,$(latin_utils_soversion))
+  export LD_LIBRARY_PATH := $(if $(LD_LIBRARY_PATH),$(LD_LIBRARY_PATH):)lib/latin_utils-dynamic
+endif
 
-PROGRAMMES := makedict makeefil makeewds makeinfl makestem meanings wakedict \
-  words
+generated_sources := src/latin_utils/latin_utils-config.adb
 
 .PHONY: all
 
@@ -35,48 +36,33 @@ all: commands data
 
 # This target is more efficient than separate gprbuild runs because
 # the dependency graph is only constructed once.
-.PHONY: commands
-commands: $(generated_sources)
+# commands is an actual file.  Its timestamps allows Make to run
+# gprbuild only when a source has changed.
+commands: $(generated_sources) $(wildcard src/*/*.adb src/*/*.ads)
 	$(GPRBUILD) -p $(GPRBUILD_OPTIONS) commands.gpr
+	touch $@
 
-# Targets delegated to gprbuild are declared phony even if they build
-# concrete files, because Make ignores all about Ada dependencies.
-.PHONY: $(PROGRAMMES)
-$(PROGRAMMES): $(generated_sources)
-	$(GPRBUILD) -p $(GPRBUILD_OPTIONS) commands.gpr $@
-
-.PHONY: sorter
-sorter: $(generated_sources)
-	$(GPRBUILD) -p $(GPRBUILD_OPTIONS) tools.gpr $@
-
-# Executable targets are phony (see above), so we tell Make to only
-# check that they exist but ignore the timestamp.  This is not
-# perfect, but at least Make
-# * updates the output data if the input data changes
-# * builds the generator if it does not exist yet
-
-DICTFILE.GEN: DICTLINE.GEN | wakedict
+DICTFILE.GEN: DICTLINE.GEN commands
 	echo g | bin/wakedict $<
 	mv STEMLIST.GEN STEMLIST_generated.GEN
 
-STEMLIST.GEN: DICTLINE.GEN | sorter
+STEMLIST.GEN: DICTLINE.GEN commands
 	rm -f -- $@
 	bin/sorter < stemlist-sort.txt
 	mv -f -- STEMLIST_new.GEN $@
 	rm -f STEMLIST_generated.GEN
-	rm -f WORK.
 
-EWDSFILE.GEN: EWDSLIST.GEN | makeefil
+EWDSFILE.GEN: EWDSLIST.GEN commands
 	bin/makeefil
 
-EWDSLIST.GEN: DICTLINE.GEN | makeewds
+EWDSLIST.GEN: DICTLINE.GEN commands
 	echo g | bin/makeewds $<
 	LC_COLLATE=C sort -o $@ $@
 
-INFLECTS.SEC: INFLECTS.LAT | makeinfl
+INFLECTS.SEC: INFLECTS.LAT commands
 	bin/makeinfl $<
 
-STEMFILE.GEN INDXFILE.GEN: STEMLIST.GEN | makestem
+STEMFILE.GEN INDXFILE.GEN: STEMLIST.GEN commands
 	echo g | bin/makestem $<
 
 GENERATED_DATA_FILES := DICTFILE.GEN STEMFILE.GEN INDXFILE.GEN EWDSLIST.GEN \
@@ -95,7 +81,8 @@ clean_data:
 
 clean: clean_data
 	rm -fr bin lib obj
-	rm -f WORK. STEMLIST_generated.GEN STEMLIST_new.GEN $(generated_sources)
+	rm -f STEMLIST_generated.GEN STEMLIST_new.GEN \
+	  $(generated_sources) commands
 
 $(generated_sources): %: %.in Makefile
 	sed 's|@datadir@|$(datadir)|' $< > $@
