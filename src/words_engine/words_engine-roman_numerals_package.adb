@@ -67,238 +67,67 @@ package body Words_Engine.Roman_Numerals_Package is
 
    function Roman_Number (St : String) return Natural is
       --  Determines and returns the value of a Roman numeral, or 0 if invalid
-
       Total : Natural := 0;
       Invalid : exception;
-      J : Integer := 0;
       S : constant String := Upper_Case (St);
+      PrevNum : Natural := 0;
+
+      function GetNumValue (C : Character) return Natural is
+      begin
+         case C is
+            when 'I' => return 1;
+            when 'V' => return 5;
+            when 'X' => return 10;
+            when 'L' => return 50;
+            when 'C' => return 100;
+            when 'D' => return 500;
+            when 'M' => return 1000;
+            when others => raise Invalid;
+         end case;
+      end GetNumValue;
 
    begin
-      if Only_Roman_Digits (S)  then
+      if not Only_Roman_Digits (S) then
+         return 0;
+      end if;
 
-         --
-         --NUMERALS IN A STRING ARE ADDED: CC = 200 ; CCX = 210.
-         --ONE NUMERAL TO THE LEFT of A LARGER NUMERAL IS SUBTRACTED FROM
-         --THAT NUMBER: IX = 9
-         --
-         --SUBTRACT ONLY A SINGLE LETTER FROM A SINGLE NUMERAL.
-         --VIII FOR 8, NOT IIX; 19 IS XIX, NOT IXX.
-         --
-         --SUBTRACT ONLY POWERS of TEN, SUCH AS I, X, or C.
-         --NOT VL FOR 45, BUT XLV.
-         --
-         --DON'T SUBTRACT A LETTER FROM ANOTHER LETTER MORE THAN TEN TIMES
-         --GREATER.
-         --ONLY SUBTRACT I FROM V or X, and X FROM L or C.
-         --NOT IL FOR 49, BUT XLIX. MIM is ILLEGAL.
-         --
-         --ONLY IF ANY NUMERAL PRECEDING IS AT LEAST TEN TIMES LARGER.
-         --NOT VIX FOR 14, BUT XIV.
-         --NOT  IIX, BUT VIII.
-         --ONLY IF ANY NUMERAL FOLLOWING IS SMALLER.
-         --NOT XCL FOR 140, BUT CXL.
-         --
-         J := S'Last;
-
-         Evaluate :
-         while J >= S'First  loop
-            --
-            --Legal in the Ones position
-            --  I
-            --  II
-            --  III
-            --  IIII    IV
-            --  V
-            --  VI
-            --  VII
-            --  VIII
-            --  VIIII   IX
-            --
-            --
-            --  Ones
-            if S (J) = 'I' then
-               Total := Total + 1;
-               J := J - 1;
-               exit Evaluate when J < S'First;
-               while S (J) = 'I'  loop
-                  Total := Total + 1;
-                  if Total >= 5  then
-                     raise Invalid;
-                  end if;
-                  J := J - 1;
-                  exit Evaluate when J < S'First;
-               end loop;
+      for I in reverse S'Range loop
+         declare
+            C : Character := S(I);
+            CValue : Natural := GetNumValue(C);
+         begin
+            if CValue < PrevNum then
+               Total := Total - CValue;
+            else
+               Total := Total + CValue;
+               PrevNum := CValue;
             end if;
 
-            if S (J) = 'V'  then
-               Total := Total + 5;
-               J := J - 1;
-               exit Evaluate when J < S'First;
-               if S (J) = 'I'  and Total = 5  then
-                  Total := Total - 1;
-                  J := J - 1;
-                  exit Evaluate when J < S'First;
-               end if;
-
-               if S (J) = 'I' or S (J) = 'V'  then
-                  raise Invalid;
-               end if;
+            -- Roman numeral above 5000 are too rare to be valid
+            if Total >= 5000 then
+               raise Invalid;
             end if;
 
-            --
-            --Legal in the tens position
-            --  X
-            --  XX
-            --  XXX
-            --  XXXX    XL
-            --  L
-            --  LX
-            --  LXX
-            --  LXXX
-            --  LXXXX   XC
-            --
-
-            --  Tens
-            if S (J) = 'X'  then
-               Total := Total + 10;
-               J := J - 1;
-               exit Evaluate when J < S'First;
-               while S (J) = 'X'  loop
-                  Total := Total + 10;
-                  if Total >= 50 then
-                     raise Invalid;
-                  end if;
-                  J := J - 1;
-                  exit Evaluate when J < S'First;
-               end loop;
-
-               if S (J) = 'I'  and Total = 10  then
-                  Total := Total - 1;
-                  J := J - 1;
-                  exit Evaluate when J < S'First;
-               end if;
-
-               if S (J) = 'I' or S (J) = 'V'  then
-                  raise Invalid;
-               end if;
+            if (C = 'V' or C = 'L' or C = 'D') and (I > S'First) then
+               case S(I - 1) is
+                  when 'I' => raise Invalid;
+                  when 'V' => raise Invalid;
+                  when 'X' => raise Invalid;
+                  when 'L' => raise Invalid;
+                  when 'C' => raise Invalid;
+                  when 'D' => raise Invalid;
+                  when 'M' => raise Invalid;
+               end case;
             end if;
-
-            if S (J) = 'L'  then
-               Total := Total + 50;
-               J := J - 1;
-               exit Evaluate when J < S'First;
-
-               if S (J) = 'X'  and Total <= 59  then
-                  Total := Total - 10;
-                  J := J - 1;
-                  exit Evaluate when J < S'First;
-               end if;
-
-               if S (J) = 'I' or S (J) = 'V'
-                 or S (J) = 'X'  or S (J) = 'L'
-               then
-                  raise Invalid;
-               end if;
-
-               if S (J) = 'C'  then
-                  Total := Total + 100;
-                  J := J - 1;
-                  exit Evaluate when J < S'First;
-                  if S (J) = 'X'  and Total = 100  then
-                     Total := Total - 10;
-                     J := J - 1;
-                     exit Evaluate when J < S'First;
-                  end if;
-               end if;
-
-               if S (J) = 'I' or S (J) = 'V'  or
-                  S (J) = 'X'  or S (J) = 'L'
-               then
-                  raise Invalid;
-               end if;
-            end if;
-
-            if S (J) = 'C'  then
-               Total := Total + 100;
-               J := J - 1;
-               exit Evaluate when J < S'First;
-               while S (J) = 'C'  loop
-                  Total := Total + 100;
-                  if Total >= 500  then
-                     raise Invalid;
-                  end if;
-                  J := J - 1;
-                  exit Evaluate when J < S'First;
-               end loop;
-               if S (J) = 'X'  and Total <= 109  then
-                  Total := Total - 10;
-                  J := J - 1;
-                  exit Evaluate when J < S'First;
-               end if;
-               if S (J) = 'I' or S (J) = 'V'  or
-                  S (J) = 'X' or S (J) = 'L'
-               then
-                  raise Invalid;
-               end if;
-            end if;
-
-            if S (J) = 'D'  then
-               Total := Total + 500;
-               J := J - 1;
-               exit Evaluate when J < S'First;
-               if S (J) = 'C'  and Total <= 599  then
-                  Total := Total - 100;
-                  J := J - 1;
-                  exit Evaluate when J < S'First;
-               end if;
-               if S (J) = 'M'  then
-                  Total := Total + 1000;
-                  J := J - 1;
-                  exit Evaluate when J < S'First;
-               end if;
-               if S (J) = 'C'  and Total <= 1099  then
-                  Total := Total - 100;
-                  J := J - 1;
-                  exit Evaluate when J < S'First;
-               end if;
-               if S (J) = 'I' or S (J) = 'V' or
-                  S (J) = 'X' or S (J) = 'L' or S (J) = 'C' or S (J) = 'D'
-               then
-                  raise Invalid;
-               end if;
-            end if;
-
-            if S (J) = 'M'  then
-               Total := Total + 1000;
-               J := J - 1;
-               exit Evaluate when J < S'First;
-               while S (J) = 'M'  loop
-                  Total := Total + 1000;
-                  if Total >= 5000  then
-                     raise Invalid;
-                  end if;
-                  J := J - 1;
-                  exit Evaluate when J < S'First;
-               end loop;
-               if S (J) = 'C'  and Total <= 1099  then
-                  Total := Total - 100;
-                  J := J - 1;
-                  exit Evaluate when J < S'First;
-               end if;
-               if S (J) = 'I' or S (J) = 'V' or
-                  S (J) = 'X' or S (J) = 'L' or S (J) = 'C' or S (J) = 'D'
-               then
-                  raise Invalid;
-               end if;
-            end if;
-         end loop Evaluate;
-      end if;  --  On Only Roman digits
+         end;
+      end loop;
 
       return Total;
+
    exception
-      when Invalid  =>
+      when Invalid =>
          return 0;
-      when Constraint_Error  =>
+      when Constraint_Error =>
          return 0;
    end Roman_Number;
 
