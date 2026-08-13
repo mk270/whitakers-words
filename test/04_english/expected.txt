@@ -146,11 +146,11 @@ breath, snorting; breeze, wind, draught, (hot) blast; stench; inspiration, flash
 adflatus, adflatus  N (4th) M     4 1  M   [XXXBO]  
 breath, snorting; breeze, wind, draught, (hot) blast; stench; inspiration;
 
-flamen, flaminis  N (3rd) N     3 2  N   [XXXCO]  
-gust/blast (of wind); gale; breath/exhalation; wind/breeze; note on woodwind;
-
 aer, aeris  N C     3 6  C   [XXXCO]  
 air (one of 4 elements); atmosphere, sky; cloud, mist, weather; breeze; odor;
+
+flamen, flaminis  N (3rd) N     3 2  N   [XXXCO]  
+gust/blast (of wind); gale; breath/exhalation; wind/breeze; note on woodwind;
 *
 
 =>Blank exits =>No Match
@@ -239,10 +239,10 @@ plate; veneer; thin sheet of metal/other material; (blade); money/cash;
 facio, facere, feci, factus  V (3rd) TRANS     3 1  TRANS   [XXXAO]  
 make/build/construct/create/cause/do; have built/made; fashion; work (metal);
 
-como, comere, compsi, comptus  V (3rd) TRANS     3 1  TRANS   [XXXCO]  
+como, comere, comsi, comtus  V (3rd) TRANS     3 1  TRANS   [XXXCS]  
 arrange/do (hair); adorn, make beautiful; embellish; arrange in order, set out;
 
-como, comere, comsi, comtus  V (3rd) TRANS     3 1  TRANS   [XXXCS]  
+como, comere, compsi, comptus  V (3rd) TRANS     3 1  TRANS   [XXXCO]  
 arrange/do (hair); adorn, make beautiful; embellish; arrange in order, set out;
 
 facio, facere, feci, factus  V (3rd) TRANS     3 1  TRANS   [XXXAO]  
@@ -293,14 +293,14 @@ Here she/it is!; Behold!, Observe!, Lo!; There you are!;
 eccam  INTERJ    [XXXDO]  
 Here she/it is!; Behold!, Observe!, Lo!;
 
-eccillam  INTERJ    [XXXEO]  
-There she/it is!; Behold!, Observe!, Lo!;
-
 eccillum  INTERJ    [XXXEO]  
 There he/it is!; Behold!, Observe!, Lo!;
 
-eccillud  INTERJ    [XXXFO]  
-There it is!; Behold!, Observe!, Lo!;
+eccillam  INTERJ    [XXXEO]  
+There she/it is!; Behold!, Observe!, Lo!;
+
+eccum  INTERJ    [XXXFO]  
+Here he/it is!; Behold!, Observe!, Lo!;
 *
 
 =>
@@ -333,11 +333,11 @@ lest, lest ever; never, not ever;
 nunquam  ADV    [XXXDX]  
 at no time, never; not in any circumstances;
 
-nihilominus  ADV    [XXXDX]  
-never/none the less, notwithstanding, just the same; likewise, as well;
-
 inexstinctus, inexstincta, inexstinctum  ADJ    [XXXDX]  
 that is never extinguished;
+
+nihilominus  ADV    [XXXDX]  
+never/none the less, notwithstanding, just the same; likewise, as well;
 
 inocciduus, inoccidua, inocciduum  ADJ    [XXXEC]  
 never setting;
