@@ -608,7 +608,7 @@ procedure Makeewds is
          if Ewa (Z).W /= Null_Eword then
 
                INNER_LOOP :
-               for ZZ in (Z + 1) .. Ewa'Last loop
+               for ZZ in Z + 1 .. Ewa'Last loop
                   if Ewa (Z).W = Ewa (ZZ).W then
                      Ewa (ZZ).W := Null_Eword;
                   end if;
