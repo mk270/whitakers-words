@@ -15,16 +15,15 @@ declare -a tmpfiles
 
 register-tmp () {
     local tmpfile=$1
-    tmpfiles+=($tmpfile)
+    tmpfiles+=("$tmpfile")
 }
 
-# mktemp () is LSB:
-which tempfile &> /dev/null || tempfile () { mktemp "$@"; }
+tempfile () { mktemp "$@" 2>/dev/null || mktemp -t tmp; }
 
 create-tmp () {
     declare -n ref=$1
     local TMP=$(tempfile)
-    register-tmp $TMP
+    register-tmp "$TMP"
     ref=$TMP
 }
 
