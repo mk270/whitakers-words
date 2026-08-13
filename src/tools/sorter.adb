@@ -16,14 +16,15 @@
 
 with Ada.Integer_Text_IO;
 with Ada.Float_Text_IO;
-with Text_IO;
-with Direct_IO;
+with Ada.Text_IO;
+with Ada.Direct_IO;
 with Latin_Utils.Strings_Package; use Latin_Utils.Strings_Package;
 with Latin_Utils.Dictionary_Package; use Latin_Utils.Dictionary_Package;
 procedure Sorter is
    --  This program sorts a file of lines (Strings) on 4 subStrings Mx .. Nx
    --  Sort by Stringwise (different cases), numeric, or POS enumeration
 
+   package Text_IO renames Ada.Text_IO;
    use Ada.Integer_Text_IO;
    use Text_IO;
 
@@ -44,7 +45,7 @@ procedure Sorter is
    --   CURRENT_LENGTH : CURRENT_LINE_LENGTH_TYPE := 0;
    --   TEXT : TEXT_TYPE;
    -- end record;
-   package Line_Io is new Direct_IO (Text_Type);
+   package Line_Io is new Ada.Direct_IO (Text_Type);
    use Line_Io;
    Blank_Text : constant Text_Type := (others => ' ');
 

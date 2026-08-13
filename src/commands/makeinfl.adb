@@ -20,7 +20,7 @@ with Latin_Utils.Config;
 with Latin_Utils.Strings_Package; use Latin_Utils.Strings_Package;
 with Latin_Utils.Latin_File_Names; use Latin_Utils.Latin_File_Names;
 with Latin_Utils.Inflections_Package; use Latin_Utils.Inflections_Package;
-with IO_Exceptions;
+with Ada.IO_Exceptions;
 with Ada.Exceptions;
 
 procedure Makeinfl is
@@ -108,7 +108,7 @@ procedure Makeinfl is
                   Number_Of_Inflections := Number_Of_Inflections + 1;
                end if;
             exception
-               when E : Constraint_Error | IO_Exceptions.Data_Error  =>
+               when E : Constraint_Error | Ada.IO_Exceptions.Data_Error  =>
                   Put_Line ("");
                   Put_Line (Ada.Exceptions.Exception_Name (E) & ": " &
                     Line (1 .. Last));
