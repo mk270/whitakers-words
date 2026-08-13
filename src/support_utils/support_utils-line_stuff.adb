@@ -15,6 +15,8 @@
 -- available to anyone who wishes to use them, for whatever purpose.
 
 with Ada.Strings.Fixed;
+with Ada.Strings.Maps;
+
 with Support_Utils.Word_Support_Package; use Support_Utils.Word_Support_Package;
 with Latin_Utils.Config;
 with Latin_Utils.Strings_Package; use Latin_Utils.Strings_Package;
@@ -112,15 +114,10 @@ package body Support_Utils.Line_Stuff is
          --TEXT_IO.PUT_LINE ("READ MEANING");
 
          --  Now take care of other first letters in a gross way
-         Fc1 := Lower_Case (Sts (1)(1));
-         Fc2 := Lower_Case (Sts (2)(1));
-         Fc3 := Lower_Case (Sts (3)(1));
-         Fc4 := Lower_Case (Sts (4)(1));
-
-         Char_Utils.V_To_U_And_J_To_I (Fc1);
-         Char_Utils.V_To_U_And_J_To_I (Fc2);
-         Char_Utils.V_To_U_And_J_To_I (Fc3);
-         Char_Utils.V_To_U_And_J_To_I (Fc4);
+         Fc1 := Ada.Strings.Maps.Value (Char_Utils.Normalize, Sts (1)(1));
+         Fc2 := Ada.Strings.Maps.Value (Char_Utils.Normalize, Sts (2)(1));
+         Fc3 := Ada.Strings.Maps.Value (Char_Utils.Normalize, Sts (3)(1));
+         Fc4 := Ada.Strings.Maps.Value (Char_Utils.Normalize, Sts (4)(1));
 
          if Pt.Pofs = N  then
             if Sts (2)(1) /= Sts (1)(1)  and then

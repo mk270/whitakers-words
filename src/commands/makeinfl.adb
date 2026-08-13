@@ -90,7 +90,7 @@ procedure Makeinfl is
          L_I := Null_Latin_Inflections;
          Open (Inflections_File, In_File,
                Latin_Utils.Config.Path (Inflections_Full_Name));
-         Ada.Text_IO.Put ("INFLECTIONS file loading");
+         Ada.Text_IO.Put_Line ("INFLECTIONS file loading");
          while not End_Of_File (Inflections_File)  loop
             -- read_a_line :
             begin

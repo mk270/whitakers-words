@@ -16,7 +16,6 @@
 
 with Makedict_Main;
 procedure Wakedict is
-   Porting : constant Boolean := False;
 begin
-   Makedict_Main (Porting);
+   Makedict_Main (Porting => False);
 end Wakedict;

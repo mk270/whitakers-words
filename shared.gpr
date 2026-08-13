@@ -23,7 +23,7 @@ abstract project Shared is
          -- Don't quit, write ali/tree file even if compile errors
          "-gnatQ",
          -- Style
-         "-gnaty3aAbefhiklnOM80prtSux")
+         "-gnaty3aAbdefhiklM80nOprStux")
         --  Put user settings last so that they may override the
         --  default values.
         & Adaflags;
