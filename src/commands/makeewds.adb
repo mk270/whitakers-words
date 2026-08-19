@@ -640,7 +640,8 @@ begin
    Latin_Utils.General.Load_Dictionary (Line, Last, D_K);
 
    Open (Input, In_File,
-         Latin_Utils.Config.Path (Dict_Line_Name & '.' & Ext (D_K)));
+         Latin_Utils.Config.Path (Dict_Line_Name & '.' & Ext (D_K)),
+         Form => "Text_Translation=No");
    --PUT_LINE ("OPEN");
 
    if not Porting  then
