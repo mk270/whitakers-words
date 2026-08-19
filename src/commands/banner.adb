@@ -22,7 +22,7 @@ package body Banner is
                                 Change_Parameters_Character : Character;
                                 Help_Character : Character)
    is
-      Version : constant String := "Version 1.97FC";
+      Version : constant String := "Version 1.99.0";
       URL     : constant String := "http://www.erols.com/whitaker/words.htm";
       Address : constant String := "Box 51225  Midland  TX  79710  USA";
    begin
