@@ -1,9 +1,6 @@
 name: Build platform binaries
 
-# Builds binaries and uploads them as workflow-run artifacts (NOT release
-# assets). Nothing here touches any GitHub Release; that wiring comes
-# later, once these are proven. Starting with Linux only; Windows and
-# macOS jobs will be added once this one is solid.
+# Builds binaries and uploads them as workflow-run artifacts.
 
 on:
   push:
@@ -45,3 +42,47 @@ jobs:
         with:
           name: whitakers-words-linux-x86_64
           path: whitakers-words-linux-x86_64.tar.gz
+
+  build-windows:
+    runs-on: windows-latest
+    defaults:
+      run:
+        shell: bash
+    steps:
+      - uses: actions/checkout@v4
+
+      # UNTESTED: windows-latest ships Git Bash (sed/diff/tar/etc.) but not
+      # GNU Make, which this project's build depends on throughout.
+      - name: Install make
+        run: choco install make -y
+
+      # UNTESTED: acquiring an Ada toolchain via Alire. setup-alire installs
+      # the `alr` tool itself; the `alr toolchain --install` call is what
+      # actually fetches gnat/gprbuild and is the step most likely to need
+      # adjustment once we see it run for real.
+      - uses: alire-project/setup-alire@v4
+
+      - name: Install Ada toolchain
+        run: |
+          alr toolchain --install gnat_native gprbuild --assume-yes
+          alr printenv >> "$GITHUB_ENV" || true
+
+      - name: Build
+        run: make
+
+      - name: Test
+        run: make test
+
+      - name: Package
+        run: |
+          pkg="whitakers-words-windows-x86_64"
+          mkdir -p "$pkg"/bin
+          cp bin/words.exe bin/meanings.exe "$pkg"/bin/
+          cp DICTFILE.GEN STEMFILE.GEN INDXFILE.GEN INFLECTS.SEC EWDSFILE.GEN \
+             UNIQUES.LAT ADDONS.LAT README.md LICENCE.txt HOWTO.txt "$pkg"/
+          7z a "${pkg}.zip" "$pkg" > /dev/null
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: whitakers-words-windows-x86_64
+          path: whitakers-words-windows-x86_64.zip
