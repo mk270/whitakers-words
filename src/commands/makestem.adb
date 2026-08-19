@@ -93,7 +93,8 @@ begin
    Latin_Utils.General.Load_Dictionary (Line, Last, D_K);
 
    Open (Stem_List (D_K), In_File,
-         Latin_Utils.Config.Path (Stem_List_Name & '.' & Ext (D_K)));
+         Latin_Utils.Config.Path (Stem_List_Name & '.' & Ext (D_K)),
+         Form => "Text_Translation=No");
 
    Create (Stem_File (D_K), Inout_File, Stem_File_Name & '.' & Ext (D_K));
 

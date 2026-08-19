@@ -190,7 +190,8 @@ package body Support_Utils.Word_Support_Package is
 
    begin
       Open (Indx_File (D_K), Ada.Text_IO.In_File,
-            Config.Path (Indx_File_Name & '.' & Ext (D_K)));
+            Config.Path (Indx_File_Name & '.' & Ext (D_K)),
+            Form => "Text_Translation=No");
       --"INDXFILE." & EXT (D_K)); --  $$$$$$$$$$$$
 
       Preface.Put (Dictionary_Kind'Image (D_K));

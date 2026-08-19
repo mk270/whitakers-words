@@ -25,7 +25,8 @@ procedure Makeefil is
    Ewds_List : Ada.Text_IO.File_Type;
    Ewds, New_Ewds : Ewds_Record := Null_Ewds_Record;
 begin
-   Open (Ewds_List, In_File, Latin_Utils.Config.Path ("EWDSLIST.GEN"));
+   Open (Ewds_List, In_File, Latin_Utils.Config.Path ("EWDSLIST.GEN"),
+         Form => "Text_Translation=No");
    Create (Ewds_File, Out_File, "EWDSFILE.GEN");
 
    while not Ada.Text_IO.End_Of_File (Ewds_List)  loop

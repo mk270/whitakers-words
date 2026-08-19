@@ -64,7 +64,8 @@ begin
    Latin_Utils.General.Load_Dictionary (Line, Last, D_K);
 
    Open (Input, In_File,
-         Latin_Utils.Config.Path (Dict_Line_Name & '.' & Ext (D_K)));
+         Latin_Utils.Config.Path (Dict_Line_Name & '.' & Ext (D_K)),
+         Form => "Text_Translation=No");
 
    if not Porting  then
       Create (Stemlist, Out_File, Stem_List_Name & '.' & Ext (D_K));

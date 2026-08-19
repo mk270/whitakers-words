@@ -89,7 +89,8 @@ package body Support_Utils.Addons_Package is
       end Extract_Fix;
 
    begin
-      Open (Addons_File, In_File, Latin_Utils.Config.Path (File_Name));
+      Open (Addons_File, In_File, Latin_Utils.Config.Path (File_Name),
+            Form => "Text_Translation=No");
       Preface.Put ("ADDONS");
       Preface.Put (" loading ");
 

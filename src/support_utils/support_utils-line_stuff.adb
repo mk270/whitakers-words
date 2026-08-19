@@ -491,7 +491,8 @@ package body Support_Utils.Line_Stuff is
    begin
       --TEXT_IO.PUT_LINE ("UNIQUES started");
       Ada.Text_IO.Open (Uniques_File, Ada.Text_IO.In_File,
-                        Latin_Utils.Config.Path (File_Name));
+                        Latin_Utils.Config.Path (File_Name),
+                        Form => "Text_Translation=No");
       Preface.Set_Col (1);
       Preface.Put ("UNIQUES file loading");
 
