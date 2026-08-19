@@ -4,7 +4,7 @@ name: Build platform binaries
 
 on:
   push:
-    branches: [rel-mgmt]
+    branches: [rel-mgmt, report-inflects]
   workflow_dispatch:
 
 jobs:
