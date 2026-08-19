@@ -56,16 +56,11 @@ jobs:
       - name: Install make
         run: choco install make -y
 
-      # UNTESTED: acquiring an Ada toolchain via Alire. setup-alire installs
-      # the `alr` tool itself; the `alr toolchain --install` call is what
-      # actually fetches gnat/gprbuild and is the step most likely to need
-      # adjustment once we see it run for real.
-      - uses: alire-project/setup-alire@v4
-
-      - name: Install Ada toolchain
-        run: |
-          alr toolchain --install gnat_native gprbuild --assume-yes
-          alr printenv >> "$GITHUB_ENV" || true
+      # Install GNAT + gprbuild and put them on PATH directly
+      - uses: ada-actions/toolchain@dev
+        with:
+          distrib: fsf
+          target: native
 
       - name: Build
         run: make
