@@ -51,15 +51,15 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      # UNTESTED: windows-latest ships Git Bash (sed/diff/tar/etc.) but not
+      # windows-latest ships Git Bash (sed/diff/tar/etc.) but not
       # GNU Make, which this project's build depends on throughout.
       - name: Install make
         run: choco install make -y
 
-      # Install GNAT + gprbuild and put them on PATH directly
+      # Install GNAT + gprbuild and put them on PATH directly.
       - uses: ada-actions/toolchain@dev
         with:
-          distrib: fsf
+          distrib: community
           target: native
 
       - name: Build
