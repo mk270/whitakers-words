@@ -48,7 +48,7 @@ fi
 #
 # If this fails, we don't waste time on other tests, and just let the
 # whole thing crash.
-$PROG 'rem acu tetigisti' | diff -q -- - test/expected.txt
+$PROG 'rem acu tetigisti' | diff -q --strip-trailing-cr -- - test/expected.txt
 
 report-result () {
     local test_name=$1
@@ -71,7 +71,7 @@ run-test () {
     $PROG < ${source} | $TRIM > $TMP_TRANSCRIPT
     [[ -v TRAVIS ]] && cat $TMP_TRANSCRIPT
 
-    if diff -Z -u -- - ${expected} < $TMP_TRANSCRIPT > $TMP_DISCREPANCIES
+    if diff -Z -u --strip-trailing-cr -- - ${expected} < $TMP_TRANSCRIPT > $TMP_DISCREPANCIES
     then
         report-result $test_name PASS
     else
