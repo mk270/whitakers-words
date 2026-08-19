@@ -259,8 +259,9 @@ procedure Makeinfl is
       Ada.Text_IO.Put_Line ("File INFLECTS.SEC  --  Loaded");
 
    exception
-      when others =>
-         Ada.Text_IO.Put_Line ("Exception in FILE_INFLECTIONS_SECTIONS");
+      when E : others =>
+         Ada.Text_IO.Put_Line ("Exception in FILE_INFLECTIONS_SECTIONS: " &
+           Ada.Exceptions.Exception_Information (E));
    end File_Inflections_Sections;
 
 begin
