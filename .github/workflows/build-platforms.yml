@@ -58,6 +58,8 @@ jobs:
 
       # Install GNAT + gprbuild and put them on PATH directly.
       - uses: ada-actions/toolchain@dev
+        env:
+          ACTIONS_ALLOW_UNSECURE_COMMANDS: true
         with:
           distrib: community
           target: native
