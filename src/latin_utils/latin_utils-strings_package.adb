@@ -72,6 +72,16 @@ package body Latin_Utils.Strings_Package is
       while not Ada.Text_IO.End_Of_File (File) loop
          Ada.Text_IO.Get_Line (File, Line, Length);
 
+         --  Defensively strip a trailing CR/LF that Get_Line should have
+         --  consumed as the line terminator but occasionally returns as
+         --  data instead (seen with Form => "Text_Translation=No").
+         while Length > 0 and then
+           (Line (Length) = Character'Val (10) or else
+            Line (Length) = Character'Val (13))
+         loop
+            Length := Length - 1;
+         end loop;
+
          declare
             Trimmed_Head : constant String := Head (Trim (Line), 250)(1 .. 2);
          begin
