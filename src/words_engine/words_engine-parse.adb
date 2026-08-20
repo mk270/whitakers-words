@@ -532,7 +532,8 @@ is
       Try : constant String := Lower_Case (Input_Word);
    begin
       -- TEMPORARY DEBUG, remove after tracing issue-alt-parse-order-dependent
-      Ada.Text_IO.Put_Line ("DBGTRACE Enclitic entry: word=" & Try &
+      Ada.Text_IO.Put_Line (Ada.Text_IO.Standard_Error,
+        "DBGTRACE Enclitic entry: word=" & Try &
         " Pa_Last=" & Integer'Image (Pa_Last) &
         " Have_Done_Enclitic=" & Boolean'Image (Have_Done_Enclitic));
 
@@ -546,7 +547,8 @@ is
       end if;
 
       -- TEMPORARY DEBUG, remove after tracing
-      Ada.Text_IO.Put_Line ("DBGTRACE Enclitic limits: Entering_Pa_Last=" &
+      Ada.Text_IO.Put_Line (Ada.Text_IO.Standard_Error,
+        "DBGTRACE Enclitic limits: Entering_Pa_Last=" &
         Integer'Image (Entering_Pa_Last) &
         " Enclitic_Limit=" & Integer'Image (Enclitic_Limit));
 
@@ -560,7 +562,8 @@ is
             Save_Pa_Last  : Integer := 0;
          begin
             -- TEMPORARY DEBUG, remove after tracing
-            Ada.Text_IO.Put_Line ("DBGTRACE Enclitic try I=" &
+            Ada.Text_IO.Put_Line (Ada.Text_IO.Standard_Error,
+              "DBGTRACE Enclitic try I=" &
               Integer'Image (I) & " tack=" & Tackons (I).Tack &
               " Less=" & Less & " matched=" &
               Boolean'Image (Less /= Try));
@@ -571,7 +574,8 @@ is
                Word_Package.Word (Less, Pa, Pa_Last);
 
                -- TEMPORARY DEBUG, remove after tracing
-               Ada.Text_IO.Put_Line ("DBGTRACE Enclitic after Word(Less): " &
+               Ada.Text_IO.Put_Line (Ada.Text_IO.Standard_Error,
+                 "DBGTRACE Enclitic after Word(Less): " &
                  "Pa_Last=" & Integer'Image (Pa_Last));
 
                if Pa_Last = 0  then
@@ -605,7 +609,8 @@ is
                Words_Mdev (Do_Only_Fixes) := Save_Do_Only_Fixes;
 
                -- TEMPORARY DEBUG, remove after tracing
-               Ada.Text_IO.Put_Line ("DBGTRACE Enclitic decision: Pa_Last=" &
+               Ada.Text_IO.Put_Line (Ada.Text_IO.Standard_Error,
+                 "DBGTRACE Enclitic decision: Pa_Last=" &
                  Integer'Image (Pa_Last) & " Entering_Pa_Last=" &
                  Integer'Image (Entering_Pa_Last) & " will_use_tackon=" &
                  Boolean'Image (Pa_Last > Entering_Pa_Last));

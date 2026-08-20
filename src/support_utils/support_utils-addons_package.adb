@@ -253,7 +253,8 @@ package body Support_Utils.Addons_Package is
       Z  : constant Integer := Xf'Length;
    begin
       -- TEMPORARY DEBUG, remove after tracing issue-alt-parse-order-dependent
-      Ada.Text_IO.Put_Line ("DBGTRACE Subtract_Tackon: W='" & W & "'" &
+      Ada.Text_IO.Put_Line (Ada.Text_IO.Standard_Error,
+        "DBGTRACE Subtract_Tackon: W='" & W & "'" &
         " W'First=" & Integer'Image (W'First) &
         " W'Last=" & Integer'Image (W'Last) &
         " Wd='" & Wd & "'" &
