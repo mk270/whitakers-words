@@ -68,13 +68,20 @@ jobs:
       - name: Install make
         run: choco install make -y
 
-      # Install GNAT + gprbuild and put them on PATH directly.
+      # Installs GNAT + gprbuild. Its own PATH-setting relies on a legacy
+      # command GitHub disables by default, so it's expected to report
+      # failure here even though the install itself succeeds; the next
+      # step adds the installed compiler to PATH ourselves.
       - uses: ada-actions/toolchain@d6c5b8a6e7d5205b96948c84f66a2d3fe3a24707
-        env:
-          ACTIONS_ALLOW_UNSECURE_COMMANDS: true
+        continue-on-error: true
         with:
           distrib: community
           target: native
+
+      - name: Add GNAT to PATH
+        run: |
+          gnat_dir=$(find "$RUNNER_TEMP" -maxdepth 1 -iname 'gnat-community-*' -print -quit)
+          echo "$gnat_dir/bin" >> "$GITHUB_PATH"
 
       - name: Build
         run: make
