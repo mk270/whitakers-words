@@ -258,20 +258,6 @@ package body Support_Utils.Addons_Package is
       Xf : constant String := Trim (X.Tack);
       Z  : constant Integer := Xf'Length;
    begin
-      -- TEMPORARY DEBUG, remove after tracing issue-alt-parse-order-dependent
-      Ada.Text_IO.Put_Line (Ada.Text_IO.Standard_Error,
-        "DBGTRACE Subtract_Tackon: W='" & W & "'" &
-        " W'First=" & Integer'Image (W'First) &
-        " W'Last=" & Integer'Image (W'Last) &
-        " Wd='" & Wd & "'" &
-        " Wd'First=" & Integer'Image (Wd'First) &
-        " Wd'Last=" & Integer'Image (Wd'Last) &
-        " L=" & Integer'Image (L) &
-        " Xf='" & Xf & "'" &
-        " Xf'First=" & Integer'Image (Xf'First) &
-        " Xf'Last=" & Integer'Image (Xf'Last) &
-        " Z=" & Integer'Image (Z));
-
       --PUT_LINE ("In SUB TACKON " & INTEGER'IMAGE (L) & INTEGER'IMAGE (Z));
       if Words_Mdev (Use_Tackons) and then
         L > Z  and then
