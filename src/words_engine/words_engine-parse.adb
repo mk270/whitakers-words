@@ -531,6 +531,11 @@ is
       Enclitic_Limit : Integer := 4;
       Try : constant String := Lower_Case (Input_Word);
    begin
+      -- TEMPORARY DEBUG, remove after tracing issue-alt-parse-order-dependent
+      Ada.Text_IO.Put_Line ("DBGTRACE Enclitic entry: word=" & Try &
+        " Pa_Last=" & Integer'Image (Pa_Last) &
+        " Have_Done_Enclitic=" & Boolean'Image (Have_Done_Enclitic));
+
       if Have_Done_Enclitic  then
          return;
       end if;
@@ -539,6 +544,11 @@ is
       if Pa_Last > 0 then
          Enclitic_Limit := 1;
       end if;
+
+      -- TEMPORARY DEBUG, remove after tracing
+      Ada.Text_IO.Put_Line ("DBGTRACE Enclitic limits: Entering_Pa_Last=" &
+        Integer'Image (Entering_Pa_Last) &
+        " Enclitic_Limit=" & Integer'Image (Enclitic_Limit));
 
       -- loop_over_enclitic_tackons:
       for I in 1 .. Enclitic_Limit  loop
@@ -549,10 +559,20 @@ is
             Less : constant String := Subtract_Tackon (Try, Tackons (I));
             Save_Pa_Last  : Integer := 0;
          begin
+            -- TEMPORARY DEBUG, remove after tracing
+            Ada.Text_IO.Put_Line ("DBGTRACE Enclitic try I=" &
+              Integer'Image (I) & " tack=" & Tackons (I).Tack &
+              " Less=" & Less & " matched=" &
+              Boolean'Image (Less /= Try));
+
             if Less  /= Try  then
                --  LESS is less
                --WORDS_MODE (DO_FIXES) := FALSE;
                Word_Package.Word (Less, Pa, Pa_Last);
+
+               -- TEMPORARY DEBUG, remove after tracing
+               Ada.Text_IO.Put_Line ("DBGTRACE Enclitic after Word(Less): " &
+                 "Pa_Last=" & Integer'Image (Pa_Last));
 
                if Pa_Last = 0  then
                   Save_Pa_Last := Pa_Last;
@@ -583,6 +603,12 @@ is
                Words_Mdev (Do_Only_Fixes) := True;
                Word (Input_Word, Pa, Pa_Last);
                Words_Mdev (Do_Only_Fixes) := Save_Do_Only_Fixes;
+
+               -- TEMPORARY DEBUG, remove after tracing
+               Ada.Text_IO.Put_Line ("DBGTRACE Enclitic decision: Pa_Last=" &
+                 Integer'Image (Pa_Last) & " Entering_Pa_Last=" &
+                 Integer'Image (Entering_Pa_Last) & " will_use_tackon=" &
+                 Boolean'Image (Pa_Last > Entering_Pa_Last));
 
                if Pa_Last > Entering_Pa_Last  then
                   --  have a possible word
