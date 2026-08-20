@@ -1,0 +1,70 @@
+mult.a               N      1 1 NOM S F                 
+mult.a               N      1 1 VOC S F                 
+mult.a               N      1 1 ABL S F                 
+multa, multae  N (1st) F   [XLXCO]  
+fine; penalty; penalty involving property (livestock, later money);
+mult.a               N      2 2 NOM P N                 
+mult.a               N      2 2 VOC P N                 
+mult.a               N      2 2 ACC P N                 
+multum, multi  N (2nd) N   [XXXDX]    lesser
+many things (pl.); much; many;
+mult.a               V      1 1 PRES ACTIVE  IMP 2 S    
+multo, multare, multavi, multatus  V (1st) TRANS   [XLXCO]  
+punish, fine; extract as forfeit; sentence to pay;
+mult.a               ADJ    1 1 NOM S F POS             
+mult.a               ADJ    1 1 VOC S F POS             
+mult.a               ADJ    1 1 ABL S F POS             
+mult.a               ADJ    1 1 NOM P N POS             
+mult.a               ADJ    1 1 VOC P N POS             
+mult.a               ADJ    1 1 ACC P N POS             
+multus, multa -um, -, plurimus -a -um  ADJ   [XXXAX]  
+much, many, great, many a; large, intense, assiduous; tedious;
+mult.a               N      1 1 ABL S F                 
+-, multae  N (1st) F   [XXXDX]    lesser
+many women (pl.);
+
+vir.i                N      2 1 GEN S N                 
+vir.i                N      2 1 LOC S N                 
+virus, viri  N (2nd) N   [XXXAO]  
+venom (sg.), poisonous secretion of snakes/creatures/plants; acrid element;
+vir.i                N      2 2 GEN S N                 
+vir.i                N      2 2 LOC S N                 
+virum, viri  N (2nd) N   [GBXEK]    NeoLatin  uncommon
+virus;
+vir.i                N      2 3 GEN S M                 
+vir.i                N      2 3 LOC S M                 
+vir.i                N      2 3 NOM P M                 
+vir.i                N      2 3 VOC P M                 
+vir, viri  N (2nd) M   [XXXAX]  
+man; husband; hero; person of courage, honor, and nobility;
+vir.i                N      3 3 LOC S F                   Early   
+vir.i                N      3 3 DAT S F                 
+vir.i                N      3 3 ABL S F                 
+vis, viris  N (3rd) F   [XXXAX]  
+strength (bodily) (pl.), force, power, might, violence; resources; large body;
+
+virtus               N      3 1 NOM S F                 
+virtus               N      3 1 VOC S F                 
+virtus, virtutis  N (3rd) F   [XXXAX]  
+strength/power; courage/bravery; worth/manliness/virtue/character/excellence;
+army; host; mighty works (pl.); class of Angels; [Dominus ~ => Lord of hosts];
+
+anim.o               N      2 1 DAT S M                 
+anim.o               N      2 1 ABL S M                 
+animus, animi  N (2nd) M   [XXXAO]  
+mind; intellect; soul; feelings; heart; spirit, courage, character, pride; air;
+anim.o               V      1 1 PRES ACTIVE  IND 1 S    
+animo, animare, animavi, animatus  V (1st) TRANS   [XXXBO]  
+animate, give/bring life; revive, refresh; rouse, animate; inspire; blow;
+
+que                  TACKON                             
+-que = and (enclitic, translated before attached word); completes plerus/uter;
+mult.us              ADJ    1 1 NOM S M POS             
+multus, multa -um, -, plurimus -a -um  ADJ   [XXXAX]  
+much, many, great, many a; large, intense, assiduous; tedious;
+
+recurs.at            V      1 1 PRES ACTIVE  IND 3 S    
+recurso, recursare, recursavi, recursatus  V (1st)   [XXXDX]    lesser
+keep rebounding/recoiling; keep recurring to the mind;
+
+
