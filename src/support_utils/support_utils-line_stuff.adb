@@ -505,10 +505,12 @@ package body Support_Utils.Line_Stuff is
       while not End_Of_File (Uniques_File)  loop
          Stem_Line := Blanks;
          Get_Line (Uniques_File, Stem_Line, Last);      --  STEM
+         Strip_Trailing_Eol (Stem_Line, Last);
          Stem := Head (Trim (Stem_Line (1 .. Last)), Max_Stem_Size);
 
          Line := Blanks;
          Get_Line (Uniques_File, Line, Last);    --  QUAL, KIND, TRAN
+         Strip_Trailing_Eol (Line, Last);
          Get (Line (1 .. Last), Qual, L);
          Get (Line (L + 1 .. Last), Qual.Pofs, Kind, L);
          -- FIXME: Why not Translation_Record_IO.Get ?
@@ -520,6 +522,7 @@ package body Support_Utils.Line_Stuff is
 
          Line := Blanks;
          Get_Line (Uniques_File, Line, L);         --  MEAN
+         Strip_Trailing_Eol (Line, L);
          Mean := Head (Trim (Line (1 .. L)), Max_Meaning_Size);
          --@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
          declare

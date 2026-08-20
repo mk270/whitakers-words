@@ -62,6 +62,14 @@ package Latin_Utils.Strings_Package is
        Last : out Integer
       );
 
+   --  Trims a trailing CR/LF that Get_Line should have consumed as the
+   --  line terminator but can occasionally return as data (seen with
+   --  Form => "Text_Translation=No").
+   procedure Strip_Trailing_Eol
+      (Item : in     String;
+       Last : in out Integer
+      );
+
    ---------------------------------------------------------------------------
 
 end Latin_Utils.Strings_Package;

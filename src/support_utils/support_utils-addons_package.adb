@@ -113,8 +113,10 @@ package body Support_Utils.Addons_Package is
                Ts := Head (Trim (S (L + 1 .. Last)), Max_Stem_Size);
 
                Get_Line (Addons_File, S, Last);
+               Strip_Trailing_Eol (S, Last);
                Get (S (1 .. Last), Tn, L);
                Get_Line (Addons_File, S, Last);
+               Strip_Trailing_Eol (S, Last);
                Mean := Head (S (1 .. Last), Max_Meaning_Size);
 
                if  Tn.Base.Pofs = Pack   and then
@@ -153,8 +155,10 @@ package body Support_Utils.Addons_Package is
 
                Extract_Fix (S (L + 1 .. Last), Pm.Fix, Pm.Connect);
                Get_Line (Addons_File, S, Last);
+               Strip_Trailing_Eol (S, Last);
                Get (S (1 .. Last), Pm.Entr, L);
                Get_Line (Addons_File, S, Last);
+               Strip_Trailing_Eol (S, Last);
                Mean := Head (S (1 .. Last), Max_Meaning_Size);
 
                if Pm.Entr.Root = Pack then
@@ -195,12 +199,14 @@ package body Support_Utils.Addons_Package is
                  Suffixes (Suf).Fix, Suffixes (Suf).Connect);
                --TEXT_IO.PUT ("@1");
                Get_Line (Addons_File, S, Last);
+               Strip_Trailing_Eol (S, Last);
                --TEXT_IO.PUT ("@2");
                --TEXT_IO.PUT_LINE (S (1 .. LAST) & "<");
                --TEXT_IO.PUT ("@2");
                Get (S (1 .. Last), Suffixes (Suf).Entr, L);
                --TEXT_IO.PUT ("@3");
                Get_Line (Addons_File, S, Last);
+               Strip_Trailing_Eol (S, Last);
                --TEXT_IO.PUT ("@4");
                Mean := Head (S (1 .. Last), Max_Meaning_Size);
                --TEXT_IO.PUT ("@5");
