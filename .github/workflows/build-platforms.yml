@@ -69,7 +69,7 @@ jobs:
         run: choco install make -y
 
       # Install GNAT + gprbuild and put them on PATH directly.
-      - uses: ada-actions/toolchain@dev
+      - uses: ada-actions/toolchain@d6c5b8a6e7d5205b96948c84f66a2d3fe3a24707
         env:
           ACTIONS_ALLOW_UNSECURE_COMMANDS: true
         with:
