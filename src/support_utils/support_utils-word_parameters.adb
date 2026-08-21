@@ -478,7 +478,7 @@ package body Support_Utils.Word_Parameters is
 
       if ((Method = Interactive) or (Method = Command_Line_Input)) and then
         (not Ada.Text_IO.Is_Open (Output)) and then
-        (Words_Mode (Have_Output_File))
+        Words_Mode (Have_Output_File)
       then
          Ada.Text_IO.Create (Output, Ada.Text_IO.Out_File, Output_Full_Name);
          --TEXT_IO.PUT_LINE ("WORD.OUT Created at Initialization");

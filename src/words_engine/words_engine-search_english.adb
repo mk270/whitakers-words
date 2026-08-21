@@ -32,7 +32,8 @@ procedure Words_Engine.Search_English
    Pofs : Part_Of_Speech_Type := X)
 is
    use Ewds_Direct_Io;
-   Input_Word : Eword := Lower_Case (Head (Input_English_Word, Eword_Size));
+   Input_Word : constant Eword :=
+     Lower_Case (Head (Input_English_Word, Eword_Size));
    Input_Pofs : constant Part_Of_Speech_Type := Pofs;
 
    Output_Array : Ewds_Array (1 .. 500) := (others => Null_Ewds_Record);

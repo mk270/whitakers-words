@@ -867,7 +867,7 @@ package body Words_Engine.List_Package is
          end if;
       end loop;
 
-      if (not There_Is_An_Adverb) and (Words_Mode (Do_Fixes))  then
+      if not There_Is_An_Adverb and Words_Mode (Do_Fixes)  then
          Fix_Adverb (Pa, Pa_Last, Xp);
       end if;
    end Handle_Adverb;

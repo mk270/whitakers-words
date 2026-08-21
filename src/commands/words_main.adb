@@ -17,7 +17,6 @@
 with Ada.Command_Line;
 with Ada.Text_IO; use Ada.Text_IO;
 with Latin_Utils.Strings_Package; use Latin_Utils.Strings_Package;
-use Latin_Utils;
 with Latin_Utils.Config; use Latin_Utils.Config;
 with Support_Utils.Word_Parameters; use Support_Utils.Word_Parameters;
 with Words_Engine.Word_Package; use Words_Engine.Word_Package;

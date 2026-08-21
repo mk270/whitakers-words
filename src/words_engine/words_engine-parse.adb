@@ -1029,7 +1029,7 @@ is
    function Make_Words (Line : String) return Word_Container.Vector
    is
       Words : Word_Container.Vector;
-      Indices : array (Line'First .. (Line'Last + 1)) of Natural;
+      Indices : array (Line'First .. Line'Last + 1) of Natural;
       Next_Index : Natural := Indices'First;
    begin
       if Line'Length = 0 then
@@ -1113,7 +1113,7 @@ is
       Word_Number := 0;
       Line (1 .. L) := Trim (Input_Line);
 
-      for I in 0 .. (S.Length - 1) loop
+      for I in 0 .. S.Length - 1 loop
          if Used_Next_Word then
             Used_Next_Word := False;
             goto Continue;
