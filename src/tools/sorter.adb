@@ -247,39 +247,40 @@ procedure Sorter is
          return False;
       elsif A.Appendix < B.Appendix  then
          return True;
-      else
-         if A.Section.First_Level > B.Section.First_Level  then
-            return False;
-         elsif A.Section.First_Level < B.Section.First_Level  then
-            return True;
-         else
-            if A.Section.Second_Level > B.Section.Second_Level  then
-               return False;
-            elsif A.Section.Second_Level < B.Section.Second_Level  then
-               return True;
-            else
-               if A.Section.Third_Level > B.Section.Third_Level  then
-                  return False;
-               elsif A.Section.Third_Level < B.Section.Third_Level  then
-                  return True;
-               else
-                  if A.Section.Fourth_Level > B.Section.Fourth_Level  then
-                     return False;
-                  elsif A.Section.Fourth_Level < B.Section.Fourth_Level  then
-                     return True;
-                  else
-                     if A.Section.Fifth_Level > B.Section.Fifth_Level  then
-                        return False;
-                     elsif A.Section.Fifth_Level < B.Section.Fifth_Level  then
-                        return True;
-                     else
-                        return False;
-                     end if;
-                  end if;
-               end if;
-            end if;
-         end if;
       end if;
+
+      if A.Section.First_Level > B.Section.First_Level  then
+         return False;
+      elsif A.Section.First_Level < B.Section.First_Level  then
+         return True;
+      end if;
+
+      if A.Section.Second_Level > B.Section.Second_Level  then
+         return False;
+      elsif A.Section.Second_Level < B.Section.Second_Level  then
+         return True;
+      end if;
+
+      if A.Section.Third_Level > B.Section.Third_Level  then
+         return False;
+      elsif A.Section.Third_Level < B.Section.Third_Level  then
+         return True;
+      end if;
+
+      if A.Section.Fourth_Level > B.Section.Fourth_Level  then
+         return False;
+      elsif A.Section.Fourth_Level < B.Section.Fourth_Level  then
+         return True;
+      end if;
+
+      if A.Section.Fifth_Level > B.Section.Fifth_Level  then
+         return False;
+      elsif A.Section.Fifth_Level < B.Section.Fifth_Level  then
+         return True;
+      else
+         return False;
+      end if;
+
    end "<";
 
    procedure Prompt_For_Entry (Entry_Number : String) is
