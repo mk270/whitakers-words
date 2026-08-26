@@ -709,6 +709,9 @@ procedure Sorter is
                Open (Input, In_File, Input_Name (1 .. Last));
                exit Get_Input_File;
             exception
+               when Text_IO.End_Error  =>
+                  Put_Line ("   No input available -- aborting");
+                  raise;
                when others  =>
                   Put_Line ("   !!!!!!!!!  Try Again  !!!!!!!!");
             end Check_Input;
