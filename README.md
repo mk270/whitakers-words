@@ -43,7 +43,7 @@ Build-time Dependencies
 
 On a Debian-like system, you can install these roughly as follows:
 
-    $ apt-get install gprbuild gnat
+    $ sudo apt-get install gprbuild gnat
 
 GNAT versions before 4.9 are believed to link against a buggy runtime on
 64-bit platforms, so should be avoided.
