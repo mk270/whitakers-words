@@ -581,7 +581,7 @@ is
                   end if;
                end loop;
 
-               Perform_Syncope (Input_Word, Pa, Pa_Last, Xp);
+               Perform_Syncope (Less, Pa, Pa_Last, Xp);
 
                --  Restore FIXES
                --WORDS_MODE (DO_FIXES) := SAVE_DO_FIXES;

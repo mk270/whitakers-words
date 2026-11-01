@@ -7301,6 +7301,13 @@ mixt.i               VPAR   2 1 NOM P M PERF PASSIVE PPL
 mixt.i               VPAR   2 1 VOC P M PERF PASSIVE PPL
 misceo, miscere, miscui, mixtus  V (2nd)   [XXXAX]  
 mix, mingle; embroil; confound; stir up;
+Syncope s/x => +is   
+Syncopated perfect sometimes drops the 'is' after 's' or 'x'
+mix.isti             V      3 1 PERF ACTIVE  IND 2 S    
+meio, meere, mixi, mictus  V (3rd)   [XXXDX]    lesser
+urinate, make water; ejaculate; (somewhat rude);
+mingo, mingere, mixi, mictus  V (3rd)   [XXXDX]    lesser
+make water, urinate;
 
 altar.ia             N      3 4 NOM P N                 
 altar.ia             N      3 4 VOC P N                 
@@ -30990,7 +30997,14 @@ fero, ferre, tuli, latus  V   [XXXAX]
 bring, bear; tell/speak of; consider; carry off, win, receive, produce; get;
 
 
-=>implessemque                   ========   UNKNOWN    
+=>
+que                  TACKON                             
+-que = and (enclitic, translated before attached word); completes plerus/uter;
+Syncope   s => vis   
+Syncopated perfect often drops the 'v' and contracts vowel
+implev.issem         V      2 1 PLUP ACTIVE  SUB 1 S    
+impleo, implere, implevi, impletus  V (2nd)   [XXXAX]  
+fill up; satisfy, fulfill; fill, finish, complete; spend (time);
 
 for.os               N      2 1 ACC P M                 
 forus, fori  N (2nd) M   [XXXDX]    lesser
