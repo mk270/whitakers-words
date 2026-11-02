@@ -502,10 +502,16 @@ is
    is
       Sypa : Parse_Array (1 .. Syncope_Max) := (others => Null_Parse_Record);
       Sypa_Last : Integer := 0;
+      --  Syncope looks up other spellings, which overwrites PDL; later
+      --  passes on Input_Word rely on PDL holding Input_Word's own hits
+      Saved_Pdl : constant Pruned_Dictionary_List := Pdl;
+      Saved_Pdl_Index : constant Integer := Pdl_Index;
    begin
       Clear_Parse_Array (Sypa); -- FIXME: presumably redundant
       if Words_Mdev (Do_Syncope) and not No_Syncope then
          Syncope (Input_Word, Sypa, Sypa_Last, Xp);
+         Pdl := Saved_Pdl;
+         Pdl_Index := Saved_Pdl_Index;
 
          --  Make syncope another array to avoid PA-LAST = 0 problems
          Pa_Last := Pa_Last + Sypa_Last;
@@ -575,7 +581,7 @@ is
                   end if;
                end loop;
 
-               Perform_Syncope (Input_Word, Pa, Pa_Last, Xp);
+               Perform_Syncope (Less, Pa, Pa_Last, Xp);
 
                --  Restore FIXES
                --WORDS_MODE (DO_FIXES) := SAVE_DO_FIXES;
