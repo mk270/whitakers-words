@@ -824,8 +824,8 @@ package body Words_Engine.Tricks is
       S  : constant String (1 .. W'Length) := W;
       Pa_Save : constant Integer := Pa_Last;
       --  Each attempt looks up a modified spelling, which overwrites PDL;
-      --  if no additional parse remains, later passes on W rely on PDL
-      --  holding W's own hits
+      --  later passes on W rely on PDL holding W's own hits, so PDL is
+      --  always restored on the way out, whether or not a parse was kept
       Saved_Pdl : constant Pruned_Dictionary_List := Pdl;
       Saved_Pdl_Index : constant Integer := Pdl_Index;
 
@@ -1063,10 +1063,8 @@ package body Words_Engine.Tricks is
             null;
       end case;   --  if on first letter
 
-      if Pa_Last = Pa_Save then
-         Pdl := Saved_Pdl;
-         Pdl_Index := Saved_Pdl_Index;
-      end if;
+      Pdl := Saved_Pdl;
+      Pdl_Index := Saved_Pdl_Index;
 
    exception
       when others  => --  I want to ignore anything that happens in SLURY
