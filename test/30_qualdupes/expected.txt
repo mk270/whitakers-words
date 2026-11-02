@@ -21,4 +21,11 @@ actress; female gladiator;
 ludius, ludi(i)  N (2nd) M   [XDXEO]    uncommon
 dancer; stage performer;
 
+cumque               TACKON                             
+-ever/-soever; (for generalized/indefinite force); (what/how -> what/however);
+qual.i               ADJ    3 2 DAT S X POS             
+qual.i               ADJ    3 2 ABL S X POS             
+qualis, qualis, quale  ADJ   [XXXAO]  
+what kind/sort/condition (of); what is (he/it) like; what/how excellent a ...;
+
 
