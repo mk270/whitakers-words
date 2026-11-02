@@ -89,9 +89,13 @@ package body Latin_Utils.Strings_Package is
          Strip_Trailing_Eol (Line, Length);
 
          declare
-            Trimmed_Head : constant String := Head (Trim (Line), 250)(1 .. 2);
+            Trimmed_Head : constant String :=
+              Head (Trim (Line (1 .. Length)), 250)(1 .. 2);
          begin
-            if Trimmed_Head (1) = Character'Val (13) then
+            --  Empty or all-blank lines have no data to return.
+            if Trimmed_Head = "  " or else
+              Trimmed_Head (1) = Character'Val (13)
+            then
                exit File_Loop;
             end if;
 
@@ -99,7 +103,8 @@ package body Latin_Utils.Strings_Package is
                null;
             else
                -- Search for start of comment in line (if any).
-               LX := Ada.Strings.Fixed.Index (Line, "--", Line'First);
+               LX := Ada.Strings.Fixed.Index
+                 (Line (1 .. Length), "--", Line'First);
                if LX /= 0 then
                   LX := LX - 1;
                else

@@ -544,6 +544,10 @@ package body Words_Engine.Tricks is
 
          Outer_Loop :
          while I < S'Length - 2  loop
+            --  Numeral hits belong only to the current split.  A failed
+            --  split must not cause a later non-numeral half to be removed.
+            Num_Hit_One := False;
+            Num_Hit_Two := False;
 
             Pa_Last := Pa_Last + 1;
             Pa (Pa_Last) := (Head ("Two words", Max_Stem_Size),
@@ -820,6 +824,11 @@ package body Words_Engine.Tricks is
       --  That is called lying with statistics
       S  : constant String (1 .. W'Length) := W;
       Pa_Save : constant Integer := Pa_Last;
+      --  Each attempt looks up a modified spelling, which overwrites PDL;
+      --  later passes on W rely on PDL holding W's own hits, so PDL is
+      --  always restored on the way out, whether or not a parse was kept
+      Saved_Pdl : constant Pruned_Dictionary_List := Pdl;
+      Saved_Pdl_Index : constant Integer := Pdl_Index;
 
       procedure Tword (W : String;
                        Pa : in out Parse_Array; Pa_Last : in out Integer) is
@@ -1055,8 +1064,13 @@ package body Words_Engine.Tricks is
             null;
       end case;   --  if on first letter
 
+      Pdl := Saved_Pdl;
+      Pdl_Index := Saved_Pdl_Index;
+
    exception
       when others  => --  I want to ignore anything that happens in SLURY
+         Pdl := Saved_Pdl;
+         Pdl_Index := Saved_Pdl_Index;
          Pa_Last := Pa_Save;
          Pa (Pa_Last + 1) := Null_Parse_Record;     --  Just to clear the tries
 

@@ -21,4 +21,27 @@ actress; female gladiator;
 ludius, ludi(i)  N (2nd) M   [XDXEO]    uncommon
 dancer; stage performer;
 
+cumque               TACKON                             
+-ever/-soever; (for generalized/indefinite force); (what/how -> what/however);
+qual.i               ADJ    3 2 DAT S X POS             
+qual.i               ADJ    3 2 ABL S X POS             
+qualis, qualis, quale  ADJ   [XXXAO]  
+what kind/sort/condition (of); what is (he/it) like; what/how excellent a ...;
+
+met                  TACKON                             
+TACKON w/personal self, own; on subst PERS [meamet/egomet => my own/myself];
+ego                  PRON   5 1 NOM S C                 
+I, me (PERS); myself (REFLEX);
+
+aequi                PREFIX                             
+equi-, equal;
+cum                  ADV    POS                         
+cum  ADV   [XXXAO]  
+when, at the time/on each occasion/in the situation that; after; since/although
+as soon; while, as (well as); whereas, in that, seeing that; on/during which;
+cum                  PREP   ABL                         
+cum  PREP  ABL   [XXXAO]  
+with, together/jointly/along/simultaneous with, amid; supporting; attached;
+under command/at the head of; having/containing/including; using/by means of;
+
 
