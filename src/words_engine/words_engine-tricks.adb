@@ -547,6 +547,10 @@ package body Words_Engine.Tricks is
 
          Outer_Loop :
          while I < S'Length - 2  loop
+            --  Numeral hits belong only to the current split.  A failed
+            --  split must not cause a later non-numeral half to be removed.
+            Num_Hit_One := False;
+            Num_Hit_Two := False;
 
             Pa_Last := Pa_Last + 1;
             Pa (Pa_Last) := (Head ("Two words", Max_Stem_Size),

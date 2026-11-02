@@ -100,4 +100,25 @@ flint-stone; whetstone, hone, grinding stone; rocks (pl.); any hard stone (L+S)
 cotes, cotis  N (3rd) F   [XXXBO]  
 rough pointed/detached rock, loose stone; rocks (pl.), cliff, crag; reef;
 
+Two words            
+May be 2 words combined (bestias+viginti) If not obvious, probably incorrect
+besti.as             N      1 1 ACC P F                 
+bestia, bestiae  N (1st) F   [XAXBO]  
+beast, animal, creature; wild beast/animal, beast of prey in arena;
+viginti              NUM    2 0 X   X X CARD            
+viginti, vicesimus -a -um, viceni -ae -a, vicie (n)s  NUM   [XXXAX]  
+ 20 - (CARD answers 'how many');                                                
+*
+Two words            
+May be 2 words combined (uniet+vicensimae) If not obvious, probably incorrect
+uni.et               V      4 1 FUT  ACTIVE  IND 3 S    
+unio, unire, univi, unitus  V (4th) TRANS   [XXXEO]    uncommon
+unite, combine into one;
+vicensim.ae          NUM    2 0 GEN S F ORD             
+vicensim.ae          NUM    2 0 DAT S F ORD             
+vicensim.ae          NUM    2 0 NOM P F ORD             
+vicensim.ae          NUM    2 0 VOC P F ORD             
+vicensim  NUM   [BXXEG]    Early  uncommon
+ 20th - (ORD, 'in series'); (a/the) 20th (part) (fract w/pars?);                
+*
 
