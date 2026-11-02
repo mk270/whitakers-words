@@ -563,7 +563,11 @@ is
             if Less  /= Try  then
                --  LESS is less
                --WORDS_MODE (DO_FIXES) := FALSE;
+               --  PDL holds another word's hits, so look LESS up even in the
+               --  fixes-only pass
+               Words_Mdev (Do_Only_Fixes) := False;
                Word_Package.Word (Less, Pa, Pa_Last);
+               Words_Mdev (Do_Only_Fixes) := Save_Do_Only_Fixes;
 
                if Pa_Last = 0  then
                   Save_Pa_Last := Pa_Last;

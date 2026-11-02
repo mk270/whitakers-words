@@ -51,4 +51,22 @@ teneo, tenere, tenui, tentus  V (2nd)   [XXXAX]
 hold, keep; comprehend; possess; master; preserve; [tenere memoria => remember]
 represent; support;
 
+que                  TACKON                             
+-que = and (enclitic, translated before attached word); completes plerus/uter;
+e                    SUFFIX                             
+make of;
+male.ae              ADJ    1 1 GEN S F POS             
+male.ae              ADJ    1 1 DAT S F POS             
+male.ae              ADJ    1 1 NOM P F POS             
+male.ae              ADJ    1 1 VOC P F POS             
+mala, malae  N (1st) F   [XXXDX]    lesser
+cheeks, jaws;
+malus, mali  N (2nd) M   [XXXDX]    lesser
+mast; beam; tall pole, upright pole; standard, prop, staff;
+malus, mali  N (2nd) F   [XXXDX]    lesser
+apple tree;
+malum, mali  N (2nd) N   [XXXDX]    lesser
+apple; fruit; lemon; quince;
+evil, mischief; disaster, misfortune, calamity, plague; punishment; harm/hurt;
+
 
