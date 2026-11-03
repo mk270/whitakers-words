@@ -1476,13 +1476,11 @@ package body Words_Engine.Word_Package is
                         Dict_IO.Read (Dict_File (Pdl (J).D_K), De);
                         Mean := De.Mean;
 
-                        -- there is no way this condition can be True;
-                        -- packon_length - 1 /= packon_length
-
                         --  Does attached PACKON agree
                         if Trim (Mean)(1 .. 4) = "(w/-" and then
                           Trim (Mean)(5 .. 4 + Packon_Length) =
-                          Trim (Packons (K).Tack)
+                          Trim (Packons (K).Tack) and then
+                          Trim (Mean)(5 + Packon_Length) = ')'
                         then
                            if Pdl (J).Ds.Part.Pack.Decl =
                              Sl (M).IR.Qual.Pron.Decl

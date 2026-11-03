@@ -32236,7 +32236,6 @@ PACKON w/qui pron with ABL => with what, with whom;
 qu.o                 PRON   1 0 ABL S M                 
 qu.o                 PRON   1 0 ABL S N                 
 qu  PACK   [XXXAX]  
-(w/-cumque) who/whatever, no matter who/what, in any time/way, however small;
 (w/-cum) only ABL with whom?, with which?;
 cumque               TACKON                             
 PACKON w/qui => whoever; whatever; everyone who, all that, anything that;
