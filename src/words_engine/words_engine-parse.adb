@@ -536,6 +536,11 @@ is
       Save_Do_Only_Fixes : constant Boolean := Words_Mdev (Do_Only_Fixes);
       Enclitic_Limit : Integer := 4;
       Try : constant String := Lower_Case (Input_Word);
+      --  Each attempt looks up Input_Word less an enclitic, which overwrites
+      --  PDL; later passes on Input_Word rely on PDL holding Input_Word's
+      --  own hits, so PDL is always restored, whether or not a parse was kept
+      Saved_Pdl : constant Pruned_Dictionary_List := Pdl;
+      Saved_Pdl_Index : constant Integer := Pdl_Index;
    begin
       if Have_Done_Enclitic  then
          return;
@@ -601,6 +606,8 @@ is
 
                   Have_Done_Enclitic := True;
                end if;
+               Pdl := Saved_Pdl;
+               Pdl_Index := Saved_Pdl_Index;
                return;
             end if;
          end;

@@ -44,4 +44,11 @@ cum  PREP  ABL   [XXXAO]
 with, together/jointly/along/simultaneous with, amid; supporting; attached;
 under command/at the head of; having/containing/including; using/by means of;
 
+at                   PREFIX                             
+- to, towards, near, for, together (adeo => go to);
+ten.e                V      2 1 PRES ACTIVE  IMP 2 S    
+teneo, tenere, tenui, tentus  V (2nd)   [XXXAX]  
+hold, keep; comprehend; possess; master; preserve; [tenere memoria => remember]
+represent; support;
+
 
