@@ -2366,7 +2366,7 @@ drive (animals); impel, push, force; threaten?;
 
 =>
 dis                  N      2 1 ABL P M                 
-dis  X   [XEXCX]  
+dis  N   [XEXCX]  
 dis                  N      2 1 DAT P M                 
 god;                                                                     
 dis                  N      3 1 NOM S M                 
@@ -3970,7 +3970,7 @@ nunc  ADV   [XXXAX]
 now, today, at present;
 
 eadem                PRON   4 2 NOM S F                 
-eadem  X   [XXXBX]  
+eadem  PRON   [XXXBX]  
 eadem                PRON   4 2 NOM P N                 
 eadem                PRON   4 2 ACC P N                 
 same, the same, the very same; also; (idem, eadem, idem);
@@ -6723,7 +6723,7 @@ canis, canis  N (3rd) C   [XAXAO]
 dog; hound; subordinate; "jackal"; dog-star/fish; lowest dice throw; clamp;
 *
 vis                  V      6 2 PRES ACTIVE  IND 2 S    
-vis  X   [XXXAX]  
+vis  V   [XXXAX]  
 be willing; wish;
 vis                  N      3 3 NOM S F                 
 vis                  N      3 3 VOC S F                 
@@ -15242,7 +15242,7 @@ timeo, timere, timui, -  V (2nd)   [XXXAX]
 fear, dread, be afraid (ne + SUB = lest; ut or ne non + SUB = that ... not);
 
 eadem                PRON   4 2 NOM S F                 
-eadem  X   [XXXBX]  
+eadem  PRON   [XXXBX]  
 eadem                PRON   4 2 NOM P N                 
 eadem                PRON   4 2 ACC P N                 
 same, the same, the very same; also; (idem, eadem, idem);
@@ -16233,7 +16233,7 @@ t.ibi                PRON   5 2 DAT S C
 you (sing.); thou/thine/thee/thy (PERS); yourself/thyself (REFLEX);
 
 quicquam             PRON   1 0 NOM S N                 
-quicquam  X   [XXXCX]  
+quicquam  PRON   [XXXCX]  
 quicquam             PRON   1 0 ACC S N                 
 any; anything; anything whatsoever;
 
@@ -16408,7 +16408,7 @@ propter  PREP  ACC   [XXXAX]
 near; on account of; by means of; because of;
 
 eundem               PRON   4 2 ACC S M                 
-eundem  X   [XXXBX]  
+eundem  PRON   [XXXBX]  
 same, the same, the very same; also; (idem, eadem, idem);
 
 
@@ -22501,7 +22501,7 @@ vis, viris  N (3rd) F   [XXXAX]
 strength (bodily) (pl.), force, power, might, violence; resources; large body;
 
 deus                 N      2 1 VOC S M                 
-deus  X   [XEXCX]  
+deus  N   [XEXCX]  
 god; God!: Oh God;                                                        
 de.us                N      2 1 NOM S M                 
 Deus, Dei  N (2nd) M   [XEXAO]  
@@ -28458,7 +28458,7 @@ redeo, redire, redivi(ii), reditus  V   [XXXAX]
 return, go back, give back; fall back on, revert to; respond, pay back;
 
 eodem                PRON   4 2 ABL S X                 
-eodem  X   [XXXBX]  
+eodem  PRON   [XXXBX]  
 same, the same, the very same; also; (idem, eadem, idem);
 eodem                ADV    POS                         
 eodem  ADV   [XXXDX]    lesser
@@ -29033,7 +29033,7 @@ jam  ADV   [XXXAO]
 now, already, by/even now; besides; [non ~ => no longer; ~ pridem => long ago];
 
 mare                 ADJ    3 1 NOM S N POS             
-mare  X   [XXXFO]    veryrare
+mare  ADJ   [XXXFO]    veryrare
 male; masculine, of the male sex; manly, virile, brave, noble; G:masculine;
 mare                 N      3 4 NOM S N                 
 mare                 N      3 4 VOC S N                 
@@ -29454,7 +29454,7 @@ citus, cita -um, citior -or -us, citissimus -a -um  ADJ   [XXXAO]
 quick, swift, rapid; moving/acting/passing/occurring quickly, speedy; early;
 
 deus                 N      2 1 VOC S M                 
-deus  X   [XEXCX]  
+deus  N   [XEXCX]  
 god; God!: Oh God;                                                        
 de.us                N      2 1 NOM S M                 
 Deus, Dei  N (2nd) M   [XEXAO]  
@@ -29590,7 +29590,7 @@ God (Christian text); god; divine essence/being, supreme being; statue of god;
 
 =>
 quisquis             PRON   1 0 NOM S C                 
-quisquis  X   [XXXBX]  
+quisquis  PRON   [XXXBX]  
 whoever; every one who; whoever it be; everyone; each;
 
 es                   V      7 3 PRES ACTIVE  IND 2 S      Early   
@@ -31324,7 +31324,7 @@ et  CONJ   [XXXAX]
 and, and even; also, even;  (et ... et = both ... and);
 
 di                   N      2 1 NOM P M                 
-di  X   [XEXCX]  
+di  N   [XEXCX]  
 di                   N      2 1 VOC P M                 
 god;                                                                     
 di                   NUM    2 0 X   X X CARD            
@@ -33456,7 +33456,7 @@ utterance, oracle; fate, destiny; natural term of life; doom, death, calamity;
 que                  TACKON                             
 -que = and (enclitic, translated before attached word); completes plerus/uter;
 deus                 N      2 1 VOC S M                 
-deus  X   [XEXCX]  
+deus  N   [XEXCX]  
 god; God!: Oh God;                                                        
 de.us                N      2 1 NOM S M                 
 Deus, Dei  N (2nd) M   [XEXAO]  
@@ -34788,7 +34788,7 @@ become obsolete (word), fall into disuse; be forgotten; faint, languish;
 become void/moot (lawsuit); be extinguished (fire/light), go out;
 
 eadem                PRON   4 2 NOM S F                 
-eadem  X   [XXXBX]  
+eadem  PRON   [XXXBX]  
 eadem                PRON   4 2 NOM P N                 
 eadem                PRON   4 2 ACC P N                 
 same, the same, the very same; also; (idem, eadem, idem);
@@ -34865,7 +34865,7 @@ at  CONJ   [XXXAO]
 but, but on the other hand; on the contrary; while, whereas; but yet; at least;
 
 eadem                PRON   4 2 NOM S F                 
-eadem  X   [XXXBX]  
+eadem  PRON   [XXXBX]  
 eadem                PRON   4 2 NOM P N                 
 eadem                PRON   4 2 ACC P N                 
 same, the same, the very same; also; (idem, eadem, idem);
