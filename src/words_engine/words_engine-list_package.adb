@@ -302,7 +302,7 @@ package body Words_Engine.List_Package is
          when Yyy => Put_Word_Meaning (Xp.Yyy_Meaning, Trick); --  Syncope
          when Ppp => Put_Word_Meaning (Xp.Ppp_Meaning, Trick); --  Compounds
          when Addons =>
-            Put_Pearse_Code (Output, Trick);
+            Put_Pearse_Code (Output, Affix_meaning);
             Put_Meaning (Output, Means (Integer (Dm.MNPC)));
          when others =>
             Put_Pearse_Code (Output, Words_Engine.Pearse_Code.Gloss);
