@@ -19,3 +19,7 @@ STEMFILE.LOC
 EWDSFILE.GEN
 STEMLIST.GEN
 src/latin_utils/latin_utils-config.adb
+
+# Mac OS
+
+*.DS_Store
