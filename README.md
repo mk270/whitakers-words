@@ -25,7 +25,7 @@ will minimise copyright hassles in the future.
 Usage
 =====
 
-    $ make
+    $ make all
     $ bin/words
 
 Documentation

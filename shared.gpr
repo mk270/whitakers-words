@@ -5,8 +5,7 @@ abstract project Shared is
 
    package Compiler is
       for Switches ("Ada") use
-        (--  warnings
-         "-gnatwae", "-Wall",
+        (--  warnings "-Wall",
          "-fstack-check",
          --  Enable overflow checking in STRICT (-gnato1) mode (default)
          "-gnato",
