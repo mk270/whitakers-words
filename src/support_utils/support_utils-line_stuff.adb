@@ -529,7 +529,7 @@ package body Support_Utils.Line_Stuff is
             Unique_De : Dictionary_Entry;
             Part      : Part_Entry         := Null_Part_Entry;
          begin
-            case Part.Pofs is
+            case Qual.Pofs is
                when N  =>
                   Part := (N, (Qual.Noun.Decl, Qual.Noun.Gender, Kind.N_Kind));
                when Pron =>
